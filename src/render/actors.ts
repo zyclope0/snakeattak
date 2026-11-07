@@ -95,11 +95,11 @@ export class Actors {
         depth = 10 + unit.y / 1000,
         flip = spriteFlip(unit.kind, unit.variant, unit.facing);
       // Shared atlas silhouettes stay in the ordinary image batch. No per-actor FX pass.
-      // The cream edge separates dark snakes from the ground; the dark inner edge
-      // separates pale cloth and skin from stone. Identical transforms prevent ghosts.
+      // Enemy orange is reserved for living threats; allies keep their dark green edge.
+      // Identical transforms prevent ghosts without a per-actor effect pass.
       for (const [layer, padding, tint, delta] of [
-        ['edge', 4, 0xf9f1d8, 0.00004],
-        ['outline', 3, enemy ? 0x795246 : 0x233d36, 0.00002],
+        ['edge', enemy ? 9 : 4, 0xf9f1d8, 0.00004],
+        ['outline', enemy ? 7 : 3, enemy ? 0xd2552d : 0x233d36, 0.00002],
       ] as const)
         this.piece(`${layer}:${unit.id}`, art)
           .setOrigin(0.5, 0.82)

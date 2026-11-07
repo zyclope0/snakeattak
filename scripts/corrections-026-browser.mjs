@@ -49,6 +49,30 @@ try {
     'Une seule pause, en HTML',
   );
   await page.locator('#resume-game').click();
+  if (step >= 2) {
+    const outlines = await page.evaluate(() => {
+      const images = window.stageFixture.phaser.scene
+        .getScene('Battle')
+        .children.list.filter((o) => o.type === 'Image');
+      const red = images.filter((o) => o.tintFill && o.tintTopLeft === 0xd2552d);
+      return {
+        red: red.length,
+        green: images.some((o) => o.tintFill && o.tintTopLeft === 0x233d36),
+        thicker: red.every((o) =>
+          images.some(
+            (main) =>
+              !main.tintFill &&
+              main.texture.key === o.texture.key &&
+              main.x === o.x &&
+              main.y === o.y &&
+              o.displayWidth >= main.displayWidth + 6,
+          ),
+        ),
+      };
+    });
+    assert.ok(outlines.red >= 6, 'Les six serpents portent un contour rouge-orangé');
+    assert.ok(outlines.green && outlines.thicker);
+  }
   for (const status of ['won', 'lost']) {
     await page.evaluate((status) => {
       window.stageFixture.session.game.status = status;
