@@ -2827,6 +2827,37 @@ dialog > small {
   }
 }
 
+.orientation-notice {
+  display: none;
+}
+@media (pointer: coarse) and (orientation: portrait) {
+  body {
+    overflow: hidden;
+  }
+  .orientation-notice {
+    display: grid;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    place-items: center;
+    padding: 32px;
+    background: #173e37;
+    color: #f7f4e7;
+    text-align: center;
+  }
+  .orientation-notice > div > span {
+    font-size: 90px;
+    color: #f1bd57;
+  }
+  .orientation-notice h1 {
+    font-size: 32px;
+  }
+  .orientation-notice p {
+    line-height: 1.7;
+    color: #d2e3d1;
+  }
+}
+
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
   #reward-panel:not([hidden]) {
     display: block;

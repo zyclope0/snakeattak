@@ -129,6 +129,27 @@ try {
     );
     assert.equal(await page.locator('#pause-overlay').isVisible(), false);
   }
+  if (step >= 5) {
+    const touch = await browser.newPage({
+      viewport: { width: 375, height: 812 },
+      hasTouch: true,
+      isMobile: true,
+    });
+    await touch.goto(`http://127.0.0.1:4206/${fixture}`);
+    await touch.waitForFunction(() => window.stageFixture?.phaser.scene.isActive('Battle'));
+    assert.equal(await touch.locator('#orientation-notice').isVisible(), true);
+    assert.equal(await touch.evaluate(() => window.stageFixture.session.game.paused), true);
+    await touch.screenshot({ path: 'artifacts/corrections-026/portrait.png' });
+    await touch.setViewportSize({ width: 812, height: 375 });
+    await touch.waitForTimeout(200);
+    assert.equal(await touch.locator('#orientation-notice').isVisible(), false);
+    assert.equal(await touch.evaluate(() => window.stageFixture.session.game.paused), false);
+    await touch.close();
+    assert.match(
+      await readFile('android/app/src/main/AndroidManifest.xml', 'utf8'),
+      /android:screenOrientation="sensorLandscape"/,
+    );
+  }
   assert.deepEqual(errors, []);
   console.log(`Corrections 0.26 : étapes 1–${step} OK`);
 } finally {

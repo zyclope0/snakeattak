@@ -1,3 +1,4 @@
+import { bindOrientation } from './orientation.ts';
 import { bindReinforcementsDrawer } from './reinforcementsDrawer.ts';
 import { placementReadout } from '../render/placementRange.ts';
 import { bindSquadControls } from './squadControls.ts';
@@ -26,6 +27,7 @@ export function bindControls(
 ) {
   document.documentElement.style.setProperty('--ui-art', `url("${UI_ART_URL}")`);
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+  const syncOrientation = bindOrientation(session, refresh);
   const cards = new Map<Kind, HTMLButtonElement>();
   const refreshHud = bindHud();
   el('mobile-home').onclick = () => el('menu-home').click();
@@ -177,6 +179,7 @@ export function bindControls(
     }
   });
   function refresh() {
+    syncOrientation();
     afterChange();
     const nextWave = Math.min(
       session.game.totalWaves,
