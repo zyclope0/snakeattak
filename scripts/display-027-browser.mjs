@@ -43,6 +43,44 @@ async function newPage(width, height, touch = false) {
   return page;
 }
 const checks = {
+  async 4() {
+    for (const [width, height] of [
+      [812, 375],
+      [1024, 500],
+    ]) {
+      const page = await newPage(width, height, true);
+      await mission(page);
+      const boxes = [];
+      for (const id of ['pause', 'speed', 'mobile-home', 'reinforcements-toggle', 'start']) {
+        const box = await page.locator('#' + id).boundingBox();
+        assert.ok(
+          box.width >= 48 && box.height >= 48,
+          `Cible ${id} à ${width}: ${JSON.stringify(box)}`,
+        );
+        boxes.push(box);
+      }
+      for (let i = 1; i < boxes.length; i++)
+        assert.ok(boxes[i].x >= boxes[i - 1].x + boxes[i - 1].width, 'Pas de chevauchement');
+      const board = await page.locator('#game canvas').boundingBox();
+      assert.ok(
+        board.height >= height * 0.85 && board.width >= width * 0.65,
+        `Surface tactile conservée : ${JSON.stringify(board)}`,
+      );
+      await page.locator('#reinforcements-toggle').click();
+      await page.locator('.unit-card[data-kind="archer"]').click();
+      assert.equal(
+        await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),
+        'false',
+      );
+      await page.locator('#pause').click();
+      assert.ok(await page.locator('#pause-overlay').isVisible());
+      await page.locator('#resume-game').click();
+      await page.screenshot({ path: `artifacts/display-027/phone-${width}.png` });
+      results.push({ point: 4, width, height, board, buttons: boxes });
+      await page.close();
+    }
+  },
+
   async 3() {
     for (const [width, height, touch] of [
       [1280, 800, false],

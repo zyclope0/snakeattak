@@ -2694,7 +2694,7 @@ dialog > small {
   }
   .dashboard,
   .game-expanded .dashboard {
-    height: 44px;
+    height: 52px;
     min-height: 0;
     padding: 2px 6px;
     gap: 8px;
@@ -2745,13 +2745,13 @@ dialog > small {
     flex-wrap: nowrap;
   }
   .controls button {
-    min-height: 36px;
-    height: 36px;
+    min-height: 48px;
+    height: 48px;
     padding: 3px 7px;
     font-size: 13px;
   }
   .controls .square {
-    min-width: 36px;
+    min-width: 48px;
   }
   .display-button,
   .sound-button {
@@ -2773,7 +2773,7 @@ dialog > small {
   }
   #game {
     width: 100%;
-    height: calc(100dvh - 44px);
+    height: calc(100dvh - 52px);
     max-height: none;
     aspect-ratio: auto;
   }
@@ -2787,7 +2787,7 @@ dialog > small {
   }
   .reinforcements {
     position: fixed;
-    inset: 44px 0 0 auto;
+    inset: 52px 0 0 auto;
     width: min(340px, 85vw);
     z-index: 22;
     max-height: none;
@@ -2805,7 +2805,7 @@ dialog > small {
   .reinforcements-open .reinforcements-backdrop {
     display: block;
     position: fixed;
-    inset: 44px 0 0;
+    inset: 52px 0 0;
     z-index: 21;
     background: #102e2980;
   }
@@ -2886,7 +2886,7 @@ dialog > small {
   #reward-panel:not([hidden]) {
     display: block;
     position: fixed;
-    inset: 44px 0 0;
+    inset: 52px 0 0;
     z-index: 18;
     overflow: auto;
     padding: 12px 20px;
