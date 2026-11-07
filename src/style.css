@@ -3204,3 +3204,45 @@ dialog > small {
 .chapter-card small {
   color: #4d6142;
 }
+
+/* Only created by explicit ?perf=1 diagnostics; gameplay never depends on it. */
+.performance-panel {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #17382bee;
+  color: #fff4d8;
+  padding: 4px;
+  font: 11px monospace;
+  border-radius: 4px;
+  max-width: calc(100% - 8px);
+}
+.performance-panel button {
+  min-height: 36px;
+  padding: 4px 8px;
+  color: #17382b;
+  background: #f5f1df;
+  font-size: 12px;
+}
+.performance-dialog {
+  max-width: min(720px, 95vw);
+  max-height: 90dvh;
+  overflow: auto;
+  background: #f5f1df;
+  color: #17382b;
+}
+.performance-dialog textarea {
+  display: block;
+  width: 100%;
+  height: 45dvh;
+  font: 12px monospace;
+  resize: vertical;
+}
+.performance-dialog button {
+  min-height: 48px;
+  margin: 4px;
+}

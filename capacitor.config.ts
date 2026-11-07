@@ -4,6 +4,7 @@ const config: CapacitorConfig = {
   appId: 'com.conqueteserpents.famille',
   appName: 'La Conquête des Serpents',
   webDir: 'dist',
+  ...(process.env.SERPENTS_PERF === '1' ? { server: { appStartPath: '/?perf=1' } } : {}),
 };
 
 export default config;

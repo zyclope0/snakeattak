@@ -357,3 +357,12 @@ sur ordinateur et en tiroir sur téléphone. Le plateau reste dimensionné par C
 le pied du dialogue de préparation est séparé de son contenu défilant.
 `render/resultCopy.ts` produit les textes de victoire des missions et du classique
 sans modifier le modèle. Axe-core est une dépendance de test uniquement.
+
+## Diagnostic local Android — 0.27.1
+
+`PerformanceRecording` agrège des fenêtres de rendu d’une seconde au minimum,
+indépendamment du modèle de combat. La vue optionnelle reçoit le contrôle de
+pause du dialogue ; sa destruction retire les listeners. Une nouvelle identité
+Game remet la collecte à zéro ; sommeil/réveil et pauses coupent l’intervalle.
+Aucun relevé n’est envoyé ni sauvegardé automatiquement. Le build APK de test
+utilise temporairement appStartPath `/?perf=1`, puis restaure le sync normal.

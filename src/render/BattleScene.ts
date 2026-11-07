@@ -22,6 +22,8 @@ import { bindInputBounds } from './inputBounds.ts';
 import { BossSignals } from './bossSignals.ts';
 import { visualSettings } from './visualSettings.ts';
 import { DevPerformance } from './devPerformance.ts';
+import { pauseForDialog } from '../ui/dialogs.ts';
+import { performanceEnabled } from './performanceRecording.ts';
 import { onSceneExit } from './sceneExit.ts';
 
 export class BattleScene extends Phaser.Scene {
@@ -40,6 +42,7 @@ export class BattleScene extends Phaser.Scene {
   private strongholds!: Strongholds;
   private hudTime = 0;
   private meter?: DevPerformance;
+  private measuredGame?: Session['game'];
   private bossSignals!: BossSignals;
   private flightSignals!: FlightSignals;
   private medicalSignals!: MedicalSignals;
@@ -74,9 +77,18 @@ export class BattleScene extends Phaser.Scene {
     onSceneExit(this.events, () => {
       this.initialized = false;
     });
-    if (import.meta.env.DEV && new URLSearchParams(location.search).has('debug-performance')) {
-      this.meter = new DevPerformance(this.game.canvas.parentElement!);
-      onSceneExit(this.events, () => this.meter?.destroy());
+    if (performanceEnabled(location.search, import.meta.env.DEV)) {
+      this.meter = new DevPerformance(this.game.canvas.parentElement!, (dialog) =>
+        pauseForDialog(dialog, this.session, this.onChange),
+      );
+      const suspendMeter = () => this.meter?.suspend();
+      this.events.on(Phaser.Scenes.Events.SLEEP, suspendMeter);
+      this.events.on(Phaser.Scenes.Events.WAKE, suspendMeter);
+      onSceneExit(this.events, () => {
+        this.events.off(Phaser.Scenes.Events.SLEEP, suspendMeter);
+        this.events.off(Phaser.Scenes.Events.WAKE, suspendMeter);
+        this.meter?.destroy();
+      });
     }
     const releaseInputBounds = bindInputBounds(this.game.canvas, () => this.scale.updateBounds());
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseInputBounds);
@@ -136,6 +148,10 @@ export class BattleScene extends Phaser.Scene {
   update(_time: number, delta: number) {
     if (!this.assets.ready(this.session.game)) return;
     if (!this.initialized) this.createBattle();
+    if (this.meter && this.measuredGame !== this.session.game) {
+      this.meter.reset();
+      this.measuredGame = this.session.game;
+    }
     const started = this.meter ? performance.now() : 0;
     const reduced = visualSettings.reduced(this.motionQuery.matches);
     this.session.advance(delta);
@@ -313,6 +329,17 @@ export class BattleScene extends Phaser.Scene {
       this.onChange();
       this.hudTime = 0;
     }
-    if (this.meter) this.meter.frame(performance.now(), performance.now() - started);
+    if (this.meter)
+      this.meter.frame(
+        performance.now(),
+        performance.now() - started,
+        this.session.game.status === 'fighting' &&
+          !this.session.game.paused &&
+          this.session.screen !== 'home',
+        {
+          mission: this.session.game.mission?.missionId ?? 'classic',
+          wave: this.session.game.wave,
+        },
+      );
   }
 }

@@ -1,5 +1,9 @@
 # La Conquête des Serpents — aventure familiale 0.27
 
+La préparation Android0.27.1 ajoute un diagnostic local activé par `?perf=1` et
+un script de compilation APK debug. Les performances sur appareil réel restent
+à mesurer. [Protocole Android](docs/ANDROID.md).
+
 La version 0.27 rend le plateau et le HUD entièrement visibles sur ordinateur,
 agrandit les commandes tactiles et garde le lancement des missions à portée.
 Les messages de victoire et les contrastes de l’accueil sont corrigés.

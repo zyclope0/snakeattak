@@ -1,10 +1,11 @@
-# Android — état de la version 0.27
+# Android — préparation de la version 0.27.1
 
-Le projet natif porte versionName 0.27.0 et versionCode 27. Les nouveaux assets
+Le projet natif porte versionName 0.27.1 et versionCode 28. Les nouveaux assets
 2D restent locaux, dans le build web embarqué. Voir le rapport de vérification
 0.27 pour la synchronisation de cette livraison. MainActivity demande
-`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Aucun APK/AAB compilé ou
-appareil physique testé n’est revendiqué.
+`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Un APK debug0.27.1 est compilé et sa signature de développement vérifiée ;
+les27 fichiers web embarqués sont identiques au dist. Aucun appareil physique,
+AAB signé de publication ou résultat de performance Android n’est revendiqué.
 
 ## Préparation initiale Android — 0.21
 
@@ -46,7 +47,7 @@ L'export `dist-portable/` reste une livraison web séparée.
 | SDK de compilation / cible     | 36 / 36                                                           |
 | Android Gradle Plugin          | 8.13.0                                                            |
 | Wrapper Gradle                 | 8.14.3, fourni dans `android/`                                    |
-| Version native                 | `versionName "0.27.0"`, `versionCode 27`                          |
+| Version native                 | `versionName "0.27.1"`, `versionCode 28`                          |
 
 Installer Android Studio et le SDK via son SDK Manager, dont Platform API 36,
 les Build Tools requis par AGP et les Platform Tools pour un téléphone. Android
@@ -61,8 +62,9 @@ npm run android:open
 Android Studio ouvre le dossier `android/`. Sélectionner ensuite un téléphone
 de test ou un émulateur configuré. En ligne de commande, une fois le SDK et le
 JDK configurés, `./gradlew assembleDebug` depuis `android/` construit l'APK de
-développement. Cette commande n'a pas été exécutée ici : le SDK Android est
-absent. Aucun SDK volumineux n'a été installé pour cette préparation.
+développement. La version0.27.1 a été compilée ici après installation isolée du JDK21 complet
+et du SDK36 ; voir reports/verification-0.27.1.json. Ces outils ne sont pas
+embarqués dans le jeu.
 
 API 24 est le minimum natif du conteneur, pas une preuve que toutes les anciennes
 WebView exécutent le JavaScript ES2022 et le rendu de ce jeu. Tester un Android
@@ -71,7 +73,9 @@ des essais.
 
 ## Données et permissions
 
-Le manifeste applicatif ne demande aucune permission Android ; la permission
+Le manifeste source ne demande aucune permission Android ; le manifeste fusionné
+ajoute la permission privée de niveau signature DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+pour les récepteurs de la bibliothèque AndroidX. Aucune permission réseau ; la permission
 `INTERNET` du modèle a été retirée. Il faut notamment vérifier le lancement
 réel hors connexion sur un appareil avant de considérer ce choix validé.
 Aucun plugin caméra, micro, localisation, publicité, statistiques, compte ou
@@ -94,7 +98,8 @@ la configuration locale et les versions Gradle/SDK ont été contrôlées. Le bu
 web 0.21 final a ensuite été synchronisé : les 26 fichiers de distribution sont
 identiques par SHA256 à ceux embarqués, et cap doctor réussit. Ce contrôle ne
 compile pas un APK. La preuve est dans reports/verification-0.21.json.
-Java 21 est présent ; Android Studio, SDK et adb ne sont pas disponibles.
+État initial0.21 : Java21 présent, SDK/adb absents. Le lot4 installe ensuite
+un JDK complet, le SDK36 et adb dans un répertoire de travail ; Studio reste absent.
 
 Pas de compilation APK/AAB, de signature, d'installation, de test GPU Android,
 de validation du manifeste fusionné par Gradle ou de publication Play réalisée.
@@ -128,3 +133,55 @@ de la documentation qui peut déjà décrire une autre version :
 Les exigences SDK/Gradle/Java sont également lisibles dans `android/variables.gradle`,
 `android/build.gradle`, `android/gradle/wrapper/gradle-wrapper.properties` et le
 fichier `android/app/capacitor.build.gradle` régénéré par la synchronisation.
+
+## Lot 4 — protocole famille, 0.27.1
+
+Le compteur est disponible sur le build de production avec `?perf=1`. Sans cette
+option il n’est pas créé. L’option historique `?debug-performance` reste réservée
+au serveur de développement. Aucun envoi de mesure, aucune statistique en ligne.
+
+### Compiler sous Windows
+
+1. Installer Node24, Android Studio avec JDK21, Platform API36, Build Tools36 et
+   Platform Tools. Configurer JAVA_HOME vers le JDK21 complet et ANDROID_HOME vers
+   le SDK (souvent `%LOCALAPPDATA%\Android\Sdk`).
+2. Extraire le projet dans un dossier local, ouvrir PowerShell : `npm ci`.
+3. `npm run android:apk:debug` reconstruit le web, synchronise Capacitor avec
+   un démarrage local `/?perf=1`, compile `assembleDebug`, copie l’APK dans
+   `artifacts/android/`, puis rétablit la configuration normale. Aucun server.url.
+4. Activer Options développeur / Débogage USB sur le téléphone, accepter sa
+   connexion, vérifier `adb devices`, puis `adb install -r chemin\vers\le-debug.apk`.
+   L’APK debug est destiné aux essais ; ce n’est pas un AAB signé pour Play.
+
+La clé debug est locale à la machine de compilation. Une autre clé peut empêcher
+la mise à jour d’une ancienne installation debug ; exporter les sauvegardes
+avant toute désinstallation. Aucune clé privée n’est incluse dans le projet.
+
+### Relever la performance
+
+- Noter modèle, Android, WebView, écran/fréquence, mode batterie et température
+  perçue. Fermer les autres applications ; conserver une condition comparable.
+- Dans Relevé, Recommencer la mesure juste avant chaque scénario, puis Fermer.
+- Mission6 : jouer au moins deux minutes dont une vague chargée ; relever la
+  durée et la situation. Classique : faire un relevé distinct sur la vague12.
+  Ne pas substituer une partie en navigateur cloud à ces essais.
+- Ouvrir Relevé : copier le JSON par Sélectionner le relevé puis copie Android,
+  ou prendre une capture lisible. Compléter `reports/android-device.json`.
+- Le minimum est celui des fenêtres complètes d’au moins une seconde, pas le
+  FPS instantané d’une seule image. La plus longue image est relevée séparément.
+  Les pauses et onglets masqués ne contribuent pas ; une fenêtre incomplète ne
+  donne pas de FPS. Les 3600 dernières fenêtres bornent le stockage des mesures.
+- Mémoire : JS heap quand WebView l’expose ; sinon null. Ce n’est jamais la RAM
+  totale d’Android. Pour le total processus, utiliser Android Studio Profiler ou
+  `adb shell dumpsys meminfo com.conqueteserpents.famille`, en indiquant sa source.
+- Le temps de chargement couvre la dernière préparation d’assets du plateau,
+  pas le temps complet installation→premier écran. Tester aussi un démarrage
+  à froid en mode avion, bouton Retour, rotation, arrière-plan et sauvegardes.
+
+Si la vague chargée reste sous30FPS, prioriser selon des mesures avant/après :
+
+1. rendu des effets/contours, 2. résolution adaptée au devicePixelRatio,
+2. cadence des mises à jour UI et allocations. Ce sont des pistes, pas des
+   optimisations affirmées rentables sans le relevé.
+
+La validation physique de ce lot reste en attente de la famille.

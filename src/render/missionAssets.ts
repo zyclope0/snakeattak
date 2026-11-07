@@ -46,6 +46,7 @@ export class MissionAssets {
   private retry = document.getElementById('loading-retry');
   private board = document.getElementById('game');
   private current?: Game;
+  private loadStarted: number | null = null;
 
   constructor(private scene: Phaser.Scene) {
     const progress = (value: number) => {
@@ -111,6 +112,7 @@ export class MissionAssets {
   }
 
   private show(text: string, failed = false) {
+    if (this.loadStarted === null) this.loadStarted = performance.now();
     if (this.panel) this.panel.hidden = false;
     if (this.label) this.label.textContent = text;
     if (this.retry) this.retry.hidden = !failed;
@@ -118,6 +120,10 @@ export class MissionAssets {
   }
 
   private hide() {
+    if (this.loadStarted !== null && this.board) {
+      this.board.dataset.loadDurationMs = String(performance.now() - this.loadStarted);
+      this.loadStarted = null;
+    }
     if (this.panel) this.panel.hidden = true;
     this.board?.setAttribute('aria-busy', 'false');
   }

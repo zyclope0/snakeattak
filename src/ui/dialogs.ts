@@ -15,13 +15,15 @@ export function pauseForDialog(dialog: HTMLDialogElement, session: Session, refr
     settle();
   };
   dialog.addEventListener('close', settle);
-  dialog.addEventListener('cancel', (event) => {
+  const cancel = (event: Event) => {
     event.preventDefault();
     close();
-  });
-  document.addEventListener('visibilitychange', () => {
+  };
+  dialog.addEventListener('cancel', cancel);
+  const visibility = () => {
     if (observed && document.hidden) wasPaused = true;
-  });
+  };
+  document.addEventListener('visibilitychange', visibility);
   return {
     open() {
       if (dialog.open) return;
@@ -32,5 +34,11 @@ export function pauseForDialog(dialog: HTMLDialogElement, session: Session, refr
       refresh();
     },
     close,
+    dispose() {
+      close();
+      dialog.removeEventListener('close', settle);
+      dialog.removeEventListener('cancel', cancel);
+      document.removeEventListener('visibilitychange', visibility);
+    },
   };
 }

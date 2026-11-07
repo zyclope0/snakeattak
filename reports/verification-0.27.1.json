@@ -1,0 +1,34 @@
+{
+  "version": "0.27.1",
+  "verifiedAt": "2026-11-07T23:45:10.048515+00:00",
+  "nativeTests": 370,
+  "build": "passed",
+  "apk": {
+    "name": "conquete-serpents-v0.27.1-debug.apk",
+    "bytes": 13185188,
+    "sha256": "e06d4114d285cdd28e0960ea7593ebee06429eb5c380f97277e1b52eec00b646",
+    "gradle": "assembleDebug successful, 93 tasks",
+    "versionCode": 28,
+    "minSdk": 24,
+    "targetSdk": 36,
+    "compileSdk": 36,
+    "signature": "debug signature verified; private key not in repository",
+    "embeddedWebFilesMatchDist": 27,
+    "startPath": "/?perf=1",
+    "normalSyncRestored": true,
+    "internetPermission": false,
+    "libraryPermission": "DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION signature-level"
+  },
+  "toolchain": {
+    "jdk": "OpenJDK21.0.2 (isolated build tool, not embedded)",
+    "sdk": "platform36/build-tools36.0.0",
+    "gradle": "8.14.3",
+    "agp": "8.13.0",
+    "downloadChecksumsVerified": true
+  },
+  "browser": "production opt-in/report/pause ownership/Escape/reset/new game passed",
+  "physicalDevice": false,
+  "physicalMetrics": null,
+  "storeRelease": false,
+  "renderSettingsBrowser": "passed; old fixture adapted to active-only measurement and portrait guidance"
+}

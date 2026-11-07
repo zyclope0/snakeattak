@@ -91,6 +91,7 @@ try {
   await page.locator('#close-help').click();
   await page.locator('#home-new').click();
   await page.locator('#home-screen').waitFor({ state: 'hidden' });
+  await page.locator('#start').click(); // Diagnostics now measure active combat only.
   await page.waitForFunction(
     () =>
       Number(document.querySelector('[data-performance]')?.textContent?.match(/^(\d+) FPS/)?.[1]) >
@@ -123,6 +124,8 @@ try {
   });
   mobile.on('pageerror', (e) => errors.push(e.message));
   await mobile.goto('http://127.0.0.1:4198/?debug-performance');
+  assert.ok(await mobile.locator('#orientation-notice').isVisible());
+  await mobile.setViewportSize({ width: 812, height: 375 });
   await mobile.locator('#home-help').click();
   await mobile.locator('#light-effects').check();
   await mobile.screenshot({

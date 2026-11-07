@@ -1,7 +1,7 @@
 {
   "name": "conquete-serpents",
   "private": true,
-  "version": "0.27.0",
+  "version": "0.27.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -37,7 +37,9 @@
     "test:departures": "node scripts/departures-025-browser.mjs",
     "test:corrections": "node scripts/corrections-026-browser.mjs 8",
     "test:display": "node scripts/display-027-browser.mjs",
-    "test:audit": "node scripts/audit-2026-11-browser.mjs --strict --lot1"
+    "test:audit": "node scripts/audit-2026-11-browser.mjs --strict --lot1",
+    "android:apk:debug": "node scripts/android-debug.mjs",
+    "test:android-performance": "node scripts/android-performance-browser.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",

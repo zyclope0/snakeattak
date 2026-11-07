@@ -1,0 +1,37 @@
+{
+  "version": "0.27.1",
+  "status": "pending-physical-device",
+  "device": {
+    "model": null,
+    "android": null,
+    "webview": null,
+    "refreshHz": null,
+    "batteryMode": null
+  },
+  "scenarios": [
+    {
+      "name": "mission-6",
+      "durationSeconds": null,
+      "fpsMedian": null,
+      "fpsMin": null,
+      "longestFrameMs": null,
+      "assetLoadMs": null,
+      "jsHeapBytes": null,
+      "androidProcessMemoryBytes": null,
+      "notes": null
+    },
+    {
+      "name": "classic-wave-12",
+      "durationSeconds": null,
+      "fpsMedian": null,
+      "fpsMin": null,
+      "longestFrameMs": null,
+      "assetLoadMs": null,
+      "jsHeapBytes": null,
+      "androidProcessMemoryBytes": null,
+      "notes": null
+    }
+  ],
+  "cloudResultsAreNotAndroidMeasurements": true,
+  "releaseGate": "Physical performance, lifecycle, offline and saves not yet validated"
+}
