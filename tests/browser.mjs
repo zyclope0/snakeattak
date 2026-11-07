@@ -173,20 +173,25 @@ const mobile = await browser.newPage({
 });
 mobile.on('pageerror', (e) => errors.push(e.message));
 await mobile.goto(gameUrl);
+if (!(await mobile.locator('#orientation-notice').isVisible()))
+  throw Error('Écran portrait absent');
+await mobile.setViewportSize({ width: 812, height: 375 });
 await enterBattle(mobile);
 await mobile.locator('canvas').waitFor();
 await mobile.waitForTimeout(700);
 if (await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth))
   throw Error('Débordement horizontal mobile');
+await mobile.locator('#reinforcements-toggle').tap();
 await mobile.locator('[data-kind="archer"]').tap();
 const box = await mobile.locator('canvas').boundingBox();
-if (box.y < 0 || box.y + box.height > 844)
+if (box.height < 375 * 0.85 || box.width < 812 * 0.65 || box.y < 0 || box.y + box.height > 375)
   throw Error('Le camp n’est pas revenu à l’écran après sélection');
 await mobile.touchscreen.tap(box.x + (box.width * 900) / 1100, box.y + (box.height * 350) / 620);
 await mobile.waitForTimeout(250);
 if ((await mobile.locator('#gold').innerText()) !== '150')
   throw Error('Recrutement tactile échoué');
 await mobile.screenshot({ path: 'artifacts/pilote-mobile.png', fullPage: true });
+await mobile.locator('#reinforcements-toggle').tap();
 await mobile.locator('[data-feast-flavor="sticky"]').tap();
 await mobile.locator('#start').tap();
 await mobile.waitForTimeout(200);
@@ -201,7 +206,8 @@ console.log(
   JSON.stringify({
     desktop:
       'full catalog, tank guide, sound toggle, recruit, checkpoint reload, unlocks, briefing, both honeys, flavour locking/pause/reset, help OK',
-    mobile: '390px no overflow, touch recruit/start/sticky honey OK',
+    mobile:
+      'portrait guidance, 812×375 board >=85% height, drawer, touch recruit/start/sticky honey OK',
     pageErrors: errors,
   }),
 );

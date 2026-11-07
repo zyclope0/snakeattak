@@ -1,8 +1,9 @@
-# Android — état de la version 0.25
+# Android — état de la version 0.26
 
-Le projet natif porte versionName 0.25.0 et versionCode 25. Les nouveaux assets
+Le projet natif porte versionName 0.26.0 et versionCode 26. Les nouveaux assets
 2D restent locaux, dans le build web embarqué. Voir le rapport de vérification
-0.23 pour la synchronisation de cette livraison. Aucun APK/AAB compilé ou
+0.26 pour la synchronisation de cette livraison. MainActivity demande
+`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Aucun APK/AAB compilé ou
 appareil physique testé n’est revendiqué.
 
 ## Préparation initiale Android — 0.21
@@ -45,7 +46,7 @@ L'export `dist-portable/` reste une livraison web séparée.
 | SDK de compilation / cible     | 36 / 36                                                           |
 | Android Gradle Plugin          | 8.13.0                                                            |
 | Wrapper Gradle                 | 8.14.3, fourni dans `android/`                                    |
-| Version native                 | `versionName "0.25.0"`, `versionCode 25`                          |
+| Version native                 | `versionName "0.26.0"`, `versionCode 26`                          |
 
 Installer Android Studio et le SDK via son SDK Manager, dont Platform API 36,
 les Build Tools requis par AGP et les Platform Tools pour un téléphone. Android

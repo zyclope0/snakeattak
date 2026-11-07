@@ -1,4 +1,10 @@
-# La Conquête des Serpents — aventure familiale 0.25
+# La Conquête des Serpents — aventure familiale 0.26
+
+La version 0.26 corrige la pause, la visibilité des serpents et le ruisseau,
+agrandit le plateau sur téléphone, gère la rotation et le redimensionnement,
+charge les images à la demande et garantit un nouveau terrain à chaque tirage.
+Les anciennes sauvegardes et les codes de départ restent lisibles.
+[Bilan et fichiers modifiés](docs/CORRECTIONS-0.26.md).
 
 La version 0.25 généralise les terrains lisibles à tous les chapitres et missions,
 avec trois ambiances. Les codes de départ permettent de retrouver une aventure

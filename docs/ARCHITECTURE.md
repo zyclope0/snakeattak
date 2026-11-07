@@ -330,3 +330,21 @@ jamais les identifiants ou entités de la simulation. VisualSettings garde un
 choix local de confort, séparé des sauvegardes, et respecte la préférence système.
 DevPerformance et FrameMetrics ne sont activés qu’en développement sur demande.
 Voir PERFORMANCE-0.24.md pour le protocole et ses limites.
+
+## Corrections de présentation 0.26
+
+`render/missionAssets.ts` calcule les textures utiles depuis l'état courant sans
+faire avancer les règles. La scène attend leur chargement avant de dessiner ou
+de calculer la suite ; progression et réessai restent en HTML. Les textures déjà
+chargées sont réutilisées. Les aperçus des chapitres suivants sont demandés au
+survol/focus, sans téléchargement préalable de leurs fonds.
+
+`#game` fixe la surface par CSS (aspect-ratio ou hauteur du paysage compact) et
+isole la taille du canvas. `render/boardResize.ts` observe ce conteneur, rafraîchit
+Phaser à la prochaine image et se débranche à la destruction du jeu.
+
+Le tiroir mobile et la consigne de rotation restent dans `ui/`. La pause de
+portrait est réappliquée lors des rafraîchissements pour qu'une fermeture de
+dialogue ne puisse pas reprendre le combat derrière la consigne. Le tirage d'un
+nouveau départ évite le terrain précédent ; la lecture d'une sauvegarde ou d'un
+code ne passe pas par ce tirage. Les formats de sauvegarde restent inchangés.

@@ -8,6 +8,9 @@ import { createMissionRun } from '../src/missions.ts';
 
 let server, browser;
 const key = 'conquete-serpents:family:v1';
+const version = JSON.parse(
+  await (await import('node:fs/promises')).readFile('package.json', 'utf8'),
+).version;
 try {
   await mkdir('artifacts/departures-025', { recursive: true });
   if (!process.env.GAME_URL) {
@@ -38,7 +41,7 @@ try {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(url);
   await page.locator('#home-screen').waitFor({ state: 'visible' });
-  assert.equal(await page.locator('#home-screen [data-app-version]').textContent(), 'v0.25.0');
+  assert.equal(await page.locator('#home-screen [data-app-version]').textContent(), `v${version}`);
   const family = () => page.evaluate((key) => localStorage.getItem(key), key);
   const submit = async (code) => {
     await page.locator('#departure-input').fill(code);
@@ -60,7 +63,7 @@ try {
   await page.locator('#app').waitFor({ state: 'visible' });
   await page.waitForTimeout(600);
   assert.equal(await page.locator('#current-departure-code').inputValue(), classic);
-  assert.equal(await page.locator('#app [data-app-version]').textContent(), 'v0.25.0');
+  assert.equal(await page.locator('#app [data-app-version]').textContent(), `v${version}`);
   await page.locator('canvas').screenshot({ path: 'artifacts/departures-025/classic-start.png' });
   await page.evaluate(() =>
     Object.defineProperty(navigator, 'clipboard', {
@@ -141,6 +144,8 @@ try {
   });
   mobile.on('pageerror', (e) => errors.push(e.message));
   await mobile.goto(url);
+  assert.equal(await mobile.locator('#orientation-notice').isVisible(), true);
+  await mobile.setViewportSize({ width: 812, height: 375 });
   await mobile.locator('#departure-input').fill(encodeDeparture({ kind: 'classic', seed: 0 }));
   await mobile.locator('#departure-form button').tap();
   await mobile.locator('#departure-start').tap();
@@ -150,13 +155,13 @@ try {
     encodeDeparture({ kind: 'classic', seed: 0 }),
   );
   assert.ok(await mobile.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-  await mobile.screenshot({ path: 'artifacts/departures-025/mobile-390.png', fullPage: true });
+  await mobile.screenshot({ path: 'artifacts/departures-025/mobile-812.png', fullPage: true });
   assert.deepEqual(errors, []);
   await writeFile(
-    'reports/departures-0.25.json',
+    `reports/departures-${version.split('.').slice(0, 2).join('.')}.json`,
     JSON.stringify(
       {
-        version: '0.25.0',
+        version,
         classicCode: classic,
         missionCode: code,
         checks: [

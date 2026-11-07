@@ -2,7 +2,7 @@ import { Game } from './game.ts';
 import type { Kind } from './data.ts';
 
 const STEP = 1 / 30;
-const freshSeed = () => Math.floor(Math.random() * 4294967296);
+const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
 
 /** Browser-independent owner of a game and its fixed-rate simulation clock. */
 export class Session {

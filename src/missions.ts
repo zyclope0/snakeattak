@@ -120,13 +120,9 @@ export function createMissionRun(
     nest: nests[Math.floor(index / 9)],
   });
   let config = configAt(slot);
-  if (
-    prior &&
-    config.layout === prior.layout &&
-    config.assault === prior.assault &&
-    config.nest === prior.nest
-  )
-    config = configAt((slot + 1) % 18);
+  // A visible new departure always changes the terrain. Retry and saved runs
+  // are restored through readMissionRun, without passing through this draw.
+  if (prior && config.layout === prior.layout) config = configAt((slot + 1) % 18);
   return Object.freeze(config);
 }
 export type MissionWave = Readonly<{
