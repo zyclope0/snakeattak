@@ -129,6 +129,30 @@ try {
     );
     assert.equal(await page.locator('#pause-overlay').isVisible(), false);
   }
+  if (step >= 6) {
+    await page.evaluate(() => {
+      const scale = window.stageFixture.phaser.scale;
+      scale.resizeInterval = 100000;
+      const board = document.getElementById('game');
+      board.style.width = '700px';
+      board.style.height = '400px';
+    });
+    await page.waitForTimeout(120);
+    let canvas = await page.locator('canvas').boundingBox();
+    assert.ok(
+      Math.abs(canvas.width - 700) < 2,
+      `Resize du parent sans événement window : ${JSON.stringify(canvas)}`,
+    );
+    await page.evaluate(() => {
+      document.getElementById('game').style.width = '950px';
+      document.getElementById('game').style.height = '540px';
+    });
+    await page.waitForTimeout(120);
+    canvas = await page.locator('canvas').boundingBox();
+    assert.ok(Math.abs(canvas.width - 950) < 2, 'Le canvas remplit le nouveau grand conteneur');
+    await page.evaluate(() => document.getElementById('game').removeAttribute('style'));
+    await page.waitForTimeout(150);
+  }
   if (step >= 5) {
     const touch = await browser.newPage({
       viewport: { width: 375, height: 812 },

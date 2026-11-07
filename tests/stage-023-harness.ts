@@ -1,3 +1,4 @@
+import { bindBoardResize } from '../src/render/boardResize.ts';
 // Browser-only fixture: never imported by production.
 import Phaser from 'phaser';
 import { Session } from '../src/session.ts';
@@ -56,6 +57,7 @@ const phaser = new Phaser.Game({
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   audio: { noAudio: true },
 });
+bindBoardResize(phaser, document.getElementById('game')!);
 Object.assign(window, {
   stageFixture: {
     session,

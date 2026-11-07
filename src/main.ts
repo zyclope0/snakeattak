@@ -1,3 +1,4 @@
+import { bindBoardResize } from './render/boardResize.ts';
 import { Game } from './game.ts';
 import { createMissionProgress, createMissionProgressController } from './missionProgress.ts';
 import type { MissionRun } from './missions.ts';
@@ -93,6 +94,8 @@ phaser = new Phaser.Game({
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   audio: { noAudio: true },
 });
+
+bindBoardResize(phaser, document.getElementById('game')!);
 
 const view = (home: boolean) => {
   document.getElementById('home-screen')!.hidden = !home;

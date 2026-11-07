@@ -369,12 +369,19 @@ summary {
   position: relative;
 }
 #game {
+  position: relative;
+  contain: size;
+  min-width: 0;
+  overflow: hidden;
   width: 100%;
   aspect-ratio: 1100 / 620;
   background: #80917b;
   scroll-margin-top: 150px;
 }
 #game canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: block;
   touch-action: none !important;
 }
