@@ -8,6 +8,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
 
 const step = Number(process.argv[2] ?? 1);
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const fixture = '.corrections-026-test.html';
 let server, browser;
 try {
@@ -284,7 +285,10 @@ try {
       await route.continue();
     });
     await live.goto('http://127.0.0.1:4206/');
-    assert.equal(await live.locator('#home-screen [data-app-version]').textContent(), 'v0.26.0');
+    assert.equal(
+      await live.locator('#home-screen [data-app-version]').textContent(),
+      `v${version}`,
+    );
     await live.locator('[data-mission-card="refuge"]').click();
     for (let i = 0; i < 25; i++) {
       const before = await live.locator('#mission-land').textContent();

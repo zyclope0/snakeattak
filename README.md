@@ -1,4 +1,10 @@
-# La Conquête des Serpents — aventure familiale 0.26
+# La Conquête des Serpents — aventure familiale 0.27
+
+La version 0.27 rend le plateau et le HUD entièrement visibles sur ordinateur,
+agrandit les commandes tactiles et garde le lancement des missions à portée.
+Les messages de victoire et les contrastes de l’accueil sont corrigés.
+Aucune règle de combat ni format de sauvegarde ne change.
+[Bilan des contrôles](docs/BILAN-0.27.md).
 
 La version 0.26 corrige la pause, la visibilité des serpents et le ruisseau,
 agrandit le plateau sur téléphone, gère la rotation et le redimensionnement,

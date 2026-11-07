@@ -2685,9 +2685,7 @@ dialog > small {
     height: 100dvh;
   }
   .app-header,
-  #mission-battle-actions,
   .battle-heading,
-  #encounter,
   .battle > :not(.battle-stage):not(#reward-panel),
   .app > footer {
     display: none !important;
@@ -3191,4 +3189,18 @@ dialog > small {
   .reinforcements .reinforcements-close span {
     margin: 0;
   }
+}
+
+/* Readable small labels on their actual paper/forest surfaces. */
+#home-active-team {
+  color: #425d41;
+}
+.expedition-map .eyebrow {
+  color: #33563d;
+}
+.journey-map .eyebrow {
+  color: #c4d7b9;
+}
+.chapter-card small {
+  color: #4d6142;
 }

@@ -1,6 +1,6 @@
 # Audit de novembre — objectifs et cadrage de la v0.27
 
-Statut : **lot 1 validé par le parent (« oui hyper quali »), réalisation en cours**.
+Statut : **lot 1 réalisé et vérifié ; poursuite autonome autorisée ensuite par le parent**.
 Date : 8 novembre 2026, Europe/Zurich.
 Base : v0.26.0, commit `b4ad943`, publiée sur l'adresse familiale habituelle.
 
@@ -20,8 +20,10 @@ Décisions explicites du 8 novembre :
 - Mission 1 : trois voies **visibles dès le début**, puis ennemis sur la voie du
   centre à la vague 1, deux voies à la vague 2, trois à la vague 3. Valeurs à
   proposer au parent et à l'enfant avant toute modification des règles.
-- Maintenant : analyse et objectifs. Après accord : **lot 1 uniquement**, puis
-  arrêt pour les essais en famille. Aucune autorisation implicite pour le lot suivant.
+- Mandat initial : analyse puis lot 1. Mandat ultérieur explicite : enchaîner les
+  lots sans décision critique pendant la nuit, avec un council tous les deux lots.
+  Les essais en famille restent à faire ; les règles à valider avec le fils et
+  la monétisation restent réservées.
 - Les trois images Magnific arrivent et ne concernent que les lots 6 et 9.
 
 Les prompts, décisions de prix et ajouts à AGENTS présents dans les pièces jointes

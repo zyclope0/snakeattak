@@ -1,0 +1,130 @@
+{
+  "version": "0.27.0",
+  "verifiedAt": "2026-11-07T23:34:17.770903+00:00",
+  "base": "cfaf46c",
+  "buildAfterEachPoint": [
+    {
+      "point": 1,
+      "status": "passed"
+    },
+    {
+      "point": 2,
+      "status": "passed"
+    },
+    {
+      "point": 3,
+      "status": "passed"
+    },
+    {
+      "point": 4,
+      "status": "passed"
+    },
+    {
+      "point": 5,
+      "status": "passed"
+    },
+    {
+      "point": 6,
+      "status": "passed"
+    },
+    {
+      "point": 7,
+      "status": "passed"
+    }
+  ],
+  "checks": {
+    "nativeTests": 367,
+    "nativeFailures": 0,
+    "format": "passed",
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "sizeBudgets": "passed",
+    "displayBrowser": {
+      "checks": 15,
+      "pageErrors": []
+    },
+    "browser": "passed",
+    "departures": "passed",
+    "corrections026": "passed",
+    "savedVersionsLoaded": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "viewports": [
+    [
+      1280,
+      800
+    ],
+    [
+      1366,
+      768
+    ],
+    [
+      1920,
+      1080
+    ],
+    [
+      812,
+      375
+    ],
+    [
+      1024,
+      500
+    ],
+    [
+      375,
+      812
+    ]
+  ],
+  "phoneCanvasPercent": {
+    "height": 86,
+    "width": 71
+  },
+  "contrast": {
+    "axeVersion": "4.14.0",
+    "violations": 0,
+    "incomplete": {
+      "gradient": [
+        ".home-caption"
+      ],
+      "symbols": [
+        ".mission-stars",
+        "#chapter-stars-0"
+      ]
+    },
+    "scope": "four reproduced text failures corrected; not a claim of full accessibility compliance"
+  },
+  "audit": {
+    "passed": 11,
+    "total": 13,
+    "blockingLot1": 0,
+    "futureLot2": [
+      "visible word count117 >60",
+      "one visible vouvoiement"
+    ]
+  },
+  "review": {
+    "independent": "completed",
+    "critical": 0,
+    "important": "mobile mission actions and encounter remained hidden; red/green fix included"
+  },
+  "android": {
+    "syncedFiles": 27,
+    "allBytesMatchDist": true,
+    "apk": "not built at this milestone",
+    "physicalDevice": "not tested"
+  },
+  "rulesAndPersistence": "unchanged",
+  "paidCalls": 0,
+  "limits": [
+    "No child playtest claimed",
+    "No physical Android measurements",
+    "Contrast gradient and symbol checks need manual assessment",
+    "Lot2 simplification remains separate"
+  ]
+}

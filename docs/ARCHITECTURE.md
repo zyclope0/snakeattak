@@ -348,3 +348,12 @@ portrait est réappliquée lors des rafraîchissements pour qu'une fermeture de
 dialogue ne puisse pas reprendre le combat derrière la consigne. Le tirage d'un
 nouveau départ évite le terrain précédent ; la lecture d'une sauvegarde ou d'un
 code ne passe pas par ce tirage. Les formats de sauvegarde restent inchangés.
+
+## Affichage — 0.27
+
+La transition centrale vers le plateau remet le document en haut. Les informations
+secondaires gardent leurs nœuds et événements dans le panneau des alliés, défilant
+sur ordinateur et en tiroir sur téléphone. Le plateau reste dimensionné par CSS ;
+le pied du dialogue de préparation est séparé de son contenu défilant.
+`render/resultCopy.ts` produit les textes de victoire des missions et du classique
+sans modifier le modèle. Axe-core est une dépendance de test uniquement.

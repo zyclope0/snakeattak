@@ -2,7 +2,7 @@ import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
 import { encodeDeparture } from '../src/departures.ts';
@@ -43,21 +43,50 @@ async function newPage(width, height, touch = false) {
   return page;
 }
 const checks = {
+  async 7() {
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, bypassCSP: true });
+    await home(page);
+    await page.addScriptTag({ path: 'node_modules/axe-core/axe.min.js' });
+    const audit = await page.evaluate(async () =>
+      window.axe.run('#home-screen', { runOnly: { type: 'rule', values: ['color-contrast'] } }),
+    );
+    await writeFile('artifacts/display-027/home-contrast.json', JSON.stringify(audit, null, 2));
+    const violations = audit.violations.map((v) => ({
+      id: v.id,
+      nodes: v.nodes.map((n) => ({
+        target: n.target,
+        summary: n.failureSummary,
+        data: n.any.map((a) => a.data),
+      })),
+    }));
+    assert.deepEqual(violations, [], 'Contrastes de l’accueil');
+    results.push({
+      point: 7,
+      axe: audit.testEngine.version,
+      violations: audit.violations.length,
+      incomplete: audit.incomplete.length,
+    });
+    await page.close();
+  },
+
   async 6() {
     const page = await newPage(812, 375, true);
     await mission(page);
     await page.locator('#reinforcements-toggle').click();
-    await page.screenshot({ path: 'artifacts/display-027/drawer-before.png' });
+    for (const id of ['mission-battle-actions', 'encounter'])
+      assert.ok(await page.locator('#' + id).isVisible(), `Information accessible : ${id}`);
+    await page.locator('#mission-back-map').scrollIntoViewIfNeeded();
+    assert.ok(await page.locator('#mission-back-map').isVisible());
+    await page.locator('#reinforcements').evaluate((e) => e.scrollTo(0, 0));
+    await page.screenshot({ path: 'artifacts/display-027/drawer-final.png' });
     const controls = [];
     for (const id of ['reinforcements-close', 'unit-guide']) {
       const box = await page.locator('#' + id).boundingBox();
-      const visible = await page
-        .locator('#' + id)
-        .evaluate((e) => ({
-          text: e.innerText,
-          font: getComputedStyle(e).fontSize,
-          html: e.innerHTML,
-        }));
+      const visible = await page.locator('#' + id).evaluate((e) => ({
+        text: e.innerText,
+        font: getComputedStyle(e).fontSize,
+        html: e.innerHTML,
+      }));
       controls.push({ id, box, visible });
     }
     await writeFile(
