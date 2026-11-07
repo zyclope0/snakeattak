@@ -1,3 +1,4 @@
+import { bindReinforcementsDrawer } from './reinforcementsDrawer.ts';
 import { placementReadout } from '../render/placementRange.ts';
 import { bindSquadControls } from './squadControls.ts';
 import { bindAdventureControls } from './adventureControls.ts';
@@ -27,7 +28,9 @@ export function bindControls(
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const cards = new Map<Kind, HTMLButtonElement>();
   const refreshHud = bindHud();
+  el('mobile-home').onclick = () => el('menu-home').click();
   bindDisplay();
+  bindReinforcementsDrawer();
   bindVisualSettings();
   let catalogView: 'ready' | 'future' = 'ready';
   const familySelect = el<HTMLSelectElement>('shop-family');

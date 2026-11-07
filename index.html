@@ -331,6 +331,17 @@
             >
               ⛶ <span>Agrandir</span>
             </button>
+            <button id="mobile-home" class="square mobile-home" aria-label="Retour à l’accueil">
+              Accueil
+            </button>
+            <button
+              id="reinforcements-toggle"
+              class="square reinforcements-toggle"
+              aria-controls="reinforcements"
+              aria-expanded="false"
+            >
+              Renforts
+            </button>
             <button id="start" class="primary">Lancer la vague</button>
           </div>
         </section>
@@ -413,9 +424,22 @@
               <button id="end-restart" class="primary" hidden>Rejouer une aventure</button>
             </details>
           </section>
-          <aside class="reinforcements" aria-label="Les renforts">
+          <button
+            id="reinforcements-backdrop"
+            class="reinforcements-backdrop"
+            aria-label="Fermer les renforts"
+            tabindex="-1"
+          ></button>
+          <aside id="reinforcements" class="reinforcements" aria-label="Les renforts">
             <div class="army-title">
               <h2>Renforts</h2>
+              <button
+                id="reinforcements-close"
+                class="reinforcements-close quiet"
+                aria-label="Fermer les renforts"
+              >
+                Fermer ✕
+              </button>
               <span class="army-total"
                 ><strong class="count" id="army-count">3</strong> au camp</span
               ><button id="unit-guide" class="guide-button" title="Consulter les fiches des alliés">

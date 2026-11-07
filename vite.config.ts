@@ -16,7 +16,8 @@ export default defineConfig(({ mode }) => {
       {
         name: 'distribution-documents',
         transformIndexHtml(html) {
-          return html.replaceAll('__APP_VERSION__', appVersion);
+          // Keep the editable HTML readable without shipping its indentation.
+          return html.replaceAll('__APP_VERSION__', appVersion).replace(/^[ \t]+/gm, '');
         },
         configurePreviewServer(server) {
           server.middlewares.use((req, res, next) => {

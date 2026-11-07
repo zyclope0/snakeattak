@@ -92,6 +92,29 @@ try {
     );
     await page.locator('canvas').screenshot({ path: 'artifacts/corrections-026/terrain.png' });
   }
+  if (step >= 4) {
+    await page.setViewportSize({ width: 812, height: 375 });
+    await page.waitForTimeout(250);
+    const board = await page.locator('canvas').boundingBox();
+    assert.ok(board.height >= 375 * 0.85, `Plateau assez haut : ${JSON.stringify(board)}`);
+    assert.ok(board.width >= 812 * 0.65);
+    assert.equal(await page.locator('#encounter').isVisible(), false);
+    assert.equal(await page.locator('.reinforcements').isVisible(), false);
+    await page.locator('#reinforcements-toggle').click();
+    assert.equal(await page.locator('.reinforcements').isVisible(), true);
+    await page.locator('.unit-card[data-kind="archer"]').click();
+    assert.equal(await page.locator('.reinforcements').isVisible(), false);
+    assert.equal(
+      await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),
+      'false',
+    );
+    await page.locator('#reinforcements-toggle').click();
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('.reinforcements').isVisible(), false);
+    await page.screenshot({ path: 'artifacts/corrections-026/landscape.png' });
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.waitForTimeout(200);
+  }
   for (const status of ['won', 'lost']) {
     await page.evaluate((status) => {
       window.stageFixture.session.game.status = status;
