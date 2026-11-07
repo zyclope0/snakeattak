@@ -1,0 +1,30 @@
+import type { Notice } from '../render/presentation.ts';
+export type BattleGuide = { title: string; subtitle: string; priority?: number };
+
+/** Placement stays actionable; a short urgent fact can outrank a longer flash. */
+export function chooseBattleMessage(notice: Notice | null, guide: BattleGuide, placing: boolean) {
+  const visible = !placing && notice && (guide.priority ?? -1) <= notice.priority ? notice : null;
+  return {
+    content: visible ?? guide,
+    tone: placing ? 'place' : (visible?.kind ?? ((guide.priority ?? 0) > 0 ? 'signal' : 'idle')),
+  };
+}
+export function bindBattleNotices(
+  getGuide: () => BattleGuide = () => ({
+    title: 'Une petite armée, de grands courageux',
+    subtitle: 'Les soldats agissent seuls. À vous de préparer leurs meilleures chances.',
+  }),
+  forceGuide = () => false,
+) {
+  const panel = document.getElementById('encounter')!;
+  let previous = '';
+  return (notice: Notice | null) => {
+    const { content, tone } = chooseBattleMessage(notice, getGuide(), forceGuide());
+    const key = `${tone}:${content.title}:${content.subtitle}`;
+    if (key === previous) return;
+    previous = key;
+    panel.dataset.tone = tone;
+    document.getElementById('encounter-title')!.textContent = content.title;
+    document.getElementById('encounter-tip')!.textContent = content.subtitle;
+  };
+}

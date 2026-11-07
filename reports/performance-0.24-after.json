@@ -1,0 +1,154 @@
+{
+  "phase": "after",
+  "physicalDevice": false,
+  "synthetic": true,
+  "results": [
+    {
+      "graphics": {
+        "type": "WebGL",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "maxTextureSize": 8192
+      },
+      "profile": "normal",
+      "cpuMs": {
+        "count": 72,
+        "median": 0.3999999985098839,
+        "p95": 0.9000000059604645,
+        "mean": 0.49583333347820574
+      },
+      "frameMs": {
+        "count": 71,
+        "median": 33.5,
+        "p95": 47.600000001490116,
+        "mean": 33.83098591549296
+      },
+      "imagesCreated": 0,
+      "imagesDestroyed": 0,
+      "textsCreated": 0,
+      "textsDestroyed": 0,
+      "drawCallsPerFrame": 1,
+      "displayImages": 88,
+      "jsHeapUsedBytes": 14944884,
+      "stateHash": "036709d238c4dbd2b2482959b86746d43229073f4d0e68b9e89b283d684bc4b9"
+    },
+    {
+      "graphics": {
+        "type": "WebGL",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "maxTextureSize": 8192
+      },
+      "profile": "busy",
+      "cpuMs": {
+        "count": 33,
+        "median": 1.2000000029802322,
+        "p95": 1.5,
+        "mean": 1.3090909087296687
+      },
+      "frameMs": {
+        "count": 32,
+        "median": 75.10000000149012,
+        "p95": 86.29999999701977,
+        "mean": 74.64999999990687
+      },
+      "imagesCreated": 0,
+      "imagesDestroyed": 0,
+      "textsCreated": 0,
+      "textsDestroyed": 0,
+      "drawCallsPerFrame": 2,
+      "displayImages": 343,
+      "jsHeapUsedBytes": 12475048,
+      "stateHash": "f6efd7c27f736b77a40c718b79b65c0b75d355b5ccd12c3c8fc368c78d2cd390"
+    },
+    {
+      "graphics": {
+        "type": "WebGL",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "maxTextureSize": 8192
+      },
+      "profile": "turnover-8",
+      "acknowledgedGenerations": 8,
+      "jsHeapUsedBytes": 17046636,
+      "imagesCreated": 324,
+      "imagesDestroyed": 0,
+      "textsCreated": 6,
+      "textsDestroyed": 0,
+      "cpuMs": {
+        "count": 35,
+        "median": 2.899999998509884,
+        "p95": 6.799999997019768,
+        "mean": 3.551428571130548
+      }
+    },
+    {
+      "graphics": {
+        "type": "Canvas"
+      },
+      "profile": "normal",
+      "cpuMs": {
+        "count": 144,
+        "median": 0.29999999701976776,
+        "p95": 0.4000000059604645,
+        "mean": 0.3173611109248466
+      },
+      "frameMs": {
+        "count": 143,
+        "median": 16.69999999552965,
+        "p95": 16.80000000447035,
+        "mean": 16.665034965045386
+      },
+      "imagesCreated": 0,
+      "imagesDestroyed": 0,
+      "textsCreated": 0,
+      "textsDestroyed": 0,
+      "drawCallsPerFrame": 0,
+      "displayImages": 88,
+      "jsHeapUsedBytes": 11405520,
+      "stateHash": "036709d238c4dbd2b2482959b86746d43229073f4d0e68b9e89b283d684bc4b9"
+    },
+    {
+      "graphics": {
+        "type": "Canvas"
+      },
+      "profile": "busy",
+      "cpuMs": {
+        "count": 145,
+        "median": 1,
+        "p95": 1.5,
+        "mean": 1.1137931035510424
+      },
+      "frameMs": {
+        "count": 144,
+        "median": 16.69999999552965,
+        "p95": 17.5,
+        "mean": 16.665972222263616
+      },
+      "imagesCreated": 0,
+      "imagesDestroyed": 0,
+      "textsCreated": 0,
+      "textsDestroyed": 0,
+      "drawCallsPerFrame": 0,
+      "displayImages": 343,
+      "jsHeapUsedBytes": 19000580,
+      "stateHash": "f6efd7c27f736b77a40c718b79b65c0b75d355b5ccd12c3c8fc368c78d2cd390"
+    },
+    {
+      "graphics": {
+        "type": "Canvas"
+      },
+      "profile": "turnover-8",
+      "acknowledgedGenerations": 8,
+      "jsHeapUsedBytes": 18586916,
+      "imagesCreated": 324,
+      "imagesDestroyed": 0,
+      "textsCreated": 6,
+      "textsDestroyed": 0,
+      "cpuMs": {
+        "count": 92,
+        "median": 1.5999999940395355,
+        "p95": 2.5,
+        "mean": 1.7456521733623485
+      }
+    }
+  ],
+  "errors": []
+}

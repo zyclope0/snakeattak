@@ -1,0 +1,102 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Game } from '../src/game.ts';
+import { TOTAL_WAVES } from '../src/data.ts';
+import { waveBriefing } from '../src/waves.ts';
+
+test('douze vagues annoncées, introduction progressive et boss à la dernière', () => {
+  assert.equal(TOTAL_WAVES, 12);
+  assert.match(waveBriefing(3).tip, /rapide/i);
+  assert.match(waveBriefing(7).tip, /distance/i);
+  assert.match(waveBriefing(12).title, /roi/i);
+});
+test('les nouvelles unités se débloquent progressivement sans achat prématuré', () => {
+  const g = new Game();
+  g.gold = 2000;
+  assert.equal(g.recruit('dragon', 900, 300), false);
+  g.wave = 3;
+  assert.equal(g.recruit('dragon', 900, 300), true);
+  assert.equal(g.recruit('dino', 900, 400), false);
+  g.wave = 5;
+  assert.equal(g.recruit('dino', 900, 400), true);
+});
+test('le dragon souffle sur un groupe et la carapace réduit les dégâts', () => {
+  const g = new Game();
+  g.wave = 3;
+  g.gold = 1000;
+  g.recruit('dragon', 900, 300);
+  g.startWave();
+  g.step(0.05);
+  const a = g.enemies[0];
+  a.x = 850;
+  a.y = 300;
+  a.hp = 500;
+  a.maxHp = 500;
+  a.variant = 'armored';
+  const b = { ...a, id: 999, x: 865, y: 315, variant: 'normal' as const, path: [] };
+  g.enemies.push(b);
+  g.units = g.units.filter((u) => u.kind === 'dragon');
+  g.units[0].cool = 0;
+  g.step(0.05);
+  assert.ok(a.hp < 500 && b.hp < 500);
+  assert.ok(a.hp > b.hp);
+});
+test('les cracheurs peuvent attaquer à distance dans le camp', () => {
+  const g = new Game();
+  g.wave = 6;
+  g.startWave();
+  g.step(0.05);
+  const e = g.enemies[0];
+  e.variant = 'spitter';
+  e.x = 660;
+  e.y = 324;
+  e.cool = 0;
+  g.units = g.units.filter((u) => u.kind === 'hero');
+  g.units[0].x = 780;
+  g.units[0].y = 324;
+  const hp = g.units[0].hp;
+  g.step(0.05);
+  assert.ok(g.units[0].hp < hp);
+  assert.ok(g.effects.some((e) => e.kind === 'poison'));
+});
+
+test('le roi pond des œufs vivants qui doivent encore être repoussés', () => {
+  const g = new Game();
+  g.wave = 11;
+  g.startWave();
+  g.step(0.05);
+  g.units = [];
+  g.eggs = [];
+  g.remaining = 0;
+  const king = g.enemies[0];
+  king.boss = true;
+  king.x = 684;
+  king.y = 324;
+  king.hp = 1000;
+  king.broodCool = 0;
+  g.step(0.05);
+  assert.equal(g.eggs.length, 1);
+  assert.equal(g.eggs[0].count, 2);
+  king.hp = 0;
+  g.step(0.05);
+  assert.equal(g.status, 'fighting');
+});
+
+test('le dinosaure combat au contact avec sa propre réserve de santé', () => {
+  const g = new Game();
+  g.wave = 5;
+  g.gold = 1000;
+  assert.equal(g.recruit('dino', 900, 300), true);
+  g.units = g.units.filter((u) => u.kind === 'dino');
+  assert.equal(g.units[0].hp, 500);
+  g.startWave();
+  g.step(0.05);
+  const e = g.enemies[0];
+  e.x = 870;
+  e.y = 300;
+  e.hp = 300;
+  e.maxHp = 300;
+  g.step(0.05);
+  assert.ok(e.hp < 300);
+  assert.ok(g.units[0].hp < 500);
+});

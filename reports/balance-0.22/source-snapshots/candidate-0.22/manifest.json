@@ -1,0 +1,97 @@
+{
+  "sourceHash": "1f2da8dce576b5864ba2ec02f1fe174edb9ef8344d66c9b218b5efcf26ff82e5",
+  "sourceFiles": [
+    {
+      "path": "src/ai.ts",
+      "sha256": "9e59bea0df18346db1be9535a5759256e545a38fc88fd5e0b9dcce6b7beb7d3c"
+    },
+    {
+      "path": "src/balanceTuning.ts",
+      "sha256": "4cd7a56760e33253b08681f6567df8dfc93cd6cf319bbd308acaf0d255bf0deb"
+    },
+    {
+      "path": "src/boss.ts",
+      "sha256": "f9b86d01c95607be20e420ebcd6e6c8eb43f7994eb25d19f9859fe1b98a84b71"
+    },
+    {
+      "path": "src/bossCourt.ts",
+      "sha256": "081b39bbe348466c00425a636f167a588135f268189f1fef22566924e5b1f8a8"
+    },
+    {
+      "path": "src/campLayout.ts",
+      "sha256": "e8acdb539eeeca7f84d394802f677fed2cb17dff14f4fe4ede967d8f9311c796"
+    },
+    {
+      "path": "src/campaignRules.ts",
+      "sha256": "20c615438365e9a815c28e557ff27ff24b6c7fcf514939a142a2aa86689a1ccf"
+    },
+    {
+      "path": "src/combatRules.ts",
+      "sha256": "9e4f92513250eb443a8758c46eeabedce6e79f5b86d566804cc425120dd84c4b"
+    },
+    {
+      "path": "src/data.ts",
+      "sha256": "3fd2b6d7b9c1202d4847991c2ba0aec13a5b4a967822349435e3903abf7f3518"
+    },
+    {
+      "path": "src/defenders.ts",
+      "sha256": "c54f8ed07172b0263554205c314b1d1209a60e133437bc278f08fc84950b94a4"
+    },
+    {
+      "path": "src/enemies.ts",
+      "sha256": "33df45ec818051c27fdfc3bdde61187114e009f88ace09f3e3ba3c13c3377993"
+    },
+    {
+      "path": "src/enemyAbilities.ts",
+      "sha256": "3d682e32f94c1bad934d44c4065d85491373b5946083f418102851c8ff22a65b"
+    },
+    {
+      "path": "src/flying.ts",
+      "sha256": "e094537c0104a0b656f8b52d34340c4bd3f983d2689444916fade195918b66bf"
+    },
+    {
+      "path": "src/game.ts",
+      "sha256": "6c1f7496154a9ad4098e2e1b1c0e978b99ef2a17dd6518efc3753cf596270a03"
+    },
+    {
+      "path": "src/healing.ts",
+      "sha256": "006b88928fed4fb97d5fe7ad433f62d4e278509d72659bf6868793ebf59b5c0a"
+    },
+    {
+      "path": "src/levels.ts",
+      "sha256": "a9b7717434f5e2b15d7357433e25b4c2f173488671e7927a3252bf155a2a743b"
+    },
+    {
+      "path": "src/missions.ts",
+      "sha256": "6739b6ea6f2fab22cec6e46f9c2b65374b579ca8650f836c4a190789ee10162f"
+    },
+    {
+      "path": "src/navigation.ts",
+      "sha256": "98ac65ecd6c029c99a9e462187848d4aedc3a281024b489071010a0444dd799b"
+    },
+    {
+      "path": "src/placement.ts",
+      "sha256": "52b0da5c3b2f359b5b906ad5ac561789f638b15115e4b78d83098e7acebd9c84"
+    },
+    {
+      "path": "src/rewards.ts",
+      "sha256": "5a8826941806d6bf71cc4e240e159fe72295fae01cdfadb4a4edae23ce6ce6c0"
+    },
+    {
+      "path": "src/routes.ts",
+      "sha256": "ab2d6c1a08dcf718603eeebbd9d016e35a1e1c92a8b2a7647779d72fc6134981"
+    },
+    {
+      "path": "src/tactics.ts",
+      "sha256": "cebf84bc12867db9484d8417df3388f9c20c078f07ebfb228f3b2168d6c9fab6"
+    },
+    {
+      "path": "src/unitRules.ts",
+      "sha256": "b762dc2b7a46095b1d24e054093f49cfb7d70e97604ed33b509bcfc8bfe8689d"
+    },
+    {
+      "path": "src/waves.ts",
+      "sha256": "5109d53d3b9e779ae38f8c1f26c53f70c7f373034c116111175bdf8ede92a8ed"
+    }
+  ]
+}

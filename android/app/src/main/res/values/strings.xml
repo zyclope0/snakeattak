@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">La Conquête des Serpents</string>
+    <string name="title_activity_main">La Conquête des Serpents</string>
+    <string name="package_name">com.conqueteserpents.famille</string>
+    <string name="custom_url_scheme">com.conqueteserpents.famille</string>
+</resources>

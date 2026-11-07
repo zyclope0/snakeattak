@@ -1,0 +1,101 @@
+{
+  "stage": "discovery2",
+  "resultsHash": "78c9dd6ddc3293b54d16ebdb21d7a70fda8d568258577dadd2a24bd55a6e0251",
+  "scoreHash": "fca74c252b25915b38a7a91d2ce0155e8e7868803a249c8b29ea2827bad81c88",
+  "discordances": [
+    {
+      "id": "baseline",
+      "newEarlyLosses": 0
+    },
+    {
+      "id": "boss-no-boost",
+      "newEarlyLosses": 0
+    },
+    {
+      "id": "mutant125",
+      "newEarlyLosses": 1
+    },
+    {
+      "id": "mutant150",
+      "newEarlyLosses": 0
+    },
+    {
+      "id": "mutant175",
+      "newEarlyLosses": 0
+    }
+  ],
+  "ranking": [
+    {
+      "id": "mutant175",
+      "eligible": true,
+      "score": 28.0625,
+      "parts": {
+        "familyTarget": 14.0625,
+        "strategySpread": 10,
+        "rangedExcess": 4.000000000000002,
+        "earlyRegression": 0,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.890625,
+      "medianBossSeconds": 18.299999999983356,
+      "rangedPeerGap": 0.15000000000000002
+    },
+    {
+      "id": "mutant150",
+      "eligible": true,
+      "score": 29.1875,
+      "parts": {
+        "familyTarget": 17.1875,
+        "strategySpread": 10,
+        "rangedExcess": 1.9999999999999996,
+        "earlyRegression": 0,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.921875,
+      "medianBossSeconds": 19.79999999999734,
+      "rangedPeerGap": 0.125
+    },
+    {
+      "id": "mutant125",
+      "eligible": true,
+      "score": 33.625,
+      "parts": {
+        "familyTarget": 12.5,
+        "strategySpread": 10,
+        "rangedExcess": 7.9999999999999964,
+        "earlyRegression": 3.125,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.875,
+      "medianBossSeconds": 18.299999999983356,
+      "rangedPeerGap": 0.19999999999999996
+    },
+    {
+      "id": "boss-no-boost",
+      "eligible": true,
+      "score": 52.25,
+      "parts": {
+        "familyTarget": 6.25,
+        "strategySpread": 30,
+        "rangedExcess": 16.000000000000004,
+        "earlyRegression": 0,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.8125,
+      "medianBossSeconds": 19.533333333348878,
+      "rangedPeerGap": 0.30000000000000004
+    }
+  ]
+}

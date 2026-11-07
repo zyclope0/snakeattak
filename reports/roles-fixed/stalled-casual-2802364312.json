@@ -1,0 +1,575 @@
+{
+  "profile": "casual",
+  "label": "Choix spontanés",
+  "seed": 2802364312,
+  "status": "timeout",
+  "wave": 7,
+  "activeSeconds": 488.5666666668109,
+  "prepSeconds": 70,
+  "baseEnd": 100,
+  "minBase": 100,
+  "baseDamage": 0,
+  "deaths": 6,
+  "deathKinds": {
+    "club": 3,
+    "shield": 1,
+    "wall": 1,
+    "ninja": 1
+  },
+  "purchases": {
+    "nurse": 2,
+    "ninja": 1,
+    "archer": 1,
+    "club": 1,
+    "shield": 3,
+    "wall": 3,
+    "knight": 1,
+    "dragon": 1,
+    "twohead": 1
+  },
+  "spent": 1800,
+  "repairs": 0,
+  "coinsEnd": 489,
+  "kills": 83,
+  "hatched": 22,
+  "honeyTurns": 21,
+  "reroutes": 53,
+  "waves": [
+    {
+      "wave": 1,
+      "seconds": 25.266666666667252,
+      "firstContact": 15.133333333333766,
+      "attackStateSeconds": 5.399999999999991,
+      "baseDamage": 0,
+      "kills": 7,
+      "deaths": 0,
+      "eggsHatched": 2,
+      "bossSeen": false
+    },
+    {
+      "wave": 2,
+      "seconds": 29.166666666665016,
+      "firstContact": 16.966666666665702,
+      "attackStateSeconds": 6.066666666666655,
+      "baseDamage": 0,
+      "kills": 8,
+      "deaths": 0,
+      "eggsHatched": 2,
+      "bossSeen": false
+    },
+    {
+      "wave": 3,
+      "seconds": 32.299999999998164,
+      "firstContact": 11.466666666666015,
+      "attackStateSeconds": 8.299999999999981,
+      "baseDamage": 0,
+      "kills": 10,
+      "deaths": 0,
+      "eggsHatched": 2,
+      "bossSeen": false
+    },
+    {
+      "wave": 4,
+      "seconds": 27.89999999999843,
+      "firstContact": 9.899999999999451,
+      "attackStateSeconds": 12.3333333333333,
+      "baseDamage": 0,
+      "kills": 13,
+      "deaths": 0,
+      "eggsHatched": 4,
+      "bossSeen": false
+    },
+    {
+      "wave": 5,
+      "seconds": 33.99999999999807,
+      "firstContact": 6.999999999999602,
+      "attackStateSeconds": 25.86666666666711,
+      "baseDamage": 0,
+      "kills": 14,
+      "deaths": 1,
+      "eggsHatched": 4,
+      "bossSeen": false
+    },
+    {
+      "wave": 6,
+      "seconds": 99.93333333337245,
+      "firstContact": 8.866666666666163,
+      "attackStateSeconds": 88.09999999999756,
+      "baseDamage": 0,
+      "kills": 16,
+      "deaths": 4,
+      "eggsHatched": 4,
+      "bossSeen": false
+    },
+    {
+      "wave": 7,
+      "seconds": 240.00000000011153,
+      "firstContact": 10.533333333341716,
+      "attackStateSeconds": 225.9666666666564,
+      "baseDamage": 0,
+      "kills": 15,
+      "deaths": 1,
+      "eggsHatched": 4,
+      "bossSeen": false
+    }
+  ],
+  "formationSamples": 489,
+  "guardEdgeSum": 48.50595238095253,
+  "guardClusterSum": 279.6666666666681,
+  "stall": {
+    "units": [
+      {
+        "id": 3,
+        "kind": "hero",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 843.1135737062921,
+        "y": 320.3762569663152,
+        "hp": 330,
+        "maxHp": 330,
+        "cool": -294.5833333333521,
+        "path": [
+          {
+            "x": 852,
+            "y": 324
+          },
+          {
+            "x": 876,
+            "y": 324
+          },
+          {
+            "x": 900,
+            "y": 324
+          },
+          {
+            "x": 900,
+            "y": 348
+          },
+          {
+            "x": 900,
+            "y": 372
+          },
+          {
+            "x": 900,
+            "y": 396
+          },
+          {
+            "x": 900,
+            "y": 420
+          },
+          {
+            "x": 900,
+            "y": 444
+          },
+          {
+            "x": 900,
+            "y": 468
+          }
+        ],
+        "nav": 0.2833333333333334,
+        "boss": false,
+        "state": "idle",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 828,
+        "homeY": 324,
+        "turnY": null
+      },
+      {
+        "id": 4,
+        "kind": "nurse",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 636.0001480296512,
+        "y": 196.8000000005457,
+        "hp": 90,
+        "maxHp": 90,
+        "cool": 0.9333333333333333,
+        "path": [
+          {
+            "x": 636,
+            "y": 204
+          },
+          {
+            "x": 636,
+            "y": 180
+          },
+          {
+            "x": 660,
+            "y": 180
+          },
+          {
+            "x": 684,
+            "y": 180
+          },
+          {
+            "x": 708,
+            "y": 180
+          },
+          {
+            "x": 732,
+            "y": 180
+          }
+        ],
+        "nav": 0.01666666666666676,
+        "boss": false,
+        "state": "idle",
+        "facing": -1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 708,
+        "homeY": 156,
+        "turnY": null
+      },
+      {
+        "id": 14,
+        "kind": "archer",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 654.7571929720568,
+        "y": 515.6804104781571,
+        "hp": 95,
+        "maxHp": 95,
+        "cool": -205.73333333332423,
+        "path": [
+          {
+            "x": 636,
+            "y": 516
+          }
+        ],
+        "nav": 0.35000000000000003,
+        "boss": false,
+        "state": "idle",
+        "facing": -1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 636,
+        "homeY": 516,
+        "turnY": null
+      },
+      {
+        "id": 16,
+        "kind": "shield",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 878.5978157306826,
+        "y": 180.70707494349566,
+        "hp": 300,
+        "maxHp": 300,
+        "cool": -248.99999999998843,
+        "path": [],
+        "nav": 0.4166666666666667,
+        "boss": false,
+        "state": "idle",
+        "facing": -1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 972,
+        "homeY": 228,
+        "turnY": null
+      },
+      {
+        "id": 26,
+        "kind": "shield",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 803.9108477027543,
+        "y": 297.97849297729186,
+        "hp": 300,
+        "maxHp": 300,
+        "cool": -294.1000000000183,
+        "path": [
+          {
+            "x": 804,
+            "y": 300
+          }
+        ],
+        "nav": 0.15000000000000008,
+        "boss": false,
+        "state": "idle",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 804,
+        "homeY": 300,
+        "turnY": null
+      },
+      {
+        "id": 39,
+        "kind": "knight",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 929.8495651054768,
+        "y": 372.4077877938009,
+        "hp": 305.6,
+        "maxHp": 320,
+        "cool": -206.06666666665754,
+        "path": [
+          {
+            "x": 948,
+            "y": 372
+          }
+        ],
+        "nav": 0.45,
+        "boss": false,
+        "state": "idle",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 948,
+        "homeY": 372,
+        "turnY": null
+      },
+      {
+        "id": 56,
+        "kind": "wall",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 636,
+        "y": 324,
+        "hp": 440,
+        "maxHp": 440,
+        "cool": -403.93333333343907,
+        "path": [],
+        "nav": 0,
+        "boss": false,
+        "state": "idle",
+        "facing": -1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 636,
+        "homeY": 324,
+        "turnY": null
+      },
+      {
+        "id": 57,
+        "kind": "nurse",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 635.9999019363057,
+        "y": 222.0666666478061,
+        "hp": 90,
+        "maxHp": 90,
+        "cool": 0.2333333333333335,
+        "path": [
+          {
+            "x": 636,
+            "y": 204
+          },
+          {
+            "x": 636,
+            "y": 180
+          },
+          {
+            "x": 660,
+            "y": 180
+          },
+          {
+            "x": 684,
+            "y": 180
+          },
+          {
+            "x": 708,
+            "y": 180
+          },
+          {
+            "x": 732,
+            "y": 180
+          }
+        ],
+        "nav": 0.08333333333333343,
+        "boss": false,
+        "state": "idle",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 612,
+        "homeY": 228,
+        "turnY": null
+      },
+      {
+        "id": 74,
+        "kind": "dragon",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 860.7683527280694,
+        "y": 348.0000000001368,
+        "hp": 200,
+        "maxHp": 200,
+        "cool": -205.6999999999909,
+        "path": [
+          {
+            "x": 828,
+            "y": 348
+          }
+        ],
+        "nav": 0.45,
+        "boss": false,
+        "state": "idle",
+        "facing": -1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 876,
+        "homeY": 348,
+        "turnY": null
+      },
+      {
+        "id": 93,
+        "kind": "wall",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 732,
+        "y": 180,
+        "hp": 362,
+        "maxHp": 440,
+        "cool": -249.99999999998838,
+        "path": [],
+        "nav": 0,
+        "boss": false,
+        "state": "idle",
+        "facing": -1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 732,
+        "homeY": 180,
+        "turnY": null
+      },
+      {
+        "id": 94,
+        "kind": "twohead",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 641.9738931819319,
+        "y": 349.8589549429119,
+        "hp": 386,
+        "maxHp": 440,
+        "cool": -205.46666666665757,
+        "path": [
+          {
+            "x": 660,
+            "y": 348
+          }
+        ],
+        "nav": 0.01666666666666676,
+        "boss": false,
+        "state": "idle",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 660,
+        "homeY": 348,
+        "turnY": null
+      }
+    ],
+    "enemies": [
+      {
+        "id": 99,
+        "kind": "snake",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 694.3380829653346,
+        "y": 180.00000000000003,
+        "hp": 123,
+        "maxHp": 123,
+        "cool": 0.3500000000000001,
+        "path": [
+          {
+            "x": 708,
+            "y": 180
+          },
+          {
+            "x": 732,
+            "y": 180
+          },
+          {
+            "x": 756,
+            "y": 180
+          },
+          {
+            "x": 780,
+            "y": 180
+          },
+          {
+            "x": 804,
+            "y": 180
+          },
+          {
+            "x": 828,
+            "y": 180
+          }
+        ],
+        "nav": 0.35000000000000003,
+        "boss": false,
+        "state": "attack",
+        "facing": 1,
+        "lane": 0,
+        "stage": 4,
+        "homeX": 108,
+        "homeY": 468,
+        "turnY": null
+      },
+      {
+        "id": 110,
+        "kind": "snake",
+        "variant": "runner",
+        "broodCool": 10,
+        "charge": 0,
+        "x": 693.3780182443742,
+        "y": 180,
+        "hp": 79.95,
+        "maxHp": 79.95,
+        "cool": 0.85,
+        "path": [
+          {
+            "x": 708,
+            "y": 180
+          },
+          {
+            "x": 732,
+            "y": 180
+          },
+          {
+            "x": 756,
+            "y": 180
+          },
+          {
+            "x": 780,
+            "y": 180
+          },
+          {
+            "x": 804,
+            "y": 180
+          },
+          {
+            "x": 828,
+            "y": 180
+          }
+        ],
+        "nav": 0.11666666666666675,
+        "boss": false,
+        "state": "attack",
+        "facing": 1,
+        "lane": 0,
+        "stage": 4,
+        "homeX": 108,
+        "homeY": 468,
+        "turnY": null
+      }
+    ],
+    "eggs": [],
+    "remaining": 0
+  }
+}

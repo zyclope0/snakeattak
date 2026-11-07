@@ -1,0 +1,27 @@
+import { kinds } from './data.ts';
+import type { Kind } from './data.ts';
+
+export type Roster = Kind[];
+// Favourites only: recruitment still uses Game's prices, placement and wave locks.
+export const DEFAULT_ROSTERS: [Roster, Roster, Roster] = [
+  ['club', 'shield', 'nurse', 'archer', 'ninja', 'medic', 'dragon', 'knight'],
+  ['club', 'nurse', 'raptor', 'triceratops', 'stegosaurus', 'dino', 'trex', 'dragon'],
+  ['club', 'nurse', 'ninja', 'raptor', 'archer', 'cavalry', 'bat', 'mutantStretch'],
+];
+export const ROSTER_NAMES = ['Équilibrée', 'Dinos', 'Vive'] as const;
+export const freshRosters = (): [Roster, Roster, Roster] => [
+  [...DEFAULT_ROSTERS[0]],
+  [...DEFAULT_ROSTERS[1]],
+  [...DEFAULT_ROSTERS[2]],
+];
+/** Accept only eight distinct existing recruits; the hero is never recruitable. */
+export function isRoster(raw: unknown): raw is Roster {
+  return (
+    Array.isArray(raw) &&
+    raw.length === 8 &&
+    [...raw].every(
+      (kind) => typeof kind === 'string' && kind !== 'hero' && Object.hasOwn(kinds, kind),
+    ) &&
+    new Set(raw).size === 8
+  );
+}

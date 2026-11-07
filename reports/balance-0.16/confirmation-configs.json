@@ -1,0 +1,66 @@
+[
+  {
+    "id": "baseline",
+    "tuning": {
+      "bossEnabled": false,
+      "bossHpMultiplier": 6,
+      "bossShieldFraction": 0,
+      "bossShieldRangedFactor": 0.55,
+      "bossShieldMeleeFactor": 1.4,
+      "bossShotDamage": 0,
+      "bossShotInterval": 6,
+      "bossShotWindup": 1.6,
+      "bossShotRadius": 42,
+      "bossShotRange": 260,
+      "splashSecondaryFactor": 1
+    }
+  },
+  {
+    "id": "shield-focus",
+    "tuning": {
+      "bossEnabled": true,
+      "bossHpMultiplier": 6.5,
+      "bossShieldFraction": 0.12,
+      "bossShieldRangedFactor": 0.45,
+      "bossShieldMeleeFactor": 1.6,
+      "bossShotDamage": 18,
+      "bossShotInterval": 7,
+      "bossShotWindup": 1.8,
+      "bossShotRadius": 38,
+      "bossShotRange": 260,
+      "splashSecondaryFactor": 1
+    }
+  },
+  {
+    "id": "lighter-splash",
+    "tuning": {
+      "bossEnabled": true,
+      "bossHpMultiplier": 6,
+      "bossShieldFraction": 0.08,
+      "bossShieldRangedFactor": 0.65,
+      "bossShieldMeleeFactor": 1.5,
+      "bossShotDamage": 24,
+      "bossShotInterval": 6.5,
+      "bossShotWindup": 1.8,
+      "bossShotRadius": 42,
+      "bossShotRange": 260,
+      "splashSecondaryFactor": 0.55
+    }
+  },
+  {
+    "id": "soft",
+    "tuning": {
+      "bossEnabled": true,
+      "bossHpMultiplier": 6,
+      "bossShieldFraction": 0.08,
+      "bossShieldRangedFactor": 0.7,
+      "bossShieldMeleeFactor": 1.4,
+      "bossShotDamage": 22,
+      "bossShotInterval": 6.5,
+      "bossShotWindup": 1.8,
+      "bossShotRadius": 38,
+      "bossShotRange": 260,
+      "splashSecondaryFactor": 0.85
+    }
+  }
+]

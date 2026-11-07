@@ -1,0 +1,30 @@
+{
+  "project": "La Conquête des Serpents",
+  "version": "0.23.0",
+  "provider": "Magnific",
+  "model": "Google Nano Banana 2.1",
+  "credits": 133,
+  "assets": [
+    {
+      "file": "src/assets/illustrated/ground-three-bridges.webp",
+      "creation": "eI7u6vTdqL",
+      "webUrl": "https://www.magnific.com/app/creation/eI7u6vTdqL",
+      "credits": 65,
+      "prompt": "Production background texture for the family game La Conquête des Serpents. Follow the reference's handcrafted paper-clay miniature storybook material and moss/sage/cream palette, but substantially improve gameplay readability. Wide 16:9 view looking down at a shallow angle, fills frame, NO horizon. A very spacious irregular woodland clearing fills 90% of the image: softly mottled desaturated cool sage and pale moss velvety short grass, LARGE QUIET AREAS with minimal fine texture, soft dappled light, no dark patches in center, no rectangle or vignette overlay. The central open area spans x=3%-97%, y=16%-88%; left and right edges remain open for game buildings and lanes. ONLY along the extreme upper and bottom 8% edges: sparse clusters of small clay ferns, rounded moss stones and miniature low paper foliage in varied sizes, gentle feathered edges blending into open grass. No giant tree trunks, no huge canopies, no flowers or orange/red leaves, no repetitive fence posts. Rich crafted edges, calm muted center that will make warm colorful unit sprites and pale stone pathways read clearly. This is a GAME LAYER, not a completed level: absolutely NO paths, bridges, fences, buildings, caves, forts, actors, characters, eggs, UI, text, writing, icons, labels, grids or frames. Uniform overhead lighting, broad soft texture at game zoom; premium tactile diorama, not photorealistic."
+    },
+    {
+      "file": "src/assets/illustrated/props-three-bridges.webp",
+      "creation": "9ZE0KGfNYZ",
+      "webUrl": "https://www.magnific.com/app/creation/9ZE0KGfNYZ",
+      "credits": 65,
+      "prompt": "A production sprite atlas of FOUR terrain props for La Conquête des Serpents family tower defense. Match the reference's high quality handcrafted miniature, clay sculpted paper storybook diorama aesthetic. Exact 2x2 contact sheet on a flat pure white backdrop. All four assets isolated, complete, separated and centered within their own equal square quadrant with wide 12% clear margins. Consistent camera looking down from about 50 degrees, no perspective horizon. TOP LEFT: ONE short sturdy horizontal east-west crossing bridge, pale limestone slab deck with exactly two low carved stone parapets, deck left and right ends completely open and visibly aligned horizontally; simple readable geometric silhouette, a little cool moss; no trees growing on bridge, no diagonal rotated bridge, no dark portal, no water. TOP RIGHT: a low compact tuft of three small sage-green folded paper ferns, no huge tree. BOTTOM LEFT: a low rounded blue-green mossy shrub with a couple of small leaves, not a tree. BOTTOM RIGHT: a small natural pile of two mossy grey stones with a single pale seedling. Props should be miniature and friendly with clean separated silhouette, moderate details that read at 70px, muted cool greens and neutral stone, no orange/red, no animals, no characters, no text, no UI, no ground tile, no checkered background, no attached cast shadow. Each isolated prop is fully within quadrant. Strict 2 rows 2 columns.",
+      "backgroundRemoval": {
+        "creation": "xSp9tkojfW",
+        "credits": 3
+      },
+      "processing": "Alpha fourni par Magnific. Découpage technique en quatre cases, suppression des marges transparentes et rangement dans un atlas 1024²; aucune peinture locale."
+    }
+  ],
+  "reference": "ground-clearing.webp existant, importé comme référence de style; acteurs existants conservés.",
+  "review": "Fond sans texte ni chemins générés; quatre props entiers et séparés; détourage inspecté sur fond vert; bridge horizontal; deux WebP locaux, aucune URL de fournisseur requise au jeu."
+}

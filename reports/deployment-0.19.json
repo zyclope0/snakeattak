@@ -1,0 +1,37 @@
+{
+  "version": "0.19.0",
+  "deployment": {
+    "id": "appgdep_6aea75fff5dc819185d9605dc4c53198",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "title": "La Conqu\u00eate des Serpents",
+    "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_36013f6151188191837c47a4e561128b",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-04T00:02:21.779712+00:00"
+  },
+  "source": {
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "commit_sha": "1531caa63fc69aa66fd8a647543d1955829d9e41",
+    "archive": "/workspace/serpents-site-019.tar",
+    "archiveSha256": "9165fcdff01fc7102a9e2dd2ba4dde985bee80a3decb6dc805edb5c4b75ffbed"
+  },
+  "access": {
+    "mode": "custom",
+    "role": "owner",
+    "ownerOnly": true,
+    "authenticatedBrowserTested": false
+  },
+  "verification": "reports/verification-0.19.json",
+  "externalHttpProbe": {
+    "status": 403,
+    "providerCode": 1010,
+    "authenticated": false
+  },
+  "gameplayBackend": false
+}

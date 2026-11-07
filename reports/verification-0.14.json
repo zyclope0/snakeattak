@@ -1,0 +1,148 @@
+{
+  "version": "0.14.0",
+  "checkedAt": "2026-11-03T17:25:00.410025+00:00",
+  "simulationSourceHash": "3f862fa9ce0793eab57e2bc48abc22d7ffe15276d21c09d07dfef549b026155d",
+  "nativeTests": {
+    "passed": 141,
+    "failed": 0
+  },
+  "browser": {
+    "web": true,
+    "portableFile": true,
+    "pageErrors": [],
+    "desktop": true,
+    "touchEmulation": true,
+    "physicalDevicesTested": false
+  },
+  "presentationScenarios": 13,
+  "render": {
+    "scenario": "Chromium, 21 illustrated allies and outlines, 1440px",
+    "rafMilliseconds": {
+      "count": 76,
+      "median": 33.30000000000018,
+      "p95": 50
+    },
+    "clickMs": 452,
+    "screenshotMs": 749,
+    "physicalDevice": false,
+    "contextRestore": true,
+    "restoredLayers": [
+      "terrain",
+      "fort",
+      "den"
+    ]
+  },
+  "balance": [
+    {
+      "directory": "final-0.14-lure",
+      "games": 100,
+      "wins": 83,
+      "timeouts": 0,
+      "honeyPolicy": "lure",
+      "rosterPolicy": "classic"
+    },
+    {
+      "directory": "final-0.14-expanded",
+      "games": 100,
+      "wins": 70,
+      "timeouts": 0,
+      "honeyPolicy": "alternating",
+      "rosterPolicy": "expanded"
+    }
+  ],
+  "review": {
+    "criticalOpen": 0,
+    "importantOpen": 0,
+    "resolved": "rattlesnake confusion at bridge exit",
+    "decision": "shield protection remains passive during hesitation"
+  },
+  "artCredits": 832,
+  "assets": [
+    {
+      "file": "allies-creatures.webp",
+      "bytes": 511150,
+      "sha256": "14b4d80542cff3862826deabc0d22539c0355eb8b037f6b77a0bd711a0b861bb"
+    },
+    {
+      "file": "allies-dinosaurs.webp",
+      "bytes": 684408,
+      "sha256": "ed25414cc1d046fcc0ff3575fe50f88ca7c6025684df7cf9b552bd9d640500b3"
+    },
+    {
+      "file": "allies-elite.webp",
+      "bytes": 544860,
+      "sha256": "1687ff06a3e07b176f6a16414f28857dabbeed29e3ee95efd8feef29f4677825"
+    },
+    {
+      "file": "allies-front.webp",
+      "bytes": 572236,
+      "sha256": "d1044629f7ab99e352f8327730cc88c5f0bc2491ac60c44a0f3d9dee74f14e99"
+    },
+    {
+      "file": "allies-mutants.webp",
+      "bytes": 406624,
+      "sha256": "69bf45f99d2f81350b9dc4abe7f12559d34477eb113e0f9702a6528f8aafe342"
+    },
+    {
+      "file": "allies-support.webp",
+      "bytes": 582990,
+      "sha256": "841806797d1c830445773600ef7fdb8aad6a9668de76a40e8aa7125326f3c63b"
+    },
+    {
+      "file": "enemies-mechanical.webp",
+      "bytes": 559602,
+      "sha256": "5b8bb544925dae8e17d8895f7e4bff86d2d75e9257d7d9fa0a87c26e8e8fb2d9"
+    },
+    {
+      "file": "enemies-organic.webp",
+      "bytes": 647204,
+      "sha256": "8957a251e98c4a2675981bc5cff263b1ea76d1033c056951e44e45e8d9d001a5"
+    },
+    {
+      "file": "ground-clearing.webp",
+      "bytes": 521614,
+      "sha256": "79f10a2cc167d4154e95e22afe0ab3db8167783073e34fa48b6cc61ed47c905a"
+    },
+    {
+      "file": "ground-grove.webp",
+      "bytes": 593130,
+      "sha256": "d85295dd62b37e07c15346c6d5621ec9d68fd3c9c9da14dabe74038647b4f416"
+    },
+    {
+      "file": "ground-ruins.webp",
+      "bytes": 610788,
+      "sha256": "0f4e22f8ff17cfa2c579fd5b44207682a706f26488ab28b370ba5b26e809f8ac"
+    },
+    {
+      "file": "interface-craft.webp",
+      "bytes": 415986,
+      "sha256": "14a3d2120e73cf1017a4f99bece5193be6db14f290607020865a52c6291a6d37"
+    },
+    {
+      "file": "miels-parapluie.webp",
+      "bytes": 336234,
+      "sha256": "9a3b92e44025e3e3634c4110919d0d0a129b11840ffe24082f44407d78f89f8a"
+    },
+    {
+      "file": "serpents-family.webp",
+      "bytes": 580330,
+      "sha256": "370a8b1bf1cd63eb12a4553098ad491dd9d995304172173d0332bb0cd39c88ce"
+    },
+    {
+      "file": "strongholds.webp",
+      "bytes": 792264,
+      "sha256": "9c0f0d4d22e398c868635a3cbe0a585752fcf5984b673b5faf59ad73c96a8604"
+    },
+    {
+      "file": "terrain-props.webp",
+      "bytes": 689720,
+      "sha256": "2045cfdefbd962fc4541659aa25f40c3ad2388ada1ea8461f28610b3df770ddd"
+    }
+  ],
+  "assetBytes": 9049140,
+  "limitations": [
+    "Ranged bot strategy wins20/20; perfect balance not claimed.",
+    "Two campaign sets change both roster and honey policies.",
+    "Chromium cloud/emulation only; no physical Safari/iOS run."
+  ]
+}

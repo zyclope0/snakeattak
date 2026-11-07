@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Game } from '../src/game.ts';
+import { createCampMemory } from '../src/campMemory.ts';
+test('une tentative garde son dernier camp en mémoire quand le stockage est indisponible', () => {
+  const memory = createCampMemory();
+  const g = new Game(14);
+  g.recruit('ninja', 900, 324);
+  memory.remember(g);
+  g.startWave();
+  g.gold = 0;
+  g.units = [];
+  g.status = 'lost';
+  memory.remember(g);
+  const restored = memory.load()!;
+  assert.ok(restored);
+  assert.equal(restored.status, 'preparing');
+  assert.equal(restored.gold, 150);
+  assert.equal(restored.units.length, 4);
+  restored.units.pop();
+  assert.equal(memory.load()!.units.length, 4);
+});

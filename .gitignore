@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.DS_Store
+dist-portable/
+artifacts/
+coverage/
+.presentation-test.html
+
+.tactical-022-test.html

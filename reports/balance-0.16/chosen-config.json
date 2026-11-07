@@ -1,0 +1,26 @@
+{
+  "decidedAt": "2026-11-03T20:11:59.133744+00:00",
+  "selectedTrainingId": "mutant175",
+  "trainingResultsHash": "1b787525224ebac151f1e132d48b5b8bce293f03298ace62b6bb5597c99ac28d",
+  "scoreHash": "fca74c252b25915b38a7a91d2ce0155e8e7868803a249c8b29ea2827bad81c88",
+  "reason": "Best confirmation2 score (close margin); mutants10/12 vs4/12 control, early losses1 vs7, casual12/12 vs11/12. Prefer family viability over forcing the pooled win rate toward75%. No holdout outcomes available at decision.",
+  "holdoutResultsReadAtDecision": false,
+  "shipped": {
+    "id": "shipped-016",
+    "tuning": {
+      "bossEnabled": true,
+      "bossHpMultiplier": 6.5,
+      "bossShieldFraction": 0.12,
+      "bossShieldRangedFactor": 0.45,
+      "bossShieldMeleeFactor": 1.6,
+      "bossShotDamage": 18,
+      "bossShotInterval": 7,
+      "bossShotWindup": 1.8,
+      "bossShotRadius": 38,
+      "bossShotRange": 260,
+      "splashSecondaryFactor": 1,
+      "mutantDamageFactor": 1.75
+    },
+    "useDefault": true
+  }
+}

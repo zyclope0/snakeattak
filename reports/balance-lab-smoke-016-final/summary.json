@@ -1,0 +1,1422 @@
+{
+  "stage": "discovery",
+  "configs": [
+    {
+      "id": "smoke",
+      "games": 8,
+      "wins": 7,
+      "losses": 1,
+      "timeouts": 0,
+      "errors": 0,
+      "winRate": 0.875,
+      "winWilson95": {
+        "low": 0.5291118177871464,
+        "high": 0.9775825085499433
+      },
+      "earlyLosses": 1,
+      "meanLastWave": 11.875,
+      "meanDeaths": 16.75,
+      "meanGoldEnd": 528.625,
+      "bossSeen": 7,
+      "bossEntered": 7,
+      "bossKilled": 7,
+      "medianBossSeconds": 14.399999999986903,
+      "p90BossSeconds": 21.766666666656988,
+      "meanShieldsBroken": 3,
+      "meanShotsFired": 2,
+      "bossDurationCensored": 0,
+      "medianActiveSeconds": 427.0000000001235,
+      "p90ActiveSeconds": 457.5000000000958,
+      "waves": [
+        {
+          "wave": 1,
+          "runs": 8,
+          "medianSeconds": 25.733333333333892,
+          "p90Seconds": 27.06666666666715
+        },
+        {
+          "wave": 2,
+          "runs": 8,
+          "medianSeconds": 24.1666666666653,
+          "p90Seconds": 27.233333333331792
+        },
+        {
+          "wave": 3,
+          "runs": 8,
+          "medianSeconds": 22.433333333332058,
+          "p90Seconds": 26.833333333331808
+        },
+        {
+          "wave": 4,
+          "runs": 8,
+          "medianSeconds": 27.399999999998457,
+          "p90Seconds": 31.966666666664864
+        },
+        {
+          "wave": 5,
+          "runs": 8,
+          "medianSeconds": 29.19999999999834,
+          "p90Seconds": 33.83333333333141
+        },
+        {
+          "wave": 6,
+          "runs": 8,
+          "medianSeconds": 33.43333333333143,
+          "p90Seconds": 45.1666666666641
+        },
+        {
+          "wave": 7,
+          "runs": 8,
+          "medianSeconds": 36.53333333334726,
+          "p90Seconds": 42.00000000001367
+        },
+        {
+          "wave": 8,
+          "runs": 8,
+          "medianSeconds": 33.40000000002658,
+          "p90Seconds": 63.200000000050295
+        },
+        {
+          "wave": 9,
+          "runs": 8,
+          "medianSeconds": 33.53333333336002,
+          "p90Seconds": 37.50000000002984
+        },
+        {
+          "wave": 10,
+          "runs": 8,
+          "medianSeconds": 49.000000000038995,
+          "p90Seconds": 52.10000000004146
+        },
+        {
+          "wave": 11,
+          "runs": 8,
+          "medianSeconds": 36.766666666695926,
+          "p90Seconds": 42.23333333336694
+        },
+        {
+          "wave": 12,
+          "runs": 7,
+          "medianSeconds": 58.033333333319774,
+          "p90Seconds": 73.06666666660021
+        }
+      ],
+      "profiles": [
+        {
+          "profile": "mixed",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 1,
+          "winWilson95": {
+            "low": 0.20654931437723745,
+            "high": 1
+          },
+          "earlyLosses": 0,
+          "meanLastWave": 12,
+          "meanDeaths": 20,
+          "meanGoldEnd": 651,
+          "bossSeen": 1,
+          "bossEntered": 1,
+          "bossKilled": 1,
+          "medianBossSeconds": 21.766666666656988,
+          "p90BossSeconds": 21.766666666656988,
+          "meanShieldsBroken": 3,
+          "meanShotsFired": 3,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 409.0000000001399,
+          "p90ActiveSeconds": 409.0000000001399,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 27.06666666666715,
+              "p90Seconds": 27.06666666666715
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 28.8333333333317,
+              "p90Seconds": 28.8333333333317
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 21.933333333332087,
+              "p90Seconds": 21.933333333332087
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 25.63333333333189,
+              "p90Seconds": 25.63333333333189
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 27.5666666666651,
+              "p90Seconds": 27.5666666666651
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 37.23333333333122,
+              "p90Seconds": 37.23333333333122
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 36.53333333334726,
+              "p90Seconds": 36.53333333334726
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 33.40000000002658,
+              "p90Seconds": 33.40000000002658
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 43.46666666670126,
+              "p90Seconds": 43.46666666670126
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 41.36666666669959,
+              "p90Seconds": 41.36666666669959
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 32.90000000002618,
+              "p90Seconds": 32.90000000002618
+            },
+            {
+              "wave": 12,
+              "runs": 1,
+              "medianSeconds": 53.06666666667985,
+              "p90Seconds": 53.06666666667985
+            }
+          ]
+        },
+        {
+          "profile": "melee",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 1,
+          "winWilson95": {
+            "low": 0.20654931437723745,
+            "high": 1
+          },
+          "earlyLosses": 0,
+          "meanLastWave": 12,
+          "meanDeaths": 24,
+          "meanGoldEnd": 571,
+          "bossSeen": 1,
+          "bossEntered": 1,
+          "bossKilled": 1,
+          "medianBossSeconds": 14.399999999986903,
+          "p90BossSeconds": 14.399999999986903,
+          "meanShieldsBroken": 3,
+          "meanShotsFired": 2,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 452.6666666667684,
+          "p90ActiveSeconds": 452.6666666667684,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 22.566666666667405,
+              "p90Seconds": 22.566666666667405
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 23.799999999998654,
+              "p90Seconds": 23.799999999998654
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 26.833333333331808,
+              "p90Seconds": 26.833333333331808
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 27.03333333333181,
+              "p90Seconds": 27.03333333333181
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 29.19999999999834,
+              "p90Seconds": 29.19999999999834
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 33.43333333333143,
+              "p90Seconds": 33.43333333333143
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 42.00000000001367,
+              "p90Seconds": 42.00000000001367
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 63.200000000050295,
+              "p90Seconds": 63.200000000050295
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 34.10000000002714,
+              "p90Seconds": 34.10000000002714
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 49.60000000003947,
+              "p90Seconds": 49.60000000003947
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 41.10000000003271,
+              "p90Seconds": 41.10000000003271
+            },
+            {
+              "wave": 12,
+              "runs": 1,
+              "medianSeconds": 59.79999999994561,
+              "p90Seconds": 59.79999999994561
+            }
+          ]
+        },
+        {
+          "profile": "ranged",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 1,
+          "winWilson95": {
+            "low": 0.20654931437723745,
+            "high": 1
+          },
+          "earlyLosses": 0,
+          "meanLastWave": 12,
+          "meanDeaths": 8,
+          "meanGoldEnd": 486,
+          "bossSeen": 1,
+          "bossEntered": 1,
+          "bossKilled": 1,
+          "medianBossSeconds": 12.899999999988268,
+          "p90BossSeconds": 12.899999999988268,
+          "meanShieldsBroken": 3,
+          "meanShotsFired": 1,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 427.0000000001235,
+          "p90ActiveSeconds": 427.0000000001235,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 27.06666666666715,
+              "p90Seconds": 27.06666666666715
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 24.299999999998626,
+              "p90Seconds": 24.299999999998626
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 23.533333333331996,
+              "p90Seconds": 23.533333333331996
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 27.999999999998423,
+              "p90Seconds": 27.999999999998423
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 33.53333333333143,
+              "p90Seconds": 33.53333333333143
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 45.1666666666641,
+              "p90Seconds": 45.1666666666641
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 35.66666666669127,
+              "p90Seconds": 35.66666666669127
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 32.400000000025784,
+              "p90Seconds": 32.400000000025784
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 33.53333333336002,
+              "p90Seconds": 33.53333333336002
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 49.000000000038995,
+              "p90Seconds": 49.000000000038995
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 36.766666666695926,
+              "p90Seconds": 36.766666666695926
+            },
+            {
+              "wave": 12,
+              "runs": 1,
+              "medianSeconds": 58.033333333319774,
+              "p90Seconds": 58.033333333319774
+            }
+          ]
+        },
+        {
+          "profile": "heavy",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 1,
+          "winWilson95": {
+            "low": 0.20654931437723745,
+            "high": 1
+          },
+          "earlyLosses": 0,
+          "meanLastWave": 12,
+          "meanDeaths": 21,
+          "meanGoldEnd": 545,
+          "bossSeen": 1,
+          "bossEntered": 1,
+          "bossKilled": 1,
+          "medianBossSeconds": 32.49999999997044,
+          "p90BossSeconds": 32.49999999997044,
+          "meanShieldsBroken": 3,
+          "meanShotsFired": 5,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 457.5000000000958,
+          "p90ActiveSeconds": 457.5000000000958,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 25.70000000000056,
+              "p90Seconds": 25.70000000000056
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 24.1666666666653,
+              "p90Seconds": 24.1666666666653
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 22.066666666665412,
+              "p90Seconds": 22.066666666665412
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 31.966666666664864,
+              "p90Seconds": 31.966666666664864
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 33.83333333333141,
+              "p90Seconds": 33.83333333333141
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 42.8333333333309,
+              "p90Seconds": 42.8333333333309
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 46.66666666669914,
+              "p90Seconds": 46.66666666669914
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 32.300000000025705,
+              "p90Seconds": 32.300000000025705
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 33.1333333333597,
+              "p90Seconds": 33.1333333333597
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 50.43333333337347,
+              "p90Seconds": 50.43333333337347
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 39.566666666698154,
+              "p90Seconds": 39.566666666698154
+            },
+            {
+              "wave": 12,
+              "runs": 1,
+              "medianSeconds": 74.83333333328113,
+              "p90Seconds": 74.83333333328113
+            }
+          ]
+        },
+        {
+          "profile": "dinosaurs",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 1,
+          "winWilson95": {
+            "low": 0.20654931437723745,
+            "high": 1
+          },
+          "earlyLosses": 0,
+          "meanLastWave": 12,
+          "meanDeaths": 18,
+          "meanGoldEnd": 572,
+          "bossSeen": 1,
+          "bossEntered": 1,
+          "bossKilled": 1,
+          "medianBossSeconds": 6.166666666671574,
+          "p90BossSeconds": 6.166666666671574,
+          "meanShieldsBroken": 3,
+          "meanShotsFired": 0,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 368.5666666668034,
+          "p90ActiveSeconds": 368.5666666668034,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 25.733333333333892,
+              "p90Seconds": 25.733333333333892
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 23.566666666665334,
+              "p90Seconds": 23.566666666665334
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 21.733333333332098,
+              "p90Seconds": 21.733333333332098
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 25.699999999998553,
+              "p90Seconds": 25.699999999998553
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 27.83333333333175,
+              "p90Seconds": 27.83333333333175
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 29.933333333331632,
+              "p90Seconds": 29.933333333331632
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 32.966666666666015,
+              "p90Seconds": 32.966666666666015
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 32.233333333358985,
+              "p90Seconds": 32.233333333358985
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 28.86666666668964,
+              "p90Seconds": 28.86666666668964
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 40.96666666669927,
+              "p90Seconds": 40.96666666669927
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 35.63333333336169,
+              "p90Seconds": 35.63333333336169
+            },
+            {
+              "wave": 12,
+              "runs": 1,
+              "medianSeconds": 43.40000000003454,
+              "p90Seconds": 43.40000000003454
+            }
+          ]
+        },
+        {
+          "profile": "mutants",
+          "games": 1,
+          "wins": 0,
+          "losses": 1,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 0,
+          "winWilson95": {
+            "low": 0,
+            "high": 0.7934506856227626
+          },
+          "earlyLosses": 1,
+          "meanLastWave": 11,
+          "meanDeaths": 28,
+          "meanGoldEnd": 77,
+          "bossSeen": 0,
+          "bossEntered": 0,
+          "bossKilled": 0,
+          "medianBossSeconds": null,
+          "p90BossSeconds": null,
+          "meanShieldsBroken": null,
+          "meanShotsFired": null,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 382.7666666668147,
+          "p90ActiveSeconds": 382.7666666668147,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 25.733333333333892,
+              "p90Seconds": 25.733333333333892
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 23.566666666665334,
+              "p90Seconds": 23.566666666665334
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 22.433333333332058,
+              "p90Seconds": 22.433333333332058
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 31.833333333331538,
+              "p90Seconds": 31.833333333331538
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 29.933333333331632,
+              "p90Seconds": 29.933333333331632
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 32.566666666664815,
+              "p90Seconds": 32.566666666664815
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 37.86666666667978,
+              "p90Seconds": 37.86666666667978
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 40.66666666669903,
+              "p90Seconds": 40.66666666669903
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 37.50000000002984,
+              "p90Seconds": 37.50000000002984
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 52.86666666670874,
+              "p90Seconds": 52.86666666670874
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 47.80000000003804,
+              "p90Seconds": 47.80000000003804
+            },
+            {
+              "wave": 12,
+              "runs": 0,
+              "medianSeconds": null,
+              "p90Seconds": null
+            }
+          ]
+        },
+        {
+          "profile": "casual",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 1,
+          "winWilson95": {
+            "low": 0.20654931437723745,
+            "high": 1
+          },
+          "earlyLosses": 0,
+          "meanLastWave": 12,
+          "meanDeaths": 7,
+          "meanGoldEnd": 551,
+          "bossSeen": 1,
+          "bossEntered": 1,
+          "bossKilled": 1,
+          "medianBossSeconds": 15.833333333318933,
+          "p90BossSeconds": 15.833333333318933,
+          "meanShieldsBroken": 3,
+          "meanShotsFired": 2,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 434.60000000011655,
+          "p90ActiveSeconds": 434.60000000011655,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 27.06666666666715,
+              "p90Seconds": 27.06666666666715
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 27.19999999999846,
+              "p90Seconds": 27.19999999999846
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 33.36666666666477,
+              "p90Seconds": 33.36666666666477
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 27.399999999998457,
+              "p90Seconds": 27.399999999998457
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 28.633333333331706,
+              "p90Seconds": 28.633333333331706
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 31.49999999999821,
+              "p90Seconds": 31.49999999999821
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 33.80000000001763,
+              "p90Seconds": 33.80000000001763
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 40.06666666669855,
+              "p90Seconds": 40.06666666669855
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 35.40000000002817,
+              "p90Seconds": 35.40000000002817
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 52.10000000004146,
+              "p90Seconds": 52.10000000004146
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 42.23333333336694,
+              "p90Seconds": 42.23333333336694
+            },
+            {
+              "wave": 12,
+              "runs": 1,
+              "medianSeconds": 55.83333333330506,
+              "p90Seconds": 55.83333333330506
+            }
+          ]
+        },
+        {
+          "profile": "clustered",
+          "games": 1,
+          "wins": 1,
+          "losses": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "winRate": 1,
+          "winWilson95": {
+            "low": 0.20654931437723745,
+            "high": 1
+          },
+          "earlyLosses": 0,
+          "meanLastWave": 12,
+          "meanDeaths": 8,
+          "meanGoldEnd": 776,
+          "bossSeen": 1,
+          "bossEntered": 1,
+          "bossKilled": 1,
+          "medianBossSeconds": 11.333333333323026,
+          "p90BossSeconds": 11.333333333323026,
+          "meanShieldsBroken": 3,
+          "meanShotsFired": 1,
+          "bossDurationCensored": 0,
+          "medianActiveSeconds": 497.20000000006814,
+          "p90ActiveSeconds": 497.20000000006814,
+          "waves": [
+            {
+              "wave": 1,
+              "runs": 1,
+              "medianSeconds": 26.60000000000051,
+              "p90Seconds": 26.60000000000051
+            },
+            {
+              "wave": 2,
+              "runs": 1,
+              "medianSeconds": 27.233333333331792,
+              "p90Seconds": 27.233333333331792
+            },
+            {
+              "wave": 3,
+              "runs": 1,
+              "medianSeconds": 26.63333333333182,
+              "p90Seconds": 26.63333333333182
+            },
+            {
+              "wave": 4,
+              "runs": 1,
+              "medianSeconds": 33.833333333331424,
+              "p90Seconds": 33.833333333331424
+            },
+            {
+              "wave": 5,
+              "runs": 1,
+              "medianSeconds": 40.06666666666439,
+              "p90Seconds": 40.06666666666439
+            },
+            {
+              "wave": 6,
+              "runs": 1,
+              "medianSeconds": 60.00000000001222,
+              "p90Seconds": 60.00000000001222
+            },
+            {
+              "wave": 7,
+              "runs": 1,
+              "medianSeconds": 41.933333333366704,
+              "p90Seconds": 41.933333333366704
+            },
+            {
+              "wave": 8,
+              "runs": 1,
+              "medianSeconds": 63.66666666671733,
+              "p90Seconds": 63.66666666671733
+            },
+            {
+              "wave": 9,
+              "runs": 1,
+              "medianSeconds": 30.76666666669115,
+              "p90Seconds": 30.76666666669115
+            },
+            {
+              "wave": 10,
+              "runs": 1,
+              "medianSeconds": 40.13333333336527,
+              "p90Seconds": 40.13333333336527
+            },
+            {
+              "wave": 11,
+              "runs": 1,
+              "medianSeconds": 33.26666666665534,
+              "p90Seconds": 33.26666666665534
+            },
+            {
+              "wave": 12,
+              "runs": 1,
+              "medianSeconds": 73.06666666660021,
+              "p90Seconds": 73.06666666660021
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "seeds": [
+    3023542743
+  ],
+  "profiles": [
+    "mixed",
+    "melee",
+    "ranged",
+    "heavy",
+    "dinosaurs",
+    "mutants",
+    "casual",
+    "clustered"
+  ],
+  "version": "0.15.0",
+  "nodeVersion": "v24.19.0",
+  "method": {
+    "stepHz": 30,
+    "preparationSeconds": 10,
+    "maxWaveSeconds": 240,
+    "purchaseInterval": 6,
+    "casualPurchaseInterval": 18,
+    "profiles": [
+      "mixed",
+      "melee",
+      "ranged",
+      "heavy",
+      "dinosaurs",
+      "mutants",
+      "casual",
+      "clustered"
+    ],
+    "cohortVersion": "boss-016-v1",
+    "honeyPolicy": "seed/profile hash: 25% none, 25% alternating, 50% profile",
+    "savingPolicy": "keep intended purchase until affordable; reset composition cursor each wave"
+  },
+  "catalog": {
+    "club": {
+      "name": "Massue",
+      "cost": 55,
+      "hp": 140,
+      "damage": 26,
+      "range": 45,
+      "speed": 76,
+      "rate": 0.7,
+      "color": 12684102,
+      "icon": "🪵",
+      "description": "Solide et courageux. Combat au contact."
+    },
+    "hero": {
+      "name": "Héros",
+      "cost": 0,
+      "hp": 330,
+      "damage": 36,
+      "range": 52,
+      "speed": 82,
+      "rate": 0.65,
+      "color": 6863343,
+      "icon": "🛡️",
+      "description": "Épée et bouclier. Défend le camp automatiquement."
+    },
+    "ninja": {
+      "name": "Ninja",
+      "cost": 150,
+      "hp": 155,
+      "damage": 40,
+      "range": 48,
+      "speed": 225,
+      "rate": 0.44,
+      "color": 11045865,
+      "icon": "🥷",
+      "description": "Très rapide. Fonce sur les serpents."
+    },
+    "medic": {
+      "name": "Médecin",
+      "cost": 130,
+      "hp": 105,
+      "damage": 0,
+      "range": 130,
+      "speed": 86,
+      "rate": 0.8,
+      "color": 16051674,
+      "icon": "✚",
+      "description": "Soigne les alliés vivants les plus blessés."
+    },
+    "archer": {
+      "name": "Archer",
+      "cost": 150,
+      "hp": 95,
+      "damage": 15,
+      "range": 210,
+      "speed": 74,
+      "rate": 0.9,
+      "color": 8505237,
+      "icon": "🏹",
+      "description": "Tire à distance, mais reste fragile."
+    },
+    "dragon": {
+      "name": "Bébé dragon",
+      "cost": 240,
+      "hp": 200,
+      "damage": 34,
+      "range": 165,
+      "speed": 80,
+      "rate": 1.2,
+      "color": 15049306,
+      "icon": "🐉",
+      "description": "Débloqué à la vague 4. Son souffle touche les ennemis regroupés."
+    },
+    "dino": {
+      "name": "Petit dinosaure",
+      "cost": 280,
+      "hp": 500,
+      "damage": 54,
+      "range": 55,
+      "speed": 68,
+      "rate": 1,
+      "color": 8829297,
+      "icon": "🦖",
+      "description": "Débloqué à la vague 6. Robuste, protège le passage au contact."
+    },
+    "raptor": {
+      "name": "Vélociraptor",
+      "cost": 110,
+      "hp": 140,
+      "damage": 28,
+      "range": 48,
+      "speed": 190,
+      "rate": 0.55,
+      "color": 7585164,
+      "icon": "🦖",
+      "description": "Rapide et léger. Renforce les trois voies au contact."
+    },
+    "triceratops": {
+      "name": "Tricératops",
+      "cost": 300,
+      "hp": 390,
+      "damage": 40,
+      "range": 58,
+      "speed": 100,
+      "rate": 1,
+      "color": 13408866,
+      "icon": "🦕",
+      "description": "Ses trois cornes renforcent le premier coup après une longue course."
+    },
+    "stegosaurus": {
+      "name": "Stégosaure",
+      "cost": 320,
+      "hp": 480,
+      "damage": 38,
+      "range": 58,
+      "speed": 54,
+      "rate": 1.1,
+      "color": 7776673,
+      "icon": "🦕",
+      "description": "Ses plaques réduisent les dégâts reçus de 25 %. Garde son secteur."
+    },
+    "trex": {
+      "name": "Tyrannosaure",
+      "cost": 390,
+      "hp": 400,
+      "damage": 86,
+      "range": 60,
+      "speed": 65,
+      "rate": 1.35,
+      "color": 13206118,
+      "icon": "🦖",
+      "description": "Une morsure très puissante, mais plus lente à préparer."
+    },
+    "mutantRock": {
+      "name": "Mutant roc",
+      "cost": 190,
+      "hp": 330,
+      "damage": 24,
+      "range": 50,
+      "speed": 58,
+      "rate": 0.95,
+      "color": 9151421,
+      "icon": "🪨",
+      "description": "Un allié de pierre courageux. Sa peau réduit les dégâts reçus de 20 %."
+    },
+    "mutantStretch": {
+      "name": "Mutant élastique",
+      "cost": 175,
+      "hp": 180,
+      "damage": 30,
+      "range": 90,
+      "speed": 84,
+      "rate": 0.8,
+      "color": 12819678,
+      "icon": "🌀",
+      "description": "Ses longs bras frappent un peu plus loin, sans quitter son secteur."
+    },
+    "shield": {
+      "name": "Bouclier",
+      "cost": 90,
+      "hp": 300,
+      "damage": 18,
+      "range": 48,
+      "speed": 60,
+      "rate": 1,
+      "color": 9152953,
+      "icon": "🛡️",
+      "description": "Encaisse les coups et protège le passage."
+    },
+    "bat": {
+      "name": "Batteur",
+      "cost": 110,
+      "hp": 180,
+      "damage": 40,
+      "range": 48,
+      "speed": 82,
+      "rate": 0.8,
+      "color": 13533786,
+      "icon": "🏏",
+      "description": "Des coups puissants au contact, mais peu protégé."
+    },
+    "nurse": {
+      "name": "Infirmier",
+      "cost": 95,
+      "hp": 90,
+      "damage": 0,
+      "range": 105,
+      "speed": 100,
+      "rate": 1,
+      "color": 15325114,
+      "icon": "🩹",
+      "description": "Un soin léger, mobile et moins coûteux que le médecin."
+    },
+    "knight": {
+      "name": "Chevalier",
+      "cost": 220,
+      "hp": 320,
+      "damage": 42,
+      "range": 52,
+      "speed": 65,
+      "rate": 0.9,
+      "color": 10268347,
+      "icon": "⚔️",
+      "description": "Combattant cuirassé, équilibre entre défense et attaque."
+    },
+    "cavalry": {
+      "name": "Cavalier",
+      "cost": 260,
+      "hp": 230,
+      "damage": 33,
+      "range": 57,
+      "speed": 140,
+      "rate": 0.85,
+      "color": 12226919,
+      "icon": "🐎",
+      "description": "Après une longue course, sa charge frappe plus fort."
+    },
+    "twohead": {
+      "name": "Chevalier à deux têtes",
+      "cost": 350,
+      "hp": 440,
+      "damage": 56,
+      "range": 57,
+      "speed": 60,
+      "rate": 1.1,
+      "color": 12563086,
+      "icon": "👥",
+      "description": "Ses deux têtes surveillent et frappent deux ennemis voisins."
+    },
+    "tank": {
+      "name": "Tank",
+      "cost": 500,
+      "hp": 540,
+      "damage": 70,
+      "range": 240,
+      "speed": 38,
+      "rate": 1.9,
+      "color": 9150877,
+      "icon": "🚜",
+      "description": "Lent, blindé, son obus touche un groupe à distance."
+    },
+    "wall": {
+      "name": "Palissade",
+      "cost": 75,
+      "hp": 440,
+      "damage": 0,
+      "range": 0,
+      "speed": 0,
+      "rate": 1,
+      "color": 10384452,
+      "icon": "🪵",
+      "description": "Retient les serpents. Placement fixe."
+    }
+  },
+  "unlockWave": {
+    "shield": 2,
+    "bat": 2,
+    "nurse": 1,
+    "dragon": 4,
+    "knight": 4,
+    "cavalry": 5,
+    "dino": 6,
+    "twohead": 7,
+    "tank": 9,
+    "raptor": 3,
+    "mutantRock": 3,
+    "mutantStretch": 4,
+    "triceratops": 5,
+    "stegosaurus": 6,
+    "trex": 8
+  },
+  "waveStats": [
+    {
+      "wave": 1,
+      "count": 5,
+      "hp": 57,
+      "damage": 7,
+      "speed": 40.4,
+      "reward": 108
+    },
+    {
+      "wave": 2,
+      "count": 6,
+      "hp": 68,
+      "damage": 8,
+      "speed": 41.8,
+      "reward": 131
+    },
+    {
+      "wave": 3,
+      "count": 8,
+      "hp": 79,
+      "damage": 9,
+      "speed": 43.2,
+      "reward": 154
+    },
+    {
+      "wave": 4,
+      "count": 9,
+      "hp": 90,
+      "damage": 10,
+      "speed": 44.6,
+      "reward": 177
+    },
+    {
+      "wave": 5,
+      "count": 10,
+      "hp": 101,
+      "damage": 11,
+      "speed": 46,
+      "reward": 200
+    },
+    {
+      "wave": 6,
+      "count": 12,
+      "hp": 112,
+      "damage": 12,
+      "speed": 47.4,
+      "reward": 223
+    },
+    {
+      "wave": 7,
+      "count": 13,
+      "hp": 123,
+      "damage": 13,
+      "speed": 48.8,
+      "reward": 246
+    },
+    {
+      "wave": 8,
+      "count": 14,
+      "hp": 134,
+      "damage": 14,
+      "speed": 50.2,
+      "reward": 269
+    },
+    {
+      "wave": 9,
+      "count": 16,
+      "hp": 145,
+      "damage": 15,
+      "speed": 51,
+      "reward": 292
+    },
+    {
+      "wave": 10,
+      "count": 17,
+      "hp": 156,
+      "damage": 16,
+      "speed": 51,
+      "reward": 315
+    },
+    {
+      "wave": 11,
+      "count": 18,
+      "hp": 167,
+      "damage": 16,
+      "speed": 51,
+      "reward": 338
+    },
+    {
+      "wave": 12,
+      "count": 20,
+      "hp": 178,
+      "damage": 17,
+      "speed": 51,
+      "reward": 361
+    }
+  ],
+  "exploratorySubset": true,
+  "workers": 3,
+  "sourceHash": "1b2398eae997943a0a9606e3858d4f7c0680de5b0c0b96aebe44c0fd03d383cb",
+  "scriptHash": "5e58697f5c26404366024a806249c64ac0ac9babb253904f33f59c27c30fc844",
+  "sourceFiles": [
+    {
+      "path": "src/ai.ts",
+      "sha256": "9e59bea0df18346db1be9535a5759256e545a38fc88fd5e0b9dcce6b7beb7d3c"
+    },
+    {
+      "path": "src/balanceTuning.ts",
+      "sha256": "89fa4de2bc7d23312e9b259f3fd67caba7cdff1a4718116d082a1ee0b4cb3aae"
+    },
+    {
+      "path": "src/boss.ts",
+      "sha256": "a63324155903db6ab46c6779b6aaed761c112ac9be0029bd41a28c6c43fe1c4f"
+    },
+    {
+      "path": "src/campLayout.ts",
+      "sha256": "e8acdb539eeeca7f84d394802f677fed2cb17dff14f4fe4ede967d8f9311c796"
+    },
+    {
+      "path": "src/combatRules.ts",
+      "sha256": "9e4f92513250eb443a8758c46eeabedce6e79f5b86d566804cc425120dd84c4b"
+    },
+    {
+      "path": "src/data.ts",
+      "sha256": "0f14acab7709cdbd9de496b0b7e7233a5ea7f9c1cf6f0a4edae8c916581cdbc1"
+    },
+    {
+      "path": "src/defenders.ts",
+      "sha256": "5ddba0d4daae25503eb2851b14cb265fe37668bbbcc9b2f9de3576bb85092dc1"
+    },
+    {
+      "path": "src/enemies.ts",
+      "sha256": "03de83da286e4e9c3ed68dd74d6a6cc8ab86c85ee9e06dd1e2de9095df375ee6"
+    },
+    {
+      "path": "src/enemyAbilities.ts",
+      "sha256": "3d682e32f94c1bad934d44c4065d85491373b5946083f418102851c8ff22a65b"
+    },
+    {
+      "path": "src/game.ts",
+      "sha256": "ea602a85b18ca14b59f79c6de564e77e016549e51eefd59daaecf0bc57f0116f"
+    },
+    {
+      "path": "src/levels.ts",
+      "sha256": "50c9cf80490585d885a4a0e04cfaecc2bd470876989d388308426ae2130d6ccf"
+    },
+    {
+      "path": "src/navigation.ts",
+      "sha256": "98ac65ecd6c029c99a9e462187848d4aedc3a281024b489071010a0444dd799b"
+    },
+    {
+      "path": "src/placement.ts",
+      "sha256": "52b0da5c3b2f359b5b906ad5ac561789f638b15115e4b78d83098e7acebd9c84"
+    },
+    {
+      "path": "src/routes.ts",
+      "sha256": "0a805e0d32ad34d99f529763fb3b2191a4223b71557be7a9a274683d0ca8f09f"
+    },
+    {
+      "path": "src/tactics.ts",
+      "sha256": "cebf84bc12867db9484d8417df3388f9c20c078f07ebfb228f3b2168d6c9fab6"
+    },
+    {
+      "path": "src/unitRules.ts",
+      "sha256": "f9d397c6ad94f9c45d3aa2fef258f2077e68093071b4e5570932fecdee242bda"
+    },
+    {
+      "path": "src/waves.ts",
+      "sha256": "601cf15067c5b8f6f7e596f26fd17aa0035874edc84ba6b5fa1ce5478c39bc00"
+    }
+  ],
+  "scriptFiles": [
+    {
+      "path": "scripts/balance-lab.mjs",
+      "sha256": "a2923855c371994b11aba60a72d780e39afd3d5d28187cc415a768fabb0c49a9"
+    },
+    {
+      "path": "scripts/balance-lab/core.ts",
+      "sha256": "8886a16516fae0c6d1ca2c110e12484561c4662c5b3bb5cb139ec188caa261d3"
+    },
+    {
+      "path": "scripts/balance-lab/profiles.ts",
+      "sha256": "902891f0854e5bbfe2ee643316b9932ed46446ceb57d1c9e50db536bc4d254f3"
+    },
+    {
+      "path": "scripts/balance-lab/stats.ts",
+      "sha256": "5aba5dc596239c584b2174ab1c395d82cdb1480c2cc45b51df89369602b2f9a3"
+    },
+    {
+      "path": "scripts/balance-lab/worker.mjs",
+      "sha256": "f1a88e9722164d16feab66bf302ca85ed89c40a9bcf48d661ad17de882191d27"
+    }
+  ],
+  "sourceUnchanged": true,
+  "resultsHash": "45f6d4a6376e38b6e9498a29d46ddda71d7d6cadb4ab2ca9c2e00ed2c4d886da",
+  "wallSeconds": 7.545235952,
+  "cpuSeconds": 16.080578,
+  "games": 8,
+  "paired": []
+}

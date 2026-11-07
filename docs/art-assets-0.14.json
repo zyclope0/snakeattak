@@ -1,0 +1,34 @@
+{
+  "version": "0.14.0",
+  "provider": "Magnific",
+  "model": "recraft-v4-pro",
+  "costCredits": 832,
+  "items": [
+    {
+      "name": "allies-dinosaurs",
+      "prompt": "Production sprite atlas for the existing whimsical handcrafted miniature family tower defense La Conquete des Serpents. EXACT 2 by 2 grid of FOUR isolated complete subjects on pure white, one subject centered in EACH 1024 square quadrant of a 2048 square sheet. Every subject full body with generous 15% blank padding, never crossing quadrant boundaries. NO text, no letters, no labels, no borders, no scenery, no props outside subject. Premium storybook gouache and tactile painted clay, crisp iconic silhouette, strong clean colors, simplified readable details at 80px size. Soft consistent upper-left lighting. Ground contact at bottom of each quadrant. Side three-quarter game view. ALL FOUR creatures face LEFT and are friendly baby dinosaur ALLIES with bright teal neckerchiefs. TOP LEFT: small purple and turquoise VELOCIRAPTOR, lean legs, long horizontal tail, mischievous smile. TOP RIGHT: mint and coral TRICERATOPS, exactly three facial horns and large solid frill, chunky friendly charging posture. BOTTOM LEFT: turquoise STEGOSAURUS, distinct large orange upright dorsal plates and spiked tail. BOTTOM RIGHT: friendly orange TYRANNOSAURUS REX, huge head, tiny two arms, strong two legs, NOT dragon, no wings. Four noticeably distinct species and silhouettes, all facing left.",
+      "source": "fH3Xy2ICDY",
+      "cut": "3zQ7al7REY",
+      "optimized": "5jWazibKxe"
+    },
+    {
+      "name": "serpents-family",
+      "prompt": "Production sprite atlas for the existing whimsical handcrafted miniature family tower defense La Conquete des Serpents. EXACT 2 by 2 grid of FOUR isolated complete subjects on pure white, one subject centered in EACH 1024 square quadrant of a 2048 square sheet. Every subject full body with generous 15% blank padding, never crossing quadrant boundaries. NO text, no letters, no labels, no borders, no scenery, no props outside subject. Premium storybook gouache and tactile painted clay, crisp iconic silhouette, strong clean colors, simplified readable details at 80px size. Soft consistent upper-left lighting. Ground contact at bottom of each quadrant. Side three-quarter game view. All FOUR are enemy SNAKES facing RIGHT, charming adventurous rather than frightening. TOP LEFT: sandy rust RATTLESNAKE with very clearly raised segmented rattle tail, cream diamond markings, round intent eyes. TOP RIGHT: golden ROYAL COBRA, very wide raised hood clearly visible, emerald highlights, single head, no crown. BOTTOM LEFT: BLACK MAMBA, slender charcoal blue-black serpent, pale silver underside, sleek elongated head, coiled body, visible against white. BOTTOM RIGHT: final HYDRA SERPENT KING with EXACTLY THREE distinct heads on THREE separate long necks from ONE coiled serpentine body, all three faces unobstructed, spread fan formation with blank space between necks, all heads clearly visible in side three-quarter view, tiny gold central crown, rich plum blue and gold, no wings, no feet. Three heads are mandatory, never two or four. Subjects fully contained in their quadrants.",
+      "source": "ks0CAdZ16B",
+      "cut": "iGuwvgj3uK",
+      "optimized": "BhJcUsRoQR"
+    },
+    {
+      "name": "allies-mutants",
+      "prompt": "Production sprite atlas for the existing whimsical handcrafted miniature family tower defense La Conquete des Serpents. EXACT 2 by 2 grid of FOUR isolated complete subjects on pure white, one subject centered in EACH 1024 square quadrant of a 2048 square sheet. Every subject full body with generous 15% blank padding, never crossing quadrant boundaries. NO text, no letters, no labels, no borders, no scenery, no props outside subject. Premium storybook gouache and tactile painted clay, crisp iconic silhouette, strong clean colors, simplified readable details at 80px size. Soft consistent upper-left lighting. Ground contact at bottom of each quadrant. Side three-quarter game view. TOP LEFT: friendly original ROCK MUTANT ALLY facing LEFT, short bulky blue stone body, two big arms with rounded stone fists, TWO eyes warm amber, small leafy turquoise scarf, no weapons, joyful protective stance, no franchise character. TOP RIGHT: friendly original ELASTIC MUTANT ALLY facing LEFT, springy slim lavender body with long rounded arms and oversized teal mitten-like hands, cheerful two eyes, mustard short scarf, no franchise character. BOTTOM LEFT: separate small iconic amber rattlesnake rattle, three rounded segments with two curved vibration lines, icon on white. BOTTOM RIGHT: separate gold cobra hood shaped shield with exactly two pale marks, icon on white. Top two humanoids full body and different silhouettes. No scenery. CRITICAL CORRECTION: perfectly flat shadowless isolated cutout assets. NO cast shadows whatsoever, no ground plane, no gray stripe, no base, no pedestal. Pure white under every foot and all around. Feet terminate cleanly with no gray rectangle. Leave 15% whitespace inside every cell. The TOP TWO mutants have clean readable LEFT facing three-quarter profiles. All four subjects isolated and shadowless.",
+      "source": "SyBKeYuUb8",
+      "cut": "xSMQToJjfW",
+      "optimized": "1lTE0P9r4r",
+      "rejected": {
+        "source": "dtwYjirXSL",
+        "cut": "jUDFcFoLD0",
+        "reason": "Gray shadow strip survived background removal; regenerated once with shadowless isolation, not delivered."
+      }
+    }
+  ]
+}

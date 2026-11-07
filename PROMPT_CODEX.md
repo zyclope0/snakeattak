@@ -1,0 +1,3 @@
+# Premier message à coller dans Codex
+
+Lis README.md, AGENTS.md, GAME_DESIGN.md et examine public/prototype-v4.html. Audite le prototype et propose un plan de migration incrémental vers Phaser 3 + TypeScript, avec critères d'acceptation et sans casser la V4 jouable. Commence par migrer une boucle jouable minimale : apparition des serpents à gauche, déplacement autonome A* vers la base à droite, deux soldats à massue au départ, combat automatique, économie et vagues progressives. Ne supprime pas la V4. Exécute npm run build. Avant toute génération d'assets, inspecte mes MCP disponibles et propose une chaîne graphique cohérente avec les maquettes, sans inventer de capacités. Signale les questions de game design à faire valider par le créateur.

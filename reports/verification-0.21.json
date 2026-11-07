@@ -1,0 +1,299 @@
+{
+  "version": "0.21.0",
+  "checks": [
+    {
+      "name": "verify",
+      "command": [
+        "npm",
+        "run",
+        "verify"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 21.1,
+      "logSha256": "333577f645920ee7983524a0bead180962d3ea2c73121acc744354633d7d833c"
+    },
+    {
+      "name": "portable-build",
+      "command": [
+        "npm",
+        "run",
+        "build:portable"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 8.88,
+      "logSha256": "19f441e651b4a3b8081f1e4214a4897cb9b107750b7aa73216b97815f3c24f82"
+    },
+    {
+      "name": "browser-web",
+      "command": [
+        "npm",
+        "run",
+        "test:browser"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 49.26,
+      "logSha256": "9ec6a47e19f3cceba6de70bae9ade4c6bbe47b434fd5ff2ab50b680c60f40ee9"
+    },
+    {
+      "name": "browser-portable",
+      "command": [
+        "npm",
+        "run",
+        "test:browser"
+      ],
+      "environment": {
+        "GAME_URL": "file:///workspace/conquete-serpents-codex/dist-portable/index.html"
+      },
+      "exitCode": 0,
+      "seconds": 52.48,
+      "logSha256": "723231ae77b75a0ac726cc4b8ad0093b1742ac441aa87ef78a831c40bf6282f8"
+    },
+    {
+      "name": "interface-web",
+      "command": [
+        "npm",
+        "run",
+        "test:interface"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 70.74,
+      "logSha256": "b426dfcfaf91ecb5232c2fb94320cf9175e7b9ca87f7524a70071c25596aab37"
+    },
+    {
+      "name": "interface-portable",
+      "command": [
+        "npm",
+        "run",
+        "test:interface"
+      ],
+      "environment": {
+        "GAME_URL": "file:///workspace/conquete-serpents-codex/dist-portable/index.html"
+      },
+      "exitCode": 0,
+      "seconds": 77.2,
+      "logSha256": "68004f187b6421b15d6f9e57f1521e427a1757a531b5c7257e8d0cc11816032b"
+    },
+    {
+      "name": "rewards-web",
+      "command": [
+        "npm",
+        "run",
+        "test:rewards"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 39.36,
+      "logSha256": "eb475ebde8273f9e6b020aae2e20613f415588819a39aa3dc608f7c48f928b03"
+    },
+    {
+      "name": "journey-web",
+      "command": [
+        "npm",
+        "run",
+        "test:journey"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 15.6,
+      "logSha256": "5df98c6872bdfa947c41b3da2afbf3589a1a1731b3847f372f697274b43f8185"
+    },
+    {
+      "name": "rewards-portable",
+      "command": [
+        "npm",
+        "run",
+        "test:rewards"
+      ],
+      "environment": {
+        "GAME_URL": "file:///workspace/conquete-serpents-codex/dist-portable/index.html"
+      },
+      "exitCode": 0,
+      "seconds": 52.01,
+      "logSha256": "aba39a5bfe8a0d6076c9c26a99cce11db69b53d40d672d228cd3d96c706e0b74"
+    },
+    {
+      "name": "missions-web",
+      "command": [
+        "npm",
+        "run",
+        "test:missions"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 30.75,
+      "logSha256": "7c2b83da93e9e76879f52fbd3c466735a3a11daa68a113aa8f7a5aa0adee6798"
+    },
+    {
+      "name": "journey-portable",
+      "command": [
+        "npm",
+        "run",
+        "test:journey"
+      ],
+      "environment": {
+        "GAME_URL": "file:///workspace/conquete-serpents-codex/dist-portable/index.html"
+      },
+      "exitCode": 0,
+      "seconds": 24.37,
+      "logSha256": "5d9843f903fc941a11086e15ffd8213a2be350421518d8994be338591b6cdd0c"
+    },
+    {
+      "name": "missions:regressions-web",
+      "command": [
+        "npm",
+        "run",
+        "test:missions:regressions"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 14.77,
+      "logSha256": "50fc58101ebb28ea6503c7e75732924f6d2443f26d4a3197f71bae07549f8ac6"
+    },
+    {
+      "name": "missions-portable",
+      "command": [
+        "npm",
+        "run",
+        "test:missions"
+      ],
+      "environment": {
+        "GAME_URL": "file:///workspace/conquete-serpents-codex/dist-portable/index.html"
+      },
+      "exitCode": 0,
+      "seconds": 32.78,
+      "logSha256": "fd04b70252bc1eaeb6c9f3241a60c34f89ff40f3c990dee8380654a46e87a515"
+    },
+    {
+      "name": "missions:regressions-portable",
+      "command": [
+        "npm",
+        "run",
+        "test:missions:regressions"
+      ],
+      "environment": {
+        "GAME_URL": "file:///workspace/conquete-serpents-codex/dist-portable/index.html"
+      },
+      "exitCode": 0,
+      "seconds": 13.12,
+      "logSha256": "b9f1679692b578daf362549f018506b2691c6b492157facdcba0eaa21fe2002b"
+    },
+    {
+      "name": "presentation",
+      "command": [
+        "npm",
+        "run",
+        "test:presentation"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 58.63,
+      "logSha256": "544debaa5ef03b7679332c125d34619ed5c3c24476200f066eaa9b28203aca37"
+    },
+    {
+      "name": "signals",
+      "command": [
+        "npm",
+        "run",
+        "test:signals"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 22.7,
+      "logSha256": "7d6034d50dc1aa6eb99371f808cc5a330d9cf76c18abef656b0afb2e4a9b69fe"
+    },
+    {
+      "name": "family",
+      "command": [
+        "npm",
+        "run",
+        "test:family"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 25.53,
+      "logSha256": "b927ba4cd273638fe9c71fdac2fb5ba45ad2c07a8914e867a78fb49233a9ee4e"
+    },
+    {
+      "name": "android-sync",
+      "command": [
+        "npx",
+        "cap",
+        "sync",
+        "android"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.72,
+      "logSha256": "045407e5257b389dfc65c4ba6b9079d15b1eaf75da3d8662fbeebe7bbcbd737c"
+    },
+    {
+      "name": "android-doctor",
+      "command": [
+        "npx",
+        "cap",
+        "doctor",
+        "android"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 1.24,
+      "logSha256": "7794003b1e67bbf0ab545c9a43c80bec4f5b2bf91a9c728edfb05f7eed6f65d3"
+    },
+    {
+      "name": "render",
+      "command": [
+        "npm",
+        "run",
+        "test:render"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 9.48,
+      "logSha256": "712d037ee03f673c1f050862521a536e7d839e080e5083331b14d53ae32913a2"
+    }
+  ],
+  "physicalDevicesTested": false,
+  "realChildrenTested": false,
+  "authenticatedProductionBrowserTested": false,
+  "apkCompiled": false,
+  "newGraphicsCredits": 0,
+  "priorPortableIssueUnresolved": true,
+  "checkedAt": "2026-11-05T20:04:09.223184+00:00",
+  "nativeTests": {
+    "passed": 289,
+    "failed": 0
+  },
+  "missionSimulations": 648,
+  "classicSnapshots": 21600,
+  "classicCheckpoints": 12,
+  "simulationSourceStillExact": true,
+  "familyOrigins": [
+    "file:",
+    "https: local certificate"
+  ],
+  "androidAssetsIdentical": 26,
+  "androidSdkAvailable": false,
+  "render": {
+    "scenario": "Chromium, 21 illustrated allies and outlines, 1440px",
+    "rafMilliseconds": {
+      "count": 80,
+      "median": 33.299999999999955,
+      "p95": 50
+    },
+    "clickMs": 441,
+    "screenshotMs": 615,
+    "physicalDevice": false,
+    "contextRestore": true,
+    "restoredLayers": [
+      "terrain",
+      "fort",
+      "den"
+    ]
+  },
+  "portableHtmlSha256": "7caa6ec897bc8a544ab774d33ef8ceb7f1f9bc7b97caff00fbaf0a2a1d9cd49f",
+  "htmlBytes": 28511
+}

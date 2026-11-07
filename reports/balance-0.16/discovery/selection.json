@@ -1,0 +1,145 @@
+{
+  "stage": "discovery",
+  "resultsHash": "cca026db95e27f163abdd54542d8a60669a99ab76507d2f922c5e6b3bc2995b2",
+  "scoreHash": "fca74c252b25915b38a7a91d2ce0155e8e7868803a249c8b29ea2827bad81c88",
+  "discordances": [
+    {
+      "id": "baseline",
+      "newEarlyLosses": 0
+    },
+    {
+      "id": "counter-ranged",
+      "newEarlyLosses": 1
+    },
+    {
+      "id": "lighter-splash",
+      "newEarlyLosses": 0
+    },
+    {
+      "id": "medium",
+      "newEarlyLosses": 1
+    },
+    {
+      "id": "shield-focus",
+      "newEarlyLosses": 0
+    },
+    {
+      "id": "soft",
+      "newEarlyLosses": 0
+    },
+    {
+      "id": "strong",
+      "newEarlyLosses": 1
+    }
+  ],
+  "ranking": [
+    {
+      "id": "shield-focus",
+      "eligible": true,
+      "score": 46.8125,
+      "parts": {
+        "familyTarget": 7.8125,
+        "strategySpread": 25,
+        "rangedExcess": 14.000000000000002,
+        "earlyRegression": 0,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.828125,
+      "medianBossSeconds": 18.56666666667519,
+      "rangedPeerGap": 0.275
+    },
+    {
+      "id": "lighter-splash",
+      "eligible": true,
+      "score": 47.1875,
+      "parts": {
+        "familyTarget": 4.6875,
+        "strategySpread": 25,
+        "rangedExcess": 16.000000000000004,
+        "earlyRegression": 0,
+        "profileRegression": 1.5,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.796875,
+      "medianBossSeconds": 17.533333333342796,
+      "rangedPeerGap": 0.30000000000000004
+    },
+    {
+      "id": "soft",
+      "eligible": true,
+      "score": 47.25,
+      "parts": {
+        "familyTarget": 6.25,
+        "strategySpread": 25,
+        "rangedExcess": 16.000000000000004,
+        "earlyRegression": 0,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.8125,
+      "medianBossSeconds": 15.13333333331957,
+      "rangedPeerGap": 0.30000000000000004
+    },
+    {
+      "id": "counter-ranged",
+      "eligible": true,
+      "score": 49.9375,
+      "parts": {
+        "familyTarget": 7.8125,
+        "strategySpread": 25,
+        "rangedExcess": 14.000000000000002,
+        "earlyRegression": 3.125,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.828125,
+      "medianBossSeconds": 18.46666666664987,
+      "rangedPeerGap": 0.275
+    },
+    {
+      "id": "medium",
+      "eligible": true,
+      "score": 49.9375,
+      "parts": {
+        "familyTarget": 7.8125,
+        "strategySpread": 25,
+        "rangedExcess": 14.000000000000002,
+        "earlyRegression": 3.125,
+        "profileRegression": 0,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.828125,
+      "medianBossSeconds": 19.56666666664887,
+      "rangedPeerGap": 0.275
+    },
+    {
+      "id": "strong",
+      "eligible": true,
+      "score": 55.0625,
+      "parts": {
+        "familyTarget": 1.5625,
+        "strategySpread": 25,
+        "rangedExcess": 22,
+        "earlyRegression": 3.125,
+        "profileRegression": 3.375,
+        "casualRegression": 0,
+        "duration": 0,
+        "absentMechanics": 0
+      },
+      "winRate": 0.765625,
+      "medianBossSeconds": 21.66666666667237,
+      "rangedPeerGap": 0.375
+    }
+  ]
+}

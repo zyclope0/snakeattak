@@ -1,0 +1,1526 @@
+{
+  "id": "baseline",
+  "profile": "heavy",
+  "seed": 1643943049,
+  "status": "lost",
+  "tuning": {
+    "bossEnabled": true,
+    "bossHpMultiplier": 6.5,
+    "bossShieldFraction": 0.12,
+    "bossShieldRangedFactor": 0.45,
+    "bossShieldMeleeFactor": 1.6,
+    "bossShotDamage": 18,
+    "bossShotInterval": 7,
+    "bossShotWindup": 1.8,
+    "bossShotRadius": 38,
+    "bossShotRange": 260,
+    "splashSecondaryFactor": 1,
+    "mutantDamageFactor": 1.75
+  },
+  "useDefault": true,
+  "rewardPolicy": "skip",
+  "heroTrainingRequested": "none",
+  "actualTraining": "none",
+  "encouragements": 0,
+  "chapterStars": [
+    3,
+    3,
+    0
+  ],
+  "rewardChoices": [
+    {
+      "milestone": 4,
+      "id": "skip",
+      "used": true
+    },
+    {
+      "milestone": 8,
+      "id": "skip",
+      "used": true
+    }
+  ],
+  "rewardDecisions": [
+    {
+      "milestone": 4,
+      "id": "skip",
+      "goldBefore": 286,
+      "goldAfter": 286
+    },
+    {
+      "milestone": 8,
+      "id": "skip",
+      "goldBefore": 448,
+      "goldAfter": 448
+    }
+  ],
+  "wardRemaining": 0,
+  "limits": {
+    "preparationSeconds": 10,
+    "maxWaveSeconds": 240
+  },
+  "replay": {
+    "id": "baseline",
+    "heroTraining": "none",
+    "encouragement": false,
+    "rewardPolicy": "skip",
+    "tuning": {
+      "bossEnabled": true,
+      "bossHpMultiplier": 6.5,
+      "bossShieldFraction": 0.12,
+      "bossShieldRangedFactor": 0.45,
+      "bossShieldMeleeFactor": 1.6,
+      "bossShotDamage": 18,
+      "bossShotInterval": 7,
+      "bossShotWindup": 1.8,
+      "bossShotRadius": 38,
+      "bossShotRange": 260,
+      "splashSecondaryFactor": 1,
+      "mutantDamageFactor": 1.75
+    },
+    "useDefault": true,
+    "seed": 1643943049,
+    "profile": "heavy",
+    "limits": {
+      "preparationSeconds": 10,
+      "maxWaveSeconds": 240
+    }
+  },
+  "wave": 12,
+  "completedWaves": 11,
+  "activeSeconds": 422.9333333334605,
+  "prepSeconds": 120,
+  "baseEnd": 0,
+  "minBase": 0,
+  "baseDamage": 100,
+  "healthEnd": 2570.45,
+  "unitsEnd": 8,
+  "coinsEnd": 219,
+  "earned": 4769,
+  "spent": 4850,
+  "repairs": 0,
+  "kills": 193,
+  "deaths": 22,
+  "deathKinds": {
+    "club": 7,
+    "knight": 2,
+    "twohead": 3,
+    "shield": 8,
+    "hero": 1,
+    "stegosaurus": 1
+  },
+  "purchases": {
+    "nurse": 1,
+    "club": 5,
+    "shield": 8,
+    "knight": 4,
+    "medic": 1,
+    "twohead": 3,
+    "tank": 1,
+    "dino": 2,
+    "stegosaurus": 2
+  },
+  "actions": [
+    {
+      "kind": "recruit",
+      "time": 0,
+      "wave": 1,
+      "phase": "preparing",
+      "cost": 95,
+      "goldBefore": 300,
+      "goldAfter": 205,
+      "unit": "nurse",
+      "x": 948,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 0,
+      "wave": 1,
+      "phase": "preparing",
+      "cost": 55,
+      "goldBefore": 205,
+      "goldAfter": 150,
+      "unit": "club",
+      "x": 708,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 0,
+      "wave": 1,
+      "phase": "preparing",
+      "cost": 55,
+      "goldBefore": 150,
+      "goldAfter": 95,
+      "unit": "club",
+      "x": 660,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 0,
+      "wave": 1,
+      "phase": "preparing",
+      "cost": 55,
+      "goldBefore": 95,
+      "goldAfter": 40,
+      "unit": "club",
+      "x": 660,
+      "y": 324
+    },
+    {
+      "kind": "recruit",
+      "time": 28.00000000000055,
+      "wave": 1,
+      "phase": "fighting",
+      "cost": 55,
+      "goldBefore": 76,
+      "goldAfter": 21,
+      "unit": "club",
+      "x": 804,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 34.00000000000063,
+      "wave": 1,
+      "phase": "fighting",
+      "cost": 55,
+      "goldBefore": 57,
+      "goldAfter": 2,
+      "unit": "club",
+      "x": 708,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 34.93333333333391,
+      "wave": 2,
+      "phase": "preparing",
+      "cost": 90,
+      "goldBefore": 122,
+      "goldAfter": 32,
+      "unit": "shield",
+      "x": 708,
+      "y": 324
+    },
+    {
+      "kind": "recruit",
+      "time": 68.93333333333199,
+      "wave": 2,
+      "phase": "fighting",
+      "cost": 90,
+      "goldBefore": 116,
+      "goldAfter": 26,
+      "unit": "shield",
+      "x": 852,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 69.06666666666531,
+      "wave": 3,
+      "phase": "preparing",
+      "cost": 90,
+      "goldBefore": 169,
+      "goldAfter": 79,
+      "unit": "shield",
+      "x": 756,
+      "y": 324
+    },
+    {
+      "kind": "recruit",
+      "time": 91.06666666666406,
+      "wave": 3,
+      "phase": "fighting",
+      "cost": 90,
+      "goldBefore": 103,
+      "goldAfter": 13,
+      "unit": "shield",
+      "x": 900,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 107.59999999999646,
+      "wave": 4,
+      "phase": "preparing",
+      "cost": 220,
+      "goldBefore": 263,
+      "goldAfter": 43,
+      "unit": "knight",
+      "x": 804,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 135.59999999999488,
+      "wave": 4,
+      "phase": "fighting",
+      "cost": 90,
+      "goldBefore": 103,
+      "goldAfter": 13,
+      "unit": "shield",
+      "x": 708,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 143.73333333332775,
+      "wave": 5,
+      "phase": "preparing",
+      "cost": 130,
+      "goldBefore": 286,
+      "goldAfter": 156,
+      "unit": "medic",
+      "x": 948,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 143.73333333332775,
+      "wave": 5,
+      "phase": "preparing",
+      "cost": 90,
+      "goldBefore": 156,
+      "goldAfter": 66,
+      "unit": "shield",
+      "x": 708,
+      "y": 420
+    },
+    {
+      "kind": "recruit",
+      "time": 189.73333333332513,
+      "wave": 5,
+      "phase": "fighting",
+      "cost": 220,
+      "goldBefore": 222,
+      "goldAfter": 2,
+      "unit": "knight",
+      "x": 660,
+      "y": 324
+    },
+    {
+      "kind": "recruit",
+      "time": 211.9666666666572,
+      "wave": 6,
+      "phase": "fighting",
+      "cost": 220,
+      "goldBefore": 226,
+      "goldAfter": 6,
+      "unit": "knight",
+      "x": 660,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 236.99999999998911,
+      "wave": 7,
+      "phase": "preparing",
+      "cost": 220,
+      "goldBefore": 409,
+      "goldAfter": 189,
+      "unit": "knight",
+      "x": 852,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 283.0000000000095,
+      "wave": 7,
+      "phase": "fighting",
+      "cost": 350,
+      "goldBefore": 369,
+      "goldAfter": 19,
+      "unit": "twohead",
+      "x": 660,
+      "y": 324
+    },
+    {
+      "kind": "recruit",
+      "time": 324.7000000000427,
+      "wave": 8,
+      "phase": "fighting",
+      "cost": 350,
+      "goldBefore": 373,
+      "goldAfter": 23,
+      "unit": "twohead",
+      "x": 660,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 333.6333333333831,
+      "wave": 9,
+      "phase": "preparing",
+      "cost": 350,
+      "goldBefore": 448,
+      "goldAfter": 98,
+      "unit": "twohead",
+      "x": 756,
+      "y": 420
+    },
+    {
+      "kind": "recruit",
+      "time": 372.30000000008056,
+      "wave": 10,
+      "phase": "preparing",
+      "cost": 500,
+      "goldBefore": 654,
+      "goldAfter": 154,
+      "unit": "tank",
+      "x": 900,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 406.3000000001076,
+      "wave": 10,
+      "phase": "fighting",
+      "cost": 280,
+      "goldBefore": 322,
+      "goldAfter": 42,
+      "unit": "dino",
+      "x": 708,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 419.6666666667849,
+      "wave": 11,
+      "phase": "preparing",
+      "cost": 280,
+      "goldBefore": 465,
+      "goldAfter": 185,
+      "unit": "dino",
+      "x": 660,
+      "y": 180
+    },
+    {
+      "kind": "recruit",
+      "time": 459.66666666681675,
+      "wave": 11,
+      "phase": "fighting",
+      "cost": 320,
+      "goldBefore": 365,
+      "goldAfter": 45,
+      "unit": "stegosaurus",
+      "x": 900,
+      "y": 324
+    },
+    {
+      "kind": "recruit",
+      "time": 465.6666666668215,
+      "wave": 11,
+      "phase": "fighting",
+      "cost": 90,
+      "goldBefore": 129,
+      "goldAfter": 39,
+      "unit": "shield",
+      "x": 660,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 467.13333333348936,
+      "wave": 12,
+      "phase": "preparing",
+      "cost": 320,
+      "goldBefore": 401,
+      "goldAfter": 81,
+      "unit": "stegosaurus",
+      "x": 612,
+      "y": 468
+    },
+    {
+      "kind": "recruit",
+      "time": 495.13333333351164,
+      "wave": 12,
+      "phase": "fighting",
+      "cost": 90,
+      "goldBefore": 141,
+      "goldAfter": 51,
+      "unit": "shield",
+      "x": 708,
+      "y": 324
+    }
+  ],
+  "honeyMode": "none",
+  "honeyUses": 0,
+  "honeyTurns": 0,
+  "hatched": 56,
+  "reroutes": 123,
+  "ticks": 16288,
+  "bossSeen": true,
+  "bossEntered": true,
+  "bossFirstSeenAt": 495.53333333351196,
+  "bossEnteredAt": 507.16666666685455,
+  "bossFightStartedAt": 507.16666666685455,
+  "bossDuration": 35.76666666664232,
+  "bossEncounterDuration": 47.399999999984914,
+  "bossKilled": false,
+  "bossHpEnd": 0,
+  "shieldsBroken": 1,
+  "shotsFired": 4,
+  "waves": [
+    {
+      "wave": 1,
+      "seconds": 24.933333333333938,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 7,
+      "deaths": 0,
+      "goldEnd": 122,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 7.4307122910395265
+    },
+    {
+      "wave": 2,
+      "seconds": 24.13333333333197,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 8,
+      "deaths": 0,
+      "goldEnd": 169,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 8.021617753896862
+    },
+    {
+      "wave": 3,
+      "seconds": 28.53333333333171,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 10,
+      "deaths": 0,
+      "goldEnd": 263,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 7.46655391715467
+    },
+    {
+      "wave": 4,
+      "seconds": 26.133333333331862,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 13,
+      "deaths": 1,
+      "goldEnd": 286,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 7.209356423001736
+    },
+    {
+      "wave": 5,
+      "seconds": 36.233333333331274,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 14,
+      "deaths": 1,
+      "goldEnd": 214,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 8.024019262753427
+    },
+    {
+      "wave": 6,
+      "seconds": 37.03333333333123,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 16,
+      "deaths": 2,
+      "goldEnd": 409,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 8.758026358205825
+    },
+    {
+      "wave": 7,
+      "seconds": 43.700000000027075,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 17,
+      "deaths": 1,
+      "goldEnd": 289,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 7.907032612711191
+    },
+    {
+      "wave": 8,
+      "seconds": 32.93333333335954,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 20,
+      "deaths": 1,
+      "goldEnd": 448,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 8.948688821401447
+    },
+    {
+      "wave": 9,
+      "seconds": 28.66666666668948,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 22,
+      "deaths": 0,
+      "goldEnd": 654,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 8.349728849716485
+    },
+    {
+      "wave": 10,
+      "seconds": 37.3666666666964,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 23,
+      "deaths": 1,
+      "goldEnd": 465,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 7.2096904390491545
+    },
+    {
+      "wave": 11,
+      "seconds": 37.46666666669648,
+      "status": "preparing",
+      "baseEnd": 100,
+      "kills": 24,
+      "deaths": 3,
+      "goldEnd": 401,
+      "bossSeen": false,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 8.5352195892483
+    },
+    {
+      "wave": 12,
+      "seconds": 65.79999999999956,
+      "status": "lost",
+      "baseEnd": 0,
+      "kills": 19,
+      "deaths": 12,
+      "goldEnd": 219,
+      "bossSeen": true,
+      "honeyMode": "none",
+      "honeyFlavor": null,
+      "honeyAtSeconds": 7.6937155718915164
+    }
+  ],
+  "failureState": {
+    "status": "lost",
+    "time": 542.9333333334969,
+    "wave": 12,
+    "gold": 219,
+    "base": 0,
+    "rng": 850094824,
+    "units": [
+      {
+        "id": 4,
+        "kind": "nurse",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 826.9475813943579,
+        "y": 279.07007072359426,
+        "hp": 90,
+        "maxHp": 90,
+        "cool": -1.3000000000000005,
+        "path": [
+          {
+            "x": 828,
+            "y": 300
+          },
+          {
+            "x": 828,
+            "y": 324
+          },
+          {
+            "x": 828,
+            "y": 348
+          },
+          {
+            "x": 828,
+            "y": 372
+          },
+          {
+            "x": 828,
+            "y": 396
+          }
+        ],
+        "nav": 0.1833333333333334,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 948,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": null
+      },
+      {
+        "id": 42,
+        "kind": "knight",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 995.9899400369853,
+        "y": 247.97747479912755,
+        "hp": 320,
+        "maxHp": 320,
+        "cool": -133.53333333332833,
+        "path": [
+          {
+            "x": 996,
+            "y": 252
+          },
+          {
+            "x": 996,
+            "y": 276
+          },
+          {
+            "x": 996,
+            "y": 300
+          },
+          {
+            "x": 996,
+            "y": 324
+          },
+          {
+            "x": 996,
+            "y": 348
+          },
+          {
+            "x": 996,
+            "y": 372
+          },
+          {
+            "x": 996,
+            "y": 396
+          },
+          {
+            "x": 996,
+            "y": 420
+          }
+        ],
+        "nav": 0.21666666666666673,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 804,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": 256
+      },
+      {
+        "id": 59,
+        "kind": "medic",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 838.6247431145846,
+        "y": 348.00003333587546,
+        "hp": 105,
+        "maxHp": 105,
+        "cool": 0.13333333333333353,
+        "path": [
+          {
+            "x": 828,
+            "y": 348
+          },
+          {
+            "x": 804,
+            "y": 348
+          },
+          {
+            "x": 780,
+            "y": 348
+          },
+          {
+            "x": 756,
+            "y": 348
+          },
+          {
+            "x": 732,
+            "y": 348
+          },
+          {
+            "x": 732,
+            "y": 372
+          },
+          {
+            "x": 732,
+            "y": 396
+          },
+          {
+            "x": 732,
+            "y": 420
+          }
+        ],
+        "nav": 0.45,
+        "boss": false,
+        "state": "idle",
+        "facing": -1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 948,
+        "homeY": 468,
+        "turnY": null,
+        "targetId": null
+      },
+      {
+        "id": 97,
+        "kind": "knight",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 995.9010895824874,
+        "y": 299.8106798255733,
+        "hp": 320,
+        "maxHp": 320,
+        "cool": -211.9666666666572,
+        "path": [
+          {
+            "x": 996,
+            "y": 324
+          },
+          {
+            "x": 996,
+            "y": 348
+          },
+          {
+            "x": 996,
+            "y": 372
+          },
+          {
+            "x": 996,
+            "y": 396
+          },
+          {
+            "x": 996,
+            "y": 420
+          }
+        ],
+        "nav": 0.21666666666666673,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 852,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": 256
+      },
+      {
+        "id": 168,
+        "kind": "tank",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 995.3959930754289,
+        "y": 182.5187100406101,
+        "hp": 540,
+        "maxHp": 540,
+        "cool": 0.26666666666666405,
+        "path": [],
+        "nav": 0,
+        "boss": false,
+        "state": "idle",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 900,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": 256
+      },
+      {
+        "id": 195,
+        "kind": "dino",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 969.8993384368135,
+        "y": 179.85858865866243,
+        "hp": 487.20000000000005,
+        "maxHp": 500,
+        "cool": -26.966666666667166,
+        "path": [
+          {
+            "x": 972,
+            "y": 180
+          },
+          {
+            "x": 996,
+            "y": 180
+          },
+          {
+            "x": 996,
+            "y": 204
+          },
+          {
+            "x": 996,
+            "y": 228
+          },
+          {
+            "x": 996,
+            "y": 252
+          },
+          {
+            "x": 996,
+            "y": 276
+          },
+          {
+            "x": 996,
+            "y": 300
+          },
+          {
+            "x": 996,
+            "y": 324
+          },
+          {
+            "x": 996,
+            "y": 348
+          },
+          {
+            "x": 996,
+            "y": 372
+          },
+          {
+            "x": 996,
+            "y": 396
+          },
+          {
+            "x": 996,
+            "y": 420
+          }
+        ],
+        "nav": 0.21666666666666673,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 708,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": 256
+      },
+      {
+        "id": 196,
+        "kind": "dino",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 920.8679372890646,
+        "y": 179.99998803370207,
+        "hp": 474.79999999999984,
+        "maxHp": 500,
+        "cool": -26.366666666667136,
+        "path": [
+          {
+            "x": 924,
+            "y": 180
+          },
+          {
+            "x": 948,
+            "y": 180
+          },
+          {
+            "x": 972,
+            "y": 180
+          },
+          {
+            "x": 996,
+            "y": 180
+          },
+          {
+            "x": 996,
+            "y": 204
+          },
+          {
+            "x": 996,
+            "y": 228
+          },
+          {
+            "x": 996,
+            "y": 252
+          },
+          {
+            "x": 996,
+            "y": 276
+          },
+          {
+            "x": 996,
+            "y": 300
+          },
+          {
+            "x": 996,
+            "y": 324
+          },
+          {
+            "x": 996,
+            "y": 348
+          },
+          {
+            "x": 996,
+            "y": 372
+          },
+          {
+            "x": 996,
+            "y": 396
+          },
+          {
+            "x": 996,
+            "y": 420
+          }
+        ],
+        "nav": 0.21666666666666673,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 660,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": 256
+      },
+      {
+        "id": 224,
+        "kind": "stegosaurus",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 844.4049737768158,
+        "y": 396.1495806793874,
+        "hp": 233.44999999999965,
+        "maxHp": 480,
+        "cool": -4.166666666666662,
+        "path": [
+          {
+            "x": 852,
+            "y": 396
+          },
+          {
+            "x": 876,
+            "y": 396
+          },
+          {
+            "x": 900,
+            "y": 396
+          },
+          {
+            "x": 924,
+            "y": 396
+          },
+          {
+            "x": 948,
+            "y": 396
+          },
+          {
+            "x": 972,
+            "y": 396
+          },
+          {
+            "x": 996,
+            "y": 396
+          },
+          {
+            "x": 996,
+            "y": 420
+          }
+        ],
+        "nav": 0.15000000000000008,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 0,
+        "stage": 0,
+        "homeX": 900,
+        "homeY": 324,
+        "turnY": null,
+        "targetId": 256
+      }
+    ],
+    "enemies": [
+      {
+        "id": 245,
+        "kind": "snake",
+        "variant": "armored",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 740.5712605583918,
+        "y": 419.4764330324351,
+        "hp": 294.8799999999999,
+        "maxHp": 541.12,
+        "cool": -3.649999999999997,
+        "path": [
+          {
+            "x": 742.677205355286,
+            "y": 417.75204395096404
+          },
+          {
+            "x": 746.677205355286,
+            "y": 414.6288334380342
+          },
+          {
+            "x": 750.677205355286,
+            "y": 411.690474825631
+          },
+          {
+            "x": 754.677205355286,
+            "y": 408.97714264428504
+          },
+          {
+            "x": 758.677205355286,
+            "y": 406.5255460846294
+          },
+          {
+            "x": 762.677205355286,
+            "y": 404.3683193892139
+          },
+          {
+            "x": 766.677205355286,
+            "y": 402.5334811998759
+          },
+          {
+            "x": 770.677205355286,
+            "y": 401.0439720776376
+          },
+          {
+            "x": 774.677205355286,
+            "y": 399.9172780760714
+          },
+          {
+            "x": 778.677205355286,
+            "y": 399.16514677826467
+          },
+          {
+            "x": 782.677205355286,
+            "y": 398.79340062708127
+          },
+          {
+            "x": 786.677205355286,
+            "y": 398.8018507154053
+          },
+          {
+            "x": 790.677205355286,
+            "y": 399.18431248590485
+          },
+          {
+            "x": 794.677205355286,
+            "y": 399.9287230479565
+          },
+          {
+            "x": 798.677205355286,
+            "y": 401.01735808251925
+          },
+          {
+            "x": 802.677205355286,
+            "y": 402.42714460365676
+          },
+          {
+            "x": 806.677205355286,
+            "y": 404.130064207202
+          },
+          {
+            "x": 810.677205355286,
+            "y": 406.0936398907551
+          },
+          {
+            "x": 814.677205355286,
+            "y": 408.2814981012714
+          },
+          {
+            "x": 818.677205355286,
+            "y": 410.6539963813473
+          },
+          {
+            "x": 822.677205355286,
+            "y": 413.1689058649443
+          },
+          {
+            "x": 826.677205355286,
+            "y": 415.78213693685774
+          },
+          {
+            "x": 828,
+            "y": 416.6602540378444
+          }
+        ],
+        "nav": 0.4166666666666667,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 2,
+        "stage": 4,
+        "homeX": 108,
+        "homeY": 324,
+        "turnY": null,
+        "targetId": null
+      },
+      {
+        "id": 261,
+        "kind": "snake",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 618.1721096330341,
+        "y": 313,
+        "hp": 133.5,
+        "maxHp": 133.5,
+        "cool": -9.699999999999976,
+        "path": [
+          {
+            "x": 621.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 625.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 629.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 633.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 637.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 641.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 645.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 649.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 653.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 657.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 661.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 665.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 669.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 673.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 677.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 681.6721096330339,
+            "y": 313
+          },
+          {
+            "x": 684,
+            "y": 313
+          }
+        ],
+        "nav": 0.3166666666666667,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 1,
+        "stage": 3,
+        "homeX": 300,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": null
+      },
+      {
+        "id": 262,
+        "kind": "snake",
+        "variant": "normal",
+        "broodCool": 10,
+        "charge": 0,
+        "guardCool": 0,
+        "rattleCool": 0,
+        "confusedFor": 0,
+        "confusionImmunity": 0,
+        "x": 484.7007634258413,
+        "y": 479,
+        "hp": 133.5,
+        "maxHp": 133.5,
+        "cool": -9.699999999999976,
+        "path": [
+          {
+            "x": 486.0007634258414,
+            "y": 479
+          },
+          {
+            "x": 490.0007634258414,
+            "y": 479
+          },
+          {
+            "x": 494.0007634258414,
+            "y": 479
+          },
+          {
+            "x": 498.0007634258414,
+            "y": 479
+          },
+          {
+            "x": 502.0007634258414,
+            "y": 479
+          },
+          {
+            "x": 506.0007634258414,
+            "y": 479
+          },
+          {
+            "x": 510.0007634258414,
+            "y": 479
+          },
+          {
+            "x": 514.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 518.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 522.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 526.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 530.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 534.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 538.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 542.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 546.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 550.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 554.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 558.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 562.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 566.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 570.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 574.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 578.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 582.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 586.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 590.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 594.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 598.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 602.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 606.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 610.0007634258413,
+            "y": 479
+          },
+          {
+            "x": 612,
+            "y": 479
+          }
+        ],
+        "nav": 0.11666666666666675,
+        "boss": false,
+        "state": "move",
+        "facing": 1,
+        "lane": 2,
+        "stage": 2,
+        "homeX": 312,
+        "homeY": 180,
+        "turnY": null,
+        "targetId": null
+      }
+    ],
+    "eggs": [
+      {
+        "id": 263,
+        "x": 300,
+        "y": 180,
+        "lane": 0,
+        "hatchIn": 2.3333333333333393,
+        "duration": 4,
+        "count": 2
+      }
+    ],
+    "remaining": 0,
+    "spawnTimer": 0.95,
+    "feast": null,
+    "kills": 193,
+    "hatched": 56,
+    "nextId": 263,
+    "rewards": {
+      "seed": 1643943049,
+      "pending": null,
+      "choices": [
+        {
+          "milestone": 4,
+          "id": "skip",
+          "used": true
+        },
+        {
+          "milestone": 8,
+          "id": "skip",
+          "used": true
+        }
+      ],
+      "ward": 0
+    },
+    "campaign": {
+      "training": "none",
+      "chapterMin": [
+        100,
+        100,
+        0
+      ],
+      "chapterStars": [
+        3,
+        3,
+        0
+      ]
+    }
+  },
+  "performance": {
+    "wallSeconds": 1.148251355999999,
+    "cpuSeconds": 1.146378,
+    "ticks": 16288
+  }
+}

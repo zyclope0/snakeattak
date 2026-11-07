@@ -1,0 +1,31 @@
+{
+  "version": "0.13.0",
+  "asset": "src/assets/illustrated/miels-parapluie.webp",
+  "model": "recraft-v4-pro",
+  "folder": "Personal",
+  "styleReference": "lJder7Qgv9",
+  "source": "UPofR1Jwny",
+  "cutout": "79IEcCBJAL",
+  "optimized": "1lTBZAWr4r",
+  "frames": [
+    "umbrella open (source faces left)",
+    "umbrella folded (same snake, faces left)",
+    "amber lure honey",
+    "mint sticky honey"
+  ],
+  "credits": {
+    "generate": 175,
+    "removeBackground": 3,
+    "resize": 40,
+    "total": 218
+  },
+  "balanceBefore": 16997,
+  "balanceAfter": 16779,
+  "prompt": "EXACT 2x2 square GAME SPRITE ATLAS. Four equal square cells meet exactly at 50% width and height. One COMPLETE isolated object per cell, pure WHITE empty background, generous padding, no dividers, no text, no labels, no logo. Match the reference premium carved wooden/clay storybook TABLETOP MINIATURE aesthetic: matte painted wood, moss/sage green, cream belly, warm sunlight, chunky charming forms, crisp small-game silhouettes, no realism, no horror. All characters seen at the same elevated orthographic 3/4 view and facing RIGHT. TOP LEFT: friendly green SNAKE with curled tail, cream segmented belly, big curious dark eyes, holding an OPEN large single green leaf UMBRELLA over its head, stem held in the coil of its tail, a broad clearly umbrella-shaped sage leaf canopy that protects it from arrows. No arms, no hands, no weapons, no arrows, no rain. Complete snake and leaf fully within cell. TOP RIGHT: EXACT SAME green snake, SAME face/body/coil/size/feet baseline and lighting as top left, but its leaf umbrella is FOLDED CLOSED and lowered behind its body, face clearly exposed, ready to bite gently; folded leaf visible as a slim green bundle, no open canopy. These two top images are two animation states of the SAME creature. BOTTOM LEFT: small chunky AMBER HONEY POT for a tabletop game, round wooden jar with golden translucent honey visible at its rim, a tiny carved wooden dipper resting at an angle, warm gold/cream colors, a simple empty cream label, no writing, isolated complete prop. BOTTOM RIGHT: small chunky STICKY MINT HONEY POT, same wooden jar shape and scale as bottom left, but mint-green honey oozes around the rim with a few thick shiny jade drops and a little green leaf tied at its neck, empty cream label, clearly different teal/mint palette. Complete separate object, no floor or scenery. Four cell subjects remain separated by pure white padding. No other creatures or props.",
+  "technicalExport": "1024-square PNG from Magnific converted to lossless WebP; no creative local pixel edits",
+  "bytes": 336234,
+  "sha256": "9a3b92e44025e3e3634c4110919d0d0a129b11840ffe24082f44407d78f89f8a",
+  "width": 1024,
+  "height": 1024,
+  "verifiedSpent": 218
+}

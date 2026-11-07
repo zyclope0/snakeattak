@@ -1,0 +1,28 @@
+{
+  "project": "La Conquête des Serpents",
+  "version": "0.25.0",
+  "provider": "Magnific",
+  "model": "Google Nano Banana 2.1",
+  "credits": 130,
+  "referenceCreation": "eI7u6vTdqL",
+  "assets": [
+    {
+      "file": "src/assets/illustrated/ground-grove-refined.webp",
+      "creation": "5j0OOrPKxe",
+      "webUrl": "https://www.magnific.com/app/creation/5j0OOrPKxe",
+      "credits": 65,
+      "prompt": "Production background texture for La Conquête des Serpents family tower defense. Match the reference's handmade miniature paper-clay diorama, soft tactile materials, broad muted textures and slightly overhead camera with no horizon. Wide 16:9 full bleed. Critical gameplay constraint: a very spacious irregular clearing with a calm lightly mottled surface fills 90% of the canvas. Open central area spans x=2%-98%, y=15%-90%; no obstacles or busy patterns in this area. Keep both left and right edges OPEN at y=20%-85% for buildings and routes drawn by code. ONLY the extreme top and bottom 8% carry sparse small crafted vegetation/stone details with feathered irregular transitions; never a rectangular overlay or a painted frame. NO paths, lanes, bridges, fences, buildings, caves, castles, actors, snakes, characters, eggs, text, icons, labels, grids or UI. All props small at margins, not oversized trees. Quiet center to separate warm character sprites and pale stone paths. Premium storybook miniature art, not photorealism. Theme LE BOSQUET AMBRE: soft pale ochre-sage woodland floor, large quiet hazy moss patches with fine texture suppressed, warm honey afternoon light, desaturated amber and olive palette. Only along the top and bottom margins: a few small folded-paper cream-gold foliage clusters, low olive ferns, a few mossy stones and tiny pale mushrooms; NO towering trunks or canopies. Calm playable grass occupies almost all area. Avoid saturated red/orange enemy colors.",
+      "bytes": 142082
+    },
+    {
+      "file": "src/assets/illustrated/ground-ruins-refined.webp",
+      "creation": "XmOHH8uBfo",
+      "webUrl": "https://www.magnific.com/app/creation/XmOHH8uBfo",
+      "credits": 65,
+      "prompt": "Production background texture for La Conquête des Serpents family tower defense. Match the reference's handmade miniature paper-clay diorama, soft tactile materials, broad muted textures and slightly overhead camera with no horizon. Wide 16:9 full bleed. Critical gameplay constraint: a very spacious irregular clearing with a calm lightly mottled surface fills 90% of the canvas. Open central area spans x=2%-98%, y=15%-90%; no obstacles or busy patterns in this area. Keep both left and right edges OPEN at y=20%-85% for buildings and routes drawn by code. ONLY the extreme top and bottom 8% carry sparse small crafted vegetation/stone details with feathered irregular transitions; never a rectangular overlay or a painted frame. NO paths, lanes, bridges, fences, buildings, caves, castles, actors, snakes, characters, eggs, text, icons, labels, grids or UI. All props small at margins, not oversized trees. Quiet center to separate warm character sprites and pale stone paths. Premium storybook miniature art, not photorealism. Theme LE JARDIN DES VIEILLES PIERRES: pale misty celadon and cool sage stone-garden ground, subtle weathered pale stone grain mixed with low soft moss, restrained teal grey lighting. Only along the extreme top/bottom margin: scattered low carved fallen stone fragments, small moss-covered architectural stones with no readable symbols, cool ferns and tiny ivory buds. NO upright columns, no large ruins, no walls or deep cracks crossing play space. Almost all canvas is a calm luminous cool clearing. No orange/red.",
+      "bytes": 216522
+    }
+  ],
+  "processing": "Réduction technique en 1600×900, WebP qualité86. Aucun détourage ni modification locale du dessin. Originaux dans docs/art-sources-0.25.",
+  "review": "Deux centres clairs et ouverts, décors bas en bordure, absence de chemins/texte/bâtiments générés. Palettes ambre et céladon distinctes; inspectées aussi dans le jeu. Acteurs et props existants conservés."
+}

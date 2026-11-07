@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "sourceHash": "00f45e4a07fa5a41c237019e01713a74700dde8d60cee1cab523a8e4ff0785da",
+  "cohorts": [
+    "cohort-324.json",
+    "cohort-324-holdout.json"
+  ],
+  "disjointActualRunSeeds": true,
+  "totalRuns": 648,
+  "totalWon": 528,
+  "totalLost": 120,
+  "totalErrors": 0,
+  "totalTimeouts": 0,
+  "minActiveSeconds": 69.23333333333333,
+  "maxActiveSeconds": 224.66666666666669,
+  "perMissionBot": [
+    {
+      "mission": "refuge",
+      "bot": "methodical",
+      "runs": 36,
+      "won": 36,
+      "minBase": 100,
+      "meanDeaths": 0
+    },
+    {
+      "mission": "refuge",
+      "bot": "casual",
+      "runs": 36,
+      "won": 36,
+      "minBase": 100,
+      "meanDeaths": 0.1111111111111111
+    },
+    {
+      "mission": "refuge",
+      "bot": "novice",
+      "runs": 36,
+      "won": 36,
+      "minBase": 91,
+      "meanDeaths": 0.75
+    },
+    {
+      "mission": "trois-ponts",
+      "bot": "methodical",
+      "runs": 36,
+      "won": 36,
+      "minBase": 100,
+      "meanDeaths": 0.1111111111111111
+    },
+    {
+      "mission": "trois-ponts",
+      "bot": "casual",
+      "runs": 36,
+      "won": 36,
+      "minBase": 91,
+      "meanDeaths": 0.19444444444444445
+    },
+    {
+      "mission": "trois-ponts",
+      "bot": "novice",
+      "runs": 36,
+      "won": 36,
+      "minBase": 55,
+      "meanDeaths": 1.75
+    },
+    {
+      "mission": "course",
+      "bot": "methodical",
+      "runs": 36,
+      "won": 36,
+      "minBase": 100,
+      "meanDeaths": 0.3333333333333333
+    },
+    {
+      "mission": "course",
+      "bot": "casual",
+      "runs": 36,
+      "won": 36,
+      "minBase": 46,
+      "meanDeaths": 1.0833333333333333
+    },
+    {
+      "mission": "course",
+      "bot": "novice",
+      "runs": 36,
+      "won": 36,
+      "minBase": 46,
+      "meanDeaths": 2.7777777777777777
+    },
+    {
+      "mission": "coquilles",
+      "bot": "methodical",
+      "runs": 36,
+      "won": 36,
+      "minBase": 100,
+      "meanDeaths": 1.6111111111111112
+    },
+    {
+      "mission": "coquilles",
+      "bot": "casual",
+      "runs": 36,
+      "won": 30,
+      "minBase": 0,
+      "meanDeaths": 3.4166666666666665
+    },
+    {
+      "mission": "coquilles",
+      "bot": "novice",
+      "runs": 36,
+      "won": 18,
+      "minBase": 0,
+      "meanDeaths": 4.416666666666667
+    },
+    {
+      "mission": "sonnette",
+      "bot": "methodical",
+      "runs": 36,
+      "won": 36,
+      "minBase": 91,
+      "meanDeaths": 2.5555555555555554
+    },
+    {
+      "mission": "sonnette",
+      "bot": "casual",
+      "runs": 36,
+      "won": 25,
+      "minBase": 0,
+      "meanDeaths": 5.416666666666667
+    },
+    {
+      "mission": "sonnette",
+      "bot": "novice",
+      "runs": 36,
+      "won": 1,
+      "minBase": 0,
+      "meanDeaths": 4.222222222222222
+    },
+    {
+      "mission": "carrefour",
+      "bot": "methodical",
+      "runs": 36,
+      "won": 36,
+      "minBase": 100,
+      "meanDeaths": 2.7222222222222223
+    },
+    {
+      "mission": "carrefour",
+      "bot": "casual",
+      "runs": 36,
+      "won": 22,
+      "minBase": 0,
+      "meanDeaths": 5.055555555555555
+    },
+    {
+      "mission": "carrefour",
+      "bot": "novice",
+      "runs": 36,
+      "won": 0,
+      "minBase": 0,
+      "meanDeaths": 4.583333333333333
+    }
+  ]
+}

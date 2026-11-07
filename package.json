@@ -1,0 +1,56 @@
+{
+  "name": "conquete-serpents",
+  "private": true,
+  "version": "0.25.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "npm run typecheck && vite build && node scripts/check-dist.mjs",
+    "preview": "vite preview",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:browser": "node scripts/browser-check.mjs",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build:portable": "npm run typecheck && vite build --mode portable",
+    "benchmark": "node scripts/benchmark.mjs",
+    "balance": "node scripts/balance-100.mjs",
+    "balance:lab": "node scripts/balance-lab.mjs",
+    "balance:paths": "node scripts/path-transit.mjs",
+    "verify": "npm run format:check && npm run test && npm run build",
+    "test:presentation": "node scripts/presentation-browser.mjs",
+    "test:render": "node scripts/render-browser.mjs",
+    "test:interface": "node scripts/interface-browser.mjs",
+    "test:rewards": "node scripts/rewards-browser.mjs",
+    "test:journey": "node scripts/journey-browser.mjs",
+    "test:signals": "node tests/encounter-signals-019-browser.mjs",
+    "test:family": "node scripts/family-browser.mjs",
+    "android:sync": "npm run build && cap sync android",
+    "android:open": "cap open android",
+    "test:missions": "node scripts/missions-browser.mjs",
+    "test:missions:regressions": "node scripts/missions-browser.mjs --regressions",
+    "test:tactical": "node scripts/tactical-022-browser.mjs",
+    "test:medical-persistence": "node scripts/medical-persistence-browser.mjs",
+    "test:stage": "node scripts/stage-023-browser.mjs",
+    "test:performance": "node scripts/performance-024-browser.mjs",
+    "test:render-settings": "node scripts/render-settings-024-browser.mjs",
+    "test:departures": "node scripts/departures-025-browser.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.6.0",
+    "@capacitor/core": "8.6.0",
+    "phaser": "^3.90.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.0",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^24.19.2",
+    "prettier": "^3.9.10",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vite-plugin-singlefile": "^2.3.4"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  }
+}

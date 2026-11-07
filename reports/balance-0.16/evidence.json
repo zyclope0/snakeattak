@@ -1,0 +1,74 @@
+{
+  "version": "0.16.0",
+  "completedCampaigns": 1920,
+  "stages": [
+    {
+      "stage": "discovery",
+      "games": 448,
+      "resultsHash": "cca026db95e27f163abdd54542d8a60669a99ab76507d2f922c5e6b3bc2995b2",
+      "sourceHash": "1b2398eae997943a0a9606e3858d4f7c0680de5b0c0b96aebe44c0fd03d383cb",
+      "scriptHash": "136d8f07884a538f07d78d82324098fa05e9633130e90089e47678f5d4975cb2",
+      "sourceUnchanged": true
+    },
+    {
+      "stage": "confirmation",
+      "games": 384,
+      "resultsHash": "9bc00d11e9f9be6b622aab44d7a9c1516348d5cde7ac8e8921b11bd391f98277",
+      "sourceHash": "1b2398eae997943a0a9606e3858d4f7c0680de5b0c0b96aebe44c0fd03d383cb",
+      "scriptHash": "136d8f07884a538f07d78d82324098fa05e9633130e90089e47678f5d4975cb2",
+      "sourceUnchanged": true
+    },
+    {
+      "stage": "discovery2",
+      "games": 320,
+      "resultsHash": "78c9dd6ddc3293b54d16ebdb21d7a70fda8d568258577dadd2a24bd55a6e0251",
+      "sourceHash": "b8597bb682618a7cc9adc40939e5b685f953d30a1325f0a13e35010d344d0d0e",
+      "scriptHash": "a07bb24f89cb35934133bbd3b686d4ef5db3c6e9e466f58a41f8d0f0c48312da",
+      "sourceUnchanged": true
+    },
+    {
+      "stage": "confirmation2",
+      "games": 384,
+      "resultsHash": "1b787525224ebac151f1e132d48b5b8bce293f03298ace62b6bb5597c99ac28d",
+      "sourceHash": "503c39136a6ed72762465cafcd2bc03770a27eaa79d0433e3a5f3f94b6c69f4b",
+      "scriptHash": "a07bb24f89cb35934133bbd3b686d4ef5db3c6e9e466f58a41f8d0f0c48312da",
+      "sourceUnchanged": true
+    },
+    {
+      "stage": "holdout",
+      "games": 384,
+      "resultsHash": "b5c94823f1994f0deaa71689042a8312a964511377dd518ab5b901192e10becf",
+      "sourceHash": "97fe381981a910432e4e0a7a3dadb9bcdbed6e615e2c21ae636b3e8dff8efda2",
+      "scriptHash": "a07bb24f89cb35934133bbd3b686d4ef5db3c6e9e466f58a41f8d0f0c48312da",
+      "sourceUnchanged": true
+    }
+  ],
+  "holdoutPairedGains": 20,
+  "holdoutPairedRegressions": 2,
+  "holdoutNewEarlyLosses": 1,
+  "holdoutPaired": {
+    "id": "shipped-016",
+    "baseline": "baseline",
+    "pairs": 192,
+    "winRateDifferenceClusterBootstrap95": {
+      "difference": 0.09375,
+      "low": 0.057291666666666664,
+      "high": 0.125,
+      "seeds": 24
+    }
+  },
+  "tuning": {
+    "bossEnabled": true,
+    "bossHpMultiplier": 6.5,
+    "bossShieldFraction": 0.12,
+    "bossShieldRangedFactor": 0.45,
+    "bossShieldMeleeFactor": 1.6,
+    "bossShotDamage": 18,
+    "bossShotInterval": 7,
+    "bossShotWindup": 1.8,
+    "bossShotRadius": 38,
+    "bossShotRange": 260,
+    "splashSecondaryFactor": 1,
+    "mutantDamageFactor": 1.75
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "appgdep_6aef83fe0c7c8191836a1e817660c016",
+  "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+  "title": "La Conquête des Serpents",
+  "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_d0d6ad8106148191a7a65d9575f370dd",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-11-07T20:03:23.666407+00:00",
+  "commit_sha": "e01b3f622de1318b96b1933ce8a3723e63a3c460",
+  "archiveSha256": "ca9a62f06efac0ad45b045b16a406553b1aca265482e20ffd017a0af4d49016c",
+  "authenticatedProductionBrowserTested": false
+}

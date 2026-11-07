@@ -1,0 +1,31 @@
+{
+  "version": "0.12.0",
+  "asset": "src/assets/illustrated/strongholds.webp",
+  "model": "recraft-v4-pro",
+  "styleReference": "s7epxC5l8e",
+  "source": "JNtabQwOq4",
+  "cutout": "TdLS6U6VNR",
+  "optimized": "KLcMh3pkqp",
+  "folder": "Personal",
+  "credits": {
+    "generate": 175,
+    "removeBackground": 3,
+    "resize": 40,
+    "total": 218
+  },
+  "prompt": "An EXACT 2x2 square GAME SPRITE ATLAS, four equal square quadrants meeting exactly at 50% width and height. ONE COMPLETE isolated object per quadrant, no overlap between cells, generous pure WHITE padding all around every object, no floor plane, no background scenery, no text or labels or symbols. Match the reference's hand-painted wood and clay STORYBOOK TABLETOP MINIATURE style, matte carved wood, chunky sculpted mossy stone, sage green leaves, ochre, cream and teal, warm sunlight from upper left. Orthographic elevated three-quarter game view, 55 degrees downward, readable silhouettes, crisp professional 2.5D game art. TOP LEFT: the friendly DEFENDERS' FOREST FORT, a compact low curved stone rampart and sturdy OAK GATE facing LEFT, two small round mossy towers, teal cloth pennants, a luminous BLUE ACORN CRYSTAL sheltered in the central courtyard under two arching green leaves, warm wood details and tiny mushrooms. Warm inviting safe family camp, not a large castle; complete freestanding miniature, no human characters. TOP RIGHT: the first ENEMY SNAKE DEN, a mossy ancient hollow tree-root arch sitting on a low stone threshold, broad deep dark hollow opening facing RIGHT toward the road, an elegant subtle carved snake head crowning the arch, curled roots, a few tiny ivory snake eggs nestled to the side, sage ferns. The opening must be clear and wide, no snake creatures inside. BOTTOM LEFT: the autumn CLOCKWORK SNAKE DEN, same overall hollow arch/threshold silhouette and right-facing opening as top right, dark hollow mouth, warm copper gear rings embedded in oak roots, amber leaves, little bronze rivets, whimsical hand-crafted gears, no machines sticking across the opening, no snakes. BOTTOM RIGHT: the ancient GARDEN SNAKE DEN, same right-facing arched hollow and footprint, a low weathered stone portal with moss and pale blue mushrooms, carved gentle snake relief, dark empty opening, sage roots. Friendly adventure danger, not horror. Each miniature fits fully in its square with clear WHITE margins. No writing, no divider lines, no path leading out of cells, no people, no watermark.",
+  "frames": [
+    "refuge (source faces right; mirrored in battle)",
+    "root den",
+    "clockwork den",
+    "garden den"
+  ],
+  "technicalExport": "1024x1024 PNG supplied by Magnific converted to lossless WebP; no creative pixel edits",
+  "bytes": 792264,
+  "sha256": "9c0f0d4d22e398c868635a3cbe0a585752fcf5984b673b5faf59ad73c96a8604",
+  "width": 1024,
+  "height": 1024,
+  "balanceBefore": 17215,
+  "balanceAfter": 16997,
+  "verifiedSpent": 218
+}

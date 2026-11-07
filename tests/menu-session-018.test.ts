@@ -1,0 +1,33 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Session } from '../src/session.ts';
+import { Game } from '../src/game.ts';
+test('le menu suspend strictement le combat sans modifier une pause choisie', () => {
+  const s = new Session(12);
+  s.game.startWave();
+  s.game.step(1 / 30);
+  s.screen = 'home';
+  const before = JSON.stringify(s.game);
+  s.advance(1000);
+  assert.equal(JSON.stringify(s.game), before);
+  s.screen = 'battle';
+  s.advance(100);
+  assert.ok(s.game.time > JSON.parse(before).time);
+  s.game.paused = true;
+  s.screen = 'home';
+  s.screen = 'battle';
+  s.advance(100);
+  assert.equal(s.game.paused, true);
+});
+test('reprendre un camp remplace les sélections et vide le reliquat de temps', () => {
+  const s = new Session(1);
+  s.advance(20);
+  s.selected = 'ninja';
+  s.speed = 2;
+  const g = new Game(2);
+  s.useGame(g);
+  assert.equal(s.selected, null);
+  assert.equal(s.speed, 1);
+  s.advance(20);
+  assert.equal(g.time, 0);
+});

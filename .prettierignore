@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-portable
+public
+legacy
+artifacts
+package-lock.json
+reports
+
+android/

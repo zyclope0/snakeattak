@@ -1,0 +1,26 @@
+{
+  "environment": "Node 24 cloud, prepared camps, no GPU/browser claim",
+  "rows": [
+    {
+      "allies": 3,
+      "iterations": 25,
+      "writes": 1,
+      "medianMs": 0.06229400000000851,
+      "p95Ms": 0.30748300000000484
+    },
+    {
+      "allies": 24,
+      "iterations": 25,
+      "writes": 1,
+      "medianMs": 0.15636600000000556,
+      "p95Ms": 0.28700299999999856
+    },
+    {
+      "allies": 48,
+      "iterations": 25,
+      "writes": 1,
+      "medianMs": 0.23059800000000052,
+      "p95Ms": 0.4033489999999915
+    }
+  ]
+}
