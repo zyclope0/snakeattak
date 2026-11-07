@@ -267,23 +267,6 @@
         </button>
       </header>
       <main>
-        <section
-          id="mission-battle-actions"
-          class="mission-battle-actions"
-          aria-label="Mon expédition"
-          hidden
-        >
-          <div>
-            <strong id="mission-battle-title"></strong>
-            <p id="mission-battle-config"></p>
-            <p id="mission-result" role="status" hidden></p>
-          </div>
-          <div class="mission-battle-buttons">
-            <button id="mission-back-map" class="secondary">Carte des missions</button
-            ><button id="mission-again" class="secondary" hidden>Réessayer le même départ</button
-            ><button id="mission-next" class="primary" hidden>Mission suivante</button>
-          </div>
-        </section>
         <section class="dashboard" aria-label="Votre camp">
           <div class="resource treasure-stat">
             <span class="coin" aria-hidden="true">●</span>
@@ -364,21 +347,15 @@
               </div>
               <small class="team-legend"><span>◆ Alliés</span><span>▲ Serpents</span></small>
             </div>
-            <div id="encounter" class="encounter" role="status" aria-live="polite" data-tone="idle">
-              <strong id="encounter-title">Prépare ton camp</strong
-              ><span id="encounter-tip">Choisis un allié et place-le à droite.</span>
-              <span id="medical-status" class="medical-status" hidden></span>
-              <span id="boss-status" class="boss-status" hidden></span>
-            </div>
-            <section id="reward-panel" class="reward-panel" aria-labelledby="reward-title" hidden>
-              <span class="reward-eyebrow">Un cadeau pour la suite</span>
-              <h3 id="reward-title" tabindex="-1">Choisis ton bonus</h3>
-              <p>Un seul cadeau. À toi de choisir ce qui aidera ton armée !</p>
-              <div id="reward-cards" class="reward-cards"></div>
-              <button id="skip-reward" class="quiet">Continuer sans bonus</button>
-            </section>
-            <p id="reward-summary" class="reward-summary" role="status" hidden></p>
+
             <div class="battle-stage">
+              <section id="reward-panel" class="reward-panel" aria-labelledby="reward-title" hidden>
+                <span class="reward-eyebrow">Un cadeau pour la suite</span>
+                <h3 id="reward-title" tabindex="-1">Choisis ton bonus</h3>
+                <p>Un seul cadeau. À toi de choisir ce qui aidera ton armée !</p>
+                <div id="reward-cards" class="reward-cards"></div>
+                <button id="skip-reward" class="quiet">Continuer sans bonus</button>
+              </section>
               <div
                 id="game"
                 role="img"
@@ -399,46 +376,6 @@
                 </div>
               </div>
             </div>
-            <div class="tactics">
-              <div id="lane-status" aria-label="Défenses par voie"></div>
-              <small id="ai-mode">IA : exploratrice</small><small id="egg-count">0 œuf</small>
-            </div>
-            <div class="battle-footer">
-              <span id="message" role="status">Choisis tes alliés pour défendre le cristal.</span>
-              <div id="selection-panel" hidden>
-                <span id="selection-portrait" class="portrait" aria-hidden="true"></span
-                ><span
-                  ><strong id="selection-name"></strong
-                  ><small id="selection-hint"
-                    >Touche un espace libre à droite. Le cercle montre la portée initiale ; nos
-                    alliés se déplacent ensuite seuls.</small
-                  ></span
-                ><button id="cancel" class="text-button" hidden>Annuler ✕</button>
-              </div>
-            </div>
-            <details id="chapter-report" class="chapter-report" hidden>
-              <summary id="chapter-report-title"></summary>
-              <p id="chapter-report-summary"></p>
-              <ul id="chapter-report-army" class="chapter-report-army"></ul>
-            </details>
-            <details class="hero-school">
-              <summary id="hero-training">Entraîner le héros</summary>
-              <p id="training-status">Disponible après la vague 4</p>
-              <div>
-                <button data-training="force">
-                  Frappe renforcée<br /><small>+15 % de dégâts · 90 pièces</small></button
-                ><button data-training="guard">
-                  Gardien<br /><small>−15 % sur les coups reçus · 90 pièces</small>
-                </button>
-              </div>
-            </details>
-            <details class="briefing">
-              <summary>
-                <strong id="brief-title">Une aventure en douze vagues</strong><span>Détails</span>
-              </summary>
-              <p id="brief-tip">Prépare ton camp.</p>
-              <button id="end-restart" class="primary" hidden>Rejouer une aventure</button>
-            </details>
           </section>
           <button
             id="reinforcements-backdrop"
@@ -461,6 +398,55 @@
               ><button id="unit-guide" class="guide-button" title="Consulter les fiches des alliés">
                 ≡ <span>Fiches</span>
               </button>
+            </div>
+            <div class="camp-readout">
+              <section
+                id="mission-battle-actions"
+                class="mission-battle-actions"
+                aria-label="Mon expédition"
+                hidden
+              >
+                <div>
+                  <strong id="mission-battle-title"></strong>
+                  <p id="mission-battle-config"></p>
+                  <p id="mission-result" role="status" hidden></p>
+                </div>
+                <div class="mission-battle-buttons">
+                  <button id="mission-back-map" class="secondary">Carte des missions</button
+                  ><button id="mission-again" class="secondary" hidden>
+                    Réessayer le même départ</button
+                  ><button id="mission-next" class="primary" hidden>Mission suivante</button>
+                </div>
+              </section>
+              <div
+                id="encounter"
+                class="encounter"
+                role="status"
+                aria-live="polite"
+                data-tone="idle"
+              >
+                <strong id="encounter-title">Prépare ton camp</strong
+                ><span id="encounter-tip">Choisis un allié et place-le à droite.</span>
+                <span id="medical-status" class="medical-status" hidden></span>
+                <span id="boss-status" class="boss-status" hidden></span>
+              </div>
+              <div class="tactics">
+                <div id="lane-status" aria-label="Défenses par voie"></div>
+                <small id="ai-mode">IA : exploratrice</small><small id="egg-count">0 œuf</small>
+              </div>
+              <div class="battle-footer">
+                <span id="message" role="status">Choisis tes alliés pour défendre le cristal.</span>
+                <div id="selection-panel" hidden>
+                  <span id="selection-portrait" class="portrait" aria-hidden="true"></span
+                  ><span
+                    ><strong id="selection-name"></strong
+                    ><small id="selection-hint"
+                      >Touche un espace libre à droite. Le cercle montre la portée initiale ; nos
+                      alliés se déplacent ensuite seuls.</small
+                    ></span
+                  ><button id="cancel" class="text-button" hidden>Annuler ✕</button>
+                </div>
+              </div>
             </div>
             <details id="quick-army" class="quick-army">
               <summary>Mon équipe · 8 favoris</summary>
@@ -499,32 +485,58 @@
                 <small>+25 points de vie</small></span
               ><strong>80 <span aria-hidden="true">●</span></strong>
             </button>
+            <div class="camp-details">
+              <details id="chapter-report" class="chapter-report" hidden>
+                <summary id="chapter-report-title"></summary>
+                <p id="chapter-report-summary"></p>
+                <ul id="chapter-report-army" class="chapter-report-army"></ul>
+              </details>
+              <details class="hero-school">
+                <summary id="hero-training">Entraîner le héros</summary>
+                <p id="training-status">Disponible après la vague 4</p>
+                <div>
+                  <button data-training="force">
+                    Frappe renforcée<br /><small>+15 % de dégâts · 90 pièces</small></button
+                  ><button data-training="guard">
+                    Gardien<br /><small>−15 % sur les coups reçus · 90 pièces</small>
+                  </button>
+                </div>
+              </details>
+              <details class="briefing">
+                <summary>
+                  <strong id="brief-title">Une aventure en douze vagues</strong><span>Détails</span>
+                </summary>
+                <p id="brief-tip">Prépare ton camp.</p>
+                <button id="end-restart" class="primary" hidden>Rejouer une aventure</button>
+              </details>
+              <p id="reward-summary" class="reward-summary" role="status" hidden></p>
+              <section id="current-departure" class="departure-share" aria-label="Code de départ">
+                <label for="current-departure-code">Partager ou retrouver ce départ</label>
+                <div class="departure-entry">
+                  <input
+                    id="current-departure-code"
+                    class="departure-value"
+                    readonly
+                    aria-describedby="current-departure-message"
+                  /><button id="current-departure-copy" class="secondary" type="button">
+                    Copier le code
+                  </button>
+                </div>
+                <p id="current-departure-message" class="departure-message" role="status"></p>
+              </section>
+              <p id="departure-unavailable" class="departure-message" hidden>
+                Code disponible pour les nouveaux départs ; ton ancien camp reste conservé.
+              </p>
+              <footer>
+                <span id="save-status" role="status">Sauvegarde locale entre les vagues</span>
+                <div>
+                  <button id="reset" class="text-button">↻ Nouvelle partie</button
+                  ><a href="./prototype-v4.html">Prototype V4</a>
+                </div>
+              </footer>
+            </div>
           </aside>
         </div>
-        <section id="current-departure" class="departure-share" aria-label="Code de départ">
-          <label for="current-departure-code">Partager ou retrouver ce départ</label>
-          <div class="departure-entry">
-            <input
-              id="current-departure-code"
-              class="departure-value"
-              readonly
-              aria-describedby="current-departure-message"
-            /><button id="current-departure-copy" class="secondary" type="button">
-              Copier le code
-            </button>
-          </div>
-          <p id="current-departure-message" class="departure-message" role="status"></p>
-        </section>
-        <p id="departure-unavailable" class="departure-message" hidden>
-          Code disponible pour les nouveaux départs ; ton ancien camp reste conservé.
-        </p>
-        <footer>
-          <span id="save-status" role="status">Sauvegarde locale entre les vagues</span>
-          <div>
-            <button id="reset" class="text-button">↻ Nouvelle partie</button
-            ><a href="./prototype-v4.html">Prototype V4</a>
-          </div>
-        </footer>
       </main>
     </div>
     <dialog id="restart-dialog" aria-labelledby="restart-title">

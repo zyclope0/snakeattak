@@ -1,3 +1,5 @@
+import { Game } from '../src/game.ts';
+import { encodeCheckpoint } from '../src/checkpoints.ts';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -41,6 +43,58 @@ async function newPage(width, height, touch = false) {
   return page;
 }
 const checks = {
+  async 2() {
+    for (const [width, height] of [
+      [1280, 800],
+      [1366, 768],
+      [1920, 1080],
+    ]) {
+      const page = await newPage(width, height);
+      await mission(page);
+      for (const expanded of [false, true]) {
+        if (expanded) {
+          await page.locator('#display-toggle').click();
+          await page.waitForTimeout(180);
+        }
+        const board = await page.locator('#game canvas').boundingBox();
+        const hud = await page.locator('.dashboard').boundingBox();
+        assert.ok(
+          board.y >= 0 && board.y <= 120,
+          `Plateau près du haut ${width}: ${JSON.stringify(board)}`,
+        );
+        assert.ok(
+          board.y + board.height <= height + 1 && hud.y >= 0 && hud.y + hud.height <= height,
+          'Plateau et HUD entiers',
+        );
+        assert.ok(Math.abs(board.width / board.height - 1100 / 620) < 0.01, 'Ratio du plateau');
+        assert.equal(await page.evaluate(() => scrollY), 0);
+        assert.ok(await page.locator('#reinforcements #lane-status').count());
+        assert.ok(await page.locator('#reinforcements #hero-training').count());
+        assert.ok(await page.locator('#reinforcements #brief-title').count());
+        results.push({ point: 2, width, height, expanded, board, hud });
+      }
+      await page.screenshot({ path: `artifacts/display-027/desktop-${width}.png` });
+      await page.close();
+    }
+    const gift = await newPage(1280, 800);
+    const game = new Game(2026);
+    game.wave = 4;
+    await gift.addInitScript(
+      (raw) => localStorage.setItem('conquete-serpents:camp:v1', raw),
+      encodeCheckpoint(game),
+    );
+    await home(gift);
+    await gift.locator('#home-continue').click();
+    await ready(gift);
+    const reward = await gift.locator('#reward-panel').boundingBox();
+    const board = await gift.locator('#game canvas').boundingBox();
+    assert.ok(reward && reward.y >= 0 && reward.y + reward.height <= 800);
+    assert.ok(board.y <= 120 && board.y + board.height <= 800);
+    await gift.locator('#skip-reward').click();
+    assert.equal(await gift.locator('#reward-panel').isVisible(), false);
+    await gift.close();
+  },
+
   async 1() {
     for (const [width, height] of [
       [1280, 800],
