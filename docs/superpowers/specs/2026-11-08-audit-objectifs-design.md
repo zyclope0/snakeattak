@@ -6,14 +6,17 @@ Base : v0.26.0, commit `b4ad943`, publiée sur l'adresse familiale habituelle.
 
 ## Intention et décisions du parent
 
-Objectif : une sortie Google Play avec achat unique, en faisant passer la qualité
-et les essais des enfants avant le calendrier. Le jeu reste celui du fils :
+Objectif : une sortie Google Play, en faisant passer la qualité et les essais des
+enfants avant le calendrier. Le modèle économique reste ouvert, après la précision
+du parent du 8 novembre. Le jeu reste celui du fils :
 alliés autonomes, serpents, œufs, trois voies interconnectées, même univers visuel.
 
 Décisions explicites du 8 novembre :
 
 - Ordre : lots **1, 4, 3, 2, 7, 8, 9, 5**. Le lot 6 reste après la sortie.
-- Prix provisoire : **3,99 € / 4 CHF**, à confirmer après le test fermé.
+- Monétisation **non décidée** : achat unique parmi les pistes. **3,99 € / 4 CHF**
+  reste une hypothèse si cette piste est retenue, pas un engagement de prix ou
+  d’implémentation. Ce choix ne bloque pas les lots de qualité et de gameplay.
 - Mission 1 : trois voies **visibles dès le début**, puis ennemis sur la voie du
   centre à la vague 1, deux voies à la vague 2, trois à la vague 3. Valeurs à
   proposer au parent et à l'enfant avant toute modification des règles.
@@ -132,7 +135,7 @@ du lot 1 ; aucune publication n'est effectuée au stade du présent document.
 | 3            | 3 — Plateau                  | Raccords secondaires lisibles et halos nettoyés ; géométrie, positions des ponts et navigation inchangées                                                                                      |
 | 4            | 2 — Lisibilité               | Parcours Jouer simple, vocabulaire cohérent et tutoiement, préparation illustrée, cible ≤60 mots visibles en mission 1 ; introduction progressive des outils à valider comme choix de gameplay |
 | 5            | 7 — Initiation et difficulté | Trois voies visibles, ouverture par vague validée avec le fils ; signaux d'ennemis et mode Facile séparément validés et équilibrés                                                             |
-| 6            | 8 — Achat unique             | Définir le périmètre gratuit, portail parental, facturation et restauration testées ; prix provisoire ; pas d'implémentation maintenant                                                        |
+| 6            | 8 — Modèle économique        | Choisir le modèle avec le parent ; achat unique et prix sont des pistes. Si retenu : définir déblocage, portail, facturation et restauration. Aucun paiement implémenté avant décision         |
 | 7            | 9 — Store                    | Identité d'application définitive, documents exacts, captures et test fermé ; conditions du compte à vérifier dans la Play Console                                                             |
 | 8            | 5 — Langues                  | FR/EN/DE/IT après stabilisation des textes ; relecture humaine et contrôle des débordements avant publication                                                                                  |
 | Après sortie | 6 — Lieux/événements         | Images proposées puis mécaniques de météo à valider ; anciens codes conservés                                                                                                                  |
@@ -168,10 +171,10 @@ La portée du mode Facile vis-à-vis d'un code partagé reste à préciser au lo
 - Lot 4 : modèle et accès à l'appareil Android, environnement de build local.
 - Lots 2/7 : montrer les maquettes aux enfants ; dock de quatre favoris ou tiroir,
   accès au catalogue complet, ordre d'apparition des outils et valeurs de difficulté.
-- Lot 8 : contenu de l'essai gratuit et devenir du web actuellement complet ;
+- Lot 8 : choix du modèle économique, éventuel essai gratuit et devenir du web actuellement complet ;
   l'audit propose un web limité à trois missions, ce n'est pas encore une décision.
   Ne pas retirer automatiquement l'accès existant des joueurs familiaux.
-- Lots 8/9 : plugin de facturation, achat/restauration/hors-ligne, données réellement
+- Lots 8/9 : si des achats sont retenus, plugin et achat/restauration/hors-ligne ; données réellement
   traitées et obligations du compte ; revérifier les sources officielles à cette étape.
   Aucun PEGI garanti ni déclaration « aucune donnée » recopiée sans vérification.
 - Lot 5 : personnes disponibles pour relire EN/DE/IT.
