@@ -1,0 +1,134 @@
+{
+  "date": "2026-11-07T23:02:27.375Z",
+  "checks": [
+    {
+      "name": "défilement après lancement 1280x800",
+      "ok": false,
+      "value": 422,
+      "target": "0 px"
+    },
+    {
+      "name": "plateau entier visible 1280x800",
+      "ok": false,
+      "value": {
+        "scrollY": 422,
+        "top": -102,
+        "bottom": 412,
+        "innerHeight": 800
+      },
+      "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre"
+    },
+    {
+      "name": "mots visibles avant la 1re vague (mission 1, 1280x800)",
+      "ok": false,
+      "value": 185,
+      "target": "≤ 60 (lot 2)"
+    },
+    {
+      "name": "aucun vouvoiement visible",
+      "ok": false,
+      "value": 1,
+      "target": "0 (lot 2)"
+    },
+    {
+      "name": "défilement après lancement 1366x768",
+      "ok": false,
+      "value": 503,
+      "target": "0 px"
+    },
+    {
+      "name": "plateau entier visible 1366x768",
+      "ok": false,
+      "value": {
+        "scrollY": 503,
+        "top": -183,
+        "bottom": 379,
+        "innerHeight": 768
+      },
+      "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre"
+    },
+    {
+      "name": "défilement après lancement 1920x1080",
+      "ok": false,
+      "value": 365,
+      "target": "0 px"
+    },
+    {
+      "name": "plateau entier visible 1920x1080",
+      "ok": false,
+      "value": {
+        "scrollY": 365,
+        "top": -45,
+        "bottom": 661,
+        "innerHeight": 1080
+      },
+      "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre"
+    },
+    {
+      "name": "cibles tactiles < 48 px (812x375, plateau)",
+      "ok": false,
+      "value": [
+        {
+          "t": "Ⅱ",
+          "w": 36,
+          "h": 36
+        },
+        {
+          "t": "×1",
+          "w": 36,
+          "h": 36
+        },
+        {
+          "t": "Accueil",
+          "w": 60,
+          "h": 36
+        },
+        {
+          "t": "Renforts",
+          "w": 69,
+          "h": 36
+        },
+        {
+          "t": "Lancer la vague",
+          "w": 110,
+          "h": 36
+        }
+      ],
+      "target": "aucune (Android 48 dp)"
+    },
+    {
+      "name": "plateau en paysage téléphone (% hauteur)",
+      "ok": true,
+      "value": {
+        "h": 88,
+        "w": 72
+      },
+      "target": "≥ 85 % de la hauteur"
+    },
+    {
+      "name": "consigne « Tourne ton téléphone » en portrait",
+      "ok": true,
+      "value": true,
+      "target": "visible"
+    },
+    {
+      "name": "nouveau tirage : terrain répété",
+      "ok": true,
+      "value": 0,
+      "target": "0 sur 10"
+    },
+    {
+      "name": "erreurs JavaScript",
+      "ok": true,
+      "value": [],
+      "target": "aucune"
+    }
+  ],
+  "context": {
+    "appVersion": "0.26.0",
+    "sourceCommit": "b4ad943a0f68234542e0aff3f639cdbd19556977",
+    "method": "Script fourni dans le ZIP, lu avant exécution, exécuté hors dépôt contre le build local inchangé.",
+    "scope": "Reproduction des mesures de lancement, texte et HUD ; ne mesure ni contraste, ni APK, ni fluidité physique.",
+    "note": "Le script rapporte des écarts de plusieurs lots ; son exit 0 sans --strict ne signifie pas que tous les contrôles passent."
+  }
+}
