@@ -1,6 +1,6 @@
 # Audit de novembre — objectifs et cadrage de la v0.27
 
-Statut : **proposition à valider, aucune réalisation du lot 1 commencée**.
+Statut : **lot 1 validé par le parent (« oui hyper quali »), réalisation en cours**.
 Date : 8 novembre 2026, Europe/Zurich.
 Base : v0.26.0, commit `b4ad943`, publiée sur l'adresse familiale habituelle.
 

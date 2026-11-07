@@ -100,6 +100,8 @@ bindBoardResize(phaser, document.getElementById('game')!);
 const view = (home: boolean) => {
   document.getElementById('home-screen')!.hidden = !home;
   document.getElementById('app')!.hidden = home;
+  // Both screens share a document: never inherit the map/menu scroll in battle.
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   requestAnimationFrame(() => {
     if (!phaser) return;
     if (home && phaser.scene.keys.Battle && phaser.scene.isActive('Battle'))
