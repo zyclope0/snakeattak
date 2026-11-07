@@ -168,6 +168,10 @@ try {
       window.stageFixture?.phaser.scene.getScene('Battle')?.sys.isActive(),
     );
     await mobile.waitForTimeout(600);
+    assert.ok(await mobile.locator('#orientation-notice').isVisible());
+    await mobile.screenshot({ path: 'artifacts/stage-023/portrait-guidance.png' });
+    await mobile.setViewportSize({ width: 812, height: 375 });
+    await mobile.waitForTimeout(300);
     await mobile.evaluate(() => {
       window.stageFixture.session.selected = 'archer';
       window.stageFixture.refresh();

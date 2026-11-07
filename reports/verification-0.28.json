@@ -1,0 +1,294 @@
+{
+  "version": "0.28.0",
+  "verifiedAt": "2026-11-07T23:50:37.036883+00:00",
+  "tests": 370,
+  "failures": 0,
+  "build": "passed",
+  "format": "passed",
+  "cleanup": "--check reproducible; original preserved; no unselected pixel changed",
+  "paidCalls": 0,
+  "render": {
+    "scenario": "Chromium, 21 illustrated allies and outlines, 1440px",
+    "rafMilliseconds": {
+      "count": 76,
+      "median": 33.30000000000018,
+      "p95": 50
+    },
+    "clickMs": 448,
+    "screenshotMs": 584,
+    "physicalDevice": false,
+    "contextRestore": true,
+    "restoredLayers": [
+      "terrain",
+      "fort",
+      "den"
+    ]
+  },
+  "stage": {
+    "results": [
+      {
+        "rng": 91264577,
+        "layout": 0,
+        "renderer": 2,
+        "units": 9
+      },
+      {
+        "rng": 91264577,
+        "layout": 1,
+        "renderer": 2,
+        "units": 9
+      },
+      {
+        "rng": 91264577,
+        "layout": 2,
+        "renderer": 2,
+        "units": 8
+      }
+    ],
+    "checks": {
+      "combatStateMatchesBefore": true,
+      "stableChildren": 103,
+      "contextRestore": true,
+      "canvas": true,
+      "landscape": {
+        "canvasWidth": 1100,
+        "canvasHeight": 620,
+        "displayWidth": 884.984375,
+        "displayHeight": 498.8125,
+        "camera": [
+          1100,
+          620
+        ],
+        "renderer": [
+          1100,
+          620
+        ],
+        "scrollY": 198,
+        "innerHeight": 540,
+        "screenWidth": 915
+      },
+      "touchPlacement": true,
+      "classicRegions": [
+        "clearing",
+        "grove",
+        "ruins"
+      ]
+    },
+    "errors": [],
+    "physicalDevice": false
+  },
+  "beforeAfter": {
+    "samples": [
+      {
+        "width": 1280,
+        "height": 800,
+        "state": {
+          "rng": 91264577,
+          "units": [
+            {
+              "id": 1,
+              "x": 756,
+              "y": 180,
+              "hp": 140
+            },
+            {
+              "id": 2,
+              "x": 756,
+              "y": 468,
+              "hp": 140
+            },
+            {
+              "id": 3,
+              "x": 828,
+              "y": 324,
+              "hp": 330
+            },
+            {
+              "id": 4,
+              "x": 708,
+              "y": 180,
+              "hp": 300
+            },
+            {
+              "id": 5,
+              "x": 864,
+              "y": 180,
+              "hp": 95
+            },
+            {
+              "id": 6,
+              "x": 912,
+              "y": 252,
+              "hp": 90
+            },
+            {
+              "id": 7,
+              "x": 756,
+              "y": 324,
+              "hp": 155
+            },
+            {
+              "id": 8,
+              "x": 888,
+              "y": 324,
+              "hp": 95
+            },
+            {
+              "id": 9,
+              "x": 864,
+              "y": 468,
+              "hp": 200
+            }
+          ],
+          "enemies": [
+            {
+              "id": 4000,
+              "x": 624,
+              "y": 184.11134888346905,
+              "hp": 180
+            },
+            {
+              "id": 4001,
+              "x": 456,
+              "y": 180,
+              "hp": 180
+            },
+            {
+              "id": 4002,
+              "x": 624,
+              "y": 320.37233922046846,
+              "hp": 180
+            },
+            {
+              "id": 4003,
+              "x": 456,
+              "y": 324,
+              "hp": 180
+            },
+            {
+              "id": 4004,
+              "x": 624,
+              "y": 463.64680706456215,
+              "hp": 180
+            },
+            {
+              "id": 4005,
+              "x": 456,
+              "y": 468,
+              "hp": 180
+            }
+          ],
+          "gold": 9125,
+          "base": 100
+        }
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "state": {
+          "rng": 91264577,
+          "units": [
+            {
+              "id": 1,
+              "x": 756,
+              "y": 180,
+              "hp": 140
+            },
+            {
+              "id": 2,
+              "x": 756,
+              "y": 468,
+              "hp": 140
+            },
+            {
+              "id": 3,
+              "x": 828,
+              "y": 324,
+              "hp": 330
+            },
+            {
+              "id": 4,
+              "x": 708,
+              "y": 180,
+              "hp": 300
+            },
+            {
+              "id": 5,
+              "x": 864,
+              "y": 180,
+              "hp": 95
+            },
+            {
+              "id": 6,
+              "x": 912,
+              "y": 252,
+              "hp": 90
+            },
+            {
+              "id": 7,
+              "x": 756,
+              "y": 324,
+              "hp": 155
+            },
+            {
+              "id": 8,
+              "x": 888,
+              "y": 324,
+              "hp": 95
+            },
+            {
+              "id": 9,
+              "x": 864,
+              "y": 468,
+              "hp": 200
+            }
+          ],
+          "enemies": [
+            {
+              "id": 4000,
+              "x": 624,
+              "y": 184.11134888346905,
+              "hp": 180
+            },
+            {
+              "id": 4001,
+              "x": 456,
+              "y": 180,
+              "hp": 180
+            },
+            {
+              "id": 4002,
+              "x": 624,
+              "y": 320.37233922046846,
+              "hp": 180
+            },
+            {
+              "id": 4003,
+              "x": 456,
+              "y": 324,
+              "hp": 180
+            },
+            {
+              "id": 4004,
+              "x": 624,
+              "y": 463.64680706456215,
+              "hp": 180
+            },
+            {
+              "id": 4005,
+              "x": 456,
+              "y": 468,
+              "hp": 180
+            }
+          ],
+          "gold": 9125,
+          "base": 100
+        }
+      }
+    ],
+    "errors": []
+  },
+  "bridgesAndRuleCoordinates": "unchanged",
+  "physicalAndroid": false,
+  "legacyFixtureCorrection": "Portrait now asserts rotate notice, rotates to812×375, then verifies free touch placement; old portrait-placement expectation predated0.26"
+}

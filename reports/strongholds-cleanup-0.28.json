@@ -1,0 +1,38 @@
+{
+  "removedPixels": 22249,
+  "opaqueRemoved": 19604,
+  "components": [
+    {
+      "cell": [
+        0,
+        0
+      ],
+      "pixels": 8544
+    },
+    {
+      "cell": [
+        0,
+        0
+      ],
+      "pixels": 3938
+    },
+    {
+      "cell": [
+        1,
+        0
+      ],
+      "pixels": 4591
+    },
+    {
+      "cell": [
+        1,
+        1
+      ],
+      "pixels": 5176
+    }
+  ],
+  "sourceSha256": "9c0f0d4d22e398c868635a3cbe0a585752fcf5984b673b5faf59ad73c96a8604",
+  "outputSha256": "c3bfd3127ceacd6107b17fb2a0944bbbb3af809481733e97f8b5c1055348c273",
+  "pillow": "12.3.0",
+  "method": "Border-connected pale blue lower-cell components >=256 pixels; alpha only, lossless WebP"
+}

@@ -23,9 +23,22 @@ export function refinedTerrain(
     for (const p of points.slice(1)) ground.lineTo(p.x, p.y);
     ground.strokePath();
   };
-  const roads = [0, 1, 2]
-    .map((lane) => laneRoad(lane, level))
-    .concat(routeJunctions(level).map((x) => junctionRoad(x, level)));
+  // Secondary earthen connections sit below the paved main lanes. Geometry is
+  // shared with the rules; only their displayed stroke width is reduced by40%.
+  for (const x of routeJunctions(level)) {
+    const road = junctionRoad(x, level);
+    stroke(road, 82 * 0.6, 0x344c40, 0.04);
+    stroke(road, 70 * 0.6, 0x344c40, 0.08);
+    stroke(road, 62 * 0.6, 0x6d7253, 0.5);
+    stroke(road, 56 * 0.6, 0x987e58, 0.95);
+    stroke(road, 44 * 0.6, 0xb8a37b, 0.7);
+    for (let i = 3; i < road.length - 3; i += 8) {
+      const p = road[i];
+      ground.fillStyle(i % 3 ? 0x756549 : 0xd3c19b, 0.35);
+      ground.fillEllipse(p.x + (i % 5) - 2, p.y, 3, 2);
+    }
+  }
+  const roads = [0, 1, 2].map((lane) => laneRoad(lane, level));
   for (const road of roads) {
     // Feathered earth shoulder and a warm pale limestone centre, without a board overlay.
     stroke(road, 82, 0x344c40, 0.035);

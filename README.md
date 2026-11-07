@@ -1,4 +1,9 @@
-# La Conquête des Serpents — aventure familiale 0.27
+# La Conquête des Serpents — aventure familiale 0.28
+
+La version0.28 rend les raccords secondaires plus étroits et en terre battue,
+sous les voies pavées. Le fond bleu des bâtiments est retiré par un script local
+reproductible. Positions, navigation et combat restent identiques.
+[Bilan plateau](docs/BILAN-0.28.md).
 
 La préparation Android0.27.1 ajoute un diagnostic local activé par `?perf=1` et
 un script de compilation APK debug. Les performances sur appareil réel restent

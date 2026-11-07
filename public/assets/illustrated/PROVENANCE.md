@@ -135,3 +135,19 @@ Total du lot : **130 crédits**. Pas de nouvelle génération des personnages.
 Prompts : docs/art-assets-0.25.json; PNG originaux : docs/art-sources-0.25/.
 Les anciens fonds restent conservés comme références dans les sources ; ils
 ne sont plus chargés pour les cartes courantes. Le prototype V4 reste intact.
+
+## Détourage technique des bâtiments — 0.28, 8 novembre2026
+
+Aucune nouvelle génération ni achat. Source inchangée :
+`src/assets/illustrated/strongholds.original.webp` (SHA256
+9c0f0d4d22e398c868635a3cbe0a585752fcf5984b673b5faf59ad73c96a8604).
+Le script local `scripts/clean-strongholds.py` met à zéro l’alpha des grandes
+composantes bleu pâle reliées aux bords inférieurs/latéraux des cellules.
+22249 pixels sélectionnés, dont19604 opaques : contrairement au diagnostic
+initial, retirer seulement les semi-transparents aurait laissé le fond bleu.
+Tous les pixels non sélectionnés restent identiques, cristal bleu compris.
+Original conservé ; export WebP sans perte, aucune licence/crédit d’origine
+remplacé. Reproduction : Pillow12.3.0 (`requirements-art.txt`), puis
+`python scripts/clean-strongholds.py`; contrôle sans écriture : `--check`.
+Empreintes, seuils et composantes dans `reports/strongholds-cleanup-0.28.json`.
+Cette provenance est copiée dans `dist/asset-provenance.md` à la compilation.
