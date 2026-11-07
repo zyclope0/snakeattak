@@ -266,23 +266,16 @@ export class BattleScene extends Phaser.Scene {
         } else this.ink.strokeEllipse(p.x, p.y, 192, 216);
       }
     }
-    const end = this.session.game.status === 'won' || this.session.game.status === 'lost',
-      show = end || this.session.game.paused;
-    this.overlay.setVisible(show);
-    if (show) {
+    const end = this.session.game.status === 'won' || this.session.game.status === 'lost';
+    this.overlay.setVisible(end);
+    if (end) {
       (this.overlay.list[2] as Phaser.GameObjects.Text).setText(
-        end
-          ? this.session.game.status === 'won'
-            ? 'Victoire !'
-            : 'Le camp est tombé'
-          : 'Petite pause',
+        this.session.game.status === 'won' ? 'Victoire !' : 'Le camp est tombé',
       );
       (this.overlay.list[3] as Phaser.GameObjects.Text).setText(
-        end
-          ? this.session.game.status === 'won'
-            ? 'Le roi a perdu sa couronne. Le camp garde le goûter !'
-            : 'Les serpents ont gagné cette manche. Consultez votre sauvegarde pour reprendre un camp.'
-          : 'Reprenez quand vous êtes prêts.',
+        this.session.game.status === 'won'
+          ? 'Le roi a perdu sa couronne. Le camp garde le goûter !'
+          : 'Les serpents ont gagné cette manche. Consultez votre sauvegarde pour reprendre un camp.',
       );
     }
     this.resultStats.setVisible(end);
