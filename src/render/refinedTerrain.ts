@@ -65,33 +65,31 @@ export function refinedTerrain(
       .image(x, y, 'props-three-bridges', frame)
       .setDisplaySize(size, size)
       .setTint(theme.tint);
-  // The living barrier is real navigation geometry. Low mossy banks express it
-  // without the old column of tree canopies; openings stay at their true coordinates.
   const composition = stageComposition(level, seed);
-  for (const [index, bank] of composition.banks.entries()) {
-    const height = bank.bottom - bank.top,
-      y = (bank.top + bank.bottom) / 2;
-    // Soft irregular moss silhouette, rather than a rectangular platform.
-    ground.fillStyle(0x3e5b45, 0.17);
-    ground.fillEllipse(528, y + 4, 116, height + 10);
-    ground.fillStyle(0x617955, 0.57);
-    ground.fillEllipse(528, y, 110, height + 4);
-    for (let x = bank.left + 8; x <= bank.right - 8; x += 12)
-      for (let at = bank.top + 10; at < bank.bottom - 5; at += 12) {
-        if (((x - 528) / 51) ** 2 + ((at - y) / (height / 2)) ** 2 > 0.95) continue;
-        ground.fillStyle(Math.sin(x + at) > 0 ? 0x8c9e71 : 0x4f6e51, 0.45);
-        ground.fillEllipse(x + Math.sin(at) * 3, at, 22, 17);
-      }
-    // Uneven moss tufts make the bank read as a continuous low obstacle,
-    // including its edges; isolated props previously suggested extra crossings.
-    for (let x = bank.left + 7; x < bank.right - 5; x += 10) {
-      ground.fillStyle(x % 3 ? 0x647e58 : 0xa2ae7d, 0.65);
-      const edge = Math.sqrt(Math.max(0, 1 - ((x - 528) / 51) ** 2)) * (height / 2 - 4);
-      ground.fillEllipse(x, y - edge + Math.sin(x) * 2, 14, 8);
-      ground.fillEllipse(x, y + edge + Math.cos(x) * 2, 15, 9);
-    }
-    objects.add(prop(index % 2 ? 2 : 3, 515, y - 3, 54).setFlipX(index % 2 === 0));
-    objects.add(prop(index % 2 ? 1 : 2, 551, y + 1, 43).setFlipX(index % 2 !== 0));
+  // Water expresses the existing impassable column. The three bridge positions
+  // and all navigation coordinates stay untouched. Rounded samples overlap to
+  // feather the banks without rectangular patches or right-angled ends.
+  const stream = Array.from({ length: 161 }, (_, i) => {
+    const y = -10 + i * 4;
+    return { x: 528 + Math.sin(y / 54) * 5 + Math.sin(y / 21) * 2, y };
+  });
+  for (const [radius, color, alpha] of [
+    [63, 0x345949, 0.08],
+    [58, 0x345949, 0.12],
+    [54, 0x759478, 0.45],
+    [48, 0x91aa88, 0.8],
+    [43, 0x386f73, 1],
+    [35, 0x4b9298, 1],
+    [25, 0x68a8ab, 0.7],
+  ] as const) {
+    ground.fillStyle(color, alpha);
+    for (const p of stream) ground.fillCircle(p.x, p.y, radius);
+  }
+  for (let y = 8; y < 620; y += 23) {
+    ground.lineStyle(1.4, 0xc5e5dc, 0.45);
+    ground.lineBetween(513 + Math.sin(y) * 5, y, 530 + Math.sin(y) * 5, y + 2);
+    ground.lineStyle(1, 0xc5e5dc, 0.25);
+    ground.lineBetween(536, y + 8, 546, y + 9);
   }
   for (const p of composition.bridges) {
     ground.fillStyle(0x314b40, 0.16);

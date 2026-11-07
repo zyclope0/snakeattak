@@ -73,6 +73,25 @@ try {
     assert.ok(outlines.red >= 6, 'Les six serpents portent un contour rouge-orangé');
     assert.ok(outlines.green && outlines.thicker);
   }
+  if (step >= 3) {
+    const water = await page.evaluate(async () => {
+      const renderer = window.stageFixture.phaser.renderer;
+      const colors = [];
+      for (const y of [4, 100, 250, 390, 616]) {
+        colors.push(
+          await new Promise((resolve) =>
+            renderer.snapshotPixel(528, y, (c) => resolve({ r: c.red, g: c.green, b: c.blue })),
+          ),
+        );
+      }
+      return colors;
+    });
+    assert.ok(
+      water.every((c) => c.b > c.r && c.g > c.r),
+      `Ruisseau continu : ${JSON.stringify(water)}`,
+    );
+    await page.locator('canvas').screenshot({ path: 'artifacts/corrections-026/terrain.png' });
+  }
   for (const status of ['won', 'lost']) {
     await page.evaluate((status) => {
       window.stageFixture.session.game.status = status;
