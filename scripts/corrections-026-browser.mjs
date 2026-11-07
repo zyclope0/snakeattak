@@ -129,6 +129,51 @@ try {
     );
     assert.equal(await page.locator('#pause-overlay').isVisible(), false);
   }
+  if (step >= 7) {
+    const loaded = await page.evaluate(() => Object.keys(window.stageFixture.phaser.textures.list));
+    assert.ok(
+      !loaded.includes('ground-grove') && !loaded.includes('ground-ruins'),
+      'Seulement le fond courant',
+    );
+    assert.ok(
+      !loaded.includes('terrain-props') && !loaded.includes('interface-craft'),
+      'Pas de planches inutilisées dans Phaser',
+    );
+    const lean = await browser.newPage();
+    let failedOnce = false;
+    await lean.route('**/ground-three-bridges*.webp', (route) => {
+      if (!failedOnce) {
+        failedOnce = true;
+        return route.abort();
+      }
+      return route.continue();
+    });
+    await lean.goto(`http://127.0.0.1:4206/${fixture}?classic=1`);
+    await lean.waitForFunction(
+      () => window.stageFixture?.phaser.scene.getScene('Battle').initialized,
+    );
+    const leanTextures = await lean.evaluate(() =>
+      Object.keys(window.stageFixture.phaser.textures.list),
+    );
+    assert.ok(
+      !leanTextures.includes('allies-mutants') &&
+        !leanTextures.includes('allies-dinosaurs') &&
+        !leanTextures.includes('allies-elite'),
+      'Les renforts des missions ultérieures ne sont pas chargés',
+    );
+    await lean.close();
+    await page.evaluate(() => window.stageFixture.setMode('classic'));
+    await page.waitForTimeout(150);
+    await page.evaluate(() => {
+      window.stageFixture.session.game.wave = 8;
+      window.stageFixture.refresh();
+    });
+    await page.waitForFunction(() => window.stageFixture.phaser.textures.exists('ground-ruins'));
+    await page.waitForFunction(() => document.getElementById('loading-overlay').hidden);
+    assert.ok(
+      await page.evaluate(() => window.stageFixture.phaser.textures.exists('allies-mutants')),
+    );
+  }
   if (step >= 6) {
     await page.evaluate(() => {
       const scale = window.stageFixture.phaser.scale;

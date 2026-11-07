@@ -5,7 +5,7 @@ import { drawHoneyZone } from './honeyZone.ts';
 import { drawDefenseMarkers } from './defenseMarkers.ts';
 import { defenseRole } from '../defenders.ts';
 import { placementSuggestions } from '../placement.ts';
-import { ART_SHEETS, GROUND_ART } from '../art.ts';
+import { MissionAssets } from './missionAssets.ts';
 import { Actors } from './actors.ts';
 import { Presentation } from './presentation.ts';
 import type { Notice } from './presentation.ts';
@@ -24,6 +24,8 @@ import { DevPerformance } from './devPerformance.ts';
 import { onSceneExit } from './sceneExit.ts';
 
 export class BattleScene extends Phaser.Scene {
+  private assets!: MissionAssets;
+  private initialized = false;
   private presentation = new Presentation();
   private feedback!: BattleFeedback;
   private motionQuery = window.matchMedia('(prefers-reduced-motion:reduce)');
@@ -59,14 +61,18 @@ export class BattleScene extends Phaser.Scene {
     this.onPresentation = onPresentation;
   }
   preload() {
-    for (const sheet of ART_SHEETS)
-      this.load.spritesheet(sheet.key, sheet.url, {
-        frameWidth: sheet.frameWidth,
-        frameHeight: sheet.frameHeight,
-      });
-    for (const ground of GROUND_ART) this.load.image(ground.key, ground.url);
+    this.assets = new MissionAssets(this);
+    if (this.session.screen !== 'home') this.assets.preload(this.session.game);
   }
   create() {
+    if (this.session.screen === 'home') this.scene.sleep();
+    else if (this.assets.ready(this.session.game)) this.createBattle();
+  }
+  private createBattle() {
+    this.initialized = true;
+    onSceneExit(this.events, () => {
+      this.initialized = false;
+    });
     if (import.meta.env.DEV && new URLSearchParams(location.search).has('debug-performance')) {
       this.meter = new DevPerformance(this.game.canvas.parentElement!);
       onSceneExit(this.events, () => this.meter?.destroy());
@@ -127,9 +133,16 @@ export class BattleScene extends Phaser.Scene {
     if (this.session.screen === 'home') this.scene.sleep();
   }
   update(_time: number, delta: number) {
+    if (!this.assets.ready(this.session.game)) return;
+    if (!this.initialized) this.createBattle();
     const started = this.meter ? performance.now() : 0;
     const reduced = visualSettings.reduced(this.motionQuery.matches);
     this.session.advance(delta);
+    // A wave ending can change the chapter and unlock another atlas in this frame.
+    if (!this.assets.ready(this.session.game)) {
+      this.onChange();
+      return;
+    }
     this.presentation.update(this.session.game, delta);
     this.onPresentation(this.presentation.notice);
     this.onFrame(this.session.game);

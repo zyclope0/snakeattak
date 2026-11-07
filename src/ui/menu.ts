@@ -85,7 +85,18 @@ export function bindMenu(
   for (let i = 0; i < 3; i++) {
     const button = el<HTMLButtonElement>(`chapter-${i}`);
     const level = levelForWave(i * 4 + 1);
-    button.style.setProperty('--chapter-art', `url("${GROUND_ART[i].url}")`);
+    const preview = () => button.style.setProperty('--chapter-art', `url("${GROUND_ART[i].url}")`);
+    // Do not fetch later battle backgrounds merely to draw menu thumbnails.
+    button.style.setProperty(
+      '--chapter-art',
+      i === 0
+        ? 'var(--home-scene)'
+        : i === 1
+          ? 'linear-gradient(135deg, #486d58, #e6dcad)'
+          : 'linear-gradient(135deg, #547b79, #dce7df)',
+    );
+    button.addEventListener('pointerenter', preview);
+    button.addEventListener('focus', preview);
     el(`chapter-focus-${i}`).textContent = chapterIdentityForWave(i * 4 + 1).focus;
     button.onclick = () => {
       if (i === 0) {
