@@ -3149,3 +3149,46 @@ dialog > small {
     flex-basis: 100%;
   }
 }
+
+.guide-button svg,
+.reinforcements-close svg {
+  flex: 0 0 auto;
+}
+.reinforcements .guide-button {
+  min-height: 48px;
+  min-width: 48px;
+  gap: 6px;
+}
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  .reinforcements .army-title {
+    position: sticky;
+    top: -10px;
+    z-index: 2;
+    padding-block: 8px;
+    background: var(--paper);
+  }
+  .reinforcements .guide-button {
+    width: auto;
+    flex: 0 0 auto;
+    padding: 8px 10px;
+  }
+  .reinforcements .guide-button span {
+    display: inline;
+  }
+  .reinforcements .reinforcements-close {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 8px;
+    color: var(--ink);
+    background: #e5ebd9;
+    border-color: #9baa94;
+  }
+  .reinforcements .reinforcements-close span {
+    margin: 0;
+  }
+}

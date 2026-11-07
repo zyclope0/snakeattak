@@ -43,6 +43,44 @@ async function newPage(width, height, touch = false) {
   return page;
 }
 const checks = {
+  async 6() {
+    const page = await newPage(812, 375, true);
+    await mission(page);
+    await page.locator('#reinforcements-toggle').click();
+    await page.screenshot({ path: 'artifacts/display-027/drawer-before.png' });
+    const controls = [];
+    for (const id of ['reinforcements-close', 'unit-guide']) {
+      const box = await page.locator('#' + id).boundingBox();
+      const visible = await page
+        .locator('#' + id)
+        .evaluate((e) => ({
+          text: e.innerText,
+          font: getComputedStyle(e).fontSize,
+          html: e.innerHTML,
+        }));
+      controls.push({ id, box, visible });
+    }
+    await writeFile(
+      'artifacts/display-027/drawer-controls.json',
+      JSON.stringify(controls, null, 2),
+    );
+    for (const c of controls)
+      assert.ok(
+        c.box.width >= 48 && c.box.height >= 48,
+        `Contrôle du tiroir utilisable : ${JSON.stringify(c)}`,
+      );
+    await page.locator('#unit-guide').click();
+    assert.ok(await page.locator('#unit-dialog').isVisible());
+    await page.locator('#close-unit-guide').click();
+    await page.locator('#reinforcements-close').click();
+    assert.equal(
+      await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),
+      'false',
+    );
+    results.push({ point: 6, controls });
+    await page.close();
+  },
+
   async 4() {
     for (const [width, height] of [
       [812, 375],
