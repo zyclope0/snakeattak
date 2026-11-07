@@ -43,6 +43,46 @@ async function newPage(width, height, touch = false) {
   return page;
 }
 const checks = {
+  async 3() {
+    for (const [width, height, touch] of [
+      [1280, 800, false],
+      [812, 375, true],
+    ]) {
+      const page = await newPage(width, height, touch);
+      await home(page);
+      await page.locator('#home-expeditions').click();
+      await page.locator('[data-mission-card="refuge"]').click();
+      const bounds = await page.locator('#mission-launch').boundingBox();
+      const dialog = await page.locator('#mission-dialog').boundingBox();
+      assert.ok(
+        bounds.y >= dialog.y &&
+          bounds.y + bounds.height <= Math.min(height, dialog.y + dialog.height),
+        `Lancement visible sans scroll ${width}: ${JSON.stringify(bounds)}`,
+      );
+      const center = { x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height / 2 };
+      assert.ok(
+        await page.evaluate(
+          ({ x, y }) => document.elementFromPoint(x, y)?.closest('#mission-launch') !== null,
+          center,
+        ),
+        'Lancement non recouvert',
+      );
+      await page.locator('#mission-reroll').click();
+      const next = await page.locator('#mission-launch').boundingBox();
+      assert.ok(next.y + next.height <= height);
+      await page.evaluate(() => {
+        const e = document.getElementById('mission-objective');
+        e.textContent = 'Un long objectif de préparation. '.repeat(30);
+      });
+      const long = await page.locator('#mission-launch').boundingBox();
+      assert.ok(long.y >= 0 && long.y + long.height <= height, 'Pied stable avec contenu long');
+      await page.locator('#mission-launch').click();
+      await ready(page);
+      results.push({ point: 3, width, height, bounds });
+      await page.close();
+    }
+  },
+
   async 2() {
     for (const [width, height] of [
       [1280, 800],

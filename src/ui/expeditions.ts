@@ -111,6 +111,7 @@ export function bindExpeditions(
     dialog.dataset.run = JSON.stringify(run);
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
+    dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
     el('mission-title').focus({ preventScroll: true });
   }
   el('home-expeditions').onclick = () => {

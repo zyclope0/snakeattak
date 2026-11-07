@@ -168,52 +168,54 @@
       </div>
     </dialog>
     <dialog id="mission-dialog" aria-labelledby="mission-title">
-      <span class="eyebrow">Préparer une expédition</span>
-      <h2 id="mission-title" tabindex="-1"></h2>
-      <p id="mission-objective"></p>
-      <div class="departure-share">
-        <label for="mission-departure-code">Code de ce départ</label>
-        <div class="departure-entry">
-          <input
-            id="mission-departure-code"
-            class="departure-value"
-            readonly
-            aria-describedby="mission-departure-message"
-          /><button id="mission-departure-copy" class="secondary" type="button">Copier</button>
+      <div class="mission-dialog-body">
+        <span class="eyebrow">Préparer une expédition</span>
+        <h2 id="mission-title" tabindex="-1"></h2>
+        <p id="mission-objective"></p>
+        <div class="departure-share">
+          <label for="mission-departure-code">Code de ce départ</label>
+          <div class="departure-entry">
+            <input
+              id="mission-departure-code"
+              class="departure-value"
+              readonly
+              aria-describedby="mission-departure-message"
+            /><button id="mission-departure-copy" class="secondary" type="button">Copier</button>
+          </div>
+          <p id="mission-departure-message" class="departure-message" role="status"></p>
         </div>
-        <p id="mission-departure-message" class="departure-message" role="status"></p>
-      </div>
 
-      <svg
-        id="mission-map"
-        viewBox="0 70 1100 510"
-        role="img"
-        aria-label="Aperçu des trois voies et de leurs jonctions"
-      ></svg>
-      <strong id="mission-budget"></strong>
-      <div
-        id="mission-party"
-        aria-label="Un nouveau héros et deux nouveaux combattants à massue"
-      ></div>
-      <dl class="mission-facts">
-        <div>
-          <dt>Terrain</dt>
-          <dd id="mission-land"></dd>
-        </div>
-        <div>
-          <dt>Attaques</dt>
-          <dd id="mission-assault"></dd>
-        </div>
-        <div>
-          <dt>Œufs</dt>
-          <dd id="mission-nest"></dd>
-        </div>
-      </dl>
-      <p id="mission-plan"></p>
-      <p class="mission-save-note">
-        Ton camp classique est conservé. Ce départ remplace l’expédition en cours ; les étoiles et
-        tes favoris restent.
-      </p>
+        <svg
+          id="mission-map"
+          viewBox="0 70 1100 510"
+          role="img"
+          aria-label="Aperçu des trois voies et de leurs jonctions"
+        ></svg>
+        <strong id="mission-budget"></strong>
+        <div
+          id="mission-party"
+          aria-label="Un nouveau héros et deux nouveaux combattants à massue"
+        ></div>
+        <dl class="mission-facts">
+          <div>
+            <dt>Terrain</dt>
+            <dd id="mission-land"></dd>
+          </div>
+          <div>
+            <dt>Attaques</dt>
+            <dd id="mission-assault"></dd>
+          </div>
+          <div>
+            <dt>Œufs</dt>
+            <dd id="mission-nest"></dd>
+          </div>
+        </dl>
+        <p id="mission-plan"></p>
+        <p class="mission-save-note">
+          Ton camp classique est conservé. Ce départ remplace l’expédition en cours ; les étoiles et
+          tes favoris restent.
+        </p>
+      </div>
       <div class="mission-dialog-actions">
         <button id="mission-launch" class="primary">Déployer ce détachement</button
         ><button id="mission-reroll" class="secondary">Une autre configuration</button
