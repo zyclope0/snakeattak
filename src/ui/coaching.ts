@@ -1,3 +1,4 @@
+import { victoryCopy } from '../render/resultCopy.ts';
 import { roleDescription } from '../defenders.ts';
 import type { Session } from '../session.ts';
 import { kinds } from '../data.ts';
@@ -38,11 +39,7 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
       subtitle:
         'Touche une place libre dans ton camp, à droite. ' + roleDescription(session.selected),
     };
-  if (game.status === 'won')
-    return {
-      title: 'La vallée est sauvée !',
-      subtitle: 'Ton armée et ses pièges ont tenu les douze vagues.',
-    };
+  if (game.status === 'won') return victoryCopy(game);
   if (game.status === 'lost')
     return {
       title: 'Une autre stratégie ?',

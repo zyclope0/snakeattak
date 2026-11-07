@@ -1,3 +1,4 @@
+import { victoryCopy } from './resultCopy.ts';
 import { FlightSignals } from './flightSignals.ts';
 import { MedicalSignals } from './medicalSignals.ts';
 import { placementReadout } from './placementRange.ts';
@@ -283,11 +284,13 @@ export class BattleScene extends Phaser.Scene {
     this.overlay.setVisible(end);
     if (end) {
       (this.overlay.list[2] as Phaser.GameObjects.Text).setText(
-        this.session.game.status === 'won' ? 'Victoire !' : 'Le camp est tombé',
+        this.session.game.status === 'won'
+          ? victoryCopy(this.session.game).title
+          : 'Le camp est tombé',
       );
       (this.overlay.list[3] as Phaser.GameObjects.Text).setText(
         this.session.game.status === 'won'
-          ? 'Le roi a perdu sa couronne. Le camp garde le goûter !'
+          ? victoryCopy(this.session.game).subtitle
           : 'Les serpents ont gagné cette manche. Consultez votre sauvegarde pour reprendre un camp.',
       );
     }
