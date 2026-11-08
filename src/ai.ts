@@ -2,6 +2,7 @@ import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 /** Three bridge approaches and two vertical junctions; coordinates also used by the renderer. */
 export const LANES = [180, 324, 468] as const;
+export const LANE_IDS: readonly number[] = Object.freeze([0, 1, 2]);
 export const LANE_NAMES = ['Haut', 'Centre', 'Bas'] as const;
 type Defender = { kind: Kind | 'snake'; x: number; y: number; hp: number; maxHp: number };
 export function laneDefense(units: Defender[]): number[] {
@@ -24,16 +25,27 @@ export function laneDefense(units: Defender[]): number[] {
   );
 }
 /** Weighted choice: retains exploration, but harder waves increasingly exploit weak lanes. */
-export function chooseLane(scores: number[], wave: number, random: number): number {
+export function chooseLane(
+  scores: number[],
+  wave: number,
+  random: number,
+  allowed: readonly number[] = LANE_IDS,
+): number {
+  if (
+    !allowed.length ||
+    new Set(allowed).size !== allowed.length ||
+    allowed.some((l) => !Number.isInteger(l) || l < 0 || l > 2)
+  )
+    throw new RangeError('Invalid active lanes');
   const intelligence = Math.min(0.86, 0.12 + Math.max(0, wave - 1) * 0.148);
-  const min = Math.min(...scores),
-    weak = scores.map((s) => Math.exp(-(s - min) * 0.9)),
+  const min = Math.min(...allowed.map((l) => scores[l])),
+    weak = allowed.map((l) => Math.exp(-(scores[l] - min) * 0.9)),
     sum = weak.reduce((a, b) => a + b, 0);
-  const weights = weak.map((w) => (1 - intelligence) / 3 + (intelligence * w) / sum);
+  const weights = weak.map((w) => (1 - intelligence) / allowed.length + (intelligence * w) / sum);
   let threshold = Math.max(0, Math.min(0.999999, random));
   for (let i = 0; i < weights.length; i++) {
     threshold -= weights[i];
-    if (threshold < 0) return i;
+    if (threshold < 0) return allowed[i];
   }
-  return 2;
+  return allowed[allowed.length - 1];
 }

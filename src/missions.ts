@@ -1,3 +1,4 @@
+import { activeEnemyLanes } from './tutorial.ts';
 import { waveStats } from './data.ts';
 import { variantFor, waveBriefing } from './waves.ts';
 import type { EnemyKind } from './enemies.ts';
@@ -176,9 +177,14 @@ export function missionWave(
       0) /
       4294967296) *
     3;
+  const lanes = activeEnemyLanes(valid!, local);
   const eggs = Array.from({ length: rank >= 8 ? 3 : rank >= 4 ? 2 : 1 }, (_, index) =>
     Object.freeze({
-      lane: (run.nest === 'clustered' ? nestLane : (nestLane + index) % 3) as 0 | 1 | 2,
+      lane: (lanes.includes(run.nest === 'clustered' ? nestLane : (nestLane + index) % 3)
+        ? run.nest === 'clustered'
+          ? nestLane
+          : (nestLane + index) % 3
+        : lanes[(run.seed + local + index) % lanes.length]) as 0 | 1 | 2,
       x: 252 + index * (run.nest === 'clustered' ? 24 : 48),
       hatchIn:
         (run.nest === 'clustered' ? 10 + index * 0.8 : 7 + index * 6) + incubationJitter(index),

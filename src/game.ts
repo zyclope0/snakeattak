@@ -1,3 +1,4 @@
+import { activeEnemyLanes } from './tutorial.ts';
 import { ensureMedical, consumeBandage, tickMedical } from './healing.ts';
 import type { MedicalState } from './healing.ts';
 import { canHitFlying, isFlying, flyingVariant } from './flying.ts';
@@ -169,6 +170,12 @@ export class Game {
         ).pattern
       : waveBriefing(this.difficultyWave);
   }
+  get enemyLanes(): readonly number[] {
+    return activeEnemyLanes(
+      this.mission,
+      Math.max(1, Math.min(this.totalWaves, this.wave + (this.status === 'preparing' ? 1 : 0))),
+    );
+  }
   get missionStars(): number {
     return this.mission && this.status === 'won' ? chapterStars(this.missionMinBase) : 0;
   }
@@ -316,6 +323,7 @@ export class Game {
       this.random(),
       this.feast?.flavor === 'lure' ? this.feast.lane : null,
       boss,
+      this.enemyLanes,
     );
     if (decision.tempted && at) {
       this.effect(at, { x: at.x, y: LANES[decision.lane] }, 'honey');
@@ -331,7 +339,8 @@ export class Game {
       (flavor !== 'lure' && flavor !== 'sticky') ||
       !Number.isInteger(lane) ||
       lane < 0 ||
-      lane >= LANES.length
+      lane >= LANES.length ||
+      !this.enemyLanes.includes(lane)
     )
       return false;
     this.feast = { lane, remaining: this.feastDuration, flavor };
@@ -853,10 +862,11 @@ export class Game {
             ? flyingVariant(baseVariant, this.difficultyWave, this.remaining)
             : baseVariant;
         const pickedLane = this.pickLane(boss, undefined, undefined, variant === 'flying');
-        const lane =
+        const proposedLane =
           this.feast?.flavor === 'lure'
             ? pickedLane
             : entryLane(this.difficultyWave, index, pickedLane);
+        const lane = this.enemyLanes.includes(proposedLane) ? proposedLane : pickedLane;
         const entry = this.spawnSnake(
           108,
           LANES[lane],

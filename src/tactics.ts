@@ -1,4 +1,4 @@
-import { chooseLane, LANES } from './ai.ts';
+import { chooseLane, LANES, LANE_IDS } from './ai.ts';
 import { lanePoint } from './routes.ts';
 import type { Level } from './levels.ts';
 
@@ -38,11 +38,16 @@ export function decideTemptation(
   roll: number,
   feastLane: number | null,
   boss: boolean,
+  allowed: readonly number[] = LANE_IDS,
 ): LaneDecision {
-  if (feastLane === null) return { lane: chooseLane(scores, wave, roll), tempted: false };
+  if (feastLane === null || !allowed.includes(feastLane))
+    return { lane: chooseLane(scores, wave, roll, allowed), tempted: false };
   const temptation = boss ? 0.25 : 0.75;
   if (roll < temptation) return { lane: feastLane, tempted: true };
-  return { lane: chooseLane(scores, wave, (roll - temptation) / (1 - temptation)), tempted: false };
+  return {
+    lane: chooseLane(scores, wave, (roll - temptation) / (1 - temptation), allowed),
+    tempted: false,
+  };
 }
 export function chooseTemptedLane(
   scores: number[],
