@@ -12,7 +12,7 @@ Play sera préparée après ces données et avant le test d'une version monétis
 - Sauvegardes, réglages et équipes enregistrés sur l'appareil.
 - Transfert volontaire par fichier familial ; le jeu n'organise pas de transfert
   automatique vers son développeur.
-- APK0.30.1 compilé sans permission INTERNET. Cela ne décrit pas les opérations
+- APK 0.30.1 compilé sans permission INTERNET. Cela ne décrit pas les opérations
   propres à Android ou Google Play, qui ont leurs propres règles.
 - Le site web est servi par un hébergeur : ses requêtes et données techniques
   d'hébergement ne sont pas assimilées à celles de l'APK hors ligne.

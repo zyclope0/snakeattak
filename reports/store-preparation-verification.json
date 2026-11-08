@@ -1,0 +1,67 @@
+{
+  "scope": "Publication preparation only; playable app remains0.30.1",
+  "verifiedAt": "2026-11-08T12:02:17.190053+00:00",
+  "gameReleaseCommit": "338283e4bdcbfa80d26e4369f89c2ed3c6a9d77c",
+  "nativeTests": 391,
+  "nativeFailures": 0,
+  "format": "passed",
+  "types": "passed",
+  "build": "passed",
+  "browserGameRegression": "passed",
+  "runtimeFilesByteIdenticalToPublished": 27,
+  "newPaidGenerations": 0,
+  "newCommercialSdks": 0,
+  "accountsCreated": 0,
+  "paidTransactions": 0,
+  "storeUploads": 0,
+  "capturedImages": 7,
+  "physicalAndroidCapture": false,
+  "preflight": {
+    "technicalErrors": 0,
+    "remainingActions": 15,
+    "draftExitCode": 0,
+    "strictExpectedExitCode": 2,
+    "automaticPublicationAuthorized": false
+  },
+  "dossierBrowser": {
+    "results": [
+      {
+        "width": 1280,
+        "height": 800,
+        "images": 8,
+        "errors": [],
+        "remoteRequests": 0
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "images": 8,
+        "errors": [],
+        "remoteRequests": 0
+      }
+    ],
+    "injectionRegression": "passed",
+    "technicalErrorsVisible": true,
+    "freshInputs": true
+  },
+  "review": {
+    "independent": true,
+    "critical": 0,
+    "importantFixed": 3,
+    "separateMinorsRemaining": 0,
+    "fixes": [
+      "Escape metadata and validate dimensions before HTML",
+      "Show all technical errors and state; inspect fresh inputs",
+      "Malformed manifests/configuration replace stale report with explicit failure"
+    ],
+    "regressions": "RED→GREEN then full suite"
+  },
+  "pending": [
+    "Play/advertising accounts and public identity/package",
+    "Prices, products and parent area",
+    "SDK child treatment/permissions/traffic and actual cadence",
+    "Receipts backend and real license/restore/refund tests",
+    "Final icon512x512 and public privacy for chosen SDK",
+    "Audience/IARC, human copy review, AAB and required closed test"
+  ]
+}

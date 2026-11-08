@@ -49,5 +49,5 @@ coins blancs arrondis : elle n'est pas encore une icône store prête. Export
 restent réservés au lot 6 ; ils ne remplacent pas artificiellement les captures.
 
 Le brouillon de bannière 0.26 est remplacé, dans ce dossier, par une capture de
-la version actuelle en1024×500. Aucune génération d'images payante n'est nécessaire
+la version actuelle en 1024×500. Aucune génération d'images payante n'est nécessaire
 pour produire ces captures. La correction créative de l'icône reste distincte.

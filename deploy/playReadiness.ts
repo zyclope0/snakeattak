@@ -16,7 +16,7 @@ export type CaptureAsset = CaptureFile & {
 };
 export type PlayEvidence = {
   appVersion: string;
-  manifest: { appVersion: string; assets: CaptureAsset[]; buildHtmlSha256?: string } | null;
+  manifest: unknown;
   buildHtmlSha256?: string;
   files: CaptureFile[];
   runtime: { adsSdkInstalled: boolean; billingSdkInstalled: boolean; internetPermission: boolean };
@@ -118,7 +118,8 @@ export function validatePlayPreparation(config: unknown, copies: unknown, eviden
     text(publisher.name) &&
       text(publisher.email) &&
       publisher.accountVerified === true &&
-      ['personal', 'organization'].includes(String(publisher.accountType)),
+      typeof publisher.accountType === 'string' &&
+      ['personal', 'organization'].includes(publisher.accountType),
     'publisher',
     'Compte Play, identité publique et contact à préparer puis vérifier.',
   );
@@ -200,14 +201,21 @@ export function validatePlayPreparation(config: unknown, copies: unknown, eviden
           error(`copy.${locale}.${code}`, `Limite ${max} caractères ou texte vide.`);
       if (
         c.gameLanguageDisclosure !== disclosure ||
-        !String(c.fullDescription).includes(disclosure) ||
-        JSON.stringify(app.gameLanguages) !== '["fr"]'
+        typeof c.fullDescription !== 'string' ||
+        !c.fullDescription.includes(disclosure) ||
+        !Array.isArray(app.gameLanguages) ||
+        app.gameLanguages.length !== 1 ||
+        app.gameLanguages[0] !== 'fr'
       )
         error(`copy.${locale}.language`, 'Ne pas annoncer une traduction du jeu qui n’existe pas.');
     }
   if (!evidence.manifest) {
     need(false, 'assets', 'Captures du build et manifeste à produire.');
     need(false, 'icon', 'Icône carrée finale à préparer.');
+    return result();
+  }
+  if (!object(evidence.manifest)) {
+    error('assets.schema', 'Manifeste de captures invalide.');
     return result();
   }
   if (evidence.manifest.appVersion !== evidence.appVersion)
@@ -219,18 +227,30 @@ export function validatePlayPreparation(config: unknown, copies: unknown, eviden
     error('assets.schema', 'Manifeste de captures invalide.');
     return result();
   }
+  const validAssets: CaptureAsset[] = [];
   for (const a of assets) {
     if (!object(a) || !safeAssetPath(a.file)) {
       error('asset.path', 'Chemin de capture invalide.');
       continue;
     }
+    if (
+      typeof a.width !== 'number' ||
+      typeof a.height !== 'number' ||
+      typeof a.bytes !== 'number' ||
+      typeof a.sha256 !== 'string' ||
+      typeof a.kind !== 'string' ||
+      !['phone', 'tablet', 'feature', 'icon'].includes(a.kind)
+    ) {
+      error('asset.metadata', 'Métadonnées de capture invalides.');
+      continue;
+    }
+    const asset = a as CaptureAsset;
+    validAssets.push(asset);
     const actual = evidence.files.find((f) => f.file === a.file);
     if (!actual) {
       error('asset.missing', `Fichier absent : ${a.file}`);
       continue;
     }
-    if (!['phone', 'tablet', 'feature', 'icon'].includes(a.kind))
-      error('asset.kind', 'Type d’image inconnu.');
     if (
       (actual.format !== 'jpeg' && actual.format !== 'png') ||
       actual.bitDepth !== 8 ||
@@ -270,23 +290,24 @@ export function validatePlayPreparation(config: unknown, copies: unknown, eviden
       error('asset.icon', 'Icône attendue : PNG512×512, moins de1Mo.');
   }
   need(
-    new Set(assets.filter((a) => a.kind === 'phone' && a.context === 'combat').map((a) => a.sha256))
-      .size >= 3,
+    new Set(
+      validAssets.filter((a) => a.kind === 'phone' && a.context === 'combat').map((a) => a.sha256),
+    ).size >= 3,
     'assets.phone',
     'Trois captures de combat distinctes requises par le kit.',
   );
   need(
-    new Set(assets.filter((a) => a.kind === 'tablet').map((a) => a.sha256)).size >= 2,
+    new Set(validAssets.filter((a) => a.kind === 'tablet').map((a) => a.sha256)).size >= 2,
     'assets.tablet',
     'Deux vues tablette à préparer.',
   );
   need(
-    assets.some((a) => a.kind === 'feature'),
+    validAssets.some((a) => a.kind === 'feature'),
     'assets.feature',
     'Bannière à préparer.',
   );
   need(
-    assets.some((a) => a.kind === 'icon'),
+    validAssets.some((a) => a.kind === 'icon'),
     'icon',
     'Icône fournie à corriger et exporter en512×512.',
   );

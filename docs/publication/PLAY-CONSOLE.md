@@ -39,14 +39,14 @@ de les publier. Déclarer les achats et publicités au bon endroit, relire la
 fidélité de chaque capture au build monétisé réellement distribué.
 
 Les captures et la bannière sont générées depuis le jeu, pas depuis un décor
-recomposé. Pour le kit, viser au moins trois captures de combat téléphone16:9 en
+recomposé. Pour le kit, viser au moins trois captures de combat téléphone 16:9 en
 1920×1080 : c'est la recommandation de mise en avant des jeux, plus exigeante que
-les seuls minima de téléversement. Bannière1024×500 et icône512×512 conformes.
+les seuls minima de téléversement. Bannière 1024×500 et icône 512×512 conformes.
 L'icône source fournie attend correction de ses coins blancs.
 
 ## 4. Formulaires
 
-- Public cible : groupes6–8 et9–12 proposés par l'audit, à confirmer par le parent.
+- Public cible : groupes 6–8 et 9–12 proposés par l'audit, à confirmer par le parent.
   Ne pas cocher d'autres âges pour contourner les exigences Familles.
 - Sécurité des données : inclure tous les SDK, publicité et service de reçus.
 - Confidentialité : URL publique accessible sans compte et contenu exact du build commercial.
@@ -58,8 +58,8 @@ L'icône source fournie attend correction de ses coins blancs.
 ## 5. Test fermé puis demande de production
 
 Pour un nouveau **compte personnel**, la règle Google consultée impose au moins
-**12 testeurs inscrits continuellement pendant14 jours** avant de pouvoir demander
-l'accès à la production. Ce n'est ni une validation automatique après14 jours,
+**12 testeurs inscrits continuellement pendant 14 jours** avant de pouvoir demander
+l'accès à la production. Ce n'est ni une validation automatique après 14 jours,
 ni une règle à transposer sans contrôle à tous les comptes d'organisation.
 
 Le parent choisit la piste, les testeurs et les accès. Privilégier des comptes
@@ -85,4 +85,4 @@ Après le test, il relit la demande d'accès à la production et les textes fina
 Sources : [inscription](https://support.google.com/googleplay/android-developer/answer/6112435?hl=en),
 [tests des nouveaux comptes](https://support.google.com/googleplay/android-developer/answer/14151465?hl=en),
 [images et fiches](https://support.google.com/googleplay/android-developer/answer/1078870?hl=en).
-Consultation du8novembre2026 ; recontrôler au moment de la soumission.
+Consultation du 8 novembre 2026 ; recontrôler au moment de la soumission.

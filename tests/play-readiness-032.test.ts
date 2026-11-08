@@ -111,3 +111,11 @@ test('Publication asset paths cannot escape their folder or reference a URL', ()
     assert.equal(safeAssetPath(bad), false, bad);
   assert.equal(safeAssetPath('assets/phone/01-battle.png'), true);
 });
+
+test('Malformed capture entries and non-array manifests return errors instead of throwing', () => {
+  for (const assets of [[null], [false, 'bad', {}], {}]) {
+    const e = { ...evidence(), manifest: { appVersion: '0.30.1', assets } };
+    assert.doesNotThrow(() => validatePlayPreparation(draft(), listings(), e as any));
+    assert.ok(validatePlayPreparation(draft(), listings(), e as any).errors.length);
+  }
+});

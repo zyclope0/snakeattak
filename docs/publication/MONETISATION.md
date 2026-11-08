@@ -55,7 +55,7 @@ La configuration exacte dépend du SDK et des pays ; elle reste à tester et rel
 Deux familles de produits non consommables, avec un prix direct fourni par Google :
 suppression permanente des pubs et petits ensembles d'apparences. Pas de monnaie
 virtuelle, tirage payant, abonnement, compte à rebours ou achat nécessaire pour gagner.
-Les prix ne sont pas fixés ; l'ancienne hypothèse3,99€/4CHF concernait un autre modèle.
+Les prix ne sont pas fixés ; l'ancienne hypothèse 3,99 € / 4 CHF concernait un autre modèle.
 
 Premiers candidats cosmétiques : fanions du refuge et ornements du socle du
 cristal. Même silhouette fonctionnelle, dimensions et visibilité des trois voies ;

@@ -1,5 +1,8 @@
 # Suite autonome après l’affichage
 
+Plan historique des lots précédents ; le suivi actuel et les nouvelles décisions
+commerciales sont dans [PLAN-ACTUEL.md](../../PLAN-ACTUEL.md).
+
 Mandat du parent : enchaîner sans décision critique, council tous les deux lots.
 Ordre retenu : 1 terminé, 4 préparation Android, 3 plateau, 2 lisibilité, puis
 7 propositions chiffrées seulement. Règles à valider avec le fils et achat réservés.

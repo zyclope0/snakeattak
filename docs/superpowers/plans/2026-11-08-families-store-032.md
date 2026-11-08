@@ -20,20 +20,26 @@ commercial actif. Préflight strict avec motifs précis, captures du build exist
 
 ### 1. Contrat commercial et préflight
 
-- [ ] Écrire contrat, sources, copies et données de préparation.
-- [ ] RED : défauts de cadence, avantages vendus, confidentialité incompatible,
+- [x] Écrire contrat, sources, copies et données de préparation.
+- [x] RED : défauts de cadence, avantages vendus, confidentialité incompatible,
       traductions trompeuses, images absentes/invalides, empreintes et faux GO.
-- [ ] Implémenter validateur et CLI strict/draft ; GREEN, suite et build ; commit.
+- [x] Implémenter validateur et CLI strict/draft ; GREEN, suite et build ; commit.
 
 ### 2. Dossier visuel et livraison
 
-- [ ] Script reproductible de captures sur build de production : trois combats
+- [x] Script reproductible de captures sur build de production : trois combats
       téléphone, préparation, tablette et bannière ; dimensions/empreintes exactes.
-- [ ] Enrichir la recette et produire dossier consultable + ZIP de travail.
-- [ ] GREEN, revue indépendante/council cinq regards ; corriger défauts importants
+- [x] Enrichir la recette et produire dossier consultable + ZIP de travail.
+- [x] GREEN, revue indépendante/council cinq regards ; corriger défauts importants
       RED→GREEN ; état du plan actualisé et commit.
 
 ## Suivi
 
 Ledger manuel : .superpowers/sdd/families-store-032/progress.md ; helpers cloud
 indisponibles sur disque. Les actions du parent restent distinctes de la recette locale.
+
+## Résultat
+
+Préparation des lots 8/9 livrée,391 tests/build verts. Revue indépendante et
+corrections RED→GREEN. Les services commerciaux et Play restent à intégrer/tester ;
+ce plan de préparation ne les déclare pas terminés. Voir le bilan et PLAN-ACTUEL.md.
