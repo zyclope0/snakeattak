@@ -1,0 +1,13 @@
+{
+  "version": "0.32.3",
+  "versionCode": 38,
+  "sha256": "d4f2c4813e96da4488f74916029e223ae622708534b53b891e90e2f24cd986f3",
+  "bytes": 13107227,
+  "appId": "com.conqueteserpents.famille",
+  "certificateSha256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+  "sameCertificateAs0322": true,
+  "normalStartupWithoutPerformanceOverlay": true,
+  "identicalWebFiles": 27,
+  "noInternetPermission": true,
+  "physicalAndroidTest": false
+}

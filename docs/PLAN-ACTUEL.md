@@ -1,9 +1,19 @@
-# Plan actuel — application 0.32.2
+# Plan actuel — application 0.32.3
 
-## Mission active — Suivi v0.32.1, étape 1
+## Mission active — Suivi v0.32.1, étape 2
 
-**8 novembre 2026 — étape 1 livrée ; retour de fluidité reçu sur le S24.
-STOP en attente du GO distinct pour l'étape 2.**
+**8 novembre 2026 — étape 2 terminée, STOP en attente du GO pour l'étape 3.**
+
+0.32.3/code 38 : 24 chaînes sources au vouvoiement corrigées, plus une phrase de
+vocabulaire ; childCopy supprimé entièrement. Les messages de reprise sont
+reconstruits par le chargeur, sans changer le format des camps. 425 tests et
+build verts ; navigateur, audit 13/13, six formats mobiles, présentation 14 cas,
+interface 24/24, départs, prévision et hors ligne verts. Sur 24 départs :
+3 212 états identiques avant/après (hors message humain) et 119 camps strictement
+identiques, octet pour octet. [Bilan de l'étape 2](BILAN-0.32.3.md).
+Aucun changement de règle ni d'ancien code. STOP requis avant l'étape 3.
+
+### Livraison précédente 0.32.2 et retour du parent
 
 Retour du parent : « fluide a mon niveau su s24 ». Observation qualitative sur
 appareil réel ; aucune mesure FPS/RAM ni validation globale des interactions
@@ -20,7 +30,7 @@ nouveau déploiement n'entre dans ce GO. [Bilan de l'étape 1](BILAN-0.32.2.md).
 
 Les cinq constats ci-dessous décrivent la baseline 0.32.1, conservée avec ses
 preuves. Les correctifs 0.32.2 portent sur 1, 2 et 4 ; les textes sources (3)
-restent pour l'étape 2 et la facilité du tutoriel (5) ne change pas.
+sont corrigés à l'étape 2 terminée ; la facilité du tutoriel (5) ne change pas.
 Référence : audit mis à jour sur `36305b8` / 0.32.1, uniquement sa section
 « Suivi v0.32.1 ». [Source et empreinte](audit-source-2026-11/manifest-suivi-0.32.1.json).
 AGENTS.md, GAME_DESIGN.md, ce plan et MONETISATION.md ont été lus avant analyse.
@@ -50,12 +60,12 @@ Le mandat autonome antérieur ne permet plus d'enchaîner : **un GO après chaqu
    Recette : npm run verify, test:browser, test:audit, test:child-mobile ; captures
    avant/après 1280×800, 1366×768 et 780×360 tactile ; dimensions avant/après ;
    npm run android:apk:debug. **STOP : test de l'APK par le parent sur S24.**
-2. **Textes sources au tutoiement**, après nouveau GO : reprendre l'inventaire
+2. **0.32.3 — textes sources au tutoiement**, réalisée : reprendre l'inventaire
    complet, y compris les messages reconstruits lors d'une reprise ; enlever la
    réécriture childCopy ou justifier strictement un éventuel reste de compatibilité.
    Expliquer chaque instantané modifié, ajouter le contrôle d'absence de
    « vous / votre / vos » dans src/ et index.html ; vérifier mêmes parties pour
-   mêmes codes, anciens formats et tous les tests. **STOP.** Version à fixer au GO.
+   mêmes codes, anciens formats et tous les tests. **STOP pour accord du parent avant l'étape 3.**
 3. **Icône et identité**, après nouveau GO : source Magnific retenue dans
    docs/resources-2026-11, sans génération payante ; icône adaptative, fond uni,
    coins blancs supprimés ; vérifier l'icône de l'APK debug. Proposer trois

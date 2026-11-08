@@ -1,4 +1,3 @@
-import { childCopy } from '../ui/childCopy.ts';
 import type { Game, Entity, Effect } from '../game.ts';
 import type { CharacterAction } from './characterMotion.ts';
 import { encounterReadout } from './encounterReadout.ts';
@@ -124,7 +123,7 @@ export class Presentation {
       this.announce({
         kind: 'wave',
         title: `Vague ${game.wave} · ${chapter.title}`,
-        subtitle: childCopy(chapter.tip),
+        subtitle: chapter.tip,
         duration: 2.6,
         priority: 1,
       });

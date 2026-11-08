@@ -123,7 +123,7 @@ export class Game {
   spawnTimer = 0;
   nextId = 0;
   kills = 0;
-  message = 'Deux massues et votre héros sont prêts. Renforcez le camp !';
+  message = 'Choisis un allié.';
   readonly tuning: Readonly<BalanceTuning>;
   readonly rewards: RewardState;
   readonly campaign: CampaignState = freshCampaign();
@@ -461,7 +461,7 @@ export class Game {
     this.message =
       !this.mission && this.wave === TOTAL_WAVES
         ? 'La dernière vague ! Le roi à trois têtes approche…'
-        : `Vague ${this.wave} : défendez le camp !`;
+        : `Vague ${this.wave} : défends le camp !`;
     return true;
   }
   repair() {
@@ -1205,7 +1205,7 @@ export class Game {
           ? this.mission
             ? `Victoire ! ${missionById(this.mission.missionId)!.name} : ${this.missionStars} étoiles !`
             : 'Victoire ! Le roi à trois têtes est vaincu !'
-          : `Vague repoussée ! +${stats.reward} pièces. Préparez la suite.`;
+          : `Vague repoussée ! +${stats.reward} pièces. Prépare la suite.`;
     }
   }
 }

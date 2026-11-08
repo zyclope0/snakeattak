@@ -1,0 +1,155 @@
+{
+  "method": "Explicit source literal edits; no converter retained at runtime",
+  "rows": [
+    {
+      "file": "src/game.ts",
+      "line": 126,
+      "before": "'Deux massues et votre héros sont prêts. Renforcez le camp !'",
+      "after": "'Choisis un allié.'"
+    },
+    {
+      "file": "src/game.ts",
+      "line": 464,
+      "before": "`Vague ${this.wave} : défendez le camp !`",
+      "after": "`Vague ${this.wave} : défends le camp !`"
+    },
+    {
+      "file": "src/game.ts",
+      "line": 1208,
+      "before": "`Vague repoussée ! +${stats.reward} pièces. Préparez la suite.`",
+      "after": "`Vague repoussée ! +${stats.reward} pièces. Prépare la suite.`"
+    },
+    {
+      "file": "src/checkpoints.ts",
+      "line": 233,
+      "before": "'Camp retrouvé ! Préparez la prochaine vague.'",
+      "after": "'Camp retrouvé ! Prépare la prochaine vague.'"
+    },
+    {
+      "file": "src/checkpoints.ts",
+      "line": 233,
+      "before": "'Votre camp est prêt.'",
+      "after": "'Ton camp est prêt.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 14,
+      "before": "'Répartissez vos gardiens, retenez les vifs en groupes et surveillez les premières éclosions.'",
+      "after": "'Répartis tes gardiens, retiens les vifs en groupes et surveille les premières éclosions.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 26,
+      "before": "'Ressorts en trios espacés, soins en soutien : gardez votre armée prête pour les trois têtes.'",
+      "after": "'Ressorts en trios espacés, soins en soutien : garde tes alliés prêts pour les trois têtes.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 36,
+      "before": "'Quelques serpents. Préparez vos premières défenses.'",
+      "after": "'Quelques serpents. Prépare tes premières défenses.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 39,
+      "before": "'Les arrivées alternent entre les trois voies. Répartissez vos gardiens.'",
+      "after": "'Les arrivées alternent entre les trois voies. Répartis tes gardiens.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 43,
+      "before": "'Petits groupes de rapides, puis une respiration : gardez des renforts mobiles.'",
+      "after": "'Petits groupes de rapides, puis une respiration : garde des alliés mobiles.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 51,
+      "before": "'Le serpent à rouages porte une plaque : elle casse à mi-vie. Combinez dégâts et soins.'",
+      "after": "'Le serpent à rouages porte une plaque : elle casse à mi-vie. Combine dégâts et soins.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 55,
+      "before": "'Un serpent volant arrive : archers, dragons et tanks peuvent le toucher. Les feuilles protègent des flèches en marche : placez aussi des combattants au contact.'",
+      "after": "'Un serpent volant arrive : archers, dragons et tanks peuvent le toucher. Les feuilles protègent des flèches en marche : place aussi des combattants au contact.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 59,
+      "before": "'Un cracheur à distance suit un parapluie en marche. Les renforts mobiles peuvent le déloger.'",
+      "after": "'Un cracheur à distance suit un parapluie en marche. Les alliés mobiles peuvent le déloger.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 67,
+      "before": "'Deux ressorts encadrent la première carapace. Les trios arrivent moins serrés : gardez un renfort mobile pour leurs impulsions.'",
+      "after": "'Deux ressorts encadrent la première carapace. Les trios arrivent moins serrés : garde un renfort mobile pour leurs impulsions.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 71,
+      "before": "'Trois fronts. Le mamba noir retire 3 PV à celui qui le tue : gardez des soins en soutien.'",
+      "after": "'Trois fronts. Le mamba noir retire 3 PV à celui qui le tue : garde des soins en soutien.'"
+    },
+    {
+      "file": "src/waves.ts",
+      "line": 73,
+      "before": "'Préparez votre armée et réparez votre cristal.'",
+      "after": "'Prépare tes alliés et répare ton cristal.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 30,
+      "before": "'Protégez le cristal pendant trois vagues.'",
+      "after": "'Protège le cristal pendant trois vagues.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 38,
+      "before": "'Gardez les trois passages ouverts à vos défenseurs.'",
+      "after": "'Garde les trois passages ouverts à tes défenseurs.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 46,
+      "before": "'Interceptez les rapides avant le refuge.'",
+      "after": "'Intercepte les rapides avant le refuge.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 54,
+      "before": "'Résistez aux éclosions et aux premières escortes.'",
+      "after": "'Résiste aux éclosions et aux premières escortes.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 62,
+      "before": "'Surmontez les hésitations et protégez vos soutiens.'",
+      "after": "'Surmonte les hésitations et protège tes soutiens.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 70,
+      "before": "'Tenez quatre vagues aux deux jonctions.'",
+      "after": "'Tiens quatre vagues aux deux jonctions.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 196,
+      "before": "'Petits groupes rapides : gardez des renforts mobiles.'",
+      "after": "'Petits groupes rapides : garde des alliés mobiles.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 198,
+      "before": "'Les escortes arrivent ensemble : combinez contact et soutien.'",
+      "after": "'Les escortes arrivent ensemble : combine contact et soutien.'"
+    },
+    {
+      "file": "src/missions.ts",
+      "line": 199,
+      "before": "'Les arrivées sont régulières : répartissez les gardiens.'",
+      "after": "'Les arrivées sont régulières : répartis les gardiens.'"
+    }
+  ]
+}

@@ -1,4 +1,3 @@
-import { childCopy } from './childCopy.ts';
 import { victoryCopy } from '../render/resultCopy.ts';
 import { roleDescription } from '../defenders.ts';
 import type { Session } from '../session.ts';
@@ -106,11 +105,11 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
         'Choisis Attirer pour détourner les gourmands, ou Ralentir pour freiner ceux qui traversent la flaque. Puis choisis une voie.',
     };
   if (game.status === 'preparing') {
-    if (game.mission) return { title: game.briefing.title, subtitle: childCopy(game.briefing.tip) };
+    if (game.mission) return { title: game.briefing.title, subtitle: game.briefing.tip };
     const identity = chapterIdentityForWave(game.wave + 1);
     return {
       title: identity.focus,
-      subtitle: childCopy(identity.tip),
+      subtitle: identity.tip,
     };
   }
   return {

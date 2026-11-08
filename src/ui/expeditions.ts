@@ -1,5 +1,4 @@
 import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
-import { childCopy } from './childCopy.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS, createMissionRun, missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
@@ -46,7 +45,7 @@ export function bindExpeditions(
     const name = document.createElement('strong');
     name.textContent = mission.name;
     const objective = document.createElement('span');
-    objective.textContent = childCopy(mission.objective);
+    objective.textContent = mission.objective;
     const stars = document.createElement('span');
     stars.className = 'mission-stars';
     const availability = document.createElement('small');
@@ -61,7 +60,7 @@ export function bindExpeditions(
     draft = run;
     departures.preview(run);
     el('mission-title').textContent = mission.name;
-    el('mission-objective').textContent = childCopy(mission.objective);
+    el('mission-objective').textContent = mission.objective;
     el('mission-replacement-note').hidden = !actions.canResume();
     el('mission-budget').textContent =
       `${mission.budget} pièces · ${mission.waves.length} vagues · nouveaux alliés`;
@@ -69,7 +68,7 @@ export function bindExpeditions(
     el('mission-assault').textContent = assaults[run.assault];
     el('mission-nest').textContent = nests[run.nest];
     el('mission-plan').textContent =
-      childCopy(missionWave(run, 1).pattern.tip) +
+      missionWave(run, 1).pattern.tip +
       (mission.waves.some((rank) => rank >= 6)
         ? ' Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.'
         : '');

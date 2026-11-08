@@ -1,0 +1,7 @@
+{
+  "filesInspected": 104,
+  "matches": [],
+  "removedModule": "src/ui/childCopy.ts",
+  "converterRetained": false,
+  "source": "same scope as native test, independent Python scan"
+}

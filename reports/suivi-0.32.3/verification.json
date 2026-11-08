@@ -1,0 +1,150 @@
+{
+  "version": "0.32.3",
+  "versionCode": 38,
+  "step": 2,
+  "base": "7932b56",
+  "formalStringsRewritten": 24,
+  "totalLiteralEdits": 25,
+  "childCopyRemoved": true,
+  "consumerCallsRemoved": 11,
+  "guardedSourceFiles": 104,
+  "formalSourceMatches": 0,
+  "ruleChanges": false,
+  "campFormatChanges": false,
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "nativeTests": 425,
+      "passed": 425,
+      "failed": 0,
+      "build": "passed"
+    },
+    {
+      "command": "npm run test:browser",
+      "exitCode": 0,
+      "mainJourneys": 2,
+      "tablets": 2,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:audit",
+      "exitCode": 0,
+      "checks": 13,
+      "passed": 13
+    },
+    {
+      "command": "npm run test:child-mobile",
+      "exitCode": 0,
+      "viewportConfigurations": 6,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:departures",
+      "exitCode": 0,
+      "missionCodecConfigurations": 108,
+      "journeys": "classic, guarded import, confirmation, reload, copy/fallback, touch"
+    },
+    {
+      "command": "npm run test:threat-preparation",
+      "exitCode": 0,
+      "screens": 5,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:presentation",
+      "exitCode": 0,
+      "scenarios": 14,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:offline",
+      "exitCode": 0,
+      "checks": 10,
+      "campSchemas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "errors": 0
+    },
+    {
+      "command": "npm run test:interface-audit",
+      "exitCode": 0,
+      "checks": 24,
+      "passed": 24
+    },
+    {
+      "command": "npm run android:apk:debug",
+      "exitCode": 0,
+      "normalStartupRepackage": "assembleDebug --offline --no-daemon --max-workers=2",
+      "normalRepackageExitCode": 0
+    }
+  ],
+  "replay": {
+    "base": "7932b56",
+    "departures": 24,
+    "frames": 89642,
+    "snapshots": 3212,
+    "checkpointsComparedByteForByte": 119,
+    "wins": 21,
+    "losses": 3,
+    "excludedOwnField": "message",
+    "seeds": [
+      2026,
+      104729,
+      4294967294
+    ],
+    "caseKinds": "3 classic; 18 six-mission cases; 3 extra legacy-refuge v1 departures; current-refuge v2 included among six missions",
+    "changedSnapshotWitnesses": [
+      {
+        "test": "tests/boss-016.test.ts",
+        "old": "18761719ae593f389cf84e34b1f96e97e50f0f7abfb5f553c5525f01ac2a0d1b",
+        "newWithoutMessage": "27f9cf29d4caabf8f3f8f6108d2e09d5ed5a42721e5cf83a8ab9def565b8e34a",
+        "snapshots": 180,
+        "reason": "Existing witness included one human-readable field; new projection captured before source copy edits; no other added exclusion"
+      }
+    ]
+  },
+  "apk": {
+    "version": "0.32.3",
+    "versionCode": 38,
+    "sha256": "d4f2c4813e96da4488f74916029e223ae622708534b53b891e90e2f24cd986f3",
+    "bytes": 13107227,
+    "appId": "com.conqueteserpents.famille",
+    "certificateSha256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "sameCertificateAs0322": true,
+    "normalStartupWithoutPerformanceOverlay": true,
+    "identicalWebFiles": 27,
+    "noInternetPermission": true,
+    "physicalAndroidTest": false
+  },
+  "review": {
+    "reviewer": "review_tutoiement_0323",
+    "base": "7932b56",
+    "readOnly": true,
+    "critical": 0,
+    "important": 0,
+    "minor": 0,
+    "checks": [
+      "Application diff limited to text and removal of converter",
+      "No formal pronouns or forgotten transformed vocabulary identified",
+      "Old source loaded independently in memory from git7932b56 and all24 fixture cases reproduced",
+      "Both legacy hashes recomputed independently from7932b56",
+      "22 focused native tests passed"
+    ],
+    "browserAndApkCoveredByReview": false,
+    "reReview": false
+  },
+  "next": "STOP before step3; new parent GO required",
+  "notDone": [
+    "step3 icon/application-ID choices",
+    "step4 monetisation documents",
+    "physical S24 test of0.32.3",
+    "remote merge/push/deploy"
+  ]
+}

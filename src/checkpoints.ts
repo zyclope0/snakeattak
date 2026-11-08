@@ -230,7 +230,7 @@ export function decodeCheckpoint(raw: string): Game | null {
     game.nextId = d.nextId;
     game.kills = d.kills;
     game.hatched = d.hatched;
-    game.message = d.wave ? 'Camp retrouvé ! Préparez la prochaine vague.' : 'Votre camp est prêt.';
+    game.message = d.wave ? 'Camp retrouvé ! Prépare la prochaine vague.' : 'Ton camp est prêt.';
     return game;
   } catch {
     return null;

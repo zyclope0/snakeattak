@@ -11,7 +11,7 @@ const chapterIdentities: readonly ChapterIdentity[] = [
     firstWave: 1,
     lastWave: 4,
     focus: 'Découvrir les trois voies',
-    tip: 'Répartissez vos gardiens, retenez les vifs en groupes et surveillez les premières éclosions.',
+    tip: 'Répartis tes gardiens, retiens les vifs en groupes et surveille les premières éclosions.',
   },
   {
     firstWave: 5,
@@ -23,7 +23,7 @@ const chapterIdentities: readonly ChapterIdentity[] = [
     firstWave: 9,
     lastWave: 12,
     focus: 'Tenir le dernier rempart',
-    tip: 'Ressorts en trios espacés, soins en soutien : gardez votre armée prête pour les trois têtes.',
+    tip: 'Ressorts en trios espacés, soins en soutien : garde tes alliés prêts pour les trois têtes.',
   },
 ].map((identity) => Object.freeze(identity));
 
@@ -33,14 +33,11 @@ export function chapterIdentityForWave(wave: number): ChapterIdentity {
   return chapterIdentities[chapter];
 }
 const chapters = [
-  ['Premiers visiteurs', 'Quelques serpents. Préparez vos premières défenses.'],
-  [
-    'Par les trois ponts',
-    'Les arrivées alternent entre les trois voies. Répartissez vos gardiens.',
-  ],
+  ['Premiers visiteurs', 'Quelques serpents. Prépare tes premières défenses.'],
+  ['Par les trois ponts', 'Les arrivées alternent entre les trois voies. Répartis tes gardiens.'],
   [
     'La course des vifs',
-    'Petits groupes de rapides, puis une respiration : gardez des renforts mobiles.',
+    'Petits groupes de rapides, puis une respiration : garde des alliés mobiles.',
   ],
   [
     'La première couvée',
@@ -48,15 +45,15 @@ const chapters = [
   ],
   [
     'Les rouages du bosquet',
-    'Le serpent à rouages porte une plaque : elle casse à mi-vie. Combinez dégâts et soins.',
+    'Le serpent à rouages porte une plaque : elle casse à mi-vie. Combine dégâts et soins.',
   ],
   [
     'Les trois fronts',
-    'Un serpent volant arrive : archers, dragons et tanks peuvent le toucher. Les feuilles protègent des flèches en marche : placez aussi des combattants au contact.',
+    'Un serpent volant arrive : archers, dragons et tanks peuvent le toucher. Les feuilles protègent des flèches en marche : place aussi des combattants au contact.',
   ],
   [
     'Attention aux cracheurs',
-    'Un cracheur à distance suit un parapluie en marche. Les renforts mobiles peuvent le déloger.',
+    'Un cracheur à distance suit un parapluie en marche. Les alliés mobiles peuvent le déloger.',
   ],
   [
     'La grande couvée',
@@ -64,13 +61,13 @@ const chapters = [
   ],
   [
     'La grande cavalcade',
-    'Deux ressorts encadrent la première carapace. Les trios arrivent moins serrés : gardez un renfort mobile pour leurs impulsions.',
+    'Deux ressorts encadrent la première carapace. Les trios arrivent moins serrés : garde un renfort mobile pour leurs impulsions.',
   ],
   [
     'Les ponts s’animent',
-    'Trois fronts. Le mamba noir retire 3 PV à celui qui le tue : gardez des soins en soutien.',
+    'Trois fronts. Le mamba noir retire 3 PV à celui qui le tue : garde des soins en soutien.',
   ],
-  ['Avant le roi', 'Préparez votre armée et réparez votre cristal.'],
+  ['Avant le roi', 'Prépare tes alliés et répare ton cristal.'],
   [
     'Le roi à trois têtes',
     'Gardienne au contact, cracheuse à distance et tête mixte. Deux gardes et un soigneur escortent le roi ; la mêlée brise ses plaques. S’il atteint le cristal, la partie est perdue !',

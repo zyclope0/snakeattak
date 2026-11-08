@@ -1,5 +1,4 @@
 import { bindThreatControls } from './threatControls.ts';
-import { childCopy } from './childCopy.ts';
 import { bindBattleDock } from './battleDock.ts';
 import { feastIconStyle } from './feastControls.ts';
 import { pauseStateFor } from './pauseState.ts';
@@ -87,7 +86,7 @@ export function bindControls(
     const d = kinds[kind],
       b = document.createElement('button');
     b.className = 'unit-card';
-    b.title = childCopy(d.description);
+    b.title = d.description;
     b.dataset.kind = kind;
     b.setAttribute('aria-pressed', 'false');
     b.innerHTML = `<span class="portrait" aria-hidden="true"></span><span class="unit-info"><strong>${d.name}</strong><small>${descriptions[kind]}</small></span><span class="price">${d.cost} <i aria-hidden="true">●</i><span class="sr-only"> pièces</span></span>`;
@@ -204,7 +203,7 @@ export function bindControls(
     el('end-restart').hidden = !finished || !!session.game.mission;
     el('brief-title').textContent =
       `${session.game.status === 'preparing' ? 'Prochaine vague' : 'Vague en cours'} · ${Math.max(1, nextWave)} / ${session.game.totalWaves} · ${briefing.title}`;
-    el('brief-tip').textContent = childCopy(briefing.tip);
+    el('brief-tip').textContent = briefing.tip;
     if (finished) {
       el('brief-title').textContent =
         session.game.status === 'won'

@@ -1,0 +1,5 @@
+
+> conquete-serpents@0.32.3 test:departures
+> node scripts/departures-025-browser.mjs
+
+Departures: classic, 108-configuration codec, guarded mission import, confirmation, reload, copy/fallback and touch passed.

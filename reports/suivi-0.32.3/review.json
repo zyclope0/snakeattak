@@ -1,0 +1,17 @@
+{
+  "reviewer": "review_tutoiement_0323",
+  "base": "7932b56",
+  "readOnly": true,
+  "critical": 0,
+  "important": 0,
+  "minor": 0,
+  "checks": [
+    "Application diff limited to text and removal of converter",
+    "No formal pronouns or forgotten transformed vocabulary identified",
+    "Old source loaded independently in memory from git7932b56 and all24 fixture cases reproduced",
+    "Both legacy hashes recomputed independently from7932b56",
+    "22 focused native tests passed"
+  ],
+  "browserAndApkCoveredByReview": false,
+  "reReview": false
+}

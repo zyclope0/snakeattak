@@ -1,0 +1,187 @@
+✖ les sources et le HTML tutoient directement, y compris les impératifs sans pronom (10.9253ms)
+✖ le moteur fournit lui-même les textes de préparation et de vague déjà lisibles (0.671529ms)
+✖ les sept formats reconstruisent des messages familiers sans modifier les champs du camp (1.701281ms)
+✔ les départs classiques, anciens et actuels reproduisent tous leurs états et camps avant la réécriture (5915.113632ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6060.168144
+
+✖ failing tests:
+
+test at tests/child-copy.test.ts:12:1
+✖ les sources et le HTML tutoient directement, y compris les impératifs sans pronom (10.9253ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + [
+  +   'src/checkpoints.ts: Préparez',
+  +   'src/checkpoints.ts: Votre',
+  +   'src/game.ts: votre',
+  +   'src/game.ts: Renforcez',
+  +   'src/game.ts: défendez',
+  +   'src/game.ts: Préparez',
+  +   'src/missions.ts: Protégez',
+  +   'src/missions.ts: Gardez',
+  +   'src/missions.ts: vos',
+  +   'src/missions.ts: Interceptez',
+  +   'src/missions.ts: Résistez',
+  +   'src/missions.ts: Surmontez',
+  +   'src/missions.ts: protégez',
+  +   'src/missions.ts: vos',
+  +   'src/missions.ts: Tenez',
+  +   'src/missions.ts: gardez',
+  +   'src/missions.ts: combinez',
+  +   'src/missions.ts: répartissez',
+  +   'src/waves.ts: Répartissez',
+  +   'src/waves.ts: vos',
+  +   'src/waves.ts: retenez',
+  +   'src/waves.ts: surveillez',
+  +   'src/waves.ts: gardez',
+  +   'src/waves.ts: votre',
+  +   'src/waves.ts: Préparez',
+  +   'src/waves.ts: vos',
+  +   'src/waves.ts: Répartissez',
+  +   'src/waves.ts: vos',
+  +   'src/waves.ts: gardez',
+  +   'src/waves.ts: Combinez',
+  +   'src/waves.ts: placez',
+  +   'src/waves.ts: gardez',
+  +   'src/waves.ts: gardez',
+  +   'src/waves.ts: Préparez',
+  +   'src/waves.ts: votre',
+  +   'src/waves.ts: réparez',
+  +   'src/waves.ts: votre',
+  +   'src/ui/childCopy.ts: retenez',
+  +   'src/ui/childCopy.ts: surveillez',
+  +   'src/ui/childCopy.ts: achetez',
+  +   'src/ui/childCopy.ts: utilisez',
+  +   'src/ui/childCopy.ts: protégez',
+  +   'src/ui/childCopy.ts: défendez',
+  +   'src/ui/childCopy.ts: gardez',
+  +   'src/ui/childCopy.ts: interceptez',
+  +   'src/ui/childCopy.ts: résistez',
+  +   'src/ui/childCopy.ts: surmontez',
+  +   'src/ui/childCopy.ts: tenez',
+  +   'src/ui/childCopy.ts: préparez',
+  +   'src/ui/childCopy.ts: choisissez',
+  +   'src/ui/childCopy.ts: touchez',
+  +   'src/ui/childCopy.ts: consultez',
+  +   'src/ui/childCopy.ts: répartissez',
+  +   'src/ui/childCopy.ts: renforcez',
+  +   'src/ui/childCopy.ts: réparez',
+  +   'src/ui/childCopy.ts: observez',
+  +   'src/ui/childCopy.ts: combinez',
+  +   'src/ui/childCopy.ts: rechargez',
+  +   'src/ui/childCopy.ts: pouvez',
+  +   'src/ui/childCopy.ts: commencez',
+  +   'src/ui/childCopy.ts: votre',
+  +   'src/ui/childCopy.ts: vos',
+  +   'src/ui/childCopy.ts: vous',
+  +   'src/ui/childCopy.ts: votre',
+  +   'src/ui/childCopy.ts: Renforcez',
+  +   'src/ui/childCopy.ts: vous',
+  +   'src/ui/childCopy.ts: votre',
+  +   'src/ui/childCopy.ts: votre',
+  +   'src/ui/childCopy.ts: vos'
+  + ]
+  - []
+
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/child-copy.test.ts:22:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      'src/checkpoints.ts: Préparez',     'src/checkpoints.ts: Votre',
+      'src/game.ts: votre',               'src/game.ts: Renforcez',
+      'src/game.ts: défendez',            'src/game.ts: Préparez',
+      'src/missions.ts: Protégez',        'src/missions.ts: Gardez',
+      'src/missions.ts: vos',             'src/missions.ts: Interceptez',
+      'src/missions.ts: Résistez',        'src/missions.ts: Surmontez',
+      'src/missions.ts: protégez',        'src/missions.ts: vos',
+      'src/missions.ts: Tenez',           'src/missions.ts: gardez',
+      'src/missions.ts: combinez',        'src/missions.ts: répartissez',
+      'src/waves.ts: Répartissez',        'src/waves.ts: vos',
+      'src/waves.ts: retenez',            'src/waves.ts: surveillez',
+      'src/waves.ts: gardez',             'src/waves.ts: votre',
+      'src/waves.ts: Préparez',           'src/waves.ts: vos',
+      'src/waves.ts: Répartissez',        'src/waves.ts: vos',
+      'src/waves.ts: gardez',             'src/waves.ts: Combinez',
+      'src/waves.ts: placez',             'src/waves.ts: gardez',
+      'src/waves.ts: gardez',             'src/waves.ts: Préparez',
+      'src/waves.ts: votre',              'src/waves.ts: réparez',
+      'src/waves.ts: votre',              'src/ui/childCopy.ts: retenez',
+      'src/ui/childCopy.ts: surveillez',  'src/ui/childCopy.ts: achetez',
+      'src/ui/childCopy.ts: utilisez',    'src/ui/childCopy.ts: protégez',
+      'src/ui/childCopy.ts: défendez',    'src/ui/childCopy.ts: gardez',
+      'src/ui/childCopy.ts: interceptez', 'src/ui/childCopy.ts: résistez',
+      'src/ui/childCopy.ts: surmontez',   'src/ui/childCopy.ts: tenez',
+      'src/ui/childCopy.ts: préparez',    'src/ui/childCopy.ts: choisissez',
+      'src/ui/childCopy.ts: touchez',     'src/ui/childCopy.ts: consultez',
+      'src/ui/childCopy.ts: répartissez', 'src/ui/childCopy.ts: renforcez',
+      'src/ui/childCopy.ts: réparez',     'src/ui/childCopy.ts: observez',
+      'src/ui/childCopy.ts: combinez',    'src/ui/childCopy.ts: rechargez',
+      'src/ui/childCopy.ts: pouvez',      'src/ui/childCopy.ts: commencez',
+      'src/ui/childCopy.ts: votre',       'src/ui/childCopy.ts: vos',
+      'src/ui/childCopy.ts: vous',        'src/ui/childCopy.ts: votre',
+      'src/ui/childCopy.ts: Renforcez',   'src/ui/childCopy.ts: vous',
+      'src/ui/childCopy.ts: votre',       'src/ui/childCopy.ts: votre',
+      'src/ui/childCopy.ts: vos'
+    ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/child-copy.test.ts:25:1
+✖ le moteur fournit lui-même les textes de préparation et de vague déjà lisibles (0.671529ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'Deux massues et votre héros sont prêts. Renforcez le camp !'
+  - 'Choisis un allié.'
+
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/child-copy.test.ts:27:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Deux massues et votre héros sont prêts. Renforcez le camp !',
+    expected: 'Choisis un allié.',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/child-copy.test.ts:32:1
+✖ les sept formats reconstruisent des messages familiers sans modifier les champs du camp (1.701281ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'Votre camp est prêt.'
+  - 'Ton camp est prêt.'
+
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/child-copy.test.ts:50:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Votre camp est prêt.',
+    expected: 'Ton camp est prêt.',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
