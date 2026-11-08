@@ -482,6 +482,18 @@
                 ><span>Fiches</span>
               </button>
             </div>
+            <div class="shop-toolbar">
+              <div class="shop-tabs" aria-label="Afficher les renforts">
+                <button id="shop-ready" aria-pressed="true">Disponibles</button
+                ><button id="shop-future" aria-pressed="false">À découvrir</button>
+              </div>
+              <label class="shop-family" for="shop-family"
+                ><span class="sr-only">Famille d’alliés</span
+                ><select id="shop-family" aria-label="Famille d’alliés"></select
+              ></label>
+            </div>
+            <p id="shop-note" class="sr-only">Choisis un allié, puis touche ton camp.</p>
+            <div id="shop" aria-label="Recruter nos unités"></div>
             <details id="camp-observation" class="camp-readout">
               <summary>Conseils</summary>
               <section
@@ -540,18 +552,6 @@
               <div id="quick-cards" class="quick-cards"></div>
             </details>
 
-            <div class="shop-toolbar">
-              <div class="shop-tabs" aria-label="Afficher les renforts">
-                <button id="shop-ready" aria-pressed="true">Disponibles</button
-                ><button id="shop-future" aria-pressed="false">À découvrir</button>
-              </div>
-              <label class="shop-family" for="shop-family"
-                ><span class="sr-only">Famille d’alliés</span
-                ><select id="shop-family" aria-label="Famille d’alliés"></select
-              ></label>
-            </div>
-            <p id="shop-note" class="sr-only">Choisis un allié, puis touche ton camp.</p>
-            <div id="shop" aria-label="Recruter nos unités"></div>
             <details id="camp-tools" class="camp-tools">
               <summary>Actions du camp</summary>
               <section class="feast-panel" aria-labelledby="feast-title">

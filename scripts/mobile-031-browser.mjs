@@ -65,6 +65,7 @@ try {
     for (const [width, height, safe] of [
       [812, 375, [0, 0, 0, 0]],
       [812, 375, [24, 48, 16, 0]],
+      [667, 375, [24, 48, 16, 0]],
       [915, 412, [24, 0, 24, 48]],
       [960, 432, [24, 24, 16, 24]],
       [1280, 800, [24, 24, 16, 12]],
@@ -142,8 +143,21 @@ try {
       false,
       'No curtain covers the battlefield',
     );
+    await page.locator('#reinforcements-close').focus();
+    await page.keyboard.press('Shift+Tab');
+    assert.equal(
+      await page.locator('#reinforcements').evaluate((el) => el.contains(document.activeElement)),
+      false,
+      'Non-modal catalogue does not trap keyboard focus',
+    );
     await page.screenshot({ path: 'artifacts/mobile-031/renforts-812.png' });
+    const gold = await page.locator('#gold').innerText();
     await page.locator('[data-kind="club"]').click();
+    assert.equal(
+      await page.locator('#gold').innerText(),
+      gold,
+      'Choosing a card does not charge before placement',
+    );
     assert.equal(
       await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),
       'false',
@@ -154,6 +168,14 @@ try {
     );
     await page.locator('#reinforcements-toggle').click();
     await page.keyboard.press('Escape');
+    assert.equal(
+      await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),
+      'false',
+    );
+    await page.locator('#reinforcements-toggle').click();
+    await page.setViewportSize({ width: 1280, height: 800 });
+    assert.equal(await page.locator('#reinforcements').evaluate((el) => el.inert), false);
+    await page.setViewportSize({ width: 812, height: 375 });
     assert.equal(
       await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),
       'false',

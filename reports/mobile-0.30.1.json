@@ -1,0 +1,114 @@
+{
+  "version": "0.30.1",
+  "simulatedInsets": true,
+  "physicalDevice": false,
+  "results": [
+    {
+      "width": 812,
+      "height": 375,
+      "safe": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "board": {
+        "x": 115,
+        "y": 48,
+        "width": 580.15625,
+        "height": 327
+      }
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "safe": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "board": {
+        "x": 127,
+        "y": 72,
+        "width": 509.1875,
+        "height": 287
+      }
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "safe": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "board": {
+        "x": 54,
+        "y": 72,
+        "width": 509.1875,
+        "height": 287
+      }
+    },
+    {
+      "width": 915,
+      "height": 412,
+      "safe": [
+        24,
+        0,
+        24,
+        48
+      ],
+      "board": {
+        "x": 201,
+        "y": 72,
+        "width": 560.640625,
+        "height": 316
+      }
+    },
+    {
+      "width": 960,
+      "height": 432,
+      "safe": [
+        24,
+        24,
+        16,
+        24
+      ],
+      "board": {
+        "x": 174,
+        "y": 72,
+        "width": 610.3125,
+        "height": 344
+      }
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "safe": [
+        24,
+        24,
+        16,
+        12
+      ],
+      "board": {
+        "x": 25,
+        "y": 141,
+        "width": 895.984375,
+        "height": 505.015625
+      }
+    }
+  ],
+  "checks": [
+    "system areas",
+    "rotation",
+    "dialog",
+    "pause",
+    "docked reinforcements",
+    "touch targets",
+    "selection closes",
+    "combat continues"
+  ],
+  "errors": []
+}

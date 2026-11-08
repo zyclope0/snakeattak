@@ -2675,7 +2675,7 @@ dialog > small {
   color: #50684e;
 }
 
-/* The board owns the landscape viewport; reinforcements temporarily cover its edge. */
+/* Reinforcements share the landscape viewport; no lane is hidden behind a modal. */
 .mobile-home,
 .reinforcements-toggle,
 .reinforcements-close,
@@ -2770,6 +2770,12 @@ dialog > small {
   .play-layout {
     display: block;
   }
+  .app.reinforcements-open .play-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min(232px, 32%);
+    gap: 0;
+    align-items: start;
+  }
   .battle,
   .game-expanded .battle {
     position: relative;
@@ -2791,30 +2797,31 @@ dialog > small {
     display: block;
     margin-left: auto;
   }
-  .reinforcements {
-    position: fixed;
-    inset: calc(var(--app-safe-top) + 48px) var(--app-safe-right) var(--app-safe-bottom) auto;
-    width: min(340px, 85vw);
-    z-index: 22;
+  #reinforcements {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: calc(var(--app-height) - 48px);
+    min-width: 0;
+    z-index: 2;
     max-height: none;
     overflow: auto;
-    padding: 10px;
-    border-radius: 12px 0 0 0;
-    display: block;
+    overscroll-behavior: contain;
+    padding: 6px;
+    border-radius: 0;
+    display: none;
+    gap: 6px;
     visibility: hidden;
     pointer-events: none;
   }
-  .reinforcements-open .reinforcements {
+  .reinforcements-open #reinforcements {
+    display: flex;
+    flex-direction: column;
     visibility: visible;
     pointer-events: auto;
   }
   .reinforcements-open .reinforcements-backdrop {
-    display: block;
-    position: fixed;
-    inset: calc(var(--app-safe-top) + 48px) var(--app-safe-right) var(--app-safe-bottom)
-      var(--app-safe-left);
-    z-index: 21;
-    background: #102e2980;
+    display: none;
   }
   .reinforcements .army-title {
     display: flex;
@@ -2838,6 +2845,71 @@ dialog > small {
   }
   .reinforcements .unit-card {
     min-height: 112px;
+  }
+  #reinforcements > * {
+    flex: 0 0 auto;
+  }
+  #reinforcements .army-title {
+    top: -6px;
+    padding: 0 0 4px;
+    margin: 0;
+    gap: 4px;
+  }
+  #reinforcements .army-title h2 {
+    margin-right: auto;
+    font-size: 18px;
+  }
+  #reinforcements .reinforcements-close {
+    order: 2;
+    margin: 0;
+    min-width: 48px;
+    min-height: 48px;
+  }
+  #reinforcements .guide-button {
+    width: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    padding: 8px;
+    justify-content: center;
+  }
+  #reinforcements .guide-button span,
+  #reinforcements .reinforcements-close span {
+    display: none;
+  }
+  #reinforcements #shop {
+    gap: 6px;
+    padding: 0;
+  }
+  #reinforcements .shop-toolbar {
+    grid-template-columns: minmax(0, 1fr) 48px;
+    margin: 4px 0;
+    gap: 4px;
+  }
+  #reinforcements .shop-tabs button {
+    min-height: 48px;
+    padding: 3px;
+    font-size: 11px;
+    line-height: 14px;
+  }
+  #reinforcements .shop-family select {
+    min-height: 48px;
+    padding-inline: 3px;
+    font-size: 11px;
+  }
+  #reinforcements #shop .unit-card {
+    min-height: 76px;
+    padding: 4px 3px;
+  }
+  #reinforcements .unit-card .portrait {
+    width: 48px;
+    height: 48px;
+  }
+  #reinforcements .unit-info strong {
+    font-size: 12px;
+    line-height: 14px;
+  }
+  #reinforcements .unit-info small {
+    display: none;
   }
 }
 

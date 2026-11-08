@@ -32,19 +32,7 @@ export function bindReinforcementsDrawer() {
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && open) show(false, true);
-    if (event.key !== 'Tab' || !open) return;
-    const buttons = Array.from(
-      panel.querySelectorAll<HTMLElement>('button:not(:disabled), select, summary'),
-    ).filter((node) => node.getClientRects().length > 0);
-    const first = buttons[0],
-      last = buttons.at(-1);
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last?.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first?.focus();
-    }
+    // The catalogue now sits beside the board. Keep the HUD reachable by keyboard.
   });
   show(false);
 }
