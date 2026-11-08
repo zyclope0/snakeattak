@@ -17,9 +17,18 @@ export function bindBattleNotices(
   forceGuide = () => false,
 ) {
   const panel = document.getElementById('encounter')!;
+  const announcement = document.getElementById('battle-announcement')!;
   let previous = '';
+  let previousAnnouncement = '';
   return (notice: Notice | null) => {
     const { content, tone } = chooseBattleMessage(notice, getGuide(), forceGuide());
+    // The former Phaser flash was independent of the separate placement coach.
+    const title = notice?.title ?? '';
+    if (title !== previousAnnouncement) {
+      previousAnnouncement = title;
+      announcement.textContent = title;
+      announcement.hidden = !title;
+    }
     const key = `${tone}:${content.title}:${content.subtitle}`;
     if (key === previous) return;
     previous = key;

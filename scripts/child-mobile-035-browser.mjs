@@ -294,7 +294,9 @@ try {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.locator('#orientation-notice').waitFor();
   await page.setViewportSize({ width: 1280, height: 800 });
-  assert.equal(await page.locator('#battle-dock').isVisible(), false);
+  assert.equal(await page.locator('#battle-dock').isVisible(), true);
+  assert.equal(await page.locator('#reinforcements').isVisible(), false);
+  assert.equal(await page.locator('[data-dock-kind]:visible').count(), 4);
   await page.close();
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });

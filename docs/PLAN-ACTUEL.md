@@ -1,8 +1,21 @@
-# Plan actuel — application 0.32.1
+# Plan actuel — application 0.32.2
 
-## Mission active — Suivi v0.32.1, étape 0
+## Mission active — Suivi v0.32.1, étape 1
 
-**8 novembre 2026 — contre-vérification terminée, STOP en attente du parent.**
+**8 novembre 2026 — étape 1 terminée, STOP pour le test du parent sur le S24.**
+
+APK 0.32.2/code 37 compilé, identifiant et certificat debug conservés.
+Recette : 423 tests natifs, interface 24/24, audit 13/13, child-mobile six formats,
+défilement cinq formats + ordinateur, hors ligne dix contrôles (anciens camps
+1 à 7), interruptions onze scénarios : tous verts. Plateau à 1280×800 :
+1065,95×600,81 px, soit +75,52 px de hauteur ; les 150 px entiers ne sont pas
+récupérés. [Reçu](../reports/suivi-0.32.2/verification.json). Aucun
+changement de règles ou de sauvegarde. Le site public reste en 0.32.1 ; aucun
+nouveau déploiement n'entre dans ce GO. [Bilan de l'étape 1](BILAN-0.32.2.md).
+
+Les cinq constats ci-dessous décrivent la baseline 0.32.1, conservée avec ses
+preuves. Les correctifs 0.32.2 portent sur 1, 2 et 4 ; les textes sources (3)
+restent pour l'étape 2 et la facilité du tutoriel (5) ne change pas.
 Référence : audit mis à jour sur `36305b8` / 0.32.1, uniquement sa section
 « Suivi v0.32.1 ». [Source et empreinte](audit-source-2026-11/manifest-suivi-0.32.1.json).
 AGENTS.md, GAME_DESIGN.md, ce plan et MONETISATION.md ont été lus avant analyse.
@@ -22,8 +35,8 @@ Le mandat autonome antérieur ne permet plus d'enchaîner : **un GO après chaqu
 0. **Contre-vérification, documents et captures uniquement : réalisée.** Aucun
    changement de code applicatif, de version, de sauvegarde ou de publication.
    Vérifications : verify 423/423, navigateur ordinateur/mobile, audit 13/13,
-   child-mobile six formats sans erreur. STOP actuel.
-1. **0.32.2 — correctifs d'interface**, après GO : même dock sur ordinateur
+   child-mobile six formats sans erreur. GO reçu pour l’étape 1.
+1. **0.32.2 — correctifs d'interface**, réalisée : même dock sur ordinateur
    (4 favoris, 2 miels, Tous les alliés), plateau agrandi sans défilement ; annonces
    sur une ligne dans le HUD ou au bas du plateau, sans couvrir voie/pastilles ;
    suppression du trait blanc existant. Conserver proportions et coordonnées du

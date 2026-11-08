@@ -1,0 +1,10 @@
+
+> conquete-serpents@0.32.2 test:interface-audit
+> node scripts/interface-0322-browser.mjs
+
+{
+  "passed": 24,
+  "total": 24,
+  "errors": [],
+  "failures": []
+}
