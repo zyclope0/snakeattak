@@ -1,3 +1,4 @@
+import { bindThreatControls } from './threatControls.ts';
 import { childCopy } from './childCopy.ts';
 import { bindBattleDock } from './battleDock.ts';
 import { feastIconStyle } from './feastControls.ts';
@@ -107,6 +108,7 @@ export function bindControls(
   const refreshAdventure = bindAdventureControls(session, refresh);
   const refreshFeast = bindFeastControls(session, refresh);
   const refreshDock = bindBattleDock(session, career, refresh);
+  const refreshThreats = bindThreatControls(session, refresh);
   const refreshRewards = bindRewardControls(session, refresh);
   bindUnitGuide(session, refresh);
   el('start').onclick = () => {
@@ -219,6 +221,7 @@ export function bindControls(
     }
     refreshFeast();
     refreshDock();
+    refreshThreats();
     refreshHud(session.game);
     const selected = session.selected;
     el('selection-panel').hidden = !selected && !session.selectedFeast;

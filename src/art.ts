@@ -96,3 +96,10 @@ export function portraitStyle(kind: Kind): string {
     sheet = ART_SHEETS.find((s) => s.key === art.texture)!;
   return `background-image:url("${sheet.url}");background-size:200% ${(1024 / sheet.frameHeight) * 100}%;background-repeat:no-repeat;background-position:${art.frame % 2 ? 100 : 0}% ${art.frame >= 2 ? 100 : 0}%`;
 }
+
+/** Same atlas crops as actors; flying/healer portraits get a capability badge in UI. */
+export function enemyPortraitStyle(kind: EnemyKind | 'king' | 'egg'): string {
+  const art = kind === 'king' ? KING_ART : kind === 'egg' ? EGG_ART : ENEMY_ART[kind];
+  const sheet = ART_SHEETS.find((s) => s.key === art.texture)!;
+  return `background-image:url("${sheet.url}");background-size:200% ${(1024 / sheet.frameHeight) * 100}%;background-repeat:no-repeat;background-position:${art.frame % 2 ? 100 : 0}% ${art.frame >= 2 ? 100 : 0}%`;
+}

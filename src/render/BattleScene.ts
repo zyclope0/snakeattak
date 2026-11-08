@@ -1,3 +1,4 @@
+import { ThreatMarkers } from './threatMarkers.ts';
 import { victoryCopy } from './resultCopy.ts';
 import { activateBoard } from '../ui/boardActions.ts';
 import { drawFeastPlacement } from './feastPlacement.ts';
@@ -41,6 +42,7 @@ export class BattleScene extends Phaser.Scene {
   private honeyInk!: Phaser.GameObjects.Graphics;
   private actors!: Actors;
   private terrain!: TerrainLayer;
+  private threatMarkers!: ThreatMarkers;
   private strongholds!: Strongholds;
   private hudTime = 0;
   private meter?: DevPerformance;
@@ -107,6 +109,7 @@ export class BattleScene extends Phaser.Scene {
       this.session.game.initialSeed,
     );
     this.strongholds = new Strongholds(this);
+    this.threatMarkers = new ThreatMarkers(this);
     this.actors = new Actors(this);
     this.bossSignals = new BossSignals(this);
     this.flightSignals = new FlightSignals(this);
@@ -178,6 +181,7 @@ export class BattleScene extends Phaser.Scene {
       this.session.game.initialSeed,
     );
     this.strongholds.draw(this.session.game, this.presentation, reduced);
+    this.threatMarkers.draw(this.session.game);
     drawDefenseMarkers(this.ink, this.session.game);
     const feast = this.session.game.feast;
     this.feastLabel.setVisible(!!feast);
