@@ -16,9 +16,9 @@
     "pageErrors": []
   },
   "budgets": {
-    "html": 31285,
+    "html": 31299,
     "htmlLimitExclusive": 32768,
-    "gameJS": 191274,
+    "gameJS": 191833,
     "gameJSLimit": 200000
   },
   "imageSource": {
@@ -102,5 +102,23 @@
     "Chromium emulation, no physical S24 test",
     "No APK, publication, RNG/economy/rules/camp/code changes",
     "No old report or0.32.2 screenshot retained as a modified historical file"
-  ]
+  ],
+  "councilPass": {
+    "scope": [
+      "Rounded decorative SVG status badges repeat the real state beside each emblem, with the existing readable label retained",
+      "Home classic button states12 waves",
+      "No promised future regions",
+      "Replay hint names the carrefour mission actually opened"
+    ],
+    "redEvidence": "/workspace/night-0331-council-red.log: expected6 status badges, observed0",
+    "verification": {
+      "native": "438/438",
+      "journey": "16 cases, no page errors; first-row badges fully visible at780x360 and812x375; existing replay click confirms displayed destination",
+      "audit": "13/13",
+      "browser": "passed desktop and touch; no page errors"
+    },
+    "artifacts": "artifacts/mission-journey-0331/after*.png updated before lot B closure; original0.32.2 untouched",
+    "notRepeated": "Missions, departures and interface-audit were green before this bounded presentation pass; no gameplay or corresponding test harness changed in this pass.",
+    "captureProvenance": "Updated accueil/carte/rejouer images come from the journey suite at DPR1. Existing interface combat/event captures retain their original DPR3 touch emulation."
+  }
 }

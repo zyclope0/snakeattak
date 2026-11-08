@@ -7,7 +7,7 @@ import { kinds } from '../data.ts';
 import { portraitStyle } from '../art.ts';
 import { bindDepartureControls } from './departures.ts';
 import { missionJourney } from './missionJourney.ts';
-import { missionEmblem } from './missionJourneyView.ts';
+import { missionEmblem, missionStatusBadge } from './missionJourneyView.ts';
 
 type Progress = ReturnType<typeof createMissionProgressController>;
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
@@ -52,7 +52,15 @@ export function bindExpeditions(
     stars.className = 'mission-stars';
     stars.setAttribute('role', 'img');
     const availability = document.createElement('small');
-    button.append(missionEmblem(mission.id), number, name, objective, stars, availability);
+    button.append(
+      missionEmblem(mission.id),
+      missionStatusBadge(),
+      number,
+      name,
+      objective,
+      stars,
+      availability,
+    );
     button.onclick = () =>
       preview(createMissionRun(mission.id, freshSeed(), progress.lastRun(mission.id)));
     el('mission-cards').append(button);
@@ -142,7 +150,7 @@ export function bindExpeditions(
     const next = journey.find((step) => step.status === 'next');
     el('home-next-mission').textContent = next
       ? nextMission().name
-      : 'Les six missions sont terminées !';
+      : `Rejouer : ${nextMission().name}`;
     el('home-play').textContent = next ? 'Jouer' : 'Rejouer';
     const state = progress.state;
     let total = 0;

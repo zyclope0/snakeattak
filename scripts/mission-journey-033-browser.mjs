@@ -156,6 +156,30 @@ try {
           await page.locator('[aria-current="step"]').count(),
           name === 'complete' ? 0 : 1,
         );
+        const badges = page.locator('.mission-status-badge');
+        assert.equal(await badges.count(), 6, 'Each mission repeats its status beside the emblem');
+        if (width === 780 || width === 812 || width === 375) {
+          const visible = await badges.evaluateAll((nodes) =>
+            nodes.slice(0, 3).map((node) => {
+              const box = node.getBoundingClientRect();
+              const paths = [...node.querySelectorAll('path')].filter(
+                (path) => getComputedStyle(path).display !== 'none',
+              );
+              return (
+                box.top >= 0 &&
+                box.bottom <= innerHeight &&
+                box.width >= 40 &&
+                box.height >= 40 &&
+                paths.length === 1
+              );
+            }),
+          );
+          assert.deepEqual(
+            visible,
+            [true, true, true],
+            'First-row status glyphs fit above the fold',
+          );
+        }
         const dims = await cards.evaluateAll((nodes) =>
           nodes.map((n) => ({
             x: n.getBoundingClientRect().x,
@@ -208,6 +232,10 @@ try {
         if (name === 'irregular') assert.equal(await cards.nth(2).isDisabled(), true);
         if (name === 'complete') {
           assert.equal(await page.locator('#home-play').textContent(), 'Rejouer');
+          assert.ok(
+            (await page.locator('#home-next-mission').textContent()).includes(MISSIONS.at(-1).name),
+            'Replay hint names the mission actually opened',
+          );
           await page.locator('#home-play').click();
           assert.equal(await page.locator('#mission-title').textContent(), MISSIONS.at(-1).name);
           const run = JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run'));
