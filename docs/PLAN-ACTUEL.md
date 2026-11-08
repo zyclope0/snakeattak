@@ -4,6 +4,13 @@
 
 **8 novembre 2026 — étape 2 terminée, STOP en attente du GO pour l'étape 3.**
 
+Publication demandée ensuite par le parent (« met a jours le site ») et réalisée
+le 8 novembre : site public en **0.32.3**, version Sites16, même URL et audience.
+Vérification réelle dans Chromium : HTTP200, marqueur v0.32.3, lancement de la
+mission, quatre favoris et plateau 1065,95×600,81 ; zéro erreur JavaScript.
+[Reçu de publication](../reports/deployment-0.32.3.json).
+Cette demande de publication n'autorise pas l'étape3 : STOP conservé.
+
 0.32.3/code 38 : 24 chaînes sources au vouvoiement corrigées, plus une phrase de
 vocabulaire ; childCopy supprimé entièrement. Les messages de reprise sont
 reconstruits par le chargeur, sans changer le format des camps. 425 tests et
@@ -25,8 +32,8 @@ défilement cinq formats + ordinateur, hors ligne dix contrôles (anciens camps
 1 à 7), interruptions onze scénarios : tous verts. Plateau à 1280×800 :
 1065,95×600,81 px, soit +75,52 px de hauteur ; les 150 px entiers ne sont pas
 récupérés. [Reçu](../reports/suivi-0.32.2/verification.json). Aucun
-changement de règles ou de sauvegarde. Le site public reste en 0.32.1 ; aucun
-nouveau déploiement n'entre dans ce GO. [Bilan de l'étape 1](BILAN-0.32.2.md).
+changement de règles ou de sauvegarde. À cette livraison précédente, le site
+était encore en0.32.1 ; publication0.32.3 réalisée ensuite comme indiqué ci-dessus. [Bilan de l'étape 1](BILAN-0.32.2.md).
 
 Les cinq constats ci-dessous décrivent la baseline 0.32.1, conservée avec ses
 preuves. Les correctifs 0.32.2 portent sur 1, 2 et 4 ; les textes sources (3)
