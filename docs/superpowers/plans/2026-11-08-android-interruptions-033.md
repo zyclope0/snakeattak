@@ -44,7 +44,7 @@ Les propriétaires de pause sont des acquisitions, pas des écritures dans Game.
 - [x] Vérifier hors ligne les fichiers du paquet embarqué et la reprise du dernier camp.
 - [x] Passer version, documenter état réel du lot 4 et prochaine étape application (lot 5).
 - [x] `npm run verify`, `npm run test:browser`, `npm run test:mobile` verts ; APK compilé.
-- [ ] Commit, revue finale indépendante, correction éventuelle RED→GREEN, intégration locale.
+- [x] Commit, revue finale indépendante, correction éventuelle RED→GREEN, intégration locale.
 
 ## Mandat
 

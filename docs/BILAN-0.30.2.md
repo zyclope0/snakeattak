@@ -75,3 +75,6 @@ de ces succès locaux.
   sera justifié par ce retour concret.
 - Le dossier store 0.30.1 reste historique ; aucune fausse preuve de mise à jour
   de ses captures ou de validation commerciale n'est produite.
+
+- Intégration locale dans main puis synchronisation du dépôt privé déjà autorisé :
+  aucun déploiement web ou Play implicite. Le site reste en 0.30.1.

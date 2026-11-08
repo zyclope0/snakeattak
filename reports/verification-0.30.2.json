@@ -100,5 +100,13 @@
   "previousGitHubCI": {
     "run": 42481658545,
     "result": "failed on presentation; fixed recipe verified locally; new remote run not yet executed"
+  },
+  "mainVerified": {
+    "nativeTests": 400,
+    "failures": 0,
+    "format": "passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "apkIdenticalWebFiles": 27
   }
 }
