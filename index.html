@@ -489,7 +489,15 @@
             <div id="dock-honey" class="dock-honey" role="group" aria-label="Choisir le miel"></div>
             <div class="dock-actions">
               <button id="dock-catalogue" aria-controls="reinforcements">Tous les alliés</button>
-              <button id="dock-cancel" aria-label="Annuler le choix" disabled>✕</button>
+              <button id="dock-cancel" aria-label="Annuler le choix" hidden>✕</button>
+              <button
+                id="dock-tool-help"
+                aria-label="Comprendre les outils"
+                aria-haspopup="dialog"
+                aria-controls="camp-tool-dialog"
+              >
+                ?
+              </button>
             </div>
           </aside>
           <button
@@ -613,6 +621,9 @@
 
             <details id="camp-tools" class="camp-tools">
               <summary>Actions du camp</summary>
+              <button id="camp-tool-help" aria-haspopup="dialog" aria-controls="camp-tool-dialog">
+                Comprendre les outils
+              </button>
               <section class="feast-panel" aria-labelledby="feast-title">
                 <div class="feast-heading">
                   <h3 id="feast-title">Le miel tactique</h3>
@@ -639,7 +650,7 @@
                 </details>
                 <details class="hero-school">
                   <summary id="hero-training">Entraîner le héros</summary>
-                  <p id="training-status">Disponible après la vague 4</p>
+                  <p id="training-status"></p>
                   <div>
                     <button data-training="force">
                       Frappe renforcée<br /><small>+15 % de dégâts · 90 pièces</small></button
@@ -833,6 +844,30 @@
       <p id="guide-ability"></p>
       <div id="guide-stats"></div>
       <small>Chaque allié a son rôle. À toi de composer tes favoris.</small>
+    </dialog>
+    <dialog id="camp-tool-dialog" aria-labelledby="camp-tool-title">
+      <button
+        id="close-camp-tool-help"
+        class="close"
+        aria-label="Fermer l’aide des outils"
+        autofocus
+      >
+        ✕
+      </button>
+      <div class="camp-tool-heading">
+        <span id="camp-tool-picture" aria-hidden="true"></span>
+        <h2 id="camp-tool-title">Le miel</h2>
+      </div>
+      <div id="camp-tool-topics" role="group" aria-label="Choisir un outil"></div>
+      <dl>
+        <dt>Quand</dt>
+        <dd id="camp-tool-when"></dd>
+        <dt>Geste</dt>
+        <dd id="camp-tool-gesture"></dd>
+        <dt>Résultat</dt>
+        <dd id="camp-tool-result"></dd>
+      </dl>
+      <p id="camp-tool-status" role="status"></p>
     </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>

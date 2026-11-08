@@ -1,7 +1,7 @@
 {
   "name": "conquete-serpents",
   "private": true,
-  "version": "0.32.4",
+  "version": "0.33.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -53,7 +53,8 @@
     "test:reinforcements-scroll": "node scripts/reinforcements-scroll-037-browser.mjs",
     "test:threat-preparation": "node scripts/threat-preparation-036-browser.mjs",
     "test:child-mobile": "node scripts/child-mobile-035-browser.mjs",
-    "test:interface-audit": "node scripts/interface-0322-browser.mjs"
+    "test:interface-audit": "node scripts/interface-0322-browser.mjs",
+    "test:camp-tools": "node scripts/camp-tools-033-browser.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",

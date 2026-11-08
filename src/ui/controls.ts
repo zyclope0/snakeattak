@@ -1,4 +1,5 @@
 import { bindThreatControls } from './threatControls.ts';
+import { bindCampToolHelp } from './campToolHelp.ts';
 import { bindBattleDock } from './battleDock.ts';
 import { feastIconStyle } from './feastControls.ts';
 import { pauseStateFor } from './pauseState.ts';
@@ -106,7 +107,8 @@ export function bindControls(
   const refreshSquad = bindSquadControls(session, career, refresh);
   const refreshAdventure = bindAdventureControls(session, refresh);
   const refreshFeast = bindFeastControls(session, refresh);
-  const refreshDock = bindBattleDock(session, career, refresh);
+  const openToolHelp = bindCampToolHelp(session, refresh);
+  const refreshDock = bindBattleDock(session, career, refresh, openToolHelp);
   const refreshThreats = bindThreatControls(session, refresh);
   const refreshRewards = bindRewardControls(session, refresh);
   bindUnitGuide(session, refresh);
@@ -164,7 +166,7 @@ export function bindControls(
   el('play-help').onclick = helpModal.close;
   bindLifecycle(session, refresh);
   window.addEventListener('keydown', (e) => {
-    if (e.code === 'Escape') {
+    if (e.code === 'Escape' && !document.querySelector('dialog[open]')) {
       session.selectUnit(null);
       refresh();
     }

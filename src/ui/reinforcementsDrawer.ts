@@ -39,7 +39,8 @@ export function bindReinforcementsDrawer() {
     }
   });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && open) show(false, true);
+    if (event.key === 'Escape' && open && !document.querySelector('dialog[open]'))
+      show(false, true);
     // The catalogue now sits beside the board. Keep the HUD reachable by keyboard.
   });
   show(false);
