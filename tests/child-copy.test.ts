@@ -18,3 +18,15 @@ test('la présentation tutoie sans réécrire les messages historiques du moteur
   );
   assert.equal(childCopy('Les trois ponts restent ouverts.'), 'Les trois ponts restent ouverts.');
 });
+
+test('le début de vague tutoie aussi sans toucher le texte historique', () => {
+  const game = new Game(2026);
+  game.startWave();
+  const original = game.message;
+  assert.equal(childCopy(original), 'Vague 1 : défends le camp !');
+  assert.equal(game.message, original);
+  assert.equal(
+    childCopy('Tes soldats attendent les prochains renforts.'),
+    'Tes alliés attendent les prochains alliés.',
+  );
+});

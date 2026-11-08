@@ -5,6 +5,7 @@ const words: Record<string, string> = {
   achetez: 'achète',
   utilisez: 'utilise',
   protégez: 'protège',
+  défendez: 'défends',
   gardez: 'garde',
   interceptez: 'intercepte',
   résistez: 'résiste',
@@ -35,6 +36,8 @@ export function childCopy(text: string): string {
     .replaceAll('votre armée prête', 'tes alliés prêts')
     .replaceAll('votre armée', 'tes alliés')
     .replaceAll('vos soldats', 'tes alliés')
+    .replace(/\bsoldats\b/gi, 'alliés')
+    .replace(/\brenforts\b/gi, 'alliés')
     .replace(formal, (word) => {
       const result = words[word.toLowerCase()];
       return word[0] === word[0].toUpperCase() ? result[0].toUpperCase() + result.slice(1) : result;
