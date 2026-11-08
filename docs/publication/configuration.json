@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "status": "draft",
+  "app": {
+    "title": "La Conquête des Serpents",
+    "packageId": "com.conqueteserpents.famille",
+    "packageIdApproved": false,
+    "version": "0.30.1",
+    "gameLanguages": ["fr"]
+  },
+  "publisher": {
+    "name": null,
+    "email": null,
+    "accountType": null,
+    "accountVerified": false
+  },
+  "model": {
+    "kind": "free_ads_remove_ads_cosmetics",
+    "campaignFree": true,
+    "paidCombatAdvantages": false,
+    "paidRandomItems": false,
+    "purchases": ["remove_ads", "cosmetics"],
+    "adsPlacement": "intermission",
+    "maxAdsPerWindow": 1,
+    "windowSeconds": 600,
+    "missionsBetweenAds": 2,
+    "firstAdGraceSeconds": 600,
+    "closeableAfterSeconds": 5,
+    "adsOnDefeat": false,
+    "adsInCombat": false,
+    "personalizedAds": false,
+    "pricesApproved": false,
+    "parentAreaApproved": false
+  },
+  "implementation": {
+    "adsEnabled": false,
+    "adsProvider": null,
+    "adsSdkVersion": null,
+    "familiesSdkVerified": false,
+    "childTreatmentVerified": false,
+    "permissionsAndTrafficReviewed": false,
+    "billingEnabled": false,
+    "billingProvider": null,
+    "purchaseBackendVerified": false,
+    "licenseTestsPassed": false,
+    "restoreAndRefundTestsPassed": false
+  },
+  "legal": {
+    "privacyScope": "current-no-ads",
+    "privacyPublishedUrl": null,
+    "privacyForAdsReviewed": false,
+    "dataSafetyReviewed": false,
+    "audienceApproved": false,
+    "iarcCompleted": false,
+    "localizedCopiesReviewed": false
+  },
+  "review": {
+    "assetsApproved": false,
+    "physicalAndroidPassed": false,
+    "signedAabVerified": false,
+    "closedTestCompleted": false
+  }
+}

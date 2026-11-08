@@ -1,0 +1,66 @@
+[
+  {
+    "key": "families",
+    "url": "https://support.google.com/googleplay/android-developer/answer/9893335?hl=en",
+    "status": 200,
+    "chars": 19489,
+    "retrievedAt": "2026-11-08T11:19:56.965337+00:00",
+    "textSha256": "4d18ad0b85320530a98747a2e5ed29a8aade47becc230d7be53dc666b0d9e7f0"
+  },
+  {
+    "key": "ads-sdk",
+    "url": "https://support.google.com/googleplay/android-developer/answer/12955712?hl=en",
+    "status": 200,
+    "chars": 9010,
+    "retrievedAt": "2026-11-08T11:19:56.965503+00:00",
+    "textSha256": "316758b16f92e533710af2f7ec4d9654fde60767d40129bf26aafd23481fb72c"
+  },
+  {
+    "key": "admob-target",
+    "url": "https://developers.google.com/admob/android/targeting",
+    "status": 200,
+    "chars": 20730,
+    "retrievedAt": "2026-11-08T11:19:56.965578+00:00",
+    "textSha256": "cd0389f7339fbae5f9c8eaecc1e1bcee523e4ea1e4d43a78e3a1e38d4641d9c3"
+  },
+  {
+    "key": "data-safety",
+    "url": "https://support.google.com/googleplay/android-developer/answer/10787469?hl=en",
+    "status": 200,
+    "chars": 65418,
+    "retrievedAt": "2026-11-08T11:19:56.965747+00:00",
+    "textSha256": "3738794aa8ee3e2c74f5203748bd08af4a8eb6780cac04516820488d5a96b981"
+  },
+  {
+    "key": "test-closed",
+    "url": "https://support.google.com/googleplay/android-developer/answer/14151465?hl=en",
+    "status": 200,
+    "chars": 17654,
+    "retrievedAt": "2026-11-08T11:19:56.965821+00:00",
+    "textSha256": "b4692b7c0ac21a86d21ebe05638efb2c9361f421a1156ebbcc5727c3b65ad532"
+  },
+  {
+    "key": "graphics",
+    "url": "https://support.google.com/googleplay/android-developer/answer/9866151?hl=en&visit_id=639297329626445938-3779982303&rd=1",
+    "status": 200,
+    "chars": 26974,
+    "retrievedAt": "2026-11-08T11:19:56.965888+00:00",
+    "textSha256": "390a57975a333d103e6a64b641dcb1b7fb1789761d08dc1119353dcefba3ffb7"
+  },
+  {
+    "key": "billing-security",
+    "url": "https://developer.android.com/google/play/billing/security",
+    "status": 200,
+    "chars": 20924,
+    "retrievedAt": "2026-11-08T11:19:56.965970+00:00",
+    "textSha256": "ac37e1362d76d58f7f5d1239c92ec42c22e0fea58b0e60270c730d8fc4ba3b11"
+  },
+  {
+    "key": "registration",
+    "url": "https://support.google.com/googleplay/android-developer/answer/6112435?hl=en",
+    "status": 200,
+    "chars": 6605,
+    "retrievedAt": "2026-11-08T11:19:56.966022+00:00",
+    "textSha256": "650dbb0f7ee73e6e0602732f45080c43f16dd215e90e45c0ce7e51be330e8d7a"
+  }
+]
