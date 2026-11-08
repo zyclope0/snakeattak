@@ -1,4 +1,33 @@
-# Plan actuel — application 0.32.4
+# Plan actuel — application 0.33.0, suite autonome
+
+## Reprise autonome — 9 novembre 2026
+
+Le parent demande de poursuivre le plan pendant son absence, de régler les
+choix ordinaires en autonomie et de faire un conseil après chaque lot avec
+**trois personas techniques et trois profils cibles**. Ce nouveau mandat
+remplace les STOP intermédiaires ci-dessous pour les travaux réversibles non
+critiques, pas pour l'identité définitive, l'argent, la pub ou les règles à
+valider avec le fils. Les anciens bilans et constats restent conservés.
+
+[Conception bornée](superpowers/specs/2026-11-09-parcours-enfant-design.md),
+[plan d'exécution](superpowers/plans/2026-11-09-parcours-enfant.md).
+Les avis du conseil sont des simulations de conception, jamais des observations
+d'enfants réels ni une recette Android physique.
+
+1. **Lot A — outils compréhensibles, livré** : aide illustrée volontaire,
+   conseils selon l'état réel et texte d'entraînement exact. Aucun nouvel outil,
+   verrou, prix ou bonus. Version0.33.0,434tests et recettes vertes.
+   [Bilan](BILAN-0.33.0.md), [conseil six personas](CONSEIL-0.33.0.md).
+2. **Lot B — progression illustrée, en cours** : chemin des six missions existantes,
+   états issus de la vraie progression, esprit pâte à modeler / papier mâché.
+   Même Jouer/reprise, aucune mission ou récompense supplémentaire. Visée0.33.1.
+3. **Lot C — transitions et livraison** : interruptions, aide, sélections,
+   reprise, hors ligne, anciens camps/codes ; APK normal et site vérifiés.
+
+Restent distincts : test physique S24, langues relues, nouveaux lieux, extension
+de campagne, Facile et appel anticipé, choix du package, produits/prix,
+confirmation Familles, SDK et GO de publicité. Aucun de ces points n'est déclaré
+terminé par les lots A/B/C et aucun appel payant n'est lancé.
 
 ## Publication web demandée après l'étape 4
 
