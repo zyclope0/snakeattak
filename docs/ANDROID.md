@@ -1,9 +1,9 @@
-# Android — préparation de la version 0.27.1
+# Android — préparation de la version 0.29.0
 
-Le projet natif porte versionName 0.27.1 et versionCode 28. Les nouveaux assets
+Le projet natif porte versionName 0.29.0 et versionCode 30. Les nouveaux assets
 2D restent locaux, dans le build web embarqué. Voir le rapport de vérification
-0.27 pour la synchronisation de cette livraison. MainActivity demande
-`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Un APK debug0.27.1 est compilé et sa signature de développement vérifiée ;
+0.29 pour la synchronisation de cette livraison. MainActivity demande
+`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Un APK debug 0.29.0 est compilé et sa signature de développement vérifiée ;
 les27 fichiers web embarqués sont identiques au dist. Aucun appareil physique,
 AAB signé de publication ou résultat de performance Android n’est revendiqué.
 
@@ -11,8 +11,9 @@ AAB signé de publication ou résultat de performance Android n’est revendiqu�
 
 Le projet contient une enveloppe Android Capacitor 8.6.0. Elle embarque le build
 web local dans une WebView : Phaser, les images, les polices et la simulation
-restent sur l'appareil. Ce dossier prépare un futur essai Android ; aucun APK,
-émulateur ou téléphone n'a été testé dans cet environnement.
+restent sur l'appareil. Lors de cette préparation initiale0.21, aucun APK,
+émulateur ou téléphone n’avait encore été testé ici. L’état courant est décrit
+en tête de ce document.
 
 ## Refaire les fichiers embarqués
 
@@ -47,7 +48,7 @@ L'export `dist-portable/` reste une livraison web séparée.
 | SDK de compilation / cible     | 36 / 36                                                           |
 | Android Gradle Plugin          | 8.13.0                                                            |
 | Wrapper Gradle                 | 8.14.3, fourni dans `android/`                                    |
-| Version native                 | `versionName "0.27.1"`, `versionCode 28`                          |
+| Version native                 | `versionName "0.29.0"`, `versionCode 30`                          |
 
 Installer Android Studio et le SDK via son SDK Manager, dont Platform API 36,
 les Build Tools requis par AGP et les Platform Tools pour un téléphone. Android
@@ -62,7 +63,7 @@ npm run android:open
 Android Studio ouvre le dossier `android/`. Sélectionner ensuite un téléphone
 de test ou un émulateur configuré. En ligne de commande, une fois le SDK et le
 JDK configurés, `./gradlew assembleDebug` depuis `android/` construit l'APK de
-développement. La version0.27.1 a été compilée ici après installation isolée du JDK21 complet
+développement. La version 0.27.1 a été compilée ici après installation isolée du JDK21 complet
 et du SDK36 ; voir reports/verification-0.27.1.json. Ces outils ne sont pas
 embarqués dans le jeu.
 
@@ -98,7 +99,7 @@ la configuration locale et les versions Gradle/SDK ont été contrôlées. Le bu
 web 0.21 final a ensuite été synchronisé : les 26 fichiers de distribution sont
 identiques par SHA256 à ceux embarqués, et cap doctor réussit. Ce contrôle ne
 compile pas un APK. La preuve est dans reports/verification-0.21.json.
-État initial0.21 : Java21 présent, SDK/adb absents. Le lot4 installe ensuite
+État initial0.21 : Java21 présent, SDK/adb absents. Le lot 4 installe ensuite
 un JDK complet, le SDK36 et adb dans un répertoire de travail ; Studio reste absent.
 
 Pas de compilation APK/AAB, de signature, d'installation, de test GPU Android,
@@ -178,7 +179,7 @@ avant toute désinstallation. Aucune clé privée n’est incluse dans le projet
   pas le temps complet installation→premier écran. Tester aussi un démarrage
   à froid en mode avion, bouton Retour, rotation, arrière-plan et sauvegardes.
 
-Si la vague chargée reste sous30FPS, prioriser selon des mesures avant/après :
+Si la vague chargée reste sous30 FPS, prioriser selon des mesures avant/après :
 
 1. rendu des effets/contours, 2. résolution adaptée au devicePixelRatio,
 2. cadence des mises à jour UI et allocations. Ce sont des pistes, pas des

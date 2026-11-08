@@ -42,7 +42,7 @@ export function bindMenu(
     el('home-main').hidden = false;
     el('army-editor').hidden = true;
     refresh();
-    el(actions.hasCamp() ? 'home-continue' : 'home-new').focus({ preventScroll: true });
+    el(actions.hasCamp() ? 'home-continue' : 'home-play').focus({ preventScroll: true });
   };
   const replace = (action: () => void) => {
     const g = session.game;
@@ -202,9 +202,9 @@ export function bindMenu(
     el<HTMLButtonElement>('home-army').disabled = g.status === 'fighting';
     el('home-army').title =
       g.status === 'fighting'
-        ? 'Les équipes se préparent entre les vagues.'
-        : 'Préparer trois équipes de huit favoris.';
-    el('home-active-team').textContent = `Équipe ${ROSTER_NAMES[state.activeRoster]}`;
+        ? 'Les favoris se préparent entre les vagues.'
+        : 'Préparer trois groupes de huit favoris.';
+    el('home-active-team').textContent = `Favoris · ${ROSTER_NAMES[state.activeRoster]}`;
     el('home-sound').textContent =
       el('sound-toggle').getAttribute('aria-pressed') === 'true'
         ? '♪ Sons activés'

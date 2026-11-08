@@ -42,7 +42,6 @@ export class BattleScene extends Phaser.Scene {
   private strongholds!: Strongholds;
   private hudTime = 0;
   private meter?: DevPerformance;
-  private measuredGame?: Session['game'];
   private bossSignals!: BossSignals;
   private flightSignals!: FlightSignals;
   private medicalSignals!: MedicalSignals;
@@ -78,8 +77,14 @@ export class BattleScene extends Phaser.Scene {
       this.initialized = false;
     });
     if (performanceEnabled(location.search, import.meta.env.DEV)) {
-      this.meter = new DevPerformance(this.game.canvas.parentElement!, (dialog) =>
-        pauseForDialog(dialog, this.session, this.onChange),
+      this.meter = new DevPerformance(
+        this.game.canvas.parentElement!,
+        (dialog) => pauseForDialog(dialog, this.session, this.onChange),
+        () => ({
+          identity: this.session.game,
+          mission: this.session.game.mission?.missionId ?? 'classic',
+          wave: this.session.game.wave,
+        }),
       );
       const suspendMeter = () => this.meter?.suspend();
       this.events.on(Phaser.Scenes.Events.SLEEP, suspendMeter);
@@ -138,7 +143,7 @@ export class BattleScene extends Phaser.Scene {
       if (!this.session.placeSelected(pointer.x, pointer.y)) {
         this.session.game.message = this.session.game.paused
           ? 'Reprends la partie pour placer ton renfort.'
-          : 'Choisissez un espace libre dans le camp, loin des rochers et des alliés.';
+          : 'Choisis un espace libre dans le camp, loin des rochers et des alliés.';
       }
       this.onChange();
     });
@@ -148,10 +153,6 @@ export class BattleScene extends Phaser.Scene {
   update(_time: number, delta: number) {
     if (!this.assets.ready(this.session.game)) return;
     if (!this.initialized) this.createBattle();
-    if (this.meter && this.measuredGame !== this.session.game) {
-      this.meter.reset();
-      this.measuredGame = this.session.game;
-    }
     const started = this.meter ? performance.now() : 0;
     const reduced = visualSettings.reduced(this.motionQuery.matches);
     this.session.advance(delta);
@@ -307,7 +308,7 @@ export class BattleScene extends Phaser.Scene {
       (this.overlay.list[3] as Phaser.GameObjects.Text).setText(
         this.session.game.status === 'won'
           ? victoryCopy(this.session.game).subtitle
-          : 'Les serpents ont gagné cette manche. Consultez votre sauvegarde pour reprendre un camp.',
+          : 'Les serpents ont gagné cette manche. Consulte ta sauvegarde pour reprendre un camp.',
       );
     }
     this.resultStats.setVisible(end);
@@ -336,10 +337,6 @@ export class BattleScene extends Phaser.Scene {
         this.session.game.status === 'fighting' &&
           !this.session.game.paused &&
           this.session.screen !== 'home',
-        {
-          mission: this.session.game.mission?.missionId ?? 'classic',
-          wave: this.session.game.wave,
-        },
       );
   }
 }

@@ -132,7 +132,7 @@ du lot 1 ; aucune publication n'est effectuée au stade du présent document.
 
 | Ordre        | Lot                          | Objectif et condition de passage                                                                                                                                                               |
 | ------------ | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1            | 1 — Affichage                | v0.27 ci-dessus, puis essais des enfants et arrêt                                                                                                                                              |
+| 1            | 1 — Affichage                | v0.27 réalisée ; essais des enfants à faire ; poursuite ensuite autorisée                                                                                                                      |
 | 2            | 4 — Android réel             | Construire un APK debug, installer sur l'appareil familial, mesurer mission 6 et vague 12 ; modèle, Android et relevés réels nécessaires                                                       |
 | 3            | 3 — Plateau                  | Raccords secondaires lisibles et halos nettoyés ; géométrie, positions des ponts et navigation inchangées                                                                                      |
 | 4            | 2 — Lisibilité               | Parcours Jouer simple, vocabulaire cohérent et tutoiement, préparation illustrée, cible ≤60 mots visibles en mission 1 ; introduction progressive des outils à valider comme choix de gameplay |

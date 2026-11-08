@@ -1,3 +1,4 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -44,6 +45,7 @@ try {
   assert.equal(await page.locator('#home-screen [data-app-version]').textContent(), `v${version}`);
   const family = () => page.evaluate((key) => localStorage.getItem(key), key);
   const submit = async (code) => {
+    await revealControl(page, '#departure-input');
     await page.locator('#departure-input').fill(code);
     await page.locator('#departure-form button').click();
   };
@@ -71,6 +73,7 @@ try {
       value: { writeText: () => Promise.reject(Error('blocked')) },
     }),
   );
+  await revealControl(page, '#current-departure-copy');
   await page.locator('#current-departure-copy').click();
   assert.match(await page.locator('#current-departure-message').textContent(), /sélectionné/);
   await page.waitForTimeout(250);
@@ -91,6 +94,7 @@ try {
       },
     }),
   );
+  await revealControl(page, '#current-departure-copy');
   await page.locator('#current-departure-copy').click();
   assert.equal(await page.evaluate(() => window.copiedDeparture), classic);
   await page.locator('#start').click();
@@ -146,6 +150,7 @@ try {
   await mobile.goto(url);
   assert.equal(await mobile.locator('#orientation-notice').isVisible(), true);
   await mobile.setViewportSize({ width: 812, height: 375 });
+  await revealControl(mobile, '#departure-input');
   await mobile.locator('#departure-input').fill(encodeDeparture({ kind: 'classic', seed: 0 }));
   await mobile.locator('#departure-form button').tap();
   await mobile.locator('#departure-start').tap();

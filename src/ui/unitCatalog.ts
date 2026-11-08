@@ -2,7 +2,7 @@ import { kinds } from '../data.ts';
 import type { Kind } from '../data.ts';
 
 export const UNIT_FAMILIES = {
-  all: 'Tous les alliés',
+  all: 'Tous',
   humans: 'Soldats et soigneurs',
   creatures: 'Dinosaures et dragon',
   mutants: 'Mutants',

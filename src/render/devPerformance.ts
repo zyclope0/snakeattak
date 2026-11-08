@@ -14,10 +14,12 @@ export class DevPerformance {
   private lastLabel = 0;
   private context: { mission: string; wave: number } = { mission: '', wave: 0 };
   private modal: ReturnType<typeof pauseForDialog>;
+  private observedGame?: object;
   private startContext: { mission: string; wave: number } | null = null;
   constructor(
     private parent: HTMLElement,
     bindDialog: (dialog: HTMLDialogElement) => ReturnType<typeof pauseForDialog>,
+    private readContext: () => { identity: object; mission: string; wave: number },
   ) {
     this.panel = document.createElement('div');
     this.panel.className = 'performance-panel';
@@ -80,7 +82,16 @@ export class DevPerformance {
     this.lastFrame = this.lastLabel = 0;
     this.startContext = null;
   }
+  private syncContext() {
+    const current = this.readContext();
+    if (this.observedGame !== current.identity) {
+      this.reset();
+      this.observedGame = current.identity;
+    }
+    this.context = { mission: current.mission, wave: current.wave };
+  }
   snapshot() {
+    this.syncContext();
     const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
     const loadMs = Number(this.parent.dataset.loadDurationMs);
     return {
@@ -101,13 +112,13 @@ export class DevPerformance {
       physicalDeviceVerified: false,
     };
   }
-  frame(now: number, updateMs: number, active = true, context = this.context) {
-    this.context = context;
+  frame(now: number, updateMs: number, active = true) {
+    this.syncContext();
     if (!active || document.hidden) this.lastFrame = 0;
     else {
       if (this.lastFrame) {
         this.metrics.record(now - this.lastFrame, updateMs);
-        this.startContext ??= { ...context };
+        this.startContext ??= { ...this.context };
         this.recording.record(now - this.lastFrame);
       }
       this.lastFrame = now;

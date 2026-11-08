@@ -1,11 +1,16 @@
-# La Conquête des Serpents — aventure familiale 0.28
+# La Conquête des Serpents — aventure familiale 0.29
 
-La version0.28 rend les raccords secondaires plus étroits et en terre battue,
+La version 0.29 met Jouer, la reprise et la prochaine mission au premier plan.
+La préparation utilise trois cartes ; les codes sont côté parents. Les conseils
+et actions du camp sont repliables, sans supprimer de pouvoir ni changer les règles.
+[Bilan lisibilité](docs/BILAN-0.29.md) · [Conseil](docs/CONSEIL-AUDIT-3-2.md).
+
+La version 0.28 rend les raccords secondaires plus étroits et en terre battue,
 sous les voies pavées. Le fond bleu des bâtiments est retiré par un script local
 reproductible. Positions, navigation et combat restent identiques.
 [Bilan plateau](docs/BILAN-0.28.md).
 
-La préparation Android0.27.1 ajoute un diagnostic local activé par `?perf=1` et
+La préparation Android 0.27.1 ajoute un diagnostic local activé par `?perf=1` et
 un script de compilation APK debug. Les performances sur appareil réel restent
 à mesurer. [Protocole Android](docs/ANDROID.md).
 

@@ -49,6 +49,6 @@ export function bindAdventureControls(session: Session, refresh: () => void) {
             ? 'Le héros est tombé. Aucun entraînement possible.'
             : !trainingReady
               ? 'Disponible après la vague 4'
-              : '90 pièces · un seul entraînement pour ce détachement';
+              : '90 pièces · un seul entraînement pour ces alliés';
   };
 }

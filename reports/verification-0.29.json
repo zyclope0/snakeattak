@@ -1,0 +1,93 @@
+{
+  "version": "0.29.0",
+  "verifiedAt": "2026-11-08T00:20:22.369573+00:00",
+  "base": "dfa8463",
+  "nativeTests": 371,
+  "failures": 0,
+  "historicalEngineSnapshots": 180,
+  "rulesFilesUnchanged": [
+    "game.ts",
+    "missions.ts",
+    "waves.ts",
+    "checkpoints.ts"
+  ],
+  "checks": {
+    "format": "passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "budgets": "passed",
+    "portableBuild": "passed",
+    "audit": {
+      "passed": 13,
+      "total": 13,
+      "scope": "display and visible text, not all audit lots"
+    },
+    "display": {
+      "passed": 15,
+      "pageErrors": []
+    },
+    "lisibilite": {
+      "results": [
+        {
+          "width": 1280,
+          "height": 800,
+          "words": 57
+        },
+        {
+          "width": 812,
+          "height": 375,
+          "words": 6
+        }
+      ],
+      "errors": []
+    },
+    "browser": "passed",
+    "departures": "passed (production UI before metadata bump)",
+    "missions": "passed",
+    "missionsRegressions": "passed",
+    "family": "passed; file→web/web→file/reload/cancel/invalid/blocked",
+    "savedVersionsLoaded": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "productionDiagnostic": "passed",
+    "renderLifecycle": "passed"
+  },
+  "issuesResolved": {
+    "resume": "Direct button and visible replacement warning; archer purchase leaves300coins/4allies on resume",
+    "focus": "Mission map heading receives focus without scrolling again",
+    "diagnosticRace": "Observed193.1ms from old Game before first RAF; snapshot now synchronizes identity before exporting; regression green"
+  },
+  "apk": {
+    "name": "conquete-serpents-v0.29.0-debug.apk",
+    "bytes": 13166234,
+    "sha256": "f779f76cc0b65f4fc988f87fe63ba9622f839b1680fa9acfc04a421ce14d289f",
+    "versionCode": 30,
+    "sdk": {
+      "min": 24,
+      "target": 36,
+      "compile": 36
+    },
+    "signature": "debug, verified",
+    "sensorLandscape": true,
+    "internetPermission": false,
+    "libraryPermission": "DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION (signature)",
+    "embeddedFilesMatchDist": 27,
+    "diagnosticStartup": "local /?perf=1",
+    "normalConfigRestored": true
+  },
+  "paidGenerationCalls": 0,
+  "physicalAndroid": false,
+  "realChildTests": false,
+  "pending": [
+    "Physical Android performance/lifecycle/offline",
+    "Lot2 progressive tool availability not applied",
+    "Lot7 numbers require parent/son approval",
+    "Monetization undecided",
+    "Magnific images only for future lots6/9"
+  ]
+}

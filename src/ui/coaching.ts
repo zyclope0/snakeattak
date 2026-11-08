@@ -1,3 +1,4 @@
+import { childCopy } from './childCopy.ts';
 import { victoryCopy } from '../render/resultCopy.ts';
 import { roleDescription } from '../defenders.ts';
 import type { Session } from '../session.ts';
@@ -48,7 +49,7 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
   if (game.wave === 0 && !session.hasPlaced)
     return {
       title: '1 · Choisis ton premier renfort',
-      subtitle: 'Pour commencer, essaie une massue ou un archer dans les unités disponibles.',
+      subtitle: 'Pour commencer, essaie une massue ou un archer dans les alliés disponibles.',
     };
   if (game.wave === 0)
     return {
@@ -100,11 +101,11 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
         'Choisis Attirer pour détourner les gourmands, ou Ralentir pour freiner ceux qui traversent la flaque. Puis choisis une voie.',
     };
   if (game.status === 'preparing') {
-    if (game.mission) return { title: game.briefing.title, subtitle: game.briefing.tip };
+    if (game.mission) return { title: game.briefing.title, subtitle: childCopy(game.briefing.tip) };
     const identity = chapterIdentityForWave(game.wave + 1);
     return {
       title: identity.focus,
-      subtitle: identity.tip,
+      subtitle: childCopy(identity.tip),
     };
   }
   return {

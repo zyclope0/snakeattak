@@ -73,6 +73,7 @@ const checks = {
     const page = await newPage(812, 375, true);
     await mission(page);
     await page.locator('#reinforcements-toggle').click();
+    await page.locator('#camp-observation summary').click();
     for (const id of ['mission-battle-actions', 'encounter'])
       assert.ok(await page.locator('#' + id).isVisible(), `Information accessible : ${id}`);
     await page.locator('#mission-back-map').scrollIntoViewIfNeeded();
@@ -269,6 +270,7 @@ const checks = {
         await ready(page);
         assert.equal(await page.evaluate(() => scrollY), 0, 'Reprise classique');
         await page.locator('#menu-home').click();
+        await page.locator('#home-parent-options summary').click();
         await page
           .locator('#departure-input')
           .fill(encodeDeparture({ kind: 'classic', seed: 2026 }));

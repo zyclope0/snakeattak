@@ -1,3 +1,4 @@
+import { childCopy } from './childCopy.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS, createMissionRun, missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
@@ -15,7 +16,7 @@ const assaults = {
   rush: 'Petits groupes rapides',
   escort: 'Avancées groupées',
 };
-const nests = { spread: 'Éclosions décalées', clustered: 'Couvée sur une voie' };
+const nests = { spread: 'Éclosions décalées', clustered: 'Couvée groupée' };
 
 /** Mission selection is separate from combat controls and never writes simulation rules. */
 export function bindExpeditions(
@@ -46,7 +47,7 @@ export function bindExpeditions(
     const name = document.createElement('strong');
     name.textContent = mission.name;
     const objective = document.createElement('span');
-    objective.textContent = mission.objective;
+    objective.textContent = childCopy(mission.objective);
     const stars = document.createElement('span');
     stars.className = 'mission-stars';
     const availability = document.createElement('small');
@@ -86,14 +87,15 @@ export function bindExpeditions(
     draft = run;
     departures.preview(run);
     el('mission-title').textContent = mission.name;
-    el('mission-objective').textContent = mission.objective;
+    el('mission-objective').textContent = childCopy(mission.objective);
+    el('mission-replacement-note').hidden = !actions.canResume();
     el('mission-budget').textContent =
-      `${mission.budget} pièces · ${mission.waves.length} vagues · nouveau détachement`;
-    el('mission-land').textContent = missionLevel(run.layout).name;
+      `${mission.budget} pièces · ${mission.waves.length} vagues · nouveaux alliés`;
+    el('mission-land').textContent = ['Détours', 'Méandres', 'Carrefour'][run.layout];
     el('mission-assault').textContent = assaults[run.assault];
     el('mission-nest').textContent = nests[run.nest];
     el('mission-plan').textContent =
-      missionWave(run, 1).pattern.tip +
+      childCopy(missionWave(run, 1).pattern.tip) +
       (mission.waves.some((rank) => rank >= 6)
         ? ' Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.'
         : '');
@@ -114,7 +116,15 @@ export function bindExpeditions(
     dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
     el('mission-title').focus({ preventScroll: true });
   }
+  const nextMission = () =>
+    MISSIONS.find((m) => progress.unlocked(m.id) && !progress.state.bestStars[m.id]) ??
+    MISSIONS.at(-1)!;
+  el('home-play').onclick = () => {
+    const next = nextMission();
+    preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id)));
+  };
   el('home-expeditions').onclick = () => {
+    el<HTMLDetailsElement>('mission-list').open = true;
     el('expedition-heading').scrollIntoView({ block: 'start' });
     el('expedition-heading').focus({ preventScroll: true });
   };
@@ -133,7 +143,12 @@ export function bindExpeditions(
     actions.launch(run);
   };
   el('mission-continue').onclick = actions.resume;
-  el('mission-back-map').onclick = actions.home;
+  el('mission-back-map').onclick = () => {
+    actions.home();
+    el<HTMLDetailsElement>('mission-list').open = true;
+    el('expedition-heading').scrollIntoView({ block: 'start' });
+    el('expedition-heading').focus({ preventScroll: true });
+  };
   el('mission-again').onclick = () => {
     if (session.game.mission) actions.launch(session.game.mission);
   };
@@ -146,6 +161,7 @@ export function bindExpeditions(
   };
   return () => {
     departures.refresh();
+    el('home-next-mission').textContent = nextMission().name;
     const state = progress.state;
     let total = 0;
     for (const card of cards) {
@@ -158,7 +174,7 @@ export function bindExpeditions(
         ? 'Termine la mission précédente'
         : n
           ? 'Rejouer autrement'
-          : 'Préparer mon détachement';
+          : 'Préparer mes alliés';
     }
     el('mission-total').textContent = `${total} / 18 étoiles`;
     el('mission-continue').hidden = !actions.canResume();
@@ -167,7 +183,7 @@ export function bindExpeditions(
     el('mission-battle-actions').hidden = !run;
     if (!run) return;
     const definition = missionById(run.missionId)!;
-    el('mission-battle-title').textContent = 'Ton détachement';
+    el('mission-battle-title').textContent = 'Tes alliés';
     el('mission-battle-config').textContent = `${assaults[run.assault]} · ${nests[run.nest]}`;
     const end = g.status === 'won' || g.status === 'lost';
     el('mission-result').hidden = !end;

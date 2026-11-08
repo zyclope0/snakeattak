@@ -1,3 +1,4 @@
+import { revealControl } from './reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { readFile, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -163,6 +164,7 @@ try {
   assert.deepEqual(readFamilyBackup(await stored(b.p)), readFamilyBackup(raw));
   await b.p.locator('#family-close').click();
   await b.p.locator('#home-continue').click();
+  await revealControl(b.p, '#chapter-report');
   await b.p.locator('#chapter-report').waitFor({ state: 'visible' });
   assert.equal(await b.p.locator('#chapter-report').getAttribute('data-fresh'), 'false');
   await b.p.locator('#chapter-report summary').click();

@@ -12,7 +12,7 @@ le cristal, les champignons bleus et les sols intérieurs restent conservés.
 L’original est conservé à côté et son SHA est dans le rapport de reproduction.
 Aucune nouvelle génération ni dépense.
 
-Avant/après : `docs/captures-0.28/`,1280×800 et812×375. Les instantanés de
+Avant/après : `docs/captures-0.28/`,1280×800 et 812×375. Les instantanés de
 partie (RNG, unités, ennemis, vie, pièces, cristal) sont identiques à ces deux
 tailles. Inspection visuelle effectuée ; les aplats bleus extérieurs ont disparu.
 Le sol froid dans les grottes et le cristal bleu restent des détails du sujet.

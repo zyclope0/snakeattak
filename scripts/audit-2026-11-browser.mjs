@@ -1,6 +1,7 @@
 // Audit 2026-11 : mesures d'interface reprises de l'audit du 7 novembre 2026.
 // Usage : npm run build && node scripts/audit-2026-11-browser.mjs [--strict]
 // Sans --strict : écrit le rapport et liste les écarts. Avec --strict : code de sortie 1 au premier écart.
+import { visibleWords } from './visible-words.mjs';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -87,26 +88,7 @@ try {
     );
     if (w === 1280) {
       // 3. Mots visibles avant la 1re vague, mission 1
-      const words = await page.evaluate(() => {
-        const app = document.getElementById('app');
-        const walker = document.createTreeWalker(app, NodeFilter.SHOW_TEXT);
-        let n = 0;
-        for (let t = walker.nextNode(); t; t = walker.nextNode()) {
-          const el = t.parentElement;
-          const r = el.getBoundingClientRect();
-          const s = getComputedStyle(el);
-          if (
-            r.width &&
-            r.height &&
-            s.visibility !== 'hidden' &&
-            s.display !== 'none' &&
-            r.bottom > 0 &&
-            r.top < innerHeight
-          )
-            n += t.textContent.split(/\s+/).filter((x) => /\p{L}/u.test(x)).length;
-        }
-        return n;
-      });
+      const words = await page.evaluate(visibleWords, '#app');
       check(
         'mots visibles avant la 1re vague (mission 1, 1280x800)',
         words <= 60,
@@ -216,14 +198,14 @@ try {
 
   check('erreurs JavaScript', errors.length === 0, errors.slice(0, 5), 'aucune');
   await mkdir('reports', { recursive: true });
-  await writeFile('reports/audit-2026-11-after-lot1.json', JSON.stringify(report, null, 2));
+  await writeFile('reports/audit-2026-11-after-lot2.json', JSON.stringify(report, null, 2));
   const gaps = report.checks.filter((c) => !c.ok).length;
   console.log(
-    `\n${report.checks.length - gaps}/${report.checks.length} contrôles OK — rapport : reports/audit-2026-11.json`,
+    `\n${report.checks.length - gaps}/${report.checks.length} contrôles OK — rapport : reports/audit-2026-11-after-lot2.json`,
   );
   const blocking = report.checks.filter((c) => !c.ok && (!lot1Only || c.lot === 1));
   console.log(
-    `${blocking.length} écart(s) bloquant(s) pour ${lot1Only ? 'le lot 1 ; objectifs du lot 2 conservés dans le rapport' : 'tous les lots'}`,
+    `${blocking.length} écart(s) bloquant(s) pour ${lot1Only ? 'le lot 1 ; objectifs du lot 2 conservés dans le rapport' : 'les contrôles d’interface audités'}`,
   );
   if (strict && blocking.length) process.exitCode = 1;
 } finally {

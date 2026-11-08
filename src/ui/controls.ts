@@ -1,3 +1,4 @@
+import { childCopy } from './childCopy.ts';
 import { bindOrientation } from './orientation.ts';
 import { bindReinforcementsDrawer } from './reinforcementsDrawer.ts';
 import { placementReadout } from '../render/placementRange.ts';
@@ -55,26 +56,26 @@ export function bindControls(
     refresh();
   };
   const descriptions: Partial<Record<Kind, string>> = {
-    club: 'Garde son secteur',
-    ninja: 'Déloge les cracheurs',
-    medic: 'Soigne autour de lui',
-    archer: 'Atteint aussi les volants',
-    wall: 'Retient les ennemis',
-    dragon: 'Souffle au sol et en vol',
-    dino: 'Robuste au contact',
-    shield: 'Protège un voisin des tirs',
-    bat: 'Coups puissants',
-    nurse: 'Soin mobile et léger',
-    knight: 'Combattant cuirassé',
-    cavalry: 'Charge après la course',
-    twohead: 'Frappe deux voisins',
-    tank: 'Obus au sol et en vol',
-    raptor: 'Renfort vif des trois voies',
-    triceratops: 'Charge avec ses cornes',
-    stegosaurus: 'Plaques protectrices',
-    trex: 'Morsure très puissante',
-    mutantRock: 'Peau de pierre résistante',
-    mutantStretch: 'Longs bras au contact',
+    club: 'Contact',
+    ninja: 'Rapide',
+    medic: 'Soins',
+    archer: 'Distance',
+    wall: 'Blocage',
+    dragon: 'Souffle',
+    dino: 'Robuste',
+    shield: 'Protection',
+    bat: 'Puissance',
+    nurse: 'Soins',
+    knight: 'Armure',
+    cavalry: 'Charge',
+    twohead: 'Double',
+    tank: 'Obus',
+    raptor: 'Rapide',
+    triceratops: 'Charge',
+    stegosaurus: 'Protection',
+    trex: 'Puissance',
+    mutantRock: 'Robuste',
+    mutantStretch: 'Allonge',
   };
   for (const kind of RECRUITABLE_KINDS) {
     const d = kinds[kind],
@@ -88,7 +89,7 @@ export function bindControls(
     b.onclick = () => {
       session.selected = session.selected === kind ? null : kind;
       session.game.message = session.selected
-        ? `${d.name} : touchez un espace libre dans votre camp, à droite.`
+        ? `${d.name} : touche un espace libre dans ton camp, à droite.`
         : 'Placement annulé.';
       if (session.selected && window.matchMedia('(max-width:800px)').matches)
         el('game').scrollIntoView({ block: 'center' });
@@ -197,7 +198,7 @@ export function bindControls(
     el('end-restart').hidden = !finished || !!session.game.mission;
     el('brief-title').textContent =
       `${session.game.status === 'preparing' ? 'Prochaine vague' : 'Vague en cours'} · ${Math.max(1, nextWave)} / ${session.game.totalWaves} · ${briefing.title}`;
-    el('brief-tip').textContent = briefing.tip;
+    el('brief-tip').textContent = childCopy(briefing.tip);
     if (finished) {
       el('brief-title').textContent =
         session.game.status === 'won'
@@ -208,9 +209,9 @@ export function bindControls(
       el('brief-tip').textContent =
         session.game.status === 'won'
           ? session.game.mission
-            ? 'Ton détachement a tenu ! Retrouve la carte pour choisir la suite.'
+            ? 'Tes alliés ont tenu ! Retrouve la carte pour choisir la suite.'
             : 'Douze vagues repoussées. Le goûter peut commencer !'
-          : 'Consultez le statut de sauvegarde pour reprendre un camp, ou commencez une nouvelle aventure.';
+          : 'Consulte le statut de sauvegarde pour reprendre un camp, ou commence une nouvelle aventure.';
     }
     refreshFeast();
     refreshHud(session.game);
@@ -224,7 +225,11 @@ export function bindControls(
         `${readout?.category ?? 'Placement'} · portée initiale ${kinds[selected].range}. Touche ton camp ; cet allié agit ensuite seul.`;
       el('selection-portrait').style.cssText = portraitStyle(selected);
     }
-    if (finished) el<HTMLDetailsElement>('brief-title').closest('details')!.open = true;
+    if (finished) {
+      el<HTMLDetailsElement>('brief-title').closest('details')!.open = true;
+      el<HTMLDetailsElement>('camp-observation').open = true;
+      el<HTMLDetailsElement>('camp-tools').open = true;
+    }
     el('pause').textContent = session.game.paused ? '▶' : 'Ⅱ';
     el('pause').setAttribute('aria-label', session.game.paused ? 'Reprendre' : 'Mettre en pause');
     el('speed').textContent = `×${session.speed}`;

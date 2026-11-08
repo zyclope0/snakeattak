@@ -11,8 +11,8 @@ export function chooseBattleMessage(notice: Notice | null, guide: BattleGuide, p
 }
 export function bindBattleNotices(
   getGuide: () => BattleGuide = () => ({
-    title: 'Une petite armée, de grands courageux',
-    subtitle: 'Les soldats agissent seuls. À vous de préparer leurs meilleures chances.',
+    title: 'Tes alliés, de grands courageux',
+    subtitle: 'Les alliés agissent seuls. À toi de préparer leurs meilleures chances.',
   }),
   forceGuide = () => false,
 ) {

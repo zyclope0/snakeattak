@@ -27,7 +27,7 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
       session.game.tuning.splashSecondaryFactor,
     );
     const fields = [
-      ['Camp', 'Notre armée'],
+      ['Camp', 'Nos alliés'],
       ['Défense', roleDescription(kind)],
       ['Vie', `${d.hp} PV`],
       ['Prix', kind === 'hero' ? 'Présent au départ' : `${d.cost} pièces`],

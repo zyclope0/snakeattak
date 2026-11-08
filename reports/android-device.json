@@ -1,5 +1,5 @@
 {
-  "version": "0.27.1",
+  "version": "0.29.0",
   "status": "pending-physical-device",
   "device": {
     "model": null,
@@ -33,5 +33,23 @@
     }
   ],
   "cloudResultsAreNotAndroidMeasurements": true,
-  "releaseGate": "Physical performance, lifecycle, offline and saves not yet validated"
+  "releaseGate": "Physical performance, lifecycle, offline and saves not yet validated",
+  "apk": {
+    "name": "conquete-serpents-v0.29.0-debug.apk",
+    "bytes": 13166234,
+    "sha256": "f779f76cc0b65f4fc988f87fe63ba9622f839b1680fa9acfc04a421ce14d289f",
+    "versionCode": 30,
+    "sdk": {
+      "min": 24,
+      "target": 36,
+      "compile": 36
+    },
+    "signature": "debug, verified",
+    "sensorLandscape": true,
+    "internetPermission": false,
+    "libraryPermission": "DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION (signature)",
+    "embeddedFilesMatchDist": 27,
+    "diagnosticStartup": "local /?perf=1",
+    "normalConfigRestored": true
+  }
 }

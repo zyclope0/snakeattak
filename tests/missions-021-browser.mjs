@@ -1,3 +1,4 @@
+import { revealControl } from './reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
@@ -41,6 +42,7 @@ try {
   );
   assert.equal(await page.locator('[data-mission-card]:disabled').count(), 5);
   await page.screenshot({ path: 'artifacts/missions-021-desktop.png', fullPage: true });
+  await revealControl(page, '[data-mission-card="refuge"]');
   await page.locator('[data-mission-card="refuge"]').click();
   const first = JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run'));
   const map = await page.locator('#mission-map').innerHTML();
@@ -61,8 +63,11 @@ try {
   const box = await page.locator('canvas').boundingBox();
   await page.mouse.click(box.x + (box.width * 900) / 1100, box.y + (box.height * 350) / 620);
   assert.equal(await page.locator('#gold').innerText(), '300');
+  await revealControl(page, '#mission-back-map');
   await page.locator('#mission-back-map').click();
+  await revealControl(page, '[data-mission-card="refuge"]');
   await page.locator('[data-mission-card="refuge"]').click();
+  await revealControl(page, '#mission-retry');
   await page.locator('#mission-retry').click();
   assert.deepEqual(
     JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run')),
@@ -151,6 +156,7 @@ try {
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
       'Pas de débordement horizontal',
     );
+    await revealControl(page, '[data-mission-card="refuge"]');
     await page.locator('[data-mission-card="refuge"]').click();
     assert.equal(
       await page.locator('#mission-dialog').evaluate((d) => d.scrollTop),

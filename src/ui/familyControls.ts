@@ -81,13 +81,13 @@ export function bindFamilyControls(actions: Actions) {
       const stars = summary.bestStars.reduce((a, b) => a + b, 0);
       el('family-preview-summary').textContent =
         summary.wave === null
-          ? `Équipes et ${stars} étoiles seulement. Aucun camp de reprise : l’ancienne armée sera remplacée.`
+          ? `Favoris et ${stars} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.`
           : `Camp avant la vague ${summary.wave + 1} · ${summary.allies} alliés · ${summary.gold} pièces · ${stars} étoiles.`;
       if (backup.version === 2 && backup.missions) {
         const missionStars = Object.values(backup.missions.bestStars).reduce((a, b) => a + b, 0);
         if (summary.wave === null && (backup.missions.classicCamp || backup.missions.retryCamp))
           el('family-preview-summary').textContent =
-            `Progression, équipes et camps conservés dans ce fichier · ${stars} étoiles classiques.`;
+            `Progression, favoris et camps conservés dans ce fichier · ${stars} étoiles classiques.`;
         el('family-preview-summary').textContent +=
           ` Expéditions : ${missionStars} / 18 étoiles. Le camp classique est conservé séparément.`;
       }

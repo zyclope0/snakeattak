@@ -1,3 +1,4 @@
+import { childCopy } from './childCopy.ts';
 import { medicalRules } from '../healing.ts';
 import type { Game } from '../game.ts';
 import { LANES, LANE_NAMES, laneDefense } from '../ai.ts';
@@ -44,7 +45,7 @@ export function bindHud() {
               ? 'BATAILLE EN COURS'
               : 'PRÉPARATION',
     );
-    text('message', game.message);
+    text('message', childCopy(game.message));
     const scores = laneDefense(game.units),
       max = Math.max(1, ...scores);
     const counts = [0, 0, 0];

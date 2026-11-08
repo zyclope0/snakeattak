@@ -16,7 +16,7 @@ Ordre retenu : 1 terminé, 4 préparation Android, 3 plateau, 2 lisibilité, pui
   compiler et vérifier manifeste/version/assets/signature debug si possible.
 - Tests purs des calculs et de l’opt-in ; test navigateur du build produit.
 - Documenter Windows/USB, scénarios mission6 et classique12 ; modèle et mesures
-  physiques restent nuls jusqu’au relevé réel. Ne pas déclarer le lot4 achevé.
+  physiques restent nuls jusqu’au relevé réel. Ne pas déclarer le lot 4 achevé.
 - Council après lots1 + préparation4 : interface enfant, moteur/mobile, QA.
 
 ## Lot 3 — plateau (0.28)
@@ -43,3 +43,17 @@ Version publiée à l’adresse existante seulement après vérification, ZIP so
 avec bilan fait/restant. Pas de facturation, Play Console, nouvelles images
 payantes, valeur de combat ou profilage. Les 3 images attendues ne bloquent pas
 ces lots. Éventuels blocages indépendants n’arrêtent pas les autres lots.
+
+## État de livraison
+
+- Lot 1 réalisé :87a77b6, sept commits d’affichage.
+- Lot 4 préparé :d5df0a4, APK debug compilé ; validation physique en attente.
+- Conseil 1+4 consigné, réserves techniques corrigées.
+- Lot 3 réalisé :dfa8463, captures et reproduction du détourage conservées.
+- Lot 2 interface réalisée en 0.29 ; disponibilité progressive des pouvoirs réservée.
+- Conseil 3+2 consigné, reprise et focus protégés.
+- Proposition chiffrée du lot 7 prête dans PROPOSITION-LOT-7.md ; aucun code de règles.
+
+Arrêt au prochain choix critique réservé au parent et au fils. Les preuves
+de publication et les empreintes du ZIP sont conservées avec les livrables
+de cette session, après le commit de source.

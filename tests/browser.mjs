@@ -1,3 +1,4 @@
+import { revealControl } from './reveal-controls.mjs';
 import { enterBattle } from './browser-entry.mjs';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
@@ -14,6 +15,8 @@ page.on('console', (message) => {
 });
 const response = await page.goto(gameUrl);
 await enterBattle(page);
+await revealControl(page, '#reset');
+await revealControl(page, '#encounter');
 if (gameUrl.startsWith('http')) {
   const headers = await response.allHeaders();
   if (
@@ -65,7 +68,7 @@ for (const kind of [
   'mutantStretch',
 ]) {
   await page.locator('#guide-select').selectOption(kind);
-  if (!(await page.locator('#guide-stats').innerText()).includes('Notre armée'))
+  if (!(await page.locator('#guide-stats').innerText()).includes('Nos alliés'))
     throw Error(`Nouvelle unité mal classée : ${kind}`);
 }
 await page.locator('#guide-select').selectOption('tank');
@@ -89,6 +92,8 @@ await page.waitForTimeout(250);
 if ((await page.locator('#gold').innerText()) !== '150') throw Error('Recrutement desktop échoué');
 await page.reload();
 await enterBattle(page);
+await revealControl(page, '#reset');
+await revealControl(page, '#encounter');
 await page.locator('canvas').waitFor();
 await page.waitForFunction(() => document.getElementById('gold').textContent === '150');
 if (!(await page.locator('[data-kind="dragon"]').isDisabled()))
@@ -192,6 +197,7 @@ if ((await mobile.locator('#gold').innerText()) !== '150')
   throw Error('Recrutement tactile échoué');
 await mobile.screenshot({ path: 'artifacts/pilote-mobile.png', fullPage: true });
 await mobile.locator('#reinforcements-toggle').tap();
+await revealControl(mobile, '#feast-flavors');
 await mobile.locator('[data-feast-flavor="sticky"]').tap();
 await mobile.locator('#start').tap();
 await mobile.waitForTimeout(200);

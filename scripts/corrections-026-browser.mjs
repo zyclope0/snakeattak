@@ -1,3 +1,4 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
 import { createMissionRun } from '../src/missions.ts';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
@@ -289,6 +290,7 @@ try {
       await live.locator('#home-screen [data-app-version]').textContent(),
       `v${version}`,
     );
+    await revealControl(live, '[data-mission-card="refuge"]');
     await live.locator('[data-mission-card="refuge"]').click();
     for (let i = 0; i < 25; i++) {
       const before = await live.locator('#mission-land').textContent();

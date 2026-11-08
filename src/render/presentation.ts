@@ -1,3 +1,4 @@
+import { childCopy } from '../ui/childCopy.ts';
 import type { Game, Entity, Effect } from '../game.ts';
 import type { CharacterAction } from './characterMotion.ts';
 import { encounterReadout } from './encounterReadout.ts';
@@ -123,7 +124,7 @@ export class Presentation {
       this.announce({
         kind: 'wave',
         title: `Vague ${game.wave} · ${chapter.title}`,
-        subtitle: chapter.tip,
+        subtitle: childCopy(chapter.tip),
         duration: 2.6,
         priority: 1,
       });
@@ -146,7 +147,7 @@ export class Presentation {
         subtitle:
           !game.mission && (game.wave === 4 || game.wave === 8)
             ? `Nouvelle clairière : ${game.level.name}.`
-            : 'Préparez les prochains renforts.',
+            : 'Prépare les prochains renforts.',
         duration: 2.8,
         priority: 2,
       });

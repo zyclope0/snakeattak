@@ -366,3 +366,12 @@ pause du dialogue ; sa destruction retire les listeners. Une nouvelle identité
 Game remet la collecte à zéro ; sommeil/réveil et pauses coupent l’intervalle.
 Aucun relevé n’est envoyé ni sauvegardé automatiquement. Le build APK de test
 utilise temporairement appStartPath `/?perf=1`, puis restaure le sync normal.
+
+## Interface enfant — 0.29
+
+Le menu sélectionne la première mission ouverte non terminée à partir de la
+progression existante. Cette sélection ne modifie aucune étoile. Les disclosures
+sont des éléments HTML natifs ; les IDs et événements des commandes sont gardés.
+childCopy convertit uniquement les textes affichés : les180 instantanés
+historiques et les données de jeu restent inchangés. Le comptage de mots en
+recette intersecte le viewport et les clips de tous les ancêtres défilants.
