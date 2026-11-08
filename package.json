@@ -46,7 +46,8 @@
     "balance:tutorial": "node scripts/tutorial-balance-030.mjs",
     "test:mobile": "node scripts/mobile-031-browser.mjs",
     "store:check": "node scripts/play-preflight.mjs",
-    "store:captures": "node scripts/play-captures.mjs"
+    "store:captures": "node scripts/play-captures.mjs",
+    "store:dossier": "node scripts/store-dossier.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",

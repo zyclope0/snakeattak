@@ -1,5 +1,11 @@
 # Audit de novembre — objectifs et cadrage de la v0.27
 
+**Actualisation du suivi :** voir [PLAN-ACTUEL.md](../../PLAN-ACTUEL.md). Depuis ce
+cadrage, les lots1/3/2 et le tutoriel7 sont livrés. Le parent choisit désormais
+le jeu gratuit avec publicité rare, suppression des pubs et cosmétiques payants,
+sans avantage au combat. L'hypothèse d'achat de déblocage n'est plus le modèle retenu.
+Le reste de ce document conserve l'historique du cadrage0.27.
+
 Statut : **lot 1 réalisé et vérifié ; poursuite autonome autorisée ensuite par le parent**.
 Date : 8 novembre 2026, Europe/Zurich.
 Base : v0.26.0, commit `b4ad943`, publiée sur l'adresse familiale habituelle.

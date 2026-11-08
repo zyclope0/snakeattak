@@ -1,5 +1,10 @@
 # La Conquête des Serpents — aventure familiale 0.30.1
 
+Préparation Google Play : [plan actuel](docs/PLAN-ACTUEL.md) et
+[dossier de travail](docs/publication/README.md). Modèle validé : jeu gratuit,
+publicité rare et achats sans avantage au combat. Les services commerciaux
+restent à intégrer ; la version jouable demeure0.30.1.
+
 La version 0.30.1 respecte les barres système Android et place les renforts à côté
 du plateau sur téléphone, sans pause implicite. [Bilan mobile](docs/BILAN-0.30.1.md).
 

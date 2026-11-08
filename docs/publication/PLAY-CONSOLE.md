@@ -49,7 +49,7 @@ L'icône source fournie attend correction de ses coins blancs.
 - Public cible : groupes6–8 et9–12 proposés par l'audit, à confirmer par le parent.
   Ne pas cocher d'autres âges pour contourner les exigences Familles.
 - Sécurité des données : inclure tous les SDK, publicité et service de reçus.
-- Confidentialité : URL publique et contenu exact du build commercial.
+- Confidentialité : URL publique accessible sans compte et contenu exact du build commercial.
 - IARC : répondre à partir du jeu et du modèle réel. Ne pas annoncer PEGI3 ou
   une autre classification avant le résultat du questionnaire.
 - Vérifier catégorie, pays, prix éventuels, déclarations d'achats/publicités,

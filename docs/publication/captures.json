@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "appVersion": "0.30.1",
+  "sourceCommit": "114da0a4800e73cc5e403c3146d191922df12a5d",
+  "buildHtmlSha256": "6ffe159fc0dbb45280a8cc905a8d134032cfef0444ea4302d1272025aba6327d",
+  "captureScriptSha256": "cd0df83eaa1a2712fa49eb4b23fc46c7db0594d15e3dcdc5826ae26f06eb26c1",
+  "sourceTreeDirtyAtCapture": true,
+  "createdAt": "2026-11-08T11:38:22.931Z",
+  "method": "production-browser-public-UI",
+  "physicalAndroid": false,
+  "notes": "Legal initial checkpoint and normal recruitment/start controls; no private combat/result mutations. Timing depends on rendering: hashes attest this capture set, not deterministic pixels. Phone viewport896×504, DPR15/7; tablet1280×800,DPR2. Actual APK review still required.",
+  "run": {
+    "missionId": "refuge",
+    "rules": 2,
+    "seed": 20261108,
+    "layout": 1,
+    "assault": "rush",
+    "nest": "clustered"
+  },
+  "placements": [
+    {
+      "kind": "archer",
+      "x": 950,
+      "y": 150
+    },
+    {
+      "kind": "medic",
+      "x": 950,
+      "y": 310
+    },
+    {
+      "kind": "ninja",
+      "x": 950,
+      "y": 475
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/phone/01-preparation.jpg",
+      "kind": "phone",
+      "context": "preparation",
+      "width": 1920,
+      "height": 1080,
+      "format": "jpeg",
+      "bitDepth": 8,
+      "channels": 3,
+      "bytes": 559964,
+      "sha256": "43e9eaa6ab7c22215b12d266ed234f83f0049f6f15a69941d9c95669acb7c2cc"
+    },
+    {
+      "file": "assets/phone/02-combat-1.jpg",
+      "kind": "phone",
+      "context": "combat",
+      "width": 1920,
+      "height": 1080,
+      "format": "jpeg",
+      "bitDepth": 8,
+      "channels": 3,
+      "bytes": 569503,
+      "sha256": "8f5da05dbc39683e619ed4414c55f62356df84b54cf2a2f3a7b6567739fd9fef"
+    },
+    {
+      "file": "assets/phone/03-combat-2.jpg",
+      "kind": "phone",
+      "context": "combat",
+      "width": 1920,
+      "height": 1080,
+      "format": "jpeg",
+      "bitDepth": 8,
+      "channels": 3,
+      "bytes": 575097,
+      "sha256": "86ecb781e9a882ec0b7c4423f977603c99f9623425148cb6a7cb12f6462d7fed"
+    },
+    {
+      "file": "assets/phone/04-combat-3.jpg",
+      "kind": "phone",
+      "context": "combat",
+      "width": 1920,
+      "height": 1080,
+      "format": "jpeg",
+      "bitDepth": 8,
+      "channels": 3,
+      "bytes": 583780,
+      "sha256": "1ecfbfcac8fafe4b09bd8a9eef858d40bea30f5abefe32087b3a7815f54db323"
+    },
+    {
+      "file": "assets/tablet/01-preparation.jpg",
+      "kind": "tablet",
+      "context": "preparation",
+      "width": 2560,
+      "height": 1600,
+      "format": "jpeg",
+      "bitDepth": 8,
+      "channels": 3,
+      "bytes": 791336,
+      "sha256": "d517eecccf2fe6981a6d48a1a76e8493130b171cb9556679799b2ea5efbadd35"
+    },
+    {
+      "file": "assets/tablet/02-combat.jpg",
+      "kind": "tablet",
+      "context": "combat",
+      "width": 2560,
+      "height": 1600,
+      "format": "jpeg",
+      "bitDepth": 8,
+      "channels": 3,
+      "bytes": 801950,
+      "sha256": "74a86fff1bb93453b489c03f9acb33886dde6148a17431e2ffa3aaca775b6936"
+    },
+    {
+      "file": "assets/feature-1024x500.jpg",
+      "kind": "feature",
+      "context": "combat",
+      "width": 1024,
+      "height": 500,
+      "format": "jpeg",
+      "bitDepth": 8,
+      "channels": 3,
+      "bytes": 182283,
+      "sha256": "3551e367f45c39d9a24e2870508618cbb5777a2d6405b5a28023a7ecde2bf9e0"
+    }
+  ],
+  "errors": []
+}

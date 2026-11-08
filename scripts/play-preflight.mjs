@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir, realpath } from 'node:fs/promises';
 import { resolve, relative } from 'node:path';
 import { createHash } from 'node:crypto';
+import { imageMetadata } from '../deploy/imageMetadata.ts';
 import { validatePlayPreparation, safeAssetPath } from '../deploy/playReadiness.ts';
 
 const root = resolve('docs/publication');
@@ -28,29 +29,10 @@ for (const a of manifest?.assets ?? []) {
   if (relative(root, physical).startsWith('..'))
     throw Error('Asset symlink escapes publication folder');
   const b = await readFile(physical);
-  let width = 0,
-    height = 0;
-  if (b.length >= 24 && b.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {
-    width = b.readUInt32BE(16);
-    height = b.readUInt32BE(20);
-  } else if (b[0] === 255 && b[1] === 216) {
-    for (let i = 2; i + 8 < b.length;) {
-      if (b[i] !== 255) break;
-      const marker = b[i + 1];
-      if ([192, 193, 194].includes(marker)) {
-        height = b.readUInt16BE(i + 5);
-        width = b.readUInt16BE(i + 7);
-        break;
-      }
-      const length = b.readUInt16BE(i + 2);
-      if (length < 2) break;
-      i += length + 2;
-    }
-  }
+  const info = imageMetadata(b) ?? { width: 0, height: 0, format: null, channels: 0, bitDepth: 0 };
   files.push({
     file: a.file,
-    width,
-    height,
+    ...info,
     bytes: b.length,
     sha256: createHash('sha256').update(b).digest('hex'),
   });
@@ -60,6 +42,9 @@ const gradle = await readFile('android/app/build.gradle', 'utf8');
 const androidManifest = await readFile('android/app/src/main/AndroidManifest.xml', 'utf8');
 const result = validatePlayPreparation(config, copies, {
   appVersion: pkg.version,
+  buildHtmlSha256: createHash('sha256')
+    .update(await readFile('dist/index.html'))
+    .digest('hex'),
   manifest,
   files,
   runtime: {

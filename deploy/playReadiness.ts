@@ -6,6 +6,9 @@ export type CaptureFile = {
   height: number;
   bytes: number;
   sha256: string;
+  format?: 'png' | 'jpeg' | null;
+  channels?: number;
+  bitDepth?: number;
 };
 export type CaptureAsset = CaptureFile & {
   kind: 'phone' | 'tablet' | 'feature' | 'icon';
@@ -13,7 +16,8 @@ export type CaptureAsset = CaptureFile & {
 };
 export type PlayEvidence = {
   appVersion: string;
-  manifest: { appVersion: string; assets: CaptureAsset[] } | null;
+  manifest: { appVersion: string; assets: CaptureAsset[]; buildHtmlSha256?: string } | null;
+  buildHtmlSha256?: string;
   files: CaptureFile[];
   runtime: { adsSdkInstalled: boolean; billingSdkInstalled: boolean; internetPermission: boolean };
 };
@@ -208,6 +212,8 @@ export function validatePlayPreparation(config: unknown, copies: unknown, eviden
   }
   if (evidence.manifest.appVersion !== evidence.appVersion)
     error('assets.version', 'Les captures doivent correspondre à la version du jeu.');
+  if (evidence.buildHtmlSha256 && evidence.manifest.buildHtmlSha256 !== evidence.buildHtmlSha256)
+    error('assets.build', 'Captures et HTML de production divergent.');
   const assets = evidence.manifest.assets;
   if (!Array.isArray(assets) || assets.length > 20) {
     error('assets.schema', 'Manifeste de captures invalide.');
@@ -223,6 +229,15 @@ export function validatePlayPreparation(config: unknown, copies: unknown, eviden
       error('asset.missing', `Fichier absent : ${a.file}`);
       continue;
     }
+    if (!['phone', 'tablet', 'feature', 'icon'].includes(a.kind))
+      error('asset.kind', 'Type d’image inconnu.');
+    if (
+      (actual.format !== 'jpeg' && actual.format !== 'png') ||
+      actual.bitDepth !== 8 ||
+      actual.channels !== (a.kind === 'icon' ? 4 : 3) ||
+      (a.kind === 'icon' && actual.format !== 'png')
+    )
+      error('asset.format', 'Format de couleur/image incompatible avec les spécifications du kit.');
     if (actual.sha256 !== a.sha256 || actual.bytes !== a.bytes)
       error('asset.hash', `Empreinte/taille divergente : ${a.file}`);
     if (
@@ -261,7 +276,7 @@ export function validatePlayPreparation(config: unknown, copies: unknown, eviden
     'Trois captures de combat distinctes requises par le kit.',
   );
   need(
-    assets.filter((a) => a.kind === 'tablet').length >= 2,
+    new Set(assets.filter((a) => a.kind === 'tablet').map((a) => a.sha256)).size >= 2,
     'assets.tablet',
     'Deux vues tablette à préparer.',
   );

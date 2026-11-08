@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dossier Google Play — La Conquête des Serpents</title>
+    <link rel="stylesheet" href="publication.css" />
+  </head>
+  <body>
+    <header>
+      <small>DOSSIER DE PRÉPARATION · 0.30.1</small>
+      <h1>La Conquête des Serpents</h1>
+      <p>Google Play : modèle familial et éléments de la fiche.</p>
+    </header>
+    <main>
+      <section>
+        <span class="status">15 points à finaliser avant publication</span>
+        <p>
+          Le jeu actuel reste sans publicité ni achat intégré. Les décisions ci-dessous cadrent la
+          prochaine version. Ce dossier n'est pas une version commerciale publiée.
+        </p>
+        <nav class="links">
+          <a href="MONETISATION.md">Monétisation</a><a href="CONFIDENTIALITE.md">Confidentialité</a
+          ><a href="PLAY-CONSOLE.md">Étapes Play Console</a
+          ><a href="configuration.json">Checklist</a>
+        </nav>
+      </section>
+      <section>
+        <h2>Le modèle validé</h2>
+        <ul>
+          <li>Jeu gratuit, missions accessibles par la progression normale.</li>
+          <li>
+            Au plus une pub entre missions par dix minutes, après au moins deux missions terminées.
+          </li>
+          <li>Achats : retirer les pubs et apparences sans avantage au combat.</li>
+          <li>Tarifs, produits précis et accès parents à valider avant intégration.</li>
+        </ul>
+        <p class="muted">
+          Implémentation proposée : première période de grâce de dix minutes actives ; pas de pub en
+          échec, en réessai ou dans le classique. La publicité non personnalisée peut encore traiter
+          des données.
+        </p>
+      </section>
+      <section>
+        <h2>Captures du jeu actuel</h2>
+        <p>
+          Captures de navigateur sur le build de production, avec un camp initial légal et des
+          commandes normales. À comparer à l'APK avant usage public. Les fiches locales ne
+          traduisent pas encore le jeu.
+        </p>
+        <div class="gallery">
+          <figure>
+            <a href="assets/phone/01-preparation.jpg"
+              ><img src="assets/phone/01-preparation.jpg" alt="Préparation du détachement"
+            /></a>
+            <figcaption>assets/phone/01-preparation.jpg · 1920×1080 · phone</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/phone/02-combat-1.jpg"
+              ><img src="assets/phone/02-combat-1.jpg" alt="Combat sur les trois voies"
+            /></a>
+            <figcaption>assets/phone/02-combat-1.jpg · 1920×1080 · phone</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/phone/03-combat-2.jpg"
+              ><img src="assets/phone/03-combat-2.jpg" alt="Combat sur les trois voies"
+            /></a>
+            <figcaption>assets/phone/03-combat-2.jpg · 1920×1080 · phone</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/phone/04-combat-3.jpg"
+              ><img src="assets/phone/04-combat-3.jpg" alt="Combat sur les trois voies"
+            /></a>
+            <figcaption>assets/phone/04-combat-3.jpg · 1920×1080 · phone</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/tablet/01-preparation.jpg"
+              ><img src="assets/tablet/01-preparation.jpg" alt="Préparation du détachement"
+            /></a>
+            <figcaption>assets/tablet/01-preparation.jpg · 2560×1600 · tablet</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/tablet/02-combat.jpg"
+              ><img src="assets/tablet/02-combat.jpg" alt="Combat sur les trois voies"
+            /></a>
+            <figcaption>assets/tablet/02-combat.jpg · 2560×1600 · tablet</figcaption>
+          </figure>
+          <figure>
+            <a href="assets/feature-1024x500.jpg"
+              ><img src="assets/feature-1024x500.jpg" alt="Combat sur les trois voies"
+            /></a>
+            <figcaption>assets/feature-1024x500.jpg · 1024×500 · feature</figcaption>
+          </figure>
+        </div>
+        <p class="muted">
+          Version 0.30.1 · SHA du build et des images dans
+          <a href="captures.json">captures.json</a>. Pas de résultat Android physique déduit de ces
+          images.
+        </p>
+      </section>
+      <section>
+        <h2>Ton icône fournie est conservée</h2>
+        <img
+          class="icon"
+          src="../resources-2026-11/assets/icone-source.png"
+          alt="Icône HD fournie avec héros, serpent et cristal"
+        />
+        <p>
+          Source 2048×2048. Les coins blancs arrondis restent à corriger avant l'export carré
+          512×512. Ce fichier est une référence, pas l'icône finale du store.
+        </p>
+      </section>
+      <section>
+        <h2>Textes des fiches</h2>
+        <p>
+          Quatre brouillons pour relecture humaine. La langue actuelle de l'application est annoncée
+          dans chaque fiche.
+        </p>
+        <details open>
+          <summary>Français — brouillon à relire</summary>
+          <h3>La Conquête des Serpents</h3>
+          <p>
+            <strong
+              >Défends le cristal sur trois voies avec dinos, dragons et alliés autonomes.</strong
+            >
+          </p>
+          <pre>
+Protège le cristal face aux serpents !
+
+La Conquête des Serpents est un jeu de défense imaginé à partir du jeu d&#39;un enfant. Prépare ton armée puis observe tes alliés agir seuls sur trois voies reliées entre elles.
+
+• Recrute des massues, archers, ninjas, soigneurs, petits dinos et bébés dragons.
+• Anticipe les œufs qui éclosent et les serpents aux pouvoirs différents.
+• Commence par le refuge : une voie attaquée, puis deux, puis trois.
+• Découvre six missions et leurs configurations de terrain, d&#39;assaut et de couvée.
+• Dans la grande aventure, résiste à douze vagues jusqu&#39;au roi à trois têtes et sa garde.
+• Choisis un nouveau détachement pour chaque mission et conserve ton camp entre ses vagues.
+• Utilise le miel pour attirer ou ralentir les serpents.
+• Garde ton aventure sur l&#39;appareil et transfère-la volontairement avec un fichier familial.
+
+Les combattants sont autonomes : tu prépares ta défense sans leur donner d&#39;ordres de déplacement. Les cosmétiques prévus ne modifieront aucune statistique de combat.
+
+Le jeu est actuellement disponible en français.</pre>
+        </details>
+        <details>
+          <summary>English — brouillon à relire</summary>
+          <h3>La Conquête des Serpents</h3>
+          <p>
+            <strong
+              >Defend the crystal across three lanes with dinosaurs, dragons and brave
+              allies.</strong
+            >
+          </p>
+          <pre>
+Protect the crystal from the snakes!
+
+La Conquête des Serpents is a defense game inspired by a child&#39;s own game. Prepare your army, then watch your allies act on their own across three interconnected lanes.
+
+• Recruit club fighters, archers, ninjas, healers, little dinosaurs and baby dragons.
+• Watch for hatching eggs and snakes with different abilities.
+• Start at the refuge: enemies attack one lane, then two, then all three.
+• Explore six missions with different terrain, assault and nest configurations.
+• In the long adventure, face twelve waves ending with the three-headed king and his guards.
+• Prepare a new detachment for each mission and keep your camp between its waves.
+• Use honey to lure or slow the snakes.
+• Keep your adventure on the device and transfer it yourself with a family file.
+
+Fighters act autonomously: you prepare the defense without issuing movement orders. Planned cosmetics will not change combat statistics.
+
+The game is currently available in French.</pre>
+        </details>
+        <details>
+          <summary>Deutsch — brouillon à relire</summary>
+          <h3>La Conquête des Serpents</h3>
+          <p>
+            <strong
+              >Verteidige den Kristall auf drei Wegen mit Dinos, Drachen und mutigen
+              Helfern.</strong
+            >
+          </p>
+          <pre>
+Beschütze den Kristall vor den Schlangen!
+
+La Conquête des Serpents ist ein Verteidigungsspiel, das aus der Spielidee eines Kindes entstanden ist. Stelle deine Truppe auf und beobachte, wie deine Verbündeten selbstständig auf drei miteinander verbundenen Wegen kämpfen.
+
+• Rekrutiere Kämpfer mit Keulen, Bogenschützen, Ninjas, Heiler, kleine Dinosaurier und Babydrachen.
+• Achte auf schlüpfende Eier und Schlangen mit unterschiedlichen Fähigkeiten.
+• Beginne am Zufluchtsort: erst ein angegriffener Weg, dann zwei, dann alle drei.
+• Entdecke sechs Missionen mit verschiedenen Gelände-, Angriffs- und Nestkonfigurationen.
+• Bestehe im großen Abenteuer zwölf Wellen bis zum dreiköpfigen König und seiner Leibwache.
+• Stelle für jede Mission eine neue Truppe zusammen und behalte dein Lager zwischen ihren Wellen.
+• Locke oder verlangsame Schlangen mit Honig.
+• Speichere dein Abenteuer auf dem Gerät und übertrage es selbst mit einer Familiendatei.
+
+Die Kämpfer handeln selbstständig. Du gibst keine Bewegungsbefehle. Geplante kosmetische Inhalte verändern keine Kampfwerte.
+
+Das Spiel ist derzeit auf Französisch verfügbar.</pre>
+        </details>
+        <details>
+          <summary>Italiano — brouillon à relire</summary>
+          <h3>La Conquête des Serpents</h3>
+          <p>
+            <strong
+              >Difendi il cristallo su tre corsie con dinosauri, draghi e alleati autonomi.</strong
+            >
+          </p>
+          <pre>
+Proteggi il cristallo dai serpenti!
+
+La Conquête des Serpents è un gioco di difesa nato dall&#39;idea di un bambino. Prepara la tua squadra e osserva gli alleati agire da soli su tre corsie collegate.
+
+• Recluta combattenti con la clava, arcieri, ninja, guaritori, piccoli dinosauri e cuccioli di drago.
+• Controlla le uova che si schiudono e i serpenti con poteri diversi.
+• Inizia dal rifugio: prima una corsia attaccata, poi due, poi tutte e tre.
+• Scopri sei missioni con diverse configurazioni del terreno, degli assalti e dei nidi.
+• Nella grande avventura affronta dodici ondate fino al re a tre teste e alla sua guardia.
+• Prepara un nuovo gruppo per ogni missione e conserva il campo tra le sue ondate.
+• Usa il miele per attirare o rallentare i serpenti.
+• Conserva l&#39;avventura sul dispositivo e trasferiscila volontariamente con un file familiare.
+
+I combattenti agiscono in autonomia: prepari la difesa senza dare ordini di movimento. I cosmetici previsti non modificheranno le statistiche di combattimento.
+
+Il gioco è attualmente disponibile in francese.</pre>
+        </details>
+      </section>
+      <section>
+        <h2>Prochaines décisions et vérifications</h2>
+        <ul>
+          <li>Compte Play, identité publique et contact à préparer puis vérifier.</li>
+          <li>Identifiant définitif à confirmer avant toute première publication.</li>
+          <li>SDK/version Familles et configuration enfant, permissions et trafic à vérifier.</li>
+          <li>Vrais achats de test, vérification, restauration et remboursements à exercer.</li>
+          <li>Tarifs et accès parental à valider.</li>
+          <li>Politique exacte du SDK choisi, identité et URL publique à finaliser.</li>
+          <li>Déclaration Sécurité des données à vérifier avec tous les SDK.</li>
+          <li>Tranches d’âge à confirmer.</li>
+          <li>Questionnaire IARC à compléter, sans classement inventé.</li>
+          <li>Textes des fiches à relire humainement.</li>
+          <li>Images et fidélité à l’APK à relire.</li>
+          <li>Retest Android physique et relevés à terminer.</li>
+          <li>AAB de test signé et contenu à vérifier.</li>
+          <li>Test fermé requis par le compte puis accès à la production.</li>
+          <li>Icône fournie à corriger et exporter en512×512.</li>
+        </ul>
+        <p>
+          La décision finale appartient au parent et à la Play Console. Le contrôle local n'autorise
+          aucune publication automatique.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

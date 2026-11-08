@@ -1,0 +1,72 @@
+{
+  "errors": [],
+  "blockers": [
+    {
+      "code": "publisher",
+      "message": "Compte Play, identité publique et contact à préparer puis vérifier."
+    },
+    {
+      "code": "package-id",
+      "message": "Identifiant définitif à confirmer avant toute première publication."
+    },
+    {
+      "code": "sdk",
+      "message": "SDK/version Familles et configuration enfant, permissions et trafic à vérifier."
+    },
+    {
+      "code": "billing",
+      "message": "Vrais achats de test, vérification, restauration et remboursements à exercer."
+    },
+    {
+      "code": "purchase-design",
+      "message": "Tarifs et accès parental à valider."
+    },
+    {
+      "code": "privacy",
+      "message": "Politique exacte du SDK choisi, identité et URL publique à finaliser."
+    },
+    {
+      "code": "data-safety",
+      "message": "Déclaration Sécurité des données à vérifier avec tous les SDK."
+    },
+    {
+      "code": "audience",
+      "message": "Tranches d’âge à confirmer."
+    },
+    {
+      "code": "iarc",
+      "message": "Questionnaire IARC à compléter, sans classement inventé."
+    },
+    {
+      "code": "copies",
+      "message": "Textes des fiches à relire humainement."
+    },
+    {
+      "code": "asset-review",
+      "message": "Images et fidélité à l’APK à relire."
+    },
+    {
+      "code": "android-device",
+      "message": "Retest Android physique et relevés à terminer."
+    },
+    {
+      "code": "aab",
+      "message": "AAB de test signé et contenu à vérifier."
+    },
+    {
+      "code": "closed-test",
+      "message": "Test fermé requis par le compte puis accès à la production."
+    },
+    {
+      "code": "icon",
+      "message": "Icône fournie à corriger et exporter en512×512."
+    }
+  ],
+  "state": "blocked",
+  "automaticPublicationAuthorized": false,
+  "appVersion": "0.30.1",
+  "checkedAt": "2026-11-08T11:43:23.679Z",
+  "assetFilesChecked": 7,
+  "scope": "Local source/artifact preparation only; no Play Console, SDK approval, policy certification or automatic publication",
+  "draft": false
+}
