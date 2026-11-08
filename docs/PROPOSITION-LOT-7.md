@@ -1,6 +1,6 @@
 # Première mission — proposition à valider avec le fils
 
-Statut : **proposition validée par le parent (« go »), réalisation du lot7 en cours**.
+Statut : **proposition validée par le parent (« go »), réalisée en v0.30.0 ; essai familial à faire**.
 Les trois voies restent visibles, le placement libre et les alliés autonomes.
 
 ## Valeurs proposées

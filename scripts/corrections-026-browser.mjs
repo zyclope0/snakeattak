@@ -316,12 +316,10 @@ try {
       JSON.stringify(initialImages, null, 2),
     );
     await live.close();
+    // A historical fixture must not inherit the current tutorial's new rules.
+    const { rules, ...legacyMission } = createMissionRun('refuge', 2026);
     for (const version of [1, 2, 3, 4, 5, 6]) {
-      const game = new Game(
-        2026,
-        undefined,
-        version === 5 ? createMissionRun('refuge', 2026) : undefined,
-      );
+      const game = new Game(2026, undefined, version === 5 ? legacyMission : undefined);
       game.wave = 2;
       game.gold = 777;
       game.units.shift();

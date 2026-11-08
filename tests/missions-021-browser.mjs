@@ -56,8 +56,8 @@ try {
   assert.equal(await page.locator('#army-count').innerText(), '3');
   assert.equal(await page.locator('#wave-total').innerText(), '3');
   let backup = await saved(page);
-  assert.equal(backup.version, 2);
-  assert.equal(JSON.parse(backup.camp).version, 6);
+  assert.equal(backup.version, 3);
+  assert.equal(JSON.parse(backup.camp).version, 7);
   assert.deepEqual(JSON.parse(backup.camp).mission, second);
   await page.locator('[data-kind="ninja"]').click();
   const box = await page.locator('canvas').boundingBox();

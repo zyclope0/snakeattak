@@ -1,5 +1,5 @@
 {
-  "version": "0.29.0",
+  "version": "0.30.0",
   "status": "pending-physical-device",
   "device": {
     "model": null,
@@ -35,21 +35,19 @@
   "cloudResultsAreNotAndroidMeasurements": true,
   "releaseGate": "Physical performance, lifecycle, offline and saves not yet validated",
   "apk": {
-    "name": "conquete-serpents-v0.29.0-debug.apk",
-    "bytes": 13166234,
-    "sha256": "f779f76cc0b65f4fc988f87fe63ba9622f839b1680fa9acfc04a421ce14d289f",
-    "versionCode": 30,
-    "sdk": {
-      "min": 24,
-      "target": 36,
-      "compile": 36
-    },
+    "name": "conquete-serpents-v0.30.0-debug.apk",
+    "bytes": 13113884,
+    "sha256": "79cec55f7ce1742cdeabe8f3a51ecab9aebd0e85a7ce9355e2ecfbeec31350dc",
+    "versionCode": 31,
+    "minSdk": 24,
+    "targetSdk": 36,
+    "compileSdk": 36,
     "signature": "debug, verified",
     "sensorLandscape": true,
     "internetPermission": false,
-    "libraryPermission": "DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION (signature)",
-    "embeddedFilesMatchDist": 27,
+    "embeddedWebFilesMatchDist": 27,
     "diagnosticStartup": "local /?perf=1",
-    "normalConfigRestored": true
+    "normalSyncRestored": true,
+    "futureHdImagesEmbedded": false
   }
 }

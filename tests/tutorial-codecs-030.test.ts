@@ -25,6 +25,24 @@ test('nouveaux refuges identifiés, anciens codes et autres missions gardent leu
   assert.equal(old, 'REFUGE-1-0000-7X81-EP');
   assert.deepEqual(decodeDeparture(old), { ok: true, departure: { kind: 'mission', run: legacy } });
   assert.notEqual(old, next);
+  for (const layout of [0, 1, 2] as const)
+    for (const assault of ['balanced', 'rush', 'escort'] as const)
+      for (const nest of ['spread', 'clustered'] as const)
+        for (const seed of [0, 1, 2026, 0xffffffff]) {
+          const historical = readMissionRun({ ...legacy, seed, layout, assault, nest })!;
+          const progressive = readMissionRun({ ...historical, rules: 2 })!;
+          const a = encodeDeparture({ kind: 'mission', run: historical }),
+            b = encodeDeparture({ kind: 'mission', run: progressive });
+          assert.notEqual(a, b, 'Same seed/configuration cannot collapse across rulesets');
+          assert.deepEqual(decodeDeparture(a), {
+            ok: true,
+            departure: { kind: 'mission', run: historical },
+          });
+          assert.deepEqual(decodeDeparture(b), {
+            ok: true,
+            departure: { kind: 'mission', run: progressive },
+          });
+        }
   assert.equal((createMissionRun('trois-ponts', 2026) as Record<string, unknown>).rules, undefined);
   for (const rules of [0, 1, 3, null, '2', undefined])
     assert.equal(readMissionRun({ ...legacy, rules }), null);

@@ -375,3 +375,14 @@ sont des éléments HTML natifs ; les IDs et événements des commandes sont gar
 childCopy convertit uniquement les textes affichés : les180 instantanés
 historiques et les données de jeu restent inchangés. Le comptage de mots en
 recette intersecte le viewport et les clips de tous les ancêtres défilants.
+
+## Tutoriel versionné — 0.30
+
+MissionRun.rules2 est optionnel et réservé au nouveau refuge ; absence signifie
+les règles historiques. La fonction pure activeEnemyLanes est partagée par le
+plan d’œufs, le choix pondéré des voies, les jonctions et le rendu. Les choix
+scriptés d’arrivée sont restreints au même masque. Le choix du second côté ne
+consomme pas le flux RNG du combat.
+Le codev2, le campv7 et la famillev3 protègent les nouvelles règles contre une
+lecture silencieuse par une ancienne application. Les décodeurs gardent les
+anciens formats. Le HUD observe le masque sans avancer la simulation.

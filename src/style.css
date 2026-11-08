@@ -3602,3 +3602,48 @@ dialog > small {
   border-radius: 6px;
   padding: 6px 10px;
 }
+
+/* Three paths remain visible; this small forecast announces active threats. */
+.tutorial-lanes {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 5px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.tutorial-lane {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border: 1px solid #b7c5ae;
+  background: #e9eddeed;
+  color: #375740;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 1px 3px #183c3033;
+}
+.tutorial-lane b {
+  font-size: 10px;
+}
+.tutorial-lane[data-active='true'] {
+  background: #f2d187;
+  color: #3b341d;
+  border-color: #9d782c;
+}
+#feast-hint.tutorial-hint {
+  display: block;
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  margin: 6px 0;
+  color: #36513c;
+  font-size: 12px;
+}

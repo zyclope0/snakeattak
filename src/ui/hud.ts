@@ -1,3 +1,4 @@
+import { bindTutorialLanes } from './tutorialLanes.ts';
 import { childCopy } from './childCopy.ts';
 import { medicalRules } from '../healing.ts';
 import type { Game } from '../game.ts';
@@ -7,6 +8,7 @@ import { bossReadout } from '../render/bossReadout.ts';
 
 /** Stable DOM nodes: a simulation refresh updates values, not whole trees. */
 export function bindHud() {
+  const tutorial = bindTutorialLanes();
   const el = (id: string) => document.getElementById(id)!;
   const text = (id: string, value: string) => {
     const node = el(id);
@@ -24,6 +26,7 @@ export function bindHud() {
     return dot;
   });
   return (game: Game) => {
+    tutorial(game);
     text('gold', String(game.gold));
     text('base', `${Math.ceil(game.base)} %`);
     const width = `${game.base}%`,

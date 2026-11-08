@@ -73,12 +73,24 @@ export function bindFeastControls(session: Session, onChange: () => void) {
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     }
-    hint.textContent = flavors.find((flavor) => flavor.value === selected)!.hint;
+    const lanes = game.enemyLanes;
+    hint.classList.toggle('tutorial-hint', game.mission?.rules === 2 && lanes.length < 3);
+    hint.textContent =
+      flavors.find((flavor) => flavor.value === selected)!.hint +
+      (game.mission?.rules === 2 && lanes.length < 3
+        ? ` Voie${lanes.length > 1 ? 's' : ''} attaquée${lanes.length > 1 ? 's' : ''} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. « — » : paisible.`
+        : '');
     for (const [lane, button] of buttons.entries()) {
-      button.disabled = game.paused || game.status !== 'fighting' || game.feastUsed;
+      button.disabled =
+        game.paused ||
+        game.status !== 'fighting' ||
+        game.feastUsed ||
+        !game.enemyLanes.includes(lane);
       button.classList.toggle('active', game.feast?.lane === lane);
       button.setAttribute('aria-pressed', String(game.feast?.lane === lane));
-      button.title = `${selected === 'sticky' ? 'Ralentir les serpents sur le passage' : 'Attirer les serpents vers la voie'} ${LANE_NAMES[lane].toLowerCase()} pendant ${game.feastDuration} secondes`;
+      button.title = !game.enemyLanes.includes(lane)
+        ? 'Cette voie reste paisible pendant cette vague.'
+        : `${selected === 'sticky' ? 'Ralentir les serpents sur le passage' : 'Attirer les serpents vers la voie'} ${LANE_NAMES[lane].toLowerCase()} pendant ${game.feastDuration} secondes`;
     }
     const turns = `${game.honeyTurns} détour${game.honeyTurns > 1 ? 's' : ''}`;
     status.textContent =

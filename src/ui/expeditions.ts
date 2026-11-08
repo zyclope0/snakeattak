@@ -1,3 +1,5 @@
+import { activeEnemyLanes } from '../tutorial.ts';
+import { LANE_NAMES } from '../ai.ts';
 import { childCopy } from './childCopy.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS, createMissionRun, missionById, missionWave } from '../missions.ts';
@@ -62,6 +64,12 @@ export function bindExpeditions(
     svg.replaceChildren();
     const level = missionLevel(run.layout);
     const ns = 'http://www.w3.org/2000/svg';
+    const lanes = activeEnemyLanes(run, 1);
+    svg.setAttribute(
+      'aria-label',
+      `Trois voies visibles. Première vague : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}.`,
+    );
+    let laneIndex = 0;
     for (const points of [
       ...[0, 1, 2].map((lane) => laneRoad(lane, level)),
       ...routeJunctions(level).map((x) => junctionRoad(x, level)),
@@ -71,6 +79,15 @@ export function bindExpeditions(
       path.setAttribute('fill', 'none');
       path.setAttribute('stroke', '#d6c796');
       path.setAttribute('stroke-width', '24');
+      if (laneIndex < 3) {
+        path.dataset.previewLane = String(laneIndex);
+        path.dataset.active = String(lanes.includes(laneIndex));
+        if (!lanes.includes(laneIndex)) {
+          path.setAttribute('stroke', '#a7b598');
+          path.setAttribute('stroke-width', '18');
+        }
+      }
+      laneIndex++;
       svg.append(path);
     }
     for (const rock of level.rocks) {

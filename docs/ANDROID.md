@@ -1,9 +1,9 @@
-# Android — préparation de la version 0.29.0
+# Android — préparation de la version 0.30.0
 
-Le projet natif porte versionName 0.29.0 et versionCode 30. Les nouveaux assets
+Le projet natif porte versionName 0.30.0 et versionCode 31. Les nouveaux assets
 2D restent locaux, dans le build web embarqué. Voir le rapport de vérification
-0.29 pour la synchronisation de cette livraison. MainActivity demande
-`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Un APK debug 0.29.0 est compilé et sa signature de développement vérifiée ;
+0.30 pour la synchronisation de cette livraison. MainActivity demande
+`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Un APK debug 0.30.0 est compilé et sa signature de développement vérifiée ;
 les27 fichiers web embarqués sont identiques au dist. Aucun appareil physique,
 AAB signé de publication ou résultat de performance Android n’est revendiqué.
 
@@ -48,7 +48,7 @@ L'export `dist-portable/` reste une livraison web séparée.
 | SDK de compilation / cible     | 36 / 36                                                           |
 | Android Gradle Plugin          | 8.13.0                                                            |
 | Wrapper Gradle                 | 8.14.3, fourni dans `android/`                                    |
-| Version native                 | `versionName "0.29.0"`, `versionCode 30`                          |
+| Version native                 | `versionName "0.30.0"`, `versionCode 31`                          |
 
 Installer Android Studio et le SDK via son SDK Manager, dont Platform API 36,
 les Build Tools requis par AGP et les Platform Tools pour un téléphone. Android

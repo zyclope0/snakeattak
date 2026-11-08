@@ -1,4 +1,8 @@
-# La Conquête des Serpents — aventure familiale 0.29
+# La Conquête des Serpents — aventure familiale 0.30
+
+Le nouveau refuge de la version 0.30 ouvre progressivement les menaces : centre, deux voies,
+puis trois. Les anciens codes et sauvegardes gardent leurs règles.
+[Bilan et simulations](docs/BILAN-0.30.md) · [Conseil](docs/CONSEIL-0.30.md).
 
 La version 0.29 met Jouer, la reprise et la prochaine mission au premier plan.
 La préparation utilise trois cartes ; les codes sont côté parents. Les conseils
