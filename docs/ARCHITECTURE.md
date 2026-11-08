@@ -399,3 +399,13 @@ entrer ses statistiques en collision. La largeur minimum du catalogue prime sur
 le plafond de 32 % quand la surface utile devient trop étroite.
 Le tiroir reste un composant de présentation : il ne modifie ni pause, ni règles,
 ni économie. Le seul achat suit toujours le placement par Session.
+
+## Interruptions — 0.30.2
+
+`ui/pauseState.ts` partage des acquisitions de pause par Session, hors des règles
+et des formats de sauvegarde. Dialogues et consigne de rotation libèrent leur
+seule acquisition ; une interruption reste retenue jusqu'à Reprendre. L'identité
+du Game invalide les anciennes acquisitions lors d'un changement de partie.
+`ui/lifecycle.ts` relie `visibilitychange` et `pagehide` à cette pause retenue.
+La fermeture d'une fenêtre et le retour `pageshow` ne relancent pas le combat.
+Le contrôleur ne modifie ni temps, ni RNG, ni contenu des sauvegardes.

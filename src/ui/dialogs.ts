@@ -1,13 +1,16 @@
 import type { Session } from '../session.ts';
+import { pauseStateFor } from './pauseState.ts';
 
 /** A dialogue owns only the pause it acquired, never a new game or a background pause. */
 export function pauseForDialog(dialog: HTMLDialogElement, session: Session, refresh: () => void) {
-  let observed: Session['game'] | null = null;
-  let wasPaused = false;
+  const pauses = pauseStateFor(session);
+  let release: (() => void) | null = null;
   const settle = () => {
-    if (!observed) return;
-    if (session.game === observed) observed.paused = wasPaused || document.hidden;
-    observed = null;
+    // A queued close event from an earlier opening must not release a new one.
+    if (!release || dialog.open) return;
+    if (document.hidden) pauses.interrupt();
+    release();
+    release = null;
     refresh();
   };
   const close = () => {
@@ -20,17 +23,17 @@ export function pauseForDialog(dialog: HTMLDialogElement, session: Session, refr
     close();
   };
   dialog.addEventListener('cancel', cancel);
-  const visibility = () => {
-    if (observed && document.hidden) wasPaused = true;
-  };
-  document.addEventListener('visibilitychange', visibility);
   return {
     open() {
       if (dialog.open) return;
-      observed = session.game;
-      wasPaused = observed.paused;
-      observed.paused = true;
-      dialog.showModal();
+      release = pauses.hold();
+      try {
+        dialog.showModal();
+      } catch (error) {
+        release();
+        release = null;
+        throw error;
+      }
       refresh();
     },
     close,
@@ -38,7 +41,6 @@ export function pauseForDialog(dialog: HTMLDialogElement, session: Session, refr
       close();
       dialog.removeEventListener('close', settle);
       dialog.removeEventListener('cancel', cancel);
-      document.removeEventListener('visibilitychange', visibility);
     },
   };
 }

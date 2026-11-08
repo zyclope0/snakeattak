@@ -1,4 +1,16 @@
-# Android — version 0.30.1
+# Android — version 0.30.2
+
+VersionName 0.30.2, versionCode 33, paysage `sensorLandscape`. La pause
+d'interruption est conservée après retour en paysage ou fermeture d'un dialogue.
+Tests en navigateur : pause et temps réel du moteur, empilement des pauses,
+sortie/retour de page, démarrage caché, paquet embarqué chargé sans réseau,
+reprise du dernier camp et lecture des formats 1 à 7. Voir BILAN-0.30.2.md.
+
+Ces simulations ne remplacent pas les mesures ni le cycle de vie physique du
+S24. Les preuves 0.30.1 ci-dessous restent historiques. Aucun AAB Play signé,
+SDK commercial ni cache hors ligne du site web n'est ajouté.
+
+## Correctif mobile précédent — 0.30.1
 
 VersionName 0.30.1, versionCode 32, paysage `sensorLandscape`. Le parent a testé
 la 0.30.0 sur Galaxy S24 Ultra SM-S928B/DS (Android 17, One UI 9.0 déclarés) :

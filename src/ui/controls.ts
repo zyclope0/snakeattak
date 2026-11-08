@@ -1,4 +1,6 @@
 import { childCopy } from './childCopy.ts';
+import { pauseStateFor } from './pauseState.ts';
+import { bindLifecycle } from './lifecycle.ts';
 import { bindOrientation } from './orientation.ts';
 import { bindReinforcementsDrawer } from './reinforcementsDrawer.ts';
 import { placementReadout } from '../render/placementRange.ts';
@@ -28,6 +30,7 @@ export function bindControls(
 ) {
   document.documentElement.style.setProperty('--ui-art', `url("${UI_ART_URL}")`);
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+  const pauses = pauseStateFor(session);
   const syncOrientation = bindOrientation(session, refresh);
   const cards = new Map<Kind, HTMLButtonElement>();
   const refreshHud = bindHud();
@@ -109,11 +112,12 @@ export function bindControls(
     refresh();
   };
   el('pause').onclick = () => {
-    session.game.paused = !session.game.paused;
+    if (session.game.paused) pauses.resume();
+    else pauses.interrupt();
     refresh();
   };
   el('resume-game').onclick = () => {
-    session.game.paused = false;
+    pauses.resume();
     refresh();
   };
   el('speed').onclick = () => {
@@ -154,12 +158,7 @@ export function bindControls(
   el('help').onclick = helpModal.open;
   el('close-help').onclick = helpModal.close;
   el('play-help').onclick = helpModal.close;
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      session.game.paused = true;
-      refresh();
-    }
-  });
+  bindLifecycle(session, refresh);
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') {
       session.selected = null;
@@ -175,11 +174,13 @@ export function bindControls(
       !document.querySelector('dialog[open]')
     ) {
       e.preventDefault();
-      session.game.paused = !session.game.paused;
+      if (session.game.paused) pauses.resume();
+      else pauses.interrupt();
       refresh();
     }
   });
   function refresh() {
+    if (document.hidden) pauses.interrupt();
     syncOrientation();
     afterChange();
     const nextWave = Math.min(
