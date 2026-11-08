@@ -1,0 +1,273 @@
+{
+  "version": "0.30.1",
+  "base": "0b515df897570670f535b520310b0e5a6676c0bb",
+  "nativeTests": 378,
+  "nativeFailures": 0,
+  "build": "passed",
+  "format": "passed",
+  "typecheck": "passed",
+  "mobile": {
+    "version": "0.30.1",
+    "simulatedInsets": true,
+    "physicalDevice": false,
+    "results": [
+      {
+        "width": 812,
+        "height": 375,
+        "safe": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "board": {
+          "x": 115,
+          "y": 48,
+          "width": 580.15625,
+          "height": 327
+        }
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "safe": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "board": {
+          "x": 127,
+          "y": 72,
+          "width": 509.1875,
+          "height": 287
+        }
+      },
+      {
+        "width": 667,
+        "height": 375,
+        "safe": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "board": {
+          "x": 79,
+          "y": 100,
+          "width": 459.515625,
+          "height": 259
+        }
+      },
+      {
+        "width": 915,
+        "height": 412,
+        "safe": [
+          24,
+          0,
+          24,
+          48
+        ],
+        "board": {
+          "x": 201,
+          "y": 72,
+          "width": 560.640625,
+          "height": 316
+        }
+      },
+      {
+        "width": 960,
+        "height": 432,
+        "safe": [
+          24,
+          24,
+          16,
+          24
+        ],
+        "board": {
+          "x": 174,
+          "y": 72,
+          "width": 610.3125,
+          "height": 344
+        }
+      },
+      {
+        "width": 1280,
+        "height": 800,
+        "safe": [
+          24,
+          24,
+          16,
+          12
+        ],
+        "board": {
+          "x": 25,
+          "y": 141,
+          "width": 895.984375,
+          "height": 505.015625
+        }
+      }
+    ],
+    "dockedResults": [
+      {
+        "width": 480,
+        "height": 320,
+        "safe": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "panel": {
+          "x": 224,
+          "y": 100,
+          "width": 208,
+          "height": 204
+        },
+        "checkedControls": 41
+      },
+      {
+        "width": 568,
+        "height": 320,
+        "safe": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "panel": {
+          "x": 312,
+          "y": 100,
+          "width": 208,
+          "height": 204
+        },
+        "checkedControls": 41
+      },
+      {
+        "width": 667,
+        "height": 375,
+        "safe": [
+          24,
+          0,
+          16,
+          48
+        ],
+        "panel": {
+          "x": 459,
+          "y": 100,
+          "width": 208,
+          "height": 259
+        },
+        "checkedControls": 41
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "safe": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "panel": {
+          "x": 532,
+          "y": 72,
+          "width": 232,
+          "height": 287
+        },
+        "checkedControls": 41
+      }
+    ],
+    "checks": [
+      "system areas",
+      "rotation",
+      "dialog",
+      "pause",
+      "docked reinforcements",
+      "touch targets",
+      "selection closes",
+      "selection then real touch placement",
+      "narrow catalogue and complete camp tools",
+      "narrow HUD statistics do not overlap",
+      "combat continues"
+    ],
+    "errors": []
+  },
+  "tutorialRegression": {
+    "results": [
+      {
+        "width": 1280,
+        "height": 800,
+        "words": 47,
+        "board": {
+          "x": 13,
+          "y": 117,
+          "width": 931.96875,
+          "height": 525.296875
+        }
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "words": 9,
+        "board": {
+          "x": 115,
+          "y": 48,
+          "width": 580.15625,
+          "height": 327
+        }
+      }
+    ],
+    "checks": [
+      "three lanes",
+      "progression1/2/3",
+      "honey",
+      "legacy",
+      "pause"
+    ],
+    "errors": []
+  },
+  "displayChecks": 15,
+  "smokeBrowser": "passed",
+  "familyExchange": "file↔web latest portable, reload/cancel/invalid/blocked passed",
+  "performanceDiagnostic": "opt-in production verified",
+  "apk": {
+    "name": "conquete-serpents-v0.30.1-debug.apk",
+    "version": "0.30.1",
+    "versionCode": 32,
+    "bytes": 13114959,
+    "sha256": "a80bf2804580ef2e3092f609d6d7a1da1111c1ea935001183a8c68e434f8bb08",
+    "sameSigningCertificateAs030": true,
+    "signatureVerified": true,
+    "sensorLandscape": true,
+    "internetPermission": false,
+    "webFilesMatch": 27,
+    "normalStartup": true,
+    "systemBarsHandling": "css",
+    "physicalRetest": false
+  },
+  "parentReportedDevice": {
+    "model": "Samsung Galaxy S24 Ultra SM-S928B/DS",
+    "android": "17",
+    "oneUI": "9.0",
+    "versionTested": "0.30.0",
+    "gameplayAcceptedByChildren": true,
+    "knownInterfaceIssues": "system bars overlap, reinforcement overlay oversized"
+  },
+  "physicalRetest0301": false,
+  "rulesAndSaveFormats": "unchanged",
+  "paidGenerations": 0,
+  "review": {
+    "independent": true,
+    "critical": 0,
+    "importantFixed": 1,
+    "separateMinors": 0,
+    "regression": "narrow close/tabs/tools and HUD overflow RED→GREEN, all native tests green",
+    "limits": "Actual Android17/OneUI9 and old WebView physical rendering/lifecycle need parent retest"
+  },
+  "verifiedAt": "2026-11-08T10:55:08.065586+00:00",
+  "interfaceAudit": {
+    "passed": 13,
+    "total": 13
+  }
+}

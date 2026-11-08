@@ -386,3 +386,16 @@ consomme pas le flux RNG du combat.
 Le codev2, le campv7 et la famillev3 protègent les nouvelles règles contre une
 lecture silencieuse par une ancienne application. Les décodeurs gardent les
 anciens formats. Le HUD observe le masque sans avancer la simulation.
+
+## Surface mobile — 0.30.1
+
+Le CSS calcule la surface utile à partir du maximum des marges `env()` et des
+variables injectées par SystemBars de Capacitor 8.6. Les anciennes WebViews déjà
+inset nativement reçoivent des valeurs nulles : pas de deuxième marge.
+Le catalogue partage la grille avec le plateau, borné entre 208 et 232 px ;
+le ResizeObserver existant rafraîchit Phaser après ces changements de dimensions.
+Sous 700 px, le HUD prend deux lignes de 76 px au total plutôt que de faire
+entrer ses statistiques en collision. La largeur minimum du catalogue prime sur
+le plafond de 32 % quand la surface utile devient trop étroite.
+Le tiroir reste un composant de présentation : il ne modifie ni pause, ni règles,
+ni économie. Le seul achat suit toujours le placement par Session.

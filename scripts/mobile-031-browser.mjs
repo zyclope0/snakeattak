@@ -8,7 +8,8 @@ const phase = process.argv[2] ?? 'all';
 const fixture = 'mobile-031-fixture.html';
 let browser, preview, dev;
 const errors = [],
-  results = [];
+  results = [],
+  dockedResults = [];
 const rect = (b) => ({ x: b.x, y: b.y, width: b.width, height: b.height });
 async function ready(url) {
   for (let i = 0; i < 150; i++) {
@@ -61,7 +62,7 @@ try {
   ]);
   await ready('http://127.0.0.1:4352');
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-  if (phase !== 'dock') {
+  if (phase === 'all' || phase === 'safe') {
     for (const [width, height, safe] of [
       [812, 375, [0, 0, 0, 0]],
       [812, 375, [24, 48, 16, 0]],
@@ -78,7 +79,7 @@ try {
         inside(await page.locator('#' + id).boundingBox(), width, height, safe, id);
       const board = await page.locator('#game canvas').boundingBox();
       inside(board, width, height, safe, 'canvas');
-      if (width < 1100)
+      if (width > 700 && width < 1100)
         assert.ok(
           board.height >= (height - safe[0] - safe[2]) * 0.85,
           'Closed board >=85% useful height',
@@ -119,7 +120,81 @@ try {
     assert.ok(await page.locator('#orientation-notice').isVisible());
     await page.close();
   }
-  if (phase !== 'safe') {
+  if (phase === 'all' || phase === 'narrow') {
+    for (const [width, height, safe] of [
+      [480, 320, [24, 48, 16, 0]],
+      [568, 320, [24, 48, 16, 0]],
+      [667, 375, [24, 0, 16, 48]],
+      [812, 375, [24, 48, 16, 0]],
+    ]) {
+      const page = await browser.newPage({ viewport: { width, height }, hasTouch: true });
+      await launch(page, 'http://127.0.0.1:4352');
+      await insets(page, ...safe);
+      await page.locator('#reinforcements-toggle').click();
+      const panel = await page.locator('#reinforcements').boundingBox();
+      inside(panel, width, height, safe, 'narrow panel');
+      assert.equal(
+        await page
+          .locator('.dashboard')
+          .evaluate((el) => [...el.children].every((c) => c.scrollWidth <= c.clientWidth + 1)),
+        true,
+        'Narrow HUD statistics and controls must not overlap',
+      );
+      await page.screenshot({ path: `artifacts/mobile-031/narrow-${width}.png` });
+      await page.evaluate(() =>
+        document.querySelectorAll('#reinforcements details').forEach((el) => {
+          el.open = true;
+        }),
+      );
+      const controls = await page.locator('#reinforcements').evaluate((panel) =>
+        [...panel.querySelectorAll('button,select,summary')]
+          .filter(
+            (el) => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden',
+          )
+          .map((el) => {
+            const b = el.getBoundingClientRect();
+            return {
+              id: el.id || el.textContent.trim().slice(0, 30),
+              x: b.x,
+              right: b.right,
+              width: b.width,
+              height: b.height,
+            };
+          }),
+      );
+      for (const b of controls) {
+        assert.ok(
+          b.x >= panel.x - 1 && b.right <= panel.x + panel.width + 1,
+          `Narrow ${width} control ${b.id} must fit horizontally: ${JSON.stringify(b)}`,
+        );
+        assert.ok(
+          b.width >= 48 && b.height >= 48,
+          `Narrow ${width} control ${b.id} needs48px: ${JSON.stringify(b)}`,
+        );
+      }
+      assert.equal(
+        await page
+          .locator('.shop-tabs')
+          .evaluate((el) =>
+            [...el.querySelectorAll('button')].every((b) => b.scrollWidth <= b.clientWidth + 1),
+          ),
+        true,
+        'Catalogue labels cannot overflow',
+      );
+      dockedResults.push({
+        width,
+        height,
+        safe,
+        panel: rect(panel),
+        checkedControls: controls.length,
+      });
+      await page.locator('#feast-flavors').scrollIntoViewIfNeeded();
+      await page.screenshot({ path: `artifacts/mobile-031/tools-${width}.png` });
+      await page.locator('#reinforcements-close').click();
+      await page.close();
+    }
+  }
+  if (phase === 'all' || phase === 'dock') {
     const page = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
     await launch(page, 'http://127.0.0.1:4352');
     await insets(page, 24, 48, 16, 0);
@@ -202,6 +277,34 @@ try {
     live.on('pageerror', (e) => errors.push(e.message));
     await live.goto('http://127.0.0.1:4353/' + fixture);
     await live.waitForFunction(() => window.mobileInterface?.phaser.scene.isActive('Battle'));
+    const goldBefore = await live.evaluate(() => window.mobileInterface.session.game.gold);
+    await live.locator('#reinforcements-toggle').click();
+    await live.locator('[data-kind="club"]').click();
+    await live.waitForFunction(
+      () => document.querySelector('#game canvas').getBoundingClientRect().width > 570,
+    );
+    await live.waitForFunction(() => {
+      const p = document.querySelector('#game').getBoundingClientRect(),
+        c = document.querySelector('#game canvas').getBoundingClientRect();
+      return Math.abs(c.x + c.width / 2 - p.x - p.width / 2) < 1;
+    });
+    const spot = await live.evaluate(() => {
+      const g = window.mobileInterface.session.game;
+      for (let y = 140; y <= 520; y += 40)
+        for (let x = 950; x >= 700; x -= 40) if (g.canRecruit('club', x, y)) return { x, y };
+      return null;
+    });
+    assert.ok(spot, 'A legal camp placement exists');
+    const canvas = await live.locator('#game canvas').boundingBox();
+    await live.touchscreen.tap(
+      canvas.x + (canvas.width * spot.x) / 1100,
+      canvas.y + (canvas.height * spot.y) / 620,
+    );
+    await live.waitForFunction(
+      (gold) => window.mobileInterface.session.game.gold < gold,
+      goldBefore,
+    );
+    assert.equal(await live.evaluate(() => window.mobileInterface.session.game.units.length), 4);
     await live.locator('#start').click();
     await live.locator('#reinforcements-toggle').click();
     assert.equal(await live.evaluate(() => window.mobileInterface.session.game.paused), false);
@@ -230,6 +333,7 @@ try {
         simulatedInsets: true,
         physicalDevice: false,
         results,
+        dockedResults,
         checks: [
           'system areas',
           'rotation',
@@ -238,6 +342,9 @@ try {
           'docked reinforcements',
           'touch targets',
           'selection closes',
+          'selection then real touch placement',
+          'narrow catalogue and complete camp tools',
+          'narrow HUD statistics do not overlap',
           'combat continues',
         ],
         errors,
@@ -246,7 +353,9 @@ try {
       2,
     ) + '\n',
   );
-  console.log(JSON.stringify({ phase, sizes: results.length, errors }));
+  console.log(
+    JSON.stringify({ phase, sizes: results.length, dockedSizes: dockedResults.length, errors }),
+  );
 } finally {
   await browser?.close();
   preview?.kill();

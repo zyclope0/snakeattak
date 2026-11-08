@@ -19,20 +19,26 @@ non modal dans la grille existante, ResizeObserver du plateau conservé.
 
 ### 1. Marges du téléphone
 
-- [ ] Test navigateur RED : commandes et dialogues hors marges simulées.
-- [ ] CSS de surface utile et marges fixes ; SystemBars configuré explicitement.
-- [ ] GREEN, test classique et build ; commit.
+- [x] Test navigateur RED : commandes et dialogues hors marges simulées.
+- [x] CSS de surface utile et marges fixes ; SystemBars configuré explicitement.
+- [x] GREEN, test classique et build ; commit.
 
 ### 2. Catalogue compact
 
-- [ ] RED : panneau sans intersection avec canvas, taille bornée, sélection ferme,
+- [x] RED : panneau sans intersection avec canvas, taille bornée, sélection ferme,
       fermeture redonne la taille initiale, combat sans pause implicite.
-- [ ] Grille mobile et cartes compactes ; ordre catalogue avant outils ; navigation
+- [x] Grille mobile et cartes compactes ; ordre catalogue avant outils ; navigation
       clavier non modale, boutons de fermeture toujours accessibles.
-- [ ] GREEN : navigateur et suite complète ; revue finale, corrections si nécessaires.
-- [ ] Version 0.30.1/code32, APK, documentation, archives, publication et reçu.
+- [x] GREEN : navigateur et suite complète ; revue finale, corrections si nécessaires.
+- [x] Version 0.30.1/code32, APK, documentation, archives, publication et reçu.
 
 ## Suivi
 
 Ledger manuel dans .superpowers/sdd/android-interface-031/progress.md ; helpers
 du skill cloud indisponibles comme fichiers locaux. Rulings conservés au bilan.
+
+## Résultat
+
+Recette complète et revue terminées ; défaut Important étroit corrigé avec
+régressions RED→GREEN. APK normal code32 et signature vérifiés. Marges et outils
+simulés sur dix combinaisons ; retest physique du parent encore requis.

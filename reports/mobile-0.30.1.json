@@ -45,10 +45,10 @@
         0
       ],
       "board": {
-        "x": 54,
-        "y": 72,
-        "width": 509.1875,
-        "height": 287
+        "x": 79,
+        "y": 100,
+        "width": 459.515625,
+        "height": 259
       }
     },
     {
@@ -100,6 +100,76 @@
       }
     }
   ],
+  "dockedResults": [
+    {
+      "width": 480,
+      "height": 320,
+      "safe": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "panel": {
+        "x": 224,
+        "y": 100,
+        "width": 208,
+        "height": 204
+      },
+      "checkedControls": 41
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "safe": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "panel": {
+        "x": 312,
+        "y": 100,
+        "width": 208,
+        "height": 204
+      },
+      "checkedControls": 41
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "safe": [
+        24,
+        0,
+        16,
+        48
+      ],
+      "panel": {
+        "x": 459,
+        "y": 100,
+        "width": 208,
+        "height": 259
+      },
+      "checkedControls": 41
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "safe": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "panel": {
+        "x": 532,
+        "y": 72,
+        "width": 232,
+        "height": 287
+      },
+      "checkedControls": 41
+    }
+  ],
   "checks": [
     "system areas",
     "rotation",
@@ -108,6 +178,9 @@
     "docked reinforcements",
     "touch targets",
     "selection closes",
+    "selection then real touch placement",
+    "narrow catalogue and complete camp tools",
+    "narrow HUD statistics do not overlap",
     "combat continues"
   ],
   "errors": []

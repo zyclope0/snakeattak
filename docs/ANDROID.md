@@ -1,11 +1,18 @@
-# Android — préparation de la version 0.30.0
+# Android — version 0.30.1
 
-Le projet natif porte versionName 0.30.0 et versionCode 31. Les nouveaux assets
-2D restent locaux, dans le build web embarqué. Voir le rapport de vérification
-0.30 pour la synchronisation de cette livraison. MainActivity demande
-`sensorLandscape` ; le web affiche une consigne de rotation en portrait tactile. Un APK debug 0.30.0 est compilé et sa signature de développement vérifiée ;
-les27 fichiers web embarqués sont identiques au dist. Aucun appareil physique,
-AAB signé de publication ou résultat de performance Android n’est revendiqué.
+VersionName 0.30.1, versionCode 32, paysage `sensorLandscape`. Le parent a testé
+la 0.30.0 sur Galaxy S24 Ultra SM-S928B/DS (Android 17, One UI 9.0 déclarés) :
+les enfants apprécient le jeu, mais les barres système chevauchent les commandes
+et le tiroir masque trop le terrain. Le correctif 0.30.1 traite ces deux points.
+
+APK familial debug compilé sans compteur de performances au démarrage, signature
+identique à la 0.30.0 ; mise à jour par-dessus possible. Les 27 fichiers web sont
+identiques au build testé. Configuration normale sans `server` ; SystemBars
+expose explicitement les marges CSS. Voir reports/verification-0.30.1.json.
+Le script de diagnostic décrit plus bas garde son démarrage volontaire `/?perf=1`.
+
+Le correctif doit encore être retesté sur le téléphone. Aucun résultat FPS/RAM
+physique, émulateur Android 17 ou AAB Play signé n'est revendiqué.
 
 ## Préparation initiale Android — 0.21
 
@@ -48,7 +55,7 @@ L'export `dist-portable/` reste une livraison web séparée.
 | SDK de compilation / cible     | 36 / 36                                                           |
 | Android Gradle Plugin          | 8.13.0                                                            |
 | Wrapper Gradle                 | 8.14.3, fourni dans `android/`                                    |
-| Version native                 | `versionName "0.30.0"`, `versionCode 31`                          |
+| Version native                 | `versionName "0.30.1"`, `versionCode 32`                          |
 
 Installer Android Studio et le SDK via son SDK Manager, dont Platform API 36,
 les Build Tools requis par AGP et les Platform Tools pour un téléphone. Android

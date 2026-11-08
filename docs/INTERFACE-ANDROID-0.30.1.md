@@ -21,10 +21,13 @@ autonome : les trois voies restent visibles). Le grand tiroir superposé est éc
 
 - Respecter sur chaque côté le maximum des marges CSS natives et Capacitor ;
   pas de valeurs codées pour Samsung, ni de plugin supplémentaire.
-- Catalogue temporaire de 232 px maximum, plafonné à 32 % de la largeur utile,
+- Catalogue temporaire de 232 px maximum, à 32 % de la largeur utile avec un
+  minimum de 208 px sur les écrans étroits,
   dans la grille à côté du plateau. Aucun rideau sombre ni interception de la carte.
 - Priorité visuelle au catalogue : portrait, nom, prix ; fiches et outils restent
   accessibles. Choisir un allié ferme le panneau, sans achat avant placement.
+- Sous 700 px de largeur, statistiques et boutons occupent deux lignes : 76 px
+  au total pour éviter les collisions. La barre normale garde 48 px.
 - Boutons tactiles de 48 px, fermeture et Échap ; pas de piège de tabulation dans
   ce panneau devenu non modal. Conserver pause explicite, prix, règles et sauvegardes.
 - Fenêtres, récompenses et accueil respectent aussi les marges. Recalcul à la

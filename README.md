@@ -1,4 +1,7 @@
-# La Conquête des Serpents — aventure familiale 0.30
+# La Conquête des Serpents — aventure familiale 0.30.1
+
+La version 0.30.1 respecte les barres système Android et place les renforts à côté
+du plateau sur téléphone, sans pause implicite. [Bilan mobile](docs/BILAN-0.30.1.md).
 
 Le nouveau refuge de la version 0.30 ouvre progressivement les menaces : centre, deux voies,
 puis trois. Les anciens codes et sauvegardes gardent leurs règles.

@@ -1,12 +1,13 @@
 {
-  "version": "0.30.0",
-  "status": "pending-physical-device",
+  "version": "0.30.1",
+  "status": "pending-physical-interface-retest",
   "device": {
-    "model": null,
-    "android": null,
+    "model": "Samsung Galaxy S24 Ultra SM-S928B/DS",
+    "android": "17",
     "webview": null,
     "refreshHz": null,
-    "batteryMode": null
+    "batteryMode": null,
+    "oneUI": "9.0"
   },
   "scenarios": [
     {
@@ -35,19 +36,26 @@
   "cloudResultsAreNotAndroidMeasurements": true,
   "releaseGate": "Physical performance, lifecycle, offline and saves not yet validated",
   "apk": {
-    "name": "conquete-serpents-v0.30.0-debug.apk",
-    "bytes": 13113884,
-    "sha256": "79cec55f7ce1742cdeabe8f3a51ecab9aebd0e85a7ce9355e2ecfbeec31350dc",
-    "versionCode": 31,
-    "minSdk": 24,
-    "targetSdk": 36,
-    "compileSdk": 36,
-    "signature": "debug, verified",
+    "name": "conquete-serpents-v0.30.1-debug.apk",
+    "version": "0.30.1",
+    "versionCode": 32,
+    "bytes": 13114959,
+    "sha256": "a80bf2804580ef2e3092f609d6d7a1da1111c1ea935001183a8c68e434f8bb08",
+    "sameSigningCertificateAs030": true,
+    "signatureVerified": true,
     "sensorLandscape": true,
     "internetPermission": false,
-    "embeddedWebFilesMatchDist": 27,
-    "diagnosticStartup": "local /?perf=1",
-    "normalSyncRestored": true,
-    "futureHdImagesEmbedded": false
+    "webFilesMatch": 27,
+    "normalStartup": true,
+    "systemBarsHandling": "css",
+    "physicalRetest": false
+  },
+  "userFeedback0300": {
+    "model": "Samsung Galaxy S24 Ultra SM-S928B/DS",
+    "android": "17",
+    "oneUI": "9.0",
+    "versionTested": "0.30.0",
+    "gameplayAcceptedByChildren": true,
+    "knownInterfaceIssues": "system bars overlap, reinforcement overlay oversized"
   }
 }
