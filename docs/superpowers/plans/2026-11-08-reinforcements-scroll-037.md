@@ -16,5 +16,5 @@ Même balayage CDP : scrollTop extérieur0 avant,117 après suppression du pièg
       fonctionnel ; le défilement propre du shop reste présent sur grand écran.
 - [x] Version0.32.1/code36 ; build/423 tests/navigateur général et mobile,
       APK même certificat et mêmes fichiers web, revue du correctif.
-- [ ] Sources privées et site synchronisés, APK familial fourni. Aucun changement
+- [x] Sources privées et site synchronisés, APK familial fourni. Aucun changement
       moteur, prix, RNG, unités, sauvegardes ou SDK. Test réel S24 à confirmer.

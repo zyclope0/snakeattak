@@ -28,5 +28,13 @@
     "normalStartup": true,
     "identicalWebFiles": 27
   },
-  "deployment": "pending"
+  "deployment": {
+    "status": "succeeded",
+    "versionNumber": 15,
+    "receipt": "reports/deployment-0.32.1.json",
+    "sourceCodeCommit": "1652975049a826e045a2f29cf9d6fbc327b3eeb4",
+    "staticCommit": "44cee24827e0a660eb69d8adda84b1f8f025ee1b",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/"
+  },
+  "mainVerification": "423 tests, format/types/build/budgets passed after integration"
 }

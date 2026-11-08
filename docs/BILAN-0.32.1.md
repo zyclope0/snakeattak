@@ -34,7 +34,10 @@ build et les budgets passent. Les recettes générales, mobiles (six configurati
 étroits), interruptions (11 scénarios) et hors ligne (formats 1 à 7 et trois
 fonds embarqués) passent aussi. Portable : build et navigateur passent. APK 0.32.1/code 36 compilé hors ligne,
 démarrage normal, même certificat et identifiant. Ses 27 fichiers web sont
-identiques au build testé. Publication en finalisation.
+identiques au build testé. Site public publié en 0.32.1 (version Sites15), commit statique
+`44cee24827e0a660eb69d8adda84b1f8f025ee1b`, archive du commit poussé.
+Reçus : `reports/verification-0.32.1.json`, `reports/deployment-0.32.1.json`.
+URL : https://conquete-serpents-famille.zyclope.chatgpt.site/.
 Rapport : `reports/reinforcements-scroll-0.32.1.json`.
 
 ## Périmètre
@@ -46,8 +49,9 @@ règles inchangées. Le parent doit encore confirmer le confort sur son appareil
 ## Relecture et choix de réalisation
 
 Relecture indépendante du correctif : aucun point critique, important ou mineur.
-Les observations réelles sur S24, la signature Android et la livraison distante
-restent à vérifier par leur responsable ; la revue ne les remplace pas.
+La revue ne couvre pas les essais physiques sur S24 ni la livraison distante.
+Le responsable a vérifié signature, fichiers embarqués et publication ci-dessus ;
+le S24 reste à confirmer par le parent.
 
 Le worktree hôte isolé est conservé. Choix d'un correctif CSS natif limité à la
 vue compacte, sans gestionnaire de gestes supplémentaire. La zone extérieure

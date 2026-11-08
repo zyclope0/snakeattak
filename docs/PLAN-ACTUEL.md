@@ -96,7 +96,7 @@ exacte ; ne pas réutiliser « aucune collecte » pour une version publicitaire.
 
 ## Preuves actuelles et limites
 
-Application/APK et site public 0.32.0, dossier Play
+Application/APK et site public 0.32.1, dossier Play
 0.30.1 historique. Suite locale de cette livraison :
 423 tests natifs verts ; livraison et preuves dans son bilan. La [CI GitHub 42494670333](https://github.com/zyclope0/snakeattak/actions/runs/42494670333)
 reste une preuve du code 0.30.2 `a57b05a` (400 tests), distincte de cette recette.
