@@ -1,5 +1,9 @@
 # Étape 3 — icône Android et identifiant, 0.32.4
 
+Complément documentaire après GO distinct du parent :
+[bilan de l'étape4, monétisation v1 sans serveur](BILAN-0.32.4-etape-4.md).
+L'application reste0.32.4 ; les faits de livraison de l'étape3 ci-dessous sont conservés.
+
 8 novembre 2026, Europe/Zurich. GO du parent après la publication0.32.3.
 Base be874fb ; branche locale fix/android-icon-0324, worktree conservé dans
 /workspace/conquete-serpents-0322. **Étape livrée ; STOP pour le choix du parent.**

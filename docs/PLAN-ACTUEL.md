@@ -1,8 +1,31 @@
 # Plan actuel — application 0.32.4
 
-## Mission active — Suivi v0.32.1, étape 3
+## Mission active — Suivi v0.32.1, étape 4 documentaire
 
-**8 novembre 2026 — étape 3 livrée, STOP pour le choix d'identifiant du parent.**
+**8 novembre 2026 — étape4 documentaire livrée après GO explicite ; STOP.**
+
+La v1 prévoit validation et acknowledge des achats dans l'app, relecture Play
+au démarrage/reprise et dernier droit connu hors ligne ; serveur de reçus
+facultatif ultérieur. [Document révisé](publication/MONETISATION.md),
+[confidentialité](publication/CONFIDENTIALITE.md),
+[Sécurité des données](publication/SECURITE-DES-DONNEES-V1.md),
+[sources et limites](publication/sources-etape-4.json).
+Candidat publicitaire25.5.0 : existence confirmée, liste Familles par plage,
+mais confirmation individuelle ouverte ; pont et transitives non choisis.
+La fiche de divulgation décrit25.5.0, à confronter au trafic en mode enfant.
+**Aucune pub pendant le test fermé avant visualisation sur S24 et GO du parent.**
+Le préflight historique garde son blocage backend : adapter sur GO d'intégration,
+sans faux drapeau validé. [Bilan étape4](BILAN-0.32.4-etape-4.md).
+
+Aucun code ou SDK modifié, pas de version nouvelle ; APK0.32.4/code39 et site0.32.3
+conservés. Le GO documentaire ne choisit pas l'identifiant encore attendu et
+n'autorise ni achat, ni déclaration, ni publication. **STOP après l'étape4,
+tout travail d'intégration exige un nouveau GO.**
+Vérifications de cette étape :425/425, build et navigateur verts ; dix contrôles
+de sources/formulation et relecture indépendante, précision sur les remboursements
+corrigée. Aucun essai commercial ou test publicitaire physique effectué.
+
+### Livraison de l'étape 3 — identifiant toujours à choisir
 
 APK **0.32.4/code39** : icône Magnific retenue exportée localement, fond uni,
 coins blancs supprimés, cinq densités, versions adaptatives26/33 et monochrome.
@@ -24,7 +47,7 @@ guide désormais personnages, décors et interface des prochains lots.
 Consignation documentaire uniquement : aucun asset ou écran modifié, aucune
 génération lancée. L'harmonisation du jeu reste à réaliser dans des lots
 ultérieurs autorisés. Cette validation artistique ne choisit pas l'identifiant
-d'application et ne lève pas le STOP avant l'étape 4.
+d'application. Le GO pour l'étape4 a été donné séparément ensuite.
 
 ### Livraison précédente 0.32.3 et publication
 
@@ -33,7 +56,7 @@ le 8 novembre : site public en **0.32.3**, version Sites16, même URL et audienc
 Vérification réelle dans Chromium : HTTP200, marqueur v0.32.3, lancement de la
 mission, quatre favoris et plateau 1065,95×600,81 ; zéro erreur JavaScript.
 [Reçu de publication](../reports/deployment-0.32.3.json).
-Le parent a ensuite autorisé explicitement l'étape3 ; aucun GO déduit pour l'étape4.
+Le parent a ensuite autorisé explicitement l'étape3, puis l'étape4 documentaire.
 
 0.32.3/code 38 : 24 chaînes sources au vouvoiement corrigées, plus une phrase de
 vocabulaire ; childCopy supprimé entièrement. Les messages de reprise sont
@@ -102,14 +125,15 @@ Le mandat autonome antérieur ne permet plus d'enchaîner : **un GO après chaqu
    coins blancs supprimés ; vérifier l'icône de l'APK debug. Proposer trois
    identifiants définitifs avec avantages/inconvénients, **n'en appliquer aucun**.
    Conserver l'identifiant courant et les sauvegardes. **STOP : choix du parent.**
-4. **Monétisation v1 sans serveur — documents seulement**, après nouveau GO :
+4. **Monétisation v1 sans serveur — documents seulement**, GO explicite reçu :
    achats non consommables vérifiés et confirmés dans l'app, acknowledge client,
    droits relus au démarrage, dernier droit connu hors ligne ; serveur de reçus
    facultatif plus tard. Documenter INTERNET, SDK Familles dans sa version exacte
    vérifiée, configuration enfant avant requête, brouillons confidentialité et
    Sécurité des données. « Aucune collecte » ne décrit pas une version avec pub.
    **Aucune pub pendant le test fermé avant observation par le parent sur S24.**
-   Aucun SDK/achat intégré à cette étape documentaire. **STOP.**
+   Documents révisés, aucun SDK/achat intégré. Confirmation individuelle du SDK,
+   pont et recette physique restent ouverts. **STOP après le bilan.**
 
 À chaque étape : tableau fait/pas fait/preuve, commandes et nombres, limites et
 arbitrages, bilan de version et ce plan à jour. Aucun changement de règles, aucun
@@ -120,8 +144,9 @@ payante, achat ou intégration de SDK publicitaire dans cette mission.
 
 Les priorités et lots ci-dessous sont **l'historique conservé**, pas un mandat
 pour dépasser les quatre étapes ou leurs STOP. Les documents de monétisation
-restent inchangés jusqu'à l'étape 4 ; leur exigence de serveur et leur mention
-d'un compte Play encore absent devront alors être rectifiées.
+ont été révisés à l'étape4 : serveur optionnel et compte Play créé, identité en
+attente selon le dernier retour. Champs JSON et outils historiques restent
+bloqués et seront adaptés seulement avec une future intégration autorisée.
 
 ## Historique conservé des lots et décisions
 

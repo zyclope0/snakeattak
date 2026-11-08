@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "billingVersion910": true,
+    "clientAcknowledgementDocumented": true,
+    "adsVersion2550": true,
+    "childTreatment": true,
+    "disclosureBody2550": true,
+    "disclosureAutomaticSummary2360": true,
+    "familiesFiveSeconds": true,
+    "sdkIndexExactVersionOpened": true,
+    "refundWithoutRevokeSourceConfirmed": true,
+    "refundAndRevocationDistinguishedInFinalDocument": true
+  },
+  "count": 10,
+  "failures": 0
+}
