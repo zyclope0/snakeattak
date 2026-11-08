@@ -1,0 +1,24 @@
+// Browser-only fixture: real UI and clock, no debug commands in production.
+import Phaser from 'phaser';
+import { Session } from '../src/session.ts';
+import { Game } from '../src/game.ts';
+import { createMissionRun } from '../src/missions.ts';
+import { BattleScene } from '../src/render/BattleScene.ts';
+import { bindControls } from '../src/ui/controls.ts';
+import { bindBoardResize } from '../src/render/boardResize.ts';
+import '../src/style.css';
+const session = new Session(2026);
+session.useGame(new Game(2026, undefined, createMissionRun('refuge', 2026)));
+const refresh = bindControls(session);
+refresh();
+const phaser = new Phaser.Game({
+  type: Phaser.AUTO,
+  parent: 'game',
+  width: 1100,
+  height: 620,
+  scene: [new BattleScene(session, refresh)],
+  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+  audio: { noAudio: true },
+});
+bindBoardResize(phaser, document.getElementById('game')!);
+Object.assign(window, { mobileInterface: { session, phaser } });
