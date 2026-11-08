@@ -38,3 +38,13 @@ sans nouvelle génération : [ressources dérivées](../../resources/android-ico
 [bilan](../BILAN-0.32.4.md). Premier plan des personnages sur fond uni #214C3B,
 coins blancs éliminés, cinq densités et versions adaptatives26/33. Les deux
 terrains restent réservés au lot6 ; aucun changement de terrain ou de règle.
+
+## Référence artistique confirmée par le parent
+
+Le 8 novembre 2026, après livraison de l'icône 0.32.4, le parent confirme que
+son style **pâte à modeler / papier mâché** doit faire foi pour l'ensemble du
+projet. `assets/icone-source.png` devient donc la référence artistique principale,
+au-delà de son usage comme icône. Voir [GAME_DESIGN](../../GAME_DESIGN.md#direction-artistique).
+Les deux terrains fournis restent conservés ; leur intégration et leur cohérence
+avec cette direction restent à examiner dans les lots autorisés correspondants.
+Aucune nouvelle génération ni modification d'image dans cette consignation.

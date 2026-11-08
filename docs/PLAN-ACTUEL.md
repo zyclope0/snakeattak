@@ -14,6 +14,18 @@ sont pas des captures de lanceur Android : test visuel sur le S24 encore attendu
 [Reçu](../reports/suivi-0.32.4/verification.json), [bilan](BILAN-0.32.4.md).
 Le site public reste en0.32.3 ; aucune publication de l'étape3.
 
+### Direction artistique confirmée après l'étape 3
+
+Le 8 novembre 2026, le parent demande que **l'icône fasse foi pour tout le
+projet**, avec son aspect **pâte à modeler et papier mâché**. Cette référence
+guide désormais personnages, décors et interface des prochains lots.
+[Décision dans GAME_DESIGN](../GAME_DESIGN.md#direction-artistique) ;
+[source conservée](resources-2026-11/assets/icone-source.png).
+Consignation documentaire uniquement : aucun asset ou écran modifié, aucune
+génération lancée. L'harmonisation du jeu reste à réaliser dans des lots
+ultérieurs autorisés. Cette validation artistique ne choisit pas l'identifiant
+d'application et ne lève pas le STOP avant l'étape 4.
+
 ### Livraison précédente 0.32.3 et publication
 
 Publication demandée ensuite par le parent (« met a jours le site ») et réalisée

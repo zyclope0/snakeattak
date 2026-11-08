@@ -26,7 +26,26 @@ Serpents variés, œufs présents sur le terrain qui éclosent aléatoirement et
 
 ## Direction artistique
 
-Style illustré fantasy 2D/2.5D, lisible, coloré, avec sprites animés, effets de combat et contrastes visuels. Références dans `public/references`.
+**Décision du parent — 8 novembre 2026 : l'icône Magnific retenue fait foi pour
+la direction artistique de tout le projet.** Référence visuelle principale :
+[original conservé](docs/resources-2026-11/assets/icone-source.png) et
+[aperçu de l'icône intégrée](docs/captures-0.32.4/rounded-square.png).
+
+L'univers doit évoquer des figurines et des décors en **pâte à modeler et papier
+mâché** : volumes arrondis, matière visible, relief et aspect fait main,
+chaleureux et expressif. Cette référence concerne les personnages alliés et
+ennemis, les terrains, les constructions, les accessoires, les illustrations
+et l'habillage de l'interface. Le rendu reste en 2D/2.5D, lisible en mouvement
+et sur téléphone ; le choix de matière ne doit pas brouiller les silhouettes,
+les voies ou les commandes. Le contour rouge-orangé des ennemis et le contour
+vert foncé des alliés restent des repères fonctionnels à préserver.
+
+Les références antérieures dans `public/references` et les terrains fournis
+restent conservés ; leur utilisation future doit être cohérente avec cette
+direction. Leur présence ne vaut pas approbation automatique de leur style.
+Cette décision fixe la référence des prochains lots : elle ne signifie pas que
+les graphismes existants ont déjà été harmonisés, ni qu'une refonte ou une
+génération payante est lancée. Le gameplay inventé par le fils est préservé.
 
 ## À confirmer avec le créateur
 
