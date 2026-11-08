@@ -1,4 +1,10 @@
-# Android — version 0.32.0
+# Android — version 0.32.1
+
+VersionName 0.32.1, versionCode 36 : correction du défilement tactile du
+catalogue en paysage. Même identifiant et certificat debug ; mise à jour
+par-dessus la précédente. Voir BILAN-0.32.1.md ; confort S24 à confirmer.
+
+## Version précédente — 0.32.0
 
 VersionName 0.32.0, versionCode 35. Préparation illustrée et dangers de vague ;
 aucun changement de règles ou de sauvegarde. Recette et livraison dans

@@ -2843,6 +2843,10 @@ dialog > small {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-height: none;
+    /* The compact catalogue scrolls as one panel. An inner scroll container
+       with no range and overscroll containment would swallow finger drags. */
+    overflow: visible;
+    overscroll-behavior: auto;
   }
   .reinforcements .unit-card {
     min-height: 112px;

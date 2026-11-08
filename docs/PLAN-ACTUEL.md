@@ -1,4 +1,4 @@
-# Plan actuel — application 0.32.0
+# Plan actuel — application 0.32.1
 
 Suivi rectifié le 8 novembre 2026, après comparaison complète avec l'audit fourni.
 Les décisions explicites du parent priment sur ses recommandations. Le gameplay
@@ -28,6 +28,10 @@ annoncer de répartition par voie. Voir [BILAN-0.32.md](BILAN-0.32.md).
 | 9 — Store                     | Fiches brouillon, sept captures/banner et préflight préparés                                  | Identité/package, icône finale, confidentialité du SDK, IARC, AAB et test fermé |
 | 5 — Langues                   | Fiches store FR/EN/DE/IT en brouillon ; application toujours en français                      | Traduction du jeu et relecture après stabilisation                              |
 | 6 — Lieux/événements          | Crue/marais HD conservés ; aucune nouvelle mécanique appliquée                                | Après sortie, validation du marais et des règles avec le fils                   |
+
+Correctif 0.32.1 : le catalogue compact possède une seule zone de défilement ;
+les vrais balayages sur les cartes sont désormais testés.
+Voir [BILAN-0.32.1.md](BILAN-0.32.1.md).
 
 ## Nouvelle décision commerciale
 

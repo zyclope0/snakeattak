@@ -4,7 +4,7 @@ Jeu de défense familial imaginé à partir du jeu d'un enfant. Prépare un dét
 pour protéger le cristal sur **trois voies interconnectées**, puis observe les
 alliés combattre et se soigner de façon autonome.
 
-**Version jouable : 0.32.0 · Langue : français · Code propriétaire.**
+**Version jouable : 0.32.1 · Langue : français · Code propriétaire.**
 
 [Jouer sur le site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
