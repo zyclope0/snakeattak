@@ -188,7 +188,14 @@
     "app localisation",
     "commercial SDK/store integration"
   ],
-  "deployment": "separate pending reviewed build delivery",
+  "deployment": {
+    "status": "succeeded",
+    "versionNumber": 13,
+    "receipt": "reports/deployment-0.31.json",
+    "sourceCodeCommit": "5008544",
+    "staticCommit": "af956d28bc04cf9733090c66d2c9df3b91a50ff8",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/"
+  },
   "independentReview": {
     "critical": 0,
     "important": 2,

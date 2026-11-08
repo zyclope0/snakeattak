@@ -72,8 +72,9 @@ La coquille « de alliés » est corrigée dans le texte de préparation.
 APK familial 0.31.0, Android code34, même certificat debug ; aucun compteur
 au démarrage normal. Les 27 fichiers web correspondent au build testé.
 Le dépôt privé reçoit les sources ; aucun AAB ou déploiement Play implicite.
-Le site reste à sa dernière version publiée tant qu'un déploiement distinct
-n'est pas effectué.
+Le site public est publié en 0.31.0 (version Sites 13), depuis le commit statique
+`af956d28bc04cf9733090c66d2c9df3b91a50ff8` ; les fichiers sont ceux du build testé.
+URL : https://conquete-serpents-famille.zyclope.chatgpt.site/.
 
 Restent visibles dans le plan : prévision des ennemis aux antres ; préparation
 et accueil plus illustrés ; disponibilité progressive des outils, Facile et
