@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 import { readFile, writeFile, unlink, mkdir } from 'node:fs/promises';
 import { setTimeout } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
+import { revealControl } from '../tests/reveal-controls.mjs';
 const path = '.presentation-test.html';
 let server, browser;
 try {
@@ -58,6 +59,9 @@ try {
       });
     await page.goto(`http://127.0.0.1:4181/${path}?scenario=${scenario}`);
     await page.locator('canvas').waitFor();
+    // Advanced notices live in the camp disclosure since the child-friendly UI.
+    await revealControl(page, '#encounter');
+    if (scenario === 'storage-failed') await revealControl(page, '#save-status');
     if (scenario === 'royal-guard') {
       if (!(await page.evaluate(() => !!window.strongholdFixture)))
         throw Error('Missing real boss fixture');

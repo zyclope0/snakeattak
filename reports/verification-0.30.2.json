@@ -85,5 +85,20 @@
     "lot 5 app translations",
     "web deployment not requested in this turn"
   ],
-  "storeDossier": "0.30.1 historical; deliberately not regenerated in application-focused lot"
+  "storeDossier": "0.30.1 historical; deliberately not regenerated in application-focused lot",
+  "format": "passed",
+  "presentation": "14 scenarios passed after opening actual disclosures",
+  "portable": "build and desktop/mobile browser passed",
+  "independentReview": {
+    "reviewer": "review_interruptions_033",
+    "range": "4d15cd7..d91328f",
+    "critical": 0,
+    "important": 0,
+    "minor": 0,
+    "nativeTestsIndependentlyPassed": 400
+  },
+  "previousGitHubCI": {
+    "run": 42481658545,
+    "result": "failed on presentation; fixed recipe verified locally; new remote run not yet executed"
+  }
 }

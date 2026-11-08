@@ -48,6 +48,22 @@ La livraison contient le même build web que celui vérifié. Les mesures
 FPS/RAM, verrouillage d'écran, appel entrant, navigation système et destruction
 du processus restent à confirmer sur le téléphone du parent.
 
+## Revue et maintenance des contrôles
+
+Une revue indépendante a relu le correctif et le code adjacent, puis exécuté
+les 400 tests natifs : aucun défaut critique, important ou mineur avéré.
+Les perspectives moteur, Android et famille ne remplacent pas les essais réels
+du parent et des enfants.
+
+Le premier workflow GitHub du dépôt avait échoué sur un test de présentation
+historique : il attendait un conseil visible sans ouvrir son volet, désormais
+replié. Le scénario ouvre maintenant les vrais boutons de divulgation pour le
+conseil et le statut de sauvegarde. Les deux échecs ont été observés avant la
+correction ; les quatorze scènes réussissent ensuite. Les recettes interruptions
+et paquet hors ligne rejoignent aussi la CI. Le portable et son parcours
+navigateur sont vérifiés séparément ; aucun verdict de CI distante n'est déduit
+de ces succès locaux.
+
 ## Choix du développeur
 
 - Consolider la reprise du lot 4 avant les langues : évite une relance de combat
