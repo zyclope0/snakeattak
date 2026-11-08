@@ -25,6 +25,22 @@
   font-size: 24px;
   margin: 0;
 }
+.camp-tool-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+#camp-tool-cost {
+  padding: 0 6px;
+  border: 1px solid #c4b777;
+  border-radius: 8px;
+  color: #514722;
+  background: #f5e9b6;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 16px;
+}
 #camp-tool-picture {
   position: relative;
   flex: 0 0 64px;

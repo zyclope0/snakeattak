@@ -31,6 +31,7 @@ export function bindCampToolHelp(session: Session, refresh: () => void) {
     const help = campToolModel(session.game, selected);
     for (const field of ['title', 'when', 'gesture', 'result', 'status'] as const)
       el('camp-tool-' + field).textContent = help[field];
+    el('camp-tool-cost').textContent = help.cost === 0 ? 'Gratuit' : `${help.cost} pièces`;
     el('camp-tool-picture').style.cssText = illustrations[CAMP_TOOLS.indexOf(selected)];
     el('camp-tool-picture').dataset.tool = selected;
     buttons.forEach((button) =>

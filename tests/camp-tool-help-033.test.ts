@@ -63,6 +63,33 @@ test('le guide ne propose pas d’entraînement au héros mort, entraîné, pauv
   assert.equal(heroTrainingState(game).ready, false);
 });
 
+test('un héros entraîné puis tombé est annoncé mort sans effacer son entraînement', () => {
+  for (const training of ['guard', 'force'] as const) {
+    const game = new Game(42);
+    game.wave = 4;
+    assert.equal(game.trainHero(training), true);
+    game.units.find((u) => u.kind === 'hero')!.hp = 0;
+    const before = JSON.stringify(game);
+    const help = campToolModel(game, 'hero');
+    assert.equal(help.ready, false);
+    assert.match(help.status, /héros est tombé/i);
+    assert.equal(game.campaign.training, training);
+    assert.equal(JSON.stringify(game), before);
+  }
+});
+
+test('l’aide de réparation explique les étoiles seulement en expédition sans modifier le minimum du cristal', () => {
+  const game = new Game(42, undefined, createMissionRun('trois-ponts', 42));
+  game.base = 75;
+  const before = JSON.stringify(game);
+  assert.match(
+    campToolModel(game, 'repair').result,
+    /dégâts subis restent comptés pour tes étoiles/i,
+  );
+  assert.equal(JSON.stringify(game), before);
+  assert.doesNotMatch(campToolModel(new Game(42), 'repair').result, /étoiles/i);
+});
+
 test('réparation, miel et encouragement décrivent leurs vrais effets et états', () => {
   const game = new Game(42);
   assert.equal(campToolModel(game, 'repair').ready, false);
@@ -70,7 +97,10 @@ test('réparation, miel et encouragement décrivent leurs vrais effets et états
   game.base = 90;
   assert.equal(campToolModel(game, 'repair').ready, true);
   assert.match(campToolModel(game, 'repair').result, /25/);
-  assert.match(campToolModel(game, 'repair').gesture, /80/);
+  assert.equal(campToolModel(game, 'repair').cost, 80);
+  assert.equal(campToolModel(game, 'hero').cost, 90);
+  assert.equal(campToolModel(game, 'honey').cost, 0);
+  assert.equal(campToolModel(game, 'encourage').cost, 0);
   game.gold = 79;
   assert.equal(campToolModel(game, 'repair').ready, false);
   assert.equal(campToolModel(game, 'encourage').ready, false);

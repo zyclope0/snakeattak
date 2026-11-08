@@ -84,6 +84,25 @@ try {
         'true',
       );
       assert.ok((await page.locator('#camp-tool-result').textContent()).length > 0);
+      assert.equal(
+        await page.locator('#camp-tool-dialog').evaluate((dialog) => {
+          const bounds = dialog.getBoundingClientRect();
+          return (
+            dialog.scrollHeight <= dialog.clientHeight + 1 &&
+            ['camp-tool-cost', 'camp-tool-status'].every((id) => {
+              const box = document.getElementById(id).getBoundingClientRect();
+              return (
+                box.top >= bounds.top &&
+                box.bottom <= bounds.bottom &&
+                box.left >= bounds.left &&
+                box.right <= bounds.right
+              );
+            })
+          );
+        }),
+        true,
+        `${width}×${height}: whole ${tool} help and cost fit without scrolling`,
+      );
       if (width === 780 || width === 1280) await snap(page, `${width}x${height}-${tool}`);
     }
     const dialog = await page.locator('#camp-tool-dialog').boundingBox();
