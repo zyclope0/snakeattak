@@ -1,5 +1,19 @@
 # Plan actuel — application 0.32.4
 
+## Publication web demandée après l'étape 4
+
+**9 novembre 2026, Europe/Zurich : site publié en0.32.4**, version Sites17,
+même URL et audience publique conservée. [Reçu](../reports/deployment-0.32.4.json).
+Contrôle en ligne dans Chromium : HTTP200 et marqueurv0.32.4 ; démarrage d'une
+mission puis de la vague1, quatre favoris, aucune erreur JavaScript à1280×800
+et812×375 tactile. Plateau mobile580,13×326,98px, soit87,20% de la hauteur.
+
+Les27fichiers web publiés sont identiques à ceux de l'APK0.32.4 contrôlé.
+Les changements0.32.4 concernent l'icône native Android et les documents ; la
+publication web synchronise la version, sans nouvelle refonte du plateau.
+Le GO de publication ne déclenche ni achat, ni pub, ni nouvelle intégration.
+Choix d'identifiant et portes commerciales restent ouverts.
+
 ## Mission active — Suivi v0.32.1, étape 4 documentaire
 
 **8 novembre 2026 — étape4 documentaire livrée après GO explicite ; STOP.**
@@ -17,8 +31,9 @@ La fiche de divulgation décrit25.5.0, à confronter au trafic en mode enfant.
 Le préflight historique garde son blocage backend : adapter sur GO d'intégration,
 sans faux drapeau validé. [Bilan étape4](BILAN-0.32.4-etape-4.md).
 
-Aucun code ou SDK modifié, pas de version nouvelle ; APK0.32.4/code39 et site0.32.3
-conservés. Le GO documentaire ne choisit pas l'identifiant encore attendu et
+Aucun code ou SDK modifié à l'étape4, pas de version nouvelle ; APK0.32.4/code39
+et site0.32.3 alors conservés. La publication web0.32.4 est intervenue ensuite,
+sur demande distincte ci-dessus. Le GO documentaire ne choisit pas l'identifiant encore attendu et
 n'autorise ni achat, ni déclaration, ni publication. **STOP après l'étape4,
 tout travail d'intégration exige un nouveau GO.**
 Vérifications de cette étape :425/425, build et navigateur verts ; dix contrôles
@@ -35,7 +50,7 @@ actuels conservés, aucun nouvel identifiant appliqué. [Trois propositions](IDE
 20 PNG, quatre XML compilés et 27 fichiers web de l'APK vérifiés. Les aperçus ne
 sont pas des captures de lanceur Android : test visuel sur le S24 encore attendu.
 [Reçu](../reports/suivi-0.32.4/verification.json), [bilan](BILAN-0.32.4.md).
-Le site public reste en0.32.3 ; aucune publication de l'étape3.
+À l'issue de l'étape3, le site restait en0.32.3 ; publication0.32.4 demandée ensuite.
 
 ### Direction artistique confirmée après l'étape 3
 

@@ -1,0 +1,101 @@
+{
+  "applicationVersion": "0.32.4",
+  "applicationSourceCommit": "24b35ef09e2a90519633a90582bc02c01490f330",
+  "source": {
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "commit_sha": "87d4ca578bf39cd83552fbeea503332fc083cb86",
+    "archive": "/workspace/serpents-site-0324.tar",
+    "archiveSha256": "296eee994b244e2c830481c13debc6d463ab1682da270da9f757939f32aa5e9e",
+    "fileCount": 28
+  },
+  "version": {
+    "id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_618c70352f7081918d3a9de862312f63",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "version_number": 17,
+    "source": {
+      "commit_sha": "87d4ca578bf39cd83552fbeea503332fc083cb86"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000ecb8820abd0da4abeaaddab9",
+      "content_hash": "sha256:e7dbb3ee2c736a167347f3dfceb89f656a38ac9f5ac9afa417919c9897b1ded9",
+      "size_bytes": 10280960,
+      "file_count": 28
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6af1008b9de08191b3fda7cde6eedbbd",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "title": "La Conquête des Serpents",
+    "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_618c70352f7081918d3a9de862312f63",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-08T23:07:03.030736+00:00"
+  },
+  "audiencePreserved": "public",
+  "authorization": "Explicit user request: met a jours le site aussi je test",
+  "documentationStep4RemainsDocumentOnly": true,
+  "runtimeSdkAdded": false,
+  "publishingMethod": "Credential through hidden stdin, existing clean Site Git checkout, exact dist copy/archive. Official source helper unavailable in environment/skill resource; established stdin Git workflow reused.",
+  "validatedBuild": {
+    "filesIdenticalTo0324Apk": 27,
+    "priorNativeTestsPassed": 425,
+    "priorBrowserPassed": true
+  },
+  "liveVerification": {
+    "checkedAt": "2026-11-08T23:07:52.186Z",
+    "method": "Live isolated Chromium contexts, home, mission launch, first wave; no user save modified",
+    "results": [
+      {
+        "device": "desktop",
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/",
+        "version": "v0.32.4",
+        "httpStatus": 200,
+        "visibleFavourites": 4,
+        "canvas": {
+          "x": 13,
+          "y": 117,
+          "width": 1065.953125,
+          "height": 600.8125
+        },
+        "waveStarted": 1,
+        "errors": []
+      },
+      {
+        "device": "mobile",
+        "viewport": {
+          "width": 812,
+          "height": 375
+        },
+        "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/",
+        "version": "v0.32.4",
+        "httpStatus": 200,
+        "visibleFavourites": 4,
+        "canvas": {
+          "x": 0,
+          "y": 48,
+          "width": 580.125,
+          "height": 326.984375
+        },
+        "waveStarted": 1,
+        "errors": []
+      }
+    ],
+    "screenshots": [
+      "artifacts/deployment-0.32.4/desktop.png",
+      "artifacts/deployment-0.32.4/mobile.png"
+    ]
+  }
+}
