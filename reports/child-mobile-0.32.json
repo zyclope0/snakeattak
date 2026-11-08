@@ -1,0 +1,155 @@
+{
+  "version": "0.32.0",
+  "source": "Chromium cloud, not physical Android",
+  "sizes": [
+    {
+      "width": 812,
+      "height": 375,
+      "insets": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "dock": {
+        "x": 592.765625,
+        "y": 48,
+        "width": 219.234375,
+        "height": 327
+      },
+      "canvas": {
+        "x": 6,
+        "y": 48,
+        "width": 580.15625,
+        "height": 327
+      }
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "insets": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "dock": {
+        "x": 557.734375,
+        "y": 72,
+        "width": 206.265625,
+        "height": 287
+      },
+      "canvas": {
+        "x": 24,
+        "y": 72,
+        "width": 509.1875,
+        "height": 287
+      }
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "insets": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "dock": {
+        "x": 392,
+        "y": 76,
+        "width": 176,
+        "height": 244
+      },
+      "canvas": {
+        "x": 0,
+        "y": 87,
+        "width": 392,
+        "height": 220.9375
+      }
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "insets": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "dock": {
+        "x": 344,
+        "y": 100,
+        "width": 176,
+        "height": 204
+      },
+      "canvas": {
+        "x": 0,
+        "y": 105,
+        "width": 344,
+        "height": 193.890625
+      }
+    },
+    {
+      "width": 480,
+      "height": 320,
+      "insets": [
+        24,
+        48,
+        16,
+        0
+      ],
+      "dock": {
+        "x": 256,
+        "y": 100,
+        "width": 176,
+        "height": 204
+      },
+      "canvas": {
+        "x": 0,
+        "y": 129,
+        "width": 256,
+        "height": 144.28125
+      }
+    },
+    {
+      "width": 667,
+      "height": 375,
+      "insets": [
+        24,
+        0,
+        16,
+        48
+      ],
+      "dock": {
+        "x": 491,
+        "y": 100,
+        "width": 176,
+        "height": 259
+      },
+      "canvas": {
+        "x": 48,
+        "y": 104,
+        "width": 443,
+        "height": 249.6875
+      }
+    }
+  ],
+  "checks": [
+    "permanent favourites",
+    "no hidden lane",
+    "safe areas",
+    "48px",
+    "real recruit",
+    "honey touch both flavours",
+    "inactive and offroad refusal",
+    "pause",
+    "cancel",
+    "exclusive selection",
+    "rotation",
+    "custom favourites preserved",
+    "poor shortcuts remain visible",
+    "keyboard honey alternative"
+  ],
+  "errors": []
+}

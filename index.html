@@ -199,17 +199,30 @@
         <h2 id="mission-title" tabindex="-1"></h2>
         <p id="mission-objective"></p>
 
-        <svg
-          id="mission-map"
-          viewBox="0 70 1100 510"
-          role="img"
-          aria-label="Aperçu des trois voies et de leurs jonctions"
-        ></svg>
-        <strong id="mission-budget"></strong>
-        <div
-          id="mission-party"
-          aria-label="Un nouveau héros et deux nouveaux combattants à massue"
-        ></div>
+        <div class="mission-overview">
+          <div class="mission-terrain">
+            <div id="mission-advice" class="scout-advice"></div>
+            <svg
+              id="mission-map"
+              viewBox="0 70 1100 510"
+              role="img"
+              aria-label="Aperçu des trois voies et de leurs jonctions"
+            ></svg>
+            <strong id="mission-budget"></strong>
+            <div
+              id="mission-party"
+              aria-label="Un nouveau héros et deux nouveaux combattants à massue"
+            ></div>
+          </div>
+          <section class="mission-scouting" aria-labelledby="mission-scout-title">
+            <h3 id="mission-scout-title">Dans cette mission</h3>
+            <div id="mission-threats" class="threat-cards"></div>
+            <details id="mission-more-threats">
+              <summary id="mission-more-title">Les autres serpents</summary>
+              <div id="mission-other-threats" class="threat-cards"></div>
+            </details>
+          </section>
+        </div>
         <dl class="mission-facts">
           <div>
             <dt>

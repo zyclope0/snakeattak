@@ -6,6 +6,8 @@ import { chromium } from '@playwright/test';
 import { lanePoint } from '../src/routes.ts';
 
 const fixture = 'child-mobile-035-fixture.html';
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
+const release = version.split('.').slice(0, 2).join('.');
 let preview, dev, browser;
 const errors = [],
   sizes = [];
@@ -297,10 +299,10 @@ try {
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });
   await writeFile(
-    'reports/child-mobile-0.31.json',
+    `reports/child-mobile-${release}.json`,
     JSON.stringify(
       {
-        version: '0.31.0',
+        version,
         source: 'Chromium cloud, not physical Android',
         sizes,
         checks: [

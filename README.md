@@ -4,7 +4,7 @@ Jeu de défense familial imaginé à partir du jeu d'un enfant. Prépare un dét
 pour protéger le cristal sur **trois voies interconnectées**, puis observe les
 alliés combattre et se soigner de façon autonome.
 
-**Version jouable : 0.31.0 · Langue : français · Code propriétaire.**
+**Version jouable : 0.32.0 · Langue : français · Code propriétaire.**
 
 [Jouer sur le site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
@@ -17,6 +17,7 @@ alliés combattre et se soigner de façon autonome.
 - Massues, archers, ninjas, soigneurs, dinosaures et bébés dragons parmi les alliés.
 - Serpents spécialisés, œufs qui éclosent et choix de chemins selon les défenses.
 - Soins limités par les bandages, ravitaillement à la base et miel tactique.
+- Préparation illustrée et portraits des dangers avant chaque vague.
 - Refuge progressif : ennemis au centre, puis sur deux voies, puis sur les trois.
 
 Les unités agissent seules ; il n'y a pas d'ordres manuels de déplacement. Le jeu

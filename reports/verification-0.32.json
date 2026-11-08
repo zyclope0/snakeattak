@@ -1,0 +1,30 @@
+{
+  "version": "0.32.0",
+  "base": "cdb1f11c943557c975f15d7ad889e8563df96111",
+  "nativeTests": 422,
+  "nativeFailures": 0,
+  "format": "passed",
+  "typecheck": "passed",
+  "build": "passed",
+  "generalBrowser": "passed",
+  "threatPreparation": "5 viewports/insets + portrait guard + mission6 safe-area advice",
+  "childMobile": "6 viewports/insets passed",
+  "mobile": "6 sizes + 4 narrow catalogues passed",
+  "audit": "13/13",
+  "interruptions": "11 checks passed; includes hidden startup",
+  "offline": "schemas1–7 and 3 grounds passed",
+  "presentation": "14 scenes passed",
+  "missions": "selection, variants, retry, mode/camp preservation, export, victory, next mission, narrow screens passed",
+  "portable": "build and browser passed",
+  "physicalDeviceVerified": false,
+  "rulesAndCodecsChanged": false,
+  "apk": {
+    "versionCode": 35,
+    "bytes": 13107180,
+    "sha256": "56c53427e2e8e4f1a92b370eac0ef04cbe6e343d76391b8de2fccb24365c495c",
+    "normalStartup": true,
+    "identicalWebFiles": 27,
+    "sameDebugCertificateAsPrevious": true
+  },
+  "deployment": "pending reviewed build delivery"
+}

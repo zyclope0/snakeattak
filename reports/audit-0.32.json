@@ -1,0 +1,114 @@
+{
+  "date": "2026-11-08T18:09:24.291Z",
+  "checks": [
+    {
+      "name": "défilement après lancement 1280x800",
+      "ok": true,
+      "value": 0,
+      "target": "0 px",
+      "lot": 1
+    },
+    {
+      "name": "plateau entier visible 1280x800",
+      "ok": true,
+      "value": {
+        "scrollY": 0,
+        "top": 117,
+        "bottom": 642,
+        "innerHeight": 800
+      },
+      "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
+      "lot": 1
+    },
+    {
+      "name": "mots visibles avant la 1re vague (mission 1, 1280x800)",
+      "ok": true,
+      "value": 48,
+      "target": "≤ 60 (lot 2)",
+      "lot": 2
+    },
+    {
+      "name": "aucun vouvoiement visible",
+      "ok": true,
+      "value": 0,
+      "target": "0 (lot 2)",
+      "lot": 2
+    },
+    {
+      "name": "défilement après lancement 1366x768",
+      "ok": true,
+      "value": 0,
+      "target": "0 px",
+      "lot": 1
+    },
+    {
+      "name": "plateau entier visible 1366x768",
+      "ok": true,
+      "value": {
+        "scrollY": 0,
+        "top": 117,
+        "bottom": 691,
+        "innerHeight": 768
+      },
+      "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
+      "lot": 1
+    },
+    {
+      "name": "défilement après lancement 1920x1080",
+      "ok": true,
+      "value": 0,
+      "target": "0 px",
+      "lot": 1
+    },
+    {
+      "name": "plateau entier visible 1920x1080",
+      "ok": true,
+      "value": {
+        "scrollY": 0,
+        "top": 117,
+        "bottom": 834,
+        "innerHeight": 1080
+      },
+      "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
+      "lot": 1
+    },
+    {
+      "name": "cibles tactiles < 48 px (812x375, plateau)",
+      "ok": true,
+      "value": [],
+      "target": "aucune (Android 48 dp)",
+      "lot": 1
+    },
+    {
+      "name": "plateau en paysage téléphone (% hauteur)",
+      "ok": true,
+      "value": {
+        "h": 87,
+        "w": 71
+      },
+      "target": "≥ 85 % de la hauteur",
+      "lot": 1
+    },
+    {
+      "name": "consigne « Tourne ton téléphone » en portrait",
+      "ok": true,
+      "value": true,
+      "target": "visible",
+      "lot": 1
+    },
+    {
+      "name": "nouveau tirage : terrain répété",
+      "ok": true,
+      "value": 0,
+      "target": "0 sur 10",
+      "lot": 1
+    },
+    {
+      "name": "erreurs JavaScript",
+      "ok": true,
+      "value": [],
+      "target": "aucune",
+      "lot": 1
+    }
+  ]
+}

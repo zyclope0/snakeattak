@@ -1,12 +1,9 @@
-import { activeEnemyLanes } from '../tutorial.ts';
-import { LANE_NAMES } from '../ai.ts';
+import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
 import { childCopy } from './childCopy.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS, createMissionRun, missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
 import type { createMissionProgressController } from '../missionProgress.ts';
-import { missionLevel } from '../levels.ts';
-import { laneRoad, junctionRoad, routeJunctions } from '../routes.ts';
 import { kinds } from '../data.ts';
 import { portraitStyle } from '../art.ts';
 import { bindDepartureControls } from './departures.ts';
@@ -59,46 +56,6 @@ export function bindExpeditions(
     el('mission-cards').append(button);
     return { button, stars, availability, id: mission.id };
   });
-  function drawPreview(run: MissionRun) {
-    const svg = el('mission-map');
-    svg.replaceChildren();
-    const level = missionLevel(run.layout);
-    const ns = 'http://www.w3.org/2000/svg';
-    const lanes = activeEnemyLanes(run, 1);
-    svg.setAttribute(
-      'aria-label',
-      `Trois voies visibles. Première vague : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}.`,
-    );
-    let laneIndex = 0;
-    for (const points of [
-      ...[0, 1, 2].map((lane) => laneRoad(lane, level)),
-      ...routeJunctions(level).map((x) => junctionRoad(x, level)),
-    ]) {
-      const path = document.createElementNS(ns, 'polyline');
-      path.setAttribute('points', points.map((p) => `${p.x},${p.y}`).join(' '));
-      path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', '#d6c796');
-      path.setAttribute('stroke-width', '24');
-      if (laneIndex < 3) {
-        path.dataset.previewLane = String(laneIndex);
-        path.dataset.active = String(lanes.includes(laneIndex));
-        if (!lanes.includes(laneIndex)) {
-          path.setAttribute('stroke', '#a7b598');
-          path.setAttribute('stroke-width', '18');
-        }
-      }
-      laneIndex++;
-      svg.append(path);
-    }
-    for (const rock of level.rocks) {
-      const circle = document.createElementNS(ns, 'circle');
-      circle.setAttribute('cx', String(rock.x));
-      circle.setAttribute('cy', String(rock.y));
-      circle.setAttribute('r', String(rock.r));
-      circle.setAttribute('fill', '#586957');
-      svg.append(circle);
-    }
-  }
   function preview(run: MissionRun) {
     const mission = missionById(run.missionId)!;
     draft = run;
@@ -117,7 +74,8 @@ export function bindExpeditions(
         ? ' Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.'
         : '');
     el('mission-retry').hidden = !progress.lastRun(run.missionId);
-    drawPreview(run);
+    drawMissionPreview(el('mission-map') as unknown as SVGElement, run);
+    showMissionScouting(run);
     const party = el('mission-party');
     party.replaceChildren();
     for (const kind of ['hero', 'club', 'club'] as const) {

@@ -1,4 +1,10 @@
-# Android — version 0.31.0
+# Android — version 0.32.0
+
+VersionName 0.32.0, versionCode 35. Préparation illustrée et dangers de vague ;
+aucun changement de règles ou de sauvegarde. Recette et livraison dans
+BILAN-0.32.md. Aucun AAB ou SDK commercial implicite.
+
+## Version précédente — 0.31.0
 
 VersionName 0.31.0, versionCode 34. Dock permanent de quatre alliés, miel au
 toucher des chemins et catalogue adjacent. APK familial sans diagnostic au
