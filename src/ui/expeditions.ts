@@ -6,6 +6,8 @@ import type { createMissionProgressController } from '../missionProgress.ts';
 import { kinds } from '../data.ts';
 import { portraitStyle } from '../art.ts';
 import { bindDepartureControls } from './departures.ts';
+import { missionJourney } from './missionJourney.ts';
+import { missionEmblem } from './missionJourneyView.ts';
 
 type Progress = ReturnType<typeof createMissionProgressController>;
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
@@ -48,8 +50,9 @@ export function bindExpeditions(
     objective.textContent = mission.objective;
     const stars = document.createElement('span');
     stars.className = 'mission-stars';
+    stars.setAttribute('role', 'img');
     const availability = document.createElement('small');
-    button.append(number, name, objective, stars, availability);
+    button.append(missionEmblem(mission.id), number, name, objective, stars, availability);
     button.onclick = () =>
       preview(createMissionRun(mission.id, freshSeed(), progress.lastRun(mission.id)));
     el('mission-cards').append(button);
@@ -92,7 +95,7 @@ export function bindExpeditions(
   }
   const nextMission = () =>
     MISSIONS.find((m) => progress.unlocked(m.id) && !progress.state.bestStars[m.id]) ??
-    MISSIONS.at(-1)!;
+    [...MISSIONS].reverse().find((m) => progress.unlocked(m.id))!;
   el('home-play').onclick = () => {
     const next = nextMission();
     preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id)));
@@ -135,20 +138,24 @@ export function bindExpeditions(
   };
   return () => {
     departures.refresh();
-    el('home-next-mission').textContent = nextMission().name;
+    const journey = missionJourney(progress.state.bestStars, progress.unlocked);
+    const next = journey.find((step) => step.status === 'next');
+    el('home-next-mission').textContent = next
+      ? nextMission().name
+      : 'Les six missions sont terminées !';
+    el('home-play').textContent = next ? 'Jouer' : 'Rejouer';
     const state = progress.state;
     let total = 0;
-    for (const card of cards) {
-      const n = state.bestStars[card.id];
-      total += n;
-      card.stars.textContent = '★'.repeat(n) + '☆'.repeat(3 - n);
-      const available = progress.unlocked(card.id);
-      card.button.disabled = !available;
-      card.availability.textContent = !available
-        ? 'Termine la mission précédente'
-        : n
-          ? 'Rejouer autrement'
-          : 'Préparer mes alliés';
+    for (const [index, card] of cards.entries()) {
+      const step = journey[index];
+      total += step.stars;
+      card.stars.textContent = '★'.repeat(step.stars) + '☆'.repeat(3 - step.stars);
+      card.stars.setAttribute('aria-label', step.starLabel);
+      card.button.disabled = step.disabled;
+      card.button.dataset.journeyStatus = step.status;
+      if (step.status === 'next') card.button.setAttribute('aria-current', 'step');
+      else card.button.removeAttribute('aria-current');
+      card.availability.textContent = `${step.symbol} ${step.label}`;
     }
     el('mission-total').textContent = `${total} / 18 étoiles`;
     el('mission-continue').hidden = !actions.canResume();

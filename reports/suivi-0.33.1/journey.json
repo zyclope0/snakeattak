@@ -1,0 +1,106 @@
+{
+  "version": "0.33.1",
+  "androidVersionCode": 41,
+  "native": {
+    "tests": 438,
+    "passed": 438,
+    "failed": 0
+  },
+  "browser": {
+    "general": "passed",
+    "missions": "passed after opening actual existing catalogue/disclosure via revealControl; assertions preserved",
+    "departures": "passed",
+    "audit": "13/13",
+    "interface": "24/24; final rerun writes only versioned0.33.1 paths",
+    "missionJourneyCases": 16,
+    "pageErrors": []
+  },
+  "budgets": {
+    "html": 31285,
+    "htmlLimitExclusive": 32768,
+    "gameJS": 191274,
+    "gameJSLimit": 200000
+  },
+  "imageSource": {
+    "path": "resources/android-icon/icon-512.png",
+    "bytes": 356179,
+    "sha256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab",
+    "unchanged": true
+  },
+  "initialImages": {
+    "scope": "Fresh Chromium contexts, image Resource Timing entries only; not total application network, not physical Android or timing gain",
+    "before": {
+      "version": "v0.33.0",
+      "count": 6,
+      "encodedBodyBytes": 2618518,
+      "transferBytes": 2620318,
+      "entries": [
+        {
+          "name": "/assets/interface-craft-BeML44Ar.webp",
+          "bytes": 415986,
+          "transferred": 416286
+        },
+        {
+          "name": "/assets/allies-front-CdzQjxMu.webp",
+          "bytes": 572236,
+          "transferred": 572536
+        },
+        {
+          "name": "/assets/allies-support-DCvqEi_g.webp",
+          "bytes": 582990,
+          "transferred": 583290
+        },
+        {
+          "name": "/assets/miels-parapluie-Dg128vC1.webp",
+          "bytes": 336234,
+          "transferred": 336534
+        },
+        {
+          "name": "/assets/ground-three-bridges-BFXtmpU_.webp",
+          "bytes": 199922,
+          "transferred": 200222
+        },
+        {
+          "name": "/assets/allies-creatures-cRzzrImV.webp",
+          "bytes": 511150,
+          "transferred": 511450
+        }
+      ]
+    },
+    "after": {
+      "version": "v0.33.1",
+      "count": 2,
+      "encodedBodyBytes": 772165,
+      "transferBytes": 772765,
+      "entries": [
+        {
+          "name": "/assets/icon-512-BPQ3IZsK.png",
+          "bytes": 356179,
+          "transferred": 356479
+        },
+        {
+          "name": "/assets/interface-craft-BeML44Ar.webp",
+          "bytes": 415986,
+          "transferred": 416286
+        }
+      ]
+    }
+  },
+  "redEvidence": [
+    "/workspace/night-0331-red.log: missing missionJourney.ts before implementation",
+    "test:missions hidden ninja click timed out at line62 before two revealControl additions",
+    "/workspace/night-0331-missions-red-result.log: hidden result before revealControl addition"
+  ],
+  "captureNotes": [
+    "Before build identifies v0.33.0; after identifies v0.33.1",
+    "375x812 home captures portrait guidance; mission map interactions occur after rotation to812x375; newer after filenames include rotated",
+    "Other cases:1280x800,1366x768,780x360 tactile,812x375,700x800 two columns,400x800 one column",
+    "Profiles empty/middle/complete at four primary sizes; irregular valid profile at1280x800",
+    "Map-full images capture the whole scrollable map, while viewport screenshots show the visible screen"
+  ],
+  "limits": [
+    "Chromium emulation, no physical S24 test",
+    "No APK, publication, RNG/economy/rules/camp/code changes",
+    "No old report or0.32.2 screenshot retained as a modified historical file"
+  ]
+}

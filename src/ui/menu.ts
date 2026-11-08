@@ -117,8 +117,6 @@ export function bindMenu(
     el('sound-toggle').click();
     refresh();
   };
-  for (const node of Array.from(document.querySelectorAll<HTMLElement>('[data-home-ally]')))
-    node.style.cssText = portraitStyle(node.dataset.homeAlly as Kind);
   document.documentElement.style.setProperty('--home-scene', `url("${GROUND_ART[0].url}")`);
   const select = el<HTMLSelectElement>('roster-slot');
   ROSTER_NAMES.forEach((name, i) => {

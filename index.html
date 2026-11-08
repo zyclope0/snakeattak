@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <meta name="theme-color" content="#173e37" />
+    <link rel="icon" type="image/png" href="/resources/android-icon/icon-512.png" />
     <title>La Conquête des Serpents</title>
   </head>
   <body>
@@ -30,7 +31,7 @@
           <div class="home-intro">
             <span class="eyebrow">À toi de jouer</span>
             <h1>Protège<br />le cristal !</h1>
-            <p>Tes alliés contre le roi à trois têtes.</p>
+            <p>Six missions pour protéger ton cristal.</p>
             <div class="home-actions">
               <button id="mission-continue" class="secondary" hidden>Reprendre ma mission</button>
               <button id="home-play" class="primary">Jouer</button
@@ -41,11 +42,14 @@
             <span id="home-next-mission" class="home-next-mission"></span
             ><small id="home-active-team">Équipe Équilibrée</small>
           </div>
-          <div class="home-diorama" aria-hidden="true">
-            <span class="home-unit home-dino" data-home-ally="dino"></span
-            ><span class="home-unit home-hero-unit" data-home-ally="hero"></span
-            ><span class="home-unit home-dragon" data-home-ally="dragon"></span
-            ><span class="home-caption">Nos alliés veillent sur les trois passages.</span>
+          <div class="home-diorama">
+            <img
+              class="home-icon"
+              src="/resources/android-icon/icon-512.png"
+              width="512"
+              height="512"
+              alt="Un héros au bouclier bleu protège le cristal face à un serpent, en pâte à modeler."
+            />
           </div>
         </section>
         <nav class="home-links" aria-label="Préparer mon aventure">
@@ -104,12 +108,12 @@
           </section>
         </details>
         <details id="classic-options" class="home-disclosure">
-          <summary>Les trois chapitres</summary>
+          <summary>La grande aventure · 12 vagues</summary>
           <section class="journey-map" aria-labelledby="journey-heading">
             <div class="journey-title">
               <div>
                 <span class="eyebrow">Ta route dans la vallée</span>
-                <h2 id="journey-heading">L’aventure classique · trois chapitres</h2>
+                <h2 id="journey-heading">Douze vagues jusqu’au roi à trois têtes</h2>
                 <span id="home-stars" class="home-stars">0 / 9 étoiles</span>
               </div>
               <small
@@ -328,7 +332,7 @@
         ><button id="journey-replace" class="primary">Recommencer ici</button>
       </div>
     </dialog>
-    <div class="app" id="app">
+    <div class="app" id="app" hidden>
       <header class="app-header">
         <a class="brand" href="./" aria-label="La Conquête des Serpents, accueil">
           <span class="crest" aria-hidden="true"></span>

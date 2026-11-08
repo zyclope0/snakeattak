@@ -59,6 +59,7 @@ try {
   assert.equal(backup.version, 3);
   assert.equal(JSON.parse(backup.camp).version, 7);
   assert.deepEqual(JSON.parse(backup.camp).mission, second);
+  await revealControl(page, '[data-kind="ninja"]');
   await page.locator('[data-kind="ninja"]').click();
   const box = await page.locator('canvas').boundingBox();
   await page.mouse.click(box.x + (box.width * 900) / 1100, box.y + (box.height * 350) / 620);
@@ -85,6 +86,7 @@ try {
   if (await page.locator('#journey-confirm').isVisible())
     await page.locator('#journey-replace').click();
   assert.equal(await page.locator('#gold').innerText(), '300');
+  await revealControl(page, '[data-kind="ninja"]');
   await page.locator('[data-kind="ninja"]').click();
   const classicBox = await page.locator('canvas').boundingBox();
   await page.mouse.click(
@@ -130,6 +132,7 @@ try {
   await page.waitForFunction(() => document.getElementById('app').dataset.status === 'won', {
     timeout: 90000,
   });
+  await revealControl(page, '#mission-result');
   assert.ok(await page.locator('#mission-result').isVisible());
   assert.ok(await page.locator('#end-restart').isHidden(), 'Pas de restart classique en mission');
   backup = await saved(page);

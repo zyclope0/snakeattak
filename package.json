@@ -1,7 +1,7 @@
 {
   "name": "conquete-serpents",
   "private": true,
-  "version": "0.33.0",
+  "version": "0.33.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -54,6 +54,7 @@
     "test:threat-preparation": "node scripts/threat-preparation-036-browser.mjs",
     "test:child-mobile": "node scripts/child-mobile-035-browser.mjs",
     "test:interface-audit": "node scripts/interface-0322-browser.mjs",
+    "test:mission-journey": "node scripts/mission-journey-033-browser.mjs",
     "test:camp-tools": "node scripts/camp-tools-033-browser.mjs"
   },
   "dependencies": {

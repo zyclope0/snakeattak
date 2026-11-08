@@ -1,15 +1,22 @@
 import assert from 'node:assert/strict';
-import { spawn, spawnSync } from 'node:child_process';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 
 // Catches a return of the desktop catalogue, a smaller/clipped board, duplicate
-// notices over the top lane, or the stray white source pixels in the home hero.
+// notices over the top lane, or a clipped/substituted approved home illustration.
+// 0.33.1 replaces three atlas actors with the intact retained icon. The old
+// white-bar pixel check applied to that removed atlas crop, so verify the actual
+// visible image, its contain geometry and byte-identical approved source instead.
 let server, noticeServer, browser;
 const results = [],
   errors = [];
 const base = 'http://127.0.0.1:4382';
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
+const captures = `docs/captures-${version}`;
+const reportDir = `reports/suivi-${version}`;
 async function check(name, action) {
   try {
     const value = await action();
@@ -19,8 +26,8 @@ async function check(name, action) {
   }
 }
 try {
-  await mkdir('reports/suivi-0.32.2', { recursive: true });
-  await mkdir('docs/captures-0.32.2', { recursive: true });
+  await mkdir(reportDir, { recursive: true });
+  await mkdir(captures, { recursive: true });
   server = spawn(process.execPath, [
     'node_modules/vite/bin/vite.js',
     ...(process.env.AUDIT_DEV ? [] : ['preview']),
@@ -52,26 +59,39 @@ try {
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(base);
     await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: `docs/captures-0.32.2/accueil-${width}x${height}.png` });
-    const hero = `docs/captures-0.32.2/heros-${width}x${height}.png`;
-    await page.locator('.home-hero-unit').screenshot({ path: hero });
-    await check(`hero without white bar ${width}x${height}`, async () => {
-      const python = spawnSync(
-        'python3',
-        [
-          '-c',
-          `from PIL import Image
-import sys,json
-im=Image.open(sys.argv[1]).convert('RGB'); w,h=im.size
-n=sum(min(im.getpixel((x,y)))>205 for y in range(int(h*.85),int(h*.92)) for x in range(int(w*.70),w))
-print(json.dumps({'bright_pixels_under_hero':n}))
-sys.exit(0 if n<=8 else 1)`,
-          hero,
-        ],
-        { encoding: 'utf8' },
+    await page.screenshot({ path: `${captures}/accueil-${width}x${height}.png` });
+    await check(`approved intact home image ${width}x${height}`, async () => {
+      const hero = page.locator('.home-icon');
+      assert.equal(await hero.isVisible(), true);
+      const geometry = await hero.evaluate((img) => ({
+        complete: img.complete,
+        width: img.naturalWidth,
+        height: img.naturalHeight,
+        fit: getComputedStyle(img).objectFit,
+        clip: getComputedStyle(img).clipPath,
+        src: img.src,
+        bounds: img.getBoundingClientRect().toJSON(),
+        parent: img.parentElement.getBoundingClientRect().toJSON(),
+      }));
+      assert.equal(geometry.complete, true);
+      assert.equal(geometry.width, 512);
+      assert.equal(geometry.height, 512);
+      assert.equal(geometry.fit, 'contain');
+      assert.equal(geometry.clip, 'none');
+      assert.ok(geometry.bounds.width > 100 && geometry.bounds.height > 100);
+      assert.ok(
+        geometry.bounds.left >= geometry.parent.left &&
+          geometry.bounds.right <= geometry.parent.right + 1,
       );
-      assert.equal(python.status, 0, python.stdout + python.stderr);
-      return JSON.parse(python.stdout);
+      assert.ok(
+        geometry.bounds.top >= geometry.parent.top &&
+          geometry.bounds.bottom <= geometry.parent.bottom + 1,
+      );
+      const bytes = await (await page.request.get(geometry.src)).body();
+      const hash = (value) => createHash('sha256').update(value).digest('hex');
+      assert.equal(hash(bytes), hash(await readFile('resources/android-icon/icon-512.png')));
+      await hero.screenshot({ path: `${captures}/illustration-${width}x${height}.png` });
+      return { ...geometry, sourceSha256: hash(bytes) };
     });
     await page.locator('#home-parent-options > summary').click();
     await page.locator('#departure-input').fill('REFUGE-2-FZZZ-ZZR4-9F');
@@ -106,7 +126,7 @@ sys.exit(0 if n<=8 else 1)`,
       );
       return canvas;
     });
-    await page.screenshot({ path: `docs/captures-0.32.2/combat-${width}x${height}.png` });
+    await page.screenshot({ path: `${captures}/combat-${width}x${height}.png` });
     if (await page.locator('#battle-dock').isVisible()) {
       await check(`catalogue lifecycle ${width}x${height}`, async () => {
         const gold = await page.locator('#gold').textContent();
@@ -145,7 +165,7 @@ sys.exit(0 if n<=8 else 1)`,
       assert.equal(await banner.evaluate((e) => getComputedStyle(e).whiteSpace), 'nowrap');
       return { box, text: await banner.textContent() };
     });
-    await page.screenshot({ path: `docs/captures-0.32.2/evenement-${width}x${height}.png` });
+    await page.screenshot({ path: `${captures}/evenement-${width}x${height}.png` });
     if (touch) {
       await page.locator('#speed').click();
       await check('natural egg hatch on wave 2, same departure as baseline', async () => {
@@ -166,7 +186,7 @@ sys.exit(0 if n<=8 else 1)`,
         const board = await page.locator('#game canvas').boundingBox();
         assert.ok(event.y > board.y + board.height * 0.85);
         assert.ok(event.y + event.height <= board.y + board.height + 1);
-        await page.screenshot({ path: 'docs/captures-0.32.2/evenement-vague2-780x360.png' });
+        await page.screenshot({ path: `${captures}/evenement-vague2-780x360.png` });
         return { event, departure: 'REFUGE-2-FZZZ-ZZR4-9F' };
       });
     }
@@ -286,7 +306,7 @@ sys.exit(0 if n<=8 else 1)`,
   server?.kill();
   noticeServer?.kill();
   await writeFile(
-    'reports/suivi-0.32.2/interface.json',
+    `${reportDir}/interface.json`,
     JSON.stringify(
       { source: 'Chromium; 780x360 touch DPR3 emulation, not physical S24', results, errors },
       null,
