@@ -37,7 +37,7 @@ Les nouvelles images HD crue/marais et l'icône Android restent au plan distinct
 
 ## Vérifications et livraison
 
-422 tests natifs, types, build et budgets passent. La nouvelle recette vérifie
+423 tests natifs, types, build et budgets passent. La nouvelle recette vérifie
 cinq tailles/marges et le portrait avec retour en paysage : images, tracés,
 conseil disponible visible sans défilement (mission6/marges), liste dépliable,
 changement de départ, vagues, pauses, RNG/or inchangés, cibles48px et ratio du plateau.
@@ -60,6 +60,22 @@ La publication attend la revue finale ; aucun AAB ni déploiement Play.
 Le S24, le confort des enfants sans lecture, FPS/RAM, appels et verrouillage
 restent des essais physiques distincts. Les mises en situation Chromium ne les
 valident pas.
+
+## Revue indépendante
+
+Cinq perspectives simulées : règles, enfant5–8, joueur9–12, mobile/interruptions,
+architecture et sauvegardes. Aucun point critique, un point important corrigé,
+aucun point mineur différé. Le parapluie ne protège pas ses voisins : sa fiche
+annonce désormais que sa feuille réduit les flèches de face en marche. Le moteur
+reste inchangé. Régression RED→GREEN, puis suite423/types/build et navigateurs.
+Le relecteur a aussi comparé114 vagues d'anciennes missions sans règles tactiques.
+
+Points réservés par la revue : compréhension réelle des enfants ; tactile,
+lecteur d'écran et cycle de vie S24/FPS/RAM ; livraison distante vérifiée par
+le responsable après la revue ; campagne/équilibrage/commercial/nouveaux assets
+hors périmètre ; premier rechargement Vite induit sans correctif moteur ; autres
+anciens textes hors de cette fiche. Aucun de ces points n'est déclaré validé
+par cette relecture de code.
 
 ## Choix du développeur
 

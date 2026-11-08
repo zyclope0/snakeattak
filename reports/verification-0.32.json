@@ -1,7 +1,7 @@
 {
   "version": "0.32.0",
   "base": "cdb1f11c943557c975f15d7ad889e8563df96111",
-  "nativeTests": 422,
+  "nativeTests": 423,
   "nativeFailures": 0,
   "format": "passed",
   "typecheck": "passed",
@@ -20,11 +20,19 @@
   "rulesAndCodecsChanged": false,
   "apk": {
     "versionCode": 35,
-    "bytes": 13107180,
-    "sha256": "56c53427e2e8e4f1a92b370eac0ef04cbe6e343d76391b8de2fccb24365c495c",
+    "bytes": 13182670,
+    "sha256": "a48fdc769ba0ad83b6c0c1afc30856f697224689cc063ac41ebcf6fce9cd21e5",
     "normalStartup": true,
     "identicalWebFiles": 27,
     "sameDebugCertificateAsPrevious": true
   },
-  "deployment": "pending reviewed build delivery"
+  "deployment": "pending reviewed build delivery",
+  "independentReview": {
+    "perspectives": 5,
+    "critical": 0,
+    "important": 1,
+    "importantFixed": 1,
+    "minor": 0,
+    "correction": "umbrella copy: own frontal arrows while moving, no neighboring protection; actual combat helper and copy regression RED then GREEN; 423 native tests/types/build passed"
+  }
 }

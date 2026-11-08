@@ -1,3 +1,5 @@
+import type { Entity } from '../src/game.ts';
+import { umbrellaCover } from '../src/combatRules.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Game } from '../src/game.ts';
@@ -108,4 +110,28 @@ test('Conseils : volants, distance, disponibilité, sans achat automatique', () 
     assert.ok(THREAT_DETAILS[kind].ability.length > 0);
     assert.ok(!/poison.*durée/i.test(THREAT_DETAILS[kind].ability));
   }
+});
+
+// A misleading area-protection claim must fail even when the combat helpers are unchanged.
+test('La fiche parapluie décrit seulement ses flèches frontales, jamais ses voisins', () => {
+  const game = new Game(36);
+  const source: Entity = { ...game.units[0], kind: 'archer', x: 800 };
+  const target: Entity = {
+    ...game.units[0],
+    kind: 'snake',
+    variant: 'umbrella' as const,
+    state: 'move' as const,
+    x: 300,
+    facing: 1 as const,
+  };
+  assert.equal(umbrellaCover(source, target), true);
+  assert.equal(umbrellaCover(source, { ...target, variant: 'normal' }), false);
+  assert.equal(umbrellaCover({ ...source, kind: 'tank' }, target), false);
+  assert.equal(umbrellaCover({ ...source, x: 100 }, target), false);
+  assert.equal(umbrellaCover(source, { ...target, state: 'attack' }), false);
+  const copy = THREAT_DETAILS.umbrella.ability;
+  assert.doesNotMatch(copy, /voisin|projectile|tirs/i);
+  assert.match(copy, /flèches/i);
+  assert.match(copy, /face|frontal/i);
+  assert.match(copy, /marche|marchant/i);
 });

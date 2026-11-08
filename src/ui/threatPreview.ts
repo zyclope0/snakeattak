@@ -50,7 +50,7 @@ export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
   },
   umbrella: {
     name: enemies.umbrella.name,
-    ability: 'Protège les voisins des tirs en marche',
+    ability: 'Sa feuille réduit les flèches de face en marche',
     symbol: 'shield',
     priority: 45,
   },
