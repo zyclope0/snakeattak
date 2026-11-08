@@ -1,15 +1,27 @@
-# Plan actuel — application 0.32.3
+# Plan actuel — application 0.32.4
 
-## Mission active — Suivi v0.32.1, étape 2
+## Mission active — Suivi v0.32.1, étape 3
 
-**8 novembre 2026 — étape 2 terminée, STOP en attente du GO pour l'étape 3.**
+**8 novembre 2026 — étape 3 livrée, STOP pour le choix d'identifiant du parent.**
+
+APK **0.32.4/code39** : icône Magnific retenue exportée localement, fond uni,
+coins blancs supprimés, cinq densités, versions adaptatives26/33 et monochrome.
+Original conservé, aucun appel de génération. Identifiant/namespace/certificat
+actuels conservés, aucun nouvel identifiant appliqué. [Trois propositions](IDENTIFIANTS-APPLICATION.md).
+425 tests et build verts ; navigateur ordinateur/mobile et tablettes vert ;
+20 PNG, quatre XML compilés et 27 fichiers web de l'APK vérifiés. Les aperçus ne
+sont pas des captures de lanceur Android : test visuel sur le S24 encore attendu.
+[Reçu](../reports/suivi-0.32.4/verification.json), [bilan](BILAN-0.32.4.md).
+Le site public reste en0.32.3 ; aucune publication de l'étape3.
+
+### Livraison précédente 0.32.3 et publication
 
 Publication demandée ensuite par le parent (« met a jours le site ») et réalisée
 le 8 novembre : site public en **0.32.3**, version Sites16, même URL et audience.
 Vérification réelle dans Chromium : HTTP200, marqueur v0.32.3, lancement de la
 mission, quatre favoris et plateau 1065,95×600,81 ; zéro erreur JavaScript.
 [Reçu de publication](../reports/deployment-0.32.3.json).
-Cette demande de publication n'autorise pas l'étape3 : STOP conservé.
+Le parent a ensuite autorisé explicitement l'étape3 ; aucun GO déduit pour l'étape4.
 
 0.32.3/code 38 : 24 chaînes sources au vouvoiement corrigées, plus une phrase de
 vocabulaire ; childCopy supprimé entièrement. Les messages de reprise sont
@@ -18,7 +30,7 @@ build verts ; navigateur, audit 13/13, six formats mobiles, présentation 14 cas
 interface 24/24, départs, prévision et hors ligne verts. Sur 24 départs :
 3 212 états identiques avant/après (hors message humain) et 119 camps strictement
 identiques, octet pour octet. [Bilan de l'étape 2](BILAN-0.32.3.md).
-Aucun changement de règle ni d'ancien code. STOP requis avant l'étape 3.
+Aucun changement de règle ni d'ancien code. Cet ancien STOP a été suivi du GO explicite pour l'étape3.
 
 ### Livraison précédente 0.32.2 et retour du parent
 
@@ -73,7 +85,7 @@ Le mandat autonome antérieur ne permet plus d'enchaîner : **un GO après chaqu
    Expliquer chaque instantané modifié, ajouter le contrôle d'absence de
    « vous / votre / vos » dans src/ et index.html ; vérifier mêmes parties pour
    mêmes codes, anciens formats et tous les tests. **STOP pour accord du parent avant l'étape 3.**
-3. **Icône et identité**, après nouveau GO : source Magnific retenue dans
+3. **0.32.4 — icône et identité**, réalisée pour l'icône, propositions en attente du parent : source Magnific retenue dans
    docs/resources-2026-11, sans génération payante ; icône adaptative, fond uni,
    coins blancs supprimés ; vérifier l'icône de l'APK debug. Proposer trois
    identifiants définitifs avec avantages/inconvénients, **n'en appliquer aucun**.

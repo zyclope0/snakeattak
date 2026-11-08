@@ -1,0 +1,29 @@
+{
+  "source": "Local renders from the actual exported launcher art, not physical Android screenshots",
+  "files": [
+    {
+      "file": "docs/captures-0.32.4/circle.png",
+      "dimensions": [
+        800,
+        800
+      ],
+      "sha256": "550a209358208dbc027952b77b6d1ace9cdcc82758054f678f4cf0b453f896da"
+    },
+    {
+      "file": "docs/captures-0.32.4/launcher-48dp.png",
+      "dimensions": [
+        384,
+        384
+      ],
+      "sha256": "13833735fea1a2fb1988f354cb86d187ac618ad058551d855c262a5973a94d46"
+    },
+    {
+      "file": "docs/captures-0.32.4/rounded-square.png",
+      "dimensions": [
+        800,
+        800
+      ],
+      "sha256": "8a1c58799f9f49bf9eb2165713b98d2f804d810c9363ee9bdd460ee51b682181"
+    }
+  ]
+}

@@ -29,3 +29,12 @@ avant intégration. L’icône téléchargée présente des coins blancs arrondi
 contrairement à la mention « coins carrés » de la provenance fournie. Les quatre
 coins sont opaques et quasi blancs. Original conservé ; corriger ce point au
 lot 9 avant tout export store. Aucune correction/génération de l’image faite ici.
+
+## Utilisation de l'icône — étape 3, 0.32.4
+
+L'original reste inchangé. Il a servi au détourage local et aux exports Android
+sans nouvelle génération : [ressources dérivées](../../resources/android-icon/README.md),
+[provenance et empreintes](../../resources/android-icon/manifest.json),
+[bilan](../BILAN-0.32.4.md). Premier plan des personnages sur fond uni #214C3B,
+coins blancs éliminés, cinq densités et versions adaptatives26/33. Les deux
+terrains restent réservés au lot6 ; aucun changement de terrain ou de règle.
