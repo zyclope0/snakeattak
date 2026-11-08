@@ -8,16 +8,15 @@ import { lanePoint } from '../routes.ts';
 export function feastLaneAtPoint(point: Point, level: Level): number | null {
   if (!Number.isFinite(point.x) || !Number.isFinite(point.y) || point.x < 108 || point.x > 972)
     return null;
-  let picked: number | null = null,
-    distance = 48;
-  for (let lane = 0; lane < LANES.length; lane++) {
-    const next = Math.abs(point.y - lanePoint(point.x, lane, level).y);
-    if (next <= distance) {
-      distance = next;
-      picked = lane;
-    }
-  }
-  return picked;
+  const targets = LANES.map((_, lane) => ({
+    lane,
+    distance: Math.abs(point.y - lanePoint(point.x, lane, level).y),
+  })).sort((a, b) => a.distance - b.distance);
+  // The warm road is 56 world units wide. Do not extend its touch area into
+  // grass, or guess a lane where two nearby roads are equally plausible.
+  return targets[0].distance <= 28 && targets[1].distance - targets[0].distance >= 8
+    ? targets[0].lane
+    : null;
 }
 
 /** The UI submits an intent; Game retains authority over spending and active lanes. */

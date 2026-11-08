@@ -1,7 +1,7 @@
 {
   "version": "0.31.0",
   "base": "9607a5b7982588941c53124b58b2546711c6c651",
-  "nativeTests": 410,
+  "nativeTests": 411,
   "nativeFailures": 0,
   "format": "passed",
   "typecheck": "passed",
@@ -78,6 +78,50 @@
         }
       },
       {
+        "width": 568,
+        "height": 320,
+        "insets": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "dock": {
+          "x": 344,
+          "y": 100,
+          "width": 176,
+          "height": 204
+        },
+        "canvas": {
+          "x": 0,
+          "y": 105,
+          "width": 344,
+          "height": 193.890625
+        }
+      },
+      {
+        "width": 480,
+        "height": 320,
+        "insets": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "dock": {
+          "x": 256,
+          "y": 100,
+          "width": 176,
+          "height": 204
+        },
+        "canvas": {
+          "x": 0,
+          "y": 129,
+          "width": 256,
+          "height": 144.28125
+        }
+      },
+      {
         "width": 667,
         "height": 375,
         "insets": [
@@ -128,8 +172,8 @@
   "apk": {
     "versionCode": 34,
     "normalStartup": true,
-    "bytes": 13113068,
-    "sha256": "6a0f6c638a763ff11c8607f1c4c8cd54758f2477ef39a4578c8d7bb4150444d6",
+    "bytes": 13173953,
+    "sha256": "1e1f27b47611171897745d4f19606b9a8935063cced552fb9df08759da70eacb",
     "sameDebugCertificateAs0302": true,
     "identicalWebFiles": 27
   },
@@ -144,5 +188,12 @@
     "app localisation",
     "commercial SDK/store integration"
   ],
-  "deployment": "separate pending reviewed build delivery"
+  "deployment": "separate pending reviewed build delivery",
+  "independentReview": {
+    "critical": 0,
+    "important": 2,
+    "importantFixed": 2,
+    "regressions": "RED then GREEN; 2604 curved-road midpoints and six inset/viewport combinations",
+    "physicalDeviceVerified": false
+  }
 }

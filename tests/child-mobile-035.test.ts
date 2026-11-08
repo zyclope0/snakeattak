@@ -92,6 +92,33 @@ test('les centres courbes sont reconnus sur toutes les cartes sans consommer le 
     assert.equal(feastLaneAtPoint(point, level), null);
 });
 
+test('aucun milieu entre deux voies courbes ne peut consommer le pot', () => {
+  const levels = [
+    levelForWave(1),
+    levelForWave(5),
+    levelForWave(9),
+    ...([0, 1, 2] as const).map(missionLevel),
+  ];
+  for (const level of levels)
+    for (let x = 108; x <= 972; x += 4)
+      for (let lane = 0; lane < 2; lane++) {
+        const a = lanePoint(x, lane, level),
+          b = lanePoint(x, lane + 1, level);
+        assert.equal(
+          feastLaneAtPoint({ x, y: (a.y + b.y) / 2 }, level),
+          null,
+          `${level.id} x${x} lanes${lane}/${lane + 1}`,
+        );
+      }
+  const session = new Session(35);
+  session.game.startWave();
+  session.selectFeast('sticky');
+  const before = JSON.stringify(session.game);
+  assert.equal(activateBoard(session, { x: 240, y: 254 }), false);
+  assert.equal(session.game.feastUsed, false);
+  assert.equal(JSON.stringify(session.game), before);
+});
+
 for (const flavor of ['lure', 'sticky'] as const)
   test(`le toucher ${flavor} envoie exactement la commande existante`, () => {
     const s = new Session(35),

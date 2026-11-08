@@ -13,6 +13,10 @@ un dock latéral permanent en paysage compact, quatre alliés (grille 2×2), deu
 miels et accès au catalogue complet. Celui-ci remplace temporairement le dock,
 dans la même colonne, sans recouvrir la carte ni mettre le jeu en pause.
 
+En paysage de hauteur ≤350px, le pied du dock est retiré pour préserver les
+cibles : le bouton « Alliés » du HUD ouvre le catalogue ; toucher de nouveau le
+pot ou Échap annule la sélection. Cette adaptation couvre aussi les marges système.
+
 Les quatre alliés suivent l'ordre des huit favoris actifs, filtrés par les
 vrais déverrouillages. Si moins de quatre sont disponibles, compléter dans
 l'ordre du catalogue. Ne pas masquer un raccourci parce que l'or est insuffisant :
@@ -52,4 +56,5 @@ Conserver les identifiants DOM et les commandes existants pour clavier/tests.
 - Mêmes commandes => mêmes états Game/RNG ; anciennes sauvegardes1–7 lisibles.
 - Build, suite native et navigateur, audit et reprises ; APK familial signé
   avec le certificat debug précédent. Les essais physiques ne sont pas déduits
-  du navigateur. Pas de publication Play ; version web non republiée implicitement.
+  du navigateur. Pas de publication Play. Livraison web distincte du build vérifié selon le mandat
+  de publication existant ; audience publique conservée.

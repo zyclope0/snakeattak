@@ -48,6 +48,8 @@ try {
     [812, 375, [0, 0, 0, 0]],
     [812, 375, [24, 48, 16, 0]],
     [568, 320, [0, 0, 0, 0]],
+    [568, 320, [24, 48, 16, 0]],
+    [480, 320, [24, 48, 16, 0]],
     [667, 375, [24, 0, 16, 48]],
   ]) {
     const page = await browser.newPage({ viewport: { width, height }, hasTouch: true });
@@ -71,6 +73,7 @@ try {
       assert.ok(canvas.width >= (width - insets[1] - insets[3]) * 0.65);
     }
     for (const b of await page.locator('#battle-dock button').all()) {
+      if (!(await b.isVisible())) continue;
       const r = await b.boundingBox();
       assert.ok(r.width >= 48 && r.height >= 48, 'Dock needs48px targets');
       assert.ok(
@@ -84,10 +87,25 @@ try {
       'Dock needs no scroll',
     );
     await page.screenshot({ path: `artifacts/child-mobile-035/dock-${width}-${insets[1]}.png` });
-    await page.locator('#dock-catalogue').click();
+    const catalogue = (await page.locator('#dock-catalogue').isVisible())
+      ? '#dock-catalogue'
+      : '#reinforcements-toggle';
+    await page.locator(catalogue).click();
     assert.equal(await page.locator('#battle-dock').isVisible(), false);
     await page.locator('#reinforcements-close').click();
     assert.equal(await page.locator('#battle-dock').isVisible(), true);
+    if (height <= 350) {
+      await page.locator('[data-dock-feast="lure"]').click();
+      assert.equal(
+        await page.locator('[data-dock-feast="lure"]').getAttribute('aria-pressed'),
+        'true',
+      );
+      await page.locator('[data-dock-feast="lure"]').click();
+      assert.equal(
+        await page.locator('[data-dock-feast="lure"]').getAttribute('aria-pressed'),
+        'false',
+      );
+    }
     sizes.push({ width, height, insets, dock, canvas });
     await page.close();
   }
