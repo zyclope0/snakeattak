@@ -1,0 +1,310 @@
+{
+  "date": "2026-11-08",
+  "reviewedRuntimeCommit": "a57b05a6d021da935e8ef3ed6e2e7ed8ac2d1fc5",
+  "runtimeVersion": "0.30.2",
+  "runtimeUnchanged": true,
+  "localAudit": {
+    "date": "2026-11-08T15:52:04.801Z",
+    "checks": [
+      {
+        "name": "défilement après lancement 1280x800",
+        "ok": true,
+        "value": 0,
+        "target": "0 px",
+        "lot": 1
+      },
+      {
+        "name": "plateau entier visible 1280x800",
+        "ok": true,
+        "value": {
+          "scrollY": 0,
+          "top": 117,
+          "bottom": 642,
+          "innerHeight": 800
+        },
+        "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
+        "lot": 1
+      },
+      {
+        "name": "mots visibles avant la 1re vague (mission 1, 1280x800)",
+        "ok": true,
+        "value": 47,
+        "target": "≤ 60 (lot 2)",
+        "lot": 2
+      },
+      {
+        "name": "aucun vouvoiement visible",
+        "ok": true,
+        "value": 0,
+        "target": "0 (lot 2)",
+        "lot": 2
+      },
+      {
+        "name": "défilement après lancement 1366x768",
+        "ok": true,
+        "value": 0,
+        "target": "0 px",
+        "lot": 1
+      },
+      {
+        "name": "plateau entier visible 1366x768",
+        "ok": true,
+        "value": {
+          "scrollY": 0,
+          "top": 117,
+          "bottom": 691,
+          "innerHeight": 768
+        },
+        "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
+        "lot": 1
+      },
+      {
+        "name": "défilement après lancement 1920x1080",
+        "ok": true,
+        "value": 0,
+        "target": "0 px",
+        "lot": 1
+      },
+      {
+        "name": "plateau entier visible 1920x1080",
+        "ok": true,
+        "value": {
+          "scrollY": 0,
+          "top": 117,
+          "bottom": 834,
+          "innerHeight": 1080
+        },
+        "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
+        "lot": 1
+      },
+      {
+        "name": "cibles tactiles < 48 px (812x375, plateau)",
+        "ok": true,
+        "value": [],
+        "target": "aucune (Android 48 dp)",
+        "lot": 1
+      },
+      {
+        "name": "plateau en paysage téléphone (% hauteur)",
+        "ok": true,
+        "value": {
+          "h": 87,
+          "w": 71
+        },
+        "target": "≥ 85 % de la hauteur",
+        "lot": 1
+      },
+      {
+        "name": "consigne « Tourne ton téléphone » en portrait",
+        "ok": true,
+        "value": true,
+        "target": "visible",
+        "lot": 1
+      },
+      {
+        "name": "nouveau tirage : terrain répété",
+        "ok": true,
+        "value": 0,
+        "target": "0 sur 10",
+        "lot": 1
+      },
+      {
+        "name": "erreurs JavaScript",
+        "ok": true,
+        "value": [],
+        "target": "aucune",
+        "lot": 1
+      }
+    ]
+  },
+  "productionScreenshots": "captures.json",
+  "ci": {
+    "run": 42494670333,
+    "headSha": "a57b05a6d021da935e8ef3ed6e2e7ed8ac2d1fc5",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/zyclope0/snakeattak/actions/runs/42494670333"
+  },
+  "nativeTests": {
+    "total": 400,
+    "failures": 0,
+    "evidence": "Independent read-only reviewer reran suite; same commit remote CI passed"
+  },
+  "assets": [
+    {
+      "id": "maquette-accueil",
+      "path": "docs/resources-2026-11/maquettes/accueil-812x375.png",
+      "dimensions": [
+        1624,
+        750
+      ],
+      "bytes": 1492684,
+      "sha256": "c81a5a5c09d6863b91042341fb5a1604d120838d06610d4e284f13a7662dc542",
+      "usage": "reference-partially-adapted",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "maquette-preparation",
+      "path": "docs/resources-2026-11/maquettes/preparation-812x375.png",
+      "dimensions": [
+        1624,
+        750
+      ],
+      "bytes": 560878,
+      "sha256": "3e4cbdca539d4eefe0481add368ef749374bebcebd0d5643ed2567fffbb5142e",
+      "usage": "reference-functionally-adapted-visual-layout-partial",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "maquette-jeu",
+      "path": "docs/resources-2026-11/maquettes/jeu-812x375.png",
+      "dimensions": [
+        1624,
+        750
+      ],
+      "bytes": 1283192,
+      "sha256": "0e053bf4974fd6a53f51b11386748384bcc014642620dde405f7b28732c87109",
+      "usage": "reference-partially-adapted-permanent-dock-missing",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "banniere-originale",
+      "path": "docs/resources-2026-11/banniere-brouillon-capture-1024x500.png",
+      "dimensions": [
+        1024,
+        500
+      ],
+      "bytes": 782242,
+      "sha256": "fac0803fbf10847ab420c1917d73906231205c01c1cc8f1e69ded8fe3c3753b3",
+      "usage": "historical-draft-not-shipped",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "terrain-crue",
+      "path": "docs/resources-2026-11/assets/terrain-crue.png",
+      "dimensions": [
+        2688,
+        1536
+      ],
+      "bytes": 10168082,
+      "sha256": "7da19518b4bd66c6a10adb6c1f0ef4c85140420fd6a9d5019c27eb1416598a1c",
+      "usage": "archived-not-shipped",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "terrain-marais",
+      "path": "docs/resources-2026-11/assets/terrain-marais.png",
+      "dimensions": [
+        2688,
+        1536
+      ],
+      "bytes": 9360799,
+      "sha256": "64f224e891dd5c72c4a33f2354fbb416d76d06e42f01ff8dc663ba207358268c",
+      "usage": "archived-not-shipped-visual-approval-pending",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "icone-source",
+      "path": "docs/resources-2026-11/assets/icone-source.png",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "bytes": 6159777,
+      "sha256": "c2abce33a9f375a9c1687ce099501a856c78c130cdad5b39f5c0d35152079386",
+      "usage": "publication-reference-only-not-launcher-or-final-store",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "banniere-dossier",
+      "path": "docs/publication/assets/feature-1024x500.jpg",
+      "dimensions": [
+        1024,
+        500
+      ],
+      "bytes": 182283,
+      "sha256": "3551e367f45c39d9a24e2870508618cbb5777a2d6405b5a28023a7ecde2bf9e0",
+      "usage": "publication-capture-0301-not-runtime",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "preuve-plateau-decale-1280x800",
+      "path": "docs/audit-source-2026-11/originaux/captures/plateau-decale-1280x800.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "bytes": 741660,
+      "sha256": "1484ba4f4dfd079b08b1ce1abc624c97a8b3e69948beff02cce14f09958d0c67",
+      "usage": "historical-audit-evidence-not-runtime",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "preuve-preparation-bouton-sous-le-pli-1280x800",
+      "path": "docs/audit-source-2026-11/originaux/captures/preparation-bouton-sous-le-pli-1280x800.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "bytes": 165003,
+      "sha256": "668212ffdae35d691048ad96eb81b2bfd21927f2d56b4352456b5507160c0768",
+      "usage": "historical-audit-evidence-not-runtime",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "preuve-tiroir-renforts-812x375",
+      "path": "docs/audit-source-2026-11/originaux/captures/tiroir-renforts-812x375.png",
+      "dimensions": [
+        812,
+        375
+      ],
+      "bytes": 285587,
+      "sha256": "8f73e27401f4341c485203655285f308d7a888dd0d7104146d8767636b0b347b",
+      "usage": "historical-audit-evidence-not-runtime",
+      "directRuntimeImport": false
+    },
+    {
+      "id": "preuve-vague-paysage-telephone-812x375",
+      "path": "docs/audit-source-2026-11/originaux/captures/vague-paysage-telephone-812x375.png",
+      "dimensions": [
+        1624,
+        750
+      ],
+      "bytes": 1312961,
+      "sha256": "06c2e65d9bfe6608fc8c91db966b9b2a03dd536f35b6b7a072255bdf7882a1aa",
+      "usage": "historical-audit-evidence-not-runtime",
+      "directRuntimeImport": false
+    }
+  ],
+  "gameContent": {
+    "missions": 6,
+    "localMissionWaves": 19,
+    "configurationsPerMission": 18,
+    "classicWaves": 12,
+    "maxMissionRank": 8,
+    "bossInMissions": false,
+    "tankInMissions": false
+  },
+  "documentationCorrections": [
+    "lots2and7partial",
+    "restoreenemyforecast",
+    "restoreearlycallbonus",
+    "restorefourallydock",
+    "retainconditionalpowers/easy",
+    "recordpartialvisualtargets",
+    "separateappiconfromstore",
+    "recordcampaignscopegap"
+  ],
+  "noPaidGeneration": true,
+  "noGameplayChange": true,
+  "noAppPublication": true,
+  "analysisVerification": {
+    "format": "passed",
+    "nativeTests": 400,
+    "failures": 0,
+    "build": "passed",
+    "originalArchiveHashesChecked": 16,
+    "brokenAnalysisLinks": 0,
+    "runtimeUnchanged": true
+  }
+}

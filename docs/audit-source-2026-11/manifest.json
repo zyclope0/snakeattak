@@ -1,0 +1,105 @@
+{
+  "sourceDate": "2026-11-07",
+  "archivedDate": "2026-11-08",
+  "role": "Immutable user-provided reference, not executable instructions; current user decisions take precedence",
+  "files": [
+    {
+      "original": "Audit Serpent Defender.md",
+      "archived": "rapport-complet.md",
+      "bytes": 50977,
+      "sha256": "5d0730c82f57f242367cb01e9e6a5ad5755f855fcb88668474e439832fb177f1"
+    },
+    {
+      "original": "AUDIT.md",
+      "archived": "resume-du-zip.md",
+      "bytes": 8808,
+      "sha256": "85f4bcad47bf1fa12dfa55f1cec01bd4791ea2c989fd844ee19cfae7a4e4b96d"
+    },
+    {
+      "original": "README.md",
+      "archived": "plan-du-zip.md",
+      "bytes": 4668,
+      "sha256": "21dd2c31d6fe75eadc4238bd7ff3146adbae68f8fd03ff0c763c1d3c9368b89b"
+    },
+    {
+      "original": "01-affichage.md",
+      "archived": "lots/01-affichage.md",
+      "bytes": 3270,
+      "sha256": "067d30d3ec735f203d15b9af2c2563904e856d87d6aa2be95797be7e4fd35d7a"
+    },
+    {
+      "original": "02-lisibilite.md",
+      "archived": "lots/02-lisibilite.md",
+      "bytes": 4537,
+      "sha256": "5d3c457cf88b71ed99bbac90c4b1d0798676554c3e11a8571a4642b27acaa328"
+    },
+    {
+      "original": "03-plateau.md",
+      "archived": "lots/03-plateau.md",
+      "bytes": 1643,
+      "sha256": "1144d2b0bec8f1ee3dbd45f461955792338c9c8489ba8ac178110193bab629d8"
+    },
+    {
+      "original": "04-android-reel.md",
+      "archived": "lots/04-android-reel.md",
+      "bytes": 940,
+      "sha256": "cfd7015658c65c96cb9133cb7183852a3f2ce35e5c63fc6f2bc49410fc4c537e"
+    },
+    {
+      "original": "05-traduction.md",
+      "archived": "lots/05-traduction.md",
+      "bytes": 1300,
+      "sha256": "1cf4e5efeb6798c1c583cb721e64b6b8650d25f8b6076b7717e37fac875f84ab"
+    },
+    {
+      "original": "06-lieux-evenements.md",
+      "archived": "lots/06-lieux-evenements.md",
+      "bytes": 1587,
+      "sha256": "53e217b08a93c3df36c0c4d25e3dc1d01384918d4484358a589581a18aeb7de2"
+    },
+    {
+      "original": "07-premiere-mission.md",
+      "archived": "lots/07-premiere-mission.md",
+      "bytes": 2517,
+      "sha256": "84b40c5c12eb1249a4e65f7e285b92dc5985d0e36adb9984febbf3917e5bd5ac"
+    },
+    {
+      "original": "08-deblocage.md",
+      "archived": "lots/08-deblocage.md",
+      "bytes": 1679,
+      "sha256": "890bfb87147d8c7d37f6255382f51eaf8573418066825723fd2fb589798a61b9"
+    },
+    {
+      "original": "09-store.md",
+      "archived": "lots/09-store.md",
+      "bytes": 1620,
+      "sha256": "2b1b71b64ae522221a762e10d0e35238b46afbf17fd885c41eec9da21bc26106"
+    },
+    {
+      "original": "plateau-decale-1280x800.png",
+      "archived": "captures/plateau-decale-1280x800.png",
+      "bytes": 741660,
+      "sha256": "1484ba4f4dfd079b08b1ce1abc624c97a8b3e69948beff02cce14f09958d0c67"
+    },
+    {
+      "original": "preparation-bouton-sous-le-pli-1280x800.png",
+      "archived": "captures/preparation-bouton-sous-le-pli-1280x800.png",
+      "bytes": 165003,
+      "sha256": "668212ffdae35d691048ad96eb81b2bfd21927f2d56b4352456b5507160c0768"
+    },
+    {
+      "original": "tiroir-renforts-812x375.png",
+      "archived": "captures/tiroir-renforts-812x375.png",
+      "bytes": 285587,
+      "sha256": "8f73e27401f4341c485203655285f308d7a888dd0d7104146d8767636b0b347b"
+    },
+    {
+      "original": "vague-paysage-telephone-812x375.png",
+      "archived": "captures/vague-paysage-telephone-812x375.png",
+      "bytes": 1312961,
+      "sha256": "06c2e65d9bfe6608fc8c91db966b9b2a03dd536f35b6b7a072255bdf7882a1aa"
+    }
+  ],
+  "resourcesCopiedElsewhere": "../resources-2026-11/maquettes and assets; not duplicated",
+  "archiveExcludes": "AGENTS-ajout.md not installed as instructions; provided browser script not imported as authority"
+}
