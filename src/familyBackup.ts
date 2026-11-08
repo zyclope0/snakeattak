@@ -10,7 +10,7 @@ type FamilyData = {
   career: CareerState;
 };
 export type FamilyBackup = FamilyData &
-  ({ version: 1; missions?: never } | { version: 2; missions: MissionProgress });
+  ({ version: 1; missions?: never } | { version: 2 | 3; missions: MissionProgress });
 export const FAMILY_CHARACTER_LIMIT = 500000;
 export const FAMILY_BYTE_LIMIT = 1000000;
 const withinLimits = (raw: string) =>
@@ -24,26 +24,42 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
     const value: unknown = JSON.parse(text);
     if (typeof value !== 'object' || value === null || Array.isArray(value)) return null;
     const data = value as Record<string, unknown>;
-    if (data.format !== 'conquete-serpents-family' || (data.version !== 1 && data.version !== 2))
+    if (
+      data.format !== 'conquete-serpents-family' ||
+      (data.version !== 1 && data.version !== 2 && data.version !== 3)
+    )
       return null;
     let camp: string | null = null;
+    let tutorialCamp = false;
     if (data.camp !== null) {
       if (typeof data.camp !== 'string') return null;
       const game = decodeCheckpoint(data.camp);
       if (!game) return null;
+      tutorialCamp = game.mission?.rules === 2;
       camp = encodeCheckpoint(game);
       if (!camp) return null;
     }
     const career = readCareerState(JSON.stringify(data.career));
     if (!career) return null;
     let result: FamilyBackup;
-    if (data.version === 2) {
+    if (data.version === 2 || data.version === 3) {
       const missions = validateMissionProgress(data.missions);
       if (!missions) return null;
-      result = { format: 'conquete-serpents-family', version: 2, camp, career, missions };
+      if (
+        data.version === 2 &&
+        (tutorialCamp || Object.values(missions.lastRuns).some((run) => run.rules === 2))
+      )
+        return null;
+      result = {
+        format: 'conquete-serpents-family',
+        version: data.version,
+        camp,
+        career,
+        missions,
+      };
     } else {
       // A version mistake must never silently discard expedition progress.
-      if (Object.hasOwn(data, 'missions')) return null;
+      if (Object.hasOwn(data, 'missions') || tutorialCamp) return null;
       result = { format: 'conquete-serpents-family', version: 1, camp, career };
     }
     return withinLimits(JSON.stringify(result)) ? result : null;
@@ -64,10 +80,13 @@ export function writeFamilyBackup(
     const validatedMissions =
       missions === undefined ? undefined : validateMissionProgress(missions);
     if (missions !== undefined && !validatedMissions) return null;
+    const tutorial =
+      Object.values(validatedMissions?.lastRuns ?? {}).some((run) => run.rules === 2) ||
+      (campRaw !== null && JSON.parse(campRaw).mission?.rules === 2);
     const backup = readFamilyBackup(
       JSON.stringify({
         format: 'conquete-serpents-family',
-        version: validatedMissions ? 2 : 1,
+        version: validatedMissions ? (tutorial ? 3 : 2) : 1,
         ...(validatedMissions ? { missions: validatedMissions } : {}),
         camp: campRaw,
         career: validatedCareer,

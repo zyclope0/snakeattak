@@ -83,7 +83,7 @@ export function bindFamilyControls(actions: Actions) {
         summary.wave === null
           ? `Favoris et ${stars} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.`
           : `Camp avant la vague ${summary.wave + 1} · ${summary.allies} alliés · ${summary.gold} pièces · ${stars} étoiles.`;
-      if (backup.version === 2 && backup.missions) {
+      if (backup.version !== 1 && backup.missions) {
         const missionStars = Object.values(backup.missions.bestStars).reduce((a, b) => a + b, 0);
         if (summary.wave === null && (backup.missions.classicCamp || backup.missions.retryCamp))
           el('family-preview-summary').textContent =

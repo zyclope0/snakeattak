@@ -22,13 +22,22 @@ export function encodeCheckpoint(game: Game): string | null {
   const units = game.units.filter((u) => u.hp > 0);
   if (units.length > UNIT_LIMIT) return null;
   // Keep the frozen classic witness byte-compatible with the pre-tactical camp.
-  const version = game.tuning.tacticalRulesEnabled === false ? (game.mission ? 5 : 4) : 6;
+  if (game.mission?.rules === 2 && !game.tuning.tacticalRulesEnabled) return null;
+  const version =
+    game.mission?.rules === 2
+      ? 7
+      : game.tuning.tacticalRulesEnabled === false
+        ? game.mission
+          ? 5
+          : 4
+        : 6;
+  const modern = version === 6 || version === 7;
   const savedUnits = [];
   for (const u of units) {
     const rules = medicalRules(u.kind);
     const medical = rules ? ensureMedical({ kind: u.kind, medical: u.medical }) : null;
     if (
-      version === 6 &&
+      modern &&
       ((rules && (!medical || !Number.isFinite(u.cool))) || (!rules && u.medical !== undefined))
     )
       return null;
@@ -40,14 +49,14 @@ export function encodeCheckpoint(game: Game): string | null {
       hp: u.hp,
       homeX: u.homeX,
       homeY: u.homeY,
-      ...(version === 6 && medical && rules
+      ...(modern && medical && rules
         ? { medical, medicalCool: Math.max(0, Math.min(rules.interval, u.cool)) }
         : {}),
     });
   }
   const raw = JSON.stringify({
     version,
-    ...(version === 6 && game.initialSeed !== null ? { initialSeed: game.initialSeed } : {}),
+    ...(modern && game.initialSeed !== null ? { initialSeed: game.initialSeed } : {}),
     ...(game.mission
       ? { mission: game.mission, missionMinBase: Math.min(game.missionMinBase, game.base) }
       : {}),
@@ -89,7 +98,8 @@ export function decodeCheckpoint(raw: string): Game | null {
         d.version !== 3 &&
         d.version !== 4 &&
         d.version !== 5 &&
-        d.version !== 6) ||
+        d.version !== 6 &&
+        d.version !== 7) ||
       !integer(d.wave, 0, TOTAL_WAVES - 1) ||
       !integer(d.gold, 0, 10000000) ||
       !number(d.base, 1, 100) ||
@@ -101,8 +111,10 @@ export function decodeCheckpoint(raw: string): Game | null {
       d.units.length > UNIT_LIMIT
     )
       return null;
-    const hasMission = d.version === 5 || (d.version === 6 && Object.hasOwn(d, 'mission'));
+    const modern = d.version === 6 || d.version === 7;
+    const hasMission = d.version === 5 || (modern && Object.hasOwn(d, 'mission'));
     const mission = hasMission ? readMissionRun(d.mission) : null;
+    if (d.version === 7 ? mission?.rules !== 2 : mission?.rules !== undefined) return null;
     if (
       hasMission &&
       (!mission ||
@@ -113,14 +125,14 @@ export function decodeCheckpoint(raw: string): Game | null {
     const game = new Game(d.rng, undefined, mission ?? undefined),
       ids = new Set<number>();
     if (
-      d.version === 6 &&
+      modern &&
       Object.hasOwn(d, 'initialSeed') &&
       (!integer(d.initialSeed, 0, 0xffffffff) || (mission && d.initialSeed !== mission.seed))
     )
       return null;
     game.initialSeed =
       mission?.seed ??
-      (d.version === 6 && Object.hasOwn(d, 'initialSeed') ? (d.initialSeed as number) : null);
+      (modern && Object.hasOwn(d, 'initialSeed') ? (d.initialSeed as number) : null);
     game.units = [];
     let heroes = 0;
     for (const u of d.units) {
@@ -140,12 +152,12 @@ export function decodeCheckpoint(raw: string): Game | null {
         max = kinds[kind].hp;
       const rules = medicalRules(kind);
       const medical = rules
-        ? d.version === 6
+        ? modern
           ? readMedical(u.medical, kind)
           : ensureMedical({ kind })
         : null;
       if (
-        d.version === 6 &&
+        modern &&
         ((rules && (!medical || !number(u.medicalCool, 0, rules.interval))) ||
           (!rules && (Object.hasOwn(u, 'medical') || Object.hasOwn(u, 'medicalCool'))))
       )
@@ -170,7 +182,7 @@ export function decodeCheckpoint(raw: string): Game | null {
         rattleCool: 0,
         confusedFor: 0,
         confusionImmunity: 0,
-        cool: d.version === 6 && rules ? (u.medicalCool as number) : 0,
+        cool: modern && rules ? (u.medicalCool as number) : 0,
         ...(medical ? { medical } : {}),
         path: [],
         nav: 0,
@@ -183,7 +195,7 @@ export function decodeCheckpoint(raw: string): Game | null {
         targetId: null,
       });
     }
-    if (d.version === 3 || d.version === 4 || d.version === 5 || d.version === 6) {
+    if (d.version === 3 || d.version === 4 || d.version === 5 || modern) {
       const rewards = readRewards(d.rewards, mission ? 0 : d.wave);
       if (
         !rewards ||
@@ -192,7 +204,7 @@ export function decodeCheckpoint(raw: string): Game | null {
         return null;
       Object.assign(game.rewards, rewards);
     } else if (d.wave === 4 || d.wave === 8) game.rewards.pending = d.wave;
-    if (d.version === 4 || d.version === 5 || d.version === 6) {
+    if (d.version === 4 || d.version === 5 || modern) {
       const campaign = readCampaign(d.campaign, mission ? 12 : d.wave);
       if (
         !campaign ||

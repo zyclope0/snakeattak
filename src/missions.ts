@@ -7,6 +7,7 @@ export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
 export type MissionRun = Readonly<{
   missionId: MissionId;
+  rules?: 2;
   seed: number;
   layout: 0 | 1 | 2;
   assault: 'balanced' | 'rush' | 'escort';
@@ -93,8 +94,10 @@ export function readMissionRun(raw: unknown): MissionRun | null {
     !nests.includes(d.nest as MissionRun['nest'])
   )
     return null;
+  if (Object.hasOwn(d, 'rules') && (d.rules !== 2 || d.missionId !== 'refuge')) return null;
   return Object.freeze({
     missionId: d.missionId as MissionId,
+    ...(d.rules === 2 ? { rules: 2 as const } : {}),
     seed: d.seed,
     layout: d.layout,
     assault: d.assault as MissionRun['assault'],
@@ -114,6 +117,7 @@ export function createMissionRun(
   const prior = readMissionRun(previous);
   const configAt = (index: number) => ({
     missionId: id,
+    ...(id === 'refuge' ? { rules: 2 as const } : {}),
     seed,
     layout: (index % 3) as 0 | 1 | 2,
     assault: assaults[Math.floor(index / 3) % 3],
