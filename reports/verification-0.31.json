@@ -1,0 +1,148 @@
+{
+  "version": "0.31.0",
+  "base": "9607a5b7982588941c53124b58b2546711c6c651",
+  "nativeTests": 410,
+  "nativeFailures": 0,
+  "format": "passed",
+  "typecheck": "passed",
+  "build": "passed",
+  "generalBrowser": "passed",
+  "childMobile": {
+    "version": "0.31.0",
+    "source": "Chromium cloud, not physical Android",
+    "sizes": [
+      {
+        "width": 812,
+        "height": 375,
+        "insets": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dock": {
+          "x": 592.765625,
+          "y": 48,
+          "width": 219.234375,
+          "height": 327
+        },
+        "canvas": {
+          "x": 6,
+          "y": 48,
+          "width": 580.15625,
+          "height": 327
+        }
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "insets": [
+          24,
+          48,
+          16,
+          0
+        ],
+        "dock": {
+          "x": 557.734375,
+          "y": 72,
+          "width": 206.265625,
+          "height": 287
+        },
+        "canvas": {
+          "x": 24,
+          "y": 72,
+          "width": 509.1875,
+          "height": 287
+        }
+      },
+      {
+        "width": 568,
+        "height": 320,
+        "insets": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "dock": {
+          "x": 392,
+          "y": 76,
+          "width": 176,
+          "height": 244
+        },
+        "canvas": {
+          "x": 0,
+          "y": 87,
+          "width": 392,
+          "height": 220.9375
+        }
+      },
+      {
+        "width": 667,
+        "height": 375,
+        "insets": [
+          24,
+          0,
+          16,
+          48
+        ],
+        "dock": {
+          "x": 491,
+          "y": 100,
+          "width": 176,
+          "height": 259
+        },
+        "canvas": {
+          "x": 48,
+          "y": 104,
+          "width": 443,
+          "height": 249.6875
+        }
+      }
+    ],
+    "checks": [
+      "permanent favourites",
+      "no hidden lane",
+      "safe areas",
+      "48px",
+      "real recruit",
+      "honey touch both flavours",
+      "inactive and offroad refusal",
+      "pause",
+      "cancel",
+      "exclusive selection",
+      "rotation",
+      "custom favourites preserved",
+      "poor shortcuts remain visible",
+      "keyboard honey alternative"
+    ],
+    "errors": []
+  },
+  "audit": "13/13,47 initialDOMwords at1280x800",
+  "mobileRegression": "6sizes/insets+4narrow catalogues passed",
+  "interruptions": "11checks passed",
+  "offline": "last camp,schemas1..7,3backgrounds,disk-only browsertransport passed",
+  "presentation": "14scenes passed",
+  "portable": "build and browser passed",
+  "physicalDeviceVerified": false,
+  "apk": {
+    "versionCode": 34,
+    "normalStartup": true,
+    "bytes": 13113068,
+    "sha256": "6a0f6c638a763ff11c8607f1c4c8cd54758f2477ef39a4578c8d7bb4150444d6",
+    "sameDebugCertificateAs0302": true,
+    "identicalWebFiles": 27
+  },
+  "rulesAndCodecsChanged": false,
+  "pending": [
+    "physical S24 retest",
+    "enemy threat preview",
+    "power onboarding decision",
+    "easy/bonus rules decision",
+    "campaign extension",
+    "source HD terrain and icon integration",
+    "app localisation",
+    "commercial SDK/store integration"
+  ],
+  "deployment": "separate pending reviewed build delivery"
+}

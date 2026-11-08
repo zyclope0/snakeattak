@@ -147,7 +147,7 @@ export class Presentation {
         subtitle:
           !game.mission && (game.wave === 4 || game.wave === 8)
             ? `Nouvelle clairière : ${game.level.name}.`
-            : 'Prépare les prochains renforts.',
+            : 'Prépare les prochains alliés.',
         duration: 2.8,
         priority: 2,
       });
@@ -198,7 +198,7 @@ export class Presentation {
           this.reactions.set(e.id, r);
         }
       } else if (!old && !fresh) {
-        if (e.kind !== 'snake') this.text(e.x, e.y - 72, 'En renfort !', '#c6e8ed');
+        if (e.kind !== 'snake') this.text(e.x, e.y - 72, 'À la rescousse !', '#c6e8ed');
         else
           this.arrivals.push({
             id: e.id,
@@ -219,7 +219,7 @@ export class Presentation {
           this.announce({
             kind: 'fallen',
             title: 'Un allié est tombé',
-            subtitle: 'Les médecins soignent les vivants ; les renforts prennent la relève.',
+            subtitle: 'Les médecins soignent les vivants ; les alliés prennent la relève.',
             duration: 1.8,
             priority: 0,
           });

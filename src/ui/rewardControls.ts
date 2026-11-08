@@ -27,7 +27,7 @@ export function bindRewardControls(session: Session, refresh: () => void) {
       const id = button.dataset.reward;
       if (!id || !session.game.chooseReward(id)) return;
       const kind = REWARDS[id as keyof typeof REWARDS].kind;
-      if (kind) session.selected = kind;
+      if (kind) session.selectUnit(kind);
       refresh();
       if (kind && matchMedia('(max-width:800px)').matches)
         document.getElementById('game')!.scrollIntoView({ block: 'center' });

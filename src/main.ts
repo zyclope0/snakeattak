@@ -82,7 +82,7 @@ report = bindChapterReport(session);
 refresh();
 const soundFrame = bindSounds();
 const coach = createCoach(session);
-const battleNotices = bindBattleNotices(coach, () => !!session.selected);
+const battleNotices = bindBattleNotices(coach, () => !!session.selected || !!session.selectedFeast);
 phaser = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'game',

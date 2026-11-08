@@ -3,7 +3,7 @@ import type { Session } from '../session.ts';
 import type { FeastFlavor } from '../tactics.ts';
 import { ART_SHEETS } from '../art.ts';
 
-const flavors: ReadonlyArray<{ value: FeastFlavor; label: string; hint: string }> = [
+export const FEAST_CHOICES: ReadonlyArray<{ value: FeastFlavor; label: string; hint: string }> = [
   {
     value: 'lure',
     label: 'Attirer',
@@ -16,6 +16,19 @@ const flavors: ReadonlyArray<{ value: FeastFlavor; label: string; hint: string }
   },
 ];
 
+export function feastIconStyle(flavor: FeastFlavor) {
+  const sheet = ART_SHEETS.find((s) => s.key === 'miels-parapluie')!;
+  return `background-image:url("${sheet.url}");background-position:${flavor === 'sticky' ? 100 : 0}% 100%`;
+}
+
+export function feastPot(flavor: FeastFlavor) {
+  const icon = document.createElement('span');
+  icon.className = 'feast-pot';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.style.cssText = feastIconStyle(flavor);
+  return icon;
+}
+
 export function bindFeastControls(session: Session, onChange: () => void) {
   const container = document.getElementById('feast-controls')!;
   const flavorContainer = document.getElementById('feast-flavors')!;
@@ -27,14 +40,9 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     !session.game.paused &&
     !session.game.feastUsed &&
     (session.game.status === 'preparing' || session.game.status === 'fighting');
-  const flavorButtons = flavors.map((flavor) => {
+  const flavorButtons = FEAST_CHOICES.map((flavor) => {
     const button = document.createElement('button');
-    const icon = document.createElement('span');
-    icon.className = 'feast-pot';
-    icon.setAttribute('aria-hidden', 'true');
-    const sheet = ART_SHEETS.find((s) => s.key === 'miels-parapluie')!;
-    icon.style.backgroundImage = `url("${sheet.url}")`;
-    icon.style.backgroundPosition = `${flavor.value === 'sticky' ? 100 : 0}% 100%`;
+    const icon = feastPot(flavor.value);
     button.append(icon, document.createTextNode(flavor.label));
     button.dataset.feastFlavor = flavor.value;
     button.setAttribute('aria-pressed', 'false');
@@ -43,6 +51,7 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     button.onclick = () => {
       if (!canChoose()) return;
       selected = flavor.value;
+      session.selectFeast(selected);
       onChange();
     };
     flavorContainer.append(button);
@@ -54,7 +63,8 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     button.dataset.feastLane = String(lane);
     button.setAttribute('aria-pressed', 'false');
     button.onclick = () => {
-      if (session.game.offerFeast(lane, selected)) session.selected = null;
+      if (session.game.offerFeast(lane, session.selectedFeast ?? selected))
+        session.selectUnit(null);
       onChange();
     };
     container.append(button);
@@ -67,8 +77,14 @@ export function bindFeastControls(session: Session, onChange: () => void) {
       selected = 'lure';
     }
     if (game.feast) selected = game.feast.flavor;
+    if (session.selectedFeast) selected = session.selectedFeast;
+    if (
+      session.selectedFeast &&
+      (game.feastUsed || game.status === 'won' || game.status === 'lost')
+    )
+      session.selectFeast(null);
     for (const [index, button] of flavorButtons.entries()) {
-      const active = flavors[index].value === selected;
+      const active = FEAST_CHOICES[index].value === selected;
       button.disabled = !canChoose();
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
@@ -76,7 +92,8 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     const lanes = game.enemyLanes;
     hint.classList.toggle('tutorial-hint', game.mission?.rules === 2 && lanes.length < 3);
     hint.textContent =
-      flavors.find((flavor) => flavor.value === selected)!.hint +
+      'Touche un chemin pour poser le miel, ou utilise les boutons ci-dessous. ' +
+      FEAST_CHOICES.find((flavor) => flavor.value === selected)!.hint +
       (game.mission?.rules === 2 && lanes.length < 3
         ? ` Voie${lanes.length > 1 ? 's' : ''} attaquée${lanes.length > 1 ? 's' : ''} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. « — » : paisible.`
         : '');

@@ -5,6 +5,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 
 const phase = process.argv[2] ?? 'all';
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const fixture = 'mobile-031-fixture.html';
 let browser, preview, dev;
 const errors = [],
@@ -326,10 +327,10 @@ try {
   }
   assert.deepEqual(errors, []);
   await writeFile(
-    'reports/mobile-0.30.1.json',
+    `reports/mobile-${version}.json`,
     JSON.stringify(
       {
-        version: '0.30.1',
+        version,
         simulatedInsets: true,
         physicalDevice: false,
         results,

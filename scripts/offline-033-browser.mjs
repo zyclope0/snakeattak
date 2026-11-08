@@ -139,7 +139,7 @@ try {
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });
   await writeFile(
-    'reports/offline-0.30.2.json',
+    `reports/offline-${pkg.version}.json`,
     JSON.stringify(
       {
         version: pkg.version,

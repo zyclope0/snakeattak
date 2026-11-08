@@ -1,4 +1,11 @@
-# Android — version 0.30.2
+# Android — version 0.31.0
+
+VersionName 0.31.0, versionCode 34. Dock permanent de quatre alliés, miel au
+toucher des chemins et catalogue adjacent. APK familial sans diagnostic au
+démarrage, certificat debug conservé. Voir BILAN-0.31.md. Les essais navigateur
+ne valident pas les performances ni le cycle de vie physique du S24.
+
+## Correctif précédent — 0.30.2
 
 VersionName 0.30.2, versionCode 33, paysage `sensorLandscape`. La pause
 d'interruption est conservée après retour en paysage ou fermeture d'un dialogue.

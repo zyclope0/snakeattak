@@ -5,6 +5,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 
 const fixture = 'interruptions-033-fixture.html';
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const origin = 'http://127.0.0.1:4355';
 let server, browser;
 const errors = [],
@@ -202,11 +203,11 @@ try {
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });
   await writeFile(
-    'reports/interruptions-0.30.2.json',
+    `reports/interruptions-${version}.json`,
     JSON.stringify(
       {
         source: 'Chromium cloud; synthetic page lifecycle, not physical Android',
-        version: '0.30.2',
+        version,
         checks,
         errors,
       },

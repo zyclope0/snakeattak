@@ -27,7 +27,7 @@ export function bindSquadControls(
       return;
     }
     career.activateRoster(Number(select.value));
-    session.selected = null;
+    session.selectUnit(null);
     refresh();
   };
   const cards = Array.from({ length: 8 }, () => {
@@ -42,7 +42,7 @@ export function bindSquadControls(
     b.onclick = () => {
       const kind = b.dataset.quickKind as Kind;
       if (!kind || b.disabled) return;
-      session.selected = session.selected === kind ? null : kind;
+      session.selectUnit(session.selected === kind ? null : kind);
       session.game.message = `${kinds[kind].name} : touche un espace libre dans ton camp.`;
       refresh();
       if (matchMedia('(max-width:800px)').matches)

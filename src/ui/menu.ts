@@ -35,7 +35,7 @@ export function bindMenu(
     requestAnimationFrame(() => el('start').focus({ preventScroll: true }));
   };
   const showHome = () => {
-    session.selected = null;
+    session.selectUnit(null);
     session.screen = 'home';
     if (!session.game.mission) career.sync(session.game);
     actions.view(true);
@@ -181,7 +181,7 @@ export function bindMenu(
   el('roster-save').onclick = () => {
     if (session.game.status === 'fighting' || !career.setRoster(slot, draft)) return;
     career.activateRoster(slot);
-    session.selected = null;
+    session.selectUnit(null);
     actions.refresh();
     showHome();
   };

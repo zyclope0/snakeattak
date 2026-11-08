@@ -11,6 +11,7 @@ export class Session {
   screen: 'home' | 'battle' = 'battle';
   selected: Kind | null = null;
   selectedFeast: FeastFlavor | null = null;
+  actionHint: string | null = null;
   speed: 1 | 2 = 1;
   hasPlaced = false;
   private accumulator = 0;
@@ -40,10 +41,12 @@ export class Session {
   selectUnit(kind: Kind | null) {
     this.selected = kind;
     this.selectedFeast = null;
+    this.actionHint = null;
   }
   selectFeast(flavor: FeastFlavor | null) {
     this.selected = null;
     this.selectedFeast = flavor;
+    this.actionHint = null;
   }
   placeFeast(lane: number): boolean {
     if (!this.selectedFeast || !this.game.offerFeast(lane, this.selectedFeast)) return false;
@@ -67,6 +70,9 @@ export class Session {
       this.game.step(STEP);
       this.accumulator = Math.max(0, this.accumulator - STEP);
     }
-    if (fighting && this.game.status !== 'fighting') this.selectedFeast = null;
+    if (fighting && this.game.status !== 'fighting') {
+      this.selectedFeast = null;
+      this.actionHint = null;
+    }
   }
 }

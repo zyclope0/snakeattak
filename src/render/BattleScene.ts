@@ -1,4 +1,6 @@
 import { victoryCopy } from './resultCopy.ts';
+import { activateBoard } from '../ui/boardActions.ts';
+import { drawFeastPlacement } from './feastPlacement.ts';
 import { FlightSignals } from './flightSignals.ts';
 import { MedicalSignals } from './medicalSignals.ts';
 import { placementReadout } from './placementRange.ts';
@@ -139,8 +141,11 @@ export class BattleScene extends Phaser.Scene {
       .setDepth(100)
       .setVisible(false);
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      if (!this.session.selected) return;
-      if (!this.session.placeSelected(pointer.x, pointer.y)) {
+      if (!this.session.selected && !this.session.selectedFeast) return;
+      if (
+        !activateBoard(this.session, { x: pointer.x, y: pointer.y }) &&
+        !this.session.selectedFeast
+      ) {
         this.session.game.message = this.session.game.paused
           ? 'Reprends la partie pour placer ton renfort.'
           : 'Choisis un espace libre dans le camp, loin des rochers et des alliés.';
@@ -166,6 +171,7 @@ export class BattleScene extends Phaser.Scene {
     this.onFrame(this.session.game);
     this.ink.clear();
     this.honeyInk.clear();
+    if (this.session.selectedFeast) drawFeastPlacement(this.honeyInk, this.session.game);
     this.terrain.update(
       this.session.game.level,
       this.session.game.mission,

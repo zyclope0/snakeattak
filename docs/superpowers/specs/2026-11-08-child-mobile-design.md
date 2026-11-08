@@ -44,7 +44,7 @@ Conserver les identifiants DOM et les commandes existants pour clavier/tests.
 ## Recette
 
 - Dock quatre alliés et deux pots à 812×375, sans recouvrement ; commandes≥48px.
-- Plateau≥85% hauteur utile et≥65% largeur à 812×375, marges système comprises.
+- Plateau≥85% hauteur utile et≥65% largeur utile à 812×375, marges système comprises.
 - Catalogues étroits 480/568/667, portrait 375×812 et ordinateur1280×800.
 - Recrutement tactile réel, coûts réels, sélection sans achat automatique.
 - Miel en touchant les chemins courbes, modes Attirer/Ralentir, voies paisibles,

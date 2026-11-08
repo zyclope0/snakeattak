@@ -1,4 +1,6 @@
 import { childCopy } from './childCopy.ts';
+import { bindBattleDock } from './battleDock.ts';
+import { feastIconStyle } from './feastControls.ts';
 import { pauseStateFor } from './pauseState.ts';
 import { bindLifecycle } from './lifecycle.ts';
 import { bindOrientation } from './orientation.ts';
@@ -84,13 +86,13 @@ export function bindControls(
     const d = kinds[kind],
       b = document.createElement('button');
     b.className = 'unit-card';
-    b.title = d.description;
+    b.title = childCopy(d.description);
     b.dataset.kind = kind;
     b.setAttribute('aria-pressed', 'false');
     b.innerHTML = `<span class="portrait" aria-hidden="true"></span><span class="unit-info"><strong>${d.name}</strong><small>${descriptions[kind]}</small></span><span class="price">${d.cost} <i aria-hidden="true">●</i><span class="sr-only"> pièces</span></span>`;
     b.querySelector<HTMLElement>('.portrait')!.style.cssText = portraitStyle(kind);
     b.onclick = () => {
-      session.selected = session.selected === kind ? null : kind;
+      session.selectUnit(session.selected === kind ? null : kind);
       session.game.message = session.selected
         ? `${d.name} : touche un espace libre dans ton camp, à droite.`
         : 'Placement annulé.';
@@ -104,6 +106,7 @@ export function bindControls(
   const refreshSquad = bindSquadControls(session, career, refresh);
   const refreshAdventure = bindAdventureControls(session, refresh);
   const refreshFeast = bindFeastControls(session, refresh);
+  const refreshDock = bindBattleDock(session, career, refresh);
   const refreshRewards = bindRewardControls(session, refresh);
   bindUnitGuide(session, refresh);
   el('start').onclick = () => {
@@ -129,7 +132,7 @@ export function bindControls(
     refresh();
   };
   el('cancel').onclick = () => {
-    session.selected = null;
+    session.selectUnit(null);
     session.game.message = 'Placement annulé. Choisis un allié ou lance la vague.';
     refresh();
   };
@@ -161,7 +164,7 @@ export function bindControls(
   bindLifecycle(session, refresh);
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') {
-      session.selected = null;
+      session.selectUnit(null);
       refresh();
     }
     if (
@@ -195,7 +198,7 @@ export function bindControls(
     el('level-subtitle').textContent = session.game.mission
       ? session.game.level.name
       : session.game.level.subtitle;
-    if (finished) session.selected = null;
+    if (finished) session.selectUnit(null);
     el('end-restart').hidden = !finished || !!session.game.mission;
     el('brief-title').textContent =
       `${session.game.status === 'preparing' ? 'Prochaine vague' : 'Vague en cours'} · ${Math.max(1, nextWave)} / ${session.game.totalWaves} · ${briefing.title}`;
@@ -215,16 +218,24 @@ export function bindControls(
           : 'Consulte le statut de sauvegarde pour reprendre un camp, ou commence une nouvelle aventure.';
     }
     refreshFeast();
+    refreshDock();
     refreshHud(session.game);
     const selected = session.selected;
-    el('selection-panel').hidden = !selected;
-    el('message').hidden = !!selected;
+    el('selection-panel').hidden = !selected && !session.selectedFeast;
+    el('message').hidden = !!selected || !!session.selectedFeast;
     if (selected) {
       el('selection-name').textContent = kinds[selected].name;
       const readout = placementReadout(session.game, selected);
       el('selection-hint').textContent =
         `${readout?.category ?? 'Placement'} · portée initiale ${kinds[selected].range}. Touche ton camp ; cet allié agit ensuite seul.`;
       el('selection-portrait').style.cssText = portraitStyle(selected);
+    } else if (session.selectedFeast) {
+      el('selection-name').textContent =
+        session.selectedFeast === 'sticky' ? 'Miel collant' : 'Miel attirant';
+      el('selection-hint').textContent =
+        session.actionHint ??
+        'Touche un chemin attaqué. Les boutons Haut, Centre et Bas restent disponibles.';
+      el('selection-portrait').style.cssText = feastIconStyle(session.selectedFeast);
     }
     if (finished) {
       el<HTMLDetailsElement>('brief-title').closest('details')!.open = true;
@@ -251,7 +262,7 @@ export function bindControls(
     el<HTMLButtonElement>('pause').disabled = end;
     el<HTMLButtonElement>('repair').disabled =
       end || session.game.paused || session.game.gold < 80 || session.game.base >= 100;
-    el('cancel').hidden = !session.selected;
+    el('cancel').hidden = !session.selected && !session.selectedFeast;
     let ready = 0,
       future = 0;
     for (const kind of cards.keys()) {

@@ -34,6 +34,11 @@ export function createCoach(session: Session) {
 
 export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
   const game = session.game;
+  if (session.selectedFeast)
+    return {
+      title: session.actionHint ?? 'Touche un chemin',
+      subtitle: 'Choisis une voie attaquée pour poser ton miel. Annuler garde ton pot.',
+    };
   if (session.selected)
     return {
       title: `2 · Place ton ${kinds[session.selected].name.toLowerCase()}`,
@@ -48,13 +53,13 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
     };
   if (game.wave === 0 && !session.hasPlaced)
     return {
-      title: '1 · Choisis ton premier renfort',
+      title: '1 · Choisis ton premier allié',
       subtitle: 'Pour commencer, essaie une massue ou un archer dans les alliés disponibles.',
     };
   if (game.wave === 0)
     return {
-      title: '3 · Ton renfort est prêt !',
-      subtitle: 'Lance la vague. Tes soldats se déplaceront et combattront tout seuls.',
+      title: '3 · Ton allié est prêt !',
+      subtitle: 'Lance la vague. Tes alliés se déplaceront et combattront tout seuls.',
     };
   if (game.status === 'fighting') {
     const readout = encounterReadout(game);
@@ -69,7 +74,7 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
       return {
         title: `Éclosion dans ${Math.ceil(Math.min(...readout.eggs.map((e) => e.remaining)))} s`,
         priority: 3,
-        subtitle: 'Les œufs marqués vont libérer des serpents. Garde un renfort en réserve.',
+        subtitle: 'Les œufs marqués vont libérer des serpents. Garde un allié en réserve.',
       };
     if (readout.confusion)
       return {
@@ -110,6 +115,6 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
   }
   return {
     title: 'Observe les voies faibles',
-    subtitle: 'Tes alliés agissent seuls. Tu peux aussi acheter des renforts pendant le combat.',
+    subtitle: 'Tes alliés agissent seuls. Tu peux aussi acheter des alliés pendant le combat.',
   };
 }

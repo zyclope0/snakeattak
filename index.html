@@ -167,7 +167,7 @@
     <dialog id="departure-dialog" aria-labelledby="departure-title">
       <h2 id="departure-title">Retrouver cette aventure classique</h2>
       <p>
-        Douze vagues, un cristal et un nouveau camp de 300 pièces. Tes choix de renforts restent
+        Douze vagues, un cristal et un nouveau camp de 300 pièces. Tes choix de alliés restent
         libres.
       </p>
       <p id="departure-preview-code" class="departure-value"></p>
@@ -381,7 +381,7 @@
               aria-controls="reinforcements"
               aria-expanded="false"
             >
-              Renforts
+              Alliés
             </button>
             <button id="start" class="primary">Lancer la vague</button>
           </div>
@@ -416,7 +416,7 @@
                 id="game"
                 role="img"
                 tabindex="0"
-                aria-label="Champ de bataille : serpents à gauche, cristal à droite. Choisis un renfort puis touche une zone libre du camp pour le placer."
+                aria-label="Champ de bataille : serpents à gauche, cristal à droite. Choisis un allié puis touche une zone libre du camp pour le placer."
               ></div>
               <div id="loading-overlay" class="loading-overlay" role="status" hidden>
                 <div>
@@ -433,19 +433,33 @@
               </div>
             </div>
           </section>
+          <aside id="battle-dock" class="battle-dock" aria-label="Alliés favoris et miel">
+            <div
+              id="dock-allies"
+              class="dock-allies"
+              role="group"
+              aria-label="Quatre alliés favoris"
+            ></div>
+            <p id="dock-mode" role="status" aria-live="polite">Tes favoris</p>
+            <div id="dock-honey" class="dock-honey" role="group" aria-label="Choisir le miel"></div>
+            <div class="dock-actions">
+              <button id="dock-catalogue" aria-controls="reinforcements">Tous les alliés</button>
+              <button id="dock-cancel" aria-label="Annuler le choix" disabled>✕</button>
+            </div>
+          </aside>
           <button
             id="reinforcements-backdrop"
             class="reinforcements-backdrop"
-            aria-label="Fermer les renforts"
+            aria-label="Fermer les alliés"
             tabindex="-1"
           ></button>
-          <aside id="reinforcements" class="reinforcements" aria-label="Les renforts">
+          <aside id="reinforcements" class="reinforcements" aria-label="Les alliés">
             <div class="army-title">
               <h2>Alliés</h2>
               <button
                 id="reinforcements-close"
                 class="reinforcements-close quiet"
-                aria-label="Fermer les renforts"
+                aria-label="Fermer les alliés"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -483,7 +497,7 @@
               </button>
             </div>
             <div class="shop-toolbar">
-              <div class="shop-tabs" aria-label="Afficher les renforts">
+              <div class="shop-tabs" aria-label="Afficher les alliés">
                 <button id="shop-ready" aria-pressed="true">Disponibles</button
                 ><button id="shop-future" aria-pressed="false">À découvrir</button>
               </div>
@@ -649,12 +663,12 @@
         nouvelle phase peut apporter une protection.
       </p>
       <p>
-        Après les vagues 4 et 8, choisis un bonus : un renfort offert à placer, du miel plus
-        durable, une réserve de pièces ou une protection du cristal. Un seul choix par étape,
-        conservé si tu recharges la partie.
+        Après les vagues 4 et 8, choisis un bonus : un allié offert à placer, du miel plus durable,
+        une réserve de pièces ou une protection du cristal. Un seul choix par étape, conservé si tu
+        recharges la partie.
       </p>
       <ol>
-        <li><b>Prépare.</b> Choisis un renfort puis touche le camp à droite pour le placer.</li>
+        <li><b>Prépare.</b> Choisis un allié puis touche le camp à droite pour le placer.</li>
         <li>
           <b>Observe.</b> Lance la vague : tes alliés se déplacent et combattent automatiquement.
         </li>
@@ -666,8 +680,8 @@
       <details class="help-rules">
         <summary>Les pouvoirs et les règles en détail</summary>
         <p>
-          <b>Recruter en bataille.</b> Tu peux aussi acheter un renfort ou réparer le cristal
-          pendant le combat. Le jeu bloque ces actions en pause et à la fin de la partie.
+          <b>Recruter en bataille.</b> Tu peux aussi acheter un allié ou réparer le cristal pendant
+          le combat. Le jeu bloque ces actions en pause et à la fin de la partie.
         </p>
         <p>
           <b>Trois voies reliées.</b> Les serpents peuvent changer de chemin aux jonctions. Plus les
@@ -678,7 +692,7 @@
           <b>À chacun son secteur.</b> Les gardiens et tireurs défendent autour de leur placement,
           puis reviennent à leur repère bleu. Le bouclier protège aussi un voisin contre les tirs.
           Le ninja, notre allié le plus rapide, cherche les cracheurs exposés, tout en gardant le
-          cristal en priorité ; les cavaliers et vélociraptors sont des renforts mobiles. En danger,
+          cristal en priorité ; les cavaliers et vélociraptors sont des alliés mobiles. En danger,
           un petit groupe peut secourir une défense attaquée. Les soigneurs soignent mais ne
           bloquent pas le passage : protège-les !
         </p>
@@ -717,16 +731,16 @@
         </p>
         <p>
           <b>Deux miels, un seul pot par vague.</b> Choisis <b>Attirer</b> ou <b>Ralentir</b>, puis
-          Haut, Centre ou Bas. Le miel attirant tente les serpents au départ et aux jonctions ; il
-          ne les téléporte pas et ne leur fait pas abandonner un combat. Le miel collant pose une
-          flaque visible sur le passage choisi : les serpents qui la traversent avancent moins vite,
-          sans changer de voie pour la rejoindre. Chaque pot dure 14 secondes, plus 4 secondes par
-          bonus de miel choisi. Le roi résiste davantage aux deux miels. Le choix du pot se recharge
-          à la prochaine vague.
+          touche un chemin attaqué, ou utilise Haut, Centre ou Bas. Le miel attirant tente les
+          serpents au départ et aux jonctions ; il ne les téléporte pas et ne leur fait pas
+          abandonner un combat. Le miel collant pose une flaque visible sur le passage choisi : les
+          serpents qui la traversent avancent moins vite, sans changer de voie pour la rejoindre.
+          Chaque pot dure 14 secondes, plus 4 secondes par bonus de miel choisi. Le roi résiste
+          davantage aux deux miels. Le choix du pot se recharge à la prochaine vague.
         </p>
         <p>
           Les médecins portent 6 bandages, les infirmiers 4. Leurs soins sont espacés ; à court de
-          bandages, ils retournent au fort pour 4 secondes de recharge. Un soldat tombé ne revient
+          bandages, ils retournent au fort pour 4 secondes de recharge. Un allié tombé ne revient
           pas. Les palissades retiennent les ennemis.
         </p>
         <p>
