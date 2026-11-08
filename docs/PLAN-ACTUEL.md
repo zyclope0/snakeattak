@@ -2,7 +2,12 @@
 
 ## Mission active — Suivi v0.32.1, étape 1
 
-**8 novembre 2026 — étape 1 terminée, STOP pour le test du parent sur le S24.**
+**8 novembre 2026 — étape 1 livrée ; retour de fluidité reçu sur le S24.
+STOP en attente du GO distinct pour l'étape 2.**
+
+Retour du parent : « fluide a mon niveau su s24 ». Observation qualitative sur
+appareil réel ; aucune mesure FPS/RAM ni validation globale des interactions
+n'en est déduite. [Retour consigné](../reports/suivi-0.32.2/retour-parent-s24.json).
 
 APK 0.32.2/code 37 compilé, identifiant et certificat debug conservés.
 Recette : 423 tests natifs, interface 24/24, audit 13/13, child-mobile six formats,

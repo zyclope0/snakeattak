@@ -96,7 +96,7 @@ règles modifié, aucun test de l'étape 2 ajouté implicitement.
   binaire. Aucun SDK de publicité, achat ou serveur ajouté ; aucune image générée.
 - Les sources de règles, RNG, générateurs de départ et sauvegardes sont inchangées.
   Les tests de compatibilité restent distincts d'un essai physique de migration.
-- Chromium cloud et tactile émulé : **aucun essai physique S24**, FPS/RAM Android,
+- À la livraison, Chromium cloud et tactile émulé : **aucun essai physique S24 par Codex**, FPS/RAM Android,
   achat, publicité, test Play, changement d'icône ou d'identifiant définitif.
 - Le site public reste en 0.32.1 ; aucun déploiement de cette étape.
 
@@ -116,3 +116,15 @@ Les pièces et constats de l'étape 0 sont conservés dans leur commit documenta
 Travail conservé sur la branche locale fix/audit-interface-0322, dans
 /workspace/conquete-serpents-0322. Le dépôt principal et les anciens worktrees
 ne sont pas remplacés ; aucune fusion ni poussée distante dans cette étape.
+
+## Retour du parent sur le S24 — 8 novembre 2026
+
+« fluide a mon niveau su s24 ». Le parent rapporte une fluidité satisfaisante
+sur son appareil. C'est une observation qualitative, sans relevé FPS/RAM et sans
+confirmation détaillée du catalogue, des commandes ou des marges système. La
+version concernée est 0.32.2 par le contexte de l'APK fourni, sans numéro relu
+sur l'appareil. [Trace du retour](../reports/suivi-0.32.2/retour-parent-s24.json).
+
+Aucun code, APK, règle ou sauvegarde modifié pour consigner ce retour. Les reçus
+de compilation et de tests de la livraison restent historiques et inchangés.
+**STOP maintenu : le retour de fluidité n'est pas un GO pour l'étape 2.**
