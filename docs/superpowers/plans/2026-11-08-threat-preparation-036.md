@@ -60,7 +60,7 @@ version/Android et bilan/plan ; modifier workflow.
 - [x] GREEN : 1280×800, 812×375, 568×320,480×320 avec marges,375×812 ; cibles48px, ratio du plateau, vraie vague, catalogue, rotation et pauses.
 - [x] Version0.32.0/code35, bilan et plan fidèles aux sous-parties livrées.
 - [x] verify, navigateur général, mobile, interruptions, hors ligne, portable ; APK normal avec même certificat et fichiers web identiques.
-- [ ] Revue finale, corrections justifiées, intégration main et Git privé ; publication distincte du build vérifié.
+- [x] Revue finale, corrections justifiées, intégration main et Git privé ; publication distincte du build vérifié.
 
 Méthode native conservée selon le mandat autonome ; le plan précise les choix du
 développeur et n'ajoute pas d'approbation conversationnelle au GO reçu.

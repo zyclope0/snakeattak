@@ -26,7 +26,14 @@
     "identicalWebFiles": 27,
     "sameDebugCertificateAsPrevious": true
   },
-  "deployment": "pending reviewed build delivery",
+  "deployment": {
+    "status": "succeeded",
+    "versionNumber": 14,
+    "receipt": "reports/deployment-0.32.json",
+    "sourceCodeCommit": "44141fc503f0dfbbca68a20081d1f40344b775e9",
+    "staticCommit": "f13b862a17e8cbe9c4b9c519cc512646131610c4",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/"
+  },
   "independentReview": {
     "perspectives": 5,
     "critical": 0,
@@ -34,5 +41,6 @@
     "importantFixed": 1,
     "minor": 0,
     "correction": "umbrella copy: own frontal arrows while moving, no neighboring protection; actual combat helper and copy regression RED then GREEN; 423 native tests/types/build passed"
-  }
+  },
+  "mainVerification": "423 native tests, format, types, build and budgets passed after fast-forward integration"
 }

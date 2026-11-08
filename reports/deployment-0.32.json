@@ -1,0 +1,40 @@
+{
+  "source": {
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "commit_sha": "f13b862a17e8cbe9c4b9c519cc512646131610c4",
+    "archive": "/workspace/serpents-site-0320.tar",
+    "archiveSha256": "dda00f723cc48bc9bca4f734450c3cd1f7a57af6e3d2e99a65f31fb83b15e616"
+  },
+  "version": {
+    "id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_9b19dfc8040c819192f946962a1d63da",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "version_number": 14,
+    "source": {
+      "commit_sha": "f13b862a17e8cbe9c4b9c519cc512646131610c4"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000fae881f68dcb461b2320c71e",
+      "content_hash": "sha256:0da632f697a13e1565ce648df5265b76c5c63bc0c6638ddfcc2175f59dfbd65f",
+      "size_bytes": 10280960,
+      "file_count": 28
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6af0bdb9058c819198200dae8492a65a",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "title": "La Conquête des Serpents",
+    "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_9b19dfc8040c819192f946962a1d63da",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-08T18:22:00.341932+00:00"
+  }
+}

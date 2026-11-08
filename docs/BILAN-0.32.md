@@ -55,7 +55,11 @@ Rapports : `reports/threat-preparation-0.32.json`, `reports/audit-0.32.json`,
 Captures : `docs/captures-0.32/`. Portable : build et recette navigateur passent. APK familial 0.32.0/code35
 compilé hors ligne, certificat debug précédent, démarrage normal sans diagnostic.
 Les 27 fichiers web embarqués correspondent exactement au build testé.
-La publication attend la revue finale ; aucun AAB ni déploiement Play.
+Le site public est publié en 0.32.0 (version Sites14), commit statique
+`f13b862a17e8cbe9c4b9c519cc512646131610c4`, archive issue du commit poussé.
+URL : https://conquete-serpents-famille.zyclope.chatgpt.site/.
+Reçu : `reports/deployment-0.32.json` ; contrôles : `reports/verification-0.32.json`.
+Aucun AAB ni déploiement Play. L'intégration main repasse les423 tests et le build.
 
 Le S24, le confort des enfants sans lecture, FPS/RAM, appels et verrouillage
 restent des essais physiques distincts. Les mises en situation Chromium ne les
@@ -93,3 +97,6 @@ par cette relecture de code.
 - Seuil du lancement relevé à48px aussi sur ordinateur.
 - Rapports versionnés pour préserver les preuves des versions précédentes.
 - Gel des sources pendant les recettes pour éviter les rechargements Vite induits.
+
+- Publication du même build sur le site public existant et synchronisation du
+  Git privé sous le mandat autonome ; audience et certificat conservés.

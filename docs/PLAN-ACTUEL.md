@@ -92,9 +92,9 @@ exacte ; ne pas réutiliser « aucune collecte » pour une version publicitaire.
 
 ## Preuves actuelles et limites
 
-Dernière livraison publique 0.31.0 ; candidat application 0.32.0, dossier Play
-0.30.1 historique. Suite locale du candidat :
-423 tests natifs sur le candidat 0.32 ; livraison et CI de cette version dans son bilan. La [CI GitHub 42494670333](https://github.com/zyclope0/snakeattak/actions/runs/42494670333)
+Application/APK et site public 0.32.0, dossier Play
+0.30.1 historique. Suite locale de cette livraison :
+423 tests natifs verts ; livraison et preuves dans son bilan. La [CI GitHub 42494670333](https://github.com/zyclope0/snakeattak/actions/runs/42494670333)
 reste une preuve du code 0.30.2 `a57b05a` (400 tests), distincte de cette recette.
 Audit strict actuel 13/13 ; cela ne couvre ni tout le lot 7, ni compréhension sans
 lecture, ni FPS Android physique. Le rapprochement d'audit reste historique ;
