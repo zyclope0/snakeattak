@@ -1,5 +1,71 @@
 # Plan actuel — application 0.32.1
 
+## Mission active — Suivi v0.32.1, étape 0
+
+**8 novembre 2026 — contre-vérification terminée, STOP en attente du parent.**
+Référence : audit mis à jour sur `36305b8` / 0.32.1, uniquement sa section
+« Suivi v0.32.1 ». [Source et empreinte](audit-source-2026-11/manifest-suivi-0.32.1.json).
+AGENTS.md, GAME_DESIGN.md, ce plan et MONETISATION.md ont été lus avant analyse.
+Le mandat autonome antérieur ne permet plus d'enchaîner : **un GO après chaque
+étape**. [Bilan et preuves détaillées](BILAN-0.32.1.md#suivi-de-laudit--étape-0-du-8-novembre-2026).
+
+| Constat du suivi                 | Contre-vérification                                                                                                                                                                                                                             | Preuve                                                                                                                                                                                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 — Catalogue ordinateur et vide | Confirmé : 10 cartes, 2 onglets, 1 filtre ; canvas 931,97 × 525,30 px à 1280 × 800 ; 157,70 px entre son bas et le bas de la fenêtre                                                                                                            | [Capture](captures-suivi-0.32.1-etape-0/combat-1280x800.png), [mesures](../reports/suivi-0.32.1-etape-0/geometries.json) ; src/style.css:300 et :3780                                                                      |
+| 2 — Bandeau au-dessus de la voie | Confirmé avec nuance : chevauchement des rectangles avec le bord des puces sur 2,81 px ; les puces HTML restent devant. Le chemin pavé est couvert sur la géométrie 1, pas sur la géométrie 0 capturée ; ne pas généraliser à tous les terrains | [Capture vague 2](captures-suivi-0.32.1-etape-0/evenement-vague2-780x360.png) ; src/render/battleFeedback.ts:112, src/style.css:3713 ; [calcul des trois tracés](../reports/suivi-0.32.1-etape-0/contre-verification.json) |
+| 3 — Tutoiement automatique       | Problème confirmé, décompte contesté : 21 chaînes dans les trois fichiers cités, et 2 supplémentaires dans checkpoints.ts:233 ; pas seulement 13                                                                                                | [Inventaire avec lignes](../reports/suivi-0.32.1-etape-0/textes-sources.json) ; src/ui/childCopy.ts:1                                                                                                                      |
+| 4 — Trait blanc du héros         | Confirmé : pixels déjà présents dans l'atlas du héros, pas un trait CSS ni une barre système Android                                                                                                                                            | [Recadrage](captures-suivi-0.32.1-etape-0/heros-1280x800.png) ; src/art.ts:47 et :94, src/ui/menu.ts:120 ; atlas allies-front.webp                                                                                         |
+| 5 — Victoire sans recrutement    | Exemple reproduit : code REFUGE-2-FZZZ-ZZR4-9F, 2 étoiles sans recrue, 3 avec un archer. Résultat variable selon le départ ; 12 simulations, toutes gagnées. Aucun rééquilibrage demandé ni réalisé                                             | [Observations et méthode](../reports/suivi-0.32.1-etape-0/refuge-observations.json)                                                                                                                                        |
+
+### Ordre imposé, avec arrêt à chaque étape
+
+0. **Contre-vérification, documents et captures uniquement : réalisée.** Aucun
+   changement de code applicatif, de version, de sauvegarde ou de publication.
+   Vérifications : verify 423/423, navigateur ordinateur/mobile, audit 13/13,
+   child-mobile six formats sans erreur. STOP actuel.
+1. **0.32.2 — correctifs d'interface**, après GO : même dock sur ordinateur
+   (4 favoris, 2 miels, Tous les alliés), plateau agrandi sans défilement ; annonces
+   sur une ligne dans le HUD ou au bas du plateau, sans couvrir voie/pastilles ;
+   suppression du trait blanc existant. Conserver proportions et coordonnées du
+   plateau : un dock latéral rétréci ne suffira pas forcément à récupérer les
+   150 px entiers. Comparer la hauteur utile et annoncer le gain réel.
+   Recette : npm run verify, test:browser, test:audit, test:child-mobile ; captures
+   avant/après 1280×800, 1366×768 et 780×360 tactile ; dimensions avant/après ;
+   npm run android:apk:debug. **STOP : test de l'APK par le parent sur S24.**
+2. **Textes sources au tutoiement**, après nouveau GO : reprendre l'inventaire
+   complet, y compris les messages reconstruits lors d'une reprise ; enlever la
+   réécriture childCopy ou justifier strictement un éventuel reste de compatibilité.
+   Expliquer chaque instantané modifié, ajouter le contrôle d'absence de
+   « vous / votre / vos » dans src/ et index.html ; vérifier mêmes parties pour
+   mêmes codes, anciens formats et tous les tests. **STOP.** Version à fixer au GO.
+3. **Icône et identité**, après nouveau GO : source Magnific retenue dans
+   docs/resources-2026-11, sans génération payante ; icône adaptative, fond uni,
+   coins blancs supprimés ; vérifier l'icône de l'APK debug. Proposer trois
+   identifiants définitifs avec avantages/inconvénients, **n'en appliquer aucun**.
+   Conserver l'identifiant courant et les sauvegardes. **STOP : choix du parent.**
+4. **Monétisation v1 sans serveur — documents seulement**, après nouveau GO :
+   achats non consommables vérifiés et confirmés dans l'app, acknowledge client,
+   droits relus au démarrage, dernier droit connu hors ligne ; serveur de reçus
+   facultatif plus tard. Documenter INTERNET, SDK Familles dans sa version exacte
+   vérifiée, configuration enfant avant requête, brouillons confidentialité et
+   Sécurité des données. « Aucune collecte » ne décrit pas une version avec pub.
+   **Aucune pub pendant le test fermé avant observation par le parent sur S24.**
+   Aucun SDK/achat intégré à cette étape documentaire. **STOP.**
+
+À chaque étape : tableau fait/pas fait/preuve, commandes et nombres, limites et
+arbitrages, bilan de version et ce plan à jour. Aucun changement de règles, aucun
+Math.random ajouté dans les règles ; séparation moteur/rendu/interface, sauvegardes
+et anciens codes préservés. Aucun appel anticipé, mode Facile, extension de
+campagne, renommage, lot 5 (langues) ou lot 6 (lieux). Aucun appel de génération
+payante, achat ou intégration de SDK publicitaire dans cette mission.
+
+Les priorités et lots ci-dessous sont **l'historique conservé**, pas un mandat
+pour dépasser les quatre étapes ou leurs STOP. Les documents de monétisation
+restent inchangés jusqu'à l'étape 4 ; leur exigence de serveur et leur mention
+d'un compte Play encore absent devront alors être rectifiées.
+
+## Historique conservé des lots et décisions
+
 Suivi rectifié le 8 novembre 2026, après comparaison complète avec l'audit fourni.
 Les décisions explicites du parent priment sur ses recommandations. Le gameplay
 vient du fils et reste préservé. [Analyse et preuves](RECONCILIATION-AUDIT-0.30.2.md) ;

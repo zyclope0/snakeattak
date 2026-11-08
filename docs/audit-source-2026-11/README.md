@@ -27,3 +27,11 @@ images proposées se trouvent dans `../resources-2026-11/`, sans duplication.
 `AGENTS-ajout.md` n'est pas installé. Les fichiers `originaux/` sont exclus du
 formatage pour préserver leurs octets et leurs empreintes, pas des contrôles
 de l'application. Aucune de ces références n'entre dans le build ou l'APK.
+
+## Mise à jour fournie le 8 novembre — suivi 0.32.1
+
+Le [nouveau rapport intégral](originaux/rapport-suivi-0.32.1-20261108.md) est
+archivé séparément, sans remplacer les sources ci-dessus. Son empreinte figure
+dans [manifest-suivi-0.32.1.json](manifest-suivi-0.32.1.json). Seule sa section
+« Suivi v0.32.1 » est active pour la mission en cours ; le reste reste historique.
+Le parent impose un accord distinct après chaque étape.
