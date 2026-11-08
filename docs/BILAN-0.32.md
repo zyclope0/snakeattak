@@ -98,6 +98,8 @@ les 11 scénarios d'interruption passent localement. Aucun code applicatif, APK
 ou déploiement n'a changé. Les 27 fichiers du build restent identiques à l'APK.
 Preuves : `reports/rotation-observation-0.32.json` ; dernier état distant dans
 [GitHub Actions](https://github.com/zyclope0/snakeattak/actions/workflows/check.yml).
+Le plafond du job passe à 15 minutes pour les recettes supplémentaires ; les
+délais et assertions des tests ne sont pas augmentés.
 
 ## Choix du développeur
 
