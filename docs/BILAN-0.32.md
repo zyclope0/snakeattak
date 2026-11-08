@@ -59,7 +59,7 @@ Le site public est publié en 0.32.0 (version Sites14), commit statique
 `f13b862a17e8cbe9c4b9c519cc512646131610c4`, archive issue du commit poussé.
 URL : https://conquete-serpents-famille.zyclope.chatgpt.site/.
 Reçu : `reports/deployment-0.32.json` ; contrôles : `reports/verification-0.32.json`.
-Aucun AAB ni déploiement Play. L'intégration main repasse les423 tests et le build.
+Aucun AAB ni déploiement Play. L'intégration main repasse les 423 tests et le build.
 
 Le S24, le confort des enfants sans lecture, FPS/RAM, appels et verrouillage
 restent des essais physiques distincts. Les mises en situation Chromium ne les
@@ -81,6 +81,24 @@ hors périmètre ; premier rechargement Vite induit sans correctif moteur ; autr
 anciens textes hors de cette fiche. Aucun de ces points n'est déclaré validé
 par cette relecture de code.
 
+## Suivi de la vérification GitHub
+
+La première CI de cette livraison a échoué sur l'assertion de rotation déjà
+intermittente avant cette version : le test lisait `paused` dès que le CSS
+masquait la consigne portrait. Le callback d'orientation et l'horloge du moteur
+sont des observations distinctes. La recette attend désormais la vraie pause
+en portrait et la reprise de l'horloge avant d'affirmer la sortie de pause.
+Un jeu réellement bloqué échoue toujours par délai dépassé ; la conservation
+d'une interruption et les contrôles de temps figé restent inchangés.
+
+Les 30 rotations locales supplémentaires sous CPU ralenti n'ont pas reproduit
+l'échec et ont toutes repris : ce n'est pas présenté comme une reproduction
+locale du problème CI. Après correction du test, les 423 tests/types/build et
+les 11 scénarios d'interruption passent localement. Aucun code applicatif, APK
+ou déploiement n'a changé. Les 27 fichiers du build restent identiques à l'APK.
+Preuves : `reports/rotation-observation-0.32.json` ; dernier état distant dans
+[GitHub Actions](https://github.com/zyclope0/snakeattak/actions/workflows/check.yml).
+
 ## Choix du développeur
 
 - Réutilisation du worktree isolé et méthode native sous mandat autonome ; pas
@@ -100,3 +118,6 @@ par cette relecture de code.
 
 - Publication du même build sur le site public existant et synchronisation du
   Git privé sous le mandat autonome ; audience et certificat conservés.
+
+- La recette de rotation attend l'état et le temps réels du moteur, pas une
+  transition CSS ; aucune temporisation arbitraire ni correction du jeu.

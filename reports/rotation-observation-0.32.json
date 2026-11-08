@@ -1,0 +1,192 @@
+{
+  "rotations": 30,
+  "cssHiddenBeforeResume": 0,
+  "maxSettledMs": 205,
+  "samples": [
+    {
+      "paused": false,
+      "time": 5511.5,
+      "portrait": false,
+      "settledMs": 142
+    },
+    {
+      "paused": false,
+      "time": 5988.89999999851,
+      "portrait": false,
+      "settledMs": 45
+    },
+    {
+      "paused": false,
+      "time": 6419.60000000149,
+      "portrait": false,
+      "settledMs": 121
+    },
+    {
+      "paused": false,
+      "time": 6930.5,
+      "portrait": false,
+      "settledMs": 145
+    },
+    {
+      "paused": false,
+      "time": 7551.80000000447,
+      "portrait": false,
+      "settledMs": 161
+    },
+    {
+      "paused": false,
+      "time": 8074.80000000447,
+      "portrait": false,
+      "settledMs": 139
+    },
+    {
+      "paused": false,
+      "time": 8699.70000000298,
+      "portrait": false,
+      "settledMs": 121
+    },
+    {
+      "paused": false,
+      "time": 9384.60000000149,
+      "portrait": false,
+      "settledMs": 115
+    },
+    {
+      "paused": false,
+      "time": 10215.60000000149,
+      "portrait": false,
+      "settledMs": 180
+    },
+    {
+      "paused": false,
+      "time": 11109.60000000149,
+      "portrait": false,
+      "settledMs": 205
+    },
+    {
+      "paused": false,
+      "time": 12305.80000000447,
+      "portrait": false,
+      "settledMs": 122
+    },
+    {
+      "paused": false,
+      "time": 12845.80000000447,
+      "portrait": false,
+      "settledMs": 131
+    },
+    {
+      "paused": false,
+      "time": 13505.10000000149,
+      "portrait": false,
+      "settledMs": 132
+    },
+    {
+      "paused": false,
+      "time": 14156.80000000447,
+      "portrait": false,
+      "settledMs": 132
+    },
+    {
+      "paused": false,
+      "time": 14707,
+      "portrait": false,
+      "settledMs": 99
+    },
+    {
+      "paused": false,
+      "time": 15387.60000000149,
+      "portrait": false,
+      "settledMs": 167
+    },
+    {
+      "paused": false,
+      "time": 16146,
+      "portrait": false,
+      "settledMs": 155
+    },
+    {
+      "paused": false,
+      "time": 16801.89999999851,
+      "portrait": false,
+      "settledMs": 162
+    },
+    {
+      "paused": false,
+      "time": 17655,
+      "portrait": false,
+      "settledMs": 150
+    },
+    {
+      "paused": false,
+      "time": 18406.39999999851,
+      "portrait": false,
+      "settledMs": 192
+    },
+    {
+      "paused": false,
+      "time": 19187.89999999851,
+      "portrait": false,
+      "settledMs": 154
+    },
+    {
+      "paused": false,
+      "time": 19939.80000000447,
+      "portrait": false,
+      "settledMs": 159
+    },
+    {
+      "paused": false,
+      "time": 20679.5,
+      "portrait": false,
+      "settledMs": 124
+    },
+    {
+      "paused": false,
+      "time": 21318.5,
+      "portrait": false,
+      "settledMs": 126
+    },
+    {
+      "paused": false,
+      "time": 21965.5,
+      "portrait": false,
+      "settledMs": 124
+    },
+    {
+      "paused": false,
+      "time": 22595.39999999851,
+      "portrait": false,
+      "settledMs": 119
+    },
+    {
+      "paused": false,
+      "time": 23223.39999999851,
+      "portrait": false,
+      "settledMs": 122
+    },
+    {
+      "paused": false,
+      "time": 23817.80000000447,
+      "portrait": false,
+      "settledMs": 126
+    },
+    {
+      "paused": false,
+      "time": 24482.80000000447,
+      "portrait": false,
+      "settledMs": 122
+    },
+    {
+      "paused": false,
+      "time": 25126.5,
+      "portrait": false,
+      "settledMs": 131
+    }
+  ],
+  "source": "Chromium cloud, 6x CPU throttle, not physical Android",
+  "initialFailedCI": "https://github.com/zyclope0/snakeattak/actions/runs/42509739059",
+  "interpretation": "No local reproduction; every observed portrait/landscape cycle eventually resumed. CSS visibility and application clock are separate asynchronous observations.",
+  "testCorrection": "Await real pause acquisition in portrait and real clock advancement before landscape unpaused assertion. A permanently paused game still times out. Retained-background-pause checks remain unchanged.",
+  "localVerification": "423 tests, types, build/budgets and 11 interruption checks passed"
+}

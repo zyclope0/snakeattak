@@ -42,5 +42,6 @@
     "minor": 0,
     "correction": "umbrella copy: own frontal arrows while moving, no neighboring protection; actual combat helper and copy regression RED then GREEN; 423 native tests/types/build passed"
   },
-  "mainVerification": "423 native tests, format, types, build and budgets passed after fast-forward integration"
+  "mainVerification": "423 native tests, format, types, build and budgets passed after fast-forward integration",
+  "rotationFollowup": "reports/rotation-observation-0.32.json; CI race assertion corrected to wait actual pause/clock, app unchanged; full suite423 and interruptions11 passed locally"
 }

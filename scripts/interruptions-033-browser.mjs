@@ -65,6 +65,7 @@ try {
     if (touch) {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.locator('#orientation-notice').waitFor({ state: 'visible' });
+      await page.waitForFunction(() => window.mobileInterface.session.game.paused);
       assert.equal(await paused(page), true);
       await visibility(page, true);
       await visibility(page, false);
@@ -79,10 +80,13 @@ try {
       // A rotation alone still releases only its temporary pause.
       await page.setViewportSize({ width: 375, height: 812 });
       await page.locator('#orientation-notice').waitFor({ state: 'visible' });
+      await page.waitForFunction(() => window.mobileInterface.session.game.paused);
       await page.setViewportSize({ width, height });
       await page.locator('#orientation-notice').waitFor({ state: 'hidden' });
-      assert.equal(await paused(page), false);
+      // CSS can hide the notice before the media-query change callback runs.
+      // Observe the real clock first: a pause that stays stuck must still fail.
       await running(page);
+      assert.equal(await paused(page), false);
       checks.push('simple rotation releases its own pause');
     }
     // pagehide can arrive before visibilitychange (navigation/BFCache).
@@ -119,16 +123,17 @@ try {
       assert.equal(await paused(page), true);
       await page.setViewportSize({ width, height });
       await page.locator('#orientation-notice').waitFor({ state: 'hidden' });
+      await running(page);
       assert.equal(
         await paused(page),
         false,
         'Last temporary owner releases without a stuck pause',
       );
-      await running(page);
       checks.push('dialog then portrait, closing dialog first leaves no stuck pause');
       // A modal opened while already in portrait releases before the rotation does.
       await page.setViewportSize({ width: 375, height: 812 });
       await page.locator('#orientation-notice').waitFor({ state: 'visible' });
+      await page.waitForFunction(() => window.mobileInterface.session.game.paused);
       await page.locator('#help').evaluate((b) => b.click());
       await page.setViewportSize({ width, height });
       await page.locator('#orientation-notice').waitFor({ state: 'hidden' });
