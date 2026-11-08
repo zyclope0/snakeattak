@@ -1,0 +1,32 @@
+{
+  "version": "0.32.1",
+  "base": "3c07324954c67c115646230981b5db9d5a5a9bda",
+  "nativeTests": 423,
+  "nativeFailures": 0,
+  "build": "passed",
+  "types": "passed",
+  "format": "passed",
+  "regression": "RED on original compact shop, GREEN with single outer scroll owner",
+  "touchScroll": "5 compact viewports/insets + desktop, real native Chromium touch events, disabled cards, selected ally, no purchase/close on drag, tap still selects",
+  "generalBrowser": "passed",
+  "mobile": "6 sizes/insets + 4 narrow catalogues passed",
+  "interruptions": "11 passed",
+  "offline": "schemas1–7 and3grounds passed",
+  "portable": "build and browser passed",
+  "review": {
+    "critical": 0,
+    "important": 0,
+    "minor": 0
+  },
+  "physicalAndroidVerified": false,
+  "rulesAndSavesChanged": false,
+  "apk": {
+    "versionCode": 36,
+    "bytes": 13107180,
+    "sha256": "882e43376a12cd0866acd9b014bca8b78eaefac2c4ced9d9060f9a2729048fe6",
+    "sameDebugCertificateAsPrevious": true,
+    "normalStartup": true,
+    "identicalWebFiles": 27
+  },
+  "deployment": "pending"
+}

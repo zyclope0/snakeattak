@@ -14,7 +14,7 @@ Même balayage CDP : scrollTop extérieur0 avant,117 après suppression du pièg
       défilement ; son confinement à la page et les commandes actuelles restent.
 - [x] GREEN : aller/retour, bords du catalogue, tap de recrutement toujours
       fonctionnel ; le défilement propre du shop reste présent sur grand écran.
-- [ ] Version0.32.1/code36 ; build/423 tests/navigateur général et mobile,
+- [x] Version0.32.1/code36 ; build/423 tests/navigateur général et mobile,
       APK même certificat et mêmes fichiers web, revue du correctif.
 - [ ] Sources privées et site synchronisés, APK familial fourni. Aucun changement
       moteur, prix, RNG, unités, sauvegardes ou SDK. Test réel S24 à confirmer.
