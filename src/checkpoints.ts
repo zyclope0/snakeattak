@@ -23,15 +23,16 @@ export function encodeCheckpoint(game: Game): string | null {
   if (units.length > UNIT_LIMIT) return null;
   // Keep the frozen classic witness byte-compatible with the pre-tactical camp.
   if (game.mission?.rules === 2 && !game.tuning.tacticalRulesEnabled) return null;
-  const version =
-    game.mission?.rules === 2
+  const version = game.mission?.caprice
+    ? 8
+    : game.mission?.rules === 2
       ? 7
       : game.tuning.tacticalRulesEnabled === false
         ? game.mission
           ? 5
           : 4
         : 6;
-  const modern = version === 6 || version === 7;
+  const modern = version === 6 || version === 7 || version === 8;
   const savedUnits = [];
   for (const u of units) {
     const rules = medicalRules(u.kind);
@@ -60,6 +61,7 @@ export function encodeCheckpoint(game: Game): string | null {
     ...(game.mission
       ? { mission: game.mission, missionMinBase: Math.min(game.missionMinBase, game.base) }
       : {}),
+    ...(version === 8 ? { capriceKindsChosen: game.capriceKindsChosen } : {}),
     campaign: game.campaign,
     rewards: {
       ...game.rewards,
@@ -99,7 +101,8 @@ export function decodeCheckpoint(raw: string): Game | null {
         d.version !== 4 &&
         d.version !== 5 &&
         d.version !== 6 &&
-        d.version !== 7) ||
+        d.version !== 7 &&
+        d.version !== 8) ||
       !integer(d.wave, 0, TOTAL_WAVES - 1) ||
       !integer(d.gold, 0, 10000000) ||
       !number(d.base, 1, 100) ||
@@ -111,10 +114,17 @@ export function decodeCheckpoint(raw: string): Game | null {
       d.units.length > UNIT_LIMIT
     )
       return null;
-    const modern = d.version === 6 || d.version === 7;
+    const modern = d.version === 6 || d.version === 7 || d.version === 8;
     const hasMission = d.version === 5 || (modern && Object.hasOwn(d, 'mission'));
     const mission = hasMission ? readMissionRun(d.mission) : null;
-    if (d.version === 7 ? mission?.rules !== 2 : mission?.rules !== undefined) return null;
+    if (
+      d.version === 8
+        ? !mission?.caprice
+        : d.version === 7
+          ? mission?.rules !== 2
+          : mission?.rules !== undefined
+    )
+      return null;
     if (
       hasMission &&
       (!mission ||
@@ -124,6 +134,17 @@ export function decodeCheckpoint(raw: string): Game | null {
       return null;
     const game = new Game(d.rng, undefined, mission ?? undefined),
       ids = new Set<number>();
+    if (d.version === 8) {
+      if (
+        !Array.isArray(d.capriceKindsChosen) ||
+        d.capriceKindsChosen.length > game.caprice.kinds ||
+        d.capriceKindsChosen.some(
+          (kind) => typeof kind !== 'string' || !Object.hasOwn(kinds, kind),
+        ) ||
+        (d.capriceKindsChosen.length && !game.chooseCapriceKinds(d.capriceKindsChosen as Kind[]))
+      )
+        return null;
+    }
     if (
       modern &&
       Object.hasOwn(d, 'initialSeed') &&
