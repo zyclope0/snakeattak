@@ -1,4 +1,24 @@
-# Plan actuel — application 0.34.0, suite graphique
+# Plan actuel — application 0.34.1, retour S24
+
+## Retour physique S24 — fiche trop grande, 0.34.1
+
+Le parent confirme que le défilement fonctionne en0.34.0, mais que la fiche
+occupe trop de place. Correctif0.34.1/code43 : portrait48px, en-tête et fermeture
+fixes, deux zones de lecture en petit paysage ; huit données conservées.
+Reproduction812×375 avec marges24/32 : Massue319→259px et0→8statistiques
+complètement visibles, médecin282px. X et sélecteur48px. Petit568 : corps
+défilant, un peu plus haut qu’avant ; ordinateur inchangé.
+
+Conseil six personas terminé ; défaut clavier du nouveau corps reproduit et
+corrigé par région focalisable/focus visible. Verify441/441, navigateur,
+interface24, audit13, enfant6formats et recette16cas+6contrôles verts.
+APK normal, même identité/certificat,30fichiers web identiques au build.
+**Site publié0.34.1/Sites20**, HTTP200, fiche huit champs vérifiée en ligne et
+HTML/JS/CSS identiques. Les marges simulées ne constituent pas un test physique
+du nouvel APK. L’accueil et les reprises ne changent pas.
+[Bilan](BILAN-0.34.1.md), [conseil](CONSEIL-0.34.1.md),
+[reçu](../reports/deployment-0.34.1.json). Branche/PR privées synchronisées sans
+fusion ; test réel S24 et lisibilité des portraits/textes restent à confirmer.
 
 ## Point graphique3 demandé — 9 novembre2026
 

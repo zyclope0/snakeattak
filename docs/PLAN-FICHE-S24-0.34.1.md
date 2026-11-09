@@ -13,12 +13,12 @@ l’exige. Fiches ordinateur et portrait conservent leur présentation.
 Alternative écartée : réduire tous les textes/cibles ou cacher des statistiques.
 Coût si ce choix plaît moins : ajustement local CSS/structure, aucune migration.
 
-- [ ] Reproduire la fiche actuelle avec marges système et mesurer hauteur/statistiques visibles.
-- [ ] Recette rouge sur812×375 et780×360 : fiche compacte, données essentielles visibles, contrôles48px et contenus longs accessibles.
-- [ ] Modifier seulement structure de la fiche et CSS dédié, version0.34.1/code43.
-- [ ] Vérifier build/verify, navigateur, recette dédiée et six formats tactiles ; pause/Échap conservés.
-- [ ] Conseil après le lot : architecture, mobile, accessibilité et cibles6/9/12ans simulées.
-- [ ] APK normal inspecté, site et GitHub synchronisés ; bilan avec limites physiques.
+- [x] Reproduire la fiche actuelle avec marges système et mesurer hauteur/statistiques visibles.
+- [x] Recette rouge sur812×375 et780×360 : fiche compacte, données essentielles visibles, contrôles48px et contenus longs accessibles.
+- [x] Modifier seulement structure de la fiche et CSS dédié, version0.34.1/code43.
+- [x] Vérifier build/verify, navigateur, recette dédiée et six formats tactiles ; pause/Échap conservés.
+- [x] Conseil après le lot : architecture, mobile, accessibilité et cibles6/9/12ans simulées.
+- [x] APK normal inspecté, site et GitHub synchronisés ; bilan avec limites physiques.
 
 Aucune règle, donnée d’unité, sauvegarde, RNG, sélection/reprise, image ou SDK
 modifié. Les barres système existantes gardent leurs marges, sans double inset.
@@ -41,3 +41,6 @@ paysage, reconnaissance du portrait48px et confort des textes13px à observer.
 Pas de nouvelle réduction de taille des caractères. Simulation de marges,
 pas validation physique de ce nouvel APK sur S24 ; la capture du parent porte
 sur0.34.0. L’accueil et le comportement des reprises restent hors de ce correctif.
+
+Clôture : site0.34.1/Sites20 vérifié en ligne, APK code43 inspecté, mêmes identité
+et certificat ; HTML/JS/CSS exacts. GitHub/PR synchronisés sans fusion dansmain.

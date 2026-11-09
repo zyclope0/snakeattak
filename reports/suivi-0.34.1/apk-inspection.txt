@@ -1,0 +1,195 @@
+Signer #1 certificate DN: C=US, O=Android, CN=Android Debug
+Signer #1 certificate SHA-256 digest: d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599
+Signer #1 certificate SHA-1 digest: 2438d027e0c7219da637150454f809fe753b6e23
+Signer #1 certificate MD5 digest: 80f921b121f7d327ad1efbcd06283338
+
+package: name='com.conqueteserpents.famille' versionCode='43' versionName='0.34.1' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'
+sdkVersion:'24'
+targetSdkVersion:'36'
+uses-permission: name='com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
+application-label:'La Conquête des Serpents'
+application-label-af:'La Conquête des Serpents'
+application-label-am:'La Conquête des Serpents'
+application-label-ar:'La Conquête des Serpents'
+application-label-as:'La Conquête des Serpents'
+application-label-az:'La Conquête des Serpents'
+application-label-be:'La Conquête des Serpents'
+application-label-bg:'La Conquête des Serpents'
+application-label-bn:'La Conquête des Serpents'
+application-label-bs:'La Conquête des Serpents'
+application-label-ca:'La Conquête des Serpents'
+application-label-cs:'La Conquête des Serpents'
+application-label-da:'La Conquête des Serpents'
+application-label-de:'La Conquête des Serpents'
+application-label-el:'La Conquête des Serpents'
+application-label-en-AU:'La Conquête des Serpents'
+application-label-en-CA:'La Conquête des Serpents'
+application-label-en-GB:'La Conquête des Serpents'
+application-label-en-IN:'La Conquête des Serpents'
+application-label-en-XC:'La Conquête des Serpents'
+application-label-es:'La Conquête des Serpents'
+application-label-es-US:'La Conquête des Serpents'
+application-label-et:'La Conquête des Serpents'
+application-label-eu:'La Conquête des Serpents'
+application-label-fa:'La Conquête des Serpents'
+application-label-fi:'La Conquête des Serpents'
+application-label-fr:'La Conquête des Serpents'
+application-label-fr-CA:'La Conquête des Serpents'
+application-label-gl:'La Conquête des Serpents'
+application-label-gu:'La Conquête des Serpents'
+application-label-hi:'La Conquête des Serpents'
+application-label-hr:'La Conquête des Serpents'
+application-label-hu:'La Conquête des Serpents'
+application-label-hy:'La Conquête des Serpents'
+application-label-in:'La Conquête des Serpents'
+application-label-is:'La Conquête des Serpents'
+application-label-it:'La Conquête des Serpents'
+application-label-iw:'La Conquête des Serpents'
+application-label-ja:'La Conquête des Serpents'
+application-label-ka:'La Conquête des Serpents'
+application-label-kk:'La Conquête des Serpents'
+application-label-km:'La Conquête des Serpents'
+application-label-kn:'La Conquête des Serpents'
+application-label-ko:'La Conquête des Serpents'
+application-label-ky:'La Conquête des Serpents'
+application-label-lo:'La Conquête des Serpents'
+application-label-lt:'La Conquête des Serpents'
+application-label-lv:'La Conquête des Serpents'
+application-label-mk:'La Conquête des Serpents'
+application-label-ml:'La Conquête des Serpents'
+application-label-mn:'La Conquête des Serpents'
+application-label-mr:'La Conquête des Serpents'
+application-label-ms:'La Conquête des Serpents'
+application-label-my:'La Conquête des Serpents'
+application-label-nb:'La Conquête des Serpents'
+application-label-ne:'La Conquête des Serpents'
+application-label-nl:'La Conquête des Serpents'
+application-label-or:'La Conquête des Serpents'
+application-label-pa:'La Conquête des Serpents'
+application-label-pl:'La Conquête des Serpents'
+application-label-pt:'La Conquête des Serpents'
+application-label-pt-BR:'La Conquête des Serpents'
+application-label-pt-PT:'La Conquête des Serpents'
+application-label-ro:'La Conquête des Serpents'
+application-label-ru:'La Conquête des Serpents'
+application-label-si:'La Conquête des Serpents'
+application-label-sk:'La Conquête des Serpents'
+application-label-sl:'La Conquête des Serpents'
+application-label-sq:'La Conquête des Serpents'
+application-label-sr:'La Conquête des Serpents'
+application-label-sr-Latn:'La Conquête des Serpents'
+application-label-sv:'La Conquête des Serpents'
+application-label-sw:'La Conquête des Serpents'
+application-label-ta:'La Conquête des Serpents'
+application-label-te:'La Conquête des Serpents'
+application-label-th:'La Conquête des Serpents'
+application-label-tl:'La Conquête des Serpents'
+application-label-tr:'La Conquête des Serpents'
+application-label-uk:'La Conquête des Serpents'
+application-label-ur:'La Conquête des Serpents'
+application-label-uz:'La Conquête des Serpents'
+application-label-vi:'La Conquête des Serpents'
+application-label-zh-CN:'La Conquête des Serpents'
+application-label-zh-HK:'La Conquête des Serpents'
+application-label-zh-TW:'La Conquête des Serpents'
+application-label-zu:'La Conquête des Serpents'
+application-icon-160:'res/mipmap-anydpi-v33/ic_launcher.xml'
+application-icon-240:'res/mipmap-anydpi-v33/ic_launcher.xml'
+application-icon-320:'res/mipmap-anydpi-v33/ic_launcher.xml'
+application-icon-480:'res/mipmap-anydpi-v33/ic_launcher.xml'
+application-icon-640:'res/mipmap-anydpi-v33/ic_launcher.xml'
+application-icon-65534:'res/mipmap-anydpi-v33/ic_launcher.xml'
+application: label='La Conquête des Serpents' icon='res/mipmap-anydpi-v33/ic_launcher.xml'
+application-debuggable
+launchable-activity: name='com.conqueteserpents.famille.MainActivity'  label='La Conquête des Serpents' icon=''
+feature-group: label=''
+  uses-feature: name='android.hardware.faketouch'
+  uses-implied-feature: name='android.hardware.faketouch' reason='default feature for all apps'
+  uses-feature: name='android.hardware.screen.landscape'
+  uses-implied-feature: name='android.hardware.screen.landscape' reason='one or more activities have specified a landscape orientation'
+main
+other-receivers
+supports-screens: 'small' 'normal' 'large' 'xlarge'
+supports-any-density: 'true'
+locales: '--_--' 'af' 'am' 'ar' 'as' 'az' 'be' 'bg' 'bn' 'bs' 'ca' 'cs' 'da' 'de' 'el' 'en-AU' 'en-CA' 'en-GB' 'en-IN' 'en-XC' 'es' 'es-US' 'et' 'eu' 'fa' 'fi' 'fr' 'fr-CA' 'gl' 'gu' 'hi' 'hr' 'hu' 'hy' 'in' 'is' 'it' 'iw' 'ja' 'ka' 'kk' 'km' 'kn' 'ko' 'ky' 'lo' 'lt' 'lv' 'mk' 'ml' 'mn' 'mr' 'ms' 'my' 'nb' 'ne' 'nl' 'or' 'pa' 'pl' 'pt' 'pt-BR' 'pt-PT' 'ro' 'ru' 'si' 'sk' 'sl' 'sq' 'sr' 'sr-Latn' 'sv' 'sw' 'ta' 'te' 'th' 'tl' 'tr' 'uk' 'ur' 'uz' 'vi' 'zh-CN' 'zh-HK' 'zh-TW' 'zu'
+densities: '160' '240' '320' '480' '640' '65534'
+
+N: android=http://schemas.android.com/apk/res/android
+  E: manifest (line=2)
+    A: android:versionCode(0x0101021b)=(type 0x10)0x2b
+    A: android:versionName(0x0101021c)="0.34.1" (Raw: "0.34.1")
+    A: android:compileSdkVersion(0x01010572)=(type 0x10)0x24
+    A: android:compileSdkVersionCodename(0x01010573)="16" (Raw: "16")
+    A: package="com.conqueteserpents.famille" (Raw: "com.conqueteserpents.famille")
+    A: platformBuildVersionCode=(type 0x10)0x24
+    A: platformBuildVersionName=(type 0x10)0x10
+    E: uses-sdk (line=7)
+      A: android:minSdkVersion(0x0101020c)=(type 0x10)0x18
+      A: android:targetSdkVersion(0x01010270)=(type 0x10)0x24
+    E: permission (line=11)
+      A: android:name(0x01010003)="com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" (Raw: "com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION")
+      A: android:protectionLevel(0x01010009)=(type 0x11)0x2
+    E: uses-permission (line=15)
+      A: android:name(0x01010003)="com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" (Raw: "com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION")
+    E: application (line=17)
+      A: android:theme(0x01010000)=@0x7f0e0005
+      A: android:label(0x01010001)=@0x7f0d001c
+      A: android:icon(0x01010002)=@0x7f0c0000
+      A: android:debuggable(0x0101000f)=(type 0x12)0xffffffff
+      A: android:allowBackup(0x01010280)=(type 0x12)0x0
+      A: android:supportsRtl(0x010103af)=(type 0x12)0xffffffff
+      A: android:extractNativeLibs(0x010104ea)=(type 0x12)0x0
+      A: android:roundIcon(0x0101052c)=@0x7f0c0003
+      A: android:appComponentFactory(0x0101057a)="androidx.core.app.CoreComponentFactory" (Raw: "androidx.core.app.CoreComponentFactory")
+      E: activity (line=27)
+        A: android:theme(0x01010000)=@0x7f0e0007
+        A: android:label(0x01010001)=@0x7f0d0029
+        A: android:name(0x01010003)="com.conqueteserpents.famille.MainActivity" (Raw: "com.conqueteserpents.famille.MainActivity")
+        A: android:exported(0x01010010)=(type 0x12)0xffffffff
+        A: android:launchMode(0x0101001d)=(type 0x10)0x2
+        A: android:screenOrientation(0x0101001e)=(type 0x10)0x6
+        A: android:configChanges(0x0101001f)=(type 0x11)0x1ff4
+        E: intent-filter (line=35)
+          E: action (line=36)
+            A: android:name(0x01010003)="android.intent.action.MAIN" (Raw: "android.intent.action.MAIN")
+          E: category (line=38)
+            A: android:name(0x01010003)="android.intent.category.LAUNCHER" (Raw: "android.intent.category.LAUNCHER")
+      E: provider (line=42)
+        A: android:name(0x01010003)="androidx.core.content.FileProvider" (Raw: "androidx.core.content.FileProvider")
+        A: android:exported(0x01010010)=(type 0x12)0x0
+        A: android:authorities(0x01010018)="com.conqueteserpents.famille.fileprovider" (Raw: "com.conqueteserpents.famille.fileprovider")
+        A: android:grantUriPermissions(0x0101001b)=(type 0x12)0xffffffff
+        E: meta-data (line=47)
+          A: android:name(0x01010003)="android.support.FILE_PROVIDER_PATHS" (Raw: "android.support.FILE_PROVIDER_PATHS")
+          A: android:resource(0x01010025)=@0x7f100001
+      E: provider (line=51)
+        A: android:name(0x01010003)="androidx.startup.InitializationProvider" (Raw: "androidx.startup.InitializationProvider")
+        A: android:exported(0x01010010)=(type 0x12)0x0
+        A: android:authorities(0x01010018)="com.conqueteserpents.famille.androidx-startup" (Raw: "com.conqueteserpents.famille.androidx-startup")
+        E: meta-data (line=55)
+          A: android:name(0x01010003)="androidx.emoji2.text.EmojiCompatInitializer" (Raw: "androidx.emoji2.text.EmojiCompatInitializer")
+          A: android:value(0x01010024)="androidx.startup" (Raw: "androidx.startup")
+        E: meta-data (line=58)
+          A: android:name(0x01010003)="androidx.lifecycle.ProcessLifecycleInitializer" (Raw: "androidx.lifecycle.ProcessLifecycleInitializer")
+          A: android:value(0x01010024)="androidx.startup" (Raw: "androidx.startup")
+        E: meta-data (line=61)
+          A: android:name(0x01010003)="androidx.profileinstaller.ProfileInstallerInitializer" (Raw: "androidx.profileinstaller.ProfileInstallerInitializer")
+          A: android:value(0x01010024)="androidx.startup" (Raw: "androidx.startup")
+      E: receiver (line=66)
+        A: android:name(0x01010003)="androidx.profileinstaller.ProfileInstallReceiver" (Raw: "androidx.profileinstaller.ProfileInstallReceiver")
+        A: android:permission(0x01010006)="android.permission.DUMP" (Raw: "android.permission.DUMP")
+        A: android:enabled(0x0101000e)=(type 0x12)0xffffffff
+        A: android:exported(0x01010010)=(type 0x12)0xffffffff
+        A: android:directBootAware(0x01010505)=(type 0x12)0x0
+        E: intent-filter (line=72)
+          E: action (line=73)
+            A: android:name(0x01010003)="androidx.profileinstaller.action.INSTALL_PROFILE" (Raw: "androidx.profileinstaller.action.INSTALL_PROFILE")
+        E: intent-filter (line=75)
+          E: action (line=76)
+            A: android:name(0x01010003)="androidx.profileinstaller.action.SKIP_FILE" (Raw: "androidx.profileinstaller.action.SKIP_FILE")
+        E: intent-filter (line=78)
+          E: action (line=79)
+            A: android:name(0x01010003)="androidx.profileinstaller.action.SAVE_PROFILE" (Raw: "androidx.profileinstaller.action.SAVE_PROFILE")
+        E: intent-filter (line=81)
+          E: action (line=82)
+            A: android:name(0x01010003)="androidx.profileinstaller.action.BENCHMARK_OPERATION" (Raw: "androidx.profileinstaller.action.BENCHMARK_OPERATION")

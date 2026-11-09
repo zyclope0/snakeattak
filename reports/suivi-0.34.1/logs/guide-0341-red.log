@@ -1,0 +1,16 @@
+{"phase":"after","cases":16,"errors":[]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: 812/club: avoid the tall desktop card
+    at file:///workspace/conquete-serpents-0322/scripts/unit-guide-0341-browser.mjs:98:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
