@@ -3,6 +3,8 @@ import { readCareerState, validateCareerState } from './progression.ts';
 import type { CareerState } from './progression.ts';
 import { validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
+import { validateCapriceAlbums } from './capriceAlbums.ts';
+import type { CapriceAlbums } from './capriceAlbums.ts';
 
 type FamilyData = {
   format: 'conquete-serpents-family';
@@ -10,7 +12,11 @@ type FamilyData = {
   career: CareerState;
 };
 export type FamilyBackup = FamilyData &
-  ({ version: 1; missions?: never } | { version: 2 | 3; missions: MissionProgress });
+  (
+    | { version: 1; missions?: never; albums?: never }
+    | { version: 2 | 3; missions: MissionProgress; albums?: never }
+    | { version: 4; missions: MissionProgress; albums: CapriceAlbums }
+  );
 export const FAMILY_CHARACTER_LIMIT = 500000;
 export const FAMILY_BYTE_LIMIT = 1000000;
 const withinLimits = (raw: string) =>
@@ -26,9 +32,11 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
     const data = value as Record<string, unknown>;
     if (
       data.format !== 'conquete-serpents-family' ||
-      (data.version !== 1 && data.version !== 2 && data.version !== 3)
+      (data.version !== 1 && data.version !== 2 && data.version !== 3 && data.version !== 4)
     )
       return null;
+    // A mistaken version must not silently discard a child's collection.
+    if (data.version !== 4 && Object.hasOwn(data, 'albums')) return null;
     let camp: string | null = null;
     let tutorialCamp = false;
     if (data.camp !== null) {
@@ -42,7 +50,7 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
     const career = readCareerState(JSON.stringify(data.career));
     if (!career) return null;
     let result: FamilyBackup;
-    if (data.version === 2 || data.version === 3) {
+    if (data.version === 2 || data.version === 3 || data.version === 4) {
       const missions = validateMissionProgress(data.missions);
       if (!missions) return null;
       if (
@@ -50,13 +58,19 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
         (tutorialCamp || Object.values(missions.lastRuns).some((run) => run.rules === 2))
       )
         return null;
-      result = {
-        format: 'conquete-serpents-family',
-        version: data.version,
-        camp,
-        career,
-        missions,
-      };
+      if (data.version === 4) {
+        const albums = validateCapriceAlbums(data.albums);
+        if (!albums) return null;
+        result = { format: 'conquete-serpents-family', version: 4, camp, career, missions, albums };
+      } else {
+        result = {
+          format: 'conquete-serpents-family',
+          version: data.version,
+          camp,
+          career,
+          missions,
+        };
+      }
     } else {
       // A version mistake must never silently discard expedition progress.
       if (Object.hasOwn(data, 'missions') || tutorialCamp) return null;
@@ -73,6 +87,7 @@ export function writeFamilyBackup(
   campRaw: string | null,
   career: CareerState,
   missions?: MissionProgress,
+  albums?: CapriceAlbums,
 ): string | null {
   try {
     const validatedCareer = validateCareerState(career);
@@ -80,14 +95,17 @@ export function writeFamilyBackup(
     const validatedMissions =
       missions === undefined ? undefined : validateMissionProgress(missions);
     if (missions !== undefined && !validatedMissions) return null;
+    const validatedAlbums = albums === undefined ? undefined : validateCapriceAlbums(albums);
+    if (albums !== undefined && (!validatedAlbums || !validatedMissions)) return null;
     const tutorial =
       Object.values(validatedMissions?.lastRuns ?? {}).some((run) => run.rules === 2) ||
       (campRaw !== null && JSON.parse(campRaw).mission?.rules === 2);
     const backup = readFamilyBackup(
       JSON.stringify({
         format: 'conquete-serpents-family',
-        version: validatedMissions ? (tutorial ? 3 : 2) : 1,
+        version: validatedAlbums ? 4 : validatedMissions ? (tutorial ? 3 : 2) : 1,
         ...(validatedMissions ? { missions: validatedMissions } : {}),
+        ...(validatedAlbums ? { albums: validatedAlbums } : {}),
         camp: campRaw,
         career: validatedCareer,
       }),
