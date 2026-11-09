@@ -60,6 +60,9 @@ try {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(origin);
   assert.equal(await page.evaluate(() => navigator.onLine), false);
+  // Locale initialization loads bootstrap asynchronously, including offline.
+  // Wait for the real menu before inspecting its visible version.
+  await page.locator('#home-screen').waitFor({ state: 'visible' });
   assert.ok((await page.locator('body').innerText()).includes(pkg.version));
   await page.locator('#home-play').click();
   await page.locator('#mission-launch').click();

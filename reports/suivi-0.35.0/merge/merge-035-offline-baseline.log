@@ -1,0 +1,22 @@
+
+> conquete-serpents@0.35.0 test:offline
+> node scripts/offline-033-browser.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok((await page.locator('body').innerText()).includes(pkg.version))
+
+    at file:///workspace/conquete-serpents-0322/scripts/offline-033-browser.mjs:63:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

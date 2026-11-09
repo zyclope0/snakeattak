@@ -1,5 +1,16 @@
 # Plan actuel — application 0.35.0, tactique et français/anglais
 
+## Fusion autorisée de PR2 — 9 novembre 2026
+
+Le parent autorise la fusion. Le préflight a reproduit l'échec des deux CI
+sur le test hors ligne : lecture du numéro de version avant la fin du bootstrap
+asynchrone. Correction du seul test par attente du vrai accueil ; les dix
+contrôles hors ligne passent, dont les sauvegardes1–7. Les34fichiers web restent
+identiques au build publié et à l'APK0.35.0. Les contrôles GitHub complets doivent
+passer avant fusion ; leur état et le résultat effectif sont consultables sur
+[PR2](https://github.com/zyclope0/snakeattak/pull/2).
+[Preflight](PREFLIGHT-MERGE-0.35.0.md).
+
 ## Lot tactique et anglais — 9 novembre 2026
 
 **0.35.0/code45.** Demande du parent : réaliser le lot2 de lisibilité,
