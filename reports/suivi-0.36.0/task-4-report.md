@@ -159,7 +159,7 @@ account, Play flow, network SDK or paid generation was requested or used.
 Delivery metadata/fixture commit: `673481f345b4c8790f1407ac13292155b0e80ba1`.
 Documentation/evidence commit is returned to root after its explicit-path commit.
 The final change contains no UI/model/rules/RNG/schema changes. All requested
-fresh checks and optional portable/file/CI checks have passed. The only observed
+fresh checks and optional portable/file checks have passed. The only observed
 failure was the obsolete locale fixture bypass, reproduced and fixed above;
 there is no unresolved product regression from this delivery pass.
 
