@@ -1,4 +1,4 @@
-# Plan actuel — application 0.33.0, suite autonome
+# Plan actuel — application 0.33.1, suite autonome
 
 ## Reprise autonome — 9 novembre 2026
 
@@ -18,10 +18,12 @@ d'enfants réels ni une recette Android physique.
    conseils selon l'état réel et texte d'entraînement exact. Aucun nouvel outil,
    verrou, prix ou bonus. Version0.33.0,434tests et recettes vertes.
    [Bilan](BILAN-0.33.0.md), [conseil six personas](CONSEIL-0.33.0.md).
-2. **Lot B — progression illustrée, en cours** : chemin des six missions existantes,
+2. **Lot B — progression illustrée, livré** : chemin des six missions existantes,
    états issus de la vraie progression, esprit pâte à modeler / papier mâché.
-   Même Jouer/reprise, aucune mission ou récompense supplémentaire. Visée0.33.1.
-3. **Lot C — transitions et livraison** : interruptions, aide, sélections,
+   Même Jouer/reprise, aucune mission ou récompense supplémentaire. Version0.33.1,
+   438tests,16cas de parcours et4 096profils de progression vérifiés.
+   [Bilan](BILAN-0.33.1.md), [conseil six personas](CONSEIL-0.33.1.md).
+3. **Lot C — transitions et livraison, en cours** : interruptions, aide, sélections,
    reprise, hors ligne, anciens camps/codes ; APK normal et site vérifiés.
 
 Restent distincts : test physique S24, langues relues, nouveaux lieux, extension

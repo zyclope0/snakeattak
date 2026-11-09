@@ -39,14 +39,19 @@ travaillent en lecture seule, sans réécriture simultanée des fichiers.
 
 ## Lot B
 
-Implémentation déléguée après clôture de A, en cours. Lecture préalable faite : diorama actuel
+Implémentation après clôture de A :f428763, correction après conseil2a95623.
+438/438, parcours16cas, navigateur, missions/départs, audit13/13 et interface24/24
+verts. Conseil six personas terminé, quatre clarifications UI retenues et vérifiées.
+4 096profils d’étoiles contrôlés exhaustivement sans mutation. Lecture préalable : diorama actuel
 et cartes textuelles repliées, vrai étatmissionProgress, original icon512 conservé.
 Baseline visuelle et images réellement chargées mesurées sur le site0.32.4,
 artifacts/journey-baseline-0324. Ne pas supposer une économie réseau sans mesure.
 
 ## Lot C
 
-À faire : transitions, anciens camps/codes et hors ligne, APK normal, vérification
+En cours : diagnostic des racines de test après masquage initial légitime de #app ;
+session.screen=battle mais root cachée reproduit, correction des compositions
+de test uniquement avant recettes. Ensuite anciens camps/codes/hors ligne, APK normal, vérification
 native de la signature/identité/permissions et exactitude des fichiers ; conseil
 six personas de livraison, puis publication web vérifiée. Pas de test physique
 ou de validation des enfants à inventer.
