@@ -16,6 +16,7 @@
     "benchmark": "node scripts/benchmark.mjs",
     "balance": "node scripts/balance-100.mjs",
     "balance:lab": "node scripts/balance-lab.mjs",
+    "balance:caprices": "node scripts/caprices-lab.mjs",
     "balance:paths": "node scripts/path-transit.mjs",
     "verify": "npm run format:check && npm run test && npm run build",
     "test:presentation": "node scripts/presentation-browser.mjs",
