@@ -1,3 +1,4 @@
+import { capriceRules } from '../caprices.ts';
 import { setAttribute as setDisplayAttribute, setText as setDisplayText } from '../i18n/dom.ts';
 import type { MissionRun } from '../missions.ts';
 import { missionById } from '../missions.ts';
@@ -138,6 +139,11 @@ export function showMissionScouting(run: MissionRun) {
   );
   renderThreatAdvice(
     el('mission-advice'),
-    threatAdvice(types, (kind) => rank >= (unlockWave[kind] ?? 1)),
+    threatAdvice(
+      types,
+      (kind) =>
+        rank >= (unlockWave[kind] ?? 1) &&
+        !(capriceRules(run).noHealers && (kind === 'nurse' || kind === 'medic')),
+    ),
   );
 }

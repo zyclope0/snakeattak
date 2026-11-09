@@ -1,3 +1,8 @@
+import { createCapriceAlbums, createCapriceAlbumsController } from './capriceAlbums.ts';
+import { bindCapriceAlbums } from './ui/capriceAlbums.ts';
+import { prepareMissionLaunch } from './ui/capriceLaunch.ts';
+import type { Kind } from './data.ts';
+import './ui/caprices.css';
 import { setText as setDisplayText } from './i18n/dom.ts';
 import { bindBoardResize } from './render/boardResize.ts';
 import { Game } from './game.ts';
@@ -33,6 +38,15 @@ const familySaved = family.load();
 const missions = createMissionProgressController(
   familySaved && 'missions' in familySaved ? familySaved.missions : undefined,
 );
+const albums = createCapriceAlbumsController(
+  familySaved?.version === 4 ? familySaved.albums : undefined,
+);
+const stickerResults = new WeakMap<Game, boolean>();
+let albumUI: ReturnType<typeof bindCapriceAlbums> | undefined;
+const recordAlbum = (game: Game) => {
+  if (game.mission?.caprice && game.status === 'won' && !stickerResults.has(game))
+    stickerResults.set(game, albums.record(game));
+};
 const session = new Session();
 session.screen = 'home';
 const career = createCareer(storage, familySaved?.career);
@@ -45,6 +59,12 @@ if (saved) {
   session.game = saved;
   session.hasPlaced = saved.wave > 0 || saved.units.length > 3;
 }
+if (
+  !albums.state.campProfileId &&
+  (saved?.mission?.caprice ||
+    (missions.state.retryCamp && decodeCheckpoint(missions.state.retryCamp)?.mission?.caprice))
+)
+  albums.beginRun();
 const campMemory = createCampMemory(saved ?? undefined);
 let hasCamp = !!saved;
 let classicGame: Game | undefined = saved && !saved.mission ? saved : undefined;
@@ -62,7 +82,9 @@ const refresh = bindControls(
     }
     if (!session.game.mission) career.sync(session.game);
     if (hasCamp) missions.sync(session.game);
-    family.sync(campMemory.raw(), career.state, missions.state);
+    recordAlbum(session.game);
+    family.sync(campMemory.raw(), career.state, missions.state, albums.state);
+    albumUI?.refresh();
     menu?.refresh();
     report?.();
     expeditions?.();
@@ -72,7 +94,7 @@ const refresh = bindControls(
   {
     restart: () => {
       const run = session.game.mission;
-      if (run) launchMission(run);
+      if (run) launchMission(run, session.game.capriceKindsChosen, true);
       else session.restart();
     },
   },
@@ -138,11 +160,21 @@ menu = bindMenu(session, career, {
   refresh,
   progressStatus: () => family.status,
 });
-function launchMission(run: MissionRun) {
+albumUI = bindCapriceAlbums(
+  session,
+  albums,
+  refresh,
+  () => family.status,
+  (game) => stickerResults.get(game),
+);
+function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = false) {
+  const next = prepareMissionLaunch(run, chosen, missions);
+  if (!next) return false;
   if (hasCamp) missions.sync(session.game);
+  recordAlbum(session.game);
   if (!session.game.mission && hasCamp) classicGame = session.game;
-  if (!missions.started(run)) return;
-  const next = new Game(run.seed, undefined, run);
+  if (!missions.started(run)) return false;
+  if (!retry) albums.beginRun();
   session.useGame(next);
   missionGame = next;
   campMemory.replace(null);
@@ -151,41 +183,49 @@ function launchMission(run: MissionRun) {
   view(false);
   refresh();
   document.getElementById('start')!.focus({ preventScroll: true });
+  return true;
 }
-expeditions = bindExpeditions(session, missions, {
-  launch: launchMission,
-  launchClassic: (seed) => menu!.startFromSeed(seed),
-  home: () => menu!.showHome(),
-  canResume: () => !!missionGame || !!missions.state.retryCamp,
-  resume: () => {
-    if (!session.game.mission && hasCamp) {
-      missions.sync(session.game);
-      classicGame = session.game;
-    }
-    const game =
-      missionGame && !['lost', 'won'].includes(missionGame.status)
-        ? missionGame
-        : missions.state.retryCamp
-          ? decodeCheckpoint(missions.state.retryCamp)
-          : null;
-    if (!game) return;
-    session.useGame(game);
-    missionGame = game;
-    missions.switchMode('missions');
-    hasCamp = true;
-    campMemory.replace(missions.state.retryCamp);
-    session.screen = 'battle';
-    view(false);
-    refresh();
+expeditions = bindExpeditions(
+  session,
+  missions,
+  {
+    launch: launchMission,
+    profileChanged: refresh,
+    launchClassic: (seed) => menu!.startFromSeed(seed),
+    home: () => menu!.showHome(),
+    canResume: () => !!missionGame || !!missions.state.retryCamp,
+    resume: () => {
+      if (!session.game.mission && hasCamp) {
+        missions.sync(session.game);
+        classicGame = session.game;
+      }
+      const game =
+        missionGame && !['lost', 'won'].includes(missionGame.status)
+          ? missionGame
+          : missions.state.retryCamp
+            ? decodeCheckpoint(missions.state.retryCamp)
+            : null;
+      if (!game) return;
+      session.useGame(game);
+      missionGame = game;
+      missions.switchMode('missions');
+      hasCamp = true;
+      campMemory.replace(missions.state.retryCamp);
+      session.screen = 'battle';
+      view(false);
+      refresh();
+    },
   },
-});
+  albums,
+);
 bindFamilyControls({
   persistenceStatus: () => family.status,
   exportRaw: () => {
     if (hasCamp) campMemory.remember(session.game);
     if (!session.game.mission) career.sync(session.game);
     if (hasCamp) missions.sync(session.game);
-    return writeFamilyBackup(campMemory.raw(), career.state, missions.state);
+    recordAlbum(session.game);
+    return writeFamilyBackup(campMemory.raw(), career.state, missions.state, albums.state);
   },
   applyBackup: (backup) => {
     const canonical = readFamilyBackup(JSON.stringify(backup));
@@ -197,6 +237,15 @@ bindFamilyControls({
         message:
           'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.',
       };
+    albums.replaceState(canonical.version === 4 ? canonical.albums : createCapriceAlbums());
+    if (
+      !albums.state.campProfileId &&
+      (('missions' in canonical &&
+        canonical.missions?.retryCamp &&
+        decodeCheckpoint(canonical.missions.retryCamp)?.mission?.caprice) ||
+        game?.mission?.caprice)
+    )
+      albums.beginRun();
     career.replaceState(canonical.career);
     missions.replaceState('missions' in canonical ? canonical.missions! : createMissionProgress());
     classicGame = game && !game.mission ? game : undefined;

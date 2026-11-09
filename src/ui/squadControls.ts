@@ -1,3 +1,4 @@
+import { canSpend } from './capriceBudget.ts';
 import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
@@ -66,6 +67,7 @@ export function bindSquadControls(
         c.p.style.cssText = portraitStyle(kind);
         setDisplayText(c.name, kinds[kind].name);
       }
+      c.b.hidden = !g.capriceAllows(kind);
       const label = locked
         ? g.mission
           ? 'Autre mission'
@@ -75,7 +77,7 @@ export function bindSquadControls(
           : `${price} ●`;
       if (c.cost.textContent !== label) setDisplayText(c.cost, label);
       c.b.disabled =
-        g.paused || locked || g.gold < price || g.status === 'won' || g.status === 'lost';
+        g.paused || locked || !canSpend(g, price) || g.status === 'won' || g.status === 'lost';
       c.b.setAttribute('aria-pressed', String(session.selected === kind));
       setDisplayAttribute(c.b, 'aria-label', `${kinds[kind].name}, ${label}`);
     });

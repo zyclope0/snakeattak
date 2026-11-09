@@ -16,6 +16,9 @@ export function bindFamilyControls(actions: Actions) {
   const dialog = el<HTMLDialogElement>('family-dialog');
   const file = el<HTMLInputElement>('family-file');
   const apply = el<HTMLButtonElement>('family-apply');
+  const albumNames = document.createElement('p');
+  albumNames.id = 'family-preview-albums';
+  el('family-preview-summary').after(albumNames);
   let pending: FamilyBackup | null = null,
     generation = 0;
   const reset = () => {
@@ -103,6 +106,20 @@ export function bindFamilyControls(actions: Actions) {
           ` Expéditions : ${missionStars} / 18 étoiles. Le camp classique est conservé séparément.`,
         );
       }
+      appendDisplayText(
+        el('family-preview-summary'),
+        backup.version === 4
+          ? ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.'
+          : ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.',
+      );
+      albumNames.replaceChildren();
+      if (backup.version === 4)
+        for (const child of backup.albums.children) {
+          const name = document.createElement('span');
+          name.dataset.copyRaw = '';
+          name.textContent = ' · ' + child.name;
+          albumNames.append(name);
+        }
       pending = backup;
       el('family-preview').hidden = false;
       apply.disabled = false;

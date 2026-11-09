@@ -1,7 +1,12 @@
+import { bindCapricePreparation, canLaunchCaprice } from './capriceView.ts';
+import { capriceBudget, capriceRules, capriceById } from '../caprices.ts';
+import type { Kind } from '../data.ts';
+import type { AlbumsController } from './capriceAlbums.ts';
 import {
   setText as setDisplayText,
   setTitle as setDisplayTitle,
   setAttribute as setDisplayAttribute,
+  setMarkup as setDisplayMarkup,
 } from '../i18n/dom.ts';
 import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
 import { defeatCopy } from '../render/resultCopy.ts';
@@ -27,18 +32,38 @@ export function bindExpeditions(
   session: Session,
   progress: Progress,
   actions: {
-    launch: (run: MissionRun) => void;
+    launch: (run: MissionRun, kinds?: readonly Kind[], retry?: boolean) => void | boolean;
     resume: () => void;
     canResume: () => boolean;
     home: () => void;
+    profileChanged?: () => void;
     launchClassic: (seed: number) => void;
   },
+  albums?: AlbumsController,
 ) {
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const dialog = el<HTMLDialogElement>('mission-dialog');
   let draft: MissionRun | null = null;
+  const allowed = (run: MissionRun) =>
+    canLaunchCaprice(
+      run,
+      progress.unlocked(run.missionId),
+      progress.state.bestStars[run.missionId] ?? 0,
+    );
+  const preparation = bindCapricePreparation(
+    dialog,
+    (id) => {
+      if (draft) {
+        const { caprice: _, ...normal } = draft;
+        preview(id ? { ...normal, caprice: id } : normal, false);
+      }
+    },
+    albums,
+    actions.profileChanged,
+    portraitStyle,
+  );
   const departures = bindDepartureControls(session, {
-    unlocked: (run) => progress.unlocked(run.missionId),
+    unlocked: allowed,
     previewMission: preview,
     launchClassic: actions.launchClassic,
   });
@@ -73,16 +98,18 @@ export function bindExpeditions(
     el('mission-cards').append(button);
     return { button, stars, availability, id: mission.id };
   });
-  function preview(run: MissionRun) {
+  function preview(run: MissionRun, resetScroll = true) {
+    if (!allowed(run)) return;
     const mission = missionById(run.missionId)!;
     draft = run;
+    preparation.update(run, progress.state.bestStars[run.missionId] ?? 0);
     departures.preview(run);
     setDisplayText(el('mission-title'), mission.name);
     setDisplayText(el('mission-objective'), mission.objective);
     el('mission-replacement-note').hidden = !actions.canResume();
     setDisplayText(
       el('mission-budget'),
-      `${mission.budget} pièces · ${mission.waves.length} vagues · nouveaux alliés`,
+      `${capriceBudget(mission.budget, capriceRules(run))} pièces · ${mission.waves.length} vagues · nouveaux alliés`,
     );
     setDisplayText(el('mission-land'), ['Détours', 'Méandres', 'Carrefour'][run.layout]);
     setDisplayText(el('mission-assault'), assaults[run.assault]);
@@ -108,9 +135,11 @@ export function bindExpeditions(
     }
     dialog.dataset.run = JSON.stringify(run);
     if (!dialog.open) dialog.showModal();
-    dialog.scrollTop = 0;
-    dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
-    el('mission-title').focus({ preventScroll: true });
+    if (resetScroll) {
+      dialog.scrollTop = 0;
+      dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
+      el('mission-title').focus({ preventScroll: true });
+    }
   }
   const nextMission = () =>
     MISSIONS.find((m) => progress.unlocked(m.id) && !progress.state.bestStars[m.id]) ??
@@ -126,17 +155,19 @@ export function bindExpeditions(
   };
   el('mission-close').onclick = () => dialog.close();
   el('mission-reroll').onclick = () => {
-    if (draft) preview(createMissionRun(draft.missionId, freshSeed(), draft));
+    if (draft) {
+      const next = createMissionRun(draft.missionId, freshSeed(), draft);
+      preview(draft.caprice ? { ...next, caprice: draft.caprice } : next);
+    }
   };
   el('mission-retry').onclick = () => {
     const previous = draft && progress.lastRun(draft.missionId);
     if (previous) preview(previous);
   };
   el('mission-launch').onclick = () => {
-    if (!draft || !progress.unlocked(draft.missionId)) return;
+    if (!draft || !allowed(draft)) return;
     const run = draft;
-    dialog.close();
-    actions.launch(run);
+    if (actions.launch(run, preparation.chosen()) !== false) dialog.close();
   };
   el('mission-continue').onclick = actions.resume;
   el('mission-back-map').onclick = () => {
@@ -146,7 +177,8 @@ export function bindExpeditions(
     el('expedition-heading').focus({ preventScroll: true });
   };
   el('mission-again').onclick = () => {
-    if (session.game.mission) actions.launch(session.game.mission);
+    if (session.game.mission)
+      actions.launch(session.game.mission, session.game.capriceKindsChosen, true);
   };
   el('mission-next').onclick = () => {
     const index = MISSIONS.findIndex((m) => m.id === session.game.mission?.missionId);
@@ -183,19 +215,30 @@ export function bindExpeditions(
       run = g.mission;
     el('mission-battle-actions').hidden = !run;
     if (!run) return;
-    const definition = missionById(run.missionId)!;
+    const caprice = capriceById(run.caprice);
     setDisplayText(el('mission-battle-title'), 'Tes alliés');
     setDisplayText(el('mission-battle-config'), `${assaults[run.assault]} · ${nests[run.nest]}`);
     const end = g.status === 'won' || g.status === 'lost';
     el('mission-result').hidden = !end;
     setDisplayText(
       el('mission-result'),
-      g.status === 'won'
-        ? `Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`
-        : defeatCopy(g).subtitle,
+      caprice
+        ? g.status === 'won'
+          ? 'Caprice réussi !'
+          : ''
+        : g.status === 'won'
+          ? `Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`
+          : defeatCopy(g).subtitle,
     );
+    if (caprice && g.status === 'lost') {
+      const node = el('mission-result');
+      // Clear the previous whole-node copy binding before adopting a protected leaf.
+      setDisplayMarkup(node, '<span data-copy-raw lang="fr"></span>');
+      const phrase = node.firstElementChild!;
+      phrase.textContent = caprice.announce;
+    }
     el('mission-again').hidden = !end;
     const index = MISSIONS.findIndex((m) => m.id === run.missionId);
-    el('mission-next').hidden = g.status !== 'won' || index >= MISSIONS.length - 1;
+    el('mission-next').hidden = g.status !== 'won' || !!caprice || index >= MISSIONS.length - 1;
   };
 }

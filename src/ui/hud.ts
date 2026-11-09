@@ -12,6 +12,10 @@ import { bossReadout } from '../render/bossReadout.ts';
 /** Stable DOM nodes: a simulation refresh updates values, not whole trees. */
 export function bindHud() {
   const tutorial = bindTutorialLanes();
+  const bank = document.createElement('small');
+  bank.id = 'caprice-bank';
+  bank.className = 'caprice-bank';
+  document.getElementById('gold')!.parentElement!.append(bank);
   const el = (id: string) => document.getElementById(id)!;
   const text = (id: string, value: string) => {
     const node = el(id);
@@ -31,6 +35,12 @@ export function bindHud() {
   return (game: Game) => {
     tutorial(game);
     text('gold', String(game.gold));
+    bank.hidden = !game.caprice.reserve;
+    if (game.caprice.reserve)
+      setDisplayText(
+        bank,
+        `${game.caprice.reserve} à la banque · ${game.gold - game.caprice.reserve} disponibles`,
+      );
     text('base', `${Math.ceil(game.base)} %`);
     const width = `${game.base}%`,
       meter = el('base-meter');

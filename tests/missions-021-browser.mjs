@@ -57,7 +57,9 @@ try {
   assert.equal(await page.locator('#army-count').innerText(), '3');
   assert.equal(await page.locator('#wave-total').innerText(), '3');
   let backup = await saved(page);
-  assert.equal(backup.version, 3);
+  assert.equal(backup.version, 4);
+  assert.ok(backup.albums.children.length >= 1);
+  assert.equal(backup.albums.version, 1);
   assert.equal(JSON.parse(backup.camp).version, 7);
   assert.deepEqual(JSON.parse(backup.camp).mission, second);
   await revealControl(page, '[data-kind="ninja"]');

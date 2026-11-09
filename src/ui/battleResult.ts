@@ -49,7 +49,14 @@ export function bindBattleResult(session: Session) {
       observed = null;
       return;
     }
-    setDisplayText(el('battle-result-title'), g.status === 'won' ? 'Bravo !' : defeatCopy(g).title);
+    setDisplayText(
+      el('battle-result-title'),
+      g.status === 'won'
+        ? g.mission?.caprice
+          ? 'Caprice réussi !'
+          : 'Bravo !'
+        : defeatCopy(g).title,
+    );
     const earned = earnedStars(g);
     stars.hidden = !earned;
     if (earned) {
