@@ -61,26 +61,46 @@ comparées à `c886b82` dans
 [source-freeze.json](../reports/suivi-0.36.0/source-freeze.json).
 Aucun nouvel échantillon d’équilibrage n’est annoncé ; les3888parties du document
 historique restent leurs mesures antérieures. Le HTML normal reste31 771octets,
-bootstrap139 024, règles81 921, anglais70 957 et Phaser1 481 792octets ; les
+bootstrap139 204, règles81 921, anglais70 957 et Phaser1 481 792octets ; les
 plafonds sont respectés. Les ressources restent séparées dans le build normal.
 
 Coquille et autocollants sont des dessins originaux procéduraux/SVG dans le code
 (`src/render/capriceShell.ts`, `src/ui/capriceAlbums.ts`), sous les droits du projet.
 Aucun service de génération, image payante ou téléchargement nouveau.
 
-L’APK debug normal est `/workspace/conquete-serpents-v0.36.0-debug.apk`.
+L’APK debug normal est `/workspace/conquete-serpents-v0.36.0-final-debug.apk`.
 L’inspection paquet/signature/fichiers est conservée dans le suivi. Même appID
 provisoire, même certificat debug, orientation paysage capteur, libellé anglais
 Snake Attack TD et français conservé ; configuration serveur diagnostic absente.
 L’APK précédent0.35.0 est préservé. Sources de l’APK :
-`673481f345b4c8790f1407ac13292155b0e80ba1` ; les changements ultérieurs
+`23a37debbc8659a46a6ad4c53e0b2a1deba87ae3` ; les changements ultérieurs
 de livraison ne concernent que documents, rapports et captures.
 
-[Le conseil final](CONSEIL-0.36.0.md) et la revue fraîche de toute la branche
-restent à compléter par le coordinateur. Les revues approuvées des tâches1/2/3
-et de R1 sont archivées dans le suivi, avec les limites des anciennes preuves.
-À faire avec de vraies personnes : essai du nouvel APK sur S24, relecture anglaise,
-compréhension des carnets et des limites de copains, disponibilité/qualité vocale.
-Mineurs hérités conservés : aide longue, petites actions secondaires, explication
-du groupe médical et indice de défilement des résultats. Aucun nouveau mineur
-produit identifié par cette seule passe de livraison ; le conseil reste ouvert.
+[Le conseil final](CONSEIL-0.36.0.md), la [revue complète](../reports/suivi-0.36.0/final-review.md) et sa [relecture ciblée](../reports/suivi-0.36.0/final-fix-review.md) sont terminés et approuvés. Deux finitions corrigées : icône locale séparée du texte français de l'annonce ; raison de réserve visible et accessible sur les favoris, prix accessible conservé.
+
+Les preuves de la finition sont distinctes de celles de la première candidate : [rapport](../reports/suivi-0.36.0/final-fix-report.md), [commandes](../reports/suivi-0.36.0/final-polish/commands.json), [inspection du dernier APK](../reports/suivi-0.36.0/final-polish/apk-inspection.json). Le premier APK et les rapports bruts antérieurs sont conservés ; le reçu d'empreintes est actualisé pour inclure les nouvelles preuves.
+
+| Vérification finale             | Résultat                                                                                                                           |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run verify`                | 503 tests, zéro échec/saut ; format, types, build et budgets verts                                                                 |
+| `npm run test:browser`          | Parcours ordinateur et mobile vert, aucune erreur JavaScript                                                                       |
+| `npm run test:caprices` complet | 269 contrôles, 39 captures, trois vraies vagues du moteur et victoire73%/2étoiles après progression de contrôle                    |
+| Recette renforcée ciblée        | 268 contrôles, 38 captures, combat volontairement non rejoué ; mêmes fichiers produit, visibilité réelle après clic natif vérifiée |
+| `npm run test:locale`           | 392 contrôles navigateur +24adaptateurs,915phrases,946entrées, aucun manque/paramètre ajouté/inconnu                               |
+| Enfant mobile et renforts       | Six formats ; cinq cas de défilement plus ordinateur, zéro erreur                                                                  |
+| Portable FR/EN                  | Quatre contrôles hors ligne, aucune requête HTTP ; build normal conservé                                                           |
+| APK final                       | Code46,34fichiers web identiques, signature/appID conservés, aucune permission INTERNET/BILLING/AD_ID ni serveur diagnostic        |
+
+Empreinte SHA256 du dernier APK : `c6909b41534b3f576cf59cc8bff55b32e801e8180a8022d2395770bcdf07cddb` ;15151926octets. Les fichiers produit sont identiques entre les deux révisions de recette ; seule la seconde renforce les assertions de visibilité. Ces nombres ne s'additionnent pas comme des parties ou des contrôles uniques. Aucune nouvelle mesure d'équilibrage.
+
+À faire avec de vraies personnes : essai du nouvel APK sur S24, tactile et TalkBack, relecture anglaise, compréhension des carnets et limites de copains, disponibilité/qualité vocale. Les sujets hérités restent distincts : aide longue, petites actions secondaires, explication du groupe médical et indice de défilement des résultats. La variété visuelle du motif des36autocollants est un retour à recueillir, pas une nouvelle règle.
+
+## Arbitrages de cadrage
+
+1. Le mandat explicite et l'autonomie ont permis de réaliser les huit points après la seule clarification nécessaire, sans nouvelle validation de conception. Les choix d'interface restent révisables après l'essai.
+2. Le parent a choisi des carnets séparés avec campagne familiale partagée. Une campagne entièrement indépendante par enfant demanderait un autre lot.
+3. Noms ET annonces restent exactement français dans l'anglais, conformément à la consigne directe qui prime sur le point6 historique ; ces passages français sont donc volontaires.
+4. STOP privé : branche de revue, pas de fusion ni publication du site ; le site reste en0.35.0.
+5. Pour les anciens camps à caprice6/7, les choix non enregistrés restent vides : aucune déduction depuis les unités vivantes ou mortes. Un choix historique absent du fichier ne peut pas être récupéré ; le schéma8 le conserve explicitement.
+6. Les aides du workflow disponibles comme ressources cloud ont été remplacées par des briefs, paquets de revue et registre locaux équivalents, archivés ; la différence porte sur l'orchestration, pas le jeu.
+7. Une hypothèse initiale d'exclusion des étoiles de caprice a été corrigée avant livraison : les étoiles familiales conservent exactement la progression existante, y compris les victoires en caprice. Seuls les autocollants sont individuels.

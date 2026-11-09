@@ -58,8 +58,8 @@
 
 **Files:** package/lock/Android version0.36.0/code46, docs/BILAN-0.36.0.md, docs/CONSEIL-0.36.0.md, docs/PLAN-ACTUEL.md et docs/CAPRICES.md, reports/suivi-0.36.0, captures.
 
-- [ ] npm run verify et npm run test:browser verts ; recettes caprices, locales, hors-ligne, missions/régressions, codes, interruption/enfant adaptées, aucune ancienne preuve écrasée.
-- [ ] Inspection visuelle des formats/carapaces/réserve/annonces ; différencier états contrôlés et jeu réel. Vérifier les empreintes du moteur figé et les budgets.
-- [ ] Revue finale fraîche et conseil6personas (3techniques, cibles6/9/12 simulées), corriger les importants avec reproduction, mineurs documentés.
-- [ ] APK debug normal même certificat/AppID, inspection paquet et web ; aucune publication. Branche poussée, PR vers claude/caprices si possible, sans fusion.
-- [ ] Compte rendu8points · preuve · tests/comptes · limites/arbitrages ; STOP pour l'essai du parent.
+- [x] npm run verify et npm run test:browser verts ; recettes caprices, locales, hors-ligne, missions/régressions, codes, interruption/enfant adaptées, aucune ancienne preuve écrasée.
+- [x] Inspection visuelle des formats/carapaces/réserve/annonces ; différencier états contrôlés et jeu réel. Vérifier les empreintes du moteur figé et les budgets.
+- [x] Revue finale fraîche et conseil6personas (3techniques, cibles6/9/12 simulées), corriger les importants avec reproduction, mineurs documentés.
+- [x] APK debug normal même certificat/AppID, inspection paquet et web ; aucune publication. Branche poussée, PR vers claude/caprices si possible, sans fusion.
+- [x] Compte rendu8points · preuve · tests/comptes · limites/arbitrages ; STOP pour l'essai du parent.

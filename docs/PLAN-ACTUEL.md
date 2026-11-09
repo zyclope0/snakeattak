@@ -10,10 +10,11 @@ Campagne et étoiles restent familiales ; pas de profils de combat distincts.
 [preuves](../reports/suivi-0.36.0/commands.json).
 
 Cette candidate n'est ni fusionnée dans `main`/`claude/caprices`, ni publiée.
-Le site public et `main` restent en0.35.0. La revue finale fraîche de toute la
-branche et le conseil6personas sont encore à terminer par le coordinateur.
+Le site public et `main` restent en0.35.0. La revue finale fraîche et le conseil de six perspectives simulées sont terminés ; les deux finitions relevées ont été corrigées et leur relecture ciblée est approuvée.
 L'essai du parent sur le nouvel APK/S24 et la relecture anglophone restent attendus.
 Aucun changement des règles, équilibrage, RNG, appID ou certificat.
+APK final : `conquete-serpents-v0.36.0-final-debug.apk`, sources `23a37de`.
+Branche de revue : [feat/caprices-interface](https://github.com/zyclope0/snakeattak/tree/feat/caprices-interface), base `claude/caprices`. L’état de la CI distante se consulte sur GitHub ; il est distinct des preuves locales.
 
 ## Fusion autorisée de PR2 — 9 novembre 2026
 
