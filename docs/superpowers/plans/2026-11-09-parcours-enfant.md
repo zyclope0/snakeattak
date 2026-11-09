@@ -60,4 +60,4 @@
 - [x] Si défaut, preuve rouge puis correction ciblée et vérifications utiles, sans changer les règles.
 - [x] Construire APK debug normal avec même identité/certificat, inspecter versions/permissions et fichiers embarqués.
 - [x] Conseil six personas de livraison ; rapports honnêtes sur les limites S24 physiques, langues/lieux/campagne et commercial.
-- [ ] Publier le build exact sur le site existant, même audience, vérification réelle du lancement. Plan et bilan finaux à jour.
+- [x] Publier le build exact sur le site existant, même audience, vérification réelle du lancement. Plan et bilan finaux à jour.

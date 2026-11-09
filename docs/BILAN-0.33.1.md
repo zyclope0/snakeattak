@@ -72,3 +72,9 @@ Pas de nouveau terrain crue/marais, nouvelle région, extension de campagne,
 mode Facile ou appel anticipé. Tous les sprites du plateau ne sont pas refaits.
 Ni APK ni publication intermédiaire : le lotC termine les transitions et prépare
 la livraison. Téléphone réel, lecteur d'écran et essais enfants restent distincts.
+
+## Livraison ultérieure du même numéro de version
+
+Le lot C a terminé les recettes, corrigé le portrait étroit, assemblé l’APK normal
+et publié le site0.33.1. Consulter le [bilan de livraison](BILAN-LIVRAISON-0.33.1.md)
+et le [conseil final](CONSEIL-LIVRAISON-0.33.1.md), qui complètent ce bilan du lot B.

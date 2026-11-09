@@ -53,6 +53,20 @@ La direction pâte à modeler / papier mâché de l’icône fait référence po
 suite. Cette livraison ne prétend pas avoir redessiné tous les personnages.
 Aucune décision critique nouvelle n’a été prise pendant l’absence du parent.
 
+## Publication actuelle — v0.33.1
+
+**9 novembre 2026, Europe/Zurich : site publié en0.33.1**, version Sites18,
+même URL et audience publique. [Reçu](../reports/deployment-0.33.1.json).
+Recette réelle en ligne : HTTP200, icône, prochaine mission, démarrage vague1,
+quatre favoris, aide et une seule pause HTML à1280×800 et812×375 tactile.
+À375×812 tactile, écran de rotation visible. Aucune erreur JavaScript.
+Plateau paysage580,13×326,98px :87,20% de la hauteur et71,44% de la largeur.
+HTML, JS jeu et CSS comparés octet par octet via lecture réseau brute en navigateur,
+identiques au build validé. Les28fichiers du dist poussé sont identiques à l’APK.
+
+La recette en ligne utilise des contextes isolés et ne touche pas aux sauvegardes
+du parent. Ni publication Google Play, ni SDK, pub ou achat activés.
+
 ## Publication web demandée après l'étape 4
 
 **9 novembre 2026, Europe/Zurich : site publié en0.32.4**, version Sites17,

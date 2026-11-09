@@ -59,4 +59,6 @@ APK normal0.33.1/code41 compilé et inspecté : même certificat/identité, pays
 Conseil final six personas terminé, aucun défaut relevé ; limites physiques et
 compréhension enfant consignées, aucune validation réelle inventée. Bilan et
 conseil de livraison distincts pour conserver les preuves de chaque lot.
-Publication web exacte à consigner dans reports/deployment-0.33.1.json.
+Publication web exacte terminée : Sites18, source072a778, même audience publique.
+Recette en ligne1280×800/812×375/375×812 verte et HTML/JS/CSS identiques ;
+reports/deployment-0.33.1.json. Trois lots et leurs trois conseils clôturés.

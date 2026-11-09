@@ -31,7 +31,7 @@ réduction des cibles tactiles ni masquage du débordement.
 | Petit portrait : commandes et titre débordants | Corrigé après reproduction sur production                                          | Recette tactical 12 combinaisons, mesures avant/après dans summary.json                      |
 | Sauvegardes, codes et règles préservés         | Aucun changement de leurs modules ; compatibilité automatisée verte                | Schémas1–7 et chapitres1–3, test hors ligne ; diff des fichiers protégés vide depuis f2a6c00 |
 | APK normal à tester                            | Assemblé et inspecté ; test physique pas fait                                      | apk.json et apk-inspection.txt                                                               |
-| Site synchronisé                               | Reçu distinct à consulter après publication                                        | reports/deployment-0.33.1.json                                                               |
+| Site synchronisé                               | Fait : Sites18, recette en ligne trois formats verte                               | reports/deployment-0.33.1.json                                                               |
 
 ## Vérification
 
@@ -72,3 +72,23 @@ d'écran ou de validation réelle des enfants. Les recettes tactiles Chromium ne
 les remplacent pas. Pas de mesure FPS/RAM native ni de CI distante nouvelle.
 Aucune règle, sauvegarde, ancien code de départ, publicité, achat ou image payante
 modifiés. Les langues, lieux, campagne et choix commerciaux restent distincts.
+
+## Publication et clôture
+
+Site existant publié en0.33.1, version Sites18, audience publique conservée.
+[Reçu complet](../reports/deployment-0.33.1.json). Contrôle en ligne à1280×800,
+812×375 tactile et375×812 tactile : zéro erreur JavaScript. Mission, vague1,
+quatre favoris, aide et pause HTML vérifiées ; portrait avec consigne de rotation.
+Plateau812×375 :580,13×326,98px, soit87,20% de la hauteur et71,44% de la largeur.
+HTML, JS jeu et CSS en ligne identiques octet par octet au build validé.
+
+Un premier contrôle réseau Node a été indisponible ; la lecture CDP du texte CSS
+réencodait ensuite quelques glyphes. La lecture brute arrayBuffer dans le
+navigateur a confirmé les octets exacts : aucun défaut du produit et aucune
+modification supplémentaire. Source Site072a778, déploiement réussi.
+
+Les trois lots autonomes sont clôturés, chacun suivi de son conseil de six.
+Pour le prochain essai : installer par-dessus l’ancienne version sans effacer les
+données, retrouver un camp, parcourir le catalogue au doigt, consulter ? puis
+revenir à l’action. Ce sont des observations encore nécessaires, pas des tests
+physiques déjà réalisés.
