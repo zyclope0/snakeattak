@@ -1,6 +1,6 @@
 # Caprices — plan d'implémentation
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Rendre jouables les36défis existants, points1–8, sans changer leur moteur.
 **Architecture:** Contrôleurs UI et lectures pures ; checkpoint8, code3 et enveloppe4 ajoutent du contexte sans modifier le combat. Carnets indépendants, campagne partagée.
@@ -29,18 +29,18 @@
 **Files:** src/checkpoints.ts, src/departures.ts, tests/caprices-persistence-036.test.ts.
 **Interfaces:** encodeCheckpoint/decodeCheckpoint inchangées ; encodeDeparture/decodeDeparture inchangées, code3 caprice en plus. Aucun champ de profil dans le code.
 
-- [ ] Tests rouges : les36MissionRun complets, nouveau checkpoint8 avec choix0/1/2, rejet doublons/inconnus/héros/limites ; ne pas inférer les choix des anciens camps6/7 à caprice depuis les survivants ; ancienne lecture1–7 et codes1/2 inchangés.
-- [ ] Implémenter checkpoint8 et restauration par chooseCapriceKinds, code3 suffixé et checksum complet ; aucun changement moteur.
-- [ ] Tests ciblés, suite globale, types/build ; commit et revue du périmètre.
+- [x] Tests rouges : les36MissionRun complets, nouveau checkpoint8 avec choix0/1/2, rejet doublons/inconnus/héros/limites ; ne pas inférer les choix des anciens camps6/7 à caprice depuis les survivants ; ancienne lecture1–7 et codes1/2 inchangés.
+- [x] Implémenter checkpoint8 et restauration par chooseCapriceKinds, code3 suffixé et checksum complet ; aucun changement moteur.
+- [x] Tests ciblés, suite globale, types/build ; commit et revue du périmètre.
 
 ### Task 2: Carnets et enveloppe familiale
 
 **Files:** src/capriceAlbums.ts (nouveau), src/familyBackup.ts, src/familyPersistence.ts, src/missionProgress.ts, tests/caprices-albums-036.test.ts.
-**Interfaces:** createCapriceAlbumsController(initial?) avec state, add(name), select(id), rename(id,name), beginRun(profileId?), record(game), has(capriceId,profileId?), replaceState(state). State version1, activeId, nextId, campProfileId, children[{id,name,completed[]}]. validateCapriceAlbums(value), createCapriceAlbums(). writeFamilyBackup(..., albums?) et family.sync(..., albums?) quatrième argument facultatif, propriété albums en enveloppe4. MissionProgress mêmes signatures ; sameRun comprend caprice, record ne crédite pas les étoiles normales pour un caprice.
+**Interfaces:** createCapriceAlbumsController(initial?) avec state, add(name), select(id), rename(id,name), beginRun(profileId?), record(game), has(capriceId,profileId?), replaceState(state). State version1, activeId, nextId, campProfileId, children[{id,name,completed[]}]. validateCapriceAlbums(value), createCapriceAlbums(). writeFamilyBackup(..., albums?) et family.sync(..., albums?) quatrième argument facultatif, propriété albums en enveloppe4. MissionProgress mêmes signatures ; sameRun comprend caprice, record conserve sa règle existante de meilleures étoiles partagées, y compris en caprice.
 
-- [ ] Tests rouges : profils indépendants, attribution conservée après changement/reprise, victoire réelle une fois sans classement, défaite sans récompense ; identité caprice au retry ; propriétaire A conservé après choix du carnet B, classique, recharge et reprise de l’expédition.
-- [ ] Implémenter état borné/validé (8carnets max,24caractères de petit nom,36succès max chacun), pas d'horloge/RNG ; enveloppe4 atomique et ancien appel omis préserve les albums.
-- [ ] Tests import1–4/camp sans carnet, données corrompues et stockage refusé ; suite/types/build ; commit et revue.
+- [x] Tests rouges : profils indépendants, attribution conservée après changement/reprise, victoire réelle une fois sans classement, défaite sans récompense ; identité caprice au retry ; propriétaire A conservé après choix du carnet B, classique, recharge et reprise de l’expédition.
+- [x] Implémenter état borné/validé (8carnets max,24caractères de petit nom,36succès max chacun), pas d'horloge/RNG ; enveloppe4 atomique et ancien appel omis préserve les albums.
+- [x] Tests import1–4/camp sans carnet, données corrompues et stockage refusé ; suite/types/build ; commit et revue.
 
 ### Task 3: Préparation, copains, collection et résultat
 

@@ -60,8 +60,9 @@ streak ou récompense économique. Une répétition montre que l'autocollant est
 déjà dans le carnet. Le carnet choisi au lancement reste propriétaire de cette
 partie après changement de carnet à l'accueil et après reprise/import.
 
-La victoire d'un caprice n'améliore pas les étoiles de la mission normale :
-réussite séparée dans le carnet. Réessai/camp actifs restent distingués par
+Les victoires gardent la règle de progression existante : les meilleures
+étoiles familiales peuvent progresser aussi en caprice. La réussite de caprice
+ajoute séparément un autocollant au carnet de son propriétaire. Réessai/camp actifs restent distingués par
 l'identité complète du MissionRun, caprice compris. À la victoire : « Caprice
 réussi ! », autocollant et accès au carnet ; à la défaite : règle rappelée en
 une phrase. Aucun prochain niveau normal promis par le simple caprice gagné.
