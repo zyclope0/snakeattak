@@ -1,0 +1,87 @@
+{
+  "checkedAt": "2026-11-09T14:01:15.764Z",
+  "method": "Isolated cloud Chromium on actual public deployment; no physical S24 or human child validation",
+  "results": [
+    {
+      "locale": "fr-CH",
+      "width": 1280,
+      "height": 800,
+      "http": 200,
+      "version": "0.35.0",
+      "board": {
+        "x": 13,
+        "y": 117,
+        "width": 1065.953125,
+        "height": 600.8125
+      },
+      "pauseLanguageSwitch": true,
+      "portraitGuard": false
+    },
+    {
+      "locale": "en-GB",
+      "width": 812,
+      "height": 375,
+      "http": 200,
+      "version": "0.35.0",
+      "board": {
+        "x": 0,
+        "y": 48,
+        "width": 580.125,
+        "height": 326.984375
+      },
+      "pauseLanguageSwitch": true,
+      "portraitGuard": true
+    }
+  ],
+  "exactFiles": [
+    {
+      "path": "assets/bootstrap-BtjKvDEE.css",
+      "status": 200,
+      "bytes": 9135,
+      "sha256": "6e25b1b8b910ba8f6ac3b2a14cff37f33589ac72d141b5b58c824b7b913f8518"
+    },
+    {
+      "path": "assets/bootstrap-CdxEkJYp.js",
+      "status": 200,
+      "bytes": 124673,
+      "sha256": "9bf5a3f029bdf70954d1e01018cc5194c2a42cb0e6e78c3acd1dec89b81a94ce"
+    },
+    {
+      "path": "assets/english-DEnHHinB.js",
+      "status": 200,
+      "bytes": 65681,
+      "sha256": "5c7973ede9139c1b159a477f2f317587c9eabe8aad4208ef86a1d5ed59c97562"
+    },
+    {
+      "path": "assets/index-BJaT2y8p.css",
+      "status": 200,
+      "bytes": 60212,
+      "sha256": "67dd7765ca1e414be533d901bbbe63f36a3ea4c4647f049d0878f893121a2da3"
+    },
+    {
+      "path": "assets/index-DoPtFOR_.js",
+      "status": 200,
+      "bytes": 10011,
+      "sha256": "0cf91ff7b0c4886a630c0896c8a8ffc9d497252ea4b988d5776345f3e55618a5"
+    },
+    {
+      "path": "assets/phaser-B61OQUcB.js",
+      "status": 200,
+      "bytes": 1481792,
+      "sha256": "ee437e7f0bb7b331e6e7713d72801a7dc5b3f327050d9f26e1f1cf5c18795083"
+    },
+    {
+      "path": "assets/rules-DWmg9uIS.js",
+      "status": 200,
+      "bytes": 72439,
+      "sha256": "031b481c6d0a43cf3e35a4147387d7de5cda9c00bfe681ce1c2f3f2a220cd631"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 31771,
+      "sha256": "10d1972f70645f58c2267c41be61fb0dc7e0bcf966e3ffd9b38f5004fa21d1e1"
+    }
+  ],
+  "errors": []
+}

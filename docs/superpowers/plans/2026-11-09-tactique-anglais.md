@@ -90,13 +90,13 @@ Vite seulement si découpage logique nécessaire pour les budgets.
 
 **Files:** versions package/Android, bilan/conseils/plan courant, rapports.
 
-- [ ] Verify et recettes navigateur, résultat, enfant, audit, missions/codes,
+- [x] Verify et recettes navigateur, résultat, enfant, audit, missions/codes,
       hors-ligne, interruption, présentation, bilingue et portable verts.
-- [ ] Garder une marge CI raisonnable pour les mêmes contrôles complets :
+- [x] Garder une marge CI raisonnable pour les mêmes contrôles complets :
       l'ancien job15min a terminé les tests mais a expiré pendant le cache final.
-- [ ] APK normal0.35.0/code45, même certificat/AppID, fichiers web identiques.
-- [ ] Publier le build exact sur le site existant ; jouer une mission EN et
+- [x] APK normal0.35.0/code45, même certificat/AppID, fichiers web identiques.
+- [x] Publier le build exact sur le site existant ; jouer une mission EN et
       tester FR/reprise/rotation. Pousser nouvelle branche et PR, pas de fusion
       automatique sur ce nouveau lot.
-- [ ] Bilan factuel : traductions et captures, tests, règles identiques,
+- [x] Bilan factuel : traductions et captures, tests, règles identiques,
       limites de relecture/native ; pas de faux avis enfants.

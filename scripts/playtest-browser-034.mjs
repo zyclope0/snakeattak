@@ -139,6 +139,8 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
     return false;
   }
   await page.goto(root);
+  // Wait for language initialization and the real menu on a cold network load.
+  await page.locator('#home-screen').waitFor({ state: 'visible' });
   assert.equal(
     (await page.locator('[data-app-version]').first().textContent()).trim(),
     `v${expectedVersion}`,

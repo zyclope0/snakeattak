@@ -14,6 +14,14 @@ et en pause, messages/aides/catalogue/missions/Phaser traduits, nom Android
 anglais selon langue système. Soucoupe originale mate dans les seules ruines
 classiques ; aucun asset de film ou appel payant.
 
+**Site0.35.0 publié, Sites22**, audience conservée, FR/EN et pause vérifiés
+sur le déploiement réel ; HTML, cinq JS et deux CSS identiques au build.
+APK normal code45 inspecté,34fichiers web identiques ; nouvel essai S24 attendu.
+Refuge joué en anglais sur le site :3vagues, victoire100%, accès à la mission
+suivante confirmé ; pas de nouvelle étude d’équilibrage.
+[PR2](https://github.com/zyclope0/snakeattak/pull/2) ouverte et non fusionnée ;
+`main` conserve la PR1. [Reçu](../reports/deployment-0.35.0.json).
+
 [Bilan](BILAN-0.35.0.md), [conseil final](CONSEIL-0.35.0.md),
 [conseil du premier lot](CONSEIL-0.35.0-lot1.md).
 La recette automatique ne remplace pas l'essai du nouvel APK sur le S24 ni une

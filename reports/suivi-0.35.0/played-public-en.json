@@ -1,0 +1,279 @@
+{
+  "method": "Real browser app, fresh isolated contexts, native pointer/touch commands; no engine injections or save edits; supported x2 plus Playwright clock.runFor enumerating animation frames, not human real-time play",
+  "version": "0.35.0",
+  "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/",
+  "records": [
+    {
+      "profile": "mixed",
+      "viewport": {
+        "width": 812,
+        "height": 375
+      },
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 20261109,
+        "layout": 0,
+        "assault": "escort",
+        "nest": "spread"
+      },
+      "code": "REFUGE-2-02D9-8YM7-8Q",
+      "events": [],
+      "waves": [
+        {
+          "wave": 1,
+          "purchases": [
+            {
+              "kind": "nurse",
+              "x": 660,
+              "y": 180,
+              "cost": 95
+            },
+            {
+              "kind": "shield",
+              "x": 660,
+              "y": 324,
+              "cost": 90
+            },
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 468,
+              "cost": 150
+            },
+            {
+              "kind": "club",
+              "x": 660,
+              "y": 132,
+              "cost": 55
+            },
+            {
+              "kind": "club",
+              "x": 660,
+              "y": 420,
+              "cost": 55
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 0,
+            "total": 3,
+            "gold": 5,
+            "base": 100,
+            "army": 8,
+            "message": "Clubber joins the camp!",
+            "phase": "PREPARING",
+            "boss": null,
+            "paused": false
+          },
+          "intervals": 10,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 1,
+              "total": 3,
+              "gold": 5,
+              "base": 100,
+              "army": 8,
+              "message": "Wave 1: defend the camp!",
+              "phase": "BATTLE IN PROGRESS",
+              "boss": null,
+              "paused": false
+            }
+          ],
+          "virtualMs": 10000,
+          "result": {
+            "status": "preparing",
+            "wave": 1,
+            "total": 3,
+            "gold": 197,
+            "base": 100,
+            "army": 8,
+            "message": "Wave cleared! +108 coins. Prepare for the next one.",
+            "phase": "PREPARING",
+            "boss": null,
+            "paused": false
+          }
+        },
+        {
+          "wave": 2,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 228,
+              "cost": 150
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 1,
+            "total": 3,
+            "gold": 47,
+            "base": 100,
+            "army": 9,
+            "message": "Archer joins the camp!",
+            "phase": "PREPARING",
+            "boss": null,
+            "paused": false
+          },
+          "intervals": 11,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 2,
+              "total": 3,
+              "gold": 47,
+              "base": 100,
+              "army": 9,
+              "message": "Wave 2: defend the camp!",
+              "phase": "BATTLE IN PROGRESS",
+              "boss": null,
+              "paused": false
+            },
+            {
+              "status": "preparing",
+              "wave": 2,
+              "total": 3,
+              "gold": 274,
+              "base": 100,
+              "army": 9,
+              "message": "Wave cleared! +131 coins. Prepare for the next one.",
+              "phase": "PREPARING",
+              "boss": null,
+              "paused": false
+            }
+          ],
+          "virtualMs": 11000,
+          "result": {
+            "status": "preparing",
+            "wave": 2,
+            "total": 3,
+            "gold": 274,
+            "base": 100,
+            "army": 9,
+            "message": "Wave cleared! +131 coins. Prepare for the next one.",
+            "phase": "PREPARING",
+            "boss": null,
+            "paused": false
+          }
+        },
+        {
+          "wave": 3,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 516,
+              "cost": 150
+            },
+            {
+              "kind": "shield",
+              "x": 732,
+              "y": 324,
+              "cost": 90
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 2,
+            "total": 3,
+            "gold": 34,
+            "base": 100,
+            "army": 11,
+            "message": "Shield Guard joins the camp!",
+            "phase": "PREPARING",
+            "boss": null,
+            "paused": false
+          },
+          "intervals": 12,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 3,
+              "total": 3,
+              "gold": 34,
+              "base": 100,
+              "army": 11,
+              "message": "Wave 3: defend the camp!",
+              "phase": "BATTLE IN PROGRESS",
+              "boss": null,
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 3,
+              "total": 3,
+              "gold": 142,
+              "base": 100,
+              "army": 11,
+              "message": "Snack time! Hungry snakes may switch lanes for Honey.",
+              "phase": "BATTLE IN PROGRESS",
+              "boss": null,
+              "paused": false
+            }
+          ],
+          "virtualMs": 12000,
+          "result": {
+            "status": "won",
+            "wave": 3,
+            "total": 3,
+            "gold": 308,
+            "base": 100,
+            "army": 11,
+            "message": "Victory! The Refuge: 3 stars!",
+            "phase": "VICTORY",
+            "boss": null,
+            "paused": false
+          }
+        }
+      ],
+      "status": "won",
+      "final": {
+        "status": "won",
+        "wave": 3,
+        "total": 3,
+        "gold": 308,
+        "base": 100,
+        "army": 11,
+        "message": "Victory! The Refuge: 3 stars!",
+        "phase": "VICTORY",
+        "boss": null,
+        "paused": false
+      },
+      "resultActions": {
+        "mission-next": {
+          "hidden": false,
+          "visible": true,
+          "ancestors": []
+        },
+        "mission-again": {
+          "hidden": false,
+          "visible": true,
+          "ancestors": []
+        },
+        "mission-back-map": {
+          "hidden": false,
+          "visible": true,
+          "ancestors": []
+        },
+        "end-restart": {
+          "hidden": true,
+          "visible": false,
+          "ancestors": [
+            {
+              "id": "",
+              "open": true
+            },
+            {
+              "id": "camp-tools",
+              "open": true
+            }
+          ]
+        }
+      },
+      "nextMissionPreviewFromVisibleAction": true
+    }
+  ],
+  "errors": []
+}

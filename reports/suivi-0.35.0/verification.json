@@ -133,6 +133,21 @@
       "versionCode": 45,
       "identicalWebFiles": 34,
       "physicalTest": false
+    },
+    {
+      "command": "Public deployment FR/EN smoke",
+      "passed": true,
+      "viewports": 2,
+      "exactRuntimeFiles": 8,
+      "pauseAndRotation": true
+    },
+    {
+      "command": "Public English Refuge played",
+      "passed": true,
+      "games": 1,
+      "waves": 3,
+      "crystalPercent": 100,
+      "nextMissionPreviewFromVisibleAction": true
     }
   ],
   "sizes": {
@@ -183,7 +198,8 @@
     "await asynchronous real screen",
     "await decoded home image",
     "profile fixture after menu ready",
-    "expect placement instruction after event clears"
+    "expect placement instruction after event clears",
+    "public cold-load playtest waits for real home screen"
   ],
   "limits": [
     "Human English rereading",

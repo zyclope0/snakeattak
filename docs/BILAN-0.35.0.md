@@ -87,7 +87,7 @@ ou d'achat ajouté. L'export autonome embarque les deux langues ; aucun service
 worker ou téléchargement supplémentaire n'est requis pour jouer dans l'APK.
 Le site web doit naturellement charger ses fichiers avant une première partie.
 
-Publication et tailles finales : voir le reçu de livraison ajouté à ce bilan.
+Publication et tailles finales : voir les mesures et le reçu de livraison ci-dessous.
 La nouvelle branche est destinée à une nouvelle PR ; l'accord de fusion de
 la PR1 ne vaut pas fusion automatique de cette évolution.
 
@@ -106,3 +106,32 @@ la PR1 ne vaut pas fusion automatique de cette évolution.
 | Dépendances de production              | 0vulnérabilité retournée par l'audit à cette date                                              |
 
 HTML normal : **31 771octets**. JS initial du jeu en français : **207 123octets cumulés** répartis entre entrée interface et règles ; anglais additionnel **65 681octets**. Phaser reste séparé. Total des cinq fichiers JS Phaser compris : **1 754 596octets**. Le plafond de200000octets reste appliqué à chaque JS hors Phaser ; il n'a pas été relevé pour masquer la croissance. Portable :15 057 756octets de HTML autonome.
+
+## Livraison et Git
+
+**[Site0.35.0](https://conquete-serpents-famille.zyclope.chatgpt.site/), Sites22**,
+audience publique conservée. Recette sur le vrai déploiement : FR1280×800,
+EN812×375, pause et changement de langue, rotation portrait puis paysage ;
+zéro erreur JavaScript. HTML, cinq JS et deux CSS servis comparés par SHA-256
+au build. L'archive de source Site et l'APK contiennent le même build34fichiers ;
+le contrôle HTTP complémentaire porte explicitement sur huit fichiers.
+[Reçu](../reports/deployment-0.35.0.json),
+[recette publique](../reports/suivi-0.35.0/live-static.json).
+
+[PR2](https://github.com/zyclope0/snakeattak/pull/2) ouverte depuis
+`feat/tactical-english-035`, sans fusion automatique. Le commit d'application
+publié est `6be02f8b3bb013f2f5b2138eda239da74bc23f74` ; les commits suivants de
+cette branche ajoutent le reçu et les preuves de publication. La CI distante
+est distincte des commandes locales et son état reste consultable sur la PR.
+
+Confirmation jouée sur le site en anglais : **Refuge terminé,3vagues, victoire
+à100%,3étoiles ; le bouton visible Next mission ouvre l'aperçu suivant**.
+[Journal](../reports/suivi-0.35.0/played-public-en.json),
+[capture réellement jouée](captures-0.35.0/site-en-victoire-jouee.png).
+Une partie portable et une partie publique, chacune dans un contexte isolé,
+avec commandes natives et horloge accélérée ; aucune sauvegarde injectée.
+Ces deux confirmations ne sont pas une nouvelle étude d'équilibrage.
+Le premier essai public n'avait pas commencé : le scénario lisait le menu avant
+la fin du chargement anglais à froid. Une attente du vrai menu corrige ce
+scénario, puis le parcours complet passe. Pas de modification du jeu après
+publication.
