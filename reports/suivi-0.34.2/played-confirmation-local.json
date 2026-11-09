@@ -1,0 +1,267 @@
+{
+  "method": "Real browser app, fresh isolated contexts, native pointer/touch commands; no engine injections or save edits; supported x2 plus Playwright clock.runFor enumerating animation frames, not human real-time play",
+  "version": "0.34.2",
+  "url": "http://127.0.0.1:4395/",
+  "records": [
+    {
+      "profile": "mixed",
+      "viewport": {
+        "width": 812,
+        "height": 375
+      },
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 20261109,
+        "layout": 0,
+        "assault": "escort",
+        "nest": "spread"
+      },
+      "code": "REFUGE-2-02D9-8YM7-8Q",
+      "events": [],
+      "waves": [
+        {
+          "wave": 1,
+          "purchases": [
+            {
+              "kind": "nurse",
+              "x": 660,
+              "y": 180,
+              "cost": 95
+            },
+            {
+              "kind": "shield",
+              "x": 660,
+              "y": 324,
+              "cost": 90
+            },
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 468,
+              "cost": 150
+            },
+            {
+              "kind": "club",
+              "x": 660,
+              "y": 132,
+              "cost": 55
+            },
+            {
+              "kind": "club",
+              "x": 660,
+              "y": 420,
+              "cost": 55
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 0,
+            "total": 3,
+            "gold": 5,
+            "base": 100,
+            "army": 8,
+            "message": "Massue rejoint le camp !",
+            "phase": "PRÉPARATION",
+            "paused": false
+          },
+          "intervals": 10,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 1,
+              "total": 3,
+              "gold": 5,
+              "base": 100,
+              "army": 8,
+              "message": "Vague 1 : défends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 10000,
+          "result": {
+            "status": "preparing",
+            "wave": 1,
+            "total": 3,
+            "gold": 197,
+            "base": 100,
+            "army": 8,
+            "message": "Vague repoussée ! +108 pièces. Prépare la suite.",
+            "phase": "PRÉPARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 2,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 228,
+              "cost": 150
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 1,
+            "total": 3,
+            "gold": 47,
+            "base": 100,
+            "army": 9,
+            "message": "Archer rejoint le camp !",
+            "phase": "PRÉPARATION",
+            "paused": false
+          },
+          "intervals": 11,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 2,
+              "total": 3,
+              "gold": 47,
+              "base": 100,
+              "army": 9,
+              "message": "Vague 2 : défends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "preparing",
+              "wave": 2,
+              "total": 3,
+              "gold": 274,
+              "base": 100,
+              "army": 9,
+              "message": "Vague repoussée ! +131 pièces. Prépare la suite.",
+              "phase": "PRÉPARATION",
+              "paused": false
+            }
+          ],
+          "virtualMs": 11000,
+          "result": {
+            "status": "preparing",
+            "wave": 2,
+            "total": 3,
+            "gold": 274,
+            "base": 100,
+            "army": 9,
+            "message": "Vague repoussée ! +131 pièces. Prépare la suite.",
+            "phase": "PRÉPARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 3,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 516,
+              "cost": 150
+            },
+            {
+              "kind": "shield",
+              "x": 732,
+              "y": 324,
+              "cost": 90
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 2,
+            "total": 3,
+            "gold": 34,
+            "base": 100,
+            "army": 11,
+            "message": "Bouclier rejoint le camp !",
+            "phase": "PRÉPARATION",
+            "paused": false
+          },
+          "intervals": 12,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 3,
+              "total": 3,
+              "gold": 34,
+              "base": 100,
+              "army": 11,
+              "message": "Vague 3 : défends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 3,
+              "total": 3,
+              "gold": 142,
+              "base": 100,
+              "army": 11,
+              "message": "Le goûter est servi ! Les serpents gourmands sont tentés de changer de voie.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 12000,
+          "result": {
+            "status": "won",
+            "wave": 3,
+            "total": 3,
+            "gold": 308,
+            "base": 100,
+            "army": 11,
+            "message": "Victoire ! Le refuge : 3 étoiles !",
+            "phase": "VICTOIRE",
+            "paused": false
+          }
+        }
+      ],
+      "status": "won",
+      "final": {
+        "status": "won",
+        "wave": 3,
+        "total": 3,
+        "gold": 308,
+        "base": 100,
+        "army": 11,
+        "message": "Victoire ! Le refuge : 3 étoiles !",
+        "phase": "VICTOIRE",
+        "paused": false
+      },
+      "resultActions": {
+        "mission-next": {
+          "hidden": false,
+          "visible": true,
+          "ancestors": []
+        },
+        "mission-again": {
+          "hidden": false,
+          "visible": true,
+          "ancestors": []
+        },
+        "mission-back-map": {
+          "hidden": false,
+          "visible": true,
+          "ancestors": []
+        },
+        "end-restart": {
+          "hidden": true,
+          "visible": false,
+          "ancestors": [
+            {
+              "id": "",
+              "open": true
+            },
+            {
+              "id": "camp-tools",
+              "open": true
+            }
+          ]
+        }
+      },
+      "nextMissionPreviewFromVisibleAction": true
+    }
+  ],
+  "errors": []
+}

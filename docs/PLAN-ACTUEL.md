@@ -1,4 +1,39 @@
-# Plan actuel — application 0.34.1, retour S24
+# Plan actuel — application 0.34.2, parties et résultat
+
+## Parties navigateur, interface et équilibrage — 9 novembre 2026
+
+**0.34.2/code44 livré côté application.** Dix parties d'évaluation sur le vrai
+site0.34.1 : six missions en progression réelle, deux contrôles Refuge et deux
+Grandes aventures.37vagues,8victoires/2défaites, aucune erreurJavaScript. Chromium
+isolé, commandes souris/tactiles et horloge accélérée : pas des séances enfants
+ou une validation physique S24.532simulations moteur distinctes complètent
+l'évaluation ; aucune règle, statistique, graine ou sauvegarde modifiée.
+
+Défaut prioritaire reproduit : les actions de fin restaient sous le catalogue
+masqué. Nouveau panneau visible, mêmes commandes Mission suivante/réessai/carte
+et recommencer classique. Conseil6personas ; trois défauts du panneau corrigés
+après reproduction : catalogue desktop, ordreTab, bouton avec marges568.
+30états+35contrôles verts,441tests et recettes générales verts. Une mission
+complète locale puis une mission publique confirment le parcours jusqu'à
+l'aperçu suivant ;12parties/43vagues en incluant ces deux confirmations.
+
+**Site publié0.34.2/Sites21**, APK normal même certificat/identité provisoire,
+30fichiers web identiques au build. Reçu de publication et confirmation publique
+séparés de l'échantillon d'évaluation.
+[Bilan](BILAN-0.34.2.md), [conseil](CONSEIL-0.34.2.md),
+[preuves](../reports/suivi-0.34.2/verification.json),
+[publication](../reports/deployment-0.34.2.json).
+
+Suite prioritaire : essai S24 des fins de partie, compréhension du placement
+et des premiers achats, puis comparaison contrôlée de la Grande aventure avant
+de proposer des chiffres. Deux premières missions permissives conservées ;
+soigneurs et archers non retouchés sur des politiques de bots non comparables.
+Étoiles, texte de défaite et indice de défilement restent des améliorations
+mineures ouvertes. Cohérence graphique partielle, boss navigateur non atteint,
+lecteur d'écran/grossissement et ressenti enfants non certifiés. Aucun nouveau
+mode, lieu, mission, génération payante ou SDK. Suivis commerciaux séparés.
+
+Les sections suivantes conservent l'historique des livraisons précédentes.
 
 ## Retour physique S24 — fiche trop grande, 0.34.1
 

@@ -77,3 +77,17 @@ encouragement et placements ; seules3graines uniques par mission servent les
 conserver provisoirement une courbe perfectible, contrôlable lors de l’essai familial.
 Mineurs différés : étoiles plus saillantes, ancien texte central de défaite,
 indice de défilement sur très petit paysage. Pas de nouvelle génération.
+
+## Livraison et confirmation
+
+0.34.2/code44 publié, Sites21, APK normal assemblé et inspecté. Verify441/441,
+recettes navigateur, enfant6formats, interface24, audit13, missions, anciens
+codes, hors ligne10 et interruptions11 verts. Une partie complète publique
+après déploiement gagne Refuge et ouvre réellement l'aperçu suivant par son
+bouton visible. Deux confirmations distinctes de l'évaluation : locale et
+publique, soit12parties/43vagues au total, dont10parties/37vagues évaluées.
+HTML/JS/CSS publics identiques au build ;30fichiers web de l'APK identiques.
+
+[Bilan et recommandations](BILAN-0.34.2.md),
+[conseil](CONSEIL-0.34.2.md), [reçu](../reports/deployment-0.34.2.json).
+Le test physique du nouvel APK et l'appréciation des enfants restent à faire.

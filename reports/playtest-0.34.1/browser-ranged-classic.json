@@ -1,0 +1,569 @@
+{
+  "method": "Real browser app, fresh isolated contexts, native pointer/touch commands; no engine injections or save edits; supported x2 plus Playwright clock.runFor enumerating animation frames, not human real-time play",
+  "version": "0.34.1",
+  "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/",
+  "records": [
+    {
+      "profile": "ranged",
+      "viewport": {
+        "width": 812,
+        "height": 375
+      },
+      "run": {
+        "missionId": "classic",
+        "seed": 20261109
+      },
+      "code": "AVENTURE-1-02D9-8YM0-8Q",
+      "events": [],
+      "waves": [
+        {
+          "wave": 1,
+          "purchases": [
+            {
+              "kind": "nurse",
+              "x": 660,
+              "y": 180,
+              "cost": 95
+            },
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 324,
+              "cost": 150
+            },
+            {
+              "kind": "club",
+              "x": 660,
+              "y": 420,
+              "cost": 55
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 0,
+            "total": 12,
+            "gold": 0,
+            "base": 100,
+            "army": 6,
+            "message": "Massue rejoint le camp !",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          },
+          "intervals": 12,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 1,
+              "total": 12,
+              "gold": 0,
+              "base": 100,
+              "army": 6,
+              "message": "Vague 1 : d\u00e9fends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 1,
+              "total": 12,
+              "gold": 72,
+              "base": 100,
+              "army": 6,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 12000,
+          "result": {
+            "status": "preparing",
+            "wave": 1,
+            "total": 12,
+            "gold": 192,
+            "base": 100,
+            "army": 6,
+            "message": "Vague repouss\u00e9e ! +108 pi\u00e8ces. Pr\u00e9pare la suite.",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 2,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 132,
+              "cost": 150
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 1,
+            "total": 12,
+            "gold": 42,
+            "base": 100,
+            "army": 7,
+            "message": "Archer rejoint le camp !",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          },
+          "intervals": 14,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 2,
+              "total": 12,
+              "gold": 42,
+              "base": 100,
+              "army": 7,
+              "message": "Vague 2 : d\u00e9fends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 2,
+              "total": 12,
+              "gold": 78,
+              "base": 100,
+              "army": 7,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 14000,
+          "result": {
+            "status": "preparing",
+            "wave": 2,
+            "total": 12,
+            "gold": 269,
+            "base": 100,
+            "army": 7,
+            "message": "Vague repouss\u00e9e ! +131 pi\u00e8ces. Pr\u00e9pare la suite.",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 3,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 276,
+              "cost": 150
+            },
+            {
+              "kind": "shield",
+              "x": 660,
+              "y": 228,
+              "cost": 90
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 2,
+            "total": 12,
+            "gold": 29,
+            "base": 100,
+            "army": 9,
+            "message": "Bouclier rejoint le camp !",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          },
+          "intervals": 11,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 3,
+              "total": 12,
+              "gold": 29,
+              "base": 100,
+              "army": 9,
+              "message": "Vague 3 : d\u00e9fends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "preparing",
+              "wave": 3,
+              "total": 12,
+              "gold": 303,
+              "base": 100,
+              "army": 9,
+              "message": "Vague repouss\u00e9e ! +154 pi\u00e8ces. Pr\u00e9pare la suite.",
+              "phase": "PR\u00c9PARATION",
+              "paused": false
+            }
+          ],
+          "virtualMs": 11000,
+          "result": {
+            "status": "preparing",
+            "wave": 3,
+            "total": 12,
+            "gold": 303,
+            "base": 100,
+            "army": 9,
+            "message": "Vague repouss\u00e9e ! +154 pi\u00e8ces. Pr\u00e9pare la suite.",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 4,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 516,
+              "cost": 150
+            },
+            {
+              "kind": "archer",
+              "x": 732,
+              "y": 324,
+              "cost": 150
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 3,
+            "total": 12,
+            "gold": 3,
+            "base": 100,
+            "army": 11,
+            "message": "Archer rejoint le camp !",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          },
+          "intervals": 15,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 4,
+              "total": 12,
+              "gold": 3,
+              "base": 100,
+              "army": 11,
+              "message": "Vague 4 : d\u00e9fends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 4,
+              "total": 12,
+              "gold": 87,
+              "base": 100,
+              "army": 11,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 15000,
+          "result": {
+            "status": "preparing",
+            "wave": 4,
+            "total": 12,
+            "gold": 336,
+            "base": 100,
+            "army": 11,
+            "message": "Vague repouss\u00e9e ! +177 pi\u00e8ces. Pr\u00e9pare la suite.",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 5,
+          "purchases": [],
+          "prep": {
+            "status": "preparing",
+            "wave": 4,
+            "total": 12,
+            "gold": 336,
+            "base": 100,
+            "army": 11,
+            "message": "Vague repouss\u00e9e ! +177 pi\u00e8ces. Pr\u00e9pare la suite.",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          },
+          "intervals": 15,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 5,
+              "total": 12,
+              "gold": 336,
+              "base": 100,
+              "army": 11,
+              "message": "Vague 5 : d\u00e9fends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 5,
+              "total": 12,
+              "gold": 420,
+              "base": 100,
+              "army": 11,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 15000,
+          "result": {
+            "status": "preparing",
+            "wave": 5,
+            "total": 12,
+            "gold": 704,
+            "base": 100,
+            "army": 11,
+            "message": "Vague repouss\u00e9e ! +200 pi\u00e8ces. Pr\u00e9pare la suite.",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 6,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 468,
+              "cost": 150
+            },
+            {
+              "kind": "archer",
+              "x": 660,
+              "y": 372,
+              "cost": 150
+            },
+            {
+              "kind": "archer",
+              "x": 732,
+              "y": 420,
+              "cost": 150
+            },
+            {
+              "kind": "shield",
+              "x": 732,
+              "y": 276,
+              "cost": 90
+            },
+            {
+              "kind": "medic",
+              "x": 732,
+              "y": 372,
+              "cost": 130
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 5,
+            "total": 12,
+            "gold": 34,
+            "base": 100,
+            "army": 16,
+            "message": "M\u00e9decin rejoint le camp !",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          },
+          "intervals": 24,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 6,
+              "total": 12,
+              "gold": 34,
+              "base": 100,
+              "army": 16,
+              "message": "Vague 6 : d\u00e9fends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 6,
+              "total": 12,
+              "gold": 82,
+              "base": 100,
+              "army": 16,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 6,
+              "total": 12,
+              "gold": 154,
+              "base": 100,
+              "army": 11,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 24000,
+          "result": {
+            "status": "preparing",
+            "wave": 6,
+            "total": 12,
+            "gold": 401,
+            "base": 64,
+            "army": 11,
+            "message": "Vague repouss\u00e9e ! +223 pi\u00e8ces. Pr\u00e9pare la suite.",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          }
+        },
+        {
+          "wave": 7,
+          "purchases": [
+            {
+              "kind": "archer",
+              "x": 732,
+              "y": 276,
+              "cost": 150
+            },
+            {
+              "kind": "archer",
+              "x": 732,
+              "y": 516,
+              "cost": 150
+            },
+            {
+              "kind": "shield",
+              "x": 804,
+              "y": 180,
+              "cost": 90
+            }
+          ],
+          "prep": {
+            "status": "preparing",
+            "wave": 6,
+            "total": 12,
+            "gold": 11,
+            "base": 64,
+            "army": 14,
+            "message": "Bouclier rejoint le camp !",
+            "phase": "PR\u00c9PARATION",
+            "paused": false
+          },
+          "intervals": 23,
+          "combat": [
+            {
+              "status": "fighting",
+              "wave": 7,
+              "total": 12,
+              "gold": 11,
+              "base": 64,
+              "army": 14,
+              "message": "Vague 7 : d\u00e9fends le camp !",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 7,
+              "total": 12,
+              "gold": 71,
+              "base": 64,
+              "army": 13,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            },
+            {
+              "status": "fighting",
+              "wave": 7,
+              "total": 12,
+              "gold": 107,
+              "base": 64,
+              "army": 5,
+              "message": "Des \u0153ufs ont \u00e9clos ! De nouveaux serpents arrivent.",
+              "phase": "BATAILLE EN COURS",
+              "paused": false
+            }
+          ],
+          "virtualMs": 23000,
+          "result": {
+            "status": "lost",
+            "wave": 7,
+            "total": 12,
+            "gold": 107,
+            "base": 0,
+            "army": 5,
+            "message": "Le camp est tomb\u00e9\u2026 Une autre strat\u00e9gie ?",
+            "phase": "CAMP TOMB\u00c9",
+            "paused": false
+          }
+        }
+      ],
+      "status": "lost",
+      "final": {
+        "status": "lost",
+        "wave": 7,
+        "total": 12,
+        "gold": 107,
+        "base": 0,
+        "army": 5,
+        "message": "Le camp est tomb\u00e9\u2026 Une autre strat\u00e9gie ?",
+        "phase": "CAMP TOMB\u00c9",
+        "paused": false
+      },
+      "resultActions": {
+        "mission-next": {
+          "hidden": true,
+          "visible": false,
+          "ancestors": [
+            {
+              "id": "camp-observation",
+              "open": true
+            }
+          ]
+        },
+        "mission-again": {
+          "hidden": true,
+          "visible": false,
+          "ancestors": [
+            {
+              "id": "camp-observation",
+              "open": true
+            }
+          ]
+        },
+        "mission-back-map": {
+          "hidden": false,
+          "visible": false,
+          "ancestors": [
+            {
+              "id": "camp-observation",
+              "open": true
+            }
+          ]
+        },
+        "end-restart": {
+          "hidden": false,
+          "visible": true,
+          "ancestors": [
+            {
+              "id": "",
+              "open": true
+            },
+            {
+              "id": "camp-tools",
+              "open": true
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "errors": []
+}

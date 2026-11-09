@@ -1,0 +1,136 @@
+{
+  "applicationVersion": "0.34.2",
+  "applicationSourceCommit": "38959591edb8f2f6161f7d57b9120b2e1c6a9c9e",
+  "version": {
+    "id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_e4ed95560ef88191b7ff2d545d85b3a9",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "version_number": 21,
+    "source": {
+      "commit_sha": "5393c23c798d16bb9e50de91123c9fa514c87fb4"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000970c820a85dd3885db6ce9b4",
+      "content_hash": "sha256:36aa2f9ffa48b66abd684d8de37347b8533cec26402fca0754c8fa95ad686e86",
+      "size_bytes": 11745280,
+      "file_count": 31
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6af191c06ee88191b1af552da70862fd",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "title": "La Conquête des Serpents",
+    "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_e4ed95560ef88191b7ff2d545d85b3a9",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-09T09:26:37.910444+00:00"
+  },
+  "audiencePreserved": "public",
+  "authorization": "Current request for browser playtest/evaluation plus ongoing reversible UI work and default publication of existing Site; no gameplay rule changes",
+  "validatedBuild": {
+    "unitTestsPassed": 441,
+    "browserPassed": true,
+    "outcomeControlledStates": 30,
+    "outcomeAdditionalChecks": 35,
+    "webFilesIdenticalToApk": 30
+  },
+  "physicalS24Test": false,
+  "humanChildTest": false,
+  "source": {
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "commit_sha": "5393c23c798d16bb9e50de91123c9fa514c87fb4",
+    "archive": "/workspace/serpents-site-0342.tar",
+    "archiveSha256": "c4b0d39fac986e20b27c40a08a401ff188a39cf714616f63a163ad9e7f109c76",
+    "fileCount": 31,
+    "applicationSourceCommit": "38959591edb8f2f6161f7d57b9120b2e1c6a9c9e"
+  },
+  "liveVerification": {
+    "checkedAt": "2026-11-09T09:27:24.260Z",
+    "method": "Isolated cloud Chromium; actual public site with simulated insets, not physical S24",
+    "results": [
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "httpStatus": 200,
+        "version": "v0.34.2",
+        "guide": {
+          "x": 360,
+          "y": 92.453125,
+          "width": 560,
+          "height": 615.09375
+        },
+        "statsFullyVisible": 8,
+        "safeInsetsSimulated": null,
+        "errors": []
+      },
+      {
+        "viewport": {
+          "width": 812,
+          "height": 375
+        },
+        "httpStatus": 200,
+        "version": "v0.34.2",
+        "guide": {
+          "x": 50,
+          "y": 69.984375,
+          "width": 680,
+          "height": 259.015625
+        },
+        "statsFullyVisible": 8,
+        "safeInsetsSimulated": {
+          "top": 24,
+          "right": 32
+        },
+        "errors": []
+      }
+    ],
+    "exactFiles": [
+      {
+        "name": "assets/index-C5qOvzz-.css",
+        "bytes": 68441,
+        "sha256": "3bd4d25fc1ad5268dd0044aefa1c02cd06e2bf6885a37f8a0e26818ab22a683b"
+      },
+      {
+        "name": "assets/index-DrbtuoLT.js",
+        "bytes": 195213,
+        "sha256": "b2eb9cca200a3ef75622bf0d80459e359853e31dca4ef46a5b8380eda7ee3220"
+      },
+      {
+        "name": "index.html",
+        "bytes": 31845,
+        "sha256": "3625aa00ea116c26ba6b6b851d3ea29654c051783e296651f2a7ec8e5bf281e7"
+      }
+    ]
+  },
+  "livePlayedConfirmation": {
+    "version": "0.34.2",
+    "method": "Real browser app, fresh isolated contexts, native pointer/touch commands; no engine injections or save edits; supported x2 plus Playwright clock.runFor enumerating animation frames, not human real-time play",
+    "games": 1,
+    "waves": 3,
+    "result": {
+      "status": "won",
+      "wave": 3,
+      "total": 3,
+      "gold": 308,
+      "base": 100,
+      "army": 11,
+      "message": "Victoire ! Le refuge : 3 étoiles !",
+      "phase": "VICTOIRE",
+      "boss": null,
+      "paused": false
+    },
+    "nextMissionPreviewFromVisibleAction": true,
+    "errors": [],
+    "report": "suivi-0.34.2/played-confirmation-public.json"
+  }
+}

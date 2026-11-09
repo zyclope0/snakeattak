@@ -1,0 +1,344 @@
+{
+  "version": "0.34.2",
+  "applicationSourceCommit": "38959591edb8f2f6161f7d57b9120b2e1c6a9c9e",
+  "base": "ac671edbe86f791fd00a9bd12d228ef51e1a0128",
+  "verifyTests": 441,
+  "build": "pass",
+  "browser": "desktop/touch pass",
+  "interface": {
+    "passed": 24,
+    "total": 24
+  },
+  "audit": {
+    "passed": 13,
+    "total": 13
+  },
+  "childFormats": 6,
+  "outcomeStates": 30,
+  "outcomeAdditionalChecks": 35,
+  "offlineChecks": 10,
+  "offlineSchemas": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "interruptionChecks": 11,
+  "departureConfigurations": 108,
+  "missionBrowserAndRegressions": "pass",
+  "publicEvaluationGames": 10,
+  "publicEvaluationWaves": 37,
+  "publicEvaluationWins": 8,
+  "publicEvaluationLosses": 2,
+  "publicEvaluationPageErrors": [],
+  "localPlayedConfirmations": 1,
+  "engineMissionSimulations": 432,
+  "engineClassicSimulations": 100,
+  "protectedNonUiTsFilesUnchanged": [
+    {
+      "file": "src/ai.ts",
+      "sha256": "efc32f24c410c501af61c6833167a5650c200b07fa93fc8deebf361d71603899"
+    },
+    {
+      "file": "src/art.ts",
+      "sha256": "3b12df8e02ac5ce244f8fea23bc447bbc0ba4903a40dc6c5787ef865d188600a"
+    },
+    {
+      "file": "src/audio/sounds.ts",
+      "sha256": "a39143b2a736d746f3a82054bc9b7ef478ceb2f8f7f8deb1c66758a7f4b5db5a"
+    },
+    {
+      "file": "src/balanceTuning.ts",
+      "sha256": "4cd7a56760e33253b08681f6567df8dfc93cd6cf319bbd308acaf0d255bf0deb"
+    },
+    {
+      "file": "src/boss.ts",
+      "sha256": "f9b86d01c95607be20e420ebcd6e6c8eb43f7994eb25d19f9859fe1b98a84b71"
+    },
+    {
+      "file": "src/bossCourt.ts",
+      "sha256": "081b39bbe348466c00425a636f167a588135f268189f1fef22566924e5b1f8a8"
+    },
+    {
+      "file": "src/campLayout.ts",
+      "sha256": "e8acdb539eeeca7f84d394802f677fed2cb17dff14f4fe4ede967d8f9311c796"
+    },
+    {
+      "file": "src/campMemory.ts",
+      "sha256": "6b6ab27d89a0bee733208859ab288be612b4e79d849409824994affafe593c34"
+    },
+    {
+      "file": "src/campaignRules.ts",
+      "sha256": "20c615438365e9a815c28e557ff27ff24b6c7fcf514939a142a2aa86689a1ccf"
+    },
+    {
+      "file": "src/chapterReport.ts",
+      "sha256": "0dee0de2963415ea5e83fececdd8e68e42111930cd28ebf07bb1fdd5bf8f7d7f"
+    },
+    {
+      "file": "src/checkpoints.ts",
+      "sha256": "a2129728ec1af466d477d7a1636ea05b694a5c4f91e2b28bf57c2b4608127621"
+    },
+    {
+      "file": "src/combatRules.ts",
+      "sha256": "9e4f92513250eb443a8758c46eeabedce6e79f5b86d566804cc425120dd84c4b"
+    },
+    {
+      "file": "src/data.ts",
+      "sha256": "3fd2b6d7b9c1202d4847991c2ba0aec13a5b4a967822349435e3903abf7f3518"
+    },
+    {
+      "file": "src/defenders.ts",
+      "sha256": "c54f8ed07172b0263554205c314b1d1209a60e133437bc278f08fc84950b94a4"
+    },
+    {
+      "file": "src/departures.ts",
+      "sha256": "399df1631dd66b2eb6d7a3654f22df6c41bc6a1437150ae9c9d4886dea513b1f"
+    },
+    {
+      "file": "src/enemies.ts",
+      "sha256": "33df45ec818051c27fdfc3bdde61187114e009f88ace09f3e3ba3c13c3377993"
+    },
+    {
+      "file": "src/enemyAbilities.ts",
+      "sha256": "3d682e32f94c1bad934d44c4065d85491373b5946083f418102851c8ff22a65b"
+    },
+    {
+      "file": "src/familyBackup.ts",
+      "sha256": "820442ab5590689bf0a0c1f316f2a62c025c419476787e8ad4ddf9fc3956b2bf"
+    },
+    {
+      "file": "src/familyPersistence.ts",
+      "sha256": "21aab273aa66858c73dcfa4683ba30e575f4f5c6b796443d4b1d8eb66a368708"
+    },
+    {
+      "file": "src/flying.ts",
+      "sha256": "e094537c0104a0b656f8b52d34340c4bd3f983d2689444916fade195918b66bf"
+    },
+    {
+      "file": "src/game.ts",
+      "sha256": "49c95c89715c87cef5f52599ffd18e3602bfa306122182a482f0e0646cdb072f"
+    },
+    {
+      "file": "src/healing.ts",
+      "sha256": "006b88928fed4fb97d5fe7ad433f62d4e278509d72659bf6868793ebf59b5c0a"
+    },
+    {
+      "file": "src/levels.ts",
+      "sha256": "a9b7717434f5e2b15d7357433e25b4c2f173488671e7927a3252bf155a2a743b"
+    },
+    {
+      "file": "src/main.ts",
+      "sha256": "9182cabdeedcbfbda64702ced9e9c8a22a3fe22b8c66325ca9c5414e0cead49e"
+    },
+    {
+      "file": "src/missionProgress.ts",
+      "sha256": "69f672d2e2ed3fae19df2388d87c8515ea2c44357be40b6190a5f9a41bf4af0d"
+    },
+    {
+      "file": "src/missions.ts",
+      "sha256": "b419eeec87d0b63004375f3dd4b5aca9f07f649a501935715df9a9b308476755"
+    },
+    {
+      "file": "src/navigation.ts",
+      "sha256": "98ac65ecd6c029c99a9e462187848d4aedc3a281024b489071010a0444dd799b"
+    },
+    {
+      "file": "src/placement.ts",
+      "sha256": "52b0da5c3b2f359b5b906ad5ac561789f638b15115e4b78d83098e7acebd9c84"
+    },
+    {
+      "file": "src/progression.ts",
+      "sha256": "20667f75e01a358013db5435b89c448892a2eff1a9b1c0d1dc1036cf9273414f"
+    },
+    {
+      "file": "src/render/BattleScene.ts",
+      "sha256": "2c30413a46ed94a8e9fc4c83b3b384e2a2c9ada36051e54efa038e5d6432f3f7"
+    },
+    {
+      "file": "src/render/actorLayout.ts",
+      "sha256": "cfd68b6dbaa15f2eed54d413ac3248f1c46b7d5272b1c3e8405609236f79be57"
+    },
+    {
+      "file": "src/render/actors.ts",
+      "sha256": "e3f7d5a2846ebfcc0f0b15c3e46815245da38fc621a77d84a18d20922229b935"
+    },
+    {
+      "file": "src/render/battleFeedback.ts",
+      "sha256": "ed74afae94da690ef1cc2c9adad7d6a1504124474b6956d9f1755f93e3dc1f11"
+    },
+    {
+      "file": "src/render/boardResize.ts",
+      "sha256": "7633308db9a91ca6b1d874bc8b984bf00e6c153d3d40a55243e2ad1c6eba688a"
+    },
+    {
+      "file": "src/render/bossReadout.ts",
+      "sha256": "b33ee69dfb3702a4d76f3fb4c9cede312ad7b0a35e83b97f1cea5088d6d9d94e"
+    },
+    {
+      "file": "src/render/bossSignals.ts",
+      "sha256": "b9601fe03e486703ff2e028cef67e7164538d71461b76b42c462b36acc89b571"
+    },
+    {
+      "file": "src/render/canvasContours.ts",
+      "sha256": "a160289461a389bf80b742539f88d1b2dd11f0b72d3783a87c2729f54012cd89"
+    },
+    {
+      "file": "src/render/characterMotion.ts",
+      "sha256": "7f829fe46960e4170fabd571d7725df88a49ac2f665fa76bcadcd87dfc5041c3"
+    },
+    {
+      "file": "src/render/craftPaths.ts",
+      "sha256": "9a6ec43c132cc8f8b6b7226e34fb5d8b8b9aa519663182849ba13d061373dbd5"
+    },
+    {
+      "file": "src/render/creatures.ts",
+      "sha256": "f8a045e221fcdf01dde84101257772b41e18d2255eee1be91ae1f0ca77708a9d"
+    },
+    {
+      "file": "src/render/defenseMarkers.ts",
+      "sha256": "00a4789c47c4cfd2b20adf6e7182d844cd2865393b0528ff58d2ef20f354efd4"
+    },
+    {
+      "file": "src/render/devPerformance.ts",
+      "sha256": "f44d795eb66f6fafe6bbd29a195d41e0d46df5471c229351f8db662a1797d4d0"
+    },
+    {
+      "file": "src/render/encounterReadout.ts",
+      "sha256": "8ddd493c74987ff28e7e1d229edb312f5f8426778d7f727909cb1c188f4bc750"
+    },
+    {
+      "file": "src/render/feast.ts",
+      "sha256": "2bdc6bca3b3ecb4da70e92686e34d30dc84d6dcb7c39b1f668b8ecb09199d0e9"
+    },
+    {
+      "file": "src/render/feastPlacement.ts",
+      "sha256": "d0c01b98900c5909826bfafbb0b51cc7dc11f98cf2364bf3ceafefb459fb5e40"
+    },
+    {
+      "file": "src/render/flightSignals.ts",
+      "sha256": "8fff36ebf3230abafb01bd9d6327f788aa87243c2e2e998155425e7dfc964d34"
+    },
+    {
+      "file": "src/render/frameMetrics.ts",
+      "sha256": "565139dfeb00685f3b0409c22da20832bc70326faf6591cfbadfd55bf069c6c7"
+    },
+    {
+      "file": "src/render/framePool.ts",
+      "sha256": "6c4948a7ea94534f174e93de800c41de7bbf0b0beaefbd5571a976ba92f7ea3a"
+    },
+    {
+      "file": "src/render/honeyZone.ts",
+      "sha256": "1c4a38757f4dd61eb8eb4a4e5b1e4364a34132365e8f2712f1dcc1466e803c8a"
+    },
+    {
+      "file": "src/render/inputBounds.ts",
+      "sha256": "340da45da57aa055c056fe5baaa26fb00fff21752bb1dc457ffc2b0b14057feb"
+    },
+    {
+      "file": "src/render/medicalSignals.ts",
+      "sha256": "645ac58e96e2b4676e57282e363167f91b7b9dd3f46e89372a6cb3c6c35f1869"
+    },
+    {
+      "file": "src/render/missionAssets.ts",
+      "sha256": "995d52985783ff716a2e32dc0f535abac160d386c2c18cc65b153029ad13458b"
+    },
+    {
+      "file": "src/render/performanceRecording.ts",
+      "sha256": "176b476028e78f552a2c4dbdd80a2e5ef1687a1548cb89430d86a19f1b7cb36f"
+    },
+    {
+      "file": "src/render/placementRange.ts",
+      "sha256": "f4933730bce66b5dbe450bafb1761ceb7cec24a8cc8a518a3a3f502cbff9ba3e"
+    },
+    {
+      "file": "src/render/presentation.ts",
+      "sha256": "479d5646446e365ad20018ac687e24c4de85b78c2f22dce18a1b410352ff04eb"
+    },
+    {
+      "file": "src/render/refinedTerrain.ts",
+      "sha256": "0b30b6f21b01a3efe3e6becefe50a0e2c8cf58ea7b7838fa65f0a06a2060e65b"
+    },
+    {
+      "file": "src/render/resultCopy.ts",
+      "sha256": "2da7df86f88d59c71ce0d255d31e4eec70251b610db0dd147c46a1770508e727"
+    },
+    {
+      "file": "src/render/sceneExit.ts",
+      "sha256": "0d2b27fc9e149f94e85e2c30f010faa83837ef14aff0c4c41451cd5158202304"
+    },
+    {
+      "file": "src/render/sceneryFrame.ts",
+      "sha256": "fd88ca8647cdbc5b294be40688560c01c5713e8094cb6a7c72b04ae716bffa6e"
+    },
+    {
+      "file": "src/render/specialUnits.ts",
+      "sha256": "4af4d4439622c6102800d8e935040a2dba4015582e36987dd7055444673b31e9"
+    },
+    {
+      "file": "src/render/stageLayout.ts",
+      "sha256": "e5db5a7f9987951cabef27e964508bd1d25a56b06e3ba6530b82df236d67f2ea"
+    },
+    {
+      "file": "src/render/strongholds.ts",
+      "sha256": "fcbeb2f1dc177663a47778273dd214d4ecf0f1c0d20a72c49ba85b86bd79cdcf"
+    },
+    {
+      "file": "src/render/terrain.ts",
+      "sha256": "48fc50b323e948fb893b4e21e4c18f1fc19ebd7ccec7429a1ba04eb84f396e03"
+    },
+    {
+      "file": "src/render/threatMarkers.ts",
+      "sha256": "3e2b583c9f07653e5a285a0d1537e9a0122dc7271922baf3bbf6933793b13c7d"
+    },
+    {
+      "file": "src/render/visualSettings.ts",
+      "sha256": "02b228d2f3f4457c6217081e8f627090c2ad01c6c710f03a8ec50ada44e4368c"
+    },
+    {
+      "file": "src/rewards.ts",
+      "sha256": "5a8826941806d6bf71cc4e240e159fe72295fae01cdfadb4a4edae23ce6ce6c0"
+    },
+    {
+      "file": "src/roster.ts",
+      "sha256": "b06248b9866d4e41908c9e1c9dd9ae55c3e5f0dbb243bca7423e1b0bc40e3700"
+    },
+    {
+      "file": "src/routes.ts",
+      "sha256": "ab2d6c1a08dcf718603eeebbd9d016e35a1e1c92a8b2a7647779d72fc6134981"
+    },
+    {
+      "file": "src/session.ts",
+      "sha256": "d593744798f8d3d2da8d9ac5cfd84b6c88ee5841bdf73820e4663a9fe19bba87"
+    },
+    {
+      "file": "src/tactics.ts",
+      "sha256": "80f8373d60f45a51757c6f9620f24720a446bad636623190ffcf8f8829cb57ec"
+    },
+    {
+      "file": "src/tutorial.ts",
+      "sha256": "e3cac31fc42cf002e97160330e441f3461c100ea4a4f3567bfb00e753d3b1669"
+    },
+    {
+      "file": "src/unitRules.ts",
+      "sha256": "b762dc2b7a46095b1d24e054093f49cfb7d70e97604ed33b509bcfc8bfe8689d"
+    },
+    {
+      "file": "src/waves.ts",
+      "sha256": "b50dff5c2b145a51c1dd1311dc52813f15f3efc3af830d1bc01636cec13bf97e"
+    }
+  ],
+  "historicalTrackedReportsUnchanged": true,
+  "physicalS24Test": false,
+  "realChildTest": false,
+  "sixPersonaCouncil": true,
+  "importantFindingsFixedRedGreen": 3,
+  "numericBalanceChanges": false,
+  "logNormalization": "Trailing whitespace only; raw originals retained in /workspace/playtest-0342-*.log",
+  "publicPlayedConfirmations": 1,
+  "totalPlayedGamesIncludingConfirmations": 12,
+  "totalPlayedWavesIncludingConfirmations": 43
+}
