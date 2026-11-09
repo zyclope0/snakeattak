@@ -52,14 +52,14 @@
   line-height: 1.25;
   border-radius: 10px;
 }
-#battle-result #mission-next {
-  order: -1;
-}
 .showing-result .battle-dock,
 .showing-result.reinforcements-open #battle-result {
   display: none;
 }
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  #result-allies {
+    display: none;
+  }
   #battle-result {
     max-height: calc(var(--app-height) - var(--mobile-hud-height));
     border-radius: 0;

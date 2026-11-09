@@ -53,3 +53,27 @@ etJS194697octets, budgets inchangés. Conseil demandé après ce lot.
 Les statistiques suggèrent des débuts permissifs et un avantage des compositions
 à distance en classique, mais aucune valeur de jeu n’est ajustée sans isoler
 l’effet des programmes de test et vérifier avec le parent/fils.
+
+## Après conseil et contre-vérification
+
+Six avis terminés. Trois défauts d’interface du nouveau panneau reproduits
+rouges dans l’app : accès catalogue perdu sur ordinateur, ordre Tab différent
+de l’ordre visuel, CTA partiellement coupé avec marges système568. Correction
+bornée : accès catalogue dédié desktop (même contrôleur), ordre des mêmes nœuds
+aligné/restauré, défilement du seul panneau après focus.30états et35contrôles
+verts, y compris marges24/32/16, sélection, catalogue et restauration.
+
+Une partie locale complète du correctif (Refuge,3vagues) est gagnée et le bouton
+visible ouvre réellement l’aperçu des Trois ponts. Une dixième partie publique,
+classique avec davantage d’archers mais placements en avant, perd à la vague7 :
+les résultats du bot distant au moteur ne prédisent pas le joueur sur l’interface.
+Évaluation publique totale :10parties,37vagues,8victoires/2défaites,0pageerrors.
+Les9premières et cette phase supplémentaire sont archivées séparément puis
+réunies dans le journal, sans effacer les enregistrements.
+
+Ruling : aucune valeur de jeu ajustée — les politiques changent aussi miel,
+encouragement et placements ; seules3graines uniques par mission servent les
+18paramétrages. Conclure à une unité trop forte serait prématuré. Risque assumé :
+conserver provisoirement une courbe perfectible, contrôlable lors de l’essai familial.
+Mineurs différés : étoiles plus saillantes, ancien texte central de défaite,
+indice de défilement sur très petit paysage. Pas de nouvelle génération.

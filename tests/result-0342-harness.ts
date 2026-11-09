@@ -9,7 +9,11 @@ import { bindExpeditions } from '../src/ui/expeditions.ts';
 import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindBoardResize } from '../src/render/boardResize.ts';
 import '../src/style.css';
-const mode = new URLSearchParams(location.search).get('case') ?? 'first-win';
+const query = new URLSearchParams(location.search);
+const mode = query.get('case') ?? 'first-win';
+if (query.has('safe'))
+  for (const [key, value] of Object.entries({ top: 24, right: 32, bottom: 16, left: 0 }))
+    document.documentElement.style.setProperty('--safe-area-inset-' + key, value + 'px');
 const classic = mode.startsWith('classic');
 const preparing = mode === 'preparing';
 const run = createMissionRun(mode === 'last-win' ? 'carrefour' : 'refuge', 20261109);

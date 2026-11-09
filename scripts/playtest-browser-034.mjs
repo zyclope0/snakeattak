@@ -4,13 +4,15 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { createMissionRun, MISSIONS } from '../src/missions.ts';
 import { encodeDeparture } from '../src/departures.ts';
-const root = 'https://conquete-serpents-famille.zyclope.chatgpt.site/';
-const folder = 'artifacts/playtest-0341';
+const root = process.env.PLAYTEST_URL ?? 'https://conquete-serpents-famille.zyclope.chatgpt.site/';
+const expectedVersion = process.env.PLAYTEST_VERSION ?? '0.34.1';
+const folder = process.env.PLAYTEST_FOLDER ?? 'artifacts/playtest-0341';
 await mkdir(folder, { recursive: true });
 const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-const saved = process.argv.includes('--classic-only')
-  ? JSON.parse(await readFile(folder + '/browser-games.json', 'utf8'))
-  : null;
+const saved =
+  process.argv.includes('--classic-only') || process.argv.includes('--ranged-classic')
+    ? JSON.parse(await readFile(folder + '/browser-games.json', 'utf8'))
+    : null;
 const records = saved?.records ?? [],
   errors = saved?.errors ?? [];
 let serial = 0;
@@ -33,6 +35,9 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
       army: +document.querySelector('#army-count').textContent,
       message: document.querySelector('#message').textContent,
       phase: document.querySelector('#phase').textContent,
+      boss: document.querySelector('#boss-status').hidden
+        ? null
+        : document.querySelector('#boss-status').textContent,
       paused: !document.querySelector('#pause-overlay').hidden,
     }));
   }
@@ -130,7 +135,10 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
     return false;
   }
   await page.goto(root);
-  assert.equal((await page.locator('[data-app-version]').first().textContent()).trim(), 'v0.34.1');
+  assert.equal(
+    (await page.locator('[data-app-version]').first().textContent()).trim(),
+    `v${expectedVersion}`,
+  );
   for (const [index, mission] of (classic
     ? [{ id: 'classic', waves: Array(12).fill(1) }]
     : campaign
@@ -166,9 +174,13 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
           ? []
           : profile === 'novice'
             ? ['club', 'wall']
-            : wave === 1
-              ? ['nurse', 'shield', 'archer', 'club', 'archer', 'club']
-              : ['archer', 'shield', 'archer', 'club', 'nurse', 'archer'];
+            : profile === 'ranged'
+              ? wave === 1
+                ? ['nurse', 'archer', 'club']
+                : ['archer', 'archer', 'archer', 'shield', 'medic', 'archer']
+              : wave === 1
+                ? ['nurse', 'shield', 'archer', 'club', 'archer', 'club']
+                : ['archer', 'shield', 'archer', 'club', 'nurse', 'archer'];
       for (const kind of sequence) {
         const b = await buy(kind, turn++);
         if (b) purchases.push(b);
@@ -184,6 +196,12 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
         wr.virtualMs += 1000;
         const state = await read();
         if (tick % 10 === 0) wr.combat.push(state);
+        if (state.boss && !wr.bossSeen) {
+          wr.bossSeen = true;
+          await page.screenshot({
+            path: `${folder}/${profile}-${mission.id}-wave${wave}-boss.png`,
+          });
+        }
         if (tick === 5) {
           await page.screenshot({
             path: `${folder}/${profile}-${mission.id}-wave${wave}-combat.png`,
@@ -251,6 +269,15 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
       ),
     );
     await page.screenshot({ path: `${folder}/${profile}-${mission.id}-result.png` });
+    if (process.argv.includes('--smoke-only') && rec.status === 'won') {
+      assert.equal(await page.locator('#mission-next').isVisible(), true);
+      assert.ok(await tap('#mission-next'));
+      assert.equal(
+        JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run')).missionId,
+        'trois-ponts',
+      );
+      rec.nextMissionPreviewFromVisibleAction = true;
+    }
     console.log(
       JSON.stringify({
         completed: rec.run.missionId,
@@ -265,7 +292,9 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
   await context.close();
 }
 try {
-  if (process.argv.includes('--classic-only')) await main('none', 812, 375, false, true);
+  if (process.argv.includes('--smoke-only')) await main('mixed', 812, 375, false);
+  else if (process.argv.includes('--ranged-classic')) await main('ranged', 812, 375, false, true);
+  else if (process.argv.includes('--classic-only')) await main('none', 812, 375, false, true);
   else {
     await main('mixed');
     await main('none', 812, 375, false);
@@ -277,8 +306,9 @@ try {
     JSON.stringify(
       {
         method:
-          'Real public site, fresh isolated contexts, native pointer/touch commands; no engine injections or save edits; supported x2 plus Playwright clock.runFor enumerating animation frames, not human real-time play',
-        version: '0.34.1',
+          'Real browser app, fresh isolated contexts, native pointer/touch commands; no engine injections or save edits; supported x2 plus Playwright clock.runFor enumerating animation frames, not human real-time play',
+        version: expectedVersion,
+        url: root,
         records,
         errors,
       },

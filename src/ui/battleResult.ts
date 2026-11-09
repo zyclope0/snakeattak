@@ -19,8 +19,18 @@ export function bindBattleResult(session: Session) {
     const home = homes.find((slot) => slot.node === node)!;
     if (node.parentNode !== home.parent) home.parent.insertBefore(node, home.next);
   };
+  const buttons = el('mission-next').parentElement!;
+  const buttonOrder = Array.from(buttons.childNodes);
+  let reordered = false;
+  const restoreOrder = () => {
+    if (reordered) {
+      buttons.replaceChildren(...buttonOrder);
+      reordered = false;
+    }
+  };
   let observed: Game | null = null;
   el('end-home').onclick = () => el('menu-home').click();
+  el('result-allies').onclick = () => el('reinforcements-toggle').click();
   return () => {
     const g = session.game;
     const ended = session.screen === 'battle' && (g.status === 'won' || g.status === 'lost');
@@ -29,6 +39,7 @@ export function bindBattleResult(session: Session) {
     if (!ended) {
       restore(mission);
       restore(classic);
+      restoreOrder();
       observed = null;
       return;
     }
@@ -38,14 +49,21 @@ export function bindBattleResult(session: Session) {
     if (g.mission) {
       restore(classic);
       if (mission.parentNode !== content) content.append(mission);
+      const primary = !el('mission-next').hidden ? el('mission-next') : el('mission-again');
+      if (buttons.firstElementChild !== primary) {
+        buttons.prepend(primary);
+        reordered = true;
+      }
     } else {
       restore(mission);
+      restoreOrder();
       if (classic.parentNode !== content) content.append(classic);
       el('battle-result-summary').textContent =
         `${g.kills} serpents repoussés · cristal ${Math.ceil(g.base)} %`;
     }
     if (observed !== g) {
       observed = g;
+      panel.scrollTop = 0;
       // Show the outcome once; the player can reopen Allies to inspect the army.
       if (app.classList.contains('reinforcements-open')) el('reinforcements-close').click();
       const next = el('mission-next');
@@ -57,9 +75,15 @@ export function bindBattleResult(session: Session) {
           !app.hidden &&
           !document.hidden &&
           !document.querySelector('dialog[open]') &&
+          panel.getClientRects().length &&
           !el('orientation-notice').getClientRects().length
-        )
+        ) {
           target.focus({ preventScroll: true });
+          const area = panel.getBoundingClientRect(),
+            button = target.getBoundingClientRect();
+          if (button.bottom > area.bottom - 4) panel.scrollTop += button.bottom - area.bottom + 4;
+          else if (button.top < area.top + 4) panel.scrollTop -= area.top + 4 - button.top;
+        }
       });
     }
   };
