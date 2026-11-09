@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "width": 1280,
+      "height": 800,
+      "words": 37,
+      "board": {
+        "x": 13,
+        "y": 117,
+        "width": 1065.953125,
+        "height": 600.8125
+      }
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "words": 21,
+      "board": {
+        "x": 0,
+        "y": 48,
+        "width": 580.125,
+        "height": 326.984375
+      }
+    }
+  ],
+  "checks": [
+    "three lanes",
+    "progression1/2/3",
+    "honey",
+    "legacy",
+    "pause"
+  ],
+  "errors": []
+}

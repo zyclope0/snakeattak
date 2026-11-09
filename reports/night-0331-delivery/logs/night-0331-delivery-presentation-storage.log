@@ -1,0 +1,10 @@
+
+> conquete-serpents@0.33.1 test:presentation
+> node scripts/presentation-browser.mjs
+
+
+  VITE v6.4.5  ready in 417 ms
+
+  ➜  Local:   http://127.0.0.1:4181/
+12:01:42 AM [vite] (client) page reload .tutorial-030.html
+Presentation fixtures: storage-failed; no browser errors.

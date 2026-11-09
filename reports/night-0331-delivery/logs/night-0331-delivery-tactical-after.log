@@ -1,0 +1,11 @@
+
+> conquete-serpents@0.33.1 test:tactical
+> node scripts/tactical-022-browser.mjs
+
+
+  VITE v6.4.5  ready in 216 ms
+
+  ➜  Local:   http://127.0.0.1:4194/
+12:11:53 AM [vite] (client) page reload interruptions-033-fixture.html
+Tactique0.22: bandages/retour/pause, vol/contres, cour/têtes/soins, deuxformats et mouvementréduit OK.
+12:12:55 AM [vite] (client) page reload interruptions-033-fixture.html

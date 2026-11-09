@@ -1,0 +1,55 @@
+{
+  "version": "0.33.1",
+  "results": [
+    {
+      "harness": "mobile-031",
+      "appHidden": true,
+      "startVisible": false,
+      "canvasWidth": 0,
+      "canvasHeight": 0
+    },
+    {
+      "harness": "interruptions-033",
+      "appHidden": true,
+      "startVisible": false,
+      "canvasWidth": 0,
+      "canvasHeight": 0
+    },
+    {
+      "harness": "presentation",
+      "appHidden": true,
+      "startVisible": false,
+      "canvasWidth": 0,
+      "canvasHeight": 0
+    },
+    {
+      "harness": "performance-024",
+      "appHidden": true,
+      "startVisible": false,
+      "canvasWidth": 0,
+      "canvasHeight": 0
+    },
+    {
+      "harness": "tutorial-030",
+      "appHidden": true,
+      "startVisible": false,
+      "canvasWidth": 0,
+      "canvasHeight": 0
+    },
+    {
+      "harness": "tactical-022",
+      "appHidden": true,
+      "startVisible": false,
+      "canvasWidth": 0,
+      "canvasHeight": 0
+    },
+    {
+      "harness": "stage-023",
+      "appHidden": true,
+      "startVisible": false,
+      "canvasWidth": 0,
+      "canvasHeight": 0
+    }
+  ],
+  "errors": []
+}
