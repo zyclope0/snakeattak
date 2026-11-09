@@ -92,6 +92,24 @@ try {
         fullPage: true,
       });
       assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      if (width === 390 || width === 320) {
+        assert.ok(
+          await p.evaluate(() => {
+            const title = document.querySelector('#app .brand h1').getBoundingClientRect();
+            const dashboard = document.querySelector('.dashboard').getBoundingClientRect();
+            return title.top >= 0 && title.bottom <= dashboard.top + 1;
+          }),
+          'The full title remains above the dashboard in narrow desktop portraits',
+        );
+        for (const button of await p.locator('.app-header button, .dashboard button').all()) {
+          if (!(await button.isVisible())) continue;
+          const rect = await button.boundingBox();
+          assert.ok(
+            rect.x >= 0 && rect.y >= 0 && rect.x + rect.width <= width + 1 && rect.height >= 44,
+            'Every portrait command stays reachable without reducing its touch target',
+          );
+        }
+      }
       await p.close();
     }
   }

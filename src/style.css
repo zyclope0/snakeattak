@@ -3789,6 +3789,17 @@ dialog > small {
   grid-template-rows: auto minmax(0, 1fr);
   min-height: 0;
 }
+/* Narrow desktop portraits keep every command reachable at its full target size. */
+@media (max-width: 600px) and (orientation: portrait) {
+  .app-header {
+    height: auto;
+    min-height: 58px;
+  }
+  .dashboard .controls {
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+}
 .play-layout {
   min-height: 0;
   height: 100%;

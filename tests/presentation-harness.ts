@@ -10,6 +10,8 @@ import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindControls } from '../src/ui/controls.ts';
 import { bindBattleNotices } from '../src/ui/battleNotices.ts';
 import '../src/style.css';
+// This fixture enters battle directly, without main.ts and its screen switch.
+document.getElementById('app')!.hidden = false;
 const session = new Session(2026),
   game = session.game;
 const coach = createCoach(session);

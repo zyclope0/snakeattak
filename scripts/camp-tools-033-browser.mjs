@@ -6,7 +6,8 @@ import { chromium } from '@playwright/test';
 
 const baseline = process.argv.includes('--baseline');
 const fixture = 'camp-tools-033-fixture.html';
-const artifact = 'artifacts/child-tools-0330';
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
+const artifact = `artifacts/child-tools-${version}`;
 const errors = [],
   sizes = [],
   checks = [];
@@ -261,10 +262,11 @@ try {
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });
   await writeFile(
-    'reports/child-tools-0330.json',
+    `reports/child-tools-${version}.json`,
     JSON.stringify(
       {
-        version: JSON.parse(await readFile('package.json', 'utf8')).version,
+        version,
+        artifact,
         source: 'Chromium cloud, not physical Android',
         sizes,
         checks,
