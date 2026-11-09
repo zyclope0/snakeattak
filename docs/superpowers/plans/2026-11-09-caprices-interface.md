@@ -47,12 +47,12 @@
 **Files:** nouveaux src/ui/{capriceView,capriceCopy,capriceAlbums,capriceSpeech,capriceBudget}.ts et caprices.css ; intégration src/ui/{expeditions,controls,battleDock,dockModel,campToolModel,feastControls,hud,battleResult,squadControls}.ts, src/render/{resultCopy,actors,capriceShell}.ts, bootstrap.ts, i18n/dictionaries/caprices.en.ts + english.ts ; tests caprice-readouts-036.test.ts, caprices-036-harness.ts et scripts/caprices-036-browser.mjs ; index.html si budget le permet.
 **Interfaces:** actions.launch(run,kinds?) ; bindExpeditions(..., albums?) facultatif pour anciennes fixtures. Helpers UI lisent les règles ; API moteur existante appelée sans la changer. Carnet UI se lie depuis bootstrap et garde owner au lancement. Les nouveaux nœuds peuvent être créés au bind pour garder HTML<32768.
 
-- [ ] Tests rouges : rangées/étoiles, code verrouillé, copains permis/seuils de réserve/miel, création/coquille sans mutation ; vrais titres FR en modeEN.
-- [ ] Implémenter cases ouvertes/fermées, mission normale, sélection/désélection, relance/retry/code conservant caprice ; voix locale opt-in facultative.
-- [ ] Brancher choix des copains avant refresh, filtres dock/catalogue, réserve HUD/actions ; owner et persistence/export/import albums dans bootstrap.
-- [ ] Carnet36cases par profil, victoire/répétition/défaite, accès au carnet résultat ; coquille procédurale et silhouette agrandie sans collision.
-- [ ] Compléter l'anglais des commandes/explications, déclarer les identités françaises protégées dans l'inventaire et utiliser data-copy-raw/lang=fr dans le DOM.
-- [ ] Recette normale et contrôlée aux formats prescrits, migrations/codes/stockage, clavier/tactile, pause/bascule/reprise ; suite/types/build ; commit et revue.
+- [x] Tests rouges : rangées/étoiles, code verrouillé, copains permis/seuils de réserve/miel, création/coquille sans mutation ; vrais titres FR en modeEN.
+- [x] Implémenter cases ouvertes/fermées, mission normale, sélection/désélection, relance/retry/code conservant caprice ; voix locale opt-in facultative.
+- [x] Brancher choix des copains avant refresh, filtres dock/catalogue, réserve HUD/actions ; owner et persistence/export/import albums dans bootstrap.
+- [x] Carnet36cases par profil, victoire/répétition/défaite, accès au carnet résultat ; coquille procédurale et silhouette agrandie sans collision.
+- [x] Compléter l'anglais des commandes/explications, déclarer les identités françaises protégées dans l'inventaire et utiliser data-copy-raw/lang=fr dans le DOM.
+- [x] Recette normale et contrôlée aux formats prescrits, migrations/codes/stockage, clavier/tactile, pause/bascule/reprise ; suite/types/build ; commit et revue.
 
 ### Task 4: Vérification, conseil et livraison
 
