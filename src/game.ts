@@ -74,6 +74,8 @@ export type Entity = Point & {
   nav: number;
   boss: boolean;
   bossState?: BossState;
+  /** Carapace d'un caprice : plus lente, plus solide, blindée. Absente sinon. */
+  shell?: true;
   medical?: MedicalState;
   court?: CourtState;
   courtReleased?: boolean;
@@ -274,7 +276,7 @@ export class Game {
       this.paused ||
       this.status !== 'preparing' ||
       (this.mission ? missionById(this.mission.missionId)!.unlockRank < 4 : this.wave < 4) ||
-      this.gold < 90 ||
+      this.gold - this.caprice.reserve < 90 ||
       this.campaign.training !== 'none' ||
       (path !== 'force' && path !== 'guard') ||
       !this.units.some((u) => u.kind === 'hero' && u.hp > 0)
@@ -450,7 +452,7 @@ export class Game {
       this.status !== 'lost' &&
       kind !== 'hero' &&
       this.isUnlocked(kind) &&
-      this.gold >= this.recruitCost(kind) &&
+      this.gold - this.caprice.reserve >= this.recruitCost(kind) &&
       isPlacementFree(this.units, x, y, this.level)
     );
   }
@@ -518,7 +520,7 @@ export class Game {
       this.paused ||
       this.status === 'won' ||
       this.status === 'lost' ||
-      this.gold < 80 ||
+      this.gold - this.caprice.reserve < 80 ||
       this.base >= 100
     )
       return false;
@@ -693,6 +695,11 @@ export class Game {
     });
   }
   /** All outgoing hits share kill attribution, including splash and a second head. */
+  private enemyPace(e: Entity) {
+    return (
+      (e.boss ? 0.8 : enemySpeed(e.variant, this.time)) * (e.shell ? this.caprice.shellSpeed : 1)
+    );
+  }
   private hitEnemy(source: Entity, target: Entity, damage: number) {
     if (target.hp <= 0) return;
     const state = ensureBossState(target, this.tuning);
@@ -705,7 +712,8 @@ export class Game {
             : this.tuning.bossShieldMeleeFactor,
         )
       : damage;
-    const actual = unabsorbed * (1 - enemyArmor(target));
+    const actual =
+      unabsorbed * (1 - enemyArmor(target)) * (target.shell ? 1 - this.caprice.shellArmor : 1);
     if (state?.heads) {
       receiveBossDamage(state, actual, defenseRole(source.kind as Kind) === 'ranged');
       target.hp = bossHeadsHealth(state);
@@ -933,6 +941,12 @@ export class Game {
           boss,
           variant,
         );
+        const shellEvery = this.caprice.shellEvery;
+        if (shellEvery && !boss && index % shellEvery === shellEvery - 1) {
+          entry.hp *= this.caprice.shellHp;
+          entry.maxHp *= this.caprice.shellHp;
+          entry.shell = true;
+        }
         if (courtEntry) {
           for (const member of BOSS_COURT) {
             const escort = this.spawnSnake(
@@ -1165,12 +1179,11 @@ export class Game {
         }
         // Support can be bitten but never becomes an immortal roadblock.
         if (defenseRole(target.kind as Kind) === 'support' || isFlying(e)) {
-          this.followRoute(e, stats.speed * (e.boss ? 0.8 : enemySpeed(e.variant, this.time)), dt);
+          this.followRoute(e, stats.speed * this.enemyPace(e), dt);
           e.facing = target.x >= e.x ? 1 : -1;
           e.state = 'attack';
         }
-      } else
-        this.followRoute(e, stats.speed * (e.boss ? 0.8 : enemySpeed(e.variant, this.time)), dt);
+      } else this.followRoute(e, stats.speed * this.enemyPace(e), dt);
       if (e.x > 1000) {
         const absorbed = e.boss ? 0 : Math.min(9, this.rewards.ward);
         this.rewards.ward -= absorbed;

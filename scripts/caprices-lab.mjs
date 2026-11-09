@@ -9,7 +9,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { Game } from '../src/game.ts';
 import { MISSIONS, createMissionRun } from '../src/missions.ts';
 import { LANES, laneDefense } from '../src/ai.ts';
-import { CAPRICES, capriceById, defineCaprice } from '../src/caprices.ts';
+import { CAPRICES, CREATOR_CHALLENGES, capriceById, defineCaprice } from '../src/caprices.ts';
 
 const [
   candidatesPath = 'catalogue',
@@ -25,7 +25,7 @@ const candidates =
   candidatesPath === 'catalogue'
     ? [
         ...MISSIONS.map((m) => ({ id: 'base', missionId: m.id })),
-        ...CAPRICES.map((c) => ({ id: c.id, missionId: c.missionId })),
+        ...[...CAPRICES, ...CREATOR_CHALLENGES].map((c) => ({ id: c.id, missionId: c.missionId })),
       ]
     : JSON.parse(await readFile(candidatesPath, 'utf8'));
 const dt = 1 / 30;
@@ -126,6 +126,7 @@ for (const c of candidates) {
   if (c.id !== 'base' && !capriceById(c.id))
     defineCaprice({
       id: c.id,
+      set: 'serpents',
       missionId: c.missionId,
       tier: 'petit',
       name: c.id,

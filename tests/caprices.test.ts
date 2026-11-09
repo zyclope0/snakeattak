@@ -5,6 +5,7 @@ import { MISSIONS, createMissionRun, missionWave, readMissionRun } from '../src/
 import type { MissionId } from '../src/missions.ts';
 import {
   CAPRICES,
+  CREATOR_CHALLENGES,
   CAPRICE_TIERS,
   NO_CAPRICE,
   capriceById,
@@ -28,16 +29,20 @@ function playOut(g: Game) {
   return { status: g.status, base: g.base, kills: g.kills, rng: g.rng, gold: g.gold, time: g.time };
 }
 
-test('catalogue : trois caprices par mission, un par niveau, annonces courtes', () => {
+const ALL = [...CAPRICES, ...CREATOR_CHALLENGES];
+test('catalogue : deux rangées de trois par mission, un par niveau, annonces courtes', () => {
   assert.equal(CAPRICES.length, 18);
-  assert.equal(new Set(CAPRICES.map((c) => c.id)).size, 18);
+  assert.equal(CREATOR_CHALLENGES.length, 18);
+  assert.equal(new Set(ALL.map((c) => c.id)).size, 36);
   for (const mission of MISSIONS) {
+    for (const set of ['serpents', 'createur'] as const)
+      assert.deepEqual(
+        capricesForMission(mission.id, set).map((c) => c.tier),
+        CAPRICE_TIERS,
+        `${mission.id} ${set}`,
+      );
     const list = capricesForMission(mission.id);
-    assert.deepEqual(
-      list.map((c) => c.tier),
-      CAPRICE_TIERS,
-      mission.id,
-    );
+    assert.equal(list.length, 6);
     for (const caprice of list) {
       assert.ok(caprice.name.trim(), caprice.id);
       assert.ok(
@@ -50,7 +55,7 @@ test('catalogue : trois caprices par mission, un par niveau, annonces courtes', 
 });
 
 test('les caprices respectent les règles du fils', () => {
-  for (const { id, rules } of CAPRICES) {
+  for (const { id, missionId, rules } of ALL) {
     // Œufs : on peut en ajouter ou les faire éclore plus tôt, jamais en retirer.
     assert.ok(rules.eggs >= 0 && rules.hatch <= 1, id);
     // Jamais moins de serpents ni plus lents : un caprice durcit, il ne retire rien.
@@ -58,6 +63,9 @@ test('les caprices respectent les règles du fils', () => {
     // L'achat d'alliés reste possible : au moins une sorte et une bourse non nulle.
     assert.ok(rules.kinds === 0 || rules.kinds >= 1, id);
     assert.ok(rules.budget > 0, id);
+    // La tirelire laisse toujours de quoi acheter au moins une massue au départ.
+    const budget = MISSIONS.find((m) => m.id === missionId)!.budget * rules.budget;
+    assert.ok(budget - rules.reserve >= 55, id);
   }
   // Le roi à trois têtes vient de ses règles : il apparaît dans deux caprices.
   assert.equal(CAPRICES.filter((c) => c.rules.king).length, 2);
@@ -83,6 +91,7 @@ test('un caprice est lu avec sa mission et refusé sur une autre', () => {
   assert.throws(() =>
     defineCaprice({
       id: 'refuge-petit',
+      set: 'serpents',
       missionId: 'refuge',
       tier: 'petit',
       name: 'x',
@@ -92,8 +101,8 @@ test('un caprice est lu avec sa mission et refusé sur une autre', () => {
   );
 });
 
-test('même départ et même caprice donnent la même partie, pour les dix-huit', () => {
-  for (const { id } of CAPRICES) {
+test('même départ et même caprice donnent la même partie, pour les trente-six', () => {
+  for (const { id } of ALL) {
     const a = playOut(new Game(0, undefined, run(id)));
     const b = playOut(new Game(0, undefined, run(id)));
     assert.deepEqual(a, b, id);
@@ -157,6 +166,7 @@ test('sans caprice, rien ne change', () => {
 test('noHealers retire infirmiers et médecins (levier gardé en réserve)', () => {
   defineCaprice({
     id: 'test-bandages',
+    set: 'serpents',
     missionId: 'course',
     tier: 'moyen',
     name: 'Bandages mangés',
@@ -173,6 +183,7 @@ test('le roi d’un caprice n’apparaît que dans la dernière vague', () => {
   assert.ok(capriceById('course-grand')?.rules.king);
   defineCaprice({
     id: 'test-roi',
+    set: 'serpents',
     missionId: 'refuge',
     tier: 'grand',
     name: 'Le roi s’invite',
@@ -191,4 +202,49 @@ test('le roi d’un caprice n’apparaît que dans la dernière vague', () => {
     bossByWave.push(boss);
   }
   assert.deepEqual(bossByWave, [false, false, true]);
+});
+
+test('la tirelire garde des pièces dans la banque', () => {
+  const g = new Game(0, undefined, run('refuge-createur-petit'));
+  assert.equal(g.gold, 450);
+  // 150 pièces bloquées : 300 dépensables, soit deux archers à 150 mais pas trois.
+  assert.ok(g.recruit('archer', 900, 180));
+  assert.ok(g.recruit('archer', 900, 324));
+  assert.equal(g.gold, 150);
+  assert.equal(g.recruit('club', 660, 180), false);
+  g.base = 50;
+  assert.equal(g.repair(), false);
+  const plain = new Game(0, undefined, createMissionRun('refuge', 4242));
+  assert.ok(plain.recruit('archer', 900, 180) && plain.recruit('archer', 900, 324));
+  assert.ok(plain.recruit('club', 660, 180));
+});
+
+test('les carapaces : un serpent sur trois, lent, solide et blindé', () => {
+  const id = 'course-createur-moyen';
+  const g = new Game(0, undefined, run(id));
+  const plain = new Game(0, undefined, createMissionRun('course', 4242));
+  for (const game of [g, plain]) game.startWave();
+  const shells: number[] = [];
+  const seen = new Set<number>();
+  for (let i = 0; i < 30 * 30 && isFighting(g); i++) {
+    g.step(1 / 30);
+    plain.step(1 / 30);
+    for (const e of g.enemies)
+      if (!seen.has(e.id)) {
+        seen.add(e.id);
+        if (e.shell) shells.push(e.maxHp);
+      }
+  }
+  assert.ok(shells.length >= 1);
+  assert.ok(seen.size >= 3 * shells.length - 2 && seen.size <= 3 * shells.length + 2 + 4);
+  const normalMax = Math.max(...plain.enemies.map((e) => e.maxHp), 0);
+  assert.ok(Math.min(...shells) >= 3 * 46, 'PV au moins triplés');
+  assert.ok(normalMax === 0 || Math.min(...shells) > normalMax);
+});
+
+test('la grande charge rend tous les serpents plus rapides', () => {
+  const rules = capriceById('refuge-createur-grand')!.rules;
+  assert.ok(rules.speed > 1 && rules.hp > 1 && rules.bite > 1);
+  assert.equal(rules.shellEvery, 0);
+  assert.equal(rules.reserve, 0);
 });

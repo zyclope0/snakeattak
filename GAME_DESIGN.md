@@ -161,3 +161,9 @@ touche à aucune des règles du fils. Le fils a gardé 13 caprices, en a renomm�
 « Serpents malins », remplacé par « Bourse trouée » avec l'accord du parent. Il prépare
 son propre caprice. Le roi à trois têtes peut venir dans une mission par caprice.
 Catalogue et reste à faire : docs/CAPRICES.md.
+
+Le défi du créateur, inventé par le fils le même soir, s'ajoute sur chaque mission
+en seconde rangée : facile « La tirelire » (un tiers des pièces de départ reste à la
+banque), moyen « Les carapaces » (certains serpents très lents, très solides et blindés,
+pas tous), difficile « La grande charge » (rapides, beaucoup de vie et de dégâts).
+Le nom de rangée évite le prénom de l'enfant. Valeurs : docs/CAPRICES.md.
