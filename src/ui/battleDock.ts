@@ -1,4 +1,5 @@
 import './craftSurfaces.css';
+import { weakLaneAdvice } from './placementAdvice.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import type { Kind } from '../data.ts';
@@ -106,7 +107,7 @@ export function bindBattleDock(
           ? 'Place ton allié'
           : game.feastUsed
             ? 'Miel utilisé'
-            : 'Tes favoris');
+            : (weakLaneAdvice(game) ?? 'Tes favoris'));
     if (status.textContent !== hint) status.textContent = hint;
   };
 }

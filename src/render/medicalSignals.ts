@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
-import { medicalRules } from '../healing.ts';
+import { medicalReadout } from './medicalReadout.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
 
@@ -34,7 +34,7 @@ export class MedicalSignals {
     onSceneExit(scene.events, () => this.labels.clear());
     this.station = scene.add.graphics().setDepth(15.4);
     this.stationLabel = scene.add
-      .text(1022, 442, 'Réserve', {
+      .text(988, 442, 'Réserve', {
         fontFamily: 'sans-serif',
         fontSize: '11px',
         color: '#f6f0d8',
@@ -47,26 +47,19 @@ export class MedicalSignals {
   }
   draw(game: Game) {
     this.labels.beginFrame();
-    let visible = 0;
+    const readout = medicalReadout(game.units);
     this.station.clear();
-    for (const unit of game.units) {
-      const rules = medicalRules(unit.kind),
-        state = unit.medical;
-      if (!rules || !state || unit.hp <= 0) continue;
-      visible++;
-      const label = this.labels.acquire(unit.id);
-      const text =
-        state.phase === 'returning'
-          ? 'Retour au fort'
-          : state.phase === 'restocking'
-            ? `Bandages · ${Math.ceil(state.remaining)} s`
-            : `Bandages ${state.bandages}/${rules.capacity}`;
+    for (const badge of readout.badges) {
+      const label = this.labels.acquire(badge.id),
+        text = badge.text;
       if (label.text !== text) label.setText(text);
-      label.setPosition(unit.x, unit.y + 23);
+      label.setPosition(badge.x, badge.y);
     }
     this.labels.endFrame();
-    this.stationLabel.setVisible(visible > 0);
-    if (visible) {
+    this.stationLabel.setVisible(readout.present > 0);
+    if (this.stationLabel.text !== readout.reserveLabel)
+      this.stationLabel.setText(readout.reserveLabel);
+    if (readout.present) {
       const g = this.station;
       g.fillStyle(0x2c604b, 0.95);
       g.fillRoundedRect(971, 315, 28, 21, 4);

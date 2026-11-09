@@ -1,4 +1,5 @@
 import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
+import { defeatCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS, createMissionRun, missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
@@ -178,8 +179,8 @@ export function bindExpeditions(
     el('mission-result').hidden = !end;
     el('mission-result').textContent =
       g.status === 'won'
-        ? `${'★'.repeat(g.missionStars)} · Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`
-        : 'Le camp est tombé. Réessaie ce même départ ou prépare une autre expédition.';
+        ? `Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`
+        : defeatCopy(g).subtitle;
     el('mission-again').hidden = !end;
     const index = MISSIONS.findIndex((m) => m.id === run.missionId);
     el('mission-next').hidden = g.status !== 'won' || index >= MISSIONS.length - 1;

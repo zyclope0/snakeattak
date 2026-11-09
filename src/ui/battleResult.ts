@@ -1,4 +1,5 @@
 import './battleResult.css';
+import { defeatCopy, earnedStars } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
 
@@ -8,6 +9,10 @@ export function bindBattleResult(session: Session) {
   const app = el('app'),
     panel = el('battle-result'),
     content = el('battle-result-content');
+  const stars = document.createElement('p');
+  stars.id = 'battle-result-stars';
+  stars.hidden = true;
+  el('battle-result-title').after(stars);
   const mission = el('mission-battle-actions'),
     classic = el('end-restart');
   const homes = [mission, classic].map((node) => ({
@@ -43,7 +48,16 @@ export function bindBattleResult(session: Session) {
       observed = null;
       return;
     }
-    el('battle-result-title').textContent = g.status === 'won' ? 'Bravo !' : 'On réessaie ?';
+    el('battle-result-title').textContent = g.status === 'won' ? 'Bravo !' : defeatCopy(g).title;
+    const earned = earnedStars(g);
+    stars.hidden = !earned;
+    if (earned) {
+      stars.textContent =
+        earned.maximum === 3
+          ? '★'.repeat(earned.count) + '☆'.repeat(3 - earned.count)
+          : `★ ${earned.count} / ${earned.maximum}`;
+      stars.setAttribute('aria-label', `${earned.count} étoiles gagnées sur ${earned.maximum}`);
+    }
     el('end-home').hidden = !!g.mission;
     el('battle-result-summary').hidden = !!g.mission;
     if (g.mission) {

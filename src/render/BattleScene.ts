@@ -1,5 +1,5 @@
 import { ThreatMarkers } from './threatMarkers.ts';
-import { victoryCopy } from './resultCopy.ts';
+import { victoryCopy, defeatCopy } from './resultCopy.ts';
 import { activateBoard } from '../ui/boardActions.ts';
 import { drawFeastPlacement } from './feastPlacement.ts';
 import { FlightSignals } from './flightSignals.ts';
@@ -304,7 +304,7 @@ export class BattleScene extends Phaser.Scene {
         if (mobile) {
           this.ink.lineBetween(p.x, 180, p.x, 468);
           for (const y of LANES) this.ink.strokeCircle(p.x, y, 10);
-        } else this.ink.strokeEllipse(p.x, p.y, 192, 216);
+        }
       }
     }
     const end = this.session.game.status === 'won' || this.session.game.status === 'lost';
@@ -313,12 +313,12 @@ export class BattleScene extends Phaser.Scene {
       (this.overlay.list[2] as Phaser.GameObjects.Text).setText(
         this.session.game.status === 'won'
           ? victoryCopy(this.session.game).title
-          : 'Le camp est tombé',
+          : defeatCopy(this.session.game).title,
       );
       (this.overlay.list[3] as Phaser.GameObjects.Text).setText(
         this.session.game.status === 'won'
           ? victoryCopy(this.session.game).subtitle
-          : 'Les serpents ont gagné cette manche. Consulte ta sauvegarde pour reprendre un camp.',
+          : defeatCopy(this.session.game).subtitle,
       );
     }
     this.resultStats.setVisible(end);

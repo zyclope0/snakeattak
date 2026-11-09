@@ -1,4 +1,6 @@
 import { bindBattleResult } from './battleResult.ts';
+import { placementAdvice } from './placementAdvice.ts';
+import { defeatCopy } from '../render/resultCopy.ts';
 import { bindThreatControls } from './threatControls.ts';
 import { bindCampToolHelp } from './campToolHelp.ts';
 import { bindBattleDock } from './battleDock.ts';
@@ -220,7 +222,7 @@ export function bindControls(
           ? session.game.mission
             ? 'Tes alliés ont tenu ! Retrouve la carte pour choisir la suite.'
             : 'Douze vagues repoussées. Le goûter peut commencer !'
-          : 'Consulte le statut de sauvegarde pour reprendre un camp, ou commence une nouvelle aventure.';
+          : defeatCopy(session.game).subtitle;
     }
     refreshFeast();
     refreshDock();
@@ -232,9 +234,7 @@ export function bindControls(
     el('message').hidden = !!selected || !!session.selectedFeast;
     if (selected) {
       el('selection-name').textContent = kinds[selected].name;
-      const readout = placementReadout(session.game, selected);
-      el('selection-hint').textContent =
-        `${readout?.category ?? 'Placement'} · portée initiale ${kinds[selected].range}. Touche ton camp ; cet allié agit ensuite seul.`;
+      el('selection-hint').textContent = placementAdvice(selected).hint;
       el('selection-portrait').style.cssText = portraitStyle(selected);
     } else if (session.selectedFeast) {
       el('selection-name').textContent =
