@@ -1,5 +1,15 @@
 # Plan actuel — application 0.34.2, parties et résultat
 
+## Fusion autorisée — 9 novembre 2026
+
+Le parent autorise la fusion de la PR1 vers `main`. Le préflight GitHub a
+révélé un adaptateur de test encore lié au dock masqué en fin de partie ;
+reproduction puis correction des seuls tests. Le contrôle étendu stabilise
+aussi la pose tactique qui expirait avant sa lecture. Aucun changement du jeu :
+les30fichiers du build normal restent identiques au site et à l'APK0.34.2.
+[Explication et preuves](PREFLIGHT-MERGE-0.34.2.md) ; l'état de fusion et les
+exécutions distantes sont consultables sur la [PR1](https://github.com/zyclope0/snakeattak/pull/1).
+
 ## Parties navigateur, interface et équilibrage — 9 novembre 2026
 
 **0.34.2/code44 livré côté application.** Dix parties d'évaluation sur le vrai

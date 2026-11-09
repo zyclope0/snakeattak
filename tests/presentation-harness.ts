@@ -328,19 +328,24 @@ const refresh = bindControls(session, () => {
   document.getElementById('save-status')!.textContent = persistence.status;
 });
 refresh();
+const scene = new BattleScene(
+  session,
+  refresh,
+  () => {},
+  bindBattleNotices(coach, () => !!session.selected),
+);
+if (scenario === 'tactics') {
+  // The engine is already frozen. Keep its real effects visible while the
+  // browser opens disclosures; do not let machine speed expire the pose.
+  const update = scene.update.bind(scene);
+  scene.update = (time) => update(time, 0);
+}
 const phaser = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'game',
   width: 1100,
   height: 620,
-  scene: [
-    new BattleScene(
-      session,
-      refresh,
-      () => {},
-      bindBattleNotices(coach, () => !!session.selected),
-    ),
-  ],
+  scene: [scene],
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   audio: { noAudio: true },
 });

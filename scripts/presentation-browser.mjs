@@ -218,6 +218,8 @@ try {
           ninja: g.units.find((u) => u.kind === 'ninja')?.targetId,
           dragonAction: p.actions.get(g.units.find((u) => u.kind === 'dragon').id)?.kind,
           dinoAction: p.actions.get(g.units.find((u) => u.kind === 'dino').id)?.kind,
+          actions: [...p.actions].map(([id, action]) => ({ id, ...action })),
+          effects: g.effects.map((e) => ({ source: e.sourceId, kind: e.kind })),
         };
       });
       if (
@@ -334,6 +336,8 @@ try {
     if (scenario === 'won') {
       if (!(await page.locator('[data-feast-flavor="sticky"]').isDisabled()))
         throw Error('Honey selection active after victory');
+      // Return from the voluntarily opened Allies catalogue to the result actions.
+      await page.locator('#reinforcements-close').click();
       await page.locator('#end-restart').click();
       if ((await page.locator('#wave').innerText()) !== '0')
         throw Error('Restart from victory failed');

@@ -1,0 +1,18 @@
+{
+  "version": "0.34.2",
+  "purpose": "Explicit user authorization to merge PR1 into main",
+  "initialHead": "7414e2e241fc020685a3fa226a0d215283a66fb0",
+  "initialCiRunsFailed": [
+    42594189807,
+    42594181931
+  ],
+  "fixScope": "Test utilities and test fixture only; visible catalogue actions, return to results, freeze tactics fixture rendering time",
+  "verifyTests": 441,
+  "presentationScenarios": 14,
+  "tacticsWith1500msAssetDelay": "pass",
+  "browser": "normal and file portable pass",
+  "webBuildFilesIdenticalToDeployedApk": 30,
+  "productionCodeChanged": false,
+  "historicalReportsChanged": false,
+  "mergeGate": "Require GitHub checks to pass at new exact head"
+}

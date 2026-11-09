@@ -1,0 +1,5 @@
+
+> conquete-serpents@0.34.2 test:browser
+> node scripts/browser-check.mjs
+
+{"desktop":"dock and full catalog on request, tank guide, sound toggle, recruit, checkpoint reload, unlocks, briefing, both honeys, flavour locking/pause/reset, help OK","mobile":"portrait guidance, 812×375 board >=85% height, drawer, touch recruit/start/sticky honey OK","pageErrors":[]}
