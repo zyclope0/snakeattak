@@ -1,0 +1,71 @@
+{
+  "unitTests": 503,
+  "caprices": {
+    "checks": 205,
+    "captures": 31,
+    "nativePlayed": true,
+    "realCompletedGames": 1,
+    "waves": 3,
+    "crystalPercent": 73,
+    "earnedStars": 2
+  },
+  "locale": {
+    "browserChecks": 392,
+    "adapterChecks": 24,
+    "inventory": 915,
+    "englishEntries": 946,
+    "missing": 0,
+    "addedParameters": 0
+  },
+  "interface": {
+    "checks": 24
+  },
+  "audit": {
+    "checks": 13
+  },
+  "presentation": {
+    "scenarios": 14
+  },
+  "tacticalClarity": {
+    "viewports": 3
+  },
+  "missionFlow": "passed; exact envelope4/albums and checkpoint7 no caprice assertions retained",
+  "missionRegressions": "passed",
+  "medicalPersistence": "passed; partial stock/return/restock/cooldown/reload/export/invalid import",
+  "pageErrors": [],
+  "offline": {
+    "checks": 10,
+    "errors": 0
+  },
+  "offline-caprices": {
+    "checks": 4,
+    "files": 26,
+    "errors": 0
+  },
+  "interruptions": {
+    "checks": 11,
+    "errors": 0
+  },
+  "child-mobile": {
+    "sizes": 6,
+    "checks": 14,
+    "errors": 0
+  },
+  "departures": {
+    "checks": 12,
+    "errors": 0
+  },
+  "threat-preparation": {
+    "checks": 11,
+    "errors": 0
+  },
+  "reinforcements-scroll": {
+    "cases": 5,
+    "checks": 6,
+    "errors": 0
+  },
+  "portable": {
+    "checks": 4,
+    "errors": 0
+  }
+}

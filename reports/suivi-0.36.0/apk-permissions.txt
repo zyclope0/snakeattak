@@ -1,0 +1,3 @@
+package: com.conqueteserpents.famille
+permission: com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission: name='com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'

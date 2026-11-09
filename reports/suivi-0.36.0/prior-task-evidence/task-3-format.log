@@ -1,0 +1,30 @@
+src/bootstrap.ts 137ms
+src/i18n/english.ts 5ms (unchanged)
+src/render/actors.ts 82ms
+src/render/resultCopy.ts 6ms
+src/ui/battleDock.ts 17ms
+src/ui/battleResult.ts 18ms
+src/ui/campToolModel.ts 11ms
+src/ui/controls.ts 42ms
+src/ui/dockModel.ts 3ms
+src/ui/expeditions.ts 27ms
+src/ui/familyControls.ts 11ms
+src/ui/feastControls.ts 12ms
+src/ui/hud.ts 13ms
+src/ui/missionPreview.ts 15ms
+src/ui/squadControls.ts 7ms (unchanged)
+src/ui/threatControls.ts 5ms (unchanged)
+src/ui/threatPreview.ts 12ms
+tests/missions-021-browser.mjs 36ms (unchanged)
+scripts/caprices-036-browser.mjs 42ms
+src/i18n/dictionaries/caprices.en.ts 8ms
+src/render/capriceShell.ts 4ms
+src/ui/capriceAlbums.ts 17ms
+src/ui/capriceBudget.ts 2ms
+src/ui/capriceCopy.ts 4ms
+src/ui/capriceLaunch.ts 2ms
+src/ui/capriceSpeech.ts 3ms
+src/ui/capriceView.ts 15ms
+src/ui/caprices.css 39ms
+tests/caprice-readouts-036.test.ts 22ms
+tests/caprices-036-harness.ts 12ms

@@ -1,4 +1,19 @@
-# Plan actuel — application 0.35.0, tactique et français/anglais
+# Plan actuel — candidate 0.36.0, caprices et carnets
+
+## Candidate privée 0.36.0 — STOP pour essai du parent
+
+Version0.36.0/code46 sur `feat/caprices-interface` : préparation des36caprices,
+copains autorisés, sauvegarde8, codes3, enveloppe familiale4 et carnets séparés.
+Les noms et annonces du fils restent exactement français dans les deux langues.
+Campagne et étoiles restent familiales ; pas de profils de combat distincts.
+[Bilan](BILAN-0.36.0.md), [état du conseil](CONSEIL-0.36.0.md),
+[preuves](../reports/suivi-0.36.0/commands.json).
+
+Cette candidate n'est ni fusionnée dans `main`/`claude/caprices`, ni publiée.
+Le site public et `main` restent en0.35.0. La revue finale fraîche de toute la
+branche et le conseil6personas sont encore à terminer par le coordinateur.
+L'essai du parent sur le nouvel APK/S24 et la relecture anglophone restent attendus.
+Aucun changement des règles, équilibrage, RNG, appID ou certificat.
 
 ## Fusion autorisée de PR2 — 9 novembre 2026
 
@@ -6,8 +21,8 @@ Le parent autorise la fusion. Le préflight a reproduit l'échec des deux CI
 sur le test hors ligne : lecture du numéro de version avant la fin du bootstrap
 asynchrone. Correction du seul test par attente du vrai accueil ; les dix
 contrôles hors ligne passent, dont les sauvegardes1–7. Les34fichiers web restent
-identiques au build publié et à l'APK0.35.0. Les contrôles GitHub complets doivent
-passer avant fusion ; leur état et le résultat effectif sont consultables sur
+identiques au build publié et à l'APK0.35.0. PR2 a été fusionnée en `1c4e94f` ; la CI de `main`
+`42657692341` a réussi. Le résultat effectif est consultable sur
 [PR2](https://github.com/zyclope0/snakeattak/pull/2).
 [Preflight](PREFLIGHT-MERGE-0.35.0.md).
 
@@ -30,8 +45,8 @@ sur le déploiement réel ; HTML, cinq JS et deux CSS identiques au build.
 APK normal code45 inspecté,34fichiers web identiques ; nouvel essai S24 attendu.
 Refuge joué en anglais sur le site :3vagues, victoire100%, accès à la mission
 suivante confirmé ; pas de nouvelle étude d’équilibrage.
-[PR2](https://github.com/zyclope0/snakeattak/pull/2) ouverte et non fusionnée ;
-`main` conserve la PR1. [Reçu](../reports/deployment-0.35.0.json).
+[PR2](https://github.com/zyclope0/snakeattak/pull/2) fusionnée en `1c4e94f` ;
+`main` contient0.35.0, CI `42657692341` réussie. [Reçu](../reports/deployment-0.35.0.json).
 
 [Bilan](BILAN-0.35.0.md), [conseil final](CONSEIL-0.35.0.md),
 [conseil du premier lot](CONSEIL-0.35.0-lot1.md).

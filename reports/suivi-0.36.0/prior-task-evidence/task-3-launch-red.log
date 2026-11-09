@@ -1,0 +1,33 @@
+✔ two French challenge rows, exact names, stars and code launch gate (2.018245ms)
+✔ friends allow empty and partial choices without changing initial clubs (1.287187ms)
+✔ bank readouts protect reserve at free, repair and training thresholds; no honey help (0.50422ms)
+✔ caprice kings replace the last planned snake only on final wave without court or writes (1.652881ms)
+✔ shell geometry is larger and pure; result distinguishes caprice victory (0.236892ms)
+✖ invalid launch choices and locked runs leave retained progress and owner untouched (0.842114ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.06513
+
+✖ failing tests:
+
+test at tests/caprice-readouts-036.test.ts:59:1
+✖ invalid launch choices and locked runs leave retained progress and owner untouched (0.842114ms)
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/conquete-serpents-0322/src/ui/capriceLaunch.ts' imported from /workspace/conquete-serpents-0322/tests/caprice-readouts-036.test.ts
+      at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+      at moduleResolve (node:internal/modules/esm/resolve:865:10)
+      at defaultResolve (node:internal/modules/esm/resolve:992:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+      at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)
+      at #resolve (node:internal/modules/esm/loader:683:17)
+      at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)
+      at node:internal/modules/esm/loader:632:32
+      at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {
+    code: 'ERR_MODULE_NOT_FOUND',
+    url: 'file:///workspace/conquete-serpents-0322/src/ui/capriceLaunch.ts'
+  }
