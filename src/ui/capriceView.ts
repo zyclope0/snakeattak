@@ -47,6 +47,7 @@ export function bindCapricePreparation(
   albums?: AlbumsController,
   onProfileChange: () => void = () => {},
   portraitStyle: (kind: Kind) => string = () => '',
+  onFriendsChange: (chosen: readonly Kind[]) => void = () => {},
 ) {
   const region = document.createElement('section');
   region.id = 'mission-caprices';
@@ -155,6 +156,7 @@ export function bindCapricePreparation(
               button.setAttribute('aria-pressed', String(selected));
               button.disabled = !selected && chosen.size >= caprice.rules.kinds;
             }
+            onFriendsChange([...chosen]);
           };
           friends.append(b);
         }

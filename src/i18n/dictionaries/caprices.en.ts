@@ -46,6 +46,10 @@ export const capriceFrenchIdentities: Readonly<Record<string, string>> = {
 export const capricesEnglish: Readonly<Record<string, string>> = {
   ...capriceFrenchIdentities,
   ...{
+    'Invalid preparation friend choice': 'Invalid preparation friend choice',
+    'Des volants arriveront dans cette mission.': 'Flying snakes will appear in this mission.',
+    'Des volants arriveront dans cette mission : alliés possibles, {0}.':
+      'Flying snakes will appear in this mission: possible allies, {0}.',
     'Réserve bancaire protégée ·': 'Protected bank reserve ·',
     'Réserve bancaire protégée': 'Protected bank reserve',
     ', réserve bancaire protégée': ', protected bank reserve',

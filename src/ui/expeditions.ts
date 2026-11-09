@@ -11,7 +11,7 @@ import {
 import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
 import { defeatCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
-import { MISSIONS, createMissionRun, missionById, missionWave } from '../missions.ts';
+import { MISSIONS, createMissionRun, missionById } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
 import type { createMissionProgressController } from '../missionProgress.ts';
 import { kinds } from '../data.ts';
@@ -61,6 +61,9 @@ export function bindExpeditions(
     albums,
     actions.profileChanged,
     portraitStyle,
+    (chosen) => {
+      if (draft) showMissionScouting(draft, chosen);
+    },
   );
   const departures = bindDepartureControls(session, {
     unlocked: allowed,
@@ -114,16 +117,9 @@ export function bindExpeditions(
     setDisplayText(el('mission-land'), ['Détours', 'Méandres', 'Carrefour'][run.layout]);
     setDisplayText(el('mission-assault'), assaults[run.assault]);
     setDisplayText(el('mission-nest'), nests[run.nest]);
-    setDisplayText(
-      el('mission-plan'),
-      missionWave(run, 1).pattern.tip +
-        (mission.waves.some((rank) => rank >= 6)
-          ? ' Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.'
-          : ''),
-    );
     el('mission-retry').hidden = !progress.lastRun(run.missionId);
     drawMissionPreview(el('mission-map') as unknown as SVGElement, run);
-    showMissionScouting(run);
+    showMissionScouting(run, preparation.chosen());
     const party = el('mission-party');
     party.replaceChildren();
     for (const kind of ['hero', 'club', 'club'] as const) {

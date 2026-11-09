@@ -124,6 +124,71 @@ try {
   ]);
   await Promise.all([ready('http://127.0.0.1:4373'), ready('http://127.0.0.1:4374')]);
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  // R1: pending choices must update preparation before launch; this fixture never advances Game.
+  for (const locale of ['fr', 'en']) {
+    const pending = await fixturePage('friends');
+    const unchanged = await pending.evaluate(() =>
+      JSON.stringify(window.capricesFixture.session.game),
+    );
+    await pending.evaluate(() => window.capricesFixture.home());
+    if (locale === 'en') {
+      await pending.locator('[data-language-picker]:visible').selectOption('en');
+      await pending.waitForFunction(() => document.documentElement.lang === 'en');
+    }
+    await prepare(pending, 'sonnette', 'sonnette-petit');
+    check(
+      (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
+      'R1 empty choice permits Archer ' + locale,
+    );
+    await pending.locator('[data-caprice-friend="ninja"]').click();
+    check(
+      (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
+      'R1 partial choice permits Archer ' + locale,
+    );
+    await pending.locator('[data-caprice-friend="medic"]').click();
+    check(
+      (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'ninja',
+      'R1 full Ninja Medic excludes Archer ' + locale,
+    );
+    await pending
+      .locator('details')
+      .filter({ has: pending.locator('#mission-plan') })
+      .locator('summary')
+      .click();
+    check(
+      /volants|Flying snakes/.test(await pending.locator('#mission-plan').innerText()),
+      'R1 generic flying plan visible ' + locale,
+    );
+    check(
+      !/archer|dragon|tank/i.test(await pending.locator('#mission-plan').innerText()),
+      'R1 full generic flying plan excludes forbidden friends ' + locale,
+    );
+    check(
+      (await pending.locator('#caprice-announce').innerText()) === "Choisis deux sortes d'alliés !",
+      'R1 French announcement retained ' + locale,
+    );
+    await shot(pending, 'r1-advice-full-' + locale);
+    await pending.locator('[data-caprice-friend="medic"]').click();
+    check(
+      (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
+      'R1 deselection refreshes partial advice ' + locale,
+    );
+    check(
+      /Archer|archers/.test(await pending.locator('#mission-plan').innerText()),
+      'R1 partial generic plan restores permitted Archer ' + locale,
+    );
+    await pending.locator('[data-caprice-friend="ninja"]').click();
+    check(
+      (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
+      'R1 cleared choice refreshes advice ' + locale,
+    );
+    check(
+      (await pending.evaluate(() => JSON.stringify(window.capricesFixture.session.game))) ===
+        unchanged,
+      'R1 pending choices never mutate retained Game ' + locale,
+    );
+    await pending.close();
+  }
   // Check visual regression first using a controlled completed fixture, not a played win.
   const resultVisual = await fixturePage('win');
   check(

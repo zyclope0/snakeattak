@@ -141,3 +141,28 @@ test('all 36 identities and original announcements remain French in English copy
   );
   await setLanguage('fr');
 });
+
+test('pending friend advice follows engine availability for empty, partial, full and cleared choices', async () => {
+  const { missionScouting } = await import('../src/ui/missionScouting.ts');
+  const run = { ...createMissionRun('sonnette', 36), caprice: 'sonnette-petit' };
+  const original = JSON.stringify(run);
+  for (const chosen of [[], ['ninja'], ['ninja', 'medic'], ['ninja'], []] as const) {
+    const game = new Game(run.seed, undefined, run);
+    if (chosen.length) assert.equal(game.chooseCapriceKinds(chosen), true);
+    const preview = missionScouting(run, chosen);
+    assert.equal(game.capriceAllows(preview.advice.kind), true, JSON.stringify(chosen));
+    assert.equal(preview.advice.kind, chosen.length === 2 ? 'ninja' : 'archer');
+    assert.deepEqual(
+      preview.flyingKinds,
+      (['archer', 'dragon', 'tank'] as const).filter(
+        (k) => game.isUnlocked(k) && game.capriceAllows(k),
+      ),
+    );
+    if (chosen.length === 2) assert.doesNotMatch(preview.plan, /archer|dragon|tank/i);
+    else assert.match(preview.plan, /Archer|archers/);
+    assert.equal(game.units.filter((u) => u.kind === 'club').length, 2);
+  }
+  assert.equal(JSON.stringify(run), original);
+  const normal = createMissionRun('sonnette', 36);
+  assert.match(missionScouting(normal).plan, /prévois des archers, un dragon ou un tank/);
+});
