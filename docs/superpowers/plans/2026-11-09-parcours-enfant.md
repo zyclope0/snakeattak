@@ -32,11 +32,11 @@
 
 **Interfaces:** Le modèle pur lit Game et renvoie le texte/état de présentation d'un outil ; le binder reçoit Session + refresh, utilise pauseForDialog et rend un sujet à la fois. bindBattleDock alterne ?/X sans agrandir le dock. Les conseils contextuels restent de priorité inférieure aux actions/dangers existants.
 
-- [ ] Tester l'aide sans mutation du Game, entraînement vrai selon mission/classique, cristal intact/blessé, héros absent/entraîné, urgence prioritaire et consultation sans dépense.
-- [ ] Exécuter la recette ciblée et observer l'échec de la fonction/du parcours absent.
-- [ ] Implémenter le modèle et l'aide, brancher les commandes, corriger le texte d'entraînement.
-- [ ] Vérifier tests ciblés puis npm run verify et test:browser ; recette nouvelle, audit et formats enfants. Captures avant/après des points concernés.
-- [ ] Conseil six personas, corrections nécessaires, bilan0.33.0 et commit du lot.
+- [x] Tester l'aide sans mutation du Game, entraînement vrai selon mission/classique, cristal intact/blessé, héros absent/entraîné, urgence prioritaire et consultation sans dépense.
+- [x] Exécuter la recette ciblée et observer l'échec de la fonction/du parcours absent.
+- [x] Implémenter le modèle et l'aide, brancher les commandes, corriger le texte d'entraînement.
+- [x] Vérifier tests ciblés puis npm run verify et test:browser ; recette nouvelle, audit et formats enfants. Captures avant/après des points concernés.
+- [x] Conseil six personas, corrections nécessaires, bilan0.33.0 et commit du lot.
 
 ### Task B : chemin des six missions
 
@@ -44,11 +44,11 @@
 
 **Interfaces:** La vue reçoit les vraies données de mission/progression ; elle produit seulement les états, labels et éléments d'illustration. Les clics conservent preview(createMissionRun(...)) et les IDs/data-mission-card.
 
-- [ ] Tester profils vides, partiels et six missions terminées, sans mutation du profil ni changement de verrouillage.
-- [ ] Observer l'échec ciblé, puis créer les médaillons et raccords papier arrondis avec états accessibles.
-- [ ] Conserver Jouer/reprise en premier, reprise des équipes et accord de remplacement existant, aucun fond futur préchargé.
-- [ ] npm run verify, test:browser, test:missions, test:departures et test:audit ; captures aux formats spécifiés, contrôles clavier et tactile.
-- [ ] Conseil six personas, corrections nécessaires, bilan0.33.1 et commit du lot.
+- [x] Tester profils vides, partiels et six missions terminées, sans mutation du profil ni changement de verrouillage.
+- [x] Observer l'échec ciblé, puis créer les médaillons et raccords papier arrondis avec états accessibles.
+- [x] Conserver Jouer/reprise en premier, reprise des équipes et accord de remplacement existant, aucun fond futur préchargé.
+- [x] npm run verify, test:browser, test:missions, test:departures et test:audit ; captures aux formats spécifiés, contrôles clavier et tactile.
+- [x] Conseil six personas, corrections nécessaires, bilan0.33.1 et commit du lot.
 
 ### Task C : transitions et livraison
 
@@ -56,8 +56,8 @@
 
 **Interfaces:** Réutiliser les scènes/contrôleurs finalisés A/B ; aucun nouveau système.
 
-- [ ] Vérifier aide/pause/interruption/reprise et changement de mission, test:interruptions, test:offline, test:reinforcements-scroll, test:child-mobile et test:interface-audit.
-- [ ] Si défaut, preuve rouge puis correction ciblée et vérifications utiles, sans changer les règles.
-- [ ] Construire APK debug normal avec même identité/certificat, inspecter versions/permissions et fichiers embarqués.
-- [ ] Conseil six personas de livraison ; rapports honnêtes sur les limites S24 physiques, langues/lieux/campagne et commercial.
+- [x] Vérifier aide/pause/interruption/reprise et changement de mission, test:interruptions, test:offline, test:reinforcements-scroll, test:child-mobile et test:interface-audit.
+- [x] Si défaut, preuve rouge puis correction ciblée et vérifications utiles, sans changer les règles.
+- [x] Construire APK debug normal avec même identité/certificat, inspecter versions/permissions et fichiers embarqués.
+- [x] Conseil six personas de livraison ; rapports honnêtes sur les limites S24 physiques, langues/lieux/campagne et commercial.
 - [ ] Publier le build exact sur le site existant, même audience, vérification réelle du lancement. Plan et bilan finaux à jour.

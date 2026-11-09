@@ -23,13 +23,35 @@ d'enfants réels ni une recette Android physique.
    Même Jouer/reprise, aucune mission ou récompense supplémentaire. Version0.33.1,
    438tests,16cas de parcours et4 096profils de progression vérifiés.
    [Bilan](BILAN-0.33.1.md), [conseil six personas](CONSEIL-0.33.1.md).
-3. **Lot C — transitions et livraison, en cours** : interruptions, aide, sélections,
-   reprise, hors ligne, anciens camps/codes ; APK normal et site vérifiés.
+3. **Lot C — transitions et livraison, terminé côté application** : interruptions,
+   aide, sélections, reprise et hors ligne vérifiés ; APK normal assemblé et inspecté.
+   438tests, 28fichiers web identiques dans l’APK, même certificat et identité.
+   [Bilan de livraison](BILAN-LIVRAISON-0.33.1.md),
+   [conseil six personas](CONSEIL-LIVRAISON-0.33.1.md).
+   Synchronisation web consignée dans le reçu de publication distinct.
 
 Restent distincts : test physique S24, langues relues, nouveaux lieux, extension
 de campagne, Facile et appel anticipé, choix du package, produits/prix,
 confirmation Familles, SDK et GO de publicité. Aucun de ces points n'est déclaré
 terminé par les lots A/B/C et aucun appel payant n'est lancé.
+
+## Couverture des lots de l’audit après cette livraison
+
+| Lot                | État applicatif honnête                                                 | Reste distinct                                                                        |
+| ------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 1 — affichage      | Corrections livrées et recettes automatiques vertes                     | Dernier APK à revoir sur le vrai S24                                                  |
+| 4 — Android        | Identité/signature préservées, APK normal et interruptions automatisées | Mise à jour avec camp réel, gestes système, FPS/RAM et cycle de vie physique          |
+| 3 — plateau        | Corrections déjà livrées conservées                                     | Aucun nouveau fond HD intégré par ces lots                                            |
+| 2 — lisibilité     | Contours existants, aides des outils et accueil améliorés               | Compréhension des enfants et harmonisation complète des unités non attestées          |
+| 7 — accompagnement | Signaux existants conservés, explications des vrais outils livrées      | Aucun mode Facile, appel anticipé ou nouveau verrou de progression appliqué           |
+| 8 — monétisation   | V1 documentaire côté client seulement                                   | Choix produits/prix, confirmation Familles exacte, SDK, consentements et GO distincts |
+| 9 — identité/store | Icône native, accueil et favicon réutilisent la ressource retenue       | AppID définitif, AAB, compte/test fermé, déclarations et publication Play             |
+| 5 — langues        | Jeu en français ; textes store multilingues préparatoires               | Traductions du jeu et relecture après stabilisation familiale                         |
+| 6 — lieux          | Ressources crue/marais HD conservées et inventoriées                    | Fonds inutilisés, intégration et validation non réalisées                             |
+
+La direction pâte à modeler / papier mâché de l’icône fait référence pour la
+suite. Cette livraison ne prétend pas avoir redessiné tous les personnages.
+Aucune décision critique nouvelle n’a été prise pendant l’absence du parent.
 
 ## Publication web demandée après l'étape 4
 

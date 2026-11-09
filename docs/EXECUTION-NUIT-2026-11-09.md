@@ -49,9 +49,14 @@ artifacts/journey-baseline-0324. Ne pas supposer une économie réseau sans mesu
 
 ## Lot C
 
-En cours : diagnostic des racines de test après masquage initial légitime de #app ;
-session.screen=battle mais root cachée reproduit, correction des compositions
-de test uniquement avant recettes. Ensuite anciens camps/codes/hors ligne, APK normal, vérification
-native de la signature/identité/permissions et exactitude des fichiers ; conseil
-six personas de livraison, puis publication web vérifiée. Pas de test physique
-ou de validation des enfants à inventer.
+Terminé : défaut des racines reproduit puis corrigé dans les compositions de test ;
+sept racines vertes. Débordement portrait réel hérité de0.32.2 reproduit puis
+corrigé sans clipping ni réduction des cibles ; tactical12/12 et titre entier.
+Produit f54a8e2, preuves figées17187cd. Verify438/438, navigateur, interruptions11,
+hors ligne10, défilement5tactiles+ordinateur, enfant6, aide4, transitions2 verts.
+APK normal0.33.1/code41 compilé et inspecté : même certificat/identité, paysage,
+28fichiers web identiques, 20PNG natifs contrôlés, aucune permission commerciale.
+Conseil final six personas terminé, aucun défaut relevé ; limites physiques et
+compréhension enfant consignées, aucune validation réelle inventée. Bilan et
+conseil de livraison distincts pour conserver les preuves de chaque lot.
+Publication web exacte à consigner dans reports/deployment-0.33.1.json.
