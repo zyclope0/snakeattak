@@ -33,7 +33,7 @@ session.useGame(game);
 session.advance = () => {};
 const initial = createMissionProgress();
 if (mode === 'last-win') for (const m of MISSIONS.slice(0, -1)) initial.bestStars[m.id] = 1;
-const progress = createMissionProgressController(initial);
+export const progress = createMissionProgressController(initial);
 progress.sync(game);
 const app = document.getElementById('app')!;
 const home = document.getElementById('home-screen')!;
