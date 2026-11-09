@@ -1,0 +1,183 @@
+{
+  "pairs": [
+    {
+      "width": 1280,
+      "height": 800,
+      "terrain": "clearing",
+      "identicalGameSha256": "b182a2b832b6b2033a814f9861a5d16143b7438b5de8bedb648dc07979d534ed",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-flood"
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "terrain": "grove",
+      "identicalGameSha256": "584b4a0d1ad5064cd63867b380dc243099a1cf67a8430f71e38ef33bb4aaed60",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": []
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "terrain": "ruins",
+      "identicalGameSha256": "3472ff185701ef63d868c2857958449282140b47b6f9af00132a62c65da46518",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-marsh"
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "terrain": "mission0",
+      "identicalGameSha256": "cbfdf08a9c93ebc2e5e845728fe0d4f52d53b91989ae5497a94d8d8e6b755723",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-flood"
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "terrain": "mission1",
+      "identicalGameSha256": "28f8f40f7ae0d7191b935e838007cfd148d25b68187882faa3e5f054693503b8",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-marsh"
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "terrain": "mission2",
+      "identicalGameSha256": "78fae75005e440c80b33c0f2bd02c95bd3210e09353a7694f73b9733e8497836",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-flood"
+      ]
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "terrain": "canvas",
+      "identicalGameSha256": "28f8f40f7ae0d7191b935e838007cfd148d25b68187882faa3e5f054693503b8",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-marsh"
+      ]
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "terrain": "clearing",
+      "identicalGameSha256": "b182a2b832b6b2033a814f9861a5d16143b7438b5de8bedb648dc07979d534ed",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-flood"
+      ]
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "terrain": "grove",
+      "identicalGameSha256": "584b4a0d1ad5064cd63867b380dc243099a1cf67a8430f71e38ef33bb4aaed60",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": []
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "terrain": "ruins",
+      "identicalGameSha256": "3472ff185701ef63d868c2857958449282140b47b6f9af00132a62c65da46518",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-marsh"
+      ]
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "terrain": "mission0",
+      "identicalGameSha256": "cbfdf08a9c93ebc2e5e845728fe0d4f52d53b91989ae5497a94d8d8e6b755723",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-flood"
+      ]
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "terrain": "mission1",
+      "identicalGameSha256": "28f8f40f7ae0d7191b935e838007cfd148d25b68187882faa3e5f054693503b8",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-marsh"
+      ]
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "terrain": "mission2",
+      "identicalGameSha256": "78fae75005e440c80b33c0f2bd02c95bd3210e09353a7694f73b9733e8497836",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-flood"
+      ]
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "terrain": "canvas",
+      "identicalGameSha256": "28f8f40f7ae0d7191b935e838007cfd148d25b68187882faa3e5f054693503b8",
+      "canvas": {
+        "width": 1100,
+        "height": 620
+      },
+      "newSceneryTextures": [
+        "scenery-marsh"
+      ]
+    }
+  ],
+  "notGameSimulations": true
+}

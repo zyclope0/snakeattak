@@ -31,9 +31,9 @@
 
 **Interfaces:** stageTheme(level) ajoute scenery:string|null sans modifier ground ; MissionAssets lit cette clé dans texturesForGame. SCENERY_ART garde GROUND_ART à ses trois indices historiques. Cadre périphérique lu par refinedTerrain avant routes et accessoires.
 
-- [ ] Capturer site et six terrains avant ; enregistrer les états et la géométrie dans une recette reproductible.
-- [ ] Test rouge du choix de cadre et de son absence au bosquet ; export local des deux sources sans changer les PNG.
-- [ ] Implémenter cadre/pavés/surfaces, rendre le test vert et vérifier le rendu à1280×800,1366×768,812×375,780×360 et375×812.
-- [ ] Comparer états avant/après, besoin de textures, Canvas/WebGL, routes et obstacles ; verify/browser/audit/interface/mobile/scroll/offline verts.
-- [ ] Conseil six personas après lot ; corrections nécessaires, bilan/plan à jour et commit.
-- [ ] Construire APK normal, inspecter identité/version/fichiers ; publier le build exact et vérifier le site ; pousser branche/PR privée.
+- [x] Capturer site et six terrains avant ; enregistrer les états et la géométrie dans une recette reproductible.
+- [x] Test rouge du choix de cadre et de son absence au bosquet ; export local des deux sources sans changer les PNG.
+- [x] Implémenter cadre/pavés/surfaces, rendre le test vert et vérifier le rendu à1280×800,1366×768,812×375,780×360 et375×812.
+- [x] Comparer états avant/après, besoin de textures, Canvas/WebGL, routes et obstacles ; verify/browser/audit/interface/mobile/scroll/offline verts.
+- [x] Conseil six personas après lot ; corrections nécessaires, bilan/plan à jour et commit.
+- [x] Construire APK normal, inspecter identité/version/fichiers ; publier le build exact et vérifier le site ; pousser branche/PR privée.

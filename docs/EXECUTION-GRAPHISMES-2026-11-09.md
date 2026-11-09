@@ -43,3 +43,12 @@ Mineurs différés : atlas de bordure compact, finesse du fondu/gravure et rép�
 d’accessoires ; centre déjà lisible et pas de génération payante. Petits libellés
 mobiles restent à observer avec les enfants. Nom du test palette restreint à ce
 qu’il prouve, pas de promesse de compatibilité ancienne issue de cette seule unité.
+
+Clôture : produit47cdeb6, verify441/441 ; recettes finales navigateur, interface24,
+audit13, enfant6, scroll5+ordinateur, offline10/25fichiers, scènes14 et états8
+verts après correctifs. Même APK normal code42/certificat,30fichiers web identiques,
+20PNG lanceur identiques. Site0.34.0/Sites19 publié, source206da8d, audience publique
+conservée ; recette réelle trois formats verte, aucun cadre au menu, un utile au
+lancement. HTML/JS/CSS comparés octet par octet,31299/193413/65442octets.
+Originaux et24modules protégés identiques à la base. Plan/conseil/bilan mis à jour.
+Branche distante de la PR1 actualisée sans fusion ; pas de publication Play.

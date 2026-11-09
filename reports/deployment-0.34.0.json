@@ -1,0 +1,149 @@
+{
+  "applicationVersion": "0.34.0",
+  "applicationSourceCommit": "47cdeb6834256be03f52955e86ff4968eb7df073",
+  "version": {
+    "id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_1bc9bc7e653881918f2f38c501bef6ee",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "version_number": 19,
+    "source": {
+      "commit_sha": "206da8d581d43055f22dca3f2965bc7e2c643ab0"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_0000000020148210bfc2aaa477c56ee9",
+      "content_hash": "sha256:d1dc97d31a8b3b951ba3b16aa68fc6cd461b8634cbd859194b398a1b2b88cd6b",
+      "size_bytes": 11745280,
+      "file_count": 31
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6af16594b298819184407951e4c817e4",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "title": "La Conquête des Serpents",
+    "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_1bc9bc7e653881918f2f38c501bef6ee",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-09T06:18:12.916736+00:00"
+  },
+  "audiencePreserved": "public",
+  "authorization": "User asks graphic point3 and browser inspection; ongoing ordinary autonomy and existing Site publication workflow preserved",
+  "publishingMethod": "Exact validated dist copied to existing Site source checkout, pushed and archived with identity manifest; credential passed through hidden stdin, never persisted",
+  "validatedBuild": {
+    "webFilesIdenticalToApk": 30,
+    "nativeTestsPassed": 441,
+    "browserPassed": true,
+    "commercialSdkAdded": false
+  },
+  "physicalAndroidTest": false,
+  "humanChildTest": false,
+  "source": {
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "commit_sha": "206da8d581d43055f22dca3f2965bc7e2c643ab0",
+    "archive": "/workspace/serpents-site-0340.tar",
+    "archiveSha256": "5c28e3a6a16289c271ba52be1c405a4a7cf6f00dde160df96611200b517f8c11",
+    "fileCount": 31,
+    "applicationSourceCommit": "47cdeb6834256be03f52955e86ff4968eb7df073"
+  },
+  "liveVerification": {
+    "checkedAt": "2026-11-09T06:18:31.999Z",
+    "method": "Fresh isolated Chromium cloud contexts; no user save touched, no physical Android/child test",
+    "results": [
+      {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "touch": false,
+        "version": "v0.34.0",
+        "httpStatus": 200,
+        "icon512": true,
+        "nextMissionCount": 1,
+        "sceneryRequests": [
+          "/assets/scenery-marsh-CIxCYtcW.webp"
+        ],
+        "visibleFavourites": 4,
+        "guideTopics": 4,
+        "htmlPauseOnly": true,
+        "canvas": {
+          "x": 13,
+          "y": 117,
+          "width": 1065.953125,
+          "height": 600.8125
+        },
+        "wave": "1",
+        "errors": []
+      },
+      {
+        "viewport": {
+          "width": 812,
+          "height": 375
+        },
+        "touch": true,
+        "version": "v0.34.0",
+        "httpStatus": 200,
+        "icon512": true,
+        "nextMissionCount": 1,
+        "sceneryRequests": [
+          "/assets/scenery-flood-ChBjoVaB.webp"
+        ],
+        "visibleFavourites": 4,
+        "guideTopics": 4,
+        "htmlPauseOnly": true,
+        "canvas": {
+          "x": 0,
+          "y": 48,
+          "width": 580.125,
+          "height": 326.984375
+        },
+        "wave": "1",
+        "errors": []
+      },
+      {
+        "viewport": {
+          "width": 375,
+          "height": 812
+        },
+        "touch": true,
+        "version": "v0.34.0",
+        "httpStatus": 200,
+        "rotationNotice": true,
+        "errors": []
+      }
+    ],
+    "exactLiveBuildFiles": [
+      {
+        "name": "index.html",
+        "sha256": "da6aaa508ffd3da4edf6efc574d3e3ae734c0ee9c572b06941c6cd5884a02622",
+        "bytes": 31299
+      },
+      {
+        "name": "assets/index-Bf0s5kXh.js",
+        "sha256": "88bbdc0f40127aba92619cdf6df8c13234cd59e2f651a0859e7b996691765c51",
+        "bytes": 193413
+      },
+      {
+        "name": "assets/index-CalCGc66.css",
+        "sha256": "0733170d028ac5692d0a77fed3fe70a8b9a9584b74276304321db7f1fa30daa0",
+        "bytes": 65442
+      }
+    ],
+    "noSceneryImageOnHome": true,
+    "screenshots": [
+      "artifacts/deployment-0.34.0/1280x800-help.png",
+      "artifacts/deployment-0.34.0/1280x800-home.png",
+      "artifacts/deployment-0.34.0/1280x800-paused.png",
+      "artifacts/deployment-0.34.0/375x812-rotation.png",
+      "artifacts/deployment-0.34.0/812x375-help.png",
+      "artifacts/deployment-0.34.0/812x375-home.png",
+      "artifacts/deployment-0.34.0/812x375-paused.png"
+    ]
+  }
+}

@@ -1,4 +1,30 @@
-# Plan actuel — application 0.33.1, suite autonome
+# Plan actuel — application 0.34.0, suite graphique
+
+## Point graphique3 demandé — 9 novembre2026
+
+**0.34.0/code42 livré côté application** : les fonds fournis crue/marais sont
+utilisés en cadres périphériques des terrains existants, le centre sculpté reste
+calme. Pavés en relief mat, surfaces papier des renforts, ruisseau sans accessoires
+flottants. Aucun nouveau lieu, météo, obstacle ou règle. Tous les originaux conservés.
+Les sprites restent ceux du jeu : aucune harmonisation intégrale prétendue.
+
+Conseil après le lot : trois techniques et trois profils6/9/12ans simulés. Deux
+limites visuelles héritées corrigées après reproduction : indisponibilité des
+cartes/pots sur tactile, et contours des camps absents dans Canvas. Les nouvelles
+petites silhouettes sont partagées et libérées, sans coût nouveau en WebGL.
+
+**441tests**, navigateur, interface24, audit13, six formats enfant, défilement,
+hors ligne10,14paires d’états identiques et8contrôles de chargement/états verts.
+APK normal avec même certificat/identité,30fichiers web identiques au build validé.
+[Bilan](BILAN-0.34.0.md), [conseil](CONSEIL-0.34.0.md),
+[preuves](../reports/suivi-0.34.0/verification.json).
+**Site publié en0.34.0, Sites19**, audience publique conservée.
+[Reçu](../reports/deployment-0.34.0.json) : HTTP200, démarrage vague1, aide, pause
+et rotation contrôlés à1280×800,812×375 et375×812. Aucun cadre téléchargé à
+l’accueil ; un seul cadre utile demandé au lancement. HTML/JS/CSS en ligne
+identiques au build validé. Plateau mobile87,20% de la hauteur, dimensions inchangées.
+Branche GitHub et PR existante synchronisées à la clôture, sans fusion dans main.
+Essai physique S24/enfants toujours à faire ; langues et commercial restent séparés.
 
 ## Reprise autonome — 9 novembre 2026
 
@@ -41,19 +67,19 @@ terminé par les lots A/B/C et aucun appel payant n'est lancé.
 | ------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | 1 — affichage      | Corrections livrées et recettes automatiques vertes                     | Dernier APK à revoir sur le vrai S24                                                  |
 | 4 — Android        | Identité/signature préservées, APK normal et interruptions automatisées | Mise à jour avec camp réel, gestes système, FPS/RAM et cycle de vie physique          |
-| 3 — plateau        | Corrections déjà livrées conservées                                     | Aucun nouveau fond HD intégré par ces lots                                            |
+| 3 — plateau        | Corrections conservées, pavés mats et cadres fournis intégrés           | Matière des bordures encore partiellement picturale                                   |
 | 2 — lisibilité     | Contours existants, aides des outils et accueil améliorés               | Compréhension des enfants et harmonisation complète des unités non attestées          |
 | 7 — accompagnement | Signaux existants conservés, explications des vrais outils livrées      | Aucun mode Facile, appel anticipé ou nouveau verrou de progression appliqué           |
 | 8 — monétisation   | V1 documentaire côté client seulement                                   | Choix produits/prix, confirmation Familles exacte, SDK, consentements et GO distincts |
 | 9 — identité/store | Icône native, accueil et favicon réutilisent la ressource retenue       | AppID définitif, AAB, compte/test fermé, déclarations et publication Play             |
 | 5 — langues        | Jeu en français ; textes store multilingues préparatoires               | Traductions du jeu et relecture après stabilisation familiale                         |
-| 6 — lieux          | Ressources crue/marais HD conservées et inventoriées                    | Fonds inutilisés, intégration et validation non réalisées                             |
+| 6 — lieux          | Originaux conservés, deux exports en cadres périphériques               | Aucun nouveau lieu, météo ou règle ; test familial du rendu à faire                   |
 
 La direction pâte à modeler / papier mâché de l’icône fait référence pour la
 suite. Cette livraison ne prétend pas avoir redessiné tous les personnages.
 Aucune décision critique nouvelle n’a été prise pendant l’absence du parent.
 
-## Publication actuelle — v0.33.1
+## Publication précédente — v0.33.1
 
 **9 novembre 2026, Europe/Zurich : site publié en0.33.1**, version Sites18,
 même URL et audience publique. [Reçu](../reports/deployment-0.33.1.json).

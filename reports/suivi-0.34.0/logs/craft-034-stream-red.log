@@ -1,0 +1,34 @@
+✔ un seul cadre adapte chaque géométrie existante, sans confondre le bosquet ambré (1.217543ms)
+✔ choisir et relire le décor ne modifie ni ancien départ, ni combat, ni RNG (0.717598ms)
+✖ le cadre laisse le ruisseau libre, sans rochers ni fougères qui semblent flotter (8.890037ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 141.4088
+
+✖ failing tests:
+
+test at tests/craft-scenery-034.test.ts:29:1
+✖ le cadre laisse le ruisseau libre, sans rochers ni fougères qui semblent flotter (8.890037ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert.ok(decor.every((p) => Math.abs(p.x - 528) >= p.radius + 54))
+
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/craft-scenery-034.test.ts:34:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
