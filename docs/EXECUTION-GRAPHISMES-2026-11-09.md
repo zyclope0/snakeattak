@@ -21,3 +21,25 @@ réels. Les cartes UI gardent leur surface ; spécificité CSS bornée à.app po
 ne pas perdre leur matière sous les anciens styles. Pas de changement du layout.
 Verify441/441, types/format/build/budgets verts. HTML31299, JS192554. Exports
 554862 et528320octets ; originaux inchangés. Recettes navigateur en cours.
+
+Conseil après le lot : six relectures terminées, aucune régression bloquante
+nouvelle. Deux problèmes visuels hérités confirmés et classés importants pour
+la lisibilité : cartes/pots désactivés identiques aux actifs sur tactile ; Canvas
+ignore setTintFill et perd les contours des camps. Correction bornée en une passe :
+état papier grisé sans diminuer le contraste du texte ; petites silhouettes
+128×128 issues des alpha déjà chargés, uniquement en Canvas et partagées par
+frame/couleur. Pas d’atlas complet recoloré, pas de coût nouveau en WebGL.
+Recette rouge : quatre contrôles faux, zéro pixel de contour orange. Après :
+quatre verts,1515pixels orange par scène ;18cellules partagées (1 179 648octets
+RGBA théoriques, hors copies) stables entre frames et toutes retirées au shutdown.
+Deux contrôles réels de chargement ajoutés : échec+Réessayer, et changement de
+chapitre avec image retardée, ancien cache conservé jusqu’à disponibilité.
+Huit contrôles d’états/chargement verts. Captures renfort et miel sélectionnés.
+
+Ruling : résoudre les deux limites héritées maintenant — elles portent sur les
+repères visuels déjà protégés et la correction reste dans rendu/interface.
+Coût si mauvais : ajustement réversible de cache/CSS ; aucun camp à migrer.
+Mineurs différés : atlas de bordure compact, finesse du fondu/gravure et répétition
+d’accessoires ; centre déjà lisible et pas de génération payante. Petits libellés
+mobiles restent à observer avec les enfants. Nom du test palette restreint à ce
+qu’il prouve, pas de promesse de compatibilité ancienne issue de cette seule unité.

@@ -17,7 +17,7 @@ test('un seul cadre adapte chaque géométrie existante, sans confondre le bosqu
   );
 });
 
-test('choisir et relire le décor ne modifie ni ancien départ, ni combat, ni RNG', () => {
+test('relire la palette du décor ne modifie pas le Game ni son RNG', () => {
   for (const layout of [0, 1, 2] as const) {
     const game = new Game(2026, undefined, { ...createMissionRun('trois-ponts', 2026), layout });
     const before = JSON.stringify(game);
