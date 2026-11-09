@@ -1,0 +1,5 @@
+
+> conquete-serpents@0.35.0 test:child-mobile
+> node scripts/child-mobile-035-browser.mjs
+
+{"sizes":6,"errors":[]}

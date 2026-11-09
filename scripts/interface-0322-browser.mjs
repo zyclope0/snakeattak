@@ -58,6 +58,8 @@ try {
     });
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(base);
+    await page.locator('#home-screen').waitFor({ state: 'visible' });
+    await page.locator('.home-icon').evaluate((img) => img.decode());
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: `${captures}/accueil-${width}x${height}.png` });
     await check(`approved intact home image ${width}x${height}`, async () => {
@@ -283,7 +285,7 @@ try {
   );
   await noticePage.goto('http://127.0.0.1:4383/notice-check.html');
   await noticePage.waitForFunction(() => !!window.noticeCheck);
-  await check('egg event remains visible alongside placement guide', async () => {
+  await check('egg event remains visible, then restores the compact placement guide', async () => {
     await noticePage.evaluate(() =>
       window.noticeCheck({
         kind: 'egg',
@@ -301,8 +303,15 @@ try {
     );
     assert.equal(await noticePage.locator('#encounter-title').textContent(), 'Place ton allié');
     await noticePage.evaluate(() => window.noticeCheck(null));
-    assert.equal(await noticePage.locator('#battle-announcement').isVisible(), false);
-    return 'event appears once; separate placement guide preserved; event clears';
+    assert.equal(await noticePage.locator('#battle-announcement').isVisible(), true);
+    assert.equal(await noticePage.locator('#battle-announcement').textContent(), 'Place ton allié');
+    assert.equal(
+      await noticePage
+        .locator('#battle-announcement')
+        .evaluate((e) => e.classList.contains('placement-instruction')),
+      true,
+    );
+    return 'event appears once; separate coach preserved; compact instruction returns when the event clears';
   });
   await noticePage.close();
   assert.deepEqual(errors, []);

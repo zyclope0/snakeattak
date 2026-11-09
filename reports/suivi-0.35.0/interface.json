@@ -1,0 +1,439 @@
+{
+  "source": "Chromium; 780x360 touch DPR3 emulation, not physical S24",
+  "results": [
+    {
+      "name": "approved intact home image 1280x800",
+      "ok": true,
+      "value": {
+        "complete": true,
+        "width": 512,
+        "height": 512,
+        "fit": "contain",
+        "clip": "none",
+        "src": "http://127.0.0.1:4382/assets/icon-512-BPQ3IZsK.png",
+        "bounds": {
+          "x": 653.71875,
+          "y": 133.453125,
+          "width": 549.28125,
+          "height": 390,
+          "top": 133.453125,
+          "right": 1203,
+          "bottom": 523.453125,
+          "left": 653.71875
+        },
+        "parent": {
+          "x": 653.71875,
+          "y": 95,
+          "width": 549.28125,
+          "height": 466.921875,
+          "top": 95,
+          "right": 1203,
+          "bottom": 561.921875,
+          "left": 653.71875
+        },
+        "sourceSha256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab"
+      }
+    },
+    {
+      "name": "dock and board 1280x800",
+      "ok": true,
+      "value": {
+        "x": 13,
+        "y": 117,
+        "width": 1065.953125,
+        "height": 600.8125
+      }
+    },
+    {
+      "name": "catalogue lifecycle 1280x800",
+      "ok": true,
+      "value": "open, select without purchase, close, Escape"
+    },
+    {
+      "name": "single bottom event 1280x800",
+      "ok": true,
+      "value": {
+        "box": {
+          "x": 435.984375,
+          "y": 683.8125,
+          "width": 220,
+          "height": 28
+        },
+        "text": "Vague 1 · Premiers visiteurs"
+      }
+    },
+    {
+      "name": "approved intact home image 1366x768",
+      "ok": true,
+      "value": {
+        "complete": true,
+        "width": 512,
+        "height": 512,
+        "fit": "contain",
+        "clip": "none",
+        "src": "http://127.0.0.1:4382/assets/icon-512-BPQ3IZsK.png",
+        "bounds": {
+          "x": 696.71875,
+          "y": 135.5,
+          "width": 549.28125,
+          "height": 390,
+          "top": 135.5,
+          "right": 1246,
+          "bottom": 525.5,
+          "left": 696.71875
+        },
+        "parent": {
+          "x": 696.71875,
+          "y": 95,
+          "width": 549.28125,
+          "height": 471.015625,
+          "top": 95,
+          "right": 1246,
+          "bottom": 566.015625,
+          "left": 696.71875
+        },
+        "sourceSha256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab"
+      }
+    },
+    {
+      "name": "dock and board 1366x768",
+      "ok": true,
+      "value": {
+        "x": 13,
+        "y": 117,
+        "width": 1151.9375,
+        "height": 649.28125
+      }
+    },
+    {
+      "name": "catalogue lifecycle 1366x768",
+      "ok": true,
+      "value": "open, select without purchase, close, Escape"
+    },
+    {
+      "name": "single bottom event 1366x768",
+      "ok": true,
+      "value": {
+        "box": {
+          "x": 478.984375,
+          "y": 732.28125,
+          "width": 220,
+          "height": 28
+        },
+        "text": "Vague 1 · Premiers visiteurs"
+      }
+    },
+    {
+      "name": "approved intact home image 780x360",
+      "ok": true,
+      "value": {
+        "complete": true,
+        "width": 512,
+        "height": 512,
+        "fit": "contain",
+        "clip": "none",
+        "src": "http://127.0.0.1:4382/assets/icon-512-BPQ3IZsK.png",
+        "bounds": {
+          "x": 390,
+          "y": 59,
+          "width": 373,
+          "height": 250,
+          "top": 59,
+          "right": 763,
+          "bottom": 309,
+          "left": 390
+        },
+        "parent": {
+          "x": 390,
+          "y": 59,
+          "width": 373,
+          "height": 250,
+          "top": 59,
+          "right": 763,
+          "bottom": 309,
+          "left": 390
+        },
+        "sourceSha256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab"
+      }
+    },
+    {
+      "name": "dock and board 780x360",
+      "ok": true,
+      "value": {
+        "x": 0,
+        "y": 48,
+        "width": 553.515625,
+        "height": 311.984375
+      }
+    },
+    {
+      "name": "catalogue lifecycle 780x360",
+      "ok": true,
+      "value": "open, select without purchase, close, Escape"
+    },
+    {
+      "name": "single bottom event 780x360",
+      "ok": true,
+      "value": {
+        "box": {
+          "x": 191.765625,
+          "y": 325.984375,
+          "width": 170,
+          "height": 28
+        },
+        "text": "Vague 1 · Premiers visiteurs"
+      }
+    },
+    {
+      "name": "natural egg hatch on wave 2, same departure as baseline",
+      "ok": true,
+      "value": {
+        "event": {
+          "x": 196.265625,
+          "y": 325.984375,
+          "width": 161,
+          "height": 28
+        },
+        "departure": "REFUGE-2-FZZZ-ZZR4-9F"
+      }
+    },
+    {
+      "name": "intermediate closed fits 920x600",
+      "ok": true,
+      "value": {
+        "height": 600,
+        "doc": 600,
+        "canvas": {
+          "x": 15,
+          "y": 242.546875,
+          "width": 632.375,
+          "height": 356.4375,
+          "top": 242.546875,
+          "right": 647.375,
+          "bottom": 598.984375,
+          "left": 15
+        },
+        "panel": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      }
+    },
+    {
+      "name": "intermediate catalogue fits 920x600",
+      "ok": true,
+      "value": {
+        "height": 600,
+        "doc": 600,
+        "canvas": {
+          "x": 15,
+          "y": 242.546875,
+          "width": 567.953125,
+          "height": 320.125,
+          "top": 242.546875,
+          "right": 582.953125,
+          "bottom": 562.671875,
+          "left": 15
+        },
+        "panel": {
+          "x": 596,
+          "y": 198.75,
+          "width": 310,
+          "height": 401.25,
+          "top": 198.75,
+          "right": 906,
+          "bottom": 600,
+          "left": 596
+        }
+      }
+    },
+    {
+      "name": "intermediate closed fits 800x600",
+      "ok": true,
+      "value": {
+        "height": 600,
+        "doc": 600,
+        "canvas": {
+          "x": 15,
+          "y": 242.546875,
+          "width": 581.953125,
+          "height": 328.015625,
+          "top": 242.546875,
+          "right": 596.953125,
+          "bottom": 570.5625,
+          "left": 15
+        },
+        "panel": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      }
+    },
+    {
+      "name": "intermediate catalogue fits 800x600",
+      "ok": true,
+      "value": {
+        "height": 600,
+        "doc": 600,
+        "canvas": {
+          "x": 15,
+          "y": 242.546875,
+          "width": 447.953125,
+          "height": 252.484375,
+          "top": 242.546875,
+          "right": 462.953125,
+          "bottom": 495.03125,
+          "left": 15
+        },
+        "panel": {
+          "x": 476,
+          "y": 198.75,
+          "width": 310,
+          "height": 401.25,
+          "top": 198.75,
+          "right": 786,
+          "bottom": 600,
+          "left": 476
+        }
+      }
+    },
+    {
+      "name": "intermediate closed fits 1101x520",
+      "ok": true,
+      "value": {
+        "height": 520,
+        "doc": 520,
+        "canvas": {
+          "x": 15,
+          "y": 159.34375,
+          "width": 638.0625,
+          "height": 359.640625,
+          "top": 159.34375,
+          "right": 653.0625,
+          "bottom": 518.984375,
+          "left": 15
+        },
+        "panel": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      }
+    },
+    {
+      "name": "intermediate catalogue fits 1101x520",
+      "ok": true,
+      "value": {
+        "height": 520,
+        "doc": 520,
+        "canvas": {
+          "x": 15,
+          "y": 159.34375,
+          "width": 638.0625,
+          "height": 359.640625,
+          "top": 159.34375,
+          "right": 653.0625,
+          "bottom": 518.984375,
+          "left": 15
+        },
+        "panel": {
+          "x": 777,
+          "y": 120.75,
+          "width": 310,
+          "height": 399.25,
+          "top": 120.75,
+          "right": 1087,
+          "bottom": 520,
+          "left": 777
+        }
+      }
+    },
+    {
+      "name": "intermediate closed fits 1280x800",
+      "ok": true,
+      "value": {
+        "height": 800,
+        "doc": 800,
+        "canvas": {
+          "x": 13,
+          "y": 117,
+          "width": 1065.953125,
+          "height": 600.8125,
+          "top": 117,
+          "right": 1078.953125,
+          "bottom": 717.8125,
+          "left": 13
+        },
+        "panel": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      }
+    },
+    {
+      "name": "intermediate catalogue fits 1280x800",
+      "ok": true,
+      "value": {
+        "height": 800,
+        "doc": 800,
+        "canvas": {
+          "x": 13,
+          "y": 117,
+          "width": 931.9375,
+          "height": 525.28125,
+          "top": 117,
+          "right": 944.9375,
+          "bottom": 642.28125,
+          "left": 13
+        },
+        "panel": {
+          "x": 958,
+          "y": 88,
+          "width": 310,
+          "height": 712,
+          "top": 88,
+          "right": 1268,
+          "bottom": 800,
+          "left": 958
+        }
+      }
+    },
+    {
+      "name": "desktop home then mission restores dock",
+      "ok": true
+    },
+    {
+      "name": "resize never leaves focus in hidden catalogue",
+      "ok": true
+    },
+    {
+      "name": "egg event remains visible, then restores the compact placement guide",
+      "ok": true,
+      "value": "event appears once; separate coach preserved; compact instruction returns when the event clears"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,194 @@
+{
+  "version": "0.35.0",
+  "base": "fb16b7177b06e0320e72870d118f751c4bb8029c",
+  "method": "Automated Chromium and engine witnesses, controlled fixtures distinguished from one actual portable English match; no physical S24 or human child/English certification",
+  "checks": [
+    {
+      "command": "npm run verify",
+      "passed": true,
+      "tests": 458,
+      "evidence": "logs/035-delivery-verify.log"
+    },
+    {
+      "command": "npm run test:browser",
+      "passed": true,
+      "desktopAndMobile": true,
+      "pageErrors": 0
+    },
+    {
+      "command": "locale inventory",
+      "passed": true,
+      "sources": 830,
+      "englishEntries": 861,
+      "missing": 0,
+      "addedParameters": 0,
+      "reviewedAgreementSuffixes": 8
+    },
+    {
+      "command": "locale adapter",
+      "passed": true,
+      "checks": 24
+    },
+    {
+      "command": "npm run test:locale",
+      "passed": true,
+      "checks": 392,
+      "errors": 0,
+      "unknownKeys": 0
+    },
+    {
+      "command": "npm run test:tactical-clarity",
+      "passed": true,
+      "formats": 3,
+      "criteriaPerFormat": 6
+    },
+    {
+      "command": "npm run test:interface-audit",
+      "passed": true,
+      "checks": 24
+    },
+    {
+      "command": "npm run test:child-mobile",
+      "passed": true,
+      "formats": 6,
+      "namedChecks": 14
+    },
+    {
+      "command": "npm run test:audit",
+      "passed": true,
+      "checks": 13
+    },
+    {
+      "command": "npm run test:missions",
+      "passed": true
+    },
+    {
+      "command": "npm run test:missions:regressions",
+      "passed": true
+    },
+    {
+      "command": "npm run test:departures",
+      "passed": true,
+      "namedChecks": 12
+    },
+    {
+      "command": "npm run test:offline",
+      "passed": true,
+      "checks": 10,
+      "saveSchemas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "command": "npm run test:interruptions",
+      "passed": true,
+      "checks": 11
+    },
+    {
+      "command": "npm run test:presentation",
+      "passed": true,
+      "scenarios": 14
+    },
+    {
+      "command": "npm run test:medical-persistence",
+      "passed": true
+    },
+    {
+      "command": "npm run test:threat-preparation",
+      "passed": true,
+      "screens": 5,
+      "namedChecks": 11
+    },
+    {
+      "command": "npm run test:reinforcements-scroll",
+      "passed": true,
+      "touchCases": 5,
+      "desktop": true
+    },
+    {
+      "command": "npm run build:portable and file browser",
+      "passed": true
+    },
+    {
+      "command": "portable English Refuge played",
+      "passed": true,
+      "games": 1,
+      "waves": 3,
+      "won": true
+    },
+    {
+      "command": "npm audit --omit=dev --audit-level=high",
+      "passed": true,
+      "vulnerabilities": 0
+    },
+    {
+      "command": "Normal debug APK assembled and inspected",
+      "passed": true,
+      "versionCode": 45,
+      "identicalWebFiles": 34,
+      "physicalTest": false
+    }
+  ],
+  "sizes": {
+    "htmlBytes": 31771,
+    "js": [
+      {
+        "path": "assets/bootstrap-CdxEkJYp.js",
+        "bytes": 124673
+      },
+      {
+        "path": "assets/english-DEnHHinB.js",
+        "bytes": 65681
+      },
+      {
+        "path": "assets/index-DoPtFOR_.js",
+        "bytes": 10011
+      },
+      {
+        "path": "assets/phaser-B61OQUcB.js",
+        "bytes": 1481792
+      },
+      {
+        "path": "assets/rules-DWmg9uIS.js",
+        "bytes": 72439
+      }
+    ],
+    "gameJsInitialFrenchBytes": 207123,
+    "englishAdditionalBytes": 65681,
+    "allJsIncludingPhaserBytes": 1754596,
+    "portableHtmlBytes": 15057756,
+    "limitsUnchanged": true,
+    "note": "200000 byte limit per non-Phaser JS file; cumulative game JS is larger and reported explicitly"
+  },
+  "coreIdentity": "rules-identity.json",
+  "apk": "apk.json",
+  "councils": [
+    "../../docs/CONSEIL-0.35.0-lot1.md",
+    "../../docs/CONSEIL-0.35.0.md"
+  ],
+  "importantCorrections": [
+    "cobra retaliation translation",
+    "split help fragments",
+    "raw data linguistic attributes",
+    "ranged allies precision",
+    "event priority while placing"
+  ],
+  "recipeCorrections": [
+    "await asynchronous real screen",
+    "await decoded home image",
+    "profile fixture after menu ready",
+    "expect placement instruction after event clears"
+  ],
+  "limits": [
+    "Human English rereading",
+    "Physical S24 update and insets",
+    "TalkBack and system text sizing",
+    "Deferred secondary button sizes and scrolling cues"
+  ]
+}

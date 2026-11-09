@@ -1,0 +1,5 @@
+
+> conquete-serpents@0.35.0 test:threat-preparation
+> node scripts/threat-preparation-036-browser.mjs
+
+{"screens":5,"errors":[]}

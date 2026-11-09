@@ -4,6 +4,7 @@ import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 const fixture = 'threat-preparation-036-fixture.html';
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 let preview, dev, browser;
 const errors = [],
   screens = [];
@@ -245,10 +246,10 @@ try {
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });
   await writeFile(
-    'reports/threat-preparation-0.32.json',
+    `reports/threat-preparation-${version}.json`,
     JSON.stringify(
       {
-        version: '0.32.0',
+        version,
         source: 'Chromium cloud, not physical Android',
         screens,
         checks: [

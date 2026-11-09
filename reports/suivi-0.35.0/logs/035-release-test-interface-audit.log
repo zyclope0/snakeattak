@@ -1,0 +1,16 @@
+
+> conquete-serpents@0.35.0 test:interface-audit
+> node scripts/interface-0322-browser.mjs
+
+{
+  "passed": 23,
+  "total": 24,
+  "errors": [],
+  "failures": [
+    {
+      "name": "egg event remains visible alongside placement guide",
+      "ok": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'Place ton allié'\n- 'CRAC ! Les œufs ont éclos'\n"
+    }
+  ]
+}

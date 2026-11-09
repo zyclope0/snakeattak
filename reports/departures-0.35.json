@@ -1,0 +1,21 @@
+{
+  "version": "0.35.0",
+  "classicCode": "AVENTURE-1-0000-7X80-CQ",
+  "missionCode": "PONTS-1-0000-7X8S-XE",
+  "checks": [
+    "invalid-safe",
+    "locked-safe",
+    "cancel-safe",
+    "classic-confirm",
+    "seed-persistence",
+    "clipboard-fallback",
+    "clipboard-copy",
+    "full-mission-config",
+    "fresh-budget",
+    "classic-camp-preserved",
+    "version-visible",
+    "mobile"
+  ],
+  "errors": [],
+  "physicalDevice": false
+}
