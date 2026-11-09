@@ -40,7 +40,7 @@ export function friendChoices(run: MissionRun): Kind[] {
 import { setText, createTextNode } from '../i18n/dom.ts';
 import { capriceExplanation, frenchLeaf } from './capriceCopy.ts';
 import { capriceSpeech } from './capriceSpeech.ts';
-import { albumOptions, type AlbumsController } from './capriceAlbums.ts';
+import { albumOptions, stickerGraphic, type AlbumsController } from './capriceAlbums.ts';
 export function bindCapricePreparation(
   dialog: HTMLDialogElement,
   onSelect: (id?: string) => void,
@@ -63,6 +63,9 @@ export function bindCapricePreparation(
   const title = frenchLeaf('h3', ''),
     announce = frenchLeaf('p', '');
   announce.id = 'caprice-announce';
+  const announcement = document.createElement('div');
+  announcement.className = 'caprice-announcement';
+  announcement.append(stickerGraphic(), announce);
   const explanation = document.createElement('p');
   const listen = document.createElement('button');
   listen.id = 'caprice-listen';
@@ -81,7 +84,7 @@ export function bindCapricePreparation(
     albums?.select(profile.value);
     onProfileChange();
   };
-  detail.append(title, announce, explanation, listen, friends, profileLabel);
+  detail.append(title, announcement, explanation, listen, friends, profileLabel);
   region.append(normal, rows, detail);
   dialog.querySelector('.mission-dialog-body')!.append(region);
   let chosen = new Set<Kind>(),

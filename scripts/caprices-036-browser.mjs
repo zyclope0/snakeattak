@@ -10,7 +10,7 @@ import { createCareer } from '../src/progression.ts';
 import { createCapriceAlbumsController } from '../src/capriceAlbums.ts';
 import { writeFamilyBackup } from '../src/familyBackup.ts';
 import { encodeDeparture } from '../src/departures.ts';
-const folder = 'artifacts/caprices-036';
+const folder = process.env.CAPRICES_REPORT_DIR ?? 'artifacts/caprices-036';
 const fixture = '.caprices-036-fixture.html';
 let dev, preview, browser;
 const errors = [];
@@ -86,9 +86,13 @@ async function prepare(page, id = 'refuge', caprice = 'refuge-petit') {
   await page.locator(`[data-mission-card="${id}"]`).click();
   await page.locator(`[data-caprice="${caprice}"]`).click();
 }
-async function fixturePage(mode, width = 1280, height = 800, extra = '') {
+async function fixturePage(mode, width = 1280, height = 800, extra = '', locale = 'fr') {
   const page = await browser.newPage({ viewport: { width, height }, locale: 'fr-CH' });
   page.on('pageerror', (e) => errors.push(e.message));
+  await page.addInitScript(
+    (language) => localStorage.setItem('conquete-serpents:language:v1', language),
+    locale,
+  );
   await page.goto(`http://127.0.0.1:4374/${fixture}?case=${mode}${extra}`);
   await page.waitForFunction(() => !!window.capricesFixture);
   return page;
@@ -124,6 +128,92 @@ try {
   ]);
   await Promise.all([ready('http://127.0.0.1:4373'), ready('http://127.0.0.1:4374')]);
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  // Final F1/F2: test the actual presentation in both languages without advancing Game.
+  const polishFailures = [];
+  const polishCheck = (condition, label) => {
+    if (!condition) polishFailures.push(label);
+    else checks++;
+  };
+  for (const [width, height] of [
+    [1280, 800],
+    [568, 320],
+  ])
+    for (const locale of ['fr', 'en']) {
+      const p = await pageAt(width, height, locale);
+      await prepare(p, 'sonnette', 'sonnette-petit');
+      const announce = p.locator('#caprice-announce');
+      polishCheck(
+        (await announce.textContent()) === "Choisis deux sortes d'alliés !",
+        'F1 exact French announcement ' + width + locale,
+      );
+      polishCheck(
+        (await announce.getAttribute('lang')) === 'fr',
+        'F1 French language attribution ' + width + locale,
+      );
+      const icon = p.locator('.caprice-announcement > svg');
+      polishCheck(
+        (await icon.count()) === 1 && (await icon.getAttribute('aria-hidden')) === 'true',
+        'F1 separate decorative icon ' + width + locale,
+      );
+      polishCheck(
+        (await announce.locator('svg').count()) === 0,
+        'F1 no graphic inside canonical text ' + width + locale,
+      );
+      if (await icon.count()) {
+        await announce.scrollIntoViewIfNeeded();
+        const a = await announce.boundingBox(),
+          i = await icon.boundingBox();
+        polishCheck(
+          i &&
+            a &&
+            i.width >= 24 &&
+            i.width <= 40 &&
+            i.x + i.width <= a.x &&
+            i.y < a.y + a.height &&
+            a.y < i.y + i.height,
+          'F1 compact icon beside visible announcement ' + width + locale,
+        );
+      }
+      for (const id of ['mission-launch', 'mission-reroll', 'mission-close'])
+        await onScreen(p.locator('#' + id), p, 'F1 ' + id + width + locale);
+      await shot(p, 'final-icon-' + width + '-' + locale);
+      await p.close();
+      const bank = await fixturePage('bank', width, height, '', locale);
+      await bank.locator('#dock-catalogue:visible, #reinforcements-toggle:visible').first().click();
+      await bank.locator('#quick-army > summary').click();
+      const favorite = bank.locator('[data-quick-kind="club"]');
+      await favorite.scrollIntoViewIfNeeded();
+      polishCheck(
+        (await favorite.isVisible()) && (await favorite.locator('small').isVisible()),
+        'F2 favorite and status visible ' + width + locale,
+      );
+      await onScreen(favorite, bank, 'F2 favorite ' + width + locale);
+      const reason = locale === 'en' ? 'Protected bank reserve' : 'Réserve bancaire protégée';
+      polishCheck(await favorite.isDisabled(), 'F2 reserve blocks favorite ' + width + locale);
+      polishCheck(
+        (await favorite.getAttribute('aria-label')).toLowerCase().includes(reason.toLowerCase()),
+        'F2 accessible reserve reason ' + width + locale,
+      );
+      polishCheck(
+        (await favorite.locator('small').innerText()).includes(reason),
+        'F2 visible reserve reason ' + width + locale,
+      );
+      polishCheck(
+        (await favorite.getAttribute('aria-label')).includes('55'),
+        'F2 accessible price retained ' + width + locale,
+      );
+      await shot(bank, 'final-reserve-favorites-' + width + '-' + locale);
+      await bank.evaluate(() => {
+        window.capricesFixture.session.game.gold = 600;
+        window.capricesFixture.refresh();
+      });
+      polishCheck(
+        (await favorite.isEnabled()) && !(await favorite.innerText()).includes(reason),
+        'F2 reason clears when affordable ' + width + locale,
+      );
+      await bank.close();
+    }
+  assert.deepEqual(polishFailures, [], 'Final F1/F2 presentation regressions');
   // R1: pending choices must update preparation before launch; this fixture never advances Game.
   for (const locale of ['fr', 'en']) {
     const pending = await fixturePage('friends');

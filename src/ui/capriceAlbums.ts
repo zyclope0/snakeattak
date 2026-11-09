@@ -24,7 +24,7 @@ export function albumOptions(select: HTMLSelectElement, albums: AlbumsController
   }
   select.value = state.activeId;
 }
-function stickerGraphic() {
+export function stickerGraphic() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 40 40');
   svg.setAttribute('aria-hidden', 'true');
