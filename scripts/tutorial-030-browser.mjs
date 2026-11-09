@@ -36,6 +36,7 @@ try {
     [812, 375],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width, height },
       hasTouch: width === 812,
       reducedMotion: 'reduce',
@@ -81,6 +82,7 @@ try {
   ]);
   await wait('http://127.0.0.1:4351');
   const page = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width: 812, height: 375 },
     hasTouch: true,
     reducedMotion: 'reduce',

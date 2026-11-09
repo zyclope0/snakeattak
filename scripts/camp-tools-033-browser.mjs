@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
-
 const baseline = process.argv.includes('--baseline');
 const fixture = 'camp-tools-033-fixture.html';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
@@ -48,6 +47,7 @@ try {
     [375, 812, true],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: width < height ? { width: 812, height: 375 } : { width, height },
       hasTouch: touch,
     });
@@ -154,7 +154,9 @@ try {
     await page.close();
   }
   if (baseline) {
-    const page = await browser.newPage();
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+    });
     await page.goto('http://127.0.0.1:4365');
     assert.equal(
       await page.locator('#dock-tool-help').count(),
@@ -178,7 +180,10 @@ try {
     '--strictPort',
   ]);
   await ready('http://127.0.0.1:4366/' + fixture);
-  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const page = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 1280, height: 800 },
+  });
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('http://127.0.0.1:4366/' + fixture);
   await page.waitForFunction(() => window.mobileInterface?.phaser.scene.isActive('Battle'));

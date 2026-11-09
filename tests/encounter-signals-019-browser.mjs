@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { setTimeout } from 'node:timers/promises';
 import assert from 'node:assert/strict';
 import { chromium } from '@playwright/test';
-
 // Test fixture only: real Game/Scene, fixed combat frame, no production route.
 const fixture = 'encounter-signals-019-test.html';
 let server, browser;
@@ -38,7 +37,11 @@ try {
     [844, 390],
   ]) {
     for (const reducedMotion of ['no-preference', 'reduce']) {
-      const page = await browser.newPage({ viewport: { width, height }, reducedMotion });
+      const page = await browser.newPage({
+        locale: 'fr-CH',
+        viewport: { width, height },
+        reducedMotion,
+      });
       const errors = [];
       page.on('pageerror', (error) => errors.push(error.message));
       await page.goto(`http://127.0.0.1:4189/${fixture}?scenario=royal-guard`);

@@ -5,7 +5,6 @@ import { chromium } from '@playwright/test';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint, decodeCheckpoint } from '../src/checkpoints.ts';
 import { createMissionRun } from '../src/missions.ts';
-
 // Supply only on-disk packaged files with the browser's network explicitly off.
 // This models Capacitor's bundled transport, not a PWA/service-worker cache.
 const origin = 'http://serpents-embedded.test';
@@ -28,6 +27,7 @@ let browser;
 try {
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   const context = await browser.newContext({
+    locale: 'fr-CH',
     viewport: { width: 812, height: 375 },
     hasTouch: true,
     offline: true,
@@ -86,7 +86,6 @@ try {
   );
   assert.equal(await page.locator('#base').innerText(), '100 %');
   checks.push('offline cold start, tutorial wave, pause and last-camp reload');
-
   // Synthetic valid snapshots: exercise all supported schemas through real production startup.
   const classic = JSON.parse(encodeCheckpoint(new Game(33)));
   const legacyMission = { ...createMissionRun('refuge', 33) };

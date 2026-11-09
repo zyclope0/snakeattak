@@ -1,6 +1,11 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Notice } from '../render/presentation.ts';
-export type BattleGuide = { title: string; subtitle: string; compact?: string; priority?: number };
-
+export type BattleGuide = {
+  title: string;
+  subtitle: string;
+  compact?: string;
+  priority?: number;
+};
 /** Placement stays actionable; a short urgent fact can outrank a longer flash. */
 export function chooseBattleMessage(notice: Notice | null, guide: BattleGuide, placing: boolean) {
   const visible = !placing && notice && (guide.priority ?? -1) <= notice.priority ? notice : null;
@@ -29,14 +34,14 @@ export function bindBattleNotices(
     announcement.classList.toggle('placement-instruction', placing);
     if (title !== previousAnnouncement) {
       previousAnnouncement = title;
-      announcement.textContent = title;
+      setDisplayText(announcement, title);
       announcement.hidden = !title;
     }
     const key = `${tone}:${content.title}:${content.subtitle}`;
     if (key === previous) return;
     previous = key;
     panel.dataset.tone = tone;
-    document.getElementById('encounter-title')!.textContent = content.title;
-    document.getElementById('encounter-tip')!.textContent = content.subtitle;
+    setDisplayText(document.getElementById('encounter-title')!, content.title);
+    setDisplayText(document.getElementById('encounter-tip')!, content.subtitle);
   };
 }

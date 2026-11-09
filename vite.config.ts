@@ -45,7 +45,16 @@ export default defineConfig(({ mode }) => {
         ? {}
         : {
             assetsInlineLimit: 0,
-            rollupOptions: { output: { manualChunks: { phaser: ['phaser'] } } },
+            rollupOptions: {
+              output: {
+                manualChunks(id) {
+                  if (id.includes('/node_modules/phaser/')) return 'phaser';
+                  // Cache the browser-independent rules separately from the expanding UI.
+                  if (/\/src\/[^/]+\.ts$/.test(id) && !/\/(?:main|bootstrap|art)\.ts$/.test(id))
+                    return 'rules';
+                },
+              },
+            },
           }),
     },
   };

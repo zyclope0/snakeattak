@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
-
 const fixture = 'interruptions-033-fixture.html';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const origin = 'http://127.0.0.1:4355';
@@ -56,7 +55,11 @@ try {
     [812, 375, true],
     [1280, 800, false],
   ]) {
-    const page = await browser.newPage({ viewport: { width, height }, hasTouch: touch });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width, height },
+      hasTouch: touch,
+    });
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(origin + '/' + fixture);
     await page.waitForFunction(() => window.mobileInterface?.phaser.scene.isActive('Battle'));
@@ -191,7 +194,11 @@ try {
     checks.push(`${width}: cleanup, queued close and failed dialog opening`);
     await page.close();
   }
-  const hidden = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+  const hidden = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 812, height: 375 },
+    hasTouch: true,
+  });
   hidden.on('pageerror', (e) => errors.push(e.message));
   await hidden.addInitScript(() =>
     Object.defineProperty(document, 'hidden', { configurable: true, get: () => true }),

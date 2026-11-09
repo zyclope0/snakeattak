@@ -1,3 +1,4 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import './unitGuide.css';
 import { HERO_FORCE_FACTOR } from '../campaignRules.ts';
 import { roleDescription } from '../defenders.ts';
@@ -7,25 +8,24 @@ import type { Session } from '../session.ts';
 import { specialAbility, healAmount, attackDamage } from '../unitRules.ts';
 import { portraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
-
 export function bindUnitGuide(session: Session, onChange: () => void) {
   const dialog = document.getElementById('unit-dialog') as HTMLDialogElement;
   const select = document.getElementById('guide-select') as HTMLSelectElement;
   for (const [kind, d] of Object.entries(kinds)) {
     const option = document.createElement('option');
     option.value = kind;
-    option.textContent = d.name;
+    setDisplayText(option, d.name);
     select.append(option);
   }
   const modal = pauseForDialog(dialog, session, onChange);
   function show() {
     const kind = select.value as Kind,
       d = kinds[kind];
-    document.getElementById('guide-name')!.textContent = d.name;
+    setDisplayText(document.getElementById('guide-name')!, d.name);
     document.getElementById('guide-portrait')!.style.cssText = portraitStyle(kind);
-    document.getElementById('guide-ability')!.textContent = specialAbility(
-      kind,
-      session.game.tuning.splashSecondaryFactor,
+    setDisplayText(
+      document.getElementById('guide-ability')!,
+      specialAbility(kind, session.game.tuning.splashSecondaryFactor),
     );
     const fields = [
       ['Camp', 'Nos alliés'],
@@ -59,8 +59,8 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
       const row = document.createElement('div');
       const title = document.createElement('small'),
         text = document.createElement('strong');
-      title.textContent = label;
-      text.textContent = value;
+      setDisplayText(title, label);
+      setDisplayText(text, value);
       row.append(title, text);
       stats.append(row);
     }

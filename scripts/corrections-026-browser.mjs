@@ -7,7 +7,6 @@ import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
-
 const step = Number(process.argv[2] ?? 1);
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const fixture = '.corrections-026-test.html';
@@ -38,6 +37,7 @@ try {
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   const page = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width: 1280, height: 800 },
     reducedMotion: 'reduce',
   });
@@ -159,7 +159,9 @@ try {
       !loaded.includes('terrain-props') && !loaded.includes('interface-craft'),
       'Pas de planches inutilisées dans Phaser',
     );
-    const lean = await browser.newPage();
+    const lean = await browser.newPage({
+      locale: 'fr-CH',
+    });
     let failedOnce = false;
     await lean.route('**/ground-three-bridges*.webp', (route) => {
       if (!failedOnce) {
@@ -238,6 +240,7 @@ try {
   }
   if (step >= 5) {
     const touch = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width: 375, height: 812 },
       hasTouch: true,
       isMobile: true,
@@ -279,7 +282,10 @@ try {
     );
   }
   if (step >= 8) {
-    const live = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    const live = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width: 1280, height: 800 },
+    });
     live.on('pageerror', (e) => errors.push(e.message));
     await live.route('**/strongholds*.webp', async (route) => {
       await delay(500);
@@ -330,7 +336,10 @@ try {
       if (version < 4) delete saved.campaign;
       if (version < 3) delete saved.rewards;
       if (version === 1) for (const unit of saved.units) delete unit.homeX;
-      const legacy = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+      const legacy = await browser.newPage({
+        locale: 'fr-CH',
+        viewport: { width: 1280, height: 800 },
+      });
       legacy.on('pageerror', (e) => errors.push(e.message));
       await legacy.addInitScript(
         (saved) => localStorage.setItem('conquete-serpents:camp:v1', JSON.stringify(saved)),

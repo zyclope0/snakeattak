@@ -1,7 +1,7 @@
+import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
 import { bossReadout } from './bossReadout.ts';
-
 /** Finite graphics layers; no images, per-actor shader or independent simulation. */
 export class BossSignals {
   private ground: Phaser.GameObjects.Graphics;
@@ -13,14 +13,13 @@ export class BossSignals {
     this.protection = scene.add.graphics().setDepth(16);
     const labels = () =>
       Array.from({ length: 3 }, () =>
-        scene.add
-          .text(0, 0, '', {
-            fontFamily: 'sans-serif',
-            fontSize: '10px',
-            color: '#fff4d1',
-            stroke: '#172c2c',
-            strokeThickness: 3,
-          })
+        addCanvasCopy(scene.add, 0, 0, '', {
+          fontFamily: 'sans-serif',
+          fontSize: '10px',
+          color: '#fff4d1',
+          stroke: '#172c2c',
+          strokeThickness: 3,
+        })
           .setOrigin(0.5, 1)
           .setDepth(17)
           .setVisible(false),
@@ -41,8 +40,10 @@ export class BossSignals {
         const color = healer ? 0xa5e6ab : 0xb5cadd;
         ink.lineStyle(2, color, 0.85);
         ink.strokeEllipse(boss.x, boss.y + 4, 34, 13);
-        this.courtLabels[courtIndex++]
-          .setText(healer ? `Soigneur · ${boss.court.charges}` : 'Garde du roi')
+        setCanvasCopy(
+          this.courtLabels[courtIndex++],
+          healer ? `Soigneur · ${boss.court.charges}` : 'Garde du roi',
+        )
           .setPosition(boss.x, boss.y - 42)
           .setVisible(true);
       }
@@ -60,8 +61,10 @@ export class BossSignals {
             ink.lineStyle(2, 0xffd58b, 1);
             ink.strokeRoundedRect(x - 34, boss.y - 117, 68, 10, 2);
           }
-          this.headLabels[i]
-            .setText(`${head.label}${head.alive ? (head.active ? ' • Tir' : '') : ' KO'}`)
+          setCanvasCopy(
+            this.headLabels[i],
+            `${head.label}${head.alive ? (head.active ? ' • Tir' : '') : ' KO'}`,
+          )
             .setPosition(x, boss.y - 119)
             .setVisible(true);
         });

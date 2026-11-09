@@ -1,7 +1,7 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import { decodeDeparture, encodeDeparture, departureForGame } from '../departures.ts';
 import type { MissionRun } from '../missions.ts';
 import type { Session } from '../session.ts';
-
 /** Codes carry setup data only. Preview and launch remain two separate actions. */
 export function bindDepartureControls(
   session: Session,
@@ -26,12 +26,14 @@ export function bindDepartureControls(
       try {
         if (!navigator.clipboard?.writeText) throw Error('clipboard unavailable');
         await navigator.clipboard.writeText(code);
-        status.textContent =
-          field.value === code ? 'Code copié.' : 'Le départ a changé ; copie son nouveau code.';
+        setDisplayText(
+          status,
+          field.value === code ? 'Code copié.' : 'Le départ a changé ; copie son nouveau code.',
+        );
       } catch {
         field.focus();
         field.select();
-        status.textContent = 'Code sélectionné : copie-le avec le menu de ton appareil.';
+        setDisplayText(status, 'Code sélectionné : copie-le avec le menu de ton appareil.');
       }
     };
   }
@@ -40,12 +42,14 @@ export function bindDepartureControls(
   el<HTMLFormElement>('departure-form').onsubmit = (e) => {
     e.preventDefault();
     const decoded = decodeDeparture(input.value);
-    message.textContent = '';
+    setDisplayText(message, '');
     if (!decoded.ok) {
-      message.textContent =
+      setDisplayText(
+        message,
         decoded.reason === 'version'
           ? 'Ce code utilise une autre version des règles. Vérifie la version du jeu.'
-          : 'Code incomplet ou incorrect. Vérifie les lettres et les chiffres.';
+          : 'Code incomplet ou incorrect. Vérifie les lettres et les chiffres.',
+      );
       input.setAttribute('aria-invalid', 'true');
       return;
     }
@@ -53,20 +57,22 @@ export function bindDepartureControls(
     const departure = decoded.departure;
     if (departure.kind === 'mission') {
       if (!actions.unlocked(departure.run)) {
-        message.textContent =
-          'Cette mission est encore verrouillée. Termine d’abord la précédente.';
+        setDisplayText(
+          message,
+          'Cette mission est encore verrouillée. Termine d’abord la précédente.',
+        );
         return;
       }
       actions.previewMission(departure.run);
     } else {
       pendingSeed = departure.seed;
-      el('departure-preview-code').textContent = encodeDeparture(departure);
+      setDisplayText(el('departure-preview-code'), encodeDeparture(departure));
       classicDialog.showModal();
     }
   };
   input.oninput = () => {
     input.removeAttribute('aria-invalid');
-    message.textContent = '';
+    setDisplayText(message, '');
   };
   el('departure-cancel').onclick = () => {
     pendingSeed = null;
@@ -86,7 +92,7 @@ export function bindDepartureControls(
     const field = el<HTMLInputElement>(fieldId);
     if (field.value !== code) {
       field.value = code;
-      el(messageId).textContent = '';
+      setDisplayText(el(messageId), '');
     }
   }
   return {

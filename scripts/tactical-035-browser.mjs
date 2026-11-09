@@ -24,6 +24,7 @@ try {
     [568, 320],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width, height },
       hasTouch: width < 1000,
       reducedMotion: 'reduce',

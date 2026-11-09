@@ -1,10 +1,10 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import { LANE_NAMES } from '../ai.ts';
 import { enemyPortraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { currentWaveThreats, threatAdvice } from './threatPreview.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
-
 export function bindThreatControls(session: Session, refresh: () => void) {
   const el = (id: string) => document.getElementById(id)!;
   const dialog = el('threat-dialog') as HTMLDialogElement,
@@ -18,9 +18,11 @@ export function bindThreatControls(session: Session, refresh: () => void) {
     if (!preview) return;
     observed = game;
     local = preview.local;
-    el('threat-title').textContent = `Vague ${preview.local} · Les serpents annoncés`;
-    el('threat-lanes').textContent =
-      'Voies ouvertes : ' + preview.lanes.map((l) => LANE_NAMES[l]).join(' · ');
+    setDisplayText(el('threat-title'), `Vague ${preview.local} · Les serpents annoncés`);
+    setDisplayText(
+      el('threat-lanes'),
+      'Voies ouvertes : ' + preview.lanes.map((l) => LANE_NAMES[l]).join(' · '),
+    );
     const types = preview.entries.map((e) => e.kind);
     renderThreatCards(el('wave-threat-list'), types);
     renderThreatAdvice(
@@ -32,7 +34,10 @@ export function bindThreatControls(session: Session, refresh: () => void) {
     egg.className = 'enemy-portrait';
     egg.style.cssText = enemyPortraitStyle('egg');
     egg.setAttribute('aria-hidden', 'true');
-    copy.textContent = `${preview.eggs} ${preview.eggs === 1 ? 'œuf peut éclore' : 'œufs peuvent éclore'} et ajouter des serpents ordinaires.`;
+    setDisplayText(
+      copy,
+      `${preview.eggs} ${preview.eggs === 1 ? 'œuf peut éclore' : 'œufs peuvent éclore'} et ajouter des serpents ordinaires.`,
+    );
     el('wave-threat-eggs').replaceChildren(egg, copy);
     modal.open();
     el('threat-title').focus({ preventScroll: true });

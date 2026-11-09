@@ -29,7 +29,10 @@ try {
     await delay(100);
   }
   b = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-  const p = await b.newPage({ viewport: { width: 1440, height: 1000 } });
+  const p = await b.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 1440, height: 1000 },
+  });
   const errs = [];
   p.on('pageerror', (e) => errs.push(e.message));
   await p.goto('http://127.0.0.1:4182/' + file + '?scenario=allies');

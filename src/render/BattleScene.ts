@@ -1,3 +1,4 @@
+import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import { ThreatMarkers } from './threatMarkers.ts';
 import { victoryCopy, defeatCopy } from './resultCopy.ts';
 import { activateBoard } from '../ui/boardActions.ts';
@@ -28,7 +29,6 @@ import { DevPerformance } from './devPerformance.ts';
 import { pauseForDialog } from '../ui/dialogs.ts';
 import { performanceEnabled } from './performanceRecording.ts';
 import { onSceneExit } from './sceneExit.ts';
-
 export class BattleScene extends Phaser.Scene {
   private assets!: MissionAssets;
   private initialized = false;
@@ -117,27 +117,32 @@ export class BattleScene extends Phaser.Scene {
     this.ink = this.add.graphics();
     this.honeyInk = this.add.graphics().setDepth(7.5);
     this.feedback = new BattleFeedback(this);
-    this.feastLabel = this.add
-      .text(420, 0, '', {
-        fontFamily: 'Arial',
-        fontSize: '13px',
-        color: '#ffe5a1',
-        backgroundColor: '#324832',
-        padding: { x: 7, y: 4 },
-      })
+    this.feastLabel = addCanvasCopy(this.add, 420, 0, '', {
+      fontFamily: 'Arial',
+      fontSize: '13px',
+      color: '#ffe5a1',
+      backgroundColor: '#324832',
+      padding: { x: 7, y: 4 },
+    })
       .setOrigin(0.5)
       .setDepth(9.5)
       .setVisible(false);
     const shade = this.add.rectangle(550, 310, 1100, 620, 0x082a23, 0.82);
-    const title = this.add
-      .text(550, 267, '', { fontFamily: 'Georgia', fontSize: '54px', color: '#ffe4a4' })
-      .setOrigin(0.5);
-    const subtitle = this.add
-      .text(550, 335, '', { fontFamily: 'Arial', fontSize: '21px', color: '#deebd0' })
-      .setOrigin(0.5);
-    this.resultStats = this.add
-      .text(550, 393, '', { fontFamily: 'Arial', fontSize: '18px', color: '#d9e9c7' })
-      .setOrigin(0.5);
+    const title = addCanvasCopy(this.add, 550, 267, '', {
+      fontFamily: 'Georgia',
+      fontSize: '54px',
+      color: '#ffe4a4',
+    }).setOrigin(0.5);
+    const subtitle = addCanvasCopy(this.add, 550, 335, '', {
+      fontFamily: 'Arial',
+      fontSize: '21px',
+      color: '#deebd0',
+    }).setOrigin(0.5);
+    this.resultStats = addCanvasCopy(this.add, 550, 393, '', {
+      fontFamily: 'Arial',
+      fontSize: '18px',
+      color: '#d9e9c7',
+    }).setOrigin(0.5);
     this.celebration = this.add.graphics();
     this.overlay = this.add
       .container(0, 0, [shade, this.celebration, title, subtitle, this.resultStats])
@@ -187,11 +192,10 @@ export class BattleScene extends Phaser.Scene {
     this.feastLabel.setVisible(!!feast);
     if (feast) {
       const pot = drawHoneyZone(this.honeyInk, this.session.game, this.presentation.clock, reduced);
-      this.feastLabel
-        .setPosition(pot.x, pot.y + 43)
-        .setText(
-          `${feast.flavor === 'sticky' ? 'COLLANT' : 'ATTIRANT'} · ${Math.ceil(feast.remaining)} s`,
-        );
+      setCanvasCopy(
+        this.feastLabel.setPosition(pot.x, pot.y + 43),
+        `${feast.flavor === 'sticky' ? 'COLLANT' : 'ATTIRANT'} · ${Math.ceil(feast.remaining)} s`,
+      );
     }
     this.ink.setDepth(15);
     this.actors.draw(this.session.game, this.presentation, this.ink, reduced);
@@ -310,12 +314,14 @@ export class BattleScene extends Phaser.Scene {
     const end = this.session.game.status === 'won' || this.session.game.status === 'lost';
     this.overlay.setVisible(end);
     if (end) {
-      (this.overlay.list[2] as Phaser.GameObjects.Text).setText(
+      setCanvasCopy(
+        this.overlay.list[2] as Phaser.GameObjects.Text,
         this.session.game.status === 'won'
           ? victoryCopy(this.session.game).title
           : defeatCopy(this.session.game).title,
       );
-      (this.overlay.list[3] as Phaser.GameObjects.Text).setText(
+      setCanvasCopy(
+        this.overlay.list[3] as Phaser.GameObjects.Text,
         this.session.game.status === 'won'
           ? victoryCopy(this.session.game).subtitle
           : defeatCopy(this.session.game).subtitle,
@@ -323,7 +329,8 @@ export class BattleScene extends Phaser.Scene {
     }
     this.resultStats.setVisible(end);
     if (end)
-      this.resultStats.setText(
+      setCanvasCopy(
+        this.resultStats,
         `${this.session.game.kills} serpents repoussés · ${this.session.game.units.length} alliés survivants · camp ${Math.ceil(this.session.game.base)} %`,
       );
     this.celebration.clear();

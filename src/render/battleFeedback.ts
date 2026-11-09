@@ -1,9 +1,9 @@
+import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
 import type { Presentation } from './presentation.ts';
 import { bossReadout } from './bossReadout.ts';
 import { eggLabelPositions } from './encounterReadout.ts';
-
 export class BattleFeedback {
   private graphics: Phaser.GameObjects.Graphics;
   private labels: Phaser.GameObjects.Text[] = [];
@@ -11,36 +11,37 @@ export class BattleFeedback {
   private bossLabel: Phaser.GameObjects.Text;
   constructor(scene: Phaser.Scene) {
     this.graphics = scene.add.graphics().setDepth(22);
-    this.bossLabel = scene.add
-      .text(550, 13, '', { fontFamily: 'Arial', fontSize: '12px', color: '#ffe2a0' })
+    this.bossLabel = addCanvasCopy(scene.add, 550, 13, '', {
+      fontFamily: 'Arial',
+      fontSize: '12px',
+      color: '#ffe2a0',
+    })
       .setOrigin(0.5)
       .setDepth(23);
     // Six imminent eggs, one confusion summary, courage and the existing boss target.
     for (let i = 0; i < 9; i++)
       this.encounterLabels.push(
-        scene.add
-          .text(0, 0, '', {
-            fontFamily: 'Arial',
-            fontSize: i < 6 || i === 8 ? '15px' : '17px',
-            fontStyle: 'bold',
-            color: '#ffe2a0',
-            stroke: '#17382b',
-            strokeThickness: 2,
-          })
+        addCanvasCopy(scene.add, 0, 0, '', {
+          fontFamily: 'Arial',
+          fontSize: i < 6 || i === 8 ? '15px' : '17px',
+          fontStyle: 'bold',
+          color: '#ffe2a0',
+          stroke: '#17382b',
+          strokeThickness: 2,
+        })
           .setOrigin(0.5)
           .setDepth(23)
           .setVisible(false),
       );
     for (let i = 0; i < 40; i++)
       this.labels.push(
-        scene.add
-          .text(0, 0, '', {
-            fontFamily: 'Arial',
-            fontSize: '17px',
-            fontStyle: 'bold',
-            stroke: '#233e2d',
-            strokeThickness: 3,
-          })
+        addCanvasCopy(scene.add, 0, 0, '', {
+          fontFamily: 'Arial',
+          fontSize: '17px',
+          fontStyle: 'bold',
+          stroke: '#233e2d',
+          strokeThickness: 3,
+        })
           .setOrigin(0.5)
           .setDepth(24)
           .setVisible(false),
@@ -55,8 +56,7 @@ export class BattleFeedback {
       label.setVisible(!!f);
       if (!f) continue;
       const progress = f.age / f.duration;
-      label
-        .setText(f.text)
+      setCanvasCopy(label, f.text)
         .setColor(f.color)
         .setPosition(f.x, f.y - (reduced ? 0 : progress * 26))
         .setAlpha(Math.min(1, (1 - progress) * 3));
@@ -88,7 +88,8 @@ export class BattleFeedback {
     if (boss) {
       g.fillStyle(0xf3ac79, 0.95);
       g.fillTriangle(boss.x - 6, boss.y + 39, boss.x + 6, boss.y + 39, boss.x, boss.y + 31);
-      this.bossLabel.setText(
+      setCanvasCopy(
+        this.bossLabel,
         `ROI À TROIS TÊTES · ${Math.ceil(boss.hp)} / ${Math.ceil(boss.maxHp)} PV${bossReadout(boss, game.tuning) ? ` · PHASE ${boss.bossState!.phase}/3` : ''}`,
       );
       g.fillStyle(0x183829);
@@ -119,8 +120,7 @@ export class BattleFeedback {
       g.fillRoundedRect(px - width / 2, py - 14, width, 28, 6);
       g.lineStyle(1.5, color, 0.95);
       g.strokeRoundedRect(px - width / 2, py - 14, width, 28, 6);
-      this.encounterLabels[index]
-        .setText(text)
+      setCanvasCopy(this.encounterLabels[index], text)
         .setColor(textColor)
         .setPosition(px, py)
         .setVisible(true);

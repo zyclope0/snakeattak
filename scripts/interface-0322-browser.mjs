@@ -4,7 +4,6 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
-
 // Catches a return of the desktop catalogue, a smaller/clipped board, duplicate
 // notices over the top lane, or a clipped/substituted approved home illustration.
 // 0.33.1 replaces three atlas actors with the intact retained icon. The old
@@ -51,6 +50,7 @@ try {
     [780, 360, true],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width, height },
       hasTouch: touch,
       isMobile: touch,
@@ -198,7 +198,10 @@ try {
     [1101, 520],
     [1280, 800],
   ]) {
-    const page = await browser.newPage({ viewport: { width, height } });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width, height },
+    });
     await page.goto(base);
     await page.locator('#home-play').click();
     await page.locator('#mission-launch').click();
@@ -269,7 +272,9 @@ try {
     if (n > 100) throw Error('Notice server unavailable');
     await delay(100);
   }
-  const noticePage = await browser.newPage();
+  const noticePage = await browser.newPage({
+    locale: 'fr-CH',
+  });
   await noticePage.route('**/notice-check.html', (route) =>
     route.fulfill({
       contentType: 'text/html; charset=utf-8',

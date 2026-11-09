@@ -1,3 +1,4 @@
+import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
@@ -18,7 +19,7 @@ export function bindSquadControls(
   ROSTER_NAMES.forEach((n, i) => {
     const o = document.createElement('option');
     o.value = String(i);
-    o.textContent = n;
+    setDisplayText(o, n);
     select.append(o);
   });
   select.onchange = () => {
@@ -63,7 +64,7 @@ export function bindSquadControls(
       if (c.b.dataset.quickKind !== kind) {
         c.b.dataset.quickKind = kind;
         c.p.style.cssText = portraitStyle(kind);
-        c.name.textContent = kinds[kind].name;
+        setDisplayText(c.name, kinds[kind].name);
       }
       const label = locked
         ? g.mission
@@ -72,11 +73,11 @@ export function bindSquadControls(
         : price === 0
           ? 'Offert'
           : `${price} ●`;
-      if (c.cost.textContent !== label) c.cost.textContent = label;
+      if (c.cost.textContent !== label) setDisplayText(c.cost, label);
       c.b.disabled =
         g.paused || locked || g.gold < price || g.status === 'won' || g.status === 'lost';
       c.b.setAttribute('aria-pressed', String(session.selected === kind));
-      c.b.setAttribute('aria-label', `${kinds[kind].name}, ${label}`);
+      setDisplayAttribute(c.b, 'aria-label', `${kinds[kind].name}, ${label}`);
     });
   };
 }

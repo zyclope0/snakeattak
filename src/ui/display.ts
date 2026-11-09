@@ -1,3 +1,4 @@
+import { setAttribute as setDisplayAttribute, setText as setDisplayText } from '../i18n/dom.ts';
 /** Layout preference only: simulation and browser zoom remain under their own control. */
 export function bindDisplay() {
   const button = document.getElementById('display-toggle')!;
@@ -6,11 +7,12 @@ export function bindDisplay() {
     expanded = !expanded;
     document.body.classList.toggle('game-expanded', expanded);
     button.setAttribute('aria-pressed', String(expanded));
-    button.setAttribute(
+    setDisplayAttribute(
+      button,
       'aria-label',
       expanded ? 'Réduire la vue de jeu' : 'Agrandir la vue de jeu',
     );
-    button.querySelector('span')!.textContent = expanded ? 'Réduire' : 'Agrandir';
+    setDisplayText(button.querySelector('span')!, expanded ? 'Réduire' : 'Agrandir');
     requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
   };
   button.onclick = toggle;

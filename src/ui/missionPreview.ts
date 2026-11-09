@@ -1,3 +1,4 @@
+import { setAttribute as setDisplayAttribute, setText as setDisplayText } from '../i18n/dom.ts';
 import type { MissionRun } from '../missions.ts';
 import { missionById } from '../missions.ts';
 import { missionLevel } from '../levels.ts';
@@ -8,7 +9,6 @@ import { ART_SHEETS, GROUND_ART } from '../art.ts';
 import { unlockWave } from '../data.ts';
 import { missionThreats, threatAdvice } from './threatPreview.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
-
 /** A readable map, sharing the real paths rather than painting roads into a background. */
 export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
   const ns = 'http://www.w3.org/2000/svg';
@@ -21,7 +21,8 @@ export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
   svg.replaceChildren();
   const level = missionLevel(run.layout),
     lanes = activeEnemyLanes(run, 1);
-  svg.setAttribute(
+  setDisplayAttribute(
+    svg,
     'aria-label',
     `Trois voies visibles. Première vague : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. Antres à gauche, cristal à droite.`,
   );
@@ -103,7 +104,7 @@ export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
       'font-family': 'Arial',
       'font-weight': 'bold',
     });
-    text.textContent = `${lane + 1} · ${LANE_NAMES[lane]}`;
+    setDisplayText(text, `${lane + 1} · ${LANE_NAMES[lane]}`);
     if (lanes.includes(lane))
       shape('path', {
         d: `M160 ${LANES[lane] - 8}h28m-10-10 10 10-10 10`,
@@ -122,7 +123,6 @@ export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
     'stroke-width': 3,
   });
 }
-
 export function showMissionScouting(run: MissionRun) {
   const el = (id: string) => document.getElementById(id)!;
   const types = missionThreats(run),
@@ -132,8 +132,10 @@ export function showMissionScouting(run: MissionRun) {
   const more = el('mission-more-threats') as HTMLDetailsElement;
   more.open = false;
   more.hidden = types.length <= 3;
-  el('mission-more-title').textContent =
-    `${types.length - 3} autres ${types.length - 3 === 1 ? 'serpent' : 'serpents'}`;
+  setDisplayText(
+    el('mission-more-title'),
+    `${types.length - 3} autres ${types.length - 3 === 1 ? 'serpent' : 'serpents'}`,
+  );
   renderThreatAdvice(
     el('mission-advice'),
     threatAdvice(types, (kind) => rank >= (unlockWave[kind] ?? 1)),

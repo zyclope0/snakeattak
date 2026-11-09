@@ -23,7 +23,11 @@ try {
     await delay(100);
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-  const page = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+  const page = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 812, height: 375 },
+    hasTouch: true,
+  });
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   const start = async (query) => {

@@ -1,9 +1,9 @@
+import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
 import { medicalReadout } from './medicalReadout.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
-
 /** Stock labels read the simulation; rendering never advances a recharge. */
 export class MedicalSignals {
   private labels: FramePool<number, Phaser.GameObjects.Text>;
@@ -13,14 +13,13 @@ export class MedicalSignals {
     this.labels = new FramePool({
       maxIdle: 16,
       create: () =>
-        scene.add
-          .text(0, 0, '', {
-            fontFamily: 'sans-serif',
-            fontSize: '11px',
-            color: '#fff6dc',
-            backgroundColor: '#285e4a',
-            padding: { x: 4, y: 2 },
-          })
+        addCanvasCopy(scene.add, 0, 0, '', {
+          fontFamily: 'sans-serif',
+          fontSize: '11px',
+          color: '#fff6dc',
+          backgroundColor: '#285e4a',
+          padding: { x: 4, y: 2 },
+        })
           .setOrigin(0.5, 0)
           .setDepth(17),
       activate: (label) => {
@@ -33,14 +32,13 @@ export class MedicalSignals {
     });
     onSceneExit(scene.events, () => this.labels.clear());
     this.station = scene.add.graphics().setDepth(15.4);
-    this.stationLabel = scene.add
-      .text(988, 442, 'Réserve', {
-        fontFamily: 'sans-serif',
-        fontSize: '11px',
-        color: '#f6f0d8',
-        backgroundColor: '#294b3b',
-        padding: { x: 4, y: 3 },
-      })
+    this.stationLabel = addCanvasCopy(scene.add, 988, 442, 'Réserve', {
+      fontFamily: 'sans-serif',
+      fontSize: '11px',
+      color: '#f6f0d8',
+      backgroundColor: '#294b3b',
+      padding: { x: 4, y: 3 },
+    })
       .setOrigin(0.5)
       .setDepth(17)
       .setVisible(false);
@@ -52,13 +50,13 @@ export class MedicalSignals {
     for (const badge of readout.badges) {
       const label = this.labels.acquire(badge.id),
         text = badge.text;
-      if (label.text !== text) label.setText(text);
+      if (label.text !== text) setCanvasCopy(label, text);
       label.setPosition(badge.x, badge.y);
     }
     this.labels.endFrame();
     this.stationLabel.setVisible(readout.present > 0);
     if (this.stationLabel.text !== readout.reserveLabel)
-      this.stationLabel.setText(readout.reserveLabel);
+      setCanvasCopy(this.stationLabel, readout.reserveLabel);
     if (readout.present) {
       const g = this.station;
       g.fillStyle(0x2c604b, 0.95);

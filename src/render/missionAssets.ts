@@ -1,3 +1,4 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import type Phaser from 'phaser';
 import type { Game } from '../game.ts';
 import type { Kind } from '../data.ts';
@@ -7,7 +8,6 @@ import { missionWave } from '../missions.ts';
 import { ALLY_ART, ART_SHEETS, ENEMY_ART, GROUND_ART, SCENERY_ART, KING_ART } from '../art.ts';
 import { stageTheme } from './stageLayout.ts';
 import { onSceneExit } from './sceneExit.ts';
-
 /** Select from the rules without advancing them or consuming their random stream. */
 export function texturesForGame(game: Game): Set<string> {
   const textures = new Set([
@@ -39,7 +39,6 @@ export function texturesForGame(game: Game): Set<string> {
   if (!game.mission && game.difficultyWave === 12) textures.add(KING_ART.texture);
   return textures;
 }
-
 /** One Phaser loader, no speculative downloads, and a retryable HTML progress panel. */
 export class MissionAssets {
   private failed = new Set<string>();
@@ -49,7 +48,6 @@ export class MissionAssets {
   private board = document.getElementById('game');
   private current?: Game;
   private loadStarted: number | null = null;
-
   constructor(private scene: Phaser.Scene) {
     const progress = (value: number) => {
       if (!this.failed.size) this.show(`Préparation du terrain… ${Math.round(value * 100)} %`);
@@ -72,13 +70,11 @@ export class MissionAssets {
       this.hide();
     });
   }
-
   preload(game: Game) {
     this.current = game;
     this.queue(texturesForGame(game));
     this.show('Préparation du terrain…');
   }
-
   ready(game: Game): boolean {
     this.current = game;
     const missing = new Set(
@@ -100,7 +96,6 @@ export class MissionAssets {
     }
     return false;
   }
-
   private queue(keys: Set<string>) {
     for (const sheet of ART_SHEETS)
       if (keys.has(sheet.key) && !this.scene.textures.exists(sheet.key))
@@ -112,15 +107,13 @@ export class MissionAssets {
       if (keys.has(ground.key) && !this.scene.textures.exists(ground.key))
         this.scene.load.image(ground.key, ground.url);
   }
-
   private show(text: string, failed = false) {
     if (this.loadStarted === null) this.loadStarted = performance.now();
     if (this.panel) this.panel.hidden = false;
-    if (this.label) this.label.textContent = text;
+    if (this.label) setDisplayText(this.label, text);
     if (this.retry) this.retry.hidden = !failed;
     this.board?.setAttribute('aria-busy', 'true');
   }
-
   private hide() {
     if (this.loadStarted !== null && this.board) {
       this.board.dataset.loadDurationMs = String(performance.now() - this.loadStarted);

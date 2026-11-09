@@ -17,7 +17,11 @@ const records = saved?.records ?? [],
   errors = saved?.errors ?? [];
 let serial = 0;
 async function main(profile, width = 1280, height = 800, campaign = true, classic = false) {
-  const context = await browser.newContext({ viewport: { width, height }, hasTouch: width < 1000 });
+  const context = await browser.newContext({
+    locale: process.env.PLAYTEST_LANGUAGE ?? 'fr-CH',
+    viewport: { width, height },
+    hasTouch: width < 1000,
+  });
   const page = await context.newPage();
   let controlled = false;
   page.on('pageerror', (e) => errors.push(e.message));
@@ -30,7 +34,7 @@ async function main(profile, width = 1280, height = 800, campaign = true, classi
       status: document.querySelector('#app').dataset.status,
       wave: +document.querySelector('#wave').textContent,
       total: +document.querySelector('#wave-total').textContent,
-      gold: +document.querySelector('#gold').textContent,
+      gold: +document.querySelector('#gold').textContent.replace(/[^0-9.-]/g, ''),
       base: parseFloat(document.querySelector('#base').textContent),
       army: +document.querySelector('#army-count').textContent,
       message: document.querySelector('#message').textContent,

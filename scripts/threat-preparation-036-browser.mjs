@@ -17,7 +17,11 @@ async function ready(url) {
   }
 }
 async function pageAt(width, height, safe = [0, 0, 0, 0], devMode = false) {
-  const page = await browser.newPage({ viewport: { width, height }, hasTouch: width < 1000 });
+  const page = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width, height },
+    hasTouch: width < 1000,
+  });
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(devMode ? 'http://127.0.0.1:4364/' + fixture : 'http://127.0.0.1:4363');
   await page.evaluate((safe) => {
@@ -145,7 +149,6 @@ try {
       adviceBounds.y + adviceBounds.height <= bodyBounds.y + bodyBounds.height,
     'Mission advice visible without scrolling',
   );
-
   assert.equal(await late.locator('#mission-threats [data-threat="flying"]').count(), 1);
   assert.equal(await late.locator('#mission-advice').getAttribute('data-ally'), 'archer');
   assert.ok((await late.locator('#mission-other-threats [data-threat]').count()) > 0);

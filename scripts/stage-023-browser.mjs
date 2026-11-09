@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
-
 const before = process.argv.includes('--before');
 const file = '.stage-023-test.html';
 let server, browser;
@@ -33,6 +32,7 @@ try {
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   const page = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width: 1440, height: 1100 },
     reducedMotion: 'reduce',
   });
@@ -156,6 +156,7 @@ try {
     await page.locator('canvas').screenshot({ path: 'artifacts/stage-023/canvas-layout-1.png' });
     checks.canvas = true;
     const mobile = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width: 390, height: 844 },
       hasTouch: true,
       isMobile: true,

@@ -5,7 +5,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,5 +23,7 @@ jobs:
       - run: npm run test:interruptions
       - run: npm run test:offline
       - run: npm run test:presentation
+      - run: npm run test:tactical-clarity
+      - run: npm run test:locale
       - run: npm run build:portable
       - run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser

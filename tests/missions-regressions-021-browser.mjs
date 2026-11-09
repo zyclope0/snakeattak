@@ -8,7 +8,10 @@ import { createCareer } from '../src/progression.ts';
 import { writeFamilyBackup } from '../src/familyBackup.ts';
 const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
 try {
-  const page = await browser.newPage({ viewport: { width: 1100, height: 900 } });
+  const page = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 1100, height: 900 },
+  });
   await page.goto(process.env.GAME_URL);
   await page.locator('#home-screen').waitFor({ state: 'visible' });
   const profile = createMissionProgressController();

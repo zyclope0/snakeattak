@@ -1,8 +1,8 @@
+import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import './battleResult.css';
 import { defeatCopy, earnedStars } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
-
 /** Reuse the existing actions: only their presentation moves after a match. */
 export function bindBattleResult(session: Session) {
   const el = (id: string) => document.getElementById(id)!;
@@ -49,15 +49,21 @@ export function bindBattleResult(session: Session) {
       observed = null;
       return;
     }
-    el('battle-result-title').textContent = g.status === 'won' ? 'Bravo !' : defeatCopy(g).title;
+    setDisplayText(el('battle-result-title'), g.status === 'won' ? 'Bravo !' : defeatCopy(g).title);
     const earned = earnedStars(g);
     stars.hidden = !earned;
     if (earned) {
-      stars.textContent =
+      setDisplayText(
+        stars,
         earned.maximum === 3
           ? '★'.repeat(earned.count) + '☆'.repeat(3 - earned.count)
-          : `★ ${earned.count} / ${earned.maximum}`;
-      stars.setAttribute('aria-label', `${earned.count} étoiles gagnées sur ${earned.maximum}`);
+          : `★ ${earned.count} / ${earned.maximum}`,
+      );
+      setDisplayAttribute(
+        stars,
+        'aria-label',
+        `${earned.count} étoiles gagnées sur ${earned.maximum}`,
+      );
     }
     el('end-home').hidden = !!g.mission;
     el('battle-result-summary').hidden = !!g.mission;
@@ -73,8 +79,10 @@ export function bindBattleResult(session: Session) {
       restore(mission);
       restoreOrder();
       if (classic.parentNode !== content) content.append(classic);
-      el('battle-result-summary').textContent =
-        `${g.kills} serpents repoussés · cristal ${Math.ceil(g.base)} %`;
+      setDisplayText(
+        el('battle-result-summary'),
+        `${g.kills} serpents repoussés · cristal ${Math.ceil(g.base)} %`,
+      );
     }
     if (observed !== g) {
       observed = g;

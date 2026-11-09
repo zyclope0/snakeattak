@@ -10,7 +10,11 @@ const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] }
 const errors = [],
   external = [];
 async function pageFor(raw, viewport = { width: 1440, height: 1000 }) {
-  const c = await browser.newContext({ viewport, reducedMotion: 'reduce' });
+  const c = await browser.newContext({
+    locale: 'fr-CH',
+    viewport,
+    reducedMotion: 'reduce',
+  });
   if (raw)
     await c.addInitScript((raw) => {
       if (!localStorage.getItem('conquete-serpents:camp:v1')) {

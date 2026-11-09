@@ -6,7 +6,6 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
 import { encodeDeparture } from '../src/departures.ts';
 import { createMissionRun } from '../src/missions.ts';
-
 let server, browser;
 const key = 'conquete-serpents:family:v1';
 const version = JSON.parse(
@@ -35,6 +34,7 @@ try {
   const url = process.env.GAME_URL ?? 'http://127.0.0.1:4199';
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   const page = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width: 1440, height: 1100 },
     reducedMotion: 'reduce',
   });
@@ -141,6 +141,7 @@ try {
   assert.equal(JSON.parse(saved.missions.classicCamp).initialSeed, 42);
   await page.screenshot({ path: 'artifacts/departures-025/shared-mission.png', fullPage: true });
   const mobile = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width: 390, height: 844 },
     hasTouch: true,
     isMobile: true,

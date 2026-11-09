@@ -1,6 +1,6 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Game } from '../game.ts';
 import type { Effect } from '../game.ts';
-
 /** Small local synthesizer. No audio files, network calls or changes to game rules. */
 export function bindSounds() {
   const button = document.getElementById('sound-toggle') as HTMLButtonElement;
@@ -17,7 +17,7 @@ export function bindSounds() {
   let heard = new WeakSet<Effect>();
   let kingSeen = false;
   function label() {
-    button.textContent = enabled ? '♪ Sons activés' : '♪ Sons coupés';
+    setDisplayText(button, enabled ? '♪ Sons activés' : '♪ Sons coupés');
     button.setAttribute('aria-pressed', String(enabled));
   }
   function tone(
@@ -67,7 +67,7 @@ export function bindSounds() {
       label();
     } catch {
       enabled = false;
-      button.textContent = 'Sons indisponibles';
+      setDisplayText(button, 'Sons indisponibles');
       button.setAttribute('aria-pressed', 'false');
     }
   };

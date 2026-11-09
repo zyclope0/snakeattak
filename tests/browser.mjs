@@ -6,7 +6,10 @@ await mkdir('artifacts', { recursive: true });
 const gameUrl = process.env.GAME_URL;
 if (!gameUrl) throw new Error('Use npm run test:browser');
 const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+const page = await browser.newPage({
+  locale: 'fr-CH',
+  viewport: { width: 1440, height: 1000 },
+});
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (message) => {
@@ -165,7 +168,10 @@ if (await page.locator('#restart-dialog').isVisible())
 if ((await page.locator('[data-feast-flavor="lure"]').getAttribute('aria-pressed')) !== 'true')
   throw Error('Le choix collant persiste après nouvelle partie');
 for (const width of [1000, 820]) {
-  const tablet = await browser.newPage({ viewport: { width, height: 900 } });
+  const tablet = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width, height: 900 },
+  });
   await tablet.goto(gameUrl);
   await enterBattle(tablet);
   await tablet.locator('canvas').waitFor();
@@ -174,6 +180,7 @@ for (const width of [1000, 820]) {
   await tablet.close();
 }
 const mobile = await browser.newPage({
+  locale: 'fr-CH',
   viewport: { width: 390, height: 844 },
   isMobile: true,
   hasTouch: true,

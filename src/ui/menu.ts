@@ -1,3 +1,8 @@
+import {
+  setText as setDisplayText,
+  setTitle as setDisplayTitle,
+  setAttribute as setDisplayAttribute,
+} from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
 import type { createCareer } from '../progression.ts';
@@ -7,7 +12,6 @@ import type { Kind } from '../data.ts';
 import { portraitStyle, GROUND_ART } from '../art.ts';
 import { levelForWave } from '../levels.ts';
 import { chapterIdentityForWave } from '../waves.ts';
-
 type Career = ReturnType<typeof createCareer>;
 export function bindMenu(
   session: Session,
@@ -97,7 +101,7 @@ export function bindMenu(
     );
     button.addEventListener('pointerenter', preview);
     button.addEventListener('focus', preview);
-    el(`chapter-focus-${i}`).textContent = chapterIdentityForWave(i * 4 + 1).focus;
+    setDisplayText(el(`chapter-focus-${i}`), chapterIdentityForWave(i * 4 + 1).focus);
     button.onclick = () => {
       if (i === 0) {
         el('home-new').click();
@@ -122,7 +126,7 @@ export function bindMenu(
   ROSTER_NAMES.forEach((name, i) => {
     const o = document.createElement('option');
     o.value = String(i);
-    o.textContent = name;
+    setDisplayText(o, name);
     select.append(o);
   });
   const updateEditor = () => {
@@ -130,7 +134,7 @@ export function bindMenu(
       b.setAttribute('aria-pressed', String(draft.includes(k)));
       b.disabled = session.game.status === 'fighting';
     }
-    el('roster-count').textContent = `${draft.length} / 8 alliés favoris`;
+    setDisplayText(el('roster-count'), `${draft.length} / 8 alliés favoris`);
     el<HTMLButtonElement>('roster-save').disabled =
       draft.length !== 8 || session.game.status === 'fighting';
   };
@@ -146,8 +150,8 @@ export function bindMenu(
     portrait.className = 'portrait';
     portrait.style.cssText = portraitStyle(kind);
     portrait.setAttribute('aria-hidden', 'true');
-    name.textContent = d.name;
-    arrival.textContent = `Vague ${unlockWave[kind] ?? 1}`;
+    setDisplayText(name, d.name);
+    setDisplayText(arrival, `Vague ${unlockWave[kind] ?? 1}`);
     b.append(portrait, name, arrival);
     b.onclick = () => {
       if (session.game.status === 'fighting') return;
@@ -186,39 +190,48 @@ export function bindMenu(
   function refresh() {
     const state = career.state,
       g = session.game;
-    el('home-stars').textContent = `${state.bestStars.reduce((a, b) => a + b, 0)} / 9 étoiles`;
-    el('career-status').textContent = actions.progressStatus?.() ?? career.status;
+    setDisplayText(el('home-stars'), `${state.bestStars.reduce((a, b) => a + b, 0)} / 9 étoiles`);
+    setDisplayText(el('career-status'), actions.progressStatus?.() ?? career.status);
     el<HTMLButtonElement>('home-continue').hidden =
       !actions.hasCamp() || (!g.mission && g.status === 'won');
-    el('home-continue').textContent = g.mission
-      ? 'Reprendre mon aventure classique'
-      : g.status === 'lost'
-        ? 'Réessayer la vague'
-        : g.status === 'fighting'
-          ? `Continuer la bataille · vague ${g.wave}`
-          : `Continuer · vague ${Math.min(12, g.wave + 1)}`;
+    setDisplayText(
+      el('home-continue'),
+      g.mission
+        ? 'Reprendre mon aventure classique'
+        : g.status === 'lost'
+          ? 'Réessayer la vague'
+          : g.status === 'fighting'
+            ? `Continuer la bataille · vague ${g.wave}`
+            : `Continuer · vague ${Math.min(12, g.wave + 1)}`,
+    );
     el<HTMLButtonElement>('home-army').disabled = g.status === 'fighting';
-    el('home-army').title =
+    setDisplayTitle(
+      el('home-army'),
       g.status === 'fighting'
         ? 'Les favoris se préparent entre les vagues.'
-        : 'Préparer trois groupes de huit favoris.';
-    el('home-active-team').textContent = `Favoris · ${ROSTER_NAMES[state.activeRoster]}`;
-    el('home-sound').textContent =
+        : 'Préparer trois groupes de huit favoris.',
+    );
+    setDisplayText(el('home-active-team'), `Favoris · ${ROSTER_NAMES[state.activeRoster]}`);
+    setDisplayText(
+      el('home-sound'),
       el('sound-toggle').getAttribute('aria-pressed') === 'true'
         ? '♪ Sons activés'
-        : '♪ Sons coupés';
+        : '♪ Sons coupés',
+    );
     for (let i = 0; i < 3; i++) {
       const n = state.bestStars[i];
-      el(`chapter-stars-${i}`).textContent = '★'.repeat(n) + '☆'.repeat(3 - n);
-      el(`chapter-stars-${i}`).setAttribute('aria-label', `${n} étoiles sur 3`);
+      setDisplayText(el(`chapter-stars-${i}`), '★'.repeat(n) + '☆'.repeat(3 - n));
+      setDisplayAttribute(el(`chapter-stars-${i}`), 'aria-label', `${n} étoiles sur 3`);
       const available = i === 0 || state.chapterCamps[i - 1] !== null;
       el<HTMLButtonElement>(`chapter-${i}`).disabled = !available;
-      el(`chapter-action-${i}`).textContent =
+      setDisplayText(
+        el(`chapter-action-${i}`),
         i === 0
           ? 'Commencer ici'
           : available
             ? 'Rejouer depuis mon camp'
-            : 'À découvrir dans l’aventure';
+            : 'À découvrir dans l’aventure',
+      );
     }
   }
   refresh();

@@ -47,6 +47,7 @@ async function page(
   { viewport = { width: 1440, height: 1000 }, legacy, blocked = false } = {},
 ) {
   const c = await browser.newContext({
+    locale: 'fr-CH',
     viewport,
     reducedMotion: 'reduce',
     acceptDownloads: true,

@@ -48,6 +48,7 @@ try {
   if (chosen && !scenarios.includes(chosen)) throw Error('Unknown presentation scenario');
   for (const scenario of chosen ? [chosen] : scenarios) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width: 1440, height: 1100 },
       reducedMotion: scenario === 'won' ? 'reduce' : 'no-preference',
     });

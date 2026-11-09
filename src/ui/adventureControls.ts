@@ -1,3 +1,4 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import { heroTrainingState } from './campToolModel.ts';
 import type { Session } from '../session.ts';
 export function bindAdventureControls(session: Session, refresh: () => void) {
@@ -22,14 +23,16 @@ export function bindAdventureControls(session: Session, refresh: () => void) {
       g.status !== 'fighting' ||
       g.encouragementUsed ||
       !g.units.some((u) => u.kind !== 'wall' && u.kind !== 'medic' && u.kind !== 'nurse');
-    status.textContent =
+    setDisplayText(
+      status,
       g.encouragementRemaining > 0
         ? `Encouragés · ${Math.ceil(g.encouragementRemaining)} s`
         : g.encouragementUsed
           ? 'Revient à la prochaine vague'
-          : '1 fois par vague · attaques plus rapides pendant 8 s';
+          : '1 fois par vague · attaques plus rapides pendant 8 s',
+    );
     const training = heroTrainingState(g);
     for (const b of choices) b.disabled = g.paused || !training.ready;
-    document.getElementById('training-status')!.textContent = training.status;
+    setDisplayText(document.getElementById('training-status')!, training.status);
   };
 }
