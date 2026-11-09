@@ -837,16 +837,22 @@
       ><small>Aventure familiale · Sauvegarde locale entre les vagues</small>
     </dialog>
     <dialog id="unit-dialog" aria-labelledby="guide-name">
-      <button class="close" id="close-unit-guide" aria-label="Fermer le guide">✕</button
-      ><span class="eyebrow">Nos alliés</span>
-      <div class="guide-heading">
-        <span id="guide-portrait" class="portrait" aria-hidden="true"></span>
-        <h2 id="guide-name">Nos alliés</h2>
+      <div class="unit-guide-header">
+        <button class="close" id="close-unit-guide" aria-label="Fermer le guide">✕</button>
+        <span class="eyebrow">Nos alliés</span>
+        <div class="guide-heading">
+          <span id="guide-portrait" class="portrait" aria-hidden="true"></span>
+          <h2 id="guide-name">Nos alliés</h2>
+        </div>
       </div>
-      <label for="guide-select">Découvrir une unité</label
-      ><select id="guide-select"></select>
-      <p id="guide-ability"></p>
-      <div id="guide-stats"></div>
+      <div class="unit-guide-body">
+        <div class="unit-guide-overview">
+          <label for="guide-select">Découvrir une unité</label>
+          <select id="guide-select"></select>
+          <p id="guide-ability"></p>
+        </div>
+        <div id="guide-stats"></div>
+      </div>
       <small>Chaque allié a son rôle. À toi de composer tes favoris.</small>
     </dialog>
     <dialog id="camp-tool-dialog" aria-labelledby="camp-tool-title">

@@ -1,0 +1,102 @@
+/* A short landscape uses its width to show the unit, not a desktop-size stack. */
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  #unit-dialog {
+    width: min(680px, calc(100% - 24px - var(--app-safe-left) - var(--app-safe-right)));
+    max-width: 680px;
+    max-height: calc(var(--app-height) - 24px);
+    padding: 0;
+    overflow: hidden;
+  }
+  #unit-dialog[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  #unit-dialog .unit-guide-header {
+    position: relative;
+    flex: 0 0 auto;
+    padding: 10px 18px;
+    background: var(--paper);
+  }
+  #unit-dialog .unit-guide-header > .eyebrow {
+    display: none;
+  }
+  #unit-dialog .guide-heading {
+    gap: 10px;
+    margin: 0 56px 0 0;
+  }
+  #unit-dialog .guide-heading .portrait {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+  }
+  #unit-dialog .guide-heading h2 {
+    font-size: 24px;
+  }
+  #unit-dialog .close {
+    top: 10px;
+    right: 12px;
+    width: 48px;
+    min-height: 48px;
+  }
+  #unit-dialog .unit-guide-body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: start;
+    gap: 18px;
+    padding: 0 18px 10px;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+  }
+  #unit-dialog .unit-guide-overview {
+    min-width: 0;
+  }
+  #unit-dialog .unit-guide-overview label {
+    margin: 0 0 4px;
+    font-size: 12px;
+  }
+  #unit-dialog #guide-select {
+    min-height: 48px;
+    max-width: 100%;
+  }
+  #unit-dialog #guide-ability {
+    margin: 8px 0 0;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  #unit-dialog #guide-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 12px;
+  }
+  #unit-dialog #guide-stats > div {
+    min-width: 0;
+    padding: 5px 0;
+  }
+  #unit-dialog #guide-stats > div:nth-child(2) {
+    grid-column: span 2;
+  }
+  #unit-dialog #guide-stats small {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  #unit-dialog #guide-stats strong {
+    font-size: 13px;
+    line-height: 1.25;
+    margin-top: 2px;
+  }
+  #unit-dialog > small {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 8px 18px;
+    border-top: 1px solid #c4cfb8;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+}
+@media (max-width: 600px) and (max-height: 520px) and (orientation: landscape) {
+  #unit-dialog .unit-guide-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+}
