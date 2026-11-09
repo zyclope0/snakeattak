@@ -1,6 +1,11 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Notice } from '../render/presentation.ts';
-export type BattleGuide = { title: string; subtitle: string; priority?: number };
-
+export type BattleGuide = {
+  title: string;
+  subtitle: string;
+  compact?: string;
+  priority?: number;
+};
 /** Placement stays actionable; a short urgent fact can outrank a longer flash. */
 export function chooseBattleMessage(notice: Notice | null, guide: BattleGuide, placing: boolean) {
   const visible = !placing && notice && (guide.priority ?? -1) <= notice.priority ? notice : null;
@@ -21,19 +26,24 @@ export function bindBattleNotices(
   let previous = '';
   let previousAnnouncement = '';
   return (notice: Notice | null) => {
-    const { content, tone } = chooseBattleMessage(notice, getGuide(), forceGuide());
+    const guide = getGuide(),
+      placing = forceGuide();
+    const { content, tone } = chooseBattleMessage(notice, guide, placing);
     // The former Phaser flash was independent of the separate placement coach.
-    const title = notice?.title ?? '';
+    // Keep short events visible during placement; restore the compact gesture
+    // as soon as the event clears. Both share one non-interactive bottom line.
+    const title = notice?.title ?? (placing ? (guide.compact ?? guide.title) : '');
+    announcement.classList.toggle('placement-instruction', placing && !notice);
     if (title !== previousAnnouncement) {
       previousAnnouncement = title;
-      announcement.textContent = title;
+      setDisplayText(announcement, title);
       announcement.hidden = !title;
     }
     const key = `${tone}:${content.title}:${content.subtitle}`;
     if (key === previous) return;
     previous = key;
     panel.dataset.tone = tone;
-    document.getElementById('encounter-title')!.textContent = content.title;
-    document.getElementById('encounter-tip')!.textContent = content.subtitle;
+    setDisplayText(document.getElementById('encounter-title')!, content.title);
+    setDisplayText(document.getElementById('encounter-tip')!, content.subtitle);
   };
 }

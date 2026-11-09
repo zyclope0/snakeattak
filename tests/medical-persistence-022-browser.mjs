@@ -18,6 +18,7 @@ async function state(p) {
 try {
   for (const phase of ['ready', 'returning', 'restocking']) {
     const context = await browser.newContext({
+      locale: 'fr-CH',
       viewport: { width: 390, height: 844 },
       acceptDownloads: true,
     });

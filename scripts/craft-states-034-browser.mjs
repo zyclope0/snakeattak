@@ -39,6 +39,7 @@ try {
     [812, 375],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width, height },
       hasTouch: width === 812,
       reducedMotion: 'reduce',
@@ -133,9 +134,12 @@ try {
     });
     await page.close();
   }
-
   // Fail a real scenery request, then recover through the shipped retry control.
-  const failed = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+  const failed = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 812, height: 375 },
+    hasTouch: true,
+  });
   failed.on('pageerror', (e) => errors.push(e.message));
   await failed.route('**/*scenery-marsh*.webp', (route) => route.abort());
   await failed.goto(`${root}/${fixture}?layout=1`);
@@ -156,9 +160,11 @@ try {
     pass: true,
   });
   await failed.close();
-
   // Hold the new chapter texture: the old cached terrain must remain until ready.
-  const transition = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const transition = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 1280, height: 800 },
+  });
   transition.on('pageerror', (e) => errors.push(e.message));
   let release;
   const gate = new Promise((resolve) => {

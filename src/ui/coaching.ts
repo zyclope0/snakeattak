@@ -1,4 +1,5 @@
-import { victoryCopy } from '../render/resultCopy.ts';
+import { victoryCopy, defeatCopy } from '../render/resultCopy.ts';
+import { placementAdvice } from './placementAdvice.ts';
 import { roleDescription } from '../defenders.ts';
 import type { Session } from '../session.ts';
 import { kinds } from '../data.ts';
@@ -42,15 +43,11 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
   if (session.selected)
     return {
       title: `2 · Place ton ${kinds[session.selected].name.toLowerCase()}`,
-      subtitle:
-        'Touche une place libre dans ton camp, à droite. ' + roleDescription(session.selected),
+      subtitle: placementAdvice(session.selected).hint,
+      compact: placementAdvice(session.selected).compactHint,
     };
   if (game.status === 'won') return victoryCopy(game);
-  if (game.status === 'lost')
-    return {
-      title: 'Une autre stratégie ?',
-      subtitle: 'Consulte le statut de sauvegarde ou commence une nouvelle aventure.',
-    };
+  if (game.status === 'lost') return defeatCopy(game);
   if (game.wave === 0 && !session.hasPlaced)
     return {
       title: '1 · Choisis ton premier allié',

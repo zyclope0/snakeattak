@@ -7,7 +7,10 @@ const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] }
 const errors = [],
   external = [];
 try {
-  const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  const p = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 1440, height: 900 },
+  });
   p.on('pageerror', (e) => errors.push(e.message));
   p.on('request', (r) => {
     if (
@@ -81,7 +84,11 @@ try {
     [320, 740, 'small-mobile'],
     [844, 390, 'phone-landscape'],
   ]) {
-    const page = await browser.newPage({ viewport: { width, height }, hasTouch: true });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width, height },
+      hasTouch: true,
+    });
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(process.env.GAME_URL);
     await enterBattle(page);

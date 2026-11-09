@@ -6,7 +6,6 @@ import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
-
 const strict = process.argv.includes('--strict');
 const lot1Only = process.argv.includes('--lot1');
 const PORT = 4310;
@@ -22,7 +21,6 @@ const check = (name, ok, value, target) => {
   });
   console.log(`${ok ? 'OK  ' : 'ÉCART'} ${name} : ${JSON.stringify(value)} (cible : ${target})`);
 };
-
 async function toBattle(page) {
   await page.goto(URL, { waitUntil: 'load' });
   await page.waitForSelector('#home-screen:not([hidden])');
@@ -37,7 +35,6 @@ async function toBattle(page) {
   );
   await page.waitForTimeout(800);
 }
-
 let server, browser;
 try {
   server = spawn(process.execPath, [
@@ -59,14 +56,16 @@ try {
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   const errors = [];
-
   // 1-2. Ordinateur : défilement remis en haut et plateau entier visible
   for (const [w, h] of [
     [1280, 800],
     [1366, 768],
     [1920, 1080],
   ]) {
-    const ctx = await browser.newContext({ viewport: { width: w, height: h } });
+    const ctx = await browser.newContext({
+      locale: 'fr-CH',
+      viewport: { width: w, height: h },
+    });
     const page = await ctx.newPage();
     page.on('pageerror', (e) => errors.push(e.message));
     await toBattle(page);
@@ -104,10 +103,10 @@ try {
     }
     await ctx.close();
   }
-
   // 4. Téléphone paysage : cibles tactiles du HUD
   {
     const ctx = await browser.newContext({
+      locale: 'fr-CH',
       viewport: { width: 812, height: 375 },
       isMobile: true,
       hasTouch: true,
@@ -157,10 +156,10 @@ try {
     check('plateau en paysage téléphone (% hauteur)', board.h >= 85, board, '≥ 85 % de la hauteur');
     await ctx.close();
   }
-
   // 5. Portrait : consigne de rotation
   {
     const ctx = await browser.newContext({
+      locale: 'fr-CH',
       viewport: { width: 375, height: 812 },
       isMobile: true,
       hasTouch: true,
@@ -175,10 +174,12 @@ try {
     check('consigne « Tourne ton téléphone » en portrait', notice, notice, 'visible');
     await ctx.close();
   }
-
   // 6. Nouveau tirage : terrain toujours différent
   {
-    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const ctx = await browser.newContext({
+      locale: 'fr-CH',
+      viewport: { width: 1280, height: 800 },
+    });
     const page = await ctx.newPage();
     await page.goto(URL, { waitUntil: 'load' });
     await page.waitForSelector('#home-screen:not([hidden])');
@@ -195,7 +196,6 @@ try {
     check('nouveau tirage : terrain répété', repeats === 0, repeats, '0 sur 10');
     await ctx.close();
   }
-
   check('erreurs JavaScript', errors.length === 0, errors.slice(0, 5), 'aucune');
   await mkdir('reports', { recursive: true });
   await writeFile('reports/audit-2026-11-after-lot2.json', JSON.stringify(report, null, 2));

@@ -1,0 +1,44 @@
+.language-picker {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.language-select {
+  min-height: 48px;
+  min-width: 88px;
+  max-width: 120px;
+  padding: 6px 8px;
+  border: 1px solid #9caf9b;
+  border-radius: 10px;
+  background: #edf0df;
+  color: #193f35;
+  font: inherit;
+  font-size: 13px;
+}
+.home-header {
+  flex-wrap: wrap;
+}
+#pause-overlay .language-picker {
+  margin: 8px auto 0;
+}
+.boot-loading {
+  position: fixed;
+  inset: 45% auto auto 50%;
+  transform: translateX(-50%);
+  padding: 16px;
+  border-radius: 12px;
+  background: #f3eedc;
+  color: #193f35;
+  z-index: 50;
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  #pause-overlay > div {
+    padding: 12px;
+  }
+  #pause-overlay > div > span {
+    display: none;
+  }
+  #pause-overlay p {
+    margin: 4px 0;
+  }
+}

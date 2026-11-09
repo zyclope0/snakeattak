@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
-
 // Exercise test entry points against production HTML, whose battle root starts hidden.
 const harnesses = [
   'mobile-031',
@@ -45,7 +44,10 @@ try {
         `src="/tests/${harness}-harness.ts"`,
       ),
     );
-    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width: 1280, height: 800 },
+    });
     page.on('pageerror', (e) => errors.push(`${harness}: ${e.message}`));
     await page.goto(`${origin}/${fixture}?scenario=refuge`);
     await page.waitForSelector('canvas', { state: 'attached' });

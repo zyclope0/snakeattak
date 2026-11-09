@@ -1,7 +1,7 @@
+import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import { FrameMetrics } from './frameMetrics.ts';
 import { PerformanceRecording } from './performanceRecording.ts';
 import type { pauseForDialog } from '../ui/dialogs.ts';
-
 /** Explicit local opt-in. No network or persistence. Reading owns a temporary UI pause. */
 export class DevPerformance {
   private metrics = new FrameMetrics();
@@ -12,26 +12,36 @@ export class DevPerformance {
   private report: HTMLTextAreaElement;
   private lastFrame = 0;
   private lastLabel = 0;
-  private context: { mission: string; wave: number } = { mission: '', wave: 0 };
+  private context: {
+    mission: string;
+    wave: number;
+  } = { mission: '', wave: 0 };
   private modal: ReturnType<typeof pauseForDialog>;
   private observedGame?: object;
-  private startContext: { mission: string; wave: number } | null = null;
+  private startContext: {
+    mission: string;
+    wave: number;
+  } | null = null;
   constructor(
     private parent: HTMLElement,
     bindDialog: (dialog: HTMLDialogElement) => ReturnType<typeof pauseForDialog>,
-    private readContext: () => { identity: object; mission: string; wave: number },
+    private readContext: () => {
+      identity: object;
+      mission: string;
+      wave: number;
+    },
   ) {
     this.panel = document.createElement('div');
     this.panel.className = 'performance-panel';
     this.output = document.createElement('output');
     this.output.dataset.performance = 'local';
     this.output.setAttribute('aria-live', 'off');
-    this.output.textContent = 'Mesure…';
+    setDisplayText(this.output, 'Mesure…');
     this.panel.append(this.output);
     const button = (label: string, action: () => void, container: HTMLElement) => {
       const el = document.createElement('button');
       el.type = 'button';
-      el.textContent = label;
+      setDisplayText(el, label);
       el.onclick = action;
       container.append(el);
       return el;
@@ -40,10 +50,10 @@ export class DevPerformance {
     this.dialog.className = 'performance-dialog';
     this.modal = bindDialog(this.dialog);
     const title = document.createElement('h2');
-    title.textContent = 'Relevé local de performance';
+    setDisplayText(title, 'Relevé local de performance');
     this.report = document.createElement('textarea');
     this.report.readOnly = true;
-    this.report.setAttribute('aria-label', 'Rapport à copier');
+    setDisplayAttribute(this.report, 'aria-label', 'Rapport à copier');
     this.dialog.append(title, this.report);
     button(
       'Sélectionner le relevé',
@@ -92,7 +102,13 @@ export class DevPerformance {
   }
   snapshot() {
     this.syncContext();
-    const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
+    const memory = (
+      performance as Performance & {
+        memory?: {
+          usedJSHeapSize: number;
+        };
+      }
+    ).memory;
     const loadMs = Number(this.parent.dataset.loadDurationMs);
     return {
       version: document.querySelector('[data-app-version]')?.textContent ?? null,
@@ -126,7 +142,10 @@ export class DevPerformance {
     if (now - this.lastLabel < 500) return;
     const s = this.metrics.snapshot(),
       r = this.recording.snapshot();
-    this.output.textContent = `${s.fps.toFixed(0)} FPS · méd. ${r.fpsMedian?.toFixed(0) ?? '—'} / min. ${r.fpsMin?.toFixed(0) ?? '—'} · Maj. ${s.updateP95Ms.toFixed(1)} ms p95`;
+    setDisplayText(
+      this.output,
+      `${s.fps.toFixed(0)} FPS · méd. ${r.fpsMedian?.toFixed(0) ?? '—'} / min. ${r.fpsMin?.toFixed(0) ?? '—'} · Maj. ${s.updateP95Ms.toFixed(1)} ms p95`,
+    );
     this.output.dataset.activeMs = String(r.activeMs);
     this.lastLabel = now;
   }

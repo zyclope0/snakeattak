@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { writeFile, mkdir, readFile, unlink } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
-
 let browser, server;
 const errors = [],
   result = {};
@@ -31,6 +30,7 @@ try {
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   await launch(false);
   const page = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width: 1200, height: 900 },
     reducedMotion: 'no-preference',
   });
@@ -117,6 +117,7 @@ try {
   server = undefined;
   await launch(true);
   const mobile = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width: 390, height: 844 },
     hasTouch: true,
     isMobile: true,

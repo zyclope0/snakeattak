@@ -1,0 +1,6 @@
+
+> conquete-serpents@0.35.0 test:missions
+> node scripts/missions-browser.mjs
+
+  ➜  Local:   http://127.0.0.1:4192/
+Missions: carte, variantes, retry, modes, recharge, export, victoire, suite, petits écrans OK.

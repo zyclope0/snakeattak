@@ -4,7 +4,6 @@ import { readFile, writeFile, mkdir, unlink } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
-
 const before = process.argv.includes('--before');
 const file = '.performance-024-test.html',
   phase = before ? 'before' : 'after';
@@ -47,6 +46,7 @@ try {
     results = [];
   for (const canvas of [false, true]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width: 1280, height: 1000 },
       reducedMotion: 'reduce',
     });

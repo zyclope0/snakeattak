@@ -6,7 +6,6 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
 import { encodeDeparture } from '../src/departures.ts';
-
 const point = Number(process.argv[2] ?? 0);
 const url = process.env.GAME_URL ?? 'http://127.0.0.1:4327';
 const results = [];
@@ -34,6 +33,7 @@ async function mission(page) {
 }
 async function newPage(width, height, touch = false) {
   const page = await browser.newPage({
+    locale: 'fr-CH',
     viewport: { width, height },
     hasTouch: touch,
     isMobile: touch,
@@ -44,7 +44,11 @@ async function newPage(width, height, touch = false) {
 }
 const checks = {
   async 7() {
-    const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, bypassCSP: true });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width: 1280, height: 800 },
+      bypassCSP: true,
+    });
     await home(page);
     await page.addScriptTag({ path: 'node_modules/axe-core/axe.min.js' });
     const audit = await page.evaluate(async () =>
@@ -68,7 +72,6 @@ const checks = {
     });
     await page.close();
   },
-
   async 6() {
     const page = await newPage(812, 375, true);
     await mission(page);
@@ -110,7 +113,6 @@ const checks = {
     results.push({ point: 6, controls });
     await page.close();
   },
-
   async 4() {
     for (const [width, height] of [
       [812, 375],
@@ -148,7 +150,6 @@ const checks = {
       await page.close();
     }
   },
-
   async 3() {
     for (const [width, height, touch] of [
       [1280, 800, false],
@@ -188,7 +189,6 @@ const checks = {
       await page.close();
     }
   },
-
   async 2() {
     for (const [width, height] of [
       [1280, 800],
@@ -240,7 +240,6 @@ const checks = {
     assert.equal(await gift.locator('#reward-panel').isVisible(), false);
     await gift.close();
   },
-
   async 1() {
     for (const [width, height] of [
       [1280, 800],

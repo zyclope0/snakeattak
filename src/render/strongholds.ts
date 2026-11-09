@@ -1,9 +1,9 @@
+import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import { LANES } from '../ai.ts';
 import type { Game } from '../game.ts';
 import type { Presentation } from './presentation.ts';
 import { stageTheme, STAGE_SIZES } from './stageLayout.ts';
-
 /** Live stage props observe presentation signals; never create or redirect monsters. */
 export class Strongholds {
   private dens: Phaser.GameObjects.Image[];
@@ -30,14 +30,13 @@ export class Strongholds {
       .setFlipX(true)
       // Every legal defender stays visible, including placements beside the gate.
       .setDepth(9.6);
-    this.label = scene.add
-      .text(1016, 399, '', {
-        fontFamily: 'Georgia',
-        fontSize: '11px',
-        color: '#f5edcd',
-        backgroundColor: '#293f32',
-        padding: { x: 7, y: 4 },
-      })
+    this.label = addCanvasCopy(scene.add, 1016, 399, '', {
+      fontFamily: 'Georgia',
+      fontSize: '11px',
+      color: '#f5edcd',
+      backgroundColor: '#293f32',
+      padding: { x: 7, y: 4 },
+    })
       .setOrigin(0.5)
       .setDepth(15.2);
   }
@@ -103,9 +102,9 @@ export class Strongholds {
       );
     if (this.shownBase !== Math.ceil(game.base)) {
       this.shownBase = Math.ceil(game.base);
-      this.label
-        .setText(`REFUGE · ${this.shownBase} %`)
-        .setColor(game.base <= 25 ? '#ffd19c' : '#f5edcd');
+      setCanvasCopy(this.label, `REFUGE · ${this.shownBase} %`).setColor(
+        game.base <= 25 ? '#ffd19c' : '#f5edcd',
+      );
     }
     detail.fillStyle(0x263b2d, 0.95);
     detail.fillRoundedRect(960, 380, 112, 8, 4);

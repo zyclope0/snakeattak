@@ -4,7 +4,6 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
-
 // Catches a return of the desktop catalogue, a smaller/clipped board, duplicate
 // notices over the top lane, or a clipped/substituted approved home illustration.
 // 0.33.1 replaces three atlas actors with the intact retained icon. The old
@@ -51,6 +50,7 @@ try {
     [780, 360, true],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width, height },
       hasTouch: touch,
       isMobile: touch,
@@ -58,6 +58,8 @@ try {
     });
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(base);
+    await page.locator('#home-screen').waitFor({ state: 'visible' });
+    await page.locator('.home-icon').evaluate((img) => img.decode());
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: `${captures}/accueil-${width}x${height}.png` });
     await check(`approved intact home image ${width}x${height}`, async () => {
@@ -198,7 +200,10 @@ try {
     [1101, 520],
     [1280, 800],
   ]) {
-    const page = await browser.newPage({ viewport: { width, height } });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width, height },
+    });
     await page.goto(base);
     await page.locator('#home-play').click();
     await page.locator('#mission-launch').click();
@@ -269,7 +274,9 @@ try {
     if (n > 100) throw Error('Notice server unavailable');
     await delay(100);
   }
-  const noticePage = await browser.newPage();
+  const noticePage = await browser.newPage({
+    locale: 'fr-CH',
+  });
   await noticePage.route('**/notice-check.html', (route) =>
     route.fulfill({
       contentType: 'text/html; charset=utf-8',
@@ -278,7 +285,7 @@ try {
   );
   await noticePage.goto('http://127.0.0.1:4383/notice-check.html');
   await noticePage.waitForFunction(() => !!window.noticeCheck);
-  await check('egg event remains visible alongside placement guide', async () => {
+  await check('egg event remains visible, then restores the compact placement guide', async () => {
     await noticePage.evaluate(() =>
       window.noticeCheck({
         kind: 'egg',
@@ -296,8 +303,15 @@ try {
     );
     assert.equal(await noticePage.locator('#encounter-title').textContent(), 'Place ton allié');
     await noticePage.evaluate(() => window.noticeCheck(null));
-    assert.equal(await noticePage.locator('#battle-announcement').isVisible(), false);
-    return 'event appears once; separate placement guide preserved; event clears';
+    assert.equal(await noticePage.locator('#battle-announcement').isVisible(), true);
+    assert.equal(await noticePage.locator('#battle-announcement').textContent(), 'Place ton allié');
+    assert.equal(
+      await noticePage
+        .locator('#battle-announcement')
+        .evaluate((e) => e.classList.contains('placement-instruction')),
+      true,
+    );
+    return 'event appears once; separate coach preserved; compact instruction returns when the event clears';
   });
   await noticePage.close();
   assert.deepEqual(errors, []);

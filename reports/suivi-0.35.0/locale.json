@@ -1,0 +1,2657 @@
+{
+  "checks": [
+    {
+      "name": "actual-fr-1280x800: document brand",
+      "pass": true,
+      "detail": "La Conquête des Serpents"
+    },
+    {
+      "name": "actual-fr-1280x800: visible brand",
+      "pass": true,
+      "detail": "La Conquête\ndes Serpents\nv0.35.0"
+    },
+    {
+      "name": "actual-fr-1280x800: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-1280x800: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 1116,
+        "y": 22,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-1280x800: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-1280x800: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-1280x800: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 591.484375,
+        "y": 460.90625,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-1280x800: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1280x800: document brand",
+      "pass": true,
+      "detail": "Snake Attack TD"
+    },
+    {
+      "name": "actual-en-1280x800: visible brand",
+      "pass": true,
+      "detail": "Snake Attack\nTD\nv0.35.0"
+    },
+    {
+      "name": "actual-en-1280x800: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1280x800: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 1116,
+        "y": 22,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-1280x800: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-1280x800: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1280x800: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1280x800: preview and threats: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-1280x800: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 572.484375,
+        "y": 460.90625,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-1280x800: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1280x800: paused battle: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-fr-1366x768: document brand",
+      "pass": true,
+      "detail": "La Conquête des Serpents"
+    },
+    {
+      "name": "actual-fr-1366x768: visible brand",
+      "pass": true,
+      "detail": "La Conquête\ndes Serpents\nv0.35.0"
+    },
+    {
+      "name": "actual-fr-1366x768: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-1366x768: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 1159,
+        "y": 22,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-1366x768: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-1366x768: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-1366x768: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 634.484375,
+        "y": 485.140625,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-1366x768: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1366x768: document brand",
+      "pass": true,
+      "detail": "Snake Attack TD"
+    },
+    {
+      "name": "actual-en-1366x768: visible brand",
+      "pass": true,
+      "detail": "Snake Attack\nTD\nv0.35.0"
+    },
+    {
+      "name": "actual-en-1366x768: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1366x768: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 1159,
+        "y": 22,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-1366x768: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-1366x768: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1366x768: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1366x768: preview and threats: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-1366x768: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 615.484375,
+        "y": 485.140625,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-1366x768: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-1366x768: paused battle: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-fr-812x375: document brand",
+      "pass": true,
+      "detail": "La Conquête des Serpents"
+    },
+    {
+      "name": "actual-fr-812x375: visible brand",
+      "pass": true,
+      "detail": "La Conquête\ndes Serpents\nv0.35.0"
+    },
+    {
+      "name": "actual-fr-812x375: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-812x375: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 708,
+        "y": 4,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-812x375: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-812x375: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-812x375: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 335.578125,
+        "y": 225.984375,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-812x375: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-812x375: document brand",
+      "pass": true,
+      "detail": "Snake Attack TD"
+    },
+    {
+      "name": "actual-en-812x375: visible brand",
+      "pass": true,
+      "detail": "Snake Attack\nTD\nv0.35.0"
+    },
+    {
+      "name": "actual-en-812x375: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-en-812x375: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 708,
+        "y": 4,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-812x375: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-812x375: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-en-812x375: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-en-812x375: preview and threats: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-812x375: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 316.578125,
+        "y": 225.984375,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-812x375: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-812x375: paused battle: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-fr-780x360: document brand",
+      "pass": true,
+      "detail": "La Conquête des Serpents"
+    },
+    {
+      "name": "actual-fr-780x360: visible brand",
+      "pass": true,
+      "detail": "La Conquête\ndes Serpents\nv0.35.0"
+    },
+    {
+      "name": "actual-fr-780x360: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-780x360: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 676,
+        "y": 4,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-780x360: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-780x360: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-780x360: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 322.265625,
+        "y": 218.484375,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-780x360: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-780x360: document brand",
+      "pass": true,
+      "detail": "Snake Attack TD"
+    },
+    {
+      "name": "actual-en-780x360: visible brand",
+      "pass": true,
+      "detail": "Snake Attack\nTD\nv0.35.0"
+    },
+    {
+      "name": "actual-en-780x360: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-en-780x360: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 676,
+        "y": 4,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-780x360: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-780x360: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-en-780x360: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-en-780x360: preview and threats: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-780x360: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 303.265625,
+        "y": 218.484375,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-780x360: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-780x360: paused battle: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-fr-568x320: document brand",
+      "pass": true,
+      "detail": "La Conquête des Serpents"
+    },
+    {
+      "name": "actual-fr-568x320: visible brand",
+      "pass": true,
+      "detail": "La Conquête\ndes Serpents\nv0.35.0"
+    },
+    {
+      "name": "actual-fr-568x320: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-568x320: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 464,
+        "y": 4,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-568x320: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-568x320: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-568x320: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 241.484375,
+        "y": 193.953125,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-568x320: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320: document brand",
+      "pass": true,
+      "detail": "Snake Attack TD"
+    },
+    {
+      "name": "actual-en-568x320: visible brand",
+      "pass": true,
+      "detail": "Snake Attack\nTD\nv0.35.0"
+    },
+    {
+      "name": "actual-en-568x320: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 464,
+        "y": 4,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-568x320: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-568x320: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320: preview and threats: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-568x320: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 222.484375,
+        "y": 193.953125,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-568x320: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320: paused battle: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-fr-568x320-safe: document brand",
+      "pass": true,
+      "detail": "La Conquête des Serpents"
+    },
+    {
+      "name": "actual-fr-568x320-safe: visible brand",
+      "pass": true,
+      "detail": "La Conquête\ndes Serpents\nv0.35.0"
+    },
+    {
+      "name": "actual-fr-568x320-safe: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-568x320-safe: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 432,
+        "y": 28,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-568x320-safe: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-568x320-safe: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-568x320-safe: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 225.484375,
+        "y": 208.9375,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-568x320-safe: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320-safe: document brand",
+      "pass": true,
+      "detail": "Snake Attack TD"
+    },
+    {
+      "name": "actual-en-568x320-safe: visible brand",
+      "pass": true,
+      "detail": "Snake Attack\nTD\nv0.35.0"
+    },
+    {
+      "name": "actual-en-568x320-safe: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320-safe: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 432,
+        "y": 28,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-568x320-safe: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-568x320-safe: native switching keeps document",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320-safe: first mission has canonical code",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320-safe: preview and threats: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-568x320-safe: pause selector fits",
+      "pass": true,
+      "detail": {
+        "x": 206.484375,
+        "y": 208.9375,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-568x320-safe: switch preserves pause",
+      "pass": true
+    },
+    {
+      "name": "actual-en-568x320-safe: paused battle: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-fr-375x812: document brand",
+      "pass": true,
+      "detail": "La Conquête des Serpents"
+    },
+    {
+      "name": "actual-fr-375x812: visible brand",
+      "pass": true,
+      "detail": "La Conquête\ndes Serpents\nv0.35.0"
+    },
+    {
+      "name": "actual-fr-375x812: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-fr-375x812: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 12,
+        "y": 75,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-fr-375x812: portrait has rotation guidance",
+      "pass": true
+    },
+    {
+      "name": "actual-en-375x812: document brand",
+      "pass": true,
+      "detail": "Snake Attack TD"
+    },
+    {
+      "name": "actual-en-375x812: visible brand",
+      "pass": true,
+      "detail": "Snake Attack\nTD\nv0.35.0"
+    },
+    {
+      "name": "actual-en-375x812: native home selector",
+      "pass": true
+    },
+    {
+      "name": "actual-en-375x812: home selector fits",
+      "pass": true,
+      "detail": {
+        "x": 12,
+        "y": 75,
+        "width": 88,
+        "height": 48
+      }
+    },
+    {
+      "name": "actual-en-375x812: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "actual-en-375x812: portrait has rotation guidance",
+      "pass": true
+    },
+    {
+      "name": "actual-en-375x812: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide has all 21 canonical unit choices",
+      "pass": true,
+      "detail": [
+        "club",
+        "hero",
+        "ninja",
+        "medic",
+        "archer",
+        "dragon",
+        "dino",
+        "raptor",
+        "triceratops",
+        "stegosaurus",
+        "trex",
+        "mutantRock",
+        "mutantStretch",
+        "shield",
+        "bat",
+        "nurse",
+        "knight",
+        "cavalry",
+        "twohead",
+        "tank",
+        "wall"
+      ]
+    },
+    {
+      "name": "guide club: stable canonical value and English name",
+      "pass": true,
+      "detail": "Clubber"
+    },
+    {
+      "name": "guide club: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide hero: stable canonical value and English name",
+      "pass": true,
+      "detail": "Hero"
+    },
+    {
+      "name": "guide hero: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide ninja: stable canonical value and English name",
+      "pass": true,
+      "detail": "Ninja"
+    },
+    {
+      "name": "guide ninja: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide medic: stable canonical value and English name",
+      "pass": true,
+      "detail": "Medic"
+    },
+    {
+      "name": "guide medic: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide archer: stable canonical value and English name",
+      "pass": true,
+      "detail": "Archer"
+    },
+    {
+      "name": "guide archer: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide dragon: stable canonical value and English name",
+      "pass": true,
+      "detail": "Baby Dragon"
+    },
+    {
+      "name": "guide dragon: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide dino: stable canonical value and English name",
+      "pass": true,
+      "detail": "Little Dinosaur"
+    },
+    {
+      "name": "guide dino: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide raptor: stable canonical value and English name",
+      "pass": true,
+      "detail": "Velociraptor"
+    },
+    {
+      "name": "guide raptor: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide triceratops: stable canonical value and English name",
+      "pass": true,
+      "detail": "Triceratops"
+    },
+    {
+      "name": "guide triceratops: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide stegosaurus: stable canonical value and English name",
+      "pass": true,
+      "detail": "Stegosaurus"
+    },
+    {
+      "name": "guide stegosaurus: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide trex: stable canonical value and English name",
+      "pass": true,
+      "detail": "T. rex"
+    },
+    {
+      "name": "guide trex: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide mutantRock: stable canonical value and English name",
+      "pass": true,
+      "detail": "Rock Mutant"
+    },
+    {
+      "name": "guide mutantRock: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide mutantStretch: stable canonical value and English name",
+      "pass": true,
+      "detail": "Stretch Mutant"
+    },
+    {
+      "name": "guide mutantStretch: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide shield: stable canonical value and English name",
+      "pass": true,
+      "detail": "Shield Guard"
+    },
+    {
+      "name": "guide shield: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide bat: stable canonical value and English name",
+      "pass": true,
+      "detail": "Batter"
+    },
+    {
+      "name": "guide bat: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide nurse: stable canonical value and English name",
+      "pass": true,
+      "detail": "Nurse"
+    },
+    {
+      "name": "guide nurse: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide knight: stable canonical value and English name",
+      "pass": true,
+      "detail": "Knight"
+    },
+    {
+      "name": "guide knight: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide cavalry: stable canonical value and English name",
+      "pass": true,
+      "detail": "Rider"
+    },
+    {
+      "name": "guide cavalry: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide twohead: stable canonical value and English name",
+      "pass": true,
+      "detail": "Two-Headed Knight"
+    },
+    {
+      "name": "guide twohead: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide tank: stable canonical value and English name",
+      "pass": true,
+      "detail": "Tank"
+    },
+    {
+      "name": "guide tank: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "guide wall: stable canonical value and English name",
+      "pass": true,
+      "detail": "Palisade"
+    },
+    {
+      "name": "guide wall: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "detailed English rules: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "English rules preserve all source numeric claims",
+      "pass": true,
+      "detail": {
+        "source": [
+          12,
+          4,
+          8,
+          0.8,
+          5,
+          4,
+          2,
+          3,
+          6,
+          14,
+          4,
+          6,
+          4,
+          4,
+          6,
+          3,
+          4,
+          5,
+          6,
+          8,
+          4,
+          6
+        ],
+        "display": [
+          12,
+          4,
+          8,
+          0.8,
+          5,
+          4,
+          2,
+          3,
+          6,
+          14,
+          4,
+          6,
+          4,
+          4,
+          6,
+          3,
+          4,
+          5,
+          6,
+          8,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "name": "typed technical code survives language switches",
+      "pass": true
+    },
+    {
+      "name": "parent departure status: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "family save: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "family export stays technical JSON",
+      "pass": true,
+      "detail": [
+        "format",
+        "version",
+        "camp",
+        "career",
+        "missions"
+      ]
+    },
+    {
+      "name": "FR/EN family exports are byte-identical",
+      "pass": true
+    },
+    {
+      "name": "valid family import preview: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "compatible family preview enables explicit replacement",
+      "pass": true
+    },
+    {
+      "name": "invalid family import: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "invalid import cannot replace progress",
+      "pass": true
+    },
+    {
+      "name": "preference is independent language key",
+      "pass": true
+    },
+    {
+      "name": "stored French beats English system preference",
+      "pass": true
+    },
+    {
+      "name": "storage read denial leaves selector usable",
+      "pass": true
+    },
+    {
+      "name": "storage write denial leaves selector usable",
+      "pass": true
+    },
+    {
+      "name": "unsupported locale and invalid preference fall back to French",
+      "pass": true
+    },
+    {
+      "name": "failed English module reports language status",
+      "pass": true
+    },
+    {
+      "name": "failed English module retains usable French home",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-first-win: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-first-win: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-first-win: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-first-loss: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-first-loss: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-first-loss: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-last-win: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-last-win: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-last-win: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-classic-win: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-classic-win: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-classic-win: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-classic-loss: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-classic-loss: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-classic-loss: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: focused pause selector node retained",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: pause switch preserves full JSON/RNG/time/checkpoint/code",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: dialog remains open on switch",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: dialog focus and node retained",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: dialog switch preserves full state",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: same seeded commands give byte-identical FR/EN states and codes",
+      "pass": true,
+      "detail": {
+        "actions": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: fixture includes cached fort/medical/three heads",
+      "pass": true,
+      "detail": [
+        "REFUGE · 83 %",
+        "Gardienne",
+        "Cracheuse • Tir",
+        "Mixte",
+        "Réserve · 1 · 3 s",
+        "+ 2/4",
+        "ROI À TROIS TÊTES · 1000 / 1000 PV · PHASE 1/3",
+        "Crachat ici · 1 s",
+        "Camp −17",
+        "À la rescousse !",
+        "À la rescousse !"
+      ]
+    },
+    {
+      "name": "fixture-fr-preparing: frozen canvas labels refresh without redraw",
+      "pass": true,
+      "detail": [
+        "REFUGE · 83%",
+        "Guardian",
+        "Spitter • Shot",
+        "Hybrid",
+        "Restocking: 1 · 3 s",
+        "+ 2/4",
+        "THREE-HEADED KING · 1,000 / 1,000 HP · PHASE 1/3",
+        "Spit here · 1 s",
+        "Camp −17",
+        "Here to help!",
+        "Here to help!"
+      ]
+    },
+    {
+      "name": "fixture-fr-preparing: cached label switch preserves state/RNG/time",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: club ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Solide et courageux. Combat au contact.",
+        "display": "Tough and brave. Fights up close."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: club health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n140 HP\nCost\n55 coins\nArrival\nWave 1\nAttack\n26 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: hero ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Épée et bouclier. Défend le camp automatiquement.",
+        "display": "Sword and shield. Defends the camp on its own."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: hero health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n330 HP\nCost\nHere from the start\nArrival\nWave 1\nAttack\n36 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: ninja ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Éclair : notre allié le plus rapide. Chasse les cracheurs exposés à proximité, avec le cristal en priorité.",
+        "display": "Lightning speed: our fastest ally. Hunts nearby exposed Spitters, keeping the Crystal safe first."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: ninja health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile hunter: chases away Spitters and protects the Crystal.\nHealth\n155 HP\nCost\n150 coins\nArrival\nWave 1\nAttack\n40 damage\nRange\nMelee\nMobility\nVery fast"
+    },
+    {
+      "name": "fixture-fr-preparing: medic ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Soigne 24 PV par intervention, toutes les 1,6 secondes. 6 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.",
+        "display": "Heals 24 HP per treatment, every 1.6 seconds. Carries 6 bandages. When they run out, returns to the fort and restocks for 4 seconds. Cannot heal while returning or restocking. Cannot bring fallen allies back."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: medic health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nHeals around its starting spot. Returns to the fort to restock bandages.\nHealth\n105 HP\nCost\n130 coins\nArrival\nWave 1\nAttack\nHeals 24 HP\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: archer ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Tire à distance, mais reste fragile.",
+        "display": "Shoots from a distance, but is fragile."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: archer health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nShoots from its area and fights back when danger comes close.\nHealth\n95 HP\nCost\n150 coins\nArrival\nWave 1\nAttack\n15 damage\nRange\nLong\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: dragon ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Souffle : touche les serpents regroupés autour de la cible.",
+        "display": "Breath: hits snakes grouped around the target."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: dragon health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nShoots from its area and fights back when danger comes close.\nHealth\n200 HP\nCost\n240 coins\nArrival\nWave 4\nAttack\n34 damage\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: dino ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Débloqué à la vague 6. Robuste, protège le passage au contact.",
+        "display": "Unlocks at wave 6. A tough ally that guards the path up close."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: dino health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n500 HP\nCost\n280 coins\nArrival\nWave 6\nAttack\n54 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: raptor ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Rapide et léger. Renforce les trois voies au contact.",
+        "display": "Fast and light. Joins close-range fights on all three lanes."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: raptor health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile backup: helps on all three lanes.\nHealth\n140 HP\nCost\n110 coins\nArrival\nWave 3\nAttack\n28 damage\nRange\nMelee\nMobility\nFast"
+    },
+    {
+      "name": "fixture-fr-preparing: triceratops ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.",
+        "display": "Charge: after about 1.4 seconds of running, the first hit deals 80% more damage."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: triceratops health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile backup: helps on all three lanes.\nHealth\n390 HP\nCost\n300 coins\nArrival\nWave 5\nAttack\n40 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: stegosaurus ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Plaques : réduit de 25 % les dégâts reçus. Garde son secteur.",
+        "display": "Plates: takes 25% less damage. Guards its area."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: stegosaurus health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n480 HP\nCost\n320 coins\nArrival\nWave 6\nAttack\n38 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-fr-preparing: trex ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Une morsure très puissante, mais plus lente à préparer.",
+        "display": "A very powerful bite that takes longer to prepare."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: trex health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n400 HP\nCost\n390 coins\nArrival\nWave 8\nAttack\n86 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: mutantRock ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Peau de pierre : réduit de 20 % les dégâts reçus. Garde son secteur.",
+        "display": "Stone skin: takes 20% less damage. Guards its area."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: mutantRock health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n330 HP\nCost\n190 coins\nArrival\nWave 3\nAttack\n42 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-fr-preparing: mutantStretch ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Bras élastiques : frappe à 90 pas de portée. Son allonge protège son secteur sans projectile.",
+        "display": "Stretchy arms: strikes from 90 steps away. Guards its area with long arms and no projectiles."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: mutantStretch health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n180 HP\nCost\n175 coins\nArrival\nWave 4\nAttack\n52.5 damage\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: shield ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Bouclier : réduit ses dégâts reçus de 40 %. Protège un voisin proche de 60 % d’un tir de cracheur, puis recharge 3 secondes.",
+        "display": "Shield: takes 40% less damage. Blocks 60% of a Spitter shot for a nearby ally, then recharges for 3 seconds."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: shield health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n300 HP\nCost\n90 coins\nArrival\nWave 2\nAttack\n18 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-fr-preparing: bat ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Des coups puissants au contact, mais peu protégé.",
+        "display": "Powerful close-range hits, but little protection."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: bat health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n180 HP\nCost\n110 coins\nArrival\nWave 2\nAttack\n40 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: nurse ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Soigne 14 PV par intervention, toutes les 1,4 secondes. 4 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.",
+        "display": "Heals 14 HP per treatment, every 1.4 seconds. Carries 4 bandages. When they run out, returns to the fort and restocks for 4 seconds. Cannot heal while returning or restocking. Cannot bring fallen allies back."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: nurse health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nHeals around its starting spot. Returns to the fort to restock bandages.\nHealth\n90 HP\nCost\n95 coins\nArrival\nWave 1\nAttack\nHeals 14 HP\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: knight ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Armure : réduit de 20 % les dégâts reçus.",
+        "display": "Armor: takes 20% less damage."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: knight health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n320 HP\nCost\n220 coins\nArrival\nWave 4\nAttack\n42 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-fr-preparing: cavalry ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.",
+        "display": "Charge: after about 1.4 seconds of running, the first hit deals 80% more damage."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: cavalry health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile backup: helps on all three lanes.\nHealth\n230 HP\nCost\n260 coins\nArrival\nWave 5\nAttack\n33 damage\nRange\nMelee\nMobility\nFast"
+    },
+    {
+      "name": "fixture-fr-preparing: twohead ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Deux têtes : frappe jusqu’à deux serpents voisins.",
+        "display": "Two heads: strikes up to two nearby snakes."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: twohead health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n440 HP\nCost\n350 coins\nArrival\nWave 7\nAttack\n56 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-fr-preparing: tank ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Obus de zone et blindage : réduit de 15 % les dégâts reçus.",
+        "display": "Blast shells and armor: takes 15% less damage."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: tank health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nShoots from its area and fights back when danger comes close.\nHealth\n540 HP\nCost\n500 coins\nArrival\nWave 9\nAttack\n70 damage\nRange\nLong\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-fr-preparing: wall ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Retient les serpents. Placement fixe.",
+        "display": "Holds back snakes. Stays where you place it."
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: wall health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nFixed defense: stays where you place it.\nHealth\n440 HP\nCost\n75 coins\nArrival\nWave 1\nAttack\n0 damage\nRange\nMelee\nMobility\nFixed"
+    },
+    {
+      "name": "fixture-fr-preparing: three real reward choices",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: rewards: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-fr-preparing: chapter report preserves actual minimum/current health and kills",
+      "pass": true,
+      "detail": "\nChapter 1 complete · Fern Clearing · ★★☆\nStars: 2 out of 3 for this run. Crystal: chapter minimum 72/100 HP · now 83/100 HP. Allies present: 3. Snakes defeated since the adventure began: 17.\nClubber × 2Hero × 1\n"
+    },
+    {
+      "name": "fixture-fr-preparing: shop-ready English catalog cards",
+      "pass": true,
+      "detail": [
+        {
+          "kind": "club",
+          "name": "Clubber",
+          "title": "Tough and brave. Fights up close.",
+          "aria": "Clubber, 55 coins. Melee."
+        },
+        {
+          "kind": "ninja",
+          "name": "Ninja",
+          "title": "Very fast. Rushes at snakes.",
+          "aria": "Ninja, 150 coins. Fast."
+        },
+        {
+          "kind": "medic",
+          "name": "Medic",
+          "title": "Uses 6 bandages to heal the most wounded living allies, then returns to the Refuge.",
+          "aria": "Medic, 130 coins. Healing."
+        },
+        {
+          "kind": "archer",
+          "name": "Archer",
+          "title": "Shoots from a distance, but is fragile.",
+          "aria": "Archer, 150 coins. Ranged."
+        },
+        {
+          "kind": "dragon",
+          "name": "Baby Dragon",
+          "title": "Unlocks at wave 4. Its breath hits groups of enemies.",
+          "aria": "Baby Dragon, 240 coins. Fire breath."
+        },
+        {
+          "kind": "raptor",
+          "name": "Velociraptor",
+          "title": "Fast and light. Joins close-range fights on all three lanes.",
+          "aria": "Velociraptor, 110 coins. Fast."
+        },
+        {
+          "kind": "triceratops",
+          "name": "Triceratops",
+          "title": "Its three horns make the first hit stronger after a long run.",
+          "aria": "Triceratops, 300 coins. Charge."
+        },
+        {
+          "kind": "mutantRock",
+          "name": "Rock Mutant",
+          "title": "A brave stone ally. Its skin reduces damage taken by 20%.",
+          "aria": "Rock Mutant, 190 coins. Sturdy."
+        },
+        {
+          "kind": "mutantStretch",
+          "name": "Stretch Mutant",
+          "title": "Its long arms reach farther while it stays in its area.",
+          "aria": "Stretch Mutant, 175 coins. Reach."
+        },
+        {
+          "kind": "shield",
+          "name": "Shield Guard",
+          "title": "Takes the hits and guards the path.",
+          "aria": "Shield Guard, 90 coins. Protection."
+        },
+        {
+          "kind": "bat",
+          "name": "Batter",
+          "title": "Powerful close-range hits, but little protection.",
+          "aria": "Batter, 110 coins. Power."
+        },
+        {
+          "kind": "nurse",
+          "name": "Nurse",
+          "title": "Mobile and cheaper: carries 4 bandages, then returns to the Refuge for more.",
+          "aria": "Nurse, 95 coins. Healing."
+        },
+        {
+          "kind": "knight",
+          "name": "Knight",
+          "title": "An armored fighter with balanced attack and defense.",
+          "aria": "Knight, 220 coins. Armor."
+        },
+        {
+          "kind": "cavalry",
+          "name": "Rider",
+          "title": "After a long run, its charge hits harder.",
+          "aria": "Rider, 260 coins. Charge."
+        },
+        {
+          "kind": "wall",
+          "name": "Palisade",
+          "title": "Holds back snakes. Stays where you place it.",
+          "aria": "Palisade, 75 coins. Blocking."
+        }
+      ]
+    },
+    {
+      "name": "fixture-fr-preparing: shop-future English catalog cards",
+      "pass": true,
+      "detail": [
+        {
+          "kind": "dino",
+          "name": "Little Dinosaur",
+          "title": "Unlocks at wave 6. A tough ally that guards the path up close.",
+          "aria": "Little Dinosaur, 280 coins. Arrives on wave 6."
+        },
+        {
+          "kind": "stegosaurus",
+          "name": "Stegosaurus",
+          "title": "Its plates reduce damage taken by 25%. Guards its area.",
+          "aria": "Stegosaurus, 320 coins. Arrives on wave 6."
+        },
+        {
+          "kind": "trex",
+          "name": "T. rex",
+          "title": "A very powerful bite that takes longer to prepare.",
+          "aria": "T. rex, 390 coins. Arrives on wave 8."
+        },
+        {
+          "kind": "twohead",
+          "name": "Two-Headed Knight",
+          "title": "Its two heads watch for and strike two nearby enemies.",
+          "aria": "Two-Headed Knight, 350 coins. Arrives on wave 7."
+        },
+        {
+          "kind": "tank",
+          "name": "Tank",
+          "title": "Slow and armored. Its shell hits a group from a distance.",
+          "aria": "Tank, 500 coins. Arrives on wave 9."
+        }
+      ]
+    },
+    {
+      "name": "fixture-fr-preparing: catalog tabs cover exactly 20 recruitable kinds",
+      "pass": true,
+      "detail": [
+        "club",
+        "ninja",
+        "medic",
+        "archer",
+        "dragon",
+        "raptor",
+        "triceratops",
+        "mutantRock",
+        "mutantStretch",
+        "shield",
+        "bat",
+        "nurse",
+        "knight",
+        "cavalry",
+        "wall",
+        "dino",
+        "stegosaurus",
+        "trex",
+        "twohead",
+        "tank"
+      ]
+    },
+    {
+      "name": "fixture-fr-preparing: six canonical mission previews",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission refuge English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission refuge retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission refuge: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-fr-preparing: preview refuge preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission trois-ponts English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission trois-ponts retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission trois-ponts: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-fr-preparing: preview trois-ponts preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission course English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission course retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission course: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-fr-preparing: preview course preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission coquilles English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission coquilles retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission coquilles: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-fr-preparing: preview coquilles preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission sonnette English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission sonnette retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission sonnette: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-fr-preparing: preview sonnette preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission carrefour English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission carrefour retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: mission carrefour: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-fr-preparing: preview carrefour preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-fr-preparing: all 13 threat identities rendered",
+      "pass": true,
+      "detail": [
+        "normal",
+        "runner",
+        "armored",
+        "clockwork",
+        "spring",
+        "umbrella",
+        "rattlesnake",
+        "spitter",
+        "royal",
+        "mamba",
+        "flying",
+        "courtHealer",
+        "king"
+      ]
+    },
+    {
+      "name": "fixture-fr-preparing: all threat abilities: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-first-win: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-first-win: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-first-win: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-first-win: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-first-loss: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-first-loss: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-first-loss: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-first-loss: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-last-win: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-last-win: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-last-win: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-last-win: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-classic-win: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-classic-win: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-classic-win: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-classic-win: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-classic-loss: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-classic-loss: result visible",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-classic-loss: stars match actual outcome",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-classic-loss: outcome switching preserves entire canonical state",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: focused pause selector node retained",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: pause switch preserves full JSON/RNG/time/checkpoint/code",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: dialog remains open on switch",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: dialog focus and node retained",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: dialog switch preserves full state",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: same seeded commands give byte-identical FR/EN states and codes",
+      "pass": true,
+      "detail": {
+        "actions": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "name": "fixture-en-preparing: fixture includes cached fort/medical/three heads",
+      "pass": true,
+      "detail": [
+        "REFUGE · 83 %",
+        "Gardienne",
+        "Cracheuse • Tir",
+        "Mixte",
+        "Réserve · 1 · 3 s",
+        "+ 2/4",
+        "ROI À TROIS TÊTES · 1000 / 1000 PV · PHASE 1/3",
+        "Crachat ici · 1 s",
+        "Camp −17",
+        "À la rescousse !",
+        "À la rescousse !"
+      ]
+    },
+    {
+      "name": "fixture-en-preparing: frozen canvas labels refresh without redraw",
+      "pass": true,
+      "detail": [
+        "REFUGE · 83%",
+        "Guardian",
+        "Spitter • Shot",
+        "Hybrid",
+        "Restocking: 1 · 3 s",
+        "+ 2/4",
+        "THREE-HEADED KING · 1,000 / 1,000 HP · PHASE 1/3",
+        "Spit here · 1 s",
+        "Camp −17",
+        "Here to help!",
+        "Here to help!"
+      ]
+    },
+    {
+      "name": "fixture-en-preparing: cached label switch preserves state/RNG/time",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: club ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Solide et courageux. Combat au contact.",
+        "display": "Tough and brave. Fights up close."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: club health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n140 HP\nCost\n55 coins\nArrival\nWave 1\nAttack\n26 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: hero ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Épée et bouclier. Défend le camp automatiquement.",
+        "display": "Sword and shield. Defends the camp on its own."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: hero health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n330 HP\nCost\nHere from the start\nArrival\nWave 1\nAttack\n36 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: ninja ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Éclair : notre allié le plus rapide. Chasse les cracheurs exposés à proximité, avec le cristal en priorité.",
+        "display": "Lightning speed: our fastest ally. Hunts nearby exposed Spitters, keeping the Crystal safe first."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: ninja health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile hunter: chases away Spitters and protects the Crystal.\nHealth\n155 HP\nCost\n150 coins\nArrival\nWave 1\nAttack\n40 damage\nRange\nMelee\nMobility\nVery fast"
+    },
+    {
+      "name": "fixture-en-preparing: medic ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Soigne 24 PV par intervention, toutes les 1,6 secondes. 6 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.",
+        "display": "Heals 24 HP per treatment, every 1.6 seconds. Carries 6 bandages. When they run out, returns to the fort and restocks for 4 seconds. Cannot heal while returning or restocking. Cannot bring fallen allies back."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: medic health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nHeals around its starting spot. Returns to the fort to restock bandages.\nHealth\n105 HP\nCost\n130 coins\nArrival\nWave 1\nAttack\nHeals 24 HP\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: archer ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Tire à distance, mais reste fragile.",
+        "display": "Shoots from a distance, but is fragile."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: archer health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nShoots from its area and fights back when danger comes close.\nHealth\n95 HP\nCost\n150 coins\nArrival\nWave 1\nAttack\n15 damage\nRange\nLong\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: dragon ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Souffle : touche les serpents regroupés autour de la cible.",
+        "display": "Breath: hits snakes grouped around the target."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: dragon health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nShoots from its area and fights back when danger comes close.\nHealth\n200 HP\nCost\n240 coins\nArrival\nWave 4\nAttack\n34 damage\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: dino ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Débloqué à la vague 6. Robuste, protège le passage au contact.",
+        "display": "Unlocks at wave 6. A tough ally that guards the path up close."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: dino health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n500 HP\nCost\n280 coins\nArrival\nWave 6\nAttack\n54 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: raptor ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Rapide et léger. Renforce les trois voies au contact.",
+        "display": "Fast and light. Joins close-range fights on all three lanes."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: raptor health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile backup: helps on all three lanes.\nHealth\n140 HP\nCost\n110 coins\nArrival\nWave 3\nAttack\n28 damage\nRange\nMelee\nMobility\nFast"
+    },
+    {
+      "name": "fixture-en-preparing: triceratops ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.",
+        "display": "Charge: after about 1.4 seconds of running, the first hit deals 80% more damage."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: triceratops health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile backup: helps on all three lanes.\nHealth\n390 HP\nCost\n300 coins\nArrival\nWave 5\nAttack\n40 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: stegosaurus ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Plaques : réduit de 25 % les dégâts reçus. Garde son secteur.",
+        "display": "Plates: takes 25% less damage. Guards its area."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: stegosaurus health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n480 HP\nCost\n320 coins\nArrival\nWave 6\nAttack\n38 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-en-preparing: trex ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Une morsure très puissante, mais plus lente à préparer.",
+        "display": "A very powerful bite that takes longer to prepare."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: trex health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n400 HP\nCost\n390 coins\nArrival\nWave 8\nAttack\n86 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: mutantRock ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Peau de pierre : réduit de 20 % les dégâts reçus. Garde son secteur.",
+        "display": "Stone skin: takes 20% less damage. Guards its area."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: mutantRock health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n330 HP\nCost\n190 coins\nArrival\nWave 3\nAttack\n42 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-en-preparing: mutantStretch ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Bras élastiques : frappe à 90 pas de portée. Son allonge protège son secteur sans projectile.",
+        "display": "Stretchy arms: strikes from 90 steps away. Guards its area with long arms and no projectiles."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: mutantStretch health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n180 HP\nCost\n175 coins\nArrival\nWave 4\nAttack\n52.5 damage\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: shield ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Bouclier : réduit ses dégâts reçus de 40 %. Protège un voisin proche de 60 % d’un tir de cracheur, puis recharge 3 secondes.",
+        "display": "Shield: takes 40% less damage. Blocks 60% of a Spitter shot for a nearby ally, then recharges for 3 seconds."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: shield health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n300 HP\nCost\n90 coins\nArrival\nWave 2\nAttack\n18 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-en-preparing: bat ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Des coups puissants au contact, mais peu protégé.",
+        "display": "Powerful close-range hits, but little protection."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: bat health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n180 HP\nCost\n110 coins\nArrival\nWave 2\nAttack\n40 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: nurse ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Soigne 14 PV par intervention, toutes les 1,4 secondes. 4 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.",
+        "display": "Heals 14 HP per treatment, every 1.4 seconds. Carries 4 bandages. When they run out, returns to the fort and restocks for 4 seconds. Cannot heal while returning or restocking. Cannot bring fallen allies back."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: nurse health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nHeals around its starting spot. Returns to the fort to restock bandages.\nHealth\n90 HP\nCost\n95 coins\nArrival\nWave 1\nAttack\nHeals 14 HP\nRange\nMedium\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: knight ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Armure : réduit de 20 % les dégâts reçus.",
+        "display": "Armor: takes 20% less damage."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: knight health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n320 HP\nCost\n220 coins\nArrival\nWave 4\nAttack\n42 damage\nRange\nMelee\nMobility\nMedium"
+    },
+    {
+      "name": "fixture-en-preparing: cavalry ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.",
+        "display": "Charge: after about 1.4 seconds of running, the first hit deals 80% more damage."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: cavalry health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nMobile backup: helps on all three lanes.\nHealth\n230 HP\nCost\n260 coins\nArrival\nWave 5\nAttack\n33 damage\nRange\nMelee\nMobility\nFast"
+    },
+    {
+      "name": "fixture-en-preparing: twohead ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Deux têtes : frappe jusqu’à deux serpents voisins.",
+        "display": "Two heads: strikes up to two nearby snakes."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: twohead health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nGuards its area, then returns to where you placed it.\nHealth\n440 HP\nCost\n350 coins\nArrival\nWave 7\nAttack\n56 damage\nRange\nMelee\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-en-preparing: tank ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Obus de zone et blindage : réduit de 15 % les dégâts reçus.",
+        "display": "Blast shells and armor: takes 15% less damage."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: tank health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nShoots from its area and fights back when danger comes close.\nHealth\n540 HP\nCost\n500 coins\nArrival\nWave 9\nAttack\n70 damage\nRange\nLong\nMobility\nSlow"
+    },
+    {
+      "name": "fixture-en-preparing: wall ability preserves source numbers",
+      "pass": true,
+      "detail": {
+        "source": "Retient les serpents. Placement fixe.",
+        "display": "Holds back snakes. Stays where you place it."
+      }
+    },
+    {
+      "name": "fixture-en-preparing: wall health is the actual catalogue value",
+      "pass": true,
+      "detail": "Camp\nOur allies\nDefense\nFixed defense: stays where you place it.\nHealth\n440 HP\nCost\n75 coins\nArrival\nWave 1\nAttack\n0 damage\nRange\nMelee\nMobility\nFixed"
+    },
+    {
+      "name": "fixture-en-preparing: three real reward choices",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: rewards: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: chapter report preserves actual minimum/current health and kills",
+      "pass": true,
+      "detail": "\nChapter 1 complete · Fern Clearing · ★★☆\nStars: 2 out of 3 for this run. Crystal: chapter minimum 72/100 HP · now 83/100 HP. Allies present: 3. Snakes defeated since the adventure began: 17.\nClubber × 2Hero × 1\n"
+    },
+    {
+      "name": "fixture-en-preparing: shop-ready English catalog cards",
+      "pass": true,
+      "detail": [
+        {
+          "kind": "club",
+          "name": "Clubber",
+          "title": "Tough and brave. Fights up close.",
+          "aria": "Clubber, 55 coins. Melee."
+        },
+        {
+          "kind": "ninja",
+          "name": "Ninja",
+          "title": "Very fast. Rushes at snakes.",
+          "aria": "Ninja, 150 coins. Fast."
+        },
+        {
+          "kind": "medic",
+          "name": "Medic",
+          "title": "Uses 6 bandages to heal the most wounded living allies, then returns to the Refuge.",
+          "aria": "Medic, 130 coins. Healing."
+        },
+        {
+          "kind": "archer",
+          "name": "Archer",
+          "title": "Shoots from a distance, but is fragile.",
+          "aria": "Archer, 150 coins. Ranged."
+        },
+        {
+          "kind": "dragon",
+          "name": "Baby Dragon",
+          "title": "Unlocks at wave 4. Its breath hits groups of enemies.",
+          "aria": "Baby Dragon, 240 coins. Fire breath."
+        },
+        {
+          "kind": "raptor",
+          "name": "Velociraptor",
+          "title": "Fast and light. Joins close-range fights on all three lanes.",
+          "aria": "Velociraptor, 110 coins. Fast."
+        },
+        {
+          "kind": "triceratops",
+          "name": "Triceratops",
+          "title": "Its three horns make the first hit stronger after a long run.",
+          "aria": "Triceratops, 300 coins. Charge."
+        },
+        {
+          "kind": "mutantRock",
+          "name": "Rock Mutant",
+          "title": "A brave stone ally. Its skin reduces damage taken by 20%.",
+          "aria": "Rock Mutant, 190 coins. Sturdy."
+        },
+        {
+          "kind": "mutantStretch",
+          "name": "Stretch Mutant",
+          "title": "Its long arms reach farther while it stays in its area.",
+          "aria": "Stretch Mutant, 175 coins. Reach."
+        },
+        {
+          "kind": "shield",
+          "name": "Shield Guard",
+          "title": "Takes the hits and guards the path.",
+          "aria": "Shield Guard, 90 coins. Protection."
+        },
+        {
+          "kind": "bat",
+          "name": "Batter",
+          "title": "Powerful close-range hits, but little protection.",
+          "aria": "Batter, 110 coins. Power."
+        },
+        {
+          "kind": "nurse",
+          "name": "Nurse",
+          "title": "Mobile and cheaper: carries 4 bandages, then returns to the Refuge for more.",
+          "aria": "Nurse, 95 coins. Healing."
+        },
+        {
+          "kind": "knight",
+          "name": "Knight",
+          "title": "An armored fighter with balanced attack and defense.",
+          "aria": "Knight, 220 coins. Armor."
+        },
+        {
+          "kind": "cavalry",
+          "name": "Rider",
+          "title": "After a long run, its charge hits harder.",
+          "aria": "Rider, 260 coins. Charge."
+        },
+        {
+          "kind": "wall",
+          "name": "Palisade",
+          "title": "Holds back snakes. Stays where you place it.",
+          "aria": "Palisade, 75 coins. Blocking."
+        }
+      ]
+    },
+    {
+      "name": "fixture-en-preparing: shop-future English catalog cards",
+      "pass": true,
+      "detail": [
+        {
+          "kind": "dino",
+          "name": "Little Dinosaur",
+          "title": "Unlocks at wave 6. A tough ally that guards the path up close.",
+          "aria": "Little Dinosaur, 280 coins. Arrives on wave 6."
+        },
+        {
+          "kind": "stegosaurus",
+          "name": "Stegosaurus",
+          "title": "Its plates reduce damage taken by 25%. Guards its area.",
+          "aria": "Stegosaurus, 320 coins. Arrives on wave 6."
+        },
+        {
+          "kind": "trex",
+          "name": "T. rex",
+          "title": "A very powerful bite that takes longer to prepare.",
+          "aria": "T. rex, 390 coins. Arrives on wave 8."
+        },
+        {
+          "kind": "twohead",
+          "name": "Two-Headed Knight",
+          "title": "Its two heads watch for and strike two nearby enemies.",
+          "aria": "Two-Headed Knight, 350 coins. Arrives on wave 7."
+        },
+        {
+          "kind": "tank",
+          "name": "Tank",
+          "title": "Slow and armored. Its shell hits a group from a distance.",
+          "aria": "Tank, 500 coins. Arrives on wave 9."
+        }
+      ]
+    },
+    {
+      "name": "fixture-en-preparing: catalog tabs cover exactly 20 recruitable kinds",
+      "pass": true,
+      "detail": [
+        "club",
+        "ninja",
+        "medic",
+        "archer",
+        "dragon",
+        "raptor",
+        "triceratops",
+        "mutantRock",
+        "mutantStretch",
+        "shield",
+        "bat",
+        "nurse",
+        "knight",
+        "cavalry",
+        "wall",
+        "dino",
+        "stegosaurus",
+        "trex",
+        "twohead",
+        "tank"
+      ]
+    },
+    {
+      "name": "fixture-en-preparing: six canonical mission previews",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission refuge English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission refuge retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission refuge: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: preview refuge preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission trois-ponts English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission trois-ponts retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission trois-ponts: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: preview trois-ponts preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission course English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission course retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission course: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: preview course preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission coquilles English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission coquilles retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission coquilles: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: preview coquilles preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission sonnette English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission sonnette retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission sonnette: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: preview sonnette preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission carrefour English name",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission carrefour retains canonical ID and wave count",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: mission carrefour: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "fixture-en-preparing: preview carrefour preserves game/RNG",
+      "pass": true
+    },
+    {
+      "name": "fixture-en-preparing: all 13 threat identities rendered",
+      "pass": true,
+      "detail": [
+        "normal",
+        "runner",
+        "armored",
+        "clockwork",
+        "spring",
+        "umbrella",
+        "rattlesnake",
+        "spitter",
+        "royal",
+        "mamba",
+        "flying",
+        "courtHealer",
+        "king"
+      ]
+    },
+    {
+      "name": "fixture-en-preparing: all threat abilities: English visible text and accessibility attributes",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "No untranslated user copy encountered in English recipe",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "unknowns": [
+    {
+      "name": "actual-en-1280x800",
+      "keys": []
+    },
+    {
+      "name": "actual-en-1366x768",
+      "keys": []
+    },
+    {
+      "name": "actual-en-812x375",
+      "keys": []
+    },
+    {
+      "name": "actual-en-780x360",
+      "keys": []
+    },
+    {
+      "name": "actual-en-568x320",
+      "keys": []
+    },
+    {
+      "name": "actual-en-568x320-safe",
+      "keys": []
+    },
+    {
+      "name": "actual-en-375x812",
+      "keys": []
+    },
+    {
+      "name": "actual English detailed surfaces",
+      "keys": []
+    },
+    {
+      "name": "storage read denied",
+      "keys": []
+    },
+    {
+      "name": "storage write denied",
+      "keys": []
+    },
+    {
+      "name": "fixture-fr-preparing",
+      "keys": []
+    },
+    {
+      "name": "fixture-en-first-win",
+      "keys": []
+    },
+    {
+      "name": "fixture-en-first-loss",
+      "keys": []
+    },
+    {
+      "name": "fixture-en-last-win",
+      "keys": []
+    },
+    {
+      "name": "fixture-en-classic-win",
+      "keys": []
+    },
+    {
+      "name": "fixture-en-classic-loss",
+      "keys": []
+    },
+    {
+      "name": "fixture-en-preparing",
+      "keys": []
+    }
+  ],
+  "unknownKeys": [],
+  "snapshots": [
+    {
+      "name": "fixture-fr-preparing",
+      "witness": {
+        "game": "{\"gold\":450,\"base\":100,\"wave\":0,\"status\":\"preparing\",\"paused\":true,\"time\":0,\"eggs\":[],\"feast\":null,\"feastUsed\":false,\"encouragementUsed\":false,\"encouragementRemaining\":0,\"honeyTurns\":0,\"rng\":20261109,\"hatched\":0,\"reroutes\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":180,\"hp\":140,\"maxHp\":140,\"cool\":0,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":2,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":468,\"hp\":140,\"maxHp\":140,\"cool\":0,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":3,\"kind\":\"hero\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":828,\"y\":324,\"hp\":330,\"maxHp\":330,\"cool\":0,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":828,\"homeY\":324,\"turnY\":null,\"targetId\":null}],\"enemies\":[],\"effects\":[],\"remaining\":0,\"spawnTimer\":0,\"nextId\":3,\"kills\":0,\"message\":\"Choisis un allié.\",\"tuning\":{\"bossEnabled\":true,\"tacticalRulesEnabled\":true,\"bossHpMultiplier\":6.5,\"bossShieldFraction\":0.12,\"bossShieldRangedFactor\":0.45,\"bossShieldMeleeFactor\":1.6,\"bossShotDamage\":18,\"bossShotInterval\":7,\"bossShotWindup\":1.8,\"bossShotRadius\":38,\"bossShotRange\":260,\"splashSecondaryFactor\":1,\"mutantDamageFactor\":1.75},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":20261109,\"layout\":0,\"assault\":\"escort\",\"nest\":\"spread\"},\"missionMinBase\":100}",
+        "session": "{\"screen\":\"battle\",\"selected\":null,\"selectedFeast\":null,\"speed\":1,\"hasPlaced\":false}",
+        "rng": 20261109,
+        "time": 0,
+        "checkpoint": "{\"version\":7,\"initialSeed\":20261109,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":20261109,\"layout\":0,\"assault\":\"escort\",\"nest\":\"spread\"},\"missionMinBase\":100,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":20261109,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+        "departure": "REFUGE-2-02D9-8YM7-8Q",
+        "canonicalCatalog": "[{\"kind\":\"club\",\"name\":\"Massue\",\"hp\":140,\"cost\":55,\"ability\":\"Solide et courageux. Combat au contact.\"},{\"kind\":\"hero\",\"name\":\"Héros\",\"hp\":330,\"cost\":0,\"ability\":\"Épée et bouclier. Défend le camp automatiquement.\"},{\"kind\":\"ninja\",\"name\":\"Ninja\",\"hp\":155,\"cost\":150,\"ability\":\"Éclair : notre allié le plus rapide. Chasse les cracheurs exposés à proximité, avec le cristal en priorité.\"},{\"kind\":\"medic\",\"name\":\"Médecin\",\"hp\":105,\"cost\":130,\"ability\":\"Soigne 24 PV par intervention, toutes les 1,6 secondes. 6 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.\"},{\"kind\":\"archer\",\"name\":\"Archer\",\"hp\":95,\"cost\":150,\"ability\":\"Tire à distance, mais reste fragile.\"},{\"kind\":\"dragon\",\"name\":\"Bébé dragon\",\"hp\":200,\"cost\":240,\"ability\":\"Souffle : touche les serpents regroupés autour de la cible.\"},{\"kind\":\"dino\",\"name\":\"Petit dinosaure\",\"hp\":500,\"cost\":280,\"ability\":\"Débloqué à la vague 6. Robuste, protège le passage au contact.\"},{\"kind\":\"raptor\",\"name\":\"Vélociraptor\",\"hp\":140,\"cost\":110,\"ability\":\"Rapide et léger. Renforce les trois voies au contact.\"},{\"kind\":\"triceratops\",\"name\":\"Tricératops\",\"hp\":390,\"cost\":300,\"ability\":\"Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.\"},{\"kind\":\"stegosaurus\",\"name\":\"Stégosaure\",\"hp\":480,\"cost\":320,\"ability\":\"Plaques : réduit de 25 % les dégâts reçus. Garde son secteur.\"},{\"kind\":\"trex\",\"name\":\"Tyrannosaure\",\"hp\":400,\"cost\":390,\"ability\":\"Une morsure très puissante, mais plus lente à préparer.\"},{\"kind\":\"mutantRock\",\"name\":\"Mutant roc\",\"hp\":330,\"cost\":190,\"ability\":\"Peau de pierre : réduit de 20 % les dégâts reçus. Garde son secteur.\"},{\"kind\":\"mutantStretch\",\"name\":\"Mutant élastique\",\"hp\":180,\"cost\":175,\"ability\":\"Bras élastiques : frappe à 90 pas de portée. Son allonge protège son secteur sans projectile.\"},{\"kind\":\"shield\",\"name\":\"Bouclier\",\"hp\":300,\"cost\":90,\"ability\":\"Bouclier : réduit ses dégâts reçus de 40 %. Protège un voisin proche de 60 % d’un tir de cracheur, puis recharge 3 secondes.\"},{\"kind\":\"bat\",\"name\":\"Batteur\",\"hp\":180,\"cost\":110,\"ability\":\"Des coups puissants au contact, mais peu protégé.\"},{\"kind\":\"nurse\",\"name\":\"Infirmier\",\"hp\":90,\"cost\":95,\"ability\":\"Soigne 14 PV par intervention, toutes les 1,4 secondes. 4 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.\"},{\"kind\":\"knight\",\"name\":\"Chevalier\",\"hp\":320,\"cost\":220,\"ability\":\"Armure : réduit de 20 % les dégâts reçus.\"},{\"kind\":\"cavalry\",\"name\":\"Cavalier\",\"hp\":230,\"cost\":260,\"ability\":\"Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.\"},{\"kind\":\"twohead\",\"name\":\"Chevalier à deux têtes\",\"hp\":440,\"cost\":350,\"ability\":\"Deux têtes : frappe jusqu’à deux serpents voisins.\"},{\"kind\":\"tank\",\"name\":\"Tank\",\"hp\":540,\"cost\":500,\"ability\":\"Obus de zone et blindage : réduit de 15 % les dégâts reçus.\"},{\"kind\":\"wall\",\"name\":\"Palissade\",\"hp\":440,\"cost\":75,\"ability\":\"Retient les serpents. Placement fixe.\"}]"
+      }
+    },
+    {
+      "name": "fixture-fr-preparing: independent seeded commands",
+      "witness": {
+        "actions": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "camp": "{\"version\":6,\"initialSeed\":20261109,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":20,\"base\":100,\"rng\":20261109,\"nextId\":5,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324},{\"id\":4,\"kind\":\"archer\",\"x\":660,\"y\":180,\"hp\":95,\"homeX\":660,\"homeY\":180},{\"id\":5,\"kind\":\"medic\",\"x\":660,\"y\":324,\"hp\":105,\"homeX\":660,\"homeY\":324,\"medical\":{\"bandages\":6,\"phase\":\"ready\",\"remaining\":0},\"medicalCool\":0}]}",
+        "departure": "AVENTURE-1-02D9-8YM0-8Q",
+        "game": "{\"gold\":20,\"base\":100,\"wave\":1,\"status\":\"fighting\",\"paused\":false,\"time\":3.9999999999999956,\"eggs\":[{\"id\":6,\"x\":252,\"y\":324,\"lane\":1,\"hatchIn\":4.2099909465760135,\"duration\":8.209990946576,\"count\":2}],\"feast\":{\"lane\":0,\"remaining\":10.000000000000014,\"flavor\":\"sticky\"},\"feastUsed\":true,\"encouragementUsed\":false,\"encouragementRemaining\":0,\"honeyTurns\":0,\"rng\":2739124694,\"hatched\":0,\"reroutes\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":180,\"hp\":140,\"maxHp\":140,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":2,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":468,\"hp\":140,\"maxHp\":140,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":3,\"kind\":\"hero\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":828,\"y\":324,\"hp\":330,\"maxHp\":330,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":828,\"homeY\":324,\"turnY\":null,\"targetId\":null},{\"id\":4,\"kind\":\"archer\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":660,\"y\":180,\"hp\":95,\"maxHp\":95,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":660,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":5,\"kind\":\"medic\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":660,\"y\":324,\"hp\":105,\"maxHp\":105,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":660,\"homeY\":324,\"turnY\":null,\"targetId\":null,\"medical\":{\"bandages\":6,\"phase\":\"ready\",\"remaining\":0}}],\"enemies\":[{\"id\":7,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":257.2478275138341,\"y\":429.59435934476903,\"hp\":57,\"maxHp\":57,\"cool\":-3.9999999999999956,\"path\":[{\"x\":258.48721724775186,\"y\":429.6748553532884},{\"x\":262.48721724775186,\"y\":429.99654799506635},{\"x\":266.48721724775186,\"y\":430.3794121408633},{\"x\":270.48721724775186,\"y\":430.82258048024687},{\"x\":274.48721724775186,\"y\":431.32504909439047},{\"x\":278.48721724775186,\"y\":431.885679730272},{\"x\":282.48721724775186,\"y\":432.50320237918334},{\"x\":286.48721724775186,\"y\":433.1762181537085},{\"x\":290.48721724775186,\"y\":433.9032024566533},{\"x\":294.48721724775186,\"y\":434.6825084347488},{\"x\":298.48721724775186,\"y\":435.51237070930335},{\"x\":302.48721724775186,\"y\":436.3909093753532},{\"x\":306.48721724775186,\"y\":437.3161342602517},{\"x\":310.48721724775186,\"y\":438.285949432051},{\"x\":314.48721724775186,\"y\":439.2981579474612},{\"x\":318.48721724775186,\"y\":440.3504668286345},{\"x\":322.48721724775186,\"y\":441.4404922574966},{\"x\":326.48721724775186,\"y\":442.56576497586195},{\"x\":330.48721724775186,\"y\":443.72373587909743},{\"x\":334.48721724775186,\"y\":444.9117817906646},{\"x\":338.48721724775186,\"y\":446.12721140445757},{\"x\":342.48721724775186,\"y\":447.3672713814778},{\"x\":346.48721724775186,\"y\":448.62915258703185},{\"x\":350.48721724775186,\"y\":449.9099964543253},{\"x\":354.48721724775186,\"y\":451.2069014600358},{\"x\":358.48721724775186,\"y\":452.51692969719664},{\"x\":362.48721724775186,\"y\":453.83711353050114},{\"x\":366.48721724775186,\"y\":455.1644623189508},{\"x\":370.48721724775186,\"y\":456.49596919061935},{\"x\":372,\"y\":457}],\"nav\":0.21666666666666673,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":2,\"stage\":0,\"homeX\":108,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":8,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":218.2349390865016,\"y\":218.05914916962064,\"hp\":57,\"maxHp\":57,\"cool\":-3.0333333333333323,\"path\":[{\"x\":220.85855300195476,\"y\":218.2767459636005},{\"x\":224.85855300195476,\"y\":218.54670660322247},{\"x\":228.85855300195476,\"y\":218.75426509243115},{\"x\":232.85855300195476,\"y\":218.89895124449063},{\"x\":236.85855300195476,\"y\":218.9804372987305},{\"x\":240.85855300195476,\"y\":218.99853866302922},{\"x\":244.85855300195476,\"y\":218.95321433197464},{\"x\":248.85855300195476,\"y\":218.84456697975443},{\"x\":252.85855300195476,\"y\":218.6728427275661},{\"x\":256.85855300195476,\"y\":218.43843058607314},{\"x\":260.85855300195476,\"y\":218.14186157417097},{\"x\":264.85855300195476,\"y\":217.78380751605826},{\"x\":268.85855300195476,\"y\":217.36507951933896},{\"x\":272.85855300195476,\"y\":216.88662613760278},{\"x\":276.85855300195476,\"y\":216.34953122164623},{\"x\":280.85855300195476,\"y\":215.75501146420194},{\"x\":284.85855300195476,\"y\":215.10441364373827},{\"x\":288.85855300195476,\"y\":214.39921157357293},{\"x\":292.85855300195476,\"y\":213.64100276321182},{\"x\":296.85855300195476,\"y\":212.8315047994761},{\"x\":300.85855300195476,\"y\":211.9725514556157},{\"x\":304.85855300195476,\"y\":211.06608853722307},{\"x\":308.85855300195476,\"y\":210.1141694743576},{\"x\":312.85855300195476,\"y\":209.11895066986625},{\"x\":316.85855300195476,\"y\":208.08268661443736},{\"x\":320.85855300195476,\"y\":207.0077247794542},{\"x\":324.85855300195476,\"y\":205.8965002992173},{\"x\":328.85855300195476,\"y\":204.7515304545819},{\"x\":332.85855300195476,\"y\":203.5754089705074},{\"x\":336.85855300195476,\"y\":202.3708001404358},{\"x\":340.85855300195476,\"y\":201.14043279081034},{\"x\":344.85855300195476,\"y\":199.88709409940589},{\"x\":348.85855300195476,\"y\":198.61362328147482},{\"x\":352.85855300195476,\"y\":197.3229051580112},{\"x\":356.85855300195476,\"y\":196.01786362070354},{\"x\":360.85855300195476,\"y\":194.7014550083795},{\"x\":364.85855300195476,\"y\":193.37666140994776},{\"x\":368.85855300195476,\"y\":192.0464839090074},{\"x\":372,\"y\":191}],\"nav\":0.25000000000000006,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":0,\"stage\":0,\"homeX\":108,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":9,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":179.66927623488834,\"y\":435.91206853583486,\"hp\":57,\"maxHp\":57,\"cool\":-2.066666666666669,\"path\":[{\"x\":179.79709210488295,\"y\":435.8833478796431},{\"x\":183.79709210488295,\"y\":435.0323704252883},{\"x\":187.79709210488295,\"y\":434.2311567174564},{\"x\":191.79709210488295,\"y\":433.48152176289324},{\"x\":195.79709210488295,\"y\":432.785163725879},{\"x\":199.79709210488295,\"y\":432.1436600813399},{\"x\":203.79709210488295,\"y\":431.55846404136014},{\"x\":207.79709210488295,\"y\":431.0309012631893},{\"x\":211.79709210488295,\"y\":430.5621668462021},{\"x\":215.79709210488295,\"y\":430.1533226246138},{\"x\":219.79709210488295,\"y\":429.80529476208454},{\"x\":223.79709210488295,\"y\":429.51887165366054},{\"x\":227.79709210488295,\"y\":429.29470213980585},{\"x\":231.79709210488295,\"y\":429.1332940365698},{\"x\":235.79709210488295,\"y\":429.0350129852206},{\"x\":239.79709210488295,\"y\":429.00008162395},{\"x\":243.79709210488295,\"y\":429.0285790835265},{\"x\":247.79709210488295,\"y\":429.1204408080384},{\"x\":251.79709210488295,\"y\":429.27545870113374},{\"x\":255.79709210488295,\"y\":429.49328159742566},{\"x\":259.79709210488295,\"y\":429.7734160579949},{\"x\":263.79709210488295,\"y\":430.11522748818743},{\"x\":267.79709210488295,\"y\":430.51794157517566},{\"x\":271.79709210488295,\"y\":430.98064604202614},{\"x\":275.79709210488295,\"y\":431.50229271429987},{\"x\":279.79709210488295,\"y\":432.0816998945049},{\"x\":283.79709210488295,\"y\":432.717555039021},{\"x\":287.79709210488295,\"y\":433.40841773143325},{\"x\":291.79709210488295,\"y\":434.1527229455384},{\"x\":295.79709210488295,\"y\":434.94878459063267},{\"x\":299.79709210488295,\"y\":435.7947993310494},{\"x\":303.79709210488295,\"y\":436.68885067129446},{\"x\":307.79709210488295,\"y\":437.6289132975249},{\"x\":311.79709210488295,\"y\":438.6128576655363},{\"x\":315.79709210488295,\"y\":439.63845482486505},{\"x\":319.79709210488295,\"y\":440.7033814680784},{\"x\":323.79709210488295,\"y\":441.805225193813},{\"x\":327.79709210488295,\"y\":442.9414899716395},{\"x\":331.79709210488295,\"y\":444.1096017963748},{\"x\":335.79709210488295,\"y\":445.3069145190315},{\"x\":339.79709210488295,\"y\":446.5307158411963},{\"x\":343.79709210488295,\"y\":447.7782334592583},{\"x\":347.79709210488295,\"y\":449.04664134456857},{\"x\":351.79709210488295,\"y\":450.33306614530386},{\"x\":355.79709210488295,\"y\":451.63459369553254},{\"x\":359.79709210488295,\"y\":452.9482756167378},{\"x\":363.79709210488295,\"y\":454.27113599684344},{\"x\":367.79709210488295,\"y\":455.60017813161164},{\"x\":371.79709210488295,\"y\":456.93239131314203},{\"x\":372,\"y\":457}],\"nav\":0.2833333333333334,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":2,\"stage\":0,\"homeX\":108,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":10,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":141.95145263334743,\"y\":202.00438451800827,\"hp\":57,\"maxHp\":57,\"cool\":-1.1,\"path\":[{\"x\":143.52194432719864,\"y\":202.48653966993513},{\"x\":147.52194432719864,\"y\":203.68855513501467},{\"x\":151.52194432719864,\"y\":204.86182694164285},{\"x\":155.52194432719864,\"y\":206.00369725181358},{\"x\":159.52194432719864,\"y\":207.11157936201005},{\"x\":163.52194432719864,\"y\":208.18296356292007},{\"x\":167.52194432719864,\"y\":209.21542282473507},{\"x\":171.52194432719864,\"y\":210.20661829515305},{\"x\":175.52194432719864,\"y\":211.15430459763132},{\"x\":179.52194432719864,\"y\":212.0563349178867},{\"x\":183.52194432719864,\"y\":212.91066586712014},{\"x\":187.52194432719864,\"y\":213.7153621109498},{\"x\":191.52194432719864,\"y\":214.46860075356577},{\"x\":195.52194432719864,\"y\":215.16867546717532},{\"x\":199.52194432719864,\"y\":215.81400035738437},{\"x\":203.52194432719864,\"y\":216.40311355575815},{\"x\":207.52194432719864,\"y\":216.9346805314235},{\"x\":211.52194432719864,\"y\":217.40749711421057},{\"x\":215.52194432719864,\"y\":217.82049222248543},{\"x\":219.52194432719864,\"y\":218.17273028949458},{\"x\":223.52194432719864,\"y\":218.46341338272455},{\"x\":227.52194432719864,\"y\":218.69188301147557},{\"x\":231.52194432719864,\"y\":218.85762161855496},{\"x\":235.52194432719864,\"y\":218.96025375271049},{\"x\":239.52194432719864,\"y\":218.99954691914832},{\"x\":243.52194432719864,\"y\":218.97541210620844},{\"x\":247.52194432719864,\"y\":218.88790398700476},{\"x\":251.52194432719864,\"y\":218.73722079557282},{\"x\":255.52194432719864,\"y\":218.5237038778061},{\"x\":259.52194432719864,\"y\":218.24783691819763},{\"x\":263.52194432719864,\"y\":217.91024484413907},{\"x\":267.52194432719864,\"y\":217.5116924102593},{\"x\":271.52194432719864,\"y\":217.05308246600902},{\"x\":275.52194432719864,\"y\":216.53545391041652},{\"x\":279.52194432719864,\"y\":215.95997933864714},{\"x\":283.52194432719864,\"y\":215.32796238569816},{\"x\":287.52194432719864,\"y\":214.6408347732461},{\"x\":291.52194432719864,\"y\":213.90015306633674},{\"x\":295.52194432719864,\"y\":213.10759514726468},{\"x\":299.52194432719864,\"y\":212.26495641463015},{\"x\":303.52194432719864,\"y\":211.37414571618385},{\"x\":307.52194432719864,\"y\":210.43718102467273},{\"x\":311.52194432719864,\"y\":209.45618486648272},{\"x\":315.52194432719864,\"y\":208.4333795134339},{\"x\":319.52194432719864,\"y\":207.37108194861983},{\"x\":323.52194432719864,\"y\":206.27169861769582},{\"x\":327.52194432719864,\"y\":205.13771997750547},{\"x\":331.52194432719864,\"y\":203.97171485439486},{\"x\":335.52194432719864,\"y\":202.77632462499471},{\"x\":339.52194432719864,\"y\":201.55425723265276},{\"x\":343.52194432719864,\"y\":200.30828105307103},{\"x\":347.52194432719864,\"y\":199.04121862304459},{\"x\":351.52194432719864,\"y\":197.75594024650778},{\"x\":355.52194432719864,\"y\":196.45535749237263},{\"x\":359.52194432719864,\"y\":195.1424165988889},{\"x\":363.52194432719864,\"y\":193.82009179946672},{\"x\":367.52194432719864,\"y\":192.4913785850814},{\"x\":371.52194432719864,\"y\":191.1592869185228},{\"x\":372,\"y\":191}],\"nav\":0.3166666666666667,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":0,\"stage\":0,\"homeX\":108,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":11,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":109.66193873899395,\"y\":462.87612086348554,\"hp\":57,\"maxHp\":57,\"cool\":-0.13333333333333333,\"path\":[{\"x\":112,\"y\":455.66770635693524},{\"x\":116,\"y\":454.3384307874829},{\"x\":120,\"y\":453.015184528348},{\"x\":124,\"y\":451.7009651579085},{\"x\":128,\"y\":450.39874980573603},{\"x\":132,\"y\":449.11148840844},{\"x\":136,\"y\":447.8420970271122},{\"x\":140,\"y\":446.5934512415108},{\"x\":144,\"y\":445.3683796359472},{\"x\":148,\"y\":444.1696573916325},{\"x\":152,\"y\":443},{\"x\":156,\"y\":441.86205711124325},{\"x\":160,\"y\":440.75840653200646},{\"x\":164,\"y\":439.69154838582307},{\"x\":168,\"y\":438.66389944953204},{\"x\":172,\"y\":437.67778767850086},{\"x\":176,\"y\":436.73544693305803},{\"x\":180,\"y\":435.83901191808076},{\"x\":184,\"y\":434.99051334720195},{\"x\":188,\"y\":434.1918733425906},{\"x\":192,\"y\":433.44490108072694},{\"x\":196,\"y\":432.75128869403574},{\"x\":200,\"y\":432.1126074376621},{\"x\":204,\"y\":431.5303041300735},{\"x\":208,\"y\":431.00569787554997},{\"x\":212,\"y\":430.53997707598927},{\"x\":216,\"y\":430.13419673879406},{\"x\":220,\"y\":429.78927608694084},{\"x\":224,\"y\":429.5059964766442},{\"x\":228,\"y\":429.2849996273339},{\"x\":232,\"y\":429.12678616795364},{\"x\":236,\"y\":429.0317145028758},{\"x\":240,\"y\":429},{\"x\":244,\"y\":429.0317145028758},{\"x\":248,\"y\":429.12678616795364},{\"x\":252,\"y\":429.2849996273339},{\"x\":256,\"y\":429.5059964766442},{\"x\":260,\"y\":429.78927608694084},{\"x\":264,\"y\":430.13419673879406},{\"x\":268,\"y\":430.53997707598927},{\"x\":272,\"y\":431.00569787554997},{\"x\":276,\"y\":431.5303041300735},{\"x\":280,\"y\":432.1126074376621},{\"x\":284,\"y\":432.75128869403574},{\"x\":288,\"y\":433.44490108072694},{\"x\":292,\"y\":434.1918733425906},{\"x\":296,\"y\":434.99051334720195},{\"x\":300,\"y\":435.83901191808076},{\"x\":304,\"y\":436.73544693305803},{\"x\":308,\"y\":437.67778767850086},{\"x\":312,\"y\":438.66389944953204},{\"x\":316,\"y\":439.69154838582307},{\"x\":320,\"y\":440.75840653200646},{\"x\":324,\"y\":441.86205711124325},{\"x\":328,\"y\":443},{\"x\":332,\"y\":444.1696573916325},{\"x\":336,\"y\":445.3683796359472},{\"x\":340,\"y\":446.5934512415108},{\"x\":344,\"y\":447.8420970271122},{\"x\":348,\"y\":449.11148840844},{\"x\":352,\"y\":450.39874980573603},{\"x\":356,\"y\":451.7009651579085},{\"x\":360,\"y\":453.015184528348},{\"x\":364,\"y\":454.3384307874829},{\"x\":368,\"y\":455.66770635693524},{\"x\":372,\"y\":457}],\"nav\":0.35000000000000003,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":2,\"stage\":0,\"homeX\":108,\"homeY\":468,\"turnY\":null,\"targetId\":null}],\"effects\":[],\"remaining\":0,\"spawnTimer\":0.95,\"nextId\":11,\"kills\":0,\"message\":\"Le miel colle aux écailles ! Les serpents ralentissent sur cette voie.\",\"tuning\":{\"bossEnabled\":true,\"tacticalRulesEnabled\":true,\"bossHpMultiplier\":6.5,\"bossShieldFraction\":0.12,\"bossShieldRangedFactor\":0.45,\"bossShieldMeleeFactor\":1.6,\"bossShotDamage\":18,\"bossShotInterval\":7,\"bossShotWindup\":1.8,\"bossShotRadius\":38,\"bossShotRange\":260,\"splashSecondaryFactor\":1,\"mutantDamageFactor\":1.75},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"mission\":null,\"missionMinBase\":100}",
+        "rng": 2739124694
+      }
+    },
+    {
+      "name": "fixture-en-preparing",
+      "witness": {
+        "game": "{\"gold\":450,\"base\":100,\"wave\":0,\"status\":\"preparing\",\"paused\":true,\"time\":0,\"eggs\":[],\"feast\":null,\"feastUsed\":false,\"encouragementUsed\":false,\"encouragementRemaining\":0,\"honeyTurns\":0,\"rng\":20261109,\"hatched\":0,\"reroutes\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":180,\"hp\":140,\"maxHp\":140,\"cool\":0,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":2,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":468,\"hp\":140,\"maxHp\":140,\"cool\":0,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":3,\"kind\":\"hero\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":828,\"y\":324,\"hp\":330,\"maxHp\":330,\"cool\":0,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":828,\"homeY\":324,\"turnY\":null,\"targetId\":null}],\"enemies\":[],\"effects\":[],\"remaining\":0,\"spawnTimer\":0,\"nextId\":3,\"kills\":0,\"message\":\"Choisis un allié.\",\"tuning\":{\"bossEnabled\":true,\"tacticalRulesEnabled\":true,\"bossHpMultiplier\":6.5,\"bossShieldFraction\":0.12,\"bossShieldRangedFactor\":0.45,\"bossShieldMeleeFactor\":1.6,\"bossShotDamage\":18,\"bossShotInterval\":7,\"bossShotWindup\":1.8,\"bossShotRadius\":38,\"bossShotRange\":260,\"splashSecondaryFactor\":1,\"mutantDamageFactor\":1.75},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":20261109,\"layout\":0,\"assault\":\"escort\",\"nest\":\"spread\"},\"missionMinBase\":100}",
+        "session": "{\"screen\":\"battle\",\"selected\":null,\"selectedFeast\":null,\"speed\":1,\"hasPlaced\":false}",
+        "rng": 20261109,
+        "time": 0,
+        "checkpoint": "{\"version\":7,\"initialSeed\":20261109,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":20261109,\"layout\":0,\"assault\":\"escort\",\"nest\":\"spread\"},\"missionMinBase\":100,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":20261109,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+        "departure": "REFUGE-2-02D9-8YM7-8Q",
+        "canonicalCatalog": "[{\"kind\":\"club\",\"name\":\"Massue\",\"hp\":140,\"cost\":55,\"ability\":\"Solide et courageux. Combat au contact.\"},{\"kind\":\"hero\",\"name\":\"Héros\",\"hp\":330,\"cost\":0,\"ability\":\"Épée et bouclier. Défend le camp automatiquement.\"},{\"kind\":\"ninja\",\"name\":\"Ninja\",\"hp\":155,\"cost\":150,\"ability\":\"Éclair : notre allié le plus rapide. Chasse les cracheurs exposés à proximité, avec le cristal en priorité.\"},{\"kind\":\"medic\",\"name\":\"Médecin\",\"hp\":105,\"cost\":130,\"ability\":\"Soigne 24 PV par intervention, toutes les 1,6 secondes. 6 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.\"},{\"kind\":\"archer\",\"name\":\"Archer\",\"hp\":95,\"cost\":150,\"ability\":\"Tire à distance, mais reste fragile.\"},{\"kind\":\"dragon\",\"name\":\"Bébé dragon\",\"hp\":200,\"cost\":240,\"ability\":\"Souffle : touche les serpents regroupés autour de la cible.\"},{\"kind\":\"dino\",\"name\":\"Petit dinosaure\",\"hp\":500,\"cost\":280,\"ability\":\"Débloqué à la vague 6. Robuste, protège le passage au contact.\"},{\"kind\":\"raptor\",\"name\":\"Vélociraptor\",\"hp\":140,\"cost\":110,\"ability\":\"Rapide et léger. Renforce les trois voies au contact.\"},{\"kind\":\"triceratops\",\"name\":\"Tricératops\",\"hp\":390,\"cost\":300,\"ability\":\"Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.\"},{\"kind\":\"stegosaurus\",\"name\":\"Stégosaure\",\"hp\":480,\"cost\":320,\"ability\":\"Plaques : réduit de 25 % les dégâts reçus. Garde son secteur.\"},{\"kind\":\"trex\",\"name\":\"Tyrannosaure\",\"hp\":400,\"cost\":390,\"ability\":\"Une morsure très puissante, mais plus lente à préparer.\"},{\"kind\":\"mutantRock\",\"name\":\"Mutant roc\",\"hp\":330,\"cost\":190,\"ability\":\"Peau de pierre : réduit de 20 % les dégâts reçus. Garde son secteur.\"},{\"kind\":\"mutantStretch\",\"name\":\"Mutant élastique\",\"hp\":180,\"cost\":175,\"ability\":\"Bras élastiques : frappe à 90 pas de portée. Son allonge protège son secteur sans projectile.\"},{\"kind\":\"shield\",\"name\":\"Bouclier\",\"hp\":300,\"cost\":90,\"ability\":\"Bouclier : réduit ses dégâts reçus de 40 %. Protège un voisin proche de 60 % d’un tir de cracheur, puis recharge 3 secondes.\"},{\"kind\":\"bat\",\"name\":\"Batteur\",\"hp\":180,\"cost\":110,\"ability\":\"Des coups puissants au contact, mais peu protégé.\"},{\"kind\":\"nurse\",\"name\":\"Infirmier\",\"hp\":90,\"cost\":95,\"ability\":\"Soigne 14 PV par intervention, toutes les 1,4 secondes. 4 bandages ; une fois épuisés, retourne au fort et recharge pendant 4 secondes. Aucun soin pendant le retour ou la recharge. Aucune résurrection.\"},{\"kind\":\"knight\",\"name\":\"Chevalier\",\"hp\":320,\"cost\":220,\"ability\":\"Armure : réduit de 20 % les dégâts reçus.\"},{\"kind\":\"cavalry\",\"name\":\"Cavalier\",\"hp\":230,\"cost\":260,\"ability\":\"Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.\"},{\"kind\":\"twohead\",\"name\":\"Chevalier à deux têtes\",\"hp\":440,\"cost\":350,\"ability\":\"Deux têtes : frappe jusqu’à deux serpents voisins.\"},{\"kind\":\"tank\",\"name\":\"Tank\",\"hp\":540,\"cost\":500,\"ability\":\"Obus de zone et blindage : réduit de 15 % les dégâts reçus.\"},{\"kind\":\"wall\",\"name\":\"Palissade\",\"hp\":440,\"cost\":75,\"ability\":\"Retient les serpents. Placement fixe.\"}]"
+      }
+    },
+    {
+      "name": "fixture-en-preparing: independent seeded commands",
+      "witness": {
+        "actions": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "camp": "{\"version\":6,\"initialSeed\":20261109,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":20,\"base\":100,\"rng\":20261109,\"nextId\":5,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324},{\"id\":4,\"kind\":\"archer\",\"x\":660,\"y\":180,\"hp\":95,\"homeX\":660,\"homeY\":180},{\"id\":5,\"kind\":\"medic\",\"x\":660,\"y\":324,\"hp\":105,\"homeX\":660,\"homeY\":324,\"medical\":{\"bandages\":6,\"phase\":\"ready\",\"remaining\":0},\"medicalCool\":0}]}",
+        "departure": "AVENTURE-1-02D9-8YM0-8Q",
+        "game": "{\"gold\":20,\"base\":100,\"wave\":1,\"status\":\"fighting\",\"paused\":false,\"time\":3.9999999999999956,\"eggs\":[{\"id\":6,\"x\":252,\"y\":324,\"lane\":1,\"hatchIn\":4.2099909465760135,\"duration\":8.209990946576,\"count\":2}],\"feast\":{\"lane\":0,\"remaining\":10.000000000000014,\"flavor\":\"sticky\"},\"feastUsed\":true,\"encouragementUsed\":false,\"encouragementRemaining\":0,\"honeyTurns\":0,\"rng\":2739124694,\"hatched\":0,\"reroutes\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":180,\"hp\":140,\"maxHp\":140,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":2,\"kind\":\"club\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":756,\"y\":468,\"hp\":140,\"maxHp\":140,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":756,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":3,\"kind\":\"hero\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":828,\"y\":324,\"hp\":330,\"maxHp\":330,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":828,\"homeY\":324,\"turnY\":null,\"targetId\":null},{\"id\":4,\"kind\":\"archer\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":660,\"y\":180,\"hp\":95,\"maxHp\":95,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":660,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":5,\"kind\":\"medic\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":660,\"y\":324,\"hp\":105,\"maxHp\":105,\"cool\":-3.9999999999999956,\"path\":[],\"nav\":0,\"boss\":false,\"state\":\"idle\",\"facing\":-1,\"lane\":0,\"stage\":0,\"homeX\":660,\"homeY\":324,\"turnY\":null,\"targetId\":null,\"medical\":{\"bandages\":6,\"phase\":\"ready\",\"remaining\":0}}],\"enemies\":[{\"id\":7,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":257.2478275138341,\"y\":429.59435934476903,\"hp\":57,\"maxHp\":57,\"cool\":-3.9999999999999956,\"path\":[{\"x\":258.48721724775186,\"y\":429.6748553532884},{\"x\":262.48721724775186,\"y\":429.99654799506635},{\"x\":266.48721724775186,\"y\":430.3794121408633},{\"x\":270.48721724775186,\"y\":430.82258048024687},{\"x\":274.48721724775186,\"y\":431.32504909439047},{\"x\":278.48721724775186,\"y\":431.885679730272},{\"x\":282.48721724775186,\"y\":432.50320237918334},{\"x\":286.48721724775186,\"y\":433.1762181537085},{\"x\":290.48721724775186,\"y\":433.9032024566533},{\"x\":294.48721724775186,\"y\":434.6825084347488},{\"x\":298.48721724775186,\"y\":435.51237070930335},{\"x\":302.48721724775186,\"y\":436.3909093753532},{\"x\":306.48721724775186,\"y\":437.3161342602517},{\"x\":310.48721724775186,\"y\":438.285949432051},{\"x\":314.48721724775186,\"y\":439.2981579474612},{\"x\":318.48721724775186,\"y\":440.3504668286345},{\"x\":322.48721724775186,\"y\":441.4404922574966},{\"x\":326.48721724775186,\"y\":442.56576497586195},{\"x\":330.48721724775186,\"y\":443.72373587909743},{\"x\":334.48721724775186,\"y\":444.9117817906646},{\"x\":338.48721724775186,\"y\":446.12721140445757},{\"x\":342.48721724775186,\"y\":447.3672713814778},{\"x\":346.48721724775186,\"y\":448.62915258703185},{\"x\":350.48721724775186,\"y\":449.9099964543253},{\"x\":354.48721724775186,\"y\":451.2069014600358},{\"x\":358.48721724775186,\"y\":452.51692969719664},{\"x\":362.48721724775186,\"y\":453.83711353050114},{\"x\":366.48721724775186,\"y\":455.1644623189508},{\"x\":370.48721724775186,\"y\":456.49596919061935},{\"x\":372,\"y\":457}],\"nav\":0.21666666666666673,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":2,\"stage\":0,\"homeX\":108,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":8,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":218.2349390865016,\"y\":218.05914916962064,\"hp\":57,\"maxHp\":57,\"cool\":-3.0333333333333323,\"path\":[{\"x\":220.85855300195476,\"y\":218.2767459636005},{\"x\":224.85855300195476,\"y\":218.54670660322247},{\"x\":228.85855300195476,\"y\":218.75426509243115},{\"x\":232.85855300195476,\"y\":218.89895124449063},{\"x\":236.85855300195476,\"y\":218.9804372987305},{\"x\":240.85855300195476,\"y\":218.99853866302922},{\"x\":244.85855300195476,\"y\":218.95321433197464},{\"x\":248.85855300195476,\"y\":218.84456697975443},{\"x\":252.85855300195476,\"y\":218.6728427275661},{\"x\":256.85855300195476,\"y\":218.43843058607314},{\"x\":260.85855300195476,\"y\":218.14186157417097},{\"x\":264.85855300195476,\"y\":217.78380751605826},{\"x\":268.85855300195476,\"y\":217.36507951933896},{\"x\":272.85855300195476,\"y\":216.88662613760278},{\"x\":276.85855300195476,\"y\":216.34953122164623},{\"x\":280.85855300195476,\"y\":215.75501146420194},{\"x\":284.85855300195476,\"y\":215.10441364373827},{\"x\":288.85855300195476,\"y\":214.39921157357293},{\"x\":292.85855300195476,\"y\":213.64100276321182},{\"x\":296.85855300195476,\"y\":212.8315047994761},{\"x\":300.85855300195476,\"y\":211.9725514556157},{\"x\":304.85855300195476,\"y\":211.06608853722307},{\"x\":308.85855300195476,\"y\":210.1141694743576},{\"x\":312.85855300195476,\"y\":209.11895066986625},{\"x\":316.85855300195476,\"y\":208.08268661443736},{\"x\":320.85855300195476,\"y\":207.0077247794542},{\"x\":324.85855300195476,\"y\":205.8965002992173},{\"x\":328.85855300195476,\"y\":204.7515304545819},{\"x\":332.85855300195476,\"y\":203.5754089705074},{\"x\":336.85855300195476,\"y\":202.3708001404358},{\"x\":340.85855300195476,\"y\":201.14043279081034},{\"x\":344.85855300195476,\"y\":199.88709409940589},{\"x\":348.85855300195476,\"y\":198.61362328147482},{\"x\":352.85855300195476,\"y\":197.3229051580112},{\"x\":356.85855300195476,\"y\":196.01786362070354},{\"x\":360.85855300195476,\"y\":194.7014550083795},{\"x\":364.85855300195476,\"y\":193.37666140994776},{\"x\":368.85855300195476,\"y\":192.0464839090074},{\"x\":372,\"y\":191}],\"nav\":0.25000000000000006,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":0,\"stage\":0,\"homeX\":108,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":9,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":179.66927623488834,\"y\":435.91206853583486,\"hp\":57,\"maxHp\":57,\"cool\":-2.066666666666669,\"path\":[{\"x\":179.79709210488295,\"y\":435.8833478796431},{\"x\":183.79709210488295,\"y\":435.0323704252883},{\"x\":187.79709210488295,\"y\":434.2311567174564},{\"x\":191.79709210488295,\"y\":433.48152176289324},{\"x\":195.79709210488295,\"y\":432.785163725879},{\"x\":199.79709210488295,\"y\":432.1436600813399},{\"x\":203.79709210488295,\"y\":431.55846404136014},{\"x\":207.79709210488295,\"y\":431.0309012631893},{\"x\":211.79709210488295,\"y\":430.5621668462021},{\"x\":215.79709210488295,\"y\":430.1533226246138},{\"x\":219.79709210488295,\"y\":429.80529476208454},{\"x\":223.79709210488295,\"y\":429.51887165366054},{\"x\":227.79709210488295,\"y\":429.29470213980585},{\"x\":231.79709210488295,\"y\":429.1332940365698},{\"x\":235.79709210488295,\"y\":429.0350129852206},{\"x\":239.79709210488295,\"y\":429.00008162395},{\"x\":243.79709210488295,\"y\":429.0285790835265},{\"x\":247.79709210488295,\"y\":429.1204408080384},{\"x\":251.79709210488295,\"y\":429.27545870113374},{\"x\":255.79709210488295,\"y\":429.49328159742566},{\"x\":259.79709210488295,\"y\":429.7734160579949},{\"x\":263.79709210488295,\"y\":430.11522748818743},{\"x\":267.79709210488295,\"y\":430.51794157517566},{\"x\":271.79709210488295,\"y\":430.98064604202614},{\"x\":275.79709210488295,\"y\":431.50229271429987},{\"x\":279.79709210488295,\"y\":432.0816998945049},{\"x\":283.79709210488295,\"y\":432.717555039021},{\"x\":287.79709210488295,\"y\":433.40841773143325},{\"x\":291.79709210488295,\"y\":434.1527229455384},{\"x\":295.79709210488295,\"y\":434.94878459063267},{\"x\":299.79709210488295,\"y\":435.7947993310494},{\"x\":303.79709210488295,\"y\":436.68885067129446},{\"x\":307.79709210488295,\"y\":437.6289132975249},{\"x\":311.79709210488295,\"y\":438.6128576655363},{\"x\":315.79709210488295,\"y\":439.63845482486505},{\"x\":319.79709210488295,\"y\":440.7033814680784},{\"x\":323.79709210488295,\"y\":441.805225193813},{\"x\":327.79709210488295,\"y\":442.9414899716395},{\"x\":331.79709210488295,\"y\":444.1096017963748},{\"x\":335.79709210488295,\"y\":445.3069145190315},{\"x\":339.79709210488295,\"y\":446.5307158411963},{\"x\":343.79709210488295,\"y\":447.7782334592583},{\"x\":347.79709210488295,\"y\":449.04664134456857},{\"x\":351.79709210488295,\"y\":450.33306614530386},{\"x\":355.79709210488295,\"y\":451.63459369553254},{\"x\":359.79709210488295,\"y\":452.9482756167378},{\"x\":363.79709210488295,\"y\":454.27113599684344},{\"x\":367.79709210488295,\"y\":455.60017813161164},{\"x\":371.79709210488295,\"y\":456.93239131314203},{\"x\":372,\"y\":457}],\"nav\":0.2833333333333334,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":2,\"stage\":0,\"homeX\":108,\"homeY\":468,\"turnY\":null,\"targetId\":null},{\"id\":10,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":141.95145263334743,\"y\":202.00438451800827,\"hp\":57,\"maxHp\":57,\"cool\":-1.1,\"path\":[{\"x\":143.52194432719864,\"y\":202.48653966993513},{\"x\":147.52194432719864,\"y\":203.68855513501467},{\"x\":151.52194432719864,\"y\":204.86182694164285},{\"x\":155.52194432719864,\"y\":206.00369725181358},{\"x\":159.52194432719864,\"y\":207.11157936201005},{\"x\":163.52194432719864,\"y\":208.18296356292007},{\"x\":167.52194432719864,\"y\":209.21542282473507},{\"x\":171.52194432719864,\"y\":210.20661829515305},{\"x\":175.52194432719864,\"y\":211.15430459763132},{\"x\":179.52194432719864,\"y\":212.0563349178867},{\"x\":183.52194432719864,\"y\":212.91066586712014},{\"x\":187.52194432719864,\"y\":213.7153621109498},{\"x\":191.52194432719864,\"y\":214.46860075356577},{\"x\":195.52194432719864,\"y\":215.16867546717532},{\"x\":199.52194432719864,\"y\":215.81400035738437},{\"x\":203.52194432719864,\"y\":216.40311355575815},{\"x\":207.52194432719864,\"y\":216.9346805314235},{\"x\":211.52194432719864,\"y\":217.40749711421057},{\"x\":215.52194432719864,\"y\":217.82049222248543},{\"x\":219.52194432719864,\"y\":218.17273028949458},{\"x\":223.52194432719864,\"y\":218.46341338272455},{\"x\":227.52194432719864,\"y\":218.69188301147557},{\"x\":231.52194432719864,\"y\":218.85762161855496},{\"x\":235.52194432719864,\"y\":218.96025375271049},{\"x\":239.52194432719864,\"y\":218.99954691914832},{\"x\":243.52194432719864,\"y\":218.97541210620844},{\"x\":247.52194432719864,\"y\":218.88790398700476},{\"x\":251.52194432719864,\"y\":218.73722079557282},{\"x\":255.52194432719864,\"y\":218.5237038778061},{\"x\":259.52194432719864,\"y\":218.24783691819763},{\"x\":263.52194432719864,\"y\":217.91024484413907},{\"x\":267.52194432719864,\"y\":217.5116924102593},{\"x\":271.52194432719864,\"y\":217.05308246600902},{\"x\":275.52194432719864,\"y\":216.53545391041652},{\"x\":279.52194432719864,\"y\":215.95997933864714},{\"x\":283.52194432719864,\"y\":215.32796238569816},{\"x\":287.52194432719864,\"y\":214.6408347732461},{\"x\":291.52194432719864,\"y\":213.90015306633674},{\"x\":295.52194432719864,\"y\":213.10759514726468},{\"x\":299.52194432719864,\"y\":212.26495641463015},{\"x\":303.52194432719864,\"y\":211.37414571618385},{\"x\":307.52194432719864,\"y\":210.43718102467273},{\"x\":311.52194432719864,\"y\":209.45618486648272},{\"x\":315.52194432719864,\"y\":208.4333795134339},{\"x\":319.52194432719864,\"y\":207.37108194861983},{\"x\":323.52194432719864,\"y\":206.27169861769582},{\"x\":327.52194432719864,\"y\":205.13771997750547},{\"x\":331.52194432719864,\"y\":203.97171485439486},{\"x\":335.52194432719864,\"y\":202.77632462499471},{\"x\":339.52194432719864,\"y\":201.55425723265276},{\"x\":343.52194432719864,\"y\":200.30828105307103},{\"x\":347.52194432719864,\"y\":199.04121862304459},{\"x\":351.52194432719864,\"y\":197.75594024650778},{\"x\":355.52194432719864,\"y\":196.45535749237263},{\"x\":359.52194432719864,\"y\":195.1424165988889},{\"x\":363.52194432719864,\"y\":193.82009179946672},{\"x\":367.52194432719864,\"y\":192.4913785850814},{\"x\":371.52194432719864,\"y\":191.1592869185228},{\"x\":372,\"y\":191}],\"nav\":0.3166666666666667,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":0,\"stage\":0,\"homeX\":108,\"homeY\":180,\"turnY\":null,\"targetId\":null},{\"id\":11,\"kind\":\"snake\",\"variant\":\"normal\",\"broodCool\":10,\"charge\":0,\"guardCool\":0,\"rattleCool\":0,\"confusedFor\":0,\"confusionImmunity\":0,\"x\":109.66193873899395,\"y\":462.87612086348554,\"hp\":57,\"maxHp\":57,\"cool\":-0.13333333333333333,\"path\":[{\"x\":112,\"y\":455.66770635693524},{\"x\":116,\"y\":454.3384307874829},{\"x\":120,\"y\":453.015184528348},{\"x\":124,\"y\":451.7009651579085},{\"x\":128,\"y\":450.39874980573603},{\"x\":132,\"y\":449.11148840844},{\"x\":136,\"y\":447.8420970271122},{\"x\":140,\"y\":446.5934512415108},{\"x\":144,\"y\":445.3683796359472},{\"x\":148,\"y\":444.1696573916325},{\"x\":152,\"y\":443},{\"x\":156,\"y\":441.86205711124325},{\"x\":160,\"y\":440.75840653200646},{\"x\":164,\"y\":439.69154838582307},{\"x\":168,\"y\":438.66389944953204},{\"x\":172,\"y\":437.67778767850086},{\"x\":176,\"y\":436.73544693305803},{\"x\":180,\"y\":435.83901191808076},{\"x\":184,\"y\":434.99051334720195},{\"x\":188,\"y\":434.1918733425906},{\"x\":192,\"y\":433.44490108072694},{\"x\":196,\"y\":432.75128869403574},{\"x\":200,\"y\":432.1126074376621},{\"x\":204,\"y\":431.5303041300735},{\"x\":208,\"y\":431.00569787554997},{\"x\":212,\"y\":430.53997707598927},{\"x\":216,\"y\":430.13419673879406},{\"x\":220,\"y\":429.78927608694084},{\"x\":224,\"y\":429.5059964766442},{\"x\":228,\"y\":429.2849996273339},{\"x\":232,\"y\":429.12678616795364},{\"x\":236,\"y\":429.0317145028758},{\"x\":240,\"y\":429},{\"x\":244,\"y\":429.0317145028758},{\"x\":248,\"y\":429.12678616795364},{\"x\":252,\"y\":429.2849996273339},{\"x\":256,\"y\":429.5059964766442},{\"x\":260,\"y\":429.78927608694084},{\"x\":264,\"y\":430.13419673879406},{\"x\":268,\"y\":430.53997707598927},{\"x\":272,\"y\":431.00569787554997},{\"x\":276,\"y\":431.5303041300735},{\"x\":280,\"y\":432.1126074376621},{\"x\":284,\"y\":432.75128869403574},{\"x\":288,\"y\":433.44490108072694},{\"x\":292,\"y\":434.1918733425906},{\"x\":296,\"y\":434.99051334720195},{\"x\":300,\"y\":435.83901191808076},{\"x\":304,\"y\":436.73544693305803},{\"x\":308,\"y\":437.67778767850086},{\"x\":312,\"y\":438.66389944953204},{\"x\":316,\"y\":439.69154838582307},{\"x\":320,\"y\":440.75840653200646},{\"x\":324,\"y\":441.86205711124325},{\"x\":328,\"y\":443},{\"x\":332,\"y\":444.1696573916325},{\"x\":336,\"y\":445.3683796359472},{\"x\":340,\"y\":446.5934512415108},{\"x\":344,\"y\":447.8420970271122},{\"x\":348,\"y\":449.11148840844},{\"x\":352,\"y\":450.39874980573603},{\"x\":356,\"y\":451.7009651579085},{\"x\":360,\"y\":453.015184528348},{\"x\":364,\"y\":454.3384307874829},{\"x\":368,\"y\":455.66770635693524},{\"x\":372,\"y\":457}],\"nav\":0.35000000000000003,\"boss\":false,\"state\":\"move\",\"facing\":1,\"lane\":2,\"stage\":0,\"homeX\":108,\"homeY\":468,\"turnY\":null,\"targetId\":null}],\"effects\":[],\"remaining\":0,\"spawnTimer\":0.95,\"nextId\":11,\"kills\":0,\"message\":\"Le miel colle aux écailles ! Les serpents ralentissent sur cette voie.\",\"tuning\":{\"bossEnabled\":true,\"tacticalRulesEnabled\":true,\"bossHpMultiplier\":6.5,\"bossShieldFraction\":0.12,\"bossShieldRangedFactor\":0.45,\"bossShieldMeleeFactor\":1.6,\"bossShotDamage\":18,\"bossShotInterval\":7,\"bossShotWindup\":1.8,\"bossShotRadius\":38,\"bossShotRange\":260,\"splashSecondaryFactor\":1,\"mutantDamageFactor\":1.75},\"rewards\":{\"seed\":20261109,\"pending\":null,\"choices\":[],\"ward\":0},\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"mission\":null,\"missionMinBase\":100}",
+        "rng": 2739124694
+      }
+    }
+  ],
+  "method": "Actual application entrypoint and isolated controlled fixtures are labeled separately. Controlled canvas captures repaint only after dormant-label/state assertions, then temporarily hide the fixture HTML pause shade. Chromium emulation only; no physical S24 or child playtest claim."
+}

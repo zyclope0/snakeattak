@@ -8,7 +8,6 @@ import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
 import { imageMetadata } from '../deploy/imageMetadata.ts';
-
 const folder = 'docs/publication',
   url = 'http://127.0.0.1:4354';
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
@@ -35,7 +34,11 @@ async function ready() {
   throw Error('Store capture preview unavailable');
 }
 async function start(options) {
-  const context = await browser.newContext({ ...options, reducedMotion: 'reduce' });
+  const context = await browser.newContext({
+    locale: 'fr-CH',
+    ...options,
+    reducedMotion: 'reduce',
+  });
   const page = await context.newPage();
   page.on('pageerror', (e) => errors.push(e.message));
   await page.addInitScript((raw) => localStorage.setItem('conquete-serpents:camp:v1', raw), camp);

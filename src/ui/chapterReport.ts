@@ -1,7 +1,7 @@
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import { portraitStyle } from '../art.ts';
 import { createChapterReportObserver } from '../chapterReport.ts';
 import type { Session } from '../session.ts';
-
 /**
  * DOM: details#chapter-report, summary#chapter-report-title,
  * p#chapter-report-summary, ul#chapter-report-army.
@@ -34,7 +34,10 @@ export function bindChapterReport(session: Session): () => void {
     const next = JSON.stringify(report);
     if (next === rendered) return;
     rendered = next;
-    title.textContent = `Chapitre ${report.chapter} accompli · ${report.terrainName} · ${'★'.repeat(report.stars)}${'☆'.repeat(3 - report.stars)}`;
+    setDisplayText(
+      title,
+      `Chapitre ${report.chapter} accompli · ${report.terrainName} · ${'★'.repeat(report.stars)}${'☆'.repeat(3 - report.stars)}`,
+    );
     const minimum =
       report.crystalMinimum === null
         ? 'minimum historique non disponible'
@@ -43,7 +46,10 @@ export function bindChapterReport(session: Session): () => void {
       report.crystalMinimum === null
         ? `conservée${report.stars > 1 ? 's' : ''}`
         : 'pour ce passage';
-    summary.textContent = `${report.stars} étoile${report.stars > 1 ? 's' : ''} sur 3 ${score}. Cristal : ${minimum} · actuellement ${Math.ceil(report.crystalCurrent)}/100 PV. ${report.alliesPresent} allié${report.alliesPresent > 1 ? 's' : ''} présent${report.alliesPresent > 1 ? 's' : ''}. ${report.killsSinceAdventureStart} serpent${report.killsSinceAdventureStart > 1 ? 's' : ''} vaincu${report.killsSinceAdventureStart > 1 ? 's' : ''} depuis le début de l’aventure.`;
+    setDisplayText(
+      summary,
+      `${report.stars} étoile${report.stars > 1 ? 's' : ''} sur 3 ${score}. Cristal : ${minimum} · actuellement ${Math.ceil(report.crystalCurrent)}/100 PV. ${report.alliesPresent} allié${report.alliesPresent > 1 ? 's' : ''} présent${report.alliesPresent > 1 ? 's' : ''}. ${report.killsSinceAdventureStart} serpent${report.killsSinceAdventureStart > 1 ? 's' : ''} vaincu${report.killsSinceAdventureStart > 1 ? 's' : ''} depuis le début de l’aventure.`,
+    );
     const entries = report.army.map((unit) => {
       const item = document.createElement('li');
       const portrait = document.createElement('span');
@@ -51,7 +57,7 @@ export function bindChapterReport(session: Session): () => void {
       portrait.className = 'chapter-report-portrait';
       portrait.setAttribute('aria-hidden', 'true');
       portrait.style.cssText = portraitStyle(unit.kind);
-      label.textContent = `${unit.name} × ${unit.count}`;
+      setDisplayText(label, `${unit.name} × ${unit.count}`);
       item.append(portrait, label);
       return item;
     });

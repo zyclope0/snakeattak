@@ -1,9 +1,9 @@
+import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import type { Kind } from '../data.ts';
 import { kinds } from '../data.ts';
 import { enemyPortraitStyle, portraitStyle } from '../art.ts';
 import { THREAT_DETAILS } from './threatPreview.ts';
 import type { ThreatKind } from './threatPreview.ts';
-
 const paths: Record<string, string> = {
   path: 'M3 18h18M5 14l5-5 4 4 5-8',
   fast: 'm9 3-5 9h8l-3 9 11-13h-8l3-5',
@@ -43,21 +43,27 @@ export function renderThreatCards(host: HTMLElement, types: readonly ThreatKind[
     portrait.setAttribute('aria-hidden', 'true');
     badge.append(capabilityIcon(detail.symbol));
     portrait.append(badge);
-    name.textContent = detail.name;
-    ability.textContent = detail.ability;
+    setDisplayText(name, detail.name);
+    setDisplayText(ability, detail.ability);
     copy.append(name, ability);
     card.append(portrait, copy);
     host.append(card);
   }
 }
-export function renderThreatAdvice(host: HTMLElement, advice: { kind: Kind; text: string }) {
+export function renderThreatAdvice(
+  host: HTMLElement,
+  advice: {
+    kind: Kind;
+    text: string;
+  },
+) {
   const portrait = document.createElement('span'),
     copy = document.createElement('p');
   portrait.className = 'portrait';
   portrait.style.cssText = portraitStyle(advice.kind);
   portrait.setAttribute('aria-hidden', 'true');
   host.dataset.ally = advice.kind;
-  host.setAttribute('aria-label', 'Une idée avec ' + kinds[advice.kind].name);
-  copy.textContent = advice.text;
+  setDisplayAttribute(host, 'aria-label', 'Une idée avec ' + kinds[advice.kind].name);
+  setDisplayText(copy, advice.text);
   host.replaceChildren(portrait, copy);
 }

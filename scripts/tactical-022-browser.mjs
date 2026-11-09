@@ -31,6 +31,7 @@ try {
   for (const scenario of ['medical', 'flying', 'court']) {
     for (const width of [1440, 390, 320, 844]) {
       const p = await browser.newPage({
+        locale: 'fr-CH',
         viewport: { width, height: width === 1440 ? 1100 : width === 844 ? 390 : 844 },
         reducedMotion: 'reduce',
       });

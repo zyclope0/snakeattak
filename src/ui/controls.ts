@@ -1,4 +1,12 @@
+import {
+  setText as setDisplayText,
+  setTitle as setDisplayTitle,
+  setMarkup as setDisplayMarkup,
+  setAttribute as setDisplayAttribute,
+} from '../i18n/dom.ts';
 import { bindBattleResult } from './battleResult.ts';
+import { placementAdvice } from './placementAdvice.ts';
+import { defeatCopy } from '../render/resultCopy.ts';
 import { bindThreatControls } from './threatControls.ts';
 import { bindCampToolHelp } from './campToolHelp.ts';
 import { bindBattleDock } from './battleDock.ts';
@@ -25,12 +33,13 @@ import type { Kind } from '../data.ts';
 import type { Session } from '../session.ts';
 import { portraitStyle, UI_ART_URL } from '../art.ts';
 import { matchesUnitFamily, RECRUITABLE_KINDS, UNIT_FAMILIES } from './unitCatalog.ts';
-
 export function bindControls(
   session: Session,
   afterChange: () => void = () => {},
   career?: ReturnType<typeof createCareer>,
-  actions?: { restart?: () => void },
+  actions?: {
+    restart?: () => void;
+  },
 ) {
   document.documentElement.style.setProperty('--ui-art', `url("${UI_ART_URL}")`);
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -48,7 +57,7 @@ export function bindControls(
   for (const [value, label] of Object.entries(UNIT_FAMILIES)) {
     const option = document.createElement('option');
     option.value = value;
-    option.textContent = label;
+    setDisplayText(option, label);
     familySelect.append(option);
   }
   familySelect.onchange = () => {
@@ -89,10 +98,13 @@ export function bindControls(
     const d = kinds[kind],
       b = document.createElement('button');
     b.className = 'unit-card';
-    b.title = d.description;
+    setDisplayTitle(b, d.description);
     b.dataset.kind = kind;
     b.setAttribute('aria-pressed', 'false');
-    b.innerHTML = `<span class="portrait" aria-hidden="true"></span><span class="unit-info"><strong>${d.name}</strong><small>${descriptions[kind]}</small></span><span class="price">${d.cost} <i aria-hidden="true">●</i><span class="sr-only"> pièces</span></span>`;
+    setDisplayMarkup(
+      b,
+      `<span class="portrait" aria-hidden="true"></span><span class="unit-info"><strong>${d.name}</strong><small>${descriptions[kind]}</small></span><span class="price">${d.cost} <i aria-hidden="true">●</i><span class="sr-only"> pièces</span></span>`,
+    );
     b.querySelector<HTMLElement>('.portrait')!.style.cssText = portraitStyle(kind);
     b.onclick = () => {
       session.selectUnit(session.selected === kind ? null : kind);
@@ -197,30 +209,40 @@ export function bindControls(
     );
     const briefing = session.game.briefing;
     const finished = session.game.status === 'won' || session.game.status === 'lost';
-    el('level-name').textContent = session.game.mission
-      ? missionById(session.game.mission.missionId)!.name
-      : session.game.level.name;
-    el('level-subtitle').textContent = session.game.mission
-      ? session.game.level.name
-      : session.game.level.subtitle;
+    setDisplayText(
+      el('level-name'),
+      session.game.mission
+        ? missionById(session.game.mission.missionId)!.name
+        : session.game.level.name,
+    );
+    setDisplayText(
+      el('level-subtitle'),
+      session.game.mission ? session.game.level.name : session.game.level.subtitle,
+    );
     if (finished) session.selectUnit(null);
     el('end-restart').hidden = !finished || !!session.game.mission;
-    el('brief-title').textContent =
-      `${session.game.status === 'preparing' ? 'Prochaine vague' : 'Vague en cours'} · ${Math.max(1, nextWave)} / ${session.game.totalWaves} · ${briefing.title}`;
-    el('brief-tip').textContent = briefing.tip;
+    setDisplayText(
+      el('brief-title'),
+      `${session.game.status === 'preparing' ? 'Prochaine vague' : 'Vague en cours'} · ${Math.max(1, nextWave)} / ${session.game.totalWaves} · ${briefing.title}`,
+    );
+    setDisplayText(el('brief-tip'), briefing.tip);
     if (finished) {
-      el('brief-title').textContent =
+      setDisplayText(
+        el('brief-title'),
         session.game.status === 'won'
           ? session.game.mission
             ? 'Expédition réussie !'
             : 'La vallée est sauvée !'
-          : 'Le camp est tombé';
-      el('brief-tip').textContent =
+          : 'Le camp est tombé',
+      );
+      setDisplayText(
+        el('brief-tip'),
         session.game.status === 'won'
           ? session.game.mission
             ? 'Tes alliés ont tenu ! Retrouve la carte pour choisir la suite.'
             : 'Douze vagues repoussées. Le goûter peut commencer !'
-          : 'Consulte le statut de sauvegarde pour reprendre un camp, ou commence une nouvelle aventure.';
+          : defeatCopy(session.game).subtitle,
+      );
     }
     refreshFeast();
     refreshDock();
@@ -231,17 +253,19 @@ export function bindControls(
     el('selection-panel').hidden = !selected && !session.selectedFeast;
     el('message').hidden = !!selected || !!session.selectedFeast;
     if (selected) {
-      el('selection-name').textContent = kinds[selected].name;
-      const readout = placementReadout(session.game, selected);
-      el('selection-hint').textContent =
-        `${readout?.category ?? 'Placement'} · portée initiale ${kinds[selected].range}. Touche ton camp ; cet allié agit ensuite seul.`;
+      setDisplayText(el('selection-name'), kinds[selected].name);
+      setDisplayText(el('selection-hint'), placementAdvice(selected).hint);
       el('selection-portrait').style.cssText = portraitStyle(selected);
     } else if (session.selectedFeast) {
-      el('selection-name').textContent =
-        session.selectedFeast === 'sticky' ? 'Miel collant' : 'Miel attirant';
-      el('selection-hint').textContent =
+      setDisplayText(
+        el('selection-name'),
+        session.selectedFeast === 'sticky' ? 'Miel collant' : 'Miel attirant',
+      );
+      setDisplayText(
+        el('selection-hint'),
         session.actionHint ??
-        'Touche un chemin attaqué. Les boutons Haut, Centre et Bas restent disponibles.';
+          'Touche un chemin attaqué. Les boutons Haut, Centre et Bas restent disponibles.',
+      );
       el('selection-portrait').style.cssText = feastIconStyle(session.selectedFeast);
     }
     if (finished) {
@@ -249,23 +273,30 @@ export function bindControls(
       el<HTMLDetailsElement>('camp-observation').open = true;
       el<HTMLDetailsElement>('camp-tools').open = true;
     }
-    el('pause').textContent = session.game.paused ? '▶' : 'Ⅱ';
-    el('pause').setAttribute('aria-label', session.game.paused ? 'Reprendre' : 'Mettre en pause');
-    el('speed').textContent = `×${session.speed}`;
+    setDisplayText(el('pause'), session.game.paused ? '▶' : 'Ⅱ');
+    setDisplayAttribute(
+      el('pause'),
+      'aria-label',
+      session.game.paused ? 'Reprendre' : 'Mettre en pause',
+    );
+    setDisplayText(el('speed'), `×${session.speed}`);
     const end = session.game.status === 'won' || session.game.status === 'lost';
     el<HTMLButtonElement>('start').disabled =
       session.game.status !== 'preparing' ||
       session.game.paused ||
       session.game.rewards.pending !== null;
-    el('start').textContent = end
-      ? 'Partie terminée'
-      : session.game.rewards.pending !== null
-        ? 'Choisir un bonus'
-        : session.game.status === 'fighting'
-          ? 'Vague en cours…'
-          : session.game.wave
-            ? 'Vague suivante'
-            : 'Lancer la vague';
+    setDisplayText(
+      el('start'),
+      end
+        ? 'Partie terminée'
+        : session.game.rewards.pending !== null
+          ? 'Choisir un bonus'
+          : session.game.status === 'fighting'
+            ? 'Vague en cours…'
+            : session.game.wave
+              ? 'Vague suivante'
+              : 'Lancer la vague',
+    );
     el<HTMLButtonElement>('pause').disabled = end;
     el<HTMLButtonElement>('repair').disabled =
       end || session.game.paused || session.game.gold < 80 || session.game.base >= 100;
@@ -279,16 +310,18 @@ export function bindControls(
     }
     if (!future) catalogView = 'ready';
     el<HTMLButtonElement>('shop-future').disabled = !future;
-    el('shop-ready').textContent = `Disponibles (${ready})`;
-    el('shop-future').textContent = `À découvrir (${future})`;
+    setDisplayText(el('shop-ready'), `Disponibles (${ready})`);
+    setDisplayText(el('shop-future'), `À découvrir (${future})`);
     el('shop-ready').setAttribute('aria-pressed', String(catalogView === 'ready'));
     el('shop-future').setAttribute('aria-pressed', String(catalogView === 'future'));
-    el('shop-note').textContent =
+    setDisplayText(
+      el('shop-note'),
       catalogView === 'ready'
         ? ready
           ? 'Choisis un allié, puis place-le dans ton camp. Les prix sont en pièces.'
           : 'Ces alliés arrivent plus tard. Ouvre « À découvrir » pour les rencontrer.'
-        : 'Voici les prochains alliés. Le guide explique leurs rôles avant leur arrivée.';
+        : 'Voici les prochains alliés. Le guide explique leurs rôles avant leur arrivée.',
+    );
     for (const [kind, b] of cards) {
       const locked = !session.game.isUnlocked(kind);
       b.hidden =
@@ -297,17 +330,20 @@ export function bindControls(
       const cost = session.game.recruitCost(kind);
       b.disabled = end || session.game.paused || locked || session.game.gold < cost;
       const price = b.querySelector<HTMLElement>('.price')!;
-      price.firstChild!.textContent = cost === 0 ? 'Offert' : `${cost} `;
+      setDisplayText(price.firstChild!, cost === 0 ? 'Offert' : `${cost} `);
       price.querySelector<HTMLElement>('i')!.hidden = cost === 0;
-      price.querySelector<HTMLElement>('.sr-only')!.textContent = cost === 0 ? '' : ' pièces';
+      setDisplayText(price.querySelector<HTMLElement>('.sr-only')!, cost === 0 ? '' : ' pièces');
       b.classList.toggle('free-offer', cost === 0);
-      b.querySelector('small')!.textContent = locked
-        ? session.game.mission
-          ? 'À découvrir dans une autre mission'
-          : `Arrive à la vague ${unlockWave[kind]}`
-        : session.game.gold < cost
-          ? `Encore ${cost - session.game.gold} pièces`
-          : (descriptions[kind] ?? '');
+      setDisplayText(
+        b.querySelector('small')!,
+        locked
+          ? session.game.mission
+            ? 'À découvrir dans une autre mission'
+            : `Arrive à la vague ${unlockWave[kind]}`
+          : session.game.gold < cost
+            ? `Encore ${cost - session.game.gold} pièces`
+            : (descriptions[kind] ?? ''),
+      );
       const reason = locked
         ? session.game.mission
           ? 'À découvrir dans une autre mission'
@@ -322,7 +358,8 @@ export function bindControls(
           : session.selected === kind
             ? 'selected'
             : 'ready';
-      b.setAttribute(
+      setDisplayAttribute(
+        b,
         'aria-label',
         `${kinds[kind].name}, ${cost === 0 ? 'offert' : `${cost} pièces`}. ${reason}.`,
       );
@@ -333,6 +370,5 @@ export function bindControls(
     refreshSquad();
     refreshAdventure();
   }
-
   return refresh;
 }

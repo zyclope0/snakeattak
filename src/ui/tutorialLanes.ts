@@ -1,3 +1,9 @@
+import {
+  createTextNode as copyTextNode,
+  setText as setDisplayText,
+  setAttribute as setDisplayAttribute,
+  setTitle as setDisplayTitle,
+} from '../i18n/dom.ts';
 import type { Game } from '../game.ts';
 import { LANE_NAMES } from '../ai.ts';
 /** Presentation observes the engine's mask; it neither advances nor rerolls it. */
@@ -10,7 +16,7 @@ export function bindTutorialLanes() {
       icon = document.createElement('b');
     chip.className = 'tutorial-lane';
     chip.setAttribute('aria-hidden', 'true');
-    chip.append(icon, document.createTextNode(name));
+    chip.append(icon, copyTextNode(name));
     return { chip, icon };
   });
   panel.append(accessible, ...chips.map((c) => c.chip));
@@ -24,13 +30,16 @@ export function bindTutorialLanes() {
     if (key === previous) return;
     previous = key;
     const label = `Vague ${wave} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. ${lanes.length < 3 ? 'Les autres voies restent paisibles.' : 'Les trois voies sont attaquées.'}`;
-    accessible.textContent = label;
-    panel.setAttribute('aria-label', label);
+    setDisplayText(accessible, label);
+    setDisplayAttribute(panel, 'aria-label', label);
     for (const [lane, { chip, icon }] of chips.entries()) {
       const active = lanes.includes(lane);
       chip.dataset.active = String(active);
-      chip.title = `${LANE_NAMES[lane]} : ${active ? 'attaquée' : 'paisible pour cette vague'}`;
-      icon.textContent = active ? '▲' : '—';
+      setDisplayTitle(
+        chip,
+        `${LANE_NAMES[lane]} : ${active ? 'attaquée' : 'paisible pour cette vague'}`,
+      );
+      setDisplayText(icon, active ? '▲' : '—');
     }
   };
 }

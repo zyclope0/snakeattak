@@ -1,4 +1,46 @@
-# Plan actuel — application 0.34.2, parties et résultat
+# Plan actuel — application 0.35.0, tactique et français/anglais
+
+## Fusion autorisée de PR2 — 9 novembre 2026
+
+Le parent autorise la fusion. Le préflight a reproduit l'échec des deux CI
+sur le test hors ligne : lecture du numéro de version avant la fin du bootstrap
+asynchrone. Correction du seul test par attente du vrai accueil ; les dix
+contrôles hors ligne passent, dont les sauvegardes1–7. Les34fichiers web restent
+identiques au build publié et à l'APK0.35.0. Les contrôles GitHub complets doivent
+passer avant fusion ; leur état et le résultat effectif sont consultables sur
+[PR2](https://github.com/zyclope0/snakeattak/pull/2).
+[Preflight](PREFLIGHT-MERGE-0.35.0.md).
+
+## Lot tactique et anglais — 9 novembre 2026
+
+**0.35.0/code45.** Demande du parent : réaliser le lot2 de lisibilité,
+doubler le jeu en anglais sous le nom **Snake Attack TD**, conserver le français
+et ajouter une unique soucoupe décorative. Règles, équilibre, graines, formats
+de camp et codes de départ conservés ; aucun nouveau lieu ou niveau.
+
+Fait côté application : placement expliqué selon rôle/portée réels, voie faible
+suggérée parmi les voies ouvertes, stocks médicaux regroupés près du refuge,
+étoiles gagnées et consigne de défaite cohérente. Choix FR/EN mémorisé à l'accueil
+et en pause, messages/aides/catalogue/missions/Phaser traduits, nom Android
+anglais selon langue système. Soucoupe originale mate dans les seules ruines
+classiques ; aucun asset de film ou appel payant.
+
+**Site0.35.0 publié, Sites22**, audience conservée, FR/EN et pause vérifiés
+sur le déploiement réel ; HTML, cinq JS et deux CSS identiques au build.
+APK normal code45 inspecté,34fichiers web identiques ; nouvel essai S24 attendu.
+Refuge joué en anglais sur le site :3vagues, victoire100%, accès à la mission
+suivante confirmé ; pas de nouvelle étude d’équilibrage.
+[PR2](https://github.com/zyclope0/snakeattak/pull/2) ouverte et non fusionnée ;
+`main` conserve la PR1. [Reçu](../reports/deployment-0.35.0.json).
+
+[Bilan](BILAN-0.35.0.md), [conseil final](CONSEIL-0.35.0.md),
+[conseil du premier lot](CONSEIL-0.35.0-lot1.md).
+La recette automatique ne remplace pas l'essai du nouvel APK sur le S24 ni une
+relecture humaine anglophone. Mineurs suivis : aide longue, actions secondaires
+petites, explication du groupe médical et indice de défilement des résultats.
+Aucun changement publicitaire, achat, appID définitif ou publication Play.
+
+Les sections suivantes conservent les livraisons et décisions antérieures.
 
 ## Fusion autorisée — 9 novembre 2026
 
@@ -38,8 +80,8 @@ Suite prioritaire : essai S24 des fins de partie, compréhension du placement
 et des premiers achats, puis comparaison contrôlée de la Grande aventure avant
 de proposer des chiffres. Deux premières missions permissives conservées ;
 soigneurs et archers non retouchés sur des politiques de bots non comparables.
-Étoiles, texte de défaite et indice de défilement restent des améliorations
-mineures ouvertes. Cohérence graphique partielle, boss navigateur non atteint,
+Étoiles et texte de défaite traités depuis en0.35.0 ; indice de défilement
+encore ouvert. Cohérence graphique partielle, boss navigateur non atteint,
 lecteur d'écran/grossissement et ressenti enfants non certifiés. Aucun nouveau
 mode, lieu, mission, génération payante ou SDK. Suivis commerciaux séparés.
 
@@ -133,11 +175,11 @@ terminé par les lots A/B/C et aucun appel payant n'est lancé.
 | 1 — affichage      | Corrections livrées et recettes automatiques vertes                     | Dernier APK à revoir sur le vrai S24                                                  |
 | 4 — Android        | Identité/signature préservées, APK normal et interruptions automatisées | Mise à jour avec camp réel, gestes système, FPS/RAM et cycle de vie physique          |
 | 3 — plateau        | Corrections conservées, pavés mats et cadres fournis intégrés           | Matière des bordures encore partiellement picturale                                   |
-| 2 — lisibilité     | Contours existants, aides des outils et accueil améliorés               | Compréhension des enfants et harmonisation complète des unités non attestées          |
+| 2 — lisibilité     | Rôles/portées, soins et résultats clarifiés en0.35.0                    | Compréhension des enfants et harmonisation complète des unités non attestées          |
 | 7 — accompagnement | Signaux existants conservés, explications des vrais outils livrées      | Aucun mode Facile, appel anticipé ou nouveau verrou de progression appliqué           |
 | 8 — monétisation   | V1 documentaire côté client seulement                                   | Choix produits/prix, confirmation Familles exacte, SDK, consentements et GO distincts |
 | 9 — identité/store | Icône native, accueil et favicon réutilisent la ressource retenue       | AppID définitif, AAB, compte/test fermé, déclarations et publication Play             |
-| 5 — langues        | Jeu en français ; textes store multilingues préparatoires               | Traductions du jeu et relecture après stabilisation familiale                         |
+| 5 — langues        | FR/EN applicatif livré en 0.35.0 ; Snake Attack TD en anglais           | Relecture humaine anglaise et essai S24, autres langues non engagées                  |
 | 6 — lieux          | Originaux conservés, deux exports en cadres périphériques               | Aucun nouveau lieu, météo ou règle ; test familial du rendu à faire                   |
 
 La direction pâte à modeler / papier mâché de l’icône fait référence pour la

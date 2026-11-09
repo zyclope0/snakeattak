@@ -27,6 +27,13 @@
   font-size: 13px;
   line-height: 1.4;
 }
+#battle-result #battle-result-stars {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: 3px;
+  color: #8b5d13;
+}
 #battle-result .mission-battle-actions {
   display: block;
   margin: 0;

@@ -22,7 +22,11 @@ const errors = [],
   external = [];
 await mkdir('artifacts', { recursive: true });
 async function pageFor(g, viewport = { width: 1440, height: 1050 }, earlyDialog = false) {
-  const context = await browser.newContext({ viewport, reducedMotion: 'reduce' });
+  const context = await browser.newContext({
+    locale: 'fr-CH',
+    viewport,
+    reducedMotion: 'reduce',
+  });
   if (earlyDialog)
     await context.addInitScript(() => {
       const observer = new MutationObserver(() => {

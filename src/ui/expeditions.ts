@@ -1,4 +1,10 @@
+import {
+  setText as setDisplayText,
+  setTitle as setDisplayTitle,
+  setAttribute as setDisplayAttribute,
+} from '../i18n/dom.ts';
 import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
+import { defeatCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS, createMissionRun, missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
@@ -8,7 +14,6 @@ import { portraitStyle } from '../art.ts';
 import { bindDepartureControls } from './departures.ts';
 import { missionJourney } from './missionJourney.ts';
 import { missionEmblem, missionStatusBadge } from './missionJourneyView.ts';
-
 type Progress = ReturnType<typeof createMissionProgressController>;
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
 const assaults = {
@@ -17,7 +22,6 @@ const assaults = {
   escort: 'Avancées groupées',
 };
 const nests = { spread: 'Éclosions décalées', clustered: 'Couvée groupée' };
-
 /** Mission selection is separate from combat controls and never writes simulation rules. */
 export function bindExpeditions(
   session: Session,
@@ -43,11 +47,14 @@ export function bindExpeditions(
     button.className = 'mission-card';
     button.dataset.missionCard = mission.id;
     const number = document.createElement('small');
-    number.textContent = `${String(index + 1).padStart(2, '0')} · ${mission.waves.length} vagues`;
+    setDisplayText(
+      number,
+      `${String(index + 1).padStart(2, '0')} · ${mission.waves.length} vagues`,
+    );
     const name = document.createElement('strong');
-    name.textContent = mission.name;
+    setDisplayText(name, mission.name);
     const objective = document.createElement('span');
-    objective.textContent = mission.objective;
+    setDisplayText(objective, mission.objective);
     const stars = document.createElement('span');
     stars.className = 'mission-stars';
     stars.setAttribute('role', 'img');
@@ -70,19 +77,23 @@ export function bindExpeditions(
     const mission = missionById(run.missionId)!;
     draft = run;
     departures.preview(run);
-    el('mission-title').textContent = mission.name;
-    el('mission-objective').textContent = mission.objective;
+    setDisplayText(el('mission-title'), mission.name);
+    setDisplayText(el('mission-objective'), mission.objective);
     el('mission-replacement-note').hidden = !actions.canResume();
-    el('mission-budget').textContent =
-      `${mission.budget} pièces · ${mission.waves.length} vagues · nouveaux alliés`;
-    el('mission-land').textContent = ['Détours', 'Méandres', 'Carrefour'][run.layout];
-    el('mission-assault').textContent = assaults[run.assault];
-    el('mission-nest').textContent = nests[run.nest];
-    el('mission-plan').textContent =
+    setDisplayText(
+      el('mission-budget'),
+      `${mission.budget} pièces · ${mission.waves.length} vagues · nouveaux alliés`,
+    );
+    setDisplayText(el('mission-land'), ['Détours', 'Méandres', 'Carrefour'][run.layout]);
+    setDisplayText(el('mission-assault'), assaults[run.assault]);
+    setDisplayText(el('mission-nest'), nests[run.nest]);
+    setDisplayText(
+      el('mission-plan'),
       missionWave(run, 1).pattern.tip +
-      (mission.waves.some((rank) => rank >= 6)
-        ? ' Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.'
-        : '');
+        (mission.waves.some((rank) => rank >= 6)
+          ? ' Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.'
+          : ''),
+    );
     el('mission-retry').hidden = !progress.lastRun(run.missionId);
     drawMissionPreview(el('mission-map') as unknown as SVGElement, run);
     showMissionScouting(run);
@@ -92,7 +103,7 @@ export function bindExpeditions(
       const portrait = document.createElement('span');
       portrait.className = 'portrait';
       portrait.style.cssText = portraitStyle(kind);
-      portrait.title = kinds[kind].name;
+      setDisplayTitle(portrait, kinds[kind].name);
       party.append(portrait);
     }
     dialog.dataset.run = JSON.stringify(run);
@@ -148,38 +159,41 @@ export function bindExpeditions(
     departures.refresh();
     const journey = missionJourney(progress.state.bestStars, progress.unlocked);
     const next = journey.find((step) => step.status === 'next');
-    el('home-next-mission').textContent = next
-      ? nextMission().name
-      : `Rejouer : ${nextMission().name}`;
-    el('home-play').textContent = next ? 'Jouer' : 'Rejouer';
+    setDisplayText(
+      el('home-next-mission'),
+      next ? nextMission().name : `Rejouer : ${nextMission().name}`,
+    );
+    setDisplayText(el('home-play'), next ? 'Jouer' : 'Rejouer');
     const state = progress.state;
     let total = 0;
     for (const [index, card] of cards.entries()) {
       const step = journey[index];
       total += step.stars;
-      card.stars.textContent = '★'.repeat(step.stars) + '☆'.repeat(3 - step.stars);
-      card.stars.setAttribute('aria-label', step.starLabel);
+      setDisplayText(card.stars, '★'.repeat(step.stars) + '☆'.repeat(3 - step.stars));
+      setDisplayAttribute(card.stars, 'aria-label', step.starLabel);
       card.button.disabled = step.disabled;
       card.button.dataset.journeyStatus = step.status;
       if (step.status === 'next') card.button.setAttribute('aria-current', 'step');
       else card.button.removeAttribute('aria-current');
-      card.availability.textContent = `${step.symbol} ${step.label}`;
+      setDisplayText(card.availability, `${step.symbol} ${step.label}`);
     }
-    el('mission-total').textContent = `${total} / 18 étoiles`;
+    setDisplayText(el('mission-total'), `${total} / 18 étoiles`);
     el('mission-continue').hidden = !actions.canResume();
     const g = session.game,
       run = g.mission;
     el('mission-battle-actions').hidden = !run;
     if (!run) return;
     const definition = missionById(run.missionId)!;
-    el('mission-battle-title').textContent = 'Tes alliés';
-    el('mission-battle-config').textContent = `${assaults[run.assault]} · ${nests[run.nest]}`;
+    setDisplayText(el('mission-battle-title'), 'Tes alliés');
+    setDisplayText(el('mission-battle-config'), `${assaults[run.assault]} · ${nests[run.nest]}`);
     const end = g.status === 'won' || g.status === 'lost';
     el('mission-result').hidden = !end;
-    el('mission-result').textContent =
+    setDisplayText(
+      el('mission-result'),
       g.status === 'won'
-        ? `${'★'.repeat(g.missionStars)} · Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`
-        : 'Le camp est tombé. Réessaie ce même départ ou prépare une autre expédition.';
+        ? `Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`
+        : defeatCopy(g).subtitle,
+    );
     el('mission-again').hidden = !end;
     const index = MISSIONS.findIndex((m) => m.id === run.missionId);
     el('mission-next').hidden = g.status !== 'won' || index >= MISSIONS.length - 1;

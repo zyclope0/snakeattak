@@ -409,3 +409,35 @@ du Game invalide les anciennes acquisitions lors d'un changement de partie.
 `ui/lifecycle.ts` relie `visibilitychange` et `pagehide` à cette pause retenue.
 La fermeture d'une fenêtre et le retour `pageshow` ne relancent pas le combat.
 Le contrôleur ne modifie ni temps, ni RNG, ni contenu des sauvegardes.
+
+## Français et anglais — 0.35.0
+
+`src/main.ts` initialise la préférence linguistique puis charge `bootstrap.ts`.
+Le moteur, ses noms/messages canoniques français, les graines, les formats de
+camp et les codes restent indépendants de la langue. La préférence `fr|en`
+a sa propre clé locale ; le choix le plus récent gagne si les chargements
+asynchrones se croisent. Le catalogue anglais est chargé à la demande, sans
+service réseau de traduction ni dépendance ajoutée.
+
+`src/i18n/dom.ts` lie explicitement les écritures et les feuilles HTML ; aucune
+observation globale du DOM. Les valeurs sources restent dans des WeakMap,
+les nœuds et les handlers sont conservés lors de la bascule. Les données brutes
+(code, rapport, sauvegarde, textarea) ne sont pas traduites, mais leurs attributs
+linguistiques accessibles le sont. Les noms techniques d'attributs et valeurs
+option/commande restent stables. `phaser.ts` actualise aussi les Text mis en
+cache et retire les références détruites. Les gabarits sont ancrés, bornés à
+2048 caractères et six niveaux ; inventaire statique et recettes complètent
+les contrôles, sans prétendre remplacer la relecture humaine.
+
+Le build normal sépare entrée, interface/bootstrap, règles, anglais et Phaser.
+Le plafond par fichier n'est pas le coût cumulé : le bilan donne les deux.
+Le portable reste une seule distribution autonome avec les deux langues.
+Les ressources Android `values-en` affichent Snake Attack TD selon la langue
+système ; changer la langue dans le jeu ne redémarre pas l'Activity et ne
+renomme pas l'identifiant Android provisoire.
+
+Les aides de placement, le regroupement médical et les étoiles lisent les
+valeurs existantes du moteur. La petite soucoupe procédurale est ajoutée une
+fois au cache du seul terrain classique `ruins`, puis ses objets temporaires
+sont détruits avec le cycle de terrain existant. Aucun acteur, collision,
+récompense, son ou tirage aléatoire n'est ajouté.

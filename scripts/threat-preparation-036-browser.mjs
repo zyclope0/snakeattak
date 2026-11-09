@@ -4,6 +4,7 @@ import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 const fixture = 'threat-preparation-036-fixture.html';
+const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 let preview, dev, browser;
 const errors = [],
   screens = [];
@@ -17,9 +18,16 @@ async function ready(url) {
   }
 }
 async function pageAt(width, height, safe = [0, 0, 0, 0], devMode = false) {
-  const page = await browser.newPage({ viewport: { width, height }, hasTouch: width < 1000 });
+  const page = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width, height },
+    hasTouch: width < 1000,
+  });
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(devMode ? 'http://127.0.0.1:4364/' + fixture : 'http://127.0.0.1:4363');
+  // Language initialization precedes bootstrap; await the real menu before
+  // reading or injecting its family profile. Controlled battle fixtures skip it.
+  if (!devMode) await page.locator('#home-screen').waitFor({ state: 'visible' });
   await page.evaluate((safe) => {
     for (const [i, k] of ['top', 'right', 'bottom', 'left'].entries())
       document.documentElement.style.setProperty('--safe-area-inset-' + k, safe[i] + 'px');
@@ -145,7 +153,6 @@ try {
       adviceBounds.y + adviceBounds.height <= bodyBounds.y + bodyBounds.height,
     'Mission advice visible without scrolling',
   );
-
   assert.equal(await late.locator('#mission-threats [data-threat="flying"]').count(), 1);
   assert.equal(await late.locator('#mission-advice').getAttribute('data-ally'), 'archer');
   assert.ok((await late.locator('#mission-other-threats [data-threat]').count()) > 0);
@@ -239,10 +246,10 @@ try {
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });
   await writeFile(
-    'reports/threat-preparation-0.32.json',
+    `reports/threat-preparation-${version}.json`,
     JSON.stringify(
       {
-        version: '0.32.0',
+        version,
         source: 'Chromium cloud, not physical Android',
         screens,
         checks: [

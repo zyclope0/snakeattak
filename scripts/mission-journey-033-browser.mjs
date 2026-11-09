@@ -10,7 +10,6 @@ import { createCareer } from '../src/progression.ts';
 import { writeFamilyBackup } from '../src/familyBackup.ts';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
-
 const baseline = process.argv.includes('--baseline');
 const artifact = 'artifacts/mission-journey-0331';
 const base = 'http://127.0.0.1:4375';
@@ -68,6 +67,7 @@ try {
       if (['irregular'].includes(name) && width !== 1280) continue;
       if ([812, 700, 400].includes(width) && name !== 'empty') continue;
       const page = await browser.newPage({
+        locale: 'fr-CH',
         viewport: { width, height },
         hasTouch: touch,
         isMobile: touch,

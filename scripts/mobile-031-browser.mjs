@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
-
 const phase = process.argv[2] ?? 'all';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const fixture = 'mobile-031-fixture.html';
@@ -72,7 +71,11 @@ try {
       [960, 432, [24, 24, 16, 24]],
       [1280, 800, [24, 24, 16, 12]],
     ]) {
-      const page = await browser.newPage({ viewport: { width, height }, hasTouch: width < 1100 });
+      const page = await browser.newPage({
+        locale: 'fr-CH',
+        viewport: { width, height },
+        hasTouch: width < 1100,
+      });
       await launch(page, 'http://127.0.0.1:4352');
       await insets(page, ...safe);
       await page.screenshot({ path: `artifacts/mobile-031/safe-${width}-${safe[1]}.png` });
@@ -106,7 +109,11 @@ try {
       results.push({ width, height, safe, board: rect(board) });
       await page.close();
     }
-    const page = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width: 812, height: 375 },
+      hasTouch: true,
+    });
     await page.goto('http://127.0.0.1:4352');
     await insets(page, 24, 48, 16, 0);
     await page.locator('#home-play').click();
@@ -128,7 +135,11 @@ try {
       [667, 375, [24, 0, 16, 48]],
       [812, 375, [24, 48, 16, 0]],
     ]) {
-      const page = await browser.newPage({ viewport: { width, height }, hasTouch: true });
+      const page = await browser.newPage({
+        locale: 'fr-CH',
+        viewport: { width, height },
+        hasTouch: true,
+      });
       await launch(page, 'http://127.0.0.1:4352');
       await insets(page, ...safe);
       await page.locator('#reinforcements-toggle').click();
@@ -196,7 +207,11 @@ try {
     }
   }
   if (phase === 'all' || phase === 'dock') {
-    const page = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width: 812, height: 375 },
+      hasTouch: true,
+    });
     await launch(page, 'http://127.0.0.1:4352');
     await insets(page, 24, 48, 16, 0);
     const before = await page.locator('#game canvas').boundingBox();
@@ -257,7 +272,6 @@ try {
       'false',
     );
     await page.close();
-
     await writeFile(
       fixture,
       (await readFile('index.html', 'utf8')).replace(
@@ -274,7 +288,11 @@ try {
       '--strictPort',
     ]);
     await ready('http://127.0.0.1:4353/' + fixture);
-    const live = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+    const live = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width: 812, height: 375 },
+      hasTouch: true,
+    });
     live.on('pageerror', (e) => errors.push(e.message));
     await live.goto('http://127.0.0.1:4353/' + fixture);
     await live.waitForFunction(() => window.mobileInterface?.phaser.scene.isActive('Battle'));

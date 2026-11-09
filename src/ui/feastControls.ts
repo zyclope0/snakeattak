@@ -1,9 +1,17 @@
+import {
+  createTextNode as copyTextNode,
+  setTitle as setDisplayTitle,
+  setText as setDisplayText,
+} from '../i18n/dom.ts';
 import { LANE_NAMES } from '../ai.ts';
 import type { Session } from '../session.ts';
 import type { FeastFlavor } from '../tactics.ts';
 import { ART_SHEETS } from '../art.ts';
-
-export const FEAST_CHOICES: ReadonlyArray<{ value: FeastFlavor; label: string; hint: string }> = [
+export const FEAST_CHOICES: ReadonlyArray<{
+  value: FeastFlavor;
+  label: string;
+  hint: string;
+}> = [
   {
     value: 'lure',
     label: 'Attirer',
@@ -15,12 +23,10 @@ export const FEAST_CHOICES: ReadonlyArray<{ value: FeastFlavor; label: string; h
     hint: 'Pose une flaque de miel collant sur le passage choisi.',
   },
 ];
-
 export function feastIconStyle(flavor: FeastFlavor) {
   const sheet = ART_SHEETS.find((s) => s.key === 'miels-parapluie')!;
   return `background-image:url("${sheet.url}");background-position:${flavor === 'sticky' ? 100 : 0}% 100%`;
 }
-
 export function feastPot(flavor: FeastFlavor) {
   const icon = document.createElement('span');
   icon.className = 'feast-pot';
@@ -28,7 +34,6 @@ export function feastPot(flavor: FeastFlavor) {
   icon.style.cssText = feastIconStyle(flavor);
   return icon;
 }
-
 export function bindFeastControls(session: Session, onChange: () => void) {
   const container = document.getElementById('feast-controls')!;
   const flavorContainer = document.getElementById('feast-flavors')!;
@@ -43,11 +48,11 @@ export function bindFeastControls(session: Session, onChange: () => void) {
   const flavorButtons = FEAST_CHOICES.map((flavor) => {
     const button = document.createElement('button');
     const icon = feastPot(flavor.value);
-    button.append(icon, document.createTextNode(flavor.label));
+    button.append(icon, copyTextNode(flavor.label));
     button.dataset.feastFlavor = flavor.value;
     button.setAttribute('aria-pressed', 'false');
     button.setAttribute('aria-describedby', 'feast-hint');
-    button.title = flavor.hint;
+    setDisplayTitle(button, flavor.hint);
     button.onclick = () => {
       if (!canChoose()) return;
       selected = flavor.value;
@@ -59,7 +64,7 @@ export function bindFeastControls(session: Session, onChange: () => void) {
   });
   const buttons = LANE_NAMES.map((name, lane) => {
     const button = document.createElement('button');
-    button.textContent = name;
+    setDisplayText(button, name);
     button.dataset.feastLane = String(lane);
     button.setAttribute('aria-pressed', 'false');
     button.onclick = () => {
@@ -91,12 +96,14 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     }
     const lanes = game.enemyLanes;
     hint.classList.toggle('tutorial-hint', game.mission?.rules === 2 && lanes.length < 3);
-    hint.textContent =
+    setDisplayText(
+      hint,
       'Touche un chemin pour poser le miel, ou utilise les boutons ci-dessous. ' +
-      FEAST_CHOICES.find((flavor) => flavor.value === selected)!.hint +
-      (game.mission?.rules === 2 && lanes.length < 3
-        ? ` Voie${lanes.length > 1 ? 's' : ''} attaquée${lanes.length > 1 ? 's' : ''} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. « — » : paisible.`
-        : '');
+        FEAST_CHOICES.find((flavor) => flavor.value === selected)!.hint +
+        (game.mission?.rules === 2 && lanes.length < 3
+          ? ` Voie${lanes.length > 1 ? 's' : ''} attaquée${lanes.length > 1 ? 's' : ''} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. « — » : paisible.`
+          : ''),
+    );
     for (const [lane, button] of buttons.entries()) {
       button.disabled =
         game.paused ||
@@ -105,12 +112,16 @@ export function bindFeastControls(session: Session, onChange: () => void) {
         !game.enemyLanes.includes(lane);
       button.classList.toggle('active', game.feast?.lane === lane);
       button.setAttribute('aria-pressed', String(game.feast?.lane === lane));
-      button.title = !game.enemyLanes.includes(lane)
-        ? 'Cette voie reste paisible pendant cette vague.'
-        : `${selected === 'sticky' ? 'Ralentir les serpents sur le passage' : 'Attirer les serpents vers la voie'} ${LANE_NAMES[lane].toLowerCase()} pendant ${game.feastDuration} secondes`;
+      setDisplayTitle(
+        button,
+        !game.enemyLanes.includes(lane)
+          ? 'Cette voie reste paisible pendant cette vague.'
+          : `${selected === 'sticky' ? 'Ralentir les serpents sur le passage' : 'Attirer les serpents vers la voie'} ${LANE_NAMES[lane].toLowerCase()} pendant ${game.feastDuration} secondes`,
+      );
     }
     const turns = `${game.honeyTurns} détour${game.honeyTurns > 1 ? 's' : ''}`;
-    status.textContent =
+    setDisplayText(
+      status,
       game.status === 'won' || game.status === 'lost'
         ? 'À retrouver dans la prochaine partie'
         : game.feast
@@ -121,6 +132,7 @@ export function bindFeastControls(session: Session, onChange: () => void) {
             ? `${selected === 'sticky' ? 'Miel collant' : 'Miel attirant'} utilisé${selected === 'lure' ? ` · ${turns}` : ''} · revient à la prochaine vague`
             : game.status === 'preparing'
               ? `Un pot gratuit par vague · ${game.feastDuration} s · choisis ton miel`
-              : `Prêt ! Choisis la voie à ${selected === 'sticky' ? 'ralentir' : 'attirer'}`;
+              : `Prêt ! Choisis la voie à ${selected === 'sticky' ? 'ralentir' : 'attirer'}`,
+    );
   };
 }

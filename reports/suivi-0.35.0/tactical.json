@@ -1,0 +1,54 @@
+{
+  "checks": [
+    {
+      "width": 1280,
+      "height": 800,
+      "earnedStarsAccessible": true,
+      "placementHintOnBoard": true,
+      "hintFits": true,
+      "eggDuringPlacement": true,
+      "placementRestoredAfterEgg": true,
+      "boardBounds": {
+        "x": 13,
+        "y": 117,
+        "width": 1065.984375,
+        "height": 600.8125
+      },
+      "honeyDoesNotHideAdvice": true
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "earnedStarsAccessible": true,
+      "placementHintOnBoard": true,
+      "hintFits": true,
+      "eggDuringPlacement": true,
+      "placementRestoredAfterEgg": true,
+      "boardBounds": {
+        "x": 0,
+        "y": 48,
+        "width": 580.15625,
+        "height": 326.984375
+      },
+      "honeyDoesNotHideAdvice": true
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "earnedStarsAccessible": true,
+      "placementHintOnBoard": true,
+      "hintFits": true,
+      "eggDuringPlacement": true,
+      "placementRestoredAfterEgg": true,
+      "boardBounds": {
+        "x": 0,
+        "y": 100,
+        "width": 359.984375,
+        "height": 202.890625
+      },
+      "honeyDoesNotHideAdvice": true
+    }
+  ],
+  "errors": [],
+  "method": "Controlled UI states, no real child/physical Android claim"
+}

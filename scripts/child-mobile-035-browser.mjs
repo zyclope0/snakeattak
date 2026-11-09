@@ -4,7 +4,6 @@ import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 import { lanePoint } from '../src/routes.ts';
-
 const fixture = 'child-mobile-035-fixture.html';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const artifact = `artifacts/child-mobile-${version}`;
@@ -54,7 +53,11 @@ try {
     [480, 320, [24, 48, 16, 0]],
     [667, 375, [24, 0, 16, 48]],
   ]) {
-    const page = await browser.newPage({ viewport: { width, height }, hasTouch: true });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width, height },
+      hasTouch: true,
+    });
     await launch(page, 'http://127.0.0.1:4361');
     await page.evaluate((safe) => {
       for (const [i, k] of ['top', 'right', 'bottom', 'left'].entries())
@@ -127,7 +130,11 @@ try {
     '--strictPort',
   ]);
   await ready('http://127.0.0.1:4362/' + fixture);
-  const custom = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+  const custom = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 812, height: 375 },
+    hasTouch: true,
+  });
   await launch(custom, 'http://127.0.0.1:4361');
   const favourites = ['tank', 'trex', 'knight', 'dragon', 'archer', 'club', 'medic', 'ninja'];
   await custom.evaluate((favourites) => {
@@ -206,7 +213,11 @@ try {
     true,
   );
   await custom.close();
-  const page = await browser.newPage({ viewport: { width: 812, height: 375 }, hasTouch: true });
+  const page = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 812, height: 375 },
+    hasTouch: true,
+  });
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('http://127.0.0.1:4362/' + fixture);
   await page.waitForFunction(() => window.mobileInterface?.phaser.scene.isActive('Battle'));

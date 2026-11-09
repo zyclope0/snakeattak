@@ -89,6 +89,7 @@ try {
     [667, 375, [24, 0, 16, 48]],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width, height },
       hasTouch: true,
       isMobile: true,
@@ -178,7 +179,11 @@ try {
     await page.close();
   }
   // The large-screen catalogue intentionally retains its own scroll container.
-  const desktop = await browser.newPage({ viewport: { width: 1280, height: 800 }, hasTouch: true });
+  const desktop = await browser.newPage({
+    locale: 'fr-CH',
+    viewport: { width: 1280, height: 800 },
+    hasTouch: true,
+  });
   desktop.on('pageerror', (e) => errors.push(e.message));
   await desktop.goto('http://127.0.0.1:4371');
   await desktop.locator('#home-play').click();

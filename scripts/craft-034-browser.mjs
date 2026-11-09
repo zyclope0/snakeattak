@@ -42,7 +42,11 @@ try {
       [1280, 800],
       [812, 375],
     ]) {
-      const page = await browser.newPage({ viewport: { width, height }, hasTouch: width === 812 });
+      const page = await browser.newPage({
+        locale: 'fr-CH',
+        viewport: { width, height },
+        hasTouch: width === 812,
+      });
       await page.goto('https://conquete-serpents-famille.zyclope.chatgpt.site/');
       await page.screenshot({ path: `${folder}/site-${width}-home.png` });
       await page.locator('#home-play').click();
@@ -68,6 +72,7 @@ try {
       ['canvas', 'layout=1&canvas'],
     ]) {
       const page = await browser.newPage({
+        locale: 'fr-CH',
         viewport: { width, height },
         hasTouch: width === 812,
         reducedMotion: 'reduce',

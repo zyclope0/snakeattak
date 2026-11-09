@@ -161,3 +161,13 @@ détaillée conservés dans docs/resources-2026-11. Réexport technique local We
 n’est pas affiché derrière les unités : seuls les bords cadrent les terrains
 existants. Empreintes et conversion reproductible : resources/scenery/manifest.json
 et scripts/export-scenery-034.py. Le marais gravé n’est pas la référence de DA.
+
+## Soucoupe décorative — 0.35.0
+
+Dessin original procédural dans `src/render/saucer.ts`, créé pour le projet le
+9 novembre 2026 : disques mats superposés, dôme turquoise, petits détails fixes.
+Aucun fichier, personnage, logo ou extrait du film Mars Attacks n'est utilisé.
+Le clin d'œil demandé reste une petite soucoupe de genre, dans un seul décor de
+ruines classique. Aucun service de génération ni téléchargement payant.
+Le dessin suit les droits du code propriétaire du projet ; aucune licence de
+ressource externe n'est revendiquée pour cet élément.

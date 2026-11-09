@@ -3,6 +3,7 @@ import type { Level } from '../levels.ts';
 import type { MissionRun } from '../missions.ts';
 import { refinedTerrain } from './refinedTerrain.ts';
 import { onSceneExit } from './sceneExit.ts';
+import { drawSaucer } from './saucer.ts';
 
 /** One cached ground and bounded foreground; never changes navigation geometry. */
 export class TerrainLayer {
@@ -34,6 +35,7 @@ export class TerrainLayer {
     this.objects.removeAll(true);
     this.objects.setVisible(true);
     this.foreground = refinedTerrain(this.scene, this.objects, level, seed);
+    drawSaucer(this.scene, this.objects, level, mission);
     this.cache.clear().draw(this.objects);
     this.objects.removeAll(true);
     this.objects.setVisible(false);

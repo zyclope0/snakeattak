@@ -1,4 +1,10 @@
+import {
+  setAttribute as setDisplayAttribute,
+  createTextNode as copyTextNode,
+  setText as setDisplayText,
+} from '../i18n/dom.ts';
 import './craftSurfaces.css';
+import { weakLaneAdvice } from './placementAdvice.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import type { Kind } from '../data.ts';
@@ -7,7 +13,6 @@ import { DEFAULT_ROSTERS } from '../roster.ts';
 import { dockKinds } from './dockModel.ts';
 import { portraitStyle } from '../art.ts';
 import { FEAST_CHOICES, feastPot } from './feastControls.ts';
-
 /** Four shortcuts, not a second catalogue or a second source of recruitment rules. */
 export function bindBattleDock(
   session: Session,
@@ -52,8 +57,12 @@ export function bindBattleDock(
   const pots = FEAST_CHOICES.map((flavor) => {
     const button = document.createElement('button');
     button.dataset.dockFeast = flavor.value;
-    button.setAttribute('aria-label', flavor.label + ' : choisir le miel puis toucher un chemin');
-    button.append(feastPot(flavor.value), document.createTextNode(flavor.label));
+    setDisplayAttribute(
+      button,
+      'aria-label',
+      flavor.label + ' : choisir le miel puis toucher un chemin',
+    );
+    button.append(feastPot(flavor.value), copyTextNode(flavor.label));
     button.onclick = () => {
       if (button.disabled) return;
       session.selectFeast(session.selectedFeast === flavor.value ? null : flavor.value);
@@ -77,14 +86,15 @@ export function bindBattleDock(
       if (card.button.dataset.dockKind !== kind) {
         card.button.dataset.dockKind = kind;
         card.portrait.style.cssText = portraitStyle(kind);
-        card.name.textContent = kinds[kind].name;
+        setDisplayText(card.name, kinds[kind].name);
       }
       const cost = game.recruitCost(kind);
-      card.price.textContent = cost === 0 ? 'Offert' : cost + ' ●';
+      setDisplayText(card.price, cost === 0 ? 'Offert' : cost + ' ●');
       card.button.disabled =
         game.paused || game.status === 'won' || game.status === 'lost' || game.gold < cost;
       card.button.setAttribute('aria-pressed', String(session.selected === kind));
-      card.button.setAttribute(
+      setDisplayAttribute(
+        card.button,
         'aria-label',
         `${kinds[kind].name}, ${cost === 0 ? 'offert' : cost + ' pièces'}${game.gold < cost ? ', pas assez de pièces' : ''}`,
       );
@@ -104,9 +114,7 @@ export function bindBattleDock(
         ? 'Touche un chemin'
         : session.selected
           ? 'Place ton allié'
-          : game.feastUsed
-            ? 'Miel utilisé'
-            : 'Tes favoris');
-    if (status.textContent !== hint) status.textContent = hint;
+          : (weakLaneAdvice(game) ?? (game.feastUsed ? 'Miel utilisé' : 'Tes favoris')));
+    if (status.textContent !== hint) setDisplayText(status, hint);
   };
 }

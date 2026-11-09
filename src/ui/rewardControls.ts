@@ -1,8 +1,8 @@
+import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import { REWARDS } from '../rewards.ts';
 import type { Session } from '../session.ts';
 import { portraitStyle, ART_SHEETS } from '../art.ts';
 import { kinds } from '../data.ts';
-
 /** Two decisions in the preparation flow; Game owns every effect and validation. */
 export function bindRewardControls(session: Session, refresh: () => void) {
   const panel = document.getElementById('reward-panel')!;
@@ -20,7 +20,7 @@ export function bindRewardControls(session: Session, refresh: () => void) {
     icon.className = 'reward-portrait';
     icon.setAttribute('aria-hidden', 'true');
     detail.className = 'reward-detail';
-    action.textContent = 'Choisir ce bonus';
+    setDisplayText(action, 'Choisir ce bonus');
     button.append(icon, name, detail, action);
     document.getElementById('reward-cards')!.append(button);
     button.onclick = () => {
@@ -51,7 +51,7 @@ export function bindRewardControls(session: Session, refresh: () => void) {
     }
     const offer = g.rewardOffer;
     panel.hidden = !offer.length || g.status !== 'preparing';
-    title.textContent = `Vague ${g.wave} repoussée ! Choisis ton bonus`;
+    setDisplayText(title, `Vague ${g.wave} repoussée ! Choisis ton bonus`);
     skip.disabled = g.paused;
     for (const [i, card] of cards.entries()) {
       const id = offer[i];
@@ -60,12 +60,12 @@ export function bindRewardControls(session: Session, refresh: () => void) {
       if (card.button.dataset.reward === id) continue;
       const reward = REWARDS[id];
       card.button.dataset.reward = id;
-      card.name.textContent = reward.title;
-      card.detail.textContent = reward.detail;
-      card.button.setAttribute('aria-label', `${reward.title}. ${reward.detail}`);
+      setDisplayText(card.name, reward.title);
+      setDisplayText(card.detail, reward.detail);
+      setDisplayAttribute(card.button, 'aria-label', `${reward.title}. ${reward.detail}`);
       card.icon.className = 'reward-portrait';
       card.icon.style.cssText = '';
-      card.icon.textContent = '';
+      setDisplayText(card.icon, '');
       if (reward.kind) card.icon.style.cssText = portraitStyle(reward.kind);
       else if (id === 'miel') {
         card.icon.style.backgroundImage = `url("${ART_SHEETS.find((s) => s.key === 'miels-parapluie')!.url}")`;
@@ -73,7 +73,7 @@ export function bindRewardControls(session: Session, refresh: () => void) {
         card.icon.style.backgroundPosition = '0% 100%';
       } else {
         card.icon.classList.add(id === 'pieces' ? 'reward-coins' : 'reward-crystal');
-        card.icon.textContent = id === 'pieces' ? '+100' : '◆';
+        setDisplayText(card.icon, id === 'pieces' ? '+100' : '◆');
       }
     }
     const gifts = g.rewards.choices.filter((c) => c.id !== 'skip');
@@ -86,11 +86,14 @@ export function bindRewardControls(session: Session, refresh: () => void) {
       if (kind) notes.push(`${kinds[kind].name} offert à placer`);
     }
     summary.hidden = !gifts.length;
-    summary.textContent = notes.length
-      ? notes.join(' · ')
-      : `${gifts.length} bonus choisi${gifts.length > 1 ? 's' : ''} pour cette aventure`;
+    setDisplayText(
+      summary,
+      notes.length
+        ? notes.join(' · ')
+        : `${gifts.length} bonus choisi${gifts.length > 1 ? 's' : ''} pour cette aventure`,
+    );
     ward.hidden = g.rewards.ward <= 0;
-    ward.textContent = `+${g.rewards.ward} protection`;
+    setDisplayText(ward, `+${g.rewards.ward} protection`);
     const key = `${g.rewards.seed}:${g.rewards.pending}`;
     if (
       !panel.hidden &&

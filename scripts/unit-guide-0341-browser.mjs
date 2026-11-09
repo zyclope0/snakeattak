@@ -36,7 +36,11 @@ try {
     [568, 320, 24, 32, true],
     [1280, 800, 0, 0, false],
   ]) {
-    const page = await browser.newPage({ viewport: { width, height }, hasTouch: touch });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width, height },
+      hasTouch: touch,
+    });
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto(root);
     await page.evaluate(
@@ -102,7 +106,6 @@ try {
       assert.equal(await page.locator('#guide-select').inputValue(), selected);
       checks.push('568: Tab/PageDown scrolls details without changing selected unit');
       await body.evaluate((e) => (e.scrollTop = 0));
-
       const box = await body.boundingBox();
       const initial = await body.evaluate((e) => e.scrollTop);
       const pageY = await page.evaluate(() => scrollY);

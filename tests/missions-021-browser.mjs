@@ -27,6 +27,7 @@ async function inject(p, raw) {
 }
 try {
   const context = await browser.newContext({
+    locale: 'fr-CH',
     viewport: { width: 1440, height: 1000 },
     reducedMotion: 'reduce',
     acceptDownloads: true,

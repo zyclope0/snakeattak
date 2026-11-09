@@ -1,21 +1,25 @@
+import {
+  setText as setDisplayText,
+  setMarkup as setDisplayMarkup,
+  setAttribute as setDisplayAttribute,
+} from '../i18n/dom.ts';
 import { bindTutorialLanes } from './tutorialLanes.ts';
 import { medicalRules } from '../healing.ts';
 import type { Game } from '../game.ts';
 import { LANES, LANE_NAMES, laneDefense } from '../ai.ts';
 import { TOTAL_WAVES } from '../data.ts';
 import { bossReadout } from '../render/bossReadout.ts';
-
 /** Stable DOM nodes: a simulation refresh updates values, not whole trees. */
 export function bindHud() {
   const tutorial = bindTutorialLanes();
   const el = (id: string) => document.getElementById(id)!;
   const text = (id: string, value: string) => {
     const node = el(id);
-    if (node.textContent !== value) node.textContent = value;
+    if (node.textContent !== value) setDisplayText(node, value);
   };
   const lanes = LANES.map((_, i) => {
     const row = document.createElement('span');
-    row.innerHTML = `<b>${LANE_NAMES[i]}</b><i aria-hidden="true"></i><small></small>`;
+    setDisplayMarkup(row, `<b>${LANE_NAMES[i]}</b><i aria-hidden="true"></i><small></small>`);
     el('lane-status').append(row);
     return { meter: row.querySelector('i')!, count: row.querySelector('small')! };
   });
@@ -57,8 +61,8 @@ export function bindHud() {
       if (row.meter.style.getPropertyValue('--strength') !== strength)
         row.meter.style.setProperty('--strength', strength);
       const count = `${counts[i]} ▲`;
-      if (row.count.textContent !== count) row.count.textContent = count;
-      row.count.setAttribute('aria-label', `${counts[i]} serpents`);
+      if (row.count.textContent !== count) setDisplayText(row.count, count);
+      setDisplayAttribute(row.count, 'aria-label', `${counts[i]} serpents`);
     }
     for (const [i, dot] of dots.entries()) {
       dot.hidden = i >= game.totalWaves;

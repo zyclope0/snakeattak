@@ -33,6 +33,7 @@ try {
     [812, 375],
   ]) {
     const page = await browser.newPage({
+      locale: 'fr-CH',
       viewport: { width, height },
       hasTouch: width === 812,
       reducedMotion: 'reduce',

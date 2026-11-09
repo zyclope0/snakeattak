@@ -3,7 +3,6 @@ import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
-
 const origin = 'http://127.0.0.1:4379';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const checks = [],
@@ -28,7 +27,10 @@ try {
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   for (const blocked of [false, true]) {
-    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    const page = await browser.newPage({
+      locale: 'fr-CH',
+      viewport: { width: 1280, height: 800 },
+    });
     page.on('pageerror', (e) => errors.push(e.message));
     if (blocked)
       await page.addInitScript(() => {
