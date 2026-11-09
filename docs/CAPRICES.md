@@ -109,6 +109,11 @@ des enfants : recaler après les premières parties réelles.
 6. **Traduction.** 36 noms et 36 annonces en anglais ; garder les noms du fils en français.
 7. **Résultat.** Victoire sous caprice : « Caprice réussi ! » et l'autocollant gagné.
    Défaite : rappeler la règle du caprice en une phrase.
+8. **Défi du créateur.** Deuxième rangée sous les caprices de chaque mission, titre
+   `CAPRICE_SET_NAMES.createur`. Tirelire : afficher dans la bourse les pièces bloquées
+   (`game.caprice.reserve`) et griser les achats qui entameraient la réserve. Carapaces :
+   dessiner les serpents `e.shell` plus gros, avec une coquille, rendu en code sans
+   nouvelle image.
 
 Ne pas changer les règles des caprices dans ce lot ; toute nouvelle valeur passe par
 `npm run balance:caprices` et l'accord du fils.
