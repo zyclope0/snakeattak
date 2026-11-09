@@ -105,9 +105,7 @@ export function bindBattleDock(
         ? 'Touche un chemin'
         : session.selected
           ? 'Place ton allié'
-          : game.feastUsed
-            ? 'Miel utilisé'
-            : (weakLaneAdvice(game) ?? 'Tes favoris'));
+          : (weakLaneAdvice(game) ?? (game.feastUsed ? 'Miel utilisé' : 'Tes favoris')));
     if (status.textContent !== hint) status.textContent = hint;
   };
 }

@@ -44,6 +44,7 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
     return {
       title: `2 · Place ton ${kinds[session.selected].name.toLowerCase()}`,
       subtitle: placementAdvice(session.selected).hint,
+      compact: placementAdvice(session.selected).compactHint,
     };
   if (game.status === 'won') return victoryCopy(game);
   if (game.status === 'lost') return defeatCopy(game);

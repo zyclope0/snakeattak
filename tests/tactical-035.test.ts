@@ -14,6 +14,7 @@ test('placement advice explains real roles without changing ranges or model stat
     const hint = placementAdvice(kind);
     assert.equal(hint.range, kinds[kind].range);
     assert.ok(hint.hint.length > 20);
+    assert.match(hint.hint, /^Touche une place libre à droite\./);
   }
   assert.match(placementAdvice('archer').hint, /derrière/);
   assert.match(placementAdvice('medic').hint, /bandages|stock/i);
@@ -76,4 +77,5 @@ test('result readout uses earned mission minimum and completed classic chapter s
   classic.campaign.chapterStars = [3, 2, 1];
   assert.deepEqual(earnedStars(classic), { count: 6, maximum: 9 });
   assert.doesNotMatch(defeatCopy(classic).subtitle, /sauvegarde|reprendre/);
+  assert.match(defeatCopy(classic).subtitle, /Rejoue.*puis.*alliés/);
 });

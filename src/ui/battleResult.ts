@@ -11,6 +11,7 @@ export function bindBattleResult(session: Session) {
     content = el('battle-result-content');
   const stars = document.createElement('p');
   stars.id = 'battle-result-stars';
+  stars.setAttribute('role', 'img');
   stars.hidden = true;
   el('battle-result-title').after(stars);
   const mission = el('mission-battle-actions'),

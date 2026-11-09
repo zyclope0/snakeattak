@@ -19,7 +19,7 @@ export function defeatCopy(game: Pick<Game, 'mission'>) {
     title: 'On réessaie ?',
     subtitle: game.mission
       ? 'Réessaie ce même départ ou choisis une autre mission.'
-      : 'Choisis d’autres alliés, puis recommence l’aventure.',
+      : 'Rejoue une aventure, puis essaie d’autres alliés.',
   };
 }
 

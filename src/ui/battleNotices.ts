@@ -1,5 +1,5 @@
 import type { Notice } from '../render/presentation.ts';
-export type BattleGuide = { title: string; subtitle: string; priority?: number };
+export type BattleGuide = { title: string; subtitle: string; compact?: string; priority?: number };
 
 /** Placement stays actionable; a short urgent fact can outrank a longer flash. */
 export function chooseBattleMessage(notice: Notice | null, guide: BattleGuide, placing: boolean) {
@@ -21,9 +21,12 @@ export function bindBattleNotices(
   let previous = '';
   let previousAnnouncement = '';
   return (notice: Notice | null) => {
-    const { content, tone } = chooseBattleMessage(notice, getGuide(), forceGuide());
+    const guide = getGuide(),
+      placing = forceGuide();
+    const { content, tone } = chooseBattleMessage(notice, guide, placing);
     // The former Phaser flash was independent of the separate placement coach.
-    const title = notice?.title ?? '';
+    const title = placing ? (guide.compact ?? guide.title) : (notice?.title ?? '');
+    announcement.classList.toggle('placement-instruction', placing);
     if (title !== previousAnnouncement) {
       previousAnnouncement = title;
       announcement.textContent = title;

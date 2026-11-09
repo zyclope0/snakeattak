@@ -17,7 +17,22 @@ export function placementAdvice(kind: Kind) {
           : role === 'fixed'
             ? 'Défense fixe : elle reste ici. Place-la sur le passage des serpents.'
             : 'Devant les tireurs : il garde son secteur, combat au contact et revient à sa place.';
-  return { role, range: kinds[kind].range, hint };
+  const short =
+    role === 'support'
+      ? 'à l’abri des combattants'
+      : role === 'ranged'
+        ? 'derrière les combattants'
+        : role === 'mobile'
+          ? 'près d’un passage, trois voies'
+          : role === 'fixed'
+            ? 'sur le passage des serpents'
+            : 'devant les tireurs';
+  return {
+    role,
+    range: kinds[kind].range,
+    hint: 'Touche une place libre à droite. ' + hint,
+    compactHint: `Touche à droite · ${short} · portée ${kinds[kind].range}`,
+  };
 }
 
 /** Relative, visible deployment only; closed tutorial lanes are never recommended. */
