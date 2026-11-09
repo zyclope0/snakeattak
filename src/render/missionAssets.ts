@@ -4,7 +4,7 @@ import type { Kind } from '../data.ts';
 import { kinds, waveStats } from '../data.ts';
 import { variantFor } from '../waves.ts';
 import { missionWave } from '../missions.ts';
-import { ALLY_ART, ART_SHEETS, ENEMY_ART, GROUND_ART, KING_ART } from '../art.ts';
+import { ALLY_ART, ART_SHEETS, ENEMY_ART, GROUND_ART, SCENERY_ART, KING_ART } from '../art.ts';
 import { stageTheme } from './stageLayout.ts';
 import { onSceneExit } from './sceneExit.ts';
 
@@ -19,6 +19,8 @@ export function texturesForGame(game: Game): Set<string> {
     'miels-parapluie', // The two honey pots.
     stageTheme(game.level).ground,
   ]);
+  const scenery = stageTheme(game.level).scenery;
+  if (scenery) textures.add(scenery);
   for (const kind of Object.keys(kinds) as Kind[])
     if (game.isUnlocked(kind)) textures.add(ALLY_ART[kind].texture);
   for (const unit of game.units) textures.add(ALLY_ART[unit.kind as Kind].texture);
@@ -106,7 +108,7 @@ export class MissionAssets {
           frameWidth: sheet.frameWidth,
           frameHeight: sheet.frameHeight,
         });
-    for (const ground of GROUND_ART)
+    for (const ground of [...GROUND_ART, ...SCENERY_ART])
       if (keys.has(ground.key) && !this.scene.textures.exists(ground.key))
         this.scene.load.image(ground.key, ground.url);
   }

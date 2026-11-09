@@ -1,3 +1,4 @@
+import './craftSurfaces.css';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import type { Kind } from '../data.ts';

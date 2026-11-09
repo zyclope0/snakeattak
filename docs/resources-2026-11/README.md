@@ -48,3 +48,16 @@ au-delà de son usage comme icône. Voir [GAME_DESIGN](../../GAME_DESIGN.md#dire
 Les deux terrains fournis restent conservés ; leur intégration et leur cohérence
 avec cette direction restent à examiner dans les lots autorisés correspondants.
 Aucune nouvelle génération ni modification d'image dans cette consignation.
+
+## Utilisation graphique autorisée — v0.34.0
+
+Le 9 novembre2026, le parent demande explicitement le point3 : exploiter les
+fonds encore inutilisés et harmoniser la matière. Crue/marais servent désormais
+uniquement de cadres périphériques sur les terrains existants ; leur centre
+pictural/gravé reste écarté de la surface de combat. Aucun nouveau lieu, météo,
+obstacle ou règle. La référence principale demeure l’icône.
+
+Deux exports WebP1600×900 sont chargés un à la fois à la demande, jamais à
+l’accueil. Originaux inchangés, procédure et empreintes dans
+[resources/scenery](../../resources/scenery/README.md). Les réserves historiques
+ci-dessus décrivent les lots précédents, pas une intégration plein écran actuelle.
