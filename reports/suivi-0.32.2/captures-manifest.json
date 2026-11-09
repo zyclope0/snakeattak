@@ -1,0 +1,110 @@
+{
+  "source": "Chromium, desktop DPR1, 780x360 touch DPR3 (2340x1080 PNG), not physical S24",
+  "departure": "REFUGE-2-FZZZ-ZZR4-9F",
+  "files": [
+    {
+      "file": "docs/captures-0.32.2/accueil-1280x800.png",
+      "pixelDimensions": [
+        1280,
+        800
+      ],
+      "sha256": "9ae6854800e54baaba2f192e70e31e9143407955c6397d2be038d222d52188bf"
+    },
+    {
+      "file": "docs/captures-0.32.2/accueil-1366x768.png",
+      "pixelDimensions": [
+        1366,
+        768
+      ],
+      "sha256": "caf305c4b873d06e55edd0662fa78b5e4e43d533a1f57e7db9aa8aabb2f08c4d"
+    },
+    {
+      "file": "docs/captures-0.32.2/accueil-780x360.png",
+      "pixelDimensions": [
+        2340,
+        1080
+      ],
+      "sha256": "8a289cd381ee777578f8f6c962d3c4b2e8b76572fb28023ec397921ecc65576c"
+    },
+    {
+      "file": "docs/captures-0.32.2/combat-1280x800.png",
+      "pixelDimensions": [
+        1280,
+        800
+      ],
+      "sha256": "da3144d25fe89fd2750e85a48411ef076853469b28c8bdea19cb26fbbd83e4e6"
+    },
+    {
+      "file": "docs/captures-0.32.2/combat-1366x768.png",
+      "pixelDimensions": [
+        1366,
+        768
+      ],
+      "sha256": "c5462c4eb9ee418ab78ec4752efb0608e7540010a3477b0c707792dbe0a9b5fa"
+    },
+    {
+      "file": "docs/captures-0.32.2/combat-780x360.png",
+      "pixelDimensions": [
+        2340,
+        1080
+      ],
+      "sha256": "0aba38bdae076a718708986aa363f3aa49bf4efd10ccddb1953ca41bca573d09"
+    },
+    {
+      "file": "docs/captures-0.32.2/evenement-1280x800.png",
+      "pixelDimensions": [
+        1280,
+        800
+      ],
+      "sha256": "7e9002933965b49be05b28a8186f322e478fb700ded55066d79fee5fa6fc8c7d"
+    },
+    {
+      "file": "docs/captures-0.32.2/evenement-1366x768.png",
+      "pixelDimensions": [
+        1366,
+        768
+      ],
+      "sha256": "4517b3ed71da5a517cbeb50eb21387ae670a4822e5ea96c40c5c331d283f9eab"
+    },
+    {
+      "file": "docs/captures-0.32.2/evenement-780x360.png",
+      "pixelDimensions": [
+        2340,
+        1080
+      ],
+      "sha256": "73af7fbe23bca672b481fadebc6f7a35c02733c7b4b02e3674dc8f39e2795873"
+    },
+    {
+      "file": "docs/captures-0.32.2/evenement-vague2-780x360.png",
+      "pixelDimensions": [
+        2340,
+        1080
+      ],
+      "sha256": "44027cb7b645fc593abf194fff58ed2b475881fcbd19a717624b9a6b86cfcb4c"
+    },
+    {
+      "file": "docs/captures-0.32.2/heros-1280x800.png",
+      "pixelDimensions": [
+        131,
+        156
+      ],
+      "sha256": "80f7a98ff4325f65cfaa30c2f5c3cfbe83164c5492dcb70f34c2c7786b3a731b"
+    },
+    {
+      "file": "docs/captures-0.32.2/heros-1366x768.png",
+      "pixelDimensions": [
+        131,
+        156
+      ],
+      "sha256": "e8b4f72157bf323b44f86ee5ea461e0debb68510555ee2cc0c20a0486a99f025"
+    },
+    {
+      "file": "docs/captures-0.32.2/heros-780x360.png",
+      "pixelDimensions": [
+        324,
+        384
+      ],
+      "sha256": "c560877910fd3aefe6f75d0249f32925fe26ec7f8b0b32d2e5abbb04fe65bf03"
+    }
+  ]
+}

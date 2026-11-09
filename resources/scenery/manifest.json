@@ -1,0 +1,25 @@
+{
+  "version": "0.34.0",
+  "provenance": "docs/resources-2026-11/PROVENANCE.md",
+  "usage": "peripheral scenery only; quiet sculpted ground and original geometry retained",
+  "exports": [
+    {
+      "source": "docs/resources-2026-11/assets/terrain-crue.png",
+      "sourceSha256": "7da19518b4bd66c6a10adb6c1f0ef4c85140420fd6a9d5019c27eb1416598a1c",
+      "export": "src/assets/illustrated/scenery-flood.webp",
+      "exportSha256": "b09549ca7eaef0e9583f907ccba6f287f93f6301af6373c05d19cb7d9068730d",
+      "bytes": 554862,
+      "dimensions": [1600, 900],
+      "operation": "centre crop, Lanczos resize, WebP quality88 method6; no retouch"
+    },
+    {
+      "source": "docs/resources-2026-11/assets/terrain-marais.png",
+      "sourceSha256": "64f224e891dd5c72c4a33f2354fbb416d76d06e42f01ff8dc663ba207358268c",
+      "export": "src/assets/illustrated/scenery-marsh.webp",
+      "exportSha256": "924bf295a9e8b851cce743b62961606266a2d57d2d796369590f5308196f4253",
+      "bytes": 528320,
+      "dimensions": [1600, 900],
+      "operation": "centre crop, Lanczos resize, WebP quality88 method6; no retouch"
+    }
+  ]
+}

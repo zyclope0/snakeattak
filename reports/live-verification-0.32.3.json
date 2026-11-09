@@ -1,0 +1,15 @@
+{
+  "url": "https://conquete-serpents-famille.zyclope.chatgpt.site/",
+  "version": "v0.32.3",
+  "httpStatus": 200,
+  "desktopDockVisible": true,
+  "visibleFavourites": 4,
+  "canvas": {
+    "x": 13,
+    "y": 117,
+    "width": 1065.953125,
+    "height": 600.8125
+  },
+  "errors": [],
+  "method": "Live Chromium smoke check: home, version marker, mission launch and dock"
+}

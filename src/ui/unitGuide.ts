@@ -1,3 +1,4 @@
+import './unitGuide.css';
 import { HERO_FORCE_FACTOR } from '../campaignRules.ts';
 import { roleDescription } from '../defenders.ts';
 import { kinds, unlockWave } from '../data.ts';
@@ -6,7 +7,6 @@ import type { Session } from '../session.ts';
 import { specialAbility, healAmount, attackDamage } from '../unitRules.ts';
 import { portraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
-import { childCopy } from './childCopy.ts';
 
 export function bindUnitGuide(session: Session, onChange: () => void) {
   const dialog = document.getElementById('unit-dialog') as HTMLDialogElement;
@@ -23,8 +23,9 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
       d = kinds[kind];
     document.getElementById('guide-name')!.textContent = d.name;
     document.getElementById('guide-portrait')!.style.cssText = portraitStyle(kind);
-    document.getElementById('guide-ability')!.textContent = childCopy(
-      specialAbility(kind, session.game.tuning.splashSecondaryFactor),
+    document.getElementById('guide-ability')!.textContent = specialAbility(
+      kind,
+      session.game.tuning.splashSecondaryFactor,
     );
     const fields = [
       ['Camp', 'Nos alliés'],
@@ -59,7 +60,7 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
       const title = document.createElement('small'),
         text = document.createElement('strong');
       title.textContent = label;
-      text.textContent = childCopy(value);
+      text.textContent = value;
       row.append(title, text);
       stats.append(row);
     }

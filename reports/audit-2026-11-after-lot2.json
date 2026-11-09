@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-08T00:13:47.387Z",
+  "date": "2026-11-08T23:35:51.689Z",
   "checks": [
     {
       "name": "défilement après lancement 1280x800",
@@ -14,7 +14,7 @@
       "value": {
         "scrollY": 0,
         "top": 117,
-        "bottom": 642,
+        "bottom": 718,
         "innerHeight": 800
       },
       "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
@@ -23,7 +23,7 @@
     {
       "name": "mots visibles avant la 1re vague (mission 1, 1280x800)",
       "ok": true,
-      "value": 57,
+      "value": 37,
       "target": "≤ 60 (lot 2)",
       "lot": 2
     },
@@ -47,7 +47,7 @@
       "value": {
         "scrollY": 0,
         "top": 117,
-        "bottom": 691,
+        "bottom": 766,
         "innerHeight": 768
       },
       "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
@@ -66,7 +66,7 @@
       "value": {
         "scrollY": 0,
         "top": 117,
-        "bottom": 834,
+        "bottom": 921,
         "innerHeight": 1080
       },
       "target": "top ≥ 0 et bottom ≤ hauteur de fenêtre",
@@ -83,7 +83,7 @@
       "name": "plateau en paysage téléphone (% hauteur)",
       "ok": true,
       "value": {
-        "h": 86,
+        "h": 87,
         "w": 71
       },
       "target": "≥ 85 % de la hauteur",

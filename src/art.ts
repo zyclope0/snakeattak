@@ -1,3 +1,5 @@
+import floodUrl from './assets/illustrated/scenery-flood.webp';
+import marshUrl from './assets/illustrated/scenery-marsh.webp';
 import frontUrl from './assets/illustrated/allies-front.webp';
 import supportUrl from './assets/illustrated/allies-support.webp';
 import eliteUrl from './assets/illustrated/allies-elite.webp';
@@ -40,6 +42,10 @@ export const GROUND_ART = [
   { key: 'ground-clearing', url: groundUrl },
   { key: 'ground-grove', url: groveUrl },
   { key: 'ground-ruins', url: ruinsUrl },
+] as const;
+export const SCENERY_ART = [
+  { key: 'scenery-flood', url: floodUrl },
+  { key: 'scenery-marsh', url: marshUrl },
 ] as const;
 export const UI_ART_URL = uiUrl;
 const frame = (texture: string, frame: number): ArtFrame => ({ texture, frame });

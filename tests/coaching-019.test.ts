@@ -6,6 +6,7 @@ import { Presentation } from '../src/render/presentation.ts';
 
 test('la préparation présente la décision du prochain chapitre après les vagues 4 et 8', () => {
   const s = new Session(42);
+  s.game.campaign.training = 'force';
   for (const [wave, clue] of [
     [4, /escortes/i],
     [8, /rempart/i],

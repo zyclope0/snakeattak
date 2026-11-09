@@ -1,0 +1,42 @@
+{
+  "stage": "before",
+  "version": "0.32.3",
+  "background": "#FFFFFF",
+  "foregroundSize": [
+    432,
+    432
+  ],
+  "legacySize": [
+    48,
+    48
+  ],
+  "legacyCornerPixels": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "launcherSha256": "87cb2f2ffe992652bb4fa768c73719a37b5852ab17fbf8e170e888f7a42b0761",
+  "retainedSourceSha256": "c2abce33a9f375a9c1687ce099501a856c78c130cdad5b39f5c0d35152079386",
+  "issue": "Capacitor default icon, white adaptive background"
+}

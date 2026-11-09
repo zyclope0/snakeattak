@@ -1,0 +1,64 @@
+
+> conquete-serpents@0.32.2 build
+> npm run typecheck && vite build && node scripts/check-dist.mjs
+
+
+> conquete-serpents@0.32.2 typecheck
+> tsc --noEmit
+
+vite v6.4.5 building for production...
+transforming...
+✓ 122 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/fredoka-latin-DM6njrJ3.woff2           29.73 kB
+dist/index.html                                    30.42 kB │ gzip:   9.61 kB
+dist/assets/nunitosans-latin-BWQ3gi2K.woff2        31.08 kB
+dist/assets/ground-grove-refined-D97MXGUy.webp    142.08 kB
+dist/assets/ground-three-bridges-BFXtmpU_.webp    199.92 kB
+dist/assets/ground-ruins-refined-DOfHsQTj.webp    216.52 kB
+dist/assets/miels-parapluie-Dg128vC1.webp         336.23 kB
+dist/assets/allies-mutants-D_OCWh4h.webp          406.62 kB
+dist/assets/interface-craft-BeML44Ar.webp         415.99 kB
+dist/assets/allies-creatures-cRzzrImV.webp        511.15 kB
+dist/assets/props-three-bridges-DvedvTDL.webp     541.87 kB
+dist/assets/allies-elite-3Yzm51ta.webp            544.86 kB
+dist/assets/enemies-mechanical-B7YXthmn.webp      559.60 kB
+dist/assets/allies-front-CdzQjxMu.webp            572.24 kB
+dist/assets/serpents-family-CT6GHe6-.webp         580.33 kB
+dist/assets/allies-support-DCvqEi_g.webp          582.99 kB
+dist/assets/enemies-organic-DDXZITxu.webp         647.20 kB
+dist/assets/allies-dinosaurs-D19CJGOc.webp        684.41 kB
+dist/assets/terrain-props-BZgR3Rv5.webp           689.72 kB
+dist/assets/strongholds-CUiqwDSy.webp             770.09 kB
+dist/assets/index-C-e_6Faj.css                     59.28 kB │ gzip:  13.23 kB
+dist/assets/index-BcdcOqQT.js                     186.23 kB │ gzip:  65.62 kB
+dist/assets/phaser-Czz4FBZH.js                  1,481.77 kB │ gzip: 339.84 kB
+✓ built in 4.61s
+{
+  "htmlBytes": 30418,
+  "assets": {
+    "allies-creatures-cRzzrImV.webp": 511150,
+    "allies-dinosaurs-D19CJGOc.webp": 684408,
+    "allies-elite-3Yzm51ta.webp": 544860,
+    "allies-front-CdzQjxMu.webp": 572236,
+    "allies-mutants-D_OCWh4h.webp": 406624,
+    "allies-support-DCvqEi_g.webp": 582990,
+    "enemies-mechanical-B7YXthmn.webp": 559602,
+    "enemies-organic-DDXZITxu.webp": 647204,
+    "fredoka-latin-DM6njrJ3.woff2": 29732,
+    "ground-grove-refined-D97MXGUy.webp": 142082,
+    "ground-ruins-refined-DOfHsQTj.webp": 216522,
+    "ground-three-bridges-BFXtmpU_.webp": 199922,
+    "index-BcdcOqQT.js": 186226,
+    "index-C-e_6Faj.css": 59275,
+    "interface-craft-BeML44Ar.webp": 415986,
+    "miels-parapluie-Dg128vC1.webp": 336234,
+    "nunitosans-latin-BWQ3gi2K.woff2": 31076,
+    "phaser-Czz4FBZH.js": 1481772,
+    "props-three-bridges-DvedvTDL.webp": 541866,
+    "serpents-family-CT6GHe6-.webp": 580330,
+    "strongholds-CUiqwDSy.webp": 770094,
+    "terrain-props-BZgR3Rv5.webp": 689720
+  }
+}

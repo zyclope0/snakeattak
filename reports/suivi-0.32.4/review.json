@@ -1,0 +1,17 @@
+{
+  "reviewer": "review_android_icon_0324",
+  "base": "be874fb",
+  "critical": 0,
+  "important": 0,
+  "minor": 0,
+  "checks": [
+    "Original Magnific source SHA unchanged",
+    "20 PNG dimensions, mode, SHA and transparent layer corners",
+    "Circle, rounded square and48dp previews inspected; no gross cutout artifact",
+    "Adaptive v26/v33 refs and current identifier/namespace correct",
+    "No rules/UI/save/activity/SDK changes",
+    "Three identifier proposals with limits and STOP, no availability claimed"
+  ],
+  "temporaryBuildPath": "cap sync symlink path restored to original portable relative path before delivery",
+  "physicalAndroidVerified": false
+}

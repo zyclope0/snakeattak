@@ -1,13 +1,16 @@
 # Marche à suivre — avant la première publication
 
-État : le parent n'a pas encore de compte. Ce dossier ne contient ni compte,
-clé de signature de publication, produit payant créé ni invitation envoyée.
+État au 8 novembre 2026 : compte personnel créé, validation d'identité en attente
+selon le dernier retour. Aucun accès au compte ou statut de validation présumé
+ici. Ni clé de publication, ni produit créé, ni invitation envoyée dans cette mission.
+La v1 documentaire prévoit des achats validés/confirmés dans l'app sans serveur
+obligatoire : [MONETISATION.md](MONETISATION.md).
 
 ## 1. Compte et identité
 
-Le parent crée son compte sur [Play Console](https://play.google.com/console/signup)
-et choisit personnel ou organisation selon sa situation réelle. Vérifier les
-pièces, coordonnées publiques et exigences de vérification affichées par Google.
+Le compte personnel est créé ; terminer sa validation dans
+[Play Console](https://play.google.com/console/signup). Vérifier les pièces,
+coordonnées publiques et exigences réellement affichées par Google.
 La page officielle mentionne actuellement **US$25** de frais d'inscription uniques ;
 confirmer le montant et les conditions au paiement. Cette opération revient au parent.
 
@@ -42,13 +45,15 @@ Les captures et la bannière sont générées depuis le jeu, pas depuis un déco
 recomposé. Pour le kit, viser au moins trois captures de combat téléphone 16:9 en
 1920×1080 : c'est la recommandation de mise en avant des jeux, plus exigeante que
 les seuls minima de téléversement. Bannière 1024×500 et icône 512×512 conformes.
-L'icône source fournie attend correction de ses coins blancs.
+L'original de l'icône est conservé ; les dérivés0.32.4 ont leurs coins blancs
+supprimés et le lanceur est intégré. Aucun téléversement store réalisé.
 
 ## 4. Formulaires
 
 - Public cible : groupes 6–8 et 9–12 proposés par l'audit, à confirmer par le parent.
   Ne pas cocher d'autres âges pour contourner les exigences Familles.
-- Sécurité des données : inclure tous les SDK, publicité et service de reçus.
+- Sécurité des données : inclure SDK et publicité ; v1 sans service de reçus de
+  l'éditeur, réviser si un serveur est ajouté. [Brouillon](SECURITE-DES-DONNEES-V1.md).
 - Confidentialité : URL publique accessible sans compte et contenu exact du build commercial.
 - IARC : répondre à partir du jeu et du modèle réel. Ne pas annoncer PEGI3 ou
   une autre classification avant le résultat du questionnaire.
@@ -65,8 +70,16 @@ ni une règle à transposer sans contrôle à tous les comptes d'organisation.
 Le parent choisit la piste, les testeurs et les accès. Privilégier des comptes
 d'adultes responsables pour l'inscription au test, avec essais familiaux
 accompagnés. Vérifier l'âge et les restrictions réelles des comptes utilisés.
+**Aucune publicité sur la piste fermée avant que le parent ait vu le format sur
+son S24 et donné son accord explicite.** Prévoir auparavant, sur GO séparé, un
+build de recette pour le parent avec annonces de test, hors diffusion fermée.
+Aucun chargement publicitaire en arrière-plan dans la variante sans pub.
+
 Consigner modèle/Android/WebView, jeu hors ligne, reprise après veille, sauvegardes,
-achats de test, pubs, compréhension et retour des enfants. Ne pas fabriquer des
+achats de licence de test et, seulement après cette porte, pubs ; compréhension
+et retours des enfants. Une inscription au test fermé ne suffit pas à rendre
+les achats gratuits : vérifier les comptes de licence et moyens de paiement de test.
+Ne pas fabriquer des
 témoignages ou des résultats pour la demande de production.
 
 ### Invitation prête à adapter — aucun envoi automatique

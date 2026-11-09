@@ -1,0 +1,30 @@
+✔ chaque campagne copie et gèle son réglage sans contaminer une autre partie (1.460644ms)
+✔ un coup entièrement absorbé ne laisse aucune fuite de dégâts flottants (0.344803ms)
+✔ les champs connus sont validés aux limites et les champs inconnus écartés (1.522876ms)
+✔ la protection absorbe selon le rôle et convertit le débordement avant armure (5.431915ms)
+✔ trois protections finies aux seuils 60 et 25 pour cent, jamais de recharge (0.917596ms)
+✔ le crachat annonce un point fixe, privilégie les tireurs puis frappe une seule fois (10.52223ms)
+✔ une marque reste après la mort de sa cible mais épargne un allié sorti du cercle (6.203653ms)
+✔ pause stricte et mort du lanceur annulent tout impact ultérieur (0.882503ms)
+✔ le protecteur réduit un impact de zone puis respecte sa recharge de trois secondes (2.796062ms)
+✔ souffle et obus gardent les dégâts principaux et réduisent seulement les voisins (0.879228ms)
+✔ le mode legacy conserve la santé, les attaques et les zones du moteur 0.15 (0.285314ms)
+✔ le roi attend x576 et choisit un tireur avant un voisin plus proche (0.476078ms)
+✔ un coup fatal ne donne aucune protection de phase ni dernier crachat (1.056663ms)
+✔ un vrai combat casse exactement trois protections avant la mort, sans renouvellement (0.45048ms)
+✔ legacy reproduit 180 états du moteur 0.15, hors libellé localisé, dont le roi et les zones (135.522407ms)
+✔ le facteur mutant est borné entre 1 et 2 et vaut explicitement 1 en legacy (0.607514ms)
+✔ seuls les deux mutants multiplient leurs dégâts sortants, sans changer la charge (0.223233ms)
+✔ deux combats mutants gardent des dégâts isolés sans modifier PV, prix ou cadence (0.753331ms)
+✔ les sources et le HTML tutoient directement, y compris les impératifs sans pronom (13.200197ms)
+✔ le moteur fournit lui-même les textes de préparation et de vague déjà lisibles (1.257432ms)
+✔ les sept formats reconstruisent des messages familiers sans modifier les champs du camp (3.765755ms)
+✔ les départs classiques, anciens et actuels reproduisent tous leurs états et camps avant la réécriture (6184.989128ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6391.004364

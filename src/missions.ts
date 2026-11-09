@@ -27,7 +27,7 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
     {
       id: 'refuge',
       name: 'Le refuge',
-      objective: 'Protégez le cristal pendant trois vagues.',
+      objective: 'Protège le cristal pendant trois vagues.',
       waves: [1, 2, 3],
       budget: 450,
       unlockRank: 3,
@@ -35,7 +35,7 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
     {
       id: 'trois-ponts',
       name: 'Les trois ponts',
-      objective: 'Gardez les trois passages ouverts à vos défenseurs.',
+      objective: 'Garde les trois passages ouverts à tes défenseurs.',
       waves: [2, 3, 4],
       budget: 550,
       unlockRank: 4,
@@ -43,7 +43,7 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
     {
       id: 'course',
       name: 'La course des vifs',
-      objective: 'Interceptez les rapides avant le refuge.',
+      objective: 'Intercepte les rapides avant le refuge.',
       waves: [3, 4, 5],
       budget: 700,
       unlockRank: 5,
@@ -51,7 +51,7 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
     {
       id: 'coquilles',
       name: 'Les premières coquilles',
-      objective: 'Résistez aux éclosions et aux premières escortes.',
+      objective: 'Résiste aux éclosions et aux premières escortes.',
       waves: [4, 5, 6],
       budget: 850,
       unlockRank: 6,
@@ -59,7 +59,7 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
     {
       id: 'sonnette',
       name: 'Dragon et sonnette',
-      objective: 'Surmontez les hésitations et protégez vos soutiens.',
+      objective: 'Surmonte les hésitations et protège tes soutiens.',
       waves: [5, 6, 7],
       budget: 1050,
       unlockRank: 7,
@@ -67,7 +67,7 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
     {
       id: 'carrefour',
       name: 'Le carrefour des fougères',
-      objective: 'Tenez quatre vagues aux deux jonctions.',
+      objective: 'Tiens quatre vagues aux deux jonctions.',
       waves: [5, 6, 7, 8],
       budget: 1300,
       unlockRank: 8,
@@ -193,10 +193,10 @@ export function missionWave(
   );
   const assaultTip =
     run.assault === 'rush'
-      ? 'Petits groupes rapides : gardez des renforts mobiles.'
+      ? 'Petits groupes rapides : garde des alliés mobiles.'
       : run.assault === 'escort'
-        ? 'Les escortes arrivent ensemble : combinez contact et soutien.'
-        : 'Les arrivées sont régulières : répartissez les gardiens.';
+        ? 'Les escortes arrivent ensemble : combine contact et soutien.'
+        : 'Les arrivées sont régulières : répartis les gardiens.';
   const pattern = Object.freeze({
     title: waveBriefing(rank).title,
     tip: `${assaultTip} ${run.nest === 'clustered' ? 'La couvée est concentrée sur une voie.' : 'Les éclosions sont réparties et décalées.'}${tacticalRulesEnabled && rank >= 6 ? ' Des serpents volants arrivent : archers, dragons et tanks peuvent les toucher.' : ''}`,

@@ -1,0 +1,54 @@
+{
+  "version": "0.33.1",
+  "artifact": "artifacts/child-tools-0.33.1",
+  "source": "Chromium cloud, not physical Android",
+  "sizes": [
+    {
+      "width": 1280,
+      "height": 800,
+      "board": {
+        "x": 13,
+        "y": 117,
+        "width": 1065.984375,
+        "height": 600.8125
+      }
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "board": {
+        "x": 13,
+        "y": 117,
+        "width": 1151.96875,
+        "height": 649.28125
+      }
+    },
+    {
+      "width": 780,
+      "height": 360,
+      "board": {
+        "x": 24,
+        "y": 48,
+        "width": 534.359375,
+        "height": 301.171875
+      }
+    },
+    {
+      "width": 375,
+      "height": 812,
+      "board": {
+        "x": 9,
+        "y": 280.28125,
+        "width": 168.984375,
+        "height": 95.234375
+      }
+    }
+  ],
+  "checks": [
+    "1280x800: help keyboard, topics, viewport, focus, dock height",
+    "1366x768: help keyboard, topics, viewport, focus, dock height",
+    "780x360: help keyboard, topics, viewport, focus, dock height",
+    "real UI: selected ally/honey and Game/RNG unchanged, temporary pause, retained background/player pause, explicit resume"
+  ],
+  "errors": []
+}

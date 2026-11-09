@@ -1,0 +1,36 @@
+
+> conquete-serpents@0.32.2 test:interface-audit
+> node scripts/interface-0322-browser.mjs
+
+{
+  "passed": 19,
+  "total": 24,
+  "errors": [],
+  "failures": [
+    {
+      "name": "intermediate closed fits 920x600",
+      "ok": false,
+      "error": "{\"height\":600,\"doc\":639,\"canvas\":{\"x\":15,\"y\":242.546875,\"width\":701.984375,\"height\":395.671875,\"top\":242.546875,\"right\":716.984375,\"bottom\":638.21875,\"left\":15},\"panel\":{\"x\":0,\"y\":0,\"width\":0,\"height\":0,\"top\":0,\"right\":0,\"bottom\":0,\"left\":0}}"
+    },
+    {
+      "name": "intermediate catalogue fits 920x600",
+      "ok": false,
+      "error": "{\"height\":600,\"doc\":851,\"canvas\":{\"x\":15,\"y\":203.546875,\"width\":567.984375,\"height\":320.140625,\"top\":203.546875,\"right\":582.984375,\"bottom\":523.6875,\"left\":15},\"panel\":{\"x\":596,\"y\":159.75,\"width\":310,\"height\":512,\"top\":159.75,\"right\":906,\"bottom\":671.75,\"left\":596}}"
+    },
+    {
+      "name": "intermediate catalogue fits 800x600",
+      "ok": false,
+      "error": "{\"height\":600,\"doc\":851,\"canvas\":{\"x\":15,\"y\":242.546875,\"width\":447.96875,\"height\":252.5,\"top\":242.546875,\"right\":462.96875,\"bottom\":495.046875,\"left\":15},\"panel\":{\"x\":476,\"y\":198.75,\"width\":310,\"height\":512,\"top\":198.75,\"right\":786,\"bottom\":710.75,\"left\":476}}"
+    },
+    {
+      "name": "intermediate catalogue fits 1101x520",
+      "ok": false,
+      "error": "{\"height\":520,\"doc\":553,\"canvas\":{\"x\":127,\"y\":159.34375,\"width\":523.375,\"height\":295,\"top\":159.34375,\"right\":650.375,\"bottom\":454.34375,\"left\":127},\"panel\":{\"x\":777,\"y\":120.75,\"width\":310,\"height\":432,\"top\":120.75,\"right\":1087,\"bottom\":552.75,\"left\":777}}"
+    },
+    {
+      "name": "desktop home then mission restores dock",
+      "ok": false,
+      "error": "Expected values to be strictly equal:\n\nfalse !== true\n"
+    }
+  ]
+}

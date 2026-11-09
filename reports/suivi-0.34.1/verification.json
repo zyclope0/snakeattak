@@ -1,0 +1,41 @@
+{
+  "version": "0.34.1",
+  "sourceCommit": "91d847bcabad0d65ee3a5130c2556c958ff2f1d8",
+  "verifyTests": 441,
+  "build": "pass",
+  "browser": "desktop/touch pass",
+  "interface": {
+    "passed": 24,
+    "total": 24
+  },
+  "audit": {
+    "passed": 13,
+    "total": 13
+  },
+  "childFormats": 6,
+  "dedicatedCases": 16,
+  "dedicatedAdditionalChecks": 6,
+  "guideBeforeHeight812Club": 319,
+  "guideAfterHeight812Club": 259.015625,
+  "guideAfterHeight812Medic": 282.0625,
+  "initialStatsBefore": 0,
+  "initialStatsAfter": 8,
+  "controlTouchTarget": 48,
+  "desktopMetricsUnchanged": true,
+  "protectedFilesUnchanged": 24,
+  "unitGuideLogicUnchangedApartFromCssImport": true,
+  "sixPersonaCouncil": true,
+  "importantKeyboardFindingFixedRedGreen": true,
+  "marginsSimulated": {
+    "top": 24,
+    "right": 32
+  },
+  "physicalS24TestOfNewApk": false,
+  "realChildTest": false,
+  "limits": [
+    "568 landscape still needs scroll, measured272px instead264before.",
+    "System font enlargement, live rotation and screen reader not certified.",
+    "Scroll hint and smaller portrait recognition remain family observations."
+  ],
+  "logNormalization": "Trailing console whitespace removed in tracked copies, raw logs retained /workspace/guide-0341-*.log"
+}

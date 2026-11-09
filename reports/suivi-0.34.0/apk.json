@@ -1,0 +1,20 @@
+{
+  "version": "0.34.0",
+  "versionCode": 42,
+  "applicationCodeCommit": "47cdeb6834256be03f52955e86ff4968eb7df073",
+  "apk": "/workspace/conquete-serpents-v0.34.0-debug.apk",
+  "bytes": 15045306,
+  "sha256": "85d098fe001c2f16cd82b888c4af0032797e4559b5eac5121b18b0bb3c0515bc",
+  "appId": "com.conqueteserpents.famille",
+  "appIdStillPendingFinalChoice": true,
+  "certificateSha256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+  "sameCertificateAs0331": true,
+  "sensorLandscape": true,
+  "commercialOrInternetPermissions": false,
+  "normalStartPath": "/",
+  "webFilesIdenticalToValidatedDist": 30,
+  "nativeLauncherPngsIdenticalTo0331": 20,
+  "physicalAndroidTest": false,
+  "humanChildTest": false,
+  "method": "Normal Capacitor sync, restore portable Gradle settings, offline assembleDebug; binary manifest/certificate and every bundled web file checked"
+}

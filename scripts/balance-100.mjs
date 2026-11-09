@@ -152,6 +152,7 @@ function play(profile, seed) {
     purchases: {},
     spent: 0,
     repairs: 0,
+    rewardsSkipped: 0,
     coinsEnd: 0,
     kills: 0,
     hatched: 0,
@@ -235,6 +236,12 @@ function play(profile, seed) {
     }
   }
   for (let wave = 1; wave <= TOTAL_WAVES; wave++) {
+    // Neutral legacy baseline: take the existing Continue without bonus action.
+    // Chapter rewards added after this tool otherwise block the next start.
+    if (g.rewards.pending !== null) {
+      assert.ok(g.skipReward());
+      record.rewardsSkipped++;
+    }
     purchases(g, profile, rng, wave, record);
     for (let i = 0; i < PREP_SECONDS / DT; i++) advance(false);
     record.prepSeconds += PREP_SECONDS;
@@ -358,6 +365,7 @@ const summary = {
     rosterPolicy,
     profiles: 5,
     pairedSeeds: 20,
+    rewardPolicy: 'skip chapter bonuses through the public command; legacy control baseline',
     stepHz: 30,
     preparationSeconds: PREP_SECONDS,
     timeoutPerWaveSeconds: MAX_WAVE_SECONDS,

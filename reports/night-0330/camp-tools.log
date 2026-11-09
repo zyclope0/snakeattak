@@ -1,0 +1,5 @@
+
+> conquete-serpents@0.33.0 test:camp-tools
+> node scripts/camp-tools-033-browser.mjs
+
+{"sizes":4,"checks":["1280x800: help keyboard, topics, viewport, focus, dock height","1366x768: help keyboard, topics, viewport, focus, dock height","780x360: help keyboard, topics, viewport, focus, dock height","real UI: selected ally/honey and Game/RNG unchanged, temporary pause, retained background/player pause, explicit resume"],"errors":[]}

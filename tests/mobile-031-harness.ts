@@ -7,6 +7,8 @@ import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindControls } from '../src/ui/controls.ts';
 import { bindBoardResize } from '../src/render/boardResize.ts';
 import '../src/style.css';
+// This fixture enters battle directly, without main.ts and its screen switch.
+document.getElementById('app')!.hidden = false;
 const session = new Session(2026);
 session.useGame(new Game(2026, undefined, createMissionRun('refuge', 2026)));
 const refresh = bindControls(session);

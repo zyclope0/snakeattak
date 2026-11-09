@@ -1,0 +1,129 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Europe/Zurich",
+  "version": "0.32.1",
+  "commit": "36305b8b656e3ee5b8770b1b18df0f9fc4b45114",
+  "step": 0,
+  "application_changes": false,
+  "audit_source": {
+    "source": "Audit Serpent Defender.md fourni par le parent le 8 novembre 2026",
+    "sha256": "25f7b09c10fac589efe251cc17fb67036e308d22a668ac3e1f0dbcdd8b0266b6",
+    "archive": "docs/audit-source-2026-11/originaux/rapport-suivi-0.32.1-20261108.md",
+    "active_section": "Suivi v0.32.1 (8 novembre 2026)",
+    "scope": "Seulement cette section ; historique v0.26 non réexécuté ; aucun original antérieur remplacé."
+  },
+  "road_geometry": {
+    "method": "laneRoad(0, missionLevel(layout)), samples in banner x interval [165,935]; paved stroke 56 wide; faint outer shoulder 82 wide; logical units, not CSS pixels",
+    "layouts": [
+      {
+        "layout": 0,
+        "minimum_center_y": 168.14023177143545,
+        "paved_top_y": 140.14023177143545,
+        "outer_shoulder_top_y": 127.14023177143545,
+        "banner_bottom_y": 129,
+        "paved_overlap_vertical_units": 0
+      },
+      {
+        "layout": 1,
+        "minimum_center_y": 144,
+        "paved_top_y": 116,
+        "outer_shoulder_top_y": 103,
+        "banner_bottom_y": 129,
+        "paved_overlap_vertical_units": 13
+      },
+      {
+        "layout": 2,
+        "minimum_center_y": 165.3820934272453,
+        "paved_top_y": 137.3820934272453,
+        "outer_shoulder_top_y": 124.38209342724531,
+        "banner_bottom_y": 129,
+        "paved_overlap_vertical_units": 0
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": 1,
+      "verdict": "confirmed",
+      "canvas_1280": [
+        931.96875,
+        525.296875
+      ],
+      "gap_below_canvas_css_px": 157.703125,
+      "catalogue_cards": 10,
+      "tabs": 2,
+      "filters": 1
+    },
+    {
+      "id": 2,
+      "verdict": "confirmed_with_scope_qualification",
+      "pill_rect_vertical_overlap_css_px": 2.8064516129032313,
+      "paved_road_overlap": "layout 1 only; 13 logical units; layout 0 captured does not cover paved road; HTML pills remain above canvas"
+    },
+    {
+      "id": 3,
+      "verdict": "confirmed_count_contested",
+      "strings_in_three_listed_files": 21,
+      "additional_checkpoint_strings": 2
+    },
+    {
+      "id": 4,
+      "verdict": "confirmed",
+      "source": "src/assets/illustrated/allies-front.webp, hero frame 0, source pixels; no image edited"
+    },
+    {
+      "id": 5,
+      "verdict": "confirmed_example_not_universal",
+      "departure": "REFUGE-2-FZZZ-ZZR4-9F",
+      "no_recruit_stars": 2,
+      "one_archer_stars": 3,
+      "probe_games": 12,
+      "probe_wins": 12,
+      "not_a_balance_change": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exit_code": 0,
+      "tests": 423,
+      "passed": 423,
+      "failed": 0,
+      "includes": [
+        "format:check",
+        "test",
+        "typecheck",
+        "vite build",
+        "build budgets"
+      ]
+    },
+    {
+      "command": "npm run test:browser",
+      "exit_code": 0,
+      "scenarios": [
+        "desktop",
+        "mobile"
+      ],
+      "page_errors": 0
+    },
+    {
+      "command": "npm run test:audit",
+      "exit_code": 0,
+      "checks": 13,
+      "passed": 13
+    },
+    {
+      "command": "npm run test:child-mobile",
+      "exit_code": 0,
+      "viewport_configurations": 6,
+      "errors": 0
+    }
+  ],
+  "limits": [
+    "Chromium cloud; touch/DPR3 emulation is not a physical S24 test",
+    "No new APK, deployment, app ID, SDK, billing, paid generation or gameplay changes",
+    "Existing 423 tests and browser checkpoint reload rerun; no new physical-device legacy-save import performed",
+    "Historical reports preserved; fresh outputs archived in this directory"
+  ],
+  "next": "STOP; explicit parent GO required for step 1"
+}

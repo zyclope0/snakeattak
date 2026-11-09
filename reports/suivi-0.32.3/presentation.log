@@ -1,0 +1,13 @@
+
+> conquete-serpents@0.32.3 test:presentation
+> node scripts/presentation-browser.mjs
+
+
+  VITE v6.4.5  ready in 135 ms
+
+  ➜  Local:   http://127.0.0.1:4181/
+9:51:18 PM [vite] (client) page reload child-mobile-035-fixture.html
+9:51:43 PM [vite] (client) page reload child-mobile-035-fixture.html
+9:52:30 PM [vite] (client) page reload threat-preparation-036-fixture.html
+9:52:38 PM [vite] (client) page reload threat-preparation-036-fixture.html
+Presentation fixtures: 14 scenarios including royal shield, locked shot, pause and impact; no browser errors.

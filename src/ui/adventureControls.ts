@@ -1,4 +1,4 @@
-import { missionById } from '../missions.ts';
+import { heroTrainingState } from './campToolModel.ts';
 import type { Session } from '../session.ts';
 export function bindAdventureControls(session: Session, refresh: () => void) {
   const encourage = document.getElementById('encourage') as HTMLButtonElement;
@@ -28,27 +28,8 @@ export function bindAdventureControls(session: Session, refresh: () => void) {
         : g.encouragementUsed
           ? 'Revient à la prochaine vague'
           : '1 fois par vague · attaques plus rapides pendant 8 s';
-    const trainingReady = g.mission
-      ? missionById(g.mission.missionId)!.unlockRank >= 4
-      : g.wave >= 4;
-    const hero = g.units.find((u) => u.kind === 'hero' && u.hp > 0);
-    for (const b of choices)
-      b.disabled =
-        g.paused ||
-        g.status !== 'preparing' ||
-        !trainingReady ||
-        !hero ||
-        g.campaign.training !== 'none' ||
-        g.gold < 90;
-    document.getElementById('training-status')!.textContent =
-      g.campaign.training === 'force'
-        ? 'Frappe renforcée · +15 % de dégâts du héros'
-        : g.campaign.training === 'guard'
-          ? 'Gardien · −15 % sur les coups et tirs reçus'
-          : !hero
-            ? 'Le héros est tombé. Aucun entraînement possible.'
-            : !trainingReady
-              ? 'Disponible après la vague 4'
-              : '90 pièces · un seul entraînement pour ces alliés';
+    const training = heroTrainingState(g);
+    for (const b of choices) b.disabled = g.paused || !training.ready;
+    document.getElementById('training-status')!.textContent = training.status;
   };
 }

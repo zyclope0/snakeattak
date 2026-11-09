@@ -183,6 +183,7 @@ try {
   await desktop.goto('http://127.0.0.1:4371');
   await desktop.locator('#home-play').click();
   await desktop.locator('#mission-launch').click();
+  await desktop.locator('#dock-catalogue').click();
   const shop = await desktop.locator('#shop').boundingBox();
   await swipe(desktop, shop.x + shop.width * 0.25, shop.y + shop.height - 20, shop.y + 15);
   assert.ok(

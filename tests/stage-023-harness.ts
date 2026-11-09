@@ -8,6 +8,8 @@ import { lanePoint } from '../src/routes.ts';
 import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindControls } from '../src/ui/controls.ts';
 import '../src/style.css';
+// This fixture enters battle directly, without main.ts and its screen switch.
+document.getElementById('app')!.hidden = false;
 
 const query = new URLSearchParams(location.search);
 const layout = Number(query.get('layout') ?? 0) as 0 | 1 | 2;

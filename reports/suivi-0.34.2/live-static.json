@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-11-09T09:27:24.260Z",
+  "method": "Isolated cloud Chromium; actual public site with simulated insets, not physical S24",
+  "results": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "httpStatus": 200,
+      "version": "v0.34.2",
+      "guide": {
+        "x": 360,
+        "y": 92.453125,
+        "width": 560,
+        "height": 615.09375
+      },
+      "statsFullyVisible": 8,
+      "safeInsetsSimulated": null,
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 812,
+        "height": 375
+      },
+      "httpStatus": 200,
+      "version": "v0.34.2",
+      "guide": {
+        "x": 50,
+        "y": 69.984375,
+        "width": 680,
+        "height": 259.015625
+      },
+      "statsFullyVisible": 8,
+      "safeInsetsSimulated": {
+        "top": 24,
+        "right": 32
+      },
+      "errors": []
+    }
+  ],
+  "exactFiles": [
+    {
+      "name": "assets/index-C5qOvzz-.css",
+      "bytes": 68441,
+      "sha256": "3bd4d25fc1ad5268dd0044aefa1c02cd06e2bf6885a37f8a0e26818ab22a683b"
+    },
+    {
+      "name": "assets/index-DrbtuoLT.js",
+      "bytes": 195213,
+      "sha256": "b2eb9cca200a3ef75622bf0d80459e359853e31dca4ef46a5b8380eda7ee3220"
+    },
+    {
+      "name": "index.html",
+      "bytes": 31845,
+      "sha256": "3625aa00ea116c26ba6b6b851d3ea29654c051783e296651f2a7ec8e5bf281e7"
+    }
+  ]
+}

@@ -9,6 +9,8 @@ import { createMissionRun } from '../src/missions.ts';
 import { BattleScene } from '../src/render/BattleScene.ts';
 import { lanePoint } from '../src/routes.ts';
 import '../src/style.css';
+// This fixture enters battle directly, without main.ts and its screen switch.
+document.getElementById('app')!.hidden = false;
 
 const game = new Game(2026, undefined, createMissionRun('trois-ponts', 2026));
 const session = new Session(2026);

@@ -1,0 +1,407 @@
+{
+  "version": "0.34.1",
+  "sourceSha256": "c524ce0b71c125938dc350087f5666d61c77affdf339061cc8b46fd3785ae0b0",
+  "method": "Deterministic real engine at30Hz, not browser or child playtest;6missions x18configurations x4fixed strategies; profiles share seeds/configs, no repairs/training; mixed uses sticky/encouragement, ranged sticky; placements know weakest lane, so not human prediction",
+  "wallSeconds": 62.098452759,
+  "total": 432,
+  "overall": {
+    "games": 432,
+    "wins": 330,
+    "losses": 102,
+    "timeouts": 0,
+    "meanBase": 68.32638888888889,
+    "meanDeaths": 2.4143518518518516,
+    "meanCombatSeconds": 103.30640432098407,
+    "meanGold": 631.0972222222222
+  },
+  "byMission": [
+    {
+      "mission": "refuge",
+      "games": 72,
+      "wins": 72,
+      "losses": 0,
+      "timeouts": 0,
+      "meanBase": 96.125,
+      "meanDeaths": 0.18055555555555555,
+      "meanCombatSeconds": 76.31111111110883,
+      "meanGold": 532.8333333333334,
+      "profiles": [
+        {
+          "profile": "mixed",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 100,
+          "meanDeaths": 0,
+          "meanCombatSeconds": 70.56111111110917,
+          "meanGold": 308
+        },
+        {
+          "profile": "ranged",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 100,
+          "meanDeaths": 0.16666666666666666,
+          "meanCombatSeconds": 76.05740740740515,
+          "meanGold": 338
+        },
+        {
+          "profile": "healers",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 98,
+          "meanDeaths": 0,
+          "meanCombatSeconds": 78.00370370370132,
+          "meanGold": 360.3333333333333
+        },
+        {
+          "profile": "none",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 86.5,
+          "meanDeaths": 0.5555555555555556,
+          "meanCombatSeconds": 80.62222222221972,
+          "meanGold": 1125
+        }
+      ]
+    },
+    {
+      "mission": "trois-ponts",
+      "games": 72,
+      "wins": 72,
+      "losses": 0,
+      "timeouts": 0,
+      "meanBase": 88,
+      "meanDeaths": 0.7638888888888888,
+      "meanCombatSeconds": 87.77685185184913,
+      "meanGold": 593,
+      "profiles": [
+        {
+          "profile": "mixed",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 100,
+          "meanDeaths": 0.2777777777777778,
+          "meanCombatSeconds": 85.44999999999749,
+          "meanGold": 334
+        },
+        {
+          "profile": "ranged",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 100,
+          "meanDeaths": 0.8333333333333334,
+          "meanCombatSeconds": 80.63518518518282,
+          "meanGold": 374
+        },
+        {
+          "profile": "healers",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 98,
+          "meanDeaths": 0.05555555555555555,
+          "meanCombatSeconds": 88.29259259258983,
+          "meanGold": 341.3333333333333
+        },
+        {
+          "profile": "none",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 54,
+          "meanDeaths": 1.8888888888888888,
+          "meanCombatSeconds": 96.7296296296264,
+          "meanGold": 1322.6666666666667
+        }
+      ]
+    },
+    {
+      "mission": "course",
+      "games": 72,
+      "wins": 58,
+      "losses": 14,
+      "timeouts": 0,
+      "meanBase": 74.05555555555556,
+      "meanDeaths": 1.4027777777777777,
+      "meanCombatSeconds": 98.36296296295964,
+      "meanGold": 636.2777777777778,
+      "profiles": [
+        {
+          "profile": "mixed",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 100,
+          "meanDeaths": 0.8333333333333334,
+          "meanCombatSeconds": 93.40555555555247,
+          "meanGold": 420
+        },
+        {
+          "profile": "ranged",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 100,
+          "meanDeaths": 2.388888888888889,
+          "meanCombatSeconds": 90.19999999999708,
+          "meanGold": 420
+        },
+        {
+          "profile": "healers",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 94.5,
+          "meanDeaths": 0.16666666666666666,
+          "meanCombatSeconds": 102.16111111110759,
+          "meanGold": 367.6666666666667
+        },
+        {
+          "profile": "none",
+          "games": 18,
+          "wins": 4,
+          "losses": 14,
+          "timeouts": 0,
+          "meanBase": 1.7222222222222223,
+          "meanDeaths": 2.2222222222222223,
+          "meanCombatSeconds": 107.68518518518134,
+          "meanGold": 1337.4444444444443
+        }
+      ]
+    },
+    {
+      "mission": "coquilles",
+      "games": 72,
+      "wins": 51,
+      "losses": 21,
+      "timeouts": 0,
+      "meanBase": 60.083333333333336,
+      "meanDeaths": 2.5277777777777777,
+      "meanCombatSeconds": 108.91527777777395,
+      "meanGold": 661.2361111111111,
+      "profiles": [
+        {
+          "profile": "mixed",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 100,
+          "meanDeaths": 2.388888888888889,
+          "meanCombatSeconds": 109.1833333333295,
+          "meanGold": 421
+        },
+        {
+          "profile": "ranged",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 96.5,
+          "meanDeaths": 4.444444444444445,
+          "meanCombatSeconds": 100.52962962962626,
+          "meanGold": 446.3333333333333
+        },
+        {
+          "profile": "healers",
+          "games": 18,
+          "wins": 15,
+          "losses": 3,
+          "timeouts": 0,
+          "meanBase": 43.833333333333336,
+          "meanDeaths": 0.8888888888888888,
+          "meanCombatSeconds": 125.46666666666195,
+          "meanGold": 403.5
+        },
+        {
+          "profile": "none",
+          "games": 18,
+          "wins": 0,
+          "losses": 18,
+          "timeouts": 0,
+          "meanBase": 0,
+          "meanDeaths": 2.388888888888889,
+          "meanCombatSeconds": 100.48148148147817,
+          "meanGold": 1374.111111111111
+        }
+      ]
+    },
+    {
+      "mission": "sonnette",
+      "games": 72,
+      "wins": 41,
+      "losses": 31,
+      "timeouts": 0,
+      "meanBase": 50.06944444444444,
+      "meanDeaths": 3.6666666666666665,
+      "meanCombatSeconds": 111.51527777777387,
+      "meanGold": 655.5972222222222,
+      "profiles": [
+        {
+          "profile": "mixed",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 98,
+          "meanDeaths": 5.055555555555555,
+          "meanCombatSeconds": 121.02777777777325,
+          "meanGold": 495.3333333333333
+        },
+        {
+          "profile": "ranged",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 94,
+          "meanDeaths": 6.222222222222222,
+          "meanCombatSeconds": 110.28148148147761,
+          "meanGold": 515
+        },
+        {
+          "profile": "healers",
+          "games": 18,
+          "wins": 5,
+          "losses": 13,
+          "timeouts": 0,
+          "meanBase": 8.277777777777779,
+          "meanDeaths": 0.9444444444444444,
+          "meanCombatSeconds": 129.5518518518469,
+          "meanGold": 198.33333333333334
+        },
+        {
+          "profile": "none",
+          "games": 18,
+          "wins": 0,
+          "losses": 18,
+          "timeouts": 0,
+          "meanBase": 0,
+          "meanDeaths": 2.4444444444444446,
+          "meanCombatSeconds": 85.19999999999756,
+          "meanGold": 1413.7222222222222
+        }
+      ]
+    },
+    {
+      "mission": "carrefour",
+      "games": 72,
+      "wins": 36,
+      "losses": 36,
+      "timeouts": 0,
+      "meanBase": 41.625,
+      "meanDeaths": 5.944444444444445,
+      "meanCombatSeconds": 136.95694444443907,
+      "meanGold": 707.6388888888889,
+      "profiles": [
+        {
+          "profile": "mixed",
+          "games": 18,
+          "wins": 18,
+          "losses": 0,
+          "timeouts": 0,
+          "meanBase": 99.5,
+          "meanDeaths": 7.611111111111111,
+          "meanCombatSeconds": 158.97592592591923,
+          "meanGold": 516.3333333333334
+        },
+        {
+          "profile": "ranged",
+          "games": 18,
+          "wins": 14,
+          "losses": 4,
+          "timeouts": 0,
+          "meanBase": 59.27777777777778,
+          "meanDeaths": 12.555555555555555,
+          "meanCombatSeconds": 151.43148148147526,
+          "meanGold": 414.6666666666667
+        },
+        {
+          "profile": "healers",
+          "games": 18,
+          "wins": 4,
+          "losses": 14,
+          "timeouts": 0,
+          "meanBase": 7.722222222222222,
+          "meanDeaths": 1,
+          "meanCombatSeconds": 153.21851851851224,
+          "meanGold": 221.44444444444446
+        },
+        {
+          "profile": "none",
+          "games": 18,
+          "wins": 0,
+          "losses": 18,
+          "timeouts": 0,
+          "meanBase": 0,
+          "meanDeaths": 2.611111111111111,
+          "meanCombatSeconds": 84.20185185184945,
+          "meanGold": 1678.111111111111
+        }
+      ]
+    }
+  ],
+  "byProfile": [
+    {
+      "profile": "mixed",
+      "games": 108,
+      "wins": 108,
+      "losses": 0,
+      "timeouts": 0,
+      "meanBase": 99.58333333333333,
+      "meanDeaths": 2.6944444444444446,
+      "meanCombatSeconds": 106.43395061728022,
+      "meanGold": 415.77777777777777
+    },
+    {
+      "profile": "ranged",
+      "games": 108,
+      "wins": 104,
+      "losses": 4,
+      "timeouts": 0,
+      "meanBase": 91.62962962962963,
+      "meanDeaths": 4.435185185185185,
+      "meanCombatSeconds": 101.522530864194,
+      "meanGold": 418
+    },
+    {
+      "profile": "healers",
+      "games": 108,
+      "wins": 78,
+      "losses": 30,
+      "timeouts": 0,
+      "meanBase": 58.388888888888886,
+      "meanDeaths": 0.5092592592592593,
+      "meanCombatSeconds": 112.78240740740331,
+      "meanGold": 315.43518518518516
+    },
+    {
+      "profile": "none",
+      "games": 108,
+      "wins": 40,
+      "losses": 68,
+      "timeouts": 0,
+      "meanBase": 23.703703703703702,
+      "meanDeaths": 2.0185185185185186,
+      "meanCombatSeconds": 92.48672839505878,
+      "meanGold": 1375.1759259259259
+    }
+  ]
+}

@@ -151,3 +151,13 @@ remplacé. Reproduction : Pillow12.3.0 (`requirements-art.txt`), puis
 `python scripts/clean-strongholds.py`; contrôle sans écriture : `--check`.
 Empreintes, seuils et composantes dans `reports/strongholds-cleanup-0.28.json`.
 Cette provenance est copiée dans `dist/asset-provenance.md` à la compilation.
+
+## Cadres périphériques — 0.34.0
+
+Sources fournies par le créateur dans l’audit : terrain-crue.png (création
+Magnific cpLvd4Z0eP) et terrain-marais.png (Sy8A4QrUb8). Originaux et provenance
+détaillée conservés dans docs/resources-2026-11. Réexport technique local WebP
+1600×900, qualité88, sans retouche ni nouvelle génération. Le centre des fonds
+n’est pas affiché derrière les unités : seuls les bords cadrent les terrains
+existants. Empreintes et conversion reproductible : resources/scenery/manifest.json
+et scripts/export-scenery-034.py. Le marais gravé n’est pas la référence de DA.

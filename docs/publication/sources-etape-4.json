@@ -1,0 +1,170 @@
+{
+  "checkedFor": "Suivi v0.32.1 — étape4 documentaire",
+  "checkedOn": "2026-11-08",
+  "projectVersionUnchanged": "0.32.4",
+  "method": "HTTP GET, SHA256 du HTML brut et du texte extrait par html.parser, scripts/styles exclus. SDK Index : Chromium headless, ligne25.5.0 ouverte.",
+  "sources": [
+    {
+      "key": "billing-integrate",
+      "url": "https://developer.android.com/google/play/billing/integrate",
+      "resolvedUrl": "https://developer.android.com/google/play/billing/integrate",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.379405+00:00",
+      "bytes": 412302,
+      "textChars": 55367,
+      "htmlSha256": "6166d2cc949e44887f1899543e1761cb5ae1f231fc87ced9cd9bd578f6fdfd63",
+      "textSha256": "deaf30a111235a04306b30ca19e90df6ffda96e993f5e05a523b3891e14ea68b",
+      "use": "Référence9.1.0, queryPurchasesAsync, acknowledge client explicitement documenté, états et délai."
+    },
+    {
+      "key": "billing-security",
+      "url": "https://developer.android.com/google/play/billing/security",
+      "resolvedUrl": "https://developer.android.com/google/play/billing/security",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.308257+00:00",
+      "bytes": 281971,
+      "textChars": 20928,
+      "htmlSha256": "6445329deae9cc4f2718ffed288a4fae1411bfaac2b1f926b728fc248dba7a19",
+      "textSha256": "ca5a1aeb78fa4505fd189ef45c5ac35b87913c59423d16ed1e37ca5be1a6d20a",
+      "use": "Vérification distante recommandée ; limites client à expliciter."
+    },
+    {
+      "key": "billing-purchase",
+      "url": "https://developer.android.com/reference/com/android/billingclient/api/Purchase",
+      "resolvedUrl": "https://developer.android.com/reference/com/android/billingclient/api/Purchase",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.329727+00:00",
+      "bytes": 299923,
+      "textChars": 16596,
+      "htmlSha256": "15d9d1cf3cecb8ddc264fb24164cf7107341bbe9514e4ce5af733cfc7c17e02d",
+      "textSha256": "ee04d8abee9f3c59109cecc0e57d358be30abbccc8b3981e27f59f616b5d16f5",
+      "use": "Signature, JSON original, package, produits et état exposés par Purchase."
+    },
+    {
+      "key": "billing-testing",
+      "url": "https://developer.android.com/google/play/billing/test",
+      "resolvedUrl": "https://developer.android.com/google/play/billing/test",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:28.996294+00:00",
+      "bytes": 321502,
+      "textChars": 41679,
+      "htmlSha256": "dc71a01949a12ff94fa31748b1bf6fa9feed90ad9befc2080fef726051ba88f4",
+      "textSha256": "6189c5268dca21c8f9c0673122f8f48e5dc93bd9065e91d902317eaafd071617",
+      "use": "Comptes de licence et moyens de paiement de test ; test fermé seul insuffisant."
+    },
+    {
+      "key": "families-list",
+      "url": "https://support.google.com/googleplay/android-developer/answer/12955712?hl=en",
+      "resolvedUrl": "https://support.google.com/googleplay/android-developer/answer/12955712?hl=en",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:28.930196+00:00",
+      "bytes": 1656794,
+      "textChars": 9011,
+      "htmlSha256": "ef4d62c8a18de325a6fd05673052b9dc89fc7e4f4380c957ca5df48e3f917599",
+      "textSha256": "7c21944733197e97dbc84656490111a03727ca3630678b17860261ae64d4dd54",
+      "use": "AdMob19.0.0 et suivantes ; demande de vérifier individuellement au SDK Index."
+    },
+    {
+      "key": "families-policy",
+      "url": "https://support.google.com/googleplay/android-developer/answer/9893335?hl=en",
+      "resolvedUrl": "https://support.google.com/googleplay/android-developer/answer/9893335?hl=en",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:28.995447+00:00",
+      "bytes": 1669279,
+      "textChars": 19490,
+      "htmlSha256": "68c9edf92bcf020e0f5bc05258c64b37bac72e5b427975a64e29faa6fbf873d3",
+      "textSha256": "07d15ab6a1287ea4855dfdb9472bd7d7cec5af3f4a6ad8199869a656aaa62315",
+      "use": "Protection enfant, format interruptif fermable après5secondes et contraintes de données."
+    },
+    {
+      "key": "ads-releases",
+      "url": "https://developers.google.com/admob/android/rel-notes",
+      "resolvedUrl": "https://developers.google.com/admob/android/rel-notes",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.424511+00:00",
+      "bytes": 229813,
+      "textChars": 46538,
+      "htmlSha256": "6f58ba09961002649f243a5eca7e35791176132526f20019e2abd8f5234b0916",
+      "textSha256": "7e10f2c9e529c87cfe84cc011c73a5d3f8beac39918077de5d19073b4c02cb81",
+      "use": "25.5.0 du17septembre2026, minimumAPI24 ; nouveau réglage âge depuis25.3.0."
+    },
+    {
+      "key": "ads-index",
+      "url": "https://play.google.com/sdks/details/com-google-android-gms-play-services-ads?hl=en",
+      "resolvedUrl": "https://play.google.com/sdks/details/com-google-android-gms-play-services-ads?hl=en",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.376699+00:00",
+      "bytes": 69461,
+      "textChars": 21,
+      "htmlSha256": "eba8df5e832cdd9631a0f11d9bde935fa3afdad6e38369b5a5751de70a3576ce",
+      "textSha256": "99983f83ce714fd85c4c60e7713d93edc6a2131879f4b0fa61e6c81d1c6dfe88",
+      "use": "HTML initial sans données exploitables ; visite Chromium complémentaire ci-dessous."
+    },
+    {
+      "key": "ads-target",
+      "url": "https://developers.google.com/admob/android/targeting",
+      "resolvedUrl": "https://developers.google.com/admob/android/targeting",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.379493+00:00",
+      "bytes": 195451,
+      "textChars": 20736,
+      "htmlSha256": "226a8b0a9d46714b6c175f79845684d4b07379990e93a05148bd34debceef352",
+      "textSha256": "19d88d919e3bd4669e5185222de8b1f641e9ab3c224a2149dedef0e4a552d213",
+      "use": "AgeRestrictedTreatment.CHILD et noteG, avant initialisation."
+    },
+    {
+      "key": "ads-start",
+      "url": "https://developers.google.com/admob/android/quick-start",
+      "resolvedUrl": "https://developers.google.com/admob/android/quick-start",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.711613+00:00",
+      "bytes": 162353,
+      "textChars": 14130,
+      "htmlSha256": "9d157a2bd851f89524bd8e323614c662004136af66109b17694e6530aa9e8cc0",
+      "textSha256": "508da42fff6f516761df3e69f7dbaeea2b1b3133d6e031e1a8197d4611ba05f4",
+      "use": "SDK exact25.5.0, AD_ID déclaré par défaut ; modeLegacy mentionné."
+    },
+    {
+      "key": "ads-data",
+      "url": "https://developers.google.com/admob/android/privacy/play-data-disclosure",
+      "resolvedUrl": "https://developers.google.com/admob/android/privacy/play-data-disclosure",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:30.044698+00:00",
+      "bytes": 142083,
+      "textChars": 10029,
+      "htmlSha256": "205f7a563a862f7b4e8bf18a683a0e9c6dac12417676fcc35065673a4536b57c",
+      "textSha256": "adda7d04be0b09465a2dc05d073a2c52737d1ce1d28fe37aad4d5d6a7b19160c",
+      "use": "Le corps désigne25.5.0. Le résumé automatique ancien désigne23.6.0 : ignoré pour établir la version."
+    },
+    {
+      "key": "data-safety",
+      "url": "https://support.google.com/googleplay/android-developer/answer/10787469?hl=en",
+      "resolvedUrl": "https://support.google.com/googleplay/android-developer/answer/10787469?hl=en",
+      "status": 200,
+      "retrievedAt": "2026-11-08T22:45:29.857982+00:00",
+      "bytes": 1745463,
+      "textChars": 65420,
+      "htmlSha256": "a447258c3a6bceea81ab276d723cfb238dba5834d96db1887a49ec0a4ddf06aa",
+      "textSha256": "0292f66d9ecd6b52ea0bf9da2f3f32fa15a8de0f16841d2b0a95fc100b873cae",
+      "use": "Déclarer aussi les SDK ; brouillon à confronter au build réellement distribué."
+    }
+  ],
+  "sdkIndexBrowser": {
+    "url": "https://play.google.com/sdks/details/com-google-android-gms-play-services-ads?hl=en",
+    "versionInspected": "25.5.0",
+    "minimumApiSeen": 24,
+    "individualFamiliesStatusVisible": false,
+    "familiesEligibilityRange": "19.0.0 or later — liste officielle, pas preuve individuelle du build",
+    "confirmationBeforeIntegrationRequired": true,
+    "screenshot": "../../reports/suivi-etape-4/ads-index-25.5.0.png",
+    "screenshotSha256": "790109c330e27e9cc07126449af6f251903d0fa3541f105e83a6a797324fb89e",
+    "renderedTextSha256": "8c651b17d81520bc98a73a0161c7a7b1d34711c65422742c9662a946a01b39f7",
+    "capturedAt": "2026-11-08T22:45:53.575487+00:00"
+  },
+  "limits": [
+    "Aucun SDK installé ou graphe Gradle publicitaire résolu",
+    "Aucun achat ni appel publicitaire, aucune déclaration ou publication",
+    "Pas de validation physique S24",
+    "La conformité Familles du build exige un contrôle supplémentaire avant installation et diffusion"
+  ]
+}

@@ -1,3 +1,4 @@
+import { CanvasContours } from './canvasContours.ts';
 import { isFlying, flightLift } from '../flying.ts';
 import Phaser from 'phaser';
 import { characterMotion } from './characterMotion.ts';
@@ -21,9 +22,11 @@ import { visualPose } from './presentation.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
 export class Actors {
+  private contours?: CanvasContours;
   private pieces: FramePool<string, Phaser.GameObjects.Image>;
   private shadows: Phaser.GameObjects.Graphics;
   constructor(private scene: Phaser.Scene) {
+    if (scene.game.renderer.type === Phaser.CANVAS) this.contours = new CanvasContours(scene);
     this.shadows = scene.add.graphics().setDepth(9.7);
     this.pieces = new FramePool({
       maxIdle: 384,
@@ -45,7 +48,10 @@ export class Actors {
       },
       destroy: (image) => image.destroy(),
     });
-    onSceneExit(scene.events, () => this.pieces.clear());
+    onSceneExit(scene.events, () => {
+      this.pieces.clear();
+      this.contours?.destroy();
+    });
   }
   private piece(key: string, art: ArtFrame) {
     const image = this.pieces.acquire(key);
@@ -101,7 +107,7 @@ export class Actors {
         ['edge', enemy ? 9 : 4, 0xf9f1d8, 0.00004],
         ['outline', enemy ? 7 : 3, enemy ? 0xd2552d : 0x233d36, 0.00002],
       ] as const)
-        this.piece(`${layer}:${unit.id}`, art)
+        this.piece(`${layer}:${unit.id}`, this.contours?.frame(art, tint) ?? art)
           .setOrigin(0.5, 0.82)
           .setPosition(x, y)
           .setDisplaySize(width + padding, height + padding)

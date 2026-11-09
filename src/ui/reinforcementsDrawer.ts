@@ -1,4 +1,4 @@
-/** A compact-screen drawer; recruitment remains owned by the existing controls. */
+/** An on-demand catalogue at every screen size; recruitment remains owned by the existing controls. */
 export function bindReinforcementsDrawer() {
   const app = document.getElementById('app')!;
   const panel = document.getElementById('reinforcements')!;
@@ -9,18 +9,26 @@ export function bindReinforcementsDrawer() {
     '(max-width: 1100px) and (max-height: 520px) and (orientation: landscape)',
   );
   let open = false;
+  let trigger: HTMLElement = toggle;
   const show = (value: boolean, focus = false) => {
-    open = compact.matches && value;
+    if (value && !open && document.activeElement instanceof HTMLElement)
+      trigger = document.activeElement;
+    open = value;
     app.classList.toggle('reinforcements-open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    panel.inert = compact.matches && !open;
-    if (focus) (open ? close : toggle).focus({ preventScroll: true });
+    panel.inert = !open;
+    if (focus) (open ? close : trigger).focus({ preventScroll: true });
   };
   toggle.onclick = () => show(!open, true);
   close.onclick = () => show(false, true);
   backdrop.onclick = () => show(false, true);
-  document.getElementById('mobile-home')!.addEventListener('click', () => show(false));
-  compact.addEventListener('change', () => show(false));
+  for (const control of [
+    document.getElementById('mobile-home'),
+    document.getElementById('menu-home'),
+    document.querySelector('#app .brand'),
+  ])
+    control?.addEventListener('click', () => show(false));
+  compact.addEventListener('change', () => show(false, open));
   panel.addEventListener('click', (event) => {
     const button = (event.target as Element).closest<HTMLButtonElement>(
       '[data-kind], [data-quick-kind]',
@@ -31,7 +39,8 @@ export function bindReinforcementsDrawer() {
     }
   });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && open) show(false, true);
+    if (event.key === 'Escape' && open && !document.querySelector('dialog[open]'))
+      show(false, true);
     // The catalogue now sits beside the board. Keep the HUD reachable by keyboard.
   });
   show(false);

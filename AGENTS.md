@@ -10,6 +10,10 @@ Faire évoluer le prototype HTML V4 en jeu 2D Phaser 3 + TypeScript + Vite, simp
 - `public/references/dessin-original.jpg` : dessin de l'enfant.
 - `public/references/maquette-deux-zones.png` et `maquette-graphique.png` : inspirations visuelles, pas des captures de gameplay.
 - `GAME_DESIGN.md` : règles confirmées et idées non confirmées.
+- Direction artistique confirmée par le parent le 8 novembre 2026 : l'icône
+  Magnific `docs/resources-2026-11/assets/icone-source.png` fait foi pour tout
+  le projet, dans un style pâte à modeler / papier mâché. Lire la section
+  « Direction artistique » de `GAME_DESIGN.md` avant toute production visuelle.
 
 ## Règles confirmées
 

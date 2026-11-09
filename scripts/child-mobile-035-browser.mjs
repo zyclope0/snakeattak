@@ -7,7 +7,7 @@ import { lanePoint } from '../src/routes.ts';
 
 const fixture = 'child-mobile-035-fixture.html';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
-const release = version.split('.').slice(0, 2).join('.');
+const artifact = `artifacts/child-mobile-${version}`;
 let preview, dev, browser;
 const errors = [],
   sizes = [];
@@ -34,7 +34,7 @@ async function tapWorld(page, point) {
   await page.touchscreen.tap(b.x + (b.width * point.x) / 1100, b.y + (b.height * point.y) / 620);
 }
 try {
-  await mkdir('artifacts/child-mobile-035', { recursive: true });
+  await mkdir(artifact, { recursive: true });
   preview = spawn(process.execPath, [
     'node_modules/vite/bin/vite.js',
     'preview',
@@ -88,7 +88,7 @@ try {
       true,
       'Dock needs no scroll',
     );
-    await page.screenshot({ path: `artifacts/child-mobile-035/dock-${width}-${insets[1]}.png` });
+    await page.screenshot({ path: `${artifact}/dock-${width}-${insets[1]}.png` });
     const catalogue = (await page.locator('#dock-catalogue').isVisible())
       ? '#dock-catalogue'
       : '#reinforcements-toggle';
@@ -258,7 +258,7 @@ try {
   await page.waitForFunction(() => window.mobileInterface.session.game.feast?.flavor === 'sticky');
   assert.equal(await page.evaluate(() => window.mobileInterface.session.selectedFeast), null);
   assert.equal(await page.locator('[data-dock-feast="sticky"]').isDisabled(), true);
-  await page.screenshot({ path: 'artifacts/child-mobile-035/miel-tactile.png' });
+  await page.screenshot({ path: `${artifact}/miel-tactile.png` });
   await page.reload();
   await page.waitForFunction(() => window.mobileInterface?.phaser.scene.isActive('Battle'));
   await page.locator('#start').click();
@@ -294,15 +294,18 @@ try {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.locator('#orientation-notice').waitFor();
   await page.setViewportSize({ width: 1280, height: 800 });
-  assert.equal(await page.locator('#battle-dock').isVisible(), false);
+  assert.equal(await page.locator('#battle-dock').isVisible(), true);
+  assert.equal(await page.locator('#reinforcements').isVisible(), false);
+  assert.equal(await page.locator('[data-dock-kind]:visible').count(), 4);
   await page.close();
   assert.deepEqual(errors, []);
   await mkdir('reports', { recursive: true });
   await writeFile(
-    `reports/child-mobile-${release}.json`,
+    `reports/child-mobile-${version}.json`,
     JSON.stringify(
       {
         version,
+        artifact,
         source: 'Chromium cloud, not physical Android',
         sizes,
         checks: [

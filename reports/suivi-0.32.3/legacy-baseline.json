@@ -1,0 +1,7 @@
+{
+  "base": "7932b56",
+  "snapshots": 180,
+  "oldFullHash": "18761719ae593f389cf84e34b1f96e97e50f0f7abfb5f553c5525f01ac2a0d1b",
+  "withoutMessageHash": "27f9cf29d4caabf8f3f8f6108d2e09d5ed5a42721e5cf83a8ab9def565b8e34a",
+  "excluded": "top-level message only; other prior legacy projection exclusions unchanged"
+}

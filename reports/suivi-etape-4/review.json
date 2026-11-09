@@ -1,0 +1,21 @@
+{
+  "reviewer": "review_monetisation_etape4",
+  "scope": "Read-only, documents et preuves depuis620a673",
+  "returned": {
+    "critical": 0,
+    "important": 0,
+    "minor": 1
+  },
+  "finding": "Promesse trop générale de détection des remboursements/révocations ; remboursement sans revoke peut conserver le droit",
+  "authorRegrade": "Important pour la décision architecture et la précision des droits",
+  "fixed": "MONETISATION et bilan corrigés, recette distinguant remboursement avec/sans révocation ; source et texte final contrôlés",
+  "deferredMinor": 0,
+  "declinedToJudge": [
+    "Résultats finaux et verification.json alors en préparation, contrôle auteur avant commit"
+  ],
+  "futureGates": [
+    "Statut Familles individuel",
+    "Pont et transitives",
+    "Format publicitaire réel S24"
+  ]
+}

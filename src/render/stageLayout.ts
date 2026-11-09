@@ -8,6 +8,7 @@ export function stageTheme(level: Level) {
   if (id === 'grove')
     return {
       ground: 'ground-grove',
+      scenery: null,
       path: 0xddcea7,
       inner: 0xeadcbd,
       stone: 0xf3e7ca,
@@ -17,6 +18,7 @@ export function stageTheme(level: Level) {
   if (id === 'ruins')
     return {
       ground: 'ground-ruins',
+      scenery: 'scenery-marsh',
       path: 0xc9d3c4,
       inner: 0xdfe5d5,
       stone: 0xe8ecdf,
@@ -25,9 +27,10 @@ export function stageTheme(level: Level) {
     };
   return {
     ground: 'ground-clearing',
-    path: 0xd3cfac,
-    inner: 0xe2d9b8,
-    stone: 0xeee4c8,
+    scenery: level.id === 'mission-clearing-1' ? 'scenery-marsh' : 'scenery-flood',
+    path: 0xbda378,
+    inner: 0xe0cda2,
+    stone: 0xf0dfb5,
     tint: 0xffffff,
     dens: [1, 3, 1],
   };
@@ -70,6 +73,8 @@ export function stageComposition(level: Level, seed: number) {
       radius = 19 * scale;
     if (roads.some((p) => Math.hypot(p.x - x, p.y - y) < radius + 43)) continue;
     if (decor.some((p) => Math.hypot(p.x - x, p.y - y) < radius + p.radius + 10)) continue;
+    // The stream continues beyond the navigation barrier: no props floating in it.
+    if (Math.abs(x - 528) < radius + 54) continue;
     const neighbors = decor.filter((p) => Math.hypot(p.x - x, p.y - y) < 130);
     const frames = [1, 2, 3].filter((frame) => neighbors.every((p) => p.frame !== frame));
     if (!frames.length) continue;

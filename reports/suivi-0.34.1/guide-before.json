@@ -1,0 +1,1013 @@
+{
+  "results": [
+    {
+      "width": 812,
+      "height": 375,
+      "kind": "club",
+      "dialog": {
+        "x": 110,
+        "y": 40,
+        "width": 560,
+        "height": 319
+      },
+      "close": {
+        "x": 613,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 141,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 141,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "kind": "medic",
+      "dialog": {
+        "x": 110,
+        "y": 40,
+        "width": 560,
+        "height": 319
+      },
+      "close": {
+        "x": 613,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 141,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 141,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "kind": "twohead",
+      "dialog": {
+        "x": 110,
+        "y": 40,
+        "width": 560,
+        "height": 319
+      },
+      "close": {
+        "x": 613,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 141,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 141,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 812,
+      "height": 375,
+      "kind": "mutantStretch",
+      "dialog": {
+        "x": 110,
+        "y": 40,
+        "width": 560,
+        "height": 319
+      },
+      "close": {
+        "x": 613,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 141,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 141,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 780,
+      "height": 360,
+      "kind": "club",
+      "dialog": {
+        "x": 94,
+        "y": 40,
+        "width": 560,
+        "height": 304
+      },
+      "close": {
+        "x": 597,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 125,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 125,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 780,
+      "height": 360,
+      "kind": "medic",
+      "dialog": {
+        "x": 94,
+        "y": 40,
+        "width": 560,
+        "height": 304
+      },
+      "close": {
+        "x": 597,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 125,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 125,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 780,
+      "height": 360,
+      "kind": "twohead",
+      "dialog": {
+        "x": 94,
+        "y": 40,
+        "width": 560,
+        "height": 304
+      },
+      "close": {
+        "x": 597,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 125,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 125,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 780,
+      "height": 360,
+      "kind": "mutantStretch",
+      "dialog": {
+        "x": 94,
+        "y": 40,
+        "width": 560,
+        "height": 304
+      },
+      "close": {
+        "x": 597,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 125,
+        "y": 242,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 125,
+        "y": 102,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "kind": "club",
+      "dialog": {
+        "x": 16,
+        "y": 40,
+        "width": 504,
+        "height": 264
+      },
+      "close": {
+        "x": 463,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 37,
+        "y": 236,
+        "width": 462,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 37,
+        "y": 96,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "kind": "medic",
+      "dialog": {
+        "x": 16,
+        "y": 40,
+        "width": 504,
+        "height": 264
+      },
+      "close": {
+        "x": 463,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 37,
+        "y": 236,
+        "width": 462,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 37,
+        "y": 96,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "kind": "twohead",
+      "dialog": {
+        "x": 16,
+        "y": 40,
+        "width": 504,
+        "height": 264
+      },
+      "close": {
+        "x": 463,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 37,
+        "y": 236,
+        "width": 462,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 37,
+        "y": 96,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "kind": "mutantStretch",
+      "dialog": {
+        "x": 16,
+        "y": 40,
+        "width": 504,
+        "height": 264
+      },
+      "close": {
+        "x": 463,
+        "y": 53,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 37,
+        "y": 236,
+        "width": 462,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": false
+        },
+        {
+          "name": "Défense",
+          "visible": false
+        },
+        {
+          "name": "Vie",
+          "visible": false
+        },
+        {
+          "name": "Prix",
+          "visible": false
+        },
+        {
+          "name": "Arrivée",
+          "visible": false
+        },
+        {
+          "name": "Attaque",
+          "visible": false
+        },
+        {
+          "name": "Portée",
+          "visible": false
+        },
+        {
+          "name": "Mobilité",
+          "visible": false
+        }
+      ],
+      "portrait": {
+        "x": 37,
+        "y": 96,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "kind": "club",
+      "dialog": {
+        "x": 360,
+        "y": 92.453125,
+        "width": 560,
+        "height": 615.09375
+      },
+      "close": {
+        "x": 863,
+        "y": 105.453125,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 391,
+        "y": 294.453125,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": true
+        },
+        {
+          "name": "Défense",
+          "visible": true
+        },
+        {
+          "name": "Vie",
+          "visible": true
+        },
+        {
+          "name": "Prix",
+          "visible": true
+        },
+        {
+          "name": "Arrivée",
+          "visible": true
+        },
+        {
+          "name": "Attaque",
+          "visible": true
+        },
+        {
+          "name": "Portée",
+          "visible": true
+        },
+        {
+          "name": "Mobilité",
+          "visible": true
+        }
+      ],
+      "portrait": {
+        "x": 391,
+        "y": 154.453125,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "kind": "medic",
+      "dialog": {
+        "x": 360,
+        "y": 59.859375,
+        "width": 560,
+        "height": 680.28125
+      },
+      "close": {
+        "x": 863,
+        "y": 72.859375,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 391,
+        "y": 261.859375,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": true
+        },
+        {
+          "name": "Défense",
+          "visible": true
+        },
+        {
+          "name": "Vie",
+          "visible": true
+        },
+        {
+          "name": "Prix",
+          "visible": true
+        },
+        {
+          "name": "Arrivée",
+          "visible": true
+        },
+        {
+          "name": "Attaque",
+          "visible": true
+        },
+        {
+          "name": "Portée",
+          "visible": true
+        },
+        {
+          "name": "Mobilité",
+          "visible": true
+        }
+      ],
+      "portrait": {
+        "x": 391,
+        "y": 121.859375,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "kind": "twohead",
+      "dialog": {
+        "x": 360,
+        "y": 92.453125,
+        "width": 560,
+        "height": 615.09375
+      },
+      "close": {
+        "x": 863,
+        "y": 105.453125,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 391,
+        "y": 294.453125,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": true
+        },
+        {
+          "name": "Défense",
+          "visible": true
+        },
+        {
+          "name": "Vie",
+          "visible": true
+        },
+        {
+          "name": "Prix",
+          "visible": true
+        },
+        {
+          "name": "Arrivée",
+          "visible": true
+        },
+        {
+          "name": "Attaque",
+          "visible": true
+        },
+        {
+          "name": "Portée",
+          "visible": true
+        },
+        {
+          "name": "Mobilité",
+          "visible": true
+        }
+      ],
+      "portrait": {
+        "x": 391,
+        "y": 154.453125,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "kind": "mutantStretch",
+      "dialog": {
+        "x": 360,
+        "y": 80.90625,
+        "width": 560,
+        "height": 638.1875
+      },
+      "close": {
+        "x": 863,
+        "y": 93.90625,
+        "width": 44,
+        "height": 44
+      },
+      "select": {
+        "x": 391,
+        "y": 282.90625,
+        "width": 498,
+        "height": 44
+      },
+      "stats": [
+        {
+          "name": "Camp",
+          "visible": true
+        },
+        {
+          "name": "Défense",
+          "visible": true
+        },
+        {
+          "name": "Vie",
+          "visible": true
+        },
+        {
+          "name": "Prix",
+          "visible": true
+        },
+        {
+          "name": "Arrivée",
+          "visible": true
+        },
+        {
+          "name": "Attaque",
+          "visible": true
+        },
+        {
+          "name": "Portée",
+          "visible": true
+        },
+        {
+          "name": "Mobilité",
+          "visible": true
+        }
+      ],
+      "portrait": {
+        "x": 391,
+        "y": 142.90625,
+        "width": 100,
+        "height": 100
+      }
+    }
+  ],
+  "errors": []
+}

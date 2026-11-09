@@ -1,4 +1,3 @@
-import { childCopy } from './childCopy.ts';
 import { victoryCopy } from '../render/resultCopy.ts';
 import { roleDescription } from '../defenders.ts';
 import type { Session } from '../session.ts';
@@ -7,6 +6,7 @@ import { chapterIdentityForWave } from '../waves.ts';
 import { encounterReadout } from '../render/encounterReadout.ts';
 import type { BattleGuide } from './battleNotices.ts';
 import type { Effect } from '../game.ts';
+import { campToolModel, heroTrainingState } from './campToolModel.ts';
 /** Session-local observation; retain a real first hit between render frames. */
 export function createCoach(session: Session) {
   let previous = session.game,
@@ -106,11 +106,21 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
         'Choisis Attirer pour détourner les gourmands, ou Ralentir pour freiner ceux qui traversent la flaque. Puis choisis une voie.',
     };
   if (game.status === 'preparing') {
-    if (game.mission) return { title: game.briefing.title, subtitle: childCopy(game.briefing.tip) };
+    if (campToolModel(game, 'repair').ready)
+      return {
+        title: 'Pense à réparer ton cristal',
+        subtitle: 'Dans Actions du camp : 80 pièces pour regagner jusqu’à 25 points de vie.',
+      };
+    if (heroTrainingState(game).ready)
+      return {
+        title: 'Tu peux entraîner ton héros',
+        subtitle: 'Dans Actions du camp : choisis Frappe ou Gardien pour 90 pièces.',
+      };
+    if (game.mission) return { title: game.briefing.title, subtitle: game.briefing.tip };
     const identity = chapterIdentityForWave(game.wave + 1);
     return {
       title: identity.focus,
-      subtitle: childCopy(identity.tip),
+      subtitle: identity.tip,
     };
   }
   return {

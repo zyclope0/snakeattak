@@ -1,0 +1,19 @@
+{"version":"0.33.1","results":[{"harness":"mobile-031","appHidden":true,"startVisible":false,"canvasWidth":0,"canvasHeight":0},{"harness":"interruptions-033","appHidden":true,"startVisible":false,"canvasWidth":0,"canvasHeight":0},{"harness":"presentation","appHidden":true,"startVisible":false,"canvasWidth":0,"canvasHeight":0},{"harness":"performance-024","appHidden":true,"startVisible":false,"canvasWidth":0,"canvasHeight":0},{"harness":"tutorial-030","appHidden":true,"startVisible":false,"canvasWidth":0,"canvasHeight":0},{"harness":"tactical-022","appHidden":true,"startVisible":false,"canvasWidth":0,"canvasHeight":0},{"harness":"stage-023","appHidden":true,"startVisible":false,"canvasWidth":0,"canvasHeight":0}],"errors":[]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: mobile-031: battle root visible
+
+true !== false
+
+    at file:///workspace/conquete-serpents-0322/scripts/harness-roots-browser.mjs:54:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -1,0 +1,61 @@
+{
+  "source": "Chromium; 780x360 touch DPR3 emulation, not physical S24",
+  "results": [
+    {
+      "name": "hero without white bar 1280x800",
+      "ok": false,
+      "error": "{\"bright_pixels_under_hero\": 17}\n\n\n1 !== 0\n"
+    },
+    {
+      "name": "dock and board 1280x800",
+      "ok": false,
+      "error": "Same dock on desktop and phone\n\nfalse !== true\n"
+    },
+    {
+      "name": "single bottom event 1280x800",
+      "ok": false,
+      "error": "One HTML event line\n\n0 !== 1\n"
+    },
+    {
+      "name": "hero without white bar 1366x768",
+      "ok": false,
+      "error": "{\"bright_pixels_under_hero\": 17}\n\n\n1 !== 0\n"
+    },
+    {
+      "name": "dock and board 1366x768",
+      "ok": false,
+      "error": "Same dock on desktop and phone\n\nfalse !== true\n"
+    },
+    {
+      "name": "single bottom event 1366x768",
+      "ok": false,
+      "error": "One HTML event line\n\n0 !== 1\n"
+    },
+    {
+      "name": "hero without white bar 780x360",
+      "ok": false,
+      "error": "{\"bright_pixels_under_hero\": 171}\n\n\n1 !== 0\n"
+    },
+    {
+      "name": "dock and board 780x360",
+      "ok": true,
+      "value": {
+        "x": 7,
+        "y": 48,
+        "width": 553.546875,
+        "height": 312
+      }
+    },
+    {
+      "name": "catalogue lifecycle 780x360",
+      "ok": true,
+      "value": "open, select without purchase, close, Escape"
+    },
+    {
+      "name": "single bottom event 780x360",
+      "ok": false,
+      "error": "One HTML event line\n\n0 !== 1\n"
+    }
+  ],
+  "errors": []
+}

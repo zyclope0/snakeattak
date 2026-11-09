@@ -1,0 +1,20 @@
+
+> conquete-serpents@0.34.0 test:audit
+> node scripts/audit-2026-11-browser.mjs --strict
+
+OK   défilement après lancement 1280x800 : 0 (cible : 0 px)
+OK   plateau entier visible 1280x800 : {"scrollY":0,"top":117,"bottom":718,"innerHeight":800} (cible : top ≥ 0 et bottom ≤ hauteur de fenêtre)
+OK   mots visibles avant la 1re vague (mission 1, 1280x800) : 37 (cible : ≤ 60 (lot 2))
+OK   aucun vouvoiement visible : 0 (cible : 0 (lot 2))
+OK   défilement après lancement 1366x768 : 0 (cible : 0 px)
+OK   plateau entier visible 1366x768 : {"scrollY":0,"top":117,"bottom":766,"innerHeight":768} (cible : top ≥ 0 et bottom ≤ hauteur de fenêtre)
+OK   défilement après lancement 1920x1080 : 0 (cible : 0 px)
+OK   plateau entier visible 1920x1080 : {"scrollY":0,"top":117,"bottom":921,"innerHeight":1080} (cible : top ≥ 0 et bottom ≤ hauteur de fenêtre)
+OK   cibles tactiles < 48 px (812x375, plateau) : [] (cible : aucune (Android 48 dp))
+OK   plateau en paysage téléphone (% hauteur) : {"h":87,"w":71} (cible : ≥ 85 % de la hauteur)
+OK   consigne « Tourne ton téléphone » en portrait : true (cible : visible)
+OK   nouveau tirage : terrain répété : 0 (cible : 0 sur 10)
+OK   erreurs JavaScript : [] (cible : aucune)
+
+13/13 contrôles OK — rapport : reports/audit-2026-11-after-lot2.json
+0 écart(s) bloquant(s) pour les contrôles d’interface audités

@@ -81,6 +81,7 @@ if ((await page.locator('#sound-toggle').getAttribute('aria-pressed')) !== 'true
 await page.locator('#sound-toggle').click();
 if ((await page.locator('#sound-toggle').getAttribute('aria-pressed')) !== 'false')
   throw Error('Son non coupé');
+await revealControl(page, '[data-kind="ninja"]');
 await page.locator('[data-kind="ninja"]').click();
 await page.waitForFunction(() => document.getElementById('encounter').dataset.tone === 'place');
 const canvas = await page.locator('canvas').boundingBox();
@@ -109,6 +110,7 @@ await page.waitForTimeout(500);
 if ((await page.locator('#wave').innerText()) !== '1') throw Error('Vague non lancée');
 if ((await page.locator('#encounter').getAttribute('data-tone')) !== 'wave')
   throw Error('Annonce de vague absente');
+await revealControl(page, '[data-feast-lane="1"]');
 await page.locator('[data-feast-lane="1"]').click();
 if (!(await page.locator('#feast-status').innerText()).includes('Centre'))
   throw Error('Goûter absent');
@@ -211,7 +213,7 @@ if (
 console.log(
   JSON.stringify({
     desktop:
-      'full catalog, tank guide, sound toggle, recruit, checkpoint reload, unlocks, briefing, both honeys, flavour locking/pause/reset, help OK',
+      'dock and full catalog on request, tank guide, sound toggle, recruit, checkpoint reload, unlocks, briefing, both honeys, flavour locking/pause/reset, help OK',
     mobile:
       'portrait guidance, 812×375 board >=85% height, drawer, touch recruit/start/sticky honey OK',
     pageErrors: errors,

@@ -1,3 +1,4 @@
+import './craftSurfaces.css';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import type { Kind } from '../data.ts';
@@ -12,6 +13,7 @@ export function bindBattleDock(
   session: Session,
   career: ReturnType<typeof createCareer> | undefined,
   refresh: () => void,
+  openToolHelp: () => void,
 ) {
   const container = document.getElementById('dock-allies')!;
   const status = document.getElementById('dock-mode')!;
@@ -19,6 +21,8 @@ export function bindBattleDock(
   document.getElementById('dock-catalogue')!.onclick = () =>
     document.getElementById('reinforcements-toggle')!.click();
   const cancel = document.getElementById('dock-cancel') as HTMLButtonElement;
+  const help = document.getElementById('dock-tool-help') as HTMLButtonElement;
+  help.onclick = openToolHelp;
   cancel.onclick = () => {
     session.selectUnit(null);
     refresh();
@@ -90,7 +94,10 @@ export function bindBattleDock(
         game.paused || game.feastUsed || game.status === 'won' || game.status === 'lost';
       button.setAttribute('aria-pressed', String(session.selectedFeast === flavor));
     }
-    cancel.disabled = !session.selected && !session.selectedFeast;
+    const placing = !!session.selected || !!session.selectedFeast;
+    cancel.hidden = !placing;
+    cancel.disabled = !placing;
+    help.hidden = placing;
     const hint =
       session.actionHint ??
       (session.selectedFeast

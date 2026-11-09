@@ -8,30 +8,9 @@ export class BattleFeedback {
   private graphics: Phaser.GameObjects.Graphics;
   private labels: Phaser.GameObjects.Text[] = [];
   private encounterLabels: Phaser.GameObjects.Text[] = [];
-  private title: Phaser.GameObjects.Text;
-  private subtitle: Phaser.GameObjects.Text;
   private bossLabel: Phaser.GameObjects.Text;
   constructor(scene: Phaser.Scene) {
     this.graphics = scene.add.graphics().setDepth(22);
-    this.title = scene.add
-      .text(550, 82, '', {
-        fontFamily: 'Arial',
-        fontSize: '22px',
-        fontStyle: 'bold',
-        color: '#ffe2a0',
-      })
-      .setOrigin(0.5)
-      .setDepth(23);
-    this.subtitle = scene.add
-      .text(550, 109, '', {
-        fontFamily: 'Arial',
-        fontSize: '14px',
-        color: '#d6e2c1',
-        align: 'center',
-        wordWrap: { width: 742 },
-      })
-      .setOrigin(0.5)
-      .setDepth(23);
     this.bossLabel = scene.add
       .text(550, 13, '', { fontFamily: 'Arial', fontSize: '12px', color: '#ffe2a0' })
       .setOrigin(0.5)
@@ -103,21 +82,7 @@ export class BattleFeedback {
         g.strokeCircle(u.x, u.y - 9, 17);
       }
     }
-    const n = p.notice;
-    this.title.setVisible(!!n);
-    this.subtitle.setVisible(!!n);
-    if (n) {
-      const alpha = Math.min(1, n.remaining * 4);
-      g.fillStyle(0x17382b, alpha * 0.93);
-      g.fillRoundedRect(165, 60, 770, 69, 8);
-      g.lineStyle(2, n.kind === 'boss' ? 0xe0a36e : 0xc3bb7c, alpha * 0.8);
-      g.strokeRoundedRect(165, 60, 770, 69, 8);
-      this.title
-        .setText(n.title)
-        .setAlpha(alpha)
-        .setColor(n.kind === 'boss' ? '#ffc38c' : '#ffe2a0');
-      this.subtitle.setText(n.subtitle).setAlpha(alpha);
-    }
+    // Transient event notices live in the HTML line below the lane corridors.
     const boss = game.enemies.find((e) => e.boss && e.hp > 0);
     this.bossLabel.setVisible(!!boss);
     if (boss) {

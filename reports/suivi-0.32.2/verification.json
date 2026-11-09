@@ -1,0 +1,137 @@
+{
+  "version": "0.32.2",
+  "versionCode": 37,
+  "base": "36305b8",
+  "stage0Commit": "724ba9c",
+  "step": 1,
+  "rulesAndSaveFormatsChanged": false,
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "tests": 423,
+      "passed": 423,
+      "failed": 0
+    },
+    {
+      "command": "npm run test:browser",
+      "exitCode": 0,
+      "mainJourneys": [
+        "desktop",
+        "mobile"
+      ],
+      "tabletSizes": 2,
+      "pageErrors": 0
+    },
+    {
+      "command": "npm run test:audit",
+      "exitCode": 0,
+      "checks": 13,
+      "passed": 13
+    },
+    {
+      "command": "npm run test:child-mobile",
+      "exitCode": 0,
+      "viewportConfigurations": 6,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:interface-audit",
+      "exitCode": 0,
+      "checks": 24,
+      "passed": 24
+    },
+    {
+      "command": "npm run test:reinforcements-scroll",
+      "exitCode": 0,
+      "compactCases": 5,
+      "desktopCase": true,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:offline",
+      "exitCode": 0,
+      "checks": 10,
+      "legacySchemas": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "bundledGrounds": 3,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:interruptions",
+      "exitCode": 0,
+      "checks": 11,
+      "errors": 0
+    },
+    {
+      "command": "npm run android:apk:debug",
+      "exitCode": 0,
+      "normalStartupRepackage": "android/gradlew -p android assembleDebug --offline --no-daemon --max-workers=2",
+      "normalRepackageExitCode": 0
+    }
+  ],
+  "apk": {
+    "version": "0.32.2",
+    "versionCode": 37,
+    "apkBytes": 13107787,
+    "sha256": "b90827aeab10b414da05bea38e0a8073be33571543ccb1065b3ca015720a89d1",
+    "certificateSha256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "sameCertificateAs0321": true,
+    "identicalWebFiles": 27,
+    "config": {
+      "appId": "com.conqueteserpents.famille",
+      "appName": "La Conquête des Serpents",
+      "webDir": "dist",
+      "plugins": {
+        "SystemBars": {
+          "insetsHandling": "css",
+          "initialViewportFitValueHint": "cover"
+        }
+      }
+    },
+    "physicalAndroidTest": false,
+    "normalStartupWithoutPerformanceOverlay": true,
+    "noInternetPermission": true
+  },
+  "review": {
+    "reviewer": "review_interface_0322",
+    "scope": "whole uncommitted interface branch vs36305b8; read-only browser probes; one review",
+    "findings": [
+      {
+        "severity": "P2",
+        "issue": "Intermediate viewport/catalogue overflows due to assumed HUD height",
+        "fixed": true,
+        "verification": "RED archived; intermediate closed/open viewport cases GREEN in interface24/24"
+      },
+      {
+        "severity": "P2",
+        "issue": "Desktop home retains open catalogue in next mission",
+        "fixed": true,
+        "verification": "RED archived; desktop home then mission restores dock GREEN"
+      },
+      {
+        "severity": "minor",
+        "issue": "Resize leaves focus on hidden catalogue close button",
+        "fixed": true,
+        "verification": "Browser asserts return to dock-catalogue after resize both directions"
+      }
+    ],
+    "secondReview": false,
+    "unresolvedCriticalOrImportant": 0,
+    "physicalS24Verified": false
+  },
+  "limits": [
+    "Physical S24 test awaits parent",
+    "75.52px height gain, not full150px",
+    "No deployment; public site0.32.1 unchanged",
+    "Only step1 implemented; steps2–4 require new GO"
+  ],
+  "next": "STOP: parent tests APK on S24"
+}

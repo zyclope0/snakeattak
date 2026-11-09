@@ -1,0 +1,5 @@
+
+> conquete-serpents@0.34.2 test:offline
+> node scripts/offline-033-browser.mjs
+
+{"checks":["offline cold start, tutorial wave, pause and last-camp reload","schema 1 restores three allies offline","schema 2 restores three allies offline","schema 3 restores three allies offline","schema 4 restores three allies offline","schema 5 restores three allies offline","schema 6 restores three allies offline","schema 7 restores three allies offline","chapter 2 loads bundled assets offline","chapter 3 loads bundled assets offline"],"files":25,"errors":[]}

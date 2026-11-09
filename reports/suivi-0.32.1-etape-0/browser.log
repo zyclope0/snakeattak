@@ -1,0 +1,6 @@
+
+> conquete-serpents@0.32.1 test:browser
+> node scripts/browser-check.mjs
+
+  ➜  Local:   http://127.0.0.1:4179/
+{"desktop":"full catalog, tank guide, sound toggle, recruit, checkpoint reload, unlocks, briefing, both honeys, flavour locking/pause/reset, help OK","mobile":"portrait guidance, 812×375 board >=85% height, drawer, touch recruit/start/sticky honey OK","pageErrors":[]}

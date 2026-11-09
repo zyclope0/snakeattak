@@ -1,0 +1,213 @@
+
+> conquete-serpents@0.32.4 android:apk:debug
+> node scripts/android-debug.mjs
+
+
+> conquete-serpents@0.32.4 build
+> npm run typecheck && vite build && node scripts/check-dist.mjs
+
+
+> conquete-serpents@0.32.4 typecheck
+> tsc --noEmit
+
+vite v6.4.5 building for production...
+transforming...
+✓ 121 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/fredoka-latin-DM6njrJ3.woff2           29.73 kB
+dist/index.html                                    30.42 kB │ gzip:   9.61 kB
+dist/assets/nunitosans-latin-BWQ3gi2K.woff2        31.08 kB
+dist/assets/ground-grove-refined-D97MXGUy.webp    142.08 kB
+dist/assets/ground-three-bridges-BFXtmpU_.webp    199.92 kB
+dist/assets/ground-ruins-refined-DOfHsQTj.webp    216.52 kB
+dist/assets/miels-parapluie-Dg128vC1.webp         336.23 kB
+dist/assets/allies-mutants-D_OCWh4h.webp          406.62 kB
+dist/assets/interface-craft-BeML44Ar.webp         415.99 kB
+dist/assets/allies-creatures-cRzzrImV.webp        511.15 kB
+dist/assets/props-three-bridges-DvedvTDL.webp     541.87 kB
+dist/assets/allies-elite-3Yzm51ta.webp            544.86 kB
+dist/assets/enemies-mechanical-B7YXthmn.webp      559.60 kB
+dist/assets/allies-front-CdzQjxMu.webp            572.24 kB
+dist/assets/serpents-family-CT6GHe6-.webp         580.33 kB
+dist/assets/allies-support-DCvqEi_g.webp          582.99 kB
+dist/assets/enemies-organic-DDXZITxu.webp         647.20 kB
+dist/assets/allies-dinosaurs-D19CJGOc.webp        684.41 kB
+dist/assets/terrain-props-BZgR3Rv5.webp           689.72 kB
+dist/assets/strongholds-CUiqwDSy.webp             770.09 kB
+dist/assets/index-C-e_6Faj.css                     59.28 kB │ gzip:  13.23 kB
+dist/assets/index-RQoYavK-.js                     185.08 kB │ gzip:  65.13 kB
+dist/assets/phaser-Czz4FBZH.js                  1,481.77 kB │ gzip: 339.84 kB
+✓ built in 4.71s
+{
+  "htmlBytes": 30418,
+  "assets": {
+    "allies-creatures-cRzzrImV.webp": 511150,
+    "allies-dinosaurs-D19CJGOc.webp": 684408,
+    "allies-elite-3Yzm51ta.webp": 544860,
+    "allies-front-CdzQjxMu.webp": 572236,
+    "allies-mutants-D_OCWh4h.webp": 406624,
+    "allies-support-DCvqEi_g.webp": 582990,
+    "enemies-mechanical-B7YXthmn.webp": 559602,
+    "enemies-organic-DDXZITxu.webp": 647204,
+    "fredoka-latin-DM6njrJ3.woff2": 29732,
+    "ground-grove-refined-D97MXGUy.webp": 142082,
+    "ground-ruins-refined-DOfHsQTj.webp": 216522,
+    "ground-three-bridges-BFXtmpU_.webp": 199922,
+    "index-C-e_6Faj.css": 59275,
+    "index-RQoYavK-.js": 185076,
+    "interface-craft-BeML44Ar.webp": 415986,
+    "miels-parapluie-Dg128vC1.webp": 336234,
+    "nunitosans-latin-BWQ3gi2K.woff2": 31076,
+    "phaser-Czz4FBZH.js": 1481772,
+    "props-three-bridges-DvedvTDL.webp": 541866,
+    "serpents-family-CT6GHe6-.webp": 580330,
+    "strongholds-CUiqwDSy.webp": 770094,
+    "terrain-props-BZgR3Rv5.webp": 689720
+  }
+}
+✔ Copying web assets from dist to android/app/src/main/assets/public in 13.40ms
+✔ Creating capacitor.config.json in android/app/src/main/assets in 670.27μs
+✔ copy android in 23.31ms
+✔ Updating Android plugins in 1.55ms
+✔ update android in 26.37ms
+[info] Sync finished in 0.06s
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build
+
+> Configure project :app
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-android:preBuild UP-TO-DATE
+> Task :capacitor-android:preDebugBuild UP-TO-DATE
+> Task :capacitor-android:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:writeDebugAarMetadata
+> Task :capacitor-android:processDebugNavigationResources UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:processDebugNavigationResources
+> Task :app:processDebugNavigationResources
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResources UP-TO-DATE
+> Task :capacitor-android:packageDebugResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugResValues
+> Task :capacitor-cordova-android-plugins:generateDebugResources
+> Task :capacitor-cordova-android-plugins:packageDebugResources
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:parseDebugLocalResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:processDebugManifest UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:extractDeepLinksDebug
+> Task :app:mergeDebugResources
+> Task :capacitor-cordova-android-plugins:processDebugManifest
+> Task :capacitor-android:compileDebugLibraryResources UP-TO-DATE
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :capacitor-android:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-android:generateDebugRFile UP-TO-DATE
+> Task :app:processDebugManifestForPackage
+> Task :capacitor-cordova-android-plugins:compileDebugLibraryResources
+> Task :capacitor-android:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:parseDebugLocalResources
+> Task :capacitor-android:compileDebugJavaWithJavac UP-TO-DATE
+> Task :capacitor-android:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:javaPreCompileDebug
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugShaders UP-TO-DATE
+> Task :capacitor-android:compileDebugShaders NO-SOURCE
+> Task :capacitor-android:generateDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugAssets UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugRFile
+> Task :capacitor-cordova-android-plugins:mergeDebugShaders
+> Task :capacitor-cordova-android-plugins:compileDebugJavaWithJavac NO-SOURCE
+> Task :capacitor-cordova-android-plugins:bundleLibCompileToJarDebug
+> Task :capacitor-cordova-android-plugins:compileDebugShaders NO-SOURCE
+> Task :capacitor-cordova-android-plugins:generateDebugAssets UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugAssets
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets
+> Task :capacitor-android:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToJarDebug
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:processDebugJavaRes NO-SOURCE
+> Task :capacitor-android:processDebugJavaRes NO-SOURCE
+> Task :capacitor-cordova-android-plugins:processDebugJavaRes NO-SOURCE
+> Task :app:mergeDebugJavaResource UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :capacitor-android:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToDirDebug
+> Task :app:mergeLibDexDebug UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-android:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-android:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-android:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugJniLibFolders
+> Task :capacitor-cordova-android-plugins:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-cordova-android-plugins:copyDebugJniLibsProjectOnly
+> Task :app:processDebugResources
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:dexBuilderDebug
+> Task :app:mergeDebugGlobalSynthetics UP-TO-DATE
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :capacitor-android:checkDebugAarMetadata UP-TO-DATE
+> Task :capacitor-android:stripDebugDebugSymbols NO-SOURCE
+> Task :capacitor-android:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :capacitor-android:extractDebugAnnotations UP-TO-DATE
+> Task :capacitor-android:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :capacitor-android:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :capacitor-android:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :capacitor-android:prepareDebugArtProfile UP-TO-DATE
+> Task :capacitor-android:prepareLintJarForPublish UP-TO-DATE
+> Task :capacitor-android:mergeDebugJavaResource UP-TO-DATE
+> Task :capacitor-android:syncDebugLibJars UP-TO-DATE
+> Task :app:mergeProjectDexDebug
+> Task :capacitor-android:bundleDebugAar UP-TO-DATE
+> Task :capacitor-android:assembleDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:checkDebugAarMetadata
+> Task :capacitor-cordova-android-plugins:stripDebugDebugSymbols NO-SOURCE
+> Task :capacitor-cordova-android-plugins:copyDebugJniLibsProjectAndLocalJars
+> Task :capacitor-cordova-android-plugins:extractDebugAnnotations
+> Task :capacitor-cordova-android-plugins:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:prepareDebugArtProfile UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:prepareLintJarForPublish UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugJavaResource
+> Task :capacitor-cordova-android-plugins:syncDebugLibJars
+> Task :capacitor-cordova-android-plugins:bundleDebugAar
+> Task :capacitor-cordova-android-plugins:assembleDebug
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+
+BUILD SUCCESSFUL in 13s
+93 actionable tasks: 41 executed, 52 up-to-date
+Debug test APK: artifacts/android/conquete-serpents-v0.32.4-debug.apk
+✔ Copying web assets from dist to android/app/src/main/assets/public in 8.06ms
+✔ Creating capacitor.config.json in android/app/src/main/assets in 570.75μs
+✔ copy android in 19.86ms
+✔ Updating Android plugins in 1.26ms
+✔ update android in 22.52ms
+[info] Sync finished in 0.051s

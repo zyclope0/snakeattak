@@ -1,0 +1,55 @@
+
+> conquete-serpents@0.34.2 test:presentation
+> node scripts/presentation-browser.mjs
+
+
+  VITE v6.4.5  ready in 148 ms
+
+  ➜  Local:   http://127.0.0.1:4181/
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#dock-catalogue')[22m
+[2m    - locator resolved to <button id="dock-catalogue" aria-controls="reinforcements">Tous les alliés</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    48 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not visible[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+
+    at revealControl (/workspace/conquete-serpents-0322/tests/reveal-controls.mjs:8:43)
+    at async file:///workspace/conquete-serpents-0322/scripts/presentation-browser.mjs:63:5 {
+  log: [
+    "  - waiting for locator('#dock-catalogue')",
+    '    - locator resolved to <button id="dock-catalogue" aria-controls="reinforcements">Tous les alliés</button>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not visible',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    48 × waiting for element to be visible, enabled and stable',
+    '       - element is not visible',
+    '     - retrying click action',
+    '       - waiting 500ms',
+    '    - waiting for element to be visible, enabled and stable'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0
