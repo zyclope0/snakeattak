@@ -1,3 +1,8 @@
+.unit-guide-body:focus-visible {
+  outline: 2px solid var(--jade);
+  outline-offset: -3px;
+}
+
 /* A short landscape uses its width to show the unit, not a desktop-size stack. */
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
   #unit-dialog {

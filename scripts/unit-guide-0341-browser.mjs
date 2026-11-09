@@ -89,6 +89,20 @@ try {
     }
     if (!before && width === 568) {
       const body = page.locator('.unit-guide-body');
+      const selected = await page.locator('#guide-select').inputValue();
+      await page.locator('#close-unit-guide').focus();
+      await page.keyboard.press('Tab');
+      assert.equal(
+        await body.evaluate((e) => e === document.activeElement),
+        true,
+        'Keyboard can enter the scrollable details region',
+      );
+      await page.keyboard.press('PageDown');
+      await page.waitForFunction(() => document.querySelector('.unit-guide-body').scrollTop > 35);
+      assert.equal(await page.locator('#guide-select').inputValue(), selected);
+      checks.push('568: Tab/PageDown scrolls details without changing selected unit');
+      await body.evaluate((e) => (e.scrollTop = 0));
+
       const box = await body.boundingBox();
       const initial = await body.evaluate((e) => e.scrollTop);
       const pageY = await page.evaluate(() => scrollY);
