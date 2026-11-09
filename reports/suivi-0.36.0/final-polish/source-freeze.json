@@ -1,0 +1,17 @@
+{
+  "base": "026ab1a23e269e21012c355eecc8cfdf5e3047c2",
+  "files": {
+    "src/game.ts": {
+      "sha256": "6831ba3bdbad5062c115c8d35136f7b599e38df7e22f5d6f430ff25d30744626",
+      "identicalToBase": true
+    },
+    "src/caprices.ts": {
+      "sha256": "4a298072b9c2f96880062a80ada95ff266153e7b1c3c03fb9e2706b38ff99440",
+      "identicalToBase": true
+    },
+    "src/missions.ts": {
+      "sha256": "4e2541fc2923e2549726f2b9f54cedff06c0d0a09e4d197ba333d7a64aef0b18",
+      "identicalToBase": true
+    }
+  }
+}

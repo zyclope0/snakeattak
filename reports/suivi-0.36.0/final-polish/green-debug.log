@@ -1,0 +1,34 @@
+
+> conquete-serpents@0.36.0 test:caprices
+> node scripts/caprices-036-browser.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Final F1/F2 presentation regressions
++ actual - expected
+
++ [
++   'F2 visible reserve reason 1280fr',
++   'F2 visible reserve reason 1280en',
++   'F2 visible reserve reason 568fr',
++   'F2 visible reserve reason 568en'
++ ]
+- []
+
+    at file:///workspace/conquete-serpents-0322/scripts/caprices-036-browser.mjs:210:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'F2 visible reserve reason 1280fr',
+    'F2 visible reserve reason 1280en',
+    'F2 visible reserve reason 568fr',
+    'F2 visible reserve reason 568en'
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
