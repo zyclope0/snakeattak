@@ -13,9 +13,9 @@ function decode(s) {
 function human(s) {
   const fixed = s.replace(/\{\d+\}/g, '');
   return (
-    /[A-Za-zÀ-ÿŒœ]{3}/.test(fixed) &&
+    (/[A-Za-zÀ-ÿŒœ]{3}/.test(fixed) || fixed === 'et le') &&
     (/[\sÀ-ÿŒœ]/.test(fixed) || /^[A-ZÀ-ÝŒ]/.test(fixed)) &&
-    !/^https?:|^\.|^#|^--|^[\w.-]+\.(?:ts|js|json|webp|png|woff2|html|txt)$/.test(s) &&
+    !/^https?:|^\.[^\s]|^#|^--|^[\w.-]+\.(?:ts|js|json|webp|png|woff2|html|txt)$/.test(s) &&
     !/[{}][^\d]|\b(?:display|font-size|background|position|padding):|(?:^|\s)(?:const|return|function)\s|\b(?:aria-|data-)[\w-]+=/i.test(
       fixed,
     ) &&

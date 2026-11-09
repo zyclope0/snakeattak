@@ -83,6 +83,13 @@ try {
         (node, i) => node.textContent === raw[i],
       ),
     );
+    const area = root.querySelector('textarea'),
+      rawArea = area.value;
+    dom.setAttribute(area, 'aria-label', 'Rapport à copier');
+    check(
+      'raw report data stays untouched while its accessible label translates',
+      area.value === rawArea && area.getAttribute('aria-label') === 'Report to copy',
+    );
     check('document title changes', document.title === 'Snake Attack TD');
     dom.bindCopyTree(root);
     dom.appendText(strong, '');

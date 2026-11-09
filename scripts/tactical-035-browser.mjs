@@ -66,6 +66,30 @@ try {
       'none',
     );
     await page.screenshot({ path: `${folder}/placement-${width}.png` });
+    await page.evaluate(() => {
+      const scene = window.resultFixture.phaser.scene.getScene('Battle');
+      scene.presentation.notice = {
+        kind: 'egg',
+        title: 'CRAC ! Les œufs ont éclos',
+        subtitle: 'Des serpents arrivent',
+        remaining: 1,
+        duration: 1.8,
+        priority: 0,
+      };
+    });
+    await page.waitForFunction(
+      () =>
+        document.querySelector('#battle-announcement').textContent === 'CRAC ! Les œufs ont éclos',
+    );
+    const eggDuringPlacement = await page.locator('#battle-announcement').isVisible();
+    await page.evaluate(
+      () => (window.resultFixture.phaser.scene.getScene('Battle').presentation.notice = null),
+    );
+    await page.waitForFunction(() =>
+      /Touche.*droite.*derrière/.test(document.querySelector('#battle-announcement').textContent),
+    );
+    const placementRestoredAfterEgg = await page.locator('#battle-announcement').isVisible();
+
     await page.keyboard.press('Escape');
     await page.evaluate(() => {
       const f = window.resultFixture,
@@ -83,6 +107,8 @@ try {
       earnedStarsAccessible,
       placementHintOnBoard,
       hintFits,
+      eggDuringPlacement,
+      placementRestoredAfterEgg,
       boardBounds: board,
       honeyDoesNotHideAdvice,
     });
@@ -101,7 +127,12 @@ try {
   assert.ok(
     checks.every(
       (c) =>
-        c.earnedStarsAccessible && c.placementHintOnBoard && c.hintFits && c.honeyDoesNotHideAdvice,
+        c.earnedStarsAccessible &&
+        c.placementHintOnBoard &&
+        c.hintFits &&
+        c.honeyDoesNotHideAdvice &&
+        c.eggDuringPlacement &&
+        c.placementRestoredAfterEgg,
     ),
     'Every new outcome and placement requirement must pass',
   );

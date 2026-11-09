@@ -24,6 +24,9 @@ async function pageAt(width, height, safe = [0, 0, 0, 0], devMode = false) {
   });
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(devMode ? 'http://127.0.0.1:4364/' + fixture : 'http://127.0.0.1:4363');
+  // Language initialization precedes bootstrap; await the real menu before
+  // reading or injecting its family profile. Controlled battle fixtures skip it.
+  if (!devMode) await page.locator('#home-screen').waitFor({ state: 'visible' });
   await page.evaluate((safe) => {
     for (const [i, k] of ['top', 'right', 'bottom', 'left'].entries())
       document.documentElement.style.setProperty('--safe-area-inset-' + k, safe[i] + 'px');

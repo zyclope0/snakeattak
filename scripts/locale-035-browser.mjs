@@ -44,7 +44,7 @@ const expectedNames = {
   wall: 'Palisade',
 };
 const french =
-  /[éèêëàâùûçœ]|\b(?:Massue|Héros|Médecin|Infirmier|Batteur|Bouclier|Palissade|Chevalier|Cavalier|Vélociraptor|Tyrannosaure|Gardienne|Cracheuse|Mixte|alliés|cristal|vagues?|pièces|soigne|soins|portée|rapide|réserve|réparation|attirer|ralentir|départ|sauvegarde|rejouer|reprendre|choisis|gagnées|vaincus)\b/i;
+  /[éèêëàâùûçœ]|\b(?:et le|le mamba noir retire|Massue|Héros|Médecin|Infirmier|Batteur|Bouclier|Palissade|Chevalier|Cavalier|Vélociraptor|Tyrannosaure|Gardienne|Cracheuse|Mixte|alliés|cristal|vagues?|pièces|soigne|soins|portée|rapide|réserve|réparation|attirer|ralentir|départ|sauvegarde|rejouer|reprendre|choisis|gagnées|vaincus)\b/i;
 let browser, server;
 function check(name, pass, detail) {
   checks.push({ name, pass: !!pass, ...(detail === undefined ? {} : { detail }) });

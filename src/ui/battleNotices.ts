@@ -30,8 +30,10 @@ export function bindBattleNotices(
       placing = forceGuide();
     const { content, tone } = chooseBattleMessage(notice, guide, placing);
     // The former Phaser flash was independent of the separate placement coach.
-    const title = placing ? (guide.compact ?? guide.title) : (notice?.title ?? '');
-    announcement.classList.toggle('placement-instruction', placing);
+    // Keep short events visible during placement; restore the compact gesture
+    // as soon as the event clears. Both share one non-interactive bottom line.
+    const title = notice?.title ?? (placing ? (guide.compact ?? guide.title) : '');
+    announcement.classList.toggle('placement-instruction', placing && !notice);
     if (title !== previousAnnouncement) {
       previousAnnouncement = title;
       setDisplayText(announcement, title);

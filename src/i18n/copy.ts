@@ -107,7 +107,11 @@ function render(value: string, depth: number): string {
           );
     }
   }
-  if (/[éèêëàâùûçœ]|\b(?:ton|tes|alliés|vague|pièces|soins|cristal|départ|sauvegarde)\b/i.test(key))
+  if (
+    /[éèêëàâùûçœ]|\b(?:et le|le mamba noir retire|ton|tes|alliés|vague|pièces|soins|cristal|départ|sauvegarde)\b/i.test(
+      key,
+    )
+  )
     unknown.add(key);
   return key;
 }

@@ -10,6 +10,7 @@ import {
   onLanguageChange,
 } from '../src/i18n/language.ts';
 import { copy } from '../src/i18n/copy.ts';
+import { waveBriefing } from '../src/waves.ts';
 
 test('language selection honors a valid choice then supported system languages', () => {
   assert.equal(selectInitialLanguage('fr', ['en-US']), 'fr');
@@ -110,5 +111,22 @@ test('counted army names use the same English identity as the unit guide', async
   assert.equal(copy('Massue × 2'), 'Clubber × 2');
   assert.equal(copy('Héros × 1'), 'Hero × 1');
   assert.equal(copy('Vélociraptor × 3'), 'Velociraptor × 3');
+  await setLanguage('fr');
+});
+
+test('English Cobra warning describes retaliation damage, never a health reward', async () => {
+  await setLanguage('en');
+  const warning = copy(waveBriefing(8).tip);
+  assert.match(warning, /loses 2 HP/);
+  assert.doesNotMatch(warning, /gains|heals|restores/i);
+  await setLanguage('fr');
+});
+
+test('mixed-markup help fragments and all ranged allies keep their English meaning', async () => {
+  await setLanguage('en');
+  assert.equal(copy(' et le '), ' and the ');
+  assert.equal(copy('. Le mamba noir retire '), '. The Black Mamba deals ');
+  assert.match(copy('devant les tireurs'), /ranged allies/);
+  assert.doesNotMatch(copy('devant les tireurs'), /archers/i);
   await setLanguage('fr');
 });

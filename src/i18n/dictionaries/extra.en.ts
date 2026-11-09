@@ -9,7 +9,7 @@ export const extraEnglish: Record<string, string> = {
   'Défense fixe : elle reste ici. Place-la sur le passage des serpents.':
     'A fixed defense stays here. Place it in the snakes’ path.',
   'Devant les tireurs : il garde son secteur, combat au contact et revient à sa place.':
-    'In front of your archers: they guard their area, fight up close, then return.',
+    'In front of your ranged allies: they guard their area, fight up close, then return.',
   'À renforcer : {0}': 'Reinforce: {0}',
   'Réserve · {0} · {1} s': 'Restocking: {0} · {1} s',
   'Réessaie ce même départ ou choisis une autre mission.':
@@ -17,6 +17,8 @@ export const extraEnglish: Record<string, string> = {
   'Choisis d’autres alliés, puis recommence l’aventure.':
     'Choose a different team and try the adventure again.',
   '{0} étoiles gagnées sur {1}': 'Stars earned: {0} out of {1}',
+  'et le': 'and the',
+  '. Le mamba noir retire': '. The Black Mamba deals',
   Langue: 'Language',
   'Choisir la langue': 'Choose your language',
   'Langue indisponible. Réessaie.': 'Language unavailable. Try again.',
@@ -29,7 +31,7 @@ export const extraEnglish: Record<string, string> = {
   'derrière les combattants': 'behind your fighters',
   'près d’un passage, trois voies': 'near a crossing, all three lanes',
   'sur le passage des serpents': 'in the snakes’ path',
-  'devant les tireurs': 'in front of your archers',
+  'devant les tireurs': 'in front of your ranged allies',
   'portée {0}': 'range {0}',
   'Rejoue une aventure, puis essaie d’autres alliés.':
     'Start a new adventure, then try a different team.',

@@ -238,7 +238,7 @@ export const modelEnglish: Record<string, string> = {
   'Très rapide. Fonce sur les serpents.': 'Very fast. Rushes at snakes.',
   Tricératops: 'Triceratops',
   'Trois éclosions décalées sur trois voies. Le cobra royal montre sa collerette : 2 PV au tueur à sa mort.':
-    'Three eggs hatch at different times across three lanes. The King Cobra shows its hood: the ally that defeats it gains 2 HP.',
+    'Three eggs hatch at different times across three lanes. The King Cobra shows its hood: the ally that defeats it loses 2 HP.',
   'Trois fronts. Le mamba noir retire 3 PV à celui qui le tue : garde des soins en soutien.':
     'Three fronts. Defeating a Black Mamba costs the attacker 3 HP: keep healers nearby.',
   Tyrannosaure: 'T. rex',

@@ -25,6 +25,9 @@ function raw(node: Node) {
   const element = node.nodeType === 1 ? (node as Element) : node.parentElement;
   return !!element?.closest(rawSelector);
 }
+function rawAttribute(node: Element) {
+  return !!node.closest('script,style,[data-copy-raw]');
+}
 function state(node: Node) {
   let binding = bindings.get(node);
   if (!binding) {
@@ -64,12 +67,11 @@ function preserveOptionValue(node: Node) {
   if (option && !option.hasAttribute('value')) option.setAttribute('value', option.value);
 }
 function project(node: Node, binding: Binding) {
-  if (raw(node)) return;
-  if (binding.text !== undefined) {
+  if (!raw(node) && binding.text !== undefined) {
     preserveOptionValue(node);
     writeText(node, copy(binding.text));
   }
-  if (node.nodeType === 1)
+  if (node.nodeType === 1 && !rawAttribute(node as Element))
     for (const [name, source] of binding.attributes ?? []) {
       const value = copy(source),
         element = node as Element;
@@ -132,7 +134,7 @@ export function setMarkup(node: Element, source: string): string {
 }
 export function setAttribute(node: Element, name: string, value: string): void {
   const normalized = name.toLowerCase();
-  if (raw(node) || !linguistic(node, normalized)) {
+  if (rawAttribute(node) || !linguistic(node, normalized)) {
     if (node.getAttribute(name) !== value) node.setAttribute(name, value);
     return;
   }
@@ -163,14 +165,14 @@ export function createTextNode(source: string): Text {
 }
 /** Adopt static copy once, preserving canonical bindings when called again. */
 export function bindCopyTree(root: Node): void {
-  if (raw(root)) return;
   const binding = bindings.get(root);
-  if (root.nodeType === 1) {
+  if (root.nodeType === 1 && !rawAttribute(root as Element)) {
     const element = root as Element;
     for (const attribute of Array.from(element.attributes))
       if (linguistic(element, attribute.name) && !binding?.attributes?.has(attribute.name))
         setAttribute(element, attribute.name, attribute.value);
   }
+  if (raw(root)) return;
   if (binding?.text !== undefined) {
     project(root, binding);
     return;
