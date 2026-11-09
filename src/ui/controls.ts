@@ -1,3 +1,4 @@
+import { bindBattleResult } from './battleResult.ts';
 import { bindThreatControls } from './threatControls.ts';
 import { bindCampToolHelp } from './campToolHelp.ts';
 import { bindBattleDock } from './battleDock.ts';
@@ -37,6 +38,7 @@ export function bindControls(
   const syncOrientation = bindOrientation(session, refresh);
   const cards = new Map<Kind, HTMLButtonElement>();
   const refreshHud = bindHud();
+  const refreshResult = bindBattleResult(session);
   el('mobile-home').onclick = () => el('menu-home').click();
   bindDisplay();
   bindReinforcementsDrawer();
@@ -224,6 +226,7 @@ export function bindControls(
     refreshDock();
     refreshThreats();
     refreshHud(session.game);
+    refreshResult();
     const selected = session.selected;
     el('selection-panel').hidden = !selected && !session.selectedFeast;
     el('message').hidden = !!selected || !!session.selectedFeast;
