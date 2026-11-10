@@ -87,21 +87,21 @@ Les nouvelles vues n'écrivent aucune règle. Assets actuels, devis payant sépa
 - Produces: pagination de présentation sur cartes filtrées, page remise à zéro
   au changement de filtre, bornée après déblocage, sans altérer disponibilité.
 
-- [ ] Étendre RED : résumé et départ visibles, caprices/copains accessibles et
+- [x] Étendre RED : résumé et départ visibles, caprices/copains accessibles et
       protégés FR/EN ; changement de caprice garde les contraintes ; nouveau
       tirage/réessai conservent révision et contenu attendu.
-- [ ] RED catalogue : ouvrir pendant combat fige le temps, six cartes maximum,
+- [x] RED catalogue : ouvrir pendant combat fige le temps, six cartes maximum,
       filtre/page atteignent tous les alliés, choix ferme sans dépenser puis
       placement achète normalement ; manuelle/reouverture/dialogue imbriqué/
       arrière-plan ne relancent pas le temps intempestivement.
-- [ ] Implémenter vues de préparation et résumé reflétant caprice, copains,
+- [x] Implémenter vues de préparation et résumé reflétant caprice, copains,
       budget, carnet, terrain ; repérage/options accessibles sans longue page.
       Commandes de lancement/retour fixes, aucune règle ou valeur dupliquée.
-- [ ] Transformer catalogue en écran modal six cartes avec titre/filtres/pages
+- [x] Transformer catalogue en écran modal six cartes avec titre/filtres/pages
       fixes. Garder dock quatre alliés et deux miels en temps réel. Utiliser
       les baux de pause existants et préserver l'état au choix/fermeture.
-- [ ] Traduire et adapter recettes affectées sans affaiblir leurs assertions.
-- [ ] Vérifier tests ciblés, verify, browser, caprices, locale ; rapport et commit.
+- [x] Traduire et adapter recettes affectées sans affaiblir leurs assertions.
+- [x] Vérifier tests ciblés, verify, browser, caprices, locale ; rapport et commit.
 
 ### Task 3: Cohérence graphique, recette intégrée et version Android
 
