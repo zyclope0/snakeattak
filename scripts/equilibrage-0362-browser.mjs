@@ -155,6 +155,7 @@ try {
         await page.locator('#guide-stats').innerText(),
         new RegExp(`${revision === 2 ? 340 : 390} pièces`),
       );
+      await page.screenshot({ path: `${folder}/guide-trex-r${revision}.png` });
       await page.locator('#close-unit-guide').click();
       assert.equal((await current(page)).balance ?? 1, revision);
       await page.locator('#camp-tools > summary').click();
