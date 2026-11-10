@@ -62,7 +62,7 @@ export function hasLegalRecruitment(session: Session) {
 /** Native frame deltas are separate from Session.speed and Game.time. */
 export function createRecruitmentReminder(session: Session, markers = createReminderMarkers()) {
   let game = session.game;
-  let purchases = session.recruitmentCount;
+  let purchases = session.purchaseCount;
   let previousGold = game.gold;
   let waited = 0;
   let remaining = 0;
@@ -79,13 +79,13 @@ export function createRecruitmentReminder(session: Session, markers = createRemi
         game = session.game;
         code = departureCode();
         waited = remaining = probeAfter = 0;
-        purchases = session.recruitmentCount;
+        purchases = session.purchaseCount;
         previousGold = game.gold;
       }
       const spent = game.gold < previousGold;
       previousGold = game.gold;
-      if (spent || purchases !== session.recruitmentCount || availableGold(game) < 500) {
-        purchases = session.recruitmentCount;
+      if (spent || purchases !== session.purchaseCount || availableGold(game) < 500) {
+        purchases = session.purchaseCount;
         waited = remaining = probeAfter = 0;
       }
       const active =

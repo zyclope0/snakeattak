@@ -12,10 +12,43 @@ import Phaser from 'phaser';
 import '../src/style.css';
 await initializeLanguageControls();
 const session = new Session(7000362);
-session.game.gold = 800;
+const repairIncomeCase = new URLSearchParams(location.search).has('repair-income');
+session.game.gold = repairIncomeCase ? 600 : 800;
+if (repairIncomeCase) session.game.base = 50;
 document.getElementById('app')!.hidden = false;
 document.getElementById('home-screen')!.hidden = true;
 const refresh = bindControls(session, () => {}, createCareer());
+// Labelled QA income injection: real native repair handler runs first, then
+// seven +12 rewards are credited in the same click task before a scene frame.
+let offsetNextRepair = false;
+let beforeRepair = { gold: 0, base: 0 };
+const repairIncomeTrace: {
+  before: typeof beforeRepair;
+  afterRepair: number;
+  afterIncome: number;
+  purchaseCount: number;
+}[] = [];
+const repairButton = document.getElementById('repair')!;
+repairButton.addEventListener(
+  'click',
+  () => {
+    beforeRepair = { gold: session.game.gold, base: session.game.base };
+  },
+  true,
+);
+repairButton.addEventListener('click', () => {
+  if (!offsetNextRepair) return;
+  offsetNextRepair = false;
+  const afterRepair = session.game.gold;
+  for (let i = 0; i < 7; i++) session.game.gold += 12;
+  repairIncomeTrace.push({
+    before: beforeRepair,
+    afterRepair,
+    afterIncome: session.game.gold,
+    purchaseCount: session.purchaseCount,
+  });
+  refresh();
+});
 const coach = createCoach(session);
 let danger = false;
 const storage = new URLSearchParams(location.search).has('refused')
@@ -47,6 +80,10 @@ Object.assign(window, {
   balanceFixture: {
     session,
     refresh,
+    repairIncomeTrace,
+    offsetIncomeAfterNextRepair() {
+      offsetNextRepair = true;
+    },
     danger(value: boolean) {
       danger = value;
     },

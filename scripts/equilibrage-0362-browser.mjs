@@ -353,6 +353,91 @@ try {
     await waitHint(page, 'Tu as des pièces, recrute !');
     await page.close();
   });
+  await check(
+    'native repair purchase with masked income resets waiting and cancels hint',
+    async () => {
+      const page = await browser.newPage({
+        viewport: { width: 1280, height: 800 },
+        locale: 'fr-CH',
+      });
+      page.on('pageerror', (e) => errors.push(e.message));
+      await page.goto(`http://127.0.0.1:4383/${fixture}?repair-income=1`);
+      await page.waitForFunction(
+        () =>
+          !!window.balanceFixture &&
+          document.getElementById('game').getAttribute('aria-busy') === 'false',
+      );
+      await page.locator('#start').click();
+      await page.waitForTimeout(8000);
+      await page.locator('#dock-catalogue').click();
+      await page.locator('#camp-tools > summary').click();
+      await page.evaluate(() => window.balanceFixture.offsetIncomeAfterNextRepair());
+      const repairedAt = Date.now();
+      await page.locator('#repair').click();
+      const first = await page.evaluate(() => window.balanceFixture.repairIncomeTrace[0]);
+      assert.equal(
+        first.afterRepair,
+        first.before.gold - 80,
+        'real repair spent80 before controlled income',
+      );
+      assert.equal(
+        first.afterIncome,
+        first.before.gold + 4,
+        'seven labelled income additions mask expense',
+      );
+      await page.waitForTimeout(3000);
+      assert.notEqual(
+        await hint(page).textContent(),
+        'Tu as des pièces, recrute !',
+        'repair must reset even with net income',
+      );
+      await waitHint(page, 'Tu as des pièces, recrute !');
+      const elapsedAfterRepair = Date.now() - repairedAt;
+      await writeFile(
+        `${folder}/masked-repair-wait.json`,
+        JSON.stringify(
+          { controlledIncome: true, naturallyPlayedIncome: false, first, elapsedAfterRepair },
+          null,
+          2,
+        ) + '\n',
+      );
+      assert.ok(elapsedAfterRepair >= 9500, 'ten native active seconds since real repair');
+      await page.evaluate(() => {
+        window.repairHintMutations = [];
+        const line = document.getElementById('battle-announcement');
+        new MutationObserver(() => window.repairHintMutations.push(line.textContent)).observe(
+          line,
+          { childList: true, characterData: true, subtree: true },
+        );
+        window.balanceFixture.offsetIncomeAfterNextRepair();
+      });
+      await page.locator('#repair').click();
+      await page.waitForTimeout(5000);
+      assert.notEqual(await hint(page).textContent(), 'Tu as des pièces, recrute !');
+      const trace = await page.evaluate(() => ({
+        repairs: window.balanceFixture.repairIncomeTrace,
+        hintMutations: window.repairHintMutations,
+      }));
+      assert.equal(trace.repairs.length, 2);
+      assert.equal(trace.repairs[1].afterRepair, trace.repairs[1].before.gold - 80);
+      assert.equal(trace.repairs[1].afterIncome, trace.repairs[1].before.gold + 4);
+      assert.equal(trace.repairs[1].purchaseCount, 2);
+      assert.ok(
+        !trace.hintMutations.includes('Tu as des pièces, recrute !'),
+        'cancelled hint never returns behind repair notice',
+      );
+      await writeFile(
+        `${folder}/masked-repair-income.json`,
+        JSON.stringify(
+          { controlledIncome: true, naturallyPlayedIncome: false, ...trace },
+          null,
+          2,
+        ) + '\n',
+      );
+      await page.screenshot({ path: `${folder}/masked-repair-cancelled.png` });
+      await page.close();
+    },
+  );
   await check('native spending resets ten-second countdown above the threshold', async () => {
     const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, locale: 'fr-CH' });
     page.on('pageerror', (e) => errors.push(e.message));
@@ -424,7 +509,7 @@ try {
       );
       await page.waitForTimeout(300);
       assert.notEqual(await hint(page).textContent(), 'Tu as des pièces, recrute !');
-      assert.equal(await page.evaluate(() => window.balanceFixture.session.recruitmentCount), 1);
+      assert.equal(await page.evaluate(() => window.balanceFixture.session.purchaseCount), 1);
       await page.close();
     },
   );

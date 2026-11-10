@@ -148,7 +148,7 @@ export function bindControls(
     refresh();
   };
   el('repair').onclick = () => {
-    session.game.repair();
+    session.repair();
     refresh();
   };
   el('cancel').onclick = () => {

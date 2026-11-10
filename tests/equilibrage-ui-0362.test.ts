@@ -58,7 +58,7 @@ test('preparation cards and explanations resolve all five revised definitions wi
   await setLanguage('fr');
 });
 
-test('new UI copy is translated and successful recruitment alone increments the UI counter', async () => {
+test('new UI copy translates; only successful recruitment increments its purchase signal', async () => {
   await setLanguage('en');
   assert.equal(copy('Règles d’origine'), 'Original rules');
   assert.equal(copy('Tu as des pièces, recrute !'), 'You have coins, recruit an ally!');
@@ -66,9 +66,26 @@ test('new UI copy is translated and successful recruitment alone increments the 
   const session = new Session(88);
   session.selectUnit('club');
   assert.equal(session.placeSelected(0, 0), false);
-  assert.equal(session.recruitmentCount, 0);
+  assert.equal(session.purchaseCount, 0);
   assert.equal(session.placeSelected(900, 180), true);
-  assert.equal(session.recruitmentCount, 1);
+  assert.equal(session.purchaseCount, 1);
   assert.equal(session.placeSelected(900, 324), false);
-  assert.equal(session.recruitmentCount, 1);
+  assert.equal(session.purchaseCount, 1);
+});
+
+test('successful repair/training signal purchases; failed actions leave the counter unchanged', () => {
+  const session = new Session(99004);
+  session.game.gold = 600;
+  assert.equal(session.repair(), false);
+  assert.equal(session.purchaseCount, 0);
+  session.game.base = 50;
+  assert.equal(session.repair(), true);
+  assert.equal(session.purchaseCount, 1);
+  assert.equal(session.trainHero('force'), false);
+  assert.equal(session.purchaseCount, 1);
+  session.game.wave = 4;
+  assert.equal(session.trainHero('force'), true);
+  assert.equal(session.purchaseCount, 2);
+  assert.equal(session.trainHero('guard'), false);
+  assert.equal(session.purchaseCount, 2);
 });

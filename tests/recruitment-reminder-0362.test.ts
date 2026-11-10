@@ -181,7 +181,7 @@ test('a real free-voucher recruitment resets waiting although gold does not chan
   session.selectUnit(kind);
   assert.ok(session.placeSelected(point.x, point.y));
   assert.equal(game.gold, 600);
-  assert.equal(session.recruitmentCount, 1);
+  assert.equal(session.purchaseCount, 1);
   assert.equal(tick(reminder, 9900), null);
   assert.equal(tick(reminder, 100), REMINDER_TEXT);
 });
@@ -201,4 +201,36 @@ test('unrecoverable legacy classic seeds share a conservative retained marker', 
   assert.equal(tick(reminder, 10000), REMINDER_TEXT);
   session.useGame(legacy(98002));
   assert.equal(tick(reminder, 20000), null);
+});
+
+test('a successful fighting repair resets waiting even when income masks its cost before observation', () => {
+  const { session, reminder } = setup(99001);
+  session.game.gold = 600;
+  session.game.base = 50;
+  assert.equal(tick(reminder, 8000), null);
+  assert.equal(session.repair(), true);
+  assert.equal(session.game.gold, 520);
+  for (let i = 0; i < 7; i++) session.game.gold += 12; // Controlled offsetting income before the next frame.
+  assert.equal(session.game.gold, 604);
+  assert.equal(tick(reminder, 2000), null);
+  assert.equal(tick(reminder, 7900), null);
+  assert.equal(tick(reminder, 100), REMINDER_TEXT);
+});
+
+test('masked repair income cannot keep a visible reminder alive; failed repair does not reset waiting', () => {
+  const visible = setup(99002);
+  visible.session.game.gold = 600;
+  visible.session.game.base = 50;
+  assert.equal(tick(visible.reminder, 10000), REMINDER_TEXT);
+  assert.equal(visible.session.repair(), true);
+  for (let i = 0; i < 7; i++) visible.session.game.gold += 12;
+  assert.equal(tick(visible.reminder, 100), null);
+  assert.equal(tick(visible.reminder, 10000), null);
+
+  const failed = setup(99003);
+  failed.session.game.gold = 600;
+  failed.session.game.base = 100;
+  assert.equal(tick(failed.reminder, 8000), null);
+  assert.equal(failed.session.repair(), false);
+  assert.equal(tick(failed.reminder, 2000), REMINDER_TEXT);
 });

@@ -15,7 +15,7 @@ export class Session {
   actionHint: string | null = null;
   speed: 1 | 2 = 1;
   hasPlaced = false;
-  recruitmentCount = 0;
+  purchaseCount = 0;
   private accumulator = 0;
   constructor(seed = freshSeed()) {
     this.game = new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION);
@@ -38,7 +38,18 @@ export class Session {
     if (!this.selected || !this.game.recruit(this.selected, x, y)) return false;
     this.selectUnit(null);
     this.hasPlaced = true;
-    this.recruitmentCount++;
+    this.purchaseCount++;
+    return true;
+  }
+  /** Successful UI purchases are observed even if income offsets their gold cost. */
+  repair(): boolean {
+    if (!this.game.repair()) return false;
+    this.purchaseCount++;
+    return true;
+  }
+  trainHero(path: 'force' | 'guard'): boolean {
+    if (!this.game.trainHero(path)) return false;
+    this.purchaseCount++;
     return true;
   }
   selectUnit(kind: Kind | null) {
