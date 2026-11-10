@@ -78,6 +78,46 @@ async function terminalState(page) {
     };
   });
 }
+async function resultBounds(page, selector) {
+  return page.locator(selector).evaluate((node) => {
+    const box = node.getBoundingClientRect();
+    const panelNode = document.querySelector('#battle-result');
+    const panel = panelNode.getBoundingClientRect();
+    const clip = {
+      left: panel.left + panelNode.clientLeft,
+      top: panel.top + panelNode.clientTop,
+      right: panel.left + panelNode.clientLeft + panelNode.clientWidth,
+      bottom: panel.top + panelNode.clientTop + panelNode.clientHeight,
+    };
+    const visible = {
+      left: Math.max(box.left, clip.left, 0),
+      top: Math.max(box.top, clip.top, 0),
+      right: Math.min(box.right, clip.right, innerWidth),
+      bottom: Math.min(box.bottom, clip.bottom, innerHeight),
+    };
+    return {
+      box: box.toJSON(),
+      panel: panel.toJSON(),
+      clip,
+      viewport: { width: innerWidth, height: innerHeight },
+      intersection: {
+        width: Math.max(0, visible.right - visible.left),
+        height: Math.max(0, visible.bottom - visible.top),
+      },
+      scrollTop: document.querySelector('#battle-result').scrollTop,
+      focused: document.activeElement?.id,
+    };
+  });
+}
+function assertUnclipped(bounds, label) {
+  assert.ok(
+    bounds.box.width > 0 &&
+      bounds.box.height > 0 &&
+      bounds.intersection.width >= bounds.box.width - 1 &&
+      bounds.intersection.height >= bounds.box.height - 1,
+    `${label} inside result panel and viewport: ${JSON.stringify(bounds)}`,
+  );
+}
 try {
   await mkdir(folder, { recursive: true });
   const build = spawnSync('npm', ['run', 'build'], { encoding: 'utf8' });
@@ -210,7 +250,37 @@ try {
           () => window.interfaceFixture?.phaser.scene.keys.Battle?.initialized,
         );
         await page.waitForFunction(() => !document.querySelector('#battle-result').hidden);
+        // Observe the initial auto-focus/scroll after layout, before any test
+        // scrolls an action into view. isVisible() alone misses clipped content.
+        await page.evaluate(
+          () =>
+            new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+        );
         await shot(page, `fixture-${tag}`);
+        await check(`initial result heading and stars unclipped ${tag}`, async () => {
+          const heading = await resultBounds(page, '#battle-result-title');
+          assertUnclipped(heading, 'sole result heading');
+          const stars = status === 'won' ? await resultBounds(page, '#battle-result-stars') : null;
+          if (stars) assertUnclipped(stars, 'earned stars');
+          return { heading, stars };
+        });
+        if (width < 1000 && mode === 'won-caprice') {
+          await check(`native keyboard reaches caprice actions ${tag}`, async () => {
+            const reached = [];
+            const expected = ['result-caprice-album', 'mission-again', 'mission-back-map'];
+            for (let i = 0; i < 8 && reached.length < expected.length; i++) {
+              await page.keyboard.press('Tab');
+              const id = await page.evaluate(() => document.activeElement?.id);
+              if (expected.includes(id) && !reached.includes(id)) {
+                assertUnclipped(await resultBounds(page, '#' + id), 'keyboard action ' + id);
+                reached.push(id);
+              }
+            }
+            assert.deepEqual(reached, expected, 'native Tab reaches album, Retry and map');
+            await shot(page, `fixture-keyboard-${tag}`);
+            return reached;
+          });
+        }
         await check(`single accessible result heading ${tag}`, async () => {
           const headings = await page.evaluate(() => {
             const scene = window.interfaceFixture.phaser.scene.keys.Battle;
@@ -264,6 +334,9 @@ try {
             else {
               const sticker = page.locator('#caprice-sticker-result');
               assert.equal(await sticker.isVisible(), true, 'sticker result retained');
+              const stickerSize = await sticker.locator('svg').boundingBox();
+              assert.equal(stickerSize.width, 58, 'production caprice CSS constrains sticker');
+              assert.equal(stickerSize.height, 58);
               assert.equal(
                 await page.locator('#result-caprice-album').isVisible(),
                 true,
@@ -276,7 +349,11 @@ try {
           const retry = page.locator(mode.includes('classic') ? '#end-restart' : '#mission-again');
           assert.equal(await retry.isVisible(), true, 'retry available');
           await retry.scrollIntoViewIfNeeded();
-          assert.equal(await retry.isVisible(), true, 'retry reachable');
+          await retry.focus();
+          assertUnclipped(
+            await resultBounds(page, mode.includes('classic') ? '#end-restart' : '#mission-again'),
+            'focused Retry',
+          );
           return headings;
         });
         await check(`terminal pause hidden and inert ${tag}`, async () => {

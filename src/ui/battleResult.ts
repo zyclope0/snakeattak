@@ -111,11 +111,16 @@ export function bindBattleResult(session: Session) {
           panel.getClientRects().length &&
           !el('orientation-notice').getClientRects().length
         ) {
-          target.focus({ preventScroll: true });
           const area = panel.getBoundingClientRect(),
             button = target.getBoundingClientRect();
-          if (button.bottom > area.bottom - 4) panel.scrollTop += button.bottom - area.bottom + 4;
-          else if (button.top < area.top + 4) panel.scrollTop -= area.top + 4 - button.top;
+          if (button.bottom > area.bottom - 4) {
+            // A compact result can put Retry below the fold. Announce the outcome
+            // first instead of scrolling its sole heading and stars out of view;
+            // native Tab still reaches the album and every result action.
+            const heading = el('battle-result-title');
+            heading.tabIndex = -1;
+            heading.focus({ preventScroll: true });
+          } else target.focus({ preventScroll: true });
         }
       });
     }
