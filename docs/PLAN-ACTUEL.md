@@ -1,19 +1,24 @@
 # Plan actuel — v0.36.2 publiée, fonctionnalités en pause
 
-## Audit graphique — propositions avant modification
+## Refonte graphique — huit arbitrages validés, v0.37.0 en cours
 
-L’[audit du 10 novembre](AUDIT-VISUEL-MOBILE-2026-11-10.md) est terminé et relu :
-12 jeux grand public et 5 tower defense documentés, limites de versions et de
-plateformes explicites ; mesures fraîches de notre interface et inventaire des
-ressources. Le [conseil](CONSEIL-AUDIT-VISUEL-2026-11-10.md) utilise six perspectives
-simulées. Le [brief Claude](POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md) prépare la contre-analyse.
+Le parent a choisi les huit options A puis confirmé « tous ok » : accueil
+compact et vues courtes, carnet par mission (six stickers), gestion des carnets
+repliée, action primaire contextuelle, préparation en résumé et sous-vues,
+catalogue plein écran de six cartes en pause automatique, comparatif futur de
+six images avec devis préalable. Les noms et annonces du fils restent exacts
+en français, dans les deux langues ; les deux « La tempête » ne sont pas fusionnées.
 
-Le parent a choisi **audit et propositions avant modification**. Aucun changement
-d’application ni génération payante dans cette étude. L’accueil compact et les
-vues courtes sont recommandés (approche A), mais ne sont pas encore validés ou
-réalisés. L’approche B centrée sur le plateau reste une alternative à arbitrer.
-Priorités proposées : carnet et accueil, préparation/catalogue, puis matières
-ciblées après un petit comparatif d’assets. Les fonctionnalités restent en pause.
+[Cadrage validé](superpowers/specs/2026-11-10-interface-mobile-0370.md) et
+[plan de réalisation](superpowers/plans/2026-11-10-interface-mobile-0370.md).
+Trois lots : accueil/carnet, préparation/catalogue, finition/recette Android.
+Le moteur, les valeurs, les sauvegardes et anciens codes restent inchangés.
+La génération payante reste arrêtée au devis, séparément de cette refonte.
+
+L’[audit visuel](AUDIT-VISUEL-MOBILE-2026-11-10.md), le
+[conseil simulé](CONSEIL-AUDIT-VISUEL-2026-11-10.md) et le
+[brief Claude](POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md) restent les références.
+Le site public reste en 0.36.2 pendant la réalisation.
 
 ## v0.36.2 — livraison clôturée
 
