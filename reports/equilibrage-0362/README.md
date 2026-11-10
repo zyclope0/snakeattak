@@ -43,3 +43,6 @@ globale figure dans le complément ; la relecture ciblée et les documents de
 coordination seront ajoutés séparément par le coordinateur. Aucun upload
 distant réalisé par cette correction. Essai physique S24, TalkBack,
 relecture anglophone humaine et enfants attendus.
+
+
+La [revue globale](final-review.md) et la [relecture de sa correction](final-fix-review.md) clôturent les contrôles : R1 traité, aucun nouveau constat. Les [arbitrages et limites](coordination.md) conservent le journal de décision. Les trois revues de tâche et leurs corrections sont également conservées dans ce dossier.

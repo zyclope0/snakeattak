@@ -1,8 +1,8 @@
 # Conseil 0.36.2 — six perspectives simulées
 
-Préparation du conseil final du coordinateur. Ces six perspectives sont
+Conseil de clôture du coordinateur après revue globale et relecture ciblée. Ces six perspectives sont
 **simulées** ; elles ne représentent ni personnes consultées, ni essais avec
-des enfants. La revue fraîche globale et ses arbitrages seront liés depuis
+des enfants. La revue fraîche globale et ses arbitrages sont liés depuis
 l’[index de livraison](../reports/equilibrage-0362/README.md).
 
 | Perspective                  | Appréciation du lot                                                                                            | Observation restant attendue                                                             |
@@ -25,3 +25,9 @@ ne suffit pas à juger son confort. Aucun niveau ni mode Facile ajouté.
 Essai du nouvel APK sur le S24 attendu. La publication après revue a été
 autorisée le 10 novembre et relève du coordinateur ; aucune migration de
 l’ancien dépôt dans cette livraison locale.
+
+La revue globale a relevé un défaut mineur de version d’enveloppe familiale.
+La correction garde le format familial 5 tant que la progression 2 est retenue ;
+les faux anciens formats sont refusés. Relecture ciblée : spécification et qualité
+approuvées, aucun nouveau constat. Les six perspectives retiennent la livraison
+des ajustements confirmés et les limites humaines et matérielles ci-dessus.
