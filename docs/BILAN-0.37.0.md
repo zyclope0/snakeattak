@@ -1,8 +1,33 @@
 # Bilan 0.37.0 — candidate locale, site public encore en 0.36.2
 
 10 novembre 2026. Android **0.37.0 / code 49**. Source produit et tests figée :
-`9ca13bb55a55f7a571c6fbc027e31c466c638e3c`. La revue globale, la fusion et la
+`b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`. La revue globale, la fusion et la
 publication appartiennent au coordinateur ; ce bilan ne prouve pas un déploiement.
+
+## Correction finale de revue globale
+
+I1 : Précédents/Suivants, famille et Disponibles/À découvrir replacent le vrai
+corps du catalogue en haut après affichage du résultat. Le défilement normal des
+outils conserve sa position. M2 : une entrée explicite remet à zéro la destination
+Parents/Classique et la carte des missions imbriquée avant le focus du titre.
+M1 : la recette journey suit désormais les pages visibles, les quatre favoris du
+dock et le catalogue ; elle conserve sauvegarde, huit favoris distincts, budget,
+effectif, encouragement, reprise, étoiles, entraînement et remplacement de chapitre.
+
+Source corrigée : `b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`. Recette fraîche : verify
+(**549 tests**), régression navigation **9/9**, journey **4 largeurs**, gestes natifs
+**5/5 cas positifs + ordinateur**, menus **519 contrôles**, navigateur normal.
+L’APK normal et le portable HTML/ZIP sont régénérés depuis ce commit, avec quatre
+démarrages froids FR/EN sans requête externe ni erreur JS, polices prêtes.
+Les **34 fichiers** normaux correspondent à l’APK. Le reçu [final-fix](../reports/interface-0370/final-fix.json)
+distingue ces contrôles des 21 commandes antérieures de `9ca13bb`.
+
+L’APK/HTML/ZIP, favicon et reçu précédents sont conservés avec leurs empreintes dans
+`/workspace/serpents-interface-0370/pre-global-review/`. Les nouvelles preuves sont
+dans `final-fix/`. Le snapshot `root-review-web` et sa partie authentique restent
+explicitement en `9ca13bb` : l’HTML et les noms/contenus des modules UI changent comme
+indiqué dans le nouveau manifeste, les règles et les autres assets restent identiques.
+Le site public reste en **0.36.2** ; push, fusion et publication sont au coordinateur.
 
 ## Ce qui change
 
@@ -46,7 +71,7 @@ crème, vert et ocre existantes, sans nouveau filtre lourd ni animation ajoutée
 
 ## Recette et artefacts
 
-La passe finale sur cette source comprend **21 commandes réussies**, après
+La passe historique sur `9ca13bb` comprend **21 commandes réussies**, après
 `npm ci` : **549 tests unitaires, 519 contrôles de menus, 440 parcours de langue
 et 24 bindings, 293 contrôles de caprices/39 captures, 13 contrôles d’audit,
 16 parcours missions, 6 tailles mobiles, 5 tailles de gestes plus ordinateur,
@@ -67,7 +92,7 @@ récompenses ouvre Help pendant le dispatch d’un vrai clic visible pour éprou
 le rendu tardif et la conservation du focus ; il reste un stress synthétique.
 Aucun clic sur une commande cachée ou inerte ne remplace le parcours testé.
 
-La recette finale reprend le workflow localement : installation verrouillée,
+La recette historique `9ca13bb` reprend le workflow localement : installation verrouillée,
 format, 549 tests, types, build/budgets, audit npm, navigateur normal, audit UI,
 préparation, gestes tactiles, mobile, interruptions, hors ligne, présentation,
 clarté tactique, langue, caprices, parcours missions, menus, portable, transfert
@@ -81,7 +106,7 @@ avec transport local des fichiers embarqués et ouverture `file://` du portable.
 
 ## Partie indépendante du coordinateur
 
-Sur une copie immuable des 34 fichiers du même commit, le coordinateur a joué
+Sur une copie immuable des 34 fichiers du commit historique `9ca13bb`, le coordinateur a joué
 Le refuge par les commandes visibles, avec seulement les marges 24/32/16/0
 simulées. Il a recruté archer 150, médecin 130 et deux massues 55, puis gagné
 les trois vagues avec le cristal à 100 % et 753 pièces. Le placement de l’archer a demandé deux reprises avant la position acceptée. Aucun Game, progrès,

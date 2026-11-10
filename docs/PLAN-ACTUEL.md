@@ -8,12 +8,17 @@ gestion repliée, préparation en sous-vues, catalogue natif paginé en pause av
 budget visible. Les 36 noms/annonces du créateur restent français dans les deux
 langues ; moteur, données, sauvegardes et anciens codes sont préservés.
 
-Source produit/tests figée : `9ca13bb55a55f7a571c6fbc027e31c466c638e3c`.
+Source produit/tests figée : `b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`.
 [Bilan local](BILAN-0.37.0.md), [conseils simulés](CONSEIL-0.37.0.md),
 [preuves et reçus](../reports/interface-0370/README.md),
 [cadrage](superpowers/specs/2026-11-10-interface-mobile-0370.md).
-La recette complète, l’APK debug et le portable sont indexés dans le reçu de
-livraison. Les anciennes preuves et la version 0.36.2 restent conservées.
+La correction finale I1/M1/M2 révèle les résultats du catalogue, remet le focus
+d’accueil dans la zone visible et répare la recette journey. Verify 549 tests,
+9 régressions navigation, journey, gestes natifs cinq tailles + ordinateur,
+menus et navigateur sont verts sur la source corrigée. APK debug et portable
+HTML/ZIP sont reconstruits ; quatre démarrages froids FR/EN sont verts.
+Les 21 gates et la partie authentique antérieurs restent explicitement en `9ca13bb`.
+La nouvelle recette et les artefacts sont indexés dans le reçu de livraison. Les anciennes preuves et la version 0.36.2 restent conservées.
 
 **Le site public reste en 0.36.2.** Le coordinateur doit encore terminer la revue
 globale, puis pousser, fusionner et publier. Les essais S24, TalkBack, enfants et

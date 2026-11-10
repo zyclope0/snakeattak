@@ -26,3 +26,19 @@ négatif bloque le toucher par CSS de test et échoue ; la recette normale passe
 sur les cinq tailles, avec les 20 alliés et les protections contre les achats
 accidentels. Cet addendum ne remplace pas la passe initiale de 21 commandes et
 ne modifie ni le produit ni les artefacts APK/portable de source `9ca13bb`.
+
+## Correction finale de revue globale
+
+La source actuelle et celle des artefacts sont `b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`.
+[final-fix.json](final-fix.json) consigne I1/M1/M2, RED/GREEN, les six commandes
+de vérification fraîches, la préservation et le nouvel écart attendu avec le
+snapshot immuable `9ca13bb`. Verify compte 549 tests ; navigation 9 contrôles ;
+journey garde toutes ses assertions métier ; gestes natifs 5 cas positifs plus
+ordinateur ; menus 519 contrôles ; navigateur normal et quatre démarrages
+froids FR/EN réussis. L’APK contient exactement les 34 fichiers normaux.
+
+Les preuves lourdes corrigées sont dans `/workspace/serpents-interface-0370/final-fix/`.
+APK/HTML/ZIP, favicon et reçu précédents sont préservés dans `pre-global-review/`.
+`delivery.json` expose `historicalQA` pour les 21 commandes de `9ca13bb`, séparément
+de `qa` pour la correction. Le snapshot et la partie authentique du coordinateur
+restent historiques ; aucun nouvel essai physique, push, fusion ou déploiement.
