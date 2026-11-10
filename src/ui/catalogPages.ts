@@ -15,7 +15,7 @@ export function bindCatalogPages(onChange: () => void) {
   next.id = 'catalog-next';
   setText(next, 'Suivants →');
   nav.append(previous, status, next);
-  document.getElementById('shop')!.before(nav);
+  document.querySelector('#reinforcements .catalog-body')!.before(nav);
   let page = 0;
   previous.onclick = () => {
     page = Math.max(0, page - 1);

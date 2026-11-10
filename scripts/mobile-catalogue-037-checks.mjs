@@ -118,6 +118,78 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
       session.screen = 'battle';
       refresh();
     });
+    async function fixedCatalogueCommands(safe = false) {
+      const selectors = ['.army-title', '.shop-toolbar', '#catalog-previous', '#catalog-next'];
+      const body = p.locator('.catalog-body');
+      await body.evaluate((element) => {
+        element.scrollTop = 0;
+      });
+      const initial = await Promise.all(
+        selectors.map((selector) => p.locator('#reinforcements ' + selector).boundingBox()),
+      );
+      check(
+        await body.evaluate((element) => element.scrollHeight > element.clientHeight),
+        'catalogue has a real body scroll range',
+      );
+      for (const expanded of [false, true]) {
+        if (expanded) {
+          for (const id of ['catalog-tools', 'camp-tools'])
+            if (!(await p.locator('#' + id).evaluate((element) => element.open)))
+              await p.locator('#' + id + ' > summary').click();
+          check(
+            await p
+              .locator('#camp-tools')
+              .evaluate((element) => element.open && element.closest('#catalog-tools').open),
+            'both catalogue tool disclosures are expanded',
+          );
+        }
+        await body.evaluate((element) => {
+          element.scrollTop = element.scrollHeight;
+        });
+        for (const [index, selector] of selectors.entries()) {
+          const box = await p.locator('#reinforcements ' + selector).boundingBox();
+          const viewport = p.viewportSize();
+          const before = initial[index];
+          check(
+            box &&
+              ['x', 'y', 'width', 'height'].every(
+                (key) => Math.abs(box[key] - before[key]) < 0.5,
+              ) &&
+              box.x >= 0 &&
+              box.y >= (safe ? 24 : 0) &&
+              box.x + box.width <= viewport.width - (safe ? 32 : 0) &&
+              box.y + box.height <= viewport.height - (safe ? 16 : 0),
+            `catalogue command fixed and visible after maximum scroll ${selector}, expanded=${expanded}, safe=${safe}`,
+          );
+        }
+      }
+      const pageBefore = await p.locator('#catalog-page').textContent();
+      if (!(await p.locator('#catalog-next').isDisabled())) {
+        await p.locator('#catalog-next').click();
+        check(
+          (await p.locator('#catalog-page').textContent()) !== pageBefore,
+          'fixed next remains usable after expanded tools scroll',
+        );
+        await p.locator('#catalog-previous').click();
+        check(
+          (await p.locator('#catalog-page').textContent()) === pageBefore,
+          'fixed previous returns after expanded tools scroll',
+        );
+      }
+      await capture(
+        p,
+        `after-fixed-catalogue-${p.viewportSize().width}-${safe ? 'safe' : 'plain'}`,
+      );
+      await p.locator('#catalog-tools').evaluate((element) => {
+        element.open = false;
+      });
+      await p.locator('#camp-tools').evaluate((element) => {
+        element.open = false;
+      });
+      await body.evaluate((element) => {
+        element.scrollTop = 0;
+      });
+    }
     const paused = () => p.evaluate(() => window.capricesFixture.session.game.paused);
     const open = () =>
       p.locator('#reinforcements-toggle:visible, #dock-catalogue:visible').first().click();
@@ -262,6 +334,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
         await p.locator('#reinforcements').evaluate((d) => d.scrollHeight <= d.clientHeight + 1),
         'catalogue shell has no clipped root overflow',
       );
+      if (width === 780 || width === 568) await fixedCatalogueCommands();
       await capture(p, `after-catalogue-${width}x${height}`);
     }
     await p.locator('#reinforcements-close').click();
@@ -420,6 +493,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
         panelBox.y + panelBox.height <= 304,
       'full catalogue fits simulated safe areas',
     );
+    await fixedCatalogueCommands(true);
     await capture(p, 'after-catalogue-safe-568x320');
     check(errors.length === 0, JSON.stringify(errors));
   } finally {
