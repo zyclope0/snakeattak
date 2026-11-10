@@ -4,13 +4,13 @@
 > Exécution autonome autorisée ; analyses/traductions indépendantes et conseils
 > peuvent être délégués avec des périmètres de fichiers disjoints.
 
-**Goal:** Livrer le lot2 de lisibilité, l'application FR/EN et une soucoupe décorative unique.
+**Goal:** Livrer le lot 2 de lisibilité, l'application FR/EN et une soucoupe décorative unique.
 
 **Architecture:** Projection linguistique aux seuls points d'affichage, moteur
 et formats canoniques inchangés. Catalogues indépendants, adaptateurs DOM/Phaser
 qui conservent nœuds et événements. Les aides tactiques lisent les données réelles.
 
-**Tech Stack:** Phaser3, TypeScript, Vite, HTML/CSS, Capacitor Android.
+**Tech Stack:** Phaser 3, TypeScript, Vite, HTML/CSS, Capacitor Android.
 
 **Spec:** `docs/superpowers/specs/2026-11-09-tactique-anglais-design.md`.
 
@@ -19,7 +19,7 @@ qui conservent nœuds et événements. Les aides tactiques lisent les données r
 - Français conservé, anglais Snake Attack TD ; pas de renommage AppID.
 - Aucun changement de règle, tuning, RNG, format, checksum ou données canoniques.
 - Pas de serveur, SDK, achat, publicité ou génération payante.
-- HTML<32768octets, JS par asset≤200000, Phaser≤2000000 ; total documenté.
+- HTML<32768 octets, JS par asset≤200000, Phaser≤2000000 ; total documenté.
 - SourceV4 et anciens rapports conservés ; travail dans le worktree existant,
   branche `feat/tactical-english-035`, base `fb16b71`.
 
@@ -74,7 +74,7 @@ Vite seulement si découpage logique nécessaire pour les budgets.
 - [x] Tester0/1/plusieurs, décimales, composés, ancien camp/code, titres et
       langue changée dans les différents écrans. Corriger tout texte FR manquant.
 - [x] Capturer les six formats FR/EN ; tester mêmes commandes/graines et
-      instantané identique, nœuds/handlers/focus conservés et anciens schémas1–7.
+      instantané identique, nœuds/handlers/focus conservés et anciens schémas 1–7.
 - [x] Vérifier hors ligne/portable et budgets ; commit de couverture.
 
 ### Task 4: Soucoupe unique

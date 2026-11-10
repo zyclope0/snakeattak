@@ -1,0 +1,14 @@
+{
+  "base": "9287e60a51adf2cbceef24db4f4771a0cb1e0640",
+  "auditSHA256": "f69b22e15fb0dba7f8e97856021a7a900a94297bda638011c6e6542f140d0594",
+  "files": {
+    "src/game.ts": "6831ba3bdbad5062c115c8d35136f7b599e38df7e22f5d6f430ff25d30744626",
+    "src/caprices.ts": "4a298072b9c2f96880062a80ada95ff266153e7b1c3c03fb9e2706b38ff99440",
+    "src/missions.ts": "4e2541fc2923e2549726f2b9f54cedff06c0d0a09e4d197ba333d7a64aef0b18",
+    "src/data.ts": "3fd2b6d7b9c1202d4847991c2ba0aec13a5b4a967822349435e3903abf7f3518",
+    "src/checkpoints.ts": "fcbb3edbeb716119829ec7e3df30562e6bceaefda4ed74df3b8afa749716ffaa",
+    "src/departures.ts": "94c76dc5bd8ab52e6ed03d36c282a1823aa57e412bf255579121f93e0ad004c9",
+    "src/familyBackup.ts": "73270402dc0df77e771dc1978f7250309b76f643cace7c5bdf2f5caba249450f",
+    "src/capriceAlbums.ts": "f0cd4bf6e2751be9db941d2a6accee425adf7705f358d85162462fe67b60eda9"
+  }
+}

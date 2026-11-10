@@ -31,13 +31,13 @@ succès vert ; l'échec initial reste tracé dans previousFailedChecks du rappor
 
 ## Preuves finales
 
-- 224tests natifs, types stricts, format et budgets de compilation vérifiés.
+- 224 tests natifs, types stricts, format et budgets de compilation vérifiés.
 - Douze contrôles : verify, portablebuild, jeu web/portable, interface web/portable,
   bonus web/portable, menu/progression web/portable,14scénarios de présentation,
   rendu/restaurationWebGL.
-- 640campagnes, zéroerreur/timeout et empreintes inchangées. Aucune retouche des
+- 640 campagnes, zéroerreur/timeout et empreintes inchangées. Aucune retouche des
   paramètres à partir du lot. Les anciens résultats et snapshots sont conservés.
-- Le contrôle sans nouveaux pouvoirs reproduit0.17 sur trois profils à graine42,
+- Le contrôle sans nouveaux pouvoirs reproduit0.17 sur trois profils à graine 42,
   avec actions, économie, santé, vagues et temps de combat identiques.
 
 La relecture ne remplace pas les essais des enfants. Appareils physiques, plaisir

@@ -6,7 +6,7 @@
 **Goal:** Livrer une 0.11 illustrée, lisible, avec IA moins hésitante et trois clairières.
 **Spec:** docs/superpowers/specs/2026-11-02-refonte-illustree-design.md
 **Architecture:** Moteur pur, cartes explicites, atlas Vite, Phaser observateur, HTML tactile.
-**Stack:** Node24, TypeScript, Phaser3, Vite, aucun backend.
+**Stack:** Node 24, TypeScript, Phaser 3, Vite, aucun backend.
 
 ## Contraintes
 
@@ -34,14 +34,14 @@ par les nouvelles images. Les impressions de plaisir restent à recueillir en fa
 
 ## Bilan d'exécution
 
-Générations, interface, moteur, atlas et terrain intégrés ;90tests natifs et contrôles
+Générations, interface, moteur, atlas et terrain intégrés ;90 tests natifs et contrôles
 web/présentation réussis.100campagnes finales87/100victoires, aucun blocage. Revue
 indépendante sans Critical/Important, doublons mineurs de l'aide corrigés. Le décor
 a été mis en cache après profilage d'une chute de cadence ; restaurationWebGL
 et classification du roi ont été corrigées sur reproductions RED→GREEN.
 
-Choix assumés : poses fixes animées procéduralement ;3terrains pour12vagues, pas
-3campagnes séparées ; A* en cache conservé au vu des mesures ; statut de camp partagé
+Choix assumés : poses fixes animées procéduralement ;3terrains pour 12 vagues, pas
+3 campagnes séparées ; A* en cache conservé au vu des mesures ; statut de camp partagé
 entre chapitres, coordonnées invalides relogées. Coût potentiel : pas d'animations
 image-par-image et avantage des armées à distance encore à surveiller en famille.
 Les essais physiques et le plaisir d'enfants ne sont pas certifiés.

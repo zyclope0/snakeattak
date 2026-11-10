@@ -1,3 +1,4 @@
+import { BODY_FONT } from './fonts.ts';
 import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
@@ -14,7 +15,7 @@ export class BossSignals {
     const labels = () =>
       Array.from({ length: 3 }, () =>
         addCanvasCopy(scene.add, 0, 0, '', {
-          fontFamily: 'sans-serif',
+          fontFamily: BODY_FONT,
           fontSize: '10px',
           color: '#fff4d1',
           stroke: '#172c2c',

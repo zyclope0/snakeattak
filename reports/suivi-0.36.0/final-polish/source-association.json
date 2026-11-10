@@ -1,0 +1,8 @@
+{
+  "sourceSHA": "23a37debbc8659a46a6ad4c53e0b2a1deba87ae3",
+  "productHashesUnchangedAcrossAllRunsAndPackaging": true,
+  "normalDistUnchangedAfterPortableAndPackaging": true,
+  "distFiles": 34,
+  "fullNativeTestSHA256": "59ab9466cd3fa81d1115f1530dc33d3ed41e10dee7e61df369d891bd99ba800f",
+  "strongerFinalTestSHA256": "cbe574827894f94e4af54aba87390525222b6dc80b35487221bd398259139b72"
+}

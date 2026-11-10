@@ -1,0 +1,5 @@
+
+> conquete-serpents@0.36.0 test:reinforcements-scroll
+> node scripts/reinforcements-scroll-037-browser.mjs
+
+{"cases":5,"desktop":true,"errors":[]}

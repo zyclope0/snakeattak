@@ -1,6 +1,6 @@
 # Dossier Google Play — préparation, pas une publication
 
-Jeu de référence actuel : **0.32.4**, étape4 documentaire. Le parent confirme le modèle gratuit avec publicité
+Jeu de référence actuel : **0.32.4**, étape 4 documentaire. Le parent confirme le modèle gratuit avec publicité
 rare, suppression des pubs payante et cosmétiques payants sans avantage de combat.
 L'APK reste sans publicité ni achat intégré. Le compte Play personnel est créé,
 validation d'identité en attente selon le dernier retour. Prix, produits,

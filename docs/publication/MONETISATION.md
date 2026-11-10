@@ -165,7 +165,7 @@ Aucune déclaration envoyée ou politique publiée dans cette étape.
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | GO d'intégration distinct    | Identifiant choisi avant premier envoi Play, produits/prix et espace parents validés ; SDK/version/pont relus. Ce document n'autorise pas l'intégration                                                |
 | Achats de test               | Accepté/refusé/en attente, doublons, coupure avant acknowledge, fermeture/reprise, restauration, compte changé, cache hors ligne puis révocation à la reconnexion ; fichier familial sans droit payant |
-| Publicité de test sur le S24 | GO pour un build de recette séparé, annonces marquées test ; configuration avant requête, trafic, permissions, marges système et fermeture native en5secondes au plus ; aucune charge réelle           |
+| Publicité de test sur le S24 | GO pour un build de recette séparé, annonces marquées test ; configuration avant requête, trafic, permissions, marges système et fermeture native en 5 secondes au plus ; aucune charge réelle         |
 | Accord explicite du parent   | Parent ayant vu le format sur son S24 ; pas d'accord déduit d'un retour « fluide » sur un APK sans pub                                                                                                 |
 | Test fermé                   | **Sans pub jusqu'à ce retour et à cet accord** ; ensuite GO spécifique de la variante et déclarations cohérentes avec son contenu                                                                      |
 

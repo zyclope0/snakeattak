@@ -434,10 +434,10 @@ try {
     try {
       await page.addInitScript((key) => localStorage.setItem(key, 'unknown'), languageKey);
       await page.goto(root);
-      await ready(page, 'fr');
+      await ready(page, 'en');
       check(
-        'unsupported locale and invalid preference fall back to French',
-        (await page.title()) === 'La Conquête des Serpents',
+        'unsupported primary locale and invalid preference fall back to English',
+        (await page.title()) === 'Snake Attack TD',
       );
     } finally {
       await context.close();

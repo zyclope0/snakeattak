@@ -1,3 +1,4 @@
+import { BODY_FONT } from './fonts.ts';
 import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
@@ -12,7 +13,7 @@ export class BattleFeedback {
   constructor(scene: Phaser.Scene) {
     this.graphics = scene.add.graphics().setDepth(22);
     this.bossLabel = addCanvasCopy(scene.add, 550, 13, '', {
-      fontFamily: 'Arial',
+      fontFamily: BODY_FONT,
       fontSize: '12px',
       color: '#ffe2a0',
     })
@@ -22,7 +23,7 @@ export class BattleFeedback {
     for (let i = 0; i < 9; i++)
       this.encounterLabels.push(
         addCanvasCopy(scene.add, 0, 0, '', {
-          fontFamily: 'Arial',
+          fontFamily: BODY_FONT,
           fontSize: i < 6 || i === 8 ? '15px' : '17px',
           fontStyle: 'bold',
           color: '#ffe2a0',
@@ -36,7 +37,7 @@ export class BattleFeedback {
     for (let i = 0; i < 40; i++)
       this.labels.push(
         addCanvasCopy(scene.add, 0, 0, '', {
-          fontFamily: 'Arial',
+          fontFamily: BODY_FONT,
           fontSize: '17px',
           fontStyle: 'bold',
           stroke: '#233e2d',

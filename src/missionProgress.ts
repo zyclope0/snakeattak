@@ -2,6 +2,7 @@ import { MISSIONS, missionById, readMissionRun } from './missions.ts';
 import type { MissionId, MissionRun } from './missions.ts';
 import type { Game } from './game.ts';
 import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
+import { capriceById, capriceUnlocked } from './caprices.ts';
 
 export type MissionProgress = {
   version: 1;
@@ -24,7 +25,8 @@ const sameRun = (a: MissionRun | null | undefined, b: MissionRun | null | undefi
   a.layout === b.layout &&
   a.assault === b.assault &&
   a.nest === b.nest &&
-  a.rules === b.rules;
+  a.rules === b.rules &&
+  a.caprice === b.caprice;
 
 export function createMissionProgress(): MissionProgress {
   return {
@@ -157,6 +159,11 @@ export function createMissionProgressController(initial?: MissionProgress) {
     started(raw: MissionRun): boolean {
       const run = readMissionRun(raw);
       if (!run || !unlocked(run.missionId)) return false;
+      if (
+        run.caprice &&
+        !capriceUnlocked(capriceById(run.caprice)!.tier, state.bestStars[run.missionId])
+      )
+        return false;
       state.lastRuns[run.missionId] = run;
       state.retryCamp = null;
       state.activeMode = 'missions';

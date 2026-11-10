@@ -1,0 +1,11 @@
+
+> conquete-serpents@0.36.0 test:caprices
+> node scripts/caprices-036-browser.mjs
+
+production preparation okay
+production owner survived classic/reload/resume
+playing wave 1
+playing wave 2
+playing wave 3
+production native ownership and played victory passed
+{"checks":205,"captures":31,"errors":[]}

@@ -24,9 +24,9 @@ sont conservées. Le journal d'échec contient désormais aussi les effets et
 actions observés pour faciliter le diagnostic.
 
 Vérification locale après correction : `npm run verify`441/441 et build verts ;
-`test:browser` normal et export portable verts ; `test:presentation`14scénarios
+`test:browser` normal et export portable verts ; `test:presentation`14 scénarios
 verts, dont bouclier royal, tir annoncé, pause et impact. Le scénario tactique
-passe également avec les images retardées de1500ms. Les échecs initiaux et les
+passe également avec les images retardées de 1500 ms. Les échecs initiaux et les
 résultats verts sont conservés séparément. La fusion est conditionnée au
 succès des contrôles distants du nouveau commit, sans contournement.
 

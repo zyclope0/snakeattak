@@ -1,3 +1,4 @@
+import { capriceRules } from '../caprices.ts';
 import type { Game } from '../game.ts';
 import type { Kind } from '../data.ts';
 import { waveStats } from '../data.ts';
@@ -101,7 +102,15 @@ export function waveThreats(game: PreviewSource, local: number): WaveThreats {
     : null;
   const counts = new Map<ThreatKind, number>();
   const add = (kind: ThreatKind) => counts.set(kind, (counts.get(kind) ?? 0) + 1);
-  if (plan) for (const kind of plan.composition) add(kind);
+  if (plan)
+    for (const [index, kind] of plan.composition.entries())
+      add(
+        capriceRules(game.mission).king &&
+          local === game.totalWaves &&
+          index === plan.composition.length - 1
+          ? 'king'
+          : kind,
+      );
   else
     for (let remaining = waveStats(local).count; remaining > 0; remaining--) {
       const court = game.tuning.tacticalRulesEnabled && local === TOTAL_WAVES && remaining <= 4;
@@ -130,7 +139,18 @@ export function currentWaveThreats(game: Game): WaveThreats | null {
 }
 export function missionThreats(run: MissionRun): ThreatKind[] {
   const definition = missionById(run.missionId)!;
-  return orderedThreats(definition.waves.flatMap((_, i) => missionWave(run, i + 1).composition));
+  return orderedThreats(
+    definition.waves.flatMap((_, i) =>
+      waveThreats(
+        {
+          mission: run,
+          tuning: { tacticalRulesEnabled: true } as Game['tuning'],
+          totalWaves: definition.waves.length,
+        },
+        i + 1,
+      ).entries.map((e) => e.kind),
+    ),
+  );
 }
 /** Advice is a suggestion, not an order or an automatic purchase. */
 export function threatAdvice(

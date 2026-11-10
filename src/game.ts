@@ -55,6 +55,8 @@ import { levelForWave, missionLevel } from './levels.ts';
 import type { Point } from './navigation.ts';
 import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
+import { capriceBudget, capriceRules } from './caprices.ts';
+import type { CapriceRules } from './caprices.ts';
 export type Entity = Point & {
   id: number;
   kind: Kind | 'snake';
@@ -72,6 +74,8 @@ export type Entity = Point & {
   nav: number;
   boss: boolean;
   bossState?: BossState;
+  /** Carapace d'un caprice : plus lente, plus solide, blindée. Absente sinon. */
+  shell?: true;
   medical?: MedicalState;
   court?: CourtState;
   courtReleased?: boolean;
@@ -137,12 +141,20 @@ export class Game {
     this.#departureSeed = seed;
   }
   missionMinBase = 100;
+  /** Sortes d'alliés recrutées pendant une mission à caprice « copains ». */
+  readonly #capriceKinds = new Set<Kind>();
+  get caprice(): CapriceRules {
+    return capriceRules(this.mission);
+  }
   constructor(seed = 2026, tuning?: Partial<BalanceTuning>, mission?: MissionRun) {
     this.mission = mission === undefined ? null : readMissionRun(mission);
     if (mission !== undefined && !this.mission) throw new RangeError('Expédition invalide');
     if (this.mission) {
       seed = this.mission.seed;
-      this.gold = missionById(this.mission.missionId)!.budget;
+      this.gold = capriceBudget(
+        missionById(this.mission.missionId)!.budget,
+        capriceRules(this.mission),
+      );
     }
     this.tuning = makeBalanceTuning(tuning);
     this.rng = seed >>> 0;
@@ -264,7 +276,7 @@ export class Game {
       this.paused ||
       this.status !== 'preparing' ||
       (this.mission ? missionById(this.mission.missionId)!.unlockRank < 4 : this.wave < 4) ||
-      this.gold < 90 ||
+      this.gold - this.caprice.reserve < 90 ||
       this.campaign.training !== 'none' ||
       (path !== 'force' && path !== 'guard') ||
       !this.units.some((u) => u.kind === 'hero' && u.hp > 0)
@@ -319,7 +331,7 @@ export class Game {
   private pickLane(boss = false, at?: Point, previousLane?: number, airborne = false) {
     const decision = decideTemptation(
       laneDefense(airborne ? this.units.filter((u) => canHitFlying(u.kind)) : this.units),
-      this.mission ? this.difficultyWave : this.wave,
+      this.caprice.smart ? 7 : this.mission ? this.difficultyWave : this.wave,
       this.random(),
       this.feast?.flavor === 'lure' ? this.feast.lane : null,
       boss,
@@ -336,6 +348,7 @@ export class Game {
       this.paused ||
       this.status !== 'fighting' ||
       this.feastUsed ||
+      this.caprice.noHoney ||
       (flavor !== 'lure' && flavor !== 'sticky') ||
       !Number.isInteger(lane) ||
       lane < 0 ||
@@ -396,14 +409,50 @@ export class Game {
         : this.wave + (this.status === 'preparing' ? 1 : 0)) >= (unlockWave[kind] ?? 1)
     );
   }
+  /** Sortes d'alliés retenues pour un caprice « copains » (vide sinon). */
+  get capriceKindsChosen(): readonly Kind[] {
+    return [...this.#capriceKinds];
+  }
+  /**
+   * Fixe les sortes d'alliés d'un caprice « copains » avant le premier recrutement
+   * (écran de préparation) ou à la restauration d'une sauvegarde. Sans choix, les
+   * premières sortes recrutées sont retenues.
+   */
+  chooseCapriceKinds(list: readonly Kind[]): boolean {
+    const limit = this.caprice.kinds;
+    if (
+      !limit ||
+      this.status !== 'preparing' ||
+      this.#capriceKinds.size ||
+      !Array.isArray(list) ||
+      list.length < 1 ||
+      list.length > limit ||
+      new Set(list).size !== list.length ||
+      list.some(
+        (kind) =>
+          kind === 'hero' ||
+          !this.isUnlocked(kind) ||
+          (this.caprice.noHealers && (kind === 'medic' || kind === 'nurse')),
+      )
+    )
+      return false;
+    for (const kind of list) this.#capriceKinds.add(kind);
+    return true;
+  }
+  capriceAllows(kind: Kind): boolean {
+    const rules = this.caprice;
+    if (rules.noHealers && (kind === 'medic' || kind === 'nurse')) return false;
+    return !rules.kinds || this.#capriceKinds.has(kind) || this.#capriceKinds.size < rules.kinds;
+  }
   canRecruit(kind: Kind, x: number, y: number): boolean {
     return (
       !this.paused &&
+      this.capriceAllows(kind) &&
       this.status !== 'won' &&
       this.status !== 'lost' &&
       kind !== 'hero' &&
       this.isUnlocked(kind) &&
-      this.gold >= this.recruitCost(kind) &&
+      this.gold - this.caprice.reserve >= this.recruitCost(kind) &&
       isPlacementFree(this.units, x, y, this.level)
     );
   }
@@ -413,6 +462,7 @@ export class Game {
     this.gold -= this.recruitCost(kind);
     if (voucher) voucher.used = true;
     this.add(kind, x, y);
+    if (this.caprice.kinds) this.#capriceKinds.add(kind);
     this.message = `${kinds[kind].name} rejoint le camp !`;
     return true;
   }
@@ -470,7 +520,7 @@ export class Game {
       this.paused ||
       this.status === 'won' ||
       this.status === 'lost' ||
-      this.gold < 80 ||
+      this.gold - this.caprice.reserve < 80 ||
       this.base >= 100
     )
       return false;
@@ -645,6 +695,11 @@ export class Game {
     });
   }
   /** All outgoing hits share kill attribution, including splash and a second head. */
+  private enemyPace(e: Entity) {
+    return (
+      (e.boss ? 0.8 : enemySpeed(e.variant, this.time)) * (e.shell ? this.caprice.shellSpeed : 1)
+    );
+  }
   private hitEnemy(source: Entity, target: Entity, damage: number) {
     if (target.hp <= 0) return;
     const state = ensureBossState(target, this.tuning);
@@ -657,7 +712,8 @@ export class Game {
             : this.tuning.bossShieldMeleeFactor,
         )
       : damage;
-    const actual = unabsorbed * (1 - enemyArmor(target));
+    const actual =
+      unabsorbed * (1 - enemyArmor(target)) * (target.shell ? 1 - this.caprice.shellArmor : 1);
     if (state?.heads) {
       receiveBossDamage(state, actual, defenseRole(source.kind as Kind) === 'ranged');
       target.hp = bossHeadsHealth(state);
@@ -850,7 +906,11 @@ export class Game {
           this.wave === TOTAL_WAVES &&
           this.remaining <= 4;
         const boss =
-          !this.mission && this.wave === TOTAL_WAVES && (this.remaining === 1 || courtEntry);
+          (!this.mission && this.wave === TOTAL_WAVES && (this.remaining === 1 || courtEntry)) ||
+          (!!this.mission &&
+            this.caprice.king &&
+            this.wave === this.totalWaves &&
+            this.remaining === 1);
         const index = Math.max(0, stats.count - this.remaining);
         const baseVariant = boss
           ? 'normal'
@@ -872,6 +932,7 @@ export class Game {
           LANES[lane],
           lane,
           stats.hp *
+            this.caprice.hp *
             (boss
               ? this.tuning.bossHpMultiplier
               : this.difficultyWave % 2 === 0 && this.remaining % 3 === 0
@@ -880,6 +941,12 @@ export class Game {
           boss,
           variant,
         );
+        const shellEvery = this.caprice.shellEvery;
+        if (shellEvery && !boss && index % shellEvery === shellEvery - 1) {
+          entry.hp *= this.caprice.shellHp;
+          entry.maxHp *= this.caprice.shellHp;
+          entry.shell = true;
+        }
         if (courtEntry) {
           for (const member of BOSS_COURT) {
             const escort = this.spawnSnake(
@@ -901,7 +968,7 @@ export class Game {
           this.message = 'Le roi arrive avec sa garde et un soigneur ! Chaque tête a son rôle.';
         } else this.remaining--;
         this.spawnTimer = plan
-          ? plan.cadence[index % plan.cadence.length]
+          ? plan.cadence[index % plan.cadence.length] * this.caprice.cadence
           : spawnDelay(this.wave, index);
       }
     }
@@ -914,7 +981,7 @@ export class Game {
               egg.x + i * 12,
               egg.y,
               egg.lane,
-              waveStats(this.difficultyWave).hp * 0.75,
+              waveStats(this.difficultyWave).hp * 0.75 * this.caprice.hp,
               false,
             );
           this.hatched += egg.count;
@@ -1051,7 +1118,12 @@ export class Game {
         );
       }
     }
-    const stats = waveStats(this.mission ? this.difficultyWave : this.wave || 1);
+    const rankStats = waveStats(this.mission ? this.difficultyWave : this.wave || 1);
+    const stats = {
+      ...rankStats,
+      speed: rankStats.speed * this.caprice.speed,
+      damage: rankStats.damage * this.caprice.bite,
+    };
     for (const e of this.enemies) {
       if (e.hp <= 0) continue;
       e.cool -= dt;
@@ -1107,12 +1179,11 @@ export class Game {
         }
         // Support can be bitten but never becomes an immortal roadblock.
         if (defenseRole(target.kind as Kind) === 'support' || isFlying(e)) {
-          this.followRoute(e, stats.speed * (e.boss ? 0.8 : enemySpeed(e.variant, this.time)), dt);
+          this.followRoute(e, stats.speed * this.enemyPace(e), dt);
           e.facing = target.x >= e.x ? 1 : -1;
           e.state = 'attack';
         }
-      } else
-        this.followRoute(e, stats.speed * (e.boss ? 0.8 : enemySpeed(e.variant, this.time)), dt);
+      } else this.followRoute(e, stats.speed * this.enemyPace(e), dt);
       if (e.x > 1000) {
         const absorbed = e.boss ? 0 : Math.min(9, this.rewards.ward);
         this.rewards.ward -= absorbed;

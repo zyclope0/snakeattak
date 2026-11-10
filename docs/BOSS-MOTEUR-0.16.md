@@ -68,7 +68,7 @@ réels aux réglages distincts, sans mutation du catalogue.
 
 Le choix est enregistré avant la validation finale dans
 `reports/balance-0.16/chosen-config.json`. PV du roi ×6,5, protection12 %, facteurs
-protection0,45 à distance et1,6 au contact ; crachat18, recharge7s, préavis1,8s,
+protection0,45 à distance et 1,6 au contact ; crachat18, recharge 7 s, préavis1,8s,
 rayon38 et portée260. Dégâts secondaires complets ; mutants ×1,75. La protection
 entièrement absorbante renvoie exactement zéro dégât, y compris à la rupture
 exacte : aucun résidu de calcul n'est soustrait à la santé. Le débordement réel

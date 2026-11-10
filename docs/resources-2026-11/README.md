@@ -37,7 +37,7 @@ sans nouvelle génération : [ressources dérivées](../../resources/android-ico
 [provenance et empreintes](../../resources/android-icon/manifest.json),
 [bilan](../BILAN-0.32.4.md). Premier plan des personnages sur fond uni #214C3B,
 coins blancs éliminés, cinq densités et versions adaptatives26/33. Les deux
-terrains restent réservés au lot6 ; aucun changement de terrain ou de règle.
+terrains restent réservés au lot 6 ; aucun changement de terrain ou de règle.
 
 ## Référence artistique confirmée par le parent
 
@@ -51,7 +51,7 @@ Aucune nouvelle génération ni modification d'image dans cette consignation.
 
 ## Utilisation graphique autorisée — v0.34.0
 
-Le 9 novembre2026, le parent demande explicitement le point3 : exploiter les
+Le 9 novembre 2026, le parent demande explicitement le point 3 : exploiter les
 fonds encore inutilisés et harmoniser la matière. Crue/marais servent désormais
 uniquement de cadres périphériques sur les terrains existants ; leur centre
 pictural/gravé reste écarté de la surface de combat. Aucun nouveau lieu, météo,

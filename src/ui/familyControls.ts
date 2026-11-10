@@ -16,12 +16,16 @@ export function bindFamilyControls(actions: Actions) {
   const dialog = el<HTMLDialogElement>('family-dialog');
   const file = el<HTMLInputElement>('family-file');
   const apply = el<HTMLButtonElement>('family-apply');
+  const albumNames = document.createElement('p');
+  albumNames.id = 'family-preview-albums';
+  el('family-preview-summary').after(albumNames);
   let pending: FamilyBackup | null = null,
     generation = 0;
   const reset = () => {
     generation++;
     pending = null;
     file.value = '';
+    el('family-file-name').textContent = '';
     apply.disabled = true;
     el('family-preview').hidden = true;
   };
@@ -60,6 +64,14 @@ export function bindFamilyControls(actions: Actions) {
       'Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.',
     );
   };
+  el('family-choose-file').onclick = () => {
+    try {
+      if (typeof file.showPicker === 'function') file.showPicker();
+      else file.click();
+    } catch {
+      file.click();
+    }
+  };
   file.onchange = async () => {
     const turn = ++generation;
     pending = null;
@@ -67,6 +79,8 @@ export function bindFamilyControls(actions: Actions) {
     el('family-preview').hidden = true;
     const selected = file.files?.[0];
     if (!selected) return;
+    // The user's filename is local data, never translated.
+    el('family-file-name').textContent = selected.name;
     if (selected.size > FAMILY_BYTE_LIMIT) {
       setDisplayText(el('family-status'), 'Fichier trop volumineux : rien n’a été modifié.');
       return;
@@ -103,6 +117,20 @@ export function bindFamilyControls(actions: Actions) {
           ` Expéditions : ${missionStars} / 18 étoiles. Le camp classique est conservé séparément.`,
         );
       }
+      appendDisplayText(
+        el('family-preview-summary'),
+        backup.version === 4
+          ? ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.'
+          : ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.',
+      );
+      albumNames.replaceChildren();
+      if (backup.version === 4)
+        for (const child of backup.albums.children) {
+          const name = document.createElement('span');
+          name.dataset.copyRaw = '';
+          name.textContent = ' · ' + child.name;
+          albumNames.append(name);
+        }
       pending = backup;
       el('family-preview').hidden = false;
       apply.disabled = false;

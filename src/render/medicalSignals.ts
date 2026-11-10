@@ -1,3 +1,4 @@
+import { BODY_FONT } from './fonts.ts';
 import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
@@ -14,7 +15,7 @@ export class MedicalSignals {
       maxIdle: 16,
       create: () =>
         addCanvasCopy(scene.add, 0, 0, '', {
-          fontFamily: 'sans-serif',
+          fontFamily: BODY_FONT,
           fontSize: '11px',
           color: '#fff6dc',
           backgroundColor: '#285e4a',
@@ -33,7 +34,7 @@ export class MedicalSignals {
     onSceneExit(scene.events, () => this.labels.clear());
     this.station = scene.add.graphics().setDepth(15.4);
     this.stationLabel = addCanvasCopy(scene.add, 988, 442, 'Réserve', {
-      fontFamily: 'sans-serif',
+      fontFamily: BODY_FONT,
       fontSize: '11px',
       color: '#f6f0d8',
       backgroundColor: '#294b3b',

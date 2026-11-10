@@ -19,12 +19,18 @@ import { encodeCheckpoint } from '../src/checkpoints.ts';
 import { departureForGame, encodeDeparture } from '../src/departures.ts';
 
 await initializeLanguageControls();
-await import('./result-0342-harness.ts');
+const { progress } = await import('./result-0342-harness.ts');
+// Controlled locale coverage needs every normal preview legally unlocked.
+// Production launch guards remain active; no disabled-card bypass.
+const allMissions = progress.state;
+for (const mission of MISSIONS) allMissions.bestStars[mission.id] = 3;
+if (!progress.replaceState(allMissions)) throw new Error('Invalid locale mission fixture');
 const fixture = (
   window as unknown as {
     resultFixture: { session: Session; phaser: Phaser.Game; refresh: () => void };
   }
 ).resultFixture;
+fixture.refresh();
 const refreshReport = bindChapterReport(fixture.session);
 refreshReport();
 const scene = () =>
@@ -173,9 +179,8 @@ Object.assign(window, {
     previewMission(id: string) {
       const button = document.querySelector<HTMLButtonElement>(`[data-mission-card="${id}"]`);
       if (!button?.onclick) throw new Error('Unknown fixture mission');
-      // Exercise the real preview handler without changing saved unlocks.
-      // This deliberately bypasses the disabled availability of controlled cards.
-      button.onclick.call(button, new PointerEvent('click'));
+      if (button.disabled) throw new Error('Locale fixture mission must be unlocked');
+      button.click();
     },
     missions: MISSIONS.map((mission) => ({ id: mission.id, waves: mission.waves.length })),
     showAllThreats() {

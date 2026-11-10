@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: earned result shows actual sticker graphic
+    at check (file:///workspace/conquete-serpents-0322/scripts/caprices-036-browser.mjs:15:40)
+    at file:///workspace/conquete-serpents-0322/scripts/caprices-036-browser.mjs:32:2 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

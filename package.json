@@ -1,7 +1,7 @@
 {
   "name": "conquete-serpents",
   "private": true,
-  "version": "0.35.0",
+  "version": "0.36.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -16,6 +16,7 @@
     "benchmark": "node scripts/benchmark.mjs",
     "balance": "node scripts/balance-100.mjs",
     "balance:lab": "node scripts/balance-lab.mjs",
+    "balance:caprices": "node scripts/caprices-lab.mjs",
     "balance:paths": "node scripts/path-transit.mjs",
     "verify": "npm run format:check && npm run test && npm run build",
     "test:presentation": "node scripts/presentation-browser.mjs",
@@ -57,7 +58,8 @@
     "test:mission-journey": "node scripts/mission-journey-033-browser.mjs",
     "test:camp-tools": "node scripts/camp-tools-033-browser.mjs",
     "test:tactical-clarity": "node scripts/tactical-035-browser.mjs",
-    "test:locale": "node scripts/extract-locale-035.mjs && node --experimental-strip-types scripts/check-locales-035.mjs && node tests/locale-bindings-035-browser.mjs && node scripts/locale-035-browser.mjs"
+    "test:locale": "node scripts/extract-locale-035.mjs && node --experimental-strip-types scripts/check-locales-035.mjs && node tests/locale-bindings-035-browser.mjs && node scripts/locale-035-browser.mjs",
+    "test:caprices": "node scripts/caprices-036-browser.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",

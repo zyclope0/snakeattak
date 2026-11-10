@@ -1,0 +1,260 @@
+.caprice-rows {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+.caprice-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.caprice-row button {
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  white-space: normal;
+}
+.caprice-row button[aria-pressed='true'] {
+  outline: 3px solid #bc742c;
+  background: #ffebbc;
+}
+.caprice-row small {
+  font-size: 12px;
+}
+.caprice-locked {
+  opacity: 0.65;
+}
+.caprice-friends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.caprice-friends button {
+  min-height: 48px;
+}
+.caprice-friends button[aria-pressed='true'] {
+  background: #c9dfac;
+  outline: 2px solid #426e4d;
+}
+.caprice-detail {
+  padding: 12px;
+  background: #f2e9d2;
+  border-radius: 12px;
+}
+.caprice-detail p {
+  line-height: 1.45;
+}
+.caprice-announcement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.caprice-announcement > svg {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+}
+.caprice-album-dialog {
+  width: min(760px, 94vw);
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  padding: 18px;
+}
+.caprice-album-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.caprice-sticker {
+  border: 2px dashed #afac92;
+  border-radius: 14px;
+  min-height: 90px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #e5e3d7;
+}
+.caprice-sticker[data-earned='true'] {
+  background: #f7e7b1;
+  border: 2px solid #7a985e;
+  transform: rotate(-1deg);
+}
+.caprice-sticker svg {
+  width: 38px;
+  height: 38px;
+}
+.caprice-profile-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.caprice-profile-tools input,
+.caprice-profile-tools select,
+.caprice-profile-tools button,
+.caprice-album-dialog > button {
+  min-height: 48px;
+}
+.caprice-album-dialog h2 {
+  margin: 8px 0;
+}
+#caprice-bank {
+  font-size: 12px;
+  display: block;
+}
+.caprice-result-note {
+  padding: 8px;
+}
+.caprice-identity {
+  font-weight: bold;
+}
+@media (max-height: 400px) {
+  .caprice-row button {
+    min-height: 58px;
+  }
+  .caprice-album-dialog {
+    max-height: calc(100dvh - 12px);
+  }
+}
+.caprice-rows button,
+.caprice-album-dialog button,
+#result-caprice-album {
+  color: var(--ink);
+  background: #e1ead4;
+  border: 1px solid #8ca97e;
+  border-radius: 11px;
+  padding: 9px 12px;
+  box-shadow: inset 0 2px #fff8e3;
+  min-height: 48px;
+}
+.caprice-rows button:hover:not(:disabled),
+.caprice-album-dialog button:hover:not(:disabled),
+#result-caprice-album:hover {
+  background: #f5e4b5;
+}
+.caprice-friends button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+  max-width: 100%;
+}
+.caprice-friends .portrait {
+  width: 48px;
+  height: 48px;
+}
+.caprice-album-dialog {
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid #b4b28c;
+  border-radius: 16px;
+  overscroll-behavior: contain;
+}
+.caprice-album-header {
+  position: sticky;
+  top: -18px;
+  z-index: 1;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper);
+  padding: 8px 0;
+  border-bottom: 1px solid #d4cfb9;
+}
+.caprice-album-header h2 {
+  font-size: 22px;
+}
+.caprice-album-header button {
+  flex: 0 0 auto;
+}
+.caprice-result-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  background: #f7e7b1;
+  border: 1px dashed #ad915a;
+  border-radius: 12px;
+}
+.caprice-result-note svg {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+}
+.caprice-result-note svg[hidden] {
+  display: none;
+}
+.caprice-result-note strong {
+  line-height: 1.25;
+}
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  #caprice-bank {
+    max-width: 88px;
+    font-size: 9px;
+    line-height: 1.1;
+  }
+}
+@media (max-width: 700px) and (max-height: 520px) and (orientation: landscape) {
+  .treasure-stat strong:has(#caprice-bank:not([hidden])) {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+/* The same paper controls in preparation and in every local sticker book. */
+.caprice-profile-tools label,
+.caprice-detail label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.caprice-profile-tools input,
+.caprice-profile-tools select,
+.caprice-detail select {
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid #8ca97e;
+  border-radius: 11px;
+  font: inherit;
+  padding: 10px 12px;
+  min-height: 48px;
+  max-width: 100%;
+}
+#mission-caprices-entry {
+  color: var(--ink);
+  background: #e1ead4;
+  border: 1px solid #8ca97e;
+  border-radius: 11px;
+  padding: 8px 14px;
+  min-height: 48px;
+}
+#mission-caprices-title {
+  scroll-margin-top: 8px;
+}
+/* Keep the section title and return to normal mission on one line in short views. */
+.caprice-rows {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+.caprice-rows > h3 {
+  margin: 0;
+  align-self: center;
+}
+.caprice-rows > div {
+  grid-column: 1 / -1;
+}
+.caprice-rows > div > h3 {
+  margin: 8px 0;
+}
+@media (max-height: 400px) {
+  .caprice-row button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}

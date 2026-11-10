@@ -1,10 +1,11 @@
+import { capriceById } from '../caprices.ts';
 import type { Game } from '../game.ts';
 
 /** Presentation only: describe the completed mode, never infer another mission's boss. */
 export function victoryCopy(game: Pick<Game, 'mission' | 'totalWaves'>) {
   return game.mission
     ? {
-        title: 'Bravo !',
+        title: game.mission.caprice ? 'Caprice réussi !' : 'Bravo !',
         subtitle: `Tes alliés ont protégé le cristal pendant ${game.totalWaves} vagues.`,
       }
     : {
@@ -17,9 +18,11 @@ export function victoryCopy(game: Pick<Game, 'mission' | 'totalWaves'>) {
 export function defeatCopy(game: Pick<Game, 'mission'>) {
   return {
     title: 'On réessaie ?',
-    subtitle: game.mission
-      ? 'Réessaie ce même départ ou choisis une autre mission.'
-      : 'Rejoue une aventure, puis essaie d’autres alliés.',
+    subtitle:
+      capriceById(game.mission?.caprice)?.announce ??
+      (game.mission
+        ? 'Réessaie ce même départ ou choisis une autre mission.'
+        : 'Rejoue une aventure, puis essaie d’autres alliés.'),
   };
 }
 

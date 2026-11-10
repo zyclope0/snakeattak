@@ -151,3 +151,19 @@ vérifiées sont détaillées dans TACTIQUE-0.22 :6/4 bandages,1.6/1.4s entre so
 recharge4s au fort ; volants dèsrang6 ; têtes50/20/30 et soin ennemi fini.
 Les joueurs ne commandent pas les soldats. Aucun mort ou tête tombée ne revient.
 Le parent délègue l'équilibrage ; il ne fixe pas ces valeurs numériques lui-même.
+
+## Caprices des serpents — validés par le fils, 9 novembre 2026
+
+Chaque mission d'expédition reçoit trois caprices : petit dès la victoire, moyen à
+2 étoiles, grand à 3 étoiles. Un caprice change des nombres ou retire une aide ; il ne
+touche à aucune des règles du fils. Le fils a gardé 13 caprices, en a renommé 4
+(Méga serpent, Blindcrocs, Grandes rafales de serpents, Rafales de serpents) et refusé
+« Serpents malins », remplacé par « Bourse trouée » avec l'accord du parent. Il prépare
+son propre caprice. Le roi à trois têtes peut venir dans une mission par caprice.
+Catalogue et reste à faire : docs/CAPRICES.md.
+
+Le défi du créateur, inventé par le fils le même soir, s'ajoute sur chaque mission
+en seconde rangée : facile « La tirelire » (un tiers des pièces de départ reste à la
+banque), moyen « Les carapaces » (certains serpents très lents, très solides et blindés,
+pas tous), difficile « La grande charge » (rapides, beaucoup de vie et de dégâts).
+Le nom de rangée évite le prénom de l'enfant. Valeurs : docs/CAPRICES.md.

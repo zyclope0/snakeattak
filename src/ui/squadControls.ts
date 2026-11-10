@@ -1,3 +1,4 @@
+import { canSpend } from './capriceBudget.ts';
 import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
@@ -60,12 +61,14 @@ export function bindSquadControls(
     state.rosters[state.activeRoster].forEach((kind, i) => {
       const c = cards[i],
         price = g.recruitCost(kind),
-        locked = !g.isUnlocked(kind);
+        locked = !g.isUnlocked(kind),
+        reserveBlocked = !locked && g.caprice.reserve > 0 && !canSpend(g, price);
       if (c.b.dataset.quickKind !== kind) {
         c.b.dataset.quickKind = kind;
         c.p.style.cssText = portraitStyle(kind);
         setDisplayText(c.name, kinds[kind].name);
       }
+      c.b.hidden = !g.capriceAllows(kind);
       const label = locked
         ? g.mission
           ? 'Autre mission'
@@ -73,11 +76,15 @@ export function bindSquadControls(
         : price === 0
           ? 'Offert'
           : `${price} ●`;
-      if (c.cost.textContent !== label) setDisplayText(c.cost, label);
+      setDisplayText(c.cost, reserveBlocked ? 'Réserve bancaire protégée' : label);
       c.b.disabled =
-        g.paused || locked || g.gold < price || g.status === 'won' || g.status === 'lost';
+        g.paused || locked || !canSpend(g, price) || g.status === 'won' || g.status === 'lost';
       c.b.setAttribute('aria-pressed', String(session.selected === kind));
-      setDisplayAttribute(c.b, 'aria-label', `${kinds[kind].name}, ${label}`);
+      setDisplayAttribute(
+        c.b,
+        'aria-label',
+        `${kinds[kind].name}, ${label}${reserveBlocked ? ', réserve bancaire protégée' : ''}`,
+      );
     });
   };
 }

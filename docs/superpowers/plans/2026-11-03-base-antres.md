@@ -53,7 +53,7 @@ planche inspectée, 218 crédits vérifiés, captures des clairières/refuge/sor
 contrôlées, terrain+fort+antre restaurés après perte WebGL.
 
 Revue finale : un Important (défenseur masqué par le fort) corrigé ; recrutement
-réel à984,312 observé rouge puis vert dans Chromium, suite complète verte après
+réel à 984,312 observé rouge puis vert dans Chromium, suite complète verte après
 correction. Aucun Minor classé à différer. Les deux impulsions santé peuvent
 coexister brièvement si dégâts et réparation se suivent ; elles représentent les
 deux événements réels et ne changent aucune règle.

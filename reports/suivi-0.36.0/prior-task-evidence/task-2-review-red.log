@@ -1,0 +1,63 @@
+✔ caprice victory preserves existing shared star credit and retains the actual run (2.509036ms)
+✔ caprice starts require its tier stars and keep retry identity distinct (2.22334ms)
+✔ independent albums retain expedition ownership after selecting another child (0.613763ms)
+✖ only an actual complete caprice victory grants a sticker, once (69.89525ms)
+✔ album edits are bounded and rejected edits never mutate state (0.49681ms)
+✔ album validation rejects corrupt IDs, references and sticker lists atomically (0.477681ms)
+✔ family4 preserves expedition owner A across B selection, classic mode, reload and resume (3.059725ms)
+✔ family1–4 remain readable, old camps initialize a default album, and no albums means no v4 (0.963865ms)
+✔ old sync callers preserve loaded albums until an explicit legacy import replaces them (1.393665ms)
+✔ corrupt v4 and refused storage leave the entire previous family and retained albums intact (0.998937ms)
+✖ explicit albums on legacy live imports cannot disappear during serialization (0.320808ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 237.633072
+
+✖ failing tests:
+
+test at tests/caprices-albums-036.test.ts:80:1
+✖ only an actual complete caprice victory grants a sticker, once (69.89525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/caprices-albums-036.test.ts:118:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/caprices-albums-036.test.ts:365:1
+✖ explicit albums on legacy live imports cannot disappear during serialization (0.320808ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/caprices-albums-036.test.ts:373:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

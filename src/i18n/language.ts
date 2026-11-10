@@ -15,11 +15,8 @@ export function onLanguageChange(listener: () => void) {
 }
 export function selectInitialLanguage(stored: unknown, languages: readonly string[]): Language {
   if (stored === 'fr' || stored === 'en') return stored;
-  for (const language of languages) {
-    const base = language.toLowerCase().split('-')[0];
-    if (base === 'fr' || base === 'en') return base;
-  }
-  return 'fr';
+  const primary = languages?.[0];
+  return typeof primary === 'string' && /^fr(?:-|$)/i.test(primary.trim()) ? 'fr' : 'en';
 }
 export async function setLanguage(next: Language) {
   if (next !== 'fr' && next !== 'en') throw new RangeError('Unsupported language');

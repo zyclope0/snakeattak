@@ -18,7 +18,7 @@ Ordre retenu : 1 terminé, 4 préparation Android, 3 plateau, 2 lisibilité, pui
 - Installer JDK21/SDK36 dans un répertoire de travail, vérifier les archives,
   compiler et vérifier manifeste/version/assets/signature debug si possible.
 - Tests purs des calculs et de l’opt-in ; test navigateur du build produit.
-- Documenter Windows/USB, scénarios mission6 et classique12 ; modèle et mesures
+- Documenter Windows/USB, scénarios mission 6 et classique 12 ; modèle et mesures
   physiques restent nuls jusqu’au relevé réel. Ne pas déclarer le lot 4 achevé.
 - Council après lots1 + préparation4 : interface enfant, moteur/mobile, QA.
 
@@ -36,9 +36,9 @@ Ordre retenu : 1 terminé, 4 préparation Android, 3 plateau, 2 lisibilité, pui
   dans Pour les parents. Tutoiement et alliés comme vocabulaire des soldats.
 - HUD/canvas conservés ; détails du camp repliables, aucun outil tactique supprimé
   ni conditionné au numéro de mission sans accord spécifique.
-- Vérifier ≤60 mots effectivement visibles avant vague1, navigation clavier et
+- Vérifier ≤60 mots effectivement visibles avant vague 1, navigation clavier et
   tactile, anciennes sauvegardes, codes, taille du plateau et pause unique.
-- Council après3 +2 : lisibilité, fidélité au concept, QA/progression.
+- Council après 3 +2 : lisibilité, fidélité au concept, QA/progression.
 
 ## Livraison et réserves
 

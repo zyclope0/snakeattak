@@ -7,12 +7,12 @@ pour les choix réversibles ; l'esprit et les personnages restent la contrainte.
 ## Expérience et choix
 
 Bandages plutôt que mana : vocabulaire du créateur, stock visible et retour réel
-au fort. Médecin6soins, infirmier4 ; cadence initiale1.6s/1.4s, recharge4s sur
+au fort. Médecin6soins, infirmier4 ; cadence initiale1.6s/1.4s, recharge 4 s sur
 place, valeurs à confirmer par simulation. PV soignés24/14 inchangés. Aucun soin
 lors du retour/rechargement, aucune résurrection ; un stock partiel reste partiel
 entre vagues et après sauvegarde. Pas de remise à plein à l'ouverture du menu.
 
-Volants dès le rang6 (classique vague6, expédition lorsque son rang atteint6),
+Volants dès le rang 6 (classique vague 6, expédition lorsque son rang atteint 6),
 progressivement1puis2. Survolent la mêlée et les murs, suivent les trois voies,
 contrés par archers, dragons et tanks. Le catalogue et le briefing expliquent ces
 contres avant le départ. HP/vitesse ajustables, pas de poison dans le temps.

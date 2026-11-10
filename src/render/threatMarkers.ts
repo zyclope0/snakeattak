@@ -1,3 +1,4 @@
+import { BODY_FONT } from './fonts.ts';
 import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import type Phaser from 'phaser';
 import type { Game } from '../game.ts';
@@ -23,7 +24,7 @@ export class ThreatMarkers {
     );
     this.symbols = this.cards.map(() =>
       addCanvasCopy(scene.add, 0, 0, '', {
-        fontFamily: 'Arial',
+        fontFamily: BODY_FONT,
         fontSize: '18px',
         fontStyle: 'bold',
         color: '#fff4df',

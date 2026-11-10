@@ -1,19 +1,57 @@
-# Plan actuel — application 0.35.0, tactique et français/anglais
+# Plan actuel — candidate 0.36.1, suivi de l’interface
+
+## Candidate privée 0.36.1 — livraison et revue avant STOP
+
+Version 0.36.1 / Android 47 sur `feat/caprices-interface`. Les douze constats
+visuels et le lot documentaire sont traités dans le [bilan](BILAN-0.36.1.md).
+Le [plan d’hygiène](HYGIENE-DEPOT-0361.md) est une proposition chiffrée ;
+aucune preuve historique retirée ni histoire Git réécrite. Les nouvelles preuves
+restent dans une archive locale externe et un petit index de livraison.
+
+Règles, catalogue, valeurs, noms/annonces, RNG, anciens codes/camps et données
+familiales restent gelés. Les cinq propositions d’équilibrage ont été mesurées
+séparément ; leur application attend la décision sur les morsures et une
+solution de compatibilité. Aucun prix, rappel de dépense ou classique modifié.
+
+Les trois revues de lots, la revue fraîche de toute la branche et le conseil
+de six perspectives simulées sont terminés. Le seul mineur final, le nom
+accessible du champ du carnet anglais, est corrigé ; relecture ciblée approuvée.
+Source du nouvel APK : `4f3cabe`, après vérification 506 tests, navigateur,
+80 contrôles de navigation et quatre démarrages froids ; 34 fichiers web
+identiques. Ancien APK et archive conservés, complément de preuves vérifié.
+Aucun essai physique S24/enfant n’est prétendu. Le site public et `main` restent en 0.35.0. **STOP**, sans fusion
+ni publication. L’état précédent ci-dessous est conservé comme historique.
+
+## Candidate privée 0.36.0 — STOP pour essai du parent
+
+Version0.36.0/code46 sur `feat/caprices-interface` : préparation des 36 caprices,
+copains autorisés, sauvegarde 8, codes 3, enveloppe familiale 4 et carnets séparés.
+Les noms et annonces du fils restent exactement français dans les deux langues.
+Campagne et étoiles restent familiales ; pas de profils de combat distincts.
+[Bilan](BILAN-0.36.0.md), [état du conseil](CONSEIL-0.36.0.md),
+[preuves](../reports/suivi-0.36.0/commands.json).
+
+Cette candidate n'est ni fusionnée dans `main`/`claude/caprices`, ni publiée.
+Le site public et `main` restent en 0.35.0. La revue finale fraîche et le conseil de six perspectives simulées sont terminés ; les deux finitions relevées ont été corrigées et leur relecture ciblée est approuvée.
+L'essai du parent sur le nouvel APK/S24 et la relecture anglophone restent attendus.
+Aucun changement des règles, équilibrage, RNG, appID ou certificat.
+APK final : `conquete-serpents-v0.36.0-final-debug.apk`, sources `23a37de`.
+Branche de revue : [feat/caprices-interface](https://github.com/zyclope0/snakeattak/tree/feat/caprices-interface), base `claude/caprices`. L’état de la CI distante se consulte sur GitHub ; il est distinct des preuves locales.
 
 ## Fusion autorisée de PR2 — 9 novembre 2026
 
 Le parent autorise la fusion. Le préflight a reproduit l'échec des deux CI
 sur le test hors ligne : lecture du numéro de version avant la fin du bootstrap
 asynchrone. Correction du seul test par attente du vrai accueil ; les dix
-contrôles hors ligne passent, dont les sauvegardes1–7. Les34fichiers web restent
-identiques au build publié et à l'APK0.35.0. Les contrôles GitHub complets doivent
-passer avant fusion ; leur état et le résultat effectif sont consultables sur
+contrôles hors ligne passent, dont les sauvegardes 1–7. Les 34 fichiers web restent
+identiques au build publié et à l'APK 0.35.0. PR2 a été fusionnée en `1c4e94f` ; la CI de `main`
+`42657692341` a réussi. Le résultat effectif est consultable sur
 [PR2](https://github.com/zyclope0/snakeattak/pull/2).
 [Preflight](PREFLIGHT-MERGE-0.35.0.md).
 
 ## Lot tactique et anglais — 9 novembre 2026
 
-**0.35.0/code45.** Demande du parent : réaliser le lot2 de lisibilité,
+**0.35.0/code45.** Demande du parent : réaliser le lot 2 de lisibilité,
 doubler le jeu en anglais sous le nom **Snake Attack TD**, conserver le français
 et ajouter une unique soucoupe décorative. Règles, équilibre, graines, formats
 de camp et codes de départ conservés ; aucun nouveau lieu ou niveau.
@@ -25,13 +63,13 @@ et en pause, messages/aides/catalogue/missions/Phaser traduits, nom Android
 anglais selon langue système. Soucoupe originale mate dans les seules ruines
 classiques ; aucun asset de film ou appel payant.
 
-**Site0.35.0 publié, Sites22**, audience conservée, FR/EN et pause vérifiés
+**Site 0.35.0 publié, Sites 22**, audience conservée, FR/EN et pause vérifiés
 sur le déploiement réel ; HTML, cinq JS et deux CSS identiques au build.
-APK normal code45 inspecté,34fichiers web identiques ; nouvel essai S24 attendu.
-Refuge joué en anglais sur le site :3vagues, victoire100%, accès à la mission
+APK normal code 45 inspecté,34fichiers web identiques ; nouvel essai S24 attendu.
+Refuge joué en anglais sur le site :3 vagues, victoire100%, accès à la mission
 suivante confirmé ; pas de nouvelle étude d’équilibrage.
-[PR2](https://github.com/zyclope0/snakeattak/pull/2) ouverte et non fusionnée ;
-`main` conserve la PR1. [Reçu](../reports/deployment-0.35.0.json).
+[PR2](https://github.com/zyclope0/snakeattak/pull/2) fusionnée en `1c4e94f` ;
+`main` contient 0.35.0, CI `42657692341` réussie. [Reçu](../reports/deployment-0.35.0.json).
 
 [Bilan](BILAN-0.35.0.md), [conseil final](CONSEIL-0.35.0.md),
 [conseil du premier lot](CONSEIL-0.35.0-lot1.md).
@@ -48,29 +86,29 @@ Le parent autorise la fusion de la PR1 vers `main`. Le préflight GitHub a
 révélé un adaptateur de test encore lié au dock masqué en fin de partie ;
 reproduction puis correction des seuls tests. Le contrôle étendu stabilise
 aussi la pose tactique qui expirait avant sa lecture. Aucun changement du jeu :
-les30fichiers du build normal restent identiques au site et à l'APK0.34.2.
+les 30 fichiers du build normal restent identiques au site et à l'APK 0.34.2.
 [Explication et preuves](PREFLIGHT-MERGE-0.34.2.md) ; l'état de fusion et les
 exécutions distantes sont consultables sur la [PR1](https://github.com/zyclope0/snakeattak/pull/1).
 
 ## Parties navigateur, interface et équilibrage — 9 novembre 2026
 
 **0.34.2/code44 livré côté application.** Dix parties d'évaluation sur le vrai
-site0.34.1 : six missions en progression réelle, deux contrôles Refuge et deux
+site 0.34.1 : six missions en progression réelle, deux contrôles Refuge et deux
 Grandes aventures.37vagues,8victoires/2défaites, aucune erreurJavaScript. Chromium
 isolé, commandes souris/tactiles et horloge accélérée : pas des séances enfants
-ou une validation physique S24.532simulations moteur distinctes complètent
+ou une validation physique S24.532 simulations moteur distinctes complètent
 l'évaluation ; aucune règle, statistique, graine ou sauvegarde modifiée.
 
 Défaut prioritaire reproduit : les actions de fin restaient sous le catalogue
 masqué. Nouveau panneau visible, mêmes commandes Mission suivante/réessai/carte
 et recommencer classique. Conseil6personas ; trois défauts du panneau corrigés
-après reproduction : catalogue desktop, ordreTab, bouton avec marges568.
-30états+35contrôles verts,441tests et recettes générales verts. Une mission
+après reproduction : catalogue desktop, ordreTab, bouton avec marges 568.
+30 états+35 contrôles verts,441tests et recettes générales verts. Une mission
 complète locale puis une mission publique confirment le parcours jusqu'à
 l'aperçu suivant ;12parties/43vagues en incluant ces deux confirmations.
 
 **Site publié0.34.2/Sites21**, APK normal même certificat/identité provisoire,
-30fichiers web identiques au build. Reçu de publication et confirmation publique
+30 fichiers web identiques au build. Reçu de publication et confirmation publique
 séparés de l'échantillon d'évaluation.
 [Bilan](BILAN-0.34.2.md), [conseil](CONSEIL-0.34.2.md),
 [preuves](../reports/suivi-0.34.2/verification.json),
@@ -80,7 +118,7 @@ Suite prioritaire : essai S24 des fins de partie, compréhension du placement
 et des premiers achats, puis comparaison contrôlée de la Grande aventure avant
 de proposer des chiffres. Deux premières missions permissives conservées ;
 soigneurs et archers non retouchés sur des politiques de bots non comparables.
-Étoiles et texte de défaite traités depuis en0.35.0 ; indice de défilement
+Étoiles et texte de défaite traités depuis en 0.35.0 ; indice de défilement
 encore ouvert. Cohérence graphique partielle, boss navigateur non atteint,
 lecteur d'écran/grossissement et ressenti enfants non certifiés. Aucun nouveau
 mode, lieu, mission, génération payante ou SDK. Suivis commerciaux séparés.
@@ -89,16 +127,16 @@ Les sections suivantes conservent l'historique des livraisons précédentes.
 
 ## Retour physique S24 — fiche trop grande, 0.34.1
 
-Le parent confirme que le défilement fonctionne en0.34.0, mais que la fiche
-occupe trop de place. Correctif0.34.1/code43 : portrait48px, en-tête et fermeture
+Le parent confirme que le défilement fonctionne en 0.34.0, mais que la fiche
+occupe trop de place. Correctif0.34.1/code43 : portrait 48 px, en-tête et fermeture
 fixes, deux zones de lecture en petit paysage ; huit données conservées.
-Reproduction812×375 avec marges24/32 : Massue319→259px et0→8statistiques
+Reproduction812×375 avec marges24/32 : Massue319→259 px et 0→8 statistiques
 complètement visibles, médecin282px. X et sélecteur48px. Petit568 : corps
 défilant, un peu plus haut qu’avant ; ordinateur inchangé.
 
 Conseil six personas terminé ; défaut clavier du nouveau corps reproduit et
 corrigé par région focalisable/focus visible. Verify441/441, navigateur,
-interface24, audit13, enfant6formats et recette16cas+6contrôles verts.
+interface 24, audit 13, enfant 6 formats et recette 16 cas+6 contrôles verts.
 APK normal, même identité/certificat,30fichiers web identiques au build.
 **Site publié0.34.1/Sites20**, HTTP200, fiche huit champs vérifiée en ligne et
 HTML/JS/CSS identiques. Les marges simulées ne constituent pas un test physique
@@ -120,14 +158,14 @@ limites visuelles héritées corrigées après reproduction : indisponibilité d
 cartes/pots sur tactile, et contours des camps absents dans Canvas. Les nouvelles
 petites silhouettes sont partagées et libérées, sans coût nouveau en WebGL.
 
-**441tests**, navigateur, interface24, audit13, six formats enfant, défilement,
-hors ligne10,14paires d’états identiques et8contrôles de chargement/états verts.
+**441 tests**, navigateur, interface 24, audit 13, six formats enfant, défilement,
+hors ligne10,14paires d’états identiques et 8 contrôles de chargement/états verts.
 APK normal avec même certificat/identité,30fichiers web identiques au build validé.
 [Bilan](BILAN-0.34.0.md), [conseil](CONSEIL-0.34.0.md),
 [preuves](../reports/suivi-0.34.0/verification.json).
-**Site publié en0.34.0, Sites19**, audience publique conservée.
-[Reçu](../reports/deployment-0.34.0.json) : HTTP200, démarrage vague1, aide, pause
-et rotation contrôlés à1280×800,812×375 et375×812. Aucun cadre téléchargé à
+**Site publié en 0.34.0, Sites 19**, audience publique conservée.
+[Reçu](../reports/deployment-0.34.0.json) : HTTP200, démarrage vague 1, aide, pause
+et rotation contrôlés à 1280×800,812×375 et 375×812. Aucun cadre téléchargé à
 l’accueil ; un seul cadre utile demandé au lancement. HTML/JS/CSS en ligne
 identiques au build validé. Plateau mobile87,20% de la hauteur, dimensions inchangées.
 Branche GitHub et PR existante synchronisées à la clôture, sans fusion dans main.
@@ -149,16 +187,16 @@ d'enfants réels ni une recette Android physique.
 
 1. **Lot A — outils compréhensibles, livré** : aide illustrée volontaire,
    conseils selon l'état réel et texte d'entraînement exact. Aucun nouvel outil,
-   verrou, prix ou bonus. Version0.33.0,434tests et recettes vertes.
+   verrou, prix ou bonus. Version 0.33.0,434 tests et recettes vertes.
    [Bilan](BILAN-0.33.0.md), [conseil six personas](CONSEIL-0.33.0.md).
 2. **Lot B — progression illustrée, livré** : chemin des six missions existantes,
    états issus de la vraie progression, esprit pâte à modeler / papier mâché.
-   Même Jouer/reprise, aucune mission ou récompense supplémentaire. Version0.33.1,
-   438tests,16cas de parcours et4 096profils de progression vérifiés.
+   Même Jouer/reprise, aucune mission ou récompense supplémentaire. Version 0.33.1,
+   438tests,16cas de parcours et 4 096profils de progression vérifiés.
    [Bilan](BILAN-0.33.1.md), [conseil six personas](CONSEIL-0.33.1.md).
 3. **Lot C — transitions et livraison, terminé côté application** : interruptions,
    aide, sélections, reprise et hors ligne vérifiés ; APK normal assemblé et inspecté.
-   438tests, 28fichiers web identiques dans l’APK, même certificat et identité.
+   438 tests, 28 fichiers web identiques dans l’APK, même certificat et identité.
    [Bilan de livraison](BILAN-LIVRAISON-0.33.1.md),
    [conseil six personas](CONSEIL-LIVRAISON-0.33.1.md).
    Synchronisation web consignée dans le reçu de publication distinct.
@@ -175,7 +213,7 @@ terminé par les lots A/B/C et aucun appel payant n'est lancé.
 | 1 — affichage      | Corrections livrées et recettes automatiques vertes                     | Dernier APK à revoir sur le vrai S24                                                  |
 | 4 — Android        | Identité/signature préservées, APK normal et interruptions automatisées | Mise à jour avec camp réel, gestes système, FPS/RAM et cycle de vie physique          |
 | 3 — plateau        | Corrections conservées, pavés mats et cadres fournis intégrés           | Matière des bordures encore partiellement picturale                                   |
-| 2 — lisibilité     | Rôles/portées, soins et résultats clarifiés en0.35.0                    | Compréhension des enfants et harmonisation complète des unités non attestées          |
+| 2 — lisibilité     | Rôles/portées, soins et résultats clarifiés en 0.35.0                   | Compréhension des enfants et harmonisation complète des unités non attestées          |
 | 7 — accompagnement | Signaux existants conservés, explications des vrais outils livrées      | Aucun mode Facile, appel anticipé ou nouveau verrou de progression appliqué           |
 | 8 — monétisation   | V1 documentaire côté client seulement                                   | Choix produits/prix, confirmation Familles exacte, SDK, consentements et GO distincts |
 | 9 — identité/store | Icône native, accueil et favicon réutilisent la ressource retenue       | AppID définitif, AAB, compte/test fermé, déclarations et publication Play             |
@@ -188,27 +226,27 @@ Aucune décision critique nouvelle n’a été prise pendant l’absence du pare
 
 ## Publication précédente — v0.33.1
 
-**9 novembre 2026, Europe/Zurich : site publié en0.33.1**, version Sites18,
+**9 novembre 2026, Europe/Zurich : site publié en 0.33.1**, version Sites 18,
 même URL et audience publique. [Reçu](../reports/deployment-0.33.1.json).
-Recette réelle en ligne : HTTP200, icône, prochaine mission, démarrage vague1,
-quatre favoris, aide et une seule pause HTML à1280×800 et812×375 tactile.
-À375×812 tactile, écran de rotation visible. Aucune erreur JavaScript.
-Plateau paysage580,13×326,98px :87,20% de la hauteur et71,44% de la largeur.
+Recette réelle en ligne : HTTP200, icône, prochaine mission, démarrage vague 1,
+quatre favoris, aide et une seule pause HTML à 1280×800 et 812×375 tactile.
+À 375×812 tactile, écran de rotation visible. Aucune erreur JavaScript.
+Plateau paysage580,13×326,98px :87,20% de la hauteur et 71,44% de la largeur.
 HTML, JS jeu et CSS comparés octet par octet via lecture réseau brute en navigateur,
-identiques au build validé. Les28fichiers du dist poussé sont identiques à l’APK.
+identiques au build validé. Les 28 fichiers du dist poussé sont identiques à l’APK.
 
 La recette en ligne utilise des contextes isolés et ne touche pas aux sauvegardes
 du parent. Ni publication Google Play, ni SDK, pub ou achat activés.
 
 ## Publication web demandée après l'étape 4
 
-**9 novembre 2026, Europe/Zurich : site publié en0.32.4**, version Sites17,
+**9 novembre 2026, Europe/Zurich : site publié en 0.32.4**, version Sites 17,
 même URL et audience publique conservée. [Reçu](../reports/deployment-0.32.4.json).
 Contrôle en ligne dans Chromium : HTTP200 et marqueurv0.32.4 ; démarrage d'une
-mission puis de la vague1, quatre favoris, aucune erreur JavaScript à1280×800
-et812×375 tactile. Plateau mobile580,13×326,98px, soit87,20% de la hauteur.
+mission puis de la vague 1, quatre favoris, aucune erreur JavaScript à 1280×800
+et 812×375 tactile. Plateau mobile580,13×326,98px, soit 87,20% de la hauteur.
 
-Les27fichiers web publiés sont identiques à ceux de l'APK0.32.4 contrôlé.
+Les 27 fichiers web publiés sont identiques à ceux de l'APK 0.32.4 contrôlé.
 Les changements0.32.4 concernent l'icône native Android et les documents ; la
 publication web synchronise la version, sans nouvelle refonte du plateau.
 Le GO de publication ne déclenche ni achat, ni pub, ni nouvelle intégration.
@@ -216,7 +254,7 @@ Choix d'identifiant et portes commerciales restent ouverts.
 
 ## Mission active — Suivi v0.32.1, étape 4 documentaire
 
-**8 novembre 2026 — étape4 documentaire livrée après GO explicite ; STOP.**
+**8 novembre 2026 — étape 4 documentaire livrée après GO explicite ; STOP.**
 
 La v1 prévoit validation et acknowledge des achats dans l'app, relecture Play
 au démarrage/reprise et dernier droit connu hors ligne ; serveur de reçus
@@ -231,10 +269,10 @@ La fiche de divulgation décrit25.5.0, à confronter au trafic en mode enfant.
 Le préflight historique garde son blocage backend : adapter sur GO d'intégration,
 sans faux drapeau validé. [Bilan étape4](BILAN-0.32.4-etape-4.md).
 
-Aucun code ou SDK modifié à l'étape4, pas de version nouvelle ; APK0.32.4/code39
-et site0.32.3 alors conservés. La publication web0.32.4 est intervenue ensuite,
+Aucun code ou SDK modifié à l'étape 4, pas de version nouvelle ; APK0.32.4/code39
+et site 0.32.3 alors conservés. La publication web0.32.4 est intervenue ensuite,
 sur demande distincte ci-dessus. Le GO documentaire ne choisit pas l'identifiant encore attendu et
-n'autorise ni achat, ni déclaration, ni publication. **STOP après l'étape4,
+n'autorise ni achat, ni déclaration, ni publication. **STOP après l'étape 4,
 tout travail d'intégration exige un nouveau GO.**
 Vérifications de cette étape :425/425, build et navigateur verts ; dix contrôles
 de sources/formulation et relecture indépendante, précision sur les remboursements
@@ -250,7 +288,7 @@ actuels conservés, aucun nouvel identifiant appliqué. [Trois propositions](IDE
 20 PNG, quatre XML compilés et 27 fichiers web de l'APK vérifiés. Les aperçus ne
 sont pas des captures de lanceur Android : test visuel sur le S24 encore attendu.
 [Reçu](../reports/suivi-0.32.4/verification.json), [bilan](BILAN-0.32.4.md).
-À l'issue de l'étape3, le site restait en0.32.3 ; publication0.32.4 demandée ensuite.
+À l'issue de l'étape 3, le site restait en 0.32.3 ; publication0.32.4 demandée ensuite.
 
 ### Direction artistique confirmée après l'étape 3
 
@@ -262,16 +300,16 @@ guide désormais personnages, décors et interface des prochains lots.
 Consignation documentaire uniquement : aucun asset ou écran modifié, aucune
 génération lancée. L'harmonisation du jeu reste à réaliser dans des lots
 ultérieurs autorisés. Cette validation artistique ne choisit pas l'identifiant
-d'application. Le GO pour l'étape4 a été donné séparément ensuite.
+d'application. Le GO pour l'étape 4 a été donné séparément ensuite.
 
 ### Livraison précédente 0.32.3 et publication
 
 Publication demandée ensuite par le parent (« met a jours le site ») et réalisée
-le 8 novembre : site public en **0.32.3**, version Sites16, même URL et audience.
+le 8 novembre : site public en **0.32.3**, version Sites 16, même URL et audience.
 Vérification réelle dans Chromium : HTTP200, marqueur v0.32.3, lancement de la
 mission, quatre favoris et plateau 1065,95×600,81 ; zéro erreur JavaScript.
 [Reçu de publication](../reports/deployment-0.32.3.json).
-Le parent a ensuite autorisé explicitement l'étape3, puis l'étape4 documentaire.
+Le parent a ensuite autorisé explicitement l'étape 3, puis l'étape 4 documentaire.
 
 0.32.3/code 38 : 24 chaînes sources au vouvoiement corrigées, plus une phrase de
 vocabulaire ; childCopy supprimé entièrement. Les messages de reprise sont
@@ -280,7 +318,7 @@ build verts ; navigateur, audit 13/13, six formats mobiles, présentation 14 cas
 interface 24/24, départs, prévision et hors ligne verts. Sur 24 départs :
 3 212 états identiques avant/après (hors message humain) et 119 camps strictement
 identiques, octet pour octet. [Bilan de l'étape 2](BILAN-0.32.3.md).
-Aucun changement de règle ni d'ancien code. Cet ancien STOP a été suivi du GO explicite pour l'étape3.
+Aucun changement de règle ni d'ancien code. Cet ancien STOP a été suivi du GO explicite pour l'étape 3.
 
 ### Livraison précédente 0.32.2 et retour du parent
 
@@ -295,7 +333,7 @@ défilement cinq formats + ordinateur, hors ligne dix contrôles (anciens camps
 1065,95×600,81 px, soit +75,52 px de hauteur ; les 150 px entiers ne sont pas
 récupérés. [Reçu](../reports/suivi-0.32.2/verification.json). Aucun
 changement de règles ou de sauvegarde. À cette livraison précédente, le site
-était encore en0.32.1 ; publication0.32.3 réalisée ensuite comme indiqué ci-dessus. [Bilan de l'étape 1](BILAN-0.32.2.md).
+était encore en 0.32.1 ; publication0.32.3 réalisée ensuite comme indiqué ci-dessus. [Bilan de l'étape 1](BILAN-0.32.2.md).
 
 Les cinq constats ci-dessous décrivent la baseline 0.32.1, conservée avec ses
 preuves. Les correctifs 0.32.2 portent sur 1, 2 et 4 ; les textes sources (3)
@@ -359,7 +397,7 @@ payante, achat ou intégration de SDK publicitaire dans cette mission.
 
 Les priorités et lots ci-dessous sont **l'historique conservé**, pas un mandat
 pour dépasser les quatre étapes ou leurs STOP. Les documents de monétisation
-ont été révisés à l'étape4 : serveur optionnel et compte Play créé, identité en
+ont été révisés à l'étape 4 : serveur optionnel et compte Play créé, identité en
 attente selon le dernier retour. Champs JSON et outils historiques restent
 bloqués et seront adaptés seulement avec une future intégration autorisée.
 

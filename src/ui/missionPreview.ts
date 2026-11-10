@@ -1,13 +1,12 @@
 import { setAttribute as setDisplayAttribute, setText as setDisplayText } from '../i18n/dom.ts';
 import type { MissionRun } from '../missions.ts';
-import { missionById } from '../missions.ts';
 import { missionLevel } from '../levels.ts';
 import { activeEnemyLanes } from '../tutorial.ts';
 import { LANE_NAMES, LANES } from '../ai.ts';
 import { laneRoad, junctionRoad, routeJunctions } from '../routes.ts';
 import { ART_SHEETS, GROUND_ART } from '../art.ts';
-import { unlockWave } from '../data.ts';
-import { missionThreats, threatAdvice } from './threatPreview.ts';
+import type { Kind } from '../data.ts';
+import { missionScouting } from './missionScouting.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
 /** A readable map, sharing the real paths rather than painting roads into a background. */
 export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
@@ -123,10 +122,11 @@ export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
     'stroke-width': 3,
   });
 }
-export function showMissionScouting(run: MissionRun) {
+export function showMissionScouting(run: MissionRun, chosen: readonly Kind[] = []) {
   const el = (id: string) => document.getElementById(id)!;
-  const types = missionThreats(run),
-    rank = missionById(run.missionId)!.unlockRank;
+  const scouting = missionScouting(run, chosen),
+    types = scouting.types;
+  setDisplayText(el('mission-plan'), scouting.plan);
   renderThreatCards(el('mission-threats'), types.slice(0, 3));
   renderThreatCards(el('mission-other-threats'), types.slice(3));
   const more = el('mission-more-threats') as HTMLDetailsElement;
@@ -136,8 +136,5 @@ export function showMissionScouting(run: MissionRun) {
     el('mission-more-title'),
     `${types.length - 3} autres ${types.length - 3 === 1 ? 'serpent' : 'serpents'}`,
   );
-  renderThreatAdvice(
-    el('mission-advice'),
-    threatAdvice(types, (kind) => rank >= (unlockWave[kind] ?? 1)),
-  );
+  renderThreatAdvice(el('mission-advice'), scouting.advice);
 }

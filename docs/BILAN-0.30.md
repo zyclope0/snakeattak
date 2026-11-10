@@ -36,9 +36,9 @@ Données complètes et empreintes : reports/tutorial-0.30/cohort-648.json.
 
 | Politique     | Victoires ancien/nouveau | Cristal moyen ancien→nouveau | Durée active ancienne→nouvelle | Pertes moyennes anciennes→nouvelles |
 | ------------- | ------------------------ | ---------------------------- | ------------------------------ | ----------------------------------- |
-| Méthodique    | 108/108 et 108/108       | 100→100                      | 76,8→70,7s                     | 0,74→0,01                           |
-| Occasionnelle | 108/108 et 108/108       | 99,83→99,92                  | 78,1→71,9s                     | 0,20→0,08                           |
-| Débutante     | 108/108 et 108/108       | 92,58→93,75                  | 87,2→82,1s                     | 0,78→0,61                           |
+| Méthodique    | 108/108 et 108/108       | 100→100                      | 76,8→70,7 s                    | 0,74→0,01                           |
+| Occasionnelle | 108/108 et 108/108       | 99,83→99,92                  | 78,1→71,9 s                    | 0,20→0,08                           |
+| Débutante     | 108/108 et 108/108       | 92,58→93,75                  | 87,2→82,1 s                    | 0,78→0,61                           |
 
 Minimum débutant 55 % contre 64 % avant : certains cas peuvent perdre davantage de
 cristal. Les bots ne démontrent ni le plaisir des enfants, ni une amélioration

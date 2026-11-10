@@ -59,7 +59,7 @@ L'équilibrage des tirs à distance reste à confronter à des essais en famille
 
 ## Campagnes finales
 
-Deux lots de100campagnes, mêmes vingt graines et cinq politiques d'achat :
+Deux lots de 100 campagnes, mêmes vingt graines et cinq politiques d'achat :
 
 | Politique de miel           | Équilibrée | Mêlée | Distance | Lourdes | Spontanée | Total  | Blocages |
 | --------------------------- | ---------- | ----- | -------- | ------- | --------- | ------ | -------- |
@@ -72,7 +72,7 @@ politiques de jeu, pas le seul effet isolé d'un multiplicateur. Aucun changemen
 santé, pièces, dégâts ou apparitions n'est injecté dans ces campagnes. Leurs rapports
 portent l'empreinte du moteur livré : reports/final-0.13-lure et final-0.13-mixed.
 
-Le temps médian de la vague finale est d'environ57s dans les deux lots, p90≤77s.
+Le temps médian de la vague finale est d'environ 57 s dans les deux lots, p90≤77 s.
 La distance reste favorisée : les nouvelles mécaniques ne prouvent pas un équilibre
 parfait ni le plaisir d'un vrai joueur enfant. Les anciens lots exploratoires sont
 conservés hors des rapports finaux et ne sont pas présentés comme réussis.

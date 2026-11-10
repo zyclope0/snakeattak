@@ -1,0 +1,12 @@
+{
+  "version": "0.36.0",
+  "source": "Chromium file://, network offline, actual production portable entrypoint; no physical device",
+  "checks": [
+    "file browser boots French portable offline",
+    "English dictionary available in same offline file",
+    "English notebook opens offline",
+    "native tutorial wave starts and pauses from file"
+  ],
+  "errors": [],
+  "requests": []
+}

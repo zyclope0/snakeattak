@@ -4,7 +4,7 @@
 
 **Goal:** Réaliser les trois demandes du fils en conservant un jeu familial équilibré.
 **Architecture:** Modèles purs pour stocks, vol et têtes ; Game coordonne ; sauvegarde versionnée ; rendu lit l'état réel.
-**Tech Stack:** TypeScript strict, Phaser3, Vite, Node24, Playwright, Capacitor8.
+**Tech Stack:** TypeScript strict, Phaser 3, Vite, Node 24, Playwright, Capacitor 8.
 **Spec:** docs/superpowers/specs/2026-11-07-bandages-volants-roi-design.md
 
 ## Global Constraints
@@ -28,7 +28,7 @@ cobra2/mamba3, pas de résurrection, classique et six missions conservés.
 
 ### Task 2 — Volants
 
-- [x] RED sur rang6, maximum par vague, cible et contre.
+- [x] RED sur rang 6, maximum par vague, cible et contre.
 - [x] Catalogue, sélection déterministe, comportement et signaux visibles.
 - [x] Vérifier trois voies, missions et mouvements réduits ; conseil.
 

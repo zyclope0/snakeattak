@@ -37,6 +37,6 @@ promesse de compréhension n'est ajoutée. L'essai avec les enfants demeure util
 - Réponses originales des six agents disponibles dans le fil ; aucun avis
   présenté comme un témoignage utilisateur.
 
-Passe retenue intégrée dans d11a090 et vérifiée (434tests, navigateur, audit et
+Passe retenue intégrée dans d11a090 et vérifiée (434 tests, navigateur, audit et
 recette dédiée). Pas de seconde série d’avis présentée comme un essai enfant.
 Correctifs et résultat final de ce lot : [bilan0.33.0](BILAN-0.33.0.md).

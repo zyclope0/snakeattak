@@ -19,7 +19,7 @@ reproduits puis corrigés :
 La relecture finale du changement de précision a vérifié six cas arithmétiques,
 dont protections actives, rupture exacte, débordements à deux facteurs et
 absence de protection. Les autres unités, charges, PV, prix et cadences restent
-inchangés par le facteur mutant. Le legacy fixe explicitement ce facteur à1.
+inchangés par le facteur mutant. Le legacy fixe explicitement ce facteur à 1.
 
 Le readout et les deux objets Graphics réutilisés lisent l'horloge réelle du jeu.
 Les cartes de présentation sont nettoyées. `BossState` reste hors du camp : les
@@ -30,9 +30,9 @@ n'est pas persisté ; un camp rechargé reprend le défaut du build courant.
 
 Les relectures ont vérifié les graines, les empreintes, l'absence de bonus caché,
 l'immutabilité des réglages et l'absence de résultat final lors de la décision.
-Les22 empreintes source/script du premier tour et celles de discovery2 ont été
-contrôlées indépendamment. Les64 graines des cinq cohortes sont distinctes ;
-les24 graines finales originales ont été conservées.
+Les 22 empreintes source/script du premier tour et celles de discovery2 ont été
+contrôlées indépendamment. Les 64 graines des cinq cohortes sont distinctes ;
+les 24 graines finales originales ont été conservées.
 
 Améliorations intégrées avant la validation :
 
@@ -52,15 +52,15 @@ Les résultats ne prouvent ni un optimum unique ni le plaisir des enfants.
 
 ## Contrôle final des résultats
 
-La relecture des données brutes confirme les1920 campagnes complètes sans erreur
-ni timeout, les162→180 victoires sur192 scénarios appariés par version, les20
-nouvelles victoires et2 nouvelles défaites. Les défaites précoces passent de10 à3 ;
-la seule nouvelle défaite précoce est un bot occasionnel perdant à la vague10,
-contre une défaite à la vague12 dans la référence. Ce cas a été rejoué avec
+La relecture des données brutes confirme les 1920 campagnes complètes sans erreur
+ni timeout, les 162→180 victoires sur 192 scénarios appariés par version, les 20
+nouvelles victoires et 2 nouvelles défaites. Les défaites précoces passent de 10 à 3 ;
+la seule nouvelle défaite précoce est un bot occasionnel perdant à la vague 10,
+contre une défaite à la vague 12 dans la référence. Ce cas a été rejoué avec
 métriques identiques.
 
 Le tableau, le graphique, les intervalles et les compteurs du boss ont été
-contrôlés depuis les résultats bruts. Les192 campagnes du réglage livré utilisent
+contrôlés depuis les résultats bruts. Les 192 campagnes du réglage livré utilisent
 réellement `Game(seed)` sans override ; leur tuning correspond au choix enregistré.
-Les22 empreintes du manifeste final correspondent aux sources livrées. Le taux
+Les 22 empreintes du manifeste final correspondent aux sources livrées. Le taux
 93,8 %, supérieur au repère75 %, et les limites de la difficulté sont explicités.

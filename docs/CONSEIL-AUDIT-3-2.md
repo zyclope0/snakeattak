@@ -3,13 +3,13 @@
 8 novembre 2026. Deux revues indépendantes de code/interface et cinq points de vue
 de conception. Les points de vue d’âge sont des hypothèses, pas des tests d’enfants.
 
-| Regard                       | Constat et arbitrage                                                                                                                                                                                             |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Développeur du moteur        | Géométrie, combat, RNG et formats persistants préservés. Les anciens messages restent dans les données ; childCopy adapte seulement leur affichage. Les180 instantanés historiques du moteur restent identiques. |
-| Développeur interface/mobile | Jouer et lancement visibles, trois cartes courtes, tous les outils accessibles. Reprise directe et avertissement hors parents ; retour carte remet le focus au bon endroit.                                      |
-| Enfant débutant6–7 ans       | Un objectif et une grosse action.57 mots DOM visibles avant la première vague à 1280×800, contre94 dans la mesure équivalente précédente. Cela reste à tester avec un enfant qui lit peu.                        |
-| Joueur8–10 ans               | Miel, encouragement, réparation, entraînement et favoris restent accessibles ; aucun outil retiré selon le niveau. Les raccords en terre se distinguent des voies principales.                                   |
-| Parent/QA                    | La reprise ne doit jamais ressembler à un nouveau départ. Test après achat :300 pièces et4 alliés conservés. Anciennes sauvegardes, import/export et départs partagés font partie de la recette.                 |
+| Regard                       | Constat et arbitrage                                                                                                                                                                                              |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Développeur du moteur        | Géométrie, combat, RNG et formats persistants préservés. Les anciens messages restent dans les données ; childCopy adapte seulement leur affichage. Les 180 instantanés historiques du moteur restent identiques. |
+| Développeur interface/mobile | Jouer et lancement visibles, trois cartes courtes, tous les outils accessibles. Reprise directe et avertissement hors parents ; retour carte remet le focus au bon endroit.                                       |
+| Enfant débutant6–7 ans       | Un objectif et une grosse action.57 mots DOM visibles avant la première vague à 1280×800, contre 94 dans la mesure équivalente précédente. Cela reste à tester avec un enfant qui lit peu.                        |
+| Joueur8–10 ans               | Miel, encouragement, réparation, entraînement et favoris restent accessibles ; aucun outil retiré selon le niveau. Les raccords en terre se distinguent des voies principales.                                    |
+| Parent/QA                    | La reprise ne doit jamais ressembler à un nouveau départ. Test après achat :300 pièces et 4 alliés conservés. Anciennes sauvegardes, import/export et départs partagés font partie de la recette.                 |
 
 ## Réserves levées
 

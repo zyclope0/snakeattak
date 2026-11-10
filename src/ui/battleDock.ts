@@ -1,3 +1,4 @@
+import { canSpend } from './capriceBudget.ts';
 import {
   setAttribute as setDisplayAttribute,
   createTextNode as copyTextNode,
@@ -91,17 +92,21 @@ export function bindBattleDock(
       const cost = game.recruitCost(kind);
       setDisplayText(card.price, cost === 0 ? 'Offert' : cost + ' ●');
       card.button.disabled =
-        game.paused || game.status === 'won' || game.status === 'lost' || game.gold < cost;
+        game.paused || game.status === 'won' || game.status === 'lost' || !canSpend(game, cost);
       card.button.setAttribute('aria-pressed', String(session.selected === kind));
       setDisplayAttribute(
         card.button,
         'aria-label',
-        `${kinds[kind].name}, ${cost === 0 ? 'offert' : cost + ' pièces'}${game.gold < cost ? ', pas assez de pièces' : ''}`,
+        `${kinds[kind].name}, ${cost === 0 ? 'offert' : cost + ' pièces'}${!canSpend(game, cost) ? (game.caprice.reserve ? ', réserve bancaire protégée' : ', pas assez de pièces') : ''}`,
       );
     });
     for (const { button, flavor } of pots) {
       button.disabled =
-        game.paused || game.feastUsed || game.status === 'won' || game.status === 'lost';
+        game.paused ||
+        game.caprice.noHoney ||
+        game.feastUsed ||
+        game.status === 'won' ||
+        game.status === 'lost';
       button.setAttribute('aria-pressed', String(session.selectedFeast === flavor));
     }
     const placing = !!session.selected || !!session.selectedFeast;
@@ -114,7 +119,12 @@ export function bindBattleDock(
         ? 'Touche un chemin'
         : session.selected
           ? 'Place ton allié'
-          : (weakLaneAdvice(game) ?? (game.feastUsed ? 'Miel utilisé' : 'Tes favoris')));
+          : (weakLaneAdvice(game) ??
+            (game.caprice.noHoney
+              ? 'Pas de miel dans ce caprice'
+              : game.feastUsed
+                ? 'Miel utilisé'
+                : 'Tes favoris')));
     if (status.textContent !== hint) setDisplayText(status, hint);
   };
 }

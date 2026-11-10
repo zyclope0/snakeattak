@@ -1,0 +1,26 @@
+✔ two French challenge rows, exact names, stars and code launch gate (2.204562ms)
+✔ friends allow empty and partial choices without changing initial clubs (1.711308ms)
+✔ bank readouts protect reserve at free, repair and training thresholds; no honey help (1.192505ms)
+✔ caprice kings replace the last planned snake only on final wave without court or writes (3.188712ms)
+✔ shell geometry is larger and pure; result distinguishes caprice victory (0.654184ms)
+✔ invalid launch choices and locked runs leave retained progress and owner untouched (7.8857ms)
+✔ Les annonces classiques correspondent aux naissances réelles, règles tactiques true (86.091297ms)
+✔ Les annonces classiques correspondent aux naissances réelles, règles tactiques false (47.518253ms)
+✔ Prévision fidèle pour Le refuge, tous assauts/couvées (30.034387ms)
+✔ Prévision fidèle pour Les trois ponts, tous assauts/couvées (36.544039ms)
+✔ Prévision fidèle pour La course des vifs, tous assauts/couvées (32.229254ms)
+✔ Prévision fidèle pour Les premières coquilles, tous assauts/couvées (34.069184ms)
+✔ Prévision fidèle pour Dragon et sonnette, tous assauts/couvées (49.465136ms)
+✔ Prévision fidèle pour Le carrefour des fougères, tous assauts/couvées (59.645928ms)
+✔ Lecture répétée et état actuel : aucun RNG ni champ Game modifié (0.709096ms)
+✔ Les anciens départs gardent trois voies, les nouveaux le masque progressif (0.849735ms)
+✔ Conseils : volants, distance, disponibilité, sans achat automatique (0.386085ms)
+✔ La fiche parapluie décrit seulement ses flèches frontales, jamais ses voisins (0.378263ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 552.82294

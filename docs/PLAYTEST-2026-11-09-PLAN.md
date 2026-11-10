@@ -24,15 +24,15 @@ Budgets et anciens camps/codes conservés ; sources et rapports historiques inta
 
 ## Résultats initiaux et lot retenu
 
-Neuf parties de0.34.1 réellement terminées sur le site : six missions jouées
+Neuf parties de 0.34.1 réellement terminées sur le site : six missions jouées
 en progression naturelle, deux contrôles Refuge (aucun achat et achats simples)
-et une défaite classique sans recrutement à la vague5.30vagues observées,
+et une défaite classique sans recrutement à la vague 5. 30 vagues observées,
 8victoires/1défaite, aucune erreurJavaScript. Les commandes sont natives
 souris/tactile ; codes saisis dans l’interface ; aucune écriture de sauvegarde
 ou commande de moteur injectée. Horloge Playwright runFor + vitesse ×2 du jeu :
 ce n’est pas une session enfant en temps réel, ni un test physique S24.
 
-432simulations missions (6×18configurations×4stratégies), plus100classiques
+432 simulations missions (6×18configurations×4stratégies), plus100classiques
 (5profils×20graines). Ce sont des cohortes du moteur, séparées des neuf parties
 navigateur et des fixtures UI. Aucun timeout de combat. L’ancien outil100 bloquait
 après le cadeau de chapitre ; reproduction puis correction en utilisant le vrai
@@ -46,7 +46,7 @@ Aucune progression, étoile, graine, reprise ou règle calculée une seconde foi
 Le joueur garde l’accès volontaire au catalogue. Focus d’entrée une fois ;
 CTA48px, panneau défilant sur très petit paysage.
 
-Recette contrôlée rouge sur l’action cachée, puis18cas UI verts (six états ×
+Recette contrôlée rouge sur l’action cachée, puis 18 cas UI verts (six états ×
 trois formats). Les fixtures ne sont pas18parties. Verify441/441, buildHTML31774
 etJS194697octets, budgets inchangés. Conseil demandé après ce lot.
 
@@ -60,12 +60,12 @@ Six avis terminés. Trois défauts d’interface du nouveau panneau reproduits
 rouges dans l’app : accès catalogue perdu sur ordinateur, ordre Tab différent
 de l’ordre visuel, CTA partiellement coupé avec marges système568. Correction
 bornée : accès catalogue dédié desktop (même contrôleur), ordre des mêmes nœuds
-aligné/restauré, défilement du seul panneau après focus.30états et35contrôles
+aligné/restauré, défilement du seul panneau après focus.30états et 35 contrôles
 verts, y compris marges24/32/16, sélection, catalogue et restauration.
 
 Une partie locale complète du correctif (Refuge,3vagues) est gagnée et le bouton
 visible ouvre réellement l’aperçu des Trois ponts. Une dixième partie publique,
-classique avec davantage d’archers mais placements en avant, perd à la vague7 :
+classique avec davantage d’archers mais placements en avant, perd à la vague 7 :
 les résultats du bot distant au moteur ne prédisent pas le joueur sur l’interface.
 Évaluation publique totale :10parties,37vagues,8victoires/2défaites,0pageerrors.
 Les9premières et cette phase supplémentaire sont archivées séparément puis
@@ -80,13 +80,13 @@ indice de défilement sur très petit paysage. Pas de nouvelle génération.
 
 ## Livraison et confirmation
 
-0.34.2/code44 publié, Sites21, APK normal assemblé et inspecté. Verify441/441,
-recettes navigateur, enfant6formats, interface24, audit13, missions, anciens
+0.34.2/code44 publié, Sites 21, APK normal assemblé et inspecté. Verify441/441,
+recettes navigateur, enfant 6 formats, interface 24, audit 13, missions, anciens
 codes, hors ligne10 et interruptions11 verts. Une partie complète publique
 après déploiement gagne Refuge et ouvre réellement l'aperçu suivant par son
 bouton visible. Deux confirmations distinctes de l'évaluation : locale et
 publique, soit12parties/43vagues au total, dont10parties/37vagues évaluées.
-HTML/JS/CSS publics identiques au build ;30fichiers web de l'APK identiques.
+HTML/JS/CSS publics identiques au build ;30 fichiers web de l'APK identiques.
 
 [Bilan et recommandations](BILAN-0.34.2.md),
 [conseil](CONSEIL-0.34.2.md), [reçu](../reports/deployment-0.34.2.json).

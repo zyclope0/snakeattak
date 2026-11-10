@@ -3,6 +3,7 @@ import { waveStats } from './data.ts';
 import { variantFor, waveBriefing } from './waves.ts';
 import type { EnemyKind } from './enemies.ts';
 import { flyingVariant } from './flying.ts';
+import { capriceById, capriceCount, capriceRules } from './caprices.ts';
 
 export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
@@ -13,6 +14,7 @@ export type MissionRun = Readonly<{
   layout: 0 | 1 | 2;
   assault: 'balanced' | 'rush' | 'escort';
   nest: 'spread' | 'clustered';
+  caprice?: string;
 }>;
 export type MissionDefinition = Readonly<{
   id: MissionId;
@@ -96,6 +98,7 @@ export function readMissionRun(raw: unknown): MissionRun | null {
   )
     return null;
   if (Object.hasOwn(d, 'rules') && (d.rules !== 2 || d.missionId !== 'refuge')) return null;
+  if (Object.hasOwn(d, 'caprice') && capriceById(d.caprice)?.missionId !== d.missionId) return null;
   return Object.freeze({
     missionId: d.missionId as MissionId,
     ...(d.rules === 2 ? { rules: 2 as const } : {}),
@@ -103,6 +106,7 @@ export function readMissionRun(raw: unknown): MissionRun | null {
     layout: d.layout,
     assault: d.assault as MissionRun['assault'],
     nest: d.nest as MissionRun['nest'],
+    ...(Object.hasOwn(d, 'caprice') ? { caprice: d.caprice as string } : {}),
   });
 }
 export function createMissionRun(
@@ -149,7 +153,9 @@ export function missionWave(
   if (!definition || !Number.isInteger(local) || local < 1 || local > definition.waves.length)
     throw new RangeError('Vague de mission invalide');
   const rank = definition.waves[local - 1];
-  const stats = Object.freeze(waveStats(rank));
+  const caprice = capriceRules(valid);
+  const rankStats = waveStats(rank);
+  const stats = Object.freeze({ ...rankStats, count: capriceCount(rankStats.count, caprice) });
   const composition = Array.from({ length: stats.count }, (_, index): EnemyKind => {
     const normal = variantFor(rank, stats.count - index);
     let base = normal;
@@ -178,18 +184,22 @@ export function missionWave(
       4294967296) *
     3;
   const lanes = activeEnemyLanes(valid!, local);
-  const eggs = Array.from({ length: rank >= 8 ? 3 : rank >= 4 ? 2 : 1 }, (_, index) =>
-    Object.freeze({
-      lane: (lanes.includes(run.nest === 'clustered' ? nestLane : (nestLane + index) % 3)
-        ? run.nest === 'clustered'
-          ? nestLane
-          : (nestLane + index) % 3
-        : lanes[(run.seed + local + index) % lanes.length]) as 0 | 1 | 2,
-      x: 252 + index * (run.nest === 'clustered' ? 24 : 48),
-      hatchIn:
-        (run.nest === 'clustered' ? 10 + index * 0.8 : 7 + index * 6) + incubationJitter(index),
-      count: 2,
-    }),
+  const eggs = Array.from(
+    { length: Math.min(3, (rank >= 8 ? 3 : rank >= 4 ? 2 : 1) + caprice.eggs) },
+    (_, index) =>
+      Object.freeze({
+        lane: (lanes.includes(run.nest === 'clustered' ? nestLane : (nestLane + index) % 3)
+          ? run.nest === 'clustered'
+            ? nestLane
+            : (nestLane + index) % 3
+          : lanes[(run.seed + local + index) % lanes.length]) as 0 | 1 | 2,
+        x: 252 + index * (run.nest === 'clustered' ? 24 : 48),
+        hatchIn:
+          ((run.nest === 'clustered' ? 10 + index * 0.8 : 7 + index * 6) +
+            incubationJitter(index)) *
+          caprice.hatch,
+        count: 2,
+      }),
   );
   const assaultTip =
     run.assault === 'rush'

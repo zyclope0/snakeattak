@@ -27,7 +27,7 @@ export function bindThreatControls(session: Session, refresh: () => void) {
     renderThreatCards(el('wave-threat-list'), types);
     renderThreatAdvice(
       el('wave-threat-advice'),
-      threatAdvice(types, (k) => game.isUnlocked(k)),
+      threatAdvice(types, (k) => game.isUnlocked(k) && game.capriceAllows(k)),
     );
     const egg = document.createElement('span'),
       copy = document.createElement('p');

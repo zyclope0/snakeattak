@@ -1,0 +1,167 @@
+✔ caprice victory retains the actual run without increasing normal stars (2.354396ms)
+✔ caprice starts require its tier stars and keep retry identity distinct (2.487613ms)
+✔ independent albums retain expedition ownership after selecting another child (0.67833ms)
+✔ only an actual complete caprice victory grants a sticker, once (68.182904ms)
+✔ album edits are bounded and rejected edits never mutate state (0.612542ms)
+✔ album validation rejects corrupt IDs, references and sticker lists atomically (0.526073ms)
+✖ family4 preserves expedition owner A across B selection, classic mode, reload and resume (3.542684ms)
+✖ family1–4 remain readable, old camps initialize a default album, and no albums means no v4 (0.560374ms)
+✖ old sync callers preserve loaded albums until an explicit legacy import replaces them (0.848924ms)
+✖ corrupt v4 and refused storage leave the entire previous family and retained albums intact (1.499122ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 6
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 236.442815
+
+✖ failing tests:
+
+test at tests/caprices-albums-036.test.ts:167:1
+✖ family4 preserves expedition owner A across B selection, classic mode, reload and resume (3.542684ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 4
+  
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/caprices-albums-036.test.ts:186:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 4,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/caprices-albums-036.test.ts:199:1
+✖ family1–4 remain readable, old camps initialize a default album, and no albums means no v4 (0.560374ms)
+  AssertionError [ERR_ASSERTION]: family2
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/caprices-albums-036.test.ts:209:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/caprices-albums-036.test.ts:222:1
+✖ old sync callers preserve loaded albums until an explicit legacy import replaces them (0.848924ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 4
+  
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/caprices-albums-036.test.ts:230:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 4,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/caprices-albums-036.test.ts:248:1
+✖ corrupt v4 and refused storage leave the entire previous family and retained albums intact (1.499122ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + {
+  +   camp: null,
+  +   career: {
+  +     activeRoster: 0,
+  +     bestStars: [
+  +       0,
+  +       0,
+  +       0
+  +     ],
+  +     chapterCamps: [
+  +       null,
+  +       null
+  +     ],
+  +     rosters: [
+  +       [
+  +         'club',
+  +         'shield',
+  +         'nurse',
+  +         'archer',
+  +         'ninja',
+  +         'medic',
+  +         'dragon',
+  +         'knight'
+  +       ],
+  +       [
+  +         'club',
+  +         'nurse',
+  +         'raptor',
+  +         'triceratops',
+  +         'stegosaurus',
+  +         'dino',
+  +         'trex',
+  +         'dragon'
+  +       ],
+  +       [
+  +         'club',
+  +         'nurse',
+  +         'ninja',
+  +         'raptor',
+  +         'archer',
+  +         'cavalry',
+  +         'bat',
+  +         'mutantStretch'
+  +       ]
+  +     ],
+  +     version: 1
+  +   },
+  +   format: 'conquete-serpents-family',
+  +   missions: {
+  +     activeMode: 'classic',
+  +     bestStars: {
+  +       'trois-ponts': 0,
+  +       carrefour: 0,
+  +       coquilles: 0,
+  +       course: 0,
+  +       refuge: 0,
+  +       sonnette: 0
+  +     },
+  +     classicCamp: null,
+  +     lastRuns: {},
+  +     retryCamp: null,
+  +     version: 1
+  +   },
+  +   version: 2
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///workspace/conquete-serpents-0322/tests/caprices-albums-036.test.ts:261:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { format: 'conquete-serpents-family', version: 2, camp: null, career: { version: 1, activeRoster: 0, bestStars: [Array], rosters: [Array], chapterCamps: [Array] }, missions: { version: 1, bestStars: [Object], lastRuns: {}, retryCamp: null, classicCamp: null, activeMode: 'classic' } },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

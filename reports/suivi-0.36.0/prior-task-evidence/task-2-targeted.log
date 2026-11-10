@@ -1,0 +1,19 @@
+✔ caprice victory preserves existing shared star credit and retains the actual run (2.261567ms)
+✔ caprice starts require its tier stars and keep retry identity distinct (2.342097ms)
+✔ independent albums retain expedition ownership after selecting another child (0.562958ms)
+✔ only an actual complete caprice victory grants a sticker, once (65.133772ms)
+✔ album edits are bounded and rejected edits never mutate state (0.541436ms)
+✔ album validation rejects corrupt IDs, references and sticker lists atomically (0.479454ms)
+✔ family4 preserves expedition owner A across B selection, classic mode, reload and resume (2.523457ms)
+✔ family1–4 remain readable, old camps initialize a default album, and no albums means no v4 (1.711122ms)
+✔ old sync callers preserve loaded albums until an explicit legacy import replaces them (1.287747ms)
+✔ corrupt v4 and refused storage leave the entire previous family and retained albums intact (1.029233ms)
+✔ explicit albums on legacy live imports cannot disappear during serialization (0.20836ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 236.85123

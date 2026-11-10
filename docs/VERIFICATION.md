@@ -71,21 +71,21 @@ La revue indépendante a également exécuté216traversées (3cartes×6variantes
 sans blocage, et sondé les placements autour des neuf rochers.
 
 Les contrôles Chromium HTTP couvrent les commandes et le catalogue sur ordinateur,
-tablettes1000/820px et tactile390px, sans erreur de page. Les scènes contrôlées montrent
+tablettes1000/820px et tactile 390 px, sans erreur de page. Les scènes contrôlées montrent
 les quinze alliés, trois terrains, serpents mécaniques, miel, boss, victoire, placement
 et stockage bloqué. Les captures ont été inspectées. Ce sont des fixtures préparées,
 pas des preuves de victoire humaine.
 
 Le décor non caché a révélé un coût de rendu élevé : précalcul parclairière puis
 réutilisation d'un RenderTexture. La comparaison avant/après a montré des callbacks
-d'image médians autour de433ms puis16,7–33,3ms dans ce cloud. Le test de perte/restauration
+d'image médians autour de 433 ms puis 16,7–33,3 ms dans ce cloud. Le test de perte/restauration
 du contexte WebGL a d'abord échoué : le cache est maintenant invalidé et redessiné ;
 le même carré de terrain avant/après est identique. Aucun test physique tablette/Safari.
 
-100campagnes finales :87victoires,13défaites, aucun blocage ; les armées à distance
+100 campagnes finales :87victoires,13défaites, aucun blocage ; les armées à distance
 restent favorisées dans cet échantillon. Les bots ne mesurent ni plaisir ni difficulté
 perçue. Les coûts graphiques sont vérifiés :2389crédits et11images WebP totalisant
-6 249 280octets ;8atlas1024² et3fonds1600×900. Aucun service payant requis en partie.
+6 249 280 octets ;8atlas1024² et3fonds1600×900. Aucun service payant requis en partie.
 
 Revue finale enlecture seule sans Critical/Important confirmé. Le doublon d'aide
 identifié a été supprimé. Deux régressions complémentaires reproduites par la racine
@@ -97,8 +97,8 @@ Livraison0.11 : `npm run verify` réussi (90/90, types, build et budgets),
 `npm run test:presentation` et `npm run test:browser` HTTP réussis, ainsi que les
 commandes ordinateur/tablette/tactile sur le portable file://. `test:render` vérifie
 le coût des images et la restauration du contexte WebGL. Le JS livré ne contient
-pas la commande de fixture. HTML web11 567octets, code de jeu57 448octets,
-Phaser séparé1 481 772octets ; portable compilé9 898 722octets. Les11images
+pas la commande de fixture. HTML web11 567 octets, code de jeu57 448 octets,
+Phaser séparé1 481 772 octets ; portable compilé9 898 722 octets. Les11images
 de production sont cacheables séparément dans le site normal.
 
 ## Chemins vivants 0.11.1
@@ -145,7 +145,7 @@ Le contrôle WebGL compare désormais trois carrés avant/après perte/restaurat
 terrain caché, fort, antre ; les images sont identiques. Dernière mesure seule
 dans ce cloud : callbacks médians 33,3 ms, p95 33,4 ms ; pas de test sur tablette
 physique ni garantie de FPS. Les essais Chromium HTTP/portable couvrent les
-commandes, tailles ordinateur/tablette émulée et tactile390px sans erreur de page.
+commandes, tailles ordinateur/tablette émulée et tactile 390 px sans erreur de page.
 La commande de fixture est absente du JS de production.
 
 Coût Magnific vérifié : 218 crédits, 17 215 → 16 997. Aucun service de génération
@@ -161,13 +161,13 @@ contact/feu/obus, sauvegardes v2, actions de présentation et mouvements réduit
 La sonde intégrée des routes couvre maintenant sept variantes, trois cartes et
 trois voies (63traversées), sans téléportation ou collision.
 
-Revue indépendante :119tests et types réussis sans Critical/Important/Minor matériel.
+Revue indépendante :119 tests et types réussis sans Critical/Important/Minor matériel.
 Le dernier objectif A* illégal a ensuite été reproduit par la racine, corrigé à la
 frontière de planification et couvert par un test rouge→vert, suite120/120. Les deux
 états de campagnes trop longs/inaccessibles sont rejoués après correction.
 
-200campagnes finales :82victoires/18défaites avec attirant seul,92/8 avec alternance,
-aucun blocage à240s. Résultats et méthodologie dans MIELS-ROLES-0.13.md. Les cinq
+200 campagnes finales :82victoires/18défaites avec attirant seul,92/8 avec alternance,
+aucun blocage à 240 s. Résultats et méthodologie dans MIELS-ROLES-0.13.md. Les cinq
 profils d'achat respectent prix et déblocages ; les bots ne garantissent pas le plaisir.
 Les armées à distance restent favorisées dans cet échantillon.
 
@@ -175,7 +175,7 @@ La fixture tactique montre la feuille ouverte/fermée, le vrai miel collant, un
 bouclier en recharge et le ninja visant un cracheur, avec vrais pas de simulation.
 Les images sont des scènes préparées, pas des victoires humaines. La fixture de
 victoire contrôle le verrouillage du choix de miel ; les commandes navigateur
-vérifient les deux saveurs, pause/utilisation/reset et sélection tactile390px.
+vérifient les deux saveurs, pause/utilisation/reset et sélection tactile 390 px.
 
-Atlas original de336234octets, alpha conservé, coût218crédits vérifié16997→16779.
+Atlas original de 336234 octets, alpha conservé, coût218crédits vérifié16997→16779.
 Treize images de production totalisent7377778octets. Aucun service réseau en partie.

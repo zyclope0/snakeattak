@@ -1,0 +1,173 @@
+{
+  "sourceSHA": "72cc788cd342fa6b9782a624d1b7b22ea7b1960e",
+  "finalDistinctCommands": 17,
+  "executions": 18,
+  "retainedFailedAttempt": "family: obsolete expectedv2; narrow fixture correction then green",
+  "commands": [
+    {
+      "command": "npm run verify",
+      "status": "PASS",
+      "evidence": "506 Node tests; typecheck, build, budgets, format",
+      "seconds": 32.322
+    },
+    {
+      "command": "npm run test:browser",
+      "status": "PASS",
+      "evidence": "desktop/tablet/touch; errors=[]",
+      "seconds": 34.364
+    },
+    {
+      "command": "node scripts/interface-0361-browser.mjs",
+      "status": "PASS",
+      "evidence": "196/196,117 captures; labelled terminal fixtures",
+      "seconds": 106.857
+    },
+    {
+      "command": "npm run test:caprices",
+      "status": "PASS",
+      "evidence": "281/281,39 captures,nativePlayed=true",
+      "seconds": 123.803
+    },
+    {
+      "command": "npm run test:locale",
+      "status": "PASS",
+      "evidence": "927 phrases,997 entries,24 bindings,392 browser checks,61 captures",
+      "seconds": 73.274
+    },
+    {
+      "command": "npm run test:child-mobile",
+      "status": "PASS",
+      "evidence": "6 sizes,14 checks",
+      "seconds": 39.376
+    },
+    {
+      "command": "npm run test:missions",
+      "status": "PASS",
+      "evidence": "map,variants,retry,modes,reload,export,win,next,small screens",
+      "seconds": 30.13
+    },
+    {
+      "command": "npm run test:missions:regressions",
+      "status": "PASS",
+      "evidence": "import refresh and defeat camp recovery",
+      "seconds": 13.752
+    },
+    {
+      "command": "npm run test:offline",
+      "status": "PASS",
+      "evidence": "10 checks,schemas1–7,28 served files",
+      "seconds": 14.541
+    },
+    {
+      "command": "npm run test:interruptions",
+      "status": "PASS",
+      "evidence": "11 checks",
+      "seconds": 14.605
+    },
+    {
+      "command": "npm run test:reinforcements-scroll",
+      "status": "PASS",
+      "evidence": "5 cases,6 checks",
+      "seconds": 47.907
+    },
+    {
+      "command": "npm run test:threat-preparation",
+      "status": "PASS",
+      "evidence": "5 screens,11 checks",
+      "seconds": 21.336
+    },
+    {
+      "command": "npm run test:departures",
+      "status": "PASS",
+      "evidence": "12 checks;108-configuration codec",
+      "seconds": 13.775
+    },
+    {
+      "command": "npm run test:family",
+      "status": "PASS",
+      "evidence": "file↔HTTPS,reload,cancel,invalid,profile-only,blocked,4 viewports",
+      "seconds": 17.885
+    },
+    {
+      "command": "npm run test:presentation",
+      "status": "PASS",
+      "evidence": "14 scenarios",
+      "seconds": 70.913
+    },
+    {
+      "command": "npm run test:tactical-clarity",
+      "status": "PASS",
+      "evidence": "3 sizes",
+      "seconds": 16.882
+    },
+    {
+      "command": "npm run test:audit",
+      "status": "PASS",
+      "evidence": "13/13",
+      "seconds": 14.201
+    }
+  ],
+  "postNormalPortable": {
+    "command": "node artifacts/interface-0361/task3/portable-final.mjs",
+    "status": "PASS",
+    "coldContexts": 4,
+    "modes": [
+      "bundled offline",
+      "file:// portable"
+    ],
+    "languages": [
+      "fr",
+      "en"
+    ]
+  },
+  "fullVerificationScope": "17 distinct final Task3 commands before final M1; final targeted verification below preserves original evidence.",
+  "finalFix": {
+    "sourceSHA": "4f3cabe5f0cdc9961b5d5c6d233455bc1ac11cc3",
+    "finding": "M1 accessible name matches visible FR/EN native label",
+    "review": "APPROVE",
+    "red": {
+      "passed": 68,
+      "total": 80,
+      "onlyFailures": "12 exact accessible-name cases"
+    },
+    "green": {
+      "passed": 80,
+      "total": 80,
+      "exactNameCases": 12,
+      "captures": 73,
+      "pageErrors": []
+    },
+    "commands": [
+      {
+        "name": "red",
+        "command": "node scripts/interface-0361-browser.mjs",
+        "exitCode": 1,
+        "seconds": 47.594,
+        "log": "artifacts/interface-0361/final-fix/red/run.log"
+      },
+      {
+        "name": "green",
+        "command": "node scripts/interface-0361-browser.mjs",
+        "exitCode": 0,
+        "seconds": 45.538,
+        "log": "artifacts/interface-0361/final-fix/green/run.log"
+      },
+      {
+        "name": "verify",
+        "command": "npm run verify",
+        "exitCode": 0,
+        "seconds": 32.168,
+        "log": "artifacts/interface-0361/final-fix/verify/run.log"
+      },
+      {
+        "name": "browser",
+        "command": "npm run test:browser",
+        "exitCode": 0,
+        "seconds": 35.178,
+        "log": "artifacts/interface-0361/final-fix/browser/run.log"
+      }
+    ],
+    "portableColdContexts": 4,
+    "apkSHA256": "adab7ad166490e35abff5f2e2dc8278be8c25e67f5b5bd49071aebe8a24243f3"
+  }
+}

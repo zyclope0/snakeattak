@@ -12,12 +12,16 @@ import {
 import { copy } from '../src/i18n/copy.ts';
 import { waveBriefing } from '../src/waves.ts';
 
-test('language selection honors a valid choice then supported system languages', () => {
+test('language selection honors a valid choice then only the primary system language', () => {
   assert.equal(selectInitialLanguage('fr', ['en-US']), 'fr');
   assert.equal(selectInitialLanguage('en', ['fr-CH']), 'en');
   assert.equal(selectInitialLanguage('bad', ['en-US']), 'en');
-  assert.equal(selectInitialLanguage(null, ['de-CH', 'fr-CH']), 'fr');
-  assert.equal(selectInitialLanguage(null, []), 'fr');
+  assert.equal(selectInitialLanguage(null, ['de-CH', 'fr-CH']), 'en');
+  assert.equal(selectInitialLanguage(null, []), 'en');
+  assert.equal(selectInitialLanguage(null, ['it-CH', 'fr-CH']), 'en');
+  assert.equal(selectInitialLanguage(null, ['fr-CH', 'en']), 'fr');
+  assert.equal(selectInitialLanguage(null, [null, 'fr'] as unknown as string[]), 'en');
+  assert.equal(selectInitialLanguage(null, ['']), 'en');
 });
 
 test('English changes displayed copy, preserving canonical states and departure codes', async () => {

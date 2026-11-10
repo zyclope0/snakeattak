@@ -2,7 +2,7 @@
 
 ## Intention et périmètre
 
-Le parent approuve la prochaine passe proposée : après les vagues4 et8, trois
+Le parent approuve la prochaine passe proposée : après les vagues 4 et 8, trois
 propositions et un seul bonus choisi. Donner envie de rejouer, préserver le combat
 automatique et les unités des enfants. Cette livraison porte sur ces choix ; les
 modes de difficulté et l'hébergement restent des étapes distinctes. L'autonomie
@@ -18,11 +18,11 @@ façon déterministe, séparées du RNG du combat. Toujours un renfort et deux c
 parmi miel, protection et pièces. Le renfort varie entre bouclier, ninja et raptor,
 tous déjà débloqués. Réutiliser les portraits existants.
 
-Offres : un renfort offert à placer normalement (bon d'achat), +4s de durée du
+Offres : un renfort offert à placer normalement (bon d'achat), +4 s de durée du
 miel pour le reste de la campagne (deux choix au maximum), protection du cristal
-absorbant18 points de dégâts ordinaires (maximum36 ; le roi l'ignore et reste
-fatal s'il entre), ou100 pièces. Chiffres modestes proposés par le développeur,
-à vérifier par simulations, sans retoucher les règles ni la difficulté0.16.
+absorbant 18 points de dégâts ordinaires (maximum 36 ; le roi l'ignore et reste
+fatal s'il entre), ou 100 pièces. Chiffres modestes proposés par le développeur,
+à vérifier par simulations, sans retoucher les règles ni la difficulté 0.16.
 
 Le bonus est proposé uniquement après une vraie fin de vague4/8. On peut choisir
 une carte ou continuer sans bonus. Tant que l'offre est en attente, le moteur

@@ -6,7 +6,7 @@
 
 **Architecture:** Nouveaux modèles et composants de présentation dans src/ui ; aucune écriture dans le moteur. Les dialogues utilisent pauseForDialog ; l'accueil réutilise les contrôleurs de progression. Petites feuilles CSS dédiées plutôt que grossir style.css.
 
-**Tech Stack:** Phaser3, TypeScript, Vite, HTML/CSS, Capacitor ; aucune nouvelle dépendance.
+**Tech Stack:** Phaser 3, TypeScript, Vite, HTML/CSS, Capacitor ; aucune nouvelle dépendance.
 
 **Spec:** docs/superpowers/specs/2026-11-09-parcours-enfant-design.md
 

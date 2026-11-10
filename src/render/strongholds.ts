@@ -1,3 +1,4 @@
+import { DISPLAY_FONT } from './fonts.ts';
 import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
 import Phaser from 'phaser';
 import { LANES } from '../ai.ts';
@@ -31,7 +32,7 @@ export class Strongholds {
       // Every legal defender stays visible, including placements beside the gate.
       .setDepth(9.6);
     this.label = addCanvasCopy(scene.add, 1016, 399, '', {
-      fontFamily: 'Georgia',
+      fontFamily: DISPLAY_FONT,
       fontSize: '11px',
       color: '#f5edcd',
       backgroundColor: '#293f32',

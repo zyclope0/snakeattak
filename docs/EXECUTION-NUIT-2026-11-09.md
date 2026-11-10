@@ -44,21 +44,21 @@ Implémentation après clôture de A :f428763, correction après conseil2a95623.
 verts. Conseil six personas terminé, quatre clarifications UI retenues et vérifiées.
 4 096profils d’étoiles contrôlés exhaustivement sans mutation. Lecture préalable : diorama actuel
 et cartes textuelles repliées, vrai étatmissionProgress, original icon512 conservé.
-Baseline visuelle et images réellement chargées mesurées sur le site0.32.4,
+Baseline visuelle et images réellement chargées mesurées sur le site 0.32.4,
 artifacts/journey-baseline-0324. Ne pas supposer une économie réseau sans mesure.
 
 ## Lot C
 
 Terminé : défaut des racines reproduit puis corrigé dans les compositions de test ;
-sept racines vertes. Débordement portrait réel hérité de0.32.2 reproduit puis
+sept racines vertes. Débordement portrait réel hérité de 0.32.2 reproduit puis
 corrigé sans clipping ni réduction des cibles ; tactical12/12 et titre entier.
 Produit f54a8e2, preuves figées17187cd. Verify438/438, navigateur, interruptions11,
-hors ligne10, défilement5tactiles+ordinateur, enfant6, aide4, transitions2 verts.
+hors ligne10, défilement5tactiles+ordinateur, enfant 6, aide4, transitions2 verts.
 APK normal0.33.1/code41 compilé et inspecté : même certificat/identité, paysage,
-28fichiers web identiques, 20PNG natifs contrôlés, aucune permission commerciale.
+28 fichiers web identiques, 20 PNG natifs contrôlés, aucune permission commerciale.
 Conseil final six personas terminé, aucun défaut relevé ; limites physiques et
 compréhension enfant consignées, aucune validation réelle inventée. Bilan et
 conseil de livraison distincts pour conserver les preuves de chaque lot.
-Publication web exacte terminée : Sites18, source072a778, même audience publique.
+Publication web exacte terminée : Sites 18, source072a778, même audience publique.
 Recette en ligne1280×800/812×375/375×812 verte et HTML/JS/CSS identiques ;
 reports/deployment-0.33.1.json. Trois lots et leurs trois conseils clôturés.

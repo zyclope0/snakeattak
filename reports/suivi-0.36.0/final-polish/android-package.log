@@ -1,0 +1,13 @@
+{
+  "sourceSHA": "23a37debbc8659a46a6ad4c53e0b2a1deba87ae3",
+  "version": "0.36.0",
+  "versionCode": 46,
+  "appId": "com.conqueteserpents.famille",
+  "apkPath": "/workspace/conquete-serpents-v0.36.0-final-debug.apk",
+  "apkBytes": 15151926,
+  "apkSHA256": "c6909b41534b3f576cf59cc8bff55b32e801e8180a8022d2395770bcdf07cddb",
+  "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+  "normalNoServer": true,
+  "allDistFilesIdentical": true,
+  "distFiles": 34
+}

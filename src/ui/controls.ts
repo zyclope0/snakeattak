@@ -1,3 +1,4 @@
+import { availableGold, canSpend } from './capriceBudget.ts';
 import {
   setText as setDisplayText,
   setTitle as setDisplayTitle,
@@ -132,11 +133,13 @@ export function bindControls(
     refresh();
   };
   el('pause').onclick = () => {
+    if (session.game.status === 'won' || session.game.status === 'lost') return;
     if (session.game.paused) pauses.resume();
     else pauses.interrupt();
     refresh();
   };
   el('resume-game').onclick = () => {
+    if (session.game.status === 'won' || session.game.status === 'lost') return;
     pauses.resume();
     refresh();
   };
@@ -186,6 +189,8 @@ export function bindControls(
     }
     if (
       session.screen === 'battle' &&
+      session.game.status !== 'won' &&
+      session.game.status !== 'lost' &&
       e.code === 'Space' &&
       !(
         e.target instanceof HTMLElement &&
@@ -298,13 +303,15 @@ export function bindControls(
               : 'Lancer la vague',
     );
     el<HTMLButtonElement>('pause').disabled = end;
+    el('pause').hidden = end;
     el<HTMLButtonElement>('repair').disabled =
-      end || session.game.paused || session.game.gold < 80 || session.game.base >= 100;
+      end || session.game.paused || !canSpend(session.game, 80) || session.game.base >= 100;
     el('cancel').hidden = !session.selected && !session.selectedFeast;
     let ready = 0,
       future = 0;
     for (const kind of cards.keys()) {
-      if (!matchesUnitFamily(kind, familySelect.value)) continue;
+      if (!matchesUnitFamily(kind, familySelect.value) || !session.game.capriceAllows(kind))
+        continue;
       if (session.game.isUnlocked(kind)) ready++;
       else future++;
     }
@@ -319,16 +326,19 @@ export function bindControls(
       catalogView === 'ready'
         ? ready
           ? 'Choisis un allié, puis place-le dans ton camp. Les prix sont en pièces.'
-          : 'Ces alliés arrivent plus tard. Ouvre « À découvrir » pour les rencontrer.'
+          : session.game.mission?.caprice
+            ? 'Aucun allié permis dans ce filtre pour ce caprice.'
+            : 'Ces alliés arrivent plus tard. Ouvre « À découvrir » pour les rencontrer.'
         : 'Voici les prochains alliés. Le guide explique leurs rôles avant leur arrivée.',
     );
     for (const [kind, b] of cards) {
       const locked = !session.game.isUnlocked(kind);
       b.hidden =
         !matchesUnitFamily(kind, familySelect.value) ||
+        !session.game.capriceAllows(kind) ||
         (catalogView === 'ready' ? locked : !locked);
       const cost = session.game.recruitCost(kind);
-      b.disabled = end || session.game.paused || locked || session.game.gold < cost;
+      b.disabled = end || session.game.paused || locked || !canSpend(session.game, cost);
       const price = b.querySelector<HTMLElement>('.price')!;
       setDisplayText(price.firstChild!, cost === 0 ? 'Offert' : `${cost} `);
       price.querySelector<HTMLElement>('i')!.hidden = cost === 0;
@@ -340,20 +350,24 @@ export function bindControls(
           ? session.game.mission
             ? 'À découvrir dans une autre mission'
             : `Arrive à la vague ${unlockWave[kind]}`
-          : session.game.gold < cost
-            ? `Encore ${cost - session.game.gold} pièces`
+          : !canSpend(session.game, cost)
+            ? session.game.caprice.reserve
+              ? 'Réserve bancaire protégée'
+              : `Encore ${cost - availableGold(session.game)} pièces`
             : (descriptions[kind] ?? ''),
       );
       const reason = locked
         ? session.game.mission
           ? 'À découvrir dans une autre mission'
           : `Arrive à la vague ${unlockWave[kind]}`
-        : session.game.gold < cost
-          ? `Il manque ${cost - session.game.gold} pièces`
+        : !canSpend(session.game, cost)
+          ? session.game.caprice.reserve
+            ? 'Réserve bancaire protégée'
+            : `Il manque ${cost - availableGold(session.game)} pièces`
           : descriptions[kind];
       b.dataset.state = locked
         ? 'locked'
-        : session.game.gold < cost
+        : !canSpend(session.game, cost)
           ? 'poor'
           : session.selected === kind
             ? 'selected'

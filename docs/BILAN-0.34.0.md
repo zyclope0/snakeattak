@@ -1,6 +1,6 @@
 # Bilan graphique — v0.34.0
 
-9 novembre2026. Le point3 demandé est livré dans un lot graphique borné, sans
+9 novembre 2026. Le point 3 demandé est livré dans un lot graphique borné, sans
 changer les règles du fils. [Conseil six personas](CONSEIL-0.34.0.md),
 [preuves](../reports/suivi-0.34.0/verification.json).
 
@@ -12,14 +12,14 @@ changer les règles du fils. [Conseil six personas](CONSEIL-0.34.0.md),
 | Chemins                                    | Fait : pavés mats biseautés, lumière et relief plus lisibles                                 | src/render/craftPaths.ts ; mêmes échantillons de routes            |
 | Ruisseau                                   | Fait : palette enrichie ; petits décors qui semblaient flotter retirés                       | stageComposition et test24couples terrain/graine ; ponts inchangés |
 | Renforts                                   | Fait : cartes papier crème, relief des boutons et choix indisponibles atténués               | Sélection et indisponibilité capturées sur ordinateur/tactile      |
-| Contours en Canvas                         | Fait : silhouettes vertes/orange générées en mémoire depuis les alpha existants              | Mesure0→1515pixels orange ; cache stable et libéré                 |
+| Contours en Canvas                         | Fait : silhouettes vertes/orange générées en mémoire depuis les alpha existants              | Mesure0→1515 pixels orange ; cache stable et libéré                |
 | Harmonie intégrale de tous les personnages | Pas fait : sprites existants conservés, déjà sculptés ; marais encore plus gravé que l’icône | Limites du conseil, originaux conservés                            |
-| Nouvelles règles/lieux/météo               | Pas fait, volontairement                                                                     | 24fichiers de règles/sauvegardes identiques à1b1e6c4               |
+| Nouvelles règles/lieux/météo               | Pas fait, volontairement                                                                     | 24 fichiers de règles/sauvegardes identiques à1b1e6c4              |
 | Images payantes/SDK/pub/achats             | Aucun                                                                                        | Pas de nouvelle dépendance ou permission commerciale               |
 
 ## Rendu observé
 
-Le site0.33.1 a été ouvert dans des contextes Chromium isolés, puis les vues
+Le site 0.33.1 a été ouvert dans des contextes Chromium isolés, puis les vues
 locales avant/après ont été comparées. L’environnement ne proposait pas de bureau
 Chrome partagé ; captures et navigation automatisée réelles ont été utilisées.
 Les trois chapitres et trois géométries conservent trois voies, leurs connexions,
@@ -42,13 +42,13 @@ le bosquet reste ambré. Pas de mécanique météo induite par une illustration.
 - npm run test:browser : ordinateur et tactile verts, zéro erreurJavaScript.
 - npm run test:interface-audit : **24/24**, notamment1280×800,1366×768,780×360.
 - npm run test:audit : **13/13** ; rapport historique restauré, résultat courant séparé.
-- npm run test:child-mobile : **6formats** ; portrait375×812 avec consigne de rotation.
-- npm run test:reinforcements-scroll : **5formats tactiles et ordinateur**.
-- npm run test:offline : **10contrôles**, schémas1–7, chapitres1–3,25fichiers
+- npm run test:child-mobile : **6 formats** ; portrait 375×812 avec consigne de rotation.
+- npm run test:reinforcements-scroll : **5 formats tactiles et ordinateur**.
+- npm run test:offline : **10 contrôles**, schémas 1–7, chapitres 1–3,25 fichiers
   servis depuis le paquet, zéro externe/manquant. Ce n’est pas une promesse PWA.
-- Comparaison graphique dédiée : **14paires** à1280×800 et812×375, y comprisCanvas,
+- Comparaison graphique dédiée : **14 paires** à 1280×800 et 812×375, y comprisCanvas,
   états complets et RNG identiques ; pas14parties simulées.
-- États/chargement : **8contrôles**, sélection capturée, indisponibilité visible,
+- États/chargement : **8 contrôles**, sélection capturée, indisponibilité visible,
   contours Canvas, cache réutilisé/libéré, échec/Réessayer et chapitre retardé.
 
 Les tests des nouveaux choix de cadre et du ruisseau ont été vus rouges puis
@@ -60,23 +60,23 @@ reports/suivi-0.34.0. Aucun résultat de CI distante n’est assimilé à ces te
 
 Deux WebP1600×900,554862/528320octets. Un seul cadre utile demandé au chargement
 d’un terrain, aucun à l’accueil ; les deux peuvent rester en cache après visite.
-Chacun représente environ5,49Mio RGBA théoriques, hors copies/GPU. Un atlas de
+Chacun représente environ 5,49 Mio RGBA théoriques, hors copies/GPU. Un atlas de
 bords compact est une optimisation différée. Le terrain reste calculé une fois
 par changement puis mis en cache ; pas de nouveau shader, filtre ou animation.
 
 Canvas utilise de petites cellules128×128 par frame/couleur réellement rencontrée,
-partagées entre unités. Témoin :18cellules,1 179 648octets RGBA théoriques, stables
+partagées entre unités. Témoin :18cellules,1 179 648 octets RGBA théoriques, stables
 entre images et zéro cellule après arrêt de scène. Pas de recoloration d’atlas
 entier et pas de ce coût supplémentaire en WebGL. Ce ne sont pas des mesures
 physiques de mémoire totale ni de FPS sur S24.
 
 ## Livraison
 
-[APK debug normal0.34.0](/workspace/conquete-serpents-v0.34.0-debug.apk), code42,
-15 045 306octets. SHA256 :
+[APK debug normal0.34.0](/workspace/conquete-serpents-v0.34.0-debug.apk), code 42,
+15 045 306 octets. SHA256 :
 `85d098fe001c2f16cd82b888c4af0032797e4559b5eac5121b18b0bb3c0515bc`.
 Même identité provisoire/certificat, paysage capteur, démarrage normal `/` ;
-30fichiers web identiques au build testé et20PNG du lanceur inchangés.
+30 fichiers web identiques au build testé et 20 PNG du lanceur inchangés.
 Aucune permission INTERNET/BILLING/AD_ID. [Inspection](../reports/suivi-0.34.0/apk.json).
 Publication web exacte et contrôle en ligne consignés dans le reçu distinct
 reports/deployment-0.34.0.json. Publication Google Play et choix final d’identifiant
@@ -104,14 +104,14 @@ restent inchangés. Liste exacte des modules protégés : protected-files.json.
 
 ## Publication web vérifiée
 
-[Site](https://conquete-serpents-famille.zyclope.chatgpt.site/) en0.34.0, Sites19,
+[Site](https://conquete-serpents-famille.zyclope.chatgpt.site/) en 0.34.0, Sites 19,
 audience publique conservée, déploiement réussi.
 [Reçu](../reports/deployment-0.34.0.json). Navigation en ligne réelle et isolée à
-1280×800,812×375 et375×812 : version, accueil, mission/vague1, quatre favoris,
+1280×800,812×375 et 375×812 : version, accueil, mission/vague1, quatre favoris,
 aide, une pause HTML et rotation, zéro erreurJavaScript. Aucun cadre à l’accueil,
 un seul cadre utile demandé au lancement. Les deux contextes ont exercé crue et
-marais. HTML31 299, JS193 413 et CSS65 442octets en ligne identiques au build.
-Plateau mobile580,13×326,98px,87,20% de la hauteur et71,44% de la largeur.
+marais. HTML31 299, JS193 413 et CSS65 442 octets en ligne identiques au build.
+Plateau mobile580,13×326,98px,87,20% de la hauteur et 71,44% de la largeur.
 
 [Capture réelle du site sur format téléphone](captures-0.34.0/site-reel-812.png).
 Les contextes sont neufs et ne modifient pas le camp réel du parent.

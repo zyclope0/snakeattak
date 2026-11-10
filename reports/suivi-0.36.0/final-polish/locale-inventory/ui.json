@@ -1,0 +1,4165 @@
+[
+  {
+    "text": ", pas assez de pièces",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:100"
+    ]
+  },
+  {
+    "text": ", puis touche un chemin attaqué, ou utilise Haut, Centre ou Bas. Le miel attirant tente les serpents au départ et aux jonctions ; il ne les téléporte pas et ne leur fait pas abandonner un combat. Le miel collant pose une flaque visible sur le passage choisi : les serpents qui la traversent avancent moins vite, sans changer de voie pour la rejoindre. Chaque pot dure 14 secondes, plus 4 secondes par bonus de miel choisi. Le roi résiste davantage aux deux miels. Le choix du pot se recharge à la prochaine vague.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": ", réserve bancaire protégée",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:100",
+      "src/ui/squadControls.ts:86"
+    ]
+  },
+  {
+    "text": ", une seule fois lui aussi. Le cracheur tire à distance : chaque crachat fait des dégâts",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": ": choisir le miel puis toucher un chemin",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:64"
+    ]
+  },
+  {
+    "text": "! Le bébé dragon (vague 4) et le petit dinosaure (vague 6) restent à nos côtés. Choisis leur famille dans le catalogue, puis consulte leur fiche pour découvrir leur rôle.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": ". Le mamba noir retire",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "· Crachat annoncé au sol",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:112"
+    ]
+  },
+  {
+    "text": "(max-width: 1100px) and (max-height: 520px) and (orientation: landscape)",
+    "group": "ui",
+    "sources": [
+      "src/ui/reinforcementsDrawer.ts:9"
+    ]
+  },
+  {
+    "text": "(pointer: coarse) and (orientation: portrait)",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolHelp.ts:12",
+      "src/ui/orientation.ts:6"
+    ]
+  },
+  {
+    "text": "[data-kind], [data-quick-kind]",
+    "group": "ui",
+    "sources": [
+      "src/ui/reinforcementsDrawer.ts:34"
+    ]
+  },
+  {
+    "text": "{0} : touche un espace libre dans ton camp, à droite.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:113"
+    ]
+  },
+  {
+    "text": "{0} : touche un espace libre dans ton camp.",
+    "group": "ui",
+    "sources": [
+      "src/ui/squadControls.ts:48"
+    ]
+  },
+  {
+    "text": "{0} · {1} vagues",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:80"
+    ]
+  },
+  {
+    "text": "{0} {1} et ajouter des serpents ordinaires.",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatControls.ts:39"
+    ]
+  },
+  {
+    "text": "{0} {1} pendant {2} secondes",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:123"
+    ]
+  },
+  {
+    "text": "{0} / 18 étoiles",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:208"
+    ]
+  },
+  {
+    "text": "{0} / 8 alliés favoris",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:137"
+    ]
+  },
+  {
+    "text": "{0} / 9 étoiles",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:193"
+    ]
+  },
+  {
+    "text": "{0} ★ · Choisir",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceView.ts:119"
+    ]
+  },
+  {
+    "text": "{0} à la banque · {1} disponibles",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:42"
+    ]
+  },
+  {
+    "text": "{0} autres {1}",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionPreview.ts:137"
+    ]
+  },
+  {
+    "text": "{0} bonus choisi{1} pour cette aventure",
+    "group": "ui",
+    "sources": [
+      "src/ui/rewardControls.ts:93"
+    ]
+  },
+  {
+    "text": "{0} dégâts",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:40"
+    ]
+  },
+  {
+    "text": "{0} détour{1}",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:126"
+    ]
+  },
+  {
+    "text": "{0} étoile{1} sur 3",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionJourney.ts:25"
+    ]
+  },
+  {
+    "text": "{0} étoile{1} sur 3 {2}. Cristal : {3} · actuellement {4}/100 PV. {5} allié{6} présent{7}. {8} serpent{9} vaincu{10} depuis le début de l’aventure.",
+    "group": "ui",
+    "sources": [
+      "src/ui/chapterReport.ts:51"
+    ]
+  },
+  {
+    "text": "{0} étoiles gagnées sur {1}",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleResult.ts:72"
+    ]
+  },
+  {
+    "text": "{0} étoiles sur 3",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:224"
+    ]
+  },
+  {
+    "text": "{0} œuf{1} · {2} éclosions",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:83"
+    ]
+  },
+  {
+    "text": "{0} œufs supplémentaires, au plus trois par vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:21"
+    ]
+  },
+  {
+    "text": "{0} offert à placer",
+    "group": "ui",
+    "sources": [
+      "src/ui/rewardControls.ts:86"
+    ]
+  },
+  {
+    "text": "{0} pièces",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolHelp.ts:34",
+      "src/ui/controls.ts:373",
+      "src/ui/unitGuide.ts:34"
+    ]
+  },
+  {
+    "text": "{0} pièces · {1} vagues · nouveaux alliés",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:115"
+    ]
+  },
+  {
+    "text": "{0} pièces restent à la banque",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:6"
+    ]
+  },
+  {
+    "text": "{0} PV au tueur à sa mort",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:25"
+    ]
+  },
+  {
+    "text": "{0} s restantes. Le bouton revient à la prochaine vague.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:87"
+    ]
+  },
+  {
+    "text": "{0} serpents",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:75"
+    ]
+  },
+  {
+    "text": "{0} serpents repoussés · cristal {1} %",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleResult.ts:91"
+    ]
+  },
+  {
+    "text": "{0} utilisé{1} · revient à la prochaine vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:138"
+    ]
+  },
+  {
+    "text": "← Retour sans enregistrer",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "↻ Nouvelle partie",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "+{0} protection",
+    "group": "ui",
+    "sources": [
+      "src/ui/rewardControls.ts:96"
+    ]
+  },
+  {
+    "text": "+15 % de dégâts · 90 pièces",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "+25 points de vie",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "−15 % sur les coups reçus · 90 pièces",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "▲ Serpents",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "◆ Alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "✓ Autocollant gagné",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:186"
+    ]
+  },
+  {
+    "text": "🔒 {0} ★ nécessaires",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceView.ts:119"
+    ]
+  },
+  {
+    "text": "0 / 18 étoiles",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "0 / 9 étoiles",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "0 œuf",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "01 · Vagues 1 à 4",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "02 · Vagues 5 à 8",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "03 · Vagues 9 à 12",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "1 · Choisis ton premier allié",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:53"
+    ]
+  },
+  {
+    "text": "1 fois par vague · 8 secondes",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "1 fois par vague · attaques plus rapides pendant 8 s",
+    "group": "ui",
+    "sources": [
+      "src/ui/adventureControls.ts:32"
+    ]
+  },
+  {
+    "text": "1 pot / vague",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "12 vagues de serpents",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "2 · Place ton {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:45"
+    ]
+  },
+  {
+    "text": "2 PV à l’allié qui l’a tué",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "3 · Ton allié est prêt !",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:58"
+    ]
+  },
+  {
+    "text": "3 PV à son tueur",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "8 / 8 alliés favoris",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "90 pièces · un seul entraînement pour ces alliés",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:38"
+    ]
+  },
+  {
+    "text": "À chacun son secteur.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "À découvrir",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:186",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "À découvrir ({0})",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:316"
+    ]
+  },
+  {
+    "text": "À découvrir dans l’aventure",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:233",
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "À découvrir dans une autre mission",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:346",
+      "src/ui/controls.ts:356"
+    ]
+  },
+  {
+    "text": "à l’abri des combattants",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:22"
+    ]
+  },
+  {
+    "text": "À renforcer : {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:47"
+    ]
+  },
+  {
+    "text": "À retrouver dans la prochaine partie",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:132"
+    ]
+  },
+  {
+    "text": "À toi de jouer",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "À utiliser pendant le combat",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:91"
+    ]
+  },
+  {
+    "text": "Accueil",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Accueil de l’aventure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Actions du camp",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Activer ou couper les sons",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Afficher les alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Afficher les règles",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Agrandir",
+    "group": "ui",
+    "sources": [
+      "src/ui/display.ts:15",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Agrandir la vue de jeu",
+    "group": "ui",
+    "sources": [
+      "src/ui/display.ts:13"
+    ]
+  },
+  {
+    "text": "Ajouter un carnet",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:65"
+    ]
+  },
+  {
+    "text": "Aller au plateau",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Alliés favoris et miel",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Allonge",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:96"
+    ]
+  },
+  {
+    "text": "Annuler",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Annuler ✕",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Annuler le choix",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Aperçu des trois voies et de leurs jonctions",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Après les vagues 4 et 8, choisis un bonus : un allié offert à placer, du miel plus durable, une réserve de pièces ou une protection du cristal. Un seul choix par étape, conservé si tu recharges la partie.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Après quatre vagues, ton camp rejoint un nouveau terrain. Les rochers changent : observe à nouveau les trois voies. Tes survivants et tes pièces restent avec toi.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Armure",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:87"
+    ]
+  },
+  {
+    "text": "Arrive à la vague {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:347",
+      "src/ui/controls.ts:357"
+    ]
+  },
+  {
+    "text": "Arrivée",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:35"
+    ]
+  },
+  {
+    "text": "Arrivées régulières",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:25"
+    ]
+  },
+  {
+    "text": "Attaque",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:37"
+    ]
+  },
+  {
+    "text": "attaquée",
+    "group": "ui",
+    "sources": [
+      "src/ui/tutorialLanes.ts:40"
+    ]
+  },
+  {
+    "text": "Attaques",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Attention aux œufs !",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Attire les gourmands vers cette voie aux prochaines jonctions.",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:18"
+    ]
+  },
+  {
+    "text": "Attire les gourmands vers cette voie.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Attirer",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:17",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Attirer détourne les gourmands aux jonctions. Ralentir freine sur la flaque. Le miel dure {0} s.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:108"
+    ]
+  },
+  {
+    "text": "Attirer les serpents vers la voie",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:123"
+    ]
+  },
+  {
+    "text": "au camp",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Aucun allié capable de frapper",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:93"
+    ]
+  },
+  {
+    "text": "Aucun allié permis dans ce filtre pour ce caprice.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:325"
+    ]
+  },
+  {
+    "text": "Autocollant gagné !",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:170"
+    ]
+  },
+  {
+    "text": "Autre départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Autre mission",
+    "group": "ui",
+    "sources": [
+      "src/ui/squadControls.ts:74"
+    ]
+  },
+  {
+    "text": "Avance vers ton cristal",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:29"
+    ]
+  },
+  {
+    "text": "Avancées groupées",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:27"
+    ]
+  },
+  {
+    "text": "Avant de lancer",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Aventure familiale · Sans compte",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Aventure familiale · Sauvegarde locale entre les vagues",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Bandages : {0} en réserve",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:95"
+    ]
+  },
+  {
+    "text": "BATAILLE EN COURS",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:61"
+    ]
+  },
+  {
+    "text": "Blocage",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:81"
+    ]
+  },
+  {
+    "text": "Bondit par à-coups",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:48"
+    ]
+  },
+  {
+    "text": "Bouclier, batteur, infirmier, chevalier, cavalier, chevalier à deux têtes et tank complètent nos alliés. Le guide de nos alliés explique leurs rôles. Les sons sont coupés au départ ; utilise le bouton « Sons » pour les activer.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Bourse de départ × {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:5"
+    ]
+  },
+  {
+    "text": "button, select, input, textarea, summary, a, [contenteditable]",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:193"
+    ]
+  },
+  {
+    "text": "C'est parti !",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "C’est parti !",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Camp",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:31"
+    ]
+  },
+  {
+    "text": "Camp avant la vague {0} · {1} alliés · {2} pièces · {3} étoiles.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:95"
+    ]
+  },
+  {
+    "text": "CAMP TOMBÉ",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:57"
+    ]
+  },
+  {
+    "text": "Carnet choisi",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:55"
+    ]
+  },
+  {
+    "text": "Carnet de cette nouvelle partie",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceView.ts:78"
+    ]
+  },
+  {
+    "text": "Carrefour",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:117"
+    ]
+  },
+  {
+    "text": "Carte des missions",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ce caprice attend encore son autocollant.",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:173"
+    ]
+  },
+  {
+    "text": "Ce code utilise une autre version des règles. Vérifie la version du jeu.",
+    "group": "ui",
+    "sources": [
+      "src/ui/departures.ts:50"
+    ]
+  },
+  {
+    "text": "Ce départ remplace ta mission en cours.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ce fichier contient",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:113"
+    ]
+  },
+  {
+    "text": "Ces alliés arrivent plus tard. Ouvre « À découvrir » pour les rencontrer.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:326"
+    ]
+  },
+  {
+    "text": "Cet autocollant est déjà dans le carnet de cette partie.",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:172"
+    ]
+  },
+  {
+    "text": "Cette mission est encore verrouillée. Termine d’abord la précédente.",
+    "group": "ui",
+    "sources": [
+      "src/ui/departures.ts:62"
+    ]
+  },
+  {
+    "text": "Cette voie reste paisible pendant cette vague.",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:122"
+    ]
+  },
+  {
+    "text": "Champ de bataille : serpents à gauche, cristal à droite. Choisis un allié puis touche une zone libre du camp pour le placer.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Changer la vitesse",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Chapitre {0} accompli · {1} · {2}{3}",
+    "group": "ui",
+    "sources": [
+      "src/ui/chapterReport.ts:39"
+    ]
+  },
+  {
+    "text": "Chaque allié a son rôle. À toi de composer tes favoris.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Charge",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:88",
+      "src/ui/controls.ts:92"
+    ]
+  },
+  {
+    "text": "Choisir ce bonus",
+    "group": "ui",
+    "sources": [
+      "src/ui/rewardControls.ts:23"
+    ]
+  },
+  {
+    "text": "Choisir la voie du goûter",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisir le miel",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisir un bonus",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:294"
+    ]
+  },
+  {
+    "text": "Choisir un outil",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis Attirer ou Ralentir, puis touche un chemin. Annuler garde ton pot.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:105"
+    ]
+  },
+  {
+    "text": "Choisis Attirer pour détourner les gourmands, ou Ralentir pour freiner ceux qui traversent la flaque. Puis choisis une voie.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:103"
+    ]
+  },
+  {
+    "text": "Choisis de zéro à {0} sortes. Sans choix, les premières recrutées sont retenues. Un choix partiel laisse les places restantes libres.",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:9"
+    ]
+  },
+  {
+    "text": "Choisis huit raccourcis de recrutement. Tous les autres alliés restent dans le catalogue ; leurs prix et leurs vagues d’arrivée ne changent pas.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis tes alliés pour défendre le cristal.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis ton bonus",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis un allié et place-le à droite.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis un allié puis touche le camp à droite pour le placer.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis un allié, puis place-le dans ton camp. Les prix sont en pièces.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:323"
+    ]
+  },
+  {
+    "text": "Choisis un allié, puis touche ton camp.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Choisis une voie attaquée pour poser ton miel. Annuler garde ton pot.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:41"
+    ]
+  },
+  {
+    "text": "clipboard unavailable",
+    "group": "ui",
+    "sources": [
+      "src/ui/departures.ts:27"
+    ]
+  },
+  {
+    "text": "Code copié.",
+    "group": "ui",
+    "sources": [
+      "src/ui/departures.ts:31"
+    ]
+  },
+  {
+    "text": "Code de ce départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Code de départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Code disponible pour les nouveaux départs ; ton ancien camp reste conservé.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Code incomplet ou incorrect. Vérifie les lettres et les chiffres.",
+    "group": "ui",
+    "sources": [
+      "src/ui/departures.ts:51"
+    ]
+  },
+  {
+    "text": "Code sélectionné : copie-le avec le menu de ton appareil.",
+    "group": "ui",
+    "sources": [
+      "src/ui/departures.ts:36"
+    ]
+  },
+  {
+    "text": "Commencer ici",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:230",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Comment jouer",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Composition",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Comprendre les outils",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Conseils",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "conservée{0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/chapterReport.ts:47"
+    ]
+  },
+  {
+    "text": "Consulter les fiches des alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Contact, crachat à distance et tête mixte",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:86"
+    ]
+  },
+  {
+    "text": "Continuer · vague {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:205"
+    ]
+  },
+  {
+    "text": "Continuer la bataille · vague {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:204"
+    ]
+  },
+  {
+    "text": "Continuer sans bonus",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Copier",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Copier le code",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Courage ! Les attaques accélèrent",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:85"
+    ]
+  },
+  {
+    "text": "Court très vite",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:33"
+    ]
+  },
+  {
+    "text": "Couvée groupée",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:29"
+    ]
+  },
+  {
+    "text": "Crache à distance : un coup par tir",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:66"
+    ]
+  },
+  {
+    "text": "Cristal",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Cristal : {0} / 100 · réparation possible",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:73"
+    ]
+  },
+  {
+    "text": "Cristal : {0} points de protection",
+    "group": "ui",
+    "sources": [
+      "src/ui/rewardControls.ts:83"
+    ]
+  },
+  {
+    "text": "Dangers",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Dans Actions du camp : 80 pièces pour regagner jusqu’à 25 points de vie.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:109"
+    ]
+  },
+  {
+    "text": "Dans Actions du camp : choisis Frappe ou Gardien pour 90 pièces.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:114"
+    ]
+  },
+  {
+    "text": "Dans cette mission",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Dans une autre expédition, dès Les trois ponts",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:32"
+    ]
+  },
+  {
+    "text": "De nouveaux alliés à chaque mission. Des terrains et des attaques qui changent, annoncés avant le départ.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Découvrir une unité",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Défense",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:32"
+    ]
+  },
+  {
+    "text": "Défense fixe : elle reste ici. Place-la sur le passage des serpents.",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:18"
+    ]
+  },
+  {
+    "text": "Défenses par voie",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Délai d’éclosion × {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:22"
+    ]
+  },
+  {
+    "text": "Délai entre serpents × {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:16"
+    ]
+  },
+  {
+    "text": "derrière les combattants",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:24"
+    ]
+  },
+  {
+    "text": "Des alliés qui grandissent.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Dès la vague 6, sa grande feuille protège des flèches venant de face pendant sa marche. Au contact, il se découvre : garde des combattants devant tes archers ! Le souffle du bébé dragon et les obus restent utiles.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "des Serpents",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Des serpents mécaniques.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Des vagues différentes.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Des volants arriveront dans cette mission : alliés possibles, {0}.",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionScouting.ts:21"
+    ]
+  },
+  {
+    "text": "Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionScouting.ts:19"
+    ]
+  },
+  {
+    "text": "Des volants arriveront dans cette mission.",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionScouting.ts:22"
+    ]
+  },
+  {
+    "text": "Détails",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Détours",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:117"
+    ]
+  },
+  {
+    "text": "Deux miels, un seul pot par vague.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "devant les tireurs",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:29"
+    ]
+  },
+  {
+    "text": "Devant les tireurs : il garde son secteur, combat au contact et revient à sa place.",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:19"
+    ]
+  },
+  {
+    "text": "Dinosaures et dragon",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitCatalog.ts:7"
+    ]
+  },
+  {
+    "text": "Dinosaures, mutants et gardiens",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Disponible après la vague 4",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:33"
+    ]
+  },
+  {
+    "text": "Disponibles",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Disponibles ({0})",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:315"
+    ]
+  },
+  {
+    "text": "Distance",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:80"
+    ]
+  },
+  {
+    "text": "Donner plus de place au plateau",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Double",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:89"
+    ]
+  },
+  {
+    "text": "Douze vagues jusqu’au roi à trois têtes",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Douze vagues repoussées. Le goûter peut commencer !",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:244"
+    ]
+  },
+  {
+    "text": "Douze vagues, un cristal et un nouveau camp de 300 pièces. Tes choix d’alliés restent libres.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Éclosion dans {0} s",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:72"
+    ]
+  },
+  {
+    "text": "Éclosions décalées",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:29"
+    ]
+  },
+  {
+    "text": "Écouter",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceView.ts:72"
+    ]
+  },
+  {
+    "text": "Effets légers",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "En pause",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "EN PAUSE",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:59"
+    ]
+  },
+  {
+    "text": "Encore {0} pièces",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:351"
+    ]
+  },
+  {
+    "text": "Encourager",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolHelp.ts:17",
+      "src/ui/campToolModel.ts:79"
+    ]
+  },
+  {
+    "text": "Encourager nos alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Encouragés · {0} s",
+    "group": "ui",
+    "sources": [
+      "src/ui/adventureControls.ts:29",
+      "src/ui/campToolModel.ts:87"
+    ]
+  },
+  {
+    "text": "Entraîner le héros",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:48",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Entre deux vagues · 90 pièces",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:35"
+    ]
+  },
+  {
+    "text": "Entre deux vagues. Dès Les trois ponts en expédition ; après la vague 4 en classique.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:49"
+    ]
+  },
+  {
+    "text": "Équipe Équilibrée",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "et le",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Expédition réussie !",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:235"
+    ]
+  },
+  {
+    "text": "Expéditions : {0} / 18 étoiles. Le camp classique est conservé séparément.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:106"
+    ]
+  },
+  {
+    "text": "Exporter mon aventure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Fait hésiter les alliés proches",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:60"
+    ]
+  },
+  {
+    "text": "Famille d’alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Favoris",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Favoris · {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:214"
+    ]
+  },
+  {
+    "text": "Favoris actifs",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Favoris et {0} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:94"
+    ]
+  },
+  {
+    "text": "Fermer l’aide des outils",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Fermer le guide",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Fermer les alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Fiches",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Fiches des alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Fichier familial invalide ou incompatible : rien n’a été modifié.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:85"
+    ]
+  },
+  {
+    "text": "Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:63"
+    ]
+  },
+  {
+    "text": "Fichier trop volumineux : rien n’a été modifié.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:74"
+    ]
+  },
+  {
+    "text": "Fixe",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:46"
+    ]
+  },
+  {
+    "text": "Frappe : +15 % de dégâts. Gardien : −15 % sur les coups reçus. Un seul choix pour ces alliés.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:52"
+    ]
+  },
+  {
+    "text": "Frappe renforcée",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Frappe renforcée · +15 % de dégâts du héros",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:27"
+    ]
+  },
+  {
+    "text": "Garde des massues près des passages attaqués.",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:168"
+    ]
+  },
+  {
+    "text": "Garder ma partie",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Garder mon aventure et revenir",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Garder mon camp",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Garder un fichier ou retrouver une aventure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Gardien",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Gardien · −15 % sur les coups et tirs reçus",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:29"
+    ]
+  },
+  {
+    "text": "Geste",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Gratuit",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolHelp.ts:34"
+    ]
+  },
+  {
+    "text": "Humains",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitCatalog.ts:6"
+    ]
+  },
+  {
+    "text": "IA : exploratrice",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Il manque {0} pièces",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:361"
+    ]
+  },
+  {
+    "text": "Il manque {0} pièces pour l’entraînement",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:37"
+    ]
+  },
+  {
+    "text": "Il manque {0} pièces pour réparer",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:72"
+    ]
+  },
+  {
+    "text": "Il remplacera le camp, les étoiles et les favoris de ce navigateur.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ils éclosent à un moment imprévisible pendant la vague et libèrent chacun deux petits serpents. La vague se termine une fois tous les œufs éclos et les serpents repoussés.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ils passent au-dessus de la mêlée ; archers, bébés dragons et tanks peuvent les toucher. Le roi arrive avec deux gardes et un soigneur à stock limité. Sa tête gardienne mord, sa cracheuse tire et sa tête mixte alterne selon la distance. Une tête tombée reste hors combat.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ils peuvent passer par les voies ouvertes ; les serpents peuvent changer de voie.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Impossible de lire ce fichier : rien n’a été modifié.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:134"
+    ]
+  },
+  {
+    "text": "Impossible de préparer le fichier de cette aventure.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:50"
+    ]
+  },
+  {
+    "text": "Invalid preparation friend choice",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionScouting.ts:10"
+    ]
+  },
+  {
+    "text": "Jouer",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:194",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "L’annonce indique les ruées par petits groupes, les arrivées sur trois fronts ou les éclosions décalées. Garde le miel pour le moment utile.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La bataille",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La carte des missions",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La clairière des trois passages",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La Conquête",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La Conquête des Serpents",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La Conquête des Serpents, accueil",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La grande aventure · 12 vagues",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La partie est terminée",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:68",
+      "src/ui/campToolModel.ts:85",
+      "src/ui/campToolModel.ts:113"
+    ]
+  },
+  {
+    "text": "La plaque du serpent à rouages cède à mi-vie : « Clac ! ». Le serpent à ressort avance par impulsions. Le miel agit aussi sur ces gourmands mécaniques.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La sonnette fait hésiter les alliés proches. Ils reprennent ensuite le combat sans tirer sur leurs amis.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:81"
+    ]
+  },
+  {
+    "text": "La vallée a besoin de toi",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "La vallée est sauvée !",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:236"
+    ]
+  },
+  {
+    "text": "Lance la vague : tes alliés se déplacent et combattent automatiquement.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Lance la vague.",
+    "group": "ui",
+    "sources": [
+      "src/ui/boardActions.ts:31"
+    ]
+  },
+  {
+    "text": "Lance la vague. Tes alliés se déplaceront et combattront tout seuls.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:59"
+    ]
+  },
+  {
+    "text": "Lancer la vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:299",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le bébé dragon souffle sur les groupes de serpents.",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:165"
+    ]
+  },
+  {
+    "text": "Le camp est tombé",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:237"
+    ]
+  },
+  {
+    "text": "Le camp se prépare",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le camp se sauvegarde automatiquement entre les vagues sur cet appareil, si le navigateur l’autorise. Recharger pendant une bataille reprend au dernier camp ; ce n’est pas une sauvegarde du combat en cours. « Nouvelle partie » remplace ce camp.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le catalogue d’origine est de retour.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le cercle au sol indique la zone qui sera touchée. Surveille tes alliés sur cette voie.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:68"
+    ]
+  },
+  {
+    "text": "Le code retrouve le terrain et les vagues. Tu prépares de nouveaux alliés.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "le cristal !",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le cristal doit garder ce minimum durant le chapitre.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le cristal regagne jusqu’à 25 points de vie, sans dépasser 100.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:62"
+    ]
+  },
+  {
+    "text": "Le départ a changé ; copie son nouveau code.",
+    "group": "ui",
+    "sources": [
+      "src/ui/departures.ts:31"
+    ]
+  },
+  {
+    "text": "Le fichier garde le dernier camp préparé, tes missions, les étoiles et tes favoris. Une bataille en cours sera à rejouer depuis son début. Après la victoire finale, tes étoiles sont conservées.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le héros est tombé. Aucun entraînement possible.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:25"
+    ]
+  },
+  {
+    "text": "Le livre des clairières.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le miel",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:99",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le miel tactique",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le piège gourmand",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:101"
+    ]
+  },
+  {
+    "text": "Le roi ferme la dernière vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:13"
+    ]
+  },
+  {
+    "text": "Le roi prépare son crachat",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:65"
+    ]
+  },
+  {
+    "text": "Le serpent à sonnette fait hésiter les alliés proches pendant 0,8 seconde, sans les faire s’attaquer entre eux. Sa sonnette recharge en 5 secondes ; un allié distrait résiste à une nouvelle confusion pendant 4 secondes après le début de l’effet. Le cobra royal montre sa collerette : à sa mort, il retire exactement",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le serpent parapluie.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Le vélociraptor et le mutant roc arrivent à la vague 3, le mutant élastique à la vague 4, le tricératops à la vague 5, le stégosaure à la vague 6 et le tyrannosaure à la vague 8. Ce sont tous",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Lecture du fichier…",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:77"
+    ]
+  },
+  {
+    "text": "Lente",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:52"
+    ]
+  },
+  {
+    "text": "Les alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les alliés agissent seuls. À toi de préparer leurs meilleures chances.",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleNotices.ts:20"
+    ]
+  },
+  {
+    "text": "Les autres serpents",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les autres voies restent paisibles.",
+    "group": "ui",
+    "sources": [
+      "src/ui/tutorialLanes.ts:32"
+    ]
+  },
+  {
+    "text": "Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:112"
+    ]
+  },
+  {
+    "text": "Les dégâts subis restent comptés pour tes étoiles.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:63"
+    ]
+  },
+  {
+    "text": "Les favoris se préparent entre les vagues.",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:211"
+    ]
+  },
+  {
+    "text": "Les gardiens et tireurs défendent autour de leur placement, puis reviennent à leur repère bleu. Le bouclier protège aussi un voisin contre les tirs. Le ninja, notre allié le plus rapide, cherche les cracheurs exposés, tout en gardant le cristal en priorité ; les cavaliers et vélociraptors sont des alliés mobiles. En danger, un petit groupe peut secourir une défense attaquée. Les soigneurs soignent mais ne bloquent pas le passage : protège-les !",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les médecins portent 6 bandages, les infirmiers 4. Leurs soins sont espacés ; à court de bandages, ils retournent au fort pour 4 secondes de recharge. Un allié tombé ne revient pas. Les palissades retiennent les ennemis.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les meilleures étoiles et tes favoris sont conservées. Le camp courant sera remplacé par celui de l’aventure choisie.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les missions",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les œufs marqués vont libérer des serpents. Garde un allié en réserve.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:74"
+    ]
+  },
+  {
+    "text": "Les pouvoirs des serpents.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les pouvoirs et les règles en détail",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les règles de notre aventure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les serpents annoncés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les serpents peuvent changer de chemin aux jonctions. Plus les vagues avancent, plus ils cherchent les voies peu défendues. Les jauges indiquent la couverture relative de tes défenses, pas une garantie de sécurité.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les serpents vaincus rapportent des pièces. Achète des alliés ou répare le camp.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les six missions sont terminées. Rejoue-les autrement !",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:226"
+    ]
+  },
+  {
+    "text": "Les trois chemins ont besoin de place.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Les trois voies sont attaquées.",
+    "group": "ui",
+    "sources": [
+      "src/ui/tutorialLanes.ts:32"
+    ]
+  },
+  {
+    "text": "Leurs attaques accélèrent pendant 8 s. Une fois par vague.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:82"
+    ]
+  },
+  {
+    "text": "linear-gradient(135deg, #486d58, #e6dcad)",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:99"
+    ]
+  },
+  {
+    "text": "linear-gradient(135deg, #547b79, #dce7df)",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:100"
+    ]
+  },
+  {
+    "text": "Longue",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:42"
+    ]
+  },
+  {
+    "text": "Méandres",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:117"
+    ]
+  },
+  {
+    "text": "Mettre en pause",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:281",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Miel",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolHelp.ts:17"
+    ]
+  },
+  {
+    "text": "Miel : {0} s",
+    "group": "ui",
+    "sources": [
+      "src/ui/rewardControls.ts:82"
+    ]
+  },
+  {
+    "text": "Miel attirant",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:263",
+      "src/ui/feastControls.ts:138"
+    ]
+  },
+  {
+    "text": "Miel attirant · {0} · {1} s · {2}",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:136"
+    ]
+  },
+  {
+    "text": "Miel collant",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:263",
+      "src/ui/feastControls.ts:138"
+    ]
+  },
+  {
+    "text": "Miel collant · {0} · {1} s · ralentit sur le passage",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:135"
+    ]
+  },
+  {
+    "text": "Miel utilisé",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:126"
+    ]
+  },
+  {
+    "text": "minimum du chapitre {0}/100 PV",
+    "group": "ui",
+    "sources": [
+      "src/ui/chapterReport.ts:44"
+    ]
+  },
+  {
+    "text": "minimum historique non disponible",
+    "group": "ui",
+    "sources": [
+      "src/ui/chapterReport.ts:43"
+    ]
+  },
+  {
+    "text": "Mission normale",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceView.ts:57"
+    ]
+  },
+  {
+    "text": "Mission ouverte",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionJourney.ts:35"
+    ]
+  },
+  {
+    "text": "Mission réussie ! {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:226"
+    ]
+  },
+  {
+    "text": "Mission suivante",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Mobilité",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:44"
+    ]
+  },
+  {
+    "text": "Moins de mouvements à l’écran.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Mon carnet de caprices",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:48",
+      "src/ui/capriceAlbums.ts:108"
+    ]
+  },
+  {
+    "text": "Mon expédition",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Morsures × {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:20"
+    ]
+  },
+  {
+    "text": "Moyenne",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:42",
+      "src/ui/unitGuide.ts:53"
+    ]
+  },
+  {
+    "text": "Mutants",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitCatalog.ts:8"
+    ]
+  },
+  {
+    "text": "nos alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Nos alliés",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:31",
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Nouveau · Les expéditions",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Observe les voies faibles",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:124"
+    ]
+  },
+  {
+    "text": "Observe.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Obus",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:90"
+    ]
+  },
+  {
+    "text": "œuf peut éclore",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatControls.ts:39"
+    ]
+  },
+  {
+    "text": "Œufs",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "œufs peuvent éclore",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatControls.ts:39"
+    ]
+  },
+  {
+    "text": "Offert",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:93",
+      "src/ui/controls.ts:338",
+      "src/ui/squadControls.ts:77"
+    ]
+  },
+  {
+    "text": "paisible pour cette vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/tutorialLanes.ts:40"
+    ]
+  },
+  {
+    "text": "Palissades",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitCatalog.ts:9"
+    ]
+  },
+  {
+    "text": "Partager ou retrouver ce départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Partie terminée",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:292"
+    ]
+  },
+  {
+    "text": "Pas de miel dans ce caprice",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:124",
+      "src/ui/campToolModel.ts:101",
+      "src/ui/campToolModel.ts:104",
+      "src/ui/campToolModel.ts:107",
+      "src/ui/campToolModel.ts:111",
+      "src/ui/capriceCopy.ts:11",
+      "src/ui/feastControls.ts:103",
+      "src/ui/feastControls.ts:130"
+    ]
+  },
+  {
+    "text": "Pas de soignants à recruter",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:12"
+    ]
+  },
+  {
+    "text": "Pause, touche Espace",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Pendant le combat, quand tes alliés peuvent frapper.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:80"
+    ]
+  },
+  {
+    "text": "Pendant une vague, sur un chemin attaqué. Un pot gratuit par vague.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:102"
+    ]
+  },
+  {
+    "text": "Pense à réparer ton cristal",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:108"
+    ]
+  },
+  {
+    "text": "Pense aux archers pour toucher les volants.",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:161"
+    ]
+  },
+  {
+    "text": "Petit nom du carnet",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:62"
+    ]
+  },
+  {
+    "text": "Petits groupes rapides",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:26"
+    ]
+  },
+  {
+    "text": "pièces",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:100",
+      "src/ui/controls.ts:107",
+      "src/ui/controls.ts:340"
+    ]
+  },
+  {
+    "text": "Pièces",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Place ton allié",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:121"
+    ]
+  },
+  {
+    "text": "Place-le derrière les combattants, près du chemin. Le cercle montre sa portée de tir.",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:14"
+    ]
+  },
+  {
+    "text": "Place-le derrière les combattants. Le cercle montre ses soins ; les bandages sont limités.",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:12"
+    ]
+  },
+  {
+    "text": "Placement annulé.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:114"
+    ]
+  },
+  {
+    "text": "Placement annulé. Choisis un allié ou lance la vague.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:154"
+    ]
+  },
+  {
+    "text": "PONTS-1-0000-7X8R-A1",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Portée",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:42"
+    ]
+  },
+  {
+    "text": "Pose une flaque de miel collant sur le passage choisi.",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:23"
+    ]
+  },
+  {
+    "text": "Pot déjà utilisé.",
+    "group": "ui",
+    "sources": [
+      "src/ui/boardActions.ts:36"
+    ]
+  },
+  {
+    "text": "Pot utilisé · revient à la prochaine vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:115"
+    ]
+  },
+  {
+    "text": "pour ce passage",
+    "group": "ui",
+    "sources": [
+      "src/ui/chapterReport.ts:48"
+    ]
+  },
+  {
+    "text": "Pour commencer, essaie une massue ou un archer dans les alliés disponibles.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:54"
+    ]
+  },
+  {
+    "text": "pour gagner. Ton camp doit rester debout. Si le roi entre, la partie est perdue ! Il pond des œufs pendant la dernière vague. Sa tête gardienne protège son corps : les combattants au contact brisent plus vite ses protections. Sa tête cracheuse annonce au sol la zone de son prochain tir, qui frappe une seule fois. Des boucliers près de tes tireurs peuvent amortir ses tirs. Chaque nouvelle phase peut apporter une protection.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Pour les parents",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "PRÉPARATION",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:62",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Prépare ton camp",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Prépare ton camp.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Prépare.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Préparer ce départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Préparer mon aventure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Préparer trois groupes de huit favoris.",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:212"
+    ]
+  },
+  {
+    "text": "Près d’un passage : il intervient sur les trois voies. Il choisit seul ses cibles.",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:16"
+    ]
+  },
+  {
+    "text": "près d’un passage, trois voies",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:26"
+    ]
+  },
+  {
+    "text": "Présent au départ",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:34"
+    ]
+  },
+  {
+    "text": "Prêt ! Choisis la voie à {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:141"
+    ]
+  },
+  {
+    "text": "Prix",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:34"
+    ]
+  },
+  {
+    "text": "Prochaine mission",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionJourney.ts:34"
+    ]
+  },
+  {
+    "text": "Prochaine mission disponible sur la carte.",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:226"
+    ]
+  },
+  {
+    "text": "Prochaine vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:227"
+    ]
+  },
+  {
+    "text": "Progression locale sur cet appareil",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Progression, favoris et camps conservés dans ce fichier · {0} étoiles classiques.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:102"
+    ]
+  },
+  {
+    "text": "Protection",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:84",
+      "src/ui/controls.ts:93"
+    ]
+  },
+  {
+    "text": "Protège",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Prototype V4",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Puissance",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:85",
+      "src/ui/controls.ts:94"
+    ]
+  },
+  {
+    "text": "Quand",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Quatre alliés favoris",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ralentir",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:22",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ralentir les serpents sur le passage",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:123"
+    ]
+  },
+  {
+    "text": "Rapide",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:78",
+      "src/ui/controls.ts:91",
+      "src/ui/unitGuide.ts:50"
+    ]
+  },
+  {
+    "text": "Recommencer",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Recommencer ici",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Recommencer l’aventure ?",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Recruter en bataille.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Recruter nos unités",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Réduire",
+    "group": "ui",
+    "sources": [
+      "src/ui/display.ts:15"
+    ]
+  },
+  {
+    "text": "Réduire la vue de jeu",
+    "group": "ui",
+    "sources": [
+      "src/ui/display.ts:13"
+    ]
+  },
+  {
+    "text": "Réessayer",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Réessayer la vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:202"
+    ]
+  },
+  {
+    "text": "Réessayer le même départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Rejouer",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:194"
+    ]
+  },
+  {
+    "text": "Rejouer : {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:192"
+    ]
+  },
+  {
+    "text": "Rejouer depuis mon camp",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:232"
+    ]
+  },
+  {
+    "text": "Rejouer une aventure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Remplacer le camp actuel ?",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Remplacer mon aventure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Renforce.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Renommer",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:68"
+    ]
+  },
+  {
+    "text": "Réparer",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolHelp.ts:17"
+    ]
+  },
+  {
+    "text": "Réparer le cristal",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:58",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Repousse",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Reprendre",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:281",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Reprendre la partie",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Reprendre ma mission",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Reprendre mon aventure classique",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:200"
+    ]
+  },
+  {
+    "text": "Reprendre plus tard.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Reprends la partie.",
+    "group": "ui",
+    "sources": [
+      "src/ui/boardActions.ts:29"
+    ]
+  },
+  {
+    "text": "Réserve bancaire protégée",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:350",
+      "src/ui/controls.ts:360",
+      "src/ui/squadControls.ts:79"
+    ]
+  },
+  {
+    "text": "Réserve bancaire protégée ·",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:23",
+      "src/ui/campToolModel.ts:66"
+    ]
+  },
+  {
+    "text": "Résultat",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retour",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retour à l’accueil",
+    "group": "ui",
+    "sources": [
+      "index.html:1",
+      "index.html:1",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retour au camp",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retrouver",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retrouver cette aventure classique",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retrouver mon dernier départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retrouver un départ",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Retrouver un fichier familial",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Revient à la prochaine vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/adventureControls.ts:31",
+      "src/ui/campToolModel.ts:89"
+    ]
+  },
+  {
+    "text": "Robuste",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:83",
+      "src/ui/controls.ts:95"
+    ]
+  },
+  {
+    "text": "Roi à trois têtes",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:85",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Sa carapace réduit les dégâts",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:36"
+    ]
+  },
+  {
+    "text": "Sa feuille réduit les flèches de face en marche",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:54"
+    ]
+  },
+  {
+    "text": "Sa plaque casse à mi-vie",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:42"
+    ]
+  },
+  {
+    "text": "Sauvegarde familiale",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Serpents × {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:17"
+    ]
+  },
+  {
+    "text": "Serpents volants dès le rang 6.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Seuls archers, dragons et tanks le touchent",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:74"
+    ]
+  },
+  {
+    "text": "Si le cristal a perdu de la vie, avant ou pendant une vague.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:59"
+    ]
+  },
+  {
+    "text": "Si tu as déjà un camp en cours, une confirmation te permettra de le garder.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Six missions dans les fougères",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Six missions pour protéger ton cristal.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "soignant refait son stock",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:97"
+    ]
+  },
+  {
+    "text": "soignants refont leur stock",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:97"
+    ]
+  },
+  {
+    "text": "Soigne {0} PV",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:39"
+    ]
+  },
+  {
+    "text": "Soigne le roi et ses gardes",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:80"
+    ]
+  },
+  {
+    "text": "Soins",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:79",
+      "src/ui/controls.ts:86"
+    ]
+  },
+  {
+    "text": "Souffle",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:82"
+    ]
+  },
+  {
+    "text": "sur le passage des serpents",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:28"
+    ]
+  },
+  {
+    "text": "Ta route dans la vallée",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Terminée · rejouer",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionJourney.ts:32"
+    ]
+  },
+  {
+    "text": "Terrain",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Tes alliés",
+    "group": "ui",
+    "sources": [
+      "src/ui/expeditions.ts:215"
+    ]
+  },
+  {
+    "text": "Tes alliés agissent seuls. Tu peux aussi acheter des alliés pendant le combat.",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:125"
+    ]
+  },
+  {
+    "text": "Tes alliés favoris.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Tes alliés frappent : pense à Encourager",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:95"
+    ]
+  },
+  {
+    "text": "Tes alliés ont tenu ! Retrouve la carte pour choisir la suite.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:243"
+    ]
+  },
+  {
+    "text": "Tes alliés, de grands courageux",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleNotices.ts:19"
+    ]
+  },
+  {
+    "text": "Tes favoris",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:127",
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Tiens ton téléphone à l’horizontale pour jouer.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ton aventure, à garder.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ton camp",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ton camp classique est conservé. Ce départ remplace l’expédition en cours ; les étoiles et tes favoris restent.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ton camp et ta progression sur cet appareil seront remplacés par une nouvelle partie.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ton camp t’attend.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Ton cristal est intact",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:70"
+    ]
+  },
+  {
+    "text": "Ton pot attend le combat",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:117"
+    ]
+  },
+  {
+    "text": "Ton pot est prêt",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:118"
+    ]
+  },
+  {
+    "text": "Ton prochain défi",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Touche à droite · {0} · portée {1}",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:34"
+    ]
+  },
+  {
+    "text": "Touche un chemin",
+    "group": "ui",
+    "sources": [
+      "src/ui/battleDock.ts:119",
+      "src/ui/coaching.ts:40"
+    ]
+  },
+  {
+    "text": "Touche un chemin attaqué. Les boutons Haut, Centre et Bas restent disponibles.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:268"
+    ]
+  },
+  {
+    "text": "Touche un chemin pour poser le miel, ou utilise les boutons ci-dessous.",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:104"
+    ]
+  },
+  {
+    "text": "Touche un chemin.",
+    "group": "ui",
+    "sources": [
+      "src/ui/boardActions.ts:33"
+    ]
+  },
+  {
+    "text": "Touche un espace libre à droite. Le cercle montre la portée initiale ; nos alliés se déplacent ensuite seuls.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Touche une place libre à droite.",
+    "group": "ui",
+    "sources": [
+      "src/ui/placementAdvice.ts:33"
+    ]
+  },
+  {
+    "text": "Tourne ton téléphone",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Tous",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitCatalog.ts:5"
+    ]
+  },
+  {
+    "text": "Tous les alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Tous les alliés → Actions du camp → Encourager nos alliés.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:81"
+    ]
+  },
+  {
+    "text": "Tous les alliés → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:50"
+    ]
+  },
+  {
+    "text": "Tous les alliés → Actions du camp → Réparer le cristal.",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:60"
+    ]
+  },
+  {
+    "text": "translate(512 0) scale(-1 1)",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionPreview.ts:91"
+    ]
+  },
+  {
+    "text": "Très rapide",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:48"
+    ]
+  },
+  {
+    "text": "Trois compositions de huit favoris",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Trois voies reliées.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Trois voies visibles. Première vague : {0}. Antres à gauche, cristal à droite.",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionPreview.ts:26"
+    ]
+  },
+  {
+    "text": "Trois voies. Un camp à défendre.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Tu peux aussi acheter un allié ou réparer le cristal pendant le combat. Le jeu bloque ces actions en pause et à la fin de la partie.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Tu peux entraîner ton héros",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:113"
+    ]
+  },
+  {
+    "text": "Tu peux réessayer ce même caprice.",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:168"
+    ]
+  },
+  {
+    "text": "Un bouclier aide à retenir les vifs.",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:167"
+    ]
+  },
+  {
+    "text": "Un cadeau pour la suite",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Un code d’aventure ?",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Un encouragement gratuit pour cette vague",
+    "group": "ui",
+    "sources": [
+      "src/ui/campToolModel.ts:94"
+    ]
+  },
+  {
+    "text": "Un héros au bouclier bleu protège le cristal face à un serpent, en pâte à modeler.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Un ninja rapide peut rejoindre les cracheurs.",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:163"
+    ]
+  },
+  {
+    "text": "Un nouveau héros et deux nouveaux combattants à massue",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Un pot gratuit à chaque vague",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Un pot gratuit par vague · {0} s · choisis ton miel",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:140"
+    ]
+  },
+  {
+    "text": "Un serpent sur {0} porte une coquille : plus lent, solide et blindé.",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:15"
+    ]
+  },
+  {
+    "text": "Un seul cadeau. À toi de choisir ce qui aidera tes alliés !",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Une aventure en douze vagues",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Une étoile pour finir · deux dès 60 % · trois dès 90 %",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Une fois par vague, leurs attaques accélèrent pendant 8 s. Choisis le moment !",
+    "group": "ui",
+    "sources": [
+      "src/ui/coaching.ts:96"
+    ]
+  },
+  {
+    "text": "Une idée avec",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatCards.ts:66"
+    ]
+  },
+  {
+    "text": "une seule fois, sans poison qui dure",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Une victoire ouvre la suite. Six missions à rejouer avec d’autres configurations.",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Utiliser ces favoris",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Vague",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Vague {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/menu.ts:154",
+      "src/ui/squadControls.ts:75",
+      "src/ui/unitGuide.ts:35"
+    ]
+  },
+  {
+    "text": "Vague {0} : {1}. {2}",
+    "group": "ui",
+    "sources": [
+      "src/ui/tutorialLanes.ts:32"
+    ]
+  },
+  {
+    "text": "Vague {0} · Les serpents annoncés",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatControls.ts:21"
+    ]
+  },
+  {
+    "text": "Vague {0} repoussée ! Choisis ton bonus",
+    "group": "ui",
+    "sources": [
+      "src/ui/rewardControls.ts:54"
+    ]
+  },
+  {
+    "text": "Vague de prévision invalide",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatPreview.ts:99"
+    ]
+  },
+  {
+    "text": "Vague en cours",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:227"
+    ]
+  },
+  {
+    "text": "Vague en cours…",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:296"
+    ]
+  },
+  {
+    "text": "Vague suivante",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:298"
+    ]
+  },
+  {
+    "text": "Vérifie cet aperçu. Ton aventure actuelle reste intacte tant que tu ne confirmes pas.",
+    "group": "ui",
+    "sources": [
+      "src/ui/familyControls.ts:128"
+    ]
+  },
+  {
+    "text": "Verrouillée · termine la précédente",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionJourney.ts:30"
+    ]
+  },
+  {
+    "text": "VICTOIRE",
+    "group": "ui",
+    "sources": [
+      "src/ui/hud.ts:55"
+    ]
+  },
+  {
+    "text": "Vie",
+    "group": "ui",
+    "sources": [
+      "src/ui/unitGuide.ts:33"
+    ]
+  },
+  {
+    "text": "Vie des serpents × {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:18"
+    ]
+  },
+  {
+    "text": "Vie du cristal",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Vitesse des serpents × {0}",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceCopy.ts:19"
+    ]
+  },
+  {
+    "text": "Voici les prochains alliés. Le guide explique leurs rôles avant leur arrivée.",
+    "group": "ui",
+    "sources": [
+      "src/ui/controls.ts:327"
+    ]
+  },
+  {
+    "text": "Voie paisible.",
+    "group": "ui",
+    "sources": [
+      "src/ui/boardActions.ts:35"
+    ]
+  },
+  {
+    "text": "Voie{0} attaquée{1} : {2}. « — » : paisible.",
+    "group": "ui",
+    "sources": [
+      "src/ui/feastControls.ts:107"
+    ]
+  },
+  {
+    "text": "Voies ouvertes :",
+    "group": "ui",
+    "sources": [
+      "src/ui/threatControls.ts:24"
+    ]
+  },
+  {
+    "text": "Voir mes alliés",
+    "group": "ui",
+    "sources": [
+      "index.html:1"
+    ]
+  },
+  {
+    "text": "Voir mon carnet",
+    "group": "ui",
+    "sources": [
+      "src/ui/capriceAlbums.ts:112"
+    ]
+  },
+  {
+    "text": "xMidYMid slice",
+    "group": "ui",
+    "sources": [
+      "src/ui/missionPreview.ts:36"
+    ]
+  }
+]

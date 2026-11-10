@@ -43,6 +43,7 @@ export function bindFeastControls(session: Session, onChange: () => void) {
   let observed = session.game;
   const canChoose = () =>
     !session.game.paused &&
+    !session.game.caprice.noHoney &&
     !session.game.feastUsed &&
     (session.game.status === 'preparing' || session.game.status === 'fighting');
   const flavorButtons = FEAST_CHOICES.map((flavor) => {
@@ -85,7 +86,7 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     if (session.selectedFeast) selected = session.selectedFeast;
     if (
       session.selectedFeast &&
-      (game.feastUsed || game.status === 'won' || game.status === 'lost')
+      (game.caprice.noHoney || game.feastUsed || game.status === 'won' || game.status === 'lost')
     )
       session.selectFeast(null);
     for (const [index, button] of flavorButtons.entries()) {
@@ -98,15 +99,18 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     hint.classList.toggle('tutorial-hint', game.mission?.rules === 2 && lanes.length < 3);
     setDisplayText(
       hint,
-      'Touche un chemin pour poser le miel, ou utilise les boutons ci-dessous. ' +
-        FEAST_CHOICES.find((flavor) => flavor.value === selected)!.hint +
-        (game.mission?.rules === 2 && lanes.length < 3
-          ? ` Voie${lanes.length > 1 ? 's' : ''} attaquée${lanes.length > 1 ? 's' : ''} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. « — » : paisible.`
-          : ''),
+      game.caprice.noHoney
+        ? 'Pas de miel dans ce caprice'
+        : 'Touche un chemin pour poser le miel, ou utilise les boutons ci-dessous. ' +
+            FEAST_CHOICES.find((flavor) => flavor.value === selected)!.hint +
+            (game.mission?.rules === 2 && lanes.length < 3
+              ? ` Voie${lanes.length > 1 ? 's' : ''} attaquée${lanes.length > 1 ? 's' : ''} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. « — » : paisible.`
+              : ''),
     );
     for (const [lane, button] of buttons.entries()) {
       button.disabled =
         game.paused ||
+        game.caprice.noHoney ||
         game.status !== 'fighting' ||
         game.feastUsed ||
         !game.enemyLanes.includes(lane);
@@ -122,17 +126,19 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     const turns = `${game.honeyTurns} détour${game.honeyTurns > 1 ? 's' : ''}`;
     setDisplayText(
       status,
-      game.status === 'won' || game.status === 'lost'
-        ? 'À retrouver dans la prochaine partie'
-        : game.feast
-          ? game.feast.flavor === 'sticky'
-            ? `Miel collant · ${LANE_NAMES[game.feast.lane]} · ${Math.ceil(game.feast.remaining)} s · ralentit sur le passage`
-            : `Miel attirant · ${LANE_NAMES[game.feast.lane]} · ${Math.ceil(game.feast.remaining)} s · ${turns}`
-          : game.feastUsed
-            ? `${selected === 'sticky' ? 'Miel collant' : 'Miel attirant'} utilisé${selected === 'lure' ? ` · ${turns}` : ''} · revient à la prochaine vague`
-            : game.status === 'preparing'
-              ? `Un pot gratuit par vague · ${game.feastDuration} s · choisis ton miel`
-              : `Prêt ! Choisis la voie à ${selected === 'sticky' ? 'ralentir' : 'attirer'}`,
+      game.caprice.noHoney
+        ? 'Pas de miel dans ce caprice'
+        : game.status === 'won' || game.status === 'lost'
+          ? 'À retrouver dans la prochaine partie'
+          : game.feast
+            ? game.feast.flavor === 'sticky'
+              ? `Miel collant · ${LANE_NAMES[game.feast.lane]} · ${Math.ceil(game.feast.remaining)} s · ralentit sur le passage`
+              : `Miel attirant · ${LANE_NAMES[game.feast.lane]} · ${Math.ceil(game.feast.remaining)} s · ${turns}`
+            : game.feastUsed
+              ? `${selected === 'sticky' ? 'Miel collant' : 'Miel attirant'} utilisé${selected === 'lure' ? ` · ${turns}` : ''} · revient à la prochaine vague`
+              : game.status === 'preparing'
+                ? `Un pot gratuit par vague · ${game.feastDuration} s · choisis ton miel`
+                : `Prêt ! Choisis la voie à ${selected === 'sticky' ? 'ralentir' : 'attirer'}`,
     );
   };
 }

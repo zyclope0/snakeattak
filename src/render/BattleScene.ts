@@ -29,6 +29,7 @@ import { DevPerformance } from './devPerformance.ts';
 import { pauseForDialog } from '../ui/dialogs.ts';
 import { performanceEnabled } from './performanceRecording.ts';
 import { onSceneExit } from './sceneExit.ts';
+import { BODY_FONT } from './fonts.ts';
 export class BattleScene extends Phaser.Scene {
   private assets!: MissionAssets;
   private initialized = false;
@@ -37,6 +38,7 @@ export class BattleScene extends Phaser.Scene {
   private motionQuery = window.matchMedia('(prefers-reduced-motion:reduce)');
   private onPresentation: (notice: Notice | null) => void;
   private resultStats!: Phaser.GameObjects.Text;
+  private resultSubtitle!: Phaser.GameObjects.Text;
   private celebration!: Phaser.GameObjects.Graphics;
   private ink!: Phaser.GameObjects.Graphics;
   private honeyInk!: Phaser.GameObjects.Graphics;
@@ -118,7 +120,7 @@ export class BattleScene extends Phaser.Scene {
     this.honeyInk = this.add.graphics().setDepth(7.5);
     this.feedback = new BattleFeedback(this);
     this.feastLabel = addCanvasCopy(this.add, 420, 0, '', {
-      fontFamily: 'Arial',
+      fontFamily: BODY_FONT,
       fontSize: '13px',
       color: '#ffe5a1',
       backgroundColor: '#324832',
@@ -128,24 +130,21 @@ export class BattleScene extends Phaser.Scene {
       .setDepth(9.5)
       .setVisible(false);
     const shade = this.add.rectangle(550, 310, 1100, 620, 0x082a23, 0.82);
-    const title = addCanvasCopy(this.add, 550, 267, '', {
-      fontFamily: 'Georgia',
-      fontSize: '54px',
-      color: '#ffe4a4',
-    }).setOrigin(0.5);
-    const subtitle = addCanvasCopy(this.add, 550, 335, '', {
-      fontFamily: 'Arial',
+    // The accessible HTML result owns the heading and actions. The canvas keeps
+    // the atmosphere, outcome detail and survivors without repeating that title.
+    this.resultSubtitle = addCanvasCopy(this.add, 550, 300, '', {
+      fontFamily: BODY_FONT,
       fontSize: '21px',
       color: '#deebd0',
     }).setOrigin(0.5);
-    this.resultStats = addCanvasCopy(this.add, 550, 393, '', {
-      fontFamily: 'Arial',
+    this.resultStats = addCanvasCopy(this.add, 550, 358, '', {
+      fontFamily: BODY_FONT,
       fontSize: '18px',
       color: '#d9e9c7',
     }).setOrigin(0.5);
     this.celebration = this.add.graphics();
     this.overlay = this.add
-      .container(0, 0, [shade, this.celebration, title, subtitle, this.resultStats])
+      .container(0, 0, [shade, this.celebration, this.resultSubtitle, this.resultStats])
       .setDepth(100)
       .setVisible(false);
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
@@ -315,13 +314,7 @@ export class BattleScene extends Phaser.Scene {
     this.overlay.setVisible(end);
     if (end) {
       setCanvasCopy(
-        this.overlay.list[2] as Phaser.GameObjects.Text,
-        this.session.game.status === 'won'
-          ? victoryCopy(this.session.game).title
-          : defeatCopy(this.session.game).title,
-      );
-      setCanvasCopy(
-        this.overlay.list[3] as Phaser.GameObjects.Text,
+        this.resultSubtitle,
         this.session.game.status === 'won'
           ? victoryCopy(this.session.game).subtitle
           : defeatCopy(this.session.game).subtitle,

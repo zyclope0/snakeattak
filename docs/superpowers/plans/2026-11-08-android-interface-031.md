@@ -40,5 +40,5 @@ du skill cloud indisponibles comme fichiers locaux. Rulings conservés au bilan.
 ## Résultat
 
 Recette complète et revue terminées ; défaut Important étroit corrigé avec
-régressions RED→GREEN. APK normal code32 et signature vérifiés. Marges et outils
+régressions RED→GREEN. APK normal code 32 et signature vérifiés. Marges et outils
 simulés sur dix combinaisons ; retest physique du parent encore requis.

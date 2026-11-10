@@ -18,7 +18,7 @@ nouvelle règle. Le prolongement jusqu'au Tank et au roi reste à proposer.
 - Les portraits réutilisent les atlas déjà présents. Les ailes et les soins
   portent un pictogramme, car ils partagent une pose de serpent ordinaire.
 - Boutons de lancement/retour toujours hors du défilement du dialogue ; cibles
-  des nouvelles actions et du lancement ≥48px.
+  des nouvelles actions et du lancement ≥48 px.
 
 ## Architecture et limites
 
@@ -40,7 +40,7 @@ Les nouvelles images HD crue/marais et l'icône Android restent au plan distinct
 423 tests natifs, types, build et budgets passent. La nouvelle recette vérifie
 cinq tailles/marges et le portrait avec retour en paysage : images, tracés,
 conseil disponible visible sans défilement (mission6/marges), liste dépliable,
-changement de départ, vagues, pauses, RNG/or inchangés, cibles48px et ratio du plateau.
+changement de départ, vagues, pauses, RNG/or inchangés, cibles 48 px et ratio du plateau.
 Les marqueurs Phaser suivent les antres actifs du refuge.
 
 Audit strict13/13 ; navigateur général, six dock/marges, six écrans mobiles et
@@ -55,7 +55,7 @@ Rapports : `reports/threat-preparation-0.32.json`, `reports/audit-0.32.json`,
 Captures : `docs/captures-0.32/`. Portable : build et recette navigateur passent. APK familial 0.32.0/code35
 compilé hors ligne, certificat debug précédent, démarrage normal sans diagnostic.
 Les 27 fichiers web embarqués correspondent exactement au build testé.
-Le site public est publié en 0.32.0 (version Sites14), commit statique
+Le site public est publié en 0.32.0 (version Sites 14), commit statique
 `f13b862a17e8cbe9c4b9c519cc512646131610c4`, archive issue du commit poussé.
 URL : https://conquete-serpents-famille.zyclope.chatgpt.site/.
 Reçu : `reports/deployment-0.32.json` ; contrôles : `reports/verification-0.32.json`.
@@ -67,7 +67,7 @@ valident pas.
 
 ## Revue indépendante
 
-Cinq perspectives simulées : règles, enfant5–8, joueur9–12, mobile/interruptions,
+Cinq perspectives simulées : règles, enfant 5–8, joueur9–12, mobile/interruptions,
 architecture et sauvegardes. Aucun point critique, un point important corrigé,
 aucun point mineur différé. Le parapluie ne protège pas ses voisins : sa fiche
 annonce désormais que sa feuille réduit les flèches de face en marche. Le moteur
@@ -114,7 +114,7 @@ délais et assertions des tests ne sont pas augmentés.
 
 - Conseil avant la carte pour qu'il apparaisse dans la première vue, même avec
   les marges Android ; les autres informations restent dans le défilement.
-- Seuil du lancement relevé à48px aussi sur ordinateur.
+- Seuil du lancement relevé à 48 px aussi sur ordinateur.
 - Rapports versionnés pour préserver les preuves des versions précédentes.
 - Gel des sources pendant les recettes pour éviter les rechargements Vite induits.
 

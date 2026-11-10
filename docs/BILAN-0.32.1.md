@@ -23,7 +23,7 @@ JavaScript de glissement, changement de moteur, prix, RNG ou sauvegardes.
 Régression RED sur la 0.32.0, puis GREEN : cinq configurations paysage/marges,
 balayages sur cartes disponibles et verrouillées, montée et descente, absence
 de sélection/achat/fermeture involontaire, sélection préalable conservée,
-sélection par tap encore fonctionnelle et grand écran1280×800.
+sélection par tap encore fonctionnelle et grand écran 1280×800.
 Le programme prépare parfois un cas en remettant le panneau en haut ; tous les
 contrôles de glissement utilisent ensuite de vrais gestes natifs Chromium.
 Ce n'est pas un test physique du S24 ni de ses gestes système.
@@ -34,7 +34,7 @@ build et les budgets passent. Les recettes générales, mobiles (six configurati
 étroits), interruptions (11 scénarios) et hors ligne (formats 1 à 7 et trois
 fonds embarqués) passent aussi. Portable : build et navigateur passent. APK 0.32.1/code 36 compilé hors ligne,
 démarrage normal, même certificat et identifiant. Ses 27 fichiers web sont
-identiques au build testé. Site public publié en 0.32.1 (version Sites15), commit statique
+identiques au build testé. Site public publié en 0.32.1 (version Sites 15), commit statique
 `44cee24827e0a660eb69d8adda84b1f8f025ee1b`, archive du commit poussé.
 Reçus : `reports/verification-0.32.1.json`, `reports/deployment-0.32.1.json`.
 URL : https://conquete-serpents-famille.zyclope.chatgpt.site/.

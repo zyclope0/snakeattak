@@ -181,7 +181,7 @@ au serveur de développement. Aucun envoi de mesure, aucune statistique en ligne
 
 ### Compiler sous Windows
 
-1. Installer Node24, Android Studio avec JDK21, Platform API36, Build Tools36 et
+1. Installer Node 24, Android Studio avec JDK21, Platform API36, Build Tools36 et
    Platform Tools. Configurer JAVA_HOME vers le JDK21 complet et ANDROID_HOME vers
    le SDK (souvent `%LOCALAPPDATA%\Android\Sdk`).
 2. Extraire le projet dans un dossier local, ouvrir PowerShell : `npm ci`.
@@ -202,7 +202,7 @@ avant toute désinstallation. Aucune clé privée n’est incluse dans le projet
   perçue. Fermer les autres applications ; conserver une condition comparable.
 - Dans Relevé, Recommencer la mesure juste avant chaque scénario, puis Fermer.
 - Mission6 : jouer au moins deux minutes dont une vague chargée ; relever la
-  durée et la situation. Classique : faire un relevé distinct sur la vague12.
+  durée et la situation. Classique : faire un relevé distinct sur la vague 12.
   Ne pas substituer une partie en navigateur cloud à ces essais.
 - Ouvrir Relevé : copier le JSON par Sélectionner le relevé puis copie Android,
   ou prendre une capture lisible. Compléter `reports/android-device.json`.

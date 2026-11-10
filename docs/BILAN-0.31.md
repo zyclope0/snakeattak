@@ -38,7 +38,7 @@ fournissent les portraits et pots. Aucun achat, publicité ou génération payan
 
 411 tests natifs, types, build et budgets ; mêmes états Game/RNG après commandes
 identiques, sélections non sérialisées, formats existants conservés. La recette
-du dock vérifie six tailles/marges, cibles de 48px, aucune intersection
+du dock vérifie six tailles/marges, cibles de 48 px, aucune intersection
 avec la carte, aucun défilement du dock, vrais recrutements, deux miels au toucher,
 refus, pause, annulation, favoris personnalisés conservés et alternative clavier.
 
@@ -63,13 +63,13 @@ Aucun point critique ; deux points importants corrigés avec régressions RED→
 Les milieux de voies courbes ne consomment plus de miel (2 604 positions testées).
 Sur les paysages courts avec barres système, le dock conserve quatre cartes et
 deux pots ; « Alliés » dans le HUD ouvre le catalogue, et toucher à nouveau le
-pot ou utiliser Échap annule la sélection. Les cibles visibles restent de 48px.
+pot ou utiliser Échap annule la sélection. Les cibles visibles restent de 48 px.
 Les cas 568×320 et 480×320 avec marges système sont maintenant couverts.
 La coquille « de alliés » est corrigée dans le texte de préparation.
 
 ## Livraison et reste du plan
 
-APK familial 0.31.0, Android code34, même certificat debug ; aucun compteur
+APK familial 0.31.0, Android code 34, même certificat debug ; aucun compteur
 au démarrage normal. Les 27 fichiers web correspondent au build testé.
 Le dépôt privé reçoit les sources ; aucun AAB ou déploiement Play implicite.
 Le site public est publié en 0.31.0 (version Sites 13), depuis le commit statique

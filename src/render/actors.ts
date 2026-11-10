@@ -1,3 +1,4 @@
+import { shellGeometry, drawCapriceShell } from './capriceShell.ts';
 import { CanvasContours } from './canvasContours.ts';
 import { isFlying, flightLift } from '../flying.ts';
 import Phaser from 'phaser';
@@ -24,9 +25,21 @@ import { onSceneExit } from './sceneExit.ts';
 export class Actors {
   private contours?: CanvasContours;
   private pieces: FramePool<string, Phaser.GameObjects.Image>;
+  private shells: FramePool<number, Phaser.GameObjects.Graphics>;
   private shadows: Phaser.GameObjects.Graphics;
   constructor(private scene: Phaser.Scene) {
     if (scene.game.renderer.type === Phaser.CANVAS) this.contours = new CanvasContours(scene);
+    this.shells = new FramePool({
+      maxIdle: 128,
+      create: () => scene.add.graphics(),
+      activate: (g) => {
+        g.setVisible(true).setActive(true).addToDisplayList();
+      },
+      deactivate: (g) => {
+        g.setVisible(false).setActive(false).removeFromDisplayList();
+      },
+      destroy: (g) => g.destroy(),
+    });
     this.shadows = scene.add.graphics().setDepth(9.7);
     this.pieces = new FramePool({
       maxIdle: 384,
@@ -50,6 +63,7 @@ export class Actors {
     });
     onSceneExit(scene.events, () => {
       this.pieces.clear();
+      this.shells.clear();
       this.contours?.destroy();
     });
   }
@@ -61,6 +75,7 @@ export class Actors {
   }
   draw(game: Game, presentation: Presentation, ink: Phaser.GameObjects.Graphics, reduced: boolean) {
     this.pieces.beginFrame();
+    this.shells.beginFrame();
     this.shadows.clear();
     for (const unit of [...game.units, ...game.enemies]) {
       const enemy = unit.kind === 'snake',
@@ -73,7 +88,7 @@ export class Actors {
           : ALLY_ART[unit.kind as Kind];
       if (!art) continue;
       const u = visualPose(unit, presentation.clock, presentation.reactions, reduced);
-      const size = actorSize(unit.kind, unit.variant, unit.boss);
+      const size = shellGeometry(actorSize(unit.kind, unit.variant, unit.boss), !!unit.shell).size;
       if (!isFlying(unit)) {
         this.shadows.fillStyle(0x263f34, 0.18);
         this.shadows.fillEllipse(unit.x + 2, unit.y + 13, size * 0.58, size * 0.17);
@@ -133,6 +148,20 @@ export class Actors {
                 : 0xffffff,
         )
         .setDepth(depth);
+      if (unit.shell) {
+        const shell = this.shells.acquire(unit.id);
+        shell
+          .clear()
+          .setPosition(x, y)
+          .setRotation(motion.angle)
+          .setScale(flip ? -1 : 1, 1)
+          .setAlpha(alpha)
+          .setDepth(depth + 0.00001);
+        shell.save();
+        shell.translateCanvas(0, -height * 0.38);
+        drawCapriceShell(shell, width * 0.53, height * 0.37);
+        shell.restore();
+      }
       this.health(
         unit,
         ink,
@@ -192,6 +221,7 @@ export class Actors {
         .setDepth(9);
     }
     this.pieces.endFrame();
+    this.shells.endFrame();
   }
   private confusion(u: Entity, size: number, ink: Phaser.GameObjects.Graphics) {
     const x = u.x + 18,

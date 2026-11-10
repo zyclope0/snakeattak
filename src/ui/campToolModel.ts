@@ -1,3 +1,4 @@
+import { availableGold, canSpend } from './capriceBudget.ts';
 import type { Game } from '../game.ts';
 import { kinds, type Kind } from '../data.ts';
 import { missionById } from '../missions.ts';
@@ -17,22 +18,24 @@ export function heroTrainingState(game: Game) {
       hero &&
       game.status === 'preparing' &&
       game.campaign.training === 'none' &&
-      game.gold >= 90,
-    status: !hero
-      ? 'Le héros est tombé. Aucun entraînement possible.'
-      : game.campaign.training === 'force'
-        ? 'Frappe renforcée · +15 % de dégâts du héros'
-        : game.campaign.training === 'guard'
-          ? 'Gardien · −15 % sur les coups et tirs reçus'
-          : !eligible
-            ? game.mission
-              ? 'Dans une autre expédition, dès Les trois ponts'
-              : 'Disponible après la vague 4'
-            : game.status !== 'preparing'
-              ? 'Entre deux vagues · 90 pièces'
-              : game.gold < 90
-                ? `Il manque ${90 - game.gold} pièces pour l’entraînement`
-                : '90 pièces · un seul entraînement pour ces alliés',
+      canSpend(game, 90),
+    status:
+      (game.caprice.reserve ? 'Réserve bancaire protégée · ' : '') +
+      (!hero
+        ? 'Le héros est tombé. Aucun entraînement possible.'
+        : game.campaign.training === 'force'
+          ? 'Frappe renforcée · +15 % de dégâts du héros'
+          : game.campaign.training === 'guard'
+            ? 'Gardien · −15 % sur les coups et tirs reçus'
+            : !eligible
+              ? game.mission
+                ? 'Dans une autre expédition, dès Les trois ponts'
+                : 'Disponible après la vague 4'
+              : game.status !== 'preparing'
+                ? 'Entre deux vagues · 90 pièces'
+                : !canSpend(game, 90)
+                  ? `Il manque ${90 - availableGold(game)} pièces pour l’entraînement`
+                  : '90 pièces · un seul entraînement pour ces alliés'),
   };
 }
 
@@ -58,14 +61,16 @@ export function campToolModel(game: Game, tool: CampTool) {
       result:
         'Le cristal regagne jusqu’à 25 points de vie, sans dépasser 100.' +
         (game.mission ? ' Les dégâts subis restent comptés pour tes étoiles.' : ''),
-      ready: active && game.base < 100 && game.gold >= 80,
-      status: !active
-        ? 'La partie est terminée'
-        : game.base >= 100
-          ? 'Ton cristal est intact'
-          : game.gold < 80
-            ? `Il manque ${80 - game.gold} pièces pour réparer`
-            : `Cristal : ${game.base} / 100 · réparation possible`,
+      ready: active && game.base < 100 && canSpend(game, 80),
+      status:
+        (game.caprice.reserve ? 'Réserve bancaire protégée · ' : '') +
+        (!active
+          ? 'La partie est terminée'
+          : game.base >= 100
+            ? 'Ton cristal est intact'
+            : !canSpend(game, 80)
+              ? `Il manque ${80 - availableGold(game)} pièces pour réparer`
+              : `Cristal : ${game.base} / 100 · réparation possible`),
     };
   if (tool === 'encourage') {
     const fighters = game.units.some((u) => u.hp > 0 && kinds[u.kind as Kind].damage > 0);
@@ -92,16 +97,24 @@ export function campToolModel(game: Game, tool: CampTool) {
   return {
     cost: 0,
     title: 'Le miel',
-    when: 'Pendant une vague, sur un chemin attaqué. Un pot gratuit par vague.',
-    gesture: 'Choisis Attirer ou Ralentir, puis touche un chemin. Annuler garde ton pot.',
-    result: `Attirer détourne les gourmands aux jonctions. Ralentir freine sur la flaque. Le miel dure ${game.feastDuration} s.`,
-    ready: game.status === 'fighting' && !game.feastUsed,
-    status: !active
-      ? 'La partie est terminée'
-      : game.feastUsed
-        ? 'Pot utilisé · revient à la prochaine vague'
-        : game.status === 'preparing'
-          ? 'Ton pot attend le combat'
-          : 'Ton pot est prêt',
+    when: game.caprice.noHoney
+      ? 'Pas de miel dans ce caprice'
+      : 'Pendant une vague, sur un chemin attaqué. Un pot gratuit par vague.',
+    gesture: game.caprice.noHoney
+      ? 'Pas de miel dans ce caprice'
+      : 'Choisis Attirer ou Ralentir, puis touche un chemin. Annuler garde ton pot.',
+    result: game.caprice.noHoney
+      ? 'Pas de miel dans ce caprice'
+      : `Attirer détourne les gourmands aux jonctions. Ralentir freine sur la flaque. Le miel dure ${game.feastDuration} s.`,
+    ready: !game.caprice.noHoney && game.status === 'fighting' && !game.feastUsed,
+    status: game.caprice.noHoney
+      ? 'Pas de miel dans ce caprice'
+      : !active
+        ? 'La partie est terminée'
+        : game.feastUsed
+          ? 'Pot utilisé · revient à la prochaine vague'
+          : game.status === 'preparing'
+            ? 'Ton pot attend le combat'
+            : 'Ton pot est prêt',
   };
 }

@@ -88,7 +88,7 @@ mesure matérielle ou à de la réalisation.
 | Dé « Autre départ »                                                       | Tirage réalisé ; pictogramme dé non repris                                                       | `index.html:268`, `createMissionRun`                                                |
 | Miel2, Encourager3, Réparer4, héros5                                      | Non réalisé, réservé comme changement de disponibilité                                           | `docs/PROPOSITION-LOT-7.md`, `src/ui/adventureControls.ts`                          |
 | Deux grosses icônes de miel, puis toucher la voie                         | Pots présents ; choix encore par trois boutons textuels ; pas de geste sur le plateau            | `src/ui/feastControls.ts`, `BattleScene.pointerdown`                                |
-| ≤60 mots avant vague1 à 1280×800                                          | 47 mots DOM dans les parcours actuels testés ; cible satisfaite                                  | [Captures et mesure](../reports/reconciliation-audit-0.30.2/captures.json)          |
+| ≤60 mots avant vague 1 à 1280×800                                         | 47 mots DOM dans les parcours actuels testés ; cible satisfaite                                  | [Captures et mesure](../reports/reconciliation-audit-0.30.2/captures.json)          |
 | Enfant peu lecteur autonome                                               | Pas démontré par ces chiffres                                                                    | Essai familial guidé à organiser, sans confondre avec avis favorable sur le jeu     |
 | Raccords 40 % plus étroits, sous les voies, en terre                      | Réalisé                                                                                          | `src/render/refinedTerrain.ts`, bilan 0.28                                          |
 | Halos retirés, source et procédé conservés                                | Reproduction `--check` réussie : 22 249 pixels, dont 19 604 opaques                              | `scripts/clean-strongholds.py`, `strongholds.original.webp`, provenance runtime     |
@@ -108,9 +108,9 @@ canvas et les panneaux repliés ou hors zone visible. 13/13 ne signifie donc ni
 
 | Sous-partie                                                    | État                                           | Suite légitime                                                                                                              |
 | -------------------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Une seule voie visible jusqu'à mission2                        | Proposition originale remplacée                | Ne pas la rétablir : le choix du fils conserve les trois voies                                                              |
+| Une seule voie visible jusqu'à mission 2                       | Proposition originale remplacée                | Ne pas la rétablir : le choix du fils conserve les trois voies                                                              |
 | Centre→deux→trois au nouveau Refuge                            | Livré 0.30                                     | Garder le masque commun et les règles historiques versionnées                                                               |
-| Un seul allié supplémentaire en mission1                       | Non retenu dans le cadrage                     | Ne pas restreindre automatiquement les dix types actuellement proposés                                                      |
+| Un seul allié supplémentaire en mission 1                      | Non retenu dans le cadrage                     | Ne pas restreindre automatiquement les dix types actuellement proposés                                                      |
 | Prochain ennemi annoncé à chaque antre                         | Absent et perdu du résumé courant              | Concevoir une prévision honnête des menaces, sans consommer le RNG ni figer l'IA                                            |
 | Appel anticipé + bonus proportionnel au temps gagné            | Absent ; règle réservée                        | Définir d'abord ce que serait le temps gagné dans une préparation actuellement sans décompte                                |
 | Facile combinant vie/prix/vitesse, choisi en pause et mémorisé | Absent ; valeurs et fonctionnement non validés | Proposition distincte au parent/fils, simulations sur six missions et migration prévues                                     |
@@ -261,7 +261,7 @@ preuves 0.30.2 existaient à leur date.
    des décisions de disponibilité des pouvoirs, Facile ou bonus économiques.
 2. **Retester la dernière APK sur le S24 en parallèle.** Recruter et placer,
    verrouiller/revenir, changer d'application, hors ligne et reprise du camp ;
-   relever mission6 et classique12. Ces mesures ne bloquent pas l'analyse des
+   relever mission 6 et classique 12. Ces mesures ne bloquent pas l'analyse des
    autres travaux, mais sont nécessaires pour déclarer le lot 4 terminé.
 3. **Raccorder la campagne aux moments forts du fils.** Cadrer l'extension au-delà
    des six missions jusqu'au Tank et au roi, avec variantes de situations et

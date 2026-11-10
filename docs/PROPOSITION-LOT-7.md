@@ -5,7 +5,7 @@ Les trois voies restent visibles, le placement libre et les alliés autonomes.
 
 ## Valeurs proposées
 
-Conserver les450 pièces, les deux massues et le héros de départ. Ne pas ajouter
+Conserver les 450 pièces, les deux massues et le héros de départ. Ne pas ajouter
 un mode Facile ni un bonus économique tant que l’enfant n’a pas essayé cette
 version. Garder les caractéristiques et quantités actuelles ; réduire d’abord
 le nombre de fronts à surveiller.
@@ -14,9 +14,9 @@ le nombre de fronts à surveiller.
 | ----- | -------------------------------------------- | ---------------------------- | ------------------------- | ------------------------------------------------- |
 | 1     | Centre                                       | 5                            | 1œuf →2 petits            | 57 /7 /40,4                                       |
 | 2     | Centre +haut ou bas, annoncé avant lancement | 6                            | 1œuf →2 petits            | 68 /8 /41,8                                       |
-| 3     | Les3voies                                    | 8                            | 1œuf →2 petits            | 79 /9 /43,2                                       |
+| 3     | Les 3 voies                                  | 8                            | 1œuf →2 petits            | 79 /9 /43,2                                       |
 
-Ce sont les statistiques de base ; les rapides de la vague3 gardent leurs
+Ce sont les statistiques de base ; les rapides de la vague 3 gardent leurs
 modificateurs actuels. Récompenses de vague actuelles :108,131,154 pièces.
 Total :19 serpents de vague +6 petits issus des œufs, sans augmentation du stock.
 Les variations d’attaque/cadence et les3terrains existants restent annoncés.
@@ -26,8 +26,8 @@ Les variations d’attaque/cadence et les3terrains existants restent annoncés.
 Une voie fermée doit être sûre : pas seulement absente du tirage de spawn.
 Appliquer le même masque aux œufs et aux détours de l’IA ennemie pendant cette
 mission. Sinon un œuf ou un serpent passant par une jonction ouvrirait un front
-avant son annonce. Les alliés peuvent toujours être placés sur les3voies ; les
-voies futures peuvent être préparées. Les missions2–6 et le classique restent
+avant son annonce. Les alliés peuvent toujours être placés sur les 3 voies ; les
+voies futures peuvent être préparées. Les missions 2–6 et le classique restent
 inchangés.
 
 Une petite annonce visuelle avant chaque vague montrerait les voies actives,
@@ -50,8 +50,8 @@ par la graine de partie, pour garder une variation reproductible et partageable.
 
 ## Autre arbitrage pédagogique, distinct
 
-Le lot2 suggère de montrer miel en mission2, encouragement en3, réparation en4,
-entraînement en5. Ce n’est pas codé : les outils sont aujourd’hui accessibles
+Le lot 2 suggère de montrer miel en mission 2, encouragement en 3, réparation en 4,
+entraînement en 5. Ce n’est pas codé : les outils sont aujourd’hui accessibles
 via Actions du camp. Valider séparément ce calendrier ou préférer seulement des
 conseils progressifs, qui gardent les outils utilisables dès le début.
 

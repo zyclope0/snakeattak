@@ -1,6 +1,6 @@
 # Conseil après le lot graphique — v0.34.0
 
-9 novembre2026. Trois personas techniques et trois profils cibles6/9/12ans.
+9 novembre 2026. Trois personas techniques et trois profils cibles6/9/12ans.
 Relectures indépendantes de1b1e6c4..63c9a03, captures réelles avant/après et
 référence iconique. Les profils enfants sont **simulés** ; aucun enfant réel
 ni S24 physique n’a été observé. Les corrections ultérieures47cdeb6 sont vérifiées
@@ -12,7 +12,7 @@ par les recettes rouges/vertes, pas par une seconde validation fictive du consei
 | Rendu mobile et performances | Cadre statique mis en cache, centre dégagé, ponts au-dessus de l’eau et sous les acteurs. Images complètes décodées pour leurs seuls bords ; deux cadres conservés après visite.       | Coût borné documenté ; atlas compact différé. Pas de promesse de mémoire résidente limitée à une seule texture. |
 | Accessibilité                | Choix désactivés identiques aux actifs sur tactile ; teintes Phaser ignorées par Canvas. Sélection/focus et géométrie tactile conservés.                                               | Deux problèmes hérités classés importants et corrigés dans une seule passe, avec preuves.                       |
 | Cible6ans simulée            | Chemins et figurines plus distincts ; pas de blocage visible. Les bords gravés restent plus illustrés que l’icône. Petits libellés et regroupement au refuge à observer.               | Usage périphérique maintenu ; pas de nouvelle génération. Test familial à faire.                                |
-| Cible9ans simulée            | Trois voies et ponts lisibles, variété visible, pas de faux obstacle central. Manque de capture avec une carte sélectionnée.                                                           | Captures allié/miel sélectionnés ajoutées à812×375 et1280×800.                                                  |
+| Cible9ans simulée            | Trois voies et ponts lisibles, variété visible, pas de faux obstacle central. Manque de capture avec une carte sélectionnée.                                                           | Captures allié/miel sélectionnés ajoutées à 812×375 et 1280×800.                                                |
 | Cible12ans simulée           | Lecture tactique conservée ; pas de mécanique nouvelle suggérée. Répétition de petits décors et matière gravée du marais encore visibles.                                              | Retouches mineures différées ; aucune nouvelle règle ou promesse de lieu.                                       |
 
 ## Corrections et preuve
@@ -36,7 +36,7 @@ et conservation de l’ancien terrain jusqu’à disponibilité. Zéro erreurJav
 - Corriger les deux défauts visuels hérités dans ce lot : ils affectent les
   repères fonctionnels ; correction purement rendu/CSS, sans migration de camp.
 - Différer l’atlas de bords compact, le fondu plus fin, la réduction de répétition
-  et la petite bordure normale plus contrastée. Les textes10–11px restent une
+  et la petite bordure normale plus contrastée. Les textes 10–11 px restent une
   observation familiale, pas une conformité ou une compréhension attestée.
 
 Recommandation du conseil : version utilisable pour essai familial ; aucune

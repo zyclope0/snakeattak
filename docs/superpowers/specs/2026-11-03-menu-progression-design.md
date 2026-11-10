@@ -14,7 +14,7 @@ restent accessibles selon leurs vagues habituelles ; pas de grind obligatoire.
 
 Écarter la copie de tous les systèmes mobiles (trop de monnaies et microgestion).
 Un simple écran de liens ne ferait pas une progression. Retenir une progression
-locale en3chapitres de4vagues, avec meilleurs scores et véritables camps de reprise,
+locale en 3 chapitres de 4 vagues, avec meilleurs scores et véritables camps de reprise,
 et six adaptations modestes. Sources et analyse dans docs/INSPIRATIONS-0.18.md.
 RushRoyale : fusion écartée car disparition/transformation d'alliés peu adaptée.
 
@@ -25,7 +25,7 @@ chapterMin:[number,number,number],chapterStars:[number,number,number]} ; freshCa
 readCampaign(raw:unknown,wave:number):CampaignState|null, chapterIndex(wave),
 chapterStars(minBase) renvoie1/2/3 pour <60/60..89/90..100. Legacy1/2/3 : créditer
 1étoile par chapitre déjà terminé, min du chapitre actuel initialisé à base.
-Game.campaign readonlystate ; Game.trainHero(path:'force'|'guard'):boolean, coût90,
+Game.campaign readonlystate ; Game.trainHero(path:'force'|'guard'):boolean, coût 90,
 uniquement preparing, nonpaused, aprèswave4, héros vivant et aucun entraînement.
 force = dégâts héros×1.15 ; guard = dégâts ordinaires/tirs reçus par héros×0.85 ;
 jamais modifier les réactions exactes de mort2/3. Choix fixé jusqu'à nouvellepartie.
@@ -46,9 +46,9 @@ activeRoster:0|1|2,chapterCamps:[string|null,string|null]}.
 createCareer(storage?:Pick<Storage,'getItem'|'setItem'>) renvoie {state,status,sync(game),
 setRoster(slot:number,roster:Kind[]):boolean,activateRoster(slot:number):boolean,
 chapterGame(chapter:1|2):Game|null}. Storage key conquete-serpents:progress:v1.
-Beststars = maxima idempotents, maximum9. Synchroniser résultats Game et capturer
+Beststars = maxima idempotents, maximum 9. Synchroniser résultats Game et capturer
 camp de débutchapitre après4/8 tantque rewards.pending, une fois par seed/chapter.
-Snapshots au plus100000caractères chacun, profileraw<=250000. Valider bornes,
+Snapshots au plus 100000 caractères chacun, profileraw<=250000. Valider bornes,
 rosters et decodeCheckpoint des camps, erreurstorage sans planter ou pertecamp.
 Chapitres rejouables seulement si vrai snapshot disponible. Une reprise d'ancien
 camp milieu dechapitre continue ce camp, sans inventer d'armée ou argent.
@@ -75,6 +75,6 @@ et texte distincts pourcontact/tir/soin, déplacement ensuiteautonome.
 Sauvegardes et effets testés rouge→vert. Menu clavier/tactile320px, focus et pause
 respectés, confirmations, reload, équipes, vraiesreprises/étoiles, web etportable.
 Tests existants gardés : les tests qui ciblent le plateau entrent via vrais boutons.
-Comparer campagnes sansnouveauxpouvoirs à0.17 et testerles deuxbranches+boost, tous
+Comparer campagnes sansnouveauxpouvoirs à 0.17 et testerles deuxbranches+boost, tous
 profils et grainesneuves. Pas de génération payante requise. LivraisonZIP+sources,
 aperçus et analyse sourcée, liensHTTPS revérifiés. Pas de déploiement dans ce lot.

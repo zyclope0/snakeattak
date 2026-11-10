@@ -1,0 +1,167 @@
+{
+  "version": "0.36.1",
+  "versionCode": 47,
+  "sourceSHA": "4f3cabe5f0cdc9961b5d5c6d233455bc1ac11cc3",
+  "sourceCommits": [
+    "e4605d6",
+    "72cc788",
+    "c54ec5b",
+    "f87c898",
+    "4f3cabe"
+  ],
+  "apk": {
+    "apkPath": "/workspace/conquete-serpents-v0.36.1-debug.apk",
+    "apkBytes": 15156123,
+    "apkSHA256": "adab7ad166490e35abff5f2e2dc8278be8c25e67f5b5bd49071aebe8a24243f3",
+    "appId": "com.conqueteserpents.famille",
+    "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "normalNoServer": true,
+    "allDistFilesIdentical": true,
+    "distFiles": 34
+  },
+  "archive": {
+    "archivePath": "/workspace/conquete-serpents-v0.36.1-preuves.tar.gz",
+    "archiveBytes": 313357893,
+    "archiveSHA256": "8b20478800ad6173c784c1543c51c344c0430da854611dbc430deedf93f55e6e",
+    "indexedFilesVerified": 1315,
+    "indexedBytes": 319079020,
+    "regularMembers": 1316,
+    "allIndexedSHA256Match": true,
+    "verification": "Read every indexed member from compressed archive and compared byte count and SHA-256; no extraction into repository",
+    "scope": "Complete pre-final-fix evidence through b73892c; immutable. Earlier APK preserved separately. Final M1 correction covered by addendum."
+  },
+  "checks": {
+    "distinctFinalCommands": 17,
+    "executionsIncludingRetainedFamilyRed": 18,
+    "nodeTests": 506,
+    "interfaceBrowserChecks": 196,
+    "capriceBrowserChecks": 281,
+    "localeBrowserChecks": 392,
+    "localeBindingChecks": 24,
+    "postNormalPortableColdContexts": 4,
+    "auditChecks": 13,
+    "frozenSources": 8,
+    "preservedHistoricalEvidenceFiles": 6600,
+    "preservedAuditOriginals": 17,
+    "formatAndDiffChecks": "PASS",
+    "postFinalFix": {
+      "nodeTests": 506,
+      "navigationChecks": 80,
+      "exactAccessibleNameCases": 12,
+      "generalBrowser": "PASS",
+      "portableColdContexts": 4,
+      "frozenSources": 8,
+      "distAPKFilesEqual": 34
+    }
+  },
+  "documentation": {
+    "historicalFilesSpaced": 84,
+    "boundedAddedSpaces": 761,
+    "affectedLinesBeforePrettier": 472,
+    "additionalManualSentenceSpace": 1,
+    "protectedSpansAndHistoricalAnchorsUnchanged": true,
+    "catalogueNameAnnouncementRowsUnchanged": true,
+    "refinementCommit": "f87c898"
+  },
+  "hygiene": {
+    "baseline": {
+      "commit": "9287e60a51adf2cbceef24db4f4771a0cb1e0640",
+      "trackedFiles": 6631,
+      "trackedBytes": 670253713,
+      "reportsBytes": 442082822,
+      "docsBytes": 197471545,
+      "policies": {
+        "262144": {
+          "eligibleFiles": 442,
+          "eligibleBytes": 479717142,
+          "retainedBytes": 190536571
+        },
+        "65536": {
+          "eligibleFiles": 466,
+          "eligibleBytes": 482811626,
+          "retainedBytes": 187442087
+        }
+      }
+    },
+    "task3Start": {
+      "commit": "49a1e5aea80a20115a72a0002d72bda24285480a",
+      "trackedFiles": 6639,
+      "trackedBytes": 670317902,
+      "reportsBytes": 442082822,
+      "docsBytes": 197481415,
+      "policies": {
+        "262144": {
+          "eligibleFiles": 442,
+          "eligibleBytes": 479717142,
+          "retainedBytes": 190600760
+        },
+        "65536": {
+          "eligibleFiles": 466,
+          "eligibleBytes": 482811626,
+          "retainedBytes": 187506276
+        }
+      }
+    },
+    "sourceBeforeAPK": {
+      "commit": "72cc788cd342fa6b9782a624d1b7b22ea7b1960e",
+      "trackedFiles": 6642,
+      "trackedBytes": 670337761,
+      "reportsBytes": 442082822,
+      "docsBytes": 197496042,
+      "policies": {
+        "262144": {
+          "eligibleFiles": 442,
+          "eligibleBytes": 479717142,
+          "retainedBytes": 190620619
+        },
+        "65536": {
+          "eligibleFiles": 466,
+          "eligibleBytes": 482811626,
+          "retainedBytes": 187526135
+        }
+      }
+    }
+  },
+  "balance": {
+    "applied": false,
+    "pairedGames": 1080,
+    "gamesPerArmPerRow": 108,
+    "replicationOfAudit44092": false,
+    "compatibility": "Old code3/checkpoint8 resolve current catalog without complete rule revision; separate versioned routing needed before changing same IDs",
+    "biteScope": "Measured refuge proposal affects all enemies; critical decision pending outside this UI lot"
+  },
+  "limits": [
+    "Chromium emulation; no physical S24, Android keyboard, TalkBack or child test claim",
+    "Local archive provided with delivery; no remote upload, merge or publication",
+    "No balance/catalog/price/classic change, history rewrite or old evidence untracking"
+  ],
+  "previousAPK": {
+    "sourceSHA": "72cc788cd342fa6b9782a624d1b7b22ea7b1960e",
+    "apkPath": "/workspace/conquete-serpents-v0.36.1-before-final-review-debug.apk",
+    "apkBytes": 15098101,
+    "apkSHA256": "a33066836f5d42aa17b3165087c95ae09788fab13539d38e9304cc11e2dd0992",
+    "appId": "com.conqueteserpents.famille",
+    "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "normalNoServer": true,
+    "allDistFilesIdentical": true,
+    "distFiles": 34
+  },
+  "addendum": {
+    "path": "/workspace/conquete-serpents-v0.36.1-final-addendum.tar.gz",
+    "bytes": 27010446,
+    "sha256": "77f235683c801d1c10c79317b1561ea8b3f3de26b4767cda7179736cc47c2de9",
+    "indexedFiles": 201,
+    "allIndexedHashesVerified": true,
+    "regularMembers": 202,
+    "source": "4f3cabe5f0cdc9961b5d5c6d233455bc1ac11cc3"
+  },
+  "reviews": {
+    "wholeBranchHead": "b73892cd0c2f6560b4b0dbf25c7797876a7fe533",
+    "critical": 0,
+    "important": 0,
+    "minorM1": "addressed and scoped re-review approved",
+    "finalRuntimeHead": "4f3cabe5f0cdc9961b5d5c6d233455bc1ac11cc3",
+    "taskReviews": "all3 spec/quality approved",
+    "sixPerspectives": "simulated; final council completed"
+  }
+}
