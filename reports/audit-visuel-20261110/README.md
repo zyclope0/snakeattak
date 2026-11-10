@@ -8,4 +8,4 @@ Les originaux de recherche restent dans `/workspace/serpents-visual-audit-202611
 
 Archive : `/workspace/audit-visuel-serpents-20261110.zip` ; 28,278,854 octets ; 122 fichiers vérifiés plus le manifeste. SHA256 `757b7fbd74ede7bff5df18fe616581f8210d231e7719d3fa6948defade3d9b1d`. [Reçu](delivery.json).
 
-La v0.36.2 reste en ligne. Code livré et clôture de publication vérifiés : 548 tests ; CI source42875093574 et CI main336410e42880966791 réussies. Ces résultats appartiennent à la livraison du jeu, pas à une prétendue nouvelle version graphique. L’audit n’a nécessité qu’un contrôle documentaire/format et l’intégrité des preuves ; aucune suite de jeu verte n’a été relancée sans changement de produit.
+La v0.36.2 reste en ligne. Code livré et clôture de publication vérifiés : 548 tests ; CI du code source (42875093574) et CI de main au commit 336410e (42880966791) réussies. Ces résultats appartiennent à la livraison du jeu, pas à une prétendue nouvelle version graphique. L’audit n’a nécessité qu’un contrôle documentaire/format et l’intégrité des preuves ; aucune suite de jeu verte n’a été relancée sans changement de produit.
