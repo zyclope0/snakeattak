@@ -128,10 +128,20 @@ try {
   sourceProgress.sync(decodeCheckpoint(source.camp));
   const expected = writeFamilyBackup(source.camp, source.career, sourceProgress.state);
   assert.ok(expected);
+  assert.equal(readFamilyBackup(expected).version, 2, 'Le témoin classique historique reste v2');
+  // Current exports add exactly the default album; every historical field stays exact.
+  const defaultAlbums = {
+    version: 1,
+    activeId: 'child-1',
+    nextId: 2,
+    campProfileId: null,
+    children: [{ id: 'child-1', name: 'Mon carnet', completed: [] }],
+  };
+  const expectedCurrent = { ...readFamilyBackup(expected), version: 4, albums: defaultAlbums };
   const a = await page(FILE, { legacy: source });
   await open(a.p);
   const raw = await exportRaw(a.p);
-  assert.deepEqual(readFamilyBackup(raw), readFamilyBackup(expected));
+  assert.deepEqual(readFamilyBackup(raw), expectedCurrent);
   await a.c.close();
   const b = await page(WEB);
   await b.p.locator('#home-new').click();
@@ -209,15 +219,18 @@ try {
   );
   assert.equal(readFamilyBackup(await stored(pOnly.p)).camp, null);
   await pOnly.c.close();
-  // A v1 exported by 0.20 migrates to v2 while keeping every classic field.
+  // Historical v1/v2 imports acquire the default album without losing a classic field.
   const legacyFile = writeFamilyBackup(source.camp, source.career);
-  const legacyDest = await page(WEB);
-  await open(legacyDest.p);
-  await choose(legacyDest.p, legacyFile);
-  await legacyDest.p.locator('#family-apply').click();
-  assert.deepEqual(readFamilyBackup(await stored(legacyDest.p)), readFamilyBackup(expected));
-  await legacyDest.c.close();
-  // Real v2 mission transfer keeps a separate classic camp and the exact run.
+  assert.equal(readFamilyBackup(legacyFile).version, 1);
+  for (const legacyRaw of [legacyFile, expected]) {
+    const legacyDest = await page(WEB);
+    await open(legacyDest.p);
+    await choose(legacyDest.p, legacyRaw);
+    await legacyDest.p.locator('#family-apply').click();
+    assert.deepEqual(readFamilyBackup(await stored(legacyDest.p)), expectedCurrent);
+    await legacyDest.c.close();
+  }
+  // A historical v3 tutorial mission keeps a separate classic camp and the exact run.
   const run = createMissionRun('refuge', 4021);
   const mission = new Game(run.seed, undefined, run);
   mission.units[0].hp = 51;
@@ -230,13 +243,15 @@ try {
     missionProgress.state,
   );
   assert.ok(missionRaw);
+  assert.equal(readFamilyBackup(missionRaw).version, 3, 'Le refuge progressif historique reste v3');
+  const expectedMission = { ...readFamilyBackup(missionRaw), version: 4, albums: defaultAlbums };
   const missionFile = await page(FILE);
   await open(missionFile.p);
   await choose(missionFile.p, missionRaw);
   await missionFile.p.locator('#family-apply').click();
   await open(missionFile.p);
   const transported = await exportRaw(missionFile.p);
-  assert.deepEqual(readFamilyBackup(transported), readFamilyBackup(missionRaw));
+  assert.deepEqual(readFamilyBackup(transported), expectedMission);
   await missionFile.c.close();
   const missionWeb = await page(WEB);
   await open(missionWeb.p);
@@ -244,7 +259,7 @@ try {
   await missionWeb.p.locator('#family-apply').click();
   await missionWeb.p.reload();
   await missionWeb.p.locator('#home-screen').waitFor({ state: 'visible' });
-  assert.deepEqual(readFamilyBackup(await stored(missionWeb.p)), readFamilyBackup(missionRaw));
+  assert.deepEqual(readFamilyBackup(await stored(missionWeb.p)), expectedMission);
   await open(missionWeb.p);
   const missionBack = await exportRaw(missionWeb.p);
   const missionReturn = await page(FILE);
@@ -253,7 +268,7 @@ try {
   await missionReturn.p.locator('#family-apply').click();
   await missionReturn.p.reload();
   await missionReturn.p.locator('#home-screen').waitFor({ state: 'visible' });
-  assert.deepEqual(readFamilyBackup(await stored(missionReturn.p)), readFamilyBackup(missionRaw));
+  assert.deepEqual(readFamilyBackup(await stored(missionReturn.p)), expectedMission);
   await missionWeb.c.close();
   await missionReturn.c.close();
   const blocked = await page(WEB, { blocked: true });
