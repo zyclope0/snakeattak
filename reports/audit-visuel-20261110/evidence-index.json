@@ -1,0 +1,259 @@
+{
+  "date": "2026-11-10",
+  "timezone": "Europe/Zurich",
+  "gameVersion": "0.36.2",
+  "gameSource": "336410e5182804211f5c69e678c157e4c3d54de8",
+  "productionChanges": false,
+  "paidGenerationCalls": 0,
+  "parentChoice": "Audit et propositions avant modification",
+  "mainstreamCoverage": {
+    "games_reviewed": 12,
+    "official_gallery_images_inspected": 73,
+    "games_with_mobile_menu_hub_or_submenu_evidence": 11,
+    "strict_well_identified_mobile_title_lobby_mode_map_or_pause": 9,
+    "partial_or_qualified_mobile_hub_or_submenu": 2,
+    "tv_menu_only_mobile_unknown": 1,
+    "live_current_menu_sessions": 0
+  },
+  "towerDefenseCoverage": {
+    "games": 5,
+    "menuOrPreparationDocumented": 4,
+    "catalogueAndBattleOnly": 1,
+    "installedOrPlayed": 0,
+    "scrollMeasured": false
+  },
+  "currentGame": {
+    "freshNativeScreens": 40,
+    "portraitDecodeChecks": 9,
+    "pageErrors": [],
+    "physicalS24": false,
+    "currentVictoryPlayedInAudit": false,
+    "album780": {
+      "scrollHeight": 2581,
+      "clientHeight": 344
+    },
+    "home780": {
+      "scrollHeight": 642,
+      "viewportHeight": 360
+    }
+  },
+  "sources": [
+    {
+      "archivePath": "recherche/mainstream/research.md",
+      "sha256": "db2045417aa6e52fba6eb62fc51f64e1c8c251ae15a9e41b1fd8894530d049c1",
+      "bytes": 19945
+    },
+    {
+      "archivePath": "recherche/mainstream/evidence.json",
+      "sha256": "d1680fbd4a9ce8fc7b09367af7f9fb9839b22389f98af55488edfe6acb0057a5",
+      "bytes": 25017
+    },
+    {
+      "archivePath": "recherche/tower-defense/research.md",
+      "sha256": "deeab8ef4764d9c1d4ac25f0d7e36869894459f9d5f7682eca94941678cdd314",
+      "bytes": 15698
+    },
+    {
+      "archivePath": "recherche/tower-defense/evidence.json",
+      "sha256": "8eaa354f8747d17ef22121b00ea41c0f55532e533ef34690d673d5c4a3270e85",
+      "bytes": 135642
+    },
+    {
+      "archivePath": "recherche/current-game/audit.md",
+      "sha256": "659802b1fc06c472bb6fbcc3609ab6d0563279c47fddabf0c443af9e2ff5faf0",
+      "bytes": 18840
+    },
+    {
+      "archivePath": "recherche/current-game/evidence.json",
+      "sha256": "88a3ababdadee5d4b5887fdc80277dbe420523598ebf5ee5799c9ad6f611319d",
+      "bytes": 406650
+    },
+    {
+      "archivePath": "recherche/current-game/guide-portrait-followup.md",
+      "sha256": "aa9fc458f2bc3f504408ebc03502507a2f97a5473a17c28f172a26b11899cc03",
+      "bytes": 3098
+    },
+    {
+      "archivePath": "recherche/current-game/guide-portrait-proof.json",
+      "sha256": "ba9b609538b52ad33897e2f9ae44fe4f3a4e4aa01159e3aef4a5da23f6f01cd1",
+      "bytes": 14337
+    }
+  ],
+  "games": [
+    {
+      "name": "Candy Crush Saga",
+      "officialSource": "https://apps.apple.com/us/app/candy-crush-saga/id553834731?uo=4",
+      "screenEvidence": "menu de carte",
+      "extraSources": [],
+      "confidence": "Élevée sur la composition visible ; faible sur les transitions.",
+      "limits": "Galerie commerciale, version du visuel inconnue ; #1 est une affiche Play Now, pas une preuve du vrai menu de démarrage."
+    },
+    {
+      "name": "Royal Match",
+      "officialSource": "https://apps.apple.com/us/app/royal-match/id1482155847?uo=4",
+      "screenEvidence": "menu principal / accueil",
+      "extraSources": [],
+      "confidence": "Élevée sur les deux écrans officiels.",
+      "limits": "Version/date des captures non garanties ; aucune interaction exécutée."
+    },
+    {
+      "name": "Angry Birds 2",
+      "officialSource": "https://apps.apple.com/us/app/angry-birds-2/id880047117?uo=4",
+      "screenEvidence": "menu de carte officiel",
+      "extraSources": [
+        {
+          "url": "https://roviosupport.helpshift.com/hc/en/10-angry-birds-2/faq/2419-new-energy-system-in-world-map/",
+          "image_url": "https://d2duuy9yo5pldo.cloudfront.net/roviosupport/f229f131-e205-4a2a-a895-529c621758dc.jpg",
+          "platform": "mobile, OS non identifié",
+          "capture_date": "inconnue"
+        }
+      ],
+      "confidence": "Élevée : capture publiée par le support de l’éditeur.",
+      "limits": "Image annotée par Rovio (rectangle rouge) ; version et date de capture inconnues."
+    },
+    {
+      "name": "Cut the Rope",
+      "officialSource": "https://apps.apple.com/us/app/cut-the-rope-physics-puzzle/id1024506959?uo=4",
+      "screenEvidence": "menu de pause mobile archivé",
+      "extraSources": [
+        {
+          "url": "https://blogs.ischool.berkeley.edu/i265s15/files/2015/02/GhahremaniMarjanA5_2.pdf",
+          "platform": "iPhone selon PDF",
+          "capture_date": "au plus tard 2015-02-26"
+        }
+      ],
+      "confidence": "Élevée pour la présence et la disposition des trois boutons ; archive secondaire.",
+      "limits": "PDF créé le 26/02/2015 ; libellé Running Application for iPhone. Accueil natif actuel inconnu. Les images Apple actuelles sont promotionnelles."
+    },
+    {
+      "name": "Fruit Ninja",
+      "officialSource": "https://apps.apple.com/us/app/fruit-ninja/id403858572?uo=4",
+      "screenEvidence": "menu de sélection des modes archivé",
+      "extraSources": [
+        {
+          "url": "https://fruit-ninja.fr.malavida.com/android/",
+          "image_url": "https://imag.malavida.com/mvimgbig/download-fs/fruit-ninja-10169-1.jpg",
+          "platform": "Android selon page",
+          "capture_date": "inconnue"
+        }
+      ],
+      "confidence": "Moyenne : capture publique d’un distributeur tiers, distincte de Fruit Ninja Classic.",
+      "limits": "Version/date de l’image inconnues ; le numéro de version de la page ne date pas automatiquement la capture."
+    },
+    {
+      "name": "Subway Surfers",
+      "officialSource": "https://apps.apple.com/us/app/subway-surfers/id512939461?uo=4",
+      "screenEvidence": "écran de démarrage iPad archivé",
+      "extraSources": [
+        {
+          "url": "https://madeforipad.ru/games/274-subway-surfers.html",
+          "image_url": "https://madeforipad.ru/uploads/posts/2013-02/1361122309_img_6580.jpg",
+          "platform": "iPad",
+          "capture_date": "2013 selon chemin de fichier/article"
+        },
+        {
+          "url": "https://sybo.helpshift.com/hc/en/5-subway-surfers/faq/212-main-screen/?p=all",
+          "platform": "mobile",
+          "capture_date": "article de support, non image inspectée"
+        }
+      ],
+      "confidence": "Élevée pour l’archive visuelle, non pour l’état actuel.",
+      "limits": "iPad ancien, format 4:3. Le support SYBO actuel décrit une autre navigation : preuve explicite que l’archive ne représente pas nécessairement aujourd’hui."
+    },
+    {
+      "name": "Crossy Road",
+      "officialSource": "https://apps.apple.com/us/app/crossy-road/id924373886?uo=4",
+      "screenEvidence": "menu Android TV seulement ; menu mobile inconnu",
+      "extraSources": [
+        {
+          "url": "https://www.hipsterwhale.com/crossy-road-support",
+          "image_url": "https://static1.squarespace.com/static/5e3bb512203ccf3516032e33/t/616f889f61fabc726422fa0c/1634699424702/CR_AndroidTV_01.png",
+          "platform": "Android TV",
+          "capture_date": "date réelle inconnue ; chemin CDN 2021"
+        }
+      ],
+      "confidence": "Élevée sur le menu TV officiel ; nulle pour le menu mobile absent.",
+      "limits": "Nom du fichier CR_AndroidTV_01 : autre plateforme, exclue du décompte strict des menus mobiles."
+    },
+    {
+      "name": "Alto’s Adventure",
+      "officialSource": "https://apps.apple.com/us/app/altos-adventure/id950812012?uo=4",
+      "screenEvidence": "écran titre mobile archivé",
+      "extraSources": [
+        {
+          "url": "https://www.idownloadblog.com/2015/02/19/altos-adventure-for-ios/",
+          "image_url": "https://media.idownloadblog.com/wp-content/uploads/2015/02/Altos-Adventure-1.0-for-iOS-iPhone-screenshot-004.jpg",
+          "platform": "iOS, paysage",
+          "capture_date": "2015-02-19, article"
+        }
+      ],
+      "confidence": "Élevée sur l’écran archivé 2015.",
+      "limits": "Ancienne version iOS, paysage ; ne prouve ni le menu actuel ni une adaptation portrait."
+    },
+    {
+      "name": "Monument Valley",
+      "officialSource": "https://apps.apple.com/us/app/monument-valley/id728293409?uo=4",
+      "screenEvidence": "sélection de chapitre mobile, montage de captures",
+      "extraSources": [
+        {
+          "url": "https://ucaskernel.com/d/503-monument-valley",
+          "image_url": "https://pic4.zhimg.com/80/v2-ced0a04692baec60092d5f01e59cbe33.jpg",
+          "platform": "mobile ; Android probable selon commentaire auteur Huawei",
+          "capture_date": "inconnue"
+        }
+      ],
+      "confidence": "Moyenne : captures réelles dans montage déclaré par l’auteur ; source communautaire.",
+      "limits": "L’auteur indique un achat sur la boutique Huawei : Android probable, appareil/version/date inconnus. Ne démontre ni swipe ni carrousel."
+    },
+    {
+      "name": "Brawl Stars",
+      "officialSource": "https://apps.apple.com/us/app/brawl-stars/id1229016807?uo=4",
+      "screenEvidence": "menu principal / lobby archivé",
+      "extraSources": [
+        {
+          "url": "https://samurai-gamers.com/brawl-stars/main-menu-guide/",
+          "image_url": "https://samurai-gamers.com/wp-content/uploads/2018/12/Main-Menu.jpg",
+          "platform": "mobile, OS non vérifié",
+          "capture_date": "2018-12 selon article et chemin"
+        }
+      ],
+      "confidence": "Élevée sur l’archive identifiée et datée.",
+      "limits": "Guide 2018 : ne certifie aucune disposition du lobby actuel. La galerie Apple ne prouve pas un menu actuel."
+    },
+    {
+      "name": "Clash of Clans",
+      "officialSource": "https://apps.apple.com/us/app/clash-of-clans/id529479190?uo=4",
+      "screenEvidence": "sous-menu de construction et carte ; accueil inconnu",
+      "extraSources": [],
+      "confidence": "Élevée sur l’existence de ces sous-menus ; faible sur l’accueil absent.",
+      "limits": "Petite résolution officielle et slogan ajouté ; preuve de sous-menus, pas d’un menu principal ni de leur état actuel."
+    },
+    {
+      "name": "Super Mario Run",
+      "officialSource": "https://apps.apple.com/us/app/super-mario-run/id1145275343?uo=4",
+      "screenEvidence": "hub de royaume, galerie officielle partielle",
+      "extraSources": [],
+      "confidence": "Élevée sur le hub visible, faible sur le parcours de lancement.",
+      "limits": "Montage commercial, bas masqué ; aucun bouton Tour/Rallye/etc. inventé depuis la mémoire."
+    }
+  ],
+  "generatorPreflights": {
+    "Magnific": {
+      "credits": 50,
+      "currency": "Magnific credits",
+      "generationOnly": true,
+      "referenceIncluded": true
+    },
+    "Higgsfield": {
+      "credits": 0.5,
+      "currency": "Higgsfield credits",
+      "baseParameters": "PNG1K medium transparent, cost-only without reference import"
+    },
+    "Runway": {
+      "authenticated": true,
+      "perCallPriceExposed": false
+    },
+    "comparableCurrency": false,
+    "actualGenerationSpend": 0
+  }
+}
