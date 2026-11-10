@@ -46,3 +46,6 @@ relecture anglophone humaine et enfants attendus.
 
 
 La [revue globale](final-review.md) et la [relecture de sa correction](final-fix-review.md) clôturent les contrôles : R1 traité, aucun nouveau constat. Les [arbitrages et limites](coordination.md) conservent le journal de décision. Les trois revues de tâche et leurs corrections sont également conservées dans ce dossier.
+
+
+Le [rapport de correction finale](final-fix-report.md) est conservé ici avec les autres preuves compactes ; le répertoire temporaire de coordination peut ainsi être supprimé sans perdre son contenu.
