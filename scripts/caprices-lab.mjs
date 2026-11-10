@@ -1,5 +1,5 @@
 // Laboratoire des caprices : vrai moteur à 30 Hz, sans navigateur ni enfant.
-// Usage : node scripts/caprices-lab.mjs [catalogue|candidats.json] [sortie.json] [shard] [shards] [graines]
+// Usage : node scripts/caprices-lab.mjs [catalogue|candidats.json] [sortie.json] [shard] [shards] [graines] [révision=2]
 // « catalogue » (défaut) joue les 18 caprices validés et chaque mission normale ; un fichier
 // de candidats permet d'essayer d'autres réglages ({ id, missionId, rules, profiles? }).
 // Avec un seul shard, affiche le taux de victoire et le cristal minimal moyen par joueur.
@@ -17,10 +17,14 @@ const [
   shardArg = '0',
   shardsArg = '1',
   seedSetsArg = '3',
+  revisionArg = '2',
 ] = process.argv.slice(2);
 const shard = Number(shardArg),
   shards = Number(shardsArg),
   seedSets = Number(seedSetsArg);
+const revision = Number(revisionArg);
+if (revisionArg !== '1' && revisionArg !== '2')
+  throw new RangeError('Révision invalide : 1 ou 2 attendu');
 const candidates =
   candidatesPath === 'catalogue'
     ? [
@@ -140,7 +144,7 @@ for (const c of candidates) {
         for (const nest of ['spread', 'clustered']) {
           const seed = (20261109 + mi * 104729 + layout * 997 + set * 7919) >>> 0;
           const run = {
-            ...createMissionRun(c.missionId, seed),
+            ...createMissionRun(c.missionId, seed, undefined, revision === 2 ? 2 : undefined),
             layout,
             assault,
             nest,
@@ -156,12 +160,14 @@ const results = mine.map((j) => ({
   c: j.c,
   mission: j.mission,
   profile: j.profile,
+  run: j.run,
+  revision,
   ...play(j.run, j.profile),
 }));
 if (outPath)
   await writeFile(
     outPath,
-    JSON.stringify({ seconds: (performance.now() - started) / 1000, results }),
+    JSON.stringify({ revision, seconds: (performance.now() - started) / 1000, results }),
   );
 if (shards === 1) {
   const groups = new Map();

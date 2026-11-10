@@ -36,7 +36,7 @@ export class BattleScene extends Phaser.Scene {
   private presentation = new Presentation();
   private feedback!: BattleFeedback;
   private motionQuery = window.matchMedia('(prefers-reduced-motion:reduce)');
-  private onPresentation: (notice: Notice | null) => void;
+  private onPresentation: (notice: Notice | null, deltaMs: number) => void;
   private resultStats!: Phaser.GameObjects.Text;
   private resultSubtitle!: Phaser.GameObjects.Text;
   private celebration!: Phaser.GameObjects.Graphics;
@@ -61,7 +61,7 @@ export class BattleScene extends Phaser.Scene {
     session: Session,
     onChange: () => void,
     onFrame: (game: import('../game.ts').Game) => void = () => {},
-    onPresentation: (notice: Notice | null) => void = () => {},
+    onPresentation: (notice: Notice | null, deltaMs: number) => void = () => {},
   ) {
     super('Battle');
     this.session = session;
@@ -174,7 +174,7 @@ export class BattleScene extends Phaser.Scene {
       return;
     }
     this.presentation.update(this.session.game, delta);
-    this.onPresentation(this.presentation.notice);
+    this.onPresentation(this.presentation.notice, delta);
     this.onFrame(this.session.game);
     this.ink.clear();
     this.honeyInk.clear();

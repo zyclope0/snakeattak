@@ -1,0 +1,80 @@
+{
+  "actualGameRevision": 2,
+  "coreSource": "f6dd559fc16e5ad6e0814e4286da9416ed9134f0",
+  "realGames": 540,
+  "canonicalIDs": 5,
+  "gamesPerRow": 108,
+  "seconds": 78.389595309,
+  "pairedControlsReused": 540,
+  "counterfactualExactMatches": 540,
+  "sourceHashesUnchanged": true,
+  "prices": {
+    "trex": 340,
+    "dragon": 210,
+    "tank": 440
+  },
+  "rows": [
+    {
+      "id": "carrefour-grand",
+      "games": 108,
+      "winsBefore": 31,
+      "winsAfter": 61,
+      "meanMinBefore": 13.9537,
+      "meanMinAfter": 31.5648,
+      "worstMinAfter": 0,
+      "timeouts": 0
+    },
+    {
+      "id": "sonnette-grand",
+      "games": 108,
+      "winsBefore": 42,
+      "winsAfter": 55,
+      "meanMinBefore": 13.1389,
+      "meanMinAfter": 19.5926,
+      "worstMinAfter": 0,
+      "timeouts": 0
+    },
+    {
+      "id": "refuge-createur-moyen",
+      "games": 108,
+      "winsBefore": 108,
+      "winsAfter": 108,
+      "meanMinBefore": 100,
+      "meanMinAfter": 58.0833,
+      "worstMinAfter": 1,
+      "timeouts": 0
+    },
+    {
+      "id": "trois-ponts-createur-moyen",
+      "games": 108,
+      "winsBefore": 108,
+      "winsAfter": 108,
+      "meanMinBefore": 100,
+      "meanMinAfter": 85.75,
+      "worstMinAfter": 46,
+      "timeouts": 0
+    },
+    {
+      "id": "course-createur-moyen",
+      "games": 108,
+      "winsBefore": 108,
+      "winsAfter": 108,
+      "meanMinBefore": 99.1667,
+      "meanMinAfter": 83.1667,
+      "worstMinAfter": 46,
+      "timeouts": 0
+    }
+  ],
+  "pricing": {
+    "method": "Real Game, no cost/damage subclass override; controlled player identical except explicitclassicconstructor revision2; missions balance2; exact outcome comparison with approvedlight132 holdout observations, same seeds/purchases/rotating placement. All missions are ordinary, no caprice.",
+    "revision": 2,
+    "sourcePlayerSHA": "d3e9dfac608659ae1509e02726fe7bba1e8ba70abd5152e26476b7b18adcf9e0",
+    "actualPlayerSHA": "0e694720411d89134fbfd8818aab4936097d6414608ce35a0d12e0e2866c0458",
+    "exactMatches": 132,
+    "games": 132,
+    "seconds": 44.65744337900001
+  },
+  "realGame2Total": 672,
+  "exploratoryDistinct": 1356,
+  "task3PhysicsHashesUnchanged": true
+}

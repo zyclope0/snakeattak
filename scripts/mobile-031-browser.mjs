@@ -265,7 +265,19 @@ try {
     );
     await page.locator('#reinforcements-toggle').click();
     await page.setViewportSize({ width: 1280, height: 800 });
+    assert.equal(
+      await page.locator('#reinforcements').evaluate((el) => el.inert),
+      true,
+      'The on-demand catalogue stays closed after changing to desktop',
+    );
+    assert.equal(
+      await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),
+      'false',
+    );
+    await page.locator('#dock-catalogue').click();
     assert.equal(await page.locator('#reinforcements').evaluate((el) => el.inert), false);
+    assert.ok(await page.locator('[data-kind="club"]').isVisible());
+    assert.ok(await page.locator('[data-kind="club"]').isEnabled());
     await page.setViewportSize({ width: 812, height: 375 });
     assert.equal(
       await page.locator('#reinforcements-toggle').getAttribute('aria-expanded'),

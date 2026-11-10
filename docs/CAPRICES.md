@@ -1,5 +1,18 @@
 # Caprices des serpents — moteur 0.36 (branche `claude/caprices`)
 
+## Annotation 0.36.2 — nouveaux départs uniquement
+
+Les tableaux historiques ci-dessous restent la référence de la révision 1.
+La révision 2 approuvée applique cinq changements : `carrefour-grand` count 1,2 ;
+`sonnette-grand` hp 1,75 ; `refuge-createur-moyen` shellEvery 2, shellHp 5,
+shellArmor 0,7, shellSpeed 0,6 et shellBite 1,5 ;
+`trois-ponts-createur-moyen` et `course-createur-moyen` shellEvery 2,
+shellHp 5, shellArmor 0,6 (shellSpeed 0,5 conservé). Le bite global reste 1.
+Seules les carapaces frappent plus fort au refuge ; représailles 2/3 et entrée
+au cristal 9 restent identiques. Les noms **et annonces** français du fils
+restent exacts, y compris en anglais. Codes et camps historiques gardent leurs
+valeurs ; voir le [bilan 0.36.2](BILAN-0.36.2.md).
+
 9 novembre 2026. Catalogue validé par le fils le jour même, avec le parent. Document
 de suivi pour le parent : [Caprices des serpents — liste à valider](https://claude.ai/artifact/BcvDr6KNm4sj8yGoV6r3oF).
 

@@ -55,6 +55,8 @@ import { levelForWave, missionLevel } from './levels.ts';
 import type { Point } from './navigation.ts';
 import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
+import { balanceRecruitPrice } from './balanceRevision.ts';
+import type { BalanceRevision } from './balanceRevision.ts';
 import { capriceBudget, capriceRules } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
 export type Entity = Point & {
@@ -146,9 +148,25 @@ export class Game {
   get caprice(): CapriceRules {
     return capriceRules(this.mission);
   }
-  constructor(seed = 2026, tuning?: Partial<BalanceTuning>, mission?: MissionRun) {
+  readonly #balanceRevision: BalanceRevision;
+  get balanceRevision(): BalanceRevision {
+    return this.#balanceRevision;
+  }
+  constructor(
+    seed = 2026,
+    tuning?: Partial<BalanceTuning>,
+    mission?: MissionRun,
+    balance?: BalanceRevision,
+  ) {
     this.mission = mission === undefined ? null : readMissionRun(mission);
     if (mission !== undefined && !this.mission) throw new RangeError('Expédition invalide');
+    const revision = this.mission?.balance ?? 1;
+    if (
+      (balance !== undefined && balance !== 1 && balance !== 2) ||
+      (this.mission && balance !== undefined && balance !== revision)
+    )
+      throw new RangeError('Révision invalide');
+    this.#balanceRevision = balance ?? revision;
     if (this.mission) {
       seed = this.mission.seed;
       this.gold = capriceBudget(
@@ -302,7 +320,7 @@ export class Game {
     return true;
   }
   recruitCost(kind: Kind) {
-    return freeRecruit(this.rewards, kind) ? 0 : kinds[kind].cost;
+    return freeRecruit(this.rewards, kind) ? 0 : balanceRecruitPrice(kind, this.balanceRevision);
   }
   chooseReward(id: string): boolean {
     const milestone = this.rewards.pending;
@@ -732,7 +750,10 @@ export class Game {
   private damageAlly(source: Entity, target: Entity, damage: number, projectile: boolean) {
     const guard = projectile ? coveringShield(this.units, target) : undefined;
     target.hp -=
-      incomingDamage(target.kind as Kind, damage) *
+      incomingDamage(
+        target.kind as Kind,
+        damage * (source.shell && !source.boss ? (this.caprice.shellBite ?? 1) : 1),
+      ) *
       (target.kind === 'hero' && this.campaign.training === 'guard' ? 0.85 : 1) *
       (guard ? 1 - GUARD_REDUCTION : 1);
     if (guard) {

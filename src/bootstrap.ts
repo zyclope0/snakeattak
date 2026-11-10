@@ -19,6 +19,7 @@ import { createCareer } from './progression.ts';
 import { bindMenu } from './ui/menu.ts';
 import { createCoach } from './ui/coaching.ts';
 import { bindBattleNotices } from './ui/battleNotices.ts';
+import { createRecruitmentReminder, createReminderMarkers } from './ui/recruitmentReminder.ts';
 import { bindSounds } from './audio/sounds.ts';
 import { createPersistence } from './checkpoints.ts';
 import Phaser from 'phaser';
@@ -39,7 +40,7 @@ const missions = createMissionProgressController(
   familySaved && 'missions' in familySaved ? familySaved.missions : undefined,
 );
 const albums = createCapriceAlbumsController(
-  familySaved?.version === 4 ? familySaved.albums : undefined,
+  familySaved?.version === 4 || familySaved?.version === 5 ? familySaved.albums : undefined,
 );
 const stickerResults = new WeakMap<Game, boolean>();
 let albumUI: ReturnType<typeof bindCapriceAlbums> | undefined;
@@ -104,7 +105,11 @@ report = bindChapterReport(session);
 refresh();
 const soundFrame = bindSounds();
 const coach = createCoach(session);
-const battleNotices = bindBattleNotices(coach, () => !!session.selected || !!session.selectedFeast);
+const battleNotices = bindBattleNotices(
+  coach,
+  () => !!session.selected || !!session.selectedFeast,
+  createRecruitmentReminder(session, createReminderMarkers(storage)),
+);
 phaser = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'game',
@@ -191,7 +196,7 @@ expeditions = bindExpeditions(
   {
     launch: launchMission,
     profileChanged: refresh,
-    launchClassic: (seed) => menu!.startFromSeed(seed),
+    launchClassic: (seed, revision) => menu!.startFromSeed(seed, revision),
     home: () => menu!.showHome(),
     canResume: () => !!missionGame || !!missions.state.retryCamp,
     resume: () => {
@@ -237,7 +242,9 @@ bindFamilyControls({
         message:
           'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.',
       };
-    albums.replaceState(canonical.version === 4 ? canonical.albums : createCapriceAlbums());
+    albums.replaceState(
+      canonical.version === 4 || canonical.version === 5 ? canonical.albums : createCapriceAlbums(),
+    );
     if (
       !albums.state.campProfileId &&
       (('missions' in canonical &&

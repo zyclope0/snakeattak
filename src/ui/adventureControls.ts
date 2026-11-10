@@ -12,7 +12,7 @@ export function bindAdventureControls(session: Session, refresh: () => void) {
   choices.forEach(
     (b) =>
       (b.onclick = () => {
-        session.game.trainHero(b.dataset.training as 'force' | 'guard');
+        session.trainHero(b.dataset.training as 'force' | 'guard');
         refresh();
       }),
   );

@@ -51,6 +51,8 @@ export type CapriceRules = Readonly<{
   shellHp: number;
   /** Part des dégâts arrêtée par le blindage des carapaces. */
   shellArmor: number;
+  /** Morsures des seules carapaces (absent : 1). */
+  shellBite?: number;
 }>;
 export type CapriceDefinition = Readonly<{
   id: string;
@@ -102,6 +104,7 @@ function validRules(rules: CapriceRules) {
     rules.speed <= 2 &&
     rules.hp > 0 &&
     rules.hp <= 2 &&
+    (rules.shellBite === undefined || (rules.shellBite >= 1 && rules.shellBite <= 3)) &&
     rules.bite >= 1 &&
     rules.bite <= 3 &&
     rules.count >= 1 &&
@@ -313,8 +316,39 @@ export function capricesForMission(
 export function capriceUnlocked(tier: CapriceTier, bestStars: number): boolean {
   return Number.isFinite(bestStars) && bestStars >= CAPRICE_UNLOCK_STARS[tier];
 }
-export function capriceRules(run: { caprice?: string } | null | undefined): CapriceRules {
-  return (run?.caprice && capriceById(run.caprice)?.rules) || NO_CAPRICE;
+const revised = new Map<string, CapriceDefinition>();
+const balancePatches: Readonly<Record<string, Partial<CapriceRules>>> = Object.freeze({
+  'carrefour-grand': { count: 1.2 },
+  'sonnette-grand': { hp: 1.75 },
+  'refuge-createur-moyen': {
+    shellEvery: 2,
+    shellHp: 5,
+    shellArmor: 0.7,
+    shellSpeed: 0.6,
+    shellBite: 1.5,
+  },
+  'trois-ponts-createur-moyen': { shellEvery: 2, shellHp: 5, shellArmor: 0.6 },
+  'course-createur-moyen': { shellEvery: 2, shellHp: 5, shellArmor: 0.6 },
+});
+export function capriceDefinitionForRun(
+  run: { caprice?: string; balance?: 2 } | null | undefined,
+): CapriceDefinition | null {
+  const definition = capriceById(run?.caprice);
+  if (!definition || run?.balance !== 2 || !balancePatches[definition.id]) return definition;
+  let resolved = revised.get(definition.id);
+  if (!resolved) {
+    resolved = Object.freeze({
+      ...definition,
+      rules: Object.freeze({ ...definition.rules, ...balancePatches[definition.id] }),
+    });
+    revised.set(definition.id, resolved);
+  }
+  return resolved;
+}
+export function capriceRules(
+  run: { caprice?: string; balance?: 2 } | null | undefined,
+): CapriceRules {
+  return capriceDefinitionForRun(run)?.rules ?? NO_CAPRICE;
 }
 export function capriceBudget(budget: number, rules: CapriceRules): number {
   return rules.budget === 1 ? budget : Math.round((budget * rules.budget) / 5) * 5;

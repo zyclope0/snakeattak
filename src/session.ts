@@ -1,6 +1,7 @@
 import { Game } from './game.ts';
 import type { Kind } from './data.ts';
 import type { FeastFlavor } from './tactics.ts';
+import { CURRENT_BALANCE_REVISION, type BalanceRevision } from './balanceRevision.ts';
 
 const STEP = 1 / 30;
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
@@ -14,12 +15,13 @@ export class Session {
   actionHint: string | null = null;
   speed: 1 | 2 = 1;
   hasPlaced = false;
+  purchaseCount = 0;
   private accumulator = 0;
   constructor(seed = freshSeed()) {
-    this.game = new Game(seed);
+    this.game = new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION);
   }
-  restart(seed = freshSeed()) {
-    this.game = new Game(seed);
+  restart(seed = freshSeed(), balanceRevision: BalanceRevision = CURRENT_BALANCE_REVISION) {
+    this.game = new Game(seed, undefined, undefined, balanceRevision);
     this.selectUnit(null);
     this.hasPlaced = false;
     this.speed = 1;
@@ -36,6 +38,18 @@ export class Session {
     if (!this.selected || !this.game.recruit(this.selected, x, y)) return false;
     this.selectUnit(null);
     this.hasPlaced = true;
+    this.purchaseCount++;
+    return true;
+  }
+  /** Successful UI purchases are observed even if income offsets their gold cost. */
+  repair(): boolean {
+    if (!this.game.repair()) return false;
+    this.purchaseCount++;
+    return true;
+  }
+  trainHero(path: 'force' | 'guard'): boolean {
+    if (!this.game.trainHero(path)) return false;
+    this.purchaseCount++;
     return true;
   }
   selectUnit(kind: Kind | null) {

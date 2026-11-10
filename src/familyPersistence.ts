@@ -91,9 +91,9 @@ export function createFamilyPersistence(storage?: StoragePort) {
       try {
         validated =
           validateCareerState(backup?.career) &&
-          (backup.version === 4 || !Object.hasOwn(backup, 'albums')) &&
+          (backup.version === 4 || backup.version === 5 || !Object.hasOwn(backup, 'albums')) &&
           (backup.version === 1 || validateMissionProgress(backup.missions)) &&
-          (backup.version !== 4 || validateCapriceAlbums(backup.albums))
+          ((backup.version !== 4 && backup.version !== 5) || validateCapriceAlbums(backup.albums))
             ? readFamilyBackup(JSON.stringify(backup))
             : null;
       } catch {

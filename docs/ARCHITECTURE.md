@@ -16,7 +16,7 @@ Le jeu reste une application statique : navigateur + fichiers sur un hébergemen
 | `src/render/feast.ts`       | Pot et parfum dessinés à partir de l’état.                                  |
 | `src/ai.ts`                 | Évaluation des voies et choix tactiques pondérés.                           |
 | `src/navigation.ts`         | A*, obstacles et cache de chemins borné.                                    |
-| `src/data.ts`               | Catalogue et équilibrage.                                                   |
+| `src/data.ts`               | Catalogue historique immuable.                                              |
 | `src/render/BattleScene.ts` | Personnages, effets et affichage de l'état du jeu.                          |
 | `src/render/terrain.ts`     | Décor fixe.                                                                 |
 | `src/ui/controls.ts`        | Commandes HTML et tableau de bord.                                          |
@@ -441,3 +441,19 @@ valeurs existantes du moteur. La petite soucoupe procédurale est ajoutée une
 fois au cache du seul terrain classique `ruins`, puis ses objets temporaires
 sont détruits avec le cycle de terrain existant. Aucun acteur, collision,
 récompense, son ou tirage aléatoire n'est ajouté.
+
+## Équilibrage versionné — 0.36.2
+
+`balanceRevision.ts` résout deux révisions immuables : 1 historique, 2 pour
+les nouveaux départs explicitement créés par la session. `data.ts` et les
+36 définitions historiques ne changent pas. Game expose sa révision readonly ;
+les prix et les définitions de caprices sont résolus sans mutation et avec cache.
+Les anciennes API gardent leur défaut historique. Les reprises, codes et réessais
+conservent la révision : code 4, camp 9, progression 2 et famille 5 portent la
+révision 2 ; les lecteurs historiques restent disponibles. Les carnets restent
+au format 1 et partagent la campagne et ses étoiles.
+
+`ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
+et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la
+ligne d’annonce existante et dans un cache UI de 64 codes maximum, avec repli
+mémoire si le stockage est refusé. Il ne modifie ni Game, ni RNG, ni sauvegarde.

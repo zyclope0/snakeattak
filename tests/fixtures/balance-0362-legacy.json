@@ -1,0 +1,1950 @@
+{
+  "source": "9d3dded",
+  "catalogHash": "abfcd924de2244d986a19ffe287fc4fd32ea9c0f75f851038a4aa5da25c6b5f2",
+  "traces": [
+    {
+      "seed": 42,
+      "snapshots": [
+        "273debf19af5d1c35df9bd1ef459e434416fd1b90dc79e858d7002f2199eedab",
+        "0452b9429be983dae204884e2b01f76e36e38e066631c883c36757ba47f7f60e",
+        "42a981f024b379aa1755d56a6f40979d3bee0ae9a155eda7117db0553335c750",
+        "18b2d4ca0476fba9a1fc5ae88f4995e41ee2823fadd929c2cb3c4f332e81fe88",
+        "53fab5c2f86305c40c52a557650832dc7f2692445401c156e86cdd54a911337a",
+        "c522045a7f704f26dc9b9a76d496e511d05038018b4f3127be092f3ed42d175c"
+      ]
+    },
+    {
+      "seed": 2026,
+      "snapshots": [
+        "d8931349fabc34e00cfd27c37f4d09a4efb2f858c973d7282024831d141f40f3",
+        "95a08453450f6bb1aaf7c5a8318a32b750d950e3e296c88b9d4a2c41b519d2ec",
+        "b11e59ae897e1b67fe0d85299789721bb146aea6b3aca889a4c61f1943ec9b6a",
+        "8280a977f931b9c9fad1184af5516ae052c242da3449c80b8766d046181699e1",
+        "0af3ab083cfa44ae8965c24f84759be6b241f402f1ba5fef7cddd6cb7288d112",
+        "91cfbb52f03e13007eda07451a0aa476c3c39036ab2b7f170502aa82c945c5d0"
+      ]
+    },
+    {
+      "seed": 4294967295,
+      "snapshots": [
+        "25013f82d96e5729dca9d65da3f31176259246e908cc5a4a38aa7802332544bc",
+        "089905a424e41fd69383cb4a291431914f2f7851de76e766f232e5072bf60739",
+        "b8771351c45051233391155ae1088aa2b07e3e7ced7437de3f3e737bf7158a10",
+        "ad7cf0b8bb874f5c9892d20c652cffca45393abab7f6196b59cd3641f1e546bc",
+        "8773005a2d258fce3660cdbb4b4adbe674a63cb5cd7fcd667d899c75b60aeaa4",
+        "7aa29dfadc0473e46ad2277ab5439746e86f2ec44a807e6899da43aaab341168"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-petit"
+      },
+      "snapshots": [
+        "9c713a1a0ad33edde8b48a41b6d6b1c7fdee270406da17bc3bdce412b0fe7490",
+        "e26c7d26af621c5764ff81b06ab70b56060afd9403bb59f4c12124c9c4930e61",
+        "6bccc17834be329d41fa9846c9f88f71d023f42f95e7b667561946c846893388",
+        "3ab40995cfd8e4f6c6a55d6a4e0df0633e238816b50cc763f617a92e31615f8c",
+        "907555f5d50a479377dac670fe76b7572e5df857c31a3bd15760e0e95bed2db0",
+        "8b5b45cb796dc92ef30618cb1077785eca1ad4c0fb250fb539dad0676e532896"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "refuge-petit"
+      },
+      "snapshots": [
+        "d006998728b346c558220cf4ea385118667f9bf4411c9391e81239b32ddd3989",
+        "e7593b94213b3a1626f686b3a8780081ee97a7f77a1178b33a10e91b0aff64c1",
+        "b4da3b096ea2d42853b77afcac11d8f63674c58c958e821bcdb0087257d50f2e",
+        "613f0508080fa40423704a612fb16a3d50fcafc75042ca208270440d8e91cc68",
+        "60842ba39d05a5f05d380cc3c6add064e0fd59a88e0f66b30229d9e9e39e3eaa",
+        "0842808467c4148da7776e1388107d628a2bdc6c44b5026a98f53ea9fb127477"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-moyen"
+      },
+      "snapshots": [
+        "cf3d89083b4d46e1f786716cff9c5f13885b2ba0fe5427e66e93ed209e21f9d3",
+        "ca02ddefc7088ee7553ea1d1e92e3f5fb655d047700bb76b252f7d6f1690e571",
+        "0e0f60688722625ce8ab515616593d3b95b3f948aa5317ff82eb4b2a14334afe",
+        "0b386c683238605ec3654ab1896d7c19a3fa859b72b5cd83f54e4d003b19a6d1",
+        "baf91d39cf94510649f39fe1d628287ffbbfdc969273480d457a73edcf5e5f43",
+        "661408ad1fbd896c5dafabce723b28ecce9ab73689a45115b639a60bd0b3fd8f"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "refuge-moyen"
+      },
+      "snapshots": [
+        "875cb709de88bf5a60c09239e5d9890dd2bdcd8b168bac432335f31fcf756e0b",
+        "c9622b164a57f13fb1d30f3c25a72b8eab19f8cb2ef9b4c3b0458fbf63ec565a",
+        "1f39eba2ee567ecef878705b78f1cce7a55bb287b26c56057b3801a0e2b241fb",
+        "904517137eaa37831af3101e97b7259623faee29d27f5a4b7b12ed4a062da660",
+        "761f8129cb258f262eeffff8616e39fe4e714d9a9aaaa80283183fa22d854255",
+        "a2ceec0075ff21a80e26f2ed74aa87fc1903e8e0f4a033c39907e98102949806"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-grand"
+      },
+      "snapshots": [
+        "2a082bff4a0968d12769188348f21208fb86cd9ac6c302b8045172c496f8f6c8",
+        "774fadd6cb9aa0979a40420d4390f888533331384f963d2f6b4e50522df9b879",
+        "0dd4cd30f3bc11b0c2b9e444f6afe1463538ffd0b75d08fb15b1b84951b1ed9b",
+        "ba96191b5a7f6136bb52578f686e53ab3680c15b81b3a1fb6831703356ae2ace",
+        "5f22a9bd12187ed98d4c92dbf2f7265539070101945ad3319612426b89d2bbe9",
+        "d563d7c8fe7f04c03145a6566bef63ed4298f533945d458a16ad38dc3ad41e28"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "refuge-grand"
+      },
+      "snapshots": [
+        "36af464593a61587283ed09b857a72f425c0c78ab2d622726062cc21c8ad283d",
+        "ea2b3dab15ee4dc2c65f1fb4192f9227d2be8f5fefbf0e8824a12a50bfc0a41f",
+        "403c793c8819fa4f5c8de55825726b358f8a15b202640a0a8b6a0f23522039f7",
+        "f4a13858bb048ffb5b11d88205c0e87fe07febf97bd26a92b9394ed932f23883",
+        "f4a4785c068006f680da1b3b3f914e65bfd1501e64dbd39aaa0db7fbfd77c71a",
+        "15b2e20802858a65e77b1b9ed5052d88d3c7571227bdcabbcff94df93e7a5bee"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-petit"
+      },
+      "snapshots": [
+        "4b4b18cfa928f2ed3ec248069168f821fa8564802d87d64cdbf007b80cce0c21",
+        "a33753deb92c78ee1928aabb2ebfe5cf5ad676ca0529f8829546620bd63f2dba",
+        "323f93489ab5827d9481ab8fb0a3d45fa4cef8f026a90c7bc17053062fd05ab1",
+        "d810801d3fcdd3fb9a99f8378a5e6614045863d298509f0e3dcc39fb4bdc953b",
+        "19b90e0465166726afce37fe9b4192af896c43979eb0cac4b1509bfce92289f1",
+        "123e816ae4b378cf68063b619f7ef38f5017c0e070d6660b7f9511b00263ad62"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "trois-ponts-petit"
+      },
+      "snapshots": [
+        "60e47441bd1d48397e6798ed94d55c9f8d1d16635b89422ccf298ee983f6775c",
+        "4ec05d62a4f5f90fb1065a20a56e5ef81ad10e88470fbee5c2a1ec555e2569e6",
+        "f8d97d84a0ed4365c5627612fbfcb3ed59b570d0739a15190130509b5e9c75bf",
+        "74ff9d5ad763c6495f00d524ac2c0320a191202f4eecfefc640f48fe3a0ccd51",
+        "8768d06d688418670b102fab54bc3710e454418e3f48d067d10c418c8e702286",
+        "e266be37e172a29baed4cdd4ffef2e494db3f9c1b38751bcbfaa02c74b2f4371"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-moyen"
+      },
+      "snapshots": [
+        "9b6675a1be4e52ecf481fd454f63644bb50f3784e31810a75a8114aa2f5f6373",
+        "574b90953575787b0a2d6ff750779eb14a14a6e78ca16ee01f062cb979befb09",
+        "83ed5d1e002780b315fbecceab345d32290063eae5a3696e2932bf6ad7be3070",
+        "14e4952d75f26611c7f2318f6abfdb5173c93bc3d52ca89019836dfffbce9bdb",
+        "89434870eb111834b5659c49046f69fe0d595f8020894525aef371fe12e12181",
+        "85b50793332282ea513595764b110f78c2b7d46dd8c80ed3ae6c22364d2d64a0"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "trois-ponts-moyen"
+      },
+      "snapshots": [
+        "a19959a2e3abe1a7c1f8e19f74e3a9d7212e0934674dfe9d06284cec15249634",
+        "18ef9f1ef489c52321e669e10fd4ec933acd6ce713f36a4ba804108ae2cb5de1",
+        "90607d707fb875875fc332b188e0a16f0555fe552bb6ed3bef98a9f7e781c906",
+        "64635c38e5a2999824ccf56f009410c9416eb63aca3de726677bbf0eafae9ffd",
+        "f53b8ee8eb1c3e1262370384c2e7b5e09ea26a37313fa854a1fc3d4a7c353d57",
+        "d58eaa536cc462b98c07eda6d2f02405e400c17c23f18c722602273c27560959"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-grand"
+      },
+      "snapshots": [
+        "2228adfcc56d27c1ef982613f4f1b1b5ddbaf5af873d2cf72c3a0afc7f0ee8e2",
+        "91c9d54f7c8c7282e272c6d27399e094d696ad886c56f14f7a443f2ca8cf2103",
+        "c70a998579507a65e31e57063f367c6669b0e1069b2d300cbf8f0a76c04b462d",
+        "c215334ed26816b3a833da0427ededb7b65cb866bc1807ab4cc268e78eedcd67",
+        "91816dc866cb1d5349a129e9e8bfb8ee36e483bf2a69288af01eccb92e468c95",
+        "d4f2f840b8e74e115861bc104ec85350bfc66f9952b7250b1577a8a547fe8e90"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "trois-ponts-grand"
+      },
+      "snapshots": [
+        "2dfed2c2c0b263eda414b89bfaddb893657c6ab33c202add6cddc2440b0f3de2",
+        "846c097934069fd77ba113b4d43593ceb47e6c76982e3a133e759c7b70c68d14",
+        "c3d07f051d25420d5c941336e6640ef37715592b574cf308bbbe11a3cff6b5d9",
+        "2658feee7183124fac5e859451282dbb8b9b3adb12e88d410b99b128948bbaec",
+        "0ba41ef19e22f69a98d6bb0e994c4e0c2dc548bcdf6996f2ff822f7914b17952",
+        "0baa9d2e9e2f56f1255809aa7adb6797d1ba7d06cd0f9d52eb4752304eb77a2f"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-petit"
+      },
+      "snapshots": [
+        "144a6451882892810ef8cd57ccf2d0faeb1f8d48eacf39fab7a29b59719e58cd",
+        "c6848cf258740dfe8bd3ace3c6de46dce3726f47e50ce8362c62b821876f08cd",
+        "92bc37927dcb1c09157eed560316998e6f4f17d1a7a99562d51158c1834069cb",
+        "65dc40faac6f6d3dc37bbe2f876de71cb1083da13c40e97aba1d910312b917c8",
+        "c614272e98331c8dc2fba623dec05ad2aee3b581335037ced0328cab6d2f9c33",
+        "a1511862f2626b97b5a77a40385c71d78ee6cecdb930cf85e12118af30fbe620"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "course",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "course-petit"
+      },
+      "snapshots": [
+        "aa6631c8003082660895dea2ed4d169b2769ea8454f03db20938065d16f457a6",
+        "83d002b1c85a9242a712bda4e920545557df3fef99b2c81c6d1505503fb05a02",
+        "d6e484017b01ac7d738b469624acb02c65ac67c2faaf99366bc523bdbf92d988",
+        "cf7f954457cf77e265b30b912ebd7dd8d505442b76366a26b9d0cf7a089763d5",
+        "01e20c3250507f4aa19f764a40a8c906a000cfc79c5d42903251b08f1fef01ae",
+        "01a5eb279a67de19623143b28299271250b64061cd0f7c4b0feba12c7542bb3b"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-moyen"
+      },
+      "snapshots": [
+        "478de30fe808ce37513b4a73168f63394e08aff256671425e98c327bccf5bbaa",
+        "01f8d1f56a6a9054e5791566cf8196dabadea766521378e43b690ad4f9d61ab9",
+        "040e8fa8be549469cec596254640249a92eb3df33f0d1ce53981c237cb666781",
+        "0eb503e7b1a880da08ad0b60b972e0da6ff024a6497f9e60d8c67076bdee9260",
+        "af8096addd986626c474b95515f1b2bbd14867f738efb7038cbecd285dc006a0",
+        "a7c0db444676761e32b6479f594e5d13d2a1b10b8258fb0145e63cf2af26a677"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "course",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "course-moyen"
+      },
+      "snapshots": [
+        "e3065442643c5f02c9cd46f540c1b869d97b92336679a2beb2b3c0db22dc22c6",
+        "14089ac28c757c4bb84f1abd4f6d6f87578075458ade4da1c9225f5485ff5c0e",
+        "f855595aa096e75520977e9c16c1ed31a7d697daa505ba239eca033f3d444f44",
+        "6e0fe162758e5aca3672b14a7e190978a2068329819c0ec67817dfbab405d304",
+        "0358c7997131b75dba4ea61d5b0d5a1a9daae42c23c0874f4c9d5c5334805d9c",
+        "8859d9580923abccc0a588fadd3b9bec22defc92947cc0dfeed39d89a965ffdb"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-grand"
+      },
+      "snapshots": [
+        "dbc90e666187bb2b4951eee23735e125a7d068426fc5f5973d7a35032f80a579",
+        "864adec2d84d3080438a9dac08987445dbd15408e3a98aa13a657c89e66c8258",
+        "7015b90609cf23d6c44fc0236654cbaefd1c7c6c2ba18e213c01ec6f5c93257b",
+        "9f209a9c99d729a078e20fabb230546a153bc07bb6ecea0031e6d1058c3586fb",
+        "851601f33ca672ae6aefa23240353645c5bc37dd2a8faa3b60918ed92187df19",
+        "5f10ea92800b12694c31ab05a0a832bcf7525396aae7e74c0129ef1bc6c47529"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "course",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "course-grand"
+      },
+      "snapshots": [
+        "e1f35d665771a89171c387aade805d94842ae9cac47b226b8824a7918df017c3",
+        "478f9a42a2070dcf6c50575de0c214a2c82eb0cd24081009cde1852215934906",
+        "40fff4667ac326f3df9c4fc4d6687410baa0c4008c7f7aa1d714b4aa66e6e2d7",
+        "150c04694531f0a0bc25ca96003962b54b92e75d2f6c0a6629b9ada01a6469b2",
+        "f05ce5efbb4b182d95541cee213b7d266038e0e211208760d01d46101fa5f610",
+        "044e18fe4a108a1879600bfdbbab5f5cb2b5364c936a61852640c20a6e09f7f6"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-petit"
+      },
+      "snapshots": [
+        "d5b603bc90d6d0502db40ce06b0ad2166289dad36c8b7e6aada1e8594a76e678",
+        "bec9d590e6d0fc1f081d503724adba7f59c1ad187a5a80ec09a4d440bf004558",
+        "5b80af46a3e2c600f82f0fb4600075f71e15bb8349e0fbb5202ce5edd8dd51d3",
+        "0cc04ab6de36babc5c3493d337fd8e2ec828d93e02cab9b3d553193b757dd057",
+        "ff7e62df207795e3ede70cfbc7351a08a76decf89bdac5da5a2c3b40f6ef7149",
+        "860259ca731a5312581712209fa646fce3cf9222e7a781b98f02dc705e4f8af1"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "coquilles-petit"
+      },
+      "snapshots": [
+        "6f3a1ee7ec7e4b1706c948d78f3418e417e49b6381c5e5721e8f548bb0554864",
+        "4941310ed1b321306768858a60fefe611accde8092e4c0cd8efeb9e9e1ccc27c",
+        "0d26d836b93c44512cf1025d60b09d5ab4d787fd343ea726bc6705db918c48e6",
+        "83a053ef35f2e2ab0b40e5cc1f31e27c216e91ee473f2a2187a228f6bc6efbe1",
+        "96b6f4798a8c35a4e5bc3e9b2cb06c9a58d316bfe75bd8e19cba8f9846f9dda4",
+        "794bf83ad1c56ea116fead4907dc65dcb42b370bcfd37f2802860351bda7c2d9"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-moyen"
+      },
+      "snapshots": [
+        "4c26bf74351f747d652d228f65cdb8958388e158bb87534077571256e9469d15",
+        "41e34ec73272d15ad71ff1b85e2d98cdd2cc147d6013a2341f8ac596501ca65e",
+        "9e7b5763b25058fce91a86387481516f9ce6a42ca797fc68924d6b21d60ee7ee",
+        "3268f9cc1e0ccb24c47bc7c3c9e4811e585c67018c10cbe83bc38c3a09df1d2d",
+        "fbfcfdeb1c6f0bff264ef2d2cea192d36da5cb82f533020acfb067f9803ea955",
+        "6b103cfea88eba9b423dd5719859b71a2db515e88a252b71b4a8f7018a6bbe46"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "coquilles-moyen"
+      },
+      "snapshots": [
+        "cbc94c53719ceda6b2666fbee1a4730bf4484414a52119a672ed1beea202b70a",
+        "f408e2ad4f81629c6e1079e88104df9508dd1d08c3b51da97791cdb8abfef18e",
+        "2829f1d595901d05c4264bb61ff04980cabbbd839f4957fd1f7c4050e457239b",
+        "440fe6274b70a4b7faa4f324e41e9b07fc137b197a30ef7004bb60c67ad89f4b",
+        "6bed880aaf1a1a871233b54a0edf4488566f426efd58ef1ff5031c55b5e69686",
+        "6ff8f6717e159b3eeba55c4cb0336355b4365d3b070a23fd1cc9983a6f9b4cb9"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-grand"
+      },
+      "snapshots": [
+        "a77d55fe14a00fa30fde24cb5c9a8be838274cad1b5dfaae626d27fdce52495b",
+        "155905ccbca4d3e5b3af47eed1aae318fe9cea9f0ff3385a4571d19e50a3a657",
+        "4b9e5f677eb6c3fde82ba4f52ce047291d455f912cc06117dc4eb6ef32005410",
+        "9dc4ce6b0ba3026a8d7a13549c970e00fd7161e0294ab79164db2644e4df8021",
+        "8f425fe97e43164935acbfe2e0ed35f6beecec8d61015dfb52ab7d2741fa62a5",
+        "01a7876da8de71df1f8b860b8d0b64112abfbaf2971392b1935f9837fa5f3001"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "coquilles-grand"
+      },
+      "snapshots": [
+        "7494e8a70b6d3c2bd78208bd657677d0266ffb5a248fc271b85ccdf36d0ff1bf",
+        "64035833f2e6be83e10afe541a04649f61ba9c70cb59e73213c1bd7a0bbb1708",
+        "774775abdbe910af743461d7c8609168a1fff85708996f49b2f4f9552220dfc2",
+        "63a874df0bd27d7e0e46926b25c18115d38ec3f4dce3b076eda1d2e30f021294",
+        "91046528c83531884ab8e10b17474f7772fb43ebf786efeaa65c14979d88d01c",
+        "b1e334bc5f586856ec6d33494059c907d2f75905589e5280563f0ba79e222e01"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-petit"
+      },
+      "snapshots": [
+        "b8c5a2dacbe2f099ab0d01635511e943c34a2f1b4d81130e1e3acee41a261afb",
+        "3fb98c2b5f49599f16529f3985c4ac302d874e2092f2ef9fca01130961bf6ff5",
+        "5b1cf049487602b1f16599eb29c1ac8589899b68a5c8b5b3a1d0412f47815304",
+        "1eed04bb5dce086aff639446647c4500382a7bcde9f805e923455dedbe427bd3",
+        "438dbe86ff6aa92d5333c47b6acc1ed86b76dd9163765f994b3c01dd4d7f2b96",
+        "e2465b85dd4d8d80392145be16375b597eeb44ea8bdedd9f6cb9647d41a1ce1e"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "sonnette-petit"
+      },
+      "snapshots": [
+        "77df93a305a2c5eb691aa62bcdbd7d42f3c208295471db2d6fb619a135a20e40",
+        "5318b354801ca165d18a76bced8fb653899fe7b3646bcb92935c0eda4cea05f5",
+        "33fd43028d08e5e28151dbcea4e1e53d4bfe0538e317ed8a6b909500e748f11c",
+        "9a8eee268c0cb90837cbd1dfdeb8a00b284fc27b260ff5383a4324c0c8723608",
+        "1990e6062f64112bc7711a0a2821fe2d34b36b88a01360ba7b59ae31ac463309",
+        "0c54b813b9637fb55d36b09cc67aee643fc6a88224cc4430313aa14b934fc701"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-moyen"
+      },
+      "snapshots": [
+        "a174f919f20345b1a1247789c5f224a87e228055de28adc88f3705a0a45bff54",
+        "df183d640ae8a99a16214387f905530a83ca5e720e3d8537570a4605a43d1d63",
+        "064083844352d9239469af6f3df72ff0e73815499a838bcb861c16dd0fc43689",
+        "ab0aabd8be913c7e307d9264f1371c606cfcee60d5f9260fe8aa480a419aedca",
+        "982f955d4d38399e504669e89736b4ed2a24f65da6abaeca0f52138d021e533b",
+        "fe211047cd177b4d33d50d32d8b712dfa0eb6fb216d79c867c752880bf665173"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "sonnette-moyen"
+      },
+      "snapshots": [
+        "a93c8725cd759607822f1df0d1f804dbbbffb7950c59e3be9d051ffe4212c3d7",
+        "3e7484465194b23f9ea9d01c52d377bb849a62a06bb647757ff7f51c5f8fd26c",
+        "91af280c3528b1fdd0a3544fad1fc5f7a6248999101c4ba2bb55e699556b4d4e",
+        "7f1df1a0ff06439f1793f5b6744bca2bf9337e37ecd917dfdcce7b5ec7c606f5",
+        "1cdf70c7fee6c47ca1f28d930609608ac4d93671f52e561208585172c6bc980d",
+        "9c1071d77cfc37e90e86d8201bec864dd6246f5b6b4e2afde27eaf6f35aee981"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-grand"
+      },
+      "snapshots": [
+        "1d6e147a7525b2482c0cc621031ce858927a55b551654262c8e80870407269ec",
+        "f53c1b929fb4af3dcf2f92b1ce03d7a3fc1bad3f9fc09613443ccd564b222238",
+        "42410de0bdbb6d3e9704b6bd7fda67323c1ee69314a53b4db8f713c0f4553c5f",
+        "11b4cf0052f52365433036418d533163d30dc25f8228a0bdced901067c1730e9",
+        "cb24d3312d2bf2bb5633fc6c4d94696bce0683482c52e5b872e01aaa3dae0bbe",
+        "247cb324b866588513ace3a5c3613a8e9e2978e6ea0967f8389fde863e77657d"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "sonnette-grand"
+      },
+      "snapshots": [
+        "c08b060d1b1f1eb7867a04ba1e475c60767f788fbde6ccedf027fd8805e1d8fa",
+        "d6ea433e0c908c7fe360e03751aa9622f448daa6292c4840376ec6c2d42d179d",
+        "8327af01801b1d07eaf7aa6b5a0cb43b5d22177ae73b2083bbddf876e80843f8",
+        "e3e85b045825cabac734019c0ec2c48c04b73309861b08a81702eec91a13fc75",
+        "dfed9c3bd41e7e661fe2d5ebc1b531bb716ecaf291439b3602da0ca0c3ea2372",
+        "bbffa04a1fad2d77afeae09176a81275777f28450d0e079d57ac8026b991af7b"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-petit"
+      },
+      "snapshots": [
+        "7fc9ec24319290fefcb09b87845b6eed7aeca1ab48ec6183fb85f9a784739898",
+        "7bd4d5900d855f40f92eb17b14daea2c22ed8d0c46063621a509a84cb31ef6db",
+        "6be8d0091d5a10e8800e362a7992fbc469ac86bb32dfe1d31e333a1e3f7e39a9",
+        "72638276b65245d961389356762592f4146f65d2a0beba7061433e0ebdbc867a",
+        "0b5def5aaeb0002c1ac5b9cab431a4f5c71b1d238f1d08e8a9d6ead049edfe6f",
+        "ce51d808f50bce865d1f70312eb1162233f30f23505f4d759d94975235d350b6"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "carrefour-petit"
+      },
+      "snapshots": [
+        "f0b164b921335e35f8840e82341733036b83853e5d0349e1bf0c1727423c3340",
+        "07442c0a63569344d89eb66cab1e2a66464aafb21dc4af39eaedbc91c723aed1",
+        "fc296901524386fff2a01a78b6466ab72c9fdcb549f497fdcd42d0310787355c",
+        "f2e6a117fcab4da7567d5cd3ce849cf817ac72329f7cbe331c12fa61aa901da9",
+        "e48d764ff75c4576afcf4e6c2c03ee26db270106b54f746f2207701d9d8e00bc",
+        "3142603643934ec8b4dfffe7934dfc42025d9a1978dd37b525a4ed38dc5abef0"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-moyen"
+      },
+      "snapshots": [
+        "e7860d69b194a9fd7cb0e6ee5e1a4703b9b27c622b869d5f7474a259a30f8da3",
+        "fc4083e5de9bf638e8584e40780cb8a02d108d8cc6b0f7fa1c07215eaf39256a",
+        "329fa2e9d85b852f6f46bb65ccf3b13d8495b8428b9f5311daa1a9904c15aa73",
+        "9f3ca03cd0c838736ebf1f9195a388bb0299c641a637daa5f94dc13ac404c1d6",
+        "450988cc68ad6c3024540f2afe72973d51c5b2e47275d5454158d6e1c3e5a95f",
+        "c3409e39ae3347a5192e70d1a71f6362fc8430e5dec33501f4c11a3c67ad24ed"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "carrefour-moyen"
+      },
+      "snapshots": [
+        "7153b5d892c00ccaae13f073c7be231e6ecc6fdaf8a401f382a958845e3fd3cd",
+        "33f691231da83edf368a98c8cb22d173b5ea2bbf565493e445c719380454e973",
+        "65a9e97b199f1f28dc953941951bff76f34df7d1d504ce6c1b508ea68068eea2",
+        "94304c69a266100e55259d50f817cfd6effe40c89361059395f0d0bf1f4b70d7",
+        "4f128e89f0d8ed819ab1cc4d7c588a358e942fb3d48212f75c8adb261095449f",
+        "3796f50bdeb5af5ef9bab04af9cb00e53d723beff79b0ac8080d1325d26938f8"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-grand"
+      },
+      "snapshots": [
+        "6021ce8297b3e25859c802bd7f7dc1b172ff7492248a8d71c4a042bf98a24d95",
+        "fda146b0420d3298149147175b908e12c4cfe9b31a5a545ef0a84b69b82243f9",
+        "f52498bbd6e4ce2e24aed8ab46edbb039d12bcddd244935cbb74738066b3627b",
+        "5d48787938be9782277b9819f3d533b1df83d58dd298399f96654e8ae85455ea",
+        "f5b6b9ac69b0262e8386bc47a5c868d9bd7df0b92f5afb33716258e814da64b2",
+        "ce77ca8e7fa7dec2785e7f90e9e9e8a6f0c277bcc322919b751cc1f8a03d70e3"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "carrefour-grand"
+      },
+      "snapshots": [
+        "e648af65ea84b2634d42fdcad40a4980ccc765521bc80eea7f889221e5b6d4cf",
+        "f00b2188aa94dbd05c22f2107f5f2fd6c8b48d6e50e244ceafc20b5f46c4ec02",
+        "b0c5f82963d9af4bb0556570a2deb656f3851d7f715ebf62a39c40a66136f4c1",
+        "1b9d504597902665de479f6c90db0ee4e249d405a979d1a48a814459823c609e",
+        "2049b9df6b76a129c854366bb5bac156309aa4c3144d982b6c4b10d9faca2027",
+        "f969139de1a2ab03478f4acbd6bc05efe33fd335253ee351563035ff6b13a3ae"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-createur-petit"
+      },
+      "snapshots": [
+        "cae25d4c5aaa466eef05adf6e00e62af04f327eda9d5c326923b2e1e13b6f798",
+        "c03440b388c8705b4f2eeefaff8c3bfeeed73f5df465f1655f78dcaf2cd95c1d",
+        "26d53199867807099a6428e92f31d808c1d4b059295d2dbc871682f9128e7df5",
+        "fbf30704ff4fc5281ccaad452be4ce18de02b4676b795a5340baa259f3452955",
+        "48c4aea270f0f828b65be1deb12ff13f87b99b3024bc9e8ddd8ade86b7b39c26",
+        "d9f10d5e48fa64e98c456e98fbe90035e756185e0ea2cb9a015397e7747df878"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "refuge-createur-petit"
+      },
+      "snapshots": [
+        "468209da91f3e2602b537eae14ca2cdbb1254c05d3b3e95febd3c2be8563c068",
+        "cbed72becafbc0dd24a8102ff657f0a7c76b0bacd2e45c2660db7e903b6b33aa",
+        "7d2bf5526bd90a5f38bd5485f84f451a7f597cbc8c6b6ddbbb1a6a42596c96dc",
+        "085985112fe7246bb3662ce68baf96a15fe01a668c21b18b754319600e458c5f",
+        "774c031297aefa3017af38278923af8ec3fc0ddfe26e9a7fa079a026bc2c3c44",
+        "4f0dfe734276d6819813d9996ebe8ed73946f94b33be67d9ae8579843fc767e9"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-createur-moyen"
+      },
+      "snapshots": [
+        "a632a83856c331411c647a08e39a729b2b126921b9f9610475e6cca25614a60c",
+        "96d963de86fadc26ee2a9cb40571852465595eeee55538196a666d2b7d751c33",
+        "3ac7a35b49c3857377c1772b03d084a9dd66e13c535686d7a3e22ef2bce17076",
+        "349711aa41b1c86b23c3de1fa7284c27a9ed5c03e3eb29c0b869af62924048b3",
+        "da7043deeb619b17008d38f5cf58532018e3f39f2adf194dca30f1d64912c2eb",
+        "b0fdcf4400a547642095e6ee077d687e01a98fb92c24a0291827c573aad542bb"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "refuge-createur-moyen"
+      },
+      "snapshots": [
+        "6637e7c34c0187059d1bfb4a82efd83df34d07245cafc30ae56e21cbd0bd6c46",
+        "3331d6c63a4dc103ad47ca7f7fa4e11c1f3b326ac17259a46725a0d456ec75cc",
+        "799aebaa2824c1252e426201b5aa32dc9ce820bde1ad827f39b1d139bf8a2e64",
+        "07715a78df6c45715f2de74faa267f2c2e130a1e261802fb81ab063a28d38f58",
+        "62406851c645b510b7b66c05543d3ff395453812642192809b48b0b25384e58c",
+        "f6440e2c0f5c2d752fafac4f9728d9fbf2dc7a75f3de9dec96359cab398d0069"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-createur-grand"
+      },
+      "snapshots": [
+        "3f9d530ef0af26f83c26c727173f6bcce5f7010d072af1d0dd9c7b5e9d3b7d5f",
+        "8b2242f1d862f23c3de6eca78427e4673999b0de5e631ded70fde9bae3713fa8",
+        "68dd9606236109c3a42d85701a508bb5eb315ef9de0b3aec8fec78e15a754c9f",
+        "30bc0d0e18e6f8a097ff90ccd5c8c311af8aaa6e2505bd7c09e7cd8b74a4c849",
+        "5ca62b8fc74b63488378b95414d20606e3d57daa19b7aab5163c99150b5ff111",
+        "de77982d83a1f41e668c85783bcffaa0d14a91b9e87b80bded8c8a081dbda2b5"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "refuge-createur-grand"
+      },
+      "snapshots": [
+        "03dfab55543c8aedc3915b33595162c1e18cdc56323c3431d4b1f39d06bd1e86",
+        "c3f1f9cd3774aec0693bfe803aa33acd80bcfbbc5371b186c0ae8ad0546ded59",
+        "a7a5320b0ac4ac2ec9fa0191507b4f10b0f5661a5288b10aca7181da9f38045a",
+        "be2bb8efb0216de33705505aabb408b9f2ae889fa616bc9da60850e31f14e5bb",
+        "374a2b97c783afa6d878a500bb38a10d072f949f4da20421d6fa1d17f3457a1a",
+        "709520a5dfb72019d0cee5661e6c7e5a59932c2dc76dfd11f2ca04b2e4be17a8"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-petit"
+      },
+      "snapshots": [
+        "3e6cb55fea51e9d95d1ff7fe3310fa094bdda412d48a79006c2db5a7fe6c1549",
+        "e6262fb6e2fa4d64d067b43cea1d3e96e251e561b1b2cb5fea0fcd9b1825f37a",
+        "93a116a1826c149e4e83e4e0643f270354d6d813b8f728d94b063d3d4f0080e9",
+        "a6d2f6d68433ae316712d2ed71b3ff4f1fb0e53be482464948b9f7e2c4a893cc",
+        "1fbea6700e1f30536ff20d21e94ff6c4a2785ccc8893fe35addd09380120ba93",
+        "2e18a26bc69780813039659a217ab7c51bac59614a7bcbcab8a086b303d85821"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-petit"
+      },
+      "snapshots": [
+        "cb937a9257741f25d6ec382c13781a1df5fcb5d2e185d82c826eeac97d14b7ce",
+        "bee5b291de148473d1aa5c64b45938acd4c4eb665cc2147f9d4571073d6efaf3",
+        "5c50fdc76bdb06854264b58806d3ae07e5b2e2f7a6292da632e095b5425ec966",
+        "791430825ad4da35e871dfc445122f8596660b258fc2f4091740ce14af5b3894",
+        "dc722d5b044484d111a1b9ef98b92ff22af327429ffe841e42a94986512c8d32",
+        "894b3c8a0c094f74534cff52929837ed198da82d0cab208755e2b410044c3812"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-moyen"
+      },
+      "snapshots": [
+        "a559fc42a56e106f8572e0a16a15ea66d36797061192fd6c1be2612decf30487",
+        "fbecf68b523bb86d3af870b859122fb6949e04356364aabf70e7ac754b4b5f49",
+        "a09cfe67ab9e8d6f528098892059b186f285a554fc513d7b1a1bf0b346c074b2",
+        "a5ba26cb69204f1f04167368ccf34b11fda6a47f564d3e862d68fd6e0ea302c3",
+        "43d5036fe31a3ebb94eb14ab117ae06137e007661069ea4ab5005733dc969a8d",
+        "6f1c5e9c5e9364dcd88cc2bd92deec0a2eb2c45e51682f566a7ffe2a59a5fff5"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-moyen"
+      },
+      "snapshots": [
+        "98bea9b59af1033cc50cbf6c99328107b118c743967f40ff6ba29d4fc5f65ca9",
+        "28402ed7139ba4a3401cc3bf0bd99328a40daaf5c2b3893302f49ae47c85631c",
+        "7d4a5bb0266f07c551cb15853366824e5fe1bda7e769e753263568530e0a62ab",
+        "fd1bc0d04edb40e271cba1fcf2f11bbb8551799958ae65520f1e39b823778f33",
+        "32a61b2045f8eb820d9b5175cf7a994b8097a439680b72aa380a849db2b96397",
+        "b26fee75b39cc6806b366f6aacc675c3732294c33f7d3f6eabaf4d34ac5f9cf7"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-grand"
+      },
+      "snapshots": [
+        "17a33afd789d69b80523cf39ff92d9776924298de4742f221e521f9a6622dcf2",
+        "a56e8c4663ad76f45cfb9ba8cd74c9e9d333e13d4b75bc15ac1ddd7bd132a7f5",
+        "1a542dbbb5d036e8bf4e330fd3ae3cc55c27f3d57b0c25d7275aa510c88d2cbc",
+        "37e364de4ee1add834f7601754f6530f3e44ca564ed35005220d92a2b048c6a4",
+        "e7e5bb325130487a0691e2ece9903b1528007bd5287669cc2d474749781a0650",
+        "4a722aa913a0caeaaea1a50130ac376e07d60f8dc72acb4869ebe6a093420d3a"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-grand"
+      },
+      "snapshots": [
+        "21dab7540da5a1c1a62bdfb1bafe7cec19d46dccdc7d7eb5e6b4e5986ae7806c",
+        "ea369691fa3462c8395f974e93b1169966b9f834b4dd1f3175b070312b6466e3",
+        "95aa3eda6296af7c3c929ebc0fbc1c33f5aa36aa868f15de6142c7c56d6e77f1",
+        "c463adb241e3071e01ee84a0326f9e3e8567f0186e831c593290695557f11b1d",
+        "24612d76db17e78a52894d5270f7a523f8831b1b62ebef52d3a4b6875de1247a",
+        "6fbd76923d87527be8e4815be9a6ff580559e55f6dde0cf3e73661d5d1441177"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-createur-petit"
+      },
+      "snapshots": [
+        "ed517baf5186064a4757caaa8dfb1a015b8b22889e4a5d46f7c3d998f1499dc3",
+        "b7504b641f35209c51cbccbb0a734a7d37ccce7e6808ee6bc6e9cece4e015a18",
+        "7d9bd14944f9584ef089788015cd134ad31ceba9de15405450acb11425cf0b95",
+        "a4593eacc2e73c0ac3f7896d7832a0bf243303daadc0ba1f71f23207ebb5a77c",
+        "4d1c880fa1b7d44ef4f2ebf2a8210492d59899aa9d31de83934220f380c5f4fc",
+        "51b3adad332ddcb5dde126abf3f5116251b28e64463a6bf07b55565a5d117d22"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "course",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "course-createur-petit"
+      },
+      "snapshots": [
+        "ad9c0e060c957741dfb76a64285ec5eed0a1e5cee5881645082f290ed7f5b99c",
+        "07195f102fdf302ce52ac35831fbfafc4ab4e9cd076377e8487ef32a477f016e",
+        "79b5766a483b86d7f6bfd32e6aae6c948d714fcf30fd62ce6148117f34d95c32",
+        "bd6b9468a15bd13fff05cf71df9c44346dc3754ef9be6b498d2c03190c73f7d5",
+        "6f6ae285f6d23036b572e9184b874c60db08a6aab445769a7b984f942d855a13",
+        "e0d8ce67640671986b94a84c54773e4011874044c92503bf86d3ed1fd6884595"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-createur-moyen"
+      },
+      "snapshots": [
+        "ade6689ad12eb6d70fca0324244fa7bb035c28b409cb4cb30aaf82da6d16f348",
+        "721dfc5fe931ad43472f8c5bd1feb55a6d5cdbb1dd003da2091f6cd2ab84a722",
+        "e28ed1f454bb26e78bb862aad860469afe65e00ff28a29c84f6667a6643a3702",
+        "334c12e23f3f77ac2f035a1e113c620bb431a127e8e8cd0e14fcfbc7791ba9a4",
+        "832ef8e06406185a33ed21cc353478bd27178307ba82dec3f2b09ad4ad30d63f",
+        "ae2f1bd127d19f5b124d0787ae3e86937fec09ecfc95dc3c27a97f6f75e1ed04"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "course",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "course-createur-moyen"
+      },
+      "snapshots": [
+        "4b360d8cf8617fa5619272b4ce24e5eeb83c73e9b752a0c381d6bc928759ef56",
+        "8898cc158aa4296dd9cf0db6454dff48d5c449e2a26ea8dd6d48f286076a96fa",
+        "8b218b29a1db27fe74cdd34555dc83fbc5572c4f4ad1b8657c1d63efb39100cb",
+        "ee8ee20bdd9c1af896f04ee5d30dc6673f696c6351fd4c551831a45cd4185705",
+        "da7f5100cefff67acb1a0b0458b71bcd2491ae00a81f917237360ef7eedf2029",
+        "0fb8f37f5b8eb9d4e55a3436b8d5f690c9740eb3431668a916935f316fc9ea33"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-createur-grand"
+      },
+      "snapshots": [
+        "b6ee32fca27a5858686421d4681f939afa017935989c9eea3d2d30b9515c2b0b",
+        "515868bceb18b00ee0a4dbed4df77282e1e28307a80cdf069d6bea8725a88899",
+        "42f947772163a39af64e0aaf1ee331de4edffdf08f5c3a8626921c7cb211d89c",
+        "a08f5602dc4b44c34f9ee4d8bd948178321c9d5d413c484b2408965176ddd516",
+        "7a873961605604f1508ac4398eb8fb9d64f886b74061ba7c899e28a5a2f8c595",
+        "782afb8a648d87010d7319f4b3ee2374a085b14bf83fcee0e70906400db02ed7"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "course",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "course-createur-grand"
+      },
+      "snapshots": [
+        "3e03e7e993c3554ce92ebdf5166a586b97079bfffee1859a4c2fa4b6b8bc69b6",
+        "1fb739060441edb0bb3af3f065b0c56709d7185d5126676d52dfa1a20bffd0a3",
+        "13cffaae3a5e7f9090c4044abdec120f8acfed44c5be810fddfa6f7dba91d309",
+        "4ac2d75387a4403a1e89522ad34f2b66e3df382edefa06f6848eff738a56f389",
+        "86754a5840244a6c1ef97e1b4a6436aff1bddd084f73e1bcf27b09f7fa726f4f",
+        "7e4d8c6ec2432b13904d73db68bae587081878881dc4505da04db3355ed0cf61"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-createur-petit"
+      },
+      "snapshots": [
+        "e7b2474e22eea3d0d55e1714c80ef6e3cd6121b27fec0624f2950ba1a3970a53",
+        "2d72f660fe4c0ed973d6fdc0cbb95b5af73a5716c53a8985d0435abd98d7fa02",
+        "430dfe776a2f8ed747e1126428c2b49a8e801b3c376658dfc22e767761592ea1",
+        "6554f4546d766434bdfb13528763b4ed2f83bb45d7eefe15eddf07a075b2d6b5",
+        "c6f1e68694a1e5ff70e401a631391e6795304064a9704f3d1ce005e9d29dd9a6",
+        "059be715fce16c92f82862f722a7abfe54bee88c66cbe2fa8d2476f4b1ba2eee"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "coquilles-createur-petit"
+      },
+      "snapshots": [
+        "722c986dece072056eb4448d7df7cf42584fd3c87a4059c37da4aa93cd434752",
+        "5490c53d7263a96b14a449d0cf485e5ea777208a218b9e47356cb857b2c49531",
+        "229d87bd7aae85c35394ca36092ad68cb959a23d26b4302f2424de998e6806c7",
+        "5240093bd48f4bb89e24f51d6f3d186897b6534367ae106111c0f86255a2caf2",
+        "6d83e59aca5fea1ca6d67c2288fbe1254791182fe9cd4805aec39636dcf24239",
+        "49c2aa4799168e72111ed9c91ba951efb6ce5f1da4e56ebd2dc24708dec2d1f9"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-createur-moyen"
+      },
+      "snapshots": [
+        "38a2eea6cbd3584089fb75d045489ae974b120360609af0f405bafd7c4543a96",
+        "75c2891f526943a39fadd0c10bfd7099b8bf2efd9c1a33ec0bfa768699075260",
+        "73946fc9526b9052ae99538ec33f2513ec46925c2bfeb9a5dbcbdcc76c5289d1",
+        "3a08e4225a40e404b99b5fd7f7988195f65f58d5cd8e7e97352e7cd094f196d9",
+        "85abe38043caadc32c375138764d8ec36d66143b8b9a3292a03b2362bd7a9ab7",
+        "9d0915f5798c8ae0846617478ddf1c93c66b562bd4e7e61a20bcb777fdc25781"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "coquilles-createur-moyen"
+      },
+      "snapshots": [
+        "bfca75c2fa6eda28bfdea4262d9b3fd35b58d05dbae09db4774da14e3a8221ea",
+        "0cfcd4a94e1bb16f189d5c018d8ffa456e9b3a020341822d52a7275f287f8f63",
+        "d1fdb4eb213a36f6dcef30be58b1e1b7f850e09a8d6a71a53ec0c04a1eb756ed",
+        "882827df45e08e0ae03977d94e4704bdd281e9f3ebda7d8732d24f28906cb8ce",
+        "cf475ad561ab33f1eae244535e3836782bc35236c67a62e6e7ea0a0ffc60610d",
+        "d57f74e047cf52c0b1801272319213e896498d3fda2d90e157ac5ca4b5ce7e0a"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-createur-grand"
+      },
+      "snapshots": [
+        "475b9894865b45052136b023963b12d328dab6c20e49241f122c3ccd36625ecf",
+        "221b42adfa0a2aeb69962ce42c56e3ae6f759f0895277f7faf2f2d75d7d0217a",
+        "1b0e885ab29d8f9aaeb9151fd028564082f8f8b8f31b17ed4164598f9adf09ce",
+        "c45048e18c6db5bd340efe9a1004af0117203ea2821a107df5efce29bc4451e8",
+        "d1032ce0036b1be0c0650838313d90a62485b138e9cf27ae6f0b531c73cef80d",
+        "ec14d4c79157340019e731b28c0da001468c1fb639770a5f55090912f2f2fced"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "coquilles",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "coquilles-createur-grand"
+      },
+      "snapshots": [
+        "217614f4eeda213644ee8665bd487fc1ad65bbcaaea091ec65b1c7f6d08b7f01",
+        "d47cb3da262b40c53f5af106cf1ae674d64147f64a4bda884e993f355e03d06e",
+        "439f014ff86e984426d9597ac3d04a9ff1066e571bcdf5b9e85a4418039cd843",
+        "1541ab8862cd96f5dc2c9989b8a184a460e0cf4cea567016b8d2d5bdf484642c",
+        "f8ab76f6fa1507e9396df8bed9022849d33ba9db2ed2936ea25d4f839d516da9",
+        "1640ee627d1a06406e5989a4320ddcc73012028785aa7085418f2c4edf00f93b"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-createur-petit"
+      },
+      "snapshots": [
+        "2f5040d50793ac6d2a8f08596855426a2a3ca0beceb679195832eae04b16fb0e",
+        "29d067468571fe54d64e0cfa4b26dee118e5ef87b0e9d50b69be1c56056f14e3",
+        "69d6817182619127d21a3d48602001fe93d169e9a27cecd4c559daecbc05296a",
+        "ca3dc9c6622fd6dd265548ff738d94c2d29a9a8ed60ee3a4153588d2fbc7c187",
+        "04a85b15dabe0d552b2e8c704e7810db2287bfbd159437a6c012f59854ffad77",
+        "e00446964ceeb4a4d77bf95631927e99f8f79fee88584615729fb61da00acfb3"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "sonnette-createur-petit"
+      },
+      "snapshots": [
+        "127c4aac675e147d785512d6c107e3b7fe53ffc168078f7517451075c8e04eb9",
+        "24c680fde0160869d2b2786d9469bd9948cbd0d651e78c77930c93e181ce4c25",
+        "41a37ab7eb46e236eed6b1cd5fefc4da795d9ec945b5fd11bf2eeaf21f33d50d",
+        "63d079a1debdee1ee57fc340068454914cdd551a5ca908463b9e1ed1cd80e71f",
+        "2393aa8eca07aaeed6e13cc33507e7e74309715fda8604c26e2406cd186add32",
+        "bcb999ef646b2dda2126c14bae18a5730a45d941f8de18b016bc047bb29a6ee8"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-createur-moyen"
+      },
+      "snapshots": [
+        "dbfe1bf040ee509e0d965903a451618551ab3c5148dff3a385b7fe5dc339d3ab",
+        "81cd252730dad8d1dcb36506a2ddc31fab831b8841c2be34ba85269e1bea2f35",
+        "6c679b8c2d41d864f894abdd77a18ddc0e026d323a6d12114f968458819e1cdb",
+        "6d1a59acd3c142222ceeafffd0d72992bd329a84f59c4a2bf4d872092067fd2b",
+        "40169bf99092fee6561d1fe5ee3ca2ac66ddaaa35c33db875adaf47947c44866",
+        "566162cbf106ef945313b78462c810dea3e5a35d9e0c37e2c99b4ff98a3ecea1"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "sonnette-createur-moyen"
+      },
+      "snapshots": [
+        "cace50058b85cf829d9fb31c8af196c9bdd74b23ea8745396920b32d3a515d47",
+        "6c85a5f4addc0ca266e6d28be4b5602d6a20d440f62a02ceae2af8e5e2a78a8c",
+        "8bebedab5339dd7f1d95a68f5892dbfd0f0b6b22731aef159f0b6bb41ccd0e0a",
+        "c976c5e66312e01d7c6bd87f15c5fe80fe5c4d2c67130d337a79d434915652b6",
+        "1af21a6f67f5f0164b14c506cd7b0a2c5d1792be988aa65f314c9aa3fe7446b4",
+        "818a35dc1e598635a7db90d4476fb840ef8405694b9de26925227a489240711d"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-createur-grand"
+      },
+      "snapshots": [
+        "7f745e2a26753768ebe32b5562855b7517f67d9bcc4b7f2865899a528d9a77e8",
+        "6a86f051dceb957ee5a9e57ed07cc6345981e25157c5a28fa4e45bf3cde473dd",
+        "23c6695b353e35a93a4025953c03c49dde56730de8f4d4ce29a041de3458a385",
+        "33cb85f962736c90621ee4299385afa07f275dac3265fc5023dd461f9be53b95",
+        "edef352dc9abe0615e50fa725600c1cf23061a29bde1b44d7aa7b0ef38433811",
+        "21f4e2ede049ff9d961979dee8acd32a8b74530b6a83429319ea43b219e75a0e"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "sonnette",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "sonnette-createur-grand"
+      },
+      "snapshots": [
+        "e4a6ab7d75b86ae0a8cf21a888626bbbcecae76b4c42a139fcda51db3e640831",
+        "7e2f9d6f6b9784bd34a492a304338f1f11e4629021212a93f8f4550ca89661d4",
+        "582c513d8947214dfeafef0a3b47eafac7efa7b71be31bf970459d24080bce73",
+        "81d6419dd1ea09c9fef97681eeacbb91bf47363030c3182daf02a821048a97e5",
+        "7f2633383afc040c5b5b7ce9e2999e76e943f143db3d1fc75c19625469468c7d",
+        "9839c38983876ee609f68ce8283097a11cc85c66c58dd1df9555739b1d16b98a"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-createur-petit"
+      },
+      "snapshots": [
+        "c5419dc9250e33ec5befd2a46e6368d3d00d8d97310f84a71d20c962ce495385",
+        "25625c9ec9923eb20c6c3d6974b7dba2cc48378d45ea3489f56848701878e340",
+        "5a7dcd3650ab5c9ec8a29d14831cc1b36108f6b6334466127f37206d4df10613",
+        "ca916099954bdd638d6ade91f099a935da5f6125c7b5be1f20752d4ef3537c4e",
+        "b77b20ae6ce8e09a93e12ec13012cde27cf8c9d8f86e41633100af4fb6778d9b",
+        "7b7dd1910f09839664d1a57cb546bf346958108528c7658c745ebf6f36106235"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "carrefour-createur-petit"
+      },
+      "snapshots": [
+        "39dee89539d5d279522f703f2e9a8fed199eddb7e4bd7bd08ace6f2f139f1e50",
+        "90a20aa0df63c639f4c1ee7a028af65644f86b426778d2e4de5f9f8f1eb13c9c",
+        "a243574482cafef7a7b0c1d80ef675146ab79134316b1559031a24fcb1374435",
+        "28c7d290ae8be84471a4d3eedd4da9e33d03f5d148b55555cd36800f6a383ff9",
+        "fac83ebcbe0e085a20bc23a8fdf71f391162e78b1549ac5d32710e868587e6f5",
+        "e9419be0279f66069df9431e08a983c9303d427cf6ef76f4ec77fca3e8bae01b"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-createur-moyen"
+      },
+      "snapshots": [
+        "9f8f173fbaecd416486b52eb4983ccb0830a7df1f967af7390915e160a27e3c9",
+        "7ea855765c27aa8a2227388d9576ea03d32189a56dba0f438bef6e50dd4c9510",
+        "1abe6427772e6cc52425cfcce1efbcc20ad62df17147e6058375c55ccddb89a2",
+        "3958c40847486d09a7944c9ec2b83cbb40a233ed4e928f0fed758448967cd03f",
+        "4779e077dab9190f36af0f451b74ec4d24d530479c5908502667ebab8dfa637c",
+        "f59fd9b7ecdc49b78d635add9d8e2062234f545eac0cc573fd8b6b7ffb47207b"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "carrefour-createur-moyen"
+      },
+      "snapshots": [
+        "705db4e373211098802859ab0e441079cd9f7fd5203b06b5f8826c84eb2aec15",
+        "6da13a7b2abda761436f70599cab5224df71a7cc76f28cf256c5dd7d16c1d70e",
+        "7d4ba5a3e3dcb01534b2088b7d1cd92780cf460f0e65fa2c180ed9aedfb9ee17",
+        "4d93b03c7104cdb4c952b6d7e4d632d0c0aa218bed2b89d31ff6731e4cb8a836",
+        "cb62d4e7f3c17ee81949ce872dc47d7b732def316f0b73b3acaba92d76ae900a",
+        "fa28437f730485521e703ba6478971bf3905b7c801c7d9a381d3eb8a4a262ba9"
+      ]
+    },
+    {
+      "seed": 42,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-createur-grand"
+      },
+      "snapshots": [
+        "73f1ae2d560f78619a2efd2613b666478d33189252a893723335bebbf23d392a",
+        "51e49c943ef81476d25e25a73c1737417cac147a4055b41e7312e0fa8e353625",
+        "9c2c2496deb94bfdf3618c01a643fb197fe25972055c9f3f9ca51cdf7772ea6a",
+        "f98b86806a05bc83e0a7a9d4829435c61cbc88a4c8ed4ae1223cca0eb03326cd",
+        "f94003258c0952a4fbd908da6f2559f6da6c25d7796e2ec605494da631240cfe",
+        "daa78a72e8a37e087fff23a16ca2e4a83f68f3da1474a82477c1e31011145e44"
+      ]
+    },
+    {
+      "seed": 2026,
+      "run": {
+        "missionId": "carrefour",
+        "seed": 2026,
+        "layout": 2,
+        "assault": "rush",
+        "nest": "spread",
+        "caprice": "carrefour-createur-grand"
+      },
+      "snapshots": [
+        "ef8473755a92df0fdea73185e30b0a0b916d699da72d5f6ab8ed8275209acaa2",
+        "d089df9f888261efdbb3b20d7e8120c67ba9d5dce38e0b602ae96dfeac47426c",
+        "fd030942c07f7841b0aecf07417326cd6adac269985442dec0876db7bd97d42d",
+        "b8cf15bdc092e04619dcd7399bfee618bf2aa8647cbfa9e776baa7971e9351ce",
+        "fe3e9b42417b3c807d6d5fa3c26a10973697cc6518053d78f1f80a8ae71bf47e",
+        "3b17106ce431ef5daf111535a4798067dee4a7e3a056e72854d006c987be53f5"
+      ]
+    }
+  ],
+  "camps": [
+    {
+      "run": null,
+      "tactical": true,
+      "raw": "{\"version\":6,\"initialSeed\":42,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "AVENTURE-1-0000-0580-HF"
+    },
+    {
+      "run": null,
+      "tactical": false,
+      "raw": "{\"version\":4,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "AVENTURE-1-0000-0580-HF"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "seed": 42,
+        "layout": 0,
+        "assault": "balanced",
+        "nest": "spread"
+      },
+      "tactical": false,
+      "raw": "{\"version\":5,\"mission\":{\"missionId\":\"refuge\",\"seed\":42,\"layout\":0,\"assault\":\"balanced\",\"nest\":\"spread\"},\"missionMinBase\":100,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-1-0000-0581-8T"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "seed": 42,
+        "layout": 0,
+        "assault": "balanced",
+        "nest": "spread"
+      },
+      "tactical": true,
+      "raw": "{\"version\":6,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"seed\":42,\"layout\":0,\"assault\":\"balanced\",\"nest\":\"spread\"},\"missionMinBase\":100,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-1-0000-0581-8T"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 0,
+        "assault": "balanced",
+        "nest": "spread"
+      },
+      "tactical": true,
+      "raw": "{\"version\":7,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":42,\"layout\":0,\"assault\":\"balanced\",\"nest\":\"spread\"},\"missionMinBase\":100,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-2-0000-0581-89"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"refuge-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-3-0000-0AM2-S1-2F"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"refuge-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-3-0000-0AM2-S2-F2"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"refuge-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-3-0000-0AM2-S3-VN"
+    },
+    {
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"trois-ponts\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"trois-ponts-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":275,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "PONTS-3-0000-0AGM-S1-6M"
+    },
+    {
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"trois-ponts\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"trois-ponts-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":550,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "PONTS-3-0000-0AGM-S2-CD"
+    },
+    {
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"trois-ponts\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"trois-ponts-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":550,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "PONTS-3-0000-0AGM-S3-ZT"
+    },
+    {
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"course\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"course-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":700,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "VIFS-3-0000-0AH6-S1-JE"
+    },
+    {
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"course\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"course-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":700,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "VIFS-3-0000-0AH6-S2-5V"
+    },
+    {
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"course\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"course-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":700,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "VIFS-3-0000-0AH6-S3-S8"
+    },
+    {
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"coquilles\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"coquilles-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":850,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "COQUILLES-3-0000-0AHR-S1-4X"
+    },
+    {
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"coquilles\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"coquilles-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":850,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "COQUILLES-3-0000-0AHR-S2-Z4"
+    },
+    {
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"coquilles\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"coquilles-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":850,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "COQUILLES-3-0000-0AHR-S3-BQ"
+    },
+    {
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"sonnette\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"sonnette-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1050,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "SONNETTE-3-0000-0AJA-S1-C5"
+    },
+    {
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"sonnette\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"sonnette-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1050,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "SONNETTE-3-0000-0AJA-S2-6C"
+    },
+    {
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"sonnette\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"sonnette-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1050,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "SONNETTE-3-0000-0AJA-S3-JZ"
+    },
+    {
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"carrefour\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"carrefour-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "FOUGERE-3-0000-0AJW-S1-ST"
+    },
+    {
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"carrefour\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"carrefour-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "FOUGERE-3-0000-0AJW-S2-D7"
+    },
+    {
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"carrefour\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"carrefour-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "FOUGERE-3-0000-0AJW-S3-0M"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-createur-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"refuge-createur-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-3-0000-0AM2-C1-9Z"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-createur-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"refuge-createur-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-3-0000-0AM2-C2-PJ"
+    },
+    {
+      "run": {
+        "missionId": "refuge",
+        "rules": 2,
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "refuge-createur-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"refuge-createur-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":450,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "REFUGE-3-0000-0AM2-C3-35"
+    },
+    {
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"trois-ponts\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"trois-ponts-createur-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":550,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "PONTS-3-0000-0AGM-C1-Z4"
+    },
+    {
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"trois-ponts\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"trois-ponts-createur-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":550,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "PONTS-3-0000-0AGM-C2-4X"
+    },
+    {
+      "run": {
+        "missionId": "trois-ponts",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "trois-ponts-createur-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"trois-ponts\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"trois-ponts-createur-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":550,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "PONTS-3-0000-0AGM-C3-RA"
+    },
+    {
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-createur-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"course\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"course-createur-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":700,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "VIFS-3-0000-0AH6-C1-DY"
+    },
+    {
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-createur-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"course\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"course-createur-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":700,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "VIFS-3-0000-0AH6-C2-1B"
+    },
+    {
+      "run": {
+        "missionId": "course",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "course-createur-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"course\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"course-createur-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":700,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "VIFS-3-0000-0AH6-C3-MR"
+    },
+    {
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-createur-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"coquilles\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"coquilles-createur-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":850,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "COQUILLES-3-0000-0AHR-C1-CD"
+    },
+    {
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-createur-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"coquilles\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"coquilles-createur-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":850,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "COQUILLES-3-0000-0AHR-C2-6M"
+    },
+    {
+      "run": {
+        "missionId": "coquilles",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "coquilles-createur-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"coquilles\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"coquilles-createur-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":850,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "COQUILLES-3-0000-0AHR-C3-K7"
+    },
+    {
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-createur-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"sonnette\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"sonnette-createur-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1050,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "SONNETTE-3-0000-0AJA-C1-GN"
+    },
+    {
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-createur-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"sonnette\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"sonnette-createur-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1050,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "SONNETTE-3-0000-0AJA-C2-AW"
+    },
+    {
+      "run": {
+        "missionId": "sonnette",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "sonnette-createur-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"sonnette\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"sonnette-createur-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1050,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "SONNETTE-3-0000-0AJA-C3-QF"
+    },
+    {
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-createur-petit"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"carrefour\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"carrefour-createur-petit\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "FOUGERE-3-0000-0AJW-C1-JA"
+    },
+    {
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-createur-moyen"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"carrefour\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"carrefour-createur-moyen\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "FOUGERE-3-0000-0AJW-C2-5Q"
+    },
+    {
+      "run": {
+        "missionId": "carrefour",
+        "seed": 42,
+        "layout": 1,
+        "assault": "balanced",
+        "nest": "spread",
+        "caprice": "carrefour-createur-grand"
+      },
+      "tactical": true,
+      "raw": "{\"version\":8,\"initialSeed\":42,\"mission\":{\"missionId\":\"carrefour\",\"seed\":42,\"layout\":1,\"assault\":\"balanced\",\"nest\":\"spread\",\"caprice\":\"carrefour-createur-grand\"},\"missionMinBase\":100,\"capriceKindsChosen\":[],\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":42,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":0,\"gold\":1300,\"base\":100,\"rng\":42,\"nextId\":3,\"kills\":0,\"hatched\":0,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":756,\"y\":180,\"hp\":140,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":756,\"y\":468,\"hp\":140,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":828,\"y\":324,\"hp\":330,\"homeX\":828,\"homeY\":324}]}",
+      "code": "FOUGERE-3-0000-0AJW-C3-S4"
+    }
+  ],
+  "family": [
+    "{\"format\":\"conquete-serpents-family\",\"version\":1,\"camp\":\"{\\\"version\\\":6,\\\"initialSeed\\\":42,\\\"campaign\\\":{\\\"training\\\":\\\"none\\\",\\\"chapterMin\\\":[100,100,100],\\\"chapterStars\\\":[0,0,0]},\\\"rewards\\\":{\\\"seed\\\":42,\\\"pending\\\":null,\\\"choices\\\":[],\\\"ward\\\":0},\\\"wave\\\":0,\\\"gold\\\":300,\\\"base\\\":100,\\\"rng\\\":42,\\\"nextId\\\":3,\\\"kills\\\":0,\\\"hatched\\\":0,\\\"units\\\":[{\\\"id\\\":1,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":180,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":180},{\\\"id\\\":2,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":468,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":468},{\\\"id\\\":3,\\\"kind\\\":\\\"hero\\\",\\\"x\\\":828,\\\"y\\\":324,\\\"hp\\\":330,\\\"homeX\\\":828,\\\"homeY\\\":324}]}\",\"career\":{\"version\":1,\"activeRoster\":0,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"chapterCamps\":[null,null]}}",
+    "{\"format\":\"conquete-serpents-family\",\"version\":2,\"camp\":\"{\\\"version\\\":6,\\\"initialSeed\\\":42,\\\"mission\\\":{\\\"missionId\\\":\\\"refuge\\\",\\\"seed\\\":42,\\\"layout\\\":0,\\\"assault\\\":\\\"balanced\\\",\\\"nest\\\":\\\"spread\\\"},\\\"missionMinBase\\\":100,\\\"campaign\\\":{\\\"training\\\":\\\"none\\\",\\\"chapterMin\\\":[100,100,100],\\\"chapterStars\\\":[0,0,0]},\\\"rewards\\\":{\\\"seed\\\":42,\\\"pending\\\":null,\\\"choices\\\":[],\\\"ward\\\":0},\\\"wave\\\":0,\\\"gold\\\":450,\\\"base\\\":100,\\\"rng\\\":42,\\\"nextId\\\":3,\\\"kills\\\":0,\\\"hatched\\\":0,\\\"units\\\":[{\\\"id\\\":1,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":180,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":180},{\\\"id\\\":2,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":468,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":468},{\\\"id\\\":3,\\\"kind\\\":\\\"hero\\\",\\\"x\\\":828,\\\"y\\\":324,\\\"hp\\\":330,\\\"homeX\\\":828,\\\"homeY\\\":324}]}\",\"career\":{\"version\":1,\"activeRoster\":0,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"chapterCamps\":[null,null]},\"missions\":{\"version\":1,\"bestStars\":{\"refuge\":0,\"trois-ponts\":0,\"course\":0,\"coquilles\":0,\"sonnette\":0,\"carrefour\":0},\"lastRuns\":{},\"retryCamp\":null,\"classicCamp\":null,\"activeMode\":\"classic\"}}",
+    "{\"format\":\"conquete-serpents-family\",\"version\":3,\"camp\":\"{\\\"version\\\":7,\\\"initialSeed\\\":42,\\\"mission\\\":{\\\"missionId\\\":\\\"refuge\\\",\\\"rules\\\":2,\\\"seed\\\":42,\\\"layout\\\":0,\\\"assault\\\":\\\"balanced\\\",\\\"nest\\\":\\\"spread\\\"},\\\"missionMinBase\\\":100,\\\"campaign\\\":{\\\"training\\\":\\\"none\\\",\\\"chapterMin\\\":[100,100,100],\\\"chapterStars\\\":[0,0,0]},\\\"rewards\\\":{\\\"seed\\\":42,\\\"pending\\\":null,\\\"choices\\\":[],\\\"ward\\\":0},\\\"wave\\\":0,\\\"gold\\\":450,\\\"base\\\":100,\\\"rng\\\":42,\\\"nextId\\\":3,\\\"kills\\\":0,\\\"hatched\\\":0,\\\"units\\\":[{\\\"id\\\":1,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":180,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":180},{\\\"id\\\":2,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":468,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":468},{\\\"id\\\":3,\\\"kind\\\":\\\"hero\\\",\\\"x\\\":828,\\\"y\\\":324,\\\"hp\\\":330,\\\"homeX\\\":828,\\\"homeY\\\":324}]}\",\"career\":{\"version\":1,\"activeRoster\":0,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"chapterCamps\":[null,null]},\"missions\":{\"version\":1,\"bestStars\":{\"refuge\":0,\"trois-ponts\":0,\"course\":0,\"coquilles\":0,\"sonnette\":0,\"carrefour\":0},\"lastRuns\":{},\"retryCamp\":null,\"classicCamp\":null,\"activeMode\":\"classic\"}}",
+    "{\"format\":\"conquete-serpents-family\",\"version\":4,\"camp\":\"{\\\"version\\\":8,\\\"initialSeed\\\":42,\\\"mission\\\":{\\\"missionId\\\":\\\"refuge\\\",\\\"rules\\\":2,\\\"seed\\\":42,\\\"layout\\\":1,\\\"assault\\\":\\\"balanced\\\",\\\"nest\\\":\\\"spread\\\",\\\"caprice\\\":\\\"refuge-petit\\\"},\\\"missionMinBase\\\":100,\\\"capriceKindsChosen\\\":[],\\\"campaign\\\":{\\\"training\\\":\\\"none\\\",\\\"chapterMin\\\":[100,100,100],\\\"chapterStars\\\":[0,0,0]},\\\"rewards\\\":{\\\"seed\\\":42,\\\"pending\\\":null,\\\"choices\\\":[],\\\"ward\\\":0},\\\"wave\\\":0,\\\"gold\\\":450,\\\"base\\\":100,\\\"rng\\\":42,\\\"nextId\\\":3,\\\"kills\\\":0,\\\"hatched\\\":0,\\\"units\\\":[{\\\"id\\\":1,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":180,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":180},{\\\"id\\\":2,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":468,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":468},{\\\"id\\\":3,\\\"kind\\\":\\\"hero\\\",\\\"x\\\":828,\\\"y\\\":324,\\\"hp\\\":330,\\\"homeX\\\":828,\\\"homeY\\\":324}]}\",\"career\":{\"version\":1,\"activeRoster\":0,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"chapterCamps\":[null,null]},\"missions\":{\"version\":1,\"bestStars\":{\"refuge\":0,\"trois-ponts\":0,\"course\":0,\"coquilles\":0,\"sonnette\":0,\"carrefour\":0},\"lastRuns\":{},\"retryCamp\":null,\"classicCamp\":null,\"activeMode\":\"classic\"},\"albums\":{\"version\":1,\"activeId\":\"child-1\",\"nextId\":2,\"campProfileId\":null,\"children\":[{\"id\":\"child-1\",\"name\":\"Mon carnet\",\"completed\":[]}]}}"
+  ]
+}
