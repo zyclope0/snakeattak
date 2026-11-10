@@ -44,13 +44,11 @@ async function pointOnCard(page) {
     const panel = document.getElementById('reinforcements').getBoundingClientRect();
     for (const e of document.querySelectorAll('#shop .unit-card')) {
       const r = e.getBoundingClientRect();
-      if (r.width === 0 || r.bottom <= panel.top + 70 || r.top >= panel.bottom - 35) continue;
-      const image = e.querySelector('.portrait').getBoundingClientRect();
-      const y = Math.min(
-        panel.bottom - 22,
-        Math.max(panel.top + 90, image.top + image.height * 0.65),
-      );
-      if (y > r.bottom - 5 || y < r.top + 5) continue;
+      if (r.width === 0 || r.bottom <= panel.top + 70 || r.top >= panel.bottom) continue;
+      const top = Math.max(r.top, panel.top + 70);
+      const bottom = Math.min(r.bottom, panel.bottom);
+      if (bottom - top < 12) continue;
+      const y = (top + bottom) / 2;
       return {
         x: r.x + r.width * 0.5,
         y,
