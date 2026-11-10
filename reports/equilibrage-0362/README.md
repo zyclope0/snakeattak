@@ -49,3 +49,9 @@ La [revue globale](final-review.md) et la [relecture de sa correction](final-fix
 
 
 Le [rapport de correction finale](final-fix-report.md) est conservé ici avec les autres preuves compactes ; le répertoire temporaire de coordination peut ainsi être supprimé sans perdre son contenu.
+
+
+Publication réalisée après autorisation : PR3/PR4 fusionnées, Sites 23 en 0.36.2.
+Le [reçu public](../deployment-0.36.2.json) et la vérification effective FR/EN
+aux trois formats complètent les preuves locales ci-dessus. Le code livré
+`28e958e` a sa CI entièrement verte ; les étapes postérieures sont documentaires.

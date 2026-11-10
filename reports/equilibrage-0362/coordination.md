@@ -25,3 +25,8 @@ Ruling: include minimal all-compact toolbar stacking after baselineproved tab ov
 - Provenance : mesures et archives historiques conservées, empreintes actuelles et contrôle indépendant des membres ; pas de répétition inutile des cohortes vertes.
 
 À 568×320 avec marges simulées, les 19 px visibles initialement sont une limite de découverte. Le panneau entier défile et les captures après geste montrent des cartes complètes, lisibles et sélectionnables ; ce point rejoint la prochaine étude graphique, sans être assimilé à une impossibilité de recruter.
+
+
+## Résultat distant
+
+PR4 fusionnée `b5cf6fb67b0194769451ef121aa59fba67cc898c`, arbre identique à la clôture relue. Source fonctionnelle `28e958e` : CI 42875093574 entièrement verte. Les 17 chemins changés depuis ce code avant fusion ne concernent que documents/reçus, format contrôlé. Sites 23 déployé avec succès, même audience et URL. Vérification publique FR/EN aux trois formats, huit fichiers de code/style/HTML identiques et aucune erreur JavaScript. Le reçu dédié distingue la CI source verte de la CI post-fusion encore en cours.

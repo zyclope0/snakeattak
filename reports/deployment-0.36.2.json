@@ -1,0 +1,228 @@
+{
+  "applicationVersion": "0.36.2",
+  "applicationSourceCommit": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
+  "version": {
+    "id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_a5bff42be9f081918f679bb631a48b3f",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "version_number": 23,
+    "source": {
+      "commit_sha": "6c39d6f526720a19cc4eda4583c2fdcbf14d7e5c"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_0000000003d881f9b53498e484d15130",
+      "content_hash": "sha256:39ae43ddc799b8fc2b78b0549065ba906ece933edb0ba38d82eb7d54e4ea70d3",
+      "size_bytes": 11878400,
+      "file_count": 35
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6af368b651a88191a01915a286df21fe",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "title": "La Conqu\u00eate des Serpents",
+    "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_a5bff42be9f081918f679bb631a48b3f",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-10T18:56:06.216264+00:00"
+  },
+  "audiencePreserved": "public",
+  "source": {
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "commit_sha": "6c39d6f526720a19cc4eda4583c2fdcbf14d7e5c",
+    "archive": "/workspace/serpents-site-0362.tar",
+    "archiveSha256": "8881c6f23562309a9a32fdad3db11a9049b79089bced4d77f2a94dfa26e9bb54",
+    "fileCount": 35,
+    "applicationSourceCommit": "d88296012630522ebc21afe6c731354e3486f452",
+    "apkSourceCommit": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
+    "distFilesIdenticalToApk": 34,
+    "audiencePreserved": "public"
+  },
+  "github": {
+    "pr3": "https://github.com/zyclope0/snakeattak/pull/3",
+    "pr3Merge": "08b915cab7d9aecceead7c62c41825748f53d619",
+    "pr4": "https://github.com/zyclope0/snakeattak/pull/4",
+    "pr4Merge": "b5cf6fb67b0194769451ef121aa59fba67cc898c",
+    "mergeTreeEqualsReviewedHead": true,
+    "integrationGate": {
+      "runtimeCommit": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
+      "reviewedClosure": "5818ab101364965ef708da39361c441026a153ed",
+      "changesSinceGreenRuntime": [
+        "docs/BILAN-0.36.2.md",
+        "docs/CONSEIL-0.36.2.md",
+        "docs/PLAN-ACTUEL.md",
+        "docs/superpowers/plans/2026-11-10-equilibrage-0362.md",
+        "reports/equilibrage-0362/README.md",
+        "reports/equilibrage-0362/commands.md",
+        "reports/equilibrage-0362/coordination.md",
+        "reports/equilibrage-0362/delivery-before-final-review.json",
+        "reports/equilibrage-0362/delivery.json",
+        "reports/equilibrage-0362/final-fix-report.md",
+        "reports/equilibrage-0362/final-fix-review.md",
+        "reports/equilibrage-0362/final-review.md",
+        "reports/equilibrage-0362/task-1-fix1-review.md",
+        "reports/equilibrage-0362/task-1-review.md",
+        "reports/equilibrage-0362/task-2-fix1-review.md",
+        "reports/equilibrage-0362/task-2-review.md",
+        "reports/equilibrage-0362/task-3-review.md"
+      ],
+      "onlyDocumentationAndReceipts": true,
+      "freshFormat": "npm run format:check passed after closure",
+      "ci": {
+        "conclusion": "success",
+        "headSha": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
+        "status": "completed"
+      },
+      "ciRun": 42875093574,
+      "mainBeforeMerge": "08b915cab7d9aecceead7c62c41825748f53d619"
+    },
+    "postMergeCI": {
+      "run": 42880117165,
+      "statusAtPublication": "in_progress",
+      "runtimeEqualsGreenCommit": "28e958e29ef86b8442c875ce6a96b0707ec0425d"
+    },
+    "publicationReceiptCommit": "Commit containing this receipt; documentation only."
+  },
+  "physicalS24Test": false,
+  "humanChildTest": false,
+  "authorization": "Parent explicitly authorized push, merge and publication on10Nov2026, then requested finishing this work before graphics/menu study. Existing public audience retained.",
+  "validatedBuild": {
+    "unitTestsPassed": 548,
+    "failedTests": 0,
+    "actualGameRevision2ProofGames": 672,
+    "exploratoryGamesSeparate": 1356,
+    "webFilesIdenticalToApk": 34
+  },
+  "apk": {
+    "sourceSHA": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
+    "version": "0.36.2",
+    "versionCode": 48,
+    "appId": "com.conqueteserpents.famille",
+    "apkPath": "/workspace/conquete-serpents-v0.36.2-debug.apk",
+    "apkBytes": 15159454,
+    "apkSHA256": "4dfeab542049216e971f5a4e1f0a7085c0550869a6c71cedd58479a1482d7dd4",
+    "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "normalNoServer": true,
+    "allDistFilesIdentical": true,
+    "distFiles": 34
+  },
+  "liveVerification": {
+    "checkedAt": "2026-11-10T18:57:48.537Z",
+    "method": "Isolated cloud Chromium on actual public deployment; native controls, no physical S24 or human child validation",
+    "results": [
+      {
+        "width": 1280,
+        "height": 800,
+        "language": "fr",
+        "mission": false,
+        "http": 200,
+        "version": "0.36.2",
+        "board": {
+          "x": 13,
+          "y": 117,
+          "width": 1065.984375,
+          "height": 600.8125
+        },
+        "pause": true,
+        "portraitGuard": false
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "language": "en",
+        "mission": true,
+        "http": 200,
+        "version": "0.36.2",
+        "board": {
+          "x": 0,
+          "y": 48,
+          "width": 580.15625,
+          "height": 326.984375
+        },
+        "pause": true,
+        "portraitGuard": true
+      },
+      {
+        "width": 780,
+        "height": 360,
+        "language": "fr",
+        "mission": true,
+        "http": 200,
+        "version": "0.36.2",
+        "board": {
+          "x": 0,
+          "y": 48,
+          "width": 553.546875,
+          "height": 311.984375
+        },
+        "pause": true,
+        "portraitGuard": true
+      }
+    ],
+    "exactFiles": [
+      {
+        "path": "assets/bootstrap-BTNZyUgu.js",
+        "bytes": 144647,
+        "sha256": "49d34d0224f5257dc8573defe15522b3b97e71a45b058e842cc9a4f01b093751",
+        "status": 200
+      },
+      {
+        "path": "assets/bootstrap-Drf61XvB.css",
+        "bytes": 13200,
+        "sha256": "255b938fdd099d8c3ee9d8baca795ad8fbb656dbab9eec01656577171f295ff3",
+        "status": 200
+      },
+      {
+        "path": "assets/english-BpA8hzDF.js",
+        "bytes": 73607,
+        "sha256": "168826635b0ef5a88556051fec8995d294e6200ce89ea8163f1eb2467bff8095",
+        "status": 200
+      },
+      {
+        "path": "assets/index-BisB2bb4.js",
+        "bytes": 10315,
+        "sha256": "72f5fad960f84e4f4ae7f71626eefe20cb167f1a7a5afba160c068d67094de12",
+        "status": 200
+      },
+      {
+        "path": "assets/index-BziyBkD-.css",
+        "bytes": 60901,
+        "sha256": "b0b0bf99d3ea7f9b3377f4e7f9864718baaa24f515ab37e392f6bbfa3e343631",
+        "status": 200
+      },
+      {
+        "path": "assets/phaser-B61OQUcB.js",
+        "bytes": 1481792,
+        "sha256": "ee437e7f0bb7b331e6e7713d72801a7dc5b3f327050d9f26e1f1cf5c18795083",
+        "status": 200
+      },
+      {
+        "path": "assets/rules-BvS96c7w.js",
+        "bytes": 85567,
+        "sha256": "4902bff8f88ef15aea06b09c5ac694afcabb1e3cd942311b47d6135b922321d8",
+        "status": 200
+      },
+      {
+        "path": "index.html",
+        "bytes": 31787,
+        "sha256": "c0cfbad5ec5a86e6d6b259b902d14f34b93c7b16cffb17040c7e76569dbd283f",
+        "status": 200
+      }
+    ],
+    "errors": []
+  },
+  "verificationLimits": [
+    "Cloud Chromium rather than physical S24 or children",
+    "Normal bundled offline is not an uncached offline website/service-worker claim",
+    "No exhaustive performance/accessibility certification",
+    "Remote greenCI is exact runtime28e958e; later commits are documents/receipts with fresh format check"
+  ],
+  "sourceWorkflow": "Existing Sites checkout and native save/deploy reused. Local packaged helper unavailable in cloud skill; equivalent existing Git+stdin-credential workflow used. All35archivefiles verified; no source audience or network policy changed."
+}

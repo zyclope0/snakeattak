@@ -1,4 +1,40 @@
-# Plan actuel — candidate privée 0.36.2
+# Plan actuel — v0.36.2 publiée, fonctionnalités en pause
+
+## v0.36.2 — livraison clôturée
+
+Les PR3 et PR4 sont fusionnées dans `main`. Le [site habituel](https://conquete-serpents-famille.zyclope.chatgpt.site/)
+est publié en 0.36.2, Sites23, audience publique conservée.
+Le [reçu de publication](../reports/deployment-0.36.2.json) distingue source
+fonctionnelle, clôture documentaire, fusion GitHub, version Sites et vérification publique.
+
+Les sept décisions et cinq réglages sont appliqués aux nouveaux départs.
+T-rex 340, bébé dragon 210 et tank 440 ; le tank garde son déblocage classique.
+Les anciens codes et sauvegardes gardent leurs règles et leurs prix.
+Le rappel reste une présentation UI sans modification du temps de simulation.
+
+548 tests, build et budgets verts ; CI du code livré `28e958e` entièrement verte
+(`42875093574`). Les commits suivants ne changent que documents et reçus,
+avec format contrôlé ; la CI post-fusion est suivie séparément.
+672 parties du moteur livré, distinctes des 1 356 exploratoires et des témoins
+réutilisés. Les 8 139 anciennes preuves et 145 fichiers Task3 restent conservés.
+La revue globale, son unique correction P3 familiale et sa relecture sont clôturées.
+[Bilan](BILAN-0.36.2.md), [conseil simulé](CONSEIL-0.36.2.md),
+[arbitrages](../reports/equilibrage-0362/coordination.md).
+
+APK debug 0.36.2 / code 48 : même application et certificat, 34 fichiers web identiques.
+Démarrages à froid FR/EN hors ligne et fichier vérifiés. Contrôle public réel
+à 1280×800, 812×375 et 780×360 : version, langues, vague, pause et rotation,
+sans erreur JavaScript ; huit fichiers JS/CSS/HTML identiques au paquet.
+Essai physique S24, TalkBack, relecture anglophone et enfants encore attendus.
+Les 19 px initialement visibles à 568×320 restent une limite de découverte ;
+le panneau entier défile et les cartes complètes deviennent visibles.
+
+**Suite demandée : pause sur les fonctionnalités.** Étudier les menus de jeux
+grand public et tower defense, l’ergonomie Android et la cohérence graphique
+pâte à modeler/papier mâché. Ce nouveau travail commence après cette livraison,
+sans changer les règles, les valeurs ou le sens du jeu inventé par l’enfant.
+
+## Préparation 0.36.2 — historique conservé
 
 ## Candidate privée 0.36.2 — livraison et revue avant essai S24
 

@@ -124,3 +124,18 @@ avec manifeste individuel vérifié. [Reçu courant](../reports/equilibrage-0362
 huit hashes du cœur sont préservés ; les 672 parties déjà revues ne sont pas
 rejouées. Relecture ciblée, coordination et intégration/publication restent
 à la charge du coordinateur. Limites physiques/humaines ci-dessus inchangées.
+
+## Publication clôturée le 10 novembre
+
+Les PR3 et PR4 sont fusionnées. [Site 0.36.2](https://conquete-serpents-famille.zyclope.chatgpt.site/)
+publié, Sites 23, accès public conservé. Le [reçu](../reports/deployment-0.36.2.json)
+contient la CI verte du code livré (`28e958e`, 548 tests), les sources distinctes
+du paquet et de l’hébergeur, les preuves publiques et la limite de CI post-fusion
+encore en cours lors de la publication. Aucun changement fonctionnel dans les
+commits documentaires suivants. Contrôle public à 1280×800, 812×375, 780×360,
+FR/EN : démarrage de vague, pause et rotation sans erreur, huit fichiers de code
+et styles identiques au build. Les limites physiques et humaines restent explicites.
+
+Pour constater les nouveaux prix, il faut un nouveau départ : une partie reprise
+conserve volontairement les prix et règles d’origine. Aucune nouvelle fonctionnalité
+après cette livraison ; la prochaine mission porte sur les menus et les graphismes.
