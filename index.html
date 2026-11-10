@@ -36,8 +36,7 @@
               <button id="mission-continue" class="secondary" hidden>Reprendre ma mission</button>
               <button id="home-play" class="primary">Jouer</button
               ><button id="home-continue" class="secondary" hidden>Reprendre</button
-              ><button id="home-expeditions" class="secondary">Les missions</button
-              ><button id="home-new" class="home-new">La grande aventure · 12 vagues</button>
+              ><button id="home-new" class="secondary">La grande aventure · 12 vagues</button>
             </div>
             <span id="home-next-mission" class="home-next-mission"></span
             ><small id="home-active-team">Équipe Équilibrée</small>
@@ -62,7 +61,7 @@
           </button>
         </nav>
         <details id="mission-list" class="home-disclosure">
-          <summary>La carte des missions</summary>
+          <summary id="home-expeditions">La carte des missions</summary>
           <section class="expedition-map" aria-labelledby="expedition-heading">
             <div class="journey-title">
               <div>
@@ -70,10 +69,7 @@
                 <h2 id="expedition-heading" tabindex="-1">Six missions dans les fougères</h2>
               </div>
             </div>
-            <p>
-              De nouveaux alliés à chaque mission. Des terrains et des attaques qui changent,
-              annoncés avant le départ.
-            </p>
+            <p>Tes alliés et les serpents changent selon la mission.</p>
 
             <div id="mission-cards" class="mission-cards"></div>
             <small
@@ -108,7 +104,7 @@
           </section>
         </details>
         <details id="classic-options" class="home-disclosure">
-          <summary>La grande aventure · 12 vagues</summary>
+          <summary>Choisir un chapitre</summary>
           <section class="journey-map" aria-labelledby="journey-heading">
             <div class="journey-title">
               <div>
@@ -164,8 +160,7 @@
         <div id="roster-grid" class="roster-grid"></div>
       </section>
       <footer class="home-footer">
-        <span id="career-status">Progression locale sur cet appareil</span
-        ><span>Aventure familiale · Sans compte</span>
+        <span id="career-status">Progression locale sur cet appareil</span>
       </footer>
     </section>
     <dialog id="departure-dialog" aria-labelledby="departure-title">
@@ -311,7 +306,11 @@
       </p>
       <button id="family-export" class="primary">Exporter mon aventure</button>
       <label for="family-file">Retrouver un fichier familial</label>
-      <input id="family-file" type="file" accept=".json,application/json" />
+      <input id="family-file" type="file" accept=".json,application/json" hidden />
+      <button id="family-choose-file" class="secondary" type="button" aria-controls="family-file">
+        Choisir un fichier
+      </button>
+      <span id="family-file-name" role="status"></span>
       <section id="family-preview" hidden>
         <h3>Ce fichier contient</h3>
         <p id="family-preview-summary"></p>

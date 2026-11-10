@@ -5,6 +5,8 @@ import { MISSIONS } from '../missions.ts';
 import { capriceById, capricesForMission, CAPRICE_SET_NAMES } from '../caprices.ts';
 import { setText, setAttribute, createTextNode } from '../i18n/dom.ts';
 import { frenchLeaf } from './capriceCopy.ts';
+import { stickerGraphic, paintSticker } from './capriceIcons.ts';
+export { stickerGraphic } from './capriceIcons.ts';
 import { pauseForDialog } from './dialogs.ts';
 export type AlbumsController = ReturnType<typeof createCapriceAlbumsController>;
 export function albumOptions(select: HTMLSelectElement, albums: AlbumsController) {
@@ -23,14 +25,6 @@ export function albumOptions(select: HTMLSelectElement, albums: AlbumsController
     select.dataset.options = signature;
   }
   select.value = state.activeId;
-}
-export function stickerGraphic() {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 40 40');
-  svg.setAttribute('aria-hidden', 'true');
-  svg.innerHTML =
-    '<path d="M20 2 25 6 32 5 34 12 39 17 35 23 35 31 28 33 22 39 16 35 8 35 6 28 1 22 5 16 5 8 12 6Z" fill="#e8b95e" stroke="#79613c"/><path d="M11 25c-5-10 18-13 18-5 0 7-19 1-13-7" fill="none" stroke="#4d7960" stroke-width="5" stroke-linecap="round"/><circle cx="17" cy="13" r="1" fill="#192e29"/>';
-  return svg;
 }
 export function bindCapriceAlbums(
   session: Session,
@@ -66,7 +60,10 @@ export function bindCapriceAlbums(
   const rename = document.createElement('button');
   rename.id = 'caprice-album-rename';
   setText(rename, 'Renommer');
-  tools.append(label, name, add, rename);
+  const nameLabel = document.createElement('label');
+  nameLabel.htmlFor = name.id;
+  nameLabel.append(createTextNode('Nom du carnet'), name);
+  tools.append(label, nameLabel, add, rename);
   const persistence = document.createElement('p');
   persistence.id = 'caprice-album-status';
   const slots = document.createElement('div');
@@ -86,7 +83,7 @@ export function bindCapriceAlbums(
         node.className = 'caprice-sticker';
         node.dataset.sticker = caprice.id;
         // Original paper medallion drawn locally; no fetched assets or economic reward.
-        const svg = stickerGraphic();
+        const svg = stickerGraphic(caprice.rules);
         const earned = document.createElement('small');
         node.append(svg, frenchLeaf('span', caprice.name), earned);
         grid.append(node);
@@ -160,7 +157,9 @@ export function bindCapriceAlbums(
     result.hidden = !ended;
     note.hidden = !ended;
     if (ended) {
-      resultName.textContent = capriceById(session.game.mission?.caprice)!.name;
+      const caprice = capriceById(session.game.mission?.caprice)!;
+      resultName.textContent = caprice.name;
+      paintSticker(resultGraphic, caprice.rules);
       resultGraphic.toggleAttribute('hidden', session.game.status !== 'won');
       setText(
         resultStatus,

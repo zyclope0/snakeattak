@@ -144,11 +144,6 @@ export function bindExpeditions(
     const next = nextMission();
     preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id)));
   };
-  el('home-expeditions').onclick = () => {
-    el<HTMLDetailsElement>('mission-list').open = true;
-    el('expedition-heading').scrollIntoView({ block: 'start' });
-    el('expedition-heading').focus({ preventScroll: true });
-  };
   el('mission-close').onclick = () => dialog.close();
   el('mission-reroll').onclick = () => {
     if (draft) {
@@ -189,7 +184,9 @@ export function bindExpeditions(
     const next = journey.find((step) => step.status === 'next');
     setDisplayText(
       el('home-next-mission'),
-      next ? nextMission().name : `Rejouer : ${nextMission().name}`,
+      next
+        ? `Prochaine mission : ${nextMission().name}`
+        : `Rejouer la mission : ${nextMission().name}`,
     );
     setDisplayText(el('home-play'), next ? 'Jouer' : 'Rejouer');
     const state = progress.state;

@@ -82,7 +82,9 @@ async function onScreen(locator, page, label) {
   check(box.height >= 47, label + ' 48px');
 }
 async function prepare(page, id = 'refuge', caprice = 'refuge-petit') {
-  await page.locator('#home-expeditions').click();
+  // The sole map entry is now its native disclosure; keep its toggle behavior.
+  if (!(await page.locator('#mission-list').evaluate((details) => details.open)))
+    await page.locator('#home-expeditions').click();
   await page.locator(`[data-mission-card="${id}"]`).click();
   await page.locator(`[data-caprice="${caprice}"]`).click();
 }

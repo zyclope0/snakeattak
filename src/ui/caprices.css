@@ -207,3 +207,54 @@
     gap: 4px;
   }
 }
+
+/* The same paper controls in preparation and in every local sticker book. */
+.caprice-profile-tools label,
+.caprice-detail label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.caprice-profile-tools input,
+.caprice-profile-tools select,
+.caprice-detail select {
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid #8ca97e;
+  border-radius: 11px;
+  font: inherit;
+  padding: 10px 12px;
+  min-height: 48px;
+  max-width: 100%;
+}
+#mission-caprices-entry {
+  color: var(--ink);
+  background: #e1ead4;
+  border: 1px solid #8ca97e;
+  border-radius: 11px;
+  padding: 8px 14px;
+  min-height: 48px;
+}
+#mission-caprices-title {
+  scroll-margin-top: 8px;
+}
+/* Keep the section title and return to normal mission on one line in short views. */
+.caprice-rows {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+.caprice-rows > h3 {
+  margin: 0;
+  align-self: center;
+}
+.caprice-rows > div {
+  grid-column: 1 / -1;
+}
+.caprice-rows > div > h3 {
+  margin: 8px 0;
+}
+@media (max-height: 400px) {
+  .caprice-row button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}

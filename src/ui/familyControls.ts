@@ -25,6 +25,7 @@ export function bindFamilyControls(actions: Actions) {
     generation++;
     pending = null;
     file.value = '';
+    el('family-file-name').textContent = '';
     apply.disabled = true;
     el('family-preview').hidden = true;
   };
@@ -63,6 +64,14 @@ export function bindFamilyControls(actions: Actions) {
       'Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.',
     );
   };
+  el('family-choose-file').onclick = () => {
+    try {
+      if (typeof file.showPicker === 'function') file.showPicker();
+      else file.click();
+    } catch {
+      file.click();
+    }
+  };
   file.onchange = async () => {
     const turn = ++generation;
     pending = null;
@@ -70,6 +79,8 @@ export function bindFamilyControls(actions: Actions) {
     el('family-preview').hidden = true;
     const selected = file.files?.[0];
     if (!selected) return;
+    // The user's filename is local data, never translated.
+    el('family-file-name').textContent = selected.name;
     if (selected.size > FAMILY_BYTE_LIMIT) {
       setDisplayText(el('family-status'), 'Fichier trop volumineux : rien n’a été modifié.');
       return;

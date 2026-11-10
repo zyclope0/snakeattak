@@ -27,11 +27,18 @@ export function placementAdvice(kind: Kind) {
           : role === 'fixed'
             ? 'sur le passage des serpents'
             : 'devant les tireurs';
+  // UI vocabulary only: contact up to 80, middle distance up to 180, then long.
+  // The actual range and the placement circle remain the canonical data value.
+  const reach =
+    kinds[kind].range <= 80 ? 'courte' : kinds[kind].range <= 180 ? 'moyenne' : 'longue';
   return {
     role,
     range: kinds[kind].range,
     hint: 'Touche une place libre à droite. ' + hint,
-    compactHint: `Touche à droite · ${short} · portée ${kinds[kind].range}`,
+    compactHint:
+      kinds[kind].range > 0
+        ? `Touche à droite · ${short} · portée ${reach}`
+        : `Touche à droite · ${short}`,
   };
 }
 

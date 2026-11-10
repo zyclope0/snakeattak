@@ -43,8 +43,59 @@ export const capriceFrenchIdentities: Readonly<Record<string, string>> = {
   'La grande charge': 'La grande charge',
   'On fonce, on mord, on tient !': 'On fonce, on mord, on tient !',
 };
+const challengeClauses: Readonly<Record<string, string>> = {
+  'Tu commences avec moins de pièces': 'you start with fewer coins',
+  'Tu peux recruter une seule sorte d’allié': 'you can recruit only one type of ally',
+  'Tu peux recruter au plus {0} sortes d’alliés': 'you can recruit up to {0} types of allies',
+  'Le pot de miel est vide': 'the honey pot is empty',
+  'Les soignants se reposent': 'the healers are resting',
+  'Le roi arrive à la dernière vague': 'the king arrives in the final wave',
+  'Certains serpents portent une coquille qui les ralentit et les rend plus solides avec une armure contre les coups':
+    'some snakes wear a shell that slows them down and makes them tougher with armor against hits',
+  'Les serpents arrivent plus près les uns des autres': 'the snakes arrive closer together',
+  'Les serpents sont plus nombreux': 'there are more snakes',
+  'Les serpents sont plus solides': 'the snakes are tougher',
+  'Les serpents sont plus fragiles': 'the snakes are more fragile',
+  'Les serpents avancent plus vite': 'the snakes move faster',
+  'Les morsures font plus mal': 'the bites hurt more',
+  'Il y a plus d’œufs dans les vagues': 'there are more eggs in the waves',
+  'Les œufs éclosent plus vite': 'the eggs hatch sooner',
+  'Les serpents cherchent les chemins les moins gardés':
+    'the snakes look for the least guarded paths',
+};
+
 export const capricesEnglish: Readonly<Record<string, string>> = {
   ...capriceFrenchIdentities,
+  // Clause aliases preserve sentence case and exact locale inventory coverage.
+  ...Object.fromEntries(
+    Object.entries(challengeClauses).flatMap(([fr, en]) => [
+      [fr, en[0].toLocaleUpperCase('en') + en.slice(1)],
+      [fr[0].toLocaleLowerCase('fr') + fr.slice(1), en],
+    ]),
+  ),
+  Fredoka: 'Fredoka',
+  'Nunito Sans': 'Nunito Sans',
+  'Touche à droite · {0} · portée {1}': 'Tap on the right · {0} · {1} range',
+  'Touche à droite · {0}': 'Tap on the right · {0}',
+  courte: 'short',
+  moyenne: 'medium',
+  longue: 'long',
+  Caprices: 'Caprices',
+  'Caprices · gagne une étoile pour jouer': 'Caprices · earn a star to play',
+  'Nom du carnet': 'Sticker book name',
+  'Choisir un chapitre': 'Choose a chapter',
+  'Prochaine mission : {0}': 'Next mission: {0}',
+  'Rejouer la mission : {0}': 'Replay mission: {0}',
+  'Tes alliés et les serpents changent selon la mission.':
+    'Your allies and the snakes change with each mission.',
+  'Choisir un fichier': 'Choose a file',
+  'portée courte': 'short range',
+  'portée moyenne': 'medium range',
+  'portée longue': 'long range',
+  'Choisis tes sortes préférées ou laisse les premières recrues choisir les places libres.':
+    'Choose your favorite types or let your first recruits fill the free places.',
+  'Prépare tes alliés pour protéger le cristal.': 'Prepare your allies to protect the crystal.',
+
   ...{
     'Invalid preparation friend choice': 'Invalid preparation friend choice',
     'Des volants arriveront dans cette mission.': 'Flying snakes will appear in this mission.',

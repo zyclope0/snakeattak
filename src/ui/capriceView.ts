@@ -39,6 +39,7 @@ export function friendChoices(run: MissionRun): Kind[] {
 
 import { setText, createTextNode } from '../i18n/dom.ts';
 import { capriceExplanation, frenchLeaf } from './capriceCopy.ts';
+import { paintSticker } from './capriceIcons.ts';
 import { capriceSpeech } from './capriceSpeech.ts';
 import { albumOptions, stickerGraphic, type AlbumsController } from './capriceAlbums.ts';
 export function bindCapricePreparation(
@@ -52,6 +53,19 @@ export function bindCapricePreparation(
   const region = document.createElement('section');
   region.id = 'mission-caprices';
   region.className = 'caprice-rows';
+  const heading = document.createElement('h3');
+  heading.id = 'mission-caprices-title';
+  heading.tabIndex = -1;
+  setText(heading, 'Caprices');
+  region.setAttribute('aria-labelledby', heading.id);
+  const entry = document.createElement('button');
+  entry.id = 'mission-caprices-entry';
+  entry.setAttribute('aria-controls', region.id);
+  entry.onclick = () => {
+    heading.scrollIntoView({ block: 'start' });
+    heading.focus({ preventScroll: true });
+  };
+  dialog.querySelector('#mission-title')!.after(entry);
   const normal = document.createElement('button');
   normal.id = 'mission-normal';
   setText(normal, 'Mission normale');
@@ -65,12 +79,18 @@ export function bindCapricePreparation(
   announce.id = 'caprice-announce';
   const announcement = document.createElement('div');
   announcement.className = 'caprice-announcement';
-  announcement.append(stickerGraphic(), announce);
+  const graphic = stickerGraphic();
+  announcement.append(graphic, announce);
   const explanation = document.createElement('p');
   const listen = document.createElement('button');
   listen.id = 'caprice-listen';
   setText(listen, 'Écouter');
   const speech = capriceSpeech();
+  const friendAdvice = document.createElement('p');
+  setText(
+    friendAdvice,
+    'Choisis tes sortes préférées ou laisse les premières recrues choisir les places libres.',
+  );
   const friends = document.createElement('div');
   friends.className = 'caprice-friends';
   friends.id = 'caprice-friends';
@@ -84,9 +104,9 @@ export function bindCapricePreparation(
     albums?.select(profile.value);
     onProfileChange();
   };
-  detail.append(title, announcement, explanation, listen, friends, profileLabel);
-  region.append(normal, rows, detail);
-  dialog.querySelector('.mission-dialog-body')!.append(region);
+  detail.append(title, announcement, explanation, listen, friendAdvice, friends, profileLabel);
+  region.append(heading, normal, rows, detail);
+  dialog.querySelector('#mission-parent-options')!.before(region);
   let chosen = new Set<Kind>(),
     current: MissionRun | null = null;
   let rowKey = '';
@@ -95,6 +115,7 @@ export function bindCapricePreparation(
     chosen: () => [...chosen],
     update(run: MissionRun, stars: number) {
       speech.cancel();
+      setText(entry, stars > 0 ? 'Caprices' : 'Caprices · gagne une étoile pour jouer');
       if (current?.missionId !== run.missionId || current?.caprice !== run.caprice)
         chosen = new Set();
       current = run;
@@ -131,6 +152,8 @@ export function bindCapricePreparation(
       detail.hidden = !caprice;
       if (!caprice) return;
       title.textContent = caprice.name;
+      paintSticker(graphic, caprice.rules);
+      friendAdvice.hidden = !caprice.rules.kinds;
       announce.textContent = caprice.announce;
       setText(explanation, capriceExplanation(caprice.rules));
       listen.hidden = !speech.available();
