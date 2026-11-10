@@ -2,7 +2,7 @@
 
 État au 10 novembre 2026, version 0.36.2. Écrit par Claude (session d'audit dans l'app Claude)
 pour l'agent qui reprend le code. Tout ce qui est marqué « vérifié » a été rejoué ce jour-là sur
-`main` (commit `336410e`) ; le reste vient des bilans de Codex ou des décisions du parent.
+le code de `main` (commit `336410e`) ; le reste vient des bilans de Codex ou des décisions du parent.
 
 Ordre de lecture conseillé : ce document, puis `CLAUDE.md`, `AGENTS.md`, `GAME_DESIGN.md`, le haut
 de `docs/PLAN-ACTUEL.md`, et `docs/CAPRICES.md`. L'audit complet (benchmark, finance, conformité,
@@ -31,21 +31,21 @@ sources) est copié dans `docs/passation/AUDIT-2026-11.md` ; sa version vivante 
 
 ## 2. État au 10 novembre 2026
 
-| Sujet              | État                                                                                                                   | Source                                |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| Version            | 0.36.2, Android versionCode 48                                                                                         | `package.json`, `android/app`         |
-| `main`             | commit `336410e` ; PR nº 1 à 4 fusionnées                                                                              | GitHub `zyclope0/snakeattak`          |
-| Build et tests     | 548 tests unitaires sur 548, build vert                                                                                | vérifié                               |
-| Audit d'interface  | 13 contrôles sur 13                                                                                                    | vérifié (`npm run test:audit`)        |
-| Parcours téléphone | 29 écrans en 780×360 tactile, aucune erreur JavaScript, reprise après rechargement                                     | vérifié en navigateur, pas sur le S24 |
-| Site public        | <https://conquete-serpents-famille.zyclope.chatgpt.site/>, annoncé en 0.36.2                                           | reçu de Codex, non vérifié par Claude |
-| APK                | debug 0.36.2, signé en debug, identifiant provisoire `com.conqueteserpents.famille`                                    | bilan de Codex                        |
-| Langues du jeu     | français et anglais ; allemand et italien absents                                                                      | vérifié                               |
-| Essais réels       | un essai du parent sur Galaxy S24 Ultra en 0.30.0 (« les enfants apprécient ») ; aucune séance enfant consignée depuis | `docs/ANDROID.md`                     |
-| Monétisation       | dossier écrit, rien dans le code : ni pub, ni achat, ni permission Internet                                            | `docs/publication/`                   |
-| Compte Google Play | compte personnel créé, validation d'identité en attente au 8 novembre                                                  | `docs/publication/PLAY-CONSOLE.md`    |
-| Taille du dépôt    | 671 Mo suivis, 6 681 fichiers ; `reports/` 442 Mo et `docs/` 197 Mo, surtout des captures                              | vérifié ; plan dans `HYGIENE-DEPOT`   |
-| Suite demandée     | pause sur les fonctionnalités ; étude des menus, de l'ergonomie Android et de la cohérence graphique                   | haut de `docs/PLAN-ACTUEL.md`         |
+| Sujet              | État                                                                                                                          | Source                                   |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Version            | 0.36.2, Android versionCode 48                                                                                                | `package.json`, `android/app`            |
+| `main`             | commit `abef9ee` ; PR nº 1 à 5 fusionnées (la nº 5 n'ajoute que des documents au code `336410e`)                              | GitHub `zyclope0/snakeattak`             |
+| Build et tests     | 548 tests unitaires sur 548, build vert                                                                                       | vérifié                                  |
+| Audit d'interface  | 13 contrôles sur 13                                                                                                           | vérifié (`npm run test:audit`)           |
+| Parcours téléphone | 29 écrans en 780×360 tactile, aucune erreur JavaScript, reprise après rechargement                                            | vérifié en navigateur, pas sur le S24    |
+| Site public        | <https://conquete-serpents-famille.zyclope.chatgpt.site/>, annoncé en 0.36.2                                                  | reçu de Codex, non vérifié par Claude    |
+| APK                | debug 0.36.2, signé en debug, identifiant provisoire `com.conqueteserpents.famille`                                           | bilan de Codex                           |
+| Langues du jeu     | français et anglais ; allemand et italien absents                                                                             | vérifié                                  |
+| Essais réels       | un essai du parent sur Galaxy S24 Ultra en 0.30.0 (« les enfants apprécient ») ; aucune séance enfant consignée depuis        | `docs/ANDROID.md`                        |
+| Monétisation       | dossier écrit, rien dans le code : ni pub, ni achat, ni permission Internet                                                   | `docs/publication/`                      |
+| Compte Google Play | compte personnel créé, validation d'identité en attente au 8 novembre                                                         | `docs/publication/PLAY-CONSOLE.md`       |
+| Taille du dépôt    | 671 Mo suivis, 6 681 fichiers ; `reports/` 442 Mo et `docs/` 197 Mo, surtout des captures                                     | vérifié ; plan dans `HYGIENE-DEPOT`      |
+| Suite demandée     | pause sur les fonctionnalités ; audit des menus et de la direction artistique fait par Codex, contre-analyse et choix à faire | `docs/AUDIT-VISUEL-MOBILE-2026-11-10.md` |
 
 Le téléphone de la famille est un Galaxy S24 Ultra. Les contrôles de Claude et de Codex utilisent
 780×360 et 812×375 : mesure `window.innerWidth` et `innerHeight` sur le vrai appareil avant de
@@ -246,17 +246,27 @@ Questions ouvertes pour Yannick, pas pour l'agent : statut de « commerçant » 
 
 ## 9. Travail à faire, par ordre proposé
 
-| Lot | Contenu                                                                                                                                                                     | Qui décide                    |
-| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| A   | **Demande en cours.** Étude des menus de jeux grand public et de tower defense, de l'ergonomie Android, de la cohérence pâte à modeler ; propositions, puis lot d'interface | Yannick valide les maquettes  |
-| B   | Protocole et fiche d'essai avec les enfants, relevé de fluidité sur le téléphone ; corriger ce que l'essai révèle                                                           | Yannick et les enfants        |
-| C   | Hygiène du dépôt : sortir captures et gros rapports de Git selon le plan de Codex                                                                                           | Yannick (historique Git)      |
-| D   | Équilibrage, révision 3 : rapport prix/force des gros alliés, difficulté de la grande aventure                                                                              | Yannick et son fils           |
-| E   | Allemand et italien, avec relecteurs                                                                                                                                        | Yannick trouve les relecteurs |
-| F   | Mode duo : essai sans code, puis prototype                                                                                                                                  | le fils (nom, pouvoirs)       |
-| G   | Publication : identifiant, AAB, test fermé, pub, achat, fiches                                                                                                              | Yannick                       |
+| Lot | Contenu                                                                                                                                                                                | Qui décide                    |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| A   | **Demande en cours.** Menus, ergonomie Android et cohérence pâte à modeler : l'audit de Codex existe, il faut le contre-vérifier, faire choisir Yannick, puis réaliser par petits lots | Yannick choisit l'approche    |
+| B   | Protocole et fiche d'essai avec les enfants, relevé de fluidité sur le téléphone ; corriger ce que l'essai révèle                                                                      | Yannick et les enfants        |
+| C   | Hygiène du dépôt : sortir captures et gros rapports de Git selon le plan de Codex                                                                                                      | Yannick (historique Git)      |
+| D   | Équilibrage, révision 3 : rapport prix/force des gros alliés, difficulté de la grande aventure                                                                                         | Yannick et son fils           |
+| E   | Allemand et italien, avec relecteurs                                                                                                                                                   | Yannick trouve les relecteurs |
+| F   | Mode duo : essai sans code, puis prototype                                                                                                                                             | le fils (nom, pouvoirs)       |
+| G   | Publication : identifiant, AAB, test fermé, pub, achat, fiches                                                                                                                         | Yannick                       |
 
-Pour le lot A, des maquettes éditables de l'accueil, de la préparation et du plateau existent
+Pour le lot A, Codex a livré le 10 novembre un audit sans modification du jeu,
+`docs/AUDIT-VISUEL-MOBILE-2026-11-10.md` : 12 jeux grand public et 5 tower defense comparés sur
+captures (aucun n'a été installé ni joué), mesures de nos écrans, et deux approches. Il recommande
+l'approche A : accueil compact avec une action principale, écrans courts, carnet ouvert sur la
+collection (aujourd'hui 2 581 px de contenu pour 344 px visibles en 780×360), gestion des noms au
+second plan, puis un langage de matières commun. L'approche B est centrée sur le plateau. Il a
+aussi écrit `docs/POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md`, qui demande une contre-analyse : elle
+n'est pas faite. Commence par elle (mesures refaites, références vérifiées, angles morts), puis
+propose à Yannick un ordre de petits lots.
+
+Des maquettes éditables de l'accueil, de la préparation et du plateau existent
 [ici](https://claude.ai/artifact/NeJ71Fck3ZpVEMc2y9kAWD), et des images de référence dans
 `docs/resources-2026-11/`. Les enseignements du benchmark (Plants vs. Zombies, Kingdom Rush,
 Bloons TD 6, Toca Boca) sont dans l'audit : une voie au début, huit mots à l'écran au plus,
