@@ -176,6 +176,14 @@ export async function navigationChecks({ browser, base, check, shot, errors }) {
         );
         assert.ok(icons.every((i) => i.hidden === 'true'));
         await shot(page, `navigation-notebook-${tag}`);
+        const expectedName = language === 'fr' ? 'Nom du carnet' : 'Sticker book name';
+        const namedTextbox = page.getByRole('textbox', { name: expectedName, exact: true });
+        assert.equal(
+          await namedTextbox.count(),
+          1,
+          'textbox accessible name matches visible label',
+        );
+        assert.equal(await namedTextbox.getAttribute('id'), 'caprice-album-name');
       });
       await page.locator('#caprice-album-close').click();
       await check(`native family picker and atomic preview ${tag}`, async () => {

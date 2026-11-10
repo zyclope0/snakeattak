@@ -3,7 +3,7 @@ import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS } from '../missions.ts';
 import { capriceById, capricesForMission, CAPRICE_SET_NAMES } from '../caprices.ts';
-import { setText, setAttribute, createTextNode } from '../i18n/dom.ts';
+import { setText, createTextNode } from '../i18n/dom.ts';
 import { frenchLeaf } from './capriceCopy.ts';
 import { stickerGraphic, paintSticker } from './capriceIcons.ts';
 export { stickerGraphic } from './capriceIcons.ts';
@@ -53,7 +53,6 @@ export function bindCapriceAlbums(
   const name = document.createElement('input');
   name.id = 'caprice-album-name';
   name.maxLength = 24;
-  setAttribute(name, 'aria-label', 'Petit nom du carnet');
   const add = document.createElement('button');
   add.id = 'caprice-album-add';
   setText(add, 'Ajouter un carnet');
