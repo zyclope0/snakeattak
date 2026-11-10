@@ -1,24 +1,28 @@
-# Plan actuel — v0.36.2 publiée, fonctionnalités en pause
+# Plan actuel — 0.37.0 candidate locale, site public 0.36.2
 
-## Refonte graphique — huit arbitrages validés, v0.37.0 en cours
+## Interface mobile courte — huit choix réalisés, revue globale à terminer
 
-Le parent a choisi les huit options A puis confirmé « tous ok » : accueil
-compact et vues courtes, carnet par mission (six stickers), gestion des carnets
-repliée, action primaire contextuelle, préparation en résumé et sous-vues,
-catalogue plein écran de six cartes en pause automatique, comparatif futur de
-six images avec devis préalable. Les noms et annonces du fils restent exacts
-en français, dans les deux langues ; les deux « La tempête » ne sont pas fusionnées.
+La candidate locale Android **0.37.0 / code 49** applique les huit choix validés :
+accueil court et reprise contextuelle, carnet de six autocollants par mission,
+gestion repliée, préparation en sous-vues, catalogue natif paginé en pause avec
+budget visible. Les 36 noms/annonces du créateur restent français dans les deux
+langues ; moteur, données, sauvegardes et anciens codes sont préservés.
 
-[Cadrage validé](superpowers/specs/2026-11-10-interface-mobile-0370.md) et
-[plan de réalisation](superpowers/plans/2026-11-10-interface-mobile-0370.md).
-Trois lots : accueil/carnet, préparation/catalogue, finition/recette Android.
-Le moteur, les valeurs, les sauvegardes et anciens codes restent inchangés.
-La génération payante reste arrêtée au devis, séparément de cette refonte.
+Source produit/tests figée : `9ca13bb55a55f7a571c6fbc027e31c466c638e3c`.
+[Bilan local](BILAN-0.37.0.md), [conseils simulés](CONSEIL-0.37.0.md),
+[preuves et reçus](../reports/interface-0370/README.md),
+[cadrage](superpowers/specs/2026-11-10-interface-mobile-0370.md).
+La recette complète, l’APK debug et le portable sont indexés dans le reçu de
+livraison. Les anciennes preuves et la version 0.36.2 restent conservées.
 
-L’[audit visuel](AUDIT-VISUEL-MOBILE-2026-11-10.md), le
-[conseil simulé](CONSEIL-AUDIT-VISUEL-2026-11-10.md) et le
-[brief Claude](POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md) restent les références.
-Le site public reste en 0.36.2 pendant la réalisation.
+**Le site public reste en 0.36.2.** Le coordinateur doit encore terminer la revue
+globale, puis pousser, fusionner et publier. Les essais S24, TalkBack, enfants et
+relecture anglophone native restent attendus. Le petit carnet 568×320 avec marges
+conserve un défilement interne ; à 780×360 avec marges les six cartes tiennent.
+
+Le comparatif d’images est séparé et arrêté au [devis partiel](interface-0370/DEVIS-COMPARATIF.md) :
+100 crédits Magnific, 1 crédit Higgsfield de base, prix Runway indisponible.
+Aucune image ni dépense lancée.
 
 ## v0.36.2 — livraison clôturée
 

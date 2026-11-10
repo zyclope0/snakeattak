@@ -1,0 +1,262 @@
+{
+  "version": "0.37.0",
+  "versionCode": 49,
+  "status": "local candidate",
+  "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+  "taskBaseSHA": "42e8152",
+  "publication": {
+    "status": "pending coordinator review and release",
+    "publicVersion": "0.36.2",
+    "remoteActionsByTask3": false
+  },
+  "apk": {
+    "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "apkPath": "/workspace/conquete-serpents-v0.37.0-debug.apk",
+    "apkBytes": 15106817,
+    "apkSHA256": "07b2ab7a1288e2eec57c990e05201c3ee63afd0c5dd95b9dbbfc24280dd066bb",
+    "appId": "com.conqueteserpents.famille",
+    "versionCode": 49,
+    "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "distFiles": 34,
+    "normalNoServer": true,
+    "allDistFilesIdentical": true,
+    "cert": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599"
+  },
+  "portable": {
+    "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "htmlPath": "/workspace/conquete-serpents-v0.37.0-portable.html",
+    "htmlBytes": 15124867,
+    "htmlSHA256": "fe758b5c047ea53f36bd9db99eb696e066ac65025da383eb0f9523cf7031886c",
+    "bundlePath": "/workspace/conquete-serpents-v0.37.0-portable.zip",
+    "bundleBytes": 10855887,
+    "bundleSHA256": "7c8805832462307cc9bf32a49bee96bf7f60e6fbd47e7f65d0bc70c8c4278277",
+    "bundleFiles": 5,
+    "allBundleFilesIdentical": true,
+    "faviconCompanionPath": "/workspace/icon-512-BPQ3IZsK.png",
+    "faviconSHA256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab",
+    "standaloneGameplay": true
+  },
+  "web": {
+    "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "htmlBytes": 32475,
+    "htmlBudget": 32768,
+    "normalDistFiles": 34,
+    "rootReviewedSnapshotMatchesAPK": true
+  },
+  "protected": {
+    "baseSHA": "2b5ae484add9e5abcca1392be5665af2c4837257",
+    "files": 81,
+    "changed": [],
+    "runtimeDiffFromAPKSource": []
+  },
+  "qa": {
+    "commands": [
+      {
+        "command": "npm ci",
+        "exit": 0,
+        "seconds": 2.5
+      },
+      {
+        "command": "npm run verify",
+        "exit": 0,
+        "seconds": 32.7
+      },
+      {
+        "command": "npm audit --omit=dev --audit-level=high",
+        "exit": 0,
+        "seconds": 0.4
+      },
+      {
+        "command": "npx playwright install chromium",
+        "exit": 0,
+        "seconds": 0.6
+      },
+      {
+        "command": "npm run test:browser",
+        "exit": 0,
+        "seconds": 71.4
+      },
+      {
+        "command": "npm run test:audit",
+        "exit": 0,
+        "seconds": 14.0
+      },
+      {
+        "command": "npm run test:threat-preparation",
+        "exit": 0,
+        "seconds": 25.5
+      },
+      {
+        "command": "npm run test:reinforcements-scroll",
+        "exit": 0,
+        "seconds": 49.1
+      },
+      {
+        "command": "npm run test:child-mobile",
+        "exit": 0,
+        "seconds": 44.6
+      },
+      {
+        "command": "npm run test:interruptions",
+        "exit": 0,
+        "seconds": 13.6
+      },
+      {
+        "command": "npm run test:offline",
+        "exit": 0,
+        "seconds": 14.2
+      },
+      {
+        "command": "npm run test:presentation",
+        "exit": 0,
+        "seconds": 103.6
+      },
+      {
+        "command": "npm run test:tactical-clarity",
+        "exit": 0,
+        "seconds": 17.3
+      },
+      {
+        "command": "npm run test:locale",
+        "exit": 0,
+        "seconds": 78.7
+      },
+      {
+        "command": "npm run test:caprices",
+        "exit": 0,
+        "seconds": 128.2
+      },
+      {
+        "command": "npm run test:mission-journey",
+        "exit": 0,
+        "seconds": 17.3
+      },
+      {
+        "command": "npm run test:mobile-menus",
+        "exit": 0,
+        "seconds": 20.5
+      },
+      {
+        "command": "npm run build:portable",
+        "exit": 0,
+        "seconds": 9.3
+      },
+      {
+        "command": "npm run test:family",
+        "exit": 0,
+        "seconds": 19.8
+      },
+      {
+        "command": "GAME_URL=file:///workspace/conquete-serpents-0322/dist-portable/index.html npm run test:browser",
+        "exit": 0,
+        "seconds": 76.0
+      },
+      {
+        "command": "npm run test:rewards",
+        "exit": 0,
+        "seconds": 22.9
+      }
+    ],
+    "allPassed": true,
+    "unitTests": 549,
+    "mobileChecks": 519,
+    "localeChecks": 440,
+    "localeBindingChecks": 24,
+    "localeUnknownKeys": 0,
+    "capriceChecks": 293,
+    "capriceCaptures": 39,
+    "auditChecks": 13,
+    "missionJourneyCases": 16,
+    "childMobileSizes": 6,
+    "touchSwipeSizes": 5,
+    "touchSwipeDesktop": true,
+    "presentationScenarios": 14,
+    "productionAuditVulnerabilities": 0,
+    "coldOfflineCases": [
+      {
+        "mode": "bundled-offline",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "bundled-offline",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      }
+    ]
+  },
+  "packaging": {
+    "normalBuild": "npm run build",
+    "androidBuild": "SERPENTS_PERF=0 cap sync android; Gradle assembleDebug --offline --no-daemon --max-workers=2",
+    "inspections": [
+      "version49/0.37.0",
+      "same app ID and certificate",
+      "sensor landscape unchanged",
+      "no server/appStartPath",
+      "no INTERNET/BILLING/AD_ID",
+      "all34 normal files byte-equal to APK and coordinator snapshot"
+    ],
+    "coldProofCommand": "node /workspace/serpents-interface-0370/task3/portable-check.mjs",
+    "coldProofCases": 4,
+    "coldProofErrors": []
+  },
+  "independentNativeUIRun": {
+    "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "stateOrClockInjection": false,
+    "simulatedInsets": [
+      24,
+      32,
+      16,
+      0
+    ],
+    "purchases": 4,
+    "playedWaves": 3,
+    "finalCrystal": "100 %",
+    "finalGold": "753",
+    "rawFrenchBookNames": 36,
+    "captureCalls": 20,
+    "uniqueCaptureFilenames": 18,
+    "pageErrors": [],
+    "balanceConclusion": false
+  },
+  "history": {
+    "newRecipeReportsCopiedOut": 5,
+    "previous036APKAndPortableFilesUnchanged": 8,
+    "existingFilesChecked": 9044,
+    "existingFilesRestored": 187
+  },
+  "imageQuote": {
+    "status": "partial quote only",
+    "magnificCredits": 100,
+    "higgsfieldBaseCredits": 1,
+    "runwayPerCallQuote": null,
+    "paidGenerationCalls": 0
+  },
+  "proofRoot": "/workspace/serpents-interface-0370/task3",
+  "limitations": [
+    "Chromium simulation, no physical Galaxy S24",
+    "No TalkBack, children or native English review",
+    "568x320 safe-area book uses bounded internal scroll",
+    "Catalogue tools use internal scroll on short screens",
+    "Ancillary historical development recipes are not claimed as individually executed; final workflow and brief gates are listed above",
+    "Portable gameplay is embedded; complete ZIP also contains favicon, prototype and licences"
+  ]
+}
