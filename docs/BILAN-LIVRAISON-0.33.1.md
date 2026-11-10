@@ -1,6 +1,6 @@
 # Livraison autonome — v0.33.1, lot C
 
-9 novembre 2026. Version Android41, même identité provisoire et même certificat.
+9 novembre 2026. Version Android 41, même identité provisoire et même certificat.
 Trois lots applicatifs terminés ; le programme global de l'audit reste partiel.
 [Bilan A](BILAN-0.33.0.md), [bilan B](BILAN-0.33.1.md),
 [conseil C](CONSEIL-LIVRAISON-0.33.1.md).
@@ -31,37 +31,37 @@ réduction des cibles tactiles ni masquage du débordement.
 | Petit portrait : commandes et titre débordants | Corrigé après reproduction sur production                                          | Recette tactical 12 combinaisons, mesures avant/après dans summary.json                      |
 | Sauvegardes, codes et règles préservés         | Aucun changement de leurs modules ; compatibilité automatisée verte                | Schémas1–7 et chapitres1–3, test hors ligne ; diff des fichiers protégés vide depuis f2a6c00 |
 | APK normal à tester                            | Assemblé et inspecté ; test physique pas fait                                      | apk.json et apk-inspection.txt                                                               |
-| Site synchronisé                               | Fait : Sites18, recette en ligne trois formats verte                               | reports/deployment-0.33.1.json                                                               |
+| Site synchronisé                               | Fait : Sites 18, recette en ligne trois formats verte                              | reports/deployment-0.33.1.json                                                               |
 
 ## Vérification
 
 Sur le produit final : npm run verify **438 tests, zéro échec**, types,
 formatage, build et budgets verts ; test:browser ordinateur et tactile vert.
 Tactical12, interruptions11, hors ligne10, défilement5 formats tactiles et
-ordinateur, enfant6 formats, aide4 formats, transitions2 contextes et racines7
+ordinateur, enfant 6 formats, aide4 formats, transitions2 contextes et racines7
 verts. Les transitions utilisent l'app réelle avec stockage normal puis bloqué.
 Le hors ligne sert uniquement les fichiers embarqués, réseau coupé : 23 fichiers,
 zéro manquant ou externe. Il ne démontre pas une installation PWA.
 
-Audit d'interface13 et interface24 verts au lot B ; pas de répétition inutile :
-le seul CSS C affecte le portrait inférieur à600px, hors de leurs vues paysage.
+Audit d'interface 13 et interface 24 verts au lot B ; pas de répétition inutile :
+le seul CSS C affecte le portrait inférieur à 600 px, hors de leurs vues paysage.
 Les recettes finales tactical/enfant couvrent ce changement. Tutoriel et stockage
 bloqué ont aussi été vérifiés avant ce CSS ; leur portée est précisée dans le
 rapport. Les **4 096 profils ne sont pas des parties simulées**.
 
-HTML31 299octets, JS jeu191 833octets ; budgets32KiB/200 000 conservés.
-27 captures finales et manifeste de28 fichiers figés dans
+HTML31 299 octets, JS jeu191 833 octets ; budgets32KiB/200 000 conservés.
+27 captures finales et manifeste de 28 fichiers figés dans
 [reports/night-0331-delivery](../reports/night-0331-delivery/summary.json).
 Au démarrage mesuré en navigateur neuf, le corps des réponses image passe de
-2 618 518 à772 165octets, soit environ70,5% de moins. Ce n'est ni une mesure de
+2 618 518 à 772 165 octets, soit environ 70,5% de moins. Ce n'est ni une mesure de
 trafic total, de FPS, de mémoire ni de vitesse Android.
 
 ## APK et limites
 
 [Télécharger l'APK debug normal](/workspace/conquete-serpents-v0.33.1-debug.apk).
-13 960 650octets ; SHA256
+13 960 650 octets ; SHA256
 `80f9ab97cdf1471dd49583ee6df58d3a2a5aab8f56e4331043359abd1f4026a7`.
-AppID `com.conqueteserpents.famille` provisoire conservé, code41, paysage capteur.
+AppID `com.conqueteserpents.famille` provisoire conservé, code 41, paysage capteur.
 Même certificat que0.32.4 ; 28 fichiers web identiques au build validé ; 20 PNG
 natifs décodés et comparés. Démarrage `/`, sans mode diagnostic ; aucune permission
 INTERNET, BILLING ou AD_ID. Compilation Gradle assembleDebug hors ligne après
@@ -75,11 +75,11 @@ modifiés. Les langues, lieux, campagne et choix commerciaux restent distincts.
 
 ## Publication et clôture
 
-Site existant publié en0.33.1, version Sites18, audience publique conservée.
+Site existant publié en 0.33.1, version Sites 18, audience publique conservée.
 [Reçu complet](../reports/deployment-0.33.1.json). Contrôle en ligne à1280×800,
-812×375 tactile et375×812 tactile : zéro erreur JavaScript. Mission, vague1,
+812×375 tactile et375×812 tactile : zéro erreur JavaScript. Mission, vague 1,
 quatre favoris, aide et pause HTML vérifiées ; portrait avec consigne de rotation.
-Plateau812×375 :580,13×326,98px, soit87,20% de la hauteur et71,44% de la largeur.
+Plateau812×375 :580,13×326,98px, soit 87,20% de la hauteur et 71,44% de la largeur.
 HTML, JS jeu et CSS en ligne identiques octet par octet au build validé.
 
 Un premier contrôle réseau Node a été indisponible ; la lecture CDP du texte CSS

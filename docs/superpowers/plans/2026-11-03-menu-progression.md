@@ -12,7 +12,7 @@ partagés entre implémentations ; intégration root après modules.
 ## Global Constraints
 
 12vagues/3voies/21alliés existants, hérosautonome ; roi entrantfatal ; réactions2/3
-inchangées ; commandes refusées pendantpause ou étatsinvalides ; camp4 lit1/2/3 ;
+inchangées ; commandes refusées pendantpause ou étatsinvalides ; camp 4 lit1/2/3 ;
 aucune monnaie/metaamélioration obligatoire ; pas de nouvelleimage/dépendance.
 
 ## Review Focus

@@ -37,12 +37,12 @@ Le lancement reste hors de la zone défilante, comme en 0.31.
 Aucun changement des règles, prix, statistiques, vagues, IA, codecs ou profils.
 Aucun Math.random, RNG consommé par la lecture, ordre de déplacement, bonus
 anticipé, Facile, indisponibilité nouvelle d'un outil, SDK ou langue supplémentaire.
-Version 0.32.0, Android code35 ; certificat debug existant.
+Version 0.32.0, Android code 35 ; certificat debug existant.
 
 Tester six missions × assauts/couvées et classique1–12, réglages historiques,
 œufs, volants, roi/garde/soigneur, dernières vagues, refus et pauses de dialogues.
 Contrôler 1280×800, 812×375, 568×320, 480×320 avec marges système, et 375×812.
-Contrôles≥48px, toutes les actions de départ visibles sans scroller, aucune
+Contrôles≥48 px, toutes les actions de départ visibles sans scroller, aucune
 réduction de la hauteur du plateau 812×375 (≥85% hauteur utile et≥65% largeur).
 La lecture et la fermeture ne changent ni sauvegarde ni RNG ; changement de
 mission/départ/vague ne laisse pas d'ancien portrait ou conseil.

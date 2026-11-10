@@ -1,6 +1,6 @@
 # Bilan 0.35.0 — tactique et français/anglais
 
-9 novembre 2026. Demande : réaliser le lot2 de lisibilité, doubler l'application
+9 novembre 2026. Demande : réaliser le lot 2 de lisibilité, doubler l'application
 en anglais sous le nom **Snake Attack TD**, et cacher une petite soucoupe à un
 seul endroit. Direction pâte à modeler/papier mâché et jeu inventé par l'enfant
 conservés. **Aucune règle de combat ou valeur d'équilibrage modifiée.**
@@ -60,8 +60,8 @@ Les anciens schémas1–7 sont relus hors ligne.
 
 Formats FR/EN :1280×800,1366×768,812×375,780×360,568×320,375×812 ;
 variante568 avec marges système. Le portrait tactile affiche la consigne de
-rotation. À812×375, le plateau mesuré fait environ580×327, soit87,2% de la
-hauteur et71,4% de la largeur. Les recettes ne valident pas Android physique,
+rotation. À812×375, le plateau mesuré fait environ580×327, soit 87,2% de la
+hauteur et 71,4% de la largeur. Les recettes ne valident pas Android physique,
 TalkBack, le grossissement système ou la compréhension des enfants.
 
 Le premier échec du test navigateur provenait de son attente de démarrage :
@@ -72,7 +72,7 @@ l'annonce, corrigée ; son ancienne attente de ligne vide après l'événement e
 remplacée par le contrôle du retour de la nouvelle consigne de placement.
 Aucune attente n'est supprimée pour masquer un défaut.
 
-Les parties d'équilibrage et les532simulations du bilan0.34.2 restent leur
+Les parties d'équilibrage et les 532 simulations du bilan0.34.2 restent leur
 échantillon historique. Aucun nouveau taux de victoire enfant n'est déduit ici.
 Suivis mineurs : aide longue, cibles secondaires de l'accueil petites, explication
 du nombre/délai médical collectif, petits textes transitoires au fort et indice
@@ -95,21 +95,21 @@ la PR1 ne vaut pas fusion automatique de cette évolution.
 
 | Commande / recette                     | Résultat                                                                                       |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `npm run verify`                       | 458tests verts, types/format/build et budgets verts                                            |
+| `npm run verify`                       | 458 tests verts, types/format/build et budgets verts                                           |
 | `npm run test:locale`                  | 392contrôles,24contrats d'adaptateurs,830sources couvertes ; zéro erreur/clé inconnue détectée |
 | Tactique / interface / enfant          | 3formats×6critères,24contrôles interface,6formats enfant                                       |
 | Audit / interruptions / présentation   | 13/11/14contrôles ou scénarios verts                                                           |
-| Missions / régressions / codes / soins | Parcours verts ;12contrôles nommés de départ                                                   |
-| Hors ligne                             | 10contrôles, schémas1–7 relus, zéro fichier manquant ou appel externe                          |
-| Menaces / défilement renforts          | 5écrans et11critères ;5cas tactiles et ordinateur                                              |
+| Missions / régressions / codes / soins | Parcours verts ;12 contrôles nommés de départ                                                  |
+| Hors ligne                             | 10 contrôles, schémas1–7 relus, zéro fichier manquant ou appel externe                         |
+| Menaces / défilement renforts          | 5 écrans et11critères ;5 cas tactiles et ordinateur                                            |
 | Portable                               | Build et recette FR verts ; Refuge réellement terminé en anglais,3vagues,100% du cristal       |
 | Dépendances de production              | 0vulnérabilité retournée par l'audit à cette date                                              |
 
-HTML normal : **31 771octets**. JS initial du jeu en français : **207 123octets cumulés** répartis entre entrée interface et règles ; anglais additionnel **65 681octets**. Phaser reste séparé. Total des cinq fichiers JS Phaser compris : **1 754 596octets**. Le plafond de200000octets reste appliqué à chaque JS hors Phaser ; il n'a pas été relevé pour masquer la croissance. Portable :15 057 756octets de HTML autonome.
+HTML normal : **31 771 octets**. JS initial du jeu en français : **207 123 octets cumulés** répartis entre entrée interface et règles ; anglais additionnel **65 681 octets**. Phaser reste séparé. Total des cinq fichiers JS Phaser compris : **1 754 596 octets**. Le plafond de 200000 octets reste appliqué à chaque JS hors Phaser ; il n'a pas été relevé pour masquer la croissance. Portable :15 057 756 octets de HTML autonome.
 
 ## Livraison et Git
 
-**[Site0.35.0](https://conquete-serpents-famille.zyclope.chatgpt.site/), Sites22**,
+**[Site0.35.0](https://conquete-serpents-famille.zyclope.chatgpt.site/), Sites 22**,
 audience publique conservée. Recette sur le vrai déploiement : FR1280×800,
 EN812×375, pause et changement de langue, rotation portrait puis paysage ;
 zéro erreur JavaScript. HTML, cinq JS et deux CSS servis comparés par SHA-256
@@ -125,7 +125,7 @@ cette branche ajoutent le reçu et les preuves de publication. La CI distante
 est distincte des commandes locales et son état reste consultable sur la PR.
 
 Confirmation jouée sur le site en anglais : **Refuge terminé,3vagues, victoire
-à100%,3étoiles ; le bouton visible Next mission ouvre l'aperçu suivant**.
+à 100%,3 étoiles ; le bouton visible Next mission ouvre l'aperçu suivant**.
 [Journal](../reports/suivi-0.35.0/played-public-en.json),
 [capture réellement jouée](captures-0.35.0/site-en-victoire-jouee.png).
 Une partie portable et une partie publique, chacune dans un contexte isolé,

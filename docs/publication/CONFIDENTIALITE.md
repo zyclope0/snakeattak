@@ -71,7 +71,7 @@ qui inclut les bibliothèques/SDK et la localisation approximative déduite de l
 ## Brouillon v1 avec publicité et achats — étape 4
 
 **Proposition française pour l'espace parents, à compléter et relire. Ne pas
-publier telle quelle.** Ce texte décrit une version future, pas l'APK0.32.4 sans
+publier telle quelle.** Ce texte décrit une version future, pas l'APK 0.32.4 sans
 SDK commercial. Aucune traduction ajoutée dans cette mission.
 
 > La Conquête des Serpents est éditée par [nom légal/public à confirmer],

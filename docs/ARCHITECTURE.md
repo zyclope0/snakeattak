@@ -225,7 +225,7 @@ validation de leur état. `Game` déclenche les deux offres après les vraies vi
 4/8, applique un choix unique et possède les méthodes `chooseReward`, `skipReward`
 et `recruitCost`. Le bon offert passe par les mêmes règles de placement et n'est
 consommé qu'après acceptation. La protection est une réserve finie séparée des
-100points de vie du cristal ; le roi l'ignore. Le bonus de miel prolonge la vraie
+100 points de vie du cristal ; le roi l'ignore. Le bonus de miel prolonge la vraie
 durée du moteur, sans deuxième minuteur dans l'interface.
 
 `checkpoints.ts` encode le campv3 à la même clé locale, lit encore v1/v2 et ne
@@ -315,7 +315,7 @@ Voir ANDROID.md et ARCHITECTURE-ANDROID-0.21.md pour les outils, limites et éta
 Les nouveaux modèles purs healing.ts, flying.ts et bossCourt.ts séparent stocks,
 ciblage aérien et escorte. Game coordonne les trajets et coups ; boss.ts garde les
 réserves de vie des têtes. Le rendu lit les états, sans horloge de combat propre.
-Le campv6 garde stocks/phase/délai médical ; les formats1–5 migrent sans soin de
+Le campv6 garde stocks/phase/délai médical ; les formats 1–5 migrent sans soin de
 vie gratuit. L'enveloppe familialev2reste compatible avec ces nouveaux camps.
 Les témoins historiques utilisent un réglage interne tacticalRulesEnabled=false,
 non présenté comme une option aux joueurs. Les mesures0.22 utilisent le vrai
@@ -372,7 +372,7 @@ utilise temporairement appStartPath `/?perf=1`, puis restaure le sync normal.
 Le menu sélectionne la première mission ouverte non terminée à partir de la
 progression existante. Cette sélection ne modifie aucune étoile. Les disclosures
 sont des éléments HTML natifs ; les IDs et événements des commandes sont gardés.
-childCopy convertit uniquement les textes affichés : les180 instantanés
+childCopy convertit uniquement les textes affichés : les 180 instantanés
 historiques et les données de jeu restent inchangés. Le comptage de mots en
 recette intersecte le viewport et les clips de tous les ancêtres défilants.
 

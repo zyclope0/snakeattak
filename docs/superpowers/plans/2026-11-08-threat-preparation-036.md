@@ -6,7 +6,7 @@
 
 **Architecture:** modèles UI purs, composants DOM séparés, marqueurs Phaser observateurs. Commandes et règles existantes restent autoritaires.
 
-**Tech Stack:** TypeScript, Phaser3, Vite, HTML/CSS, Capacitor8.6, Node24/Playwright.
+**Tech Stack:** TypeScript, Phaser 3, Vite, HTML/CSS, Capacitor 8.6, Node24/Playwright.
 
 **Spec:** ../specs/2026-11-08-threat-preparation-design.md
 
@@ -16,7 +16,7 @@
 - Six missions existantes, trois voies visibles et tutoriel centre→2→3 conservés.
 - Prévision des espèces, jamais de répartition adaptative inventée par voie.
 - Conseil seulement avec un allié disponible ; jamais achat ou déplacement automatique.
-- 0.32.0 / Android code35, certificat précédent, aucun SDK ni asset nouveau.
+- 0.32.0 / Android code 35, certificat précédent, aucun SDK ni asset nouveau.
 
 ## Review Focus
 

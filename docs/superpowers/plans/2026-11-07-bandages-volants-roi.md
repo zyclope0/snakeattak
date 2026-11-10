@@ -4,7 +4,7 @@
 
 **Goal:** Réaliser les trois demandes du fils en conservant un jeu familial équilibré.
 **Architecture:** Modèles purs pour stocks, vol et têtes ; Game coordonne ; sauvegarde versionnée ; rendu lit l'état réel.
-**Tech Stack:** TypeScript strict, Phaser3, Vite, Node24, Playwright, Capacitor8.
+**Tech Stack:** TypeScript strict, Phaser 3, Vite, Node 24, Playwright, Capacitor 8.
 **Spec:** docs/superpowers/specs/2026-11-07-bandages-volants-roi-design.md
 
 ## Global Constraints

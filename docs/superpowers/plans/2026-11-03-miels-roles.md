@@ -42,7 +42,7 @@ Game.offerFeast(lane:number,flavor:FeastFlavor='lure'):boolean.
 
 ### Task 4: Livraison
 
-- [x] Vérification complète et100campagnes, ajustements uniquement si nécessaires.
+- [x] Vérification complète et 100 campagnes, ajustements uniquement si nécessaires.
 - [x] Revue indépendante, correctifs importants couverts rouge→vert.
 - [x] Exports web/portable, ZIP et aperçu HTTPS vérifiés, documentation et coût réel.
 
@@ -56,7 +56,7 @@ les assets et les scènes restent à la racine pour éviter des modifications co
 
 Moteur et UI intégrés, deux poses parapluie inspectées et retournées selon leur
 profil réel gauche, deux pots communs au panneau et au terrain. Coût218crédits.
-120tests passent ; tests de protections, zone, cible et actions observés rouges
+120 tests passent ; tests de protections, zone, cible et actions observés rouges
 puis verts. UI déléguée à ui_miels_013 dans ses cinq fichiers, puis contrôlée dans
 le navigateur ; ajouts ultérieurs d'icônes sans changement de règles.
 
@@ -67,9 +67,9 @@ cascade de toute l'armée quand une aide arrive au pont.
 
 Revue indépendante sans Critical/Important ni Minor matériel,119tests/types verts.
 Le correctif d'objectif A* supplémentaire est vérifié par reproduction rouge→verte,
-suite120/120 et replay du blocage en3,97s. Pas de deuxième revue demandée.
+suite120/120 et replay du blocage en 3,97 s. Pas de deuxième revue demandée.
 
-Lots finaux :100attirant +100alternés,82+92victoires, aucun blocage. Empreintes
+Lots finaux :100attirant +100alternés,82+92 victoires, aucun blocage. Empreintes
 comparées aux TypeScript livrés. Les résultats de distance restent avantagés.
 Aucun appareil physique disponible ; essais navigateur et export portable seulement.
 Les archives et URLs HTTPS sont vérifiées avant livraison, sans fusion Git ni

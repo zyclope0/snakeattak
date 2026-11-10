@@ -2,14 +2,14 @@
 
 8 novembre 2026, Europe/Zurich. GO explicite du parent « go etape 4 ».
 Base620a673 ; branche docs/monetisation-v1-0324. Application conservée en
-**0.32.4/code39**, site conservé en0.32.3. Aucun nouvel APK ni déploiement.
+**0.32.4/code39**, site conservé en 0.32.3. Aucun nouvel APK ni déploiement.
 
 ## Constats du suivi, réalisation et preuves
 
 Les cinq constats visuels/textuels initiaux restent dans les bilans des étapes
-0 à3 ; aucune nouvelle correction de gameplay ou d'écran dans cette étape.
+0 à 3 ; aucune nouvelle correction de gameplay ou d'écran dans cette étape.
 
-| Constat / demande de l'étape4                       | Fait / pas fait                                                                                                                                                                                                    | Preuve                                                                                                                                                                |
+| Constat / demande de l'étape 4                      | Fait / pas fait                                                                                                                                                                                                    | Preuve                                                                                                                                                                |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Serveur de reçus présenté comme nécessaire          | **Fait, document** : v1 client seul, acknowledge natif ; serveur optionnel ultérieur et limites de sécurité explicites                                                                                             | [Achats et serveur](publication/MONETISATION.md#achats--traitement-prévu-dans-lapp), [source officielle](https://developer.android.com/google/play/billing/integrate) |
 | Droits au démarrage et hors ligne                   | **Fait, spécification seulement** : relecture au démarrage/reprise, cache séparé des camps, PENDING sans nouveau droit, retrait après lecture complète réussie                                                     | [Table des cas](publication/MONETISATION.md#achats--traitement-prévu-dans-lapp)                                                                                       |
@@ -86,5 +86,5 @@ comme une nouvelle recette commerciale réussie.
   et docs/IMPLEMENTATION-ETAPE-4.md : état, limites et exécution.
 - reports/suivi-etape-4 : capture, contrôles et reçus de vérification.
 
-**STOP demandé pour l'étape4. Ce cadrage ne donne pas le GO pour intégrer les
+**STOP demandé pour l'étape 4. Ce cadrage ne donne pas le GO pour intégrer les
 achats, la publicité, publier une politique ou lancer un test commercial.**

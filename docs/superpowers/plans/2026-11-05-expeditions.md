@@ -4,7 +4,7 @@
 
 **Goal:** Six missions rejouables avec détachements neufs et parcours différents.
 **Architecture:** Contexte optionnel de mission dans le moteur local ; géométrie partagée ; progression versionnée ; enveloppe Android sans réécriture.
-**Tech Stack:** TypeScript strict, Phaser3, Vite, Node24, Playwright, Capacitor.
+**Tech Stack:** TypeScript strict, Phaser 3, Vite, Node 24, Playwright, Capacitor.
 **Spec:** docs/superpowers/specs/2026-11-05-expeditions-design.md
 
 ## Global Constraints

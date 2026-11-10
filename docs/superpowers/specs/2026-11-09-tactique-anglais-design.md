@@ -1,6 +1,6 @@
 # Lisibilité tactique, français/anglais et soucoupe discrète
 
-Demande du parent : réaliser le lot2 proposé, doubler toute l'application en
+Demande du parent : réaliser le lot 2 proposé, doubler toute l'application en
 anglais avec le titre **Snake Attack TD**, et ajouter une petite référence
 visuelle aux soucoupes de Mars Attacks à un seul endroit. Le mandat d'autonomie
 et de conseil après chaque lot reste actif. Aucun changement de combat demandé.
@@ -52,7 +52,7 @@ Les documents internes et le prototypeV4 historique restent en français.
 2. Infrastructure et couverture bilingue, puis détail décoratif : plus large,
    car les phrases sont actuellement réparties entre HTML, UI et rendu.
 
-Version finale prévue0.35.0/code45. Un conseil3techniques+3cibles simulées après
+Version finale prévue0.35.0/code45. Un conseil3techniques+3 cibles simulées après
 chaque lot ; jamais présenté comme une validation réelle des enfants.
 Le titre anglais n'est pas un choix d'identifiant Android ou une publication Play.
 

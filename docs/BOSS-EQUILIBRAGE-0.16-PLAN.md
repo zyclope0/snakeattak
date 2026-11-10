@@ -11,7 +11,7 @@ de modèle payant par partie ni d'adaptation cachée des chiffres pendant une pa
 
 Augmenter seulement les PV rendrait le combat long. Choix retenu : une tête
 protège, une tête prépare un crachat local annoncé au sol, une tête garde la ponte
-existante. Trois phases aux seuils60% et25% ; chaque phase apporte une protection
+existante. Trois phases aux seuils60% et 25% ; chaque phase apporte une protection
 finie, jamais un bouclier qui se recharge indéfiniment. Le corps et les œufs restent
 attaqués automatiquement. Le crachat frappe une fois la zone annoncée ; aucune
 résurrection ni dégâts périodiques. Les alliés mobiles peuvent sortir naturellement
@@ -56,7 +56,7 @@ Protection initiale puis aux phases2/3, égale à maxHp×fraction ; absorption a
 facteur de source (rôle ranged vs autres). Débordement de coup converti en dégâts
 de santé, pas perdu. Aucun bouclier ne ressuscite un boss mort. Aucun blindage
 ordinaire modifié. La protection du bouclier allié peut réduire un impact de tête
-selon la règle existante et son délai3s, sans annuler tous les impacts de zone.
+selon la règle existante et son délai 3 s, sans annuler tous les impacts de zone.
 
 Crachat à partir de x576, cible à portée260, priorité aux tireurs puis proximité ;
 point d'impact fixé au début, délai puis impact local. Horloge de simulation,
@@ -77,11 +77,11 @@ Créer seulement `scripts/balance-lab.mjs`, `scripts/balance-lab/` et
 API pure : huit profils mixed/melee/ranged/heavy/dinosaurs/mutants/casual/clustered,
 avec compositions, placement, miel et achats explicites. N'utiliser que
 Game.recruit/repair/offerFeast/startWave/step. Achats avant vague et au plus toutes
-les6s en combat pour profils réactifs, plus lents pour casual ; budgets réels.
+les 6 s en combat pour profils réactifs, plus lents pour casual ; budgets réels.
 RNG du bot séparé de Game et déterministe par graine/profil/vague. Aucun tirage
 ne dépend du nombre de callbacks de présentation. Pas d'accès DOM/renderer.
 
-Plans de graines disjoints : discovery8, confirmation12, holdout24 ; huit profils
+Plans de graines disjoints : discovery8, confirmation 12, holdout24 ; huit profils
 par graine, mêmes graines pour chaque configuration. Runner parallèle borné
 (4CPU disponibles,3workers par défaut), sortie déterministe triée et hashée.
 Limite240s par vague ; conserver toute défaite, timeout, erreurs avec état/replay.
@@ -99,12 +99,12 @@ Statistiques : Wilson95% pour taux, durées médiane/p90, tableaux par profil,
 pairage par graine ; bootstrap des différences avec la graine comme cluster.
 Objectif multi-critères : zéro blocage, peu de nouvelles défaites précoces,
 réduire l'écart entre stratégies tout en gardant de vraies victoires familiales,
-combat boss autour de15–60s après entrée en zone de combat (environ35–100s depuis son apparition). Les écarts sont des observations de bots, pas une
+combat boss autour de 15–60 s après entrée en zone de combat (environ 35–100 s depuis son apparition). Les écarts sont des observations de bots, pas une
 preuve de plaisir ou un entraînement des poids d'un modèle d'IA.
 
 ### Intégration — principal
 
-- [x] Préserver snapshot0.15 et mettre à jour version0.16.
+- [x] Préserver snapshot0.15 et mettre à jour version 0.16.
 - [x] Évaluer baseline +six candidats sur discovery (7×8×8=448campagnes).
 - [x] Évaluer trois candidats retenus +baseline sur confirmation (4×8×12=384).
 - [x] Choisir un candidat uniquement avec ces données, écrire le défaut livré.
@@ -124,7 +124,7 @@ lot est le boss et l'équilibrage validés par le parent, pas une refonte d'héb
 
 ## Extension du calibrage après les deux premières cohortes
 
-Les448 campagnes de découverte puis384 de confirmation sont conservées avec
+Les 448 campagnes de découverte puis 384 de confirmation sont conservées avec
 leurs configurations, empreintes et sources exactes dans
 `reports/balance-0.16/source-snapshots/round1`. Le premier lancement interrompu
 (140 campagnes) est archivé séparément et exclu de la sélection : son identifiant
@@ -135,11 +135,11 @@ vagues10/11. Durcir uniquement le boss laisse cette faiblesse intacte. Tester un
 facteur de dégâts réservé aux deux mutants, sans changer vie, prix, portée ou
 vitesse. Contrôle sans renforcement, puis facteurs1.25/1.5/1.75 ; toutes ces
 variantes partagent le boss shield-focus et conservent les dégâts secondaires
-complets. Le mode legacy fixe explicitement le facteur mutant à1.
+complets. Le mode legacy fixe explicitement le facteur mutant à 1.
 
-Ajouter deux cohortes de développement disjointes : discovery2 (8graines,
-offsets44–51), confirmation2 (12graines, offsets52–63). La validation finale reste
-les24graines originales offsets20–43, qui n'ont pas été utilisées pour le choix.
+Ajouter deux cohortes de développement disjointes : discovery2 (8 graines,
+offsets44–51), confirmation2 (12 graines, offsets52–63). La validation finale reste
+les 24 graines originales offsets20–43, qui n'ont pas été utilisées pour le choix.
 Prévision totale :832+320+384+384=1920 campagnes complètes, hors diagnostics.
 
 Le score préétabli sert d'aide au choix. Contrôler aussi les résultats par famille,
@@ -162,10 +162,10 @@ corrigé. Ce changement ne modifie pas les dégâts intentionnels ni les paramè
 
 ### Décision figée avant validation finale
 
-Les candidats ×1,5 et ×1,75 ont été confirmés sur12 nouvelles graines. Le score
-est très proche (33,54 contre33,25) : ce n'est pas la preuve d'un optimum unique.
+Les candidats ×1,5 et ×1,75 ont été confirmés sur 12 nouvelles graines. Le score
+est très proche (33,54 contre 33,25) : ce n'est pas la preuve d'un optimum unique.
 Retenir ×1,75, qui améliore la viabilité des mutants (10/12 contre4/12 au contrôle)
-et réduit les défaites précoces (1 contre7), sans régression des familles par
+et réduit les défaites précoces (1 contre 7), sans régression des familles par
 rapport au contrôle dans cette cohorte. Les occasionnels passent de11/12 à12/12.
 Le taux global89,6 % reste au-dessus du repère75 % ; préserver les victoires
 familiales plutôt que durcir artificiellement les autres équipes pour ce chiffre.

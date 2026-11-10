@@ -36,9 +36,9 @@ Les niveaux ont de vraies collisions différentes, pas seulement une recoloratio
 Vie, trésor et survivants traversent les chapitres ; seuls les placements devenus
 invalides sont rapprochés de points libres. Les sauvegardes v1/v2 restent lisibles.
 
-La plaque du serpent à rouages réduit les dégâts de42%, puis6% à mi-vie ; « Clac ! »
-signale la transition. Le serpent à ressort avance lentement pendant1seconde puis
-bondit pendant0,6seconde. Ces phases utilisent l'horloge qui se fige en pause.
+La plaque du serpent à rouages réduit les dégâts de 42%, puis 6% à mi-vie ; « Clac ! »
+signale la transition. Le serpent à ressort avance lentement pendant 1 seconde puis
+bondit pendant 0,6 seconde. Ces phases utilisent l'horloge qui se fige en pause.
 L'IA conserve une cible quand un nouvel adversaire n'est que légèrement préférable,
 mais libère les morts et garde la priorité à l'urgence du cristal.
 
@@ -51,8 +51,8 @@ les nouveaux ennemis, la victoire, le miel et le placement. Le catalogue de cont
 utilise une armée préparée pour voir les images ; ce n'est pas une partie gagnée.
 
 La composition statique du terrain avait fait tomber les callbacks d'image vers
-433ms sur le navigateur cloud. Après précalcul du décor, les sondes ont montré une
-médiane de16,7–33,3ms, avec p95 vers33,4ms. C'est une mesure Chromium dans cet
+433 ms sur le navigateur cloud. Après précalcul du décor, les sondes ont montré une
+médiane de 16,7–33,3 ms, avec p95 vers 33,4 ms. C'est une mesure Chromium dans cet
 environnement, pas une garantie FPS sur téléphone. La restauration forcée du contexte
 WebGL est testée par comparaison d'un carré de terrain avant/après : le décor reste
 identique. Le test a été observé en échec avant la correction d'invalidation du cache.
@@ -82,7 +82,7 @@ implémentation, diagnostic et revue réellement disponibles.
 ## Dernier lot de comparaison
 
 Mêmes cinq politiques et vingt graines initiales que la 0.10, à30Hz, préparation
-fixe de10secondes. Aucun PV ni ressource forcés par le banc de campagnes.
+fixe de 10 secondes. Aucun PV ni ressource forcés par le banc de campagnes.
 
 | Politique       | Victoires | Base finale moyenne | Part moyenne de combattants non mobiles au bord |
 | --------------- | --------- | ------------------- | ----------------------------------------------- |

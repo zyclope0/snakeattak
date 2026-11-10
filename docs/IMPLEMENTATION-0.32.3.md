@@ -47,13 +47,13 @@ Branche fix/tutoiement-0323 dans le worktree isolé existant.
   capturée avant édition. Aucun autre champ retiré de ce témoin de 180 états.
 
 - GREEN : 425/425 natifs ; navigateur, audit13/13, child-mobile6, codec108 et
-  parcours départ, prévision5écrans, présentation14scénarios, horsligne10,
+  parcours départ, prévision 5 écrans, présentation14scénarios, horsligne10,
   interface24/24. Revue indépendante : aucun point ; vérification séparée des
   témoins et deux empreintes contre les sources7932b56 chargées en mémoire.
-- Contrôle lexical : seuls les25 littéraux autorisés changent dans les quatre
+- Contrôle lexical : seuls les 25 littéraux autorisés changent dans les quatre
   fichiers du domaine ; espaces/commentaires et virgules finales facultatives
   de Prettier normalisés, aucun identifiant ni expression de calcul changé.
-- APK38 compilé puis réassemblé avec démarrage normal, même appId/certificat,
+- APK 38 compilé puis réassemblé avec démarrage normal, même appId/certificat,
   27 fichiers web identiques au build vérifié ; aucun SDK ni nouvel asset.
 - Les rapports et captures historiques sont restaurés octet pour octet après
   conservation de la recette courante dans ses propres dossiers.

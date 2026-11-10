@@ -1,6 +1,6 @@
 # Sécurité des données — brouillon v1, non soumis
 
-8 novembre 2026, étape4 documentaire. **Pas une déclaration finalisée.**
+8 novembre 2026, étape 4 documentaire. **Pas une déclaration finalisée.**
 L'app0.32.4 reste sans achat, publicité ou INTERNET. Le tableau prépare une
 variante avec publicité enfant et achats non consommables validés côté client,
 sans serveur de l'éditeur.

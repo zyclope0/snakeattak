@@ -1,6 +1,6 @@
 # Conseil après le lot graphique — v0.34.0
 
-9 novembre2026. Trois personas techniques et trois profils cibles6/9/12ans.
+9 novembre 2026. Trois personas techniques et trois profils cibles6/9/12ans.
 Relectures indépendantes de1b1e6c4..63c9a03, captures réelles avant/après et
 référence iconique. Les profils enfants sont **simulés** ; aucun enfant réel
 ni S24 physique n’a été observé. Les corrections ultérieures47cdeb6 sont vérifiées
@@ -36,7 +36,7 @@ et conservation de l’ancien terrain jusqu’à disponibilité. Zéro erreurJav
 - Corriger les deux défauts visuels hérités dans ce lot : ils affectent les
   repères fonctionnels ; correction purement rendu/CSS, sans migration de camp.
 - Différer l’atlas de bords compact, le fondu plus fin, la réduction de répétition
-  et la petite bordure normale plus contrastée. Les textes10–11px restent une
+  et la petite bordure normale plus contrastée. Les textes10–11 px restent une
   observation familiale, pas une conformité ou une compréhension attestée.
 
 Recommandation du conseil : version utilisable pour essai familial ; aucune

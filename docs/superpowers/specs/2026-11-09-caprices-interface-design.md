@@ -1,6 +1,6 @@
 # Caprices — interface, conservation et carnets
 
-Source obligatoire : `docs/CAPRICES.md`, section « Reste à faire », points1–8.
+Source obligatoire : `docs/CAPRICES.md`, section « Reste à faire », points 1–8.
 Branche de départ `claude/caprices`, commit `c886b82`. Le parent demande la
 réalisation, puis STOP avec bilan sans fusion. Le mandat d'autonomie permet
 les choix d'implémentation réversibles ; la seule clarification nécessaire a
@@ -11,10 +11,10 @@ les choix d'implémentation réversibles ; la seule clarification nécessaire a
 - `src/game.ts`, `src/caprices.ts`, `src/missions.ts`, leurs nombres, règles,
   noms et annonces restent inchangés. Aucun nouveau caprice, réglage ou RNG.
 - Noms et annonces du fils restent **mot pour mot en français**, aussi en
-  interface anglaise. La consigne directe prévaut sur le point6 historique
+  interface anglaise. La consigne directe prévaut sur le point 6 historique
   demandant36noms/annonces anglais. Traduire les commandes et explications ;
   attribuer `lang="fr"` et une projection brute aux noms/annonces affichés.
-- Conserver Phaser3/TS/Vite, frontières règles/rendu/UI, anciens camps1–7,
+- Conserver Phaser3/TS/Vite, frontières règles/rendu/UI, anciens camps 1–7,
   codes1/2, enveloppes familiales1–3, prototypeV4 et source d'audit.
 - Pas de serveur, compte en ligne, SDK, achat, pub, génération ni voix payante.
 - Version de livraison0.36.0/code46, même AppID et certificat provisoires.
@@ -81,7 +81,7 @@ layout/assault/nest/caprice exactement ; ancien code1/2 toujours sans caprice,
 sans changement de ses octets. Aucun carnet, pseudo ou choix de copains dans
 le code : ce sont les choix du joueur, pas les règles de départ.
 
-Nouvelle enveloppe familiale4 si les carnets sont fournis, même clé de stockage
+Nouvelle enveloppe familiale 4 si les carnets sont fournis, même clé de stockage
 et une seule écriture atomique. Lecteurs1–3 inchangés. L'appelant ancien qui
 omet le nouvel argument ne doit pas effacer les carnets déjà chargés.
 Import invalide/stockage refusé : état et carnet courants conservés.
@@ -103,10 +103,10 @@ application. Cette approche est un choix technique de l'implémentation.
 Les anciens chemins non caprices restent identiques. Une nouvelle version de
 code/sauvegarde est nécessaire pour éviter la perte silencieuse de contexte.
 
-Baseline :473tests et format verts. Tests ciblés rouge→vert pour sauvegarde,
+Baseline :473 tests et format verts. Tests ciblés rouge→vert pour sauvegarde,
 codes, carnets, restrictions et UI. Recettes production1280×800,1366×768,
 812×375,780×360,568×320 avec marges ; portrait375×812 garde sa consigne.
 Anciennes sauvegardes/codes, deux langues, clavier/tactile, stockage refusé,
 imports malformés, résultat/reprise/owner et absence de changement de Game.
 Les états installés pour QA ne seront pas présentés comme des parties enfants.
-Conseil final3techniques+3cibles simulées, bilan avec preuves/limites et STOP.
+Conseil final3techniques+3 cibles simulées, bilan avec preuves/limites et STOP.

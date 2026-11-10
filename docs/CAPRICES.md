@@ -122,26 +122,26 @@ Ne pas changer les règles des caprices dans ce lot ; toute nouvelle valeur pass
 
 Les huit points de la liste historique ci-dessus sont implémentés : deux rangées
 par mission et déblocage par étoiles ; choix facultatif vide/partiel/complet des
-copains ; checkpoint8 avec choix conservés ; carnets par enfant ; codes3 avec
+copains ; checkpoint 8 avec choix conservés ; carnets par enfant ; codes 3 avec
 caprice ; textes de contexte FR/EN ; résultat avec autocollant ; tirelire et
 carapaces visibles. Les règles et les36définitions restent celles du catalogue
 validé, sans nouvelle mesure d’équilibrage dans ce lot.
 
-Le point6 historique est précisé par la dernière instruction du parent : **les
+Le point 6 historique est précisé par la dernière instruction du parent : **les
 36noms ET les36annonces restent exactement français, y compris dans l’interface
 anglaise**. Les menus et les explications autour sont traduits en anglais.
 La voix est facultative, sur action explicite et seulement si une voix française
 locale est disponible ; aucune génération ou service payant.
 
-Formats actuels : checkpoint8 (lecture1–7 conservée), code3 (lecture1/2 sans
-caprice conservée), enveloppe familiale4 (lecture1–3 conservée). Les carnets
-acceptent1–8enfants et des noms de24caractères au plus, avec36cases chacun.
+Formats actuels : checkpoint 8 (lecture1–7 conservée), code 3 (lecture1/2 sans
+caprice conservée), enveloppe familiale 4 (lecture1–3 conservée). Les carnets
+acceptent1–8enfants et des noms de 24 caractères au plus, avec36cases chacun.
 Le carnet actif n’est pas un profil de campagne : étoiles et progression restent
 partagées. Une expédition conserve son propriétaire lors d’un changement de
 carnet, d’un retour en classique, d’une reprise ou d’un réessai ; un nouveau
 départ préparé prend le carnet actif.
 
-Importer une enveloppe4 remplace aussi les carnets ; importer une ancienne
+Importer une enveloppe 4 remplace aussi les carnets ; importer une ancienne
 enveloppe remplace les carnets par un carnet vide, après avertissement explicite.
 Ce n’est pas une fusion et aucune réussite historique n’est inventée. Une erreur
 de validation ou d’écriture laisse le fichier familial actuel intact.

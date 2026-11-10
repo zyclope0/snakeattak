@@ -20,7 +20,7 @@ contrôle supprimé ou code de production modifié.
 
 Après correction : dix contrôles hors ligne verts, schémas1–7 restaurés et
 chapitres suivants chargés depuis le paquet ; zéro erreur ou fichier manquant.
-La suite verify compte458tests verts. Les34fichiers du build normal ont les mêmes
+La suite verify compte458tests verts. Les 34 fichiers du build normal ont les mêmes
 empreintes que le build publié et l'APK ; aucune republication nécessaire.
 [Preuves](../reports/suivi-0.35.0/merge/preflight.json),
 [rouge](../reports/suivi-0.35.0/merge/merge-035-offline-baseline.log),

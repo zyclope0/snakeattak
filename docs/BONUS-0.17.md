@@ -1,14 +1,14 @@
 # Les cadeaux de chapitre — version 0.17
 
-Après les vagues4 et8, le joueur choisit un cadeau parmi trois propositions, ou continue sans bonus. Les combats restent automatiques. Cette passe ajoute deux décisions simples et une variation entre les parties, sans ajouter d’unité, de serveur ou de compte. Les modes de difficulté et l’hébergement direct sont des étapes distinctes.
+Après les vagues 4 et 8, le joueur choisit un cadeau parmi trois propositions, ou continue sans bonus. Les combats restent automatiques. Cette passe ajoute deux décisions simples et une variation entre les parties, sans ajouter d’unité, de serveur ou de compte. Les modes de difficulté et l’hébergement direct sont des étapes distinctes.
 
 ## Ce qui est jouable
 
 - Toujours un renfort à choisir et deux propositions parmi miel, protection et pièces. Le renfort varie entre Bouclier, Ninja et Vélociraptor, tous déjà débloqués.
 - **Renfort offert à placer** : prix affiché Offert. Le bon reste disponible après un emplacement refusé et n’est consommé qu’à la réussite du placement normal. Il peut être gardé pour plus tard.
-- **Miel amélioré** : +4 secondes par pot pour le reste de la partie. Deux bonus au maximum : durée de base14s, puis18s et22s. Le compte à rebours réel et l’interface utilisent la même durée.
-- **Garde du cristal** : réserve de18points absorbant les passages ordinaires, soit deux impacts de9. Deux choix donnent au plus36points ; elle ne se recharge pas. Le roi l’ignore : son entrée reste fatale.
-- **Bourse** : +100pièces, une seule fois par choix. Les achats gardent les prix habituels.
+- **Miel amélioré** : +4 secondes par pot pour le reste de la partie. Deux bonus au maximum : durée de base14s, puis 18 s et 22 s. Le compte à rebours réel et l’interface utilisent la même durée.
+- **Garde du cristal** : réserve de 18 points absorbant les passages ordinaires, soit deux impacts de 9. Deux choix donnent au plus 36 points ; elle ne se recharge pas. Le roi l’ignore : son entrée reste fatale.
+- **Bourse** : +100 pièces, une seule fois par choix. Les achats gardent les prix habituels.
 - Une offre en attente bloque le lancement suivant jusqu’au choix ou au renoncement. Les cartes sont dans le flux de préparation, accessibles au clavier et sur téléphone. Elles ne prennent pas le focus d’un dialogue déjà ouvert.
 
 ## Sauvegarde et architecture
@@ -19,22 +19,22 @@ Les règles et la validation sont dans src/rewards.ts. Game applique les effets 
 
 ## Protocole de comparaison
 
-**768 campagnes complètes** : six politiques × huit profils × seize graines nouvelles, distinctes des64 graines utilisées en0.16. Les valeurs des bonus ont été fixées avant cette série ; aucune sélection ni retouche à partir de ses résultats. Simulation du vrai moteur à30pas/s, prix et budgets normaux. Les seuls cadeaux sont ceux que le joueur peut réellement choisir. Trois workers au maximum. Toutes les défaites, erreurs et limites de temps sont conservées ; limite240s par vague.
+**768 campagnes complètes** : six politiques × huit profils × seize graines nouvelles, distinctes des 64 graines utilisées en 0.16. Les valeurs des bonus ont été fixées avant cette série ; aucune sélection ni retouche à partir de ses résultats. Simulation du vrai moteur à30pas/s, prix et budgets normaux. Les seuls cadeaux sont ceux que le joueur peut réellement choisir. Trois workers au maximum. Toutes les défaites, erreurs et limites de temps sont conservées ; limite240s par vague.
 
-La référence renonce explicitement aux deux offres par Game.skipReward. Les autres bots privilégient le renfort, le miel, la protection, les pièces ou choisissent selon le camp. Si leur préférence n’est pas offerte, ils prennent le renfort disponible. Les bons sont placés via Game.recruit, avec coût0 enregistré. La composition du profil peut donc recevoir cet allié supplémentaire. Les politiques de miel du bot restent celles de0.16, y compris les scénarios sans utilisation ; un bonus de miel peut être peu utile dans ces scénarios.
+La référence renonce explicitement aux deux offres par Game.skipReward. Les autres bots privilégient le renfort, le miel, la protection, les pièces ou choisissent selon le camp. Si leur préférence n’est pas offerte, ils prennent le renfort disponible. Les bons sont placés via Game.recruit, avec coût0 enregistré. La composition du profil peut donc recevoir cet allié supplémentaire. Les politiques de miel du bot restent celles de 0.16, y compris les scénarios sans utilisation ; un bonus de miel peut être peu utile dans ces scénarios.
 
 Le contrôle sans bonus a aussi été comparé directement au snapshot0.16, graine42 pour trois profils (mixte, mutants, distance) : mêmes actions, vagues, santé, ressources, morts, kills et durées. Les nouvelles métadonnées de choix sont naturellement distinctes. Ce contrôle ciblé ne prétend pas prouver l’équivalence sur toute graine.
 
 ## Résultats
 
-| Politique                 | Victoires | Défaites avant vague12 | Taux global | Intervalle95% par graines |
-| ------------------------- | --------: | ---------------------: | ----------: | ------------------------: |
-| Choix selon le camp       |   113/128 |                      1 |       88,3% |             83,6% – 92,2% |
-| Sans bonus                |   120/128 |                      0 |       93,8% |             89,1% – 97,7% |
-| Privilégier les pièces    |   121/128 |                      0 |       94,5% |             90,6% – 97,7% |
-| Privilégier la protection |   119/128 |                      1 |       93,0% |             89,1% – 96,9% |
-| Privilégier le miel       |   111/128 |                      2 |       86,7% |             80,5% – 92,2% |
-| Privilégier le renfort    |   117/128 |                      0 |       91,4% |             85,2% – 96,9% |
+| Politique                 | Victoires | Défaites avant vague 12 | Taux global | Intervalle95% par graines |
+| ------------------------- | --------: | ----------------------: | ----------: | ------------------------: |
+| Choix selon le camp       |   113/128 |                       1 |       88,3% |             83,6% – 92,2% |
+| Sans bonus                |   120/128 |                       0 |       93,8% |             89,1% – 97,7% |
+| Privilégier les pièces    |   121/128 |                       0 |       94,5% |             90,6% – 97,7% |
+| Privilégier la protection |   119/128 |                       1 |       93,0% |             89,1% – 96,9% |
+| Privilégier le miel       |   111/128 |                       2 |       86,7% |             80,5% – 92,2% |
+| Privilégier le renfort    |   117/128 |                       0 |       91,4% |             85,2% – 96,9% |
 
 Erreurs : **0** ; dépassements de temps : **0**. Empreintes des sources inchangées sur toute la série.
 
@@ -53,11 +53,11 @@ Les huit profils d’une même graine sont corrélés. Les intervalles globaux r
 
 | Politique                 | Gain apparié vs référence | IC95% du gain | Scénarios gagnés / perdus nouvellement |
 | ------------------------- | ------------------------: | ------------: | -------------------------------------: |
-| Choix selon le camp       |                -5.5points |  [-10.2;+0.0] |                                 6 / 13 |
-| Privilégier les pièces    |                +0.8points |   [-3.9;+5.5] |                                  5 / 4 |
-| Privilégier la protection |                -0.8points |   [-4.7;+3.1] |                                  4 / 5 |
-| Privilégier le miel       |                -7.0points |  [-13.3;+0.0] |                                 5 / 14 |
-| Privilégier le renfort    |                -2.3points |   [-7.8;+3.9] |                                  4 / 7 |
+| Choix selon le camp       |               -5.5 points |  [-10.2;+0.0] |                                 6 / 13 |
+| Privilégier les pièces    |               +0.8 points |   [-3.9;+5.5] |                                  5 / 4 |
+| Privilégier la protection |               -0.8 points |   [-4.7;+3.1] |                                  4 / 5 |
+| Privilégier le miel       |               -7.0 points |  [-13.3;+0.0] |                                 5 / 14 |
+| Privilégier le renfort    |               -2.3 points |   [-7.8;+3.9] |                                  4 / 7 |
 
 ## Effets réellement employés
 
@@ -74,7 +74,7 @@ Les bonus ne constituent pas une amélioration automatique de toute stratégie :
 
 ## Reproduire
 
-Node24, npm ci, puis :
+Node 24, npm ci, puis :
 
 ```sh
 npm run balance:lab -- --stage rewards017 --configs reports/balance-0.17/configs.json --out reports/reproduction-017 --workers 3

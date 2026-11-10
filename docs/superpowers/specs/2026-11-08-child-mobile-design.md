@@ -13,7 +13,7 @@ un dock latéral permanent en paysage compact, quatre alliés (grille 2×2), deu
 miels et accès au catalogue complet. Celui-ci remplace temporairement le dock,
 dans la même colonne, sans recouvrir la carte ni mettre le jeu en pause.
 
-En paysage de hauteur ≤350px, le pied du dock est retiré pour préserver les
+En paysage de hauteur ≤350 px, le pied du dock est retiré pour préserver les
 cibles : le bouton « Alliés » du HUD ouvre le catalogue ; toucher de nouveau le
 pot ou Échap annule la sélection. Cette adaptation couvre aussi les marges système.
 
@@ -47,13 +47,13 @@ Conserver les identifiants DOM et les commandes existants pour clavier/tests.
 
 ## Recette
 
-- Dock quatre alliés et deux pots à 812×375, sans recouvrement ; commandes≥48px.
+- Dock quatre alliés et deux pots à 812×375, sans recouvrement ; commandes≥48 px.
 - Plateau≥85% hauteur utile et≥65% largeur utile à 812×375, marges système comprises.
 - Catalogues étroits 480/568/667, portrait 375×812 et ordinateur1280×800.
 - Recrutement tactile réel, coûts réels, sélection sans achat automatique.
 - Miel en touchant les chemins courbes, modes Attirer/Ralentir, voies paisibles,
   pause, invalides, nouvelle partie, fin de vague et contrôles clavier.
-- Mêmes commandes => mêmes états Game/RNG ; anciennes sauvegardes1–7 lisibles.
+- Mêmes commandes => mêmes états Game/RNG ; anciennes sauvegardes 1–7 lisibles.
 - Build, suite native et navigateur, audit et reprises ; APK familial signé
   avec le certificat debug précédent. Les essais physiques ne sont pas déduits
   du navigateur. Pas de publication Play. Livraison web distincte du build vérifié selon le mandat

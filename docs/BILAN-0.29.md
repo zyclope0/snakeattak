@@ -26,12 +26,12 @@ Audits, géométries et résultats dans `reports/verification-0.29.json`.
 Captures de l’accueil et de la préparation : `docs/captures-0.29/`.
 
 Mesure comparable à 1280×800 :94→57 mots effectivement visibles dans le DOM
-avant vague1 ; le canvas n’est pas compté. Les contrôles audités d’affichage
+avant vague 1 ; le canvas n’est pas compté. Les contrôles audités d’affichage
 restent verts. Aucun test réel d’enfant ni performance Android déduite du cloud.
 
 ## Réservé
 
-Le lot2 est livré pour l’interface. Masquer des pouvoirs jusqu’aux missions2–5
+Le lot 2 est livré pour l’interface. Masquer des pouvoirs jusqu’aux missions 2–5
 modifierait leur disponibilité : cette sous-partie attend un accord pédagogique.
 Le lot 7 (voies ouvertes progressivement) est proposé séparément, sans code.
 Le lot 4 est préparé techniquement ; les mesures sur téléphone restent à faire.

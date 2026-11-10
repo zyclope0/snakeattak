@@ -4,17 +4,17 @@
 
 **Goal:** Deux choix de bonus après vagues4/8, sauvegardés et jouables au clavier/tactile.
 **Architecture:** Règles pures dans rewards.ts ; Game applique les effets et garde le contrôle. Checkpointsv3 et UI stable dans rewardControls.ts, sans nouvelle horloge.
-**Tech Stack:** TypeScript strict, Node24, Phaser3, Vite, Playwright.
+**Tech Stack:** TypeScript strict, Node 24, Phaser 3, Vite, Playwright.
 **Spec:** docs/superpowers/specs/2026-11-03-chapter-rewards-design.md
 
 ## Global Constraints
 
 - Douze vagues, trois voies et combat automatique conservés ; aucune résurrection.
 - Trois propositions, un choix, après vagues4/8 ; possibilité de renoncer.
-- Renfort bouclier/ninja/raptor offert, miel+4s, protection18, pièces100.
-- Protection maximum36 et miel maximum22s ; roi entrant toujours fatal.
+- Renfort bouclier/ninja/raptor offert, miel+4 s, protection18, pièces100.
+- Protection maximum 36 et miel maximum 22 s ; roi entrant toujours fatal.
 - Aucune nouvelle dépendance, service réseau ni génération payante.
-- Sauvegardesv1/v2 lisibles, nouveau campv3 ; Node24, budgets web conservés.
+- Sauvegardesv1/v2 lisibles, nouveau campv3 ; Node 24, budgets web conservés.
 
 ## Review Focus
 
@@ -39,11 +39,11 @@ get rewardOffer():RewardId[] ; get feastDuration():number ; recruitCost(kind:Kin
       choix unique/forgé/pause, RNG du combat inchangé par offres et renoncement.
 - [ ] Exécuter node --experimental-strip-types --test tests/rewards.test.ts ; FAIL attendu API absente.
 - [ ] Implémenter règles pures et intégration : bon utilisé seulement après canRecruit,
-      18points absorbés ordinaires mais pas roi, +4s au vrai offerFeast, +100pièces une fois.
+      18 points absorbés ordinaires mais pas roi, +4 s au vrai offerFeast, +100 pièces une fois.
 - [ ] Écrire puis voir échouer tests checkpoint avant/après choix/placement, v1/v2,
       offre incohérente, doublon, protection hors bornes, invalidation du camp rempli.
 - [ ] Implémenter v3, restaurer état validé séparément du RNG du combat.
-- [ ] Exécuter tests ciblés puis npm test ; tous PASS attendus. Aucun git présent : snapshot de0.16 conservé.
+- [ ] Exécuter tests ciblés puis npm test ; tous PASS attendus. Aucun git présent : snapshot de 0.16 conservé.
 
 ### Task2: Panneau de choix et bons visibles
 
@@ -58,7 +58,7 @@ consomme les API Task1, n'applique aucun effet indépendamment de Game.
       placement légal et rechargement sans duplication, formats320/390px, capture d'écran.
 - [ ] Exécuter scénario avant UI ; FAIL attendu panneau absent.
 - [ ] Implémenter DOM stable, styles3colonnes/1colonne mobile, focus unique, boutons
-      44px, état du bon dans prix/aria/catalogue, indicateurs miel/protection/bons.
+      44 px, état du bon dans prix/aria/catalogue, indicateurs miel/protection/bons.
 - [ ] Exécuter scénario web et portable après builds ; PASS attendu sans erreur navigateur.
 
 ### Task3: Simulations et livraison
@@ -71,7 +71,7 @@ tracés avec coût réel0 ; défaut ancien du labo = skip pour préserver son se
 
 - [ ] Tester qu'une campagne passe les jalons sans blocage et trace les choix ; FAIL puis PASS.
 - [ ] Comparer contrôle skip et cinq politiques, huit profils, seize graines nouvelles
-      (offset64..79 du générateur historique), soit768campagnes, trois workers maximum.
+      (offset64..79 du générateur historique), soit 768 campagnes, trois workers maximum.
       Conserver tous résultats/empreintes ; ne pas masquer pertes ni retoucher selon validation.
 - [ ] npm run verify, build:portable, browser web/portable, interface web/portable,
       test:rewards web/portable, presentation et render ; tous PASS attendus.

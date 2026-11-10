@@ -1,6 +1,6 @@
 # Plateau — v0.28.0
 
-Les raccords secondaires sont dessinés avant les voies principales, à60% de
+Les raccords secondaires sont dessinés avant les voies principales, à 60% de
 leur largeur précédente. Terre battue et petites marques remplacent les pavés
 secondaires. Les trois ponts, routes de simulation et positions sont conservés.
 

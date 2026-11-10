@@ -28,7 +28,7 @@ changement de mode, export, victoire réelle et mission suivante. Les écrans
 320/390/844 sont simulés, pas présentés comme essais physiques.
 
 Le contrôle visuel a révélé un dialogue ouvert trop bas à cause du focus initial
-sur le bouton de retour. La reproduction échoue avec scrollTop5 puis passe à0
+sur le bouton de retour. La reproduction échoue avec scrollTop5 puis passe à 0
 après focus sur le titre, sans défilement forcé du document.
 
 ## Revue indépendante
@@ -41,7 +41,7 @@ Les réserves Android/stockage local et l'absence d'observation d'enfant restent
 
 ## Architecture Android
 
-Le conseil conserve Phaser/TypeScript et prépare Capacitor8.6 avec des fichiers
+Le conseil conserve Phaser/TypeScript et prépare Capacitor 8.6 avec des fichiers
 locaux. Aucun serveur de combat ni réécriture sous Unity/Godot justifiée pour
 ce périmètre. L'enveloppe native est synchronisable ; SDK, signature, icônes
 finales, APK/AAB et essais physiques restent des étapes de sortie distinctes.

@@ -29,8 +29,8 @@ worktree isolé existant. Version cible 0.32.4/code39. STOP avant choix du paren
 - APK normal signé comme le précédent ; aucun appareil ADB connecté. La preuve
   binaire et les aperçus ne seront pas présentés comme un test physique S24.
 
-- Exports validés : 20PNG, quatreXML, fond binaireARGB#FF214C3B ; une seconde
-  exécution de l'outil reproduit les20PNG octet pour octet. Les personnages
+- Exports validés : 20 PNG, quatreXML, fond binaireARGB#FF214C3B ; une seconde
+  exécution de l'outil reproduit les 20 PNG octet pour octet. Les personnages
   peuvent atteindre le bord inférieur des icônes legacy ; les coins ne sont
   pas une bordure blanche, et les couches adaptatives sont transparentes aux coins.
 - Revue indépendante sans finding : aperçus cercle/carré arrondi/48dp, source,

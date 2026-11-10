@@ -16,7 +16,7 @@ Ruling : le GO explicite autorise cette étape documentaire sans attendre le cho
 d'identifiant. Aucun choix déduit ; il reste requis avant le premier envoi Play.
 Cela ne permet ni installation ni migration.
 
-Ruling : uniquement des documents et preuves de lecture. Pas de0.32.5 ni de
+Ruling : uniquement des documents et preuves de lecture. Pas de 0.32.5 ni de
 nouvel APK : l'app reste0.32.4/code39. Un nouveau numéro suggérerait un changement
 applicatif inexistant.
 
@@ -36,7 +36,7 @@ API24 confirmés ; aucun statut Familles individuel visible dans la vue obtenue.
 La liste Familles mentionne AdMob19.0.0 et suivantes, mais ne certifie pas un
 wrapper ni ses dépendances. Candidat exact25.5.0, vérification individuelle à
 compléter avant intégration. Le corps de la fiche de divulgation AdMob porte
-sur25.5.0 ; son résumé automatique cite encore23.6.0. Le corps fait foi, pas
+sur 25.5.0 ; son résumé automatique cite encore23.6.0. Le corps fait foi, pas
 ce résumé périmé. Inventaire générique à confronter au mode enfant réel.
 
 ## Suivi

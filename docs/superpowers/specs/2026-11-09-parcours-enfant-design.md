@@ -42,7 +42,7 @@ quatre sélecteurs, Quand / geste / résultat, fermeture facile. Réutiliser
 pauseForDialog : fermer l'aide ne relance pas une pause utilisateur/interruption.
 Ne pas modifier sélection, RNG, économie ou campagne en consultant l'aide.
 
-Corriger l'indication d'entraînement : classique après vague4 ; expédition selon
+Corriger l'indication d'entraînement : classique après vague 4 ; expédition selon
 unlockRank de la mission, jamais inventer un verrou « mission5 ». Conseil contextuel
 pour cristal blessé et entraînement éligible seulement en préparation, après les
 priorités de placement, danger, encouragement et miel existantes.
@@ -54,7 +54,7 @@ et « verrouillé » lisibles sans dépendre seulement d'une couleur. Même prog
 et budget, aucune étoile accordée par l'interface. Portraits actuels et matière
 artisanale, traits reliant les boutons ; conserver le gros Jouer et la reprise,
 les boutons existants et la navigation clavier/tactile. Petit aperçu de l'icône
-retenue permis dans l'accueil, pas l'original HD de2048px dans le runtime.
+retenue permis dans l'accueil, pas l'original HD de 2048 px dans le runtime.
 Aucun fond de mission future chargé au seul affichage du menu.
 
 ## Lot C — transitions et livraison
@@ -69,7 +69,7 @@ après réussite des contrôles ; pas de publication commerciale.
 
 Après chaque lot : six perspectives indépendantes, trois techniques (architecture
 et sauvegardes ; Android/performance ; UX/accessibilité) et trois cibles simulées
-(enfant6ans peu lecteur ; enfant9ans habitué ; enfant12ans tacticien). Rapporter
+(enfant 6 ans peu lecteur ; enfant 9 ans habitué ; enfant 12 ans tacticien). Rapporter
 objections, arbitrage et limites, jamais un faux essai humain.
 
 Build et suite native, navigateur et audit13/13 ; plateau≥85% hauteur et≥65%
