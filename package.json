@@ -60,6 +60,7 @@
     "test:camp-tools": "node scripts/camp-tools-033-browser.mjs",
     "test:tactical-clarity": "node scripts/tactical-035-browser.mjs",
     "test:locale": "node scripts/extract-locale-035.mjs && node --experimental-strip-types scripts/check-locales-035.mjs && node tests/locale-bindings-035-browser.mjs && node scripts/locale-035-browser.mjs",
+    "test:mobile-menus": "node scripts/mobile-menus-037-browser.mjs",
     "test:caprices": "node scripts/caprices-036-browser.mjs"
   },
   "dependencies": {

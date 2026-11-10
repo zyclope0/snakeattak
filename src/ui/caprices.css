@@ -258,3 +258,144 @@
     font-size: 14px;
   }
 }
+
+/* One mission per page; only the bounded content area scrolls. */
+.caprice-album-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  inset: max(6px, var(--app-safe-top, 0px)) max(6px, var(--app-safe-right, 0px))
+    max(6px, var(--app-safe-bottom, 0px)) max(6px, var(--app-safe-left, 0px));
+  max-width: calc(
+    100vw - max(12px, var(--app-safe-left, 0px)) - max(12px, var(--app-safe-right, 0px))
+  );
+  max-height: calc(
+    100dvh - max(6px, var(--app-safe-top, 0px)) - max(6px, var(--app-safe-bottom, 0px))
+  );
+  height: min(
+    700px,
+    calc(100dvh - max(12px, var(--app-safe-top, 0px)) - max(12px, var(--app-safe-bottom, 0px)))
+  );
+  overflow: hidden;
+  padding: 12px;
+}
+.caprice-album-dialog [hidden] {
+  display: none !important;
+}
+.caprice-album-dialog .caprice-album-header {
+  position: static;
+  padding: 0;
+  flex-shrink: 0;
+}
+.caprice-album-dialog .caprice-album-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+.caprice-album-dialog .caprice-profile-tools {
+  flex-shrink: 0;
+  align-items: start;
+}
+.caprice-profile-tools > label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#caprice-album-manage {
+  flex: 1;
+  min-width: 160px;
+}
+#caprice-album-manage > summary {
+  min-height: 48px;
+  padding: 12px 8px;
+  cursor: pointer;
+}
+.caprice-profile-management {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-block: 8px;
+}
+.caprice-profile-tools:has(#caprice-album-manage[open]) {
+  max-height: 40%;
+  overflow: auto;
+}
+.caprice-album-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.caprice-album-slots {
+  overflow: auto;
+  min-height: 0;
+  flex: 1;
+  overscroll-behavior: contain;
+}
+.caprice-album-slots h3 {
+  margin: 4px 0 8px;
+}
+.caprice-album-slots h4 {
+  margin: 8px 0;
+}
+#caprice-album-status {
+  margin: 0;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+@media (max-height: 400px) {
+  .caprice-album-dialog[open] {
+    height: calc(
+      100dvh - max(6px, var(--app-safe-top, 0px)) - max(6px, var(--app-safe-bottom, 0px))
+    );
+    padding: 8px;
+    gap: 4px;
+  }
+  .caprice-album-dialog .caprice-album-header h2 {
+    font-size: 18px;
+  }
+  .caprice-album-dialog .caprice-profile-tools {
+    gap: 4px;
+  }
+  .caprice-profile-tools > label {
+    font-size: 13px;
+  }
+  .caprice-album-slots > section {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 10px;
+  }
+  .caprice-album-slots h3 {
+    grid-column: 1 / -1;
+    font-size: 16px;
+    margin: 0;
+  }
+  .caprice-album-slots h4 {
+    font-size: 13px;
+    margin: 4px 0;
+  }
+  .caprice-album-slots h4:nth-of-type(1) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .caprice-album-slots h4:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .caprice-album-grid {
+    grid-row: 3;
+    gap: 4px;
+  }
+  .caprice-sticker {
+    min-height: 80px;
+    padding: 5px;
+    font-size: 11px;
+  }
+  .caprice-sticker svg {
+    width: 28px;
+    height: 28px;
+  }
+  .caprice-sticker small {
+    font-size: 10px;
+  }
+}

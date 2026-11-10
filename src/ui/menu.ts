@@ -1,3 +1,4 @@
+import { bindHomeNavigation, type HomePage } from './homeNavigation.ts';
 import {
   setText as setDisplayText,
   setTitle as setDisplayTitle,
@@ -24,9 +25,11 @@ export function bindMenu(
     view: (home: boolean) => void;
     refresh: () => void;
     progressStatus?: () => string;
+    navigate?: (page: HomePage) => void;
   },
 ) {
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+  const navigate = actions.navigate ?? bindHomeNavigation().show;
   let draft: Kind[] = [],
     slot = 0,
     pending: (() => void) | null = null;
@@ -44,10 +47,9 @@ export function bindMenu(
     session.screen = 'home';
     if (!session.game.mission) career.sync(session.game);
     actions.view(true);
-    el('home-main').hidden = false;
-    el('army-editor').hidden = true;
+    navigate('home');
     refresh();
-    el(actions.hasCamp() ? 'home-continue' : 'home-play').focus({ preventScroll: true });
+    el('home-primary')?.focus({ preventScroll: true });
   };
   const replace = (action: () => void) => {
     const g = session.game;
@@ -79,7 +81,7 @@ export function bindMenu(
       session.restart();
       enter();
     });
-  el('home-continue').onclick = () => {
+  const resumeClassic = () => {
     if (session.game.mission || session.game.status === 'lost' || session.game.status === 'won') {
       const g = actions.restore();
       if (!g) return;
@@ -87,6 +89,7 @@ export function bindMenu(
     }
     enter();
   };
+  el('home-continue').onclick = resumeClassic;
   for (let i = 0; i < 3; i++) {
     const button = el<HTMLButtonElement>(`chapter-${i}`);
     const level = levelForWave(i * 4 + 1);
@@ -130,11 +133,18 @@ export function bindMenu(
     setDisplayText(o, name);
     select.append(o);
   });
+  let rosterPage = 0;
+  const pageSize = 6;
   const updateEditor = () => {
-    for (const [k, b] of rosterButtons) {
+    for (const [index, [k, b]] of [...rosterButtons].entries()) {
+      b.hidden = Math.floor(index / pageSize) !== rosterPage;
       b.setAttribute('aria-pressed', String(draft.includes(k)));
       b.disabled = session.game.status === 'fighting';
     }
+    const pages = Math.ceil(rosterButtons.size / pageSize);
+    el<HTMLButtonElement>('roster-page-previous').disabled = rosterPage === 0;
+    el<HTMLButtonElement>('roster-page-next').disabled = rosterPage >= pages - 1;
+    setDisplayText(el('roster-page-status'), `${rosterPage + 1} / ${pages}`);
     setDisplayText(el('roster-count'), `${draft.length} / 8 alliés favoris`);
     el<HTMLButtonElement>('roster-save').disabled =
       draft.length !== 8 || session.game.status === 'fighting';
@@ -172,10 +182,18 @@ export function bindMenu(
     updateEditor();
   };
   select.onchange = loadSlot;
+  el('roster-page-previous').onclick = () => {
+    if (rosterPage > 0) rosterPage--;
+    updateEditor();
+  };
+  el('roster-page-next').onclick = () => {
+    if ((rosterPage + 1) * pageSize < rosterButtons.size) rosterPage++;
+    updateEditor();
+  };
   el('home-army').onclick = () => {
     if (session.game.status === 'fighting') return;
-    el('home-main').hidden = true;
-    el('army-editor').hidden = false;
+    navigate('favorites');
+    rosterPage = 0;
     select.value = String(career.state.activeRoster);
     loadSlot();
     select.focus();
@@ -239,6 +257,7 @@ export function bindMenu(
   return {
     refresh,
     showHome,
+    resumeClassic,
     startFromSeed(seed: number, balanceRevision: BalanceRevision = 1) {
       replace(() => {
         session.restart(seed, balanceRevision);

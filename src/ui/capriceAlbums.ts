@@ -3,7 +3,7 @@ import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import { MISSIONS } from '../missions.ts';
 import { capriceById, capricesForMission, CAPRICE_SET_NAMES } from '../caprices.ts';
-import { setText, createTextNode } from '../i18n/dom.ts';
+import { setText, setAttribute, createTextNode } from '../i18n/dom.ts';
 import { frenchLeaf } from './capriceCopy.ts';
 import { stickerGraphic, paintSticker } from './capriceIcons.ts';
 export { stickerGraphic } from './capriceIcons.ts';
@@ -62,21 +62,51 @@ export function bindCapriceAlbums(
   const nameLabel = document.createElement('label');
   nameLabel.htmlFor = name.id;
   nameLabel.append(createTextNode('Nom du carnet'), name);
-  tools.append(label, nameLabel, add, rename);
+  const manage = document.createElement('details');
+  manage.id = 'caprice-album-manage';
+  const manageLabel = document.createElement('summary');
+  setText(manageLabel, 'Gérer les carnets');
+  const management = document.createElement('div');
+  management.className = 'caprice-profile-management';
+  management.append(nameLabel, add, rename);
+  manage.append(manageLabel, management);
+  tools.append(label, manage);
   const persistence = document.createElement('p');
   persistence.id = 'caprice-album-status';
   const slots = document.createElement('div');
   slots.className = 'caprice-album-slots';
+  let missionPage = 0;
+  const pagination = document.createElement('nav');
+  pagination.className = 'caprice-album-pagination';
+  setAttribute(pagination, 'aria-label', 'Missions du carnet');
+  const previous = document.createElement('button');
+  previous.id = 'caprice-album-previous';
+  setText(previous, '← Mission précédente');
+  const next = document.createElement('button');
+  next.id = 'caprice-album-next';
+  setText(next, 'Mission suivante →');
+  const pageStatus = document.createElement('span');
+  pageStatus.id = 'caprice-album-page';
+  pageStatus.setAttribute('role', 'status');
+  pagination.append(previous, pageStatus, next);
+  const pages: HTMLElement[] = [];
   const leaves: { node: HTMLElement; id: string; status: HTMLElement }[] = [];
   for (const mission of MISSIONS) {
+    const page = document.createElement('section');
+    page.dataset.albumMission = mission.id;
+    page.hidden = pages.length !== missionPage;
+    pages.push(page);
+    slots.append(page);
     const heading = document.createElement('h3');
     setText(heading, mission.name);
-    slots.append(heading);
+    heading.id = `album-mission-${mission.id}`;
+    page.setAttribute('aria-labelledby', heading.id);
+    page.append(heading);
     for (const set of ['serpents', 'createur'] as const) {
-      slots.append(frenchLeaf('h4', CAPRICE_SET_NAMES[set]));
+      page.append(frenchLeaf('h4', CAPRICE_SET_NAMES[set]));
       const grid = document.createElement('div');
       grid.className = 'caprice-album-grid';
-      slots.append(grid);
+      page.append(grid);
       for (const caprice of capricesForMission(mission.id, set)) {
         const node = document.createElement('div');
         node.className = 'caprice-sticker';
@@ -93,7 +123,7 @@ export function bindCapriceAlbums(
   const header = document.createElement('header');
   header.className = 'caprice-album-header';
   header.append(title, close);
-  dialog.append(header, tools, persistence, slots);
+  dialog.append(header, tools, pagination, slots, persistence);
   document.body.append(dialog);
   const modal = pauseForDialog(dialog, session, refresh);
   let returnFocus: HTMLElement | null = null;
@@ -102,7 +132,7 @@ export function bindCapriceAlbums(
   const home = document.createElement('button');
   home.id = 'home-caprice-album';
   setText(home, 'Mon carnet de caprices');
-  document.getElementById('home-family')?.after(home);
+  document.getElementById('home-expeditions')?.after(home);
   const result = document.createElement('button');
   result.id = 'result-caprice-album';
   setText(result, 'Voir mon carnet');
@@ -117,6 +147,11 @@ export function bindCapriceAlbums(
   note.append(resultGraphic, resultName, resultStatus);
   function open(owner?: string | null) {
     viewed = owner ?? null;
+    manage.open = false;
+    if (owner && session.game.mission) {
+      const index = MISSIONS.findIndex((m) => m.id === session.game.mission!.missionId);
+      if (index >= 0) missionPage = index;
+    }
     returnFocus = document.activeElement as HTMLElement;
     update(true);
     modal.open();
@@ -149,6 +184,23 @@ export function bindCapriceAlbums(
       refresh();
       update(true);
     }
+  };
+  function showPage() {
+    pages.forEach((page, index) => {
+      page.hidden = index !== missionPage;
+    });
+    previous.disabled = missionPage === 0;
+    next.disabled = missionPage === MISSIONS.length - 1;
+    setText(pageStatus, `${missionPage + 1} / ${MISSIONS.length}`);
+    slots.scrollTop = 0;
+  }
+  previous.onclick = () => {
+    if (missionPage > 0) missionPage--;
+    showPage();
+  };
+  next.onclick = () => {
+    if (missionPage < MISSIONS.length - 1) missionPage++;
+    showPage();
   };
   function update(force = false) {
     const state = albums.state;
@@ -183,6 +235,7 @@ export function bindCapriceAlbums(
       leaf.node.dataset.earned = String(earned);
       setText(leaf.status, earned ? '✓ Autocollant gagné' : 'À découvrir');
     }
+    showPage();
     add.disabled = state.children.length >= 8;
     setText(persistence, status());
   }

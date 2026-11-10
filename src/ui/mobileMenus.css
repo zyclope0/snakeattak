@@ -1,0 +1,229 @@
+/* Short home pages use the existing paper palette and the approved icon. */
+#home-screen {
+  height: var(--app-height, 100dvh);
+  max-width: 1180px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px 10px;
+  overflow: hidden;
+}
+#home-screen[hidden],
+#home-screen [hidden] {
+  display: none !important;
+}
+#home-screen .home-header {
+  margin: 0;
+  min-height: 48px;
+  flex-shrink: 0;
+}
+#home-screen .home-brand {
+  font-size: clamp(15px, 2.5vw, 23px);
+}
+#home-main {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+#home-main .home-hero {
+  min-height: 0;
+  grid-template-columns: 1.3fr 1fr;
+}
+#home-main .home-intro {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#home-main .home-intro h1 {
+  font-size: clamp(28px, 5vw, 60px);
+  margin: 4px 0;
+}
+#home-main .home-intro p {
+  margin: 4px 0;
+}
+#home-main .home-actions {
+  margin: 10px 0 4px;
+  display: flex;
+}
+#home-screen #home-primary {
+  min-width: 180px;
+  min-height: 48px;
+  font-size: 20px;
+  background: #edbd57;
+  color: #263e34;
+  border-color: #b68a36;
+  box-shadow: 0 4px 0 #ac8538;
+}
+#home-main .home-diorama {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+#home-main .home-icon {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  position: static;
+}
+#home-screen .home-links {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+#home-screen button,
+#home-screen select {
+  min-height: 48px;
+}
+#home-screen .home-links button {
+  min-height: 56px;
+  padding: 8px;
+  font-size: 15px;
+  white-space: normal;
+  line-height: 1.2;
+}
+#home-screen .home-footer {
+  padding: 0;
+  margin: 0;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+#home-back {
+  flex-shrink: 0;
+  align-self: start;
+  min-width: 110px;
+}
+#home-screen .home-page,
+#home-screen .army-editor {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+  margin: 0;
+  overscroll-behavior: contain;
+}
+#home-screen .home-page > h1 {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+#home-screen .home-disclosure {
+  margin: 0;
+}
+#home-screen .home-disclosure > summary {
+  display: none;
+}
+#home-screen .home-disclosure > section {
+  margin: 0;
+  padding: 12px;
+}
+#home-screen .page-actions,
+.parent-actions,
+.roster-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+#home-screen .parent-actions button,
+.roster-pagination button {
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid #8ca97e;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+#home-screen .mission-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+#home-screen .mission-card {
+  min-width: 0;
+}
+#home-screen .roster-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+#home-screen .roster-card {
+  min-height: 100px;
+}
+#home-screen .army-editor > h1 {
+  margin: 8px 0;
+  font-size: 26px;
+}
+#home-screen .army-editor > p {
+  margin: 8px 0;
+}
+#home-screen .roster-toolbar {
+  margin: 8px 0;
+}
+#home-screen .roster-pagination {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--paper);
+  padding: 4px 0;
+}
+#home-screen :focus-visible {
+  outline: 3px solid #edae44;
+  outline-offset: 3px;
+}
+@media (max-height: 520px) {
+  #home-screen {
+    gap: 6px;
+    padding-block: 6px;
+  }
+  #home-main {
+    gap: 6px;
+  }
+  #home-main .home-intro {
+    padding: 8px 18px;
+  }
+  #home-main .home-intro h1 {
+    font-size: 28px;
+  }
+  #home-main .home-intro > .eyebrow,
+  #home-main .home-intro > p,
+  #home-active-team {
+    display: none;
+  }
+  #home-main .home-actions {
+    margin: 4px 0;
+  }
+  #home-main .home-next-mission {
+    margin: 4px 0 0;
+    font-size: 12px;
+  }
+  #home-screen .home-header .crest {
+    width: 30px;
+    height: 30px;
+  }
+  #home-screen .home-links button {
+    min-height: 48px;
+    font-size: 13px;
+  }
+  #home-screen .home-links {
+    gap: 6px;
+  }
+  #home-screen .home-stars {
+    padding: 6px;
+    font-size: 11px;
+  }
+  #home-screen .home-footer {
+    font-size: 10px;
+  }
+}
+@media (max-width: 600px) and (orientation: landscape) {
+  #home-screen .home-brand {
+    gap: 6px;
+    font-size: 15px;
+  }
+  #home-main .home-hero {
+    grid-template-columns: 1.6fr 1fr;
+  }
+  #home-screen .home-links button {
+    font-size: 12px;
+    padding-inline: 4px;
+  }
+}

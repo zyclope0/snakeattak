@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -82,9 +83,7 @@ async function onScreen(locator, page, label) {
   check(box.height >= 47, label + ' 48px');
 }
 async function prepare(page, id = 'refuge', caprice = 'refuge-petit') {
-  // The sole map entry is now its native disclosure; keep its toggle behavior.
-  if (!(await page.locator('#mission-list').evaluate((details) => details.open)))
-    await page.locator('#home-expeditions').click();
+  await showHomePage(page, 'missions');
   await page.locator(`[data-mission-card="${id}"]`).click();
   await page.locator(`[data-caprice="${caprice}"]`).click();
 }
@@ -374,7 +373,7 @@ try {
     console.log('production preparation okay');
     // Known deterministic playable code; no battle state injection.
     await page.locator('#mission-close').click();
-    await page.locator('#home-parent-options > summary').click();
+    await showHomePage(page, 'parents');
     await page.locator('#departure-input').fill(
       encodeDeparture({
         kind: 'mission',
@@ -392,7 +391,7 @@ try {
     check((await page.locator('[data-sticker]').count()) === 36, '36 sticker slots');
     await page.locator('#caprice-album-profile').selectOption('child-2');
     await page.locator('#caprice-album-close').click();
-    await page.locator('#classic-options > summary').click();
+    await showHomePage(page, 'classic');
     await page.locator('#home-new').click();
     if (await page.locator('#journey-confirm').isVisible())
       await page.locator('#journey-replace').click();
@@ -402,6 +401,7 @@ try {
     );
     await page.reload();
     await page.locator('#home-caprice-album').waitFor();
+    await showHomePage(page, 'missions');
     await page.locator('#mission-continue').click();
     check((await saved(page)).albums.campProfileId === 'child-1', 'reload resume retains A');
     console.log('production owner survived classic/reload/resume');
@@ -455,7 +455,7 @@ try {
   }
   // Locked codes use both mission and caprice gates in production.
   const locked = await pageAt(1280, 800, 'fr', false);
-  await locked.locator('#home-parent-options > summary').click();
+  await showHomePage(locked, 'parents');
   await locked.locator('#departure-input').fill(
     encodeDeparture({
       kind: 'mission',
@@ -516,6 +516,7 @@ try {
       if (width === 1280 && locale === 'fr') {
         await p.reload();
         await p.locator('#home-screen').waitFor({ state: 'visible' });
+        await showHomePage(p, 'missions');
         await p.locator('#mission-continue').click();
         check(
           JSON.parse((await saved(p)).camp).capriceKindsChosen.includes('archer'),
@@ -524,7 +525,7 @@ try {
       }
       await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
       await p.locator('#home-caprice-album').click();
-      await p.locator('#caprice-album-dialog').evaluate((n) => (n.scrollTop = n.scrollHeight));
+      await p.locator('.caprice-album-slots').evaluate((n) => (n.scrollTop = n.scrollHeight));
       await onScreen(p.locator('#caprice-album-close'), p, 'notebook close ' + width);
       await shot(p, `album-scrolled-${width}x${height}-${locale}`);
       await p.locator('#caprice-album-close').click();
@@ -533,6 +534,7 @@ try {
   // Production import/export and language actions; controlled valid file input.
   const familyPage = await pageAt();
   await familyPage.locator('#home-caprice-album').click();
+  await familyPage.locator('#caprice-album-manage > summary').click();
   await familyPage.locator('#caprice-album-name').fill('Café <ami>');
   await familyPage.locator('#caprice-album-add').click();
   check(
@@ -556,6 +558,7 @@ try {
   );
   await shot(familyPage, 'album-en');
   await familyPage.locator('#caprice-album-close').click();
+  await showHomePage(familyPage, 'parents');
   await familyPage.locator('#home-family').click();
   const downloadPromise = familyPage.waitForEvent('download');
   await familyPage.locator('#family-export').click();
@@ -595,6 +598,7 @@ try {
       throw new DOMException('Blocked', 'QuotaExceededError');
     };
   });
+  await showHomePage(blocked, 'parents');
   await blocked.locator('#home-family').click();
   await blocked.locator('#family-file').setInputFiles({
     name: 'family.json',

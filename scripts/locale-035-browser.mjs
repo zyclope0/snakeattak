@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
 import { createServer } from 'vite';
@@ -6,7 +7,7 @@ import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 
 const fixture = '.locale-035-test.html',
   root = 'http://127.0.0.1:4417',
-  folder = 'artifacts/locale-035',
+  folder = process.env.LOCALE_REPORT_DIR ?? 'artifacts/locale-035',
   languageKey = 'conquete-serpents:language:v1';
 const checks = [],
   errors = [],
@@ -229,6 +230,7 @@ try {
             if (language === 'en') await inspectEnglish(page, '#orientation-notice', name);
             await page.screenshot({ path: `${folder}/${name}-portrait-guidance.png` });
           } else {
+            await showHomePage(page, 'missions');
             await page.locator('#home-play').click();
             await page.locator('#mission-dialog').waitFor({ state: 'visible' });
             const code = await page.locator('#mission-departure-code').inputValue();
@@ -282,6 +284,7 @@ try {
     try {
       await page.goto(root);
       await ready(page, 'en');
+      await showHomePage(page, 'parents');
       await page.locator('#home-guide').click();
       await page.locator('#unit-dialog').waitFor({ state: 'visible' });
       const values = await page
@@ -318,7 +321,7 @@ try {
       );
       await page.screenshot({ path: `${folder}/actual-en-help.png` });
       await page.locator('#close-help').click();
-      await page.locator('#home-parent-options').evaluate((e) => (e.open = true));
+      await showHomePage(page, 'parents');
       await page.locator('#departure-input').fill('PONTS-1-0000-7X8R-A1');
       await choose(page, 'fr');
       await choose(page, 'en');
