@@ -1,4 +1,24 @@
-# Plan actuel — candidate 0.36.1, suivi de l’interface
+# Plan actuel — candidate privée 0.36.2
+
+## Candidate privée 0.36.2 — livraison et revue avant essai S24
+
+Version 0.36.2 / Android 48 sur `feat/equilibrage-0362`, empilée sur
+`feat/caprices-interface`. Les sept décisions confirmées sont appliquées : bonus
+réservé aux carapaces, baisse des trois prix, rappel discret, T-rex 340,
+bébé dragon 210, tank 440, rappel après dix secondes actives avec 500 pièces
+dépensables. Les cinq réglages de caprices concernent seulement la révision 2.
+Les départs historiques conservent règles et prix de la révision 1 ; codes 4,
+camps 9, progression 2 et famille 5 protègent les nouveaux départs. Carnets 1,
+campagne et étoiles familiales restent partagés.
+
+[Bilan et limites](BILAN-0.36.2.md), [index des preuves](../reports/equilibrage-0362/README.md).
+672 parties du vrai Game révision 2 confirment exactement les cohortes approuvées ;
+les 1 356 parties exploratoires et les 540 témoins réutilisés sont distingués.
+La revue fraîche globale et le conseil final appartiennent au coordinateur.
+Essai physique S24, TalkBack, relecture anglophone et expérience réelle des enfants
+restent attendus. Livraison locale privée préparée ; publication après revue,
+autorisée le 10 novembre et conduite par le coordinateur. Le site public reste
+en 0.35.0 à ce stade de préparation. L’historique ci-dessous est conservé.
 
 ## Candidate privée 0.36.1 — livraison et revue avant STOP
 
