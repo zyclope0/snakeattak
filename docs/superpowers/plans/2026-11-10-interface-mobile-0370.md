@@ -50,21 +50,21 @@ Les nouvelles vues n'écrivent aucune règle. Assets actuels, devis payant sépa
 - Produces: bouton `#home-primary`, commande contextuelle qui délègue aux handlers
   existants de reprise mission/classique ou préparation, sans recopier lancement.
 
-- [ ] Écrire la recette ciblée RED : accueil 780×360 sans scroll, une commande
+- [x] Écrire la recette ciblée RED : accueil 780×360 sans scroll, une commande
       primaire ; modes mission/classique conservés après aller-retour/rechargement ;
       carnet six IDs visibles et mission suivante six autres, retour et langue ;
       gestion masquée par défaut, renommage/sélection du bon carnet.
-- [ ] Exécuter la recette et constater l'échec attendu avant implantation.
-- [ ] Implémenter les vues courtes, retour visible et focus. Carte six missions,
+- [x] Exécuter la recette et constater l'échec attendu avant implantation.
+- [x] Implémenter les vues courtes, retour visible et focus. Carte six missions,
       favoris paginés si besoin, options parents/classique sur leurs propres vues.
       Garder IDs existants quand possible, aucun faux clic vers contenu caché.
-- [ ] Implémenter carnet une mission par page, gestion repliée, familles explicites,
+- [x] Implémenter carnet une mission par page, gestion repliée, familles explicites,
       six stickers maximum, limites de pagination, sélection stable au rafraîchissement.
-- [ ] Traduire les nouvelles commandes et adapter les parcours existants affectés
+- [x] Traduire les nouvelles commandes et adapter les parcours existants affectés
       par la navigation, sans supprimer leurs vérifications comportementales.
-- [ ] Vérifier recette ciblée, `npm run verify`, `npm run test:browser`.
+- [x] Vérifier recette ciblée, `npm run verify`, `npm run test:browser`.
       Captures avant/après externes et rapport avec mesures et limites.
-- [ ] Commit du lot et rapport complet dans le workspace SDD.
+- [x] Commit du lot et rapport complet dans le workspace SDD.
 
 ### Task 2: Préparation courte et catalogue paginé en pause
 
