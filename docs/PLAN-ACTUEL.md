@@ -1,5 +1,20 @@
 # Plan actuel — v0.36.2 publiée, fonctionnalités en pause
 
+## Audit graphique — propositions avant modification
+
+L’[audit du 10 novembre](AUDIT-VISUEL-MOBILE-2026-11-10.md) est terminé et relu :
+12 jeux grand public et 5 tower defense documentés, limites de versions et de
+plateformes explicites ; mesures fraîches de notre interface et inventaire des
+ressources. Le [conseil](CONSEIL-AUDIT-VISUEL-2026-11-10.md) utilise six perspectives
+simulées. Le [brief Claude](POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md) prépare la contre-analyse.
+
+Le parent a choisi **audit et propositions avant modification**. Aucun changement
+d’application ni génération payante dans cette étude. L’accueil compact et les
+vues courtes sont recommandés (approche A), mais ne sont pas encore validés ou
+réalisés. L’approche B centrée sur le plateau reste une alternative à arbitrer.
+Priorités proposées : carnet et accueil, préparation/catalogue, puis matières
+ciblées après un petit comparatif d’assets. Les fonctionnalités restent en pause.
+
 ## v0.36.2 — livraison clôturée
 
 Les PR3 et PR4 sont fusionnées dans `main`. Le [site habituel](https://conquete-serpents-famille.zyclope.chatgpt.site/)
