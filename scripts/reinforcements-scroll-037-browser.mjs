@@ -5,6 +5,12 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
+const artifact =
+  process.env.REINFORCEMENTS_SCROLL_REPORT_DIR ?? 'artifacts/reinforcements-scroll-037';
+const reportPath = process.env.REINFORCEMENTS_SCROLL_REPORT_DIR
+  ? `${artifact}/report.json`
+  : `reports/reinforcements-scroll-${version}.json`;
+const positiveScrollCases = [];
 let server, browser;
 const cases = [],
   errors = [];
@@ -36,9 +42,108 @@ async function snapshot(page) {
     ),
     open: document.getElementById('reinforcements').open,
     pageY: scrollY,
-    panel: document.getElementById('reinforcements').scrollTop,
-    shop: document.getElementById('shop').scrollTop,
+    body: (() => {
+      const body = document.querySelector('.catalog-body');
+      return {
+        top: body.scrollTop,
+        client: body.clientHeight,
+        scroll: body.scrollHeight,
+        max: body.scrollHeight - body.clientHeight,
+      };
+    })(),
   }));
+}
+async function settledBody(page) {
+  await page.evaluate(async () => {
+    const body = document.querySelector('.catalog-body');
+    let previous = body.scrollTop,
+      stable = 0;
+    for (let frame = 0; frame < 120 && stable < 4; frame++) {
+      await new Promise(requestAnimationFrame);
+      const current = body.scrollTop;
+      stable = Math.abs(current - previous) < 0.1 ? stable + 1 : 0;
+      previous = current;
+    }
+  });
+  return snapshot(page);
+}
+function noAccident(before, after, label) {
+  assert.equal(after.gold, before.gold, label + ': no purchase');
+  assert.deepEqual(after.selected, before.selected, label + ': no selection');
+  assert.equal(after.open, true, label + ': catalogue stays open');
+  assert.equal(after.pageY, before.pageY, label + ': no document scroll');
+}
+async function nativeBodyGesture(page, direction) {
+  const rect = await page.locator('.catalog-body').boundingBox();
+  const x = rect.x + rect.width - 8;
+  const top = rect.y + 6,
+    bottom = rect.y + rect.height - 6;
+  assert.ok(bottom - top >= 32, 'Body has room for a real native drag');
+  assert.ok(
+    await page.evaluate(({ x, y }) => !!document.elementFromPoint(x, y)?.closest('.catalog-body'), {
+      x,
+      y: (top + bottom) / 2,
+    }),
+    'Native drag starts in the actual catalogue body',
+  );
+  await swipe(page, x, direction > 0 ? bottom : top, direction > 0 ? top : bottom);
+  return settledBody(page);
+}
+async function checkPositiveBodyScroll(page, label) {
+  const before = await settledBody(page);
+  if (before.body.max <= 1) return { range: before.body.max, contentFits: true };
+  const card = await pointOnCard(page);
+  await swipe(page, card.x, card.y, card.to);
+  const up = await settledBody(page);
+  noAccident(before, up, label + ' upward card drag');
+  assert.ok(
+    up.body.top > before.body.top + 1,
+    label +
+      ' native upward drag must move the real body: ' +
+      JSON.stringify({ before: before.body, after: up.body }),
+  );
+  const down = await nativeBodyGesture(page, -1);
+  noAccident(before, down, label + ' downward drag');
+  assert.ok(
+    down.body.top < up.body.top - 1,
+    label +
+      ' native downward drag must move the real body: ' +
+      JSON.stringify({ before: up.body, after: down.body }),
+  );
+  let edge = down;
+  for (let tries = 0; edge.body.top < edge.body.max - 1 && tries < 12; tries++)
+    edge = await nativeBodyGesture(page, 1);
+  assert.ok(
+    edge.body.top >= edge.body.max - 1,
+    label + ' native gestures reach the true lower limit',
+  );
+  noAccident(before, edge, label + ' lower limit');
+  const beyond = await nativeBodyGesture(page, 1);
+  assert.ok(
+    Math.abs(beyond.body.top - beyond.body.max) <= 1,
+    label + ' boundary drag stays at actual body limit',
+  );
+  noAccident(before, beyond, label + ' beyond lower limit');
+  const measurement = {
+    range: before.body.max,
+    contentFits: false,
+    initialTop: before.body.top,
+    upwardTop: up.body.top,
+    downwardTop: down.body.top,
+    lowerLimit: edge.body.top,
+    boundaryTop: beyond.body.top,
+    documentYBefore: before.pageY,
+    documentYAfter: beyond.pageY,
+  };
+  // Restore the initial page with native gestures so following card/tap checks
+  // do not inherit a scripted scroll position.
+  let restored = beyond;
+  for (let tries = 0; restored.body.top > 1 && tries < 12; tries++)
+    restored = await nativeBodyGesture(page, -1);
+  assert.ok(restored.body.top <= 1, label + ' native gestures return to top');
+  noAccident(before, restored, label + ' return to top');
+  positiveScrollCases.push({ label, ...measurement });
+  return measurement;
 }
 async function pointOnCard(page) {
   return page.evaluate(() => {
@@ -64,7 +169,7 @@ async function pointOnCard(page) {
   });
 }
 try {
-  await mkdir('artifacts/reinforcements-scroll-037', { recursive: true });
+  await mkdir(artifact, { recursive: true });
   server = spawn(process.execPath, [
     'node_modules/vite/bin/vite.js',
     'preview',
@@ -108,6 +213,12 @@ try {
         document.documentElement.style.setProperty('--safe-area-inset-' + key, safe[i] + 'px');
     }, safe);
     await page.locator('#reinforcements-toggle').tap();
+    if (process.env.REINFORCEMENTS_SCROLL_BLOCK_TOUCH === '1')
+      await page.addStyleTag({ content: '.catalog-body { touch-action: none !important; }' });
+    const bodyScroll = await checkPositiveBodyScroll(
+      page,
+      `${width}x${height} safe=${safe.join('/')}`,
+    );
     const before = await snapshot(page),
       point = await pointOnCard(page);
     await swipe(page, point.x, point.y, point.to);
@@ -182,10 +293,11 @@ try {
       height,
       safe,
       alliesReached: seen.size,
-      swipeDistance: Math.round(point.y - point.to),
+      requestedFingerDistance: Math.round(point.y - point.to),
+      bodyScroll,
     });
     await page.screenshot({
-      path: `artifacts/reinforcements-scroll-037/after-${width}-${safe[1]}.png`,
+      path: `${artifact}/after-${width}-${safe[1]}.png`,
     });
     await page.close();
   }
@@ -214,16 +326,22 @@ try {
   assert.equal((await snapshot(desktop)).open, true);
   await desktop.close();
   assert.deepEqual(errors, []);
+  assert.ok(
+    positiveScrollCases.length >= 1,
+    'At least one genuinely overflowing body proves native scrolling in both directions',
+  );
   await writeFile(
-    `reports/reinforcements-scroll-${version}.json`,
+    reportPath,
     JSON.stringify(
       {
         version,
         source: 'Chromium native touch dispatch, not physical Android',
         cases,
+        positiveScrollCases,
         checks: [
           'native swipes available and disabled cards',
-          'both directions',
+          'actual body movement in both directions when overflowing',
+          'true native lower-limit gesture without document scroll',
           'no selection/purchase/close on drag',
           'tap still selects',
           'no document scroll at boundary',
@@ -235,7 +353,14 @@ try {
       2,
     ) + '\n',
   );
-  console.log(JSON.stringify({ cases: cases.length, desktop: true, errors }));
+  console.log(
+    JSON.stringify({
+      cases: cases.length,
+      positiveScrollCases: positiveScrollCases.length,
+      desktop: true,
+      errors,
+    }),
+  );
 } finally {
   await browser?.close();
   server?.kill();
