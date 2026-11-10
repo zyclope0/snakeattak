@@ -248,12 +248,12 @@ export const uiBEnglish: Record<string, string> = {
   'Tourne ton téléphone': 'Turn your phone',
   Tous: 'All',
   'Tous les alliés': 'All allies',
-  'Tous les alliés → Actions du camp → Encourager nos alliés.':
-    'All allies → Camp actions → Encourage our allies.',
-  'Tous les alliés → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.':
-    'All allies → Camp actions → Train the Hero. Choose Power Strike or Guardian.',
-  'Tous les alliés → Actions du camp → Réparer le cristal.':
-    'All allies → Camp actions → Repair the crystal.',
+  'Tous les alliés → Conseils et outils → Actions du camp → Encourager nos alliés.':
+    'All allies → Tips and tools → Camp actions → Encourage our allies.',
+  'Tous les alliés → Conseils et outils → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.':
+    'All allies → Tips and tools → Camp actions → Train the Hero. Choose Power Strike or Guardian.',
+  'Tous les alliés → Conseils et outils → Actions du camp → Réparer le cristal.':
+    'All allies → Tips and tools → Camp actions → Repair the crystal.',
   'translate(512 0) scale(-1 1)': 'translate(512 0) scale(-1 1)',
   'Très rapide': 'Very fast',
   'Trois compositions de huit favoris': 'Three groups of eight favorites',

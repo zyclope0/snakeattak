@@ -9,6 +9,7 @@ import { bindExpeditions } from '../src/ui/expeditions.ts';
 import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindBoardResize } from '../src/render/boardResize.ts';
 import '../src/style.css';
+import '../src/ui/mobileMenus.css';
 const query = new URLSearchParams(location.search);
 const mode = query.get('case') ?? 'first-win';
 if (query.has('safe'))

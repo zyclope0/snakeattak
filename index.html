@@ -531,12 +531,6 @@
               </button>
             </div>
           </aside>
-          <button
-            id="reinforcements-backdrop"
-            class="reinforcements-backdrop"
-            aria-label="Fermer les alliés"
-            tabindex="-1"
-          ></button>
           <section
             id="battle-result"
             class="battle-result"
@@ -549,7 +543,7 @@
             <button id="end-home" class="secondary">Retour à l’accueil</button>
             <button id="result-allies" class="secondary">Voir mes alliés</button>
           </section>
-          <aside id="reinforcements" class="reinforcements" aria-label="Les alliés">
+          <dialog id="reinforcements" class="reinforcements" aria-label="Les alliés">
             <div class="army-title">
               <h2>Alliés</h2>
               <button
@@ -659,7 +653,6 @@
               <summary>Favoris</summary>
               <label for="quick-slot" class="sr-only">Favoris actifs</label
               ><select id="quick-slot"></select>
-              <div id="quick-cards" class="quick-cards"></div>
             </details>
 
             <details id="camp-tools" class="camp-tools">
@@ -737,7 +730,7 @@
                 </footer>
               </div>
             </details>
-          </aside>
+          </dialog>
         </div>
       </main>
     </div>

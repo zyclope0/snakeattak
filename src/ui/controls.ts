@@ -1,3 +1,5 @@
+import { bindCatalogPages } from './catalogPages.ts';
+import { campToolModel } from './campToolModel.ts';
 import { availableGold, canSpend } from './capriceBudget.ts';
 import {
   setText as setDisplayText,
@@ -51,7 +53,8 @@ export function bindControls(
   const refreshResult = bindBattleResult(session);
   el('mobile-home').onclick = () => el('menu-home').click();
   bindDisplay();
-  bindReinforcementsDrawer();
+  const catalogue = bindReinforcementsDrawer(session, refresh);
+  const pages = bindCatalogPages(refresh);
   bindVisualSettings();
   let catalogView: 'ready' | 'future' = 'ready';
   const familySelect = el<HTMLSelectElement>('shop-family');
@@ -62,15 +65,18 @@ export function bindControls(
     familySelect.append(option);
   }
   familySelect.onchange = () => {
+    pages.reset();
     el('shop').scrollTop = 0;
     refresh();
   };
   el('shop-ready').onclick = () => {
     catalogView = 'ready';
+    pages.reset();
     refresh();
   };
   el('shop-future').onclick = () => {
     catalogView = 'future';
+    pages.reset();
     refresh();
   };
   const descriptions: Partial<Record<Kind, string>> = {
@@ -120,8 +126,8 @@ export function bindControls(
     cards.set(kind, b);
   }
   const refreshSquad = bindSquadControls(session, career, refresh);
-  const refreshAdventure = bindAdventureControls(session, refresh);
-  const refreshFeast = bindFeastControls(session, refresh);
+  const refreshAdventure = bindAdventureControls(session, refresh, catalogue.actionsPaused);
+  const refreshFeast = bindFeastControls(session, refresh, catalogue.actionsPaused);
   const openToolHelp = bindCampToolHelp(session, refresh);
   const refreshDock = bindBattleDock(session, career, refresh, openToolHelp);
   const refreshThreats = bindThreatControls(session, refresh);
@@ -305,7 +311,7 @@ export function bindControls(
     el<HTMLButtonElement>('pause').disabled = end;
     el('pause').hidden = end;
     el<HTMLButtonElement>('repair').disabled =
-      end || session.game.paused || !canSpend(session.game, 80) || session.game.base >= 100;
+      catalogue.actionsPaused() || !campToolModel(session.game, 'repair').ready;
     el('cancel').hidden = !session.selected && !session.selectedFeast;
     let ready = 0,
       future = 0;
@@ -338,7 +344,11 @@ export function bindControls(
         !session.game.capriceAllows(kind) ||
         (catalogView === 'ready' ? locked : !locked);
       const cost = session.game.recruitCost(kind);
-      b.disabled = end || session.game.paused || locked || !canSpend(session.game, cost);
+      b.disabled =
+        end ||
+        (session.game.paused && !(el('reinforcements') as HTMLDialogElement).open) ||
+        locked ||
+        !canSpend(session.game, cost);
       const price = b.querySelector<HTMLElement>('.price')!;
       setDisplayText(price.firstChild!, cost === 0 ? 'Offert' : `${cost} `);
       price.querySelector<HTMLElement>('i')!.hidden = cost === 0;
@@ -380,6 +390,8 @@ export function bindControls(
       b.classList.toggle('selected', session.selected === kind);
       b.setAttribute('aria-pressed', String(session.selected === kind));
     }
+    pages.refresh([...cards.values()].filter((card) => !card.hidden));
+    catalogue.refresh();
     refreshRewards();
     refreshSquad();
     refreshAdventure();

@@ -1,3 +1,4 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
 import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
@@ -675,19 +676,25 @@ try {
             );
             await page.screenshot({ path: `${folder}/${name}-rewards-en.png` });
             // The catalog's two existing tabs partition the 20 recruitable kinds.
+            await revealControl(page, '#shop-ready');
             const catalogKinds = [];
             for (const tab of ['shop-ready', 'shop-future']) {
-              await page.locator(`#${tab}`).evaluate((e) => e.click());
-              const cards = await page
-                .locator('#shop .unit-card:not([hidden])')
-                .evaluateAll((cards) =>
-                  cards.map((card) => ({
-                    kind: card.dataset.kind,
-                    name: card.querySelector('strong').textContent,
-                    title: card.title,
-                    aria: card.getAttribute('aria-label'),
-                  })),
+              await page.locator(`#${tab}`).click();
+              const cards = [];
+              for (;;) {
+                cards.push(
+                  ...(await page.locator('#shop .unit-card:not([hidden])').evaluateAll((cards) =>
+                    cards.map((card) => ({
+                      kind: card.dataset.kind,
+                      name: card.querySelector('strong').textContent,
+                      title: card.title,
+                      aria: card.getAttribute('aria-label'),
+                    })),
+                  )),
                 );
+                if (await page.locator('#catalog-next').isDisabled()) break;
+                await page.locator('#catalog-next').click();
+              }
               catalogKinds.push(...cards.map((card) => card.kind));
               check(
                 `${name}: ${tab} English catalog cards`,
@@ -704,6 +711,7 @@ try {
               catalogKinds.length === 20 && new Set(catalogKinds).size === 20,
               catalogKinds,
             );
+            await page.locator('#reinforcements-close').click();
             const missions = await page.evaluate(() => window.localeFixture.missions);
             const missionNames = [
               'The Refuge',
@@ -729,13 +737,21 @@ try {
                     mission.waves,
                   ),
               );
-              await inspectEnglish(page, '#mission-dialog', `${name}: mission ${mission.id}`);
+              for (const view of ['summary', 'caprices', 'friends', 'scouting', 'options']) {
+                await page.locator(`[data-preparation="${view}"]`).click();
+                await inspectEnglish(
+                  page,
+                  '#mission-dialog',
+                  `${name}: mission ${mission.id} ${view}`,
+                );
+              }
               check(
                 `${name}: preview ${mission.id} preserves game/RNG`,
                 JSON.stringify(await page.evaluate(() => window.localeFixture.snapshot())) ===
                   JSON.stringify(beforePreview),
               );
             }
+            await page.locator('[data-preparation="scouting"]').click();
             const threatKinds = await page.evaluate(() => window.localeFixture.showAllThreats());
             const renderedThreatKinds = await page
               .locator('#mission-threats [data-threat]')

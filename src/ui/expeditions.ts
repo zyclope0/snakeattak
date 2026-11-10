@@ -1,3 +1,4 @@
+import { bindMissionPreparation } from './missionPreparation.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { bindCapricePreparation, canLaunchCaprice } from './capriceView.ts';
 import { capriceBudget, capriceRules, capriceDefinitionForRun } from '../caprices.ts';
@@ -69,8 +70,10 @@ export function bindExpeditions(
     portraitStyle,
     (chosen) => {
       if (draft) showMissionScouting(draft, chosen);
+      dialog.dispatchEvent(new Event('mission-preparation-change'));
     },
   );
+  const views = bindMissionPreparation(dialog);
   const departures = bindDepartureControls(session, {
     unlocked: allowed,
     previewMission: preview,
@@ -138,7 +141,9 @@ export function bindExpeditions(
     }
     dialog.dataset.run = JSON.stringify(run);
     if (!dialog.open) dialog.showModal();
+    dialog.dispatchEvent(new Event('mission-preparation-change'));
     if (resetScroll) {
+      views.reset();
       dialog.scrollTop = 0;
       dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
       el('mission-title').focus({ preventScroll: true });

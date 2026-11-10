@@ -227,3 +227,273 @@
     padding-inline: 4px;
   }
 }
+
+/* Preparation is a fixed header and departure bar around one bounded view. */
+#mission-dialog[open] {
+  height: min(720px, calc(var(--app-height) - 16px));
+  max-height: calc(var(--app-height) - 16px);
+}
+#mission-dialog [hidden],
+#reinforcements [hidden] {
+  display: none !important;
+}
+.preparation-header {
+  flex: 0 0 auto;
+  padding: 10px 14px 0;
+}
+#mission-dialog .preparation-header h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+.preparation-nav,
+.catalog-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.preparation-nav button,
+.catalog-pagination button,
+#mission-dialog #mission-reroll {
+  min-height: 48px;
+  min-width: 48px;
+  border: 1px solid #8ca97e;
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 6px 10px;
+}
+.preparation-nav button {
+  flex: 1;
+  margin: 0;
+  font-size: 13px;
+}
+.preparation-nav [aria-pressed='true'] {
+  background: #d9f1e2;
+  border-color: var(--jade);
+}
+#mission-dialog .mission-dialog-body {
+  flex: 1;
+  min-height: 0;
+  padding: 10px 14px;
+}
+#mission-summary > p {
+  margin: 6px 0;
+}
+#mission-summary > strong,
+#mission-summary #mission-budget {
+  display: block;
+}
+#mission-dialog .mission-dialog-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 8px 14px;
+}
+#mission-dialog .mission-dialog-actions button {
+  flex: 1;
+}
+#mission-dialog #mission-map {
+  width: 100%;
+  float: none;
+}
+#mission-dialog #mission-parent-options {
+  margin: 0 0 10px;
+}
+#mission-dialog #mission-parent-options > summary {
+  display: none;
+}
+#mission-dialog :is(button, select, summary) {
+  min-height: 48px;
+}
+#mission-dialog :focus-visible,
+#reinforcements :focus-visible {
+  outline: 3px solid #edae44;
+  outline-offset: 2px;
+}
+
+/* The catalogue is in the browser's top layer; the battle dock remains real time. */
+#app #reinforcements[open] {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: var(--app-safe-top) var(--app-safe-right) var(--app-safe-bottom) var(--app-safe-left);
+  width: calc(100% - 16px - var(--app-safe-left) - var(--app-safe-right));
+  height: calc(var(--app-height) - 16px);
+  max-width: 1100px;
+  max-height: calc(var(--app-height) - 16px);
+  margin: auto;
+  padding: 10px 14px;
+  overflow: hidden;
+  visibility: visible;
+  pointer-events: auto;
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid #8ca97e;
+  border-radius: 16px;
+  gap: 6px;
+}
+#reinforcements::backdrop {
+  background: #102e28aa;
+}
+#app #reinforcements .army-title {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  flex: 0 0 auto;
+  position: static;
+  padding: 0;
+  gap: 10px;
+}
+#reinforcements .army-title h2 {
+  font-size: 22px;
+  margin: 0;
+}
+#app #reinforcements .reinforcements-close,
+#app #reinforcements .guide-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 48px;
+  min-height: 48px;
+  grid-area: auto;
+  position: static;
+}
+#app #reinforcements .reinforcements-close span,
+#app #reinforcements .guide-button span {
+  display: inline;
+}
+#app #reinforcements .shop-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  margin: 0;
+}
+#app #reinforcements :is(button, select, summary) {
+  min-height: 48px;
+  min-width: 48px;
+}
+#app #reinforcements .shop-family select {
+  width: 100%;
+  max-width: 260px;
+}
+.catalog-pagination {
+  flex: 0 0 auto;
+  justify-content: center;
+}
+#app #reinforcements .catalog-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+#app #reinforcements #shop {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-height: none;
+  min-height: 0;
+  overflow: visible;
+  padding: 2px;
+  gap: 6px;
+}
+#app #reinforcements #shop .unit-card {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: start;
+  min-height: 74px;
+  text-align: left;
+  padding: 6px;
+  gap: 6px;
+}
+#app #reinforcements .unit-card .portrait {
+  width: 44px;
+  height: 44px;
+}
+#app #reinforcements .unit-info strong {
+  font-size: 13px;
+}
+#app #reinforcements .unit-info small {
+  display: block;
+  font-size: 11px;
+}
+#catalog-tools {
+  margin: 6px 2px;
+}
+#catalog-tools > summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.catalog-tools-body {
+  display: grid;
+  gap: 10px;
+}
+#app #reinforcements .battle-footer {
+  display: block;
+  position: static;
+}
+@media (max-height: 520px) {
+  .preparation-header .eyebrow {
+    display: none;
+  }
+  #mission-dialog .preparation-header h2 {
+    font-size: 18px;
+    margin: 0 0 4px;
+  }
+  #app #reinforcements[open] {
+    padding: 4px 10px;
+    gap: 4px;
+  }
+  #app #reinforcements .army-title h2 {
+    font-size: 18px;
+  }
+  #app #reinforcements #shop .unit-card {
+    min-height: 64px;
+    grid-template-columns: 38px minmax(0, 1fr);
+    position: relative;
+    padding-right: 42px;
+  }
+  #app #reinforcements .unit-card .portrait {
+    width: 36px;
+    height: 36px;
+  }
+  #reinforcements .unit-card .price {
+    position: absolute;
+    right: 4px;
+    bottom: 6px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 600px) {
+  .preparation-nav button {
+    padding: 4px;
+    font-size: 12px;
+  }
+  #app #reinforcements .army-total {
+    display: none;
+  }
+  #app #reinforcements #shop .unit-card {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 4px 6px 24px;
+  }
+  #app #reinforcements .unit-card .portrait {
+    display: none;
+  }
+}
+
+@media (max-height: 340px) {
+  #mission-summary > p {
+    margin: 3px 0;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  #mission-summary #mission-party {
+    margin: 4px 0;
+  }
+  #mission-summary .mission-facts dt svg {
+    display: none;
+  }
+  #mission-summary .mission-facts > div {
+    padding: 4px;
+  }
+}

@@ -1,3 +1,4 @@
+import { checkCatalogue } from './mobile-catalogue-037-checks.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -69,6 +70,34 @@ async function capture(p, name) {
       height: innerHeight,
       scrollHeight: document.documentElement.scrollHeight,
       scrollWidth: document.documentElement.scrollWidth,
+      preparation: (() => {
+        const d = document.querySelector('#mission-dialog[open]');
+        const b = d?.querySelector('.mission-dialog-body');
+        return d
+          ? {
+              rect: d.getBoundingClientRect().toJSON(),
+              client: d.clientHeight,
+              scroll: d.scrollHeight,
+              bodyClient: b.clientHeight,
+              bodyScroll: b.scrollHeight,
+              view: d.dataset.preparationView,
+            }
+          : null;
+      })(),
+      catalogue: (() => {
+        const d = document.querySelector('#reinforcements[open]');
+        const b = d?.querySelector('.catalog-body');
+        return d
+          ? {
+              rect: d.getBoundingClientRect().toJSON(),
+              client: d.clientHeight,
+              scroll: d.scrollHeight,
+              bodyClient: b.clientHeight,
+              bodyScroll: b.scrollHeight,
+              cards: d.querySelectorAll('.unit-card:not([hidden])').length,
+            }
+          : null;
+      })(),
       primary: document.querySelector('#home-primary')?.getBoundingClientRect().toJSON(),
       dialog: document.querySelector('#caprice-album-dialog[open]')
         ? {
@@ -119,6 +148,7 @@ try {
     await delay(100);
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  await checkCatalogue({ browser, url, check, reachable, capture });
   if (process.env.MOBILE_MENUS_BEFORE) {
     for (const [w, h] of [
       [780, 360],
@@ -171,6 +201,30 @@ try {
       JSON.parse(await p.locator('#mission-dialog').getAttribute('data-run')).balance === 2,
       'preparation keeps current balance revision',
     );
+    check(
+      (await p.locator('#mission-dialog').getAttribute('data-preparation-view')) === 'summary',
+      'preparation opens on short summary',
+    );
+    check(await p.locator('#mission-summary').isVisible(), 'short summary visible');
+    check(!(await p.locator('#mission-caprices').isVisible()), 'caprices have separate view');
+    for (const view of ['caprices', 'friends', 'scouting', 'options']) {
+      await p.locator(`[data-preparation="${view}"]`).click();
+      check(
+        (await p.locator('#mission-dialog').getAttribute('data-preparation-view')) === view,
+        'separate preparation ' + view,
+      );
+      await reachable(p, '#mission-launch');
+      await reachable(p, '#mission-close');
+      if (view === 'options') await reachable(p, '#mission-reroll');
+      await p.locator('[data-preparation="summary"]').click();
+    }
+    const landBox = await p.locator('#mission-land').boundingBox();
+    const actionsBox = await p.locator('.mission-dialog-actions').boundingBox();
+    check(
+      landBox.y + landBox.height <= actionsBox.y,
+      'normal short summary exposes terrain without inner scrolling',
+    );
+    await capture(p, `after-preparation-${w}x${h}`);
     await p.locator('#mission-close').click();
     await p.locator('#home-expeditions').click();
     check((await p.locator('.mission-card:visible').count()) === 6, 'six mission cards');

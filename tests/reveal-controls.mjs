@@ -2,6 +2,12 @@
 export async function revealControl(page, selector) {
   if (
     (await page.locator(selector).count()) &&
+    (await page.locator('#reinforcements[open]').count()) &&
+    !(await page.locator(selector).evaluate((e) => !!e.closest('#reinforcements, dialog[open]')))
+  )
+    await page.locator('#reinforcements-close').click();
+  if (
+    (await page.locator(selector).count()) &&
     (await page.locator(selector).evaluate((e) => !!e.closest('#reinforcements'))) &&
     !(await page.locator('#reinforcements').isVisible())
   )

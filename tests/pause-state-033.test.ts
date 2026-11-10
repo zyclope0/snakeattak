@@ -112,3 +112,19 @@ test('une reprise après interruption ne garde aucun reste de pas fixe', () => {
   s.advance(20);
   assert.equal(s.game.time, 0);
 });
+
+test('read-only projected release retains manual and nested owners without resuming', () => {
+  const s = new Session(33),
+    pauses = pauseStateFor(s);
+  const release = pauses.hold();
+  const before = JSON.stringify(s.game);
+  assert.equal(pauses.pausedAfterRelease(), false);
+  assert.equal(JSON.stringify(s.game), before);
+  const nested = pauses.hold();
+  assert.equal(pauses.pausedAfterRelease(), true);
+  nested();
+  pauses.interrupt();
+  assert.equal(pauses.pausedAfterRelease(), true);
+  release();
+  assert.equal(s.game.paused, true);
+});

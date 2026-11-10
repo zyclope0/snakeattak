@@ -25,6 +25,11 @@ function createPauseState(session: Session) {
         game.paused = retained || owners.size > 0;
       };
     },
+    /** Read-only readiness for an action that will release its own lease first. */
+    pausedAfterRelease() {
+      current();
+      return retained || owners.size > 1;
+    },
     interrupt() {
       current();
       retained = true;
