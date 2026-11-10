@@ -40,7 +40,7 @@ Les nouvelles images HD crue/marais et l'icône Android restent au plan distinct
 423 tests natifs, types, build et budgets passent. La nouvelle recette vérifie
 cinq tailles/marges et le portrait avec retour en paysage : images, tracés,
 conseil disponible visible sans défilement (mission6/marges), liste dépliable,
-changement de départ, vagues, pauses, RNG/or inchangés, cibles48px et ratio du plateau.
+changement de départ, vagues, pauses, RNG/or inchangés, cibles 48 px et ratio du plateau.
 Les marqueurs Phaser suivent les antres actifs du refuge.
 
 Audit strict13/13 ; navigateur général, six dock/marges, six écrans mobiles et

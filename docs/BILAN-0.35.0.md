@@ -56,11 +56,11 @@ recettes et empreintes. Les captures « contrôlées » montrent des états inst
 par fixtures ; elles ne sont pas présentées comme des parties terminées.
 Les invariants comparent Game, Session, RNG, checkpoint, départ et commandes
 avant/après changement de langue, puis deux jeux de même graine.
-Les anciens schémas1–7 sont relus hors ligne.
+Les anciens schémas 1–7 sont relus hors ligne.
 
 Formats FR/EN :1280×800,1366×768,812×375,780×360,568×320,375×812 ;
 variante568 avec marges système. Le portrait tactile affiche la consigne de
-rotation. À812×375, le plateau mesuré fait environ580×327, soit 87,2% de la
+rotation. À 812×375, le plateau mesuré fait environ 580×327, soit 87,2% de la
 hauteur et 71,4% de la largeur. Les recettes ne valident pas Android physique,
 TalkBack, le grossissement système ou la compréhension des enfants.
 
@@ -100,7 +100,7 @@ la PR1 ne vaut pas fusion automatique de cette évolution.
 | Tactique / interface / enfant          | 3formats×6critères,24contrôles interface,6formats enfant                                       |
 | Audit / interruptions / présentation   | 13/11/14contrôles ou scénarios verts                                                           |
 | Missions / régressions / codes / soins | Parcours verts ;12 contrôles nommés de départ                                                  |
-| Hors ligne                             | 10 contrôles, schémas1–7 relus, zéro fichier manquant ou appel externe                         |
+| Hors ligne                             | 10 contrôles, schémas 1–7 relus, zéro fichier manquant ou appel externe                        |
 | Menaces / défilement renforts          | 5 écrans et11critères ;5 cas tactiles et ordinateur                                            |
 | Portable                               | Build et recette FR verts ; Refuge réellement terminé en anglais,3vagues,100% du cristal       |
 | Dépendances de production              | 0vulnérabilité retournée par l'audit à cette date                                              |

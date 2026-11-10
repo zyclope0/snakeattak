@@ -11,7 +11,7 @@
 
 - Douze vagues, trois voies et combat automatique conservés ; aucune résurrection.
 - Trois propositions, un choix, après vagues4/8 ; possibilité de renoncer.
-- Renfort bouclier/ninja/raptor offert, miel+4 s, protection18, pièces100.
+- Renfort bouclier/ninja/raptor offert, miel+4 s, protection18, pièces 100.
 - Protection maximum 36 et miel maximum 22 s ; roi entrant toujours fatal.
 - Aucune nouvelle dépendance, service réseau ni génération payante.
 - Sauvegardesv1/v2 lisibles, nouveau campv3 ; Node 24, budgets web conservés.

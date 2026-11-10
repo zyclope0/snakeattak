@@ -49,7 +49,7 @@ Conserver les identifiants DOM et les commandes existants pour clavier/tests.
 
 - Dock quatre alliés et deux pots à 812×375, sans recouvrement ; commandes≥48 px.
 - Plateau≥85% hauteur utile et≥65% largeur utile à 812×375, marges système comprises.
-- Catalogues étroits 480/568/667, portrait 375×812 et ordinateur1280×800.
+- Catalogues étroits 480/568/667, portrait 375×812 et ordinateur 1280×800.
 - Recrutement tactile réel, coûts réels, sélection sans achat automatique.
 - Miel en touchant les chemins courbes, modes Attirer/Ralentir, voies paisibles,
   pause, invalides, nouvelle partie, fin de vague et contrôles clavier.

@@ -43,8 +43,8 @@ sur les vrais écrans, sans tests copiant seulement leur balisage.
 | npm run test:child-mobile       | Six formats verts avant la passe finale de texte/image ; HUD/plateau inchangés, recette de livraison prévue aprèsB |
 | Taille                          | HTML31 308/32 768 octets ; JSjeu189 024/200 000 ; CSS61 411. Budgets non relevés                                   |
 
-Le plateau1280×800 mesure1065,98×600,81px ;812×375 dans la recette mobile mesure
-580,13×326,98px, soit 71,4% de largeur et 87,2% de hauteur. La mesure780×360 avec
+Le plateau 1280×800 mesure 1065,98×600,81 px ;812×375 dans la recette mobile mesure
+580,13×326,98 px, soit 71,4% de largeur et 87,2% de hauteur. La mesure 780×360 avec
 marges simulées est534,36×301,17px ; ne pas prétendre que tous les formats/insets
 atteignent le même pourcentage. En portrait, la consigne remplace l'accès au jeu.
 

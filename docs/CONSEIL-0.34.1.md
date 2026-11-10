@@ -20,5 +20,5 @@ approbation fictive des relecteurs. Recette finale16cas +6 contrôles : balayage
 natif tactileCDP, page immobile/X fixe, Tab/PageDown et retoursfocusÉchap4formats.
 
 Mineurs différés : indice de défilement et pied secondaire sur 568 ; expression
-plus petite des portraits ; confort de lecture des textes12–13 px. Aucun nouveau
+plus petite des portraits ; confort de lecture des textes 12–13 px. Aucun nouveau
 texte de pouvoir, champ supprimé, mécanisme, donnée ou image ajouté.

@@ -20,9 +20,9 @@ tous déjà débloqués. Réutiliser les portraits existants.
 
 Offres : un renfort offert à placer normalement (bon d'achat), +4 s de durée du
 miel pour le reste de la campagne (deux choix au maximum), protection du cristal
-absorbant18 points de dégâts ordinaires (maximum 36 ; le roi l'ignore et reste
-fatal s'il entre), ou100 pièces. Chiffres modestes proposés par le développeur,
-à vérifier par simulations, sans retoucher les règles ni la difficulté0.16.
+absorbant 18 points de dégâts ordinaires (maximum 36 ; le roi l'ignore et reste
+fatal s'il entre), ou 100 pièces. Chiffres modestes proposés par le développeur,
+à vérifier par simulations, sans retoucher les règles ni la difficulté 0.16.
 
 Le bonus est proposé uniquement après une vraie fin de vague4/8. On peut choisir
 une carte ou continuer sans bonus. Tant que l'offre est en attente, le moteur

@@ -133,7 +133,7 @@ défilant, un peu plus haut qu’avant ; ordinateur inchangé.
 
 Conseil six personas terminé ; défaut clavier du nouveau corps reproduit et
 corrigé par région focalisable/focus visible. Verify441/441, navigateur,
-interface 24, audit 13, enfant 6 formats et recette16cas+6 contrôles verts.
+interface 24, audit 13, enfant 6 formats et recette 16 cas+6 contrôles verts.
 APK normal, même identité/certificat,30fichiers web identiques au build.
 **Site publié0.34.1/Sites20**, HTTP200, fiche huit champs vérifiée en ligne et
 HTML/JS/CSS identiques. Les marges simulées ne constituent pas un test physique
@@ -162,7 +162,7 @@ APK normal avec même certificat/identité,30fichiers web identiques au build va
 [preuves](../reports/suivi-0.34.0/verification.json).
 **Site publié en 0.34.0, Sites 19**, audience publique conservée.
 [Reçu](../reports/deployment-0.34.0.json) : HTTP200, démarrage vague 1, aide, pause
-et rotation contrôlés à1280×800,812×375 et375×812. Aucun cadre téléchargé à
+et rotation contrôlés à 1280×800,812×375 et 375×812. Aucun cadre téléchargé à
 l’accueil ; un seul cadre utile demandé au lancement. HTML/JS/CSS en ligne
 identiques au build validé. Plateau mobile87,20% de la hauteur, dimensions inchangées.
 Branche GitHub et PR existante synchronisées à la clôture, sans fusion dans main.
@@ -226,8 +226,8 @@ Aucune décision critique nouvelle n’a été prise pendant l’absence du pare
 **9 novembre 2026, Europe/Zurich : site publié en 0.33.1**, version Sites 18,
 même URL et audience publique. [Reçu](../reports/deployment-0.33.1.json).
 Recette réelle en ligne : HTTP200, icône, prochaine mission, démarrage vague 1,
-quatre favoris, aide et une seule pause HTML à1280×800 et812×375 tactile.
-À375×812 tactile, écran de rotation visible. Aucune erreur JavaScript.
+quatre favoris, aide et une seule pause HTML à 1280×800 et 812×375 tactile.
+À 375×812 tactile, écran de rotation visible. Aucune erreur JavaScript.
 Plateau paysage580,13×326,98px :87,20% de la hauteur et 71,44% de la largeur.
 HTML, JS jeu et CSS comparés octet par octet via lecture réseau brute en navigateur,
 identiques au build validé. Les 28 fichiers du dist poussé sont identiques à l’APK.
@@ -240,8 +240,8 @@ du parent. Ni publication Google Play, ni SDK, pub ou achat activés.
 **9 novembre 2026, Europe/Zurich : site publié en 0.32.4**, version Sites 17,
 même URL et audience publique conservée. [Reçu](../reports/deployment-0.32.4.json).
 Contrôle en ligne dans Chromium : HTTP200 et marqueurv0.32.4 ; démarrage d'une
-mission puis de la vague 1, quatre favoris, aucune erreur JavaScript à1280×800
-et812×375 tactile. Plateau mobile580,13×326,98px, soit 87,20% de la hauteur.
+mission puis de la vague 1, quatre favoris, aucune erreur JavaScript à 1280×800
+et 812×375 tactile. Plateau mobile580,13×326,98px, soit 87,20% de la hauteur.
 
 Les 27 fichiers web publiés sont identiques à ceux de l'APK 0.32.4 contrôlé.
 Les changements0.32.4 concernent l'icône native Android et les documents ; la

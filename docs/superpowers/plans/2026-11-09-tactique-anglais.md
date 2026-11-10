@@ -74,7 +74,7 @@ Vite seulement si découpage logique nécessaire pour les budgets.
 - [x] Tester0/1/plusieurs, décimales, composés, ancien camp/code, titres et
       langue changée dans les différents écrans. Corriger tout texte FR manquant.
 - [x] Capturer les six formats FR/EN ; tester mêmes commandes/graines et
-      instantané identique, nœuds/handlers/focus conservés et anciens schémas1–7.
+      instantané identique, nœuds/handlers/focus conservés et anciens schémas 1–7.
 - [x] Vérifier hors ligne/portable et budgets ; commit de couverture.
 
 ### Task 4: Soucoupe unique

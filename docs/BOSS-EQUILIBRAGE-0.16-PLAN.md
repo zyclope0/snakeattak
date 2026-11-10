@@ -44,7 +44,7 @@ splashSecondaryFactor:number(0.25..1), mutantDamageFactor:number(1..2).
 Valeurs provisoires par défaut : true,6.5,0.10,0.55,1.4,26,6,1.6,42,260,0.75.
 Valeurs legacy : bossEnabled=false, bossHpMultiplier=6, bossShieldFraction=0,
 bossShotDamage=0, splashSecondaryFactor=1 ; autres champs non utilisés identiques.
-Elles doivent reproduire le moteur0.15 pour des commandes identiques.
+Elles doivent reproduire le moteur 0.15 pour des commandes identiques.
 
 Entity ajoute `bossState?: BossState`. État sérialisable exact : phase:1|2|3,
 shield:number, shieldMax:number, shieldsBroken:number, shotsFired:number,
@@ -84,7 +84,7 @@ ne dépend du nombre de callbacks de présentation. Pas d'accès DOM/renderer.
 Plans de graines disjoints : discovery8, confirmation 12, holdout24 ; huit profils
 par graine, mêmes graines pour chaque configuration. Runner parallèle borné
 (4CPU disponibles,3workers par défaut), sortie déterministe triée et hashée.
-Limite240s par vague ; conserver toute défaite, timeout, erreurs avec état/replay.
+Limite 240 s par vague ; conserver toute défaite, timeout, erreurs avec état/replay.
 
 Entrées CLI proposées : `--stage discovery|confirmation|holdout --configs path.json
 --out reports/... --workers 3`. JSON liste objets {id,tuning,useDefault?}. Le mode

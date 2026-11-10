@@ -40,7 +40,7 @@ indépendante sans Critical/Important, doublons mineurs de l'aide corrigés. Le 
 a été mis en cache après profilage d'une chute de cadence ; restaurationWebGL
 et classification du roi ont été corrigées sur reproductions RED→GREEN.
 
-Choix assumés : poses fixes animées procéduralement ;3terrains pour12vagues, pas
+Choix assumés : poses fixes animées procéduralement ;3terrains pour 12 vagues, pas
 3 campagnes séparées ; A* en cache conservé au vu des mesures ; statut de camp partagé
 entre chapitres, coordonnées invalides relogées. Coût potentiel : pas d'animations
 image-par-image et avantage des armées à distance encore à surveiller en famille.

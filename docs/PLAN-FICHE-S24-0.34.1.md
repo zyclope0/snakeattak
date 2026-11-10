@@ -14,7 +14,7 @@ Alternative écartée : réduire tous les textes/cibles ou cacher des statistiqu
 Coût si ce choix plaît moins : ajustement local CSS/structure, aucune migration.
 
 - [x] Reproduire la fiche actuelle avec marges système et mesurer hauteur/statistiques visibles.
-- [x] Recette rouge sur812×375 et780×360 : fiche compacte, données essentielles visibles, contrôles48px et contenus longs accessibles.
+- [x] Recette rouge sur 812×375 et 780×360 : fiche compacte, données essentielles visibles, contrôles 48 px et contenus longs accessibles.
 - [x] Modifier seulement structure de la fiche et CSS dédié, version0.34.1/code43.
 - [x] Vérifier build/verify, navigateur, recette dédiée et six formats tactiles ; pause/Échap conservés.
 - [x] Conseil après le lot : architecture, mobile, accessibilité et cibles6/9/12ans simulées.
@@ -28,7 +28,7 @@ modifié. Les barres système existantes gardent leurs marges, sans double inset
 Base65c4581 ; implémentation35f3b2d. Reproduction :812×375 avec marges24/32,
 fiche319px, aucune statistique complète initialement. Après : Massue259px,
 Médecin282px,8statistiques visibles ; X/sélecteur48px ; mêmes dimensions à 1280.
-Recette16cas, vrai geste tactile568, page immobile, X fixe et Échap4formats verts.
+Recette16cas, vrai geste tactile 568, page immobile, X fixe et Échap4formats verts.
 
 Conseil six personas terminé. Cinq avis sans blocage ; accessibilité a identifié
 un défaut clavier du nouveau corps défilant. Reproduit dans l’application réelle
@@ -37,7 +37,7 @@ Tab/PageDown font désormais défiler les détails sans changer l’unité chois
 441tests/build/format/types et recette finale16cas+6 contrôles verts.
 
 Mineurs différés : indice de défilement à 568, pied secondaire sur très petit
-paysage, reconnaissance du portrait 48 px et confort des textes13px à observer.
+paysage, reconnaissance du portrait 48 px et confort des textes 13 px à observer.
 Pas de nouvelle réduction de taille des caractères. Simulation de marges,
 pas validation physique de ce nouvel APK sur S24 ; la capture du parent porte
 sur 0.34.0. L’accueil et le comportement des reprises restent hors de ce correctif.

@@ -6,9 +6,9 @@ from pathlib import Path
 import re
 
 # Explicit prose vocabulary: unknown tokens (identifiers, names, hashes) stay intact.
-PREFIXES = set('Version version versions les Les des de à À en et avec après avant contre puis soit environ pendant vers sur entre novembre code codes camp camps sauvegarde sauvegardes checkpoint checkpoints format formats famille familiale familial enveloppe Phaser Android APK Node Capacitor lot étape point points vague vagues mission missions grand caprice caprices audit conseil enfant profil profils portrait marges site Site Sites publié Verify tests prévision contient délai maximum minimum plus reste'.split())
+PREFIXES = set('Version version versions les Les des de à À en et avec après avant contre puis soit environ pendant vers sur entre novembre code codes camp camps sauvegarde sauvegardes checkpoint checkpoints format formats famille familiale familial enveloppe Phaser Android APK Node Capacitor lot étape point points vague vagues mission missions grand caprice caprices audit conseil enfant profil profils portrait marges site Site Sites publié Verify tests prévision contient délai maximum minimum plus reste cibles contrôles contrôle écran écrans fichiers fichier schéma schémas test tests commandes commande plateau canvas Canvas mesure mesures ordinateur tactile captures capture recette recettes règles règle cas prix budget durée largeur hauteur limite Limite rang seuil coût recharge voie voies chapitres chapitre graines graine pièces unités profils délais absorbe absorbant pour aux ou demandant demander pendant atteint lues lecture textes texte points marges statistique statistiques bornée récompense bonus difficulté version prévue normal classique compte lot génération moteur choix architecture survie stock stocks enquête'.split())
 SUFFIXES = set('px ms s seconde secondes octets Ko Mo Mio KiB MiB Go GiB PNG WebP fichiers tests contrôles formats cas cibles campagnes ans points vagues voies étoiles parties graines chapitres victoires défaites pièces statistiques simulations scénarios écrans textes phrases captures pixels caractères états paires versions étapes plafonds alliés caprices défis missions unités'.split())
-NUMBER = r'\d+(?:[.,]\d+)*'
+NUMBER = r'\d+(?:[.,]\d+)*(?:[×–→]\d+(?:[.,]\d+)*)*'
 TOKEN = re.compile(r"[\wÀ-ÿ]+(?:[.,][\wÀ-ÿ]+)*", re.UNICODE)
 PROTECTED = re.compile(r'`+[^`\n]*`+|https?://\S+|\[[^\]\n]*\]\([^\n]*?\)|!\[[^\]\n]*\]\([^\n]*?\)|«[^»]*»|“[^”]*”|"[^"\n]*"|(?:\S*[/\\_#=@]\S*)|\b(?:[a-fA-F0-9]{7,}|SHA\d+|Base\d+|S24|PR\d+|Task\d+|rules\d+|codev\d+|campv\d+)\b')
 
@@ -47,9 +47,9 @@ def transform(text, preserve_tables=False):
 
 
 def self_test():
-    fixture = '# les36caprices\nles36caprices prévision5écrans 48px Version0.36.1 code47\n`441tests` SHA256 Base64 S24 PR3 abc123dead https://a.test/48px docs/48px.png [les36](x.md#48px) « les36caprices » "48px"\n> les36caprices\n```ts\nles36caprices\n```\n'
+    fixture = '# les36caprices\nles36caprices prévision5écrans 48px Version0.36.1 code47 à780×360 portrait375×812 48–192px\n`441tests` SHA256 Base64 S24 PR3 discovery2 confirmation2 interface0361 rules2 codev2 campv7 abc123dead https://a.test/48px docs/48px.png [les36](x.md#48px) « les36caprices » "48px"\n> les36caprices\n```ts\nles36caprices\n```\n'
     result = transform(fixture)
-    assert result == fixture.replace('les36caprices prévision5écrans 48px Version0.36.1 code47', 'les 36 caprices prévision 5 écrans 48 px Version 0.36.1 code 47')
+    assert result == fixture.replace('les36caprices prévision5écrans 48px Version0.36.1 code47 à780×360 portrait375×812 48–192px', 'les 36 caprices prévision 5 écrans 48 px Version 0.36.1 code 47 à 780×360 portrait 375×812 48–192 px')
     assert transform(result) == result
     assert transform('| Le roi123 | 48px |\n', True) == '| Le roi123 | 48px |\n'
     print('Safety fixtures: protected spans, headings, quotes, catalog rows and idempotence PASS')

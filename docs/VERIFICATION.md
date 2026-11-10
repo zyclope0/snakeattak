@@ -71,7 +71,7 @@ La revue indépendante a également exécuté216traversées (3cartes×6variantes
 sans blocage, et sondé les placements autour des neuf rochers.
 
 Les contrôles Chromium HTTP couvrent les commandes et le catalogue sur ordinateur,
-tablettes1000/820px et tactile390px, sans erreur de page. Les scènes contrôlées montrent
+tablettes1000/820px et tactile 390 px, sans erreur de page. Les scènes contrôlées montrent
 les quinze alliés, trois terrains, serpents mécaniques, miel, boss, victoire, placement
 et stockage bloqué. Les captures ont été inspectées. Ce sont des fixtures préparées,
 pas des preuves de victoire humaine.
@@ -145,7 +145,7 @@ Le contrôle WebGL compare désormais trois carrés avant/après perte/restaurat
 terrain caché, fort, antre ; les images sont identiques. Dernière mesure seule
 dans ce cloud : callbacks médians 33,3 ms, p95 33,4 ms ; pas de test sur tablette
 physique ni garantie de FPS. Les essais Chromium HTTP/portable couvrent les
-commandes, tailles ordinateur/tablette émulée et tactile390px sans erreur de page.
+commandes, tailles ordinateur/tablette émulée et tactile 390 px sans erreur de page.
 La commande de fixture est absente du JS de production.
 
 Coût Magnific vérifié : 218 crédits, 17 215 → 16 997. Aucun service de génération
@@ -175,7 +175,7 @@ La fixture tactique montre la feuille ouverte/fermée, le vrai miel collant, un
 bouclier en recharge et le ninja visant un cracheur, avec vrais pas de simulation.
 Les images sont des scènes préparées, pas des victoires humaines. La fixture de
 victoire contrôle le verrouillage du choix de miel ; les commandes navigateur
-vérifient les deux saveurs, pause/utilisation/reset et sélection tactile390px.
+vérifient les deux saveurs, pause/utilisation/reset et sélection tactile 390 px.
 
 Atlas original de 336234 octets, alpha conservé, coût218crédits vérifié16997→16779.
 Treize images de production totalisent7377778octets. Aucun service réseau en partie.

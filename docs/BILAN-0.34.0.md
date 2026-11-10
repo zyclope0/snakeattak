@@ -42,11 +42,11 @@ le bosquet reste ambré. Pas de mécanique météo induite par une illustration.
 - npm run test:browser : ordinateur et tactile verts, zéro erreurJavaScript.
 - npm run test:interface-audit : **24/24**, notamment1280×800,1366×768,780×360.
 - npm run test:audit : **13/13** ; rapport historique restauré, résultat courant séparé.
-- npm run test:child-mobile : **6 formats** ; portrait375×812 avec consigne de rotation.
+- npm run test:child-mobile : **6 formats** ; portrait 375×812 avec consigne de rotation.
 - npm run test:reinforcements-scroll : **5 formats tactiles et ordinateur**.
-- npm run test:offline : **10 contrôles**, schémas1–7, chapitres1–3,25 fichiers
+- npm run test:offline : **10 contrôles**, schémas 1–7, chapitres 1–3,25 fichiers
   servis depuis le paquet, zéro externe/manquant. Ce n’est pas une promesse PWA.
-- Comparaison graphique dédiée : **14 paires** à1280×800 et812×375, y comprisCanvas,
+- Comparaison graphique dédiée : **14 paires** à 1280×800 et 812×375, y comprisCanvas,
   états complets et RNG identiques ; pas14parties simulées.
 - États/chargement : **8 contrôles**, sélection capturée, indisponibilité visible,
   contours Canvas, cache réutilisé/libéré, échec/Réessayer et chapitre retardé.
@@ -107,7 +107,7 @@ restent inchangés. Liste exacte des modules protégés : protected-files.json.
 [Site](https://conquete-serpents-famille.zyclope.chatgpt.site/) en 0.34.0, Sites 19,
 audience publique conservée, déploiement réussi.
 [Reçu](../reports/deployment-0.34.0.json). Navigation en ligne réelle et isolée à
-1280×800,812×375 et375×812 : version, accueil, mission/vague1, quatre favoris,
+1280×800,812×375 et 375×812 : version, accueil, mission/vague1, quatre favoris,
 aide, une pause HTML et rotation, zéro erreurJavaScript. Aucun cadre à l’accueil,
 un seul cadre utile demandé au lancement. Les deux contextes ont exercé crue et
 marais. HTML31 299, JS193 413 et CSS65 442 octets en ligne identiques au build.

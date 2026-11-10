@@ -29,7 +29,7 @@
 **Files:** src/checkpoints.ts, src/departures.ts, tests/caprices-persistence-036.test.ts.
 **Interfaces:** encodeCheckpoint/decodeCheckpoint inchangées ; encodeDeparture/decodeDeparture inchangées, code 3 caprice en plus. Aucun champ de profil dans le code.
 
-- [x] Tests rouges : les36MissionRun complets, nouveau checkpoint 8 avec choix0/1/2, rejet doublons/inconnus/héros/limites ; ne pas inférer les choix des anciens camps6/7 à caprice depuis les survivants ; ancienne lecture1–7 et codes1/2 inchangés.
+- [x] Tests rouges : les36MissionRun complets, nouveau checkpoint 8 avec choix0/1/2, rejet doublons/inconnus/héros/limites ; ne pas inférer les choix des anciens camps6/7 à caprice depuis les survivants ; ancienne lecture 1–7 et codes1/2 inchangés.
 - [x] Implémenter checkpoint 8 et restauration par chooseCapriceKinds, code 3 suffixé et checksum complet ; aucun changement moteur.
 - [x] Tests ciblés, suite globale, types/build ; commit et revue du périmètre.
 

@@ -19,11 +19,11 @@ Les règles et la validation sont dans src/rewards.ts. Game applique les effets 
 
 ## Protocole de comparaison
 
-**768 campagnes complètes** : six politiques × huit profils × seize graines nouvelles, distinctes des 64 graines utilisées en 0.16. Les valeurs des bonus ont été fixées avant cette série ; aucune sélection ni retouche à partir de ses résultats. Simulation du vrai moteur à30pas/s, prix et budgets normaux. Les seuls cadeaux sont ceux que le joueur peut réellement choisir. Trois workers au maximum. Toutes les défaites, erreurs et limites de temps sont conservées ; limite240s par vague.
+**768 campagnes complètes** : six politiques × huit profils × seize graines nouvelles, distinctes des 64 graines utilisées en 0.16. Les valeurs des bonus ont été fixées avant cette série ; aucune sélection ni retouche à partir de ses résultats. Simulation du vrai moteur à30pas/s, prix et budgets normaux. Les seuls cadeaux sont ceux que le joueur peut réellement choisir. Trois workers au maximum. Toutes les défaites, erreurs et limites de temps sont conservées ; limite 240 s par vague.
 
-La référence renonce explicitement aux deux offres par Game.skipReward. Les autres bots privilégient le renfort, le miel, la protection, les pièces ou choisissent selon le camp. Si leur préférence n’est pas offerte, ils prennent le renfort disponible. Les bons sont placés via Game.recruit, avec coût0 enregistré. La composition du profil peut donc recevoir cet allié supplémentaire. Les politiques de miel du bot restent celles de 0.16, y compris les scénarios sans utilisation ; un bonus de miel peut être peu utile dans ces scénarios.
+La référence renonce explicitement aux deux offres par Game.skipReward. Les autres bots privilégient le renfort, le miel, la protection, les pièces ou choisissent selon le camp. Si leur préférence n’est pas offerte, ils prennent le renfort disponible. Les bons sont placés via Game.recruit, avec coût 0 enregistré. La composition du profil peut donc recevoir cet allié supplémentaire. Les politiques de miel du bot restent celles de 0.16, y compris les scénarios sans utilisation ; un bonus de miel peut être peu utile dans ces scénarios.
 
-Le contrôle sans bonus a aussi été comparé directement au snapshot0.16, graine42 pour trois profils (mixte, mutants, distance) : mêmes actions, vagues, santé, ressources, morts, kills et durées. Les nouvelles métadonnées de choix sont naturellement distinctes. Ce contrôle ciblé ne prétend pas prouver l’équivalence sur toute graine.
+Le contrôle sans bonus a aussi été comparé directement au snapshot0.16, graine 42 pour trois profils (mixte, mutants, distance) : mêmes actions, vagues, santé, ressources, morts, kills et durées. Les nouvelles métadonnées de choix sont naturellement distinctes. Ce contrôle ciblé ne prétend pas prouver l’équivalence sur toute graine.
 
 ## Résultats
 

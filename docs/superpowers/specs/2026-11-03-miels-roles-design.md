@@ -7,12 +7,12 @@ vagues, sauvegardes et architecture sans service de jeu. Autonomie maintenue.
 
 Choix de réalisation : étendre les modules existants plutôt qu'ajouter une couche
 de commandes manuelles. Un pot gratuit par vague, 14 s, défaut attirer compatible.
-Le miel collant n'attire pas ; zone visible suivant la route x660..852, largeur68,
+Le miel collant n'attire pas ; zone visible suivant la route x660..852, largeur 68,
 vitesse ×0,55 (roi ×0,75). Ni cumul ni arrêt complet ; pause et fin de vague retirent
 normalement les effets. Les décisions de voies restent celles sans miel attirant.
 
 Un bouclier vivant dans les 72 px d'un voisin réduit60% d'un tir de cracheur destiné
-à ce voisin, recharge3s ; jamais sur lui-même, un seul protecteur par tir. Pas de
+à ce voisin, recharge 3 s ; jamais sur lui-même, un seul protecteur par tir. Pas de
 résurrection ou de palissade immortelle. Le ninja donne une priorité modérée aux
 cracheurs dans les 280 px, en conservant l'urgence cristal et la répartition des cibles.
 

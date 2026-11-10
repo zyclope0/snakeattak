@@ -318,8 +318,8 @@ réserves de vie des têtes. Le rendu lit les états, sans horloge de combat pro
 Le campv6 garde stocks/phase/délai médical ; les formats 1–5 migrent sans soin de
 vie gratuit. L'enveloppe familialev2reste compatible avec ces nouveaux camps.
 Les témoins historiques utilisent un réglage interne tacticalRulesEnabled=false,
-non présenté comme une option aux joueurs. Les mesures0.22 utilisent le vrai
-moteur0.21 archivé plutôt que ce seul commutateur. Aucun backend réseau ajouté.
+non présenté comme une option aux joueurs. Les mesures 0.22 utilisent le vrai
+moteur 0.21 archivé plutôt que ce seul commutateur. Aucun backend réseau ajouté.
 
 ## Rendu 0.24
 

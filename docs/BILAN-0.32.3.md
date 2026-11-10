@@ -128,8 +128,8 @@ leur GO respectif. **STOP après cette étape 2.**
 ## Publication demandée après la livraison — 8 novembre 2026
 
 Le parent demande explicitement « met a jours le site ». Publication de la
-0.32.3 sur l'adresse existante, avec les correctifs0.32.2 et les textes0.32.3.
-Audience publique et identifiant Sites conservés, aucune étape 3 ou4 commencée.
+0.32.3 sur l'adresse existante, avec les correctifs0.32.2 et les textes 0.32.3.
+Audience publique et identifiant Sites conservés, aucune étape 3 ou 4 commencée.
 
 - Source applicative vérifiée : 2d47c3d62af16e0c406b77c08a1d7685147481c9.
 - Commit du site statique poussé : 57ff7ce6293302f14edd29912cb30c63f5452ace.
@@ -138,9 +138,9 @@ Audience publique et identifiant Sites conservés, aucune étape 3 ou4 commencé
 - Version Sites 16, déploiement confirmé réussi sur
   https://conquete-serpents-famille.zyclope.chatgpt.site.
 - Chromium sur le vrai site : HTTP200, version visiblev0.32.3, mission lancée,
-  quatre favoris, canvas1065,95×600,81 à1280×800 et zéro erreur JavaScript.
+  quatre favoris, canvas 1065,95×600,81 à 1280×800 et zéro erreur JavaScript.
   [Recette en ligne](../reports/live-verification-0.32.3.json).
-- Le paquet publié correspond aux27fichiers web du build déjà testé, avec le
+- Le paquet publié correspond aux 27 fichiers web du build déjà testé, avec le
   manifeste d'hébergement ; aucun code applicatif modifié lors de la publication.
 
 [Reçu complet](../reports/deployment-0.32.3.json). La mention « pas de publication »

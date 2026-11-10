@@ -23,7 +23,7 @@ JavaScript de glissement, changement de moteur, prix, RNG ou sauvegardes.
 Régression RED sur la 0.32.0, puis GREEN : cinq configurations paysage/marges,
 balayages sur cartes disponibles et verrouillées, montée et descente, absence
 de sélection/achat/fermeture involontaire, sélection préalable conservée,
-sélection par tap encore fonctionnelle et grand écran1280×800.
+sélection par tap encore fonctionnelle et grand écran 1280×800.
 Le programme prépare parfois un cas en remettant le panneau en haut ; tous les
 contrôles de glissement utilisent ensuite de vrais gestes natifs Chromium.
 Ce n'est pas un test physique du S24 ni de ses gestes système.

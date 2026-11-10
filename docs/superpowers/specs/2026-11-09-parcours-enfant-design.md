@@ -73,6 +73,6 @@ et sauvegardes ; Android/performance ; UX/accessibilité) et trois cibles simul�
 objections, arbitrage et limites, jamais un faux essai humain.
 
 Build et suite native, navigateur et audit13/13 ; plateau≥85% hauteur et≥65%
-largeur en812×375, trois voies visibles et pause unique. Recettes contextuelles
-sur1280×800,1366×768,780×360 tactile et portrait375×812. Anciens camps/codes
+largeur en 812×375, trois voies visibles et pause unique. Recettes contextuelles
+sur 1280×800,1366×768,780×360 tactile et portrait 375×812. Anciens camps/codes
 chargés, même déroulement moteur puisque ses fichiers restent inchangés.

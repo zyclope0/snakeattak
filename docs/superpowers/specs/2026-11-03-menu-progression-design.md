@@ -25,7 +25,7 @@ chapterMin:[number,number,number],chapterStars:[number,number,number]} ; freshCa
 readCampaign(raw:unknown,wave:number):CampaignState|null, chapterIndex(wave),
 chapterStars(minBase) renvoie1/2/3 pour <60/60..89/90..100. Legacy1/2/3 : créditer
 1étoile par chapitre déjà terminé, min du chapitre actuel initialisé à base.
-Game.campaign readonlystate ; Game.trainHero(path:'force'|'guard'):boolean, coût90,
+Game.campaign readonlystate ; Game.trainHero(path:'force'|'guard'):boolean, coût 90,
 uniquement preparing, nonpaused, aprèswave4, héros vivant et aucun entraînement.
 force = dégâts héros×1.15 ; guard = dégâts ordinaires/tirs reçus par héros×0.85 ;
 jamais modifier les réactions exactes de mort2/3. Choix fixé jusqu'à nouvellepartie.

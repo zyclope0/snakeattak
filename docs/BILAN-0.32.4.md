@@ -34,7 +34,7 @@ Les terrains crue et marais restent hors du runtime et hors de cette étape.
 
 L'outil facultatif scripts/export-android-icon.py est séparé du jeu. OpenCV4.12,
 NumPy2.2.6 et Pillow12.3 servent uniquement à l'export local ; ils ne sont pas des
-dépendances de l'APK, du moteur ou du build web. Les masques et la graine324 sont
+dépendances de l'APK, du moteur ou du build web. Les masques et la graine 324 sont
 fixes ; une deuxième exécution reproduit les 20 PNG de ressources octet pour octet.
 [Preuve de réexport](../reports/suivi-0.32.4/reexport.json).
 

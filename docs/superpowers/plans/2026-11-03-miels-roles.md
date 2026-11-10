@@ -10,7 +10,7 @@ game.ts pour les événements, acteurs/présentation pour les animations ; UI s�
 
 ## Global Constraints
 
-Un pot gratuit par vague, durée14s, pas de commandes de troupes ; garder douze vagues,
+Un pot gratuit par vague, durée 14 s, pas de commandes de troupes ; garder douze vagues,
 la santé/or réels en simulation, la compatibilité des camps et un coût assets≤218crédits.
 
 ## Review Focus

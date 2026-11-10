@@ -133,8 +133,8 @@ anglaise**. Les menus et les explications autour sont traduits en anglais.
 La voix est facultative, sur action explicite et seulement si une voix française
 locale est disponible ; aucune génération ou service payant.
 
-Formats actuels : checkpoint 8 (lecture1–7 conservée), code 3 (lecture1/2 sans
-caprice conservée), enveloppe familiale 4 (lecture1–3 conservée). Les carnets
+Formats actuels : checkpoint 8 (lecture 1–7 conservée), code 3 (lecture1/2 sans
+caprice conservée), enveloppe familiale 4 (lecture 1–3 conservée). Les carnets
 acceptent1–8enfants et des noms de 24 caractères au plus, avec36cases chacun.
 Le carnet actif n’est pas un profil de campagne : étoiles et progression restent
 partagées. Une expédition conserve son propriétaire lors d’un changement de

@@ -22,16 +22,16 @@ réduction des cibles tactiles ni masquage du débordement.
 
 ## Constats, état et preuve
 
-| Constat                                        | État                                                                               | Preuve                                                                                       |
-| ---------------------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Outils difficiles à comprendre                 | Aide et conseils livrés ; compréhension familiale à observer                       | Bilan A, recette camp-tools quatre formats                                                   |
-| Progression trop textuelle                     | Parcours des six missions livré ; verrous, étoiles et reprise inchangés            | Bilan B, 16 cas navigateur et 4 096 profils exhaustifs                                       |
-| Ressources fournies insuffisamment exploitées  | Icône réutilisée au lanceur, accueil et favicon ; fonds HD conservés, non intégrés | PNG512 identique à la source, bilan B et inventaire du plan                                  |
-| Racines de recette cachées                     | Corrigé dans les compositions de test                                              | Sept racines visibles, canvas non nul ; interruptions 11 contrôles                           |
-| Petit portrait : commandes et titre débordants | Corrigé après reproduction sur production                                          | Recette tactical 12 combinaisons, mesures avant/après dans summary.json                      |
-| Sauvegardes, codes et règles préservés         | Aucun changement de leurs modules ; compatibilité automatisée verte                | Schémas1–7 et chapitres1–3, test hors ligne ; diff des fichiers protégés vide depuis f2a6c00 |
-| APK normal à tester                            | Assemblé et inspecté ; test physique pas fait                                      | apk.json et apk-inspection.txt                                                               |
-| Site synchronisé                               | Fait : Sites 18, recette en ligne trois formats verte                              | reports/deployment-0.33.1.json                                                               |
+| Constat                                        | État                                                                               | Preuve                                                                                        |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Outils difficiles à comprendre                 | Aide et conseils livrés ; compréhension familiale à observer                       | Bilan A, recette camp-tools quatre formats                                                    |
+| Progression trop textuelle                     | Parcours des six missions livré ; verrous, étoiles et reprise inchangés            | Bilan B, 16 cas navigateur et 4 096 profils exhaustifs                                        |
+| Ressources fournies insuffisamment exploitées  | Icône réutilisée au lanceur, accueil et favicon ; fonds HD conservés, non intégrés | PNG512 identique à la source, bilan B et inventaire du plan                                   |
+| Racines de recette cachées                     | Corrigé dans les compositions de test                                              | Sept racines visibles, canvas non nul ; interruptions 11 contrôles                            |
+| Petit portrait : commandes et titre débordants | Corrigé après reproduction sur production                                          | Recette tactical 12 combinaisons, mesures avant/après dans summary.json                       |
+| Sauvegardes, codes et règles préservés         | Aucun changement de leurs modules ; compatibilité automatisée verte                | Schémas1–7 et chapitres 1–3, test hors ligne ; diff des fichiers protégés vide depuis f2a6c00 |
+| APK normal à tester                            | Assemblé et inspecté ; test physique pas fait                                      | apk.json et apk-inspection.txt                                                                |
+| Site synchronisé                               | Fait : Sites 18, recette en ligne trois formats verte                              | reports/deployment-0.33.1.json                                                                |
 
 ## Vérification
 
@@ -76,10 +76,10 @@ modifiés. Les langues, lieux, campagne et choix commerciaux restent distincts.
 ## Publication et clôture
 
 Site existant publié en 0.33.1, version Sites 18, audience publique conservée.
-[Reçu complet](../reports/deployment-0.33.1.json). Contrôle en ligne à1280×800,
-812×375 tactile et375×812 tactile : zéro erreur JavaScript. Mission, vague 1,
+[Reçu complet](../reports/deployment-0.33.1.json). Contrôle en ligne à 1280×800,
+812×375 tactile et 375×812 tactile : zéro erreur JavaScript. Mission, vague 1,
 quatre favoris, aide et pause HTML vérifiées ; portrait avec consigne de rotation.
-Plateau812×375 :580,13×326,98px, soit 87,20% de la hauteur et 71,44% de la largeur.
+Plateau812×375 :580,13×326,98 px, soit 87,20% de la hauteur et 71,44% de la largeur.
 HTML, JS jeu et CSS en ligne identiques octet par octet au build validé.
 
 Un premier contrôle réseau Node a été indisponible ; la lecture CDP du texte CSS

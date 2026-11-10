@@ -28,7 +28,7 @@ cobra2/mamba3, pas de résurrection, classique et six missions conservés.
 
 ### Task 2 — Volants
 
-- [x] RED sur rang6, maximum par vague, cible et contre.
+- [x] RED sur rang 6, maximum par vague, cible et contre.
 - [x] Catalogue, sélection déterministe, comportement et signaux visibles.
 - [x] Vérifier trois voies, missions et mouvements réduits ; conseil.
 

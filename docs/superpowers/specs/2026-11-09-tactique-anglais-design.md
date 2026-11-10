@@ -64,7 +64,7 @@ récompense, reprise ou temps de combat déclenché par la langue. Stockage bloq
 et langue inconnue : repli lisible sans plantage. Tous les libellés anglais
 inspectés dans les principaux états, y compris gardes/boss via fixtures.
 
-Captures FR/EN1280×800,1366×768,812×375,780×360,568×320 et375×812 tactile.
+Captures FR/EN1280×800,1366×768,812×375,780×360,568×320 et 375×812 tactile.
 Portée réelle et cases ouvertes, stocks restants et étoiles réellement gagnées
 testés. Soucoupe unique, hors voies/commandes, absente des missions. Budgets
 HTML32KiB et chaque JS200000octets conservés ; tailles cumulées documentées.

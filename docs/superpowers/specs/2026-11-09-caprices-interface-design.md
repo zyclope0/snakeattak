@@ -105,7 +105,7 @@ code/sauvegarde est nécessaire pour éviter la perte silencieuse de contexte.
 
 Baseline :473 tests et format verts. Tests ciblés rouge→vert pour sauvegarde,
 codes, carnets, restrictions et UI. Recettes production1280×800,1366×768,
-812×375,780×360,568×320 avec marges ; portrait375×812 garde sa consigne.
+812×375,780×360,568×320 avec marges ; portrait 375×812 garde sa consigne.
 Anciennes sauvegardes/codes, deux langues, clavier/tactile, stockage refusé,
 imports malformés, résultat/reprise/owner et absence de changement de Game.
 Les états installés pour QA ne seront pas présentés comme des parties enfants.

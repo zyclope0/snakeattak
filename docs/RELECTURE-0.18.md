@@ -37,7 +37,7 @@ succès vert ; l'échec initial reste tracé dans previousFailedChecks du rappor
   rendu/restaurationWebGL.
 - 640 campagnes, zéroerreur/timeout et empreintes inchangées. Aucune retouche des
   paramètres à partir du lot. Les anciens résultats et snapshots sont conservés.
-- Le contrôle sans nouveaux pouvoirs reproduit0.17 sur trois profils à graine42,
+- Le contrôle sans nouveaux pouvoirs reproduit0.17 sur trois profils à graine 42,
   avec actions, économie, santé, vagues et temps de combat identiques.
 
 La relecture ne remplace pas les essais des enfants. Appareils physiques, plaisir

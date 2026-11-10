@@ -9,7 +9,7 @@ sur 0.35.0 ; aucune fusion ou publication dans cette livraison.
 | -------------- | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | 1. Préparation | Fait : deux rangées, étoiles, annonce et règles, relance du même caprice                                                   | [Recette](../reports/suivi-0.36.0/caprices.json), captures FR/EN      |
 | 2. Copains     | Fait : choix vide/partiel/complet facultatif, conseil cohérent et vrais recrutements permis ; massues initiales conservées | 8 tests de lecture, régression R1 FR/EN, recette native               |
-| 3. Sauvegarde  | Fait : checkpoint 8 conserve caprice et choix ; lecture1–7 conservée                                                       | Tests et reprise hors ligne explicite                                 |
+| 3. Sauvegarde  | Fait : checkpoint 8 conserve caprice et choix ; lecture 1–7 conservée                                                      | Tests et reprise hors ligne explicite                                 |
 | 4. Carnets     | Fait : 36cases par enfant, autocollant idempotent ; propriétaire du départ retenu au réessai/rechargement                  | Une victoire native attribuée à A alors que B est actif ; enveloppe 4 |
 | 5. Codes       | Fait : code 3 avec caprice, portes mission/caprice ; anciens codes1/2 sans caprice                                         | Recettes caprices, départs, tests et lancement hors ligne             |
 | 6. Langues     | Fait selon dernière instruction : noms ET annonces exactement français en FR/EN, contexte traduit                          | Inventaire et captures FR/EN ; voix locale facultative                |
@@ -48,7 +48,7 @@ Les vues couvrent1280×800,1366×768,812×375,780×360,568×320 avec marges et
 scroll sont mesurés à 48 px. Les vues de réserve, carapaces et résultats forcés
 sont explicitement contrôlées. Le parcours natif utilise une progression
 familiale contrôlée, puis de vraies commandes et le vrai moteur pendant trois
-vagues de Refuge, graine42, trio initial : victoire à 73% de cristal et 2 étoiles.
+vagues de Refuge, graine 42, trio initial : victoire à 73% de cristal et 2 étoiles.
 Ce n’est ni une séance enfant ni une
 validation physique Android. Le contrôle hors ligne dédié reprend explicitement
 le checkpoint 8 et le propriétaire A avec carnet B actif, puis lance un code 3 ;
@@ -61,7 +61,7 @@ comparées à `c886b82` dans
 [source-freeze.json](../reports/suivi-0.36.0/source-freeze.json).
 Aucun nouvel échantillon d’équilibrage n’est annoncé ; les 3888 parties du document
 historique restent leurs mesures antérieures. Le HTML normal reste 31 771 octets,
-bootstrap139 204, règles81 921, anglais70 957 et Phaser 1 481 792 octets ; les
+bootstrap139 204, règles 81 921, anglais70 957 et Phaser 1 481 792 octets ; les
 plafonds sont respectés. Les ressources restent séparées dans le build normal.
 
 Coquille et autocollants sont des dessins originaux procéduraux/SVG dans le code
@@ -101,6 +101,6 @@ Empreinte SHA256 du dernier APK : `c6909b41534b3f576cf59cc8bff55b32e801e8180a802
 2. Le parent a choisi des carnets séparés avec campagne familiale partagée. Une campagne entièrement indépendante par enfant demanderait un autre lot.
 3. Noms ET annonces restent exactement français dans l'anglais, conformément à la consigne directe qui prime sur le point 6 historique ; ces passages français sont donc volontaires.
 4. STOP privé : branche de revue, pas de fusion ni publication du site ; le site reste en 0.35.0.
-5. Pour les anciens camps à caprice6/7, les choix non enregistrés restent vides : aucune déduction depuis les unités vivantes ou mortes. Un choix historique absent du fichier ne peut pas être récupéré ; le schéma8 le conserve explicitement.
+5. Pour les anciens camps à caprice6/7, les choix non enregistrés restent vides : aucune déduction depuis les unités vivantes ou mortes. Un choix historique absent du fichier ne peut pas être récupéré ; le schéma 8 le conserve explicitement.
 6. Les aides du workflow disponibles comme ressources cloud ont été remplacées par des briefs, paquets de revue et registre locaux équivalents, archivés ; la différence porte sur l'orchestration, pas le jeu.
 7. Une hypothèse initiale d'exclusion des étoiles de caprice a été corrigée avant livraison : les étoiles familiales conservent exactement la progression existante, y compris les victoires en caprice. Seuls les autocollants sont individuels.

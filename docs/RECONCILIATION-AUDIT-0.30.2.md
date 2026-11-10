@@ -261,7 +261,7 @@ preuves 0.30.2 existaient à leur date.
    des décisions de disponibilité des pouvoirs, Facile ou bonus économiques.
 2. **Retester la dernière APK sur le S24 en parallèle.** Recruter et placer,
    verrouiller/revenir, changer d'application, hors ligne et reprise du camp ;
-   relever mission 6 et classique12. Ces mesures ne bloquent pas l'analyse des
+   relever mission 6 et classique 12. Ces mesures ne bloquent pas l'analyse des
    autres travaux, mais sont nécessaires pour déclarer le lot 4 terminé.
 3. **Raccorder la campagne aux moments forts du fils.** Cadrer l'extension au-delà
    des six missions jusqu'au Tank et au roi, avec variantes de situations et

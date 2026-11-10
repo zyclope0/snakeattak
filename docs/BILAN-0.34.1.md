@@ -4,15 +4,15 @@
 place. Le correctif vise leur densité en petit paysage ; l’accueil et ses reprises
 ne changent pas. [Conseil six personas](CONSEIL-0.34.1.md).
 
-| Constat                                         | État                                                                                           | Preuve                                                                       |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| Portrait et contrôles empilés avant les données | Corrigé : en-tête compact, portrait 48 px, choix/description à gauche et statistiques à droite | Mesures avant/après, captures812                                             |
-| Massue trop haute sur S24 simulé                | 319→259 px, environ 19% de hauteur en moins ;8 statistiques visibles contre 0                  | guide-before.json/guide-after.json, marges24/32                              |
-| Descriptions longues                            | Médecin282px,8statistiques visibles ; quatre unités testées à quatre formats                   | 16 cas de la recette dédiée                                                  |
-| Fermeture pendant défilement                    | X fixe48px, corps indépendant ; sélecteur48px                                                  | Vrai geste tactile Chromium à 568, page immobile                             |
-| Défilement clavier du nouveau corps             | Corrigé après conseil et reproduction rouge                                                    | Tab/PageDown, unité sélectionnée inchangée ; focus visible et région nommée  |
-| Ordinateur                                      | Dimensions des4fiches à 1280 inchangées                                                        | Comparaison avant/après                                                      |
-| Validation sur S24 de cette nouvelle version    | Pas faite                                                                                      | Prochain essai physique ; ne pas confondre avec les captures0.34.0 du parent |
+| Constat                                         | État                                                                                           | Preuve                                                                        |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Portrait et contrôles empilés avant les données | Corrigé : en-tête compact, portrait 48 px, choix/description à gauche et statistiques à droite | Mesures avant/après, captures 812                                             |
+| Massue trop haute sur S24 simulé                | 319→259 px, environ 19% de hauteur en moins ;8 statistiques visibles contre 0                  | guide-before.json/guide-after.json, marges24/32                               |
+| Descriptions longues                            | Médecin282px,8statistiques visibles ; quatre unités testées à quatre formats                   | 16 cas de la recette dédiée                                                   |
+| Fermeture pendant défilement                    | X fixe48px, corps indépendant ; sélecteur48px                                                  | Vrai geste tactile Chromium à 568, page immobile                              |
+| Défilement clavier du nouveau corps             | Corrigé après conseil et reproduction rouge                                                    | Tab/PageDown, unité sélectionnée inchangée ; focus visible et région nommée   |
+| Ordinateur                                      | Dimensions des4fiches à 1280 inchangées                                                        | Comparaison avant/après                                                       |
+| Validation sur S24 de cette nouvelle version    | Pas faite                                                                                      | Prochain essai physique ; ne pas confondre avec les captures 0.34.0 du parent |
 
 [Avant](captures-0.34.1/fiche-before-812-club.png),
 [après](captures-0.34.1/fiche-after-812-club.png),
@@ -29,7 +29,7 @@ restent accessibles, avec fermeture fixe. Le compromis ne masque aucun champ.
 npm run verify :441/441, types/format/build/budgets verts. Recette dédiée :16 cas
 (4 unités ×812×375,780×360,568×320,1280×800), plus 6 contrôles de clavier/tactile/focus.
 Échec vu avant correction de compacité puis avant correction clavier ; recettes
-vertes après. Échap ferme et rend le focus à Fiches aux4formats. Résultats généraux
+vertes après. Échap ferme et rend le focus à Fiches aux 4 formats. Résultats généraux
 navigateur, enfant, interface et audit dans reports/suivi-0.34.1.
 
 Les changements sont index.html (structure de la fiche), src/ui/unitGuide.css,
@@ -38,7 +38,7 @@ Les calculs des données, règles, RNG, sauvegardes, codes et contrôleurs de pa
 restent inchangés. Aucun SDK, image, asset ou service supplémentaire.
 
 Mineurs encore ouverts : indice de défilement à très petite largeur, place du
-pied secondaire, reconnaissance des portraits48px, lecture12–13 px. Grossissement
+pied secondaire, reconnaissance des portraits48px, lecture 12–13 px. Grossissement
 système, lecteur d’écran, rotation avec fiche ouverte et usage physique du nouvel
 APK non certifiés par les captures. Aucune nouvelle réduction de texte choisie.
 
@@ -61,7 +61,7 @@ normal sans diagnostic, paysage capteur, pas de permission INTERNET/BILLING/AD_I
 
 Site0.34.1/Sites20 publié, audience publique conservée.
 [Reçu](../reports/deployment-0.34.1.json) : HTTP200, ficheMassue259px et 8 statistiques
-visibles à 812 avec marges simulées, même fiche ordinateur560×615px, Échap et
+visibles à 812 avec marges simulées, même fiche ordinateur 560×615 px, Échap et
 rotation portrait après fermeture corrects ; zéro erreurJavaScript. Les trois
 fichiers HTML/JS/CSS en ligne sont identiques au build. Capture du site :
 [fiche812](captures-0.34.1/site-fiche-812.png). Cette vérification en ligne ne
