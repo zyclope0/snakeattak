@@ -117,21 +117,21 @@ Les nouvelles vues n'écrivent aucune règle. Assets actuels, devis payant sépa
 - Produces: version 0.37.0/code 49 ; preuves externes et index compact ; conseil
   simulé pour chacun des trois lots. Pas de nouveau visuel payé.
 
-- [ ] Ajouter assertions intégrées de géométrie/toucher/focus pour 1280×800,
+- [x] Ajouter assertions intégrées de géométrie/toucher/focus pour 1280×800,
       812×375, 780×360 safe areas, 568×320 et portrait ; aucune sortie coupée.
-- [ ] Harmoniser matières CSS papier/crème/vert/ocre, relief discret, états
+- [x] Harmoniser matières CSS papier/crème/vert/ocre, relief discret, états
       sélection/désactivé/focus ; textes nets, mouvement réduit, pas de lourds
       filtres. Relire les captures réelles et corriger chevauchements.
-- [ ] Adapter recettes historiques obsolètes au nouveau chemin sans enlever
+- [x] Adapter recettes historiques obsolètes au nouveau chemin sans enlever
       leurs objectifs (sauvegarde, reprise, critères tactiles et traductions).
-- [ ] Passer version/code ensemble ; vérifier verify, browser, audit,
+- [x] Passer version/code ensemble ; vérifier verify, browser, audit,
       child-mobile, locale, caprices, family, mission-journey et mobile-menus.
       Préserver les anciens rapports : copier les nouveaux hors Git avant de
       restaurer les outputs historiques suivis, consigner commandes/nombres.
-- [ ] Construire APK debug, vérifier identité/certificat/manifest et égalité
+- [x] Construire APK debug, vérifier identité/certificat/manifest et égalité
       assets web ; préparer portable et preuves hors ligne locales selon outils
       existants. Pas d'affirmation physique S24.
-- [ ] Écrire bilan, conseils simulés, mesures avant/après et limites, reçu compact.
+- [x] Écrire bilan, conseils simulés, mesures avant/après et limites, reçu compact.
       Contrôle que tous les fichiers moteur/persistance sont identiques au BASE.
-- [ ] Commit et rapport de lot ; revue globale ensuite par le coordinateur,
+- [x] Commit et rapport de lot ; revue globale ensuite par le coordinateur,
       puis push/fusion/publication autorisés uniquement après qualité verte.
