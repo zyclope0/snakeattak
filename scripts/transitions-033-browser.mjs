@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -42,6 +43,7 @@ try {
         };
       });
     await page.goto(origin);
+    await showHomePage(page, 'missions');
     await page.locator('#home-play').click();
     await page.locator('#mission-launch').click();
     await page.waitForFunction(
@@ -63,6 +65,7 @@ try {
     await page.locator('#menu-home').click();
     assert.equal(await page.locator('#app').evaluate((el) => el.hidden), true);
     assert.equal(await page.locator('#home-screen').isVisible(), true);
+    await showHomePage(page, 'missions');
     await page.locator('#mission-continue').click();
     assert.equal(await page.locator('#app').evaluate((el) => el.hidden), false);
     assert.equal(await page.locator('#home-screen').isVisible(), false);

@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -43,10 +44,12 @@ try {
     await page.locator('#home-screen').waitFor({ state: 'visible' });
     await page.screenshot({ path: `artifacts/lisibilite-029/${phase}-home-${width}.png` });
     if (before) {
+      await showHomePage(page, 'home');
       await page.locator('#home-expeditions').click();
       await page.locator('[data-mission-card="refuge"]').click();
     } else {
       assert.ok(await page.locator('#home-play').isVisible(), 'Jouer primary visible');
+      await showHomePage(page, 'missions');
       await page.locator('#home-play').click();
     }
     await page.locator('#mission-dialog').waitFor({ state: 'visible' });
@@ -97,12 +100,14 @@ try {
         await page.locator('#mission-continue').isVisible(),
         'Mission resume visible directly on home',
       );
+      await showHomePage(page, 'missions');
       await page.locator('#home-play').click();
       assert.ok(
         await page.locator('#mission-replacement-note').isVisible(),
         'Replacement warning outside parent disclosure',
       );
       await page.locator('#mission-close').click();
+      await showHomePage(page, 'missions');
       await page.locator('#mission-continue').click();
       assert.equal(
         await page.locator('#gold').textContent(),
@@ -122,6 +127,7 @@ try {
         localStorage.setItem(key, JSON.stringify(f));
       });
       await page.reload();
+      await showHomePage(page, 'missions');
       await page.locator('#home-play').click();
       assert.equal(
         await page.locator('#mission-title').textContent(),

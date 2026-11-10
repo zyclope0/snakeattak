@@ -236,6 +236,13 @@ refreshPrimary = () => {
   const classicResume = !document.getElementById('home-continue')!.hidden;
   const resume = missions.state.activeMode === 'missions' ? missionResume : classicResume;
   setDisplayText(primary, resume ? 'Reprendre' : 'Jouer');
+  if (resume)
+    setDisplayText(
+      document.getElementById('home-next-mission')!,
+      missions.state.activeMode === 'missions'
+        ? 'Reprendre ma mission'
+        : 'Reprendre mon aventure classique',
+    );
   primary.onclick = () => {
     if (resume) {
       if (missions.state.activeMode === 'missions') expeditions!.resume();

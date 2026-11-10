@@ -1,3 +1,4 @@
+import { showHomePage } from './browser-entry.mjs';
 import { revealControl } from './reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
@@ -88,6 +89,7 @@ try {
     'Un nouveau détachement, pas les achats précédents',
   );
   await page.locator('#menu-home').click();
+  await showHomePage(page, 'classic');
   await page.locator('#home-new').click();
   if (await page.locator('#journey-confirm').isVisible())
     await page.locator('#journey-replace').click();
@@ -101,18 +103,23 @@ try {
   );
   assert.equal(await page.locator('#gold').innerText(), '150');
   await page.locator('#menu-home').click();
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   assert.equal(await page.locator('#gold').innerText(), '450');
   await page.locator('#menu-home').click();
+  await showHomePage(page, 'classic');
   await page.locator('#home-continue').click();
   assert.equal(await page.locator('#gold').innerText(), '150', 'Camp classique préservé');
   await page.locator('#menu-home').click();
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   await page.reload();
   await page.locator('#home-screen').waitFor({ state: 'visible' });
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   assert.equal(await page.locator('#gold').innerText(), '450');
   await page.locator('#menu-home').click();
+  await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
   const downloadEvent = page.waitForEvent('download');
   await page.locator('#family-export').click();
@@ -132,6 +139,7 @@ try {
   const raw = writeFamilyBackup(encodeCheckpoint(game), createCareer().state, progress.state);
   assert.ok(raw);
   await inject(page, raw);
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   await page.locator('#speed').click();
   await page.locator('#start').click();

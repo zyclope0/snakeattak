@@ -1,3 +1,4 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
 // Audit 2026-11 : mesures d'interface reprises de l'audit du 7 novembre 2026.
 // Usage : npm run build && node scripts/audit-2026-11-browser.mjs [--strict]
 // Sans --strict : écrit le rapport et liste les écarts. Avec --strict : code de sortie 1 au premier écart.
@@ -189,6 +190,7 @@ try {
     const lands = [];
     for (let i = 0; i < 10; i++) {
       lands.push((await page.locator('#mission-land').innerText()).trim());
+      await revealControl(page, '#mission-reroll');
       await page.locator('#mission-reroll').click();
       await page.waitForTimeout(60);
     }

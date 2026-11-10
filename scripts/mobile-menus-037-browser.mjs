@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import { checkCatalogue } from './mobile-catalogue-037-checks.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
@@ -128,6 +129,34 @@ async function reachable(p, selector) {
   );
   check(box.width >= 48 && box.height >= 48, selector + ' 48px target');
 }
+async function portrait(p, dialog, name) {
+  const focus = await p.evaluate(() => document.activeElement?.id);
+  await p.setViewportSize({ width: 375, height: 812 });
+  await p.waitForTimeout(80);
+  check(await p.locator('#orientation-notice').isVisible(), name + ' portrait guidance visible');
+  check(
+    await p.evaluate(() => {
+      const notice = document.querySelector('#orientation-notice');
+      return [
+        [20, 20],
+        [187, 406],
+        [350, 780],
+      ].every(([x, y]) => {
+        const hit = document.elementFromPoint(x, y);
+        return hit === notice || notice.contains(hit);
+      });
+    }),
+    name + ' portrait guidance actually topmost at corners and centre',
+  );
+  await capture(p, 'portrait-' + name);
+  check(await p.locator(dialog).evaluate((d) => d.open), name + ' stays open during rotation');
+  await p.setViewportSize({ width: 780, height: 360 });
+  check(await p.locator(dialog).isVisible(), name + ' restored after rotation');
+  check(
+    (await p.evaluate(() => document.activeElement?.id)) === focus,
+    name + ' retains modal focus across rotation',
+  );
+}
 async function saved(p) {
   return p.evaluate((key) => JSON.parse(localStorage.getItem(key)), key);
 }
@@ -148,7 +177,7 @@ try {
     await delay(100);
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-  await checkCatalogue({ browser, url, check, reachable, capture });
+  await checkCatalogue({ browser, url, check, reachable, capture, portrait });
   if (process.env.MOBILE_MENUS_BEFORE) {
     for (const [w, h] of [
       [780, 360],
@@ -225,12 +254,15 @@ try {
       'normal short summary exposes terrain without inner scrolling',
     );
     await capture(p, `after-preparation-${w}x${h}`);
+    if (w === 780) await portrait(p, '#mission-dialog', 'preparation');
     await p.locator('#mission-close').click();
+    await showHomePage(p, 'home');
     await p.locator('#home-expeditions').click();
     check((await p.locator('.mission-card:visible').count()) === 6, 'six mission cards');
     await reachable(p, '#home-back');
     await p.keyboard.press('Escape');
     check(await p.locator('#home-primary').isVisible(), 'Escape returns home');
+    await showHomePage(p, 'home');
     await p.locator('#home-army').click();
     check((await p.locator('.roster-card:visible').count()) === 6, 'six favorite cards');
     const first = await p
@@ -333,9 +365,8 @@ try {
     checks++;
     if (i < MISSIONS.length - 1) await p.locator('#caprice-album-next').click();
   }
-  await p.setViewportSize({ width: 375, height: 812 });
-  check(await p.locator('#orientation-notice').isVisible(), 'portrait retains rotation guidance');
-  await p.setViewportSize({ width: 780, height: 360 });
+  await p.locator('#caprice-album-close').focus();
+  await portrait(p, '#caprice-album-dialog', 'book');
   check(
     (await p.locator('#caprice-album-page').textContent()) === '6 / 6',
     'rotation preserves album page',
@@ -346,6 +377,10 @@ try {
   );
   await p.locator('#caprice-album-close').click();
   const before = (await saved(p)).missions;
+  check(
+    (await p.locator('#home-next-mission').textContent()) === 'Resume my mission',
+    'caption describes active saved mission',
+  );
   await p.locator('#home-primary').click();
   check(await p.locator('#app').isVisible(), 'primary resumes active mission');
   check(
@@ -353,19 +388,30 @@ try {
     'resumed game is a mission',
   );
   await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+  await showHomePage(p, 'home');
   await p.locator('#home-classic').click();
+  await showHomePage(p, 'classic');
   await p.locator('#home-continue').click();
   check((await saved(p)).missions.activeMode === 'classic', 'classic resume uses existing handler');
   await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
   await p.reload();
   await p.locator('#home-primary').waitFor({ state: 'visible' });
+  check(
+    (await p.locator('#home-next-mission').textContent()) ===
+      ((await saved(p)).missions.activeMode === 'classic'
+        ? 'Resume my classic adventure'
+        : 'Resume my mission'),
+    'caption describes retained active mode after reload',
+  );
   await p.locator('#home-primary').click();
   check(
     (await saved(p)).missions.activeMode === 'classic',
     'reload primary resumes active classic',
   );
   await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+  await showHomePage(p, 'home');
   await p.locator('#home-expeditions').click();
+  await showHomePage(p, 'missions');
   await p.locator('#mission-continue').click();
   const after = (await saved(p)).missions;
   check(after.activeMode === 'missions', 'explicit mission resume switches active mode');
@@ -376,12 +422,37 @@ try {
   await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
   await p.reload();
   await p.locator('#home-primary').waitFor({ state: 'visible' });
+  check(
+    (await p.locator('#home-next-mission').textContent()) ===
+      ((await saved(p)).missions.activeMode === 'classic'
+        ? 'Resume my classic adventure'
+        : 'Resume my mission'),
+    'caption describes retained active mode after reload',
+  );
   await p.locator('#home-primary').click();
   check(
     (await saved(p)).missions.activeMode === 'missions',
     'reload primary resumes active mission',
   );
   await p.close();
+  const realSafe = await pageAt(780, 360);
+  await realSafe.evaluate(() => {
+    for (const [side, value] of Object.entries({ top: 24, right: 32, bottom: 16, left: 0 }))
+      document.documentElement.style.setProperty(`--safe-area-inset-${side}`, `${value}px`);
+  });
+  await realSafe.locator('#home-caprice-album').click();
+  check(
+    await realSafe.locator('[data-sticker]:visible').evaluateAll((ns) =>
+      ns.every((n) => {
+        const r = n.getBoundingClientRect(),
+          p = n.closest('.caprice-album-slots').getBoundingClientRect();
+        return r.top >= p.top && r.bottom <= p.bottom + 1;
+      }),
+    ),
+    'all six stickers fully readable at 780 safe areas',
+  );
+  await capture(realSafe, 'after-album-safe-780x360');
+  await realSafe.close();
   const safe = await pageAt(568, 320);
   await safe.evaluate(() => {
     for (const [side, value] of Object.entries({ top: 24, right: 32, bottom: 16, left: 0 }))

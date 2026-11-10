@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { writeFile, mkdir, readFile, unlink } from 'node:fs/promises';
@@ -79,16 +80,19 @@ try {
   result.directDestroy = true;
   await page.goto('http://127.0.0.1:4198/?debug-performance');
   await page.locator('#home-screen').waitFor({ state: 'visible' });
+  await showHomePage(page, 'parents');
   await page.locator('#home-help').click();
   await page.locator('#light-effects').check();
   assert.equal(await page.evaluate(() => localStorage.getItem('conquete-serpents:visual:v1')), '1');
   await page.reload();
+  await showHomePage(page, 'parents');
   await page.locator('#home-help').click();
   assert.equal(await page.locator('#light-effects').isChecked(), true);
   await page.locator('#light-effects').focus();
   await page.keyboard.press('Space');
   assert.equal(await page.locator('#light-effects').isChecked(), false);
   await page.locator('#close-help').click();
+  await showHomePage(page, 'classic');
   await page.locator('#home-new').click();
   await page.locator('#home-screen').waitFor({ state: 'hidden' });
   await page.locator('#start').click(); // Diagnostics now measure active combat only.
@@ -127,6 +131,7 @@ try {
   await mobile.goto('http://127.0.0.1:4198/?debug-performance');
   assert.ok(await mobile.locator('#orientation-notice').isVisible());
   await mobile.setViewportSize({ width: 812, height: 375 });
+  await showHomePage(mobile, 'parents');
   await mobile.locator('#home-help').click();
   await mobile.locator('#light-effects').check();
   await mobile.screenshot({
@@ -134,6 +139,7 @@ try {
     fullPage: true,
   });
   await mobile.locator('#close-help').click();
+  await showHomePage(mobile, 'classic');
   await mobile.locator('#home-new').click();
   await mobile.locator('canvas').waitFor();
   await mobile.waitForTimeout(700);

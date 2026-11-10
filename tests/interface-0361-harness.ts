@@ -13,6 +13,7 @@ import { bindCapriceAlbums } from '../src/ui/capriceAlbums.ts';
 import { loadGameFonts } from '../src/render/fonts.ts';
 import { initializeLanguageControls } from '../src/i18n/controls.ts';
 import '../src/style.css';
+import '../src/ui/mobileMenus.css';
 import '../src/ui/caprices.css';
 await initializeLanguageControls();
 await loadGameFonts();

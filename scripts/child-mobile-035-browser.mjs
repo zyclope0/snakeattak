@@ -1,3 +1,5 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -22,6 +24,7 @@ async function ready(url) {
 async function launch(page, url) {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(url);
+  await showHomePage(page, 'missions');
   await page.locator('#home-play').click();
   await page.locator('#mission-launch').click();
   await page.waitForFunction(
@@ -96,7 +99,19 @@ try {
       ? '#dock-catalogue'
       : '#reinforcements-toggle';
     await page.locator(catalogue).click();
-    assert.equal(await page.locator('#battle-dock').isVisible(), false);
+    assert.equal(await page.locator('#reinforcements').evaluate((d) => d.open), true);
+    assert.equal(
+      await page.locator('#battle-dock button').evaluateAll((ns) =>
+        ns.every((n) => {
+          const b = n.getBoundingClientRect();
+          return !document
+            .elementFromPoint(b.x + b.width / 2, b.y + b.height / 2)
+            ?.closest('#battle-dock');
+        }),
+      ),
+      true,
+      'Native catalogue covers every dock target',
+    );
     await page.locator('#reinforcements-close').click();
     assert.equal(await page.locator('#battle-dock').isVisible(), true);
     if (height <= 350) {
@@ -144,6 +159,7 @@ try {
     localStorage.setItem(key, JSON.stringify(profile));
   }, favourites);
   await custom.reload();
+  await showHomePage(custom, 'missions');
   await custom.locator('#home-play').click();
   await custom.locator('#mission-launch').click();
   await custom.waitForFunction(
@@ -180,6 +196,7 @@ try {
   });
   await custom.setViewportSize({ width: 568, height: 320 });
   await custom.reload();
+  await showHomePage(custom, 'missions');
   await custom.locator('#home-play').click();
   await custom.locator('#mission-launch').click();
   await custom.waitForFunction(
@@ -292,8 +309,9 @@ try {
   await page.evaluate(() => (window.mobileInterface.session.game.gold = 450));
   await page.locator('#start').click();
   await page.locator('#dock-catalogue').click();
-  await page.locator('#camp-tools > summary').click();
+  await revealControl(page, '[data-feast-flavor="sticky"]');
   await page.locator('[data-feast-flavor="sticky"]').click();
+  await revealControl(page, '[data-feast-lane="1"]');
   await page.locator('[data-feast-lane="1"]').focus();
   await page.keyboard.press('Enter');
   assert.equal(
@@ -301,7 +319,11 @@ try {
     'sticky',
     'Keyboard lane alternative retained',
   );
-  await page.locator('#reinforcements-close').click();
+  assert.equal(
+    await page.locator('#reinforcements').isVisible(),
+    false,
+    'Keyboard honey action closes its temporary catalogue',
+  );
   await page.setViewportSize({ width: 375, height: 812 });
   await page.locator('#orientation-notice').waitFor();
   await page.setViewportSize({ width: 1280, height: 800 });

@@ -1,3 +1,4 @@
+import { showHomePage } from './browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
 import { Game } from '../src/game.ts';
@@ -19,6 +20,7 @@ try {
   state.bestStars.refuge = 3;
   const raw = writeFamilyBackup(null, createCareer().state, state);
   assert.ok(raw);
+  await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
   await page.locator('#family-file').setInputFiles({
     name: 'victoire.json',
@@ -46,6 +48,7 @@ try {
   assert.ok(camp);
   const fragile = writeFamilyBackup(camp, createCareer().state, progress.state);
   assert.ok(fragile);
+  await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
   await page.locator('#family-file').setInputFiles({
     name: 'fragile.json',
@@ -54,6 +57,7 @@ try {
   });
   await page.locator('#family-apply').click();
   if (process.env.REGRESSION_CASE === 'resume') await page.keyboard.press('Escape');
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   await page.locator('#speed').click();
   await page.locator('#start').click();
@@ -61,6 +65,7 @@ try {
     timeout: 60000,
   });
   await page.locator('#menu-home').click();
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   assert.equal(
     await page.locator('#app').getAttribute('data-status'),

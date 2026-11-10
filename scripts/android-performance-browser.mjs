@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
@@ -32,6 +33,7 @@ try {
   page.on('pageerror', (e) => errors.push(e.message));
   const start = async (query) => {
     await page.goto(url + query);
+    await showHomePage(page, 'classic');
     await page.locator('#home-new').click();
     await page.waitForFunction(
       () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',
@@ -96,6 +98,7 @@ try {
     'Escape releases only its owned pause',
   );
   await page.locator('#mobile-home').click();
+  await showHomePage(page, 'home');
   await page.locator('#home-expeditions').click();
   await page.locator('[data-mission-card="refuge"]').click();
   await page.locator('#mission-launch').click();

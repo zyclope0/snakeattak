@@ -1,3 +1,4 @@
+import { showHomePage } from './browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
@@ -38,10 +39,12 @@ try {
   assert.ok(await p.locator('#app').isHidden());
   assert.equal(await p.locator('[data-chapter]').count(), 3);
   await p.screenshot({ path: 'artifacts/menu-018-desktop.png', fullPage: true });
+  await showHomePage(p, 'classic');
   await p.locator('#home-new').click();
   await p.locator('canvas').waitFor();
   assert.ok(await p.locator('#app').isVisible());
   await p.locator('#menu-home').click();
+  await showHomePage(p, 'home');
   await p.locator('#home-army').click();
   await p.locator('#roster-slot').selectOption('1');
   const chosen = await p
@@ -61,6 +64,7 @@ try {
   );
   assert.equal(career.activeRoster, 1);
   assert.equal(new Set(career.rosters[1]).size, 8);
+  await showHomePage(p, 'classic');
   await p.locator('#home-continue').click();
   assert.equal(await p.locator('[data-quick-kind]').count(), 8);
   assert.equal((await camp(p)).gold, 300);
@@ -75,6 +79,7 @@ try {
   await p.locator('#menu-home').click();
   assert.ok(await p.locator('#app').isHidden());
   assert.ok(await p.locator('#home-army').isDisabled());
+  await showHomePage(p, 'classic');
   await p.locator('#home-continue').click();
   assert.equal(await p.locator('#wave').innerText(), '1');
   await c.close();
@@ -89,6 +94,7 @@ try {
   const seeded = await pageFor(raw);
   assert.ok((await seeded.p.locator('#home-stars').innerText()).includes('3'));
   assert.ok(await seeded.p.locator('[data-chapter="1"]').isEnabled());
+  await showHomePage(seeded.p, 'classic');
   await seeded.p.locator('#home-continue').click();
   await seeded.p.locator('[data-reward]').first().click();
   await seeded.p.locator('#hero-training').click();
@@ -135,6 +141,7 @@ try {
     const rect = await p.locator('#home-new').boundingBox();
     assert.ok(rect.height >= 44);
     await p.screenshot({ path: `artifacts/menu-018-mobile-${width}.png`, fullPage: true });
+    await showHomePage(p, 'classic');
     await p.locator('#home-new').click();
     await p.locator('canvas').waitFor();
     assert.ok(await p.locator('#app').isVisible());

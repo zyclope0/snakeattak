@@ -5,7 +5,7 @@ import { revealControl } from '../tests/reveal-controls.mjs';
 import { readFile, writeFile, rm } from 'node:fs/promises';
 
 /** Controlled browser states use the real session and binders, outside production. */
-export async function checkCatalogue({ browser, url, check, reachable, capture }) {
+export async function checkCatalogue({ browser, url, check, reachable, capture, portrait }) {
   const fixture = '.mobile-menus-037-fixture.html';
   await writeFile(
     fixture,
@@ -14,7 +14,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
       '/tests/caprices-036-harness.ts',
     ),
   );
-  const p = await browser.newPage({ viewport: { width: 780, height: 360 } });
+  const p = await browser.newPage({ viewport: { width: 780, height: 360 }, hasTouch: true });
   const errors = [];
   p.on('pageerror', (e) => errors.push(e.message));
   try {
@@ -196,6 +196,11 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
     check(!(await paused()), 'combat runs before catalogue');
     await open();
     check(await paused(), 'catalogue acquires automatic pause');
+    check((await p.locator('#catalog-budget').count()) === 1, 'catalogue exposes available budget');
+    check(
+      (await p.locator('#catalog-budget').textContent()) === '10000 pièces',
+      'catalogue shows current spendable coins',
+    );
     check(await p.locator('dialog#reinforcements').isVisible(), 'catalogue is native modal');
     check(
       await p.evaluate(() => {
@@ -245,6 +250,10 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
       'filter resets page',
     );
     await p.locator('#shop-family').selectOption('all');
+    check(
+      (await p.locator('#catalog-budget').textContent()) === '10000 pièces',
+      'browsing and filtering preserve budget',
+    );
     const before = await p.evaluate(() => {
       const g = window.capricesFixture.session.game;
       return { gold: g.gold, units: g.units.length };
@@ -262,6 +271,10 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
       'selection spends nothing',
     );
     check(
+      (await p.locator('#catalog-budget').textContent()) === '10000 pièces',
+      'selection preserves displayed budget',
+    );
+    check(
       await p.evaluate(() => window.capricesFixture.session.placeSelected(820, 200)),
       'normal placement still recruits',
     );
@@ -271,6 +284,12 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
     );
     await p.locator('#pause').click();
     await open();
+    check(
+      (await p.locator('#catalog-budget').textContent()) === '9945 pièces',
+      'placement updates catalogue budget using existing club price',
+    );
+    await portrait(p, '#reinforcements', 'catalogue');
+    check(await paused(), 'rotation retains manual and catalogue pauses');
     const manualGold = await p.evaluate(() => window.capricesFixture.session.game.gold);
     await p.locator('#shop [data-kind="club"]').click();
     check(
@@ -295,6 +314,18 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
     await p.locator('#pause').click();
     await open();
     await p.locator('#unit-guide').click();
+    await portrait(p, '#unit-dialog', 'nested-guide');
+    check(
+      await p.locator('#reinforcements').evaluate((d) => d.open),
+      'nested rotation retains catalogue',
+    );
+    check(
+      await p.evaluate(
+        () => document.querySelector('#orientation-notice').parentElement === document.body,
+      ),
+      'landscape restores original notice parent',
+    );
+    check(await paused(), 'nested rotation retains pause stack');
     await p.evaluate(() => document.querySelector('#reinforcements').close());
     check(await paused(), 'catalogue close retains nested guide pause');
     await p.locator('#close-unit-guide').click();
@@ -335,6 +366,22 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
         'catalogue shell has no clipped root overflow',
       );
       if (width === 780 || width === 568) await fixedCatalogueCommands();
+      check(
+        await p
+          .locator('#shop .unit-card:visible .price')
+          .evaluateAll((ns) => ns.every((n) => n.getBoundingClientRect().height <= 28)),
+        'prices stay compact coin badges',
+      );
+      check(
+        await p.locator('#catalog-budget').evaluate((n) => {
+          const b = n.getBoundingClientRect(),
+            title = n.closest('.army-title').getBoundingClientRect();
+          return (
+            b.x >= title.x && b.right <= title.right && b.y >= title.y && b.bottom <= title.bottom
+          );
+        }),
+        'budget fits header without clipping',
+      );
       await capture(p, `after-catalogue-${width}x${height}`);
     }
     await p.locator('#reinforcements-close').click();
@@ -495,6 +542,26 @@ export async function checkCatalogue({ browser, url, check, reachable, capture }
     );
     await fixedCatalogueCommands(true);
     await capture(p, 'after-catalogue-safe-568x320');
+    await p.goto(`${url}/${fixture}?case=bank`);
+    await p.waitForFunction(() => !!window.capricesFixture);
+    await open();
+    check(
+      (await p.locator('#catalog-budget').textContent()) === '450 à la banque · 50 disponibles',
+      'reserve budget distinguishes protected and spendable coins',
+    );
+    await p.locator('#reinforcements-close').click();
+    await p.locator('#pause').click();
+    await p.locator('[data-language-picker]:visible').selectOption('en');
+    await p.locator('#resume-game').click();
+    await open();
+    check(
+      (await p.locator('#catalog-budget').textContent()) === '450 in the bank · 50 available',
+      'reserve budget translated in English',
+    );
+    check(
+      (await p.evaluate(() => window.capricesFixture.session.game.gold)) === 500,
+      'reading budget never changes bank or gold',
+    );
     check(errors.length === 0, JSON.stringify(errors));
   } finally {
     await p.close();

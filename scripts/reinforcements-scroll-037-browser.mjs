@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
@@ -33,7 +34,7 @@ async function snapshot(page) {
     selected: [...document.querySelectorAll('#shop [aria-pressed="true"]')].map(
       (e) => e.dataset.kind,
     ),
-    open: document.getElementById('app').classList.contains('reinforcements-open'),
+    open: document.getElementById('reinforcements').open,
     pageY: scrollY,
     panel: document.getElementById('reinforcements').scrollTop,
     shop: document.getElementById('shop').scrollTop,
@@ -41,18 +42,20 @@ async function snapshot(page) {
 }
 async function pointOnCard(page) {
   return page.evaluate(() => {
-    const panel = document.getElementById('reinforcements').getBoundingClientRect();
+    const panel = document.querySelector('.catalog-body').getBoundingClientRect();
     for (const e of document.querySelectorAll('#shop .unit-card')) {
       const r = e.getBoundingClientRect();
-      if (r.width === 0 || r.bottom <= panel.top + 70 || r.top >= panel.bottom) continue;
-      const top = Math.max(r.top, panel.top + 70);
+      if (r.width === 0 || r.bottom <= panel.top || r.top >= panel.bottom) continue;
+      const top = Math.max(r.top, panel.top);
       const bottom = Math.min(r.bottom, panel.bottom);
       if (bottom - top < 12) continue;
       const y = (top + bottom) / 2;
+      const x = r.x + r.width * 0.5;
+      if (document.elementFromPoint(x, y)?.closest('.unit-card') !== e) continue;
       return {
-        x: r.x + r.width * 0.5,
+        x,
         y,
-        to: Math.max(panel.top + 45, y - 120),
+        to: Math.max(panel.top + 2, y - 120),
         kind: e.dataset.kind,
         disabled: e.disabled,
       };
@@ -94,6 +97,7 @@ try {
     });
     page.on('pageerror', (e) => errors.push(e.message));
     await page.goto('http://127.0.0.1:4371');
+    await showHomePage(page, 'missions');
     await page.locator('#home-play').click();
     await page.locator('#mission-launch').click();
     await page.waitForFunction(
@@ -107,44 +111,52 @@ try {
     const before = await snapshot(page),
       point = await pointOnCard(page);
     await swipe(page, point.x, point.y, point.to);
-    assert.ok(
-      (await snapshot(page)).panel > before.panel + 40,
-      `Finger on available card scrolls catalogue at ${width}x${height}`,
-    );
     let after = await snapshot(page);
     assert.equal(after.gold, before.gold);
     assert.deepEqual(after.selected, before.selected);
     assert.equal(after.open, true);
     assert.equal(after.pageY, before.pageY);
-    assert.equal(after.shop, 0);
-    const b = await page.locator('#reinforcements').boundingBox();
-    const high = after.panel;
-    await swipe(page, b.x + b.width * 0.5, b.y + 55, Math.min(b.y + b.height - 24, b.y + 190));
-    await page.waitForFunction(
-      (high) => document.getElementById('reinforcements').scrollTop < high - 25,
-      high,
-    );
-    // Reset only prepares the next case; every scrolling assertion uses native touch events.
-    await page.locator('#reinforcements').evaluate((e) => (e.scrollTop = 0));
-    await page.locator('#shop-future').tap();
+    // A page replaces the historical long list. Both swipe directions must be
+    // harmless whether the bounded body scrolls or all six cards already fit.
+    await swipe(page, point.x, point.to, point.y);
+    assert.equal((await snapshot(page)).gold, before.gold);
+    assert.deepEqual((await snapshot(page)).selected, before.selected);
+    assert.equal((await snapshot(page)).open, true);
+    const seen = new Set();
+    for (const tab of ['shop-ready', 'shop-future']) {
+      await page.locator('#' + tab).tap();
+      do {
+        const ids = await page
+          .locator('#shop .unit-card:visible')
+          .evaluateAll((ns) => ns.map((n) => n.dataset.kind));
+        assert.ok(ids.length <= 6, 'Six allies maximum on each page');
+        for (const id of ids) seen.add(id);
+        if (await page.locator('#catalog-next').isDisabled()) break;
+        await page.locator('#catalog-next').tap();
+      } while (true);
+    }
+    assert.equal(seen.size, 20, 'Every ally reachable through visible tabs and pages');
     const locked = await pointOnCard(page);
     assert.equal(locked.disabled, true);
     const lockedBefore = await snapshot(page);
     await swipe(page, locked.x, locked.y, locked.to);
-    assert.ok(
-      (await snapshot(page)).panel > lockedBefore.panel + 40,
-      'Swipe on a locked card still scrolls',
-    );
-    assert.deepEqual((await snapshot(page)).selected, []);
+    assert.equal((await snapshot(page)).gold, lockedBefore.gold);
+    assert.deepEqual((await snapshot(page)).selected, lockedBefore.selected);
     assert.equal((await snapshot(page)).open, true);
-    // At the edge, a further swipe stays in the catalogue rather than moving the document.
-    await page.locator('#reinforcements').evaluate((e) => (e.scrollTop = e.scrollHeight));
-    const pageY = await page.evaluate(() => scrollY);
-    await swipe(page, b.x + b.width * 0.5, b.y + b.height - 25, b.y + 60);
-    assert.equal(await page.evaluate(() => scrollY), pageY);
-    await page.locator('#reinforcements').evaluate((e) => (e.scrollTop = 0));
+    assert.equal(
+      (await snapshot(page)).pageY,
+      before.pageY,
+      'Boundary swipe does not scroll document',
+    );
     await page.locator('#shop-ready').tap();
+    assert.equal(
+      await page.locator('#shop-ready').getAttribute('aria-pressed'),
+      'true',
+      'Available tab selected',
+    );
+    await page.locator('#shop .unit-card:visible').first().scrollIntoViewIfNeeded();
     const actual = await pointOnCard(page);
+    assert.equal(actual.disabled, false, 'Real visible tap target is available');
     await page.touchscreen.tap(actual.x, actual.y);
     await page.locator('#reinforcements').waitFor({ state: 'hidden' });
     assert.equal(
@@ -156,27 +168,28 @@ try {
       before.gold,
       'A tap selects without purchasing',
     );
-    // An already selected ally must also survive a swipe without a purchase.
     await page.locator('#reinforcements-toggle').tap();
     const armedBefore = await snapshot(page),
       armedPoint = await pointOnCard(page);
     await swipe(page, armedPoint.x, armedPoint.y, armedPoint.to);
     const armedAfter = await snapshot(page);
-    assert.ok(
-      armedAfter.panel > armedBefore.panel + 40,
-      'Armed selection does not prevent catalogue scrolling',
-    );
     assert.equal(armedAfter.gold, armedBefore.gold);
     assert.deepEqual(armedAfter.selected, armedBefore.selected);
     assert.equal(armedAfter.open, true);
     assert.equal(await page.locator('#pause-overlay').isVisible(), false);
-    cases.push({ width, height, safe, dragDistance: Math.round(after.panel - before.panel) });
+    cases.push({
+      width,
+      height,
+      safe,
+      alliesReached: seen.size,
+      swipeDistance: Math.round(point.y - point.to),
+    });
     await page.screenshot({
       path: `artifacts/reinforcements-scroll-037/after-${width}-${safe[1]}.png`,
     });
     await page.close();
   }
-  // The large-screen catalogue intentionally retains its own scroll container.
+  // Large screens use the same six-card pages and harmless touch gestures.
   const desktop = await browser.newPage({
     locale: 'fr-CH',
     viewport: { width: 1280, height: 800 },
@@ -184,15 +197,21 @@ try {
   });
   desktop.on('pageerror', (e) => errors.push(e.message));
   await desktop.goto('http://127.0.0.1:4371');
+  await showHomePage(desktop, 'missions');
   await desktop.locator('#home-play').click();
   await desktop.locator('#mission-launch').click();
   await desktop.locator('#dock-catalogue').click();
+  await desktop.locator('#shop-future').click();
   const shop = await desktop.locator('#shop').boundingBox();
   await swipe(desktop, shop.x + shop.width * 0.25, shop.y + shop.height - 20, shop.y + 15);
-  assert.ok(
-    await desktop.locator('#shop').evaluate((e) => e.scrollTop > 20),
-    'Large-screen shop scroll retained',
-  );
+  assert.ok((await desktop.locator('#shop .unit-card:visible').count()) <= 6);
+  const desktopBefore = await snapshot(desktop);
+  const desktopPageBefore = await desktop.locator('#catalog-page').textContent();
+  await desktop.locator('#catalog-next').click();
+  assert.notEqual(await desktop.locator('#catalog-page').textContent(), desktopPageBefore);
+  assert.equal((await snapshot(desktop)).gold, desktopBefore.gold);
+  assert.deepEqual((await snapshot(desktop)).selected, desktopBefore.selected);
+  assert.equal((await snapshot(desktop)).open, true);
   await desktop.close();
   assert.deepEqual(errors, []);
   await writeFile(
@@ -208,7 +227,7 @@ try {
           'no selection/purchase/close on drag',
           'tap still selects',
           'no document scroll at boundary',
-          'large-screen own scroll retained',
+          'all 20 allies reachable in six-card pages on small and large screens',
         ],
         errors,
       },

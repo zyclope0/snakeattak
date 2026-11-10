@@ -29,14 +29,15 @@ async function pageFor(g, viewport = { width: 1440, height: 1050 }, earlyDialog 
   });
   if (earlyDialog)
     await context.addInitScript(() => {
-      const observer = new MutationObserver(() => {
-        const dialog = document.getElementById('help-dialog');
-        if (dialog?.isConnected) {
-          dialog.showModal();
-          observer.disconnect();
-        }
-      });
-      observer.observe(document, { childList: true, subtree: true });
+      // Synthetic stress timing: a real visible start click opens Help during
+      // dispatch, immediately before the existing handler renders battle/rewards.
+      // No hidden or inert control is clicked by the test.
+      const openDuringStart = (event) => {
+        if (!event.target.closest('#home-continue, #home-new')) return;
+        document.removeEventListener('click', openDuringStart, true);
+        document.getElementById('help-dialog').showModal();
+      };
+      document.addEventListener('click', openDuringStart, true);
     });
   const p = await context.newPage();
   p.on('pageerror', (e) => errors.push(e.message));
@@ -55,7 +56,7 @@ async function pageFor(g, viewport = { width: 1440, height: 1050 }, earlyDialog 
     location.reload();
   }, encodeCheckpoint(g));
   await boot;
-  await enterBattle(p, { allowDialog: earlyDialog });
+  await enterBattle(p);
   await p.locator('canvas').waitFor();
   return { p, context };
 }

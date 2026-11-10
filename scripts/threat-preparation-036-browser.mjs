@@ -1,3 +1,5 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -59,6 +61,7 @@ try {
   await ready('http://127.0.0.1:4363');
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   const first = await pageAt(812, 375);
+  await showHomePage(first, 'missions');
   await first.locator('#home-play').click();
   await first.locator('#mission-launch').click();
   assert.equal(
@@ -83,7 +86,9 @@ try {
     [480, 320, [24, 48, 16, 0]],
   ]) {
     const page = await pageAt(width, height, safe);
+    await showHomePage(page, 'missions');
     await page.locator('#home-play').click();
+    await revealControl(page, '#mission-map');
     assert.ok(
       (await page.locator('#mission-map image').count()) >= 4,
       'Illustrated real terrain and strongholds',
@@ -96,6 +101,7 @@ try {
     assert.ok((await page.locator('#mission-threats [data-threat]').count()) > 0);
     assert.match(await page.locator('#mission-advice').innerText(), /bouclier|massue|archer/i);
     assert.ok((await page.locator('#mission-advice .portrait').count()) === 1);
+    await revealControl(page, '#mission-reroll');
     for (const id of ['mission-launch', 'mission-reroll', 'mission-close'])
       await onScreen(page.locator('#' + id), page, id);
     const old = await page.locator('#mission-map [data-preview-lane="0"]').getAttribute('points');
@@ -145,7 +151,9 @@ try {
     for (const [key, value] of Object.entries({ top: 24, right: 48, bottom: 16, left: 0 }))
       document.documentElement.style.setProperty('--safe-area-inset-' + key, value + 'px');
   });
+  await showHomePage(late, 'missions');
   await late.locator('#home-play').click();
+  await revealControl(late, '#mission-advice');
   const adviceBounds = await late.locator('#mission-advice').boundingBox(),
     bodyBounds = await late.locator('.mission-dialog-body').boundingBox();
   assert.ok(
@@ -158,6 +166,7 @@ try {
   assert.ok((await late.locator('#mission-other-threats [data-threat]').count()) > 0);
   await late.locator('#mission-more-title').click();
   await late.locator('#mission-other-threats').waitFor({ state: 'visible' });
+  await revealControl(late, '#mission-reroll');
   await late.locator('#mission-reroll').click();
   assert.equal(await late.locator('#mission-more-threats').evaluate((d) => d.open), false);
   await late.screenshot({ path: 'artifacts/threat-preparation-036/prepare-carrefour-812.png' });
@@ -240,6 +249,7 @@ try {
   await portrait.locator('#orientation-notice').waitFor({ state: 'visible' });
   await portrait.setViewportSize({ width: 812, height: 375 });
   await portrait.locator('#orientation-notice').waitFor({ state: 'hidden' });
+  await showHomePage(portrait, 'missions');
   await portrait.locator('#home-play').click();
   await onScreen(portrait.locator('#mission-launch'), portrait, 'Launch after rotation');
   await portrait.close();

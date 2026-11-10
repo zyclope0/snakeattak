@@ -5,6 +5,7 @@ import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindControls } from '../src/ui/controls.ts';
 import { receiveBossDamage, bossHeadsHealth } from '../src/boss.ts';
 import '../src/style.css';
+import '../src/ui/mobileMenus.css';
 // This fixture enters battle directly, without main.ts and its screen switch.
 document.getElementById('app')!.hidden = false;
 const session = new Session(2207),

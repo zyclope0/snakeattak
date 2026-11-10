@@ -60,9 +60,8 @@ try {
       });
     await page.goto(`http://127.0.0.1:4181/${path}?scenario=${scenario}`);
     await page.locator('canvas').waitFor();
-    // Advanced notices live in the camp disclosure since the child-friendly UI.
-    await revealControl(page, '#encounter');
-    if (scenario === 'storage-failed') await revealControl(page, '#save-status');
+    // Inspect the board first: the full-screen catalogue owns a temporary pause.
+    // Read its advanced notices later, then close it before board captures.
     if (scenario === 'royal-guard') {
       if (!(await page.evaluate(() => !!window.strongholdFixture)))
         throw Error('Missing real boss fixture');
@@ -148,6 +147,7 @@ try {
             window.strongholdFixture.phaser.scene.getScene('Battle').strongholds.label.text ===
             'REFUGE · 19 %',
         );
+        await revealControl(page, '[data-kind="club"]');
         await page.locator('[data-kind="club"]').click();
         const field = await page.locator('canvas').boundingBox();
         await page.mouse.click(
@@ -306,22 +306,36 @@ try {
       !(await page.locator('#level-name').textContent()).includes('pierres')
     )
       throw Error('Missing ruins');
-    if (scenario === 'boss') await page.locator('#encounter[data-tone="boss"]').waitFor();
+    if (scenario === 'boss') {
+      await revealControl(page, '#encounter');
+      await page.locator('#encounter[data-tone="boss"]').waitFor();
+    }
     if (scenario === 'honey')
       await page.waitForFunction(() =>
         document.getElementById('feast-status').textContent.includes('1 détour'),
       );
-    if (scenario === 'placement') await page.locator('#encounter[data-tone="place"]').waitFor();
+    if (scenario === 'placement') {
+      await revealControl(page, '#encounter');
+      await page.locator('#encounter[data-tone="place"]').waitFor();
+    }
     if (scenario === 'storage-failed') {
       await page.waitForFunction(
         () => document.getElementById('phase').textContent === 'PRÉPARATION',
       );
+      await revealControl(page, '#save-status');
       if (!(await page.locator('#save-status').innerText()).includes('indisponible'))
         throw Error('Storage failure hidden');
       if ((await page.locator('body').innerText()).includes('Votre camp est sauvegardé'))
         throw Error('False save promise');
     }
     await page.waitForTimeout(500);
+    if (await page.locator('#reinforcements').isVisible()) {
+      await page.screenshot({
+        path: `artifacts/personnalite-${scenario}-details.png`,
+        fullPage: true,
+      });
+      await page.locator('#reinforcements-close').click();
+    }
     if (scenario !== 'royal-guard')
       await page.screenshot({ path: `artifacts/personnalite-${scenario}.png`, fullPage: true });
     if (scenario === 'refuge') {
@@ -337,8 +351,7 @@ try {
     if (scenario === 'won') {
       if (!(await page.locator('[data-feast-flavor="sticky"]').isDisabled()))
         throw Error('Honey selection active after victory');
-      // Return from the voluntarily opened Allies catalogue to the result actions.
-      await page.locator('#reinforcements-close').click();
+      // The catalogue is closed before the visible result action.
       await page.locator('#end-restart').click();
       if ((await page.locator('#wave').innerText()) !== '0')
         throw Error('Restart from victory failed');

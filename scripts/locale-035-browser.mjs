@@ -304,6 +304,7 @@ try {
       }
       await page.screenshot({ path: `${folder}/actual-en-unit-guide.png` });
       await page.locator('#close-unit-guide').click();
+      await showHomePage(page, 'parents');
       await page.locator('#home-help').click();
       await page.locator('#help-dialog').waitFor({ state: 'visible' });
       await page
@@ -334,6 +335,7 @@ try {
       await inspectEnglish(page, '#home-parent-options', 'parent departure status');
       if (await page.locator('#mission-dialog').isVisible())
         await page.locator('#mission-close').click();
+      await showHomePage(page, 'parents');
       await page.locator('#home-family').click();
       await page.locator('#family-dialog').waitFor({ state: 'visible' });
       await inspectEnglish(page, '#family-dialog', 'family save');

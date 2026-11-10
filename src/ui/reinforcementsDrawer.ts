@@ -2,6 +2,7 @@ import type { Session } from '../session.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { pauseStateFor } from './pauseState.ts';
 import { setText } from '../i18n/dom.ts';
+import { availableGold } from './capriceBudget.ts';
 
 /** A native catalogue owns a pause lease; selecting only prepares the existing action. */
 export function bindReinforcementsDrawer(session: Session, refresh: () => void) {
@@ -10,6 +11,9 @@ export function bindReinforcementsDrawer(session: Session, refresh: () => void) 
   const close = document.getElementById('reinforcements-close')!;
   const modal = pauseForDialog(panel, session, refresh);
   const pauses = pauseStateFor(session);
+  const budget = document.createElement('span');
+  budget.id = 'catalog-budget';
+  panel.querySelector('.army-title h2')!.after(budget);
   const tools = document.createElement('details');
   tools.id = 'catalog-tools';
   const label = document.createElement('summary');
@@ -84,7 +88,16 @@ export function bindReinforcementsDrawer(session: Session, refresh: () => void) 
       document.getElementById('game')!.focus({ preventScroll: true });
   });
   return {
-    refresh: sync,
+    refresh: () => {
+      sync();
+      const game = session.game;
+      setText(
+        budget,
+        game.caprice.reserve
+          ? `${game.caprice.reserve} à la banque · ${availableGold(game)} disponibles`
+          : `${availableGold(game)} pièces`,
+      );
+    },
     actionsPaused: () =>
       document.hidden || (panel.open ? pauses.pausedAfterRelease() : session.game.paused),
   };

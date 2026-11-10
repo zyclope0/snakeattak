@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
@@ -49,6 +50,7 @@ try {
       });
       await page.goto('https://conquete-serpents-famille.zyclope.chatgpt.site/');
       await page.screenshot({ path: `${folder}/site-${width}-home.png` });
+      await showHomePage(page, 'missions');
       await page.locator('#home-play').click();
       await page.locator('#mission-launch').click();
       await page.waitForFunction(

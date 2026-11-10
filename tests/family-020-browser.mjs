@@ -1,3 +1,4 @@
+import { showHomePage } from './browser-entry.mjs';
 import { revealControl } from './reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { readFile, mkdir } from 'node:fs/promises';
@@ -75,6 +76,7 @@ async function page(
 const stored = (p) => p.evaluate((key) => localStorage.getItem(key), KEY);
 async function open(p) {
   assert.equal(await p.locator('#home-family').count(), 1, 'Entrée Sauvegarde familiale manquante');
+  await showHomePage(p, 'parents');
   await p.locator('#home-family').click();
   await p.locator('#family-dialog').waitFor({ state: 'visible' });
   await p.mouse.move(0, 0);
@@ -144,7 +146,9 @@ try {
   assert.deepEqual(readFamilyBackup(raw), expectedCurrent);
   await a.c.close();
   const b = await page(WEB);
+  await showHomePage(b.p, 'classic');
   await b.p.locator('#home-new').click();
+  await revealControl(b.p, '#start');
   await b.p.locator('#start').click();
   await b.p.locator('#menu-home').click();
   const initial = await stored(b.p);
@@ -174,6 +178,7 @@ try {
   assert.ok(await b.p.locator('#family-apply').isDisabled());
   assert.deepEqual(readFamilyBackup(await stored(b.p)), readFamilyBackup(raw));
   await b.p.locator('#family-close').click();
+  await showHomePage(b.p, 'classic');
   await b.p.locator('#home-continue').click();
   await revealControl(b.p, '#chapter-report');
   await b.p.locator('#chapter-report').waitFor({ state: 'visible' });
@@ -187,6 +192,7 @@ try {
   );
   await b.p.screenshot({ path: 'artifacts/chapitre-020-desktop.png', fullPage: true });
   assert.equal(await b.p.locator('[data-reward]').count(), 0, 'Le cadeau consommé ne revient pas');
+  await revealControl(b.p, '#start');
   await b.p.locator('#start').click();
   await b.p.locator('#menu-home').click();
   await open(b.p);
@@ -213,6 +219,7 @@ try {
   await pOnly.p.locator('#family-apply').click();
   await pOnly.p.reload();
   await pOnly.p.locator('#home-screen').waitFor({ state: 'visible' });
+  await showHomePage(pOnly.p, 'classic');
   assert.ok(
     await pOnly.p.locator('#home-continue').isHidden(),
     'Un profil seul ne ramène pas l’ancienne armée',
