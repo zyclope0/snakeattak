@@ -133,11 +133,13 @@ export function bindControls(
     refresh();
   };
   el('pause').onclick = () => {
+    if (session.game.status === 'won' || session.game.status === 'lost') return;
     if (session.game.paused) pauses.resume();
     else pauses.interrupt();
     refresh();
   };
   el('resume-game').onclick = () => {
+    if (session.game.status === 'won' || session.game.status === 'lost') return;
     pauses.resume();
     refresh();
   };
@@ -187,6 +189,8 @@ export function bindControls(
     }
     if (
       session.screen === 'battle' &&
+      session.game.status !== 'won' &&
+      session.game.status !== 'lost' &&
       e.code === 'Space' &&
       !(
         e.target instanceof HTMLElement &&
@@ -299,6 +303,7 @@ export function bindControls(
               : 'Lancer la vague',
     );
     el<HTMLButtonElement>('pause').disabled = end;
+    el('pause').hidden = end;
     el<HTMLButtonElement>('repair').disabled =
       end || session.game.paused || !canSpend(session.game, 80) || session.game.base >= 100;
     el('cancel').hidden = !session.selected && !session.selectedFeast;

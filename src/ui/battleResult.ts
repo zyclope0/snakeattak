@@ -57,6 +57,9 @@ export function bindBattleResult(session: Session) {
           : 'Bravo !'
         : defeatCopy(g).title,
     );
+    // The caprice summary repeats this heading verbatim. Keep its sticker and
+    // actions, and keep the original French announcement on defeat.
+    el('mission-result').hidden = g.status === 'won' && !!g.mission?.caprice;
     const earned = earnedStars(g);
     stars.hidden = !earned;
     if (earned) {

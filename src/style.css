@@ -2461,7 +2461,7 @@ dialog > small {
   min-height: 180px;
 }
 .mission-card strong {
-  font-family: Georgia, serif;
+  font-family: Fredoka, sans-serif;
   font-size: 1.2rem;
 }
 .mission-card > span:not(.mission-stars) {
@@ -4147,6 +4147,8 @@ dialog > small {
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
   .dashboard #wave-threats {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-width: 48px;
     padding: 0 7px;
   }
