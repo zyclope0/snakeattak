@@ -1,0 +1,252 @@
+// Laboratoire des modes : joue la grande aventure, les 6 missions et les 36 défis avec des joueurs
+// automatiques sur le vrai moteur (30 Hz, sans navigateur). Écrit par Claude pour l'audit du
+// 10 novembre 2026 (44 092 parties sur la v0.36.0), adapté ensuite aux révisions d'équilibrage.
+//
+// Usage : node scripts/balance-modes.mjs <sortie.json> [shard] [shards] [modes.json]
+//   REVISION=1|2   révision d'équilibrage des départs (défaut : 2, la révision courante)
+//   SETS=12        lots de 18 départs par mission (12 = 216 parties par mode et par joueur)
+//   CLASSIC=200    parties de grande aventure par joueur
+//   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros
+// Sans modes.json : tous les modes. Avec : liste { id, missionId, rules?, classic?, profiles?, sets? }.
+// Avec un seul shard, affiche un résumé par mode et par joueur.
+import { readFile, writeFile } from 'node:fs/promises';
+const R = new URL('../src/', import.meta.url).href;
+const { Game } = await import(R + 'game.ts');
+const { MISSIONS, createMissionRun } = await import(R + 'missions.ts');
+const { LANES, laneDefense } = await import(R + 'ai.ts');
+const { kinds } = await import(R + 'data.ts');
+const BIG = Object.keys(kinds)
+  .filter((k) => !['hero', 'wall', 'medic', 'nurse'].includes(k))
+  .sort((a, b) => kinds[b].cost - kinds[a].cost);
+const { CAPRICES, CREATOR_CHALLENGES, capriceById, defineCaprice } = await import(
+  R + 'caprices.ts'
+);
+
+const [outPath, shardArg = '0', shardsArg = '1', extraPath = ''] = process.argv.slice(2);
+const shard = Number(shardArg),
+  shards = Number(shardsArg);
+const dt = 1 / 30;
+const PROFILES = (process.env.PROFILES ?? 'expert,moyen,petit').split(',');
+const SETS = Number(process.env.SETS ?? 12);
+const REVISION = Number(process.env.REVISION ?? 2);
+const CLASSIC = Number(process.env.CLASSIC ?? 200);
+
+function play(g, profile) {
+  const r = { status: null, deaths: 0, seconds: 0, spent: 0 };
+  let rotation = 0;
+  const allows = (k) => (g.capriceAllows ? g.capriceAllows(k) : true);
+  const afford = (k) => g.gold - (g.caprice?.reserve ?? 0) >= g.recruitCost(k);
+  function place(kind, lane) {
+    const rear = kinds[kind].range >= 100;
+    for (const x of rear
+      ? [900, 948, 852, 804, 756, 708, 660]
+      : [660, 708, 756, 804, 852, 900, 948])
+      for (const offset of [0, -48, 48]) {
+        const cost = g.recruitCost(kind);
+        if (g.recruit(kind, x, LANES[lane] + offset)) {
+          r.spent += cost;
+          return true;
+        }
+      }
+    return false;
+  }
+  function buyExpert(kind) {
+    if (!g.isUnlocked(kind) || !allows(kind) || !afford(kind)) return false;
+    const scores = laneDefense(g.units),
+      lanes = [0, 1, 2].sort((a, b) => scores[a] - scores[b] || a - b);
+    for (const lane of lanes) if (place(kind, lane)) return true;
+    return false;
+  }
+  function buyRotating(kind) {
+    if (!g.isUnlocked(kind) || !allows(kind) || !afford(kind)) return false;
+    for (let k = 0; k < 3; k++) {
+      const lane = (rotation + k) % 3;
+      if (place(kind, lane)) {
+        rotation = (lane + 1) % 3;
+        return true;
+      }
+    }
+    return false;
+  }
+  const order = ['club', 'shield', 'archer'];
+  const step = () => {
+    const count = g.units.length;
+    g.step(dt);
+    r.deaths += Math.max(0, count - g.units.length);
+  };
+  let minBase = 100;
+  for (let wave = 1; wave <= g.totalWaves; wave++) {
+    if (profile === 'massues') {
+      for (let i = 0; i < 60; i++) if (!buyExpert('club')) break;
+    } else if (profile === 'gros') {
+      for (let i = 0; i < 40; i++) if (!BIG.some(buyRotating)) break;
+    } else if (profile === 'expert') {
+      const healer = g.isUnlocked('medic') ? 'medic' : 'nurse';
+      if (
+        !g.caprice?.kinds &&
+        allows(healer) &&
+        !g.units.some((u) => ['medic', 'nurse'].includes(u.kind))
+      )
+        buyExpert(healer);
+      for (let i = 0; i < 16; i++) {
+        const o = ['archer', 'shield', 'club'];
+        if (
+          !o
+            .slice(i % 3)
+            .concat(o.slice(0, i % 3))
+            .some(buyExpert)
+        )
+          break;
+      }
+    } else {
+      const limit = profile === 'petit' ? 2 : 40;
+      let bought = 0;
+      for (let i = 0; i < 60 && bought < limit; i++) {
+        const kind = order[(wave + i) % 3];
+        if (buyRotating(kind) || order.some(buyRotating)) bought++;
+        else break;
+      }
+    }
+    for (let i = 0; i < 90; i++) step();
+    if (g.rewards?.pending != null) {
+      const offer = g.rewardOffer ?? [];
+      // Expert : pièces ; autres : première carte proposée.
+      if (!g.chooseReward(profile === 'expert' && offer.includes('pieces') ? 'pieces' : offer[0]))
+        g.skipReward?.();
+    }
+    if (!g.startWave()) {
+      r.status = 'blocked:' + g.status;
+      break;
+    }
+    const t = g.time;
+    while (g.status === 'fighting' && g.time - t < 300) {
+      step();
+      minBase = Math.min(minBase, g.base);
+      if (profile === 'expert') {
+        if (!g.feastUsed && g.enemies.some((e) => e.x > 570))
+          g.offerFeast(g.enemies.find((e) => e.x > 570).lane, 'sticky');
+        if (
+          !g.encouragementUsed &&
+          (g.units.some((u) => u.state === 'attack') || g.enemies.some((e) => e.state === 'attack'))
+        )
+          g.encourage();
+      }
+    }
+    r.seconds += g.time - t;
+    r.wave = wave;
+    if (g.status === 'fighting') {
+      r.status = 'timeout';
+      break;
+    }
+    if (g.status === 'lost') break;
+    if (g.status === 'reward' || g.pendingRewards?.length) {
+      try {
+        g.chooseReward?.(0);
+      } catch {}
+    }
+  }
+  r.status ??= g.status;
+  r.minBase = Math.round(minBase);
+  r.base = Math.round(g.base);
+  r.gold = Math.round(g.gold);
+  r.stars = g.missionStars ?? 0;
+  r.units = g.units.length;
+  return r;
+}
+
+const jobs = [];
+const modes = [
+  ...MISSIONS.map((m) => ({ mode: `${m.id}`, missionId: m.id })),
+  ...[...CAPRICES, ...CREATOR_CHALLENGES].map((c) => ({
+    mode: c.id,
+    missionId: c.missionId,
+    caprice: c.id,
+  })),
+];
+if (extraPath) {
+  modes.length = 0;
+  for (const c of JSON.parse(await readFile(extraPath, 'utf8'))) {
+    if (c.rules && !capriceById(c.id))
+      defineCaprice({
+        id: c.id,
+        set: 'serpents',
+        missionId: c.missionId,
+        tier: 'petit',
+        name: c.id,
+        announce: '',
+        rules: c.rules,
+      });
+    modes.push({
+      mode: c.id,
+      missionId: c.missionId,
+      caprice: c.rules || capriceById(c.id) ? c.id : undefined,
+      classic: c.classic,
+      profiles: c.profiles,
+      sets: c.sets,
+    });
+  }
+} else modes.push({ mode: 'grande-aventure', classic: true });
+for (const m of modes) {
+  if (m.classic) {
+    for (let i = 0; i < CLASSIC; i++)
+      for (const profile of m.profiles ?? PROFILES)
+        jobs.push({ ...m, profile, seed: (20261110 + i * 7919) >>> 0 });
+    continue;
+  }
+  const mi = MISSIONS.findIndex((x) => x.id === m.missionId);
+  for (let set = 0; set < (m.sets ?? SETS); set++)
+    for (const layout of [0, 1, 2])
+      for (const assault of ['balanced', 'rush', 'escort'])
+        for (const nest of ['spread', 'clustered']) {
+          const seed = (20261109 + mi * 104729 + layout * 997 + set * 7919) >>> 0;
+          const base =
+            REVISION === 2
+              ? createMissionRun(m.missionId, seed, null, 2)
+              : createMissionRun(m.missionId, seed);
+          const run = {
+            ...base,
+            layout,
+            assault,
+            nest,
+            ...(m.caprice ? { caprice: m.caprice } : {}),
+          };
+          for (const profile of m.profiles ?? PROFILES) jobs.push({ ...m, profile, run });
+        }
+}
+const mine = jobs.filter((_, i) => i % shards === shard);
+const started = performance.now();
+const results = [];
+for (const j of mine) {
+  const g = j.classic
+    ? new Game(j.seed, undefined, undefined, REVISION)
+    : new Game(j.run.seed, undefined, j.run, REVISION);
+  let out;
+  try {
+    out = play(g, j.profile);
+  } catch (e) {
+    out = { status: 'error:' + String(e).slice(0, 80) };
+  }
+  results.push({ mode: j.mode, mission: j.missionId ?? 'classique', profile: j.profile, ...out });
+}
+if (outPath)
+  await writeFile(
+    outPath,
+    JSON.stringify({ revision: REVISION, seconds: (performance.now() - started) / 1000, results }),
+  );
+if (shards === 1) {
+  const groups = new Map();
+  for (const r of results) {
+    const key = `${r.mode.padEnd(28)} ${r.profile}`;
+    groups.set(key, [...(groups.get(key) ?? []), r]);
+  }
+  for (const [key, list] of groups) {
+    const wins = list.filter((r) => r.status === 'won').length;
+    const base = list.reduce((n, r) => n + (r.minBase ?? 0), 0) / list.length;
+    console.log(
+      `${key.padEnd(38)} ${String(Math.round((100 * wins) / list.length)).padStart(3)} % victoires, cristal min ${Math.round(base)} % (${list.length} parties)`,
+    );
+  }
+}
+console.log(
+  `shard ${shard}: ${results.length} parties en ${((performance.now() - started) / 1000).toFixed(0)} s`,
+);

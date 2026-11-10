@@ -1,0 +1,320 @@
+{
+  "version": "0.36.2",
+  "revision": 2,
+  "date": "2026-11-10",
+  "parties": 2992,
+  "resultats": {
+    "refuge|moyen": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "refuge|petit": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "refuge|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "refuge|gros": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "trois-ponts|moyen": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "trois-ponts|petit": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "trois-ponts|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "trois-ponts|gros": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "course|moyen": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "course|petit": {
+      "n": 54,
+      "win": 100,
+      "minBase": 84,
+      "wave": 3.0
+    },
+    "course|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "course|gros": {
+      "n": 54,
+      "win": 100,
+      "minBase": 100,
+      "wave": 3.0
+    },
+    "coquilles|moyen": {
+      "n": 54,
+      "win": 100,
+      "minBase": 95,
+      "wave": 3.0
+    },
+    "coquilles|petit": {
+      "n": 54,
+      "win": 72,
+      "minBase": 22,
+      "wave": 3.0
+    },
+    "coquilles|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 91,
+      "wave": 3.0
+    },
+    "coquilles|gros": {
+      "n": 54,
+      "win": 100,
+      "minBase": 84,
+      "wave": 3.0
+    },
+    "sonnette|moyen": {
+      "n": 54,
+      "win": 96,
+      "minBase": 82,
+      "wave": 3.0
+    },
+    "sonnette|petit": {
+      "n": 54,
+      "win": 26,
+      "minBase": 4,
+      "wave": 2.9
+    },
+    "sonnette|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 82,
+      "wave": 3.0
+    },
+    "sonnette|gros": {
+      "n": 54,
+      "win": 100,
+      "minBase": 63,
+      "wave": 3.0
+    },
+    "carrefour|moyen": {
+      "n": 54,
+      "win": 100,
+      "minBase": 81,
+      "wave": 4.0
+    },
+    "carrefour|petit": {
+      "n": 54,
+      "win": 0,
+      "minBase": 0,
+      "wave": 3.0
+    },
+    "carrefour|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 73,
+      "wave": 4.0
+    },
+    "carrefour|gros": {
+      "n": 54,
+      "win": 44,
+      "minBase": 17,
+      "wave": 4.0
+    },
+    "refuge-grand|moyen": {
+      "n": 54,
+      "win": 83,
+      "minBase": 40,
+      "wave": 3.0
+    },
+    "refuge-grand|petit": {
+      "n": 54,
+      "win": 0,
+      "minBase": 0,
+      "wave": 2.3
+    },
+    "refuge-grand|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 99,
+      "wave": 3.0
+    },
+    "refuge-grand|gros": {
+      "n": 54,
+      "win": 85,
+      "minBase": 44,
+      "wave": 3.0
+    },
+    "trois-ponts-grand|moyen": {
+      "n": 54,
+      "win": 74,
+      "minBase": 27,
+      "wave": 3.0
+    },
+    "trois-ponts-grand|petit": {
+      "n": 54,
+      "win": 0,
+      "minBase": 0,
+      "wave": 2.4
+    },
+    "trois-ponts-grand|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 90,
+      "wave": 3.0
+    },
+    "trois-ponts-grand|gros": {
+      "n": 54,
+      "win": 100,
+      "minBase": 82,
+      "wave": 3.0
+    },
+    "course-grand|moyen": {
+      "n": 54,
+      "win": 69,
+      "minBase": 50,
+      "wave": 3.0
+    },
+    "course-grand|petit": {
+      "n": 54,
+      "win": 0,
+      "minBase": 0,
+      "wave": 3.0
+    },
+    "course-grand|massues": {
+      "n": 54,
+      "win": 96,
+      "minBase": 90,
+      "wave": 3.0
+    },
+    "course-grand|gros": {
+      "n": 54,
+      "win": 24,
+      "minBase": 21,
+      "wave": 3.0
+    },
+    "coquilles-grand|moyen": {
+      "n": 54,
+      "win": 50,
+      "minBase": 16,
+      "wave": 3.0
+    },
+    "coquilles-grand|petit": {
+      "n": 54,
+      "win": 0,
+      "minBase": 0,
+      "wave": 2.1
+    },
+    "coquilles-grand|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 68,
+      "wave": 3.0
+    },
+    "coquilles-grand|gros": {
+      "n": 54,
+      "win": 17,
+      "minBase": 4,
+      "wave": 3.0
+    },
+    "sonnette-grand|moyen": {
+      "n": 54,
+      "win": 50,
+      "minBase": 17,
+      "wave": 2.9
+    },
+    "sonnette-grand|petit": {
+      "n": 54,
+      "win": 0,
+      "minBase": 0,
+      "wave": 2.3
+    },
+    "sonnette-grand|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 77,
+      "wave": 3.0
+    },
+    "sonnette-grand|gros": {
+      "n": 54,
+      "win": 67,
+      "minBase": 30,
+      "wave": 3.0
+    },
+    "carrefour-grand|moyen": {
+      "n": 54,
+      "win": 59,
+      "minBase": 32,
+      "wave": 4.0
+    },
+    "carrefour-grand|petit": {
+      "n": 54,
+      "win": 0,
+      "minBase": 0,
+      "wave": 2.4
+    },
+    "carrefour-grand|massues": {
+      "n": 54,
+      "win": 100,
+      "minBase": 72,
+      "wave": 4.0
+    },
+    "carrefour-grand|gros": {
+      "n": 54,
+      "win": 17,
+      "minBase": 4,
+      "wave": 3.9
+    },
+    "grande-aventure|expert": {
+      "n": 100,
+      "win": 58,
+      "minBase": 51,
+      "wave": 11.9
+    },
+    "grande-aventure|moyen": {
+      "n": 100,
+      "win": 0,
+      "minBase": 0,
+      "wave": 9.6
+    },
+    "grande-aventure|petit": {
+      "n": 100,
+      "win": 0,
+      "minBase": 0,
+      "wave": 7.6
+    },
+    "grande-aventure|gros": {
+      "n": 100,
+      "win": 45,
+      "minBase": 26,
+      "wave": 11.5
+    }
+  }
+}
