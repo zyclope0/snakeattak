@@ -11,7 +11,8 @@ import {
   createMissionProgressController,
   validateMissionProgress,
 } from '../src/missionProgress.ts';
-import { createCapriceAlbums } from '../src/capriceAlbums.ts';
+import { createCapriceAlbums, createCapriceAlbumsController } from '../src/capriceAlbums.ts';
+import { createFamilyPersistence } from '../src/familyPersistence.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 
 function milestone(revision: 1 | 2, wave: 4 | 8) {
@@ -145,3 +146,79 @@ test('legacy experimental camp8 behavior remains available without applying new 
   assert.equal(encodeCheckpoint(decodeCheckpoint(raw)!), raw);
   assert.match(encodeDeparture({ kind: 'mission', run }), /-3-.*-S3-/);
 });
+
+function replacedModernRefuge(tutorial = true) {
+  const progress = createMissionProgressController();
+  const modern = createMissionRun('refuge', 42, undefined, 2);
+  const { rules, ...originalRules } = createMissionRun('refuge', 43);
+  const legacy = tutorial ? { ...originalRules, rules } : originalRules;
+  assert.equal(progress.started(modern), true);
+  assert.equal(progress.rememberCamp(new Game(42, undefined, modern)), true);
+  const won = new Game(42, undefined, { ...modern, caprice: 'refuge-petit' });
+  won.status = 'won';
+  won.wave = won.totalWaves;
+  assert.equal(progress.record(won), true);
+  assert.equal(progress.started(legacy), true);
+  const game = new Game(43, undefined, legacy);
+  assert.equal(progress.rememberCamp(game), true);
+  assert.equal(progress.state.version, 2);
+  assert.deepEqual(progress.state.lastRuns, { refuge: legacy });
+  assert.equal(game.balanceRevision, 1);
+  assert.equal(JSON.parse(progress.state.retryCamp!).version, tutorial ? 7 : 6);
+  const albums = createCapriceAlbumsController();
+  assert.equal(albums.beginRun(), true);
+  assert.equal(albums.record(won), true);
+  assert.ok(albums.add('Autre enfant'));
+  return { progress: progress.state, camp: encodeCheckpoint(game)!, albums: albums.state };
+}
+
+test('modern refuge replaced by legacy retains family5, progress2 and album ownership', () => {
+  const { progress, camp, albums } = replacedModernRefuge();
+  const career = createCareer().state;
+  const raw = writeFamilyBackup(camp, career, progress, albums)!;
+  assert.ok(raw);
+  const backup = readFamilyBackup(raw)!;
+  assert.equal(backup.version, 5);
+  assert.equal(JSON.stringify(backup), raw);
+  assert.deepEqual(backup.missions, progress);
+  assert.equal(backup.missions!.bestStars.refuge, 3);
+  assert.deepEqual(backup.albums, albums);
+  assert.notEqual(albums.activeId, albums.campProfileId);
+  assert.deepEqual(albums.children[0].completed, ['refuge-petit']);
+  assert.equal(backup.camp, camp);
+  let stored: string | null = null;
+  const writes: string[] = [];
+  const persistence = createFamilyPersistence({
+    getItem: () => stored,
+    setItem: (_key, value) => {
+      stored = value;
+      writes.push(value);
+    },
+  });
+  assert.equal(persistence.import(backup), true);
+  assert.deepEqual(writes, [raw]);
+  assert.deepEqual(persistence.load(), backup);
+  assert.equal(persistence.sync(camp, career), true);
+  assert.deepEqual(writes, [raw]);
+  assert.equal(writeFamilyBackup(camp, career, progress), null);
+  assert.equal(writeFamilyBackup(null, career, progress), null);
+});
+
+for (const version of [1, 2, 3, 4]) {
+  test(`retained progress2 rejects false family${version} before any import write`, () => {
+    const { progress, camp, albums } = replacedModernRefuge(version !== 2);
+    const writes: string[] = [];
+    const persistence = createFamilyPersistence({
+      getItem: () => null,
+      setItem: (_key, value) => {
+        writes.push(value);
+      },
+    });
+    const full = JSON.parse(writeFamilyBackup(camp, createCareer().state, progress, albums)!);
+    const forged = { ...full, version };
+    if (version < 4) delete forged.albums;
+    assert.equal(readFamilyBackup(JSON.stringify(forged)), null);
+    assert.equal(persistence.import(forged), false);
+    assert.deepEqual(writes, []);
+  });
+}

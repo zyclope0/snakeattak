@@ -25,6 +25,7 @@ const withinLimits = (raw: string) =>
 
 function missionProgressHasBalance2(missions: MissionProgress): boolean {
   return (
+    missions.version === 2 ||
     Object.values(missions.lastRuns).some((run) => run.balance === 2) ||
     [missions.retryCamp, missions.classicCamp].some(
       (raw) => raw !== null && decodeCheckpoint(raw)?.balanceRevision === 2,
