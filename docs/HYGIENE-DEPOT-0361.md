@@ -17,6 +17,12 @@ font foi. Script, résultats complets et empreintes dans l’archive de preuves.
 | Dont `docs/`              |     197 471 545 |                  197 481 415 |
 | Différence depuis l’audit |               — |  +64 189 octets, +8 fichiers |
 
+Au commit source avant APK `72cc788`, le total est de 6 642 fichiers /
+670 337 761 octets, soit +84 048 octets et +11 fichiers depuis l’audit.
+Les candidats restent identiques ; le reste conservé est de 190 620 619 octets
+avec le seuil 256 Kio. Les petits résumés de livraison ajoutés ensuite sont
+comptés séparément dans l’index ; aucun retrait de suivi n’a eu lieu.
+
 La mesure de 670 253 713 octets appartient à `9287e60`, avant les nouveaux
 plan et spécification ; elle ne décrit pas un comptage effectué sur `79e0f8a`.
 
@@ -41,7 +47,7 @@ volume compressé futur n’est estimé ici.
 Ordre proposé après un GO explicite :
 
 1. Copier les fichiers candidats dans un stockage d’artefacts privé et conserver
-   une copie locale externe. Aucune téléversement n’est effectué dans ce lot.
+   une copie locale externe. Aucun téléversement n’est effectué dans ce lot.
 2. Vérifier chaque taille et SHA-256, relire l’archive puis tester une restauration
    complète. Conserver les sources d’audit et références artistiques canoniques.
 3. Ajouter un index JSON léger : chemin original, taille, SHA-256, archive,

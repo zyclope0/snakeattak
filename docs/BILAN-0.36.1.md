@@ -38,6 +38,19 @@ historiques et leurs ancres, les tables de noms/annonces et les originaux de
 l’audit restent intacts. [Plan d’hygiène chiffré](HYGIENE-DEPOT-0361.md),
 proposition seulement, sans retrait d’anciens fichiers.
 
+Vérification finale : 506 tests natifs, build et budgets ; navigateur général ;
+196 contrôles de l’interface ; 281 caprices ; 392 langues et 24 liaisons ;
+recettes mobiles/missions/hors ligne/interruptions/famille/présentation et audit
+13/13. Le premier essai famille a révélé un témoin v2 obsolète : seule la fixture
+a été corrigée pour vérifier exactement v4, l’album par défaut et les imports
+v1/v2/v3, puis la recette complète est passée. Aucun sérialiseur modifié.
+Les 6 600 fichiers de preuves historiques vérifiés sont identiques, dont le
+rapport fixe de l’audit. Le portable a été reconstruit et contrôlé en FR/EN
+après les recettes normales, qui gardent leur `dist/` séparé.
+
+APK normal : version 0.36.1 / code 47, même identité et certificat, 34 fichiers
+web identiques octet pour octet au build ; aucune installation physique prétendue.
+
 Les résultats exacts, commandes, SHA, APK et archive locale sont publiés dans
 l’[index de livraison](../reports/interface-0361/README.md).
 La revue finale fraîche de toute la branche et le conseil de six perspectives

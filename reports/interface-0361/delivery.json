@@ -1,0 +1,125 @@
+{
+  "version": "0.36.1",
+  "versionCode": 47,
+  "sourceSHA": "72cc788cd342fa6b9782a624d1b7b22ea7b1960e",
+  "sourceCommits": [
+    "e4605d6",
+    "72cc788"
+  ],
+  "apk": {
+    "apkPath": "/workspace/conquete-serpents-v0.36.1-debug.apk",
+    "apkBytes": 15098101,
+    "apkSHA256": "a33066836f5d42aa17b3165087c95ae09788fab13539d38e9304cc11e2dd0992",
+    "appId": "com.conqueteserpents.famille",
+    "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "normalNoServer": true,
+    "allDistFilesIdentical": true,
+    "distFiles": 34
+  },
+  "archive": {
+    "archivePath": "/workspace/conquete-serpents-v0.36.1-preuves.tar.gz",
+    "archiveBytes": 313322162,
+    "archiveSHA256": "31e600043475ea2bc195b9ea074835e6ea386d0d995dd36729cc1b2bb81e7022",
+    "indexedFilesVerified": 1306,
+    "indexedBytes": 318940901,
+    "regularMembers": 1307,
+    "allIndexedSHA256Match": true,
+    "verification": "Read every indexed member from compressed archive and compared byte count and SHA-256; no extraction into repository"
+  },
+  "checks": {
+    "distinctFinalCommands": 17,
+    "executionsIncludingRetainedFamilyRed": 18,
+    "nodeTests": 506,
+    "interfaceBrowserChecks": 196,
+    "capriceBrowserChecks": 281,
+    "localeBrowserChecks": 392,
+    "localeBindingChecks": 24,
+    "postNormalPortableColdContexts": 4,
+    "auditChecks": 13,
+    "frozenSources": 8,
+    "preservedHistoricalEvidenceFiles": 6600,
+    "preservedAuditOriginals": 17,
+    "formatAndDiffChecks": "PASS"
+  },
+  "documentation": {
+    "historicalFilesSpaced": 84,
+    "boundedAddedSpaces": 614,
+    "affectedLinesBeforePrettier": 411,
+    "additionalManualSentenceSpace": 1,
+    "protectedSpansAndHistoricalAnchorsUnchanged": true,
+    "catalogueNameAnnouncementRowsUnchanged": true
+  },
+  "hygiene": {
+    "baseline": {
+      "commit": "9287e60a51adf2cbceef24db4f4771a0cb1e0640",
+      "trackedFiles": 6631,
+      "trackedBytes": 670253713,
+      "reportsBytes": 442082822,
+      "docsBytes": 197471545,
+      "policies": {
+        "262144": {
+          "eligibleFiles": 442,
+          "eligibleBytes": 479717142,
+          "retainedBytes": 190536571
+        },
+        "65536": {
+          "eligibleFiles": 466,
+          "eligibleBytes": 482811626,
+          "retainedBytes": 187442087
+        }
+      }
+    },
+    "task3Start": {
+      "commit": "49a1e5aea80a20115a72a0002d72bda24285480a",
+      "trackedFiles": 6639,
+      "trackedBytes": 670317902,
+      "reportsBytes": 442082822,
+      "docsBytes": 197481415,
+      "policies": {
+        "262144": {
+          "eligibleFiles": 442,
+          "eligibleBytes": 479717142,
+          "retainedBytes": 190600760
+        },
+        "65536": {
+          "eligibleFiles": 466,
+          "eligibleBytes": 482811626,
+          "retainedBytes": 187506276
+        }
+      }
+    },
+    "sourceBeforeAPK": {
+      "commit": "72cc788cd342fa6b9782a624d1b7b22ea7b1960e",
+      "trackedFiles": 6642,
+      "trackedBytes": 670337761,
+      "reportsBytes": 442082822,
+      "docsBytes": 197496042,
+      "policies": {
+        "262144": {
+          "eligibleFiles": 442,
+          "eligibleBytes": 479717142,
+          "retainedBytes": 190620619
+        },
+        "65536": {
+          "eligibleFiles": 466,
+          "eligibleBytes": 482811626,
+          "retainedBytes": 187526135
+        }
+      }
+    }
+  },
+  "balance": {
+    "applied": false,
+    "pairedGames": 1080,
+    "gamesPerArmPerRow": 108,
+    "replicationOfAudit44092": false,
+    "compatibility": "Old code3/checkpoint8 resolve current catalog without complete rule revision; separate versioned routing needed before changing same IDs",
+    "biteScope": "Measured refuge proposal affects all enemies; critical decision pending outside this UI lot"
+  },
+  "limits": [
+    "Chromium emulation; no physical S24, Android keyboard, TalkBack or child test claim",
+    "Full branch review and six simulated-perspective council are root-owned and pending at handoff",
+    "Local archive provided with delivery; no remote upload, merge or publication",
+    "No balance/catalog/price/classic change, history rewrite or old evidence untracking"
+  ]
+}
