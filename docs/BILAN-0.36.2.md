@@ -102,3 +102,25 @@ SDK/API/achat/génération payante, nouvelle difficulté ou migration du dépôt
 Revue globale et intégration/publication autorisées confiées au coordinateur.
 L’essai privé S24 reste attendu ; ce bilan décrit le paquet local avant
 publication.
+
+## Correction mineure après revue globale
+
+La revue fraîche a trouvé un seul P3 : une progression mission déjà promue en
+version 2 pouvait être exportée sous famille 4 après remplacement du refuge
+neuf par un ancien. Correction source `28e958e29ef86b8442c875ce6a96b0707ec0425d` :
+ce marqueur conservé exige famille 5, avec missions/carnets complets ; faux
+labels 1–4 refusés avant écriture. Aucune rétrogradation de données ni règle,
+valeur, RNG, prix ou ancien octet modifié. RED puis 45 tests ciblés verts ;
+vérification fraîche 548/548, navigateur général/famille et quatre démarrages
+froids FR/EN normaux hors ligne/file:// réussis.
+
+APK et portable courants reconstruits depuis ce commit ; même 0.36.2/code 48,
+appID/certificat/paysage, 34 fichiers dist égaux, sans serveur/startpath ou
+permission réseau/achat. Les deux livrables pré-revue sont conservés sous noms
+explicites. L’archive initiale Task3 150 Mo et son SHA restent inchangés ;
+un petit complément final séparé contient les nouvelles preuves et paquets,
+avec manifeste individuel vérifié. [Reçu courant](../reports/equilibrage-0362/delivery.json).
+8 139 preuves fixes + 145 fichiers Task3, six anciens livrables externes et
+huit hashes du cœur sont préservés ; les 672 parties déjà revues ne sont pas
+rejouées. Relecture ciblée, coordination et intégration/publication restent
+à la charge du coordinateur. Limites physiques/humaines ci-dessus inchangées.

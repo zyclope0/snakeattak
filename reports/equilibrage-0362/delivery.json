@@ -5,16 +5,16 @@
   "base": "9d3dded",
   "coreProbeCommit": "f6dd559fc16e5ad6e0814e4286da9416ed9134f0",
   "metadataSourceCommit": "430e0212857f38a71d0558203163920e6bceba4f",
-  "apkSourceCommit": "e55e2d3d0ef0f02b1d090a4ac51982dec835878f",
-  "documentationClosure": "Commit containing this receipt; no runtime changes.",
+  "apkSourceCommit": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
+  "documentationClosure": "Final fix documentation closure; no runtime changes from sourceFixCommit.",
   "apk": {
-    "sourceSHA": "e55e2d3d0ef0f02b1d090a4ac51982dec835878f",
+    "sourceSHA": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
     "version": "0.36.2",
     "versionCode": 48,
     "appId": "com.conqueteserpents.famille",
     "apkPath": "/workspace/conquete-serpents-v0.36.2-debug.apk",
-    "apkBytes": 15100389,
-    "apkSHA256": "27285893b3735eb0e029df6090a589be42982ec89e8fedc434c8b2046f61c578",
+    "apkBytes": 15159454,
+    "apkSHA256": "4dfeab542049216e971f5a4e1f0a7085c0550869a6c71cedd58479a1482d7dd4",
     "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
     "normalNoServer": true,
     "allDistFilesIdentical": true,
@@ -22,8 +22,8 @@
   },
   "portable": {
     "portablePath": "/workspace/conquete-serpents-v0.36.2-portable.html",
-    "portableBytes": 15103523,
-    "portableSHA256": "ad6c4c4ed4591b0c7a5203a3df50f1eb87ae36c13f33783a8a2ad90942925c1e"
+    "portableBytes": 15103538,
+    "portableSHA256": "8bf19d863db9cd6053ca71137906b270277f2754ea3270086758bf1e2161482f"
   },
   "archive": {
     "path": "/workspace/conquete-serpents-v0.36.2-preuves.tar.gz",
@@ -34,126 +34,90 @@
     "allMemberSHA256Verified": true,
     "scope": "Only new balance/task3 proofs, exploratory inputs, SDD sources/reviews/reports and new APK/portable; excludes historical backup, old proof archives and later root whole-branch review."
   },
-  "freshNodeTests": 543,
+  "freshNodeTests": 548,
   "freshFailedNodeTests": 0,
   "freshCommands": [
     {
       "name": "verify",
       "command": "npm run verify",
       "exitCode": 0,
-      "seconds": 36.431,
-      "log": "artifacts/equilibrage-0362/task3/verify/run.log"
+      "seconds": 34.428,
+      "log": "artifacts/equilibrage-0362/final-fix/verify/run.log"
     },
     {
       "name": "browser",
       "command": "npm run test:browser",
       "exitCode": 0,
-      "seconds": 35.25,
-      "log": "artifacts/equilibrage-0362/task3/browser/run.log"
+      "seconds": 34.602,
+      "log": "artifacts/equilibrage-0362/final-fix/browser/run.log"
     },
     {
-      "name": "targeted0362",
-      "command": "node scripts/equilibrage-0362-browser.mjs",
+      "name": "family",
+      "command": "npm run test:family",
       "exitCode": 0,
-      "seconds": 9.716,
-      "log": "artifacts/equilibrage-0362/task3/targeted0362/run.log"
-    },
-    {
-      "name": "reinforcements-scroll-green2",
-      "command": "npm run test:reinforcements-scroll",
-      "exitCode": 0,
-      "seconds": 50.451,
-      "log": "artifacts/equilibrage-0362/task3/reinforcements-scroll-green2/run.log"
-    },
-    {
-      "name": "threat-preparation",
-      "command": "npm run test:threat-preparation",
-      "exitCode": 0,
-      "seconds": 22.941,
-      "log": "artifacts/equilibrage-0362/task3/threat-preparation/run.log"
-    },
-    {
-      "name": "child-mobile",
-      "command": "npm run test:child-mobile",
-      "exitCode": 0,
-      "seconds": 40.452,
-      "log": "artifacts/equilibrage-0362/task3/child-mobile/run.log"
-    },
-    {
-      "name": "presentation",
-      "command": "npm run test:presentation",
-      "exitCode": 0,
-      "seconds": 71.74,
-      "log": "artifacts/equilibrage-0362/task3/presentation/run.log"
-    },
-    {
-      "name": "tactical-clarity",
-      "command": "npm run test:tactical-clarity",
-      "exitCode": 0,
-      "seconds": 16.976,
-      "log": "artifacts/equilibrage-0362/task3/tactical-clarity/run.log"
-    },
-    {
-      "name": "audit",
-      "command": "npm run test:audit",
-      "exitCode": 0,
-      "seconds": 13.869,
-      "log": "artifacts/equilibrage-0362/task3/audit/run.log"
-    },
-    {
-      "name": "contextual-captures",
-      "command": "node artifacts/equilibrage-0362/task3/capture-contextual-prices.mjs",
-      "exitCode": 0,
-      "seconds": 23.671,
-      "log": "artifacts/equilibrage-0362/task3/contextual-captures/run.log"
-    },
-    {
-      "name": "routing-final",
-      "command": "node scripts/equilibrage-0362-browser.mjs",
-      "exitCode": 0,
-      "seconds": 8.15,
-      "log": "artifacts/equilibrage-0362/task3/routing-final.log"
+      "seconds": 17.575,
+      "log": "artifacts/equilibrage-0362/final-fix/family/run.log"
     },
     {
       "name": "portable",
-      "command": "node artifacts/equilibrage-0362/task3/portable-check.mjs",
+      "command": "node artifacts/equilibrage-0362/final-fix/portable-check.mjs",
       "exitCode": 0,
-      "seconds": 18.304,
-      "log": "artifacts/equilibrage-0362/task3/portable.log"
+      "seconds": 17.286,
+      "log": "artifacts/equilibrage-0362/final-fix/portable.log"
     },
     {
       "name": "android-package",
-      "command": "python3 artifacts/equilibrage-0362/task3/android-package.py",
+      "command": "python3 artifacts/equilibrage-0362/final-fix/android-package.py",
       "exitCode": 0,
-      "seconds": 13.038,
-      "log": "artifacts/equilibrage-0362/task3/android-package.log"
-    },
-    {
-      "name": "format-final",
-      "command": "npm run format:check",
-      "exitCode": 0,
-      "seconds": 9.802,
-      "log": "artifacts/equilibrage-0362/task3/format-final.log"
+      "seconds": 10.996,
+      "log": "artifacts/equilibrage-0362/final-fix/android-package.log"
     }
   ],
   "reusedEvidence": {
     "task2ReviewedCommit": "09aaae905079f0e79ef8055032be4e85f4079143",
-    "allTask2ProductionHashesUnchanged": true,
+    "allTask2ProductionHashesUnchanged": false,
     "physicalSourceHashesUnchanged": 8,
     "actualGame2Games": 672,
     "exploratoryGamesDistinct": 1356,
     "oldControlsReusedNotNewPlays": 540,
-    "noFullReminderMatrixReplay": true
+    "noFullReminderMatrixReplay": true,
+    "finalFixProductionChange": "Only familyBackup.ts classifier additionally requires family5 for missions.version2; eight physics hashes still identical."
   },
   "historicalFixedProofFilesUnchanged": 8139,
   "historicalExternalApkArchiveFilesUnchanged": 6,
   "qaDeviation": "Root-approved native touch helper now uses visible card intersection; no assertions weakened. 19px initial first-card exposure at568x320 with safe[24,48,16,0] remains a usability limitation. Initial red, diagnostic and residual-helper red logs preserved.",
-  "reviewScope": "Task3 local delivery complete; root whole-branch fresh review, final simulated council and authorized integration/publication follow separately.",
+  "reviewScope": "One R1/P3 family-label correction complete locally; root scoped review and integration/publication follow separately.",
   "pendingPhysicalChecks": [
     "S24",
     "TalkBack",
     "human English review",
     "actual child experience"
   ],
-  "remoteWritesByTask3": false
+  "remoteWritesByTask3": false,
+  "sourceFixCommit": "28e958e29ef86b8442c875ce6a96b0707ec0425d",
+  "initialTask3Receipt": "reports/equilibrage-0362/delivery-before-final-review.json",
+  "finalAddendum": {
+    "path": "/workspace/conquete-serpents-v0.36.2-final-addendum.tar.gz",
+    "sha256": "7bbdc57afb5382e04078a256a212882603e22933d08aa8ea5bf43a84ca7c8da2",
+    "bytes": 30209058,
+    "verifiedFileMembers": 51,
+    "manifestMember": "proof-manifest.json",
+    "allMemberSHA256Verified": true,
+    "scope": "Only final R1 fix source/tests, fresh RED/GREEN/verify/browser/family/cold-start/package proofs and scripts, whole-branch review, final fix brief/report and current APK/portable; excludes historical proof payloads, external backups, initial archive and pre-review binaries. Root later scoped review and coordination are separate."
+  },
+  "task3FixedFilesUnchanged": 145,
+  "totalPreservedFixedFiles": 8284,
+  "preReviewPackages": {
+    "/workspace/conquete-serpents-v0.36.2-before-final-review-debug.apk": "27285893b3735eb0e029df6090a589be42982ec89e8fedc434c8b2046f61c578",
+    "/workspace/conquete-serpents-v0.36.2-before-final-review-portable.html": "ad6c4c4ed4591b0c7a5203a3df50f1eb87ae36c13f33783a8a2ad90942925c1e"
+  },
+  "finalFixEvidence": "artifacts/equilibrage-0362/final-fix/",
+  "remoteWritesByFinalFix": false,
+  "finalClosureChecks": {
+    "formatCheck": "npm run format:check \u2014 exit 0 after compact docs updates",
+    "diffCheck": "git diff --check \u2014 exit 0",
+    "archiveReread": "51/51 member SHA256 plus global SHA256/size confirmed after documentation updates",
+    "packageAndPreservationRecheck": "final-inspect.py exit 0 after documentation updates",
+    "rootScopedReviewPending": true
+  }
 }

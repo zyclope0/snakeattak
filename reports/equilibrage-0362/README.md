@@ -17,16 +17,29 @@ Les preuves brutes nouvelles restent ignorées sous
 sont pas déplacés ni écrasés. La fixture fonctionnelle de régression
 `tests/fixtures/balance-0362-legacy.json` reste dans Git.
 
-[Reçu exact de livraison](delivery.json) : APK normal source `e55e2d3`,
-34 fichiers web identiques au `dist/`, même application/certificat, sans
-serveur/startpath/permission réseau ou achat.
+[Reçu courant de livraison](delivery.json) : APK normal source `28e958e29ef86b8442c875ce6a96b0707ec0425d`,
+34 fichiers web identiques au `dist/`, même version 0.36.2/code 48,
+application/certificat, orientation paysage et absence de serveur/startpath/
+permission réseau ou achat.
 
-- APK : `/workspace/conquete-serpents-v0.36.2-debug.apk`, 15 100 389 octets ; SHA256 `27285893b3735eb0e029df6090a589be42982ec89e8fedc434c8b2046f61c578`.
-- Portable : `/workspace/conquete-serpents-v0.36.2-portable.html`, 15 103 523 octets ; SHA256 `ad6c4c4ed4591b0c7a5203a3df50f1eb87ae36c13f33783a8a2ad90942925c1e`.
-- Archive nouvelle : `/workspace/conquete-serpents-v0.36.2-preuves.tar.gz`, 150 058 244 octets ; SHA256 `7611963e0815a53fe11dc6ea9d4ce9db0a20888fda53eb6c8d9c84186a2e9bb0` ; **632 fichiers vérifiés individuellement** contre le manifeste SHA embarqué. Reçu externe : même chemin suivi de `.verification.json`.
+- APK courant : `/workspace/conquete-serpents-v0.36.2-debug.apk`, 15,159,454 octets ; SHA256 `4dfeab542049216e971f5a4e1f0a7085c0550869a6c71cedd58479a1482d7dd4`.
+- Portable courant : `/workspace/conquete-serpents-v0.36.2-portable.html`, 15,103,538 octets ; SHA256 `8bf19d863db9cd6053ca71137906b270277f2754ea3270086758bf1e2161482f`.
+- Copies avant revue : `/workspace/conquete-serpents-v0.36.2-before-final-review-debug.apk` et `conquete-serpents-v0.36.2-before-final-review-portable.html` ; [reçu initial conservé](delivery-before-final-review.json).
+- Archive initiale Task3 inchangée : `/workspace/conquete-serpents-v0.36.2-preuves.tar.gz`, 150 058 244 octets, 632 membres vérifiés ; SHA256 `7611963e0815a53fe11dc6ea9d4ce9db0a20888fda53eb6c8d9c84186a2e9bb0`.
+- Complément final distinct : `/workspace/conquete-serpents-v0.36.2-final-addendum.tar.gz`, 30,209,058 octets, **51 fichiers vérifiés** contre le manifeste SHA embarqué ; SHA256 `7bbdc57afb5382e04078a256a212882603e22933d08aa8ea5bf43a84ca7c8da2`. Reçu externe : même chemin suivi de `.verification.json`.
 
-L’archive couvre les nouvelles preuves jusqu’à Task3 et précède la revue
-fraîche globale du coordinateur. Les anciennes archives et la sauvegarde
-historique externe sont exclues ; 8 139 preuves fixes et six anciens
-APK/archives restent identiques. Aucun upload distant réalisé par le lot Task3.
-Essai physique S24, TalkBack, relecture anglophone humaine et enfants attendus.
+Le seul P3 de revue est corrigé : la progression mission 2 conservée après
+remplacement d’un refuge neuf par un ancien exige toujours l’enveloppe 5 ;
+les fausses étiquettes 1–4 sont rejetées sans écriture. Pas de rétrogradation
+de progression ni de changement de règles. RED puis GREEN ciblé 45/45 ;
+verify frais 548/548, navigateur général et famille sans erreur, quatre
+démarrages froids FR/EN normal hors ligne/file:// réussis. Les 672 parties
+Game2 restent les preuves déjà revues, sans nouvelle simulation.
+
+8 139 preuves historiques fixes, les 145 fichiers Task3, huit empreintes du
+cœur et six anciens APK/archives restent identiques. Le complément ne duplique
+ni sauvegarde historique ni archive initiale ni anciens binaires. La revue
+globale figure dans le complément ; la relecture ciblée et les documents de
+coordination seront ajoutés séparément par le coordinateur. Aucun upload
+distant réalisé par cette correction. Essai physique S24, TalkBack,
+relecture anglophone humaine et enfants attendus.

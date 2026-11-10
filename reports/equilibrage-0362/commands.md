@@ -1,6 +1,6 @@
 # Commandes et provenance des preuves
 
-Toutes les recettes sont sérialisées. Exécution actuelle :
+Toutes les recettes sont sérialisées. Exécution initiale Task3 :
 `artifacts/equilibrage-0362/task3/commands.json` et `commands-remaining2.json`.
 Chaque entrée indique commande, code de sortie, durée et log ; les dossiers
 `generated/` conservent les nouveaux résultats avant restauration des chemins
@@ -50,5 +50,35 @@ nouvelle. Aucun ancien APK écrasé.
 Le [reçu final](delivery.json) conserve les 14 commandes fraîches réussies,
 leurs durées et logs, les SHA APK/portable/archive et les comptes exacts.
 La vérification d’archive a été relue au moment de la clôture : 632 fichiers,
-SHA de chaque membre et SHA global conformes. La clôture documentaire ne
-modifie pas les sources runtime de l’APK `e55e2d3`.
+SHA de chaque membre et SHA global conformes. La clôture initiale ne modifiait pas les sources runtime de son APK `e55e2d3`.
+
+
+## Correction finale R1 et paquets courants
+
+Source du paquet courant : `28e958e29ef86b8442c875ce6a96b0707ec0425d`.
+Le seul changement runtime ajoute `missions.version === 2` au classifieur
+familial. Les résultats Task3 ci-dessus restent historiques ; leur reçu est
+conservé dans `delivery-before-final-review.json`.
+
+| Étape finale | Commande / preuve | Résultat frais |
+| --- | --- | --- |
+| RED avant source | `node --experimental-strip-types --test tests/balance-persistence-0362.test.ts` ; `final-fix/red-final.log` | 12 tests, 4 échecs attendus (export et faux labels 2/3/4) ; label 1 déjà refusé |
+| GREEN ciblé | Même fichier + `balance-revision-0362`, `family-backup-020`, `family-missions-021`, `family-persistence-020` | 45/45, témoins legacy inchangés |
+| Vérification | `npm run verify` | 548/548, format/types/build/budgets ; 34,428s |
+| Navigateur général | `npm run test:browser` | Desktop/tactile, pageErrors[] ; 34,602s |
+| Famille | `npm run test:family` | Transports file/web, reprise/invalides/stockage bloqué, quatre tailles, pageErrors[] ; 17,575s |
+| Portable froid | `node artifacts/equilibrage-0362/final-fix/portable-check.mjs` | Build séparé et quatre cas FR/EN normal hors ligne/file:// ; 17,286s |
+| APK normal | `python3 artifacts/equilibrage-0362/final-fix/android-package.py` | 0.36.2/code48, 34 fichiers égaux, certificat/identité inchangés ; 10,996s |
+| Préservation | `python3 artifacts/equilibrage-0362/final-fix/final-inspect.py` | 8 139 anciens + 145 Task3, huit hashes physiques et anciens paquets inchangés |
+| Complément additif | `python3 artifacts/equilibrage-0362/final-fix/archive-new-proofs.py` | Manifeste SHA de chaque nouveau membre et hash global vérifiés ; aucun ancien payload/backup/archive dupliqué |
+
+Logs/commandes/scripts nouveaux sous `artifacts/equilibrage-0362/final-fix/` ;
+scripts de paquet copiés/adaptés de Task3, sans écraser ses journaux.
+Sauvegarde supplémentaire externe
+`/workspace/equilibrage-0362-final-fix-historical-backup`, restauration en
+finally après chaque recette. Copies pré-revue des deux livrables conservées.
+L’archive initiale 150 Mo et son SHA restent intacts ; complément final distinct
+et paquets courants décrits dans `delivery.json`. Les parties physiques et
+matrices UI/langues inchangées ne sont pas rejouées. Format/checkdiff finaux
+consignés dans le rapport de correction ; relecture ciblée/coordination root
+ultérieures au complément.

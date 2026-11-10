@@ -20,6 +20,15 @@ restent attendus. Livraison locale privée préparée ; publication après revue
 autorisée le 10 novembre et conduite par le coordinateur. Le site public reste
 en 0.35.0 à ce stade de préparation. L’historique ci-dessous est conservé.
 
+Correction finale unique du P3 familial effectuée dans `28e958e` : progression
+mission 2 conservée ⇒ enveloppe 5, même après retour à un refuge historique ;
+faux labels 1–4 refusés. Vérification fraîche 548 tests verts, navigateur/famille,
+quatre démarrages froids FR/EN et APK source identique au reçu courant.
+APK/portable pré-revue conservés ; archive initiale inchangée et complément
+final séparé vérifié. Les 8 139 preuves historiques et 145 fichiers Task3 sont
+identiques ; huit hashes physiques inchangés, pas de répétition des 672 parties.
+Relecture ciblée et opérations distantes restent confiées au coordinateur.
+
 ## Candidate privée 0.36.1 — livraison et revue avant STOP
 
 Version 0.36.1 / Android 47 sur `feat/caprices-interface`. Les douze constats
