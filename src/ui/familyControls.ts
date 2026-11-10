@@ -119,12 +119,12 @@ export function bindFamilyControls(actions: Actions) {
       }
       appendDisplayText(
         el('family-preview-summary'),
-        backup.version === 4
+        backup.version === 4 || backup.version === 5
           ? ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.'
           : ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.',
       );
       albumNames.replaceChildren();
-      if (backup.version === 4)
+      if (backup.version === 4 || backup.version === 5)
         for (const child of backup.albums.children) {
           const name = document.createElement('span');
           name.dataset.copyRaw = '';

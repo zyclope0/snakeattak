@@ -39,7 +39,7 @@ const missions = createMissionProgressController(
   familySaved && 'missions' in familySaved ? familySaved.missions : undefined,
 );
 const albums = createCapriceAlbumsController(
-  familySaved?.version === 4 ? familySaved.albums : undefined,
+  familySaved?.version === 4 || familySaved?.version === 5 ? familySaved.albums : undefined,
 );
 const stickerResults = new WeakMap<Game, boolean>();
 let albumUI: ReturnType<typeof bindCapriceAlbums> | undefined;
@@ -237,7 +237,9 @@ bindFamilyControls({
         message:
           'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.',
       };
-    albums.replaceState(canonical.version === 4 ? canonical.albums : createCapriceAlbums());
+    albums.replaceState(
+      canonical.version === 4 || canonical.version === 5 ? canonical.albums : createCapriceAlbums(),
+    );
     if (
       !albums.state.campProfileId &&
       (('missions' in canonical &&

@@ -74,7 +74,7 @@ test('progress validation rejects malformed fields without modifying live progre
   assert.deepEqual(readMissionProgress(JSON.stringify(valid)), valid);
   assert.ok(validateMissionProgress(valid));
   const invalids: unknown[] = [
-    { ...valid, version: 2 },
+    { ...valid, version: 3 },
     { ...valid, bestStars: { ...valid.bestStars, refuge: NaN } },
     { ...valid, bestStars: { ...valid.bestStars, refuge: 4 } },
     { ...valid, bestStars: { ...valid.bestStars, surprise: 2 } },

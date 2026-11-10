@@ -5,7 +5,7 @@ import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
 import { capriceById, capriceUnlocked } from './caprices.ts';
 
 export type MissionProgress = {
-  version: 1;
+  version: 1 | 2;
   bestStars: Record<MissionId, number>;
   lastRuns: Partial<Record<MissionId, MissionRun>>;
   retryCamp: string | null;
@@ -26,7 +26,8 @@ const sameRun = (a: MissionRun | null | undefined, b: MissionRun | null | undefi
   a.assault === b.assault &&
   a.nest === b.nest &&
   a.rules === b.rules &&
-  a.caprice === b.caprice;
+  a.caprice === b.caprice &&
+  a.balance === b.balance;
 
 export function createMissionProgress(): MissionProgress {
   return {
@@ -46,7 +47,7 @@ function copyState(state: MissionProgress): MissionProgress {
 function canonical(value: unknown): MissionProgress | null {
   if (
     !object(value) ||
-    value.version !== 1 ||
+    (value.version !== 1 && value.version !== 2) ||
     !object(value.bestStars) ||
     !object(value.lastRuns) ||
     (value.activeMode !== 'classic' && value.activeMode !== 'missions')
@@ -59,13 +60,14 @@ function canonical(value: unknown): MissionProgress | null {
   )
     return null;
   const state = createMissionProgress();
+  state.version = value.version;
   state.activeMode = value.activeMode;
   for (const { id } of MISSIONS) {
     if (!Object.hasOwn(value.bestStars, id) || !stars(value.bestStars[id])) return null;
     state.bestStars[id] = value.bestStars[id];
     if (Object.hasOwn(value.lastRuns, id)) {
       const run = readMissionRun(value.lastRuns[id]);
-      if (!run || run.missionId !== id) return null;
+      if (!run || run.missionId !== id || (value.version === 1 && run.balance === 2)) return null;
       state.lastRuns[id] = run;
     }
   }
@@ -74,7 +76,12 @@ function canonical(value: unknown): MissionProgress | null {
     if (raw === null) continue;
     if (typeof raw !== 'string') return null;
     const game = decodeCheckpoint(raw);
-    if (!game || (field === 'classicCamp' ? !!game.mission : !game.mission)) return null;
+    if (
+      !game ||
+      (value.version === 1 && game.balanceRevision === 2) ||
+      (field === 'classicCamp' ? !!game.mission : !game.mission)
+    )
+      return null;
     if (field === 'retryCamp' && !sameRun(game.mission, state.lastRuns[game.mission!.missionId]))
       return null;
     const camp = encodeCheckpoint(game);
@@ -127,6 +134,7 @@ export function createMissionProgressController(initial?: MissionProgress) {
     const changed =
       earned > state.bestStars[run.missionId] || !sameRun(run, state.lastRuns[run.missionId]);
     state.bestStars[run.missionId] = Math.max(state.bestStars[run.missionId], earned);
+    if (run.balance === 2) state.version = 2;
     state.lastRuns[run.missionId] = run;
     return changed;
   }
@@ -137,6 +145,7 @@ export function createMissionProgressController(initial?: MissionProgress) {
     if (!raw) return false;
     const field = run ? 'retryCamp' : 'classicCamp';
     const changed = state[field] !== raw || (!!run && !sameRun(run, state.lastRuns[run.missionId]));
+    if (game.balanceRevision === 2) state.version = 2;
     state[field] = raw;
     if (run) state.lastRuns[run.missionId] = run;
     return changed;
@@ -164,6 +173,7 @@ export function createMissionProgressController(initial?: MissionProgress) {
         !capriceUnlocked(capriceById(run.caprice)!.tier, state.bestStars[run.missionId])
       )
         return false;
+      if (run.balance === 2) state.version = 2;
       state.lastRuns[run.missionId] = run;
       state.retryCamp = null;
       state.activeMode = 'missions';

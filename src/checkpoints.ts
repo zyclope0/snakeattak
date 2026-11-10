@@ -22,17 +22,33 @@ export function encodeCheckpoint(game: Game): string | null {
   const units = game.units.filter((u) => u.hp > 0);
   if (units.length > UNIT_LIMIT) return null;
   // Keep the frozen classic witness byte-compatible with the pre-tactical camp.
-  if (game.mission?.rules === 2 && !game.tuning.tacticalRulesEnabled) return null;
-  const version = game.mission?.caprice
-    ? 8
-    : game.mission?.rules === 2
-      ? 7
-      : game.tuning.tacticalRulesEnabled === false
-        ? game.mission
-          ? 5
-          : 4
-        : 6;
-  const modern = version === 6 || version === 7 || version === 8;
+  if (
+    (game.mission?.rules === 2 || game.balanceRevision === 2) &&
+    !game.tuning.tacticalRulesEnabled
+  )
+    return null;
+  if (
+    game.balanceRevision === 2 &&
+    (!Number.isInteger(game.initialSeed) ||
+      game.initialSeed === null ||
+      game.initialSeed < 0 ||
+      game.initialSeed > 0xffffffff ||
+      (game.mission && (game.mission.balance !== 2 || game.initialSeed !== game.mission.seed)))
+  )
+    return null;
+  const version =
+    game.balanceRevision === 2
+      ? 9
+      : game.mission?.caprice
+        ? 8
+        : game.mission?.rules === 2
+          ? 7
+          : game.tuning.tacticalRulesEnabled === false
+            ? game.mission
+              ? 5
+              : 4
+            : 6;
+  const modern = version === 6 || version === 7 || version === 8 || version === 9;
   const savedUnits = [];
   for (const u of units) {
     const rules = medicalRules(u.kind);
@@ -57,11 +73,14 @@ export function encodeCheckpoint(game: Game): string | null {
   }
   const raw = JSON.stringify({
     version,
+    ...(version === 9 ? { balance: 2 } : {}),
     ...(modern && game.initialSeed !== null ? { initialSeed: game.initialSeed } : {}),
     ...(game.mission
       ? { mission: game.mission, missionMinBase: Math.min(game.missionMinBase, game.base) }
       : {}),
-    ...(version === 8 ? { capriceKindsChosen: game.capriceKindsChosen } : {}),
+    ...(version === 8 || (version === 9 && game.mission?.caprice)
+      ? { capriceKindsChosen: game.capriceKindsChosen }
+      : {}),
     campaign: game.campaign,
     rewards: {
       ...game.rewards,
@@ -102,7 +121,8 @@ export function decodeCheckpoint(raw: string): Game | null {
         d.version !== 5 &&
         d.version !== 6 &&
         d.version !== 7 &&
-        d.version !== 8) ||
+        d.version !== 8 &&
+        d.version !== 9) ||
       !integer(d.wave, 0, TOTAL_WAVES - 1) ||
       !integer(d.gold, 0, 10000000) ||
       !number(d.base, 1, 100) ||
@@ -114,15 +134,24 @@ export function decodeCheckpoint(raw: string): Game | null {
       d.units.length > UNIT_LIMIT
     )
       return null;
-    const modern = d.version === 6 || d.version === 7 || d.version === 8;
+    const modern = d.version === 6 || d.version === 7 || d.version === 8 || d.version === 9;
     const hasMission = d.version === 5 || (modern && Object.hasOwn(d, 'mission'));
     const mission = hasMission ? readMissionRun(d.mission) : null;
     if (
-      d.version === 8
+      d.version === 9
+        ? d.balance !== 2 ||
+          !integer(d.initialSeed, 0, 0xffffffff) ||
+          (hasMission && mission?.balance !== 2)
+        : Object.hasOwn(d, 'balance') || (object(d.mission) && Object.hasOwn(d.mission, 'balance'))
+    )
+      return null;
+    if (
+      d.version !== 9 &&
+      (d.version === 8
         ? !mission?.caprice
         : d.version === 7
           ? mission?.rules !== 2
-          : mission?.rules !== undefined
+          : mission?.rules !== undefined)
     )
       return null;
     if (
@@ -132,9 +161,9 @@ export function decodeCheckpoint(raw: string): Game | null {
         !number(d.missionMinBase, 1, d.base))
     )
       return null;
-    const game = new Game(d.rng, undefined, mission ?? undefined),
+    const game = new Game(d.rng, undefined, mission ?? undefined, d.version === 9 ? 2 : 1),
       ids = new Set<number>();
-    if (d.version === 8) {
+    if (d.version === 8 || (d.version === 9 && mission?.caprice)) {
       if (
         !Array.isArray(d.capriceKindsChosen) ||
         d.capriceKindsChosen.length > game.caprice.kinds ||
