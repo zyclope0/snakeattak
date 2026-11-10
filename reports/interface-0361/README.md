@@ -35,7 +35,7 @@ surveillés sont identiques après les recettes et l’APK, dont
 `reports/audit-2026-11-after-lot2.json`. Les sorties récentes ont été copiées
 avant restauration dans le dossier de leur commande.
 
-Documentation : 614 espaces ajoutés par vocabulaire borné sur 411 lignes de
+Documentation : 761 espaces ajoutés par vocabulaire borné sur 472 lignes de
 84 documents historiques, plus un espace séparant deux phrases accolées.
 Diff relu ; code, citations, URLs, chemins et identifiants protégés. Les 17
 originaux d’audit, les anciennes ancres de titres et les rangées de noms/annonces

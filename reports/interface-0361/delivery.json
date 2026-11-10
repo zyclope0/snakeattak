@@ -4,7 +4,9 @@
   "sourceSHA": "72cc788cd342fa6b9782a624d1b7b22ea7b1960e",
   "sourceCommits": [
     "e4605d6",
-    "72cc788"
+    "72cc788",
+    "c54ec5b",
+    "f87c898"
   ],
   "apk": {
     "apkPath": "/workspace/conquete-serpents-v0.36.1-debug.apk",
@@ -18,11 +20,11 @@
   },
   "archive": {
     "archivePath": "/workspace/conquete-serpents-v0.36.1-preuves.tar.gz",
-    "archiveBytes": 313322162,
-    "archiveSHA256": "31e600043475ea2bc195b9ea074835e6ea386d0d995dd36729cc1b2bb81e7022",
-    "indexedFilesVerified": 1306,
-    "indexedBytes": 318940901,
-    "regularMembers": 1307,
+    "archiveBytes": 313357893,
+    "archiveSHA256": "8b20478800ad6173c784c1543c51c344c0430da854611dbc430deedf93f55e6e",
+    "indexedFilesVerified": 1315,
+    "indexedBytes": 319079020,
+    "regularMembers": 1316,
     "allIndexedSHA256Match": true,
     "verification": "Read every indexed member from compressed archive and compared byte count and SHA-256; no extraction into repository"
   },
@@ -43,11 +45,12 @@
   },
   "documentation": {
     "historicalFilesSpaced": 84,
-    "boundedAddedSpaces": 614,
-    "affectedLinesBeforePrettier": 411,
+    "boundedAddedSpaces": 761,
+    "affectedLinesBeforePrettier": 472,
     "additionalManualSentenceSpace": 1,
     "protectedSpansAndHistoricalAnchorsUnchanged": true,
-    "catalogueNameAnnouncementRowsUnchanged": true
+    "catalogueNameAnnouncementRowsUnchanged": true,
+    "refinementCommit": "f87c898"
   },
   "hygiene": {
     "baseline": {
