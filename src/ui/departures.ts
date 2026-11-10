@@ -2,20 +2,29 @@ import { setText as setDisplayText } from '../i18n/dom.ts';
 import { decodeDeparture, encodeDeparture, departureForGame } from '../departures.ts';
 import type { MissionRun } from '../missions.ts';
 import type { Session } from '../session.ts';
+import type { BalanceRevision } from '../balanceRevision.ts';
 /** Codes carry setup data only. Preview and launch remain two separate actions. */
 export function bindDepartureControls(
   session: Session,
   actions: {
     unlocked: (run: MissionRun) => boolean;
     previewMission: (run: MissionRun) => void;
-    launchClassic: (seed: number) => void;
+    launchClassic: (seed: number, balanceRevision: BalanceRevision) => void;
   },
 ) {
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const input = el<HTMLInputElement>('departure-input');
   const message = el('departure-message');
   const classicDialog = el<HTMLDialogElement>('departure-dialog');
-  let pendingSeed: number | null = null;
+  let pending: { seed: number; balanceRevision: BalanceRevision } | null = null;
+  const legacyLabel = document.createElement('small');
+  legacyLabel.id = 'departure-original-rules';
+  setDisplayText(legacyLabel, 'Règles d’origine');
+  el('departure-preview-code').after(legacyLabel);
+  const currentLegacy = legacyLabel.cloneNode() as HTMLElement;
+  currentLegacy.id = 'current-original-rules';
+  setDisplayText(currentLegacy, 'Règles d’origine');
+  el('current-departure').after(currentLegacy);
   function copyButton(fieldId: string, buttonId: string, messageId: string) {
     const field = el<HTMLInputElement>(fieldId),
       button = el<HTMLButtonElement>(buttonId),
@@ -65,7 +74,8 @@ export function bindDepartureControls(
       }
       actions.previewMission(departure.run);
     } else {
-      pendingSeed = departure.seed;
+      pending = { seed: departure.seed, balanceRevision: departure.balance ?? 1 };
+      legacyLabel.hidden = departure.balance === 2;
       setDisplayText(el('departure-preview-code'), encodeDeparture(departure));
       classicDialog.showModal();
     }
@@ -75,18 +85,18 @@ export function bindDepartureControls(
     setDisplayText(message, '');
   };
   el('departure-cancel').onclick = () => {
-    pendingSeed = null;
+    pending = null;
     classicDialog.close();
   };
   classicDialog.addEventListener('cancel', () => {
-    pendingSeed = null;
+    pending = null;
   });
   el('departure-start').onclick = () => {
-    if (pendingSeed === null) return;
-    const seed = pendingSeed;
-    pendingSeed = null;
+    if (pending === null) return;
+    const { seed, balanceRevision } = pending;
+    pending = null;
     classicDialog.close();
-    actions.launchClassic(seed);
+    actions.launchClassic(seed, balanceRevision);
   };
   function setCode(fieldId: string, messageId: string, code: string) {
     const field = el<HTMLInputElement>(fieldId);
@@ -104,6 +114,7 @@ export function bindDepartureControls(
       );
     },
     refresh() {
+      currentLegacy.hidden = session.game.balanceRevision !== 1;
       const departure = departureForGame(session.game);
       el('current-departure').hidden = !departure;
       el('departure-unavailable').hidden = !!departure;

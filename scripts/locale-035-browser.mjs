@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
 import { createServer } from 'vite';
 import { chromium } from '@playwright/test';
 import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
@@ -230,9 +231,17 @@ try {
           } else {
             await page.locator('#home-play').click();
             await page.locator('#mission-dialog').waitFor({ state: 'visible' });
+            const code = await page.locator('#mission-departure-code').inputValue();
+            const decoded = decodeDeparture(code);
             check(
               `${name}: first mission has canonical code`,
-              /^REFUGE-2-/.test(await page.locator('#mission-departure-code').inputValue()),
+              decoded.ok &&
+                decoded.departure.kind === 'mission' &&
+                decoded.departure.run.missionId === 'refuge' &&
+                decoded.departure.run.balance === 2 &&
+                decoded.departure.run.rules === 2 &&
+                !decoded.departure.run.caprice &&
+                encodeDeparture(decoded.departure) === code,
             );
             if (language === 'en')
               await inspectEnglish(page, '#mission-dialog', `${name}: preview and threats`);

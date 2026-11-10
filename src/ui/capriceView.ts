@@ -1,5 +1,6 @@
 import {
   capriceById,
+  capriceDefinitionForRun,
   capricesForMission,
   capriceUnlocked,
   CAPRICE_SET_NAMES,
@@ -12,7 +13,7 @@ export function capriceRows(run: MissionRun, stars: number) {
   return (['serpents', 'createur'] as CapriceSet[]).map((set) => ({
     title: CAPRICE_SET_NAMES[set],
     cards: capricesForMission(run.missionId, set).map((definition) => ({
-      definition,
+      definition: capriceDefinitionForRun({ ...run, caprice: definition.id })!,
       stars: CAPRICE_UNLOCK_STARS[definition.tier],
       open: capriceUnlocked(definition.tier, stars),
     })),
@@ -28,7 +29,7 @@ export function canLaunchCaprice(run: MissionRun, missionOpen: boolean, stars: n
 }
 export function friendChoices(run: MissionRun): Kind[] {
   const rank = missionById(run.missionId)!.unlockRank;
-  const rules = capriceById(run.caprice)?.rules;
+  const rules = capriceDefinitionForRun(run)?.rules;
   return (Object.keys(kinds) as Kind[]).filter(
     (k) =>
       k !== 'hero' &&
@@ -119,7 +120,7 @@ export function bindCapricePreparation(
       if (current?.missionId !== run.missionId || current?.caprice !== run.caprice)
         chosen = new Set();
       current = run;
-      const key = JSON.stringify([run.missionId, stars]);
+      const key = JSON.stringify([run.missionId, stars, run.balance]);
       if (key !== rowKey) {
         rowKey = key;
         rows.replaceChildren();
@@ -148,7 +149,7 @@ export function bindCapricePreparation(
       for (const button of Array.from(rows.querySelectorAll<HTMLButtonElement>('[data-caprice]')))
         button.setAttribute('aria-pressed', String(button.dataset.caprice === run.caprice));
       normal.setAttribute('aria-pressed', String(!run.caprice));
-      const caprice = capriceById(run.caprice);
+      const caprice = capriceDefinitionForRun(run);
       detail.hidden = !caprice;
       if (!caprice) return;
       title.textContent = caprice.name;

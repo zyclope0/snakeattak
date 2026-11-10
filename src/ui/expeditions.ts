@@ -1,5 +1,6 @@
+import type { BalanceRevision } from '../balanceRevision.ts';
 import { bindCapricePreparation, canLaunchCaprice } from './capriceView.ts';
-import { capriceBudget, capriceRules, capriceById } from '../caprices.ts';
+import { capriceBudget, capriceRules, capriceDefinitionForRun } from '../caprices.ts';
 import type { Kind } from '../data.ts';
 import type { AlbumsController } from './capriceAlbums.ts';
 import {
@@ -37,13 +38,17 @@ export function bindExpeditions(
     canResume: () => boolean;
     home: () => void;
     profileChanged?: () => void;
-    launchClassic: (seed: number) => void;
+    launchClassic: (seed: number, balanceRevision: BalanceRevision) => void;
   },
   albums?: AlbumsController,
 ) {
   const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const dialog = el<HTMLDialogElement>('mission-dialog');
   let draft: MissionRun | null = null;
+  const legacyLabel = document.createElement('small');
+  legacyLabel.id = 'mission-original-rules';
+  setDisplayText(legacyLabel, 'Règles d’origine');
+  el('mission-title').after(legacyLabel);
   const allowed = (run: MissionRun) =>
     canLaunchCaprice(
       run,
@@ -97,7 +102,7 @@ export function bindExpeditions(
       availability,
     );
     button.onclick = () =>
-      preview(createMissionRun(mission.id, freshSeed(), progress.lastRun(mission.id)));
+      preview(createMissionRun(mission.id, freshSeed(), progress.lastRun(mission.id), 2));
     el('mission-cards').append(button);
     return { button, stars, availability, id: mission.id };
   });
@@ -105,6 +110,7 @@ export function bindExpeditions(
     if (!allowed(run)) return;
     const mission = missionById(run.missionId)!;
     draft = run;
+    legacyLabel.hidden = run.balance === 2;
     preparation.update(run, progress.state.bestStars[run.missionId] ?? 0);
     departures.preview(run);
     setDisplayText(el('mission-title'), mission.name);
@@ -142,12 +148,18 @@ export function bindExpeditions(
     [...MISSIONS].reverse().find((m) => progress.unlocked(m.id))!;
   el('home-play').onclick = () => {
     const next = nextMission();
-    preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id)));
+    preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2));
   };
   el('mission-close').onclick = () => dialog.close();
   el('mission-reroll').onclick = () => {
     if (draft) {
-      const next = createMissionRun(draft.missionId, freshSeed(), draft);
+      const { rules: _, ...draw } = createMissionRun(
+        draft.missionId,
+        freshSeed(),
+        draft,
+        draft.balance,
+      );
+      const next = draft.rules === 2 ? { ...draw, rules: 2 as const } : draw;
       preview(draft.caprice ? { ...next, caprice: draft.caprice } : next);
     }
   };
@@ -176,7 +188,7 @@ export function bindExpeditions(
     const next = MISSIONS[index + 1];
     if (!next || !progress.unlocked(next.id)) return;
     actions.home();
-    preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id)));
+    preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2));
   };
   return () => {
     departures.refresh();
@@ -208,7 +220,7 @@ export function bindExpeditions(
       run = g.mission;
     el('mission-battle-actions').hidden = !run;
     if (!run) return;
-    const caprice = capriceById(run.caprice);
+    const caprice = capriceDefinitionForRun(run);
     setDisplayText(el('mission-battle-title'), 'Tes alliés');
     setDisplayText(el('mission-battle-config'), `${assaults[run.assault]} · ${nests[run.nest]}`);
     const end = g.status === 'won' || g.status === 'lost';

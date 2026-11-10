@@ -58,6 +58,8 @@ const challengeClauses: Readonly<Record<string, string>> = {
   'Les serpents sont plus fragiles': 'the snakes are more fragile',
   'Les serpents avancent plus vite': 'the snakes move faster',
   'Les morsures font plus mal': 'the bites hurt more',
+  'Les morsures des serpents à coquille font plus mal':
+    'the bites of snakes with a shell hurt more',
   'Il y a plus d’œufs dans les vagues': 'there are more eggs in the waves',
   'Les œufs éclosent plus vite': 'the eggs hatch sooner',
   'Les serpents cherchent les chemins les moins gardés':
@@ -65,6 +67,9 @@ const challengeClauses: Readonly<Record<string, string>> = {
 };
 
 export const capricesEnglish: Readonly<Record<string, string>> = {
+  'Révision invalide': 'Invalid revision',
+  'Règles d’origine': 'Original rules',
+  'Tu as des pièces, recrute !': 'You have coins, recruit an ally!',
   ...capriceFrenchIdentities,
   // Clause aliases preserve sentence case and exact locale inventory coverage.
   ...Object.fromEntries(

@@ -12,6 +12,7 @@ import type { Kind } from '../data.ts';
 import { portraitStyle, GROUND_ART } from '../art.ts';
 import { levelForWave } from '../levels.ts';
 import { chapterIdentityForWave } from '../waves.ts';
+import type { BalanceRevision } from '../balanceRevision.ts';
 type Career = ReturnType<typeof createCareer>;
 export function bindMenu(
   session: Session,
@@ -238,9 +239,9 @@ export function bindMenu(
   return {
     refresh,
     showHome,
-    startFromSeed(seed: number) {
+    startFromSeed(seed: number, balanceRevision: BalanceRevision = 1) {
       replace(() => {
-        session.restart(seed);
+        session.restart(seed, balanceRevision);
         enter();
       });
     },

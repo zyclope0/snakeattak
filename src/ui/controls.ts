@@ -104,7 +104,7 @@ export function bindControls(
     b.setAttribute('aria-pressed', 'false');
     setDisplayMarkup(
       b,
-      `<span class="portrait" aria-hidden="true"></span><span class="unit-info"><strong>${d.name}</strong><small>${descriptions[kind]}</small></span><span class="price">${d.cost} <i aria-hidden="true">●</i><span class="sr-only"> pièces</span></span>`,
+      `<span class="portrait" aria-hidden="true"></span><span class="unit-info"><strong>${d.name}</strong><small>${descriptions[kind]}</small></span><span class="price">${session.game.recruitCost(kind)} <i aria-hidden="true">●</i><span class="sr-only"> pièces</span></span>`,
     );
     b.querySelector<HTMLElement>('.portrait')!.style.cssText = portraitStyle(kind);
     b.onclick = () => {

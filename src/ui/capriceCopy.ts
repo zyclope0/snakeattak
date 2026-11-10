@@ -23,6 +23,7 @@ export function capriceExplanation(r: CapriceRules) {
   if (r.hp < 1) parts.push('les serpents sont plus fragiles');
   if (r.speed > 1) parts.push('les serpents avancent plus vite');
   if (r.bite > 1) parts.push('les morsures font plus mal');
+  if ((r.shellBite ?? 1) > 1) parts.push('les morsures des serpents à coquille font plus mal');
   if (r.eggs) parts.push('il y a plus d’œufs dans les vagues');
   if (r.hatch < 1) parts.push('les œufs éclosent plus vite');
   if (r.smart) parts.push('les serpents cherchent les chemins les moins gardés');

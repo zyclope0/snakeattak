@@ -8,6 +8,7 @@ import type { Session } from '../session.ts';
 import { specialAbility, healAmount, attackDamage } from '../unitRules.ts';
 import { portraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
+import { balanceRecruitPrice, CURRENT_BALANCE_REVISION } from '../balanceRevision.ts';
 export function bindUnitGuide(session: Session, onChange: () => void) {
   const dialog = document.getElementById('unit-dialog') as HTMLDialogElement;
   const select = document.getElementById('guide-select') as HTMLSelectElement;
@@ -27,11 +28,15 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
       document.getElementById('guide-ability')!,
       specialAbility(kind, session.game.tuning.splashSecondaryFactor),
     );
+    const price =
+      session.screen === 'home'
+        ? balanceRecruitPrice(kind, CURRENT_BALANCE_REVISION)
+        : session.game.recruitCost(kind);
     const fields = [
       ['Camp', 'Nos alliés'],
       ['Défense', roleDescription(kind)],
       ['Vie', `${d.hp} PV`],
-      ['Prix', kind === 'hero' ? 'Présent au départ' : `${d.cost} pièces`],
+      ['Prix', kind === 'hero' ? 'Présent au départ' : price === 0 ? 'Gratuit' : `${price} pièces`],
       ['Arrivée', `Vague ${unlockWave[kind] ?? 1}`],
       [
         'Attaque',
