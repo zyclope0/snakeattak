@@ -15,19 +15,24 @@ export function bindCatalogPages(onChange: () => void) {
   next.id = 'catalog-next';
   setText(next, 'Suivants →');
   nav.append(previous, status, next);
-  document.querySelector('#reinforcements .catalog-body')!.before(nav);
+  const body = document.querySelector<HTMLElement>('#reinforcements .catalog-body')!;
+  body.before(nav);
   let page = 0;
+  let revealResults = false;
   previous.onclick = () => {
     page = Math.max(0, page - 1);
+    revealResults = true;
     onChange();
   };
   next.onclick = () => {
     page++;
+    revealResults = true;
     onChange();
   };
   return {
     reset() {
       page = 0;
+      revealResults = true;
     },
     refresh(cards: HTMLButtonElement[]) {
       const total = Math.max(1, Math.ceil(cards.length / 6));
@@ -38,6 +43,10 @@ export function bindCatalogPages(onChange: () => void) {
       status.textContent = `${page + 1} / ${total}`;
       previous.disabled = page === 0;
       next.disabled = page === total - 1;
+      if (revealResults) {
+        body.scrollTop = 0;
+        revealResults = false;
+      }
     },
   };
 }

@@ -30,12 +30,18 @@ export function bindHomeNavigation(): { show(page: HomePage, focus?: boolean): v
   let returnFocus: HTMLElement | null = null;
   function show(page: HomePage, focus = true) {
     if (current === 'home' && page !== 'home') returnFocus = document.activeElement as HTMLElement;
+    const entering = current !== page;
     current = page;
     for (const node of Array.from(screen.querySelectorAll<HTMLElement>('[data-home-page]')))
       node.hidden = node.dataset.homePage !== page;
     back.hidden = page === 'home';
     screen.dataset.page = page;
-    screen.scrollTop = 0;
+    if (entering) {
+      screen.scrollTop = 0;
+      const destination = screen.querySelector<HTMLElement>(`[data-home-page="${page}"]`)!;
+      destination.scrollTop = 0;
+      if (page === 'missions') document.getElementById('mission-list')!.scrollTop = 0;
+    }
     if (focus) {
       const target =
         page === 'home'

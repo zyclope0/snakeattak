@@ -66,7 +66,6 @@ export function bindControls(
   }
   familySelect.onchange = () => {
     pages.reset();
-    el('shop').scrollTop = 0;
     refresh();
   };
   el('shop-ready').onclick = () => {
