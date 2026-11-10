@@ -1,10 +1,11 @@
 # Preuves de livraison 0.36.1
 
-Candidate privée, sans fusion ni publication. Source de l’APK : `72cc788` ;
+Candidate privée, sans fusion ni publication. Source de l’APK final : `4f3cabe` ;
 version 0.36.1 / Android 47. Les empreintes et chemins locaux complets sont dans
 [delivery.json](delivery.json), les commandes et comptes dans [commands.json](commands.json).
 
-Les 17 commandes finales distinctes passent. Il y a 18 exécutions : l’échec
+Les 17 commandes complètes distinctes passent sur la candidate avant le dernier
+correctif M1. Il y a 18 exécutions dans cette vérification : l’échec
 initial du témoin familial v2 est conservé, puis la correction limitée à la
 fixture passe la recette complète. Les anciennes données restent comparées
 exactement, avec version 4 et album par défaut explicites ; imports v1/v2/v3,
@@ -58,11 +59,33 @@ son empreinte est dans `delivery.json`. Ce chemin local n’est pas une URL GitH
 Le manifeste d’archive exclut seulement sa propre empreinte pour éviter une
 référence circulaire. Aucune ancienne preuve massive n’a été dupliquée dans Git.
 
-Les [revues du lot 1](task-1-review.md) et [du lot 2](task-2-review.md) sont
-conservées. La revue fraîche de toute la branche et le conseil de six
-perspectives simulées restent à conduire par le coordinateur après ce point.
+Les [revues du lot 1](task-1-review.md), [du lot 2](task-2-review.md) et
+[du lot 3](task-3-review.md) sont approuvées. La [revue finale fraîche](final-review.md)
+ne relève aucun critique ou important. Son seul mineur, M1, est résolu :
+[relecture ciblée approuvée](final-fix-review.md). Le conseil de six perspectives
+simulées et les [arbitrages](coordination.md) sont terminés.
 Les preuves automatisées distinguent les fixtures terminales et les données
 familiales contrôlées des parties jouées. Aucun essai physique S24, TalkBack,
 clavier Android ou enfant n’est revendiqué. L’équilibrage n’a pas changé ; les
 cinq propositions et leur risque de compatibilité sont dans le
 [bilan](../../docs/BILAN-0.36.1.md). **STOP**, sans fusion ni publication.
+
+## Dernier correctif et APK final
+
+Le champ du carnet utilise maintenant son étiquette visible comme nom accessible
+natif, FR/EN. Régression réelle : rouge 68/80 puis vert 80/80, dont 12 cas de nom
+exact sur six formats × deux langues. Après le correctif `4f3cabe` : verify
+506/506, navigateur général, quatre contextes froids normal/portable et nouvel
+APK inspecté ; 34 fichiers web identiques. Seuls deux fichiers source/test
+changent ; aucun dictionnaire, moteur, format ou paramètre modifié.
+
+L’APK final fait 15 156 123 octets ; son SHA-256 et celui du complément sont
+dans `delivery.json`. L’ancien APK source `72cc788` reste sous
+`/workspace/conquete-serpents-v0.36.1-before-final-review-debug.apk`. L’archive
+complète initiale de 313 357 893 octets conserve ses preuves avant M1, sans
+aucun remplacement. Le complément final
+`/workspace/conquete-serpents-v0.36.1-final-addendum.tar.gz` rassemble les preuves
+du correctif, les revues et contrôles du coordinateur : 201 fichiers indexés,
+202 membres réguliers, 27 010 446 octets, tous les SHA relus et vérifiés.
+Le script de scellement est inclus ; le manifeste exclut sa propre empreinte.
+Aucune URL GitHub d’archive n’est inventée et aucune archive n’est téléversée.

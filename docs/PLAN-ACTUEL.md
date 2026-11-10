@@ -13,10 +13,13 @@ familiales restent gelés. Les cinq propositions d’équilibrage ont été mesu
 séparément ; leur application attend la décision sur les morsures et une
 solution de compatibilité. Aucun prix, rappel de dépense ou classique modifié.
 
-Les revues indépendantes des lots 1 et 2 sont approuvées. La revue fraîche de
-toute la branche et le conseil de six perspectives simulées restent attendus
-après la vérification complète et l’APK normal. Aucun essai physique S24/enfant
-n’est prétendu. Le site public et `main` restent en 0.35.0. **STOP**, sans fusion
+Les trois revues de lots, la revue fraîche de toute la branche et le conseil
+de six perspectives simulées sont terminés. Le seul mineur final, le nom
+accessible du champ du carnet anglais, est corrigé ; relecture ciblée approuvée.
+Source du nouvel APK : `4f3cabe`, après vérification 506 tests, navigateur,
+80 contrôles de navigation et quatre démarrages froids ; 34 fichiers web
+identiques. Ancien APK et archive conservés, complément de preuves vérifié.
+Aucun essai physique S24/enfant n’est prétendu. Le site public et `main` restent en 0.35.0. **STOP**, sans fusion
 ni publication. L’état précédent ci-dessous est conservé comme historique.
 
 ## Candidate privée 0.36.0 — STOP pour essai du parent

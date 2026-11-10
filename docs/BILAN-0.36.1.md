@@ -54,8 +54,18 @@ web identiques octet pour octet au build ; aucune installation physique prétend
 Les résultats exacts, commandes, SHA, APK et archive locale sont publiés dans
 l’[index de livraison](../reports/interface-0361/README.md).
 La revue finale fraîche de toute la branche et le conseil de six perspectives
-simulées sont encore à faire par le coordinateur après cette livraison.
-Ce ne sont pas des avis de six personnes réelles.
+simulées sont terminés : aucun critique ou important ; le seul mineur relevé,
+le nom accessible anglais du champ du carnet, est corrigé et sa relecture
+ciblée est approuvée. Ce ne sont pas des avis de six personnes réelles.
+
+Après ce correctif de deux fichiers (`4f3cabe`), nouvelle vérification :
+506 tests et build, navigateur général, 80 contrôles de navigation incluant
+12 noms accessibles réels FR/EN, quatre démarrages froids normal/portable.
+L’APK a été reconstruit depuis ce commit et les 34 fichiers web sont identiques
+au nouveau build. L’ancien APK et l’archive complète sont conservés ; un
+complément vérifié rassemble ces dernières preuves. Aucun réglage modifié.
+
+[Revues et arbitrages](../reports/interface-0361/coordination.md).
 
 ## Annexe : mesures d’équilibrage distinctes
 

@@ -119,5 +119,55 @@
       "fr",
       "en"
     ]
+  },
+  "fullVerificationScope": "17 distinct final Task3 commands before final M1; final targeted verification below preserves original evidence.",
+  "finalFix": {
+    "sourceSHA": "4f3cabe5f0cdc9961b5d5c6d233455bc1ac11cc3",
+    "finding": "M1 accessible name matches visible FR/EN native label",
+    "review": "APPROVE",
+    "red": {
+      "passed": 68,
+      "total": 80,
+      "onlyFailures": "12 exact accessible-name cases"
+    },
+    "green": {
+      "passed": 80,
+      "total": 80,
+      "exactNameCases": 12,
+      "captures": 73,
+      "pageErrors": []
+    },
+    "commands": [
+      {
+        "name": "red",
+        "command": "node scripts/interface-0361-browser.mjs",
+        "exitCode": 1,
+        "seconds": 47.594,
+        "log": "artifacts/interface-0361/final-fix/red/run.log"
+      },
+      {
+        "name": "green",
+        "command": "node scripts/interface-0361-browser.mjs",
+        "exitCode": 0,
+        "seconds": 45.538,
+        "log": "artifacts/interface-0361/final-fix/green/run.log"
+      },
+      {
+        "name": "verify",
+        "command": "npm run verify",
+        "exitCode": 0,
+        "seconds": 32.168,
+        "log": "artifacts/interface-0361/final-fix/verify/run.log"
+      },
+      {
+        "name": "browser",
+        "command": "npm run test:browser",
+        "exitCode": 0,
+        "seconds": 35.178,
+        "log": "artifacts/interface-0361/final-fix/browser/run.log"
+      }
+    ],
+    "portableColdContexts": 4,
+    "apkSHA256": "adab7ad166490e35abff5f2e2dc8278be8c25e67f5b5bd49071aebe8a24243f3"
   }
 }
