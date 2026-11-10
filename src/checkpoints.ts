@@ -3,7 +3,7 @@ import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import { Game } from './game.ts';
 import { kinds, TOTAL_WAVES } from './data.ts';
 import type { Kind } from './data.ts';
-import { missionById, readMissionRun } from './missions.ts';
+import { missionById, readMissionRun, isPersistableMissionRun } from './missions.ts';
 import { ensureMedical, medicalRules, readMedical } from './healing.ts';
 
 const KEY = 'conquete-serpents:camp:v1';
@@ -19,6 +19,7 @@ export function encodeCheckpoint(game: Game): string | null {
     game.wave >= game.totalWaves
   )
     return null;
+  if (game.mission && !isPersistableMissionRun(game.mission)) return null;
   const units = game.units.filter((u) => u.hp > 0);
   if (units.length > UNIT_LIMIT) return null;
   // Keep the frozen classic witness byte-compatible with the pre-tactical camp.
@@ -137,6 +138,7 @@ export function decodeCheckpoint(raw: string): Game | null {
     const modern = d.version === 6 || d.version === 7 || d.version === 8 || d.version === 9;
     const hasMission = d.version === 5 || (modern && Object.hasOwn(d, 'mission'));
     const mission = hasMission ? readMissionRun(d.mission) : null;
+    if (mission && !isPersistableMissionRun(mission)) return null;
     if (
       d.version === 9
         ? d.balance !== 2 ||

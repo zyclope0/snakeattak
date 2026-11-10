@@ -1,4 +1,4 @@
-import { MISSIONS, missionById, readMissionRun } from './missions.ts';
+import { MISSIONS, missionById, readMissionRun, isPersistableMissionRun } from './missions.ts';
 import type { MissionId, MissionRun } from './missions.ts';
 import type { Game } from './game.ts';
 import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
@@ -67,7 +67,13 @@ function canonical(value: unknown): MissionProgress | null {
     state.bestStars[id] = value.bestStars[id];
     if (Object.hasOwn(value.lastRuns, id)) {
       const run = readMissionRun(value.lastRuns[id]);
-      if (!run || run.missionId !== id || (value.version === 1 && run.balance === 2)) return null;
+      if (
+        !run ||
+        !isPersistableMissionRun(run) ||
+        run.missionId !== id ||
+        (value.version === 1 && run.balance === 2)
+      )
+        return null;
       state.lastRuns[id] = run;
     }
   }
@@ -121,6 +127,7 @@ export function createMissionProgressController(initial?: MissionProgress) {
     const earned = game.missionStars;
     if (
       !run ||
+      !isPersistableMissionRun(run) ||
       !unlocked(run.missionId) ||
       game.status !== 'won' ||
       game.wave !== game.totalWaves ||
@@ -167,7 +174,7 @@ export function createMissionProgressController(initial?: MissionProgress) {
     },
     started(raw: MissionRun): boolean {
       const run = readMissionRun(raw);
-      if (!run || !unlocked(run.missionId)) return false;
+      if (!run || !isPersistableMissionRun(run) || !unlocked(run.missionId)) return false;
       if (
         run.caprice &&
         !capriceUnlocked(capriceById(run.caprice)!.tier, state.bestStars[run.missionId])

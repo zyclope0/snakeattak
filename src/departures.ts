@@ -1,4 +1,4 @@
-import { MISSIONS, readMissionRun } from './missions.ts';
+import { MISSIONS, readMissionRun, isPersistableMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
 import type { Game } from './game.ts';
 import { CAPRICE_TIERS, capriceById, capricesForMission } from './caprices.ts';
@@ -47,7 +47,7 @@ export function encodeDeparture(departure: Departure): string {
     suffix = '';
   if (departure.kind === 'mission') {
     const run = readMissionRun(departure.run);
-    if (!run) throw new RangeError('Départ invalide');
+    if (!run || !isPersistableMissionRun(run)) throw new RangeError('Départ invalide');
     if (run.rules === 2) version = '2';
     if (run.caprice) {
       const caprice = capriceById(run.caprice)!;

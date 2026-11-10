@@ -158,7 +158,11 @@ export function createCareer(
         const slot = game.wave === 4 ? 0 : 1;
         const previous = readCamp(state.chapterCamps[slot], slot);
         // Keep the original pre-choice camp through repeated syncs and reloads.
-        if (!previous || previous.rewards.seed !== game.rewards.seed) {
+        if (
+          !previous ||
+          previous.rewards.seed !== game.rewards.seed ||
+          previous.balanceRevision !== game.balanceRevision
+        ) {
           const raw = encodeCheckpoint(game);
           if (raw && readCamp(raw, slot)) state.chapterCamps[slot] = raw;
         }

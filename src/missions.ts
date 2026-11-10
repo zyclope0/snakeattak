@@ -3,7 +3,13 @@ import { waveStats } from './data.ts';
 import { variantFor, waveBriefing } from './waves.ts';
 import type { EnemyKind } from './enemies.ts';
 import { flyingVariant } from './flying.ts';
-import { capriceById, capriceCount, capriceRules } from './caprices.ts';
+import {
+  CAPRICES,
+  CREATOR_CHALLENGES,
+  capriceById,
+  capriceCount,
+  capriceRules,
+} from './caprices.ts';
 
 export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
@@ -111,6 +117,15 @@ export function readMissionRun(raw: unknown): MissionRun | null {
     nest: d.nest as MissionRun['nest'],
     ...(Object.hasOwn(d, 'caprice') ? { caprice: d.caprice as string } : {}),
   });
+}
+/** Revision 2 persists only immutable catalogue identities; Game/lab may use aliases. */
+export function isPersistableMissionRun(run: MissionRun): boolean {
+  return (
+    run.balance !== 2 ||
+    run.caprice === undefined ||
+    CAPRICES.some((caprice) => caprice.id === run.caprice) ||
+    CREATOR_CHALLENGES.some((caprice) => caprice.id === run.caprice)
+  );
 }
 export function createMissionRun(
   id: MissionId,
