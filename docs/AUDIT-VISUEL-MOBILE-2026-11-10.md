@@ -2,13 +2,13 @@
 
 La priorité est de raccourcir les écrans de préparation et de collection, puis d’unifier les matières. Le jeu possède déjà des figurines utilisables et un dock de combat compact. Une régénération générale des images serait prématurée.
 
-**Statut : audit et propositions avant modification, conformément au choix du parent.** Aucun code, règle, prix, sauvegarde ou asset de production n’a changé pendant cette étude. Aucune génération payante lancée. La version jouable reste la **0.36.2**, fusionnée et [publiée](https://conquete-serpents-famille.zyclope.chatgpt.site/), avec son [reçu](../reports/deployment-0.36.2.json). Ce document propose la suite ; il ne prétend pas que la refonte décrite soit réalisée ou validée.
+**Statut : audit et propositions avant modification, conformément au choix du parent.** Aucun code, règle, prix, format de sauvegarde ou asset de production n’a changé pendant cette étude. Aucune génération payante lancée. La version jouable reste la **0.36.2**, fusionnée et [publiée](https://conquete-serpents-famille.zyclope.chatgpt.site/), avec son [reçu](../reports/deployment-0.36.2.json). Ce document propose la suite ; il ne prétend pas que la refonte décrite soit réalisée ou validée.
 
 ## Ce qui a réellement été regardé
 
 - **12 jeux grand public** : 73 images de galeries officielles inspectées, complétées par des captures documentées. Neuf jeux ont un écran mobile identifiable de titre, carte, sélection, lobby ou pause ; deux apportent une preuve partielle, et Crossy Road seulement un menu TV, exclu des menus tactiles.
 - **5 tower defense** : quatre ont des menus/préparations documentés ; pour PvZ2, les preuves couvrent surtout catalogue et combat. Les sources PC, captures promotionnelles, archives et véritables écrans mobiles sont distingués.
-- **Notre jeu** : 40 captures fraîches de la version publique, quatre formats, contrôles natifs, puis un contrôle des caprices à petit format et neuf vérifications de portraits. Aucun état de victoire actuel n’a été fabriqué pour l’étude. Deux résultats historiques sont explicitement étiquetés.
+- **Notre jeu** : 40 captures fraîches de la version publique, quatre formats, contrôles natifs, puis un contrôle des caprices à petit format et neuf vérifications de portraits. Un complément a ensuite observé une victoire normale actuelle par les commandes natives, sans état de victoire fabriqué. Les deux résultats historiques initiaux restent explicitement étiquetés.
 - **Les ressources** : icône source inspectée en premier, 30 fichiers inventoriés dans `src/assets`, atlas et consommateurs de rendu vérifiés. Les captures ne remplacent pas un essai physique S24.
 
 Les références ne constituent pas 17 installations ni 17 sessions jouées. Plusieurs interfaces documentées sont anciennes. Une capture fixe ne prouve jamais l’absence de défilement : **aucun scroll n’a été mesuré dans les jeux de référence**. Les mesures ci-dessous concernent notre application uniquement.
@@ -75,7 +75,11 @@ Le motif utile est la hiérarchie des tâches, pas la surenchère de boutons ni 
 | [Arknights](https://apps.apple.com/us/app/arknights/id1464872022)                             | [Guide iPhone de 2022](https://note.com/utacoma/n/n9b5c97216918) : carte, équipe sur deux rangées et départ ; accueil officiel en composite.                                       | Séparer composer et combattre, montrer une fiche contextuelle à la fois.                                                        |
 | [Infinitode 2](https://apps.apple.com/us/app/infinitode-2/id1480178308)                       | [Revue mobile de 2021](https://hakuzo.blogspot.com/2021/11/infinitode-2.html) : accueil, grille de niveaux, fiche et Play. Steam identifié comme PC.                               | Une sélection focalisée avec action fixe ; garder ses petites statistiques et son arbre de recherche hors de notre proposition. |
 
-Les preuves les plus complètes de résultats sont Kingdom Rush et Bloons. Notre propre résultat 0.36.2 n’a pas été rejoué dans cet audit : sa réorganisation devra être précédée d’une capture actuelle, plutôt que déduite uniquement d’anciens écrans.
+Les preuves de résultats des références les plus complètes sont Kingdom Rush et Bloons. Un complément ciblé a depuis vérifié **notre résultat normal 0.36.2**, à 780×360 avec les mêmes marges : première mission, trois vagues, armée de départ, vitesse ×2 choisie avec le vrai bouton, trois lancements natifs. Une seule partie automatisée, parcours complet d’environ 54,6 s, une étoile et cristal à 55 %. Ce parcours UI ne constitue pas une mesure d’équilibrage ou de plaisir humain.
+
+Le panneau mesure 290 px utiles pour 321 px de contenu : « Mission suivante » jaune (48 px) et la carte des missions sont entièrement visibles dès l’ouverture. Seul Réessayer demande jusqu’à 31 px de défilement. **Cette victoire normale ne justifie pas une priorité forte de refonte du résultat.** Les résultats de caprice et de défaite restent non vérifiés actuellement ; ne pas généraliser à partir de ce seul état.
+
+![Résultat normal actuel, parcours natif automatisé](../reports/audit-visuel-20261110/resultat-normal-780.png)
 
 ## Direction artistique et ressources déjà fournies
 
@@ -127,6 +131,6 @@ Les deux restent dans la DA approuvée et réutilisent les mêmes fonctions. Ce 
 
 Le budget de temps/scroll est une **cible de conception à mesurer**, pas un résultat actuel. Un écran de collection peut paginer ; interdire tout défilement rendrait certains libellés ou réglages moins accessibles. Les écrans principaux devraient tenir dans leur zone utile, et le défilement restant être local, explicite et réservé aux détails.
 
-Garde-fous : séparation règles/rendu/interface ; sauvegardes et anciens codes préservés ; noms et annonces du fils inchangés et en français ; trois voies et leur géométrie conservées ; contours fonctionnels ennemis/alliés ; aucun SDK, nouvelle mécanique, mode, monétisation ou extension de campagne.
+Garde-fous : séparation règles/rendu/interface ; sauvegardes et anciens codes préservés ; noms et annonces des caprices du fils inchangés et en français ; trois voies et leur géométrie conservées ; contours fonctionnels ennemis/alliés ; aucun SDK, nouvelle mécanique, mode, monétisation ou extension de campagne.
 
 Le parent a choisi **audit et propositions avant modification**. La suite attend donc son arbitrage sur la refonte proposée et peut être contre-examinée par Claude avec le [brief joint](POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md).

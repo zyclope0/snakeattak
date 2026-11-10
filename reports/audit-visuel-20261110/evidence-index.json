@@ -27,7 +27,7 @@
     "portraitDecodeChecks": 9,
     "pageErrors": [],
     "physicalS24": false,
-    "currentVictoryPlayedInAudit": false,
+    "currentVictoryPlayedInAudit": true,
     "album780": {
       "scrollHeight": 2581,
       "clientHeight": 344
@@ -35,7 +35,20 @@
     "home780": {
       "scrollHeight": 642,
       "viewportHeight": 360
-    }
+    },
+    "additionalNativeResultGames": 1,
+    "normalResult": {
+      "elapsedSeconds": 54.6,
+      "mission": "Le refuge",
+      "waves": 3,
+      "stars": 1,
+      "crystalPercent": 55,
+      "panelClientHeight": 290,
+      "panelScrollHeight": 321,
+      "primaryActionFullyVisible": true,
+      "otherResultStatesVerified": false
+    },
+    "resultScriptProvenance": "Exact executed code restored verbatim from original tool call after temporary-script cleanup; no replay. Independently read after trace/captures."
   },
   "sources": [
     {
@@ -77,6 +90,21 @@
       "archivePath": "recherche/current-game/guide-portrait-proof.json",
       "sha256": "ba9b609538b52ad33897e2f9ae44fe4f3a4e4aa01159e3aef4a5da23f6f01cd1",
       "bytes": 14337
+    },
+    {
+      "archivePath": "recherche/current-game/result-current-followup.md",
+      "sha256": "d6b21d2ee35109784157eb7681792ed42f3c04f2fe971b906e5a873a907aa47e",
+      "bytes": 2658
+    },
+    {
+      "archivePath": "recherche/current-game/result-current-proof.json",
+      "sha256": "3ef07d3a338d3d42a643e27cc7cd41ca735f598e4f43c543c7a847e5e8c78a77",
+      "bytes": 5549
+    },
+    {
+      "archivePath": "recherche/current-game/result-followup.mjs",
+      "sha256": "c812170294ebc3741092ca73439db6b6c969b1c45978e43fa1ad8cf0415af683",
+      "bytes": 4735
     }
   ],
   "games": [
