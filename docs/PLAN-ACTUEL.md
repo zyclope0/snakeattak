@@ -1,5 +1,16 @@
 # Plan actuel — 0.37.0 publiée, remise en ordre en cours
 
+## Livraison du 11 novembre — site Sites25, Android build 50
+
+Les changements de Claude jusqu’au merge `751dcf5` (PR8 à PR12) sont publiés.
+Version visible **0.37.0** conservée ; Android **50**, même identifiant et certificat.
+Source du paquet : `0dbc7cf53ddbdd82f9a7ba5af9d1a2efc8883f51`.
+Vérifications fraîches : verify **552 tests**, menus **537 contrôles**, audit **13/13**,
+navigateur et journey verts. Les **34 fichiers** du site public correspondent à l’APK ;
+formats 1280×800 FR, 812×375 EN et 780×360 FR contrôlés, sans erreur JavaScript.
+[Bilan court](BILAN-0.37.0.md). Aucun essai physique S24, TalkBack ou avec les enfants.
+Les suites du chantier ci-dessous restent prévues ; cette livraison ne les réalise pas.
+
 ## Remise en ordre — Claude Code, 11 novembre 2026
 
 Trois objectifs du parent : moteur propre, interface stabilisée, projet nettoyé. Ordre retenu :
@@ -16,7 +27,7 @@ filet de tests, nettoyage, moteur, interface, conventions. Un lot par PR, sans c
 - **Pages secondaires de l'accueil (PR nº 11, fusionnée).** Sur téléphone en paysage,
   Missions, Favoris, Aventure classique et Pour les parents tiennent sans défiler en 780×360
   et 812×375. CSS seulement.
-- **Styles et page découpés (cette PR).** `src/style.css` devient 18 tranches ordonnées dans
+- **Styles et page découpés (PR nº 12, fusionnée).** `src/style.css` devient 18 tranches ordonnées dans
   `src/styles/`, `index.html` neuf morceaux dans `src/html/`. Site construit identique octet
   pour octet : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
 - **Moteur de rendu.** Phaser 3 réévalué et gardé : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
@@ -25,7 +36,7 @@ filet de tests, nettoyage, moteur, interface, conventions. Un lot par PR, sans c
   code. Le numéro de version reste 0.37.0 tant que le lot interface n'est pas complet.
 - **Pas vérifié.** Rien sur le S24 ni avec les enfants.
 
-## Interface mobile courte — huit choix réalisés et publiés
+## Première livraison 0.37.0 — huit choix réalisés, build 49
 
 La version Android **0.37.0 / code 49** applique les huit choix validés :
 accueil court et reprise contextuelle, carnet de six autocollants par mission,
@@ -45,7 +56,7 @@ HTML/ZIP sont reconstruits ; quatre démarrages froids FR/EN sont verts.
 Les 21 gates et la partie authentique antérieurs restent explicitement en `9ca13bb`.
 La nouvelle recette et les artefacts sont indexés dans le reçu de livraison. Les anciennes preuves et la version 0.36.2 restent conservées.
 
-**Le site public est en 0.37.0, Sites24.** Revue globale et relecture des trois
+**Première publication 0.37.0 : Sites24, build 49.** Revue globale et relecture des trois
 correctifs approuvées ; PR7 fusionnée après CI verte. Les fichiers publics sont
 identiques au paquet normal de l’APK. Voir le [reçu](../reports/deployment-0.37.0.json).
 Les essais S24, TalkBack, enfants et

@@ -1,5 +1,10 @@
 # Android — version 0.32.1
 
+Dernière livraison : **0.37.0 / build 50**, le 11 novembre 2026, avec les changements
+de Claude jusqu’à `751dcf5`. APK normal sans serveur de développement, même
+identifiant et certificat que le build 49 ; [bilan et contrôles](BILAN-0.37.0.md).
+Essai physique de ce build sur S24 encore à faire.
+
 VersionName 0.32.1, versionCode 36 : correction du défilement tactile du
 catalogue en paysage. Même identifiant et certificat debug ; mise à jour
 par-dessus la précédente. Voir BILAN-0.32.1.md ; confort S24 à confirmer.
