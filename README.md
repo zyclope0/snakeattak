@@ -115,20 +115,20 @@ npm run store:dossier
 Le contrôle strict `npm run store:check` reste bloquant tant que comptes,
 SDK, transactions de test, prix et validations de publication ne sont pas prêts.
 Les fiches du store ont des brouillons en quatre langues ; le jeu lui-même reste
-actuellement en français. [Bilan de préparation](docs/BILAN-PREPARATION-STORE-2026-11.md).
+actuellement en français. [Bilan de préparation](docs/archive/BILAN-PREPARATION-STORE-2026-11.md).
 
 ## Architecture et règles de contribution
 
-| Dossier                                         | Rôle                                                    |
-| ----------------------------------------------- | ------------------------------------------------------- |
-| `src/game.ts`, `src/ai.ts`, `src/navigation.ts` | Règles, IA et navigation indépendantes du navigateur    |
-| `src/session.ts`                                | Session et horloge de simulation                        |
-| `src/render/`                                   | Rendu Phaser, terrain et personnages                    |
-| `src/ui/`                                       | Interface HTML et contrôles                             |
-| `deploy/`                                       | Politique HTTP et outils de préparation de publication  |
-| `tests/`, `scripts/`                            | Tests, captures, simulations et outils de développement |
-| `android/`                                      | Enveloppe native Capacitor                              |
-| `docs/`                                         | Conception, décisions, protocoles et bilans             |
+| Dossier                                         | Rôle                                                      |
+| ----------------------------------------------- | --------------------------------------------------------- |
+| `src/game.ts`, `src/ai.ts`, `src/navigation.ts` | Règles, IA et navigation indépendantes du navigateur      |
+| `src/session.ts`                                | Session et horloge de simulation                          |
+| `src/render/`                                   | Rendu Phaser, terrain et personnages                      |
+| `src/ui/`                                       | Interface HTML et contrôles                               |
+| `deploy/`                                       | Politique HTTP et outils de préparation de publication    |
+| `tests/`, `scripts/`                            | Tests, captures, simulations et outils de développement   |
+| `android/`                                      | Enveloppe native Capacitor                                |
+| `docs/`                                         | Documents vivants ; l'historique est dans `docs/archive/` |
 
 Préserver la séparation règles/rendu, le RNG déterministe et la compatibilité des
 sauvegardes. Aucun `Math.random` dans les règles. Lire [AGENTS.md](AGENTS.md),
@@ -141,4 +141,4 @@ Les éléments originaux du projet sont sous **licence propriétaire, tous droit
 réservés** : voir [LICENSE](LICENSE). Le dépôt n'accorde pas de licence open source.
 Les composants tiers conservent leurs licences : [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Les notes des étapes précédentes sont conservées dans [HISTORY.md](HISTORY.md).
+Les notes des étapes précédentes sont conservées dans [HISTORY.md](docs/archive/HISTORY.md).

@@ -114,5 +114,5 @@ Le graphique optionnel se regénère avec `python scripts/compare-balance.py` (m
 
 Empreinte SHA-256 des TypeScript racine de src/ : `{new['sourceHash']}`.
 '''
-(root/'docs/DEFENSE-VIVANTE-0.10.md').write_text(doc)
+(root/'docs/archive/DEFENSE-VIVANTE-0.10.md').write_text(doc)
 print(f'Comparison generated: {wins}/100; edge {edge_old:.1f}% -> {edge_new:.1f}%')

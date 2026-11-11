@@ -1,6 +1,6 @@
 # Audit visuel — preuves compactes
 
-[Rapport](../../docs/AUDIT-VISUEL-MOBILE-2026-11-10.md), [contre-analyse Claude](../../docs/POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md), [conseil simulé](../../docs/CONSEIL-AUDIT-VISUEL-2026-11-10.md). Le parent a choisi audit et propositions avant modification. Aucun code d’application, règle, image de production ou format de sauvegarde modifié ; zéro génération payante.
+[Rapport](../../docs/AUDIT-VISUEL-MOBILE-2026-11-10.md), [contre-analyse Claude](../../docs/archive/POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md), [conseil simulé](../../docs/archive/CONSEIL-AUDIT-VISUEL-2026-11-10.md). Le parent a choisi audit et propositions avant modification. Aucun code d’application, règle, image de production ou format de sauvegarde modifié ; zéro génération payante.
 
 [evidence-index.json](evidence-index.json) distingue sources, plateformes, dates, métriques et estimations. [Relecture factuelle initiale](review.md) : PASS, sans correction requise. Les deux petites captures de notre jeu sont des preuves, pas une refonte.
 

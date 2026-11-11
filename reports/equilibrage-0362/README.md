@@ -5,8 +5,8 @@ Version 0.36.2 / Android 48. Livraison locale préparée sur
 Publication après revue autorisée le 10 novembre, conduite par le coordinateur.
 Cet index ne prétend pas que le site est déjà mis à jour.
 
-- [Bilan, décisions et limites](../../docs/BILAN-0.36.2.md).
-- [Six perspectives simulées](../../docs/CONSEIL-0.36.2.md), revue globale sous responsabilité du coordinateur.
+- [Bilan, décisions et limites](../../docs/archive/BILAN-0.36.2.md).
+- [Six perspectives simulées](../../docs/archive/CONSEIL-0.36.2.md), revue globale sous responsabilité du coordinateur.
 - [Commandes et provenance](commands.md).
 - [Résultats de simulation compacts](measurements.json).
 - Sources du paquet : `430e0212857f38a71d0558203163920e6bceba4f` pour les métadonnées, les annotations et les captures du guide ; commit final de QA indiqué dans le reçu APK.

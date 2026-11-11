@@ -13,7 +13,7 @@ out = root / "reports"
 data = json.loads((out / "balance-100.json").read_text())
 summary, games, routes = data["summary"], data["games"], data["routes"]
 assert "sourceHash" in summary, "Run the latest npm run balance first"
-assert summary["version"] == "0.9.0", "Historical 0.9 report only; see docs/REFONTE-0.11.md for the current pilot"
+assert summary["version"] == "0.9.0", "Historical 0.9 report only; see docs/archive/REFONTE-0.11.md for the current pilot"
 paths = json.loads((out / "path-transit.json").read_text())
 profiles = summary["profiles"]
 wins = sum(p["wins"] for p in profiles)

@@ -6,7 +6,7 @@ L'APK reste sans publicité ni achat intégré. Le compte Play personnel est cr�
 validation d'identité en attente selon le dernier retour. Prix, produits,
 identité publique et identifiant final restent à choisir. La v1 prévoit la
 validation et l'acknowledge dans l'app, sans serveur de reçus obligatoire.
-[Cadrage actuel](MONETISATION.md), [bilan de l'étape4](../BILAN-0.32.4-etape-4.md).
+[Cadrage actuel](MONETISATION.md), [bilan de l'étape4](../archive/BILAN-0.32.4-etape-4.md).
 Aucune publicité pendant le test fermé avant visualisation sur S24 et accord
 explicite du parent. Aucun SDK commercial ajouté par cette étape documentaire.
 

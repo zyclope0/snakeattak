@@ -35,7 +35,7 @@ lot 9 avant tout export store. Aucune correction/génération de l’image faite
 L'original reste inchangé. Il a servi au détourage local et aux exports Android
 sans nouvelle génération : [ressources dérivées](../../resources/android-icon/README.md),
 [provenance et empreintes](../../resources/android-icon/manifest.json),
-[bilan](../BILAN-0.32.4.md). Premier plan des personnages sur fond uni #214C3B,
+[bilan](../archive/BILAN-0.32.4.md). Premier plan des personnages sur fond uni #214C3B,
 coins blancs éliminés, cinq densités et versions adaptatives26/33. Les deux
 terrains restent réservés au lot 6 ; aucun changement de terrain ou de règle.
 

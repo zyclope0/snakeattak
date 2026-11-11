@@ -155,7 +155,7 @@ Ce que l'audit recommandait et qui n'est toujours pas fait :
   changent des règles, donc à proposer au fils d'abord.
 - **Nouveaux lieux.** Deux fonds générés attendent dans `docs/resources-2026-11/assets`
   (`terrain-crue.png` prêt, `terrain-marais.png` à montrer au parent). Prévu après la sortie.
-- **Hygiène du dépôt.** Plan chiffré de Codex dans `docs/HYGIENE-DEPOT-0361.md` : environ 480 Mo
+- **Hygiène du dépôt.** Plan chiffré de Codex dans `docs/archive/HYGIENE-DEPOT-0361.md` : environ 480 Mo
   de captures et de gros JSON à sortir de Git. Décision de Yannick requise, surtout pour
   l'historique.
 
@@ -262,7 +262,7 @@ captures (aucun n'a été installé ni joué), mesures de nos écrans, et deux a
 l'approche A : accueil compact avec une action principale, écrans courts, carnet ouvert sur la
 collection (aujourd'hui 2 581 px de contenu pour 344 px visibles en 780×360), gestion des noms au
 second plan, puis un langage de matières commun. L'approche B est centrée sur le plateau. Il a
-aussi écrit `docs/POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md`, qui demande une contre-analyse : elle
+aussi écrit `docs/archive/POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md`, qui demande une contre-analyse : elle
 n'est pas faite. Commence par elle (mesures refaites, références vérifiées, angles morts), puis
 propose à Yannick un ordre de petits lots.
 
@@ -309,5 +309,5 @@ montrer ce qui arrive à l'entrée de chaque chemin, pas de texte quand une icô
 - Caprices, liste validée par le fils : <https://claude.ai/artifact/BcvDr6KNm4sj8yGoV6r3oF>
 - Maquettes : <https://claude.ai/artifact/NeJ71Fck3ZpVEMc2y9kAWD>
 - Dans le dépôt : `GAME_DESIGN.md`, `docs/CAPRICES.md`, `docs/PLAN-ACTUEL.md`,
-  `docs/BILAN-0.36.1.md`, `docs/BILAN-0.36.2.md`, `docs/HYGIENE-DEPOT-0361.md`,
+  `docs/archive/BILAN-0.36.1.md`, `docs/archive/BILAN-0.36.2.md`, `docs/archive/HYGIENE-DEPOT-0361.md`,
   `docs/publication/`, `docs/ARCHITECTURE.md`, `docs/ANDROID.md`

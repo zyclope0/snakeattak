@@ -12,8 +12,8 @@ fonctionnelle, paquet et vérification publique.
   SDD par un déplacement Git normal, sans effacer son historique.
 - `task-2-report.md`, `council-task1.md` et `council-task2.md` : preuves des lots
   précédents conservées ; les trois conseils sont réunis dans le document lié.
-- [Bilan](../../docs/BILAN-0.37.0.md) et [conseils simulés](../../docs/CONSEIL-0.37.0.md).
-- [Devis expliqué](../../docs/interface-0370/DEVIS-COMPARATIF.md).
+- [Bilan](../../docs/BILAN-0.37.0.md) et [conseils simulés](../../docs/archive/CONSEIL-0.37.0.md).
+- [Devis expliqué](../../docs/archive/interface-0370/DEVIS-COMPARATIF.md).
 
 Les anciens rapports et captures ont été copiés avant les
 recettes. Les nouvelles sorties sont conservées hors Git avant restauration des

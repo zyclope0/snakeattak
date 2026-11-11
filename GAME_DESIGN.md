@@ -63,7 +63,7 @@ Les œufs sont présents puis éclatent/éclosent aléatoirement et ajoutent des
 
 Demandes du fils approuvées par le parent : mutants alliés, plusieurs races de dinosaures alliés, ninja très rapide ; cracheurs à dégât direct unique sans poison dans le temps ; serpent à sonnette provoquant une confusion ; cobra royal à collerette infligeant exactement 2 PV à son tueur à sa mort ; mamba noir exactement 3 PV à son tueur ; boss final avec trois têtes. Le boss reste distinct du cobra royal ordinaire.
 
-Les durées, prix et introductions progressives sont des réglages de conception : voir docs/BESTIAIRE-LISIBILITE-0.14.md. Aucune résurrection, aucun ordre manuel, bébé dragon et petit dino conservés du côté allié.
+Les durées, prix et introductions progressives sont des réglages de conception : voir docs/archive/BESTIAIRE-LISIBILITE-0.14.md. Aucune résurrection, aucun ordre manuel, bébé dragon et petit dino conservés du côté allié.
 
 ## Idées des enfants reportées après la 0.15
 

@@ -11,7 +11,7 @@ shellHp 5, shellArmor 0,6 (shellSpeed 0,5 conservé). Le bite global reste 1.
 Seules les carapaces frappent plus fort au refuge ; représailles 2/3 et entrée
 au cristal 9 restent identiques. Les noms **et annonces** français du fils
 restent exacts, y compris en anglais. Codes et camps historiques gardent leurs
-valeurs ; voir le [bilan 0.36.2](BILAN-0.36.2.md).
+valeurs ; voir le [bilan 0.36.2](archive/BILAN-0.36.2.md).
 
 9 novembre 2026. Catalogue validé par le fils le jour même, avec le parent. Document
 de suivi pour le parent : [Caprices des serpents — liste à valider](https://claude.ai/artifact/BcvDr6KNm4sj8yGoV6r3oF).
@@ -159,6 +159,6 @@ enveloppe remplace les carnets par un carnet vide, après avertissement explicit
 Ce n’est pas une fusion et aucune réussite historique n’est inventée. Une erreur
 de validation ou d’écriture laisse le fichier familial actuel intact.
 
-[Bilan et preuves0.36.0](BILAN-0.36.0.md). Candidate privée : pas de fusion ou
+[Bilan et preuves0.36.0](archive/BILAN-0.36.0.md). Candidate privée : pas de fusion ou
 publication avant la suite autorisée par le parent ; revue finale et conseil
 encore en attente au moment de la préparation de livraison.
