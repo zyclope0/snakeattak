@@ -11,6 +11,15 @@ formats 1280×800 FR, 812×375 EN et 780×360 FR contrôlés, sans erreur JavaSc
 [Bilan court](BILAN-0.37.0.md). Aucun essai physique S24, TalkBack ou avec les enfants.
 Les suites du chantier ci-dessous restent prévues ; cette livraison ne les réalise pas.
 
+## Retour du téléphone sur le build 50 — correctif en cours
+
+Sur le Galaxy S24, le parent voit encore Missions, Pour les parents et Aventure classique mal
+affichées. Cause reproduite : le correctif de la PR nº 11 avait été mesuré sans les marges des
+barres Android (barre d'état, encoche, barre de gestes). Avec ces marges, les pages étaient de
+nouveau coupées. Le correctif suivant les fait tenir en 780×360 et 832×384 avec des marges de
+30/48/24/48 px, et la recette des menus contrôle désormais ce cas (555 contrôles).
+**Pas vérifié sur le téléphone : il faut un nouvel APK et une capture du parent.**
+
 ## Remise en ordre — Claude Code, 11 novembre 2026
 
 Trois objectifs du parent : moteur propre, interface stabilisée, projet nettoyé. Ordre retenu :

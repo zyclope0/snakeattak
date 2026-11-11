@@ -475,11 +475,21 @@ try {
   check(errors.length === 0, JSON.stringify(errors));
   // Secondary home pages on a landscape phone: nothing scrolls, the six missions show
   // their names, and no empty band remains under the page.
-  for (const [w, h] of [
-    [780, 360],
-    [812, 375],
+  // Android's status bar, camera cut-out and gesture bar shorten the usable screen: the
+  // pages must also fit with generous simulated system margins, as on the family phone.
+  for (const [w, h, insets] of [
+    [780, 360, null],
+    [812, 375, null],
+    [780, 360, { top: 30, right: 48, bottom: 24, left: 48 }],
+    [832, 384, { top: 30, right: 48, bottom: 24, left: 48 }],
   ]) {
     const phone = await pageAt(w, h);
+    if (insets)
+      await phone.evaluate((margins) => {
+        for (const [side, value] of Object.entries(margins))
+          document.documentElement.style.setProperty(`--safe-area-inset-${side}`, `${value}px`);
+      }, insets);
+    const margins = insets ? ' with system margins' : '';
     for (const [target, scroller] of [
       ['missions', '#mission-list'],
       ['favorites', '#army-editor'],
@@ -499,7 +509,10 @@ try {
         fit.overflow <= 1,
         `${target} fits ${w}×${h} without scrolling: ${JSON.stringify(fit)}`,
       );
-      check(fit.footer <= 20 && fit.gap <= 16, `${target} leaves no empty band at ${w}×${h}`);
+      check(
+        fit.footer <= 20 && fit.gap <= 16 + (insets?.bottom ?? 0),
+        `${target} leaves no empty band at ${w}×${h}${margins}`,
+      );
       if (target === 'missions') {
         const names = await phone.locator('#mission-cards .mission-card').evaluateAll(
           (cards) =>
@@ -510,7 +523,7 @@ try {
               return name.top >= clip.top && name.bottom <= clip.bottom && card.contains(hit);
             }).length,
         );
-        check(names === 6, `six mission names are readable at ${w}×${h}: ${names}`);
+        check(names === 6, `six mission names are readable at ${w}×${h}${margins}: ${names}`);
       }
       await showHomePage(phone, 'home');
     }

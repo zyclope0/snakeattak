@@ -626,8 +626,8 @@
     grid-row: 3;
   }
   #home-screen .home-page > h1 {
-    margin: 0 0 6px;
-    font-size: 20px;
+    margin: 0 0 4px;
+    font-size: 18px;
   }
 
   /* Missions: play/resume join the top row; the six cards fit without scrolling. */
@@ -663,7 +663,7 @@
   }
   #home-screen #mission-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
     margin: 4px 0 0;
     padding: 0 0 5px;
   }
@@ -672,25 +672,25 @@
   }
   #home-screen #mission-cards .mission-card {
     display: grid;
-    grid-template-columns: 52px minmax(0, 1fr) 40px;
+    grid-template-columns: 44px minmax(0, 1fr) 40px;
     grid-template-rows: auto auto auto;
     align-items: center;
-    column-gap: 10px;
+    column-gap: 8px;
     row-gap: 0;
     min-height: 0;
-    padding: 8px 10px;
+    padding: 6px 8px;
     border-radius: 18px;
     text-align: left;
   }
   #home-screen #mission-cards .mission-emblem {
     grid-column: 1;
     grid-row: 1 / 4;
-    width: 52px;
-    height: 52px;
+    width: 44px;
+    height: 44px;
   }
   #home-screen #mission-cards .mission-emblem svg {
-    width: 46px;
-    height: 46px;
+    width: 38px;
+    height: 38px;
   }
   #home-screen #mission-cards .mission-status-badge {
     position: static;
@@ -708,11 +708,21 @@
   #home-screen #mission-cards .mission-card > .mission-stars {
     grid-column: 2;
   }
-  #home-screen #mission-cards .mission-card > small {
-    font-size: 11px;
+  /* The mission number and wave count return in the preparation: the name and the stars
+     must stay readable when Android's system bars shorten the screen. */
+  #home-screen #mission-cards .mission-card > small:first-of-type {
+    display: none;
+  }
+  #home-screen #mission-cards .mission-card {
+    align-content: center;
+    min-height: 60px;
+  }
+  #home-screen .expedition-map > small,
+  #home-screen .expedition-map > #mission-cards ~ * {
+    display: none;
   }
   #home-screen #mission-cards .mission-card > strong {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.15;
   }
   #home-screen #mission-cards .mission-stars {
@@ -820,8 +830,17 @@
   #home-screen [data-home-page='classic'] > .home-disclosure {
     grid-column: 1 / -1;
   }
+  #home-screen #departure-heading {
+    display: none;
+  }
+  #home-screen [data-home-page='parents'] .parent-actions {
+    margin-bottom: 6px;
+  }
+  #home-screen #departure-form label {
+    margin: 0 0 4px;
+  }
   #home-screen .home-disclosure > section {
-    padding: 8px 12px;
+    padding: 6px 12px;
   }
   #home-screen .journey-map .journey-title {
     align-items: center;
@@ -837,15 +856,14 @@
     padding: 4px 8px;
   }
   #home-screen .journey-map .journey-title small {
-    line-height: 1.3;
-    text-align: right;
+    display: none;
   }
   #home-screen .chapter-cards {
     gap: 8px;
   }
   #home-screen .chapter-card {
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns: 52px minmax(0, 1fr);
     align-content: center;
     column-gap: 10px;
     row-gap: 1px;
@@ -854,10 +872,10 @@
   }
   #home-screen .chapter-image {
     grid-column: 1;
-    grid-row: 1 / 6;
-    width: 64px;
+    grid-row: 1 / 5;
+    width: 52px;
     height: 100%;
-    min-height: 72px;
+    min-height: 56px;
     margin: 0;
     border-radius: 10px;
   }
@@ -869,8 +887,7 @@
     line-height: 1.15;
   }
   #home-screen .chapter-card .chapter-focus {
-    font-size: 11px;
-    line-height: 1.25;
+    display: none;
   }
   #home-screen .chapter-stars {
     font-size: 16px;
@@ -914,10 +931,7 @@
   #home-screen #mission-cards .mission-card > strong {
     font-size: 13px;
   }
-  /* The mission number and wave count return in the preparation. */
-  #home-screen #mission-cards .mission-card > small:first-of-type {
-    display: none;
-  }
+
   #home-screen .journey-map .journey-title small {
     display: none;
   }
