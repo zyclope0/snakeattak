@@ -11,6 +11,21 @@ formats 1280×800 FR, 812×375 EN et 780×360 FR contrôlés, sans erreur JavaSc
 [Bilan court](BILAN-0.37.0.md). Aucun essai physique S24, TalkBack ou avec les enfants.
 Les suites du chantier ci-dessous restent prévues ; cette livraison ne les réalise pas.
 
+## Retour du téléphone sur le build 50 — pages de l'accueil adaptatives
+
+Sur le Galaxy S24, le parent voyait encore Missions, Pour les parents et Aventure classique mal
+affichées. Deux causes : le correctif de la PR nº 11 avait été mesuré sans les marges des
+barres Android, et il reposait sur des seuils et des tailles en dur, réglés pour trois formats.
+
+- **PR nº 14** : correctif immédiat avec marges système.
+- **Version adaptative (PR suivante)** : `src/ui/homePages.css` décrit ces quatre pages dans
+  une unité calculée d'après la place réelle. Elles tiennent de 568×320 à 1920×1080, en
+  paysage et en fenêtre portrait, avec ou sans marges ; en dessous, la page défile sans rien
+  couper. Détail à la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
+- **Pas vérifié sur le téléphone** : il faut un nouvel APK et une capture du parent. La taille
+  de police agrandie dans les réglages Android n'est pas simulée.
+- **Reste à rendre adaptatif** : l'accueil, la préparation, le catalogue et l'écran de jeu.
+
 ## Remise en ordre — Claude Code, 11 novembre 2026
 
 Trois objectifs du parent : moteur propre, interface stabilisée, projet nettoyé. Ordre retenu :

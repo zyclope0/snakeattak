@@ -473,45 +473,95 @@ try {
   await capture(safe, 'after-album-safe-568x320');
   await safe.close();
   check(errors.length === 0, JSON.stringify(errors));
-  // Secondary home pages on a landscape phone: nothing scrolls, the six missions show
-  // their names, and no empty band remains under the page.
-  for (const [w, h] of [
-    [780, 360],
-    [812, 375],
-  ]) {
+  // Secondary home pages adapt to the space they really have. On every screen of this
+  // grid, from a small phone to a computer, with and without Android's system margins
+  // (status bar, camera cut-out, gesture bar), nothing scrolls, nothing is cut and the six
+  // missions show their names.
+  const systemBars = { top: 30, right: 48, bottom: 24, left: 48 };
+  const scrollers = [
+    ['missions', '#mission-list'],
+    ['favorites', '#army-editor'],
+    ['classic', '[data-home-page="classic"]'],
+    ['parents', '#home-parent-options'],
+  ];
+  async function openAt(w, h, insets) {
     const phone = await pageAt(w, h);
-    for (const [target, scroller] of [
-      ['missions', '#mission-list'],
-      ['favorites', '#army-editor'],
-      ['classic', '[data-home-page="classic"]'],
-      ['parents', '[data-home-page="parents"]'],
-    ]) {
+    if (insets)
+      await phone.evaluate((margins) => {
+        for (const [side, value] of Object.entries(margins))
+          document.documentElement.style.setProperty(`--safe-area-inset-${side}`, `${value}px`);
+      }, insets);
+    return phone;
+  }
+  const measurePage = (phone, scroller) =>
+    phone.locator(scroller).evaluate((e) => {
+      const footer = document.querySelector('.home-footer').getBoundingClientRect();
+      const seen = (node) => {
+        const r = node.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + 2, r.top + r.height / 2);
+        return r.top >= 0 && r.bottom <= innerHeight && !!hit && node.contains(hit);
+      };
+      const controls = [
+        ...document.querySelectorAll('#home-screen button, #home-screen select'),
+      ].filter((node) => node.getClientRects().length);
+      return {
+        overflow: e.scrollHeight - e.clientHeight,
+        footer: footer.height,
+        gap: innerHeight - footer.bottom,
+        names: [...document.querySelectorAll('#mission-cards .mission-card strong')].filter(seen)
+          .length,
+        cut: controls.filter(
+          (node) =>
+            node.scrollWidth > node.clientWidth + 2 || node.scrollHeight > node.clientHeight + 2,
+        ).length,
+        small: controls.filter((node) => {
+          const r = node.getBoundingClientRect();
+          return seen(node) && (r.width < 47.5 || r.height < 47.5);
+        }).length,
+      };
+    });
+  for (const [w, h, insets] of [
+    [640, 360, null],
+    [780, 360, null],
+    [812, 375, null],
+    [915, 412, null],
+    [1024, 600, null],
+    [1280, 800, null],
+    [1366, 768, null],
+    [780, 360, systemBars],
+    [832, 384, systemBars],
+    [915, 412, systemBars],
+    [1024, 600, systemBars],
+  ]) {
+    const phone = await openAt(w, h, insets);
+    const where = `${w}×${h}${insets ? ' with system margins' : ''}`;
+    for (const [target, scroller] of scrollers) {
       await showHomePage(phone, target);
-      const fit = await phone.locator(scroller).evaluate((e) => {
-        const footer = document.querySelector('.home-footer').getBoundingClientRect();
-        return {
-          overflow: e.scrollHeight - e.clientHeight,
-          footer: footer.height,
-          gap: innerHeight - footer.bottom,
-        };
-      });
+      const fit = await measurePage(phone, scroller);
+      check(fit.overflow <= 1, `${target} fits ${where}: ${JSON.stringify(fit)}`);
       check(
-        fit.overflow <= 1,
-        `${target} fits ${w}×${h} without scrolling: ${JSON.stringify(fit)}`,
+        fit.footer <= 20 && fit.gap <= 16 + (insets?.bottom ?? 0),
+        `${target} leaves no empty band at ${where}`,
       );
-      check(fit.footer <= 20 && fit.gap <= 16, `${target} leaves no empty band at ${w}×${h}`);
-      if (target === 'missions') {
-        const names = await phone.locator('#mission-cards .mission-card').evaluateAll(
-          (cards) =>
-            cards.filter((card) => {
-              const name = card.querySelector('strong').getBoundingClientRect();
-              const clip = card.closest('#mission-list').getBoundingClientRect();
-              const hit = document.elementFromPoint(name.x + 2, name.y + name.height / 2);
-              return name.top >= clip.top && name.bottom <= clip.bottom && card.contains(hit);
-            }).length,
-        );
-        check(names === 6, `six mission names are readable at ${w}×${h}: ${names}`);
-      }
+      check(fit.cut === 0 && fit.small === 0, `${target} controls whole at ${where}`);
+      if (target === 'missions')
+        check(fit.names === 6, `six mission names readable at ${where}: ${fit.names}`);
+      await showHomePage(phone, 'home');
+    }
+    await phone.close();
+  }
+  // Screens too small for the floors of text and touch targets may scroll, never cut.
+  for (const [w, h] of [
+    [480, 270],
+    [568, 320],
+  ]) {
+    const phone = await openAt(w, h, null);
+    for (const [target, scroller] of scrollers) {
+      await showHomePage(phone, target);
+      const fit = await measurePage(phone, scroller);
+      check(fit.cut === 0, `${target} cuts no control at ${w}×${h}: ${JSON.stringify(fit)}`);
+      if (target === 'missions')
+        check(fit.names === 6, `six mission names readable at ${w}×${h}: ${fit.names}`);
       await showHomePage(phone, 'home');
     }
     await phone.close();
