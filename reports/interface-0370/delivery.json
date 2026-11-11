@@ -1,13 +1,20 @@
 {
   "version": "0.37.0",
   "versionCode": 49,
-  "status": "local candidate",
+  "status": "published",
   "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
   "taskBaseSHA": "fd9e017",
   "publication": {
-    "status": "pending coordinator review and release",
-    "publicVersion": "0.36.2",
-    "remoteActionsByTask3": false
+    "status": "succeeded",
+    "publicVersion": "0.37.0",
+    "siteVersion": 24,
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "sourceCommit": "5a5944146f7794a84859a7626a6564cf59b405d3",
+    "githubMergeCommit": "0080aeaece6c6eb67ad36a5648f1071a251de2f3",
+    "pullRequest": "https://github.com/zyclope0/snakeattak/pull/7",
+    "preMergeCI": 42927795793,
+    "receipt": "reports/deployment-0.37.0.json",
+    "physicalS24Test": false
   },
   "apk": {
     "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
@@ -47,9 +54,17 @@
     "snapshotDelta": {
       "historicalSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
       "correctedSourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
-      "changed": ["index.html"],
-      "added": ["assets/bootstrap-C-Dj4wfG.js", "assets/index-D73S7WBW.js"],
-      "removed": ["assets/bootstrap-Bc08rJdp.js", "assets/index-vuvoutOW.js"],
+      "changed": [
+        "index.html"
+      ],
+      "added": [
+        "assets/bootstrap-C-Dj4wfG.js",
+        "assets/index-D73S7WBW.js"
+      ],
+      "removed": [
+        "assets/bootstrap-Bc08rJdp.js",
+        "assets/index-vuvoutOW.js"
+      ],
       "unchanged": 31,
       "expected": "index.html references the corrected UI JS filename; UI JS changes, rules and all other assets remain identical; old9ca snapshot is preserved, not relabelled"
     }
@@ -78,7 +93,12 @@
   "independentNativeUIRun": {
     "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
     "stateOrClockInjection": false,
-    "simulatedInsets": [24, 32, 16, 0],
+    "simulatedInsets": [
+      24,
+      32,
+      16,
+      0
+    ],
     "purchases": 4,
     "playedWaves": 3,
     "finalCrystal": "100 %",
@@ -122,8 +142,13 @@
       "runtimeDiffFromFrozenSource": [],
       "generatedProofs": {
         "checkedFiles": 8647,
-        "restoredChangedFiles": ["artifacts/pilote-desktop.png", "artifacts/pilote-mobile.png"],
-        "newFilesCopiedOutAndRemoved": ["artifacts/menu-018-desktop.png"],
+        "restoredChangedFiles": [
+          "artifacts/pilote-desktop.png",
+          "artifacts/pilote-mobile.png"
+        ],
+        "newFilesCopiedOutAndRemoved": [
+          "artifacts/menu-018-desktop.png"
+        ],
         "externalOutputs": "/workspace/serpents-interface-0370/final-fix/new-qa-outputs"
       }
     }
@@ -195,7 +220,12 @@
     "unitTests": 549,
     "mobileChecks": 519,
     "navigationRegressionChecks": 9,
-    "journeyViewports": [1440, 390, 320, 844],
+    "journeyViewports": [
+      1440,
+      390,
+      320,
+      844
+    ],
     "nativeSwipeCases": 5,
     "nativePositiveScrollCases": 5,
     "nativeSwipeDesktop": true,

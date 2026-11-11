@@ -4,17 +4,19 @@ Jeu de défense familial imaginé à partir du jeu d'un enfant. Prépare un dét
 pour protéger le cristal sur **trois voies interconnectées**, puis observe les
 alliés combattre et se soigner de façon autonome.
 
-**Site public : 0.36.2 · Candidate locale : 0.37.0 / Android 49 · Français/anglais · Code propriétaire.**
+**Version publiée : 0.37.0 / Android 49 · Français/anglais · Code propriétaire.**
 
 [Jouer sur le site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
 · [Guide Android](docs/ANDROID.md)
 
-La candidate 0.37.0 corrige le retour visible aux cartes du catalogue et au
+La version 0.37.0 corrige le retour visible aux cartes du catalogue et au
 focus des destinations de l’accueil. Source figée : `b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`.
-[Recette et artefacts locaux](reports/interface-0370/delivery.json),
+[Recette et artefacts](reports/interface-0370/delivery.json),
 [bilan](docs/BILAN-0.37.0.md). Les preuves précédentes restent liées à `9ca13bb` ;
-aucune publication ni exécution GitHub CI de cette correction n’est revendiquée.
+La [PR7](https://github.com/zyclope0/snakeattak/pull/7) est fusionnée après CI verte ;
+le [reçu de publication](reports/deployment-0.37.0.json) relie le site Sites24
+à ses fichiers vérifiés et à la source corrigée.
 
 ## Le jeu
 

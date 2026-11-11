@@ -1,0 +1,559 @@
+{
+  "applicationVersion": "0.37.0",
+  "applicationSourceCommit": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+  "reviewedClosureCommit": "2eab3e4362045b68eb71d88f68a604d6a57c4d0c",
+  "version": {
+    "id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_2175c6f76230819195531bfec88303da",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "version_number": 24,
+    "source": {
+      "commit_sha": "5a5944146f7794a84859a7626a6564cf59b405d3"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_000000008888820a9b72e32bb9c74839",
+      "content_hash": "sha256:a8820c06f1a1c7d98acd23d8bd01b5d61f637da4bb15a82dfeee28aa3c7e8e03",
+      "size_bytes": 11898880,
+      "file_count": 35
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6af3b58aa3dc81919cef35fbf3104153",
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "title": "La Conquête des Serpents",
+    "version_id": "appgprj_6aea6e76eaec81919255e945991a9837~appgver_2175c6f76230819195531bfec88303da",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aea6e76eaec81919255e945991a9837",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-11-11T00:23:50.479142+00:00"
+  },
+  "source": {
+    "project_id": "appgprj_6aea6e76eaec81919255e945991a9837",
+    "commit_sha": "5a5944146f7794a84859a7626a6564cf59b405d3",
+    "archive": "/workspace/serpents-site-0370.tar",
+    "archiveSha256": "644fffae01198c19b079ececa0539905a9319fc31e14082368f9233bf7ceb54d",
+    "fileCount": 35,
+    "applicationSourceCommit": "2eab3e4362045b68eb71d88f68a604d6a57c4d0c",
+    "apkSourceCommit": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "distFilesIdenticalToApk": 34,
+    "audiencePreserved": "public"
+  },
+  "audiencePreserved": "public",
+  "github": {
+    "pullRequest": {
+      "headRefOid": "2eab3e4362045b68eb71d88f68a604d6a57c4d0c",
+      "mergeCommit": {
+        "oid": "0080aeaece6c6eb67ad36a5648f1071a251de2f3"
+      },
+      "mergedAt": "2026-11-11T00:23:28Z",
+      "number": 7,
+      "state": "MERGED",
+      "url": "https://github.com/zyclope0/snakeattak/pull/7"
+    },
+    "preMergeCI": {
+      "conclusion": "success",
+      "databaseId": 42927795793,
+      "headSha": "2eab3e4362045b68eb71d88f68a604d6a57c4d0c",
+      "status": "completed",
+      "url": "https://github.com/zyclope0/snakeattak/actions/runs/42927795793"
+    },
+    "publicationReceiptCommit": "Commit containing this receipt; documentation only.",
+    "postMergeCIAtPublication": [
+      {
+        "conclusion": "",
+        "databaseId": 42930971511,
+        "headSha": "0080aeaece6c6eb67ad36a5648f1071a251de2f3",
+        "status": "in_progress",
+        "url": "https://github.com/zyclope0/snakeattak/actions/runs/42930971511"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 42896658460,
+        "headSha": "2b5ae484add9e5abcca1392be5665af2c4837257",
+        "status": "completed",
+        "url": "https://github.com/zyclope0/snakeattak/actions/runs/42896658460"
+      }
+    ],
+    "mergeTreeEqualsReviewedHead": true,
+    "runtimeEqualsFrozenAPKSource": true
+  },
+  "apk": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "version": "0.37.0",
+    "versionCode": 49,
+    "appId": "com.conqueteserpents.famille",
+    "apkPath": "/workspace/conquete-serpents-v0.37.0-debug.apk",
+    "apkBytes": 15168726,
+    "apkSHA256": "6e9494f467f7d02800328383909f3039cc0d36d83e7a05ba867c5ce175a36a7b",
+    "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "normalNoServer": true,
+    "allDistFilesIdentical": true,
+    "distFiles": 34
+  },
+  "portable": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "htmlPath": "/workspace/conquete-serpents-v0.37.0-portable.html",
+    "htmlBytes": 15125054,
+    "htmlSHA256": "f92179c8398bbc37688331b225575aa444e205fc354bd46c9bd36d892e7f51f1",
+    "bundlePath": "/workspace/conquete-serpents-v0.37.0-portable.zip",
+    "bundleBytes": 10852935,
+    "bundleSHA256": "cd27bfb499a4a1fb0b6f44335422be7772e87bae0a7fb06b924fd2cf27cad342",
+    "bundleFiles": 5,
+    "allBundleFilesIdentical": true,
+    "faviconCompanionPath": "/workspace/icon-512-BPQ3IZsK.png",
+    "faviconSHA256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab",
+    "standaloneGameplay": true
+  },
+  "liveVerification": {
+    "url": "https://conquete-serpents-famille.zyclope.chatgpt.site",
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "scope": "Visible native navigation only; no state, clock, gold or game injection.",
+    "cases": [
+      {
+        "width": 1280,
+        "height": 800,
+        "language": "fr",
+        "errors": [],
+        "screens": [
+          "1280-800-fr-home.png",
+          "1280-800-fr-camp.png",
+          "1280-800-fr-catalogue-next.png",
+          "1280-800-fr-catalogue-filter.png",
+          "1280-800-fr-pause.png"
+        ],
+        "focus": [
+          {
+            "page": "parents",
+            "text": "Pour les parents",
+            "y": 128,
+            "bottom": 157,
+            "clipTop": 128,
+            "clipBottom": 720,
+            "visible": true,
+            "scrollTop": 0
+          },
+          {
+            "page": "classic",
+            "text": "Aventure classique",
+            "y": 128,
+            "bottom": 157,
+            "clipTop": 128,
+            "clipBottom": 720,
+            "visible": true,
+            "scrollTop": 0
+          },
+          {
+            "page": "missions",
+            "text": "Six missions dans les fougères",
+            "y": 232,
+            "bottom": 263,
+            "clipTop": 190,
+            "clipBottom": 982.484375,
+            "visible": true,
+            "scrollTop": 0
+          }
+        ],
+        "plateau": {
+          "x": 13,
+          "y": 117,
+          "width": 1065.953125,
+          "height": 600.8125
+        },
+        "next": {
+          "scrollTop": 0,
+          "count": 6,
+          "visible": true
+        },
+        "family": {
+          "scrollTop": 0,
+          "count": 6,
+          "visible": true
+        },
+        "manualPause": true
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "language": "en",
+        "errors": [],
+        "screens": [
+          "812-375-en-home.png",
+          "812-375-en-camp.png",
+          "812-375-en-catalogue-next.png",
+          "812-375-en-catalogue-filter.png",
+          "812-375-en-pause.png",
+          "812-375-en-portrait.png"
+        ],
+        "focus": [
+          {
+            "page": "parents",
+            "text": "For parents",
+            "y": 114,
+            "bottom": 143,
+            "clipTop": 114,
+            "clipBottom": 303,
+            "visible": true,
+            "scrollTop": 0
+          },
+          {
+            "page": "classic",
+            "text": "Classic adventure",
+            "y": 114,
+            "bottom": 143,
+            "clipTop": 114,
+            "clipBottom": 303,
+            "visible": true,
+            "scrollTop": 0
+          },
+          {
+            "page": "missions",
+            "text": "Six missions among the ferns",
+            "y": 132,
+            "bottom": 156,
+            "clipTop": 114,
+            "clipBottom": 303,
+            "visible": true,
+            "scrollTop": 0
+          }
+        ],
+        "plateau": {
+          "x": 0,
+          "y": 48,
+          "width": 580.125,
+          "height": 326.984375
+        },
+        "next": {
+          "scrollTop": 0,
+          "count": 6,
+          "visible": true
+        },
+        "family": {
+          "scrollTop": 0,
+          "count": 6,
+          "visible": true
+        },
+        "manualPause": true,
+        "portrait": true
+      },
+      {
+        "width": 780,
+        "height": 360,
+        "language": "fr",
+        "errors": [],
+        "screens": [
+          "780-360-fr-home.png",
+          "780-360-fr-camp.png",
+          "780-360-fr-catalogue-next.png",
+          "780-360-fr-catalogue-filter.png",
+          "780-360-fr-pause.png",
+          "780-360-fr-portrait.png"
+        ],
+        "focus": [
+          {
+            "page": "parents",
+            "text": "Pour les parents",
+            "y": 114,
+            "bottom": 143,
+            "clipTop": 114,
+            "clipBottom": 288,
+            "visible": true,
+            "scrollTop": 0
+          },
+          {
+            "page": "classic",
+            "text": "Aventure classique",
+            "y": 114,
+            "bottom": 143,
+            "clipTop": 114,
+            "clipBottom": 288,
+            "visible": true,
+            "scrollTop": 0
+          },
+          {
+            "page": "missions",
+            "text": "Six missions dans les fougères",
+            "y": 132,
+            "bottom": 156,
+            "clipTop": 114,
+            "clipBottom": 288,
+            "visible": true,
+            "scrollTop": 0
+          }
+        ],
+        "plateau": {
+          "x": 0,
+          "y": 48,
+          "width": 553.515625,
+          "height": 311.984375
+        },
+        "next": {
+          "scrollTop": 0,
+          "count": 6,
+          "visible": true
+        },
+        "family": {
+          "scrollTop": 0,
+          "count": 6,
+          "visible": true
+        },
+        "manualPause": true,
+        "portrait": true
+      }
+    ]
+  },
+  "exactFiles": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 32475,
+      "sha256": "c9f51bc87eb3792c2959e180761c097ced53916f2422d665513885f7a4b7959d",
+      "identical": true
+    },
+    {
+      "path": "asset-provenance.md",
+      "status": 200,
+      "bytes": 11030,
+      "sha256": "52db4dcccb512e5e4e94e93a478010f1276e726f725603d3ef792b18bb4efd39",
+      "identical": true
+    },
+    {
+      "path": "_headers",
+      "status": 200,
+      "bytes": 755,
+      "sha256": "aed5ca877a00a86d3efd490e79ca024474e439e97cbde8ae7825df7d060a55f7",
+      "identical": true
+    },
+    {
+      "path": "prototype-v4.html",
+      "status": 200,
+      "bytes": 17850,
+      "sha256": "3affab85cc2b25d6d78608a1bc81feccb64f879abb63fd92328bd38f53ce7167",
+      "identical": true
+    },
+    {
+      "path": "FONT-LICENCES.txt",
+      "status": 200,
+      "bytes": 8839,
+      "sha256": "c3b30f6e6669cf0e4e5facbe70341adc71b14f93ceea5c6b143be99cca46d39e",
+      "identical": true
+    },
+    {
+      "path": "assets/bootstrap-C-Dj4wfG.js",
+      "status": 200,
+      "bytes": 151882,
+      "sha256": "7ef269349491f6934aaa467ebac55c121267542b0865b88acc6082e1bd6dc998",
+      "identical": true
+    },
+    {
+      "path": "assets/allies-creatures-cRzzrImV.webp",
+      "status": 200,
+      "bytes": 511150,
+      "sha256": "14b4d80542cff3862826deabc0d22539c0355eb8b037f6b77a0bd711a0b861bb",
+      "identical": true
+    },
+    {
+      "path": "assets/index-BziyBkD-.css",
+      "status": 200,
+      "bytes": 60901,
+      "sha256": "b0b0bf99d3ea7f9b3377f4e7f9864718baaa24f515ab37e392f6bbfa3e343631",
+      "identical": true
+    },
+    {
+      "path": "assets/nunitosans-latin-BWQ3gi2K.woff2",
+      "status": 200,
+      "bytes": 31076,
+      "sha256": "29e3890496844a9ea81975c52771c587c872b4eb317026422d1995b88d21b57d",
+      "identical": true
+    },
+    {
+      "path": "assets/ground-three-bridges-BFXtmpU_.webp",
+      "status": 200,
+      "bytes": 199922,
+      "sha256": "bab094e192c1c0ef74fbfef87889d1a67aabc6c1f1ca14e3b90ab015ce112dbc",
+      "identical": true
+    },
+    {
+      "path": "assets/interface-craft-BeML44Ar.webp",
+      "status": 200,
+      "bytes": 415986,
+      "sha256": "14a3d2120e73cf1017a4f99bece5193be6db14f290607020865a52c6291a6d37",
+      "identical": true
+    },
+    {
+      "path": "assets/scenery-marsh-CIxCYtcW.webp",
+      "status": 200,
+      "bytes": 528320,
+      "sha256": "924bf295a9e8b851cce743b62961606266a2d57d2d796369590f5308196f4253",
+      "identical": true
+    },
+    {
+      "path": "assets/miels-parapluie-Dg128vC1.webp",
+      "status": 200,
+      "bytes": 336234,
+      "sha256": "9a3b92e44025e3e3634c4110919d0d0a129b11840ffe24082f44407d78f89f8a",
+      "identical": true
+    },
+    {
+      "path": "assets/allies-support-DCvqEi_g.webp",
+      "status": 200,
+      "bytes": 582990,
+      "sha256": "841806797d1c830445773600ef7fdb8aad6a9668de76a40e8aa7125326f3c63b",
+      "identical": true
+    },
+    {
+      "path": "assets/rules-BvS96c7w.js",
+      "status": 200,
+      "bytes": 85567,
+      "sha256": "4902bff8f88ef15aea06b09c5ac694afcabb1e3cd942311b47d6135b922321d8",
+      "identical": true
+    },
+    {
+      "path": "assets/allies-dinosaurs-D19CJGOc.webp",
+      "status": 200,
+      "bytes": 684408,
+      "sha256": "ed25414cc1d046fcc0ff3575fe50f88ca7c6025684df7cf9b552bd9d640500b3",
+      "identical": true
+    },
+    {
+      "path": "assets/ground-ruins-refined-DOfHsQTj.webp",
+      "status": 200,
+      "bytes": 216522,
+      "sha256": "e7a31d9451eb1c82cadb882cd145453ed780bc0c5ccb2e3af3f99d1a7fa79279",
+      "identical": true
+    },
+    {
+      "path": "assets/props-three-bridges-DvedvTDL.webp",
+      "status": 200,
+      "bytes": 541866,
+      "sha256": "f88c8f6944eebf6d67f766e9fdabc90300566d2bdb92fd492ee3dba60e891189",
+      "identical": true
+    },
+    {
+      "path": "assets/allies-mutants-D_OCWh4h.webp",
+      "status": 200,
+      "bytes": 406624,
+      "sha256": "69bf45f99d2f81350b9dc4abe7f12559d34477eb113e0f9702a6528f8aafe342",
+      "identical": true
+    },
+    {
+      "path": "assets/scenery-flood-ChBjoVaB.webp",
+      "status": 200,
+      "bytes": 554862,
+      "sha256": "b09549ca7eaef0e9583f907ccba6f287f93f6301af6373c05d19cb7d9068730d",
+      "identical": true
+    },
+    {
+      "path": "assets/allies-front-CdzQjxMu.webp",
+      "status": 200,
+      "bytes": 572236,
+      "sha256": "d1044629f7ab99e352f8327730cc88c5f0bc2491ac60c44a0f3d9dee74f14e99",
+      "identical": true
+    },
+    {
+      "path": "assets/ground-grove-refined-D97MXGUy.webp",
+      "status": 200,
+      "bytes": 142082,
+      "sha256": "bf1f3c6524f50068b9e3cfea230321ae32606d88c936aa914731c9acf2c17b17",
+      "identical": true
+    },
+    {
+      "path": "assets/phaser-B61OQUcB.js",
+      "status": 200,
+      "bytes": 1481792,
+      "sha256": "ee437e7f0bb7b331e6e7713d72801a7dc5b3f327050d9f26e1f1cf5c18795083",
+      "identical": true
+    },
+    {
+      "path": "assets/enemies-organic-DDXZITxu.webp",
+      "status": 200,
+      "bytes": 647204,
+      "sha256": "8957a251e98c4a2675981bc5cff263b1ea76d1033c056951e44e45e8d9d001a5",
+      "identical": true
+    },
+    {
+      "path": "assets/allies-elite-3Yzm51ta.webp",
+      "status": 200,
+      "bytes": 544860,
+      "sha256": "1687ff06a3e07b176f6a16414f28857dabbeed29e3ee95efd8feef29f4677825",
+      "identical": true
+    },
+    {
+      "path": "assets/index-D73S7WBW.js",
+      "status": 200,
+      "bytes": 10315,
+      "sha256": "43cf99f88c01346504ece1eb96e5064f50ba4b6a6e7ff6ea13d6479109185cea",
+      "identical": true
+    },
+    {
+      "path": "assets/strongholds-CUiqwDSy.webp",
+      "status": 200,
+      "bytes": 770094,
+      "sha256": "c3bfd3127ceacd6107b17fb2a0944bbbb3af809481733e97f8b5c1055348c273",
+      "identical": true
+    },
+    {
+      "path": "assets/terrain-props-BZgR3Rv5.webp",
+      "status": 200,
+      "bytes": 689720,
+      "sha256": "2045cfdefbd962fc4541659aa25f40c3ad2388ada1ea8461f28610b3df770ddd",
+      "identical": true
+    },
+    {
+      "path": "assets/bootstrap-BqaCKjln.css",
+      "status": 200,
+      "bytes": 26233,
+      "sha256": "d1862a64e55cd312f4e01ff1888eff527215a5dde0fd475ad1d31de8ee81a23e",
+      "identical": true
+    },
+    {
+      "path": "assets/serpents-family-CT6GHe6-.webp",
+      "status": 200,
+      "bytes": 580330,
+      "sha256": "370a8b1bf1cd63eb12a4553098ad491dd9d995304172173d0332bb0cd39c88ce",
+      "identical": true
+    },
+    {
+      "path": "assets/fredoka-latin-DM6njrJ3.woff2",
+      "status": 200,
+      "bytes": 29732,
+      "sha256": "99d6c78e043710d4f83ed90716779798b7b04eb690f73e0ad0e8f32d1f0e98c2",
+      "identical": true
+    },
+    {
+      "path": "assets/enemies-mechanical-B7YXthmn.webp",
+      "status": 200,
+      "bytes": 559602,
+      "sha256": "5b8bb544925dae8e17d8895f7e4bff86d2d75e9257d7d9fa0a87c26e8e8fb2d9",
+      "identical": true
+    },
+    {
+      "path": "assets/icon-512-BPQ3IZsK.png",
+      "status": 200,
+      "bytes": 356179,
+      "sha256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab",
+      "identical": true
+    },
+    {
+      "path": "assets/english-kBLfeNg7.js",
+      "status": 200,
+      "bytes": 74246,
+      "sha256": "3afddb5beb69b9576ac7aadd59705e0f25327b219527781f4fcefb113f553e7c",
+      "identical": true
+    }
+  ],
+  "checkedAt": "2026-11-11T00:24:38.164874+00:00",
+  "authorization": "Existing explicit user authorization to push, merge and publish; same existing public Site retained.",
+  "verificationLimits": [
+    "Cloud Chromium; no physical S24/WebView, hardware Back or TalkBack session",
+    "No real children or native-English editorial session",
+    "No balance conclusion; rules and values frozen",
+    "Image comparison remains a partial quote; no paid generation"
+  ]
+}

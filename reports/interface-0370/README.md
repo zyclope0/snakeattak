@@ -1,9 +1,10 @@
-# Interface mobile 0.37.0 — index de livraison locale
+# Interface mobile 0.37.0 — index de livraison publiée
 
 Les preuves lourdes et les journaux sont dans
 `/workspace/serpents-interface-0370/task3/`. Les captures ne constituent pas des
-essais physiques Android. Le site public reste en 0.36.2 jusqu’à la revue globale
-et à la publication par le coordinateur.
+essais physiques Android. Le site public est en 0.37.0, Sites24, après revue approuvée et PR7 fusionnée.
+Le [reçu de publication](../deployment-0.37.0.json) distingue Git, CI, source
+fonctionnelle, paquet et vérification publique.
 
 - `delivery.json` : source de l’APK, empreintes, identité, recette finale.
 - `image-quote.json` : devis partiel uniquement ; aucune image produite.
@@ -41,4 +42,10 @@ Les preuves lourdes corrigées sont dans `/workspace/serpents-interface-0370/fin
 APK/HTML/ZIP, favicon et reçu précédents sont préservés dans `pre-global-review/`.
 `delivery.json` expose `historicalQA` pour les 21 commandes de `9ca13bb`, séparément
 de `qa` pour la correction. Le snapshot et la partie authentique du coordinateur
-restent historiques ; aucun nouvel essai physique, push, fusion ou déploiement.
+restent historiques. Aucun nouvel essai physique n’est revendiqué. La fusion et
+le déploiement publics sont consignés séparément dans le reçu de publication.
+
+Les revues de chaque lot, la revue globale, la relecture finale et les neuf
+arbitrages du coordinateur sont conservés dans [reviews/](reviews/). La CI
+complète de la PR7 est verte ; le reçu distingue les passages automatiques de
+main encore en cours au moment de la publication, sans les annoncer verts.

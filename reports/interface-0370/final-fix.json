@@ -1,5 +1,9 @@
 {
-  "findings": ["I1", "M1", "M2"],
+  "findings": [
+    "I1",
+    "M1",
+    "M2"
+  ],
   "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
   "version": "0.37.0",
   "versionCode": 49,
@@ -69,7 +73,12 @@
     "unitTests": 549,
     "mobileChecks": 519,
     "navigationRegressionChecks": 9,
-    "journeyViewports": [1440, 390, 320, 844],
+    "journeyViewports": [
+      1440,
+      390,
+      320,
+      844
+    ],
     "nativeSwipeCases": 5,
     "nativePositiveScrollCases": 5,
     "nativeSwipeDesktop": true,
@@ -145,9 +154,17 @@
   "snapshotDelta": {
     "historicalSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
     "correctedSourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
-    "changed": ["index.html"],
-    "added": ["assets/bootstrap-C-Dj4wfG.js", "assets/index-D73S7WBW.js"],
-    "removed": ["assets/bootstrap-Bc08rJdp.js", "assets/index-vuvoutOW.js"],
+    "changed": [
+      "index.html"
+    ],
+    "added": [
+      "assets/bootstrap-C-Dj4wfG.js",
+      "assets/index-D73S7WBW.js"
+    ],
+    "removed": [
+      "assets/bootstrap-Bc08rJdp.js",
+      "assets/index-vuvoutOW.js"
+    ],
     "unchanged": 31,
     "expected": "index.html references the corrected UI JS filename; UI JS changes, rules and all other assets remain identical; old9ca snapshot is preserved, not relabelled"
   },
@@ -179,15 +196,20 @@
     "runtimeDiffFromFrozenSource": [],
     "generatedProofs": {
       "checkedFiles": 8647,
-      "restoredChangedFiles": ["artifacts/pilote-desktop.png", "artifacts/pilote-mobile.png"],
-      "newFilesCopiedOutAndRemoved": ["artifacts/menu-018-desktop.png"],
+      "restoredChangedFiles": [
+        "artifacts/pilote-desktop.png",
+        "artifacts/pilote-mobile.png"
+      ],
+      "newFilesCopiedOutAndRemoved": [
+        "artifacts/menu-018-desktop.png"
+      ],
       "externalOutputs": "/workspace/serpents-interface-0370/final-fix/new-qa-outputs"
     }
   },
   "oldDelivery": "/workspace/serpents-interface-0370/pre-global-review/delivery.json",
   "oldQAReceiptSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
   "proofRoot": "/workspace/serpents-interface-0370/final-fix",
-  "fullReport": ".superpowers/sdd/2026-11-10-interface-mobile-0370/final-fix-report.md",
+  "fullReport": "reports/interface-0370/reviews/final-fix-report.md",
   "limitations": [
     "Chromium emulation; no physical Galaxy S24 or TalkBack",
     "No children or native-English sessions",
@@ -216,5 +238,6 @@
     ],
     "scope": "Visible native navigation only; no state, clock, gold or game injection.",
     "separateFromAutomatedFinalFixGateCounts": true
-  }
+  },
+  "originalFullReportDuringReview": ".superpowers/sdd/2026-11-10-interface-mobile-0370/final-fix-report.md"
 }

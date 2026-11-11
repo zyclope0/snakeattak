@@ -1,8 +1,10 @@
-# Bilan 0.37.0 — candidate locale, site public encore en 0.36.2
+# Bilan 0.37.0 — publiée sur le site familial
 
-10 novembre 2026. Android **0.37.0 / code 49**. Source produit et tests figée :
-`b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`. La revue globale, la fusion et la
-publication appartiennent au coordinateur ; ce bilan ne prouve pas un déploiement.
+Travaux du 10 novembre ; publication du 11 novembre 2026. Android **0.37.0 / code 49**. Source produit et tests figée :
+`b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`. La revue globale et sa relecture ciblée sont approuvées. La PR7 est fusionnée
+après CI verte ; le site familial est publié en Sites24. Le
+[reçu de publication](../reports/deployment-0.37.0.json) apporte les références
+Git/CI, la provenance du paquet et les contrôles sur le vrai site.
 
 ## Correction finale de revue globale
 
@@ -27,7 +29,9 @@ L’APK/HTML/ZIP, favicon et reçu précédents sont conservés avec leurs empre
 dans `final-fix/`. Le snapshot `root-review-web` et sa partie authentique restent
 explicitement en `9ca13bb` : l’HTML et les noms/contenus des modules UI changent comme
 indiqué dans le nouveau manifeste, les règles et les autres assets restent identiques.
-Le site public reste en **0.36.2** ; push, fusion et publication sont au coordinateur.
+Le site public est en **0.37.0**. Les 34 fichiers publiés sont identiques au
+build normal et à l’APK corrigé ; navigation visible contrôlée à 1280×800 FR,
+812×375 EN et 780×360 FR, sans erreur JavaScript.
 
 ## Ce qui change
 
@@ -54,7 +58,7 @@ z-index d’une simple div ne suffisait pas au-dessus du top layer natif.
 
 ## Mesures et garde-fous
 
-| Contrôle                                       | Avant                                                                | Candidate 0.37.0                                                                                                   |
+| Contrôle                                       | Avant                                                                | Version 0.37.0                                                                                                     |
 | ---------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | Accueil à 780×360                              | document d’environ 630 px, commandes empilées                        | 360 px sans défilement du document, action principale ≥48 px                                                       |
 | Carnet                                         | 36 cartes empilées                                                   | 6 par mission ; les 6 cartes entièrement visibles à 780×360 avec marges 24/32/16/0                                 |

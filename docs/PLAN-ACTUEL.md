@@ -1,15 +1,15 @@
-# Plan actuel — 0.37.0 candidate locale, site public 0.36.2
+# Plan actuel — 0.37.0 publiée
 
-## Interface mobile courte — huit choix réalisés, revue globale à terminer
+## Interface mobile courte — huit choix réalisés et publiés
 
-La candidate locale Android **0.37.0 / code 49** applique les huit choix validés :
+La version Android **0.37.0 / code 49** applique les huit choix validés :
 accueil court et reprise contextuelle, carnet de six autocollants par mission,
 gestion repliée, préparation en sous-vues, catalogue natif paginé en pause avec
 budget visible. Les 36 noms/annonces du créateur restent français dans les deux
 langues ; moteur, données, sauvegardes et anciens codes sont préservés.
 
 Source produit/tests figée : `b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`.
-[Bilan local](BILAN-0.37.0.md), [conseils simulés](CONSEIL-0.37.0.md),
+[Bilan](BILAN-0.37.0.md), [conseils simulés](CONSEIL-0.37.0.md),
 [preuves et reçus](../reports/interface-0370/README.md),
 [cadrage](superpowers/specs/2026-11-10-interface-mobile-0370.md).
 La correction finale I1/M1/M2 révèle les résultats du catalogue, remet le focus
@@ -20,8 +20,10 @@ HTML/ZIP sont reconstruits ; quatre démarrages froids FR/EN sont verts.
 Les 21 gates et la partie authentique antérieurs restent explicitement en `9ca13bb`.
 La nouvelle recette et les artefacts sont indexés dans le reçu de livraison. Les anciennes preuves et la version 0.36.2 restent conservées.
 
-**Le site public reste en 0.36.2.** Le coordinateur doit encore terminer la revue
-globale, puis pousser, fusionner et publier. Les essais S24, TalkBack, enfants et
+**Le site public est en 0.37.0, Sites24.** Revue globale et relecture des trois
+correctifs approuvées ; PR7 fusionnée après CI verte. Les fichiers publics sont
+identiques au paquet normal de l’APK. Voir le [reçu](../reports/deployment-0.37.0.json).
+Les essais S24, TalkBack, enfants et
 relecture anglophone native restent attendus. Le petit carnet 568×320 avec marges
 conserve un défilement interne ; à 780×360 avec marges les six cartes tiennent.
 
