@@ -20,18 +20,18 @@ obligatoire ; revente des fichiers seuls interdite.
 
 ## Domaine public (CC0)
 
-| Fichier                                                            | Moment                                              | Source                                                                                                                                                                     |
-| ------------------------------------------------------------------ | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `music-epic`                                                       | dernière vague, vagues 8 et suivantes de l'aventure | « Treasure Hunter », Bo Jingles, https://opengameart.org/content/treasure-hunter                                                                                           |
-| `bite-1..3`, `poison-1..2`, `fire-1`                               | morsure, crachat, feu                               | « 80 CC0 creature SFX #2 », https://opengameart.org/content/80-cc0-creture-sfx-2 (`attack_01..03`, `slime_01..02`, `breath_02`)                                            |
-| `hit-1..3`, `stomp-1..2`, `block-1..3`, `shell-1..2`, `hatch-1..2` | coup, dinosaure, bouclier, obus, éclosion           | Kenney « Impact Sounds », https://kenney.nl/assets/impact-sounds (`impactPunch_medium`, `impactSoft_heavy`, `impactMetal_medium`, `impactWood_heavy`, `impactPlate_light`) |
-| `heal-1`, `honey-1..2`, `wave-start-1`, `toggle-1`                 | soin, miel, début de vague, bouton du son           | Kenney « Interface Sounds », https://kenney.nl/assets/interface-sounds (`glass_001`, `drop_001..002`, `confirmation_001`, `click_001`)                                     |
-| `arrow-1..2`, `gold-1`                                             | flèche, pièces                                      | Kenney « RPG Audio », https://kenney.nl/assets/rpg-audio (`drawKnife1..2`, `handleCoins`)                                                                                  |
-| `feast-1`                                                          | festin                                              | Kenney « Music Jingles », https://kenney.nl/assets/music-jingles (`jingles_PIZZI00`)                                                                                       |
+| Fichier                                                         | Moment                                              | Source                                                                                                                                                                            |
+| --------------------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `music-epic`                                                    | dernière vague, vagues 8 et suivantes de l'aventure | « Treasure Hunter », Bo Jingles, https://opengameart.org/content/treasure-hunter                                                                                                  |
+| `bite-1`, `poison-1`, `hatch-1`, `fire-1`                       | morsure, crachat, éclosion, feu                     | « 80 CC0 creature SFX #2 », https://opengameart.org/content/80-cc0-creture-sfx-2 (`attack_04`, `slime_05`, `slime_03`, `breath_02`)                                               |
+| `hit-1..3`, `stomp-1..2`, `block-1..3`, `shell-1`, `arrow-1..2` | coup, dinosaure, bouclier, obus, flèche             | Kenney « Impact Sounds », https://kenney.nl/assets/impact-sounds (`impactPunch_medium`, `impactSoft_heavy`, `impactMetal_medium`, `impactPunch_heavy_001`, `impactGeneric_light`) |
+| `heal-1`, `honey-1..2`, `wave-start-1`, `toggle-1`              | soin, miel, début de vague, bouton du son           | Kenney « Interface Sounds », https://kenney.nl/assets/interface-sounds (`glass_001`, `drop_001..002`, `question_001`, `click_001`)                                                |
+| `gold-1`                                                        | pièces                                              | Kenney « RPG Audio », https://kenney.nl/assets/rpg-audio (`handleCoins`)                                                                                                          |
+| `feast-1`                                                       | festin                                              | Kenney « Music Jingles », https://kenney.nl/assets/music-jingles (`jingles_PIZZI07`)                                                                                              |
 
 ## À savoir
 
-- Les bruitages CC0 ont été choisis d'après leur nom et leur durée, sans écoute : ils attendent
-  la validation à l'oreille du parent et de son fils.
+- Les bruitages CC0 ont été validés à l'oreille par le parent le 11 novembre 2026, sur une page
+  d'écoute comparant trois ou quatre candidats par moment.
 - La musique calme (accueil, vagues tranquilles) viendra du pack acheté « Cozy Quest
   Adventures » de Matthew Wiebe ; elle n'est pas encore intégrée.
