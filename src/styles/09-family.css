@@ -1,0 +1,99 @@
+/* Family keepsakes reuse the camp's paper and forest palette. */
+#home-family {
+  grid-column: 1 / -1;
+}
+#family-dialog {
+  max-width: 560px;
+}
+#family-dialog > label {
+  display: block;
+  margin-top: 24px;
+  font-weight: 800;
+}
+#family-file {
+  display: block;
+  min-height: 44px;
+  width: 100%;
+  max-width: 100%;
+  margin: 8px 0;
+  padding: 8px;
+  color: #234d3b;
+  font: inherit;
+  border: 1px solid #a4b392;
+  border-radius: 8px;
+  background: #f7f4e7;
+}
+#family-preview {
+  border-block: 1px solid #c6ceb7;
+  padding-block: 8px 16px;
+  margin-block: 18px;
+}
+#family-dialog h3 {
+  font-family: Fredoka, sans-serif;
+  font-size: 21px;
+}
+#family-status {
+  min-height: 40px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+#family-dialog button {
+  white-space: normal;
+}
+.chapter-report {
+  min-width: 0;
+  margin: 10px 14px;
+  padding: 12px 14px;
+  border: 1px solid #a2b18a;
+  border-radius: 12px;
+  background: #e8edd5;
+  color: #254b37;
+}
+.chapter-report summary {
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  font-family: Fredoka, sans-serif;
+  font-size: 17px;
+  min-height: 44px;
+}
+.chapter-report > p {
+  font-size: 12px;
+  line-height: 1.55;
+}
+.chapter-report-army {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.chapter-report-army li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+.chapter-report-portrait {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  background-repeat: no-repeat;
+}
+@keyframes chapter-warmth {
+  from {
+    box-shadow: 0 0 0 3px #eac66e;
+  }
+  to {
+    box-shadow: none;
+  }
+}
+.chapter-report[data-fresh='true'] {
+  animation: chapter-warmth 0.7s ease-out 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chapter-report[data-fresh='true'] {
+    animation: none;
+  }
+}

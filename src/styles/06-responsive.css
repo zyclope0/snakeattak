@@ -1,0 +1,487 @@
+@media (max-width: 920px) {
+  .app-header {
+    height: 57px;
+  }
+  .edition {
+    display: none;
+  }
+  .dashboard {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    padding: 10px 12px;
+    background: #10332e;
+  }
+  .wave-stat {
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .controls {
+    width: 100%;
+  }
+  .sound-button {
+    margin-left: auto;
+  }
+  .display-button span {
+    display: inline;
+  }
+  #start {
+    flex: 1;
+    max-width: 250px;
+  }
+  .play-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .battle {
+    position: sticky;
+    top: 132px;
+    z-index: 10;
+    box-shadow: 0 5px 0 #173e37;
+  }
+  .clearing-title h2 {
+    font-size: 19px;
+  }
+  .clearing-title small {
+    display: none;
+  }
+  .tactics {
+    min-height: 32px;
+  }
+  .battle-footer {
+    min-height: 48px;
+  }
+  .battle .briefing {
+    display: none;
+  }
+  .app[data-status='won'] .briefing,
+  .app[data-status='lost'] .briefing {
+    display: block;
+  }
+  .reinforcements {
+    grid-template-columns: 1fr 1fr;
+    padding: 14px;
+    gap: 12px 16px;
+  }
+  .army-title,
+  .shop-intro,
+  .shop-toolbar,
+  #shop-note,
+  #shop {
+    grid-column: 1 / -1;
+  }
+  .army-title {
+    justify-content: flex-start;
+  }
+  .army-total {
+    margin-left: 0;
+    font-size: 12px;
+  }
+  .guide-button {
+    margin-left: auto;
+    width: auto;
+    font-size: 17px;
+  }
+  .guide-button span {
+    display: inline;
+  }
+  .shop-toolbar {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 10px;
+  }
+  #shop {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-height: 300px;
+    min-height: 126px;
+  }
+  .unit-info strong {
+    font-size: 14px;
+  }
+  .unit-info small {
+    font-size: 11px;
+  }
+  .repair {
+    align-self: start;
+  }
+  footer {
+    font-size: 11px;
+    align-items: flex-start;
+    padding: 14px 0;
+  }
+  footer > div {
+    flex-direction: column;
+    gap: 0;
+  }
+  .game-expanded .battle {
+    top: 132px;
+  }
+}
+@media (max-width: 600px) {
+  .app {
+    padding: 0 8px;
+  }
+  .app-header {
+    height: 58px;
+    gap: 8px;
+  }
+  .brand h1 {
+    font-size: 20px;
+  }
+  .brand small {
+    display: block;
+    font-size: 16px;
+    line-height: 1.1;
+    letter-spacing: 0.2px;
+  }
+  .crest {
+    width: 30px;
+    height: 37px;
+  }
+  .quiet {
+    padding: 7px 9px;
+    font-size: 15px;
+    min-width: 44px;
+  }
+  .quiet span {
+    font-size: 11px;
+    margin-left: 3px;
+  }
+  .dashboard {
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 9px 8px;
+    border-radius: 11px;
+  }
+  .resource {
+    min-width: 68px;
+    gap: 5px;
+  }
+  .resource strong {
+    font-size: 21px;
+  }
+  .resource small {
+    font-size: 11px;
+  }
+  .base-stat {
+    min-width: 98px;
+    padding-left: 8px;
+  }
+  .coin {
+    width: 25px;
+    height: 25px;
+  }
+  .heart {
+    font-size: 26px;
+  }
+  .wave-stat {
+    min-width: 118px;
+    padding-left: 8px;
+  }
+  .wave-stat > small {
+    font-size: 9px;
+  }
+  .wave-stat strong {
+    font-size: 19px;
+  }
+  .wave-stat em {
+    font-size: 11px;
+  }
+  #wave-dots {
+    gap: 2px;
+  }
+  #wave-dots i {
+    width: 7px;
+  }
+  .meter {
+    width: 64px;
+  }
+  .controls {
+    gap: 5px;
+  }
+  .sound-button {
+    min-width: 84px;
+    width: 84px;
+    font-size: 10px;
+    padding-inline: 4px;
+    margin-left: 0;
+  }
+  .display-button span {
+    display: none;
+  }
+  .square {
+    padding: 6px;
+  }
+  #start {
+    min-width: 106px;
+    padding-inline: 9px;
+    font-size: 12px;
+    max-width: none;
+  }
+  .battle,
+  .game-expanded .battle {
+    top: 124px;
+    border-radius: 11px;
+  }
+  .battle-heading {
+    padding: 9px 10px;
+  }
+  .clearing-title h2 {
+    font-size: 17px;
+  }
+  .encounter {
+    padding: 6px 9px;
+    min-height: 32px;
+  }
+  .encounter strong {
+    font-size: 11px;
+  }
+  .tactics {
+    padding: 6px 9px;
+    gap: 3px;
+  }
+  #lane-status {
+    gap: 8px;
+  }
+  #lane-status > span {
+    gap: 4px;
+    font-size: 10px;
+  }
+  #lane-status i {
+    width: 24px;
+  }
+  #lane-status small {
+    font-size: 10px;
+  }
+  #egg-count {
+    font-size: 10px;
+  }
+  .battle-footer {
+    padding: 2px 8px;
+    font-size: 11px;
+    min-height: 49px;
+  }
+  #selection-panel {
+    gap: 4px;
+  }
+  #selection-panel .portrait {
+    width: 30px;
+    height: 30px;
+  }
+  #selection-panel strong {
+    font-size: 12px;
+  }
+  #selection-panel small {
+    font-size: 10px;
+  }
+  #cancel {
+    font-size: 11px;
+    padding-inline: 5px;
+  }
+  .reinforcements {
+    padding: 12px 9px;
+    gap: 9px;
+    grid-template-columns: minmax(0, 1fr);
+    border-radius: 11px;
+  }
+  .army-title,
+  .shop-intro,
+  .shop-toolbar,
+  #shop {
+    grid-column: 1;
+  }
+  .army-title h2 {
+    font-size: 23px;
+  }
+  .shop-toolbar {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  #shop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-height: 294px;
+  }
+  .unit-card {
+    min-height: 128px;
+    padding-top: 13px;
+  }
+  .unit-card.selected {
+    padding-top: 12px;
+  }
+  .unit-info strong {
+    font-size: 12px;
+  }
+  .unit-info small {
+    font-size: 10px;
+  }
+  .price {
+    font-size: 11px;
+    right: 3px;
+    top: 4px;
+  }
+  .portrait {
+    width: 60px;
+    height: 60px;
+  }
+  .feast-panel,
+  .repair {
+    grid-column: 1;
+  }
+  dialog {
+    padding: 24px 20px;
+  }
+  dialog h2 {
+    font-size: 26px;
+    padding-right: 20px;
+  }
+  #guide-stats {
+    gap: 0 16px;
+  }
+  .pause-overlay strong {
+    font-size: 24px;
+  }
+  .pause-overlay p {
+    margin: 0 0 10px;
+    font-size: 13px;
+  }
+  .pause-overlay > div > span {
+    display: none;
+  }
+}
+@media (min-width: 921px) and (max-height: 760px) {
+  #game {
+    max-height: calc(var(--app-height) - 225px);
+  }
+  .app-header {
+    height: 45px;
+  }
+  .dashboard {
+    padding-block: 7px;
+    margin-bottom: 8px;
+  }
+  .battle-heading {
+    padding-block: 8px;
+  }
+  .clearing-title small {
+    display: none;
+  }
+  .encounter {
+    padding-block: 5px;
+    min-height: 30px;
+  }
+  .reinforcements {
+    max-height: calc(var(--app-height) - 126px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  #shop {
+    min-height: 144px;
+    max-height: 180px;
+  }
+  .shop-intro {
+    display: none;
+  }
+  .shop-toolbar {
+    gap: 5px;
+  }
+  .shop-tabs {
+    min-height: 44px;
+    padding: 0;
+  }
+  .unit-card {
+    min-height: 110px;
+  }
+  .unit-card .portrait {
+    width: 54px;
+    height: 54px;
+  }
+  .feast-panel {
+    padding: 7px;
+  }
+  .feast-heading {
+    margin-bottom: 5px;
+  }
+  #feast-hint {
+    display: none;
+  }
+  .battle .briefing {
+    display: none;
+  }
+  .app[data-status='won'] .briefing,
+  .app[data-status='lost'] .briefing {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 600px) {
+  .sound-button {
+    min-width: 44px;
+    width: 44px;
+    font-size: 0;
+  }
+  .sound-button::before {
+    content: '♪';
+    font-size: 20px;
+  }
+  .sound-button[aria-pressed='false']::before {
+    opacity: 0.65;
+  }
+}
+@media (max-width: 380px) {
+  .quiet span {
+    display: none;
+  }
+  .resource {
+    min-width: 62px;
+  }
+  .base-stat {
+    min-width: 88px;
+  }
+  .base-stat .heart {
+    display: none;
+  }
+  .wave-stat {
+    min-width: 102px;
+  }
+  .wave-stat > small {
+    font-size: 8px;
+  }
+  .wave-stat strong {
+    font-size: 17px;
+  }
+  #wave-dots {
+    gap: 1px;
+  }
+  #wave-dots i {
+    width: 6px;
+  }
+  #start {
+    min-width: 90px;
+    font-size: 11px;
+    padding-inline: 6px;
+  }
+}
+
+.boss-status {
+  color: #b8eff2 !important;
+  font-weight: 800;
+  font-size: 12px !important;
+}
+.encounter .boss-status:not([hidden]) {
+  display: inline;
+}
+@media (max-width: 600px) {
+  .encounter .boss-status {
+    font-size: 10px !important;
+  }
+}

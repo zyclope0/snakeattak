@@ -35,6 +35,8 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
 - Cibles tactiles de 48 px au moins ; contrôler en paysage téléphone 780×360 et 812×375, et sur
   ordinateur 1280×800.
 - Direction artistique pâte à modeler / papier mâché ; les textes du plateau dans la police du jeu.
+- La page est assemblée depuis `src/html/` et les styles depuis `src/styles/`, dont l'ordre
+  d'import est l'ordre de la cascade (`docs/ARCHITECTURE.md`).
 
 ## Commandes
 

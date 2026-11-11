@@ -1,0 +1,46 @@
+<dialog id="unit-dialog" aria-labelledby="guide-name">
+  <div class="unit-guide-header">
+    <button class="close" id="close-unit-guide" aria-label="Fermer le guide">✕</button>
+    <span class="eyebrow">Nos alliés</span>
+    <div class="guide-heading">
+      <span id="guide-portrait" class="portrait" aria-hidden="true"></span>
+      <h2 id="guide-name">Nos alliés</h2>
+    </div>
+  </div>
+  <div class="unit-guide-body" tabindex="0" role="region" aria-labelledby="guide-name">
+    <div class="unit-guide-overview">
+      <label for="guide-select">Découvrir une unité</label>
+      <select id="guide-select"></select>
+      <p id="guide-ability"></p>
+    </div>
+    <div id="guide-stats"></div>
+  </div>
+  <small>Chaque allié a son rôle. À toi de composer tes favoris.</small>
+</dialog>
+<dialog id="camp-tool-dialog" aria-labelledby="camp-tool-title">
+  <button
+    id="close-camp-tool-help"
+    class="close"
+    aria-label="Fermer l’aide des outils"
+    autofocus
+  >
+    ✕
+  </button>
+  <div class="camp-tool-heading">
+    <span id="camp-tool-picture" aria-hidden="true"></span>
+    <div class="camp-tool-copy">
+      <h2 id="camp-tool-title">Le miel</h2>
+      <small id="camp-tool-cost"></small>
+    </div>
+  </div>
+  <div id="camp-tool-topics" role="group" aria-label="Choisir un outil"></div>
+  <dl>
+    <dt>Quand</dt>
+    <dd id="camp-tool-when"></dd>
+    <dt>Geste</dt>
+    <dd id="camp-tool-gesture"></dd>
+    <dt>Résultat</dt>
+    <dd id="camp-tool-result"></dd>
+  </dl>
+  <p id="camp-tool-status" role="status"></p>
+</dialog>

@@ -1,0 +1,186 @@
+/* Secondary information belongs to the camp panel, leaving the board uninterrupted. */
+.camp-readout,
+.camp-details {
+  grid-column: 1 / -1;
+  min-width: 0;
+  background: var(--forest);
+  color: #f7f4e7;
+  border-radius: 10px;
+  overflow: clip;
+}
+.camp-readout .tactics {
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+}
+.camp-readout #lane-status {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+.camp-readout #lane-status > span {
+  gap: 4px;
+  min-width: 0;
+}
+.camp-readout #lane-status b {
+  font-size: 10px;
+}
+.camp-readout #lane-status i {
+  width: 24px;
+}
+.camp-readout .battle-footer {
+  padding: 8px;
+  min-height: 0;
+  font-size: 12px;
+}
+.camp-details footer {
+  flex-wrap: wrap;
+  padding: 10px;
+  gap: 4px;
+}
+.camp-details footer > div {
+  flex-wrap: wrap;
+}
+.camp-details .departure-share {
+  margin: 8px;
+}
+.camp-details .departure-entry {
+  flex-wrap: wrap;
+}
+.camp-details .departure-value {
+  min-width: 0;
+  width: 100%;
+}
+.camp-details .departure-message {
+  margin-inline: 10px;
+}
+.camp-readout
+  .encounter:has(#encounter-title:empty):has(#encounter-tip:empty):not(
+    :has(.medical-status:not([hidden]))
+  ):not(:has(.boss-status:not([hidden]))) {
+  display: none;
+}
+.battle-stage > .reward-panel:not([hidden]) {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: auto;
+  margin: 0;
+  padding: 16px;
+}
+@media (min-width: 921px) and (min-height: 521px) {
+  .app,
+  .game-expanded .app {
+    padding: 0 12px;
+  }
+  .app-header {
+    height: 36px;
+    gap: 12px;
+  }
+  .app-header .brand h1 {
+    font-size: 18px;
+  }
+  .app-header .crest {
+    width: 22px;
+    height: 28px;
+  }
+  .app-header .quiet {
+    min-height: 32px;
+    padding: 4px 8px;
+  }
+  .app-header .edition {
+    display: none;
+  }
+  .dashboard,
+  .game-expanded .dashboard {
+    height: 52px;
+    margin: 0;
+    padding: 3px 10px;
+    gap: 12px;
+    border-radius: 10px;
+  }
+  .dashboard .resource strong {
+    font-size: 20px;
+  }
+  .dashboard .resource small,
+  .dashboard .wave-stat > small {
+    font-size: 10px;
+  }
+  .dashboard .coin {
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+  }
+  .dashboard .wave-stat {
+    padding-left: 10px;
+    min-width: 130px;
+  }
+  .dashboard .wave-stat strong {
+    font-size: 18px;
+  }
+  .dashboard #wave-dots {
+    margin-top: 3px;
+  }
+  .dashboard button {
+    min-height: 42px;
+    padding-block: 6px;
+  }
+  .play-layout {
+    gap: 12px;
+    align-items: start;
+  }
+  .battle,
+  .game-expanded .battle {
+    position: relative;
+    top: 0;
+  }
+  .battle-heading {
+    min-height: 28px;
+    height: 28px;
+    padding: 3px 10px;
+  }
+  .clearing-title h2 {
+    font-size: 17px;
+  }
+  .clearing-title small {
+    display: none;
+  }
+  #game {
+    height: auto;
+    aspect-ratio: 1100 / 620;
+    max-height: calc(var(--app-height) - 118px);
+  }
+  .reinforcements {
+    display: block;
+    max-height: calc(var(--app-height) - 92px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .reinforcements > * + * {
+    margin-top: 10px;
+  }
+  .camp-readout .mission-battle-actions {
+    padding: 8px;
+    gap: 8px;
+  }
+  .camp-readout #mission-battle-title,
+  .camp-readout #mission-battle-config {
+    display: none;
+  }
+  .camp-readout .mission-battle-buttons {
+    width: 100%;
+  }
+  .camp-readout .mission-battle-buttons button {
+    min-height: 36px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+  .game-expanded .camp-details footer {
+    display: flex;
+  }
+  .game-expanded .camp-details .briefing:not([open]) {
+    display: block;
+  }
+}

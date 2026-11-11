@@ -1,0 +1,565 @@
+/* The illustrated valley remains the frame for menus and chapter progress. */
+.home-screen {
+  max-width: 1180px;
+  margin: auto;
+  padding: 22px 26px 18px;
+  color: #f4f1de;
+}
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.home-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Fredoka, sans-serif;
+  font-size: 23px;
+}
+.home-brand em {
+  color: #f0be58;
+  font-style: normal;
+}
+.home-stars {
+  padding: 10px 16px;
+  border: 1px solid #708d73;
+  border-radius: 24px;
+  font-size: 13px;
+  color: #f1d27d;
+  white-space: nowrap;
+}
+.home-hero {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  overflow: hidden;
+  border: 1px solid #7e9578;
+  border-radius: 22px;
+  min-height: 355px;
+  background: #f5f1df;
+  color: #1a4037;
+}
+.home-intro {
+  min-width: 0;
+  padding: 34px 38px;
+}
+.chapter-focus {
+  font-size: 12px;
+  line-height: 1.35;
+  color: #52694b;
+}
+.home-intro .eyebrow {
+  color: #59704f;
+}
+.home-intro h1 {
+  margin: 10px 0 12px;
+  font:
+    500 clamp(42px, 5vw, 66px)/1.02 Fredoka,
+    sans-serif;
+  letter-spacing: -1.3px;
+}
+.home-intro p {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 360px;
+}
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 22px 0 12px;
+}
+.home-actions button {
+  min-height: 48px;
+  padding: 12px 20px;
+}
+.home-new {
+  color: #204b3a;
+  background: #e4ead2;
+  border-color: #9fb18a;
+}
+.home-intro > small {
+  color: #617451;
+}
+.home-diorama {
+  position: relative;
+  background:
+    linear-gradient(0deg, #1b3c2ed9, transparent 70%),
+    var(--home-scene) center/cover;
+  min-height: 320px;
+  overflow: hidden;
+}
+.home-unit {
+  position: absolute;
+  display: block;
+  background-repeat: no-repeat;
+  width: 155px;
+  height: 170px;
+  filter: drop-shadow(0 12px 8px #143c3466);
+}
+.home-dino {
+  left: 3%;
+  bottom: 54px;
+  width: 170px;
+  height: 185px;
+}
+.home-hero-unit {
+  /* Clip only the stray atlas fragment to the right of the feet, not the actor. */
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 68% 86%, 68% 100%, 0 100%);
+  left: 33%;
+  bottom: 46px;
+  width: 130px;
+  height: 155px;
+  z-index: 2;
+}
+.home-dragon {
+  right: 0;
+  bottom: 56px;
+  width: 170px;
+  height: 185px;
+}
+.home-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 10%;
+  right: 10%;
+  text-align: center;
+  font-size: 12px;
+  color: #fff4d8;
+}
+.journey-map {
+  margin: 30px 0 22px;
+}
+.journey-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.journey-title h2 {
+  font:
+    500 26px Fredoka,
+    sans-serif;
+  margin: 4px 0;
+}
+.journey-title small {
+  color: #b3c6ae;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.chapter-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.chapter-card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 7px;
+  overflow: hidden;
+  text-align: left;
+  padding: 0 18px 18px;
+  color: #233f31;
+  border-color: #a2b28d;
+  background: #f0eddd;
+  border-radius: 14px;
+  min-height: 240px;
+}
+.chapter-image {
+  height: 93px;
+  width: calc(100% + 36px);
+  margin: 0 -18px 7px;
+  background:
+    linear-gradient(0deg, #263e3266, transparent),
+    var(--chapter-art) center/cover;
+}
+.chapter-card strong {
+  font:
+    500 20px Fredoka,
+    sans-serif;
+}
+.chapter-card small {
+  color: #657552;
+  font-size: 11px;
+}
+.chapter-stars {
+  color: #936d25;
+  letter-spacing: 4px;
+  font-size: 22px;
+}
+.chapter-card > span:last-child {
+  margin-top: auto;
+  font-size: 11px;
+  color: #486947;
+}
+.chapter-card:disabled {
+  opacity: 0.65;
+}
+.home-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  gap: 12px;
+}
+.home-links button {
+  background: #244b3d;
+  border: 1px solid #60856b;
+  color: #f1efdb;
+  text-align: left;
+  padding: 15px;
+  min-height: 66px;
+}
+.home-links small {
+  display: block;
+  color: #b4cbb2;
+  font-size: 11px;
+  margin-top: 5px;
+  font-weight: 400;
+}
+.home-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #abc1ab;
+  font-size: 11px;
+  margin-top: 24px;
+}
+.army-editor {
+  background: #f3efdc;
+  color: #254638;
+  padding: 26px;
+  border-radius: 20px;
+}
+.army-editor h1 {
+  font:
+    500 36px Fredoka,
+    sans-serif;
+  margin: 8px 0;
+}
+.army-editor > p {
+  max-width: 750px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+#roster-back {
+  display: block;
+  margin-bottom: 20px;
+  color: #36583d;
+  border-color: #9caf91;
+}
+.roster-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-block: 18px;
+}
+.roster-toolbar strong {
+  margin-right: auto;
+  font-size: 13px;
+}
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+.roster-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-height: 130px;
+  padding: 12px;
+  background: #fffdf0;
+  color: #2f4e37;
+  border: 1px solid #b6c6a5;
+}
+.roster-card .portrait {
+  width: 58px;
+  height: 64px;
+}
+.roster-card strong {
+  font-size: 12px;
+}
+.roster-card small {
+  font-size: 10px;
+  color: #657655;
+}
+.roster-card[aria-pressed='true'] {
+  background: #d7e8cf;
+  border: 2px solid #347659;
+}
+.roster-card[aria-pressed='true'] strong::before {
+  content: '✓ ';
+}
+.quick-army {
+  border-block: 1px solid #c5d0b4;
+  margin: 8px 0;
+  padding: 8px 0;
+  color: #34553b;
+}
+.quick-army summary {
+  font-size: 12px;
+  cursor: pointer;
+  min-height: 28px;
+}
+.quick-army select {
+  margin-bottom: 7px;
+  width: 100%;
+}
+.quick-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+.quick-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 2px;
+  min-width: 0;
+  min-height: 70px;
+  background: #fffdf2;
+  border: 1px solid #bdc9a8;
+  color: #274c39;
+}
+.quick-card .portrait {
+  width: 38px;
+  height: 40px;
+}
+.quick-card > span:not(.portrait) {
+  font-size: 9px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.quick-card small {
+  font-size: 9px;
+  color: #80602c;
+}
+.quick-card[aria-pressed='true'] {
+  border: 2px solid #227b61;
+}
+.hero-school {
+  border-top: 1px solid #61836a;
+  padding: 10px 16px;
+  color: #d1dfbc;
+  font-size: 12px;
+}
+.hero-school summary {
+  cursor: pointer;
+  min-height: 24px;
+}
+.hero-school p {
+  font-size: 11px;
+}
+.hero-school > div {
+  display: flex;
+  gap: 8px;
+}
+.hero-school button {
+  flex: 1;
+  background: #e9edd8;
+  color: #294b37;
+  padding: 10px;
+  font-size: 12px;
+  min-height: 50px;
+}
+.hero-school button small {
+  font-size: 10px;
+}
+.encourage-button {
+  width: 100%;
+  min-height: 44px;
+  background: #ead79c;
+  color: #4b4a25;
+  border-color: #b5a165;
+  margin-top: 9px;
+  font-size: 12px;
+}
+#encourage-status {
+  display: block;
+  margin: 5px 0;
+  font-size: 10px;
+}
+@media (max-width: 800px) {
+  .home-screen {
+    padding: 16px;
+  }
+  .home-header {
+    margin-bottom: 16px;
+  }
+  .home-brand {
+    font-size: 19px;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .home-brand .crest {
+    width: 25px;
+    height: 32px;
+  }
+  .home-stars {
+    padding: 8px 11px;
+    font-size: 11px;
+  }
+  .home-hero {
+    grid-template-columns: 1.15fr 1fr;
+  }
+  .home-intro {
+    padding: 24px;
+  }
+  .home-intro h1 {
+    font-size: 44px;
+  }
+  .home-diorama {
+    min-height: 300px;
+  }
+  .home-unit {
+    transform: scale(0.8);
+    transform-origin: bottom center;
+  }
+  .home-dino {
+    left: -15%;
+  }
+  .home-dragon {
+    right: -15%;
+  }
+  .home-hero-unit {
+    left: 24%;
+  }
+  .journey-title {
+    align-items: start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .home-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .roster-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .home-back-label {
+    display: none;
+  }
+}
+@media (max-width: 540px) {
+  .home-screen {
+    padding: 14px 12px;
+  }
+  .home-brand {
+    max-width: 190px;
+    font-size: 18px;
+  }
+  .home-brand em {
+    margin-left: 31px;
+    margin-top: -8px;
+  }
+  .home-header {
+    gap: 8px;
+  }
+  .home-stars {
+    font-size: 10px;
+  }
+  .home-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .home-intro {
+    padding: 24px 22px 20px;
+  }
+  .home-intro h1 {
+    font-size: 47px;
+  }
+  .home-intro p {
+    font-size: 13px;
+  }
+  .home-actions {
+    margin-top: 17px;
+  }
+  .home-actions button {
+    width: 100%;
+  }
+  .home-diorama {
+    min-height: 160px;
+  }
+  .home-unit {
+    transform: scale(0.65);
+  }
+  .home-dino {
+    left: -1%;
+    bottom: 25px;
+  }
+  .home-hero-unit {
+    left: 31%;
+    bottom: 20px;
+  }
+  .home-dragon {
+    right: -1%;
+    bottom: 25px;
+  }
+  .home-caption {
+    bottom: 8px;
+    font-size: 10px;
+  }
+  .chapter-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .chapter-card {
+    position: relative;
+    padding: 12px 14px 12px 110px;
+    min-height: 145px;
+    gap: 5px;
+  }
+  .chapter-image {
+    position: absolute;
+    left: 18px;
+    top: 0;
+    width: 96px;
+    height: 100%;
+    margin: 0 -18px;
+  }
+  .chapter-card strong {
+    font-size: 19px;
+  }
+  .chapter-stars {
+    font-size: 20px;
+  }
+  .home-links {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+  .home-links button {
+    min-height: 55px;
+    padding: 12px 15px;
+  }
+  .home-footer {
+    flex-direction: column;
+    line-height: 1.6;
+  }
+  .journey-title h2 {
+    font-size: 23px;
+  }
+  .army-editor {
+    padding: 18px 12px;
+  }
+  .army-editor h1 {
+    font-size: 29px;
+  }
+  .roster-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .roster-toolbar label {
+    width: 100%;
+  }
+  .roster-toolbar button {
+    width: 100%;
+  }
+  .hero-school > div {
+    flex-direction: column;
+  }
+}
