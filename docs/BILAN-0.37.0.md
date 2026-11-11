@@ -129,7 +129,7 @@ n’est revendiqué. Les petits écrans gardent des zones internes défilantes ;
 sorties et pages restent fixes. Les autres recettes historiques de développement
 non incluses dans la passe sont distinctes des gates de livraison consignés.
 
-Le [comparatif futur](interface-0370/DEVIS-COMPARATIF.md) reste au devis :
+Le [comparatif futur](archive/interface-0370/DEVIS-COMPARATIF.md) reste au devis :
 100 crédits Magnific et 1 crédit Higgsfield de base, en monnaies distinctes ;
 référence finale Higgsfield à confirmer et prix Runway par appel indisponible.
 Aucune génération ni dépense n’a été lancée. Les images actuelles restent en place.

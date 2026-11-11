@@ -133,4 +133,4 @@ Le budget de temps/scroll est une **cible de conception à mesurer**, pas un ré
 
 Garde-fous : séparation règles/rendu/interface ; sauvegardes et anciens codes préservés ; noms et annonces des caprices du fils inchangés et en français ; trois voies et leur géométrie conservées ; contours fonctionnels ennemis/alliés ; aucun SDK, nouvelle mécanique, mode, monétisation ou extension de campagne.
 
-Le parent a choisi **audit et propositions avant modification**. La suite attend donc son arbitrage sur la refonte proposée et peut être contre-examinée par Claude avec le [brief joint](POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md).
+Le parent a choisi **audit et propositions avant modification**. La suite attend donc son arbitrage sur la refonte proposée et peut être contre-examinée par Claude avec le [brief joint](archive/POUR-CLAUDE-AUDIT-VISUEL-2026-11-10.md).

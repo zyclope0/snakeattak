@@ -71,7 +71,7 @@ f'Renforts offerts placés : **{free}** ; bons encore inutilisés à la fin : **
 'Node24, npm ci, puis :','',
 '```sh\nnpm run balance:lab -- --stage rewards017 --configs reports/balance-0.17/configs.json --out reports/reproduction-017 --workers 3\nnpm run test:rewards\n```','',
 'Les données brutes, campagnes, offres choisies, graines, paramètres, empreintes et résultats appariés sont dans reports/balance-0.17/validation. Les tests de livraison sont consignés dans reports/verification-0.17.json. Le snapshot historique0.16 est inclus pour les replays antérieurs ; un replay doit utiliser ses sources exactes. Les temps CPU/muraux dépendent de la machine et sont exclus des empreintes des résultats.']
-(r/'docs/BONUS-0.17.md').write_text('\n'.join(lines)+'\n')
+(r/'docs/archive/BONUS-0.17.md').write_text('\n'.join(lines)+'\n')
 evidence={'version':'0.17.0','games':768,'sourceUnchanged':s['sourceUnchanged'],'resultsHash':s['resultsHash'],
  'sourceHash':s['sourceHash'],'scriptHash':s['scriptHash'],'choices':dict(choices),'freeRecruits':free,
  'unusedVouchers':unused,'wardAbsorbed':ward,'errors':sum(c['errors'] for c in s['configs']),

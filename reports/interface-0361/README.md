@@ -46,7 +46,7 @@ Prettier ne changent pas leur contenu.
 
 La mesure Git au commit source avant APK est de 670 337 761 octets / 6 642
 fichiers, contre 670 253 713 / 6 631 à `9287e60`. Le
-[plan d’hygiène](../../docs/HYGIENE-DEPOT-0361.md) reste une proposition ; sa
+[plan d’hygiène](../../docs/archive/HYGIENE-DEPOT-0361.md) reste une proposition ; sa
 politique conservatrice exclut l’aperçu artistique canonique et retient
 479 717 142 octets / 442 fichiers potentiels à examiner, sans suppression.
 
@@ -68,7 +68,7 @@ Les preuves automatisées distinguent les fixtures terminales et les données
 familiales contrôlées des parties jouées. Aucun essai physique S24, TalkBack,
 clavier Android ou enfant n’est revendiqué. L’équilibrage n’a pas changé ; les
 cinq propositions et leur risque de compatibilité sont dans le
-[bilan](../../docs/BILAN-0.36.1.md). **STOP**, sans fusion ni publication.
+[bilan](../../docs/archive/BILAN-0.36.1.md). **STOP**, sans fusion ni publication.
 
 ## Dernier correctif et APK final
 

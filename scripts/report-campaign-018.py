@@ -38,6 +38,6 @@ lines+=['',f'Erreurs : **{errors}** ; limites de temps dépassées : **{timeouts
 '## Reproduire','',
 '```sh\nnpm ci\nnpm run verify\nnpm run test:journey\nnpm run balance:lab -- --stage campaign018 --configs reports/balance-0.18/configs.json --out reports/reproduction-018 --workers 3\n```','',
 'Les données et graines sont incluses dans reports/balance-0.18/validation. Les snapshots historiques permettent les anciens replays avec leurs sources exactes. Les coûts CPU/muraux dépendent du matériel et sont exclus des empreintes de résultats. Aucun service réseau ni nouvel asset payant n’est nécessaire au jeu.']
-(r/'docs/BILAN-0.18.md').write_text('\n'.join(lines)+'\n')
+(r/'docs/archive/BILAN-0.18.md').write_text('\n'.join(lines)+'\n')
 evidence={'version':'0.18.0','games':640,'errors':errors,'timeouts':timeouts,'sourceUnchanged':s['sourceUnchanged'],'sourceHash':s['sourceHash'],'scriptHash':s['scriptHash'],'resultsHash':s['resultsHash'],'configs':[{k:c[k] for k in ['id','games','wins','losses','earlyLosses']} for c in s['configs']]}
 (folder/'evidence.json').write_text(json.dumps(evidence,indent=2)+'\n');print(json.dumps(evidence))

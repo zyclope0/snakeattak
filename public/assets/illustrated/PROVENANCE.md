@@ -36,7 +36,7 @@ composés à partir des vraies coordonnées du moteur, pas déduits du fond pein
 
 Les personnages sont générés pour ce projet ; les conditions Magnific/Recraft du
 compte régissent les droits d'utilisation. Aucune licence ouverte n'est présumée.
-Prompts et identifiants de création : docs/art-production-0.11.json. Aucun token,
+Prompts et identifiants de création : docs/archive/art-production-0.11.json. Aucun token,
 URL privée signée ou clé API n'est incorporé au jeu.
 
 
@@ -57,7 +57,7 @@ Style de référence : planche terrain de la 0.11, création s7epxC5l8e.
 Le refuge est retourné horizontalement dans le moteur pour orienter la porte vers
 les attaques. Fissures, jauge et signaux d'arrivée sont du rendu de jeu, sans
 modification créative des fichiers de pixels. Aucun service de génération en partie.
-Métadonnées et prompt : docs/art-assets-0.12.json dans les sources.
+Métadonnées et prompt : docs/archive/art-assets-0.12.json dans les sources.
 
 
 ## Ajout 0.13 — miels et serpent parapluie
@@ -72,7 +72,7 @@ le moteur les retourne selon l'orientation réelle, sans modifier les pixels.
 - Préparation 1024² : https://www.magnific.com/app/creation/1lTBZAWr4r
 - Coût : 175 + 3 + 40 = 218 crédits. Solde vérifié : 16 997 → 16 779.
 - PNG préparé par Magnific puis conversion technique WebP sans perte et alpha conservé.
-- Taille : 336 234 octets ; prompt et empreinte dans docs/art-assets-0.13.json.
+- Taille : 336 234 octets ; prompt et empreinte dans docs/archive/art-assets-0.13.json.
 
 Aucun personnage ou dessin externe copié ; utilisation suivant les conditions du
 compte Magnific/Recraft. Pas de service de génération requis pendant le jeu.
@@ -98,7 +98,7 @@ incluse. Contrôle : silhouettes distinctes des quatre dinosaures, collerette du
 cobra simple, trois têtes séparées du boss, alpha et pieds des mutants.
 
 Les sources de conception de lisibilité et le détail des règles figurent dans
-docs/BESTIAIRE-LISIBILITE-0.14.md. Le liseré et le sol calmé sont des traitements
+docs/archive/BESTIAIRE-LISIBILITE-0.14.md. Le liseré et le sol calmé sont des traitements
 au rendu ; aucun fond peint ni dessin d'origine n'est supprimé.
 
 ## Interface 0.15
@@ -117,7 +117,7 @@ Deux assets générés sur Magnific avec Google Nano Banana 2.1, en prenant le f
   Quatre cases 512² rangées dans un atlas WebP 1024² sans perte, 541 866 octets.
 
 Total de ce lot : **133 crédits**. Projet « La Conquête des Serpents ».
-Prompts et étapes conservés dans `docs/art-assets-0.23.json`; originaux dans
+Prompts et étapes conservés dans `docs/archive/art-assets-0.23.json`; originaux dans
 `docs/art-sources-0.23/`. Réduction et rangement locaux sont des exports
 techniques. Les personnages existants ne sont pas remplacés.
 
@@ -132,7 +132,7 @@ style : la clairière lisible 0.23. Projet « La Conquête des Serpents ».
   export WebP 1600×900 qualité86, 216 522 octets.
 
 Total du lot : **130 crédits**. Pas de nouvelle génération des personnages.
-Prompts : docs/art-assets-0.25.json; PNG originaux : docs/art-sources-0.25/.
+Prompts : docs/archive/art-assets-0.25.json; PNG originaux : docs/art-sources-0.25/.
 Les anciens fonds restent conservés comme références dans les sources ; ils
 ne sont plus chargés pour les cartes courantes. Le prototype V4 reste intact.
 

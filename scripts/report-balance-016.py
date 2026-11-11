@@ -77,7 +77,7 @@ verification=json.loads((root/'reports/verification-0.16.json').read_text())
 assert verification['holdoutSourceStillExact']
 lines+=['','## Contrôles de livraison','',f"{verification['nativeTests']['passed']} tests natifs réussis, format, TypeScript strict et compilation web/portable vérifiés. Essais navigateur du jeu et de l’interface réussis en web et fichier local, sept formats d’écran, clavier et tactile simulé. Quatorze scénarios de présentation couvrent notamment protection du roi, marque verrouillée, pause et impact réel. Restauration WebGL vérifiée. Aucun appareil physique testé.",
 '', 'Les budgets web passent : HTML de 15 931 octets, code du jeu de 85 349 octets, moteur Phaser séparé. Le test de rendu cloud avec 21 alliés mesure environ33,3ms par image en médiane et50ms au95e percentile ; ce scénario ne mesure pas un téléphone réel ni toutes les charges de combat. Les polices et leurs licences sont incluses ; aucune nouvelle génération graphique payante. Les preuves structurées sont dans reports/verification-0.16.json.']
-(root/'docs/BILAN-EQUILIBRAGE-0.16.md').write_text('\n'.join(lines)+'\n')
+(root/'docs/archive/BILAN-EQUILIBRAGE-0.16.md').write_text('\n'.join(lines)+'\n')
 evidence={'version':'0.16.0','completedCampaigns':1920,'stages':[{k:s[k] for k in ['stage','games','resultsHash','sourceHash','scriptHash','sourceUnchanged']} for s in ss],
 'holdoutPairedGains':len(gains),'holdoutPairedRegressions':len(regressions),'holdoutNewEarlyLosses':len(newearly),'holdoutPaired':paired,'tuning':tuning}
 (r/'evidence.json').write_text(json.dumps(evidence,indent=2)+'\n')

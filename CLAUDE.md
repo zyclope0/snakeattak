@@ -8,8 +8,8 @@ Sa section « Priorités d'implémentation » est historique : la migration du p
 ## Avant un nouveau chantier
 
 Lis `docs/PASSATION-CLAUDE-CODE.md` : état du projet au 10 novembre 2026, décisions prises,
-audit, équilibrage, publication, travail à faire. Puis le haut de `docs/PLAN-ACTUEL.md`
-(journal de Codex) et `GAME_DESIGN.md`. L'audit complet est dans `docs/passation/AUDIT-2026-11.md`.
+audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` et
+`GAME_DESIGN.md`. `docs/README.md` liste les documents vivants ; le reste est dans `docs/archive/`. L'audit complet est dans `docs/passation/AUDIT-2026-11.md`.
 
 ## Ce qui ne se discute pas
 
