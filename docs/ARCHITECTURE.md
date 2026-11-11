@@ -567,5 +567,30 @@ Règle pour la suite : dans ce fichier, pas de taille en px, sauf un plancher da
 une cible tactile. `npm run test:mobile-menus` contrôle ces pages sur une grille de treize
 tailles, du petit téléphone à l'ordinateur, avec et sans marges système.
 
-Reste à faire avec la même méthode : l'accueil lui-même, la préparation de mission, le
-catalogue et l'écran de jeu, qui gardent leurs seuils par taille.
+## Dialogues adaptatifs — 11 novembre 2026
+
+`src/ui/dialogPages.css` applique la même méthode aux dialogues qui servent d'écrans. L'unité
+`--hu` est définie sur la page entière (`:root`, dans `homePages.css`), donc partagée.
+
+| Dialogue             | Ce qui reste toujours en vue                                               |
+| -------------------- | -------------------------------------------------------------------------- |
+| Carnet de caprices   | Les six autocollants d'une mission ; la sortie, même en gérant les carnets |
+| Préparation          | Le titre et les cinq vues sur une rangée ; « C'est parti ! »               |
+| Catalogue des alliés | Six alliés par page ; filtres et pages sur une rangée                      |
+| Comment jouer        | « C'est parti ! » et la fermeture, pendant que le texte défile             |
+| Serpents annoncés    | La vague à gauche, œufs et conseil à droite ; « Retour au camp »           |
+
+Le même fichier porte la règle des cibles tactiles : 48 px au moins pour tout bouton, liste ou
+volet d'un dialogue, de l'en-tête et de la barre de commandes, à toute taille d'écran.
+
+Seuils de repli restants : sous 600 px de large ou en portrait, les pages du catalogue passent
+sous les filtres. Un très petit téléphone (568×320) montre une rangée de trois alliés à la
+fois.
+
+`npm run test:mobile-menus` contrôle ces dialogues sur six tailles, dont deux avec marges
+système : autocollants, alliés, départ et retour en vue, cadre dans la zone sûre, cibles de
+48 px.
+
+Reste à faire avec la même méthode : l'accueil lui-même et l'écran de jeu (barre du haut,
+plateau, dock), qui gardent leurs seuils par taille mais tiennent sur les tailles mesurées ;
+les dialogues de lecture (sauvegarde familiale, fiches, options des parents), qui défilent.

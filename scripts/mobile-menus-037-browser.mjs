@@ -566,6 +566,105 @@ try {
     }
     await phone.close();
   }
+  // Dialogs that work as screens (sticker book, preparation, catalogue, help) on the same
+  // grid: what a child must see is entirely in view and every control is a 48 px target.
+  const dialogState = (page, selector) =>
+    page.locator(selector).evaluate((dialog) => {
+      const frame = dialog.getBoundingClientRect();
+      const seen = (node) => {
+        const r = node.getBoundingClientRect();
+        if (r.width < 1 || r.height < 1) return false;
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return (
+          r.top >= frame.top - 1 &&
+          r.bottom <= frame.bottom + 1 &&
+          r.left >= frame.left - 1 &&
+          r.right <= frame.right + 1 &&
+          !!hit &&
+          (node.contains(hit) || hit.contains(node))
+        );
+      };
+      const count = (query) => [...dialog.querySelectorAll(query)].filter(seen).length;
+      const body = dialog.querySelector('.mission-dialog-body, .catalog-body');
+      return {
+        frame: frame.toJSON(),
+        stickers: count('.caprice-sticker'),
+        cards: count('#shop .unit-card'),
+        launch: count('#mission-launch'),
+        play: count('#play-help'),
+        overflow: body ? body.scrollHeight - body.clientHeight : 0,
+        small: [...dialog.querySelectorAll('button, select, summary')]
+          .filter(seen)
+          .filter((node) => {
+            const r = node.getBoundingClientRect();
+            return r.width < 47.5 || r.height < 47.5;
+          })
+          .map((node) => node.id || node.textContent.trim().slice(0, 20)),
+      };
+    });
+  for (const [w, h, insets] of [
+    [568, 320, null],
+    [780, 360, null],
+    [915, 412, null],
+    [1280, 800, null],
+    [780, 360, systemBars],
+    [915, 412, systemBars],
+  ]) {
+    const where = `${w}×${h}${insets ? ' with system margins' : ''}`;
+    const inSafeArea = (frame) =>
+      frame.top >= (insets?.top ?? 0) - 1 &&
+      frame.left >= (insets?.left ?? 0) - 1 &&
+      frame.right <= w - (insets?.right ?? 0) + 1 &&
+      frame.bottom <= h - (insets?.bottom ?? 0) + 1;
+    const phone = await openAt(w, h, insets);
+    await phone.locator('#home-caprice-album').click();
+    let state = await dialogState(phone, '#caprice-album-dialog');
+    check(state.stickers === 6, `six stickers in view at ${where}: ${JSON.stringify(state)}`);
+    check(inSafeArea(state.frame) && !state.small.length, `sticker book whole at ${where}`);
+    await phone.locator('#caprice-album-manage > summary').click();
+    check(
+      await phone.locator('#caprice-album-close').evaluate((node) => {
+        const r = node.getBoundingClientRect();
+        return node.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2));
+      }),
+      `book exit stays reachable while managing books at ${where}`,
+    );
+    await phone.locator('#caprice-album-close').click();
+    await showHomePage(phone, 'parents');
+    await phone.locator('#home-help').click();
+    state = await dialogState(phone, '#help-dialog');
+    check(state.play === 1, `help keeps its way back in view at ${where}`);
+    check(!state.small.length, `help controls are 48 px at ${where}: ${state.small}`);
+    await phone.locator('#play-help').click();
+    await showHomePage(phone, 'home');
+    await phone.locator('#home-primary').click();
+    await phone.locator('#mission-dialog[open]').waitFor();
+    for (const view of ['summary', 'caprices', 'scouting']) {
+      await phone.locator(`#mission-dialog [data-preparation="${view}"]`).click();
+      state = await dialogState(phone, '#mission-dialog');
+      check(
+        state.overflow <= 1 && state.launch === 1,
+        `preparation ${view} fits with its departure at ${where}: ${JSON.stringify(state)}`,
+      );
+      check(
+        inSafeArea(state.frame) && !state.small.length,
+        `preparation ${view} whole at ${where}`,
+      );
+    }
+    await phone.locator('#mission-launch').click();
+    await phone.locator('#start').waitFor({ state: 'visible' });
+    await phone.locator('#reinforcements-toggle:visible, #dock-catalogue:visible').first().click();
+    await phone.locator('#reinforcements[open]').waitFor();
+    state = await dialogState(phone, '#reinforcements');
+    // A very small phone shows one row of allies at a time; the body scrolls to the next.
+    const expected = w >= 640 ? 6 : 3;
+    check(
+      state.cards >= expected,
+      `${expected} allies in view at ${where}: ${JSON.stringify(state)}`,
+    );
+    check(inSafeArea(state.frame) && !state.small.length, `catalogue whole at ${where}`);
+    await phone.close();
+  }
   await writeFile(`${folder}/after-measurements.json`, JSON.stringify(measurements, null, 2));
   await writeFile(`${folder}/report.json`, JSON.stringify({ checks, errors }, null, 2));
   console.log(JSON.stringify({ checks, errors }));

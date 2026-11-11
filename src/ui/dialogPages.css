@@ -1,0 +1,485 @@
+/* Dialogs that work as screens: the sticker book, the mission preparation, the ally
+   catalogue, the help. Same method as homePages.css: one layout, written in the unit --hu
+   computed from the space really available, with floors for text and touch targets.
+   No size in px here, except a floor inside max() or a touch target. */
+
+/* ---- Sticker book: title, book and exit on one row; the six stickers share the rest. ---- */
+.caprice-album-dialog[open] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: calc(var(--hu) * 0.6) calc(var(--hu) * 1);
+  padding: calc(var(--hu) * 1);
+  height: min(
+    calc(var(--hu) * 44),
+    calc(100dvh - max(6px, var(--app-safe-top, 0px)) - max(6px, var(--app-safe-bottom, 0px)))
+  );
+}
+.caprice-album-dialog .caprice-album-header {
+  display: contents;
+}
+.caprice-album-dialog .caprice-album-header h2 {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: max(16px, calc(var(--hu) * 1.9));
+}
+#caprice-album-close {
+  grid-column: 3;
+  grid-row: 1;
+}
+.caprice-album-dialog .caprice-profile-tools {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  gap: calc(var(--hu) * 0.6);
+  flex-wrap: nowrap;
+  max-height: none;
+  overflow: visible;
+}
+.caprice-profile-tools > label {
+  font-size: max(12px, calc(var(--hu) * 1.3));
+}
+/* Managing the books opens over the page instead of pushing the stickers away. */
+.caprice-album-dialog .caprice-profile-tools:has(#caprice-album-manage[open]) {
+  /* An absolutely placed grid item is contained by its grid area: every row, but not the
+     last column, so the exit stays reachable. */
+  grid-column: 1 / 3;
+  grid-row: 1 / -1;
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  flex-wrap: wrap;
+  max-height: 100%;
+  overflow: auto;
+  padding: calc(var(--hu) * 0.8);
+  border: 1px solid #8ca97e;
+  border-radius: calc(var(--hu) * 1);
+  background: var(--paper);
+  box-shadow: 0 4px 0 #b7a27a;
+}
+.caprice-album-pagination {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.caprice-album-pagination button {
+  font-size: max(13px, calc(var(--hu) * 1.5));
+}
+.caprice-album-slots {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  align-self: stretch;
+}
+#caprice-album-status {
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
+.caprice-album-slots > section {
+  box-sizing: border-box;
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto minmax(min-content, 1fr);
+  gap: calc(var(--hu) * 0.4) calc(var(--hu) * 1.2);
+}
+.caprice-album-slots h3 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: max(15px, calc(var(--hu) * 1.7));
+}
+.caprice-album-slots h4 {
+  grid-row: 2;
+  margin: 0;
+  font-size: max(12px, calc(var(--hu) * 1.3));
+}
+.caprice-album-slots h4:nth-of-type(1) {
+  grid-column: 1;
+}
+.caprice-album-slots h4:nth-of-type(2) {
+  grid-column: 2;
+}
+.caprice-album-slots .caprice-album-grid {
+  grid-row: 3;
+  gap: calc(var(--hu) * 0.5);
+  max-height: max(calc(var(--hu) * 16), 110px);
+}
+.caprice-album-slots .caprice-sticker {
+  min-height: 0;
+  justify-content: center;
+  padding: calc(var(--hu) * 0.5);
+  font-size: max(11px, calc(var(--hu) * 1.25));
+  line-height: 1.15;
+}
+.caprice-album-slots .caprice-sticker svg {
+  width: calc(var(--hu) * 3.4);
+  height: calc(var(--hu) * 3.4);
+  flex-shrink: 0;
+}
+.caprice-album-slots .caprice-sticker small {
+  font-size: max(10px, calc(var(--hu) * 1.05));
+}
+/* Portrait windows: the book selector takes its own row and the two families stack. */
+@media (orientation: portrait) {
+  .caprice-album-dialog[open] {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+    height: min(
+      calc(var(--hu) * 60),
+      calc(100dvh - max(6px, var(--app-safe-top, 0px)) - max(6px, var(--app-safe-bottom, 0px)))
+    );
+  }
+  #caprice-album-close {
+    grid-column: 2;
+  }
+  .caprice-album-dialog .caprice-profile-tools {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    flex-wrap: wrap;
+  }
+  .caprice-album-pagination {
+    grid-row: 3;
+  }
+  .caprice-album-slots {
+    grid-row: 4;
+  }
+  #caprice-album-status {
+    grid-row: 5;
+  }
+  .caprice-album-slots > section {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(min-content, 1fr) auto minmax(min-content, 1fr);
+  }
+  .caprice-album-slots h4:nth-of-type(1),
+  .caprice-album-slots h4:nth-of-type(2) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .caprice-album-slots .caprice-album-grid {
+    grid-row: auto;
+  }
+}
+
+/* ---- Mission preparation: title and the five views on one row, departure always in view. ---- */
+#mission-dialog[open] {
+  /* The whole safe width on a phone, a comfortable panel on a large screen. */
+  width: min(
+    max(760px, calc(var(--hu) * 58)),
+    calc(100vw - max(12px, var(--app-safe-left)) - max(12px, var(--app-safe-right)))
+  );
+  max-width: none;
+  height: min(max(360px, calc(var(--hu) * 36)), calc(var(--app-height) - 12px));
+  max-height: calc(var(--app-height) - 12px);
+}
+#mission-dialog .preparation-header {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: calc(var(--hu) * 0.4) calc(var(--hu) * 1.2);
+  padding: calc(var(--hu) * 0.8) calc(var(--hu) * 1.4) 0;
+}
+#mission-dialog .preparation-header .eyebrow {
+  display: none;
+}
+#mission-dialog .preparation-header h2 {
+  grid-column: 1;
+  margin: 0;
+  max-width: calc(var(--hu) * 22);
+  font-size: max(16px, calc(var(--hu) * 2));
+  line-height: 1.1;
+}
+#mission-dialog .preparation-header > #mission-original-rules {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+#mission-dialog .preparation-nav {
+  grid-column: 2;
+  grid-row: 1;
+  gap: calc(var(--hu) * 0.5);
+}
+#mission-dialog .preparation-nav button {
+  padding: 4px calc(var(--hu) * 0.5);
+  font-size: max(12px, calc(var(--hu) * 1.3));
+}
+#mission-dialog .mission-dialog-body {
+  padding: calc(var(--hu) * 0.8) calc(var(--hu) * 1.4);
+}
+#mission-dialog .mission-dialog-actions {
+  gap: calc(var(--hu) * 0.8);
+  padding: calc(var(--hu) * 0.6) calc(var(--hu) * 1.4);
+}
+/* Summary: what the mission asks on the left, the three facts of this departure on the right. */
+#mission-dialog #mission-summary:not([hidden]) {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-content: start;
+  gap: calc(var(--hu) * 0.4) calc(var(--hu) * 1.6);
+}
+#mission-dialog #mission-summary > * {
+  grid-column: 1;
+  margin: 0;
+}
+#mission-dialog #mission-summary > #mission-objective {
+  font-size: max(14px, calc(var(--hu) * 1.6));
+  font-weight: 800;
+}
+#mission-dialog #mission-summary > .mission-facts {
+  grid-column: 2;
+  grid-row: 1 / span 8;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: calc(var(--hu) * 0.5);
+}
+#mission-dialog #mission-summary .mission-facts > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0 calc(var(--hu) * 0.8);
+  padding: calc(var(--hu) * 0.5) calc(var(--hu) * 0.9);
+  text-align: left;
+}
+#mission-dialog #mission-summary .mission-facts dt {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hu) * 0.5);
+  font-size: max(11px, calc(var(--hu) * 1.2));
+}
+#mission-dialog #mission-summary .mission-facts dt svg {
+  width: calc(var(--hu) * 2.2);
+  height: calc(var(--hu) * 2.2);
+}
+#mission-dialog #mission-summary .mission-facts dd {
+  margin: 0;
+  font-size: max(13px, calc(var(--hu) * 1.4));
+  font-weight: 800;
+}
+/* Caprices: back to the normal mission on the title row, the two families side by side. */
+#mission-dialog #mission-caprices {
+  margin: 0;
+  gap: calc(var(--hu) * 0.6) calc(var(--hu) * 1.2);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+}
+#mission-dialog #mission-caprices > h3 {
+  grid-column: 1;
+  font-size: max(15px, calc(var(--hu) * 1.7));
+}
+#mission-dialog #mission-caprices > p {
+  grid-column: 2;
+  margin: 0;
+  font-size: max(12px, calc(var(--hu) * 1.2));
+}
+#mission-dialog #mission-caprices > #mission-normal {
+  grid-column: 3;
+  grid-row: 1;
+}
+#mission-dialog #mission-caprices > div {
+  grid-column: 1 / -1;
+}
+#mission-dialog #mission-caprices > div:not(.caprice-detail) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  gap: calc(var(--hu) * 0.3) calc(var(--hu) * 1.2);
+}
+#mission-dialog #mission-caprices > div > h3 {
+  margin: 0;
+  font-size: max(12px, calc(var(--hu) * 1.3));
+}
+#mission-dialog .caprice-row {
+  gap: calc(var(--hu) * 0.5);
+}
+#mission-dialog .caprice-row button {
+  min-height: 48px;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px calc(var(--hu) * 0.4);
+  font-size: max(11px, calc(var(--hu) * 1.2));
+  line-height: 1.1;
+}
+#mission-dialog .caprice-row small {
+  font-size: max(10px, calc(var(--hu) * 1));
+}
+/* Scouting keeps the advice and the map on the left, the snakes of the mission on the right. */
+#mission-dialog #mission-scouting .mission-overview {
+  margin: 0;
+  gap: calc(var(--hu) * 1.2);
+}
+#mission-dialog #mission-scouting #mission-map {
+  max-height: calc(var(--hu) * 11);
+}
+#mission-dialog #mission-scouting h3 {
+  margin: 0 0 calc(var(--hu) * 0.4);
+  font-size: max(13px, calc(var(--hu) * 1.4));
+}
+/* Portrait windows: the views go under the title, the summary in one column. */
+@media (orientation: portrait) {
+  #mission-dialog[open] {
+    height: min(calc(var(--hu) * 62), calc(var(--app-height) - 12px));
+  }
+  #mission-dialog .preparation-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #mission-dialog .preparation-header h2 {
+    max-width: none;
+  }
+  #mission-dialog .preparation-nav {
+    grid-column: 1;
+    grid-row: auto;
+    flex-wrap: wrap;
+  }
+  #mission-dialog #mission-summary:not([hidden]),
+  #mission-dialog #mission-caprices > div:not(.caprice-detail) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-flow: row;
+    grid-template-rows: none;
+  }
+  #mission-dialog #mission-summary > .mission-facts {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+/* ---- Ally catalogue: filters and pages share one row, so the six allies keep the rest. ---- */
+#app #reinforcements[open] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: calc(var(--hu) * 0.5) calc(var(--hu) * 1);
+  padding: calc(var(--hu) * 0.6) calc(var(--hu) * 1.2);
+}
+#app #reinforcements .army-title {
+  grid-column: 1 / -1;
+}
+#app #reinforcements .shop-toolbar {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+}
+#app #reinforcements .catalog-pagination {
+  grid-column: 2;
+  grid-row: 2;
+}
+#app #reinforcements .catalog-pagination button {
+  padding-inline: calc(var(--hu) * 0.8);
+  font-size: max(12px, calc(var(--hu) * 1.4));
+  white-space: nowrap;
+}
+#app #reinforcements .catalog-body {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+/* Card height follows the unit, so two rows still fit a small phone. */
+#app #reinforcements #shop .unit-card {
+  min-height: max(56px, calc(var(--hu) * 6.4));
+}
+#app #reinforcements .guide-button,
+#app #reinforcements .reinforcements-close {
+  width: auto;
+  flex: 0 0 auto;
+  padding-inline: calc(var(--hu) * 0.8);
+  white-space: nowrap;
+}
+/* Too narrow for both on one row: the pages go under the filters. */
+@media (max-width: 600px), (orientation: portrait) {
+  #app #reinforcements[open] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto minmax(0, 1fr);
+  }
+  #app #reinforcements .catalog-pagination {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  #app #reinforcements .catalog-body {
+    grid-row: 4;
+  }
+}
+
+/* ---- Help: the way back to the game stays in view while the text scrolls. ---- */
+#help-dialog #play-help {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  min-height: 48px;
+  box-shadow: 0 0 0 calc(var(--hu) * 0.8) var(--paper);
+}
+#help-dialog #close-help,
+#unit-dialog #close-unit-guide {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+}
+
+/* ---- Touch targets: 48 px for every control a finger may reach, on any screen. ---- */
+dialog :is(button, select, summary),
+dialog input:not([type='checkbox']):not([type='radio']):not([type='file']),
+.app-header button,
+.controls :is(button, select),
+#resume-game {
+  min-height: 48px;
+}
+dialog button,
+.controls button {
+  min-width: 48px;
+}
+dialog .visual-setting {
+  min-height: 48px;
+  align-items: center;
+}
+#family-dialog button,
+#app .app-header button {
+  min-height: 48px;
+}
+
+/* ---- Announced snakes: the wave on the left, eggs and advice on the right. ---- */
+#threat-dialog[open] {
+  width: min(
+    max(760px, calc(var(--hu) * 58)),
+    calc(100vw - max(12px, var(--app-safe-left)) - max(12px, var(--app-safe-right)))
+  );
+  max-width: none;
+  max-height: calc(var(--app-height) - 12px);
+}
+#threat-dialog .threat-dialog-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: calc(var(--hu) * 0.5) calc(var(--hu) * 1.6);
+  padding: calc(var(--hu) * 0.8) calc(var(--hu) * 1.4);
+}
+#threat-dialog .threat-dialog-body > * {
+  grid-column: 2;
+  margin: 0;
+}
+#threat-dialog .threat-dialog-body > .eyebrow {
+  display: none;
+}
+#threat-dialog .threat-dialog-body > h2 {
+  grid-column: 1 / -1;
+  font-size: max(16px, calc(var(--hu) * 2));
+}
+#threat-dialog .threat-dialog-body > #threat-lanes {
+  grid-column: 1 / -1;
+}
+#threat-dialog .threat-dialog-body > #wave-threat-list {
+  grid-column: 1;
+  grid-row: 3 / span 4;
+  align-self: start;
+}
+#threat-dialog .threat-dialog-actions {
+  padding: calc(var(--hu) * 0.6) calc(var(--hu) * 1.4);
+}
+@media (orientation: portrait) {
+  #threat-dialog .threat-dialog-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #threat-dialog .threat-dialog-body > *,
+  #threat-dialog .threat-dialog-body > #wave-threat-list {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}

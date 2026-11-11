@@ -17,14 +17,16 @@ Sur le Galaxy S24, le parent voyait encore Missions, Pour les parents et Aventur
 affichées. Deux causes : le correctif de la PR nº 11 avait été mesuré sans les marges des
 barres Android, et il reposait sur des seuils et des tailles en dur, réglés pour trois formats.
 
-- **PR nº 14** : correctif immédiat avec marges système.
-- **Version adaptative (PR suivante)** : `src/ui/homePages.css` décrit ces quatre pages dans
-  une unité calculée d'après la place réelle. Elles tiennent de 568×320 à 1920×1080, en
-  paysage et en fenêtre portrait, avec ou sans marges ; en dessous, la page défile sans rien
-  couper. Détail à la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
+- **PR nº 14 (fusionnée)** : `src/ui/homePages.css` décrit Missions, Favoris, Aventure
+  classique et Pour les parents dans une unité calculée d'après la place réelle.
+- **Dialogues adaptatifs (cette PR)** : même méthode pour le carnet, la préparation, le
+  catalogue, l'aide et les serpents annoncés (`src/ui/dialogPages.css`). Le carnet cassait à
+  915×412 ; « C'est parti ! » de l'aide était hors écran sur téléphone ; une vingtaine de
+  boutons faisaient moins de 48 px. Détail à la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
 - **Pas vérifié sur le téléphone** : il faut un nouvel APK et une capture du parent. La taille
   de police agrandie dans les réglages Android n'est pas simulée.
-- **Reste à rendre adaptatif** : l'accueil, la préparation, le catalogue et l'écran de jeu.
+- **Reste** : l'accueil et l'écran de jeu gardent leurs seuils ; les dialogues de lecture
+  défilent.
 
 ## Remise en ordre — Claude Code, 11 novembre 2026
 

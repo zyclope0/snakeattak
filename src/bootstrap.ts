@@ -30,6 +30,7 @@ import { bindControls } from './ui/controls.ts';
 import './style.css';
 import './ui/mobileMenus.css';
 import './ui/homePages.css';
+import './ui/dialogPages.css';
 let storage: Storage | undefined;
 try {
   storage = window.localStorage;
