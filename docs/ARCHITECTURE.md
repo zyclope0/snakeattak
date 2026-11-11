@@ -504,3 +504,44 @@ Preuve que rien n'a bougé : 131 parties complètes rejouées avant et après av
 empreinte, les 549 tests historiques, et 3 840 parties du simulateur `balance:modes` aux
 résultats identiques sur l'ancien et le nouveau code. `tests/engine-traces.test.ts` garde 21
 de ces parties comme filet permanent.
+
+## Feuille de style et page découpées — 11 novembre 2026
+
+`src/style.css` (4 314 lignes) et `index.html` (919 lignes) étaient deux fichiers uniques. Ils
+sont coupés en morceaux, sans changer un octet du site construit.
+
+**Styles.** `src/style.css` n'est plus qu'une liste d'imports vers 18 fichiers de
+`src/styles/`, numérotés. Ce sont des tranches de l'ancien fichier, dans le même ordre : base,
+barre du haut, plateau, panneau du camp, dialogues, adaptations d'écran, récompenses, accueil,
+sauvegarde familiale, missions, tiroir des alliés, détails du camp, actions de mission,
+navigation enfant, dangers, dock, repérage, boutons de l'accueil.
+
+L'ordre des imports est l'ordre de la cascade. Le style a grandi version après version, et
+beaucoup de règles tardives en corrigent de plus anciennes : les styles d'un même écran sont
+donc encore répartis entre plusieurs tranches. Les regrouper vraiment par écran déplacerait des
+règles et peut changer l'affichage ; ce travail demande d'abord une comparaison d'images sur
+tous les écrans. Les feuilles propres à un composant (`src/ui/*.css`) ne changent pas.
+
+**Page.** `index.html` garde l'en-tête, la consigne de rotation et neuf lignes
+`<!-- include: src/html/nom.html -->`. `deploy/assembleHtml.ts` les remplace par le fichier
+nommé, avant que Vite lise la page (extension `html-includes` de `vite.config.ts`), en
+développement comme au build. Le navigateur reçoit toujours une seule page. Les outils qui
+lisent le HTML source (inventaire des textes) passent par `readIndexHtml()`.
+
+| Morceau de `src/html/`  | Contenu                                                      |
+| ----------------------- | ------------------------------------------------------------ |
+| `home.html`             | Accueil et ses pages : missions, parents, classique, favoris |
+| `departure-dialog.html` | Retrouver une aventure par son code                          |
+| `threat-dialog.html`    | Les serpents annoncés avant une vague                        |
+| `mission-dialog.html`   | Préparation d'une mission                                    |
+| `family-dialogs.html`   | Sauvegarde familiale et confirmation de remplacement         |
+| `battle.html`           | Écran de jeu : barre du haut, plateau, dock, alliés          |
+| `restart-dialog.html`   | Recommencer                                                  |
+| `help-dialog.html`      | Comment jouer                                                |
+| `guide-dialogs.html`    | Fiche d'un allié et aide des outils du camp                  |
+
+Ces morceaux sont formatés avec une largeur de 96 colonnes (`.prettierrc.json`) : c'est la
+largeur qu'ils avaient, imbriqués de quatre espaces, dans l'ancien fichier.
+
+Preuve : les 34 fichiers de `dist/` et l'export portable ont la même empreinte SHA-256 avant
+et après le découpage.

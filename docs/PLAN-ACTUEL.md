@@ -13,13 +13,16 @@ filet de tests, nettoyage, moteur, interface, conventions. Un lot par PR, sans c
 - **Moteur découpé (PR nº 10, fusionnée).** `src/game.ts` passe de 1 303 à 395 lignes ; les
   règles d'un pas sont dans `src/engine/`, déplacées sans réécriture. Parties rejouées à
   l'identique : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
-- **Pages secondaires de l'accueil (cette PR).** Sur téléphone en paysage, Missions, Favoris,
-  Aventure classique et Pour les parents tiennent sans défiler en 780×360 et 812×375 ; les six
-  missions montrent leur nom. La bande vide du bas (60 px) est supprimée. CSS seulement.
+- **Pages secondaires de l'accueil (PR nº 11, fusionnée).** Sur téléphone en paysage,
+  Missions, Favoris, Aventure classique et Pour les parents tiennent sans défiler en 780×360
+  et 812×375. CSS seulement.
+- **Styles et page découpés (cette PR).** `src/style.css` devient 18 tranches ordonnées dans
+  `src/styles/`, `index.html` neuf morceaux dans `src/html/`. Site construit identique octet
+  pour octet : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
 - **Moteur de rendu.** Phaser 3 réévalué et gardé : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
-- **À suivre.** Découper `style.css` (4 314 lignes) et `index.html` par écran ; page Missions
-  sur ordinateur (deuxième rangée coupée à 1280×800). Le numéro de version reste 0.37.0 tant
-  que le lot interface n'est pas complet.
+- **À suivre.** Regrouper les styles par écran, avec une comparaison d'images avant et
+  après ; page Missions sur ordinateur (deuxième rangée coupée à 1280×800) ; conventions de
+  code. Le numéro de version reste 0.37.0 tant que le lot interface n'est pas complet.
 - **Pas vérifié.** Rien sur le S24 ni avec les enfants.
 
 ## Interface mobile courte — huit choix réalisés et publiés

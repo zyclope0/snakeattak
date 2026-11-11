@@ -1,0 +1,111 @@
+/* Three paths remain visible; this small forecast announces active threats. */
+.tutorial-lanes {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 5px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.tutorial-lane {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border: 1px solid #b7c5ae;
+  background: #e9eddeed;
+  color: #375740;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 1px 3px #183c3033;
+}
+.tutorial-lane b {
+  font-size: 10px;
+}
+.tutorial-lane[data-active='true'] {
+  background: #f2d187;
+  color: #3b341d;
+  border-color: #9d782c;
+}
+#feast-hint.tutorial-hint {
+  display: block;
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  margin: 6px 0;
+  color: #36513c;
+  font-size: 12px;
+}
+
+/* Small landscape screens need two readable rows rather than colliding HUD labels. */
+@media (max-width: 700px) and (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --mobile-hud-height: 76px;
+  }
+  .dashboard,
+  .game-expanded .dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: 24px 48px;
+    gap: 4px 0;
+  }
+  .dashboard .controls {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+  }
+  .dashboard .wave-stat {
+    margin: 0;
+    justify-self: end;
+  }
+}
+
+/* The viewport, not an assumed HUD height, bounds the battle and catalogue. */
+.app:not([hidden]) {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  height: var(--app-height);
+}
+.app > main {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+}
+/* Narrow desktop portraits keep every command reachable at its full target size. */
+@media (max-width: 600px) and (orientation: portrait) {
+  .app-header {
+    height: auto;
+    min-height: 58px;
+  }
+  .dashboard .controls {
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+}
+.play-layout {
+  min-height: 0;
+  height: 100%;
+  grid-template-rows: minmax(0, 1fr);
+}
+.battle {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  max-height: 100%;
+}
+.battle-stage {
+  align-self: start;
+  aspect-ratio: 1100 / 620;
+  min-height: 0;
+  max-height: 100%;
+}
+#game {
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+}

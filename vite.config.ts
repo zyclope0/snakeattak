@@ -2,6 +2,7 @@ import { copyFileSync, writeFileSync, readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 import { webHeaders, legacyPolicy, assetCache, hostHeadersFile } from './deploy/policy.ts';
+import { assembleHtml } from './deploy/assembleHtml.ts';
 
 export default defineConfig(({ mode }) => {
   const portable = mode === 'portable';
@@ -13,6 +14,11 @@ export default defineConfig(({ mode }) => {
     publicDir: false,
     plugins: [
       ...(portable ? [viteSingleFile()] : []),
+      {
+        name: 'html-includes',
+        // Before Vite reads the page, so included markup has its assets resolved as usual.
+        transformIndexHtml: { order: 'pre', handler: (html) => assembleHtml(html) },
+      },
       {
         name: 'distribution-documents',
         transformIndexHtml(html) {
@@ -50,7 +56,10 @@ export default defineConfig(({ mode }) => {
                 manualChunks(id) {
                   if (id.includes('/node_modules/phaser/')) return 'phaser';
                   // Cache the browser-independent rules separately from the expanding UI.
-                  if (/\/src\/[^/]+\.ts$/.test(id) && !/\/(?:main|bootstrap|art)\.ts$/.test(id))
+                  if (
+                    /\/src\/(?:engine\/)?[^/]+\.ts$/.test(id) &&
+                    !/\/(?:main|bootstrap|art)\.ts$/.test(id)
+                  )
                     return 'rules';
                 },
               },

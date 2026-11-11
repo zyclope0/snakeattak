@@ -1,0 +1,147 @@
+/* Chapter gifts share the recruit portraits and stay in the preparation flow. */
+.reward-panel {
+  padding: 24px;
+  background: #f5f1df;
+  color: #193e35;
+  border-block: 1px solid #a0af91;
+}
+.reward-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #526f52;
+}
+.reward-panel h3 {
+  margin: 5px 0;
+  font-family: Fredoka, sans-serif;
+  font-size: clamp(19px, 2vw, 26px);
+  font-weight: 500;
+}
+.reward-panel > p {
+  margin: 5px 0 18px;
+  font-size: 13px;
+}
+.reward-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.reward-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 12px;
+  border: 1px solid #acbea0;
+  border-radius: 14px;
+  background: #fffdf3;
+  color: #193e35;
+  text-align: center;
+  min-height: 235px;
+}
+.reward-card:hover:not(:disabled) {
+  border-color: #167b68;
+  background: #edf3e1;
+}
+.reward-card strong {
+  font-family: Fredoka, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+.reward-detail {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.reward-card small {
+  margin-top: auto;
+  padding: 7px 12px;
+  border-radius: 7px;
+  background: #147c68;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+.reward-portrait {
+  display: block;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  background-size: 200% 200%;
+}
+.reward-coins,
+.reward-crystal {
+  display: grid;
+  place-items: center;
+  background: #f8d87f;
+  border: 2px solid #b89a4b;
+  border-radius: 50%;
+  font-family: Fredoka, sans-serif;
+  font-size: 22px;
+  color: #6c512a;
+}
+.reward-crystal {
+  background: #deeff0;
+  border-color: #71a9ad;
+  color: #1b7e94;
+  font-size: 34px;
+}
+#skip-reward {
+  display: block;
+  margin: 14px auto 0;
+  min-height: 44px;
+  color: #476747;
+  border-color: #a4b79a;
+}
+.reward-summary {
+  margin: 0;
+  padding: 9px 18px;
+  color: #e9dfaa;
+  background: #244c3c;
+  font-size: 12px;
+}
+#crystal-ward {
+  color: #a9e2ea;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.free-offer .price {
+  background: #d9ebd5;
+  color: #165d42;
+}
+@media (max-width: 600px) {
+  .reward-panel {
+    padding: 16px 12px;
+  }
+  .reward-cards {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .reward-card {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    text-align: left;
+    column-gap: 12px;
+    row-gap: 6px;
+    min-height: 140px;
+    padding: 12px;
+    align-items: start;
+  }
+  .reward-portrait {
+    grid-row: span 3;
+    width: 64px;
+    height: 64px;
+    align-self: center;
+  }
+  .reward-card strong {
+    font-size: 17px;
+  }
+  .reward-card small {
+    justify-self: start;
+    margin-top: 0;
+  }
+  .reward-summary {
+    font-size: 11px;
+    padding-inline: 12px;
+  }
+}

@@ -1,0 +1,105 @@
+<dialog id="mission-dialog" aria-labelledby="mission-title">
+  <div class="mission-dialog-body">
+    <span class="eyebrow">Ton prochain défi</span>
+    <h2 id="mission-title" tabindex="-1"></h2>
+    <p id="mission-objective"></p>
+
+    <div class="mission-overview">
+      <div class="mission-terrain">
+        <div id="mission-advice" class="scout-advice"></div>
+        <svg
+          id="mission-map"
+          viewBox="0 70 1100 510"
+          role="img"
+          aria-label="Aperçu des trois voies et de leurs jonctions"
+        ></svg>
+        <strong id="mission-budget"></strong>
+        <div
+          id="mission-party"
+          aria-label="Un nouveau héros et deux nouveaux combattants à massue"
+        ></div>
+      </div>
+      <section class="mission-scouting" aria-labelledby="mission-scout-title">
+        <h3 id="mission-scout-title">Dans cette mission</h3>
+        <div id="mission-threats" class="threat-cards"></div>
+        <details id="mission-more-threats">
+          <summary id="mission-more-title">Les autres serpents</summary>
+          <div id="mission-other-threats" class="threat-cards"></div>
+        </details>
+      </section>
+    </div>
+    <dl class="mission-facts">
+      <div>
+        <dt>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M3 6h18M3 12h18M3 18h18M9 6v12M16 6v12" /></svg
+          >Terrain
+        </dt>
+        <dd id="mission-land"></dd>
+      </div>
+      <div>
+        <dt>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M4 16c0-10 16-10 16-2 0 4-10 4-10 0s8-3 8 1M18 9l3 1" /></svg
+          >Attaques
+        </dt>
+        <dd id="mission-assault"></dd>
+      </div>
+      <div>
+        <dt>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M12 2c-4 0-8 10-8 14a8 6 0 0 0 16 0c0-4-4-14-8-14Z" /></svg
+          >Œufs
+        </dt>
+        <dd id="mission-nest"></dd>
+      </div>
+    </dl>
+    <p id="mission-replacement-note" class="mission-replacement-note" hidden>
+      Ce départ remplace ta mission en cours.
+    </p>
+    <details id="mission-parent-options">
+      <summary>Pour les parents</summary>
+      <div class="departure-share">
+        <label for="mission-departure-code">Code de ce départ</label>
+        <div class="departure-entry">
+          <input
+            id="mission-departure-code"
+            class="departure-value"
+            readonly
+            aria-describedby="mission-departure-message"
+          /><button id="mission-departure-copy" class="secondary" type="button">Copier</button>
+        </div>
+        <p id="mission-departure-message" class="departure-message" role="status"></p>
+      </div>
+      <button id="mission-retry" class="secondary" hidden>Retrouver mon dernier départ</button>
+      <p id="mission-plan"></p>
+      <p class="mission-save-note">
+        Ton camp classique est conservé. Ce départ remplace l’expédition en cours ; les étoiles
+        et tes favoris restent.
+      </p>
+    </details>
+  </div>
+  <div class="mission-dialog-actions">
+    <button id="mission-launch" class="primary">C’est parti !</button
+    ><button id="mission-reroll" class="secondary">Autre départ</button
+    ><button id="mission-close" class="secondary">Retour</button>
+  </div>
+</dialog>

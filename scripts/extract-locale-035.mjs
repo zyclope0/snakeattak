@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { readIndexHtml } from '../deploy/assembleHtml.ts';
 import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
 
 const records = new Map();
@@ -89,7 +90,8 @@ async function walk(dir) {
   }
 }
 await walk('src');
-collect(await readFile('index.html', 'utf8'), 'index.html', 1);
+// The page is assembled from src/html: read it whole, under its usual name.
+collect(readIndexHtml(), 'index.html', 1);
 const all = [...records.values()].sort((a, b) => a.text.localeCompare(b.text, 'fr'));
 const folder = process.env.LOCALE_INVENTORY_FOLDER ?? 'artifacts/locale-035-inventory';
 await mkdir(folder, { recursive: true });
