@@ -1,0 +1,132 @@
+{
+  "finding": "I1",
+  "fixBase": "37c2e2d6fae04ff8c194df2b467a62ddbddc0b82",
+  "scope": "test and report only",
+  "runtimeSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+  "runtimeTreeUnchanged": true,
+  "testScript": "scripts/reinforcements-scroll-037-browser.mjs",
+  "testScriptSHA256": "f847b02bbd4a0d5c04181a3e49fac13bb75cf7d8df83f5012be50c14fc8a6133",
+  "negativeControl": {
+    "command": "REINFORCEMENTS_SCROLL_REPORT_DIR=/workspace/serpents-interface-0370/task3/fix1/red REINFORCEMENTS_SCROLL_BLOCK_TOUCH=1 npm run test:reinforcements-scroll",
+    "exit": 1,
+    "expectedFailure": "native upward drag must move the real body",
+    "actualBody": {
+      "client": 185,
+      "scroll": 198,
+      "max": 13,
+      "beforeTop": 0,
+      "afterTop": 0
+    },
+    "log": "/workspace/serpents-interface-0370/task3/fix1/red.log"
+  },
+  "focusedPass": {
+    "command": "REINFORCEMENTS_SCROLL_REPORT_DIR=/workspace/serpents-interface-0370/task3/fix1/green npm run test:reinforcements-scroll",
+    "exit": 0,
+    "mobileCases": 5,
+    "positiveNativeScrollCases": 5,
+    "desktop": true,
+    "errors": [],
+    "alliesReachedPerMobileCase": 20,
+    "measurements": [
+      {
+        "label": "812x375 safe=0/0/0/0",
+        "range": 13,
+        "contentFits": false,
+        "initialTop": 0,
+        "upwardTop": 13,
+        "downwardTop": 0,
+        "lowerLimit": 13,
+        "boundaryTop": 13,
+        "documentYBefore": 0,
+        "documentYAfter": 0
+      },
+      {
+        "label": "812x375 safe=24/48/16/0",
+        "range": 53,
+        "contentFits": false,
+        "initialTop": 0,
+        "upwardTop": 17,
+        "downwardTop": 0,
+        "lowerLimit": 53,
+        "boundaryTop": 53,
+        "documentYBefore": 0,
+        "documentYAfter": 0
+      },
+      {
+        "label": "568x320 safe=24/48/16/0",
+        "range": 112,
+        "contentFits": false,
+        "initialTop": 0,
+        "upwardTop": 18,
+        "downwardTop": 0,
+        "lowerLimit": 112,
+        "boundaryTop": 112,
+        "documentYBefore": 0,
+        "documentYAfter": 0
+      },
+      {
+        "label": "480x320 safe=24/48/16/0",
+        "range": 112,
+        "contentFits": false,
+        "initialTop": 0,
+        "upwardTop": 18,
+        "downwardTop": 0,
+        "lowerLimit": 112,
+        "boundaryTop": 112,
+        "documentYBefore": 0,
+        "documentYAfter": 0
+      },
+      {
+        "label": "667x375 safe=24/0/16/48",
+        "range": 53,
+        "contentFits": false,
+        "initialTop": 0,
+        "upwardTop": 17,
+        "downwardTop": 0,
+        "lowerLimit": 53,
+        "boundaryTop": 53,
+        "documentYBefore": 0,
+        "documentYAfter": 0
+      }
+    ],
+    "log": "/workspace/serpents-interface-0370/task3/fix1/green.log"
+  },
+  "method": [
+    "Read scrollTop/clientHeight/scrollHeight of actual .catalog-body",
+    "Native card drag increases body offset; native reverse drag decreases it",
+    "Native gestures reach actual lower limit before testing a further boundary gesture",
+    "Boundary gesture preserves actual body limit and document scrollY",
+    "Native gestures return to top; no scripted scroll prepares this proof",
+    "Keep gold, selection, open-state, locked-card, armed-selection and 20-ID assertions"
+  ],
+  "original21CommandReceiptPreserved": true,
+  "originalDeliveryReceiptSHA256": "68865e5b085c7e6d6b0212602de2080d58b37845be48f8601949ecaec92a26f0",
+  "originalArtifactsAndQAUnchanged": [
+    {
+      "path": "/workspace/conquete-serpents-0322/reports/interface-0370/delivery.json",
+      "sha256": "68865e5b085c7e6d6b0212602de2080d58b37845be48f8601949ecaec92a26f0"
+    },
+    {
+      "path": "/workspace/serpents-interface-0370/task3/final-qa-results.json",
+      "sha256": "8aecb948369d1dc1b7b14dbbdb09cf3042980d05d585b76ad86f08bd1b0bb21a"
+    },
+    {
+      "path": "/workspace/conquete-serpents-v0.37.0-debug.apk",
+      "sha256": "07b2ab7a1288e2eec57c990e05201c3ee63afd0c5dd95b9dbbfc24280dd066bb"
+    },
+    {
+      "path": "/workspace/conquete-serpents-v0.37.0-portable.html",
+      "sha256": "fe758b5c047ea53f36bd9db99eb696e066ac65025da383eb0f9523cf7031886c"
+    },
+    {
+      "path": "/workspace/conquete-serpents-v0.37.0-portable.zip",
+      "sha256": "7c8805832462307cc9bf32a49bee96bf7f60e6fbd47e7f65d0bc70c8c4278277"
+    }
+  ],
+  "limitations": [
+    "Chromium CDP touch events, no physical Android claim",
+    "No runtime fix, new APK or repeat of original21-command pass",
+    "M1 remains deferred to coordinator whole-branch review"
+  ],
+  "proofRoot": "/workspace/serpents-interface-0370/task3/fix1"
+}

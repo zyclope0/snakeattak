@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
@@ -23,6 +24,7 @@ async function ready(url) {
 async function launch(page, url) {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(url);
+  await showHomePage(page, 'missions');
   await page.locator('#home-play').click();
   await page.locator('#mission-launch').click();
   await page.waitForFunction(
@@ -116,6 +118,7 @@ try {
     });
     await page.goto('http://127.0.0.1:4352');
     await insets(page, 24, 48, 16, 0);
+    await showHomePage(page, 'missions');
     await page.locator('#home-play').click();
     inside(
       await page.locator('#mission-dialog').boundingBox(),

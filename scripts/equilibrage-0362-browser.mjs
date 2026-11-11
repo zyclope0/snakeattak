@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -133,10 +134,12 @@ try {
   for (const revision of [1, 2])
     await check(`production prices/guide/code revision ${revision}`, async () => {
       const page = await pageAt(1280, 800, 'fr', revision);
+      await showHomePage(page, 'parents');
       await page.locator('#home-guide').click();
       await page.locator('#guide-select').selectOption('trex');
       assert.match(await page.locator('#guide-stats').innerText(), /340 pièces/);
       await page.locator('#close-unit-guide').click();
+      await showHomePage(page, 'classic');
       await page.locator('#home-continue').click();
       for (const [kind, price] of Object.entries(
         revision === 2
@@ -176,6 +179,7 @@ try {
       createCapriceAlbums(),
     );
     const page = await pageAt(1280, 800, 'fr', 1, raw);
+    await showHomePage(page, 'classic');
     await page.locator('#home-continue').click();
     await page.locator('#dock-catalogue').click();
     await page.locator('#camp-tools > summary').click();
@@ -209,6 +213,7 @@ try {
     'mission new/reroll/code/retry preserve revision and original refuge flags',
     async () => {
       const page = await pageAt();
+      await showHomePage(page, 'missions');
       await page.locator('#home-play').click();
       const draft = () =>
         page.locator('#mission-dialog').evaluate((d) => JSON.parse(d.dataset.run));
@@ -236,11 +241,13 @@ try {
         await page.locator('#mission-launch').click();
         assert.deepEqual(await current(page), { kind: 'mission', run: rerolled });
         await page.locator('#menu-home').click();
+        await showHomePage(page, 'missions');
         await page.locator('#home-play').click();
         await page.locator('#mission-close').click();
         // The mission card draws a new departure; its explicit retry restores the original run.
         if (!(await page.locator('#mission-list').evaluate((d) => d.open)))
-          await page.locator('#home-expeditions').click();
+          await showHomePage(page, 'home');
+        await page.locator('#home-expeditions').click();
         await page.locator('[data-mission-card="refuge"]').click();
         assert.equal((await draft()).balance, 2);
         if (!(await page.locator('#mission-parent-options').evaluate((d) => d.open)))
@@ -269,10 +276,12 @@ try {
         createCapriceAlbums(),
       );
       const page = await pageAt(1280, 800, 'fr', 2, raw);
+      await showHomePage(page, 'parents');
       await page.locator('#home-guide').click();
       await page.locator('#guide-select').selectOption(kind);
       assert.doesNotMatch(await page.locator('#guide-stats').innerText(), /Gratuit/);
       await page.locator('#close-unit-guide').click();
+      await showHomePage(page, 'classic');
       await page.locator('#home-continue').click();
       await page.locator('#dock-catalogue').click();
       assert.match(await page.locator(`[data-kind="${kind}"] .price`).textContent(), /Offert/);
@@ -291,6 +300,7 @@ try {
     for (const lang of ['fr', 'en'])
       await check(`native 10s x${width === 812 ? 2 : 1} ${width} ${lang}`, async () => {
         const page = await pageAt(width, height, lang);
+        await showHomePage(page, 'classic');
         await page.locator('#home-continue').click();
         if (width === 812) await page.locator('#speed').click();
         const start = Date.now();
@@ -322,6 +332,7 @@ try {
         assert.equal(seen.length, 1);
         assert.match(seen[0], /^AVENTURE-4-/);
         await page.reload();
+        await showHomePage(page, 'classic');
         await page.locator('#home-continue').click();
         await page.locator('#start').click();
         await page.waitForTimeout(11000);
@@ -330,6 +341,7 @@ try {
       });
   await check('native pause/dialog/home/portrait freeze countdown', async () => {
     const page = await pageAt();
+    await showHomePage(page, 'classic');
     await page.locator('#home-continue').click();
     await page.locator('#start').click();
     await page.waitForTimeout(2000);
@@ -342,6 +354,7 @@ try {
     await page.locator('#close-help').click();
     await page.locator('#menu-home').click();
     await page.waitForTimeout(2000);
+    await showHomePage(page, 'classic');
     await page.locator('#home-continue').click();
     await page.setViewportSize({ width: 375, height: 812 });
     await page.waitForTimeout(2000);

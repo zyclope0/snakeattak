@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import { revealControl } from '../tests/reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
@@ -113,6 +114,7 @@ try {
   await page.locator('#journey-replace').click();
   assert.equal(await page.locator('#current-departure-code').inputValue(), another);
   await page.reload();
+  await showHomePage(page, 'classic');
   await page.locator('#home-continue').click();
   assert.equal(await page.locator('#current-departure-code').inputValue(), another);
   await page.locator('#menu-home').click();

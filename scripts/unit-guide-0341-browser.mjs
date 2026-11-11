@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -50,6 +51,7 @@ try {
       },
       { top, right },
     );
+    await showHomePage(page, 'parents');
     await page.locator('#home-guide').click();
     await page.locator('#unit-dialog').waitFor({ state: 'visible' });
     for (const kind of ['club', 'medic', 'twohead', 'mutantStretch']) {
@@ -144,6 +146,7 @@ try {
     await page.locator('#close-unit-guide').click();
     await page.locator('#unit-dialog').waitFor({ state: 'hidden' });
     if (!before) {
+      await showHomePage(page, 'parents');
       await page.locator('#home-guide').click();
       await page.keyboard.press('Escape');
       await page.locator('#unit-dialog').waitFor({ state: 'hidden' });

@@ -1,0 +1,391 @@
+{
+  "version": "0.37.0",
+  "versionCode": 49,
+  "status": "local candidate",
+  "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+  "taskBaseSHA": "fd9e017",
+  "publication": {
+    "status": "pending coordinator review and release",
+    "publicVersion": "0.36.2",
+    "remoteActionsByTask3": false
+  },
+  "apk": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "version": "0.37.0",
+    "versionCode": 49,
+    "appId": "com.conqueteserpents.famille",
+    "apkPath": "/workspace/conquete-serpents-v0.37.0-debug.apk",
+    "apkBytes": 15168726,
+    "apkSHA256": "6e9494f467f7d02800328383909f3039cc0d36d83e7a05ba867c5ce175a36a7b",
+    "certificateSHA256": "d018e28e8ab916b4cb46ef53e2c696079415304be87cb0cf90662df94598d599",
+    "normalNoServer": true,
+    "allDistFilesIdentical": true,
+    "distFiles": 34
+  },
+  "portable": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "htmlPath": "/workspace/conquete-serpents-v0.37.0-portable.html",
+    "htmlBytes": 15125054,
+    "htmlSHA256": "f92179c8398bbc37688331b225575aa444e205fc354bd46c9bd36d892e7f51f1",
+    "bundlePath": "/workspace/conquete-serpents-v0.37.0-portable.zip",
+    "bundleBytes": 10852935,
+    "bundleSHA256": "cd27bfb499a4a1fb0b6f44335422be7772e87bae0a7fb06b924fd2cf27cad342",
+    "bundleFiles": 5,
+    "allBundleFilesIdentical": true,
+    "faviconCompanionPath": "/workspace/icon-512-BPQ3IZsK.png",
+    "faviconSHA256": "f39bf630c3da1e89d91633acbb5fae8268a43e9e5c5a22545c820df0b449b0ab",
+    "standaloneGameplay": true
+  },
+  "web": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "htmlBytes": 32475,
+    "htmlBudget": 32768,
+    "normalDistFiles": 34,
+    "rootReviewedSnapshotMatchesAPK": false,
+    "rootReviewedSnapshotSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "correctedFrozenManifest": "/workspace/serpents-interface-0370/final-fix/corrected-web-manifest.json",
+    "snapshotDelta": {
+      "historicalSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+      "correctedSourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+      "changed": ["index.html"],
+      "added": ["assets/bootstrap-C-Dj4wfG.js", "assets/index-D73S7WBW.js"],
+      "removed": ["assets/bootstrap-Bc08rJdp.js", "assets/index-vuvoutOW.js"],
+      "unchanged": 31,
+      "expected": "index.html references the corrected UI JS filename; UI JS changes, rules and all other assets remain identical; old9ca snapshot is preserved, not relabelled"
+    }
+  },
+  "protected": {
+    "baseSHA": "2b5ae484add9e5abcca1392be5665af2c4837257",
+    "files": 81,
+    "changed": [],
+    "runtimeDiffFromAPKSource": []
+  },
+  "packaging": {
+    "normalBuild": "npm run build",
+    "androidBuild": "SERPENTS_PERF=0 cap sync android; Gradle assembleDebug --offline --no-daemon --max-workers=2",
+    "inspections": [
+      "version49/0.37.0",
+      "same app ID and certificate",
+      "sensor landscape unchanged",
+      "recursive no server/appStartPath in packaged JSON",
+      "no INTERNET/BILLING/AD_ID",
+      "all34 normal files byte-equal to APK and corrected manifest; old9ca snapshot deliberately differs"
+    ],
+    "coldProofCommand": "node /workspace/serpents-interface-0370/final-fix/portable-check.mjs",
+    "coldProofCases": 4,
+    "coldProofErrors": []
+  },
+  "independentNativeUIRun": {
+    "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "stateOrClockInjection": false,
+    "simulatedInsets": [24, 32, 16, 0],
+    "purchases": 4,
+    "playedWaves": 3,
+    "finalCrystal": "100 %",
+    "finalGold": "753",
+    "rawFrenchBookNames": 36,
+    "captureCalls": 20,
+    "uniqueCaptureFilenames": 18,
+    "pageErrors": [],
+    "balanceConclusion": false
+  },
+  "history": {
+    "newRecipeReportsCopiedOut": 5,
+    "previous036APKAndPortableFilesUnchanged": 8,
+    "existingFilesChecked": 9044,
+    "existingFilesRestored": 187,
+    "finalFix": {
+      "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+      "protectedFiles": 81,
+      "protectedChanged": [],
+      "historicalProofFiles": 9044,
+      "historicalProofChanged": [],
+      "preexistingApprovedDocumentChanges": [
+        {
+          "path": "docs/superpowers/plans/2026-11-10-interface-mobile-0370.md",
+          "reason": "Already changed by fd9e017 before this wave; current approved status and archived older bytes both preserved",
+          "archivedSHA256": "09ddc1f3135a128aa12daedaf2a5fb67e65e0981682e07b03a18ab0857e5ccfa",
+          "fixBaseSHA256": "6b91714c83105a2bfc4e1ebbf723e571dd238e16a70e76b6e37fa94ba1f9a8a7"
+        }
+      ],
+      "old036RootFilesChecked": 23,
+      "requiredPrior036FilesChecked": 8,
+      "prior037FilesPreserved": 5,
+      "prior037PreservationManifest": "/workspace/serpents-interface-0370/pre-global-review/manifest.json",
+      "root9caFrozenFilesChecked": 34,
+      "root9caManifestSHA256": "32b4d105c6cd886684ea1bd0bb42528333c73241084256136360151a015431cd",
+      "controllerCorrectedManifest": {
+        "path": "/workspace/serpents-interface-0370/release/corrected-review-manifest.json",
+        "files": 34,
+        "allIdentical": true
+      },
+      "runtimeDiffFromFrozenSource": [],
+      "generatedProofs": {
+        "checkedFiles": 8647,
+        "restoredChangedFiles": ["artifacts/pilote-desktop.png", "artifacts/pilote-mobile.png"],
+        "newFilesCopiedOutAndRemoved": ["artifacts/menu-018-desktop.png"],
+        "externalOutputs": "/workspace/serpents-interface-0370/final-fix/new-qa-outputs"
+      }
+    }
+  },
+  "imageQuote": {
+    "status": "partial quote only",
+    "magnificCredits": 100,
+    "higgsfieldBaseCredits": 1,
+    "runwayPerCallQuote": null,
+    "paidGenerationCalls": 0
+  },
+  "proofRoot": "/workspace/serpents-interface-0370/final-fix",
+  "limitations": [
+    "Chromium simulation, no physical Galaxy S24",
+    "No TalkBack, children or native English review",
+    "568x320 safe-area book uses bounded internal scroll",
+    "Catalogue tools use internal scroll on short screens",
+    "Portable gameplay is embedded; complete ZIP also contains favicon, prototype and licences",
+    "Only the six final-fix verification commands above are fresh gates of the corrected source; historical21 commands remain under historicalQA"
+  ],
+  "previousSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+  "qa": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "commands": [
+      {
+        "command": "npm run verify",
+        "exit": 0,
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+        "log": "/workspace/serpents-interface-0370/final-fix/verify.log",
+        "timing": "Executed on the exact source/tests contents committed as the frozen SHA"
+      },
+      {
+        "command": "node scripts/mobile-navigation-final-037-browser.mjs",
+        "exit": 0,
+        "seconds": 9.6,
+        "log": "/workspace/serpents-interface-0370/final-fix/navigation.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:journey",
+        "exit": 0,
+        "seconds": 14.6,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-journey.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:reinforcements-scroll",
+        "exit": 0,
+        "seconds": 85.0,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-reinforcements-scroll.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:mobile-menus",
+        "exit": 0,
+        "seconds": 23.8,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-mobile-menus.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:browser",
+        "exit": 0,
+        "seconds": 85.8,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-browser.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      }
+    ],
+    "allPassed": true,
+    "unitTests": 549,
+    "mobileChecks": 519,
+    "navigationRegressionChecks": 9,
+    "journeyViewports": [1440, 390, 320, 844],
+    "nativeSwipeCases": 5,
+    "nativePositiveScrollCases": 5,
+    "nativeSwipeDesktop": true,
+    "coldOfflineCases": [
+      {
+        "mode": "bundled-offline",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "bundled-offline",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      }
+    ],
+    "coldOfflineErrors": []
+  },
+  "historicalQA": {
+    "sourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "receipt": "/workspace/serpents-interface-0370/pre-global-review/delivery.json",
+    "commands": [
+      {
+        "command": "npm ci",
+        "exit": 0,
+        "seconds": 2.5
+      },
+      {
+        "command": "npm run verify",
+        "exit": 0,
+        "seconds": 32.7
+      },
+      {
+        "command": "npm audit --omit=dev --audit-level=high",
+        "exit": 0,
+        "seconds": 0.4
+      },
+      {
+        "command": "npx playwright install chromium",
+        "exit": 0,
+        "seconds": 0.6
+      },
+      {
+        "command": "npm run test:browser",
+        "exit": 0,
+        "seconds": 71.4
+      },
+      {
+        "command": "npm run test:audit",
+        "exit": 0,
+        "seconds": 14.0
+      },
+      {
+        "command": "npm run test:threat-preparation",
+        "exit": 0,
+        "seconds": 25.5
+      },
+      {
+        "command": "npm run test:reinforcements-scroll",
+        "exit": 0,
+        "seconds": 49.1
+      },
+      {
+        "command": "npm run test:child-mobile",
+        "exit": 0,
+        "seconds": 44.6
+      },
+      {
+        "command": "npm run test:interruptions",
+        "exit": 0,
+        "seconds": 13.6
+      },
+      {
+        "command": "npm run test:offline",
+        "exit": 0,
+        "seconds": 14.2
+      },
+      {
+        "command": "npm run test:presentation",
+        "exit": 0,
+        "seconds": 103.6
+      },
+      {
+        "command": "npm run test:tactical-clarity",
+        "exit": 0,
+        "seconds": 17.3
+      },
+      {
+        "command": "npm run test:locale",
+        "exit": 0,
+        "seconds": 78.7
+      },
+      {
+        "command": "npm run test:caprices",
+        "exit": 0,
+        "seconds": 128.2
+      },
+      {
+        "command": "npm run test:mission-journey",
+        "exit": 0,
+        "seconds": 17.3
+      },
+      {
+        "command": "npm run test:mobile-menus",
+        "exit": 0,
+        "seconds": 20.5
+      },
+      {
+        "command": "npm run build:portable",
+        "exit": 0,
+        "seconds": 9.3
+      },
+      {
+        "command": "npm run test:family",
+        "exit": 0,
+        "seconds": 19.8
+      },
+      {
+        "command": "GAME_URL=file:///workspace/conquete-serpents-0322/dist-portable/index.html npm run test:browser",
+        "exit": 0,
+        "seconds": 76.0
+      },
+      {
+        "command": "npm run test:rewards",
+        "exit": 0,
+        "seconds": 22.9
+      }
+    ],
+    "allPassed": true,
+    "unitTests": 549,
+    "mobileChecks": 519,
+    "localeChecks": 440,
+    "localeBindingChecks": 24,
+    "localeUnknownKeys": 0,
+    "capriceChecks": 293,
+    "capriceCaptures": 39,
+    "auditChecks": 13,
+    "missionJourneyCases": 16,
+    "childMobileSizes": 6,
+    "touchSwipeSizes": 5,
+    "touchSwipeDesktop": true,
+    "presentationScenarios": 14,
+    "productionAuditVulnerabilities": 0,
+    "coldOfflineCases": [
+      {
+        "mode": "bundled-offline",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "bundled-offline",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      }
+    ]
+  },
+  "finalFixReceipt": "reports/interface-0370/final-fix.json"
+}

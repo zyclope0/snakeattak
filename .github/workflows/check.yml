@@ -5,7 +5,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,6 +17,7 @@ jobs:
       - run: npm audit --omit=dev --audit-level=high
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
+      - run: npm run test:audit
       - run: npm run test:threat-preparation
       - run: npm run test:reinforcements-scroll
       - run: npm run test:child-mobile
@@ -25,5 +26,9 @@ jobs:
       - run: npm run test:presentation
       - run: npm run test:tactical-clarity
       - run: npm run test:locale
+      - run: npm run test:caprices
+      - run: npm run test:mission-journey
+      - run: npm run test:mobile-menus
       - run: npm run build:portable
+      - run: npm run test:family
       - run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser

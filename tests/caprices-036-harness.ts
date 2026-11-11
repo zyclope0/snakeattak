@@ -1,4 +1,5 @@
 // Controlled QA states only. No production hooks, no game-rule overrides.
+import { bindHomeNavigation } from '../src/ui/homeNavigation.ts';
 import { Session } from '../src/session.ts';
 import { Game } from '../src/game.ts';
 import { createMissionRun, MISSIONS } from '../src/missions.ts';
@@ -12,7 +13,9 @@ import { prepareMissionLaunch } from '../src/ui/capriceLaunch.ts';
 import { initializeLanguageControls } from '../src/i18n/controls.ts';
 import '../src/style.css';
 import '../src/ui/caprices.css';
+import '../src/ui/mobileMenus.css';
 await initializeLanguageControls();
+const navigation = bindHomeNavigation();
 const mode = new URLSearchParams(location.search).get('case') ?? 'friends';
 const session = new Session(42);
 document.getElementById('app')!.hidden = false;
@@ -64,6 +67,7 @@ const refresh = bindControls(
 );
 book = bindCapriceAlbums(session, albums, refresh, () => 'Controlled QA: memory only');
 function home() {
+  navigation.show('home', false);
   session.screen = 'home';
   document.getElementById('app')!.hidden = true;
   document.getElementById('home-screen')!.hidden = false;
@@ -76,6 +80,7 @@ expeditions = bindExpeditions(
   progress,
   {
     home,
+    showMissions: () => navigation.show('missions'),
     canResume: () => true,
     resume: () => {},
     launchClassic: () => {},

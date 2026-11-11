@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { english } from '../src/i18n/english.ts';
 
-const inventory = JSON.parse(await readFile('artifacts/locale-035-inventory/all.json', 'utf8'));
+const folder = process.env.LOCALE_INVENTORY_FOLDER ?? 'artifacts/locale-035-inventory';
+const inventory = JSON.parse(await readFile(`${folder}/all.json`, 'utf8'));
 const missing = inventory.filter(({ text }) => english[text] === undefined).map(({ text }) => text);
 const placeholders = (value) => [...value.matchAll(/\{(\d+)\}/g)].map((match) => match[1]);
 const added = [],
@@ -33,7 +34,7 @@ assert.deepEqual(
   [],
   'Unreviewed lost parameter',
 );
-await mkdir('artifacts/locale-035-inventory', { recursive: true });
+await mkdir(folder, { recursive: true });
 const report = {
   inventory: inventory.length,
   englishEntries: Object.keys(english).length,
@@ -41,10 +42,7 @@ const report = {
   added,
   omissions,
 };
-await writeFile(
-  'artifacts/locale-035-inventory/coverage.json',
-  JSON.stringify(report, null, 2) + '\n',
-);
+await writeFile(`${folder}/coverage.json`, JSON.stringify(report, null, 2) + '\n');
 console.log(
   JSON.stringify({
     inventory: report.inventory,

@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
@@ -78,7 +79,7 @@ try {
         if (raw) localStorage.setItem('conquete-serpents:family:v1', raw);
       }, raw);
       await page.goto(base);
-      await page.locator('#home-play').waitFor();
+      await page.locator('#home-primary').waitFor();
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(300);
       const images = await page.evaluate(() =>
@@ -96,13 +97,13 @@ try {
         assert.equal(await page.locator('#orientation-notice').isVisible(), true);
         await page.setViewportSize({ width: 812, height: 375 });
       }
-      const play = await page.locator('#home-play').boundingBox();
+      const play = await page.locator('#home-primary').boundingBox();
       assert.ok(
         play.y >= 0 && play.y + play.height <= (width === 375 ? 375 : height),
         'Play fits first screen',
       );
       if (raw) {
-        const resume = await page.locator('#mission-continue').boundingBox();
+        const resume = await page.locator('#home-primary').boundingBox();
         assert.ok(
           resume && resume.y + resume.height <= (width === 375 ? 375 : height),
           'Resume fits first screen',
@@ -136,6 +137,7 @@ try {
           'No ground or HD original loaded on home',
         );
       }
+      await showHomePage(page, 'home');
       await page.locator('#home-expeditions').click();
       const cards = page.locator('[data-mission-card]');
       assert.equal(await cards.count(), 6);
@@ -162,22 +164,37 @@ try {
           const visible = await badges.evaluateAll((nodes) =>
             nodes.slice(0, 3).map((node) => {
               const box = node.getBoundingClientRect();
+              const clip = node.closest('#mission-list').getBoundingClientRect();
+              const hit = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
               const paths = [...node.querySelectorAll('path')].filter(
                 (path) => getComputedStyle(path).display !== 'none',
               );
               return (
-                box.top >= 0 &&
-                box.bottom <= innerHeight &&
+                box.top >= Math.max(0, clip.top) &&
+                box.bottom <= Math.min(innerHeight, clip.bottom) &&
+                hit?.closest('.mission-card') === node.closest('.mission-card') &&
                 box.width >= 40 &&
                 box.height >= 40 &&
                 paths.length === 1
               );
             }),
           );
+          if (visible.some((v) => !v))
+            await snap(page, `diagnostic-glyphs-${width}x${height}-${name}`);
           assert.deepEqual(
             visible,
             [true, true, true],
-            'First-row status glyphs fit above the fold',
+            'First-row status glyphs fit above the fold: ' +
+              JSON.stringify(
+                await badges.evaluateAll((ns) =>
+                  ns.slice(0, 3).map((n) => ({
+                    rect: n.getBoundingClientRect().toJSON(),
+                    paths: [...n.querySelectorAll('path')].filter(
+                      (p) => getComputedStyle(p).display !== 'none',
+                    ).length,
+                  })),
+                ),
+              ),
           );
         }
         const dims = await cards.evaluateAll((nodes) =>
@@ -233,9 +250,10 @@ try {
         if (name === 'complete') {
           assert.equal(await page.locator('#home-play').textContent(), 'Rejouer');
           assert.ok(
-            (await page.locator('#home-next-mission').textContent()).includes(MISSIONS.at(-1).name),
-            'Replay hint names the mission actually opened',
+            (await cards.last().innerText()).includes(MISSIONS.at(-1).name),
+            'Final mission remains discoverable on the Missions page',
           );
+          await showHomePage(page, 'missions');
           await page.locator('#home-play').click();
           assert.equal(await page.locator('#mission-title').textContent(), MISSIONS.at(-1).name);
           const run = JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run'));

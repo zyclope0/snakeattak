@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
 import assert from 'node:assert/strict';
@@ -26,6 +27,7 @@ async function home(page) {
 }
 async function mission(page) {
   await home(page);
+  await showHomePage(page, 'home');
   await page.locator('#home-expeditions').click();
   await page.locator('[data-mission-card="refuge"]').click();
   await page.locator('#mission-launch').click();
@@ -157,6 +159,7 @@ const checks = {
     ]) {
       const page = await newPage(width, height, touch);
       await home(page);
+      await showHomePage(page, 'home');
       await page.locator('#home-expeditions').click();
       await page.locator('[data-mission-card="refuge"]').click();
       const bounds = await page.locator('#mission-launch').boundingBox();
@@ -230,6 +233,7 @@ const checks = {
       encodeCheckpoint(game),
     );
     await home(gift);
+    await showHomePage(gift, 'classic');
     await gift.locator('#home-continue').click();
     await ready(gift);
     const reward = await gift.locator('#reward-panel').boundingBox();
@@ -255,16 +259,19 @@ const checks = {
       );
       if (width === 1280) {
         await page.locator('#menu-home').click();
+        await showHomePage(page, 'missions');
         await page.locator('#mission-continue').click();
         await ready(page);
         assert.equal(await page.evaluate(() => scrollY), 0, 'Reprise mission');
         await page.locator('#menu-home').click();
+        await showHomePage(page, 'classic');
         await page.locator('#home-new').click();
         if (await page.locator('#journey-confirm').isVisible())
           await page.locator('#journey-replace').click();
         await ready(page);
         assert.equal(await page.evaluate(() => scrollY), 0, 'Entrée classique');
         await page.locator('#menu-home').click();
+        await showHomePage(page, 'classic');
         await page.locator('#home-continue').click();
         await ready(page);
         assert.equal(await page.evaluate(() => scrollY), 0, 'Reprise classique');

@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -205,6 +206,7 @@ try {
       viewport: { width, height },
     });
     await page.goto(base);
+    await showHomePage(page, 'missions');
     await page.locator('#home-play').click();
     await page.locator('#mission-launch').click();
     await page.waitForFunction(
@@ -229,6 +231,7 @@ try {
     if (width === 1280) {
       await check('desktop home then mission restores dock', async () => {
         await page.locator('#menu-home').click();
+        await showHomePage(page, 'missions');
         await page.locator('#home-play').click();
         await page.locator('#mission-launch').click();
         assert.equal(await page.locator('#battle-dock').isVisible(), true);

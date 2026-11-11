@@ -26,6 +26,7 @@ export function pauseForDialog(dialog: HTMLDialogElement, session: Session, refr
   return {
     open() {
       if (dialog.open) return;
+      settle();
       release = pauses.hold();
       try {
         dialog.showModal();

@@ -59,6 +59,7 @@ export function bindCapricePreparation(
   heading.tabIndex = -1;
   setText(heading, 'Caprices');
   region.setAttribute('aria-labelledby', heading.id);
+  const availability = document.createElement('p');
   const entry = document.createElement('button');
   entry.id = 'mission-caprices-entry';
   entry.setAttribute('aria-controls', region.id);
@@ -88,6 +89,7 @@ export function bindCapricePreparation(
   setText(listen, 'Écouter');
   const speech = capriceSpeech();
   const friendAdvice = document.createElement('p');
+  friendAdvice.id = 'caprice-friend-advice';
   setText(
     friendAdvice,
     'Choisis tes sortes préférées ou laisse les premières recrues choisir les places libres.',
@@ -106,7 +108,7 @@ export function bindCapricePreparation(
     onProfileChange();
   };
   detail.append(title, announcement, explanation, listen, friendAdvice, friends, profileLabel);
-  region.append(heading, normal, rows, detail);
+  region.append(heading, availability, normal, rows, detail);
   dialog.querySelector('#mission-parent-options')!.before(region);
   let chosen = new Set<Kind>(),
     current: MissionRun | null = null;
@@ -116,7 +118,9 @@ export function bindCapricePreparation(
     chosen: () => [...chosen],
     update(run: MissionRun, stars: number) {
       speech.cancel();
-      setText(entry, stars > 0 ? 'Caprices' : 'Caprices · gagne une étoile pour jouer');
+      setText(entry, 'Caprices');
+      availability.hidden = stars > 0;
+      setText(availability, 'Caprices · gagne une étoile pour jouer');
       if (current?.missionId !== run.missionId || current?.caprice !== run.caprice)
         chosen = new Set();
       current = run;
@@ -151,15 +155,16 @@ export function bindCapricePreparation(
       normal.setAttribute('aria-pressed', String(!run.caprice));
       const caprice = capriceDefinitionForRun(run);
       detail.hidden = !caprice;
+      friends.replaceChildren();
+      friendAdvice.hidden = !caprice?.rules.kinds;
+      if (albums) albumOptions(profile, albums);
       if (!caprice) return;
       title.textContent = caprice.name;
       paintSticker(graphic, caprice.rules);
-      friendAdvice.hidden = !caprice.rules.kinds;
       announce.textContent = caprice.announce;
       setText(explanation, capriceExplanation(caprice.rules));
       listen.hidden = !speech.available();
       listen.onclick = () => speech.speak(caprice.announce);
-      friends.replaceChildren();
       if (caprice.rules.kinds) {
         for (const kind of friendChoices(run)) {
           const b = document.createElement('button');
@@ -169,6 +174,7 @@ export function bindCapricePreparation(
           portrait.setAttribute('aria-hidden', 'true');
           portrait.style.cssText = portraitStyle(kind);
           const name = document.createElement('span');
+          name.dataset.friendName = kinds[kind].name;
           setText(name, kinds[kind].name);
           b.append(portrait, name);
           b.setAttribute('aria-pressed', String(chosen.has(kind)));
@@ -188,7 +194,6 @@ export function bindCapricePreparation(
           friends.append(b);
         }
       }
-      if (albums) albumOptions(profile, albums);
     },
   };
 }

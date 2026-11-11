@@ -1,3 +1,4 @@
+import { bindHomeNavigation } from './ui/homeNavigation.ts';
 import { createCapriceAlbums, createCapriceAlbumsController } from './capriceAlbums.ts';
 import { bindCapriceAlbums } from './ui/capriceAlbums.ts';
 import { prepareMissionLaunch } from './ui/capriceLaunch.ts';
@@ -27,6 +28,7 @@ import { Session } from './session.ts';
 import { BattleScene } from './render/BattleScene.ts';
 import { bindControls } from './ui/controls.ts';
 import './style.css';
+import './ui/mobileMenus.css';
 let storage: Storage | undefined;
 try {
   storage = window.localStorage;
@@ -70,7 +72,9 @@ const campMemory = createCampMemory(saved ?? undefined);
 let hasCamp = !!saved;
 let classicGame: Game | undefined = saved && !saved.mission ? saved : undefined;
 let missionGame: Game | undefined = saved?.mission ? saved : undefined;
-let expeditions: (() => void) | undefined;
+let expeditions: ReturnType<typeof bindExpeditions> | undefined;
+const navigation = bindHomeNavigation();
+let refreshPrimary: (() => void) | undefined;
 let menu: ReturnType<typeof bindMenu> | undefined;
 let phaser: Phaser.Game | undefined;
 let report: (() => void) | undefined;
@@ -89,6 +93,7 @@ const refresh = bindControls(
     menu?.refresh();
     report?.();
     expeditions?.();
+    refreshPrimary?.();
     setDisplayText(document.getElementById('save-status')!, family.status);
   },
   career,
@@ -162,6 +167,7 @@ menu = bindMenu(session, career, {
     if (!session.game.mission) classicGame = session.game;
   },
   view,
+  navigate: (page) => navigation.show(page),
   refresh,
   progressStatus: () => family.status,
 });
@@ -198,6 +204,7 @@ expeditions = bindExpeditions(
     profileChanged: refresh,
     launchClassic: (seed, revision) => menu!.startFromSeed(seed, revision),
     home: () => menu!.showHome(),
+    showMissions: () => navigation.show('missions'),
     canResume: () => !!missionGame || !!missions.state.retryCamp,
     resume: () => {
       if (!session.game.mission && hasCamp) {
@@ -223,6 +230,26 @@ expeditions = bindExpeditions(
   },
   albums,
 );
+refreshPrimary = () => {
+  const primary = document.getElementById('home-primary')!;
+  const missionResume = !!missionGame || !!missions.state.retryCamp;
+  const classicResume = !document.getElementById('home-continue')!.hidden;
+  const resume = missions.state.activeMode === 'missions' ? missionResume : classicResume;
+  setDisplayText(primary, resume ? 'Reprendre' : 'Jouer');
+  if (resume)
+    setDisplayText(
+      document.getElementById('home-next-mission')!,
+      missions.state.activeMode === 'missions'
+        ? 'Reprendre ma mission'
+        : 'Reprendre mon aventure classique',
+    );
+  primary.onclick = () => {
+    if (resume) {
+      if (missions.state.activeMode === 'missions') expeditions!.resume();
+      else menu!.resumeClassic();
+    } else expeditions!.play();
+  };
+};
 bindFamilyControls({
   persistenceStatus: () => family.status,
   exportRaw: () => {
@@ -272,3 +299,4 @@ bindFamilyControls({
 view(true);
 menu.refresh();
 expeditions();
+refreshPrimary();

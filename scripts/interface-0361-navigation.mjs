@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { createMissionProgress } from '../src/missionProgress.ts';
 import { createCareer } from '../src/progression.ts';
@@ -62,6 +63,7 @@ export async function navigationChecks({ browser, base, check, shot, errors }) {
         );
         assert.equal(await page.locator('.home-footer > span').count(), 1);
       });
+      await showHomePage(page, 'home');
       await page.locator('#home-expeditions').click();
       await page.locator('[data-mission-card="refuge"]').click();
       await shot(page, `navigation-preparation-${tag}`);
@@ -187,6 +189,7 @@ export async function navigationChecks({ browser, base, check, shot, errors }) {
       });
       await page.locator('#caprice-album-close').click();
       await check(`native family picker and atomic preview ${tag}`, async () => {
+        await showHomePage(page, 'parents');
         await page.locator('#home-family').click();
         assert.equal(
           await page.locator('#family-choose-file').count(),
@@ -245,7 +248,8 @@ export async function navigationChecks({ browser, base, check, shot, errors }) {
         await page.locator('#family-close').click();
       await check(`catalogue full filter and rotation ${tag}`, async () => {
         if (!(await page.locator('#mission-list').evaluate((n) => n.open)))
-          await page.locator('#home-expeditions').click();
+          await showHomePage(page, 'home');
+        await page.locator('#home-expeditions').click();
         await page.locator('[data-mission-card="refuge"]').click();
         await page.locator('#mission-launch').click();
         await page.locator('#app').waitFor({ state: 'visible' });
@@ -297,6 +301,7 @@ export async function navigationChecks({ browser, base, check, shot, errors }) {
       locale: 'fr-CH',
     });
     await page.goto(base);
+    await showHomePage(page, 'missions');
     await page.locator('#home-play').click();
     const before = await page.locator('#mission-dialog').getAttribute('data-run');
     assert.match(await page.locator('#home-next-mission').textContent(), /Prochaine mission : /);

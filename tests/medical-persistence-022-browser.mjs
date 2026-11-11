@@ -1,3 +1,4 @@
+import { showHomePage } from './browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
 import { Game } from '../src/game.ts';
@@ -44,6 +45,7 @@ try {
     assert.ok(raw);
     await p.goto(process.env.GAME_URL);
     await p.locator('#home-screen').waitFor({ state: 'visible' });
+    await showHomePage(p, 'parents');
     await p.locator('#home-family').click();
     await p.locator('#family-file').setInputFiles({
       name: 'bandages.json',
@@ -57,6 +59,7 @@ try {
     await p.locator('#home-screen').waitFor({ state: 'visible' });
     assert.deepEqual((await state(p)).medical, medic.medical);
     assert.equal((await state(p)).medicalCool, 1.23);
+    await showHomePage(p, 'parents');
     await p.locator('#home-family').click();
     const download = p.waitForEvent('download');
     await p.locator('#family-export').click();

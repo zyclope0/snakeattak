@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn, execFileSync } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
@@ -43,6 +44,7 @@ async function start(options) {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.addInitScript((raw) => localStorage.setItem('conquete-serpents:camp:v1', raw), camp);
   await page.goto(url);
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   await page.waitForFunction(
     () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',

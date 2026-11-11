@@ -1,3 +1,5 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
 import { createServer } from 'vite';
@@ -6,7 +8,7 @@ import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 
 const fixture = '.locale-035-test.html',
   root = 'http://127.0.0.1:4417',
-  folder = 'artifacts/locale-035',
+  folder = process.env.LOCALE_REPORT_DIR ?? 'artifacts/locale-035',
   languageKey = 'conquete-serpents:language:v1';
 const checks = [],
   errors = [],
@@ -229,6 +231,7 @@ try {
             if (language === 'en') await inspectEnglish(page, '#orientation-notice', name);
             await page.screenshot({ path: `${folder}/${name}-portrait-guidance.png` });
           } else {
+            await showHomePage(page, 'missions');
             await page.locator('#home-play').click();
             await page.locator('#mission-dialog').waitFor({ state: 'visible' });
             const code = await page.locator('#mission-departure-code').inputValue();
@@ -282,6 +285,7 @@ try {
     try {
       await page.goto(root);
       await ready(page, 'en');
+      await showHomePage(page, 'parents');
       await page.locator('#home-guide').click();
       await page.locator('#unit-dialog').waitFor({ state: 'visible' });
       const values = await page
@@ -300,6 +304,7 @@ try {
       }
       await page.screenshot({ path: `${folder}/actual-en-unit-guide.png` });
       await page.locator('#close-unit-guide').click();
+      await showHomePage(page, 'parents');
       await page.locator('#home-help').click();
       await page.locator('#help-dialog').waitFor({ state: 'visible' });
       await page
@@ -318,7 +323,7 @@ try {
       );
       await page.screenshot({ path: `${folder}/actual-en-help.png` });
       await page.locator('#close-help').click();
-      await page.locator('#home-parent-options').evaluate((e) => (e.open = true));
+      await showHomePage(page, 'parents');
       await page.locator('#departure-input').fill('PONTS-1-0000-7X8R-A1');
       await choose(page, 'fr');
       await choose(page, 'en');
@@ -330,6 +335,7 @@ try {
       await inspectEnglish(page, '#home-parent-options', 'parent departure status');
       if (await page.locator('#mission-dialog').isVisible())
         await page.locator('#mission-close').click();
+      await showHomePage(page, 'parents');
       await page.locator('#home-family').click();
       await page.locator('#family-dialog').waitFor({ state: 'visible' });
       await inspectEnglish(page, '#family-dialog', 'family save');
@@ -672,19 +678,25 @@ try {
             );
             await page.screenshot({ path: `${folder}/${name}-rewards-en.png` });
             // The catalog's two existing tabs partition the 20 recruitable kinds.
+            await revealControl(page, '#shop-ready');
             const catalogKinds = [];
             for (const tab of ['shop-ready', 'shop-future']) {
-              await page.locator(`#${tab}`).evaluate((e) => e.click());
-              const cards = await page
-                .locator('#shop .unit-card:not([hidden])')
-                .evaluateAll((cards) =>
-                  cards.map((card) => ({
-                    kind: card.dataset.kind,
-                    name: card.querySelector('strong').textContent,
-                    title: card.title,
-                    aria: card.getAttribute('aria-label'),
-                  })),
+              await page.locator(`#${tab}`).click();
+              const cards = [];
+              for (;;) {
+                cards.push(
+                  ...(await page.locator('#shop .unit-card:not([hidden])').evaluateAll((cards) =>
+                    cards.map((card) => ({
+                      kind: card.dataset.kind,
+                      name: card.querySelector('strong').textContent,
+                      title: card.title,
+                      aria: card.getAttribute('aria-label'),
+                    })),
+                  )),
                 );
+                if (await page.locator('#catalog-next').isDisabled()) break;
+                await page.locator('#catalog-next').click();
+              }
               catalogKinds.push(...cards.map((card) => card.kind));
               check(
                 `${name}: ${tab} English catalog cards`,
@@ -701,6 +713,7 @@ try {
               catalogKinds.length === 20 && new Set(catalogKinds).size === 20,
               catalogKinds,
             );
+            await page.locator('#reinforcements-close').click();
             const missions = await page.evaluate(() => window.localeFixture.missions);
             const missionNames = [
               'The Refuge',
@@ -726,13 +739,21 @@ try {
                     mission.waves,
                   ),
               );
-              await inspectEnglish(page, '#mission-dialog', `${name}: mission ${mission.id}`);
+              for (const view of ['summary', 'caprices', 'friends', 'scouting', 'options']) {
+                await page.locator(`[data-preparation="${view}"]`).click();
+                await inspectEnglish(
+                  page,
+                  '#mission-dialog',
+                  `${name}: mission ${mission.id} ${view}`,
+                );
+              }
               check(
                 `${name}: preview ${mission.id} preserves game/RNG`,
                 JSON.stringify(await page.evaluate(() => window.localeFixture.snapshot())) ===
                   JSON.stringify(beforePreview),
               );
             }
+            await page.locator('[data-preparation="scouting"]').click();
             const threatKinds = await page.evaluate(() => window.localeFixture.showAllThreats());
             const renderedThreatKinds = await page
               .locator('#mission-threats [data-threat]')

@@ -10,6 +10,7 @@ import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindBoardResize } from '../src/render/boardResize.ts';
 import Phaser from 'phaser';
 import '../src/style.css';
+import '../src/ui/mobileMenus.css';
 await initializeLanguageControls();
 const session = new Session(7000362);
 const repairIncomeCase = new URLSearchParams(location.search).has('repair-income');

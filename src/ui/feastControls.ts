@@ -34,7 +34,11 @@ export function feastPot(flavor: FeastFlavor) {
   icon.style.cssText = feastIconStyle(flavor);
   return icon;
 }
-export function bindFeastControls(session: Session, onChange: () => void) {
+export function bindFeastControls(
+  session: Session,
+  onChange: () => void,
+  isPaused = () => session.game.paused,
+) {
   const container = document.getElementById('feast-controls')!;
   const flavorContainer = document.getElementById('feast-flavors')!;
   const hint = document.getElementById('feast-hint')!;
@@ -42,7 +46,7 @@ export function bindFeastControls(session: Session, onChange: () => void) {
   let selected: FeastFlavor = 'lure';
   let observed = session.game;
   const canChoose = () =>
-    !session.game.paused &&
+    !isPaused() &&
     !session.game.caprice.noHoney &&
     !session.game.feastUsed &&
     (session.game.status === 'preparing' || session.game.status === 'fighting');
@@ -109,7 +113,7 @@ export function bindFeastControls(session: Session, onChange: () => void) {
     );
     for (const [lane, button] of buttons.entries()) {
       button.disabled =
-        game.paused ||
+        isPaused() ||
         game.caprice.noHoney ||
         game.status !== 'fighting' ||
         game.feastUsed ||

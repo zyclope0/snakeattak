@@ -1,3 +1,4 @@
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
@@ -64,6 +65,7 @@ try {
   // Wait for the real menu before inspecting its visible version.
   await page.locator('#home-screen').waitFor({ state: 'visible' });
   assert.ok((await page.locator('body').innerText()).includes(pkg.version));
+  await showHomePage(page, 'missions');
   await page.locator('#home-play').click();
   await page.locator('#mission-launch').click();
   await page.waitForFunction(
@@ -78,6 +80,7 @@ try {
   );
   assert.ok(familyBefore);
   await page.reload();
+  await showHomePage(page, 'missions');
   await page.locator('#mission-continue').click();
   await page.waitForFunction(
     () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',
@@ -104,6 +107,7 @@ try {
       localStorage.setItem('conquete-serpents:camp:v1', raw);
     }, raw);
     await page.reload();
+    await showHomePage(page, version === 5 || version === 7 ? 'missions' : 'classic');
     await page
       .locator(version === 5 || version === 7 ? '#mission-continue' : '#home-continue')
       .click();
@@ -127,6 +131,7 @@ try {
       localStorage.setItem('conquete-serpents:camp:v1', raw);
     }, raw);
     await page.reload();
+    await showHomePage(page, 'classic');
     await page.locator('#home-continue').click();
     await page.waitForFunction(
       () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',

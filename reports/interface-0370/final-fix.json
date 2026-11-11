@@ -1,0 +1,220 @@
+{
+  "findings": ["I1", "M1", "M2"],
+  "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+  "version": "0.37.0",
+  "versionCode": 49,
+  "sourceCommitFiles": [
+    "scripts/mobile-navigation-final-037-browser.mjs",
+    "src/ui/catalogPages.ts",
+    "src/ui/controls.ts",
+    "src/ui/homeNavigation.ts",
+    "tests/journey-browser.mjs"
+  ],
+  "red": {
+    "navigationChecks": 9,
+    "navigationFailures": 9,
+    "navigationErrors": [],
+    "navigationLog": "/workspace/serpents-interface-0370/final-fix/red-navigation.log",
+    "navigationReport": "/workspace/serpents-interface-0370/final-fix/red-navigation/report.json",
+    "journeyFailure": "0 !== 8 at removed [data-quick-kind] count",
+    "journeyLog": "/workspace/serpents-interface-0370/final-fix/red-journey-stale-cards.log"
+  },
+  "green": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "commands": [
+      {
+        "command": "npm run verify",
+        "exit": 0,
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+        "log": "/workspace/serpents-interface-0370/final-fix/verify.log",
+        "timing": "Executed on the exact source/tests contents committed as the frozen SHA"
+      },
+      {
+        "command": "node scripts/mobile-navigation-final-037-browser.mjs",
+        "exit": 0,
+        "seconds": 9.6,
+        "log": "/workspace/serpents-interface-0370/final-fix/navigation.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:journey",
+        "exit": 0,
+        "seconds": 14.6,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-journey.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:reinforcements-scroll",
+        "exit": 0,
+        "seconds": 85.0,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-reinforcements-scroll.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:mobile-menus",
+        "exit": 0,
+        "seconds": 23.8,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-mobile-menus.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      },
+      {
+        "command": "npm run test:browser",
+        "exit": 0,
+        "seconds": 85.8,
+        "log": "/workspace/serpents-interface-0370/final-fix/test-browser.log",
+        "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a"
+      }
+    ],
+    "allPassed": true,
+    "unitTests": 549,
+    "mobileChecks": 519,
+    "navigationRegressionChecks": 9,
+    "journeyViewports": [1440, 390, 320, 844],
+    "nativeSwipeCases": 5,
+    "nativePositiveScrollCases": 5,
+    "nativeSwipeDesktop": true,
+    "coldOfflineCases": [
+      {
+        "mode": "bundled-offline",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "fr",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "bundled-offline",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      },
+      {
+        "mode": "portable-file",
+        "language": "en",
+        "online": false,
+        "fontsReady": true,
+        "externalRequests": 0
+      }
+    ],
+    "coldOfflineErrors": []
+  },
+  "packaging": [
+    {
+      "label": "normal-build",
+      "command": "npm run build",
+      "exit": 0,
+      "seconds": 11.3,
+      "log": "/workspace/serpents-interface-0370/final-fix/normal-build.log"
+    },
+    {
+      "label": "android-package",
+      "command": "python /workspace/serpents-interface-0370/final-fix/android-package.py",
+      "exit": 0,
+      "seconds": 13.2,
+      "log": "/workspace/serpents-interface-0370/final-fix/android-package.log"
+    },
+    {
+      "label": "portable-build",
+      "command": "npm run build:portable",
+      "exit": 0,
+      "seconds": 10.4,
+      "log": "/workspace/serpents-interface-0370/final-fix/portable-build.log"
+    },
+    {
+      "label": "portable-package",
+      "command": "python /workspace/serpents-interface-0370/final-fix/package-portable.py",
+      "exit": 0,
+      "seconds": 0.7,
+      "log": "/workspace/serpents-interface-0370/final-fix/portable-package.log"
+    },
+    {
+      "label": "cold-offline",
+      "command": "node /workspace/serpents-interface-0370/final-fix/portable-check.mjs",
+      "exit": 0,
+      "seconds": 8.1,
+      "log": "/workspace/serpents-interface-0370/final-fix/cold-offline.log"
+    }
+  ],
+  "snapshotDelta": {
+    "historicalSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+    "correctedSourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "changed": ["index.html"],
+    "added": ["assets/bootstrap-C-Dj4wfG.js", "assets/index-D73S7WBW.js"],
+    "removed": ["assets/bootstrap-Bc08rJdp.js", "assets/index-vuvoutOW.js"],
+    "unchanged": 31,
+    "expected": "index.html references the corrected UI JS filename; UI JS changes, rules and all other assets remain identical; old9ca snapshot is preserved, not relabelled"
+  },
+  "preservation": {
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "protectedFiles": 81,
+    "protectedChanged": [],
+    "historicalProofFiles": 9044,
+    "historicalProofChanged": [],
+    "preexistingApprovedDocumentChanges": [
+      {
+        "path": "docs/superpowers/plans/2026-11-10-interface-mobile-0370.md",
+        "reason": "Already changed by fd9e017 before this wave; current approved status and archived older bytes both preserved",
+        "archivedSHA256": "09ddc1f3135a128aa12daedaf2a5fb67e65e0981682e07b03a18ab0857e5ccfa",
+        "fixBaseSHA256": "6b91714c83105a2bfc4e1ebbf723e571dd238e16a70e76b6e37fa94ba1f9a8a7"
+      }
+    ],
+    "old036RootFilesChecked": 23,
+    "requiredPrior036FilesChecked": 8,
+    "prior037FilesPreserved": 5,
+    "prior037PreservationManifest": "/workspace/serpents-interface-0370/pre-global-review/manifest.json",
+    "root9caFrozenFilesChecked": 34,
+    "root9caManifestSHA256": "32b4d105c6cd886684ea1bd0bb42528333c73241084256136360151a015431cd",
+    "controllerCorrectedManifest": {
+      "path": "/workspace/serpents-interface-0370/release/corrected-review-manifest.json",
+      "files": 34,
+      "allIdentical": true
+    },
+    "runtimeDiffFromFrozenSource": [],
+    "generatedProofs": {
+      "checkedFiles": 8647,
+      "restoredChangedFiles": ["artifacts/pilote-desktop.png", "artifacts/pilote-mobile.png"],
+      "newFilesCopiedOutAndRemoved": ["artifacts/menu-018-desktop.png"],
+      "externalOutputs": "/workspace/serpents-interface-0370/final-fix/new-qa-outputs"
+    }
+  },
+  "oldDelivery": "/workspace/serpents-interface-0370/pre-global-review/delivery.json",
+  "oldQAReceiptSourceSHA": "9ca13bb55a55f7a571c6fbc027e31c466c638e3c",
+  "proofRoot": "/workspace/serpents-interface-0370/final-fix",
+  "fullReport": ".superpowers/sdd/2026-11-10-interface-mobile-0370/final-fix-report.md",
+  "limitations": [
+    "Chromium emulation; no physical Galaxy S24 or TalkBack",
+    "No children or native-English sessions",
+    "Old 21-command gates and independent gameplay remain evidence of9ca13bb only",
+    "No push, merge, CI run or publication; public site remains0.36.2"
+  ],
+  "controllerTargetedVerification": {
+    "report": "/workspace/serpents-interface-0370/release/after-fix-verified/report.json",
+    "sourceSHA": "b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a",
+    "sizes": [
+      {
+        "width": 1280,
+        "height": 800,
+        "language": "fr"
+      },
+      {
+        "width": 812,
+        "height": 375,
+        "language": "en"
+      },
+      {
+        "width": 780,
+        "height": 360,
+        "language": "fr"
+      }
+    ],
+    "scope": "Visible native navigation only; no state, clock, gold or game injection.",
+    "separateFromAutomatedFinalFixGateCounts": true
+  }
+}

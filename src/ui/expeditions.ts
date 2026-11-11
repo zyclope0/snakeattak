@@ -1,3 +1,4 @@
+import { bindMissionPreparation } from './missionPreparation.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { bindCapricePreparation, canLaunchCaprice } from './capriceView.ts';
 import { capriceBudget, capriceRules, capriceDefinitionForRun } from '../caprices.ts';
@@ -37,6 +38,7 @@ export function bindExpeditions(
     resume: () => void;
     canResume: () => boolean;
     home: () => void;
+    showMissions?: () => void;
     profileChanged?: () => void;
     launchClassic: (seed: number, balanceRevision: BalanceRevision) => void;
   },
@@ -68,8 +70,10 @@ export function bindExpeditions(
     portraitStyle,
     (chosen) => {
       if (draft) showMissionScouting(draft, chosen);
+      dialog.dispatchEvent(new Event('mission-preparation-change'));
     },
   );
+  const views = bindMissionPreparation(dialog);
   const departures = bindDepartureControls(session, {
     unlocked: allowed,
     previewMission: preview,
@@ -137,7 +141,9 @@ export function bindExpeditions(
     }
     dialog.dataset.run = JSON.stringify(run);
     if (!dialog.open) dialog.showModal();
+    dialog.dispatchEvent(new Event('mission-preparation-change'));
     if (resetScroll) {
+      views.reset();
       dialog.scrollTop = 0;
       dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
       el('mission-title').focus({ preventScroll: true });
@@ -146,10 +152,11 @@ export function bindExpeditions(
   const nextMission = () =>
     MISSIONS.find((m) => progress.unlocked(m.id) && !progress.state.bestStars[m.id]) ??
     [...MISSIONS].reverse().find((m) => progress.unlocked(m.id))!;
-  el('home-play').onclick = () => {
+  const play = () => {
     const next = nextMission();
     preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2));
   };
+  el('home-play').onclick = play;
   el('mission-close').onclick = () => dialog.close();
   el('mission-reroll').onclick = () => {
     if (draft) {
@@ -175,6 +182,7 @@ export function bindExpeditions(
   el('mission-continue').onclick = actions.resume;
   el('mission-back-map').onclick = () => {
     actions.home();
+    actions.showMissions?.();
     el<HTMLDetailsElement>('mission-list').open = true;
     el('expedition-heading').scrollIntoView({ block: 'start' });
     el('expedition-heading').focus({ preventScroll: true });
@@ -190,7 +198,7 @@ export function bindExpeditions(
     actions.home();
     preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2));
   };
-  return () => {
+  const refresh = () => {
     departures.refresh();
     const journey = missionJourney(progress.state.bestStars, progress.unlocked);
     const next = journey.find((step) => step.status === 'next');
@@ -246,4 +254,5 @@ export function bindExpeditions(
     const index = MISSIONS.findIndex((m) => m.id === run.missionId);
     el('mission-next').hidden = g.status !== 'won' || !!caprice || index >= MISSIONS.length - 1;
   };
+  return Object.assign(refresh, { play, resume: actions.resume });
 }

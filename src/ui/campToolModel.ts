@@ -47,7 +47,8 @@ export function campToolModel(game: Game, tool: CampTool) {
       cost: 90,
       title: 'Entraîner le héros',
       when: 'Entre deux vagues. Dès Les trois ponts en expédition ; après la vague 4 en classique.',
-      gesture: 'Tous les alliés → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.',
+      gesture:
+        'Tous les alliés → Conseils et outils → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.',
       result:
         'Frappe : +15 % de dégâts. Gardien : −15 % sur les coups reçus. Un seul choix pour ces alliés.',
       ...heroTrainingState(game),
@@ -57,7 +58,7 @@ export function campToolModel(game: Game, tool: CampTool) {
       cost: 80,
       title: 'Réparer le cristal',
       when: 'Si le cristal a perdu de la vie, avant ou pendant une vague.',
-      gesture: 'Tous les alliés → Actions du camp → Réparer le cristal.',
+      gesture: 'Tous les alliés → Conseils et outils → Actions du camp → Réparer le cristal.',
       result:
         'Le cristal regagne jusqu’à 25 points de vie, sans dépasser 100.' +
         (game.mission ? ' Les dégâts subis restent comptés pour tes étoiles.' : ''),
@@ -78,7 +79,7 @@ export function campToolModel(game: Game, tool: CampTool) {
       cost: 0,
       title: 'Encourager',
       when: 'Pendant le combat, quand tes alliés peuvent frapper.',
-      gesture: 'Tous les alliés → Actions du camp → Encourager nos alliés.',
+      gesture: 'Tous les alliés → Conseils et outils → Actions du camp → Encourager nos alliés.',
       result: 'Leurs attaques accélèrent pendant 8 s. Une fois par vague.',
       ready: game.status === 'fighting' && !game.encouragementUsed && fighters,
       status: !active

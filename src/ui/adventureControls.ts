@@ -1,7 +1,11 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
-import { heroTrainingState } from './campToolModel.ts';
+import { heroTrainingState, campToolModel } from './campToolModel.ts';
 import type { Session } from '../session.ts';
-export function bindAdventureControls(session: Session, refresh: () => void) {
+export function bindAdventureControls(
+  session: Session,
+  refresh: () => void,
+  isPaused = () => session.game.paused,
+) {
   const encourage = document.getElementById('encourage') as HTMLButtonElement;
   const status = document.getElementById('encourage-status')!;
   encourage.onclick = () => {
@@ -18,11 +22,7 @@ export function bindAdventureControls(session: Session, refresh: () => void) {
   );
   return () => {
     const g = session.game;
-    encourage.disabled =
-      g.paused ||
-      g.status !== 'fighting' ||
-      g.encouragementUsed ||
-      !g.units.some((u) => u.kind !== 'wall' && u.kind !== 'medic' && u.kind !== 'nurse');
+    encourage.disabled = isPaused() || !campToolModel(g, 'encourage').ready;
     setDisplayText(
       status,
       g.encouragementRemaining > 0
@@ -32,7 +32,7 @@ export function bindAdventureControls(session: Session, refresh: () => void) {
           : '1 fois par vague · attaques plus rapides pendant 8 s',
     );
     const training = heroTrainingState(g);
-    for (const b of choices) b.disabled = g.paused || !training.ready;
+    for (const b of choices) b.disabled = isPaused() || !training.ready;
     setDisplayText(document.getElementById('training-status')!, training.status);
   };
 }

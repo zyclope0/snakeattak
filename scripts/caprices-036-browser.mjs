@@ -1,3 +1,5 @@
+import { revealControl } from '../tests/reveal-controls.mjs';
+import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -82,10 +84,9 @@ async function onScreen(locator, page, label) {
   check(box.height >= 47, label + ' 48px');
 }
 async function prepare(page, id = 'refuge', caprice = 'refuge-petit') {
-  // The sole map entry is now its native disclosure; keep its toggle behavior.
-  if (!(await page.locator('#mission-list').evaluate((details) => details.open)))
-    await page.locator('#home-expeditions').click();
+  await showHomePage(page, 'missions');
   await page.locator(`[data-mission-card="${id}"]`).click();
+  await page.locator('[data-preparation="caprices"]').click();
   await page.locator(`[data-caprice="${caprice}"]`).click();
 }
 async function fixturePage(mode, width = 1280, height = 800, extra = '', locale = 'fr') {
@@ -176,14 +177,27 @@ try {
           'F1 compact icon beside visible announcement ' + width + locale,
         );
       }
-      for (const id of ['mission-launch', 'mission-reroll', 'mission-close'])
+      for (const id of ['mission-launch', 'mission-close'])
         await onScreen(p.locator('#' + id), p, 'F1 ' + id + width + locale);
+      await p.locator('[data-preparation="options"]').click();
+      await onScreen(p.locator('#mission-reroll'), p, 'reroll options ' + width + locale);
+      await p.locator('[data-preparation="caprices"]').click();
       await shot(p, 'final-icon-' + width + '-' + locale);
       await p.close();
       const bank = await fixturePage('bank', width, height, '', locale);
+      const dockClub = bank.locator('[data-dock-kind="club"]');
+      polishCheck(
+        (await dockClub.isVisible()) && (await dockClub.isDisabled()),
+        'F2 dock reserve blocks purchase ' + width + locale,
+      );
+      polishCheck(
+        (await dockClub.getAttribute('aria-label'))
+          .toLowerCase()
+          .includes(locale === 'en' ? 'protected bank reserve' : 'réserve bancaire protégée'),
+        'F2 dock reserve reason ' + width + locale,
+      );
       await bank.locator('#dock-catalogue:visible, #reinforcements-toggle:visible').first().click();
-      await bank.locator('#quick-army > summary').click();
-      const favorite = bank.locator('[data-quick-kind="club"]');
+      const favorite = bank.locator('#shop [data-kind="club"]');
       await favorite.scrollIntoViewIfNeeded();
       polishCheck(
         (await favorite.isVisible()) && (await favorite.locator('small').isVisible()),
@@ -213,6 +227,11 @@ try {
         (await favorite.isEnabled()) && !(await favorite.innerText()).includes(reason),
         'F2 reason clears when affordable ' + width + locale,
       );
+      await bank.locator('#reinforcements-close').click();
+      polishCheck(
+        await dockClub.isEnabled(),
+        'F2 dock enabled once reserve affordable ' + width + locale,
+      );
       await bank.close();
     }
   assert.deepEqual(polishFailures, [], 'Final F1/F2 presentation regressions');
@@ -232,21 +251,19 @@ try {
       (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
       'R1 empty choice permits Archer ' + locale,
     );
+    await pending.locator('[data-preparation="friends"]').click();
     await pending.locator('[data-caprice-friend="ninja"]').click();
     check(
       (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
       'R1 partial choice permits Archer ' + locale,
     );
+    await pending.locator('[data-preparation="friends"]').click();
     await pending.locator('[data-caprice-friend="medic"]').click();
     check(
       (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'ninja',
       'R1 full Ninja Medic excludes Archer ' + locale,
     );
-    await pending
-      .locator('details')
-      .filter({ has: pending.locator('#mission-plan') })
-      .locator('summary')
-      .click();
+    await pending.locator('[data-preparation="options"]').click();
     check(
       /volants|Flying snakes/.test(await pending.locator('#mission-plan').innerText()),
       'R1 generic flying plan visible ' + locale,
@@ -260,15 +277,18 @@ try {
       'R1 French announcement retained ' + locale,
     );
     await shot(pending, 'r1-advice-full-' + locale);
+    await pending.locator('[data-preparation="friends"]').click();
     await pending.locator('[data-caprice-friend="medic"]').click();
     check(
       (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
       'R1 deselection refreshes partial advice ' + locale,
     );
+    await pending.locator('[data-preparation="options"]').click();
     check(
       /Archer|archers/.test(await pending.locator('#mission-plan').innerText()),
       'R1 partial generic plan restores permitted Archer ' + locale,
     );
+    await pending.locator('[data-preparation="friends"]').click();
     await pending.locator('[data-caprice-friend="ninja"]').click();
     check(
       (await pending.locator('#mission-advice').getAttribute('data-ally')) === 'archer',
@@ -365,6 +385,7 @@ try {
     await prepare(page);
     check((await page.locator('.caprice-row').count()) === 2, 'two rows');
     const original = JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run'));
+    await page.locator('[data-preparation="options"]').click();
     await page.locator('#mission-reroll').click();
     check(
       JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run')).caprice ===
@@ -374,7 +395,7 @@ try {
     console.log('production preparation okay');
     // Known deterministic playable code; no battle state injection.
     await page.locator('#mission-close').click();
-    await page.locator('#home-parent-options > summary').click();
+    await showHomePage(page, 'parents');
     await page.locator('#departure-input').fill(
       encodeDeparture({
         kind: 'mission',
@@ -392,7 +413,7 @@ try {
     check((await page.locator('[data-sticker]').count()) === 36, '36 sticker slots');
     await page.locator('#caprice-album-profile').selectOption('child-2');
     await page.locator('#caprice-album-close').click();
-    await page.locator('#classic-options > summary').click();
+    await showHomePage(page, 'classic');
     await page.locator('#home-new').click();
     if (await page.locator('#journey-confirm').isVisible())
       await page.locator('#journey-replace').click();
@@ -402,6 +423,7 @@ try {
     );
     await page.reload();
     await page.locator('#home-caprice-album').waitFor();
+    await showHomePage(page, 'missions');
     await page.locator('#mission-continue').click();
     check((await saved(page)).albums.campProfileId === 'child-1', 'reload resume retains A');
     console.log('production owner survived classic/reload/resume');
@@ -455,7 +477,7 @@ try {
   }
   // Locked codes use both mission and caprice gates in production.
   const locked = await pageAt(1280, 800, 'fr', false);
-  await locked.locator('#home-parent-options > summary').click();
+  await showHomePage(locked, 'parents');
   await locked.locator('#departure-input').fill(
     encodeDeparture({
       kind: 'mission',
@@ -502,13 +524,17 @@ try {
           (await p.locator('[data-caprice-friend]').count()),
         'friends use existing unit portraits',
       );
+      await p.locator('[data-preparation="friends"]').click();
       await p.locator('[data-caprice-friend="archer"]').click();
       check(
         (await p.locator('[data-caprice-friend="archer"]').getAttribute('aria-pressed')) === 'true',
         'partial friend choice',
       );
-      for (const id of ['mission-launch', 'mission-reroll', 'mission-close'])
+      for (const id of ['mission-launch', 'mission-close'])
         await onScreen(p.locator('#' + id), p, id + width);
+      await p.locator('[data-preparation="options"]').click();
+      await onScreen(p.locator('#mission-reroll'), p, 'reroll options ' + width + locale);
+      await p.locator('[data-preparation="friends"]').click();
       await shot(p, `preparation-${width}x${height}-${locale}`);
       await p.locator('#mission-launch').click();
       const state = await saved(p);
@@ -516,6 +542,7 @@ try {
       if (width === 1280 && locale === 'fr') {
         await p.reload();
         await p.locator('#home-screen').waitFor({ state: 'visible' });
+        await showHomePage(p, 'missions');
         await p.locator('#mission-continue').click();
         check(
           JSON.parse((await saved(p)).camp).capriceKindsChosen.includes('archer'),
@@ -524,7 +551,7 @@ try {
       }
       await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
       await p.locator('#home-caprice-album').click();
-      await p.locator('#caprice-album-dialog').evaluate((n) => (n.scrollTop = n.scrollHeight));
+      await p.locator('.caprice-album-slots').evaluate((n) => (n.scrollTop = n.scrollHeight));
       await onScreen(p.locator('#caprice-album-close'), p, 'notebook close ' + width);
       await shot(p, `album-scrolled-${width}x${height}-${locale}`);
       await p.locator('#caprice-album-close').click();
@@ -533,6 +560,7 @@ try {
   // Production import/export and language actions; controlled valid file input.
   const familyPage = await pageAt();
   await familyPage.locator('#home-caprice-album').click();
+  await familyPage.locator('#caprice-album-manage > summary').click();
   await familyPage.locator('#caprice-album-name').fill('Café <ami>');
   await familyPage.locator('#caprice-album-add').click();
   check(
@@ -556,6 +584,7 @@ try {
   );
   await shot(familyPage, 'album-en');
   await familyPage.locator('#caprice-album-close').click();
+  await showHomePage(familyPage, 'parents');
   await familyPage.locator('#home-family').click();
   const downloadPromise = familyPage.waitForEvent('download');
   await familyPage.locator('#family-export').click();
@@ -595,6 +624,7 @@ try {
       throw new DOMException('Blocked', 'QuotaExceededError');
     };
   });
+  await showHomePage(blocked, 'parents');
   await blocked.locator('#home-family').click();
   await blocked.locator('#family-file').setInputFiles({
     name: 'family.json',
@@ -617,6 +647,7 @@ try {
     const p = await fixturePage('friends');
     await p.evaluate(() => window.capricesFixture.home());
     await prepare(p, 'sonnette', 'sonnette-petit');
+    await p.locator('[data-preparation="friends"]').click();
     for (const kind of ['archer', 'ninja'].slice(0, count))
       await p.locator(`[data-caprice-friend="${kind}"]`).click();
     await p.locator('#mission-launch').click();
@@ -641,7 +672,7 @@ try {
   const bank = await fixturePage('bank');
   check(await bank.locator('#caprice-bank').isVisible(), 'bank visible');
   await bank.locator('#dock-catalogue:visible, #reinforcements-toggle:visible').first().click();
-  await bank.locator('#camp-tools').evaluate((n) => (n.open = true));
+  await revealControl(bank, '#repair');
   check(await bank.locator('#repair').isDisabled(), 'reserve blocks repair at gold500 reserve450');
   check(
     await bank.locator('[data-training]').first().isDisabled(),

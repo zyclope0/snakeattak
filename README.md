@@ -4,11 +4,17 @@ Jeu de défense familial imaginé à partir du jeu d'un enfant. Prépare un dét
 pour protéger le cristal sur **trois voies interconnectées**, puis observe les
 alliés combattre et se soigner de façon autonome.
 
-**Version jouable : 0.32.1 · Langue : français · Code propriétaire.**
+**Site public : 0.36.2 · Candidate locale : 0.37.0 / Android 49 · Français/anglais · Code propriétaire.**
 
 [Jouer sur le site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
 · [Guide Android](docs/ANDROID.md)
+
+La candidate 0.37.0 corrige le retour visible aux cartes du catalogue et au
+focus des destinations de l’accueil. Source figée : `b31933bf9f6dc56b9c7bf4d286068f52ff3bf28a`.
+[Recette et artefacts locaux](reports/interface-0370/delivery.json),
+[bilan](docs/BILAN-0.37.0.md). Les preuves précédentes restent liées à `9ca13bb` ;
+aucune publication ni exécution GitHub CI de cette correction n’est revendiquée.
 
 ## Le jeu
 
