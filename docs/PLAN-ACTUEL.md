@@ -1,6 +1,17 @@
 # Plan actuel — 0.37.0 publiée, remise en ordre en cours
 
-## Livraison du 11 novembre — site Sites25, Android build 50
+## Livraison actuelle — Sites26, Android build 51
+
+Les PR14 et PR15 de Claude sont intégrées et publiées : pages de l’accueil et
+principaux dialogues adaptatifs, marges Android prises en compte, cibles tactiles de 48 px.
+Version **0.37.0** conservée ; APK **51**, même identifiant et certificat.
+Source : `abe612370747bc51cc28da5a3d145f13e7846f45`.
+Recette fraîche : **552 tests**, **750 contrôles de menus**, audit **13/13**, navigateur,
+journey et deux démarrages hors ligne FR/EN verts. Site public contrôlé sur quatre
+formats, dont deux avec marges système simulées ; ses **34 fichiers** correspondent à l’APK.
+[Bilan court](BILAN-0.37.0.md). Essai physique S24, TalkBack et enfants encore à faire.
+
+## Livraison précédente du 11 novembre — Sites25, Android build 50
 
 Les changements de Claude jusqu’au merge `751dcf5` (PR8 à PR12) sont publiés.
 Version visible **0.37.0** conservée ; Android **50**, même identifiant et certificat.
@@ -19,7 +30,7 @@ barres Android, et il reposait sur des seuils et des tailles en dur, réglés po
 
 - **PR nº 14 (fusionnée)** : `src/ui/homePages.css` décrit Missions, Favoris, Aventure
   classique et Pour les parents dans une unité calculée d'après la place réelle.
-- **Dialogues adaptatifs (cette PR)** : même méthode pour le carnet, la préparation, le
+- **Dialogues adaptatifs (PR nº 15, fusionnée)** : même méthode pour le carnet, la préparation, le
   catalogue, l'aide et les serpents annoncés (`src/ui/dialogPages.css`). Le carnet cassait à
   915×412 ; « C'est parti ! » de l'aide était hors écran sur téléphone ; une vingtaine de
   boutons faisaient moins de 48 px. Détail à la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
@@ -49,7 +60,7 @@ filet de tests, nettoyage, moteur, interface, conventions. Un lot par PR, sans c
   pour octet : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
 - **Moteur de rendu.** Phaser 3 réévalué et gardé : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
 - **À suivre.** Regrouper les styles par écran, avec une comparaison d'images avant et
-  après ; page Missions sur ordinateur (deuxième rangée coupée à 1280×800) ; conventions de
+  après ; conventions de
   code. Le numéro de version reste 0.37.0 tant que le lot interface n'est pas complet.
 - **Pas vérifié.** Rien sur le S24 ni avec les enfants.
 
