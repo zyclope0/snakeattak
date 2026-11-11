@@ -10,7 +10,14 @@ for (const name of files) {
   const bytes = (await stat(`dist/assets/${name}`)).size;
   report[name] = bytes;
   assert.match(name, /-[\w-]{8,}\./, 'Every cached asset must have a content hash');
-  const limit = name.startsWith('phaser-') ? 2_000_000 : name.endsWith('.js') ? 200_000 : 1_500_000;
+  // Les musiques ne sont chargées qu'après activation du son, une à la fois.
+  const limit = name.startsWith('phaser-')
+    ? 2_000_000
+    : name.endsWith('.js')
+      ? 200_000
+      : /^music-.*\.mp3$/.test(name)
+        ? 3_200_000
+        : 1_500_000;
   assert.ok(bytes <= limit, `${name} exceeds asset budget ${limit}`);
 }
 assert.ok(

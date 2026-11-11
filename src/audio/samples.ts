@@ -7,6 +7,8 @@ const urls = import.meta.glob<string>('../assets/audio/*.mp3', {
 
 export type Cue =
   | 'hit'
+  | 'sword'
+  | 'place'
   | 'bite'
   | 'stomp'
   | 'block'
@@ -24,7 +26,7 @@ export type Cue =
   | 'won'
   | 'lost'
   | 'toggle';
-export type Track = 'epic' | 'king';
+export type Track = 'menu' | 'calm' | 'epic' | 'king';
 
 /** `hit-2.mp3` est la deuxième variante du signal `hit` ; `music-epic.mp3` est une musique. */
 function catalogue() {

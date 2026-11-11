@@ -6,8 +6,9 @@ Les bips du synthétiseur sont remplacés par des fichiers (`src/assets/audio`, 
 seulement quand le son est activé). Fin de vague, victoire, défaite et arrivée du roi : choix
 du parent et de son fils. Musique épique « Treasure Hunter » sur la dernière vague et à partir
 de la vague 8 de l'aventure. Licences : [AUDIO-LICENCES.md](AUDIO-LICENCES.md).
-Reste : musique calme (Cozy Quest), validation des bruitages à l'oreille, essai sur le
-téléphone. Le son reste coupé au départ.
+Musiques « Cozy Quest » achetées par le parent : menus et vagues calmes. Tous les sons ont
+été choisis à l'oreille par le parent (7 Mo au total). Reste : essai sur le téléphone et avec
+les enfants. Le son reste coupé au départ.
 
 ## Livraison actuelle — Sites26, Android build 51
 
