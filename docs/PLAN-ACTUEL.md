@@ -8,10 +8,13 @@ filet de tests, nettoyage, moteur, interface, conventions. Un lot par PR, sans c
 - **Lots 0 et 1 (PR nº 8, fusionnée).** Les recettes n'écrivent plus dans des fichiers suivis ;
   5 173 captures et gros rapports sortent du suivi Git (671,7 → 103,1 Mo), récupérables au
   commit `88fdf54` : [ARCHIVES.md](ARCHIVES.md). Aucun fichier de `src/` touché.
-- **Tri des documents (cette PR).** 162 fichiers historiques rangés dans `docs/archive/`, neuf
-  documents vivants listés dans [README.md](README.md), ce journal ramené à une page.
+- **Tri des documents (PR nº 9, fusionnée).** 162 fichiers historiques rangés dans
+  `docs/archive/`, neuf documents vivants listés dans [README.md](README.md).
+- **Moteur découpé (cette PR).** `src/game.ts` passe de 1 303 à 395 lignes ; les règles d'un
+  pas sont dans `src/engine/`, déplacées sans réécriture. Parties rejouées à l'identique :
+  voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
 - **Moteur de rendu.** Phaser 3 réévalué et gardé : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
-- **À suivre.** Découpage de `src/game.ts`, pages
+- **À suivre.** Pages
   Missions, Favoris et Aventure classique sur téléphone, puis `style.css` et `index.html`.
 - **Pas vérifié.** Rien sur le S24 ni avec les enfants.
 

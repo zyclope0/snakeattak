@@ -48,7 +48,9 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
 ## Méthode
 
 - Une branche par lot (`claude/<sujet>`), une PR vers `main`, jamais de fusion sans accord.
-- Les règles restent dans `src/game.ts` et les modules de règles, jamais dans le rendu ni le HTML.
+- Les règles restent dans `src/game.ts`, `src/engine/` et les modules de règles, jamais dans le
+  rendu ni le HTML. `tests/engine-traces.test.ts` rejoue des parties entières : une empreinte
+  qui change est une partie qui change.
 - Compte rendu court par version dans `docs/BILAN-<version>.md` : ce qui est fait, comment c'est
   vérifié, ce qui ne l'est pas. Mets à jour le haut de `docs/PLAN-ACTUEL.md`.
 - Le dépôt a été allégé de 671 à 103 Mo le 11 novembre 2026 (`docs/ARCHIVES.md`) : n'ajoute ni
