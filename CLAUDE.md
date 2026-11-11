@@ -51,6 +51,6 @@ audit, équilibrage, publication, travail à faire. Puis le haut de `docs/PLAN-A
 - Les règles restent dans `src/game.ts` et les modules de règles, jamais dans le rendu ni le HTML.
 - Compte rendu court par version dans `docs/BILAN-<version>.md` : ce qui est fait, comment c'est
   vérifié, ce qui ne l'est pas. Mets à jour le haut de `docs/PLAN-ACTUEL.md`.
-- Le dépôt suit déjà 671 Mo, surtout des captures et des rapports : n'ajoute ni capture ni
-  rapport volumineux dans Git. Pas de « conseil de personas » simulé.
+- Le dépôt a été allégé de 671 à 103 Mo le 11 novembre 2026 (`docs/ARCHIVES.md`) : n'ajoute ni
+  capture ni rapport volumineux dans Git ; les recettes écrivent dans `artifacts/`. Pas de « conseil de personas » simulé.
 - Dis toujours ce qui n'a pas été essayé sur le vrai téléphone ou avec les enfants.

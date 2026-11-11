@@ -1,1 +1,0 @@
-Round1 exact engine/lab sources to replay the 11-field tuning reports. No renderer dependencies required. Node24. Reports remain under discovery/confirmation. Future tuning schema may require this snapshot to reproduce old replays.

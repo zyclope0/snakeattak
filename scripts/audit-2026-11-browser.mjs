@@ -199,11 +199,14 @@ try {
     await ctx.close();
   }
   check('erreurs JavaScript', errors.length === 0, errors.slice(0, 5), 'aucune');
-  await mkdir('reports', { recursive: true });
-  await writeFile('reports/audit-2026-11-after-lot2.json', JSON.stringify(report, null, 2));
+  await mkdir('artifacts/reports', { recursive: true });
+  await writeFile(
+    'artifacts/reports/audit-2026-11-after-lot2.json',
+    JSON.stringify(report, null, 2),
+  );
   const gaps = report.checks.filter((c) => !c.ok).length;
   console.log(
-    `\n${report.checks.length - gaps}/${report.checks.length} contrôles OK — rapport : reports/audit-2026-11-after-lot2.json`,
+    `\n${report.checks.length - gaps}/${report.checks.length} contrôles OK — rapport : artifacts/reports/audit-2026-11-after-lot2.json`,
   );
   const blocking = report.checks.filter((c) => !c.ok && (!lot1Only || c.lot === 1));
   console.log(

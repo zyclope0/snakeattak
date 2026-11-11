@@ -213,9 +213,9 @@ try {
   await hidden.close();
   checks.push('hidden startup remains paused until Resume');
   assert.deepEqual(errors, []);
-  await mkdir('reports', { recursive: true });
+  await mkdir('artifacts/reports', { recursive: true });
   await writeFile(
-    `reports/interruptions-${version}.json`,
+    `artifacts/reports/interruptions-${version}.json`,
     JSON.stringify(
       {
         source: 'Chromium cloud; synthetic page lifecycle, not physical Android',

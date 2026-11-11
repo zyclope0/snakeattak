@@ -1,4 +1,17 @@
-# Plan actuel — 0.37.0 publiée
+# Plan actuel — 0.37.0 publiée, remise en ordre en cours
+
+## Remise en ordre — Claude Code, 11 novembre 2026
+
+Trois objectifs du parent : moteur propre, interface stabilisée, projet nettoyé. Ordre retenu :
+filet de tests, nettoyage, moteur, interface, conventions. Un lot par PR, sans changer une règle.
+
+- **Lots 0 et 1 (cette PR).** Les recettes n'écrivent plus dans des fichiers suivis ; 5 173
+  captures et gros rapports sortent du suivi Git (671,7 → 103,1 Mo), récupérables au commit
+  `88fdf54` : [ARCHIVES.md](ARCHIVES.md). Aucun fichier de `src/` touché.
+- **Moteur de rendu.** Phaser 3 réévalué et gardé : voir la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
+- **À suivre.** Tri des documents (vivants / archive), découpage de `src/game.ts`, pages
+  Missions, Favoris et Aventure classique sur téléphone, puis `style.css` et `index.html`.
+- **Pas vérifié.** Rien sur le S24 ni avec les enfants.
 
 ## Interface mobile courte — huit choix réalisés et publiés
 
