@@ -1,6 +1,6 @@
 # Documents du projet
 
-Neuf documents vivants. Tout le reste est de l'historique, rangé dans [archive/](archive/).
+Dix documents vivants. Tout le reste est de l'historique, rangé dans [archive/](archive/).
 
 ## À lire pour travailler
 
@@ -17,6 +17,9 @@ Neuf documents vivants. Tout le reste est de l'historique, rangé dans [archive/
 | [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver             |
 
 Les règles du jeu sont à la racine : `GAME_DESIGN.md`, `AGENTS.md`, `CLAUDE.md`.
+
+[AUDIO-LICENCES.md](AUDIO-LICENCES.md) documente aussi les sources, auteurs et licences
+des bruitages et musiques publiés.
 
 ## Dossiers
 

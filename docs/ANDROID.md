@@ -1,8 +1,9 @@
 # Android — version 0.32.1
 
-Dernière livraison : **0.37.0 / build 51**, le 11 novembre 2026, avec les pages et
-dialogues adaptatifs de Claude (PR14 et PR15). APK normal sans serveur de développement,
-même identifiant et certificat que le build 50 ; [bilan et contrôles](BILAN-0.37.0.md).
+Dernière livraison : **0.37.0 / build 52**, avec le lancement direct, les actions
+illustrées et les vrais sons de Claude (PR17 et PR18). Les 30 fichiers audio sont embarqués ;
+le jeu fonctionne sans serveur. Même identifiant et certificat que le build 51 ;
+[bilan et contrôles](BILAN-0.37.0.md). Son coupé au départ.
 Essai physique de ce build sur S24 encore à faire.
 
 VersionName 0.32.1, versionCode 36 : correction du défilement tactile du

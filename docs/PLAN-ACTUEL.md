@@ -1,16 +1,18 @@
 # Plan actuel — 0.37.0 publiée, remise en ordre en cours
 
-## En cours — vrais sons à la place des bips (PR à venir, pas encore publiée)
+## Livraison actuelle — Sites27, Android build 52
 
-Les bips du synthétiseur sont remplacés par des fichiers (`src/assets/audio`, 2 Mo, chargés
-seulement quand le son est activé). Fin de vague, victoire, défaite et arrivée du roi : choix
-du parent et de son fils. Musique épique « Treasure Hunter » sur la dernière vague et à partir
-de la vague 8 de l'aventure. Licences : [AUDIO-LICENCES.md](AUDIO-LICENCES.md).
-Musiques « Cozy Quest » achetées par le parent : menus et vagues calmes. Tous les sons ont
-été choisis à l'oreille par le parent (7 Mo au total). Reste : essai sur le téléphone et avec
-les enfants. Le son reste coupé au départ.
+Les PR17 et PR18 de Claude sont intégrées et publiées : lancement direct par Jouer,
+actions agrandies et illustrées, bruitages et musiques choisis par le parent (Cozy Quest,
+Pixabay et CC0). **30 fichiers audio, 7,25 Mo**, chargés après activation ; son coupé au départ.
+Version **0.37.0**, Android **52**, même identifiant et certificat.
+Source : `072855f90a961657d457671886222666182f5467`.
+Vérifications : **552 tests**, menus **758**, audit **13/13**, navigateur et journey verts.
+Les **64 fichiers publics** correspondent à l’APK ; les 30 MP3 se décodent ; activation,
+musique des menus et de partie, coupure et démarrages hors ligne FR/EN contrôlés.
+[Bilan](BILAN-0.37.0.md) et [licences](AUDIO-LICENCES.md). Essai physique et volumes sur S24 à confirmer.
 
-## Livraison actuelle — Sites26, Android build 51
+## Livraison précédente — Sites26, Android build 51
 
 Les PR14 et PR15 de Claude sont intégrées et publiées : pages de l’accueil et
 principaux dialogues adaptatifs, marges Android prises en compte, cibles tactiles de 48 px.
@@ -44,14 +46,14 @@ barres Android, et il reposait sur des seuils et des tailles en dur, réglés po
   catalogue, l'aide et les serpents annoncés (`src/ui/dialogPages.css`). Le carnet cassait à
   915×412 ; « C'est parti ! » de l'aide était hors écran sur téléphone ; une vingtaine de
   boutons faisaient moins de 48 px. Détail à la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
-- **Jouer tout de suite (cette PR, décision du parent)** : le bouton principal de l'accueil
+- **Jouer tout de suite (PR nº 17, fusionnée, décision du parent)** : le bouton principal de l'accueil
   lance la prochaine mission sans dialogue. La préparation (caprices, copains, repérage,
   options) reste sur la page Missions, bouton « Préparer ». Les trois boutons qui font avancer
   le jeu sont agrandis ; pendant une vague, le bouton de vitesse prend la place de « Lancer la
   vague » ; une image accompagne chaque destination de l'accueil et chaque vue de préparation
   (`src/ui/mainActions.css`).
-- **Son** : le parent juge le son actuel de mauvaise qualité. Il reste coupé au départ tant que
-  de vrais sons et une vraie musique, sous licence claire, ne sont pas choisis par lui.
+- **Son (PR nº 18, fusionnée)** : les fichiers choisis par le parent sont publiés ; le son
+  reste coupé au départ. Licences documentées dans AUDIO-LICENCES.md.
 - **Pas vérifié sur le téléphone** : il faut un nouvel APK et une capture du parent. La taille
   de police agrandie dans les réglages Android n'est pas simulée.
 - **Reste** : l'accueil et l'écran de jeu gardent leurs seuils ; les dialogues de lecture
