@@ -457,3 +457,21 @@ au format 1 et partagent la campagne et ses étoiles.
 et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la
 ligne d’annonce existante et dans un cache UI de 64 codes maximum, avec repli
 mémoire si le stockage est refusé. Il ne modifie ni Game, ni RNG, ni sauvegarde.
+
+## Choix du moteur — réévalué le 11 novembre 2026
+
+Phaser 3 reste le bon choix, et la question ne se rouvre pas sans mesure sur le téléphone.
+
+- Le jeu n'utilise qu'une petite partie de Phaser : scène, images, formes, textes, un cache de
+  terrain. Ni physique, ni animations du moteur. Le rendu tient en 3 057 lignes (`src/render`).
+- Les règles n'en dépendent pas : TypeScript pur, 549 tests, parties rejouables à l'identique.
+  Changer de moteur ne toucherait donc que le rendu, mais obligerait à le réécrire en entier.
+- Godot, Unity ou Defold imposeraient de réécrire aussi les règles, les sauvegardes et
+  l'interface HTML : plusieurs semaines pour un jeu 2D que la solution actuelle fait tourner.
+- PixiJS serait plus léger (Phaser pèse 1,48 Mo, le plus gros fichier du build), mais le gain
+  ne justifie pas une réécriture du rendu tant qu'aucune lenteur n'est mesurée.
+- Phaser 4 existe (4.2.1 sur npm). La migration est possible plus tard ; elle n'apporte rien
+  d'attendu aujourd'hui et se décidera sur un relevé d'images par seconde du Galaxy S24.
+
+Ce qui ferait changer d'avis : moins de 30 images par seconde sur le téléphone en mission 6 ou
+en vague 12, sans correction possible dans le rendu actuel.

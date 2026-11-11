@@ -1,5 +1,8 @@
 # Hygiène du dépôt — proposition 0.36.1
 
+> Appliqué le 11 novembre 2026, sans réécriture d'historique : voir [ARCHIVES.md](ARCHIVES.md).
+> Le texte ci-dessous est la proposition d'origine.
+
 **Proposition seulement.** Aucun ancien fichier retiré du suivi, aucune migration,
 réécriture d’historique, configuration Git ou publication d’archive distante.
 Les nouvelles preuves 0.36.1 restent dans `artifacts/interface-0361/` et dans

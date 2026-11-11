@@ -332,9 +332,9 @@ try {
   assert.equal(await page.locator('[data-dock-kind]:visible').count(), 4);
   await page.close();
   assert.deepEqual(errors, []);
-  await mkdir('reports', { recursive: true });
+  await mkdir('artifacts/reports', { recursive: true });
   await writeFile(
-    `reports/child-mobile-${version}.json`,
+    `artifacts/reports/child-mobile-${version}.json`,
     JSON.stringify(
       {
         version,

@@ -7,9 +7,7 @@ import { chromium } from '@playwright/test';
 const version = JSON.parse(await readFile('package.json', 'utf8')).version;
 const artifact =
   process.env.REINFORCEMENTS_SCROLL_REPORT_DIR ?? 'artifacts/reinforcements-scroll-037';
-const reportPath = process.env.REINFORCEMENTS_SCROLL_REPORT_DIR
-  ? `${artifact}/report.json`
-  : `reports/reinforcements-scroll-${version}.json`;
+const reportPath = `${artifact}/report.json`;
 const positiveScrollCases = [];
 let server, browser;
 const cases = [],

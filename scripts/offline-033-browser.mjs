@@ -144,9 +144,9 @@ try {
   assert.deepEqual(external, []);
   assert.deepEqual(missing, []);
   assert.deepEqual(errors, []);
-  await mkdir('reports', { recursive: true });
+  await mkdir('artifacts/reports', { recursive: true });
   await writeFile(
-    `reports/offline-${pkg.version}.json`,
+    `artifacts/reports/offline-${pkg.version}.json`,
     JSON.stringify(
       {
         version: pkg.version,

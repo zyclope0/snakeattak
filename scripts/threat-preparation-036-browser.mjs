@@ -254,9 +254,9 @@ try {
   await onScreen(portrait.locator('#mission-launch'), portrait, 'Launch after rotation');
   await portrait.close();
   assert.deepEqual(errors, []);
-  await mkdir('reports', { recursive: true });
+  await mkdir('artifacts/reports', { recursive: true });
   await writeFile(
-    `reports/threat-preparation-${version}.json`,
+    `artifacts/reports/threat-preparation-${version}.json`,
     JSON.stringify(
       {
         version,
