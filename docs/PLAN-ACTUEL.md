@@ -1,5 +1,14 @@
 # Plan actuel — 0.37.0 publiée, remise en ordre en cours
 
+## En cours — vrais sons à la place des bips (PR à venir, pas encore publiée)
+
+Les bips du synthétiseur sont remplacés par des fichiers (`src/assets/audio`, 2 Mo, chargés
+seulement quand le son est activé). Fin de vague, victoire, défaite et arrivée du roi : choix
+du parent et de son fils. Musique épique « Treasure Hunter » sur la dernière vague et à partir
+de la vague 8 de l'aventure. Licences : [AUDIO-LICENCES.md](AUDIO-LICENCES.md).
+Reste : musique calme (Cozy Quest), validation des bruitages à l'oreille, essai sur le
+téléphone. Le son reste coupé au départ.
+
 ## Livraison actuelle — Sites26, Android build 51
 
 Les PR14 et PR15 de Claude sont intégrées et publiées : pages de l’accueil et
