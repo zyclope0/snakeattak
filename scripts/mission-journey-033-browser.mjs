@@ -248,7 +248,7 @@ try {
         await page.locator('#mission-close').click();
         if (name === 'irregular') assert.equal(await cards.nth(2).isDisabled(), true);
         if (name === 'complete') {
-          assert.equal(await page.locator('#home-play').textContent(), 'Rejouer');
+          assert.equal(await page.locator('#home-play').textContent(), 'Préparer encore');
           assert.ok(
             (await cards.last().innerText()).includes(MISSIONS.at(-1).name),
             'Final mission remains discoverable on the Missions page',

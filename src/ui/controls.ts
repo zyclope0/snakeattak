@@ -295,6 +295,12 @@ export function bindControls(
       session.game.status !== 'preparing' ||
       session.game.paused ||
       session.game.rewards.pending !== null;
+    // Presentation only: during a wave the launch button gives its place to the speed button.
+    el('start').dataset.state = end
+      ? 'ended'
+      : session.game.rewards.pending !== null
+        ? 'reward'
+        : session.game.status;
     setDisplayText(
       el('start'),
       end

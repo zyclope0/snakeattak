@@ -23,6 +23,14 @@ barres Android, et il reposait sur des seuils et des tailles en dur, réglés po
   catalogue, l'aide et les serpents annoncés (`src/ui/dialogPages.css`). Le carnet cassait à
   915×412 ; « C'est parti ! » de l'aide était hors écran sur téléphone ; une vingtaine de
   boutons faisaient moins de 48 px. Détail à la fin d'[ARCHITECTURE.md](ARCHITECTURE.md).
+- **Jouer tout de suite (cette PR, décision du parent)** : le bouton principal de l'accueil
+  lance la prochaine mission sans dialogue. La préparation (caprices, copains, repérage,
+  options) reste sur la page Missions, bouton « Préparer ». Les trois boutons qui font avancer
+  le jeu sont agrandis ; pendant une vague, le bouton de vitesse prend la place de « Lancer la
+  vague » ; une image accompagne chaque destination de l'accueil et chaque vue de préparation
+  (`src/ui/mainActions.css`).
+- **Son** : le parent juge le son actuel de mauvaise qualité. Il reste coupé au départ tant que
+  de vrais sons et une vraie musique, sous licence claire, ne sont pas choisis par lui.
 - **Pas vérifié sur le téléphone** : il faut un nouvel APK et une capture du parent. La taille
   de police agrandie dans les réglages Android n'est pas simulée.
 - **Reste** : l'accueil et l'écran de jeu gardent leurs seuils ; les dialogues de lecture

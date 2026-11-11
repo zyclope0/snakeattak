@@ -156,6 +156,12 @@ export function bindExpeditions(
     const next = nextMission();
     preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2));
   };
+  /** The home's main button: no dialog between the first tap and the board. */
+  const playNow = () => {
+    const next = nextMission();
+    const run = createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2);
+    if (allowed(run)) actions.launch(run, []);
+  };
   el('home-play').onclick = play;
   el('mission-close').onclick = () => dialog.close();
   el('mission-reroll').onclick = () => {
@@ -208,7 +214,8 @@ export function bindExpeditions(
         ? `Prochaine mission : ${nextMission().name}`
         : `Rejouer la mission : ${nextMission().name}`,
     );
-    setDisplayText(el('home-play'), next ? 'Jouer' : 'Rejouer');
+    // The Missions page prepares a departure; only the home's main button starts at once.
+    setDisplayText(el('home-play'), next ? 'Préparer' : 'Préparer encore');
     const state = progress.state;
     let total = 0;
     for (const [index, card] of cards.entries()) {
@@ -254,5 +261,5 @@ export function bindExpeditions(
     const index = MISSIONS.findIndex((m) => m.id === run.missionId);
     el('mission-next').hidden = g.status !== 'won' || !!caprice || index >= MISSIONS.length - 1;
   };
-  return Object.assign(refresh, { play, resume: actions.resume });
+  return Object.assign(refresh, { play, playNow, resume: actions.resume });
 }

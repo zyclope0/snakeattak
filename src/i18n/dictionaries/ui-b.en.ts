@@ -137,6 +137,8 @@ export const uiBEnglish: Record<string, string> = {
   'Prépare ton camp': 'Prepare your camp',
   'Prépare ton camp.': 'Prepare your camp.',
   'Prépare.': 'Prepare.',
+  Préparer: 'Prepare',
+  'Préparer encore': 'Prepare again',
   'Préparer ce départ': 'Prepare this starting setup',
   'Préparer mon aventure': 'Prepare my adventure',
   'Préparer trois groupes de huit favoris.': 'Prepare three groups of eight favorites.',

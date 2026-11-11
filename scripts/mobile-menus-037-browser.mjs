@@ -224,8 +224,21 @@ try {
       'primary keeps gold action hierarchy',
     );
     await capture(p, `after-home-${w}x${h}`);
+    // The main button plays at once; the preparation is one page away, on Missions.
     await p.locator('#home-primary').click();
-    check(await p.locator('#mission-dialog').isVisible(), 'fresh primary opens preparation');
+    await p.locator('#start').waitFor({ state: 'visible' });
+    check(
+      (await p.locator('#mission-dialog[open]').count()) === 0,
+      'fresh primary starts the game with no dialog in between',
+    );
+    check(
+      !(await p.locator('#mission-battle-actions').evaluate((n) => n.hidden)),
+      'the game started by the primary is a mission',
+    );
+    await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+    await showHomePage(p, 'missions');
+    await p.locator('#home-play').click();
+    check(await p.locator('#mission-dialog').isVisible(), 'Missions page opens preparation');
     check(
       JSON.parse(await p.locator('#mission-dialog').getAttribute('data-run')).balance === 2,
       'preparation keeps current balance revision',
@@ -637,7 +650,8 @@ try {
     check(!state.small.length, `help controls are 48 px at ${where}: ${state.small}`);
     await phone.locator('#play-help').click();
     await showHomePage(phone, 'home');
-    await phone.locator('#home-primary').click();
+    await showHomePage(phone, 'missions');
+    await phone.locator('#home-play').click();
     await phone.locator('#mission-dialog[open]').waitFor();
     for (const view of ['summary', 'caprices', 'scouting']) {
       await phone.locator(`#mission-dialog [data-preparation="${view}"]`).click();
