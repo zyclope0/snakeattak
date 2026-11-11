@@ -7,12 +7,13 @@
    small for them the page scrolls as a whole instead of cutting a card.
 
    Do not add a size in px here, except a floor inside max() or a touch target. */
-#home-screen {
+/* The unit is set on the page so the dialogs opened over it share it (dialogPages.css). */
+:root {
   --app-width: calc(100vw - var(--app-safe-left) - var(--app-safe-right));
   --hu: clamp(6px, min(calc(var(--app-height) / 36), calc(var(--app-width) / 78)), 16px);
 }
 @media (orientation: portrait) {
-  #home-screen {
+  :root {
     --hu: clamp(6px, min(calc(var(--app-height) / 64), calc(var(--app-width) / 40)), 16px);
   }
 }
