@@ -473,6 +473,49 @@ try {
   await capture(safe, 'after-album-safe-568x320');
   await safe.close();
   check(errors.length === 0, JSON.stringify(errors));
+  // Secondary home pages on a landscape phone: nothing scrolls, the six missions show
+  // their names, and no empty band remains under the page.
+  for (const [w, h] of [
+    [780, 360],
+    [812, 375],
+  ]) {
+    const phone = await pageAt(w, h);
+    for (const [target, scroller] of [
+      ['missions', '#mission-list'],
+      ['favorites', '#army-editor'],
+      ['classic', '[data-home-page="classic"]'],
+      ['parents', '[data-home-page="parents"]'],
+    ]) {
+      await showHomePage(phone, target);
+      const fit = await phone.locator(scroller).evaluate((e) => {
+        const footer = document.querySelector('.home-footer').getBoundingClientRect();
+        return {
+          overflow: e.scrollHeight - e.clientHeight,
+          footer: footer.height,
+          gap: innerHeight - footer.bottom,
+        };
+      });
+      check(
+        fit.overflow <= 1,
+        `${target} fits ${w}×${h} without scrolling: ${JSON.stringify(fit)}`,
+      );
+      check(fit.footer <= 20 && fit.gap <= 16, `${target} leaves no empty band at ${w}×${h}`);
+      if (target === 'missions') {
+        const names = await phone.locator('#mission-cards .mission-card').evaluateAll(
+          (cards) =>
+            cards.filter((card) => {
+              const name = card.querySelector('strong').getBoundingClientRect();
+              const clip = card.closest('#mission-list').getBoundingClientRect();
+              const hit = document.elementFromPoint(name.x + 2, name.y + name.height / 2);
+              return name.top >= clip.top && name.bottom <= clip.bottom && card.contains(hit);
+            }).length,
+        );
+        check(names === 6, `six mission names are readable at ${w}×${h}: ${names}`);
+      }
+      await showHomePage(phone, 'home');
+    }
+    await phone.close();
+  }
   await writeFile(`${folder}/after-measurements.json`, JSON.stringify(measurements, null, 2));
   await writeFile(`${folder}/report.json`, JSON.stringify({ checks, errors }, null, 2));
   console.log(JSON.stringify({ checks, errors }));

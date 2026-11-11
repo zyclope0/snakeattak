@@ -43,6 +43,9 @@ try {
   p.on('pageerror', (e) => errors.push(e.message));
   await p.goto(url);
   await p.locator('#home-classic').waitFor();
+  // The secondary pages fit a 780×360 phone without scrolling. Re-entry is checked where
+  // they still scroll: a very small 520×300 landscape phone.
+  await p.setViewportSize({ width: 520, height: 300 });
   for (const [destination, scroller] of [
     ['parents', '[data-home-page="parents"]'],
     ['classic', '[data-home-page="classic"]'],
@@ -74,6 +77,7 @@ try {
       return evidence;
     });
   }
+  await p.setViewportSize({ width: 780, height: 360 });
   await showHomePage(p, 'classic');
   await p.locator('#home-new').click();
   await p.locator('#app').waitFor({ state: 'visible' });
