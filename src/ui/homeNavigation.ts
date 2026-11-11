@@ -40,7 +40,9 @@ export function bindHomeNavigation(): { show(page: HomePage, focus?: boolean): v
       screen.scrollTop = 0;
       const destination = screen.querySelector<HTMLElement>(`[data-home-page="${page}"]`)!;
       destination.scrollTop = 0;
-      if (page === 'missions') document.getElementById('mission-list')!.scrollTop = 0;
+      // Some pages scroll inside their panel rather than as a whole.
+      for (const panel of Array.from(destination.querySelectorAll('.home-disclosure')))
+        panel.scrollTop = 0;
     }
     if (focus) {
       const target =

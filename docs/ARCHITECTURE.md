@@ -545,3 +545,27 @@ largeur qu'ils avaient, imbriqués de quatre espaces, dans l'ancien fichier.
 
 Preuve : les 34 fichiers de `dist/` et l'export portable ont la même empreinte SHA-256 avant
 et après le découpage.
+
+## Pages de l'accueil adaptatives — 11 novembre 2026
+
+Les pages Missions, Favoris, Aventure classique et Pour les parents n'ont plus de mise en page
+par taille d'écran. `src/ui/homePages.css` les décrit une seule fois, dans une unité, `--hu`,
+calculée d'après la place réelle : l'écran moins les barres système d'Android.
+
+- La page est dessinée pour une surface de 78 × 36 unités en paysage (40 × 64 en portrait).
+  L'unité vaut la plus petite des deux divisions, bornée entre 6 et 16 px. Un écran plus petit
+  ou plus grand donne simplement une unité plus petite ou plus grande.
+- Les grilles se partagent la place : six missions en 3 × 2 (2 × 3 en portrait, une colonne en
+  portrait étroit), trois chapitres côte à côte, six favoris par page.
+- Les textes et les cibles tactiles gardent un plancher (`max(13px, …)`, 48 px). Sur un écran
+  trop petit pour ces planchers, la page défile en entier ; aucune carte n'est coupée.
+- Deux seuils restent, tous deux de repli : au-dessus de 1000 × 680 px, les introductions et
+  les détails reviennent ; sous 560 px de large en paysage, les emblèmes cèdent la place aux
+  noms.
+
+Règle pour la suite : dans ce fichier, pas de taille en px, sauf un plancher dans `max()` ou
+une cible tactile. `npm run test:mobile-menus` contrôle ces pages sur une grille de treize
+tailles, du petit téléphone à l'ordinateur, avec et sans marges système.
+
+Reste à faire avec la même méthode : l'accueil lui-même, la préparation de mission, le
+catalogue et l'écran de jeu, qui gardent leurs seuils par taille.

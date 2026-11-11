@@ -43,11 +43,13 @@ try {
   p.on('pageerror', (e) => errors.push(e.message));
   await p.goto(url);
   await p.locator('#home-classic').waitFor();
-  // The secondary pages fit a 780×360 phone without scrolling. Re-entry is checked where
-  // they still scroll: a very small 520×300 landscape phone.
-  await p.setViewportSize({ width: 520, height: 300 });
+  // The secondary pages adapt to the screen and rarely scroll. Re-entry is checked on a
+  // screen too small for them (420×250), and at least one page must really scroll there
+  // so the reset stays exercised.
+  await p.setViewportSize({ width: 420, height: 250 });
+  let scrolled = 0;
   for (const [destination, scroller] of [
-    ['parents', '[data-home-page="parents"]'],
+    ['parents', '#home-parent-options'],
     ['classic', '[data-home-page="classic"]'],
     ['missions', '#mission-list'],
   ]) {
@@ -56,20 +58,23 @@ try {
       e.scrollTop = e.scrollHeight;
       return e.scrollTop;
     });
-    assert.ok(before > 0, `${destination} must really scroll`);
+    if (before > 0) scrolled++;
     await showHomePage(p, 'home');
     await showHomePage(p, destination);
     await check(`M2 ${destination} re-entry reveals the focused heading`, async () => {
       const evidence = await p.locator(scroller).evaluate((e) => {
         const target = document.activeElement,
           r = target.getBoundingClientRect(),
-          clip = e.getBoundingClientRect();
+          hit = document.elementFromPoint(r.left + 2, r.top + r.height / 2);
         return {
           scrollTop: e.scrollTop,
           target: target.textContent,
           rect: r.toJSON(),
-          clip: clip.toJSON(),
-          visible: e.contains(target) && r.top >= clip.top && r.bottom <= clip.bottom,
+          visible:
+            /^H[12]$/.test(target.tagName) &&
+            r.top >= 0 &&
+            r.bottom <= innerHeight &&
+            (target === hit || target.contains(hit)),
         };
       });
       assert.ok(evidence.visible, JSON.stringify(evidence));
@@ -77,6 +82,7 @@ try {
       return evidence;
     });
   }
+  assert.ok(scrolled >= 1, 'at least one destination must really scroll at 420×250');
   await p.setViewportSize({ width: 780, height: 360 });
   await showHomePage(p, 'classic');
   await p.locator('#home-new').click();

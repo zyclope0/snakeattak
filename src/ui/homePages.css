@@ -1,0 +1,515 @@
+/* Secondary home pages (Missions, Favourites, Classic adventure, For parents).
+
+   One layout for every screen. Sizes are written in a unit, --hu, computed from the space the
+   page really has: the screen minus Android's system bars. The design fits a landscape area
+   of 78 × 36 units (40 × 64 in portrait); a smaller or larger screen gets a smaller or larger
+   unit, between 6 and 16 px. Text and touch targets keep a readable floor, so on a screen too
+   small for them the page scrolls as a whole instead of cutting a card.
+
+   Do not add a size in px here, except a floor inside max() or a touch target. */
+#home-screen {
+  --app-width: calc(100vw - var(--app-safe-left) - var(--app-safe-right));
+  --hu: clamp(6px, min(calc(var(--app-height) / 36), calc(var(--app-width) / 78)), 16px);
+}
+@media (orientation: portrait) {
+  #home-screen {
+    --hu: clamp(6px, min(calc(var(--app-height) / 64), calc(var(--app-width) / 40)), 16px);
+  }
+}
+
+/* One top row: Return, the page's own actions, then stars and language. */
+#home-screen:not([data-page='home']) {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: calc(var(--hu) * 0.6) calc(var(--hu) * 0.8);
+  padding-block: calc(var(--hu) * 0.6);
+}
+#home-screen:not([data-page='home']) .home-header {
+  grid-column: 3;
+  grid-row: 1;
+  justify-content: flex-end;
+  gap: calc(var(--hu) * 1.2);
+}
+#home-screen:not([data-page='home']) .home-brand {
+  display: none;
+}
+#home-screen:not([data-page='home']) #home-back {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+}
+#home-screen:not([data-page='home']) .home-page,
+#home-screen:not([data-page='home']) .army-editor {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+#home-screen:not([data-page='home']) .home-footer {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+#home-screen .home-page > h1 {
+  margin: 0 0 calc(var(--hu) * 0.4);
+  font-size: max(17px, calc(var(--hu) * 1.8));
+}
+#home-screen .home-disclosure > section {
+  padding: calc(var(--hu) * 0.6) calc(var(--hu) * 1.2);
+}
+
+/* Missions: play and resume join the top row; six cards share the rest of the screen. */
+#home-screen[data-page='missions'] [data-home-page='missions'] {
+  display: contents;
+}
+#home-screen[data-page='missions'] .page-actions {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  flex-wrap: nowrap;
+}
+#home-screen[data-page='missions'] #mission-list {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+/* Where the browser lays out an open <details> as a flex box, the panel takes the whole
+   height and the cards share it. Elsewhere the cards keep their natural height: the page
+   still fits, with spare room under the panel. */
+#home-screen #mission-list,
+#home-screen #classic-options {
+  display: flex;
+  flex-direction: column;
+}
+#home-screen #mission-list::details-content,
+#home-screen #classic-options::details-content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+#home-screen #mission-list > .expedition-map {
+  box-sizing: border-box;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--hu) * 0.8) calc(var(--hu) * 1);
+}
+#home-screen .expedition-map .journey-title {
+  margin: 0;
+}
+#home-screen .expedition-map .journey-title h2 {
+  margin: 0 0 calc(var(--hu) * 0.5);
+  font-size: max(15px, calc(var(--hu) * 1.8));
+}
+/* The introduction and the closing note are for screens with room to spare. */
+#home-screen .expedition-map .eyebrow,
+#home-screen .expedition-map > p,
+#home-screen .expedition-map > small {
+  display: none;
+}
+#home-screen #mission-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Cards share the height, up to a comfortable size on large screens. The floor in px
+     keeps the limit above the cards' own content on the smallest screens. */
+  grid-template-rows: repeat(2, minmax(min-content, 1fr));
+  gap: calc(var(--hu) * 0.8);
+  flex: 1 0 auto;
+  max-height: max(calc(var(--hu) * 30), 200px);
+  margin: 0;
+  padding: 0 0 5px;
+}
+#home-screen #mission-cards::before {
+  display: none;
+}
+#home-screen #mission-cards .mission-card {
+  display: grid;
+  grid-template-columns: calc(var(--hu) * 4.4) minmax(0, 1fr) max(40px, calc(var(--hu) * 4));
+  align-items: center;
+  align-content: center;
+  column-gap: calc(var(--hu) * 0.8);
+  row-gap: 0;
+  min-height: 0;
+  padding: calc(var(--hu) * 0.6) calc(var(--hu) * 0.8);
+  border-radius: calc(var(--hu) * 1.8);
+  text-align: left;
+}
+#home-screen #mission-cards .mission-emblem {
+  grid-column: 1;
+  grid-row: 1 / 5;
+  width: calc(var(--hu) * 4.4);
+  height: calc(var(--hu) * 4.4);
+}
+#home-screen #mission-cards .mission-emblem svg {
+  width: 86%;
+  height: 86%;
+}
+#home-screen #mission-cards .mission-status-badge {
+  position: static;
+  grid-column: 3;
+  grid-row: 1 / 5;
+  width: max(40px, calc(var(--hu) * 4));
+  height: max(40px, calc(var(--hu) * 4));
+}
+#home-screen #mission-cards .mission-status-badge svg {
+  width: 65%;
+  height: 65%;
+}
+#home-screen #mission-cards .mission-card > small,
+#home-screen #mission-cards .mission-card > strong,
+#home-screen #mission-cards .mission-card > span:not(.mission-emblem):not(.mission-status-badge) {
+  grid-column: 2;
+}
+#home-screen #mission-cards .mission-card > strong {
+  font-size: max(13px, calc(var(--hu) * 1.45));
+  line-height: 1.15;
+}
+#home-screen #mission-cards .mission-stars {
+  margin: 0;
+  font-size: max(13px, calc(var(--hu) * 1.5));
+  line-height: 1.1;
+}
+/* Mission number and objective return in the preparation; they show here only with room.
+   The status stays readable for assistive technology while the badge shows it. */
+#home-screen #mission-cards .mission-card > small:first-of-type,
+#home-screen
+  #mission-cards
+  .mission-card
+  > span:not(.mission-stars):not(.mission-emblem):not(.mission-status-badge) {
+  display: none;
+}
+#home-screen #mission-cards .mission-card > small:last-child {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Favourites: title and composition on one row, the six allies of a page in view. Return to
+   home is the top-left button, which also leaves without saving. */
+#home-screen .army-editor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  align-content: start;
+  gap: calc(var(--hu) * 0.6) calc(var(--hu) * 1.2);
+  padding: calc(var(--hu) * 0.8) calc(var(--hu) * 1.2);
+  overflow: auto;
+}
+#home-screen .army-editor > #roster-back,
+#home-screen .army-editor > .eyebrow,
+#home-screen .army-editor > p {
+  display: none;
+}
+#home-screen .army-editor > h1 {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+  font-size: max(17px, calc(var(--hu) * 1.9));
+}
+#home-screen .roster-toolbar {
+  grid-column: 2;
+  grid-row: 1;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: calc(var(--hu) * 0.8);
+  margin: 0;
+  padding: 0;
+}
+#home-screen .roster-toolbar label {
+  display: none;
+}
+#home-screen .roster-toolbar strong {
+  margin-right: 0;
+  white-space: nowrap;
+}
+#home-screen .roster-pagination {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  position: static;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+#home-screen .roster-grid {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-content: start;
+  gap: calc(var(--hu) * 0.6);
+}
+#home-screen .roster-card {
+  min-height: 0;
+  padding: calc(var(--hu) * 0.6) calc(var(--hu) * 0.4);
+  gap: calc(var(--hu) * 0.2);
+}
+#home-screen .roster-card .portrait {
+  width: calc(var(--hu) * 4.6);
+  height: calc(var(--hu) * 5);
+}
+#home-screen .roster-card strong {
+  font-size: max(11px, calc(var(--hu) * 1.2));
+}
+#home-screen .roster-card small {
+  font-size: max(10px, calc(var(--hu) * 1));
+}
+
+/* Classic adventure: title and start on one row, three chapter cards share the rest. */
+#home-screen [data-home-page='classic'] {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: start;
+  gap: calc(var(--hu) * 0.6) calc(var(--hu) * 1.2);
+}
+#home-screen [data-home-page='classic'] > h1 {
+  align-self: center;
+  margin: 0;
+}
+#home-screen [data-home-page='classic'] > .page-actions {
+  margin: 0;
+  flex-wrap: wrap;
+}
+#home-screen [data-home-page='classic'] > .home-disclosure {
+  grid-column: 1 / -1;
+  min-height: 0;
+}
+#home-screen .journey-map {
+  box-sizing: border-box;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+#home-screen .journey-map .journey-title {
+  align-items: center;
+  margin: 0 0 calc(var(--hu) * 0.6);
+}
+#home-screen .journey-map .journey-title > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: calc(var(--hu) * 0.4) calc(var(--hu) * 1);
+}
+#home-screen .journey-map .journey-title h2 {
+  margin: 0;
+  font-size: max(15px, calc(var(--hu) * 1.8));
+}
+#home-screen .journey-map .home-stars {
+  padding: calc(var(--hu) * 0.4) calc(var(--hu) * 0.8);
+}
+#home-screen .journey-map .eyebrow,
+#home-screen .journey-map .journey-title small,
+#home-screen .chapter-card .chapter-focus {
+  display: none;
+}
+#home-screen .chapter-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(var(--hu) * 0.8);
+  flex: 1 0 auto;
+  max-height: max(calc(var(--hu) * 16), 150px);
+}
+#home-screen .chapter-card {
+  display: grid;
+  grid-template-columns: calc(var(--hu) * 5.2) minmax(0, 1fr);
+  align-content: center;
+  column-gap: calc(var(--hu) * 1);
+  row-gap: 1px;
+  min-height: 0;
+  padding: calc(var(--hu) * 0.8);
+}
+#home-screen .chapter-image {
+  grid-column: 1;
+  grid-row: 1 / 6;
+  width: calc(var(--hu) * 5.2);
+  height: 100%;
+  min-height: calc(var(--hu) * 5.6);
+  margin: 0;
+  border-radius: calc(var(--hu) * 1);
+}
+#home-screen .chapter-card > :not(.chapter-image) {
+  grid-column: 2;
+}
+#home-screen .chapter-card small {
+  font-size: max(11px, calc(var(--hu) * 1.1));
+}
+#home-screen .chapter-card strong {
+  font-size: max(14px, calc(var(--hu) * 1.5));
+  line-height: 1.15;
+}
+#home-screen .chapter-stars {
+  font-size: max(15px, calc(var(--hu) * 1.6));
+  letter-spacing: 2px;
+}
+#home-screen .chapter-card > span:last-child {
+  margin-top: 0;
+  font-size: max(11px, calc(var(--hu) * 1.1));
+}
+
+/* For parents: the title joins the top row; four actions, then the departure code, whose
+   heading repeats the field label. */
+#home-screen[data-page='parents'] {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+#home-screen[data-page='parents'] [data-home-page='parents'] {
+  display: contents;
+}
+#home-screen[data-page='parents'] [data-home-page='parents'] > h1 {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0;
+}
+#home-screen[data-page='parents'] .parent-actions {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+}
+#home-screen[data-page='parents'] #home-parent-options {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+#home-screen[data-page='parents'] .home-footer {
+  grid-row: 4;
+}
+#home-screen [data-home-page='parents'] .parent-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: calc(var(--hu) * 0.8);
+}
+#home-screen [data-home-page='parents'] .parent-actions button {
+  padding-inline: calc(var(--hu) * 0.6);
+  font-size: max(13px, calc(var(--hu) * 1.5));
+  line-height: 1.15;
+  white-space: normal;
+}
+#home-screen #departure-form,
+#home-screen #departure-form + small {
+  margin: 0;
+}
+#home-screen #departure-message:empty {
+  display: none;
+}
+#home-screen #departure-message {
+  margin: calc(var(--hu) * 0.4) 0;
+}
+#home-screen #departure-heading {
+  display: none;
+}
+#home-screen #departure-form label {
+  margin: 0 0 4px;
+}
+
+/* Portrait windows: two columns of missions, three allies per row, chapters stacked. */
+@media (orientation: portrait) {
+  #home-screen [data-home-page='parents'] .parent-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  #home-screen #mission-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(min-content, 1fr));
+    max-height: max(calc(var(--hu) * 44), 300px);
+  }
+  #home-screen .roster-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  #home-screen .chapter-cards {
+    grid-template-columns: minmax(0, 1fr);
+    max-height: max(calc(var(--hu) * 40), 420px);
+  }
+  #home-screen:not([data-page='home']) .home-stars {
+    display: none;
+  }
+}
+
+/* Narrow portrait windows: one mission per row keeps each name on one or two lines. */
+@media (orientation: portrait) and (max-width: 480px) {
+  #home-screen #mission-cards {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(6, minmax(min-content, 1fr));
+    max-height: max(calc(var(--hu) * 52), 420px);
+  }
+}
+
+/* With room to spare (tablets, computers): the title, the introductions and the details. */
+@media (min-width: 1000px) and (min-height: 680px) {
+  #home-screen:not([data-page='home']) .home-brand {
+    display: inline-flex;
+  }
+  #home-screen:not([data-page='home']) .home-header {
+    justify-content: space-between;
+  }
+  #home-screen .expedition-map .eyebrow,
+  #home-screen .expedition-map > p,
+  #home-screen .journey-map .eyebrow,
+  #home-screen .army-editor > p,
+  #home-screen #departure-heading {
+    display: block;
+  }
+  #home-screen .expedition-map > p {
+    margin: 0 0 calc(var(--hu) * 0.6);
+  }
+  #home-screen #mission-cards .mission-card > small:first-of-type,
+  #home-screen
+    #mission-cards
+    .mission-card
+    > span:not(.mission-stars):not(.mission-emblem):not(.mission-status-badge),
+  #home-screen .chapter-card .chapter-focus,
+  #home-screen .journey-map .journey-title small {
+    display: revert;
+  }
+  #home-screen #mission-cards .mission-card > small:first-of-type {
+    font-size: max(12px, calc(var(--hu) * 0.85));
+  }
+  #home-screen
+    #mission-cards
+    .mission-card
+    > span:not(.mission-stars):not(.mission-emblem):not(.mission-status-badge) {
+    font-size: max(12px, calc(var(--hu) * 0.9));
+    line-height: 1.3;
+  }
+  #home-screen .army-editor > p {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin: 0;
+  }
+  #home-screen .army-editor {
+    grid-template-rows: auto auto auto auto;
+  }
+  #home-screen .roster-pagination {
+    grid-row: 3;
+  }
+  #home-screen .roster-grid {
+    grid-row: 4;
+  }
+}
+
+/* Very small landscape screens: floors for text and touch targets no longer leave room for
+   the pictures, so the names keep the space. The page may scroll as a whole. */
+@media (max-width: 560px) and (orientation: landscape) {
+  #home-screen #mission-cards .mission-emblem,
+  #home-screen .chapter-image {
+    display: none;
+  }
+  #home-screen #mission-cards .mission-card {
+    grid-template-columns: minmax(0, 1fr) max(40px, calc(var(--hu) * 4));
+  }
+  #home-screen #mission-cards .mission-card > small,
+  #home-screen #mission-cards .mission-card > strong,
+  #home-screen #mission-cards .mission-card > span:not(.mission-status-badge) {
+    grid-column: 1;
+  }
+  #home-screen #mission-cards .mission-status-badge {
+    grid-column: 2;
+  }
+  #home-screen .chapter-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #home-screen .chapter-card > :not(.chapter-image) {
+    grid-column: 1;
+  }
+}
