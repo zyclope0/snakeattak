@@ -31,6 +31,7 @@ import './style.css';
 import './ui/mobileMenus.css';
 import './ui/homePages.css';
 import './ui/dialogPages.css';
+import './ui/mainActions.css';
 let storage: Storage | undefined;
 try {
   storage = window.localStorage;
@@ -249,7 +250,7 @@ refreshPrimary = () => {
     if (resume) {
       if (missions.state.activeMode === 'missions') expeditions!.resume();
       else menu!.resumeClassic();
-    } else expeditions!.play();
+    } else expeditions!.playNow();
   };
 };
 bindFamilyControls({
