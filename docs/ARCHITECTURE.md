@@ -10,7 +10,8 @@ Le jeu reste une application statique : navigateur + fichiers sur un hébergemen
 | --------------------------- | --------------------------------------------------------------------------- |
 | `src/main.ts`               | Démarrage : assemble session, interface et Phaser.                          |
 | `src/session.ts`            | Session et horloge à 30 calculs/seconde ; pause et redémarrage.             |
-| `src/game.ts`               | Règles, combat, économie, vagues et œufs ; sans navigateur ni réseau.       |
+| `src/game.ts`               | État de la partie et commandes du joueur ; orchestre un pas de simulation.  |
+| `src/engine/`               | Règles d’un pas : apparitions, alliés, serpents, roi, dégâts, fin de vague. |
 | `src/tactics.ts`            | Règles du miel, durée et attraction ; sans navigateur.                      |
 | `src/ui/feastControls.ts`   | Commandes et statut du goûter.                                              |
 | `src/render/feast.ts`       | Pot et parfum dessinés à partir de l’état.                                  |
@@ -475,3 +476,31 @@ Phaser 3 reste le bon choix, et la question ne se rouvre pas sans mesure sur le 
 
 Ce qui ferait changer d'avis : moins de 30 images par seconde sur le téléphone en mission 6 ou
 en vague 12, sans correction possible dans le rendu actuel.
+
+## Moteur découpé — 11 novembre 2026
+
+`src/game.ts` faisait 1 303 lignes. Il en fait 395 : l'état de la partie, les commandes du
+joueur et `step`, qui appelle les règles dans un ordre fixe. Le code a été déplacé tel quel,
+sans réécriture ; les champs de `Game` et leur ordre n'ont pas changé, donc les sauvegardes non
+plus.
+
+| Module de `src/engine/` | Contenu                                                         |
+| ----------------------- | --------------------------------------------------------------- |
+| `state.ts`              | Types `Entity`, `Egg`, `Effect` ; tirage aléatoire ; création   |
+| `camp.ts`               | Remise en place du camp entre deux chapitres                    |
+| `spawning.ts`           | Entrée des serpents, carapaces, garde du roi, éclosion des œufs |
+| `movement.ts`           | Choix de voie, marche sur les chemins, déplacement des alliés   |
+| `allies.ts`             | Soins, choix de cible, attaque, séparation des alliés           |
+| `enemyTurn.ts`          | Sonnette, morsures, ponte du roi, entrée au cristal             |
+| `court.ts`              | Garde et soigneur du roi, crachat annoncé, protections          |
+| `damage.ts`             | Coups reçus par les serpents et par les alliés                  |
+| `outcome.ts`            | Pièces gagnées, défaite, vague repoussée, victoire              |
+
+Ordre d'un pas, à ne pas changer : apparition, éclosion, roi, sonnette, alliés, serpents,
+pièces, séparation, fin de vague. Cet ordre et celui des appels à `nextRandom` décident de la
+partie : les modifier change les anciens codes de départ.
+
+Preuve que rien n'a bougé : 131 parties complètes rejouées avant et après avec la même
+empreinte, les 549 tests historiques, et 3 840 parties du simulateur `balance:modes` aux
+résultats identiques sur l'ancien et le nouveau code. `tests/engine-traces.test.ts` garde 21
+de ces parties comme filet permanent.
