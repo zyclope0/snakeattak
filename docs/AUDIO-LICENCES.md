@@ -4,7 +4,8 @@ Fichiers de `src/assets/audio/`, recompressés en MP3 (bruitages mono 96 kb/s, c
 silence de tête coupé ; musiques stéréo 128 kb/s). Les sources ne sont pas dans Git.
 `nom-1.mp3`, `nom-2.mp3` sont les variantes d'un même signal ; `music-*.mp3` sont les musiques.
 Le code qui les joue est `src/audio/samples.ts` ; les moments sont décidés dans
-`src/audio/sounds.ts`. Le son reste coupé au départ.
+`src/audio/sounds.ts`. Musique et bruitages se règlent séparément dans « Réglages »
+(`src/audio/soundSettings.ts`) ; ils restent coupés tant que personne ne les a activés.
 
 ## Choisis par le parent et son fils (Pixabay)
 

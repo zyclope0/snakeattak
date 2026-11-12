@@ -1,0 +1,88 @@
+/* Réglages : deux gros interrupteurs, lisibles et faciles à toucher sur tout écran. */
+.settings-button {
+  flex: none;
+  width: clamp(48px, calc(var(--hu) * 5.4), 64px);
+  height: clamp(48px, calc(var(--hu) * 5.4), 64px);
+  padding: 0;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+}
+.settings-button::before,
+#pause-settings::before,
+#home-sound::before {
+  content: '';
+  width: 1.5em;
+  height: 1.5em;
+  background: currentColor;
+  -webkit-mask: var(--gear) center / contain no-repeat;
+  mask: var(--gear) center / contain no-repeat;
+  --gear: url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22black%22%20stroke-width=%222.2%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%3E%3Ccircle%20cx=%2212%22%20cy=%2212%22%20r=%223.2%22/%3E%3Cpath%20d=%22M12%202.500v3m0%2013v3M2.500%2012h3m13%200h3M5.300%205.300l2.100%202.100m9.200%209.200%202.100%202.100m0-13.400-2.100%202.100m-9.200%209.200-2.100%202.100%22/%3E%3Ccircle%20cx=%2212%22%20cy=%2212%22%20r=%227%22/%3E%3C/svg%3E');
+}
+.settings-button::before {
+  width: 26px;
+  height: 26px;
+}
+#pause-settings,
+#home-sound {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+#pause-settings {
+  min-height: 48px;
+  margin-left: 8px;
+}
+#settings-dialog[open] {
+  width: min(420px, calc(100vw - 24px));
+  max-height: calc(var(--app-height, 100dvh) - 12px);
+  display: grid;
+  gap: max(10px, calc(var(--hu) * 1.2));
+}
+#settings-dialog h2 {
+  margin: 0;
+}
+.settings-list {
+  display: grid;
+  gap: max(8px, calc(var(--hu) * 1));
+}
+.setting-switch {
+  min-height: clamp(56px, calc(var(--hu) * 6.4), 72px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+  font-size: clamp(16px, calc(var(--hu) * 1.8), 20px);
+  text-align: left;
+}
+/* Le curseur dit l'état sans avoir à lire : à droite et vert quand c'est activé. */
+.setting-switch::after {
+  content: '';
+  flex: none;
+  width: 52px;
+  height: 30px;
+  border-radius: 15px;
+  background: radial-gradient(circle at 15px 50%, #fffdf5 0 11px, transparent 12px) #a9a392;
+  transition: background-position 0.15s;
+}
+.setting-switch[aria-pressed='true']::after {
+  background: radial-gradient(circle at 37px 50%, #fffdf5 0 11px, transparent 12px) #2f7d4f;
+}
+@media (prefers-reduced-motion: reduce) {
+  .setting-switch::after {
+    transition: none;
+  }
+}
+#settings-close {
+  min-height: 48px;
+  min-width: 120px;
+}
+.settings-button,
+.setting-switch {
+  background: #fffdf5;
+  border: 1px solid #b9c7a3;
+  border-radius: 12px;
+  color: #17362f;
+}

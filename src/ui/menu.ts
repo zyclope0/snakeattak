@@ -121,10 +121,6 @@ export function bindMenu(
   }
   el('home-help').onclick = () => el('help').click();
   el('home-guide').onclick = () => el('unit-guide').click();
-  el('home-sound').onclick = () => {
-    el('sound-toggle').click();
-    refresh();
-  };
   document.documentElement.style.setProperty('--home-scene', `url("${GROUND_ART[0].url}")`);
   const select = el<HTMLSelectElement>('roster-slot');
   ROSTER_NAMES.forEach((name, i) => {
@@ -231,12 +227,6 @@ export function bindMenu(
         : 'Préparer trois groupes de huit favoris.',
     );
     setDisplayText(el('home-active-team'), `Favoris · ${ROSTER_NAMES[state.activeRoster]}`);
-    setDisplayText(
-      el('home-sound'),
-      el('sound-toggle').getAttribute('aria-pressed') === 'true'
-        ? '♪ Sons activés'
-        : '♪ Sons coupés',
-    );
     for (let i = 0; i < 3; i++) {
       const n = state.bestStars[i];
       setDisplayText(el(`chapter-stars-${i}`), '★'.repeat(n) + '☆'.repeat(3 - n));

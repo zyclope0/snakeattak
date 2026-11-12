@@ -47,11 +47,11 @@ export function createSamples(context: AudioContext, output: AudioNode) {
   const { cues, tracks } = catalogue();
   const buffers = new Map<string, AudioBuffer>();
   const pending = new Map<string, Promise<AudioBuffer | undefined>>();
-  const musicGain = context.createGain();
-  musicGain.gain.value = 0;
-  musicGain.connect(output);
+  // Un volume par musique : l'ancienne s'éteint pendant que la nouvelle monte, sans se mélanger.
+  const musicBus = context.createGain();
+  musicBus.connect(output);
   let voices = 0;
-  let current: { track: Track; source: AudioBufferSourceNode } | undefined;
+  let current: { track: Track; source: AudioBufferSourceNode; gain: GainNode } | undefined;
   let wanted: Track | null = null;
 
   function load(url: string) {
@@ -74,10 +74,10 @@ export function createSamples(context: AudioContext, output: AudioNode) {
 
   function stopMusic() {
     if (!current) return;
-    const { source } = current;
+    const { source, gain } = current;
     current = undefined;
-    musicGain.gain.setTargetAtTime(0, context.currentTime, 0.25);
-    source.onended = null;
+    gain.gain.setTargetAtTime(0, context.currentTime, 0.25);
+    source.onended = () => gain.disconnect();
     source.stop(context.currentTime + 1.2);
   }
 
@@ -115,13 +115,16 @@ export function createSamples(context: AudioContext, output: AudioNode) {
         const source = context.createBufferSource();
         source.buffer = buffer;
         source.loop = !then;
-        source.connect(musicGain);
-        musicGain.gain.cancelScheduledValues(context.currentTime);
-        musicGain.gain.setTargetAtTime(0.55, context.currentTime, 0.4);
+        const gain = context.createGain();
+        gain.gain.value = 0;
+        gain.gain.setTargetAtTime(0.55, context.currentTime, 0.4);
+        source.connect(gain);
+        gain.connect(musicBus);
         source.start();
-        current = { track, source };
+        current = { track, source, gain };
         if (then)
           source.onended = () => {
+            gain.disconnect();
             if (wanted !== track) return;
             current = undefined;
             wanted = null;
@@ -132,7 +135,7 @@ export function createSamples(context: AudioContext, output: AudioNode) {
     /** Musique demandée en ce moment, même si elle charge encore. */
     track: () => wanted,
     duck(quiet: boolean) {
-      if (current) musicGain.gain.setTargetAtTime(quiet ? 0.12 : 0.55, context.currentTime, 0.2);
+      musicBus.gain.setTargetAtTime(quiet ? 0.22 : 1, context.currentTime, 0.2);
     },
   };
 }

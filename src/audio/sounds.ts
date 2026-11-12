@@ -2,18 +2,22 @@ import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Game } from '../game.ts';
 import type { Effect } from '../game.ts';
 import { createSamples, type Cue } from './samples.ts';
+import { soundSettings } from './soundSettings.ts';
 /**
  * Sons du jeu : fichiers locaux (`src/assets/audio`, licences dans `docs/AUDIO-LICENCES.md`),
  * avec le petit synthétiseur en repli tant qu'un fichier n'est pas décodé.
+ * Musique et bruitages se règlent séparément (`#settings-dialog`) ; le choix est mémorisé.
  * Aucun appel réseau hors du site, aucune règle de jeu modifiée.
  */
 export function bindSounds() {
   const button = document.getElementById('sound-toggle') as HTMLButtonElement;
+  const musicButton = document.getElementById('setting-music') as HTMLButtonElement;
+  const effectsButton = document.getElementById('setting-effects') as HTMLButtonElement;
   const homeScreen = document.getElementById('home-screen')!;
+  const settings = soundSettings;
   let context: AudioContext | undefined,
     master: GainNode | undefined,
     samples: ReturnType<typeof createSamples> | undefined,
-    enabled = false,
     voices = 0,
     lastAt = -1,
     healAt = -10;
@@ -25,9 +29,17 @@ export function bindSounds() {
     feast: Game['feast'] = null;
   let heard = new WeakSet<Effect>();
   let kingSeen = false;
-  function label() {
-    setDisplayText(button, enabled ? '♪ Sons activés' : '♪ Sons coupés');
-    button.setAttribute('aria-pressed', String(enabled));
+  function label(unavailable = false) {
+    const any = settings.music || settings.effects;
+    setDisplayText(
+      button,
+      unavailable ? 'Sons indisponibles' : any ? '♪ Sons activés' : '♪ Sons coupés',
+    );
+    button.setAttribute('aria-pressed', String(any && !unavailable));
+    setDisplayText(musicButton, settings.music ? 'Musique activée' : 'Musique coupée');
+    musicButton.setAttribute('aria-pressed', String(settings.music));
+    setDisplayText(effectsButton, settings.effects ? 'Bruitages activés' : 'Bruitages coupés');
+    effectsButton.setAttribute('aria-pressed', String(settings.effects));
   }
   function tone(
     from: number,
@@ -36,7 +48,8 @@ export function bindSounds() {
     type: OscillatorType = 'sine',
     delay = 0,
   ) {
-    if (!context || !master || !enabled || context.state !== 'running' || voices >= 6) return;
+    if (!context || !master || !settings.effects || context.state !== 'running' || voices >= 6)
+      return;
     const start = context.currentTime + delay,
       osc = context.createOscillator(),
       gain = context.createGain();
@@ -61,13 +74,10 @@ export function bindSounds() {
   function cue(name: Cue, fallback: () => void, volume = 1) {
     if (!samples?.play(name, volume)) fallback();
   }
-  button.onclick = async () => {
+  /** Met le moteur audio en accord avec les réglages. À appeler depuis un geste du joueur. */
+  async function apply() {
     try {
-      if (enabled) {
-        enabled = false;
-        samples?.music(null);
-        await context?.suspend();
-      } else {
+      if (settings.music || settings.effects) {
         if (!context) {
           context = new AudioContext();
           master = context.createGain();
@@ -79,20 +89,42 @@ export function bindSounds() {
           samples = createSamples(context, bus);
         }
         await context.resume();
-        enabled = true;
-        cue('toggle', () => tone(520, 720, 0.12));
-        menuMusic();
+        if (settings.music) menuMusic();
+        else samples?.music(null);
+      } else {
+        samples?.music(null);
+        await context?.suspend();
       }
       label();
     } catch {
-      enabled = false;
-      setDisplayText(button, 'Sons indisponibles');
-      button.setAttribute('aria-pressed', 'false');
+      settings.set({ music: false, effects: false });
+      label(true);
     }
+  }
+  const change = (next: { music?: boolean; effects?: boolean }) => async () => {
+    settings.set(next);
+    await apply();
+    if (settings.effects) cue('toggle', () => tone(520, 720, 0.12));
   };
+  button.onclick = () => {
+    const on = !(settings.music || settings.effects);
+    return change({ music: on, effects: on })();
+  };
+  musicButton.onclick = () => change({ music: !settings.music })();
+  effectsButton.onclick = () => change({ effects: !settings.effects })();
+  // Un choix mémorisé reprend au premier geste : le navigateur refuse le son avant.
+  if (settings.music || settings.effects) {
+    const wake = () => {
+      removeEventListener('pointerdown', wake, true);
+      removeEventListener('keydown', wake, true);
+      void apply();
+    };
+    addEventListener('pointerdown', wake, true);
+    addEventListener('keydown', wake, true);
+  }
   // L'accueil n'a pas de partie en cours : sa musique ne dépend pas de la boucle du combat.
   const menuMusic = () => {
-    if (enabled && !homeScreen.hidden) samples?.music('menu');
+    if (settings.music && !homeScreen.hidden) samples?.music('menu');
   };
   new MutationObserver(menuMusic).observe(homeScreen, {
     attributes: true,
@@ -104,17 +136,16 @@ export function bindSounds() {
     (event) => {
       const target = event.target instanceof Element ? event.target : null;
       const pressed = target?.closest('button') ?? target?.closest('summary');
-      if (enabled && pressed && pressed !== button) samples?.play('toggle', 0.5);
+      const own = pressed === button || pressed === musicButton || pressed === effectsButton;
+      if (settings.effects && pressed && !own) samples?.play('toggle', 0.5);
     },
     true,
   );
+  // En arrière-plan le son se tait ; au retour il reprend tout seul, sans toucher aux réglages.
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden && enabled) {
-      enabled = false;
-      samples?.music(null);
-      void context?.suspend().catch(() => {});
-      label();
-    }
+    if (!context) return;
+    if (document.hidden) void context.suspend().catch(() => {});
+    else if (settings.music || settings.effects) void context.resume().catch(() => {});
   });
   label();
   return (game: Game) => {
@@ -130,7 +161,8 @@ export function bindSounds() {
     }
     const king = game.enemies.some((e) => e.boss && e.hp > 0);
     const home = !homeScreen.hidden;
-    if (enabled && samples) {
+    if (!settings.music) samples?.music(null);
+    else if (samples) {
       // Menus : musique d'accueil. En partie : musique calme, ou épique sur la dernière vague,
       // à partir de la vague 8 de l'aventure et dès que le roi à trois têtes arrive.
       const epic =
@@ -144,7 +176,7 @@ export function bindSounds() {
       else if (playing !== 'king' && playing !== 'epic') samples.music('epic');
       samples.duck(game.paused && !home);
     }
-    if (enabled && !game.paused) {
+    if (settings.effects && !game.paused) {
       if (game.status === 'won' && status !== 'won') {
         cue('won', () =>
           [523, 659, 784].forEach((pitch, i) => tone(pitch, pitch, 0.22, 'triangle', i * 0.15)),
