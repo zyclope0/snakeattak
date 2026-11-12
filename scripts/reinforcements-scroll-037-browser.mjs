@@ -210,7 +210,7 @@ try {
       for (const [i, key] of ['top', 'right', 'bottom', 'left'].entries())
         document.documentElement.style.setProperty('--safe-area-inset-' + key, safe[i] + 'px');
     }, safe);
-    await page.locator('#reinforcements-toggle').tap();
+    await page.locator('#dock-catalogue:visible, #reinforcements-toggle:visible').first().tap();
     if (process.env.REINFORCEMENTS_SCROLL_BLOCK_TOUCH === '1')
       await page.addStyleTag({ content: '.catalog-body { touch-action: none !important; }' });
     const bodyScroll = await checkPositiveBodyScroll(
@@ -277,7 +277,7 @@ try {
       before.gold,
       'A tap selects without purchasing',
     );
-    await page.locator('#reinforcements-toggle').tap();
+    await page.locator('#dock-catalogue:visible, #reinforcements-toggle:visible').first().tap();
     const armedBefore = await snapshot(page),
       armedPoint = await pointOnCard(page);
     await swipe(page, armedPoint.x, armedPoint.y, armedPoint.to);

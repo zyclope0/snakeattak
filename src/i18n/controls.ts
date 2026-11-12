@@ -6,6 +6,7 @@ import {
   setLanguage,
 } from './language.ts';
 import { bindCopyTree, setAttribute, setText } from './dom.ts';
+import { settingsDialog } from '../ui/settingsDialog.ts';
 import './language.css';
 
 /** A preference only: no session, game, persistence envelope, audio or clock. */
@@ -32,16 +33,14 @@ export async function initializeLanguageControls() {
   status.setAttribute('role', 'status');
   document.body.append(status);
   if (initialError) setText(status, 'Langue indisponible. Réessaie.');
-  for (const parent of [
-    document.querySelector('.home-header'),
-    document.querySelector('#pause-overlay > div'),
-  ]) {
+  // Un seul endroit pour la langue : la fenêtre des réglages.
+  for (const parent of [settingsDialog().querySelector('.settings-list')]) {
     if (!parent) continue;
     const label = document.createElement('label'),
       text = document.createElement('span'),
       select = document.createElement('select');
     label.className = 'language-picker';
-    text.className = 'sr-only';
+    text.className = 'setting-label';
     setText(text, 'Langue');
     select.className = 'language-select';
     select.dataset.languagePicker = '';
@@ -85,7 +84,7 @@ export async function initializeLanguageControls() {
           hadFocus &&
           select.getClientRects().length &&
           document.activeElement === document.body &&
-          !document.querySelector('dialog[open]')
+          document.querySelector('dialog[open]') === select.closest('dialog')
         )
           select.focus({ preventScroll: true });
       }

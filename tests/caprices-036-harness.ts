@@ -11,6 +11,7 @@ import { bindExpeditions } from '../src/ui/expeditions.ts';
 import { bindCapriceAlbums } from '../src/ui/capriceAlbums.ts';
 import { prepareMissionLaunch } from '../src/ui/capriceLaunch.ts';
 import { initializeLanguageControls } from '../src/i18n/controls.ts';
+import { bindSettingsDialog } from '../src/ui/settingsDialog.ts';
 import '../src/style.css';
 import '../src/ui/caprices.css';
 import '../src/ui/mobileMenus.css';
@@ -98,6 +99,8 @@ expeditions = bindExpeditions(
   albums,
 );
 refresh();
+// Same binding as production: the settings buttons open the window that holds the language.
+bindSettingsDialog(() => refresh());
 if (mode === 'shell') {
   const { default: Phaser } = await import('phaser');
   const { BattleScene } = await import('../src/render/BattleScene.ts');

@@ -1,5 +1,5 @@
 import { revealControl } from '../tests/reveal-controls.mjs';
-import { showHomePage } from '../tests/browser-entry.mjs';
+import { closeSettings, openSettings, showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
 import { createServer } from 'vite';
@@ -9,7 +9,9 @@ import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 const fixture = '.locale-035-test.html',
   root = 'http://127.0.0.1:4417',
   folder = process.env.LOCALE_REPORT_DIR ?? 'artifacts/locale-035',
-  languageKey = 'conquete-serpents:language:v1';
+  languageKey = 'conquete-serpents:language:v1',
+  // The language now lives in one place: the settings window.
+  picker = '#settings-dialog [data-language-picker]';
 const checks = [],
   errors = [],
   unknowns = [],
@@ -81,11 +83,12 @@ async function ready(page, language, controlled = false) {
   if (controlled) await page.waitForFunction(() => window.localeFixture?.ready);
   else await page.locator('#home-screen').waitFor({ state: 'visible' });
   await page.waitForFunction(
-    () => [...document.querySelectorAll('[data-language-picker]')].length === 2,
+    () => [...document.querySelectorAll('[data-language-picker]')].length === 1,
   );
 }
-async function choose(page, language, selector = '.home-header [data-language-picker]') {
-  await page.locator(selector).selectOption(language);
+/** Settings window already open: pick a language and wait for the whole switch. */
+async function select(page, language) {
+  await page.locator(picker).selectOption(language);
   await page.waitForFunction(
     (language) =>
       document.documentElement.lang === language &&
@@ -94,6 +97,12 @@ async function choose(page, language, selector = '.home-header [data-language-pi
       ),
     language,
   );
+}
+/** From the home, the parents page or the pause: open settings, choose, close. */
+async function choose(page, language) {
+  await openSettings(page);
+  await select(page, language);
+  await closeSettings(page);
 }
 async function inspectEnglish(page, scope, name) {
   const copy = await page.locator(scope).evaluate((root) => {
@@ -195,20 +204,21 @@ try {
             await page.locator('.home-brand').innerText(),
           );
           check(
-            `${name}: native home selector`,
-            await page
-              .locator('.home-header [data-language-picker]')
-              .evaluate((e) => e.tagName === 'SELECT'),
+            `${name}: native settings selector`,
+            await page.locator(picker).evaluate((e) => e.tagName === 'SELECT'),
           );
-          await fits(
-            page,
-            '.home-header [data-language-picker]',
-            viewport,
-            safe,
-            `${name}: home selector fits`,
-          );
+          await fits(page, '#home-settings', viewport, safe, `${name}: home settings button fits`);
           if (language === 'en') await inspectEnglish(page, '#home-screen', name);
           await page.screenshot({ path: `${folder}/${name}-home.png` });
+          if (width > height) {
+            // The portrait guard covers the whole app: settings open in landscape only.
+            await openSettings(page);
+            await fits(page, picker, viewport, safe, `${name}: home selector fits`);
+            if (language === 'en')
+              await inspectEnglish(page, '#settings-dialog', `${name}: home settings`);
+            await page.screenshot({ path: `${folder}/${name}-home-settings.png` });
+            await closeSettings(page);
+          }
           if (width > height) {
             const navigationCount = await page.evaluate(
               () => performance.getEntriesByType('navigation').length,
@@ -255,21 +265,24 @@ try {
             await page.locator('#pause-overlay').waitFor({ state: 'visible' });
             await fits(
               page,
-              '#pause-overlay [data-language-picker]',
+              '#pause-settings',
               viewport,
               safe,
-              `${name}: pause selector fits`,
+              `${name}: pause settings button fits`,
             );
-            await choose(
-              page,
-              language === 'en' ? 'fr' : 'en',
-              '#pause-overlay [data-language-picker]',
-            );
+            await openSettings(page);
+            await fits(page, picker, viewport, safe, `${name}: pause selector fits`);
+            await select(page, language === 'en' ? 'fr' : 'en');
+            await closeSettings(page);
             check(
               `${name}: switch preserves pause`,
               await page.locator('#pause-overlay').isVisible(),
             );
-            await choose(page, language, '#pause-overlay [data-language-picker]');
+            await choose(page, language);
+            check(
+              `${name}: pause panel back after settings`,
+              await page.locator('#pause-overlay').isVisible(),
+            );
             if (language === 'en') await inspectEnglish(page, '#app', `${name}: paused battle`);
             await page.screenshot({ path: `${folder}/${name}-pause.png` });
           }
@@ -437,7 +450,7 @@ try {
         await choose(page, 'en');
         check(
           `storage ${denied} denial leaves selector usable`,
-          !(await page.locator('.home-header [data-language-picker]').isDisabled()),
+          !(await page.locator(picker).isDisabled()),
         );
         await collectUnknown(page, `storage ${denied} denied`);
       } finally {
@@ -521,20 +534,23 @@ try {
             await page.locator('#pause').click();
             await page.locator('#pause-overlay').waitFor({ state: 'visible' });
             const witness = await page.evaluate(() => window.localeFixture.snapshot());
-            await page.locator('#pause-overlay [data-language-picker]').focus();
-            const sourceNode = await page
-              .locator('#pause-overlay [data-language-picker]')
-              .elementHandle();
-            await choose(
-              page,
-              language === 'en' ? 'fr' : 'en',
-              '#pause-overlay [data-language-picker]',
-            );
+            await openSettings(page);
+            await page.locator(picker).focus();
+            const sourceNode = await page.locator(picker).elementHandle();
+            await select(page, language === 'en' ? 'fr' : 'en');
             check(
               `${name}: focused pause selector node retained`,
               await sourceNode.evaluate((e) => e === document.activeElement && e.isConnected),
             );
-            await choose(page, language, '#pause-overlay [data-language-picker]');
+            await select(page, language);
+            await closeSettings(page);
+            check(
+              `${name}: game still paused after settings close`,
+              (await page.locator('#pause-overlay').isVisible()) &&
+                (await page.evaluate(
+                  () => JSON.parse(window.localeFixture.snapshot().game).paused,
+                )),
+            );
             check(
               `${name}: pause switch preserves full JSON/RNG/time/checkpoint/code`,
               JSON.stringify(await page.evaluate(() => window.localeFixture.snapshot())) ===

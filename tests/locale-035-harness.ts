@@ -3,6 +3,7 @@
 import type Phaser from 'phaser';
 import { initializeLanguageControls } from '../src/i18n/controls.ts';
 import { getLanguage, setLanguage } from '../src/i18n/language.ts';
+import { bindSettingsDialog } from '../src/ui/settingsDialog.ts';
 import { untranslatedCopy } from '../src/i18n/copy.ts';
 import { Game } from '../src/game.ts';
 import type { Entity } from '../src/game.ts';
@@ -31,6 +32,8 @@ const fixture = (
   }
 ).resultFixture;
 fixture.refresh();
+// Same binding as production: the settings buttons open the window that holds the language.
+bindSettingsDialog(() => fixture.refresh());
 const refreshReport = bindChapterReport(fixture.session);
 refreshReport();
 const scene = () =>

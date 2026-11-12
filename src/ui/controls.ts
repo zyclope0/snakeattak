@@ -52,6 +52,7 @@ export function bindControls(
   const refreshHud = bindHud();
   const refreshResult = bindBattleResult(session);
   el('mobile-home').onclick = () => el('menu-home').click();
+  el('pause-home').onclick = () => el('menu-home').click();
   bindDisplay();
   const catalogue = bindReinforcementsDrawer(session, refresh);
   const pages = bindCatalogPages(refresh);

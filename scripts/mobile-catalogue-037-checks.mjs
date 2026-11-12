@@ -1,4 +1,4 @@
-import { showHomePage } from '../tests/browser-entry.mjs';
+import { chooseLanguage, showHomePage } from '../tests/browser-entry.mjs';
 import { encodeDeparture } from '../src/departures.ts';
 import { capricesForMission } from '../src/caprices.ts';
 import { revealControl } from '../tests/reveal-controls.mjs';
@@ -22,7 +22,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
     await p.waitForFunction(() => !!window.capricesFixture);
     for (const language of ['fr', 'en']) {
       await p.evaluate(() => window.capricesFixture.home());
-      await p.locator('[data-language-picker]:visible').selectOption(language);
+      await chooseLanguage(p, language);
       await showHomePage(p, 'missions');
       await p.locator('[data-mission-card="sonnette"]').click();
       const retained = await p.evaluate(() => JSON.stringify(window.capricesFixture.session.game));
@@ -102,7 +102,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       );
       await p.locator('#mission-close').click();
     }
-    await p.locator('[data-language-picker]:visible').selectOption('fr');
+    await chooseLanguage(p, 'fr');
     await p.evaluate(() => {
       document.getElementById('home-screen').hidden = true;
       document.getElementById('app').hidden = false;
@@ -346,7 +346,10 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
     await open();
     await p.evaluate(() => {
       document.querySelector('#reinforcements').close();
-      document.querySelector('#reinforcements-toggle').click();
+      // Whichever catalogue button this screen shows: the dock on a phone, the bar elsewhere.
+      [...document.querySelectorAll('#dock-catalogue, #reinforcements-toggle')]
+        .find((button) => button.getClientRects().length)
+        .click();
     });
     await p.waitForTimeout(50);
     check(await paused(), 'queued close after reopen retains new lease');
@@ -551,7 +554,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
     );
     await p.locator('#reinforcements-close').click();
     await p.locator('#pause').click();
-    await p.locator('[data-language-picker]:visible').selectOption('en');
+    await chooseLanguage(p, 'en');
     await p.locator('#resume-game').click();
     await open();
     check(

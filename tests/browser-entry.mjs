@@ -37,3 +37,45 @@ export async function showHomePage(page, target) {
   };
   await page.locator('#' + buttons[target]).click();
 }
+
+const LANGUAGE_PICKER = '#settings-dialog [data-language-picker]';
+
+/** Open the settings window from whichever real button is on screen (home, parents or pause). */
+export async function openSettings(page) {
+  if (!(await page.locator('#settings-dialog').evaluate((d) => d.open)))
+    await page
+      .locator('#home-settings:visible, #pause-settings:visible, #home-sound:visible')
+      .first()
+      .click();
+  await page.locator(LANGUAGE_PICKER).waitFor({ state: 'visible' });
+}
+
+/** Close the settings window with its own button. */
+export async function closeSettings(page) {
+  await page.locator('#settings-close').click();
+  await page.locator('#settings-dialog').waitFor({ state: 'hidden' });
+}
+
+/** The language lives in one place, the settings window: open it, choose, close it. */
+export async function chooseLanguage(page, language) {
+  await openSettings(page);
+  await page.locator(LANGUAGE_PICKER).selectOption(language);
+  await page.waitForFunction(
+    ([language, picker]) =>
+      document.documentElement.lang === language && !document.querySelector(picker).disabled,
+    [language, LANGUAGE_PICKER],
+  );
+  await closeSettings(page);
+}
+
+/**
+ * Leave a battle the way a player does. A computer keeps the home button in the menu; a
+ * landscape phone shows it in the top bar only once the game is over, and during a game
+ * offers it in the pause panel.
+ */
+export async function leaveBattle(page) {
+  const direct = page.locator('#menu-home:visible, #mobile-home:visible');
+  if (await direct.count()) return direct.first().click();
+  if (!(await page.locator('#pause-home').isVisible())) await page.locator('#pause').click();
+  await page.locator('#pause-home').click();
+}

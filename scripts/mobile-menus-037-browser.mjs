@@ -1,4 +1,4 @@
-import { showHomePage } from '../tests/browser-entry.mjs';
+import { chooseLanguage, leaveBattle, showHomePage } from '../tests/browser-entry.mjs';
 import { checkCatalogue } from './mobile-catalogue-037-checks.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
@@ -235,7 +235,7 @@ try {
       !(await p.locator('#mission-battle-actions').evaluate((n) => n.hidden)),
       'the game started by the primary is a mission',
     );
-    await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+    await leaveBattle(p);
     await showHomePage(p, 'missions');
     await p.locator('#home-play').click();
     check(await p.locator('#mission-dialog').isVisible(), 'Missions page opens preparation');
@@ -347,7 +347,7 @@ try {
   await p.locator('#caprice-album-manage > summary').click();
   const leaves = await p.locator('[data-sticker]:visible [lang="fr"]').allTextContents();
   await p.locator('#caprice-album-close').click();
-  await p.locator('[data-language-picker]:visible').selectOption('en');
+  await chooseLanguage(p, 'en');
   await p.waitForFunction(() => document.documentElement.lang === 'en');
   await p.locator('#home-caprice-album').click();
   assert.deepEqual(await p.locator('[data-sticker]:visible [lang="fr"]').allTextContents(), leaves);
@@ -400,13 +400,13 @@ try {
     !(await p.locator('#mission-battle-actions').evaluate((n) => n.hidden)),
     'resumed game is a mission',
   );
-  await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+  await leaveBattle(p);
   await showHomePage(p, 'home');
   await p.locator('#home-classic').click();
   await showHomePage(p, 'classic');
   await p.locator('#home-continue').click();
   check((await saved(p)).missions.activeMode === 'classic', 'classic resume uses existing handler');
-  await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+  await leaveBattle(p);
   await p.reload();
   await p.locator('#home-primary').waitFor({ state: 'visible' });
   check(
@@ -421,7 +421,7 @@ try {
     (await saved(p)).missions.activeMode === 'classic',
     'reload primary resumes active classic',
   );
-  await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+  await leaveBattle(p);
   await showHomePage(p, 'home');
   await p.locator('#home-expeditions').click();
   await showHomePage(p, 'missions');
@@ -432,7 +432,7 @@ try {
     after.retryCamp === before.retryCamp && after.classicCamp === before.classicCamp,
     'both camps identical after mode roundtrip',
   );
-  await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+  await leaveBattle(p);
   await p.reload();
   await p.locator('#home-primary').waitFor({ state: 'visible' });
   check(
@@ -471,9 +471,10 @@ try {
     for (const [side, value] of Object.entries({ top: 24, right: 32, bottom: 16, left: 0 }))
       document.documentElement.style.setProperty(`--safe-area-inset-${side}`, `${value}px`);
   });
-  const languageBox = await safe.locator('[data-language-picker]:visible').boundingBox();
+  // The settings button took the language picker's place in the home header.
+  const settingsBox = await safe.locator('#home-settings').boundingBox();
   check(
-    languageBox.y >= 24 && languageBox.x + languageBox.width <= 536,
+    settingsBox.y >= 24 && settingsBox.x + settingsBox.width <= 536,
     'home respects existing safe-area variables',
   );
   check(
