@@ -1,6 +1,19 @@
-# Plan actuel — 0.37.0 publiée, Android build 53
+# Plan actuel — 0.37.0, livraison Android build 54
 
-## Livraison actuelle — Sites28, Android build 53
+## Livraison actuelle — Android build 54, Sites29 publiée
+
+Source figée : `d5e1d4767c5391a18022674c580b26a36c290217`, issue de main `eb37730` (PR23 à PR28).
+Graphismes et poses d’attaque, effets visuels, barre mobile simplifiée, réglages regroupés,
+son au premier appui et musiques lues en continu. Aucun changement de règles ou de sauvegardes.
+Version affichée **0.37.0**, Android **54**, même package et clé d’envoi Play.
+`npm run verify` : **565 tests** verts ; AAB signé/validé, APK debug prêt.
+Navigateur, audit13/13, menus758, présentation14scènes, traduction496 et caprices294 verts.
+Site publié et contrôlé sur quatre formats ; ses73fichiers correspondent aux paquets.
+Audio en continu, réglages, démarrages APK hors ligne et30MP3 vérifiés.
+[Bilan](BILAN-0.37.0.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
+Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Console par Codex.
+
+## Livraison précédente — Sites28, Android build 53
 
 Les PR20 et PR21 de Claude sont fusionnées : réglages musique/bruitages séparés et
 mémorisés, reprise du son au toucher, fondu des musiques, résultat compact et dock
@@ -22,12 +35,12 @@ canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en
   fois les fichiers en cache. Pistes restantes : charger en arrière-plan les planches d'alliés
   non posés (2,7 Mo) ; image de l'accueil en WebP (350 → 50 Ko), à décider car la recette exige
   aujourd'hui l'icône Android à l'identique. « Dangers » encore dans la barre du haut.
-- Test physique S24 : mise à jour Play52→53, son au retour dans l’application, fluidité,
+- Test physique S24 : mise à jour vers Play54, son au retour dans l’application, fluidité,
   volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
 - Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
 - Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.
 
-## Fusionné après le build 53, pas encore publié
+## Changements intégrés au build 54 (PR23 à PR28)
 
 Sur téléphone couché, la barre du haut ne garde que pause, vitesse, « Dangers » et « Lancer la
 vague » ; « Accueil » passe dans l'écran de pause et « Alliés » reste dans le dock (il revient

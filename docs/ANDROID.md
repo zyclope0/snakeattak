@@ -1,17 +1,17 @@
-# Android — version 0.32.1
+# Android — version 0.37.0
 
-Dernière livraison : **0.37.0 / build 53**, réglages du son de Claude (PR20), résultat
-compact et dock lisible (PR21), largeur de résultat complétée par Codex avec marges Android.
-Package **com.conqueteserpents.famille**, code53, paysage, minSdk24 / targetSdk36.
-AAB release signé avec **la même clé d’envoi que le build52 accepté dans Play**,
-validé par bundletool et jarsigner. Son et ressources embarqués, sans serveur ni SDK
-commercial. [Bilan et limites](BILAN-0.37.0.md).
+Dernière livraison : **0.37.0 / build 54**, à partir des PR23 à PR28 de Claude :
+graphismes pâte à modeler, poses d’attaque, plateau animé, barre mobile simplifiée,
+réglages regroupés et lecture continue des musiques. Même package
+**com.conqueteserpents.famille**, code54, paysage, minSdk24 / targetSdk36.
+AAB release signé avec **la clé d’envoi Play d’origine**, validé par bundletool et jarsigner.
+Ressources embarquées, sans serveur ou SDK commercial. [Bilan et limites](BILAN-0.37.0.md).
 
-Le parent confirme que le build52 fonctionne en **test interne Play**. Créer une nouvelle
-version de ce même canal, importer `conquete-serpents-v0.37.0-build53-play.aab`, puis
-installer la mise à jour via le lien testeur avec le même compte Google. Ne pas remplacer
-cette installation Play par l’APK debug : sa signature est différente. La mise à jour
-Play53 et le cycle de vie audio restent à vérifier sur le S24. Aucun envoi Console par Codex.
+Pour mettre à jour le test interne : créer une nouvelle version du même canal, importer
+`conquete-serpents-v0.37.0-build54-play.aab`, puis installer via le lien testeur avec le même
+compte Google. L’APK debug familial garde une autre signature que l’installation distribuée
+par Play. Le parent confirme le fonctionnement du build52 ; le déploiement et la mise à jour
+vers54 restent à faire dans Play Console. Aucun envoi Console ni essai physique S24 par Codex.
 
 VersionName 0.32.1, versionCode 36 : correction du défilement tactile du
 catalogue en paysage. Même identifiant et certificat debug ; mise à jour
