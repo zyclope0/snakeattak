@@ -4,16 +4,17 @@ Jeu de défense familial imaginé à partir du jeu d'un enfant. Prépare un dét
 pour protéger le cristal sur **trois voies interconnectées**, puis observe les
 alliés combattre et se soigner de façon autonome.
 
-**Version publiée : 0.37.0 / Android 52 · Français/anglais · Code propriétaire.**
+**Version publiée : 0.37.0 / Android 53 · Français/anglais · Code propriétaire.**
 
 [Jouer sur le site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
 · [Guide Android](docs/ANDROID.md)
 
-Derniers ajustements de Claude publiés : Jouer lance directement la mission,
-actions agrandies et illustrées, nouvelles musiques et nouveaux bruitages.
-La version affichée reste 0.37.0 ; l’APK utilise le build 52.
-Source : `072855f90a961657d457671886222666182f5467`.
+Derniers ajustements de Claude publiés : réglages du son séparés et mémorisés,
+écran de résultat compact, noms et prix des renforts plus lisibles sur téléphone.
+Codex complète la largeur du résultat avec les marges Android simulées.
+La version affichée reste 0.37.0 ; Android utilise le build 53.
+Source des paquets : `d05782239d374e33e22cc0bba88ca632e4234e36`.
 [Bilan et vérifications](docs/BILAN-0.37.0.md) · [Licences audio](docs/AUDIO-LICENCES.md).
 Le son reste coupé au départ. Reçus et captures dans `artifacts/`, hors Git.
 

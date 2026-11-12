@@ -1,24 +1,29 @@
-# Plan actuel — 0.37.0 publiée, remise en ordre en cours
+# Plan actuel — 0.37.0 publiée, Android build 53
 
-## En cours — suites de l’audit du 12 novembre (fusionné dans main, pas encore publié)
+## Livraison actuelle — Sites28, Android build 53
 
-Audit du 12 novembre sur le code du build 52 : le son était introuvable sur téléphone (seulement
-dans « Pour les parents »), se coupait à chaque passage en arrière-plan sans revenir, n'était
-pas mémorisé, et deux musiques se chevauchaient une seconde à chaque changement.
+Les PR20 et PR21 de Claude sont fusionnées : réglages musique/bruitages séparés et
+mémorisés, reprise du son au toucher, fondu des musiques, résultat compact et dock
+lisible (noms 13 px, prix 12 px). Codex élargit le panneau de résultat après partie
+sur téléphone : la vraie victoire EN avec marges Android ne masque plus Rejouer.
+Version **0.37.0**, Android **53**, package `com.conqueteserpents.famille` conservé.
+Source des paquets : `d05782239d374e33e22cc0bba88ca632e4234e36`.
+Vérifications fraîches : **554 tests**, navigateur, audit **13/13**, menus **758**,
+**12 cas de résultats FR/EN** et une vraie victoire EN à 780×360 avec marges simulées.
+Site publié ; AAB release signé et validé, APK debug conservé. L’envoi de l’AAB53 au
+canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en test interne.
+[Bilan](BILAN-0.37.0.md), [Android](ANDROID.md) et [licences](AUDIO-LICENCES.md).
 
-Ce lot : fenêtre **Réglages** (musique et bruitages séparés) ouverte depuis l'accueil, la page
-des parents et la pause ; choix mémorisé sur l'appareil ; reprise automatique au retour dans
-l'appli ; fondu propre entre musiques. Le son reste coupé tant que personne ne l'a activé.
+## À suivre, sans changement dans cette livraison
 
-Restent de l'audit, par ordre proposé : la mission 1 se gagne sans rien acheter (règles et
-équilibrage : mesure puis accord du fils et du parent) ; barre du haut à alléger ; 30 Mo téléchargés sur
-le site pour une première partie avec le son ; fluidité à mesurer sur le vrai téléphone.
+- Mission1 gagnable sans recrutement : mesure puis accord du fils et du parent avant toute règle.
+- Barre du haut à alléger ; poids du premier téléchargement avec son à réduire.
+- Test physique S24 : mise à jour Play52→53, son au retour dans l’application, fluidité,
+  volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
+- Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
+- Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.
 
-Fait ensuite (PR séparée) : sur téléphone couché, le titre et les étoiles de l'écran de fin
-partagent une ligne et les trois actions tiennent sans défiler ; noms du dock à 13 px, prix à
-12 px.
-
-## Livraison actuelle — Sites27, Android build 52
+## Livraison précédente — Sites27, Android build 52
 
 Les PR17 et PR18 de Claude sont intégrées et publiées : lancement direct par Jouer,
 actions agrandies et illustrées, bruitages et musiques choisis par le parent (Cozy Quest,

@@ -1,26 +1,25 @@
-# Bilan 0.37.0 — Jouer directement et vrais sons, Android build 52
+# Bilan 0.37.0 — Réglages du son et interface, Android build 53
 
-Publication du 11 novembre 2026 sur le [site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/), Sites **27**.
-Version affichée **0.37.0**, Android **52**. Source du paquet : `072855f90a961657d457671886222666182f5467`.
+Publication du 12 novembre 2026 sur le [site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/), Sites **28**.
+Version affichée **0.37.0**, Android **53**. Source des paquets : `d05782239d374e33e22cc0bba88ca632e4234e36`.
 
 ## Fait
 
-- Derniers changements de Claude intégrés : PR17 (Jouer lance directement la prochaine mission ; actions agrandies et illustrées), PR18 (musiques et bruitages choisis par le parent).
-- **26 bruitages et 4 musiques**, environ 7,25 Mo, embarqués dans le site et l’APK. Musiques des menus et vagues calmes, musique épique et arrivée du roi ; [provenance et licences](AUDIO-LICENCES.md). Son coupé au départ, chargement après activation.
-- Codex n’ajoute que le numéro Android et le suivi de livraison. Aucune règle, valeur, annonce du fils, sauvegarde ni RNG du moteur changé. Même identifiant `com.conqueteserpents.famille` et même certificat.
-- APK : `conquete-serpents-v0.37.0-build52-debug.apk` ; SHA-256 `49575e489c89151b05115304094cfdf4ef994d425854780e646944b1f9b04fa8`.
+- Claude : PR20 (réglages musique/bruitages séparés, mémorisés, reprise au toucher et au retour dans le jeu, fondu des musiques) et PR21 (résultat compact et dock lisible : noms 13 px, prix 12 px).
+- Codex : panneau de résultat légèrement élargi uniquement après la partie sur téléphone. Une vraie victoire en anglais avec marges Android révélait encore 31 px de contenu masqué ; les trois actions sont maintenant visibles, cibles de 48 px, défilement nul.
+- AAB **release** signé avec la clé d’envoi Play d’origine, APK debug avec le certificat familial conservé. Package inchangé : `com.conqueteserpents.famille`, code **53** supérieur au **52** déjà accepté en test interne. Aucune règle, valeur de caprice, annonce du fils, sauvegarde ou code de départ changé.
 
 ## Vérifié
 
-- `npm run verify` : **552 tests**, aucun échec, types, format, build et budgets verts. Menus **758 contrôles**, audit **13/13**, navigateur et journey verts.
-- [CI de la PR18](https://github.com/zyclope0/snakeattak/actions/runs/43112687135) verte, source `3e3df13`. Les passages automatiques du numéro Android et des documents restent distincts.
-- **64 fichiers publics identiques à l’APK**. Quatre formats publics : 1280×800 FR, 812×375 EN, 780×360 FR et 915×412 FR ; marges 30/48/24/48 simulées sur les deux derniers, zéro erreur JavaScript.
-- Audio testé par les commandes visibles, en local puis sur le site : **aucune requête MP3 avant activation**, 28 ressources décodées pendant le parcours menus → partie, 13 démarrages de buffers et coupure effective (AudioContext suspendu). Aucun échec de décodage ou de requête.
-- Vérification séparée des **30 MP3 extraits du vrai APK** : tous décodables dans Chromium, y compris les pistes du roi et épique non atteintes dans cette courte partie. Deux démarrages hors ligne FR/EN verts ; polices prêtes, aucune requête externe.
-- APK normal, paysage conservé, sans serveur de développement ni permissions INTERNET/BILLING/AD_ID. La licence publique de Cozy Quest confirme l’usage non exclusif et libre de droits ; aucun achat supplémentaire.
+- `npm run verify` : **554 tests**, aucun échec ; format, types, build et budgets verts. Navigateur vert, audit **13/13**, menus **758 contrôles** verts après le correctif.
+- Résultats contrôlés FR/EN à 780×360, 812×375 et 667×375, marges 30/48/24/48 simulées (**12 cas**). Missions ordinaires : trois actions sans défiler ; résultats longs de caprices : défilement de repli conservé, actions accessibles. Vraie victoire jouée à 780×360 EN, sans injection de jeu ou d’horloge : zéro erreur JavaScript, trois boutons visibles.
+- AAB vérifié par `jarsigner` et `bundletool` ; release non débogable, paysage, minSdk 24 / targetSdk 36. **64 fichiers web**, dont **30 MP3**, identiques au build et à l’APK. Aucun serveur, SDK publicitaire/achat ou permission INTERNET/BILLING/AD_ID ajouté.
+- Site public contrôlé sur quatre formats (1280×800 FR, 812×375 EN, 780×360 et 915×412 FR avec marges simulées sur les deux derniers), zéro erreur JavaScript. Les **64 fichiers publics** correspondent à l’APK et à l’AAB ; deux démarrages FR/EN avec les fichiers du vrai APK hors ligne passent, les **30 MP3** se décodent.
+- Réglages audio : activation indépendante, choix conservé au rechargement, reprise au toucher, coupure, réglages depuis la pause sans reprise de partie. Sur le site public : 28 ressources audio décodées dans le parcours, 11 démarrages de buffers, aucune erreur. Suspension/reprise par événements de visibilité simulés, pas par cycle de vie Android physique.
 
-Reçus et captures hors Git : `artifacts/livraison-build52/` et `/workspace/serpents-build52-20261111/`. [Bilan précédent, build 51](archive/BILAN-0.37.0-build51.md).
+Reçus, captures et contrôles après publication : `artifacts/livraison-build53/` et `/workspace/serpents-build53-20261112/`, hors Git. [Bilan précédent, build 52](archive/BILAN-0.37.0-build52.md).
 
-## Non fait
+## Livraison et limites
 
-Aucune écoute humaine par Codex, aucun essai physique S24, TalkBack ou avec les enfants. Équilibre des volumes et taille de police agrandie d’Android à confirmer sur appareil. Pas de génération payante, SDK ou modification d’équilibrage.
+`conquete-serpents-v0.37.0-build53-play.aab` est destiné à **une nouvelle version du canal de test interne existant**. Codex ne l’a pas envoyé à Play Console. L’APK debug reste un paquet distinct de la signature de distribution Play ; mettre à jour l’installation Play via le canal Play.
+Aucun essai physique S24, écoute humaine, TalkBack ou test avec les enfants par Codex. L’installation Play du build 52 fonctionne selon le parent ; mise à jour vers 53 et cycle de vie audio à confirmer sur téléphone. Équilibrage de la première mission, barre du haut et poids du premier téléchargement restent des suivis séparés.

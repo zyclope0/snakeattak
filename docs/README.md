@@ -13,7 +13,7 @@ Dix documents vivants. Tout le reste est de l'historique, rangé dans [archive/]
 | [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone    |
 | [BILAN-0.37.0.md](BILAN-0.37.0.md)                                     | Compte rendu de la dernière version publiée                 |
 | [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique               |
-| [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Choix de l'identifiant Android, en attente du parent        |
+| [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour |
 | [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver             |
 
 Les règles du jeu sont à la racine : `GAME_DESIGN.md`, `AGENTS.md`, `CLAUDE.md`.
