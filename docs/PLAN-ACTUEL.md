@@ -35,6 +35,10 @@ dans la barre sous 351 px de haut, où le dock n'a plus la place, et une fois la
 Le choix de la langue rejoint la fenêtre Réglages ; la langue de départ suit celle de
 l'appareil (français, sinon anglais), comme avant.
 
+Décision du parent le 12 novembre : le son est **activé au départ**, comme dans les jeux
+mobiles (il démarre au premier appui ; un choix déjà enregistré est respecté). « Effets
+légers » quitte le bas de l'aide pour la fenêtre Réglages, qui propose aussi « Comment jouer ».
+
 Les musiques sont lues en continu par un élément audio au lieu d'être décodées en entier :
 un morceau de trois minutes occupait plus de 100 Mo de mémoire. Elles démarrent sans attendre
 la fin du téléchargement et s'arrêtent en arrière-plan.

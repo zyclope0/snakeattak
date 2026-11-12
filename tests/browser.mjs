@@ -85,14 +85,17 @@ if (!(await page.locator('#guide-name').innerText()).includes('Tank'))
   throw Error('Fiche du tank absente');
 await revealControl(page, '#close-unit-guide');
 await page.locator('#close-unit-guide').click();
-await revealControl(page, '#sound-toggle');
-await page.locator('#sound-toggle').click();
+// Le son est activé au départ : on le coupe, puis on le remet.
 if ((await page.locator('#sound-toggle').getAttribute('aria-pressed')) !== 'true')
-  throw Error('Activation du son impossible');
+  throw Error('Le son devrait être activé au départ');
 await revealControl(page, '#sound-toggle');
 await page.locator('#sound-toggle').click();
 if ((await page.locator('#sound-toggle').getAttribute('aria-pressed')) !== 'false')
   throw Error('Son non coupé');
+await revealControl(page, '#sound-toggle');
+await page.locator('#sound-toggle').click();
+if ((await page.locator('#sound-toggle').getAttribute('aria-pressed')) !== 'true')
+  throw Error('Activation du son impossible');
 await revealControl(page, '[data-kind="ninja"]');
 await page.locator('[data-kind="ninja"]').click();
 await page.waitForFunction(() => document.getElementById('encounter').dataset.tone === 'place');

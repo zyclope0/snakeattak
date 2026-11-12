@@ -13,11 +13,11 @@ const memory = (initial?: string) => {
   };
 };
 
-test('sound is off until someone turns it on, and each choice is remembered', () => {
+test('sound starts on, like mobile games, and each choice is remembered', () => {
   const storage = memory();
   const settings = createSoundSettings(storage);
-  assert.deepEqual([settings.music, settings.effects], [false, false]);
-  settings.set({ music: true });
+  assert.deepEqual([settings.music, settings.effects], [true, true]);
+  settings.set({ effects: false });
   assert.deepEqual([settings.music, settings.effects], [true, false]);
   assert.equal(storage.data.get(SOUND_SETTINGS_KEY), '10');
   const later = createSoundSettings(storage);
@@ -26,10 +26,12 @@ test('sound is off until someone turns it on, and each choice is remembered', ()
   assert.equal(storage.data.get(SOUND_SETTINGS_KEY), '01');
 });
 
-test('unreadable or blocked storage leaves sound off and still works in memory', () => {
+test('a saved silence is respected; unreadable or blocked storage keeps the starting choice', () => {
+  const silent = createSoundSettings(memory('00'));
+  assert.deepEqual([silent.music, silent.effects], [false, false]);
   assert.deepEqual(
     [createSoundSettings(memory('oui')).music, createSoundSettings(memory('oui')).effects],
-    [false, false],
+    [true, true],
   );
   const blocked = createSoundSettings({
     getItem() {
@@ -39,6 +41,6 @@ test('unreadable or blocked storage leaves sound off and still works in memory',
       throw new Error('blocked');
     },
   });
-  blocked.set({ effects: true });
+  blocked.set({ music: false });
   assert.deepEqual([blocked.music, blocked.effects], [false, true]);
 });

@@ -4,7 +4,7 @@ import './settingsDialog.css';
 let dialog: HTMLDialogElement | undefined;
 
 /**
- * Réglages de l'appareil : musique, bruitages et langue. La fenêtre est construite ici pour
+ * Réglages de l'appareil : musique, bruitages, langue, effets légers, et l'aide « Comment jouer ». La fenêtre est construite ici pour
  * ne pas alourdir la page de démarrage ; `sounds.ts` donne leur libellé et leur état aux deux
  * interrupteurs, `i18n/controls.ts` y ajoute le choix de la langue.
  */
@@ -27,12 +27,20 @@ export function settingsDialog() {
   }
   const actions = document.createElement('div');
   actions.className = 'dialog-actions';
+  const help = document.createElement('button');
+  help.id = 'settings-help';
+  help.className = 'secondary';
+  setDisplayText(help, 'Comment jouer');
+  help.onclick = () => {
+    made.close();
+    document.getElementById('help')?.click();
+  };
   const close = document.createElement('button');
   close.id = 'settings-close';
   close.className = 'primary';
   setDisplayText(close, 'Fermer');
   close.onclick = () => made.close();
-  actions.append(close);
+  actions.append(help, close);
   made.append(title, list, actions);
   document.body.append(made);
   dialog = made;

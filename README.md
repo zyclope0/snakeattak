@@ -16,7 +16,7 @@ Codex complète la largeur du résultat avec les marges Android simulées.
 La version affichée reste 0.37.0 ; Android utilise le build 53.
 Source des paquets : `d05782239d374e33e22cc0bba88ca632e4234e36`.
 [Bilan et vérifications](docs/BILAN-0.37.0.md) · [Licences audio](docs/AUDIO-LICENCES.md).
-Le son reste coupé au départ. Reçus et captures dans `artifacts/`, hors Git.
+Le son est activé au départ et se règle dans « Réglages ». Reçus et captures dans `artifacts/`, hors Git.
 
 ## Le jeu
 
