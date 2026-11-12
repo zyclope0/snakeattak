@@ -1,14 +1,20 @@
 export const SOUND_SETTINGS_KEY = 'conquete-serpents:sound:v1';
 type SoundStorage = Pick<Storage, 'getItem' | 'setItem'>;
 
-/** Choix de l'appareil : musique et bruitages, coupés tant que personne ne les a activés. */
+/**
+ * Choix de l'appareil : musique et bruitages, activés au départ comme dans les jeux mobiles.
+ * Le volume et le mode silencieux du téléphone s'appliquent ; chacun se coupe dans Réglages.
+ */
 export function createSoundSettings(storage?: SoundStorage) {
-  let music = false;
-  let effects = false;
+  let music = true;
+  let effects = true;
   try {
     const saved = storage?.getItem(SOUND_SETTINGS_KEY) ?? '';
-    music = saved[0] === '1';
-    effects = saved[1] === '1';
+    // Seul un choix enregistré par ce jeu (« 10 », « 01 »…) remplace le réglage de départ.
+    if (/^[01]{2}$/.test(saved)) {
+      music = saved[0] === '1';
+      effects = saved[1] === '1';
+    }
   } catch {
     /* Navigation privée. */
   }

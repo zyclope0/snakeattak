@@ -132,7 +132,66 @@
   .settings-list {
     grid-template-columns: 1fr 1fr;
   }
-  .settings-list .language-picker {
-    grid-column: 1 / -1;
+  #settings-dialog[open] {
+    gap: 8px;
+    padding-block: 12px;
   }
+  #settings-dialog h2 {
+    font-size: 22px;
+  }
+  .settings-list .language-picker,
+  .settings-list .visual-setting,
+  .setting-switch {
+    min-height: 52px;
+  }
+  .settings-list .visual-setting small {
+    display: none;
+  }
+}
+/* « Effets légers » vient de l'aide : même allure que les autres lignes, interrupteur à droite. */
+.settings-list .visual-setting {
+  min-height: clamp(56px, calc(var(--hu) * 6.4), 72px);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 0 16px;
+  background: #fffdf5;
+  border: 1px solid #b9c7a3;
+  border-radius: 12px;
+  color: #17362f;
+  font-size: clamp(16px, calc(var(--hu) * 1.8), 20px);
+  font-weight: 700;
+}
+.settings-list .visual-setting small {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+}
+.settings-list .visual-setting input {
+  flex: none;
+  appearance: none;
+  width: 52px;
+  height: 30px;
+  margin: 0;
+  border-radius: 15px;
+  background: radial-gradient(circle at 15px 50%, #fffdf5 0 11px, transparent 12px) #a9a392;
+  cursor: pointer;
+}
+.settings-list .visual-setting input:checked {
+  background: radial-gradient(circle at 37px 50%, #fffdf5 0 11px, transparent 12px) #2f7d4f;
+}
+.settings-list .visual-setting input:focus-visible {
+  outline: 3px solid #196a5b;
+  outline-offset: 2px;
+}
+#settings-help {
+  min-height: 48px;
+}
+#settings-dialog .dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
 }
