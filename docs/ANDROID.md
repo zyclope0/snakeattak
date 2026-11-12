@@ -1,10 +1,17 @@
 # Android — version 0.32.1
 
-Dernière livraison : **0.37.0 / build 52**, avec le lancement direct, les actions
-illustrées et les vrais sons de Claude (PR17 et PR18). Les 30 fichiers audio sont embarqués ;
-le jeu fonctionne sans serveur. Même identifiant et certificat que le build 51 ;
-[bilan et contrôles](BILAN-0.37.0.md). Son coupé au départ.
-Essai physique de ce build sur S24 encore à faire.
+Dernière livraison : **0.37.0 / build 53**, réglages du son de Claude (PR20), résultat
+compact et dock lisible (PR21), largeur de résultat complétée par Codex avec marges Android.
+Package **com.conqueteserpents.famille**, code53, paysage, minSdk24 / targetSdk36.
+AAB release signé avec **la même clé d’envoi que le build52 accepté dans Play**,
+validé par bundletool et jarsigner. Son et ressources embarqués, sans serveur ni SDK
+commercial. [Bilan et limites](BILAN-0.37.0.md).
+
+Le parent confirme que le build52 fonctionne en **test interne Play**. Créer une nouvelle
+version de ce même canal, importer `conquete-serpents-v0.37.0-build53-play.aab`, puis
+installer la mise à jour via le lien testeur avec le même compte Google. Ne pas remplacer
+cette installation Play par l’APK debug : sa signature est différente. La mise à jour
+Play53 et le cycle de vie audio restent à vérifier sur le S24. Aucun envoi Console par Codex.
 
 VersionName 0.32.1, versionCode 36 : correction du défilement tactile du
 catalogue en paysage. Même identifiant et certificat debug ; mise à jour
