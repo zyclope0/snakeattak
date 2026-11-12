@@ -112,15 +112,17 @@ export function bindSounds() {
   };
   musicButton.onclick = () => change({ music: !settings.music })();
   effectsButton.onclick = () => change({ effects: !settings.effects })();
-  // Un choix mémorisé reprend au premier geste : le navigateur refuse le son avant.
+  // Un choix mémorisé reprend au premier geste : le navigateur refuse le son avant. Au doigt,
+  // c'est le relâchement qui compte ; on réessaie à chaque geste tant que le son ne tourne pas.
   if (settings.music || settings.effects) {
+    const gestures = ['pointerup', 'click', 'keydown'] as const;
     const wake = () => {
-      removeEventListener('pointerdown', wake, true);
-      removeEventListener('keydown', wake, true);
-      void apply();
+      void apply().then(() => {
+        if (context?.state === 'running' || !(settings.music || settings.effects))
+          for (const gesture of gestures) removeEventListener(gesture, wake, true);
+      });
     };
-    addEventListener('pointerdown', wake, true);
-    addEventListener('keydown', wake, true);
+    for (const gesture of gestures) addEventListener(gesture, wake, true);
   }
   // L'accueil n'a pas de partie en cours : sa musique ne dépend pas de la boucle du combat.
   const menuMusic = () => {
