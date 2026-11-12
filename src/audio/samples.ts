@@ -51,7 +51,10 @@ export function createSamples(context: AudioContext, output: AudioNode) {
   const musicBus = context.createGain();
   musicBus.connect(output);
   let voices = 0;
-  let current: { track: Track; source: AudioBufferSourceNode; gain: GainNode } | undefined;
+  // Les musiques sont lues en continu par un élément audio : décodées en entier, trois minutes
+  // de musique occuperaient plus de 100 Mo de mémoire sur le téléphone.
+  let current: { track: Track; player: HTMLAudioElement; gain: GainNode } | undefined;
+  let held = false;
   let wanted: Track | null = null;
 
   function load(url: string) {
@@ -72,13 +75,19 @@ export function createSamples(context: AudioContext, output: AudioNode) {
   // Les bruitages sont petits : tous prêts dès l'activation. Les musiques attendent leur tour.
   for (const list of cues.values()) for (const url of list) void load(url);
 
+  function release(player: HTMLAudioElement, gain: GainNode) {
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    gain.disconnect();
+  }
   function stopMusic() {
     if (!current) return;
-    const { source, gain } = current;
+    const { player, gain } = current;
     current = undefined;
+    player.onended = null;
     gain.gain.setTargetAtTime(0, context.currentTime, 0.25);
-    source.onended = () => gain.disconnect();
-    source.stop(context.currentTime + 1.2);
+    setTimeout(() => release(player, gain), 1200);
   }
 
   return {
@@ -110,30 +119,34 @@ export function createSamples(context: AudioContext, output: AudioNode) {
       stopMusic();
       const url = track && tracks.get(track);
       if (!track || !url) return;
-      void load(url).then((buffer) => {
-        if (!buffer || wanted !== track || current) return;
-        const source = context.createBufferSource();
-        source.buffer = buffer;
-        source.loop = !then;
-        const gain = context.createGain();
-        gain.gain.value = 0;
-        gain.gain.setTargetAtTime(0.55, context.currentTime, 0.4);
-        source.connect(gain);
-        gain.connect(musicBus);
-        source.start();
-        current = { track, source, gain };
-        if (then)
-          source.onended = () => {
-            gain.disconnect();
-            if (wanted !== track) return;
-            current = undefined;
-            wanted = null;
-            this.music(then);
-          };
-      });
+      const player = new Audio(url);
+      player.loop = !then;
+      player.preload = 'auto';
+      const gain = context.createGain();
+      gain.gain.value = 0;
+      gain.gain.setTargetAtTime(0.55, context.currentTime, 0.4);
+      context.createMediaElementSource(player).connect(gain);
+      gain.connect(musicBus);
+      current = { track, player, gain };
+      if (then)
+        player.onended = () => {
+          if (current?.player !== player) return;
+          current = undefined;
+          release(player, gain);
+          wanted = null;
+          this.music(then);
+        };
+      if (!held) void player.play().catch(() => undefined);
     },
     /** Musique demandée en ce moment, même si elle charge encore. */
     track: () => wanted,
+    /** L'appli passe en arrière-plan ou en revient : la musique s'arrête puis reprend où elle était. */
+    hold(paused: boolean) {
+      held = paused;
+      if (!current) return;
+      if (paused) current.player.pause();
+      else void current.player.play().catch(() => undefined);
+    },
     duck(quiet: boolean) {
       musicBus.gain.setTargetAtTime(quiet ? 0.22 : 1, context.currentTime, 0.2);
     },
