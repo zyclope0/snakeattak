@@ -30,11 +30,14 @@ import { pauseForDialog } from '../ui/dialogs.ts';
 import { performanceEnabled } from './performanceRecording.ts';
 import { onSceneExit } from './sceneExit.ts';
 import { BODY_FONT } from './fonts.ts';
+import { BattleJuice, drawConfettiBurst, CONFETTI_BURST } from './juice.ts';
 export class BattleScene extends Phaser.Scene {
   private assets!: MissionAssets;
   private initialized = false;
   private presentation = new Presentation();
   private feedback!: BattleFeedback;
+  private juice!: BattleJuice;
+  private resultSize = 0;
   private motionQuery = window.matchMedia('(prefers-reduced-motion:reduce)');
   private onPresentation: (notice: Notice | null, deltaMs: number) => void;
   private resultStats!: Phaser.GameObjects.Text;
@@ -119,6 +122,7 @@ export class BattleScene extends Phaser.Scene {
     this.ink = this.add.graphics();
     this.honeyInk = this.add.graphics().setDepth(7.5);
     this.feedback = new BattleFeedback(this);
+    this.juice = new BattleJuice(this);
     this.feastLabel = addCanvasCopy(this.add, 420, 0, '', {
       fontFamily: BODY_FONT,
       fontSize: '13px',
@@ -136,11 +140,15 @@ export class BattleScene extends Phaser.Scene {
       fontFamily: BODY_FONT,
       fontSize: '21px',
       color: '#deebd0',
+      align: 'center',
+      wordWrap: { width: 1040 },
     }).setOrigin(0.5);
     this.resultStats = addCanvasCopy(this.add, 550, 358, '', {
       fontFamily: BODY_FONT,
       fontSize: '18px',
       color: '#d9e9c7',
+      align: 'center',
+      wordWrap: { width: 1040 },
     }).setOrigin(0.5);
     this.celebration = this.add.graphics();
     this.overlay = this.add
@@ -245,14 +253,18 @@ export class BattleScene extends Phaser.Scene {
         g.lineBetween(e.tx - 7, e.ty - 40, e.tx + 7, e.ty - 40);
         g.lineBetween(e.tx, e.ty - 47, e.tx, e.ty - 33);
       } else if (e.kind === 'gold') {
-        g.fillStyle(0xffd66a, alpha);
-        g.fillCircle(e.x, e.y - 20 - (1 - alpha) * 25, 5);
+        // With motion, BattleJuice flies a coin to the counter instead.
+        if (reduced) {
+          g.fillStyle(0xffd66a, alpha);
+          g.fillCircle(e.x, e.y - 20 - (1 - alpha) * 25, 5);
+        }
       } else {
         g.lineStyle(3, 0xffe2a1, alpha);
         g.strokeCircle(e.tx, e.ty - 4, 9 + (1 - alpha) * 13);
       }
     }
     this.feedback.draw(this.presentation, this.session.game, reduced);
+    this.juice.draw(this.presentation, reduced);
     if (this.session.selected) {
       const pointer = this.input.activePointer;
       const onBoard = this.game.canvas.matches(':hover') || pointer.isDown;
@@ -313,6 +325,13 @@ export class BattleScene extends Phaser.Scene {
     const end = this.session.game.status === 'won' || this.session.game.status === 'lost';
     this.overlay.setVisible(end);
     if (end) {
+      // The board is drawn at about half size on a phone: keep 13 CSS px at least.
+      const size = Math.ceil(Math.max(18, 13.5 * this.scale.displayScale.x));
+      if (size !== this.resultSize) {
+        this.resultSize = size;
+        this.resultSubtitle.setFontSize(Math.max(21, size));
+        this.resultStats.setFontSize(size);
+      }
       setCanvasCopy(
         this.resultSubtitle,
         this.session.game.status === 'won'
@@ -325,13 +344,17 @@ export class BattleScene extends Phaser.Scene {
       setCanvasCopy(
         this.resultStats,
         `${this.session.game.kills} serpents repoussés · ${this.session.game.units.length} alliés survivants · camp ${Math.ceil(this.session.game.base)} %`,
-      );
+      ).setY(300 + this.resultSubtitle.height / 2 + 16 + this.resultStats.height / 2);
     this.celebration.clear();
-    if (this.session.game.status === 'won') {
+    const burst = reduced ? Infinity : this.presentation.victoryAge;
+    if (this.session.game.status === 'won' && burst < CONFETTI_BURST)
+      drawConfettiBurst(this.celebration, burst);
+    else if (this.session.game.status === 'won') {
+      const rise = Math.min(1, burst - CONFETTI_BURST);
       for (let i = 0; i < 32; i++) {
         const x = (i * 173 + 42) % 1100,
           y = reduced ? 80 + ((i * 37) % 450) : (i * 71 + this.presentation.clock * 42) % 580;
-        this.celebration.fillStyle(i % 2 ? 0xeacd79 : 0xb9d795, 0.7);
+        this.celebration.fillStyle(i % 2 ? 0xeacd79 : 0xb9d795, 0.7 * rise);
         this.celebration.fillRect(x, y, 5, 9);
       }
     }

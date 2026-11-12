@@ -28,6 +28,8 @@ export type Arrival = {
   age: number;
   source: 'den' | 'egg';
 };
+/** One-frame cosmetic cues for BattleJuice; rebuilt at every update. */
+export type Spark = { kind: 'ally' | 'egg' | 'coin' | 'boss'; x: number; y: number };
 type Snapshot = { x: number; y: number; hp: number; kind: Entity['kind'] };
 export class Presentation {
   clock = 0;
@@ -40,6 +42,13 @@ export class Presentation {
   fortDamage = 0;
   fortRepair = 0;
   reactions = new Map<number, { hurt: number; heal: number }>();
+  sparks: Spark[] = [];
+  /** Age of the pale flash of a fighter that was just hit; it cannot restart before 0.3 s. */
+  flashes = new Map<number, number>();
+  /** Age of an ally that was just placed, for its little pop. */
+  placed = new Map<number, number>();
+  /** Seconds since this battle was won in front of the player; Infinity otherwise. */
+  victoryAge = Infinity;
   private game: Game | undefined;
   private units = new Map<number, Snapshot>();
   private wave = 0;
@@ -61,7 +70,11 @@ export class Presentation {
   update(game: Game, deltaMs: number) {
     this.encounter = encounterReadout(game);
     const fresh = this.game !== game;
+    this.sparks.length = 0;
     if (fresh) {
+      this.flashes.clear();
+      this.placed.clear();
+      this.victoryAge = Infinity;
       this.game = game;
       this.units.clear();
       this.floats = [];
@@ -89,6 +102,14 @@ export class Presentation {
       action.age += dt;
       if (action.age >= 0.55) this.actions.delete(id);
     }
+    for (const [id, age] of this.flashes)
+      if (age + dt >= 0.3) this.flashes.delete(id);
+      else this.flashes.set(id, age + dt);
+    for (const [id, age] of this.placed)
+      if (age + dt >= 0.35) this.placed.delete(id);
+      else this.placed.set(id, age + dt);
+    this.victoryAge += dt;
+    if (!fresh && this.status !== 'won' && game.status === 'won') this.victoryAge = 0;
     this.fortDamage = Math.max(0, this.fortDamage - dt * 2.5);
     this.fortRepair = Math.max(0, this.fortRepair - dt * 1.5);
     for (const a of this.arrivals) a.age += dt;
@@ -131,6 +152,7 @@ export class Presentation {
     const boss = game.enemies.find((e) => e.boss && e.hp > 0);
     if (boss && !this.bossSeen) {
       this.bossSeen = true;
+      if (!fresh) this.sparks.push({ kind: 'boss', x: boss.x, y: boss.y });
       this.announce({
         kind: 'boss',
         title: 'LE ROI À TROIS TÊTES ENTRE DANS LA VALLÉE',
@@ -193,12 +215,19 @@ export class Presentation {
           );
           const r = this.reactions.get(e.id) ?? { hurt: 0, heal: 0 };
           if (heal) r.heal = 1;
-          else r.hurt = 1;
+          else {
+            r.hurt = 1;
+            if (!this.flashes.has(e.id)) this.flashes.set(e.id, 0);
+          }
           this.reactions.set(e.id, r);
         }
       } else if (!old && !fresh) {
-        if (e.kind !== 'snake') this.text(e.x, e.y - 72, 'À la rescousse !', '#c6e8ed');
-        else
+        if (e.kind !== 'snake') {
+          this.text(e.x, e.y - 72, 'À la rescousse !', '#c6e8ed');
+          this.placed.set(e.id, 0);
+          this.sparks.push({ kind: 'ally', x: e.x, y: e.y });
+        } else {
+          if (e.x >= 160) this.sparks.push({ kind: 'egg', x: e.x, y: e.y });
           this.arrivals.push({
             id: e.id,
             x: e.x,
@@ -208,6 +237,7 @@ export class Presentation {
             age: 0,
             source: e.x < 160 ? 'den' : 'egg',
           });
+        }
       }
       this.units.set(e.id, { x: e.x, y: e.y, hp: e.hp, kind: e.kind });
     }
@@ -226,6 +256,8 @@ export class Presentation {
         this.units.delete(id);
         this.bossArmor.delete(id);
         this.reactions.delete(id);
+        this.flashes.delete(id);
+        this.placed.delete(id);
         this.actions.delete(id);
         this.roared.delete(id);
       }
@@ -262,6 +294,7 @@ export class Presentation {
         if (e.kind === 'gold') {
           this.text(e.x, e.y - 25, '+ pièces', '#ffdf8b');
           this.bursts.push({ x: e.x, y: e.y, age: 0, color: 0xecc96c });
+          this.sparks.push({ kind: 'coin', x: e.x, y: e.y });
         }
         if (e.kind === 'hit') this.bursts.push({ x: e.tx, y: e.ty - 8, age: 0, color: 0xffdf9c });
       }

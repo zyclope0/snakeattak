@@ -3,6 +3,7 @@ import './battleResult.css';
 import { defeatCopy, earnedStars } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
+import { visualSettings } from '../render/visualSettings.ts';
 /** Reuse the existing actions: only their presentation moves after a match. */
 export function bindBattleResult(session: Session) {
   const el = (id: string) => document.getElementById(id)!;
@@ -35,6 +36,8 @@ export function bindBattleResult(session: Session) {
     }
   };
   let observed: Game | null = null;
+  let starred = '';
+  const motion = window.matchMedia('(prefers-reduced-motion:reduce)');
   el('end-home').onclick = () => el('menu-home').click();
   el('result-allies').onclick = () => el('reinforcements-toggle').click();
   return () => {
@@ -47,6 +50,7 @@ export function bindBattleResult(session: Session) {
       restore(classic);
       restoreOrder();
       observed = null;
+      starred = '';
       return;
     }
     setDisplayText(
@@ -63,12 +67,28 @@ export function bindBattleResult(session: Session) {
     const earned = earnedStars(g);
     stars.hidden = !earned;
     if (earned) {
-      setDisplayText(
-        stars,
+      const row =
         earned.maximum === 3
           ? '★'.repeat(earned.count) + '☆'.repeat(3 - earned.count)
-          : `★ ${earned.count} / ${earned.maximum}`,
-      );
+          : `★ ${earned.count} / ${earned.maximum}`;
+      setDisplayText(stars, row);
+      // Same characters, one element each: earned stars land one after the other.
+      // « Effets légers » and the system preference keep them still.
+      if (earned.maximum === 3 && starred !== row) {
+        starred = row;
+        const still = visualSettings.reduced(motion.matches);
+        stars.replaceChildren(
+          ...Array.from(row, (character, i) => {
+            const star = document.createElement('span');
+            star.textContent = character;
+            if (!still && character === '★') {
+              star.className = 'star-pop';
+              star.style.animationDelay = `${0.3 + i * 0.3}s`;
+            }
+            return star;
+          }),
+        );
+      }
       setDisplayAttribute(
         stars,
         'aria-label',

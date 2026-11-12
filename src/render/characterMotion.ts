@@ -16,7 +16,15 @@ export function characterMotion(
     pose.angle = stride * (u.kind === 'snake' ? 0.035 : 0.018);
     if (u.kind === 'dragon') pose.dy += Math.sin(clock * 7 + u.id) * 1.8;
   }
-  if (!action) return pose;
+  if (!action) {
+    // Standing fighters breathe from the feet up; a blow replaces the breath.
+    if (u.state !== 'move') {
+      const breath = Math.sin(clock * 2.4 + u.id * 1.7);
+      pose.sy += breath * 0.03;
+      pose.sx -= breath * 0.012;
+    }
+    return pose;
+  }
   const t = Math.min(1, action.age / 0.4),
     swing = Math.sin(Math.PI * t);
   if (
@@ -27,11 +35,15 @@ export function characterMotion(
     u.kind === 'twohead' ||
     u.kind === 'mutantRock'
   ) {
-    pose.dx += u.facing * swing * 4;
+    pose.dx += u.facing * swing * 6;
     pose.angle -= u.facing * swing * 0.13;
+    pose.sx += swing * 0.07;
+    pose.sy -= swing * 0.05;
   } else if (u.kind === 'ninja' || u.kind === 'raptor') {
     pose.dx += u.facing * swing * 6;
     pose.angle -= u.facing * swing * 0.08;
+    pose.sx += swing * 0.08;
+    pose.sy -= swing * 0.05;
   } else if (u.kind === 'dragon') {
     pose.sx += swing * 0.09;
     pose.sy -= swing * 0.05;
@@ -52,6 +64,16 @@ export function characterMotion(
     pose.sy -= swing * 0.08;
   } else if (u.kind === 'shield' && action.kind === 'block') {
     pose.angle -= u.facing * swing * 0.09;
+  } else if (u.kind === 'snake') {
+    // A bite: the snake stretches towards its prey.
+    pose.dx += u.facing * swing * 5;
+    pose.sx += swing * 0.1;
+    pose.sy -= swing * 0.06;
+  } else {
+    // Archers, tanks and the like: a short recoil.
+    pose.dx -= u.facing * swing * 2.5;
+    pose.sx -= swing * 0.06;
+    pose.sy += swing * 0.05;
   }
   return pose;
 }
