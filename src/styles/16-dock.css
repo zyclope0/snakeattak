@@ -165,6 +165,11 @@
   .app.reinforcements-open .play-layout {
     grid-template-columns: minmax(0, 1fr) clamp(208px, 32%, 232px);
   }
+  /* The outcome needs more reading width than the dock, especially in English
+     with Android's side insets. Keep the three normal-mission actions in view. */
+  .app.showing-result:not(.reinforcements-open) .play-layout {
+    grid-template-columns: minmax(0, 1fr) clamp(232px, 36%, 280px);
+  }
   .battle-dock {
     grid-template-rows: minmax(96px, 1fr) 18px 48px 48px;
     gap: 4px;
