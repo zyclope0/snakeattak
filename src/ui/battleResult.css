@@ -67,27 +67,29 @@
   #result-allies {
     display: none;
   }
-  /* Téléphone couché : le titre et les étoiles sur une ligne, pour que les trois actions
-     tiennent sans faire défiler. Le défilement reste le repli des textes plus longs. */
+  /* Téléphone couché : le titre et les étoiles sur une ligne quand ils y tiennent, pour que
+     les trois actions restent en vue. Un titre plus long (« Caprice réussi ! ») renvoie les
+     étoiles à la ligne. Le défilement reste le repli des textes plus longs. */
   #battle-result {
     max-height: calc(var(--app-height) - var(--mobile-hud-height));
     border-radius: 0;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    flex-flow: row wrap;
     align-items: center;
-    align-content: start;
+    align-content: flex-start;
     gap: 6px 10px;
     padding: 6px 10px;
   }
   #battle-result > * {
-    grid-column: 1 / -1;
+    flex: 0 0 100%;
+    min-width: 0;
   }
   #battle-result > h2 {
-    grid-column: 1;
+    flex: 0 0 auto;
+    max-width: 100%;
     font-size: 22px;
   }
   #battle-result > #battle-result-stars {
-    grid-column: 2;
+    flex: 0 0 auto;
     font-size: 24px;
     letter-spacing: 1px;
     white-space: nowrap;
