@@ -11,12 +11,18 @@ des parents et la pause ; choix mémorisé sur l'appareil ; reprise automatique 
 l'appli ; fondu propre entre musiques. Le son reste coupé tant que personne ne l'a activé.
 
 Restent de l'audit, par ordre proposé : la mission 1 se gagne sans rien acheter (règles et
-équilibrage : mesure puis accord du fils et du parent) ; barre du haut à alléger ; 30 Mo téléchargés sur
+équilibrage : mesure puis accord du fils et du parent) ; « Dangers » encore dans la barre ; 30 Mo téléchargés sur
 le site pour une première partie avec le son ; fluidité à mesurer sur le vrai téléphone.
 
 Fait ensuite (PR séparée) : sur téléphone couché, le titre et les étoiles de l'écran de fin
 partagent une ligne et les trois actions tiennent sans défiler ; noms du dock à 13 px, prix à
 12 px.
+
+Puis (PR suivante) : sur téléphone couché, la barre du haut ne garde que pause, vitesse,
+« Dangers » et « Lancer la vague » ; « Accueil » passe dans l'écran de pause et « Alliés »
+reste dans le dock (il revient dans la barre sous 351 px de haut, où le dock n'a plus la place,
+et une fois la partie finie). Le choix de la langue rejoint la fenêtre Réglages ; la langue de
+départ suit celle de l'appareil (français, sinon anglais), comme avant.
 
 ## Livraison actuelle — Sites27, Android build 52
 

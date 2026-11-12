@@ -270,6 +270,8 @@ try {
               safe,
               `${name}: pause settings button fits`,
             );
+            // On a phone the pause panel is the way home during a game.
+            await fits(page, '#pause-home', viewport, safe, `${name}: pause home button fits`);
             await openSettings(page);
             await fits(page, picker, viewport, safe, `${name}: pause selector fits`);
             await select(page, language === 'en' ? 'fr' : 'en');

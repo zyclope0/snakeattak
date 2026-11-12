@@ -39,7 +39,13 @@
    dangers et le lancement. L'accueil est dans la pause, les alliés dans le dock. Une fois la
    partie finie, le dock a disparu : les deux boutons reviennent. */
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
-  #app:not(.showing-result) .mobile-home,
+  #app:not(.showing-result) .mobile-home {
+    display: none;
+  }
+}
+/* Sous 351 px de haut, le dock n'a plus la place d'afficher « Tous les alliés »
+   (16-dock.css) : le bouton « Alliés » de la barre reste alors le seul accès au catalogue. */
+@media (max-width: 1100px) and (min-height: 351px) and (max-height: 520px) and (orientation: landscape) {
   #app:not(.showing-result) .reinforcements-toggle {
     display: none;
   }
