@@ -44,9 +44,11 @@ touché, respiration des alliés au repos, pièce qui vole vers le compteur, pou
 d'un allié, éclats à l'éclosion, étoiles de victoire une à une, confettis, bilan de fin lisible
 (13 px au moins), secousse à l'arrivée du roi. Tout est coupé par « Effets légers ».
 
-Essai de style du 12 novembre, non intégré : la planche des alliés de départ refaite en pâte à
-modeler plus vive (Higgsfield à la main, ou retouche Magnific à 83 crédits la planche). Le
-choix appartient au parent et à son fils ; dix planches suivraient, serpents en premier.
+Graphismes, 12 novembre : onze planches (alliés, serpents, forteresses, miels) refaites en
+pâte à modeler plus vive avec la retouche Magnific, mêmes personnages, poses et couleurs.
+Journal et identifiants : `public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md`.
+À faire ensuite : accessoires de terrain et habillage de l'interface dans la même matière ;
+essai d'une vraie pose d'attaque sur les quatre alliés de départ.
 
 Les musiques sont lues en continu par un élément audio au lieu d'être décodées en entier :
 un morceau de trois minutes occupait plus de 100 Mo de mémoire. Elles démarrent sans attendre

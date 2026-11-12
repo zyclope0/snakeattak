@@ -1,5 +1,9 @@
 # Assets illustrés — version 0.11
 
+> Onze planches ont été refaites en pâte à modeler le 12 novembre 2026 : voir
+> [PROVENANCE-RESTYLE-2026-11.md](PROVENANCE-RESTYLE-2026-11.md). Ce qui suit décrit leur
+> création d'origine.
+
 Création le 2 novembre 2026 via le compte Magnific Premium du créateur,
 modèle Recraft V4 Pro. Style défini pour ce jeu : miniatures de conte en bois
 peint, moss/ocre/teal, silhouettes distinctes et lisibles. La planche front a
