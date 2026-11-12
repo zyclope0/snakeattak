@@ -255,3 +255,269 @@ Keep the identity and colours of each: top-left = small sage-green snake with a 
 
 Keep the background exactly as it is. No text, no outline stroke, no ground, no new objects.
 ```
+
+## Poses d'attaque (essai)
+
+Essai accepté par le parent : une seconde planche pour les quatre alliés du départ, montrée
+un court instant quand le combattant frappe. Mêmes cases et même ordre que `allies-front`
+(1024×1024, quatre cases de 512, WebP).
+
+- Fichier : `src/assets/illustrated/allies-front-attack.webp`
+- Outil : Magnific `images_generate`, modèle Nano Banana Pro ; référence = la planche
+  allies-front refaite, création lJosK3cgv9
+- Création : YMjYLzfWeC — https://www.magnific.com/app/creation/YMjYLzfWeC
+- Détourage : aFZaMXYfSh — https://www.magnific.com/app/creation/aFZaMXYfSh
+- Crédits : 78 (en plus du total du chantier indiqué plus haut)
+- Recalage : chaque figurine est décalée verticalement de 1 à 10 px pour que ses pieds
+  reposent sur la ligne de base de la planche de repos.
+- Choix : variante aux visages souriants et décidés, retenue par le parent le
+  12 novembre 2026.
+
+## Poses d'attaque des autres planches (12 novembre 2026)
+
+Huit planches `<nom>-attack.webp`, même recette que l'essai des alliés de départ. Dépense :
+1 527 crédits Magnific. Les cases qui ne frappent pas (soigneurs, palissade, pot de miel, œuf,
+cobra couronné inutilisé, icônes des mutants) reprennent l'image de repos.
+
+
+Huit planches `<nom>-attack` (1024×1024, RGBA, mêmes cases que la planche de repos ;
+allies-mutants : cases du haut 512×600). Rien n'a été écrit dans le dépôt.
+
+- Outil : Magnific `images_generate`, `mode: imagen-nano-banana-2` (Nano Banana Pro),
+  `aspectRatio: 1:1`, `count: 2`, une référence image = la retouche retenue sur fond blanc.
+  75 crédits par image. Puis `images_remove_background` (3 crédits).
+- Solde : 12 791 → 11 264. **Dépense : 1 527 crédits** (10 appels de génération × 150 = 1 500 ;
+  9 détourages × 3 = 27). Plafond du lot : 2 500. Aucun appel payant refusé.
+- Lien d'une création : `https://www.magnific.com/app/creation/<identifiant>`.
+- Recalage (`attack-work/post.py`) : boîte alpha > 60 par case ; la case d'attaque est décalée
+  verticalement pour que son bas soit celui du repos ; aucun déplacement horizontal.
+  **Écart à la consigne** : la remise à l'échelle prévue quand la hauteur diffère de plus de
+  12 % n'a été appliquée nulle part. Dans les six cases concernées, la hauteur change parce que
+  la pose change (tête baissée, corps penché, passage à quatre pattes), pas parce que la
+  figurine a changé de taille : les anneaux, les pieds et les largeurs de corps sont restés ceux
+  du repos. Agrandir aurait grossi le personnage de 15 à 48 %.
+- WebP sans perte (`ffmpeg -c:v libwebp -lossless 1 -compression_level 6`) : alpha identique
+  au PNG, couleurs identiques partout où le pixel est visible. Tailles : 213 à 440 Ko.
+
+| Planche | Référence | Générations (essai 1) | Reprise | Retenue | Détourage | Crédits | Verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| enemies-organic | N2QNzyF6D9 | 3zbZznrREY, nVjWVDMYQD | — | nVjWVDMYQD | jUXsUjnLD0 | 153 | ACCEPTÉE |
+| allies-support | eIJeqf8dqL | 9ZQ6Z58NYZ, LwBlwmEswO | — | LwBlwmEswO | 79vON8jJAL | 153 | ACCEPTÉE |
+| allies-elite | yifyYUDPW9 | 1lpxg9Er4r, huRaQjKvqL | — | huRaQjKvqL | tCihuLomZJ | 153 | ACCEPTÉE |
+| allies-creatures | 8a98bBFIrU | KLM1lUzkqp, 9ZQ6AnwNYZ | — | 9ZQ6AnwNYZ | nVjWDARYQD | 153 | ACCEPTÉE |
+| allies-dinosaurs | N2QNVSo6D9 | Sytw4HIUb8, rgejUabxtc | — | Sytw4HIUb8 | ov9ICOn829 | 153 | ACCEPTÉE, T-rex à faire valider |
+| enemies-mechanical | JNvJnyROq4 | ov9ICPW829, Bh48fPkoQR | 4RuNGJo9Aa, SytwNLHUb8 | 4RuNGJo9Aa | 5jVkS8mKxe | 303 | ACCEPTÉE (reprise) |
+| serpents-family | yifytfkPW9 | aF2Cb8wfSh, Bh48fM6oQR | fHAEKvWCDY, dtyBae8XSL | fHAEKvWCDY + case bas-gauche de aF2Cb8wfSh | p8JdvZvehw, ov9IQak829 | 306 | ACCEPTÉE (reprise, deux sources) |
+| allies-mutants | hu3hLKovqL | O6fPZeDynm, JNayRpEOq4 | — | JNayRpEOq4 | vQZf59Ba47 | 153 | ACCEPTÉE |
+
+Cases : 0 = haut gauche, 1 = haut droite, 2 = bas gauche, 3 = bas droite.
+
+## enemies-organic
+
+- Choix : nVjWVDMYQD, visages plus rieurs ; l'autre montrait une langue sur le serpent jaune.
+- Cases gardées au repos : aucune.
+- Recalage : dy = 0 partout. Case 0 (serpent vert) : hauteur 388 contre 446 px, pas de remise
+  à l'échelle (tête baissée).
+- Vérifié en gros plan : bouches ouvertes du vert et du jaune sans crocs ni dents.
+- Réserve : le bleu (tête un peu avancée) et le cobra violet (bouche en « o », boîte identique
+  au repos) bougent peu.
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same four modelling-clay toy snakes, identical faces, eyes, scales, accessories, colours, clay material, lighting and size, each one alone and centred in its own quadrant, coils resting at the same height as in the reference, all four seen in the same view and still facing the SAME direction as in the reference (heads toward the right). Pure white background, tiny soft contact shadow under the coils.
+
+Only the pose changes, to show the moment the bite lands toward the right:
+- top-left: the green snake with the cream belly keeps its coil on the ground and stretches its neck forward and low toward the right in a quick lunge, head tilted slightly down, mouth slightly open;
+- top-right: the yellow snake with the brown aviator cap and goggles on its head keeps its coil and curled tail and darts its neck forward toward the right, head leading, mouth slightly open in a cheeky grin, goggles still on its forehead;
+- bottom-left: the blue scaly snake with the two round copper goggle eyes keeps its coil and thrusts its head forward toward the right like a head-butt, neck stretched, mouth closed;
+- bottom-right: the purple cobra with the open hood, green cheeks and cream belly keeps its coil and curled tail and leans its hooded head forward toward the right, neck stretched, lips pursed in a small round "o" as if blowing.
+
+Mischievous, cheeky, never frightening; the mouth may open slightly for the bite but NO fangs, no teeth, no tongue, no blood. No motion lines, no impact stars, no dust, no spit, no droplets, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+## allies-support
+
+- Choix : LwBlwmEswO ; dans l'autre, l'archer fronce nettement les sourcils.
+- Cases gardées au repos : 1 (infirmier) et 2 (médecin) : `damage: 0` dans `src/data.ts`,
+  ils soignent et ne frappent pas. Remplacées par la case de repos.
+- Recalage : archer dy = −2 ; ninja dy = +1.
+- Réserves : l'épée du ninja touche le bord gauche de sa case (pointe peut-être rognée de
+  quelques pixels) ; les yeux du ninja et de l'archer sont plus plissés qu'au repos (air décidé).
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same four modelling-clay toy figures, identical faces, hair, clothes, colours, clay material, lighting and size, each one alone and centred in its own quadrant, feet at the same height as in the reference, all four seen in the same view and still facing the SAME direction as in the reference (toward the left). Pure white background, tiny soft contact shadow under the feet.
+
+Only the pose of the two fighters changes, to show the moment the blow lands toward the left:
+- top-left: the archer with blond hair, moss-green hood and tunic and brown quiver on the back has just shot: the brown wooden bow is held out at arm's length toward the left, the string arm pulled back behind the ear and open, no arrow on the bow any more, body leaning slightly forward;
+- top-right: the nurse with the cream knitted bonnet with a green leaf, cream sweater and tan apron, holding the rolled bandage in both hands: KEEP THIS QUADRANT EXACTLY UNCHANGED, same pose as the reference;
+- bottom-left: the doctor with curly blond hair, round glasses, long cream coat and grey-blue satchel: KEEP THIS QUADRANT EXACTLY UNCHANGED, same pose as the reference;
+- bottom-right: the ninja with the dusty purple hood, purple face scarf with its long tail, blue-teal quilted jacket, strikes with the brown wooden sword held in both hands, swung forward and down toward the left, arms extended, one bare foot stepping forward, scarf tail still flowing to the right.
+
+Determined, brave, friendly faces. No motion lines, no impact stars, no dust, no text, no frame, no extra characters or objects, no flying arrow, nothing crossing from one quadrant into another.
+```
+
+## allies-elite
+
+- Choix : huRaQjKvqL ; dans l'autre, le tank avait changé d'angle de vue.
+- Cases gardées au repos : aucune.
+- Recalage : chevalier dy = 0 ; cavalier dy = +4 ; deux têtes dy = −2 ; tank dy = 0.
+- Réserve : le tank change très peu (canon un peu raccourci, 6 px de moins en hauteur).
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same four modelling-clay toy figures, identical helmets, faces, clothes, colours, clay material, lighting and size, each one alone and centred in its own quadrant, feet, hooves and tracks at the same height as in the reference, all four seen in the same view and still facing the SAME direction as in the reference (toward the left). Pure white background, tiny soft contact shadow under the feet.
+
+Only the pose changes, to show the moment the blow lands toward the left:
+- top-left: the knight with the silver-grey visor helmet with the small ochre pennant, blue padded tunic and round blue shield thrusts his short silver sword straight out toward the left at arm's length, one dark green boot stepping forward, the round blue shield pulled back against his side;
+- top-right: the rider with the cream cap and green tunic on the chestnut-brown horse with the cream mane and tail: the horse charges toward the left, head lowered and pushed forward, both front legs lifted off the ground in a gallop, the rider leaning forward over the mane; blue saddle blanket unchanged;
+- bottom-left: the two-headed knight with two silver-grey helmets side by side, olive-green tunic and brown belt swings both brown wooden swords forward and down in front of him at the same time, arms extended, leaning slightly forward;
+- bottom-right: the small olive-green toy tank with the round turret, brass cannon pointing left, dark grey tracks and small blue flag has just fired: the hull rocks back on its tracks with the front slightly lifted, the brass cannon pulled back shorter into the turret, the blue flag swept backward toward the right. The tank has no face.
+
+Determined, brave, friendly faces. No motion lines, no impact stars, no dust, no smoke, no flash, no shell, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+## allies-creatures
+
+- Choix : 9ZQ6AnwNYZ ; dans l'autre, le petit dinosaure avait un regard fâché.
+- Cases gardées au repos : 2 (palissade : `damage: 0`, objet fixe) et 3 (pot de miel : objet).
+- Recalage : dragon dy = +13, hauteur 374 contre 452 px, pas de remise à l'échelle (cou
+  baissé) ; dinosaure dy = +26, hauteur 304 contre 449 px, pas de remise à l'échelle.
+- Réserve : le petit dinosaure, debout au repos, passe à quatre pattes pour son coup de tête :
+  silhouette très différente pendant 0,2 s. Le dragon ouvre la bouche (petites dents rondes).
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same two modelling-clay toy creatures and the same two clay objects, identical faces, horns, spikes, colours, clay material, lighting and size, each one alone and centred in its own quadrant, feet at the same height as in the reference, seen in the same view and still facing the SAME direction as in the reference (toward the left). Pure white background, tiny soft contact shadow under the feet.
+
+Only the pose of the two creatures changes, to show the moment the blow lands toward the left:
+- top-left: the teal-blue baby dragon with the cream belly, two golden-yellow horns, small teal wings and arrow-tipped tail lunges toward the left: neck and head stretched forward and low, mouth open wide in a brave little roar with a round pink tongue, wings raised and spread, tail lifted, all four feet on the ground;
+- top-right: the chubby sage grey-green dinosaur with the cream belly and orange-red back spikes, standing upright, leans forward toward the left and gives a head-butt: head lowered and pushed forward, small arms pulled back, one foot stepping forward, tail lifted behind for balance;
+- bottom-left: the barricade of three upright moss-green logs tied with a cream rope and a small teal cloth: KEEP THIS QUADRANT EXACTLY UNCHANGED, identical to the reference;
+- bottom-right: the round orange clay honey pot with amber honey, wooden honey dipper and green leaf: KEEP THIS QUADRANT EXACTLY UNCHANGED, identical to the reference.
+
+Determined, brave, friendly faces. No fire, no flame, no smoke, no sharp teeth, no motion lines, no impact stars, no dust, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+## allies-dinosaurs
+
+- Choix : Sytw4HIUb8 ; charge du tricératops plus lisible, T-rex un peu moins denté.
+- Cases gardées au repos : aucune.
+- Recalage : raptor dy = +9 ; tricératops dy = +36, hauteur 417 contre 490 px, pas de remise à
+  l'échelle (tête baissée) ; stégosaure dy = 0 ; T-rex dy = 0.
+- **À faire valider par le parent** : le T-rex ouvre la bouche et montre une rangée de petites
+  dents, plus visibles qu'au repos (où il en montre déjà). Regard rond, pas menaçant à mon
+  avis, mais c'est la case la plus « mordante » du lot.
+- La queue du raptor touche le bord droit de sa case.
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same four modelling-clay toy dinosaurs, identical faces, eyes, teal neck scarves, colours, clay material, lighting and size, each one alone and centred in its own quadrant, feet at the same height as in the reference, all four seen in the same view and still facing the SAME direction as in the reference (toward the left). Pure white background, tiny soft contact shadow under the feet.
+
+Only the pose changes, to show the moment the blow lands toward the left:
+- top-left: the small lilac-purple and cream raptor with light blue patches and teal scarf pounces toward the left: body leaning far forward, head stretched out, both small arms reaching forward, one leg lifted, tail raised straight behind;
+- top-right: the light blue-teal triceratops with the pink-edged frill, three dark blue horns and coral pink hindquarters charges toward the left: head lowered so the three horns point forward, front legs braced, back legs pushing;
+- bottom-left: the teal-blue stegosaurus with orange back plates and orange tail spikes keeps its head facing left and swings its spiked tail high and forward over its back like a club, body twisted a little, all feet on the ground;
+- bottom-right: the orange tyrannosaurus with the red-orange head, small crest spikes and tiny arms, standing upright, lunges its big head forward and down toward the left, mouth half open in a brave grin, tail lifted behind for balance.
+
+Determined, brave, friendly faces with the same round eyes; teeth small and rounded exactly as in the reference, never sharp. Every dinosaur keeps its teal scarf. No motion lines, no impact stars, no dust, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+## enemies-mechanical
+
+- Essai 1 (ov9ICPW829, Bh48fPkoQR) : ÉCARTÉ. Le serpent à ressort ouvrait la bouche avec deux
+  petits crocs blancs (vérifié en gros plan sur ov9ICPW829 ; rangée de dents sur l'autre).
+  Le prompt de l'essai 1 était celui ci-dessous, sauf : « bite » au lieu de « head-butt »,
+  « mouth closed » en minuscules pour le serpent blindé, « mouth slightly open in a cheeky
+  grin » et « shooting the teal head forward to the right edge of its quadrant » pour le
+  ressort, et la phrase finale standard « the mouth may open slightly for the bite but NO
+  fangs, no teeth, no tongue, no blood » avec « no sparks ».
+- Reprise : 4RuNGJo9Aa retenue (bouches fermées, ressort étiré) ; dans SytwNLHUb8 le ressort
+  ne bouge presque pas.
+- Cases gardées au repos : 0 (cobra couronné : aucune unité n'utilise cette case dans
+  `src/art.ts`) et 3 (œuf : ne frappe pas).
+- Recalage : serpent blindé dy = 0 ; ressort dy = 0.
+- Réserves : geste discret pour le serpent blindé (tête avancée et baissée de 34 px) ; la
+  tête du ressort touche le bord droit de sa case.
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same three modelling-clay toy snakes and the same clay egg, identical faces, eyes, metal parts, colours, clay material, lighting and size, each one alone and centred in its own quadrant, resting on the ground at the same height as in the reference, seen in the same view and still facing the SAME direction as in the reference (the two mechanical snakes face the right). Pure white background, tiny soft contact shadow underneath.
+
+Only the pose of the two mechanical snakes changes, to show the moment the head-butt lands toward the right:
+- top-left: the dark green king cobra with the cream open hood and small golden crown: KEEP THIS QUADRANT EXACTLY UNCHANGED, identical to the reference;
+- top-right: the armoured mechanical snake with the verdigris blue-green metal head, one big round glowing amber-orange eye, copper-brown riveted plates and a small copper gear on its side keeps its body and curled tail in place and thrusts its heavy metal head forward and low toward the right like a head-butt, neck plates stretched out, MOUTH CLOSED exactly as in the reference;
+- bottom-left: the spring snake with the teal-blue head, amber-orange eye, brass coiled spring body, small brass wind-up key and thin teal tail: the brass spring uncoils and stretches out long toward the right, shooting the teal head forward toward the right, MOUTH COMPLETELY CLOSED in the same smooth closed-lip smile as in the reference, the lower coils and the tail staying in place on the ground;
+- bottom-right: the cream speckled cracked egg with the tiny green sprout in its dark grey mossy rock nest: KEEP THIS QUADRANT EXACTLY UNCHANGED, identical to the reference.
+
+IMPORTANT, this is a toy for young children: both mechanical snakes keep their mouths shut. No open mouth, no teeth, no fangs, no white points at the lips, no tongue. Mischievous, cheeky, never frightening. No motion lines, no impact stars, no sparks, no dust, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+## serpents-family
+
+- Essai 1 (aF2Cb8wfSh, Bh48fM6oQR) : insuffisant, le roi à trois têtes restait identique au
+  repos dans les deux variantes.
+- Reprise : fHAEKvWCDY retenue (les trois têtes du roi partent vers la droite, yeux rouges,
+  bouches fermées, couronne gardée ; crotale en fente basse). dtyBae8XSL écartée (couronne
+  passée sur la tête du haut, têtes empilées de profil).
+- **Planche assemblée depuis deux créations** : dans la reprise le serpent noir ne bougeait
+  plus ; sa case (2, bas gauche) vient de l'essai 1 aF2Cb8wfSh (cou lancé, bouche ouverte,
+  vérifiée en gros plan : ni crocs ni dents). Cases 0, 1, 3 : fHAEKvWCDY (détourage
+  p8JdvZvehw) ; case 2 : aF2Cb8wfSh (détourage ov9IQak829).
+- Cases gardées au repos : aucune.
+- Recalage : crotale dy = 0, hauteur 380 contre 495 px, pas de remise à l'échelle (fente
+  basse) ; cobra doré dy = 0 ; serpent noir dy = +5 ; roi dy = 0.
+- Réserves : le cobra doré bouge peu (buste penché, queue apparue à gauche de sa base) ; un
+  fin reste d'ombre de contact sous le crotale ; la tête du crotale touche le bord droit.
+
+Prompt de la reprise (cases 0, 1, 3) :
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same four modelling-clay toy snakes, identical faces, eyes, scales, patterns, colours, clay material, lighting and size, each one alone and centred in its own quadrant, resting on the ground at the same height as in the reference, all four seen in the same view as in the reference. Pure white background, tiny soft contact shadow underneath.
+
+Only the pose changes, to show the moment the lunge lands toward the right. EVERY one of the four must clearly move, especially the three-headed king:
+- bottom-right, the most important: the three-headed snake king, indigo blue-violet scaly body with golden-ochre belly, three heads on three necks rising from one coil, the middle head wearing the small golden crown, round red eyes, grumpy boss look. Its coil stays in place but all three long necks now bend and stretch strongly toward the RIGHT side like three reeds blown by the wind: all three heads are turned to face the right in profile, pushed forward and lower than in the reference, stacked one above the other without touching, the crowned head in the middle; the heads come close to the right edge of the quadrant. Mouths closed in grumpy grins;
+- top-left: the terracotta orange-pink rattlesnake with cream diamond patches, cream belly and beige stacked rattle on the left keeps its lower body and rattle in place and whips its head forward and down toward the right, neck stretched, lips closed in a cheeky grin;
+- top-right: the golden-ochre cobra with the open hood and teal blue-green back and edges, standing tall on the same base as in the reference, bends its hooded head and upper body forward toward the right in a quick peck, hood still open, lips closed;
+- bottom-left: the charcoal-black snake with the light grey banded belly and yellow eye keeps its coil on the ground and shoots its raised neck forward and low toward the right, head leading, lips closed.
+
+IMPORTANT, this is a toy for young children: mischievous, never frightening (the king stays grumpy but not scary). All mouths stay shut: no teeth, no fangs, no white points at the lips, no forked tongue, no blood. No motion lines, no impact stars, no dust, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+Prompt de l'essai 1 (case 2) :
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same 2x2 game sprite sheet: the same four modelling-clay toy snakes, identical faces, eyes, scales, patterns, colours, clay material, lighting and size, each one alone and centred in its own quadrant, resting on the ground at the same height as in the reference, all four seen in the same view and still facing the SAME direction as in the reference (toward the right). Pure white background, tiny soft contact shadow underneath.
+
+Only the pose changes, to show the moment the bite lands toward the right:
+- top-left: the terracotta orange-pink rattlesnake with cream diamond patches, cream belly and beige stacked rattle on the left keeps its lower body and rattle in place and whips its head forward and down toward the right, the S of its neck straightened into a lunge, mouth slightly open in a cheeky grin;
+- top-right: the golden-ochre cobra with the open hood and teal blue-green back and edges, standing tall, bends its hooded head and upper body forward toward the right in a quick peck, hood still open, mouth slightly open;
+- bottom-left: the charcoal-black snake with the light grey banded belly and yellow eye keeps its coil on the ground and shoots its raised neck forward and low toward the right, head leading, mouth slightly open;
+- bottom-right: the three-headed snake king, indigo blue-violet scaly body with golden-ochre belly, three separate heads on three necks rising from one coil, the middle head wearing the small golden crown, round red eyes and grumpy boss look: the coil stays in place and all three necks stretch forward toward the right together in a lunge, the three heads staying clearly separated one above the other, mouths closed in grumpy grins, crown still on the middle head.
+
+Mischievous, cheeky, never frightening (the king stays grumpy but not scary); the mouth may open slightly for the bite but NO fangs, no teeth, no forked tongue, no blood. No motion lines, no impact stars, no dust, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+## allies-mutants
+
+- Choix : JNayRpEOq4 : les deux mutants frappent vers la gauche, comme les autres alliés ;
+  dans O6fPZeDynm ils frappaient vers la droite.
+- Disposition : cases du haut 512×600 comme la planche de repos. Tout ce qui est sous y = 600
+  (les deux icônes, hors cases et non utilisées par le jeu) est recopié de la planche de repos.
+- Recalage : golem dy = −1 (bas à 580) ; mutant élastique dy = 0 (bas à 585).
+- Réserve : le bras du mutant élastique est tendu mais pas vraiment étiré ; le poing du golem
+  est levé vers la gauche plutôt que lancé à l'horizontale.
+
+```
+Using the reference image as the exact character sheet, create the ATTACK FRAME of the same game sprite sheet: the same two tall modelling-clay toy figures in the top row and the same two small clay icons in the bottom row, identical faces, eyes, scarves, colours, clay material, lighting and size, each one alone and centred in its own quadrant, the two figures with their feet at exactly the same height as in the reference (slightly below the middle of the sheet), seen from the front as in the reference. Pure white background, tiny soft contact shadow under the feet.
+
+Only the pose of the two tall figures changes, to show the moment the blow lands toward the left side of the picture:
+- top-left: the tall rock golem built from separate cornflower-blue stone blocks, two round amber-brown eyes, small smile, teal scarf with a leaf-shaped end, punches toward the left: the big stone fist on the left side of the picture is thrown straight out to the left at shoulder height, arm fully extended, the body leaning a little into the punch, the other fist pulled back against its side, both feet on the ground;
+- top-right: the tall soft creature with the lilac-purple rounded head, two dark round eyes, small smile, mustard-yellow scarf, dusty mauve-pink body and two big teal mittens stretches its elastic arm: the arm on the left side of the picture stretches out long and thin like rubber toward the left, the teal mitten closed in a fist at the end reaching the left edge of its quadrant, the other arm bent with its mitten near the body, both round feet on the ground;
+- bottom-left: the small orange icon of three stacked beads with curved signal arcs: KEEP THIS QUADRANT EXACTLY UNCHANGED, identical to the reference, same small size and same place;
+- bottom-right: the small golden-orange shield icon with two cream stripes: KEEP THIS QUADRANT EXACTLY UNCHANGED, identical to the reference, same small size and same place.
+
+Determined, brave, friendly faces. No motion lines, no impact stars, no dust, no text, no frame, no extra characters or objects, nothing crossing from one quadrant into another.
+```
+
+## Ce qui n'a pas été vérifié
+
+- Aucune planche n'a été chargée dans le jeu : ni l'enchaînement repos → attaque à l'écran,
+  ni la lisibilité à la taille réelle sur téléphone.
+- Rien n'a été montré aux enfants ni au parent.
+- Le sens de l'attaque suit la direction du personnage au repos ; le rendu d'un sprite
+  retourné par le jeu n'a pas été contrôlé.

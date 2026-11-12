@@ -48,7 +48,8 @@ Graphismes, 12 novembre : onze planches (alliés, serpents, forteresses, miels) 
 pâte à modeler plus vive avec la retouche Magnific, mêmes personnages, poses et couleurs.
 Journal et identifiants : `public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md`.
 À faire ensuite : accessoires de terrain et habillage de l'interface dans la même matière ;
-essai d'une vraie pose d'attaque sur les quatre alliés de départ.
+vraies poses d'attaque : fait pour les neuf planches de personnages et de serpents (une
+seconde image affichée 0,2 s au moment du coup, coupée par « Effets légers »).
 
 Les musiques sont lues en continu par un élément audio au lieu d'être décodées en entier :
 un morceau de trois minutes occupait plus de 100 Mo de mémoire. Elles démarrent sans attendre

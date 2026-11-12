@@ -5,9 +5,18 @@ import type { Kind } from '../data.ts';
 import { kinds, waveStats } from '../data.ts';
 import { variantFor } from '../waves.ts';
 import { missionWave } from '../missions.ts';
-import { ALLY_ART, ART_SHEETS, ENEMY_ART, GROUND_ART, SCENERY_ART, KING_ART } from '../art.ts';
+import {
+  ALLY_ART,
+  ART_SHEETS,
+  ATTACK_SHEETS,
+  ENEMY_ART,
+  GROUND_ART,
+  SCENERY_ART,
+  KING_ART,
+} from '../art.ts';
 import { stageTheme } from './stageLayout.ts';
 import { onSceneExit } from './sceneExit.ts';
+import { attackSheetsFor } from './attackPose.ts';
 /** Select from the rules without advancing them or consuming their random stream. */
 export function texturesForGame(game: Game): Set<string> {
   const textures = new Set([
@@ -39,6 +48,7 @@ export function texturesForGame(game: Game): Set<string> {
   if (!game.mission && game.difficultyWave === 12) textures.add(KING_ART.texture);
   return textures;
 }
+const OPTIONAL = new Set(ATTACK_SHEETS.map((sheet) => sheet.key));
 /** One Phaser loader, no speculative downloads, and a retryable HTML progress panel. */
 export class MissionAssets {
   private failed = new Set<string>();
@@ -48,11 +58,18 @@ export class MissionAssets {
   private board = document.getElementById('game');
   private current?: Game;
   private loadStarted: number | null = null;
+  /** False while only an optional attack sheet is still arriving: no panel for it. */
+  private waiting = false;
+  private posesAsked = new Set<string>();
+  private closed = false;
+  private exists = (key: string) => this.scene.textures.exists(key);
   constructor(private scene: Phaser.Scene) {
     const progress = (value: number) => {
-      if (!this.failed.size) this.show(`Préparation du terrain… ${Math.round(value * 100)} %`);
+      if (this.waiting && !this.failed.size)
+        this.show(`Préparation du terrain… ${Math.round(value * 100)} %`);
     };
     const error = (file: Phaser.Loader.File) => {
+      if (OPTIONAL.has(file.key)) return; // The fighter keeps its idle image.
       this.failed.add(file.key);
       this.show('Une image n’a pas pu arriver. Réessaie quand la connexion revient.', true);
     };
@@ -64,6 +81,7 @@ export class MissionAssets {
         if (this.current) this.ready(this.current);
       };
     onSceneExit(scene.events, () => {
+      this.closed = true;
       scene.load.off('progress', progress);
       scene.load.off('loaderror', error);
       if (this.retry) this.retry.onclick = null;
@@ -73,17 +91,20 @@ export class MissionAssets {
   preload(game: Game) {
     this.current = game;
     this.queue(texturesForGame(game));
+    this.waiting = true;
     this.show('Préparation du terrain…');
   }
   ready(game: Game): boolean {
     this.current = game;
-    const missing = new Set(
-      [...texturesForGame(game)].filter((key) => !this.scene.textures.exists(key)),
-    );
+    const wanted = texturesForGame(game);
+    const missing = new Set([...wanted].filter((key) => !this.scene.textures.exists(key)));
     if (!missing.size) {
+      this.waiting = false;
       this.hide();
+      this.poses(wanted);
       return true;
     }
+    this.waiting = true;
     if ([...missing].some((key) => this.failed.has(key))) {
       this.show('Une image n’a pas pu arriver. Réessaie quand la connexion revient.', true);
       return false;
@@ -106,6 +127,26 @@ export class MissionAssets {
     for (const ground of [...GROUND_ART, ...SCENERY_ART])
       if (keys.has(ground.key) && !this.scene.textures.exists(ground.key))
         this.scene.load.image(ground.key, ground.url);
+  }
+  /**
+   * Optional attack poses follow their loaded base sheet, once per scene. They never go through
+   * the scene loader: a slow or stalled pose must not delay the textures a mission requires.
+   */
+  private poses(keys: Set<string>) {
+    if (this.posesAsked.size === OPTIONAL.size) return;
+    for (const sheet of attackSheetsFor(keys, this.exists)) {
+      if (this.posesAsked.has(sheet.key)) continue;
+      this.posesAsked.add(sheet.key);
+      const image = new Image();
+      image.onload = () => {
+        if (this.closed || this.scene.textures.exists(sheet.key)) return;
+        this.scene.textures.addSpriteSheet(sheet.key, image, {
+          frameWidth: sheet.frameWidth,
+          frameHeight: sheet.frameHeight,
+        });
+      };
+      image.src = sheet.url;
+    }
   }
   private show(text: string, failed = false) {
     if (this.loadStarted === null) this.loadStarted = performance.now();
