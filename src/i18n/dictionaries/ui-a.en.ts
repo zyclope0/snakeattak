@@ -258,6 +258,8 @@ export const uiAEnglish: Record<string, string> = {
   'Favoris actifs': 'Active favorites',
   'Favoris et {0} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.':
     'Only favorites and {0} stars. No camp to resume: the old allies will be replaced.',
+  'Bruitages activés': 'Sound effects on',
+  'Bruitages coupés': 'Sound effects off',
   'Fermer l’aide des outils': 'Close tool help',
   'Fermer le guide': 'Close guide',
   'Fermer les alliés': 'Close allies',

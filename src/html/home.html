@@ -3,7 +3,13 @@
     <span class="home-brand"
       ><span class="crest" aria-hidden="true"></span> La Conquête <em>des Serpents</em
       ><small class="build-version" data-app-version>v__APP_VERSION__</small></span
-    ><strong id="mission-total" class="home-stars">0 / 18 étoiles</strong>
+    ><strong id="mission-total" class="home-stars">0 / 18 étoiles</strong
+    ><button
+      id="home-settings"
+      class="settings-button"
+      data-settings
+      aria-label="Réglages"
+    ></button>
   </header>
   <button id="home-back" class="secondary" hidden>← Accueil</button>
   <div id="home-main" data-home-page="home">
@@ -64,7 +70,7 @@
     <nav class="parent-actions" aria-label="Aide et sauvegarde">
       <button id="home-guide">Fiches des alliés</button>
       <button id="home-help">Comment jouer</button>
-      <button id="home-sound">♪ Sons coupés</button>
+      <button id="home-sound" data-settings>Réglages</button>
       <button id="home-family">Sauvegarde familiale</button>
     </nav>
     <details id="home-parent-options" class="home-disclosure" open>
