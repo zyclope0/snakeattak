@@ -39,6 +39,15 @@ Décision du parent le 12 novembre : le son est **activé au départ**, comme da
 mobiles (il démarre au premier appui ; un choix déjà enregistré est respecté). « Effets
 légers » quitte le bas de l'aide pour la fenêtre Réglages, qui propose aussi « Comment jouer ».
 
+Lot « vie » (code seul, aucune image nouvelle) : éclair et écrasement sur un combattant
+touché, respiration des alliés au repos, pièce qui vole vers le compteur, poussière à la pose
+d'un allié, éclats à l'éclosion, étoiles de victoire une à une, confettis, bilan de fin lisible
+(13 px au moins), secousse à l'arrivée du roi. Tout est coupé par « Effets légers ».
+
+Essai de style du 12 novembre, non intégré : la planche des alliés de départ refaite en pâte à
+modeler plus vive (Higgsfield à la main, ou retouche Magnific à 83 crédits la planche). Le
+choix appartient au parent et à son fils ; dix planches suivraient, serpents en premier.
+
 Les musiques sont lues en continu par un élément audio au lieu d'être décodées en entier :
 un morceau de trois minutes occupait plus de 100 Mo de mémoire. Elles démarrent sans attendre
 la fin du téléchargement et s'arrêtent en arrière-plan.

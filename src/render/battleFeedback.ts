@@ -68,7 +68,11 @@ export class BattleFeedback {
         const angle = (i * Math.PI) / 3,
           spread = reduced ? 8 : 8 + b.age * 40;
         g.fillStyle(b.color, fade * 0.8);
-        g.fillCircle(b.x + Math.cos(angle) * spread, b.y + Math.sin(angle) * spread, 2 * fade + 1);
+        g.fillCircle(
+          b.x + Math.cos(angle) * spread,
+          b.y + Math.sin(angle) * spread,
+          3 * fade + 1.5,
+        );
       }
     }
     for (const u of [...game.units, ...game.enemies]) {

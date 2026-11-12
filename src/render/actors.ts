@@ -22,6 +22,8 @@ import type { Presentation } from './presentation.ts';
 import { visualPose } from './presentation.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
+/** Warm paper white, softer than a pure white flash. */
+const FLASH = 0xfff4dc;
 export class Actors {
   private contours?: CanvasContours;
   private pieces: FramePool<string, Phaser.GameObjects.Image>;
@@ -99,6 +101,12 @@ export class Actors {
       const action = presentation.actions.get(unit.id);
       const motion = characterMotion(unit, presentation.clock, action, reduced);
       const hurt = presentation.reactions.get(unit.id)?.hurt ?? 0;
+      // One pale flash per blow, 100 ms, never restarted within 0.3 s: no strobe.
+      const flash = !reduced && (presentation.flashes.get(unit.id) ?? 1) < 0.1;
+      const squash = reduced ? 0 : hurt * 0.14;
+      const landed = enemy || reduced ? undefined : presentation.placed.get(unit.id);
+      const pop =
+        landed === undefined ? 1 : 0.55 + 0.45 * Phaser.Math.Easing.Back.Out(landed / 0.35);
       const spring =
         unit.variant === 'spring' && moving
           ? enemySpeed('spring', game.time) > 1
@@ -108,8 +116,8 @@ export class Actors {
       const arrival = enemy ? presentation.arrivals.find((a) => a.id === unit.id) : undefined;
       const emerge = arrival ? Math.min(1, arrival.age / 0.35) : 1;
       const entryScale = reduced ? 1 : 0.82 + emerge * 0.18;
-      const width = size * (1 - spring) * entryScale * motion.sx,
-        height = size * (1 + spring) * entryScale * motion.sy,
+      const width = size * (1 - spring) * entryScale * motion.sx * (1 + squash) * pop,
+        height = size * (1 + spring) * entryScale * motion.sy * (1 - squash) * pop,
         x = u.x + motion.dx,
         y = u.y + 18 + motion.dy - (isFlying(unit) ? flightLift : 0),
         alpha = 0.25 + emerge * 0.75,
@@ -131,14 +139,20 @@ export class Actors {
           .setFlipX(flip)
           .setTintFill(tint)
           .setDepth(depth - delta);
-      this.piece(`entity:${unit.id}`, art)
+      const body = this.piece(
+        `entity:${unit.id}`,
+        flash && this.contours ? this.contours.frame(art, FLASH) : art,
+      )
         .setOrigin(0.5, 0.82)
         .setPosition(x, y)
         .setDisplaySize(width, height)
         .setAlpha(alpha)
         .setRotation(motion.angle)
         .setFlipX(flip)
-        .setTint(
+        .setDepth(depth);
+      if (flash) body.setTintFill(FLASH);
+      else
+        body.setTint(
           hurt > 0.55
             ? 0xffdfbc
             : unit.variant === 'clockwork' && unit.hp <= unit.maxHp * 0.5
@@ -146,8 +160,7 @@ export class Actors {
               : enemy && stickySpeed(unit, game.feast, game.level) < 1
                 ? 0xdcefc1
                 : 0xffffff,
-        )
-        .setDepth(depth);
+        );
       if (unit.shell) {
         const shell = this.shells.acquire(unit.id);
         shell
