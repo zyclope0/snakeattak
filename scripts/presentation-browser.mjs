@@ -288,7 +288,8 @@ try {
         state.kinds.length !== 6 ||
         state.confused < 1 ||
         !state.outlines ||
-        state.art.some((k) => k !== 'serpents-family')
+        // Un serpent qui mord montre la même case sur la planche d'attaque de sa famille.
+        state.art.some((k) => k?.replace(/-attack$/, '') !== 'serpents-family')
       )
         throw Error('Bestiary sprites/status/outline missing: ' + JSON.stringify(state));
       // Let the entrance banner clear so the review frame exposes all silhouettes.
