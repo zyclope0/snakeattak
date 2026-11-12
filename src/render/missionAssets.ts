@@ -61,6 +61,7 @@ export class MissionAssets {
   /** False while only an optional attack sheet is still arriving: no panel for it. */
   private waiting = false;
   private posesAsked = new Set<string>();
+  private closed = false;
   private exists = (key: string) => this.scene.textures.exists(key);
   constructor(private scene: Phaser.Scene) {
     const progress = (value: number) => {
@@ -80,6 +81,7 @@ export class MissionAssets {
         if (this.current) this.ready(this.current);
       };
     onSceneExit(scene.events, () => {
+      this.closed = true;
       scene.load.off('progress', progress);
       scene.load.off('loaderror', error);
       if (this.retry) this.retry.onclick = null;
@@ -126,21 +128,25 @@ export class MissionAssets {
       if (keys.has(ground.key) && !this.scene.textures.exists(ground.key))
         this.scene.load.image(ground.key, ground.url);
   }
-  /** Optional attack poses follow their loaded base sheet in the background, once per scene. */
+  /**
+   * Optional attack poses follow their loaded base sheet, once per scene. They never go through
+   * the scene loader: a slow or stalled pose must not delay the textures a mission requires.
+   */
   private poses(keys: Set<string>) {
-    if (this.posesAsked.size === OPTIONAL.size || this.scene.load.isLoading()) return;
-    const sheets = attackSheetsFor(keys, this.exists).filter(
-      (sheet) => !this.posesAsked.has(sheet.key),
-    );
-    if (!sheets.length) return;
-    for (const sheet of sheets) {
+    if (this.posesAsked.size === OPTIONAL.size) return;
+    for (const sheet of attackSheetsFor(keys, this.exists)) {
+      if (this.posesAsked.has(sheet.key)) continue;
       this.posesAsked.add(sheet.key);
-      this.scene.load.spritesheet(sheet.key, sheet.url, {
-        frameWidth: sheet.frameWidth,
-        frameHeight: sheet.frameHeight,
-      });
+      const image = new Image();
+      image.onload = () => {
+        if (this.closed || this.scene.textures.exists(sheet.key)) return;
+        this.scene.textures.addSpriteSheet(sheet.key, image, {
+          frameWidth: sheet.frameWidth,
+          frameHeight: sheet.frameHeight,
+        });
+      };
+      image.src = sheet.url;
     }
-    this.scene.load.start();
   }
   private show(text: string, failed = false) {
     if (this.loadStarted === null) this.loadStarted = performance.now();
