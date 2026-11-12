@@ -146,6 +146,7 @@ export function bindSounds() {
   // En arrière-plan le son se tait ; au retour il reprend tout seul, sans toucher aux réglages.
   document.addEventListener('visibilitychange', () => {
     if (!context) return;
+    samples?.hold(document.hidden);
     if (document.hidden) void context.suspend().catch(() => {});
     else if (settings.music || settings.effects) void context.resume().catch(() => {});
   });

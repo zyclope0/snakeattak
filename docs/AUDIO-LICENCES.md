@@ -3,6 +3,7 @@
 Fichiers de `src/assets/audio/`, recompressés en MP3 (bruitages mono 96 kb/s, crête à −2 dB,
 silence de tête coupé ; musiques stéréo 128 kb/s). Les sources ne sont pas dans Git.
 `nom-1.mp3`, `nom-2.mp3` sont les variantes d'un même signal ; `music-*.mp3` sont les musiques.
+Les bruitages sont décodés en mémoire ; les musiques sont lues en continu (élément audio).
 Le code qui les joue est `src/audio/samples.ts` ; les moments sont décidés dans
 `src/audio/sounds.ts`. Musique et bruitages se règlent séparément dans « Réglages »
 (`src/audio/soundSettings.ts`) ; ils restent coupés tant que personne ne les a activés.
