@@ -1,9 +1,11 @@
 # Monétisation — version 1 sans serveur
 
 **Étape 4 documentaire, 8 novembre 2026. Rien n'est intégré ni activé.**
-L'application reste0.32.4/code39, sans publicité, achat ou permission INTERNET.
-Le compte Play personnel a été créé ; selon le dernier retour du parent,
-la validation d'identité est en attente. L'identifiant définitif reste à choisir.
+État actualisé au 12 novembre2026 : application0.37.0/code53, sans publicité,
+achat ou permission INTERNET. Le compte Play est activé ; le parent a envoyé le
+build52 en test interne avec le paquet `com.conqueteserpents.famille` et confirme
+son installation. Le build53 signé est préparé pour mettre à jour ce même canal.
+Les choix ci-dessous restent documentaires ; aucun SDK ou produit intégré.
 [Sources datées](sources-etape-4.json).
 
 ## Décisions du parent et propositions techniques
