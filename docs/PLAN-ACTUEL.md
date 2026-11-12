@@ -1,6 +1,6 @@
 # Plan actuel — 0.37.0 publiée, remise en ordre en cours
 
-## En cours — réglages du son (PR à venir, pas encore publiée)
+## En cours — suites de l’audit du 12 novembre (fusionné dans main, pas encore publié)
 
 Audit du 12 novembre sur le code du build 52 : le son était introuvable sur téléphone (seulement
 dans « Pour les parents »), se coupait à chaque passage en arrière-plan sans revenir, n'était
@@ -11,9 +11,12 @@ des parents et la pause ; choix mémorisé sur l'appareil ; reprise automatique 
 l'appli ; fondu propre entre musiques. Le son reste coupé tant que personne ne l'a activé.
 
 Restent de l'audit, par ordre proposé : la mission 1 se gagne sans rien acheter (règles et
-équilibrage : mesure puis accord du fils et du parent) ; écran de fin dont le troisième bouton
-est coupé ; textes de 10–11 px dans le dock ; barre du haut à alléger ; 30 Mo téléchargés sur
+équilibrage : mesure puis accord du fils et du parent) ; barre du haut à alléger ; 30 Mo téléchargés sur
 le site pour une première partie avec le son ; fluidité à mesurer sur le vrai téléphone.
+
+Fait ensuite (PR séparée) : sur téléphone couché, le titre et les étoiles de l'écran de fin
+partagent une ligne et les trois actions tiennent sans défiler ; noms du dock à 13 px, prix à
+12 px.
 
 ## Livraison actuelle — Sites27, Android build 52
 
