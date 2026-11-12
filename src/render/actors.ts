@@ -3,6 +3,7 @@ import { CanvasContours } from './canvasContours.ts';
 import { isFlying, flightLift } from '../flying.ts';
 import Phaser from 'phaser';
 import { characterMotion } from './characterMotion.ts';
+import { poseArt } from './attackPose.ts';
 import { feastPoint, stickySpeed } from '../tactics.ts';
 import { actorSize, spriteFlip } from './actorLayout.ts';
 import {
@@ -29,6 +30,7 @@ export class Actors {
   private pieces: FramePool<string, Phaser.GameObjects.Image>;
   private shells: FramePool<number, Phaser.GameObjects.Graphics>;
   private shadows: Phaser.GameObjects.Graphics;
+  private loaded = (texture: string) => this.scene.textures.exists(texture);
   constructor(private scene: Phaser.Scene) {
     if (scene.game.renderer.type === Phaser.CANVAS) this.contours = new CanvasContours(scene);
     this.shells = new FramePool({
@@ -81,14 +83,14 @@ export class Actors {
     this.shadows.clear();
     for (const unit of [...game.units, ...game.enemies]) {
       const enemy = unit.kind === 'snake',
-        art = enemy
+        idle = enemy
           ? unit.boss
             ? KING_ART
             : unit.variant === 'umbrella' && unit.state !== 'move'
               ? UMBRELLA_CLOSED_ART
               : ENEMY_ART[unit.variant]
           : ALLY_ART[unit.kind as Kind];
-      if (!art) continue;
+      if (!idle) continue;
       const u = visualPose(unit, presentation.clock, presentation.reactions, reduced);
       const size = shellGeometry(actorSize(unit.kind, unit.variant, unit.boss), !!unit.shell).size;
       if (!isFlying(unit)) {
@@ -99,6 +101,9 @@ export class Actors {
       }
       const moving = unit.state === 'move' && !reduced;
       const action = presentation.actions.get(unit.id);
+      // Body, both contour layers and the flash all use this one frame: the edge
+      // always has the shape of the image it surrounds.
+      const art = poseArt(idle, action, reduced, this.loaded);
       const motion = characterMotion(unit, presentation.clock, action, reduced);
       const hurt = presentation.reactions.get(unit.id)?.hurt ?? 0;
       // One pale flash per blow, 100 ms, never restarted within 0.3 s: no strobe.

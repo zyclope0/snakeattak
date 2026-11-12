@@ -1,11 +1,17 @@
 import floodUrl from './assets/illustrated/scenery-flood.webp';
 import marshUrl from './assets/illustrated/scenery-marsh.webp';
 import frontUrl from './assets/illustrated/allies-front.webp';
+import frontAttackUrl from './assets/illustrated/allies-front-attack.webp';
 import supportUrl from './assets/illustrated/allies-support.webp';
+import supportAttackUrl from './assets/illustrated/allies-support-attack.webp';
 import eliteUrl from './assets/illustrated/allies-elite.webp';
+import eliteAttackUrl from './assets/illustrated/allies-elite-attack.webp';
 import creaturesUrl from './assets/illustrated/allies-creatures.webp';
+import creaturesAttackUrl from './assets/illustrated/allies-creatures-attack.webp';
 import organicUrl from './assets/illustrated/enemies-organic.webp';
+import organicAttackUrl from './assets/illustrated/enemies-organic-attack.webp';
 import mechanicalUrl from './assets/illustrated/enemies-mechanical.webp';
+import mechanicalAttackUrl from './assets/illustrated/enemies-mechanical-attack.webp';
 import propsUrl from './assets/illustrated/terrain-props.webp';
 import uiUrl from './assets/illustrated/interface-craft.webp';
 import groundUrl from './assets/illustrated/ground-three-bridges.webp';
@@ -14,29 +20,114 @@ import ruinsUrl from './assets/illustrated/ground-ruins-refined.webp';
 import strongholdsUrl from './assets/illustrated/strongholds.webp';
 import tacticsUrl from './assets/illustrated/miels-parapluie.webp';
 import dinosaursUrl from './assets/illustrated/allies-dinosaurs.webp';
+import dinosaursAttackUrl from './assets/illustrated/allies-dinosaurs-attack.webp';
 import serpentsUrl from './assets/illustrated/serpents-family.webp';
+import serpentsAttackUrl from './assets/illustrated/serpents-family-attack.webp';
 import mutantsUrl from './assets/illustrated/allies-mutants.webp';
+import mutantsAttackUrl from './assets/illustrated/allies-mutants-attack.webp';
 import threeBridgesPropsUrl from './assets/illustrated/props-three-bridges.webp';
 import type { Kind } from './data.ts';
 import type { EnemyKind } from './enemies.ts';
 export type ArtFrame = { texture: string; frame: number };
+/**
+ * `attackUrl` is optional: a second sheet with the same cells and the same geometry,
+ * shown for an instant when a fighter strikes. A sheet without it keeps its idle image.
+ */
 export const ART_SHEETS = [
-  { key: 'allies-front', url: frontUrl, frameWidth: 512, frameHeight: 512 },
-  { key: 'allies-support', url: supportUrl, frameWidth: 512, frameHeight: 512 },
-  { key: 'allies-elite', url: eliteUrl, frameWidth: 512, frameHeight: 512 },
-  { key: 'allies-creatures', url: creaturesUrl, frameWidth: 512, frameHeight: 512 },
-  { key: 'enemies-organic', url: organicUrl, frameWidth: 512, frameHeight: 512 },
-  { key: 'enemies-mechanical', url: mechanicalUrl, frameWidth: 512, frameHeight: 512 },
+  {
+    key: 'allies-front',
+    url: frontUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: frontAttackUrl,
+  },
+  {
+    key: 'allies-support',
+    url: supportUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: supportAttackUrl,
+  },
+  {
+    key: 'allies-elite',
+    url: eliteUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: eliteAttackUrl,
+  },
+  {
+    key: 'allies-creatures',
+    url: creaturesUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: creaturesAttackUrl,
+  },
+  {
+    key: 'enemies-organic',
+    url: organicUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: organicAttackUrl,
+  },
+  {
+    key: 'enemies-mechanical',
+    url: mechanicalUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: mechanicalAttackUrl,
+  },
   { key: 'terrain-props', url: propsUrl, frameWidth: 512, frameHeight: 512 },
   { key: 'interface-craft', url: uiUrl, frameWidth: 512, frameHeight: 512 },
   { key: 'strongholds', url: strongholdsUrl, frameWidth: 512, frameHeight: 512 },
   { key: 'miels-parapluie', url: tacticsUrl, frameWidth: 512, frameHeight: 512 },
-  { key: 'allies-dinosaurs', url: dinosaursUrl, frameWidth: 512, frameHeight: 512 },
-  { key: 'serpents-family', url: serpentsUrl, frameWidth: 512, frameHeight: 512 },
+  {
+    key: 'allies-dinosaurs',
+    url: dinosaursUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: dinosaursAttackUrl,
+  },
+  {
+    key: 'serpents-family',
+    url: serpentsUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: serpentsAttackUrl,
+  },
   // Two taller figures occupy the upper row; the unused lower icons stay outside frames.
-  { key: 'allies-mutants', url: mutantsUrl, frameWidth: 512, frameHeight: 600 },
+  {
+    key: 'allies-mutants',
+    url: mutantsUrl,
+    frameWidth: 512,
+    frameHeight: 600,
+    attackUrl: mutantsAttackUrl,
+  },
   { key: 'props-three-bridges', url: threeBridgesPropsUrl, frameWidth: 512, frameHeight: 512 },
 ] as const;
+/** Attack sheets, loaded with their base sheet under the key `<base>-attack`. */
+export const ATTACK_SHEETS = ART_SHEETS.flatMap((sheet) =>
+  'attackUrl' in sheet
+    ? [
+        {
+          key: `${sheet.key}-attack`,
+          base: sheet.key as string,
+          url: sheet.attackUrl,
+          frameWidth: sheet.frameWidth,
+          frameHeight: sheet.frameHeight,
+        },
+      ]
+    : [],
+);
+const attackFrames = new Map<string, ArtFrame[]>(
+  ATTACK_SHEETS.map((sheet) => [
+    sheet.base,
+    [0, 1, 2, 3].map((index) => ({ texture: sheet.key, frame: index })),
+  ]),
+);
+/** Same cell on the attack sheet, if its atlas declares one. Shared objects: no allocation. */
+export function attackArt(art: ArtFrame): ArtFrame | undefined {
+  return attackFrames.get(art.texture)?.[art.frame];
+}
 export const GROUND_ART_URL = groundUrl;
 export const GROUND_ART = [
   { key: 'ground-clearing', url: groundUrl },

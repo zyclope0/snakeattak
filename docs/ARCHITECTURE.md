@@ -594,3 +594,16 @@ système : autocollants, alliés, départ et retour en vue, cadre dans la zone s
 Reste à faire avec la même méthode : l'accueil lui-même et l'écran de jeu (barre du haut,
 plateau, dock), qui gardent leurs seuils par taille mais tiennent sur les tailles mesurées ;
 les dialogues de lecture (sauvegarde familiale, fiches, options des parents), qui défilent.
+
+## Pose d'attaque (essai, 12 novembre 2026)
+
+Une planche de `art.ts` peut déclarer `attackUrl` : une seconde planche aux mêmes cases,
+chargée sous la clé `<planche>-attack`. Seule `allies-front` en a une ; en ajouter une
+autre est une ligne de données et un fichier. `render/attackPose.ts` choisit l'image :
+la case d'attaque pendant 0,2 s après le coup (le même signal `Presentation.actions`
+que l'élan de `characterMotion`), l'image de repos sinon, toujours en « Effets légers »
+et tant que la planche d'attaque n'est pas là. `MissionAssets` la demande en arrière-plan
+une fois sa planche de repos chargée et utile à la mission ; elle n'est jamais attendue,
+son échec n'affiche rien. Corps, liseré clair, contour et éclair utilisent la même case :
+le contour a toujours la forme de l'image montrée (en Canvas, `CanvasContours` indexe
+ses silhouettes par texture et case). Les portraits HTML gardent la planche de repos.
