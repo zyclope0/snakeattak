@@ -1,5 +1,5 @@
 import { revealControl } from '../tests/reveal-controls.mjs';
-import { showHomePage } from '../tests/browser-entry.mjs';
+import { chooseLanguage, leaveBattle, showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
 import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -243,8 +243,7 @@ try {
     );
     await pending.evaluate(() => window.capricesFixture.home());
     if (locale === 'en') {
-      await pending.locator('[data-language-picker]:visible').selectOption('en');
-      await pending.waitForFunction(() => document.documentElement.lang === 'en');
+      await chooseLanguage(pending, 'en');
     }
     await prepare(pending, 'sonnette', 'sonnette-petit');
     check(
@@ -339,8 +338,7 @@ try {
     'defeat earns no sticker',
   );
   await lossVisual.evaluate(() => window.capricesFixture.home());
-  await lossVisual.locator('[data-language-picker]:visible').selectOption('en');
-  await lossVisual.waitForFunction(() => document.documentElement.lang === 'en');
+  await chooseLanguage(lossVisual, 'en');
   check(
     (await lossVisual.locator('#mission-result [lang="fr"]').innerText()) ===
       "Choisis deux sortes d'alliés !",
@@ -366,8 +364,13 @@ try {
   const beforeLocale = await pauseBook.evaluate(() =>
     JSON.stringify(window.capricesFixture.session.game),
   );
-  await pauseBook.locator('[data-language-picker]:visible').selectOption('en');
-  await pauseBook.waitForFunction(() => document.documentElement.lang === 'en');
+  // The pause panel leads to the settings window, where the language now lives.
+  await chooseLanguage(pauseBook, 'en');
+  check(
+    (await pauseBook.locator('#pause-overlay').isVisible()) &&
+      (await pauseBook.evaluate(() => window.capricesFixture.session.game.paused)),
+    'settings opened from pause leave the game paused',
+  );
   check(
     (await pauseBook.evaluate(() => JSON.stringify(window.capricesFixture.session.game))) ===
       beforeLocale,
@@ -549,7 +552,7 @@ try {
           'native reload/resume retains partial choices',
         );
       }
-      await p.locator('#menu-home:visible, #mobile-home:visible').first().click();
+      await leaveBattle(p);
       await p.locator('#home-caprice-album').click();
       await p.locator('.caprice-album-slots').evaluate((n) => (n.scrollTop = n.scrollHeight));
       await onScreen(p.locator('#caprice-album-close'), p, 'notebook close ' + width);
@@ -572,7 +575,7 @@ try {
     await familyPage.locator('#home-caprice-album').evaluate((n) => document.activeElement === n),
     'notebook keyboard focus returns',
   );
-  await familyPage.locator('[data-language-picker]').first().selectOption('en');
+  await chooseLanguage(familyPage, 'en');
   await familyPage.locator('#home-caprice-album').click();
   check(
     (await familyPage.locator('#caprice-album-profile option').last().innerText()) === 'Café <ami>',

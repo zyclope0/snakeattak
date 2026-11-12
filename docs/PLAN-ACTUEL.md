@@ -17,11 +17,19 @@ canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en
 ## À suivre, sans changement dans cette livraison
 
 - Mission1 gagnable sans recrutement : mesure puis accord du fils et du parent avant toute règle.
-- Barre du haut à alléger ; poids du premier téléchargement avec son à réduire.
+- Poids du premier téléchargement avec son à réduire ; « Dangers » encore dans la barre du haut.
 - Test physique S24 : mise à jour Play52→53, son au retour dans l’application, fluidité,
   volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
 - Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
 - Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.
+
+## Fusionné après le build 53, pas encore publié
+
+Sur téléphone couché, la barre du haut ne garde que pause, vitesse, « Dangers » et « Lancer la
+vague » ; « Accueil » passe dans l'écran de pause et « Alliés » reste dans le dock (il revient
+dans la barre sous 351 px de haut, où le dock n'a plus la place, et une fois la partie finie).
+Le choix de la langue rejoint la fenêtre Réglages ; la langue de départ suit celle de
+l'appareil (français, sinon anglais), comme avant.
 
 ## Livraison précédente — Sites27, Android build 52
 

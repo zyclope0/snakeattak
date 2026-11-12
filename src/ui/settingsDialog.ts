@@ -1,15 +1,18 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import './settingsDialog.css';
 
+let dialog: HTMLDialogElement | undefined;
+
 /**
- * Réglages de l'appareil, ouverts depuis l'accueil, la page des parents et la pause.
- * La fenêtre est construite ici pour ne pas alourdir la page de démarrage ; `sounds.ts`
- * donne leur libellé et leur état aux deux interrupteurs.
+ * Réglages de l'appareil : musique, bruitages et langue. La fenêtre est construite ici pour
+ * ne pas alourdir la page de démarrage ; `sounds.ts` donne leur libellé et leur état aux deux
+ * interrupteurs, `i18n/controls.ts` y ajoute le choix de la langue.
  */
-export function bindSettingsDialog(refresh: () => void) {
-  const dialog = document.createElement('dialog');
-  dialog.id = 'settings-dialog';
-  dialog.setAttribute('aria-labelledby', 'settings-title');
+export function settingsDialog() {
+  if (dialog) return dialog;
+  const made = document.createElement('dialog');
+  made.id = 'settings-dialog';
+  made.setAttribute('aria-labelledby', 'settings-title');
   const title = document.createElement('h2');
   title.id = 'settings-title';
   setDisplayText(title, 'Réglages');
@@ -28,15 +31,22 @@ export function bindSettingsDialog(refresh: () => void) {
   close.id = 'settings-close';
   close.className = 'primary';
   setDisplayText(close, 'Fermer');
-  close.onclick = () => dialog.close();
+  close.onclick = () => made.close();
   actions.append(close);
-  dialog.append(title, list, actions);
-  document.body.append(dialog);
+  made.append(title, list, actions);
+  document.body.append(made);
+  dialog = made;
+  return made;
+}
+
+/** Ouvre les réglages depuis l'accueil, la page des parents et la pause. */
+export function bindSettingsDialog(refresh: () => void) {
+  const panel = settingsDialog();
   // La pause masque son panneau tant qu'une fenêtre est ouverte : le redessiner à la fermeture.
-  dialog.addEventListener('close', refresh);
+  panel.addEventListener('close', refresh);
   document.querySelectorAll<HTMLButtonElement>('[data-settings]').forEach((opener) =>
     opener.addEventListener('click', () => {
-      if (!dialog.open) dialog.showModal();
+      if (!panel.open) panel.showModal();
     }),
   );
 }

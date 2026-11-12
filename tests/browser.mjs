@@ -221,8 +221,8 @@ await mobile.locator('canvas').waitFor();
 await mobile.waitForTimeout(700);
 if (await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth))
   throw Error('Débordement horizontal mobile');
-await revealControl(mobile, '#reinforcements-toggle');
-await mobile.locator('#reinforcements-toggle').tap();
+await revealControl(mobile, '#dock-catalogue');
+await mobile.locator('#dock-catalogue').tap();
 await revealControl(mobile, '[data-kind="archer"]');
 await mobile.locator('[data-kind="archer"]').tap();
 const box = await mobile.locator('canvas').boundingBox();
@@ -233,8 +233,8 @@ await mobile.waitForTimeout(250);
 if ((await mobile.locator('#gold').innerText()) !== '150')
   throw Error('Recrutement tactile échoué');
 await mobile.screenshot({ path: 'artifacts/pilote-mobile.png', fullPage: true });
-await revealControl(mobile, '#reinforcements-toggle');
-await mobile.locator('#reinforcements-toggle').tap();
+await revealControl(mobile, '#dock-catalogue');
+await mobile.locator('#dock-catalogue').tap();
 await revealControl(mobile, '#feast-flavors');
 await revealControl(mobile, '[data-feast-flavor="sticky"]');
 await mobile.locator('[data-feast-flavor="sticky"]').tap();
