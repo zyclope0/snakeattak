@@ -346,7 +346,7 @@ try {
         'typed technical code survives language switches',
         (await page.locator('#departure-input').inputValue()) === 'PONTS-1-0000-7X8R-A1',
       );
-      await page.locator('#departure-form button').click();
+      await page.locator('#departure-form button[type="submit"]').click();
       await inspectEnglish(page, '#home-parent-options', 'parent departure status');
       if (await page.locator('#mission-dialog').isVisible())
         await page.locator('#mission-close').click();

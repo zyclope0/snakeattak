@@ -1,0 +1,101 @@
+/* Les petits « ? » et leur bulle. Même méthode que dialogPages.css : des tailles écrites
+   dans l'unité --hu, avec un plancher pour le texte et 48 px pour ce qu'un doigt touche. */
+
+/* Le bouton entier est la cible : un carré de 48 px, sans coins coupés. La pastille ronde
+   dessinée dedans est plus petite. Les sélecteurs longs passent devant les styles de bouton
+   de chaque écran qui l'accueille. */
+.help-point,
+#mission-dialog .help-point,
+#home-screen .help-point,
+#home-screen [data-home-page] .parent-actions .help-point {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  box-shadow: none;
+  color: #3f330f;
+  font-size: clamp(17px, calc(var(--hu, 10px) * 2), 22px);
+  line-height: 1;
+}
+.help-point > span,
+#help-bubble-title::before {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 50%;
+  background: var(--honey);
+  box-shadow:
+    inset 0 1px #ffe4a3,
+    0 2px 0 #a37524;
+  color: #3f330f;
+  font-family: Fredoka, 'Segoe UI', sans-serif;
+  font-weight: 600;
+  line-height: 1;
+}
+/* Au doigt, un survol reste collé après le toucher : la couleur claire est pour la souris. */
+@media (hover: hover) {
+  .help-point:hover > span {
+    background: #ffd17c;
+  }
+}
+.help-point:active > span {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #a37524;
+}
+
+/* La bulle : une feuille de papier, un titre, un ou deux paragraphes, un seul bouton. */
+#help-bubble[open] {
+  display: grid;
+  gap: max(8px, calc(var(--hu, 10px) * 1));
+  width: min(
+    clamp(360px, calc(var(--hu, 10px) * 44), 520px),
+    calc(100vw - max(12px, var(--app-safe-left)) - max(12px, var(--app-safe-right)))
+  );
+  max-width: none;
+  max-height: calc(var(--app-height, 100dvh) - 12px);
+  padding: max(14px, calc(var(--hu, 10px) * 1.6));
+  box-shadow:
+    inset 0 1px #fff9e7,
+    0 3px 0 #8b906c,
+    0 16px 60px #08261e60;
+}
+#help-bubble-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0;
+  font-size: clamp(18px, calc(var(--hu, 10px) * 2.1), 26px);
+  line-height: 1.15;
+}
+#help-bubble-title::before {
+  content: '?';
+  /* Décor : un lecteur d'écran lit le titre, pas la pastille. */
+  content: '?' / '';
+  font-size: 0.8em;
+}
+#help-bubble-text {
+  display: grid;
+  gap: 0.5em;
+}
+#help-bubble-text p {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(15px, calc(var(--hu, 10px) * 1.7), 20px);
+  line-height: 1.4;
+  /* Pas de mot seul sur la dernière ligne, là où le navigateur le permet. */
+  text-wrap: pretty;
+}
+#help-bubble-close {
+  min-height: 48px;
+  font-size: clamp(15px, calc(var(--hu, 10px) * 1.7), 20px);
+}

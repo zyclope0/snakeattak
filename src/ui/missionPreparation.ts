@@ -1,5 +1,6 @@
 import { setText } from '../i18n/dom.ts';
 import { frenchLeaf } from './capriceCopy.ts';
+import type { HelpTopicId } from './helpTopics.ts';
 
 export type PreparationView = 'summary' | 'caprices' | 'friends' | 'scouting' | 'options';
 
@@ -8,8 +9,14 @@ export function availableView(view: PreparationView, friendsOffered: boolean): P
   return view === 'friends' && !friendsOffered ? 'summary' : view;
 }
 
-/** Rearrange existing preparation controls; the expedition controller owns the draft. */
-export function bindMissionPreparation(dialog: HTMLDialogElement) {
+/**
+ * Rearrange existing preparation controls; the expedition controller owns the draft.
+ * `help` makes the small "?" of a view (`helpBubble.ts`); without it the views have none.
+ */
+export function bindMissionPreparation(
+  dialog: HTMLDialogElement,
+  help?: (topic: HelpTopicId) => HTMLElement,
+) {
   const find = (selector: string) => dialog.querySelector<HTMLElement>(selector)!;
   const body = find('.mission-dialog-body');
   const header = document.createElement('header');
@@ -75,6 +82,17 @@ export function bindMissionPreparation(dialog: HTMLDialogElement) {
   const options = find('#mission-parent-options') as HTMLDetailsElement;
   sections.get('options')!.append(find('#mission-reroll'), options);
   options.open = true;
+  if (help) {
+    // One "?" per view that needs a word of explanation, where the eye looks for it and
+    // without adding a row: beside the title, on the map, beside the button it explains.
+    find('#mission-caprices-title').after(help('caprices'));
+    const map = find('#mission-map');
+    const frame = document.createElement('div');
+    frame.className = 'mission-map-frame';
+    map.before(frame);
+    frame.append(map, help('scouting'));
+    find('#mission-reroll').after(help('departure'));
+  }
   header.append(nav);
   body.before(header);
   let current: PreparationView = 'summary';

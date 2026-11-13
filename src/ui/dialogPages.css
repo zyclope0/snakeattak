@@ -257,24 +257,31 @@
   font-size: max(13px, calc(var(--hu) * 1.4));
   font-weight: 800;
 }
-/* Caprices: back to the normal mission on the title row, the two families side by side. */
+/* Caprices: the title and its "?", then back to the normal mission, on the title row; the
+   two families side by side. */
 #mission-dialog #mission-caprices {
   margin: 0;
   gap: calc(var(--hu) * 0.6) calc(var(--hu) * 1.2);
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
   align-items: center;
 }
 #mission-dialog #mission-caprices > h3 {
   grid-column: 1;
   font-size: max(15px, calc(var(--hu) * 1.7));
 }
-#mission-dialog #mission-caprices > p {
+/* The row is already as tall as "Mission normale": the "?" adds no height. */
+#mission-dialog #mission-caprices > .help-point {
   grid-column: 2;
+  grid-row: 1;
+  margin-inline: calc(var(--hu) * -1);
+}
+#mission-dialog #mission-caprices > p {
+  grid-column: 3;
   margin: 0;
   font-size: max(12px, calc(var(--hu) * 1.2));
 }
 #mission-dialog #mission-caprices > #mission-normal {
-  grid-column: 3;
+  grid-column: 4;
   grid-row: 1;
 }
 #mission-dialog #mission-caprices > div {
@@ -316,6 +323,24 @@
 #mission-dialog #mission-scouting h3 {
   margin: 0 0 calc(var(--hu) * 0.4);
   font-size: max(13px, calc(var(--hu) * 1.4));
+}
+/* The "?" of the scouting sits on a corner of the map: no row is added to the view. */
+#mission-dialog .mission-map-frame {
+  position: relative;
+}
+#mission-dialog .mission-map-frame > .help-point {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* Options: the "?" follows the button it explains, on the same row. */
+#mission-dialog #mission-options:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+#mission-dialog #mission-options > #mission-parent-options {
+  flex: 1 0 100%;
 }
 /* Portrait windows: the views go under the title, the summary in one column. */
 @media (orientation: portrait) {
