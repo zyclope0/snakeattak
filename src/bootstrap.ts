@@ -15,6 +15,7 @@ import { bindExpeditions } from './ui/expeditions.ts';
 import { createCampMemory } from './campMemory.ts';
 import { createFamilyPersistence } from './familyPersistence.ts';
 import { readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
+import type { FamilyBackup } from './familyBackup.ts';
 import { decodeCheckpoint } from './checkpoints.ts';
 import { bindFamilyControls } from './ui/familyControls.ts';
 import { bindChapterReport } from './ui/chapterReport.ts';
@@ -40,13 +41,14 @@ import './ui/homePages.css';
 import './ui/dialogPages.css';
 import './ui/mainActions.css';
 import { byId } from './ui/dom.ts';
-let device: Storage | undefined;
-try {
-  device = window.localStorage;
-} catch {
-  /* Some private/file contexts block storage. */
-}
-// Every save below goes through the active player's keys; player 1 keeps the historical ones.
+
+// The page is assembled here, top to bottom: what is stored, the game on screen, then every
+// part of the interface in its binding order. The steps named below are function
+// declarations, written after the list that calls them.
+
+// --- What is stored. Every save goes through the active player's keys; player 1 keeps the
+// historical ones.
+const device = deviceStorage();
 const players = loadPlayers(device);
 const storage = device && playerStorage(device, players.activeId);
 const persistence = createPersistence(storage);
@@ -59,11 +61,8 @@ const albums = createCapriceAlbumsController(
   familySaved?.version === 4 || familySaved?.version === 5 ? familySaved.albums : undefined,
 );
 const stickerResults = new WeakMap<Game, boolean>();
-let albumUI: ReturnType<typeof bindCapriceAlbums> | undefined;
-const recordAlbum = (game: Game) => {
-  if (game.mission?.caprice && game.status === 'won' && !stickerResults.has(game))
-    stickerResults.set(game, albums.record(game));
-};
+
+// --- The game on screen, and where the classic adventure and the mission wait meanwhile.
 const session = new Session();
 session.screen = 'home';
 const career = createCareer(storage, familySaved?.career);
@@ -76,49 +75,22 @@ if (saved) {
   session.game = saved;
   session.hasPlaced = saved.wave > 0 || saved.units.length > 3;
 }
-if (
-  !albums.state.campProfileId &&
-  (saved?.mission?.caprice ||
-    (missions.state.retryCamp && decodeCheckpoint(missions.state.retryCamp)?.mission?.caprice))
-)
-  albums.beginRun();
+openAlbumForCaprice(saved, missions.state.retryCamp);
 const campMemory = createCampMemory(saved ?? undefined);
 let hasCamp = !!saved;
 let classicGame: Game | undefined = saved && !saved.mission ? saved : undefined;
 let missionGame: Game | undefined = saved?.mission ? saved : undefined;
+
+// --- The interface. A refresh may run before the later parts exist: they stay undefined
+// until they are bound.
+let albumUI: ReturnType<typeof bindCapriceAlbums> | undefined;
 let expeditions: ReturnType<typeof bindExpeditions> | undefined;
-const navigation = bindHomeNavigation();
 let refreshPrimary: (() => void) | undefined;
 let menu: ReturnType<typeof bindMenu> | undefined;
 let phaser: Phaser.Game | undefined;
 let report: (() => void) | undefined;
-const refresh = bindControls(
-  session,
-  () => {
-    if (hasCamp) {
-      campMemory.remember(session.game);
-      if (!session.game.mission) persistence.sync(session.game);
-    }
-    if (!session.game.mission) career.sync(session.game);
-    if (hasCamp) missions.sync(session.game);
-    recordAlbum(session.game);
-    family.sync(campMemory.raw(), career.state, missions.state, albums.state);
-    albumUI?.refresh();
-    menu?.refresh();
-    report?.();
-    expeditions?.();
-    refreshPrimary?.();
-    setDisplayText(byId('save-status'), family.status);
-  },
-  career,
-  {
-    restart: () => {
-      const run = session.game.mission;
-      if (run) launchMission(run, session.game.capriceKindsChosen, true);
-      else session.restart();
-    },
-  },
-);
+const navigation = bindHomeNavigation();
+const refresh = bindControls(session, saveAndRedraw, career, { restart: restartGame });
 // Render restored counters before waiting for image decoding.
 report = bindChapterReport(session);
 refresh();
@@ -146,7 +118,112 @@ phaser = new Phaser.Game({
 });
 bindBoardResize(phaser, byId('game'));
 bindBoardResolution(phaser, () => visualSettings.light);
-const view = (home: boolean) => {
+menu = bindMenu(session, career, {
+  hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : hasCamp),
+  restore: restoreClassic,
+  started: gameStarted,
+  view: showScreen,
+  navigate: (page) => navigation.show(page),
+  refresh,
+  progressStatus: () => family.status,
+});
+albumUI = bindCapriceAlbums(
+  session,
+  albums,
+  refresh,
+  () => family.status,
+  (game) => stickerResults.get(game),
+);
+expeditions = bindExpeditions(
+  session,
+  missions,
+  {
+    launch: launchMission,
+    profileChanged: refresh,
+    launchClassic: (seed, revision) => menu!.startFromSeed(seed, revision),
+    home: () => menu!.showHome(),
+    showMissions: () => navigation.show('missions'),
+    canResume: missionCanResume,
+    resume: resumeMission,
+  },
+  albums,
+);
+refreshPrimary = refreshHomePrimary;
+bindFamilyControls({
+  persistenceStatus: () => family.status,
+  exportRaw: exportFamily,
+  applyBackup: applyFamily,
+  finished: () => {
+    menu!.showHome();
+    refresh();
+  },
+});
+showScreen(true);
+menu.refresh();
+expeditions();
+refreshPrimary();
+bindPlayers({ device, players, save: refresh, silence: () => storage?.close() });
+
+/** The device's storage; some private or file contexts block it. */
+function deviceStorage(): Storage | undefined {
+  try {
+    return window.localStorage;
+  } catch {
+    return undefined;
+  }
+}
+
+/** A caprice under way needs its sticker book: one is opened when the save names none. */
+function openAlbumForCaprice(game: Game | null | undefined, retryCamp?: string | null) {
+  if (albums.state.campProfileId) return;
+  if (game?.mission?.caprice || (retryCamp && decodeCheckpoint(retryCamp)?.mission?.caprice))
+    albums.beginRun();
+}
+/** A caprice won earns its sticker once, however often the game is refreshed. */
+function recordAlbum(game: Game) {
+  if (game.mission?.caprice && game.status === 'won' && !stickerResults.has(game))
+    stickerResults.set(game, albums.record(game));
+}
+/**
+ * Brings the camp memory, the career, the missions and the stickers up to date with the
+ * game on screen. `writeCamp` also writes the classic camp under its own key, at its usual
+ * place between the memory and the career.
+ */
+function recordGame(writeCamp: boolean) {
+  if (hasCamp) {
+    campMemory.remember(session.game);
+    if (writeCamp && !session.game.mission) persistence.sync(session.game);
+  }
+  if (!session.game.mission) career.sync(session.game);
+  if (hasCamp) missions.sync(session.game);
+  recordAlbum(session.game);
+}
+/** A game still being played goes on as it is; otherwise its stored camp is read again. */
+function liveOrStored(game: Game | undefined, camp: string | null): Game | null {
+  if (game && !['lost', 'won'].includes(game.status)) return game;
+  return camp ? decodeCheckpoint(camp) : null;
+}
+
+/** After every command and every step that matters: save, then redraw what depends on it. */
+function saveAndRedraw() {
+  recordGame(true);
+  family.sync(campMemory.raw(), career.state, missions.state, albums.state);
+  albumUI?.refresh();
+  menu?.refresh();
+  report?.();
+  expeditions?.();
+  refreshPrimary?.();
+  setDisplayText(byId('save-status'), family.status);
+}
+/** « Recommencer » : the same mission again, or a new classic adventure. */
+function restartGame() {
+  const run = session.game.mission;
+  if (run) launchMission(run, session.game.capriceKindsChosen, true);
+  else session.restart();
+}
+
+/** The home or the board. The scene sleeps at home and wakes with fresh bounds. */
+function showScreen(home: boolean) {
   byId('home-screen').hidden = !home;
   byId('app').hidden = home;
   // Both screens share a document: never inherit the map/menu scroll in battle.
@@ -163,40 +240,29 @@ const view = (home: boolean) => {
       phaser.scale.updateBounds();
     }
   });
-};
-menu = bindMenu(session, career, {
-  hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : hasCamp),
-  restore: () => {
-    if (session.game.mission) {
-      missionGame = session.game;
-      const classic =
-        classicGame && !['lost', 'won'].includes(classicGame.status)
-          ? classicGame
-          : missions.state.classicCamp
-            ? decodeCheckpoint(missions.state.classicCamp!)
-            : null;
-      if (classic) campMemory.replace(missions.state.classicCamp);
-      return classic;
-    }
-    return campMemory.load() ?? persistence.load();
-  },
-  started: () => {
-    hasCamp = true;
-    missions.switchMode(session.game.mission ? 'missions' : 'classic');
-    if (!session.game.mission) classicGame = session.game;
-  },
-  view,
-  navigate: (page) => navigation.show(page),
-  refresh,
-  progressStatus: () => family.status,
-});
-albumUI = bindCapriceAlbums(
-  session,
-  albums,
-  refresh,
-  () => family.status,
-  (game) => stickerResults.get(game),
-);
+}
+function showBattle() {
+  session.screen = 'battle';
+  showScreen(false);
+  refresh();
+}
+
+/** The classic adventure to go back to: from a mission, the one that was set aside. */
+function restoreClassic(): Game | null {
+  if (!session.game.mission) return campMemory.load() ?? persistence.load();
+  missionGame = session.game;
+  const classic = liveOrStored(classicGame, missions.state.classicCamp);
+  if (classic) campMemory.replace(missions.state.classicCamp);
+  return classic;
+}
+/** The menu has just put a game on the board. */
+function gameStarted() {
+  hasCamp = true;
+  missions.switchMode(session.game.mission ? 'missions' : 'classic');
+  if (!session.game.mission) classicGame = session.game;
+}
+
+/** Starts a mission; false when the departure is refused: the game on screen then stays. */
 function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = false) {
   const next = prepareMissionLaunch(run, chosen, missions);
   if (!next) return false;
@@ -209,114 +275,78 @@ function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = fa
   missionGame = next;
   campMemory.replace(null);
   hasCamp = true;
-  session.screen = 'battle';
-  view(false);
-  refresh();
+  showBattle();
   byId('start').focus({ preventScroll: true });
   return true;
 }
-expeditions = bindExpeditions(
-  session,
-  missions,
-  {
-    launch: launchMission,
-    profileChanged: refresh,
-    launchClassic: (seed, revision) => menu!.startFromSeed(seed, revision),
-    home: () => menu!.showHome(),
-    showMissions: () => navigation.show('missions'),
-    canResume: () => !!missionGame || !!missions.state.retryCamp,
-    resume: () => {
-      if (!session.game.mission && hasCamp) {
-        missions.sync(session.game);
-        classicGame = session.game;
-      }
-      const game =
-        missionGame && !['lost', 'won'].includes(missionGame.status)
-          ? missionGame
-          : missions.state.retryCamp
-            ? decodeCheckpoint(missions.state.retryCamp)
-            : null;
-      if (!game) return;
-      session.useGame(game);
-      missionGame = game;
-      missions.switchMode('missions');
-      hasCamp = true;
-      campMemory.replace(missions.state.retryCamp);
-      session.screen = 'battle';
-      view(false);
-      refresh();
-    },
-  },
-  albums,
-);
-refreshPrimary = () => {
+function missionCanResume() {
+  return !!missionGame || !!missions.state.retryCamp;
+}
+/** Back to the mission under way, the classic adventure being set aside first. */
+function resumeMission() {
+  if (!session.game.mission && hasCamp) {
+    missions.sync(session.game);
+    classicGame = session.game;
+  }
+  const game = liveOrStored(missionGame, missions.state.retryCamp);
+  if (!game) return;
+  session.useGame(game);
+  missionGame = game;
+  missions.switchMode('missions');
+  hasCamp = true;
+  campMemory.replace(missions.state.retryCamp);
+  showBattle();
+}
+
+/** The big button of the home: « Reprendre » what was last played, else « Jouer ». */
+function refreshHomePrimary() {
   const primary = byId('home-primary');
-  const missionResume = !!missionGame || !!missions.state.retryCamp;
-  const classicResume = !byId('home-continue').hidden;
-  const resume = missions.state.activeMode === 'missions' ? missionResume : classicResume;
+  const inMissions = missions.state.activeMode === 'missions';
+  const resume = inMissions ? missionCanResume() : !byId('home-continue').hidden;
   setDisplayText(primary, resume ? 'Reprendre' : 'Jouer');
   if (resume)
     setDisplayText(
       byId('home-next-mission'),
-      missions.state.activeMode === 'missions'
-        ? 'Reprendre ma mission'
-        : 'Reprendre mon aventure classique',
+      inMissions ? 'Reprendre ma mission' : 'Reprendre mon aventure classique',
     );
   primary.onclick = () => {
-    if (resume) {
-      if (missions.state.activeMode === 'missions') expeditions!.resume();
-      else menu!.resumeClassic();
-    } else expeditions!.playNow();
+    if (!resume) expeditions!.playNow();
+    else if (missions.state.activeMode === 'missions') expeditions!.resume();
+    else menu!.resumeClassic();
   };
-};
-bindFamilyControls({
-  persistenceStatus: () => family.status,
-  exportRaw: () => {
-    if (hasCamp) campMemory.remember(session.game);
-    if (!session.game.mission) career.sync(session.game);
-    if (hasCamp) missions.sync(session.game);
-    recordAlbum(session.game);
-    return writeFamilyBackup(campMemory.raw(), career.state, missions.state, albums.state);
-  },
-  applyBackup: (backup) => {
-    const canonical = readFamilyBackup(JSON.stringify(backup));
-    if (!canonical) return { ok: false, message: 'Fichier invalide : rien n’a été modifié.' };
-    const game = canonical.camp === null ? null : decodeCheckpoint(canonical.camp);
-    if (!family.import(canonical))
-      return {
-        ok: false,
-        message:
-          'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.',
-      };
-    albums.replaceState(
-      canonical.version === 4 || canonical.version === 5 ? canonical.albums : createCapriceAlbums(),
-    );
-    if (
-      !albums.state.campProfileId &&
-      (('missions' in canonical &&
-        canonical.missions?.retryCamp &&
-        decodeCheckpoint(canonical.missions.retryCamp)?.mission?.caprice) ||
-        game?.mission?.caprice)
-    )
-      albums.beginRun();
-    career.replaceState(canonical.career);
-    missions.replaceState('missions' in canonical ? canonical.missions! : createMissionProgress());
-    classicGame = game && !game.mission ? game : undefined;
-    missionGame = game?.mission ? game : undefined;
-    campMemory.replace(canonical.camp);
-    if (game) session.useGame(game);
-    else session.restart();
-    hasCamp = game !== null;
-    session.screen = 'home';
-    return { ok: true, message: 'Aventure familiale retrouvée.' };
-  },
-  finished: () => {
-    menu!.showHome();
-    refresh();
-  },
-});
-view(true);
-menu.refresh();
-expeditions();
-refreshPrimary();
-bindPlayers({ device, players, save: refresh, silence: () => storage?.close() });
+}
+
+/** The family file of the adventure as it is now. */
+function exportFamily() {
+  recordGame(false);
+  return writeFamilyBackup(campMemory.raw(), career.state, missions.state, albums.state);
+}
+/**
+ * Replaces the adventure by a family file. The file is written first: when the browser
+ * refuses it, nothing of the session has changed.
+ */
+function applyFamily(backup: FamilyBackup) {
+  const canonical = readFamilyBackup(JSON.stringify(backup));
+  if (!canonical) return { ok: false, message: 'Fichier invalide : rien n’a été modifié.' };
+  const game = canonical.camp === null ? null : decodeCheckpoint(canonical.camp);
+  if (!family.import(canonical))
+    return {
+      ok: false,
+      message:
+        'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.',
+    };
+  albums.replaceState(
+    canonical.version === 4 || canonical.version === 5 ? canonical.albums : createCapriceAlbums(),
+  );
+  openAlbumForCaprice(game, 'missions' in canonical ? canonical.missions?.retryCamp : undefined);
+  career.replaceState(canonical.career);
+  missions.replaceState('missions' in canonical ? canonical.missions! : createMissionProgress());
+  classicGame = game && !game.mission ? game : undefined;
+  missionGame = game?.mission ? game : undefined;
+  campMemory.replace(canonical.camp);
+  if (game) session.useGame(game);
+  else session.restart();
+  hasCamp = game !== null;
+  session.screen = 'home';
+  return { ok: true, message: 'Aventure familiale retrouvée.' };
+}

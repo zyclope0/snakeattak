@@ -1,0 +1,14 @@
+import type { Game } from '../game.ts';
+import { availableGold } from './capriceBudget.ts';
+
+/** Won or lost: nothing more can be played in this battle. */
+export const battleOver = (game: Pick<Game, 'status'>): boolean =>
+  game.status === 'won' || game.status === 'lost';
+
+/** The wave the screen talks about: the next one in camp, the current one in a fight. */
+export const announcedWave = (game: Pick<Game, 'status' | 'wave' | 'totalWaves'>): number =>
+  Math.min(game.totalWaves, game.wave + (game.status === 'preparing' ? 1 : 0));
+
+/** What a caprice keeps at the bank, and what is left to spend. */
+export const bankSummary = (game: Pick<Game, 'gold' | 'caprice'>): string =>
+  `${game.caprice.reserve} à la banque · ${availableGold(game)} disponibles`;

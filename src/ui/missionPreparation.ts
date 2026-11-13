@@ -1,12 +1,132 @@
 import { setText } from '../i18n/dom.ts';
 import { frenchLeaf } from './capriceCopy.ts';
+import { FRIEND_ADVICE } from './capriceFriends.ts';
+import { make } from './dom.ts';
 import type { HelpTopicId } from './helpTopics.ts';
 
 export type PreparationView = 'summary' | 'caprices' | 'friends' | 'scouting' | 'options';
+type Find = (selector: string) => HTMLElement;
+type ViewParts = { section: HTMLElement; tab: HTMLButtonElement };
+type Views = Map<PreparationView, ViewParts>;
+
+/** The views, in the order of their tabs. `capriceView.ts` writes the caprices tab itself. */
+const VIEW_LABELS: Record<PreparationView, string> = {
+  summary: 'Résumé',
+  caprices: 'Caprices',
+  friends: 'Copains',
+  scouting: 'Repérage',
+  options: 'Options',
+};
 
 /** The view to show: a friends view with nothing to choose gives way to the summary. */
 export function availableView(view: PreparationView, friendsOffered: boolean): PreparationView {
   return view === 'friends' && !friendsOffered ? 'summary' : view;
+}
+
+/** The section and the tab of a view; `capriceView.ts` has already made those of the caprices. */
+function viewParts(find: Find, view: PreparationView, label: string): ViewParts {
+  const made = view !== 'caprices';
+  const section = made ? make('section', { id: `mission-${view}` }) : find('#mission-caprices');
+  section.classList.add('preparation-view');
+  const tab = made
+    ? make('button', { text: label })
+    : (find('#mission-caprices-entry') as HTMLButtonElement);
+  tab.dataset.preparation = view;
+  tab.setAttribute('aria-controls', section.id);
+  return { section, tab };
+}
+
+/** The five views and their tabs, in the order of `VIEW_LABELS`. */
+function preparationViews(find: Find, onShow: (view: PreparationView) => void): Views {
+  const views: Views = new Map();
+  for (const [view, label] of Object.entries(VIEW_LABELS) as [PreparationView, string][]) {
+    const parts = viewParts(find, view, label);
+    parts.tab.onclick = () => onShow(view);
+    views.set(view, parts);
+  }
+  return views;
+}
+
+/**
+ * The summary repeats what the other views hold: the caprice, the friends, the sticker book.
+ * It reads them from those views, which remain the only owners of the choices.
+ */
+function missionSummary(find: Find, section: HTMLElement) {
+  const caprice = frenchLeaf('strong', '');
+  caprice.id = 'mission-summary-caprice';
+  const friends = make('p', { id: 'mission-summary-friends' });
+  const bookName = make('strong');
+  bookName.dataset.copyRaw = '';
+  const book = make(
+    'p',
+    { id: 'mission-summary-book' },
+    make('span', { text: 'Carnet de cette nouvelle partie' }),
+    ' : ',
+    bookName,
+  );
+  section.append(
+    find('#mission-objective'),
+    caprice,
+    friends,
+    book,
+    find('#mission-budget'),
+    find('#mission-party'),
+    find('.mission-facts'),
+    find('#mission-replacement-note'),
+  );
+  const showFriends = () => {
+    const chosen = Array.from(
+      find('#caprice-friends').querySelectorAll('[aria-pressed="true"] span:last-child'),
+    );
+    friends.hidden = find('#caprice-friend-advice').hidden;
+    friends.replaceChildren();
+    if (!chosen.length) {
+      setText(friends, FRIEND_ADVICE);
+      return;
+    }
+    for (const [index, node] of chosen.entries()) {
+      if (index) friends.append(' · ');
+      // The original name's translation binding remains the source.
+      const name = node.getAttribute('data-friend-name') ?? node.textContent ?? '';
+      friends.append(make('span', { text: name }));
+    }
+  };
+  return () => {
+    const selected = find('#caprice-detail');
+    caprice.hidden = selected.hidden;
+    caprice.textContent = selected.querySelector('h3')?.textContent ?? '';
+    showFriends();
+    const profile = find('#mission-caprice-profile') as HTMLSelectElement;
+    book.hidden = profile.parentElement!.hidden;
+    bookName.textContent = profile.selectedOptions[0]?.textContent ?? '';
+  };
+}
+
+/** The other views receive the controls that the page and `capriceView.ts` already made. */
+function fillViews(find: Find, section: (view: PreparationView) => HTMLElement) {
+  section('friends').append(
+    find('#caprice-friend-advice'),
+    find('#caprice-friends'),
+    find('#mission-caprice-profile').parentElement!,
+  );
+  section('scouting').append(find('.mission-overview'));
+  const options = find('#mission-parent-options') as HTMLDetailsElement;
+  section('options').append(find('#mission-reroll'), options);
+  options.open = true;
+  return options;
+}
+
+/**
+ * One "?" per view that needs a word of explanation, where the eye looks for it and without
+ * adding a row: beside the title, on the map, beside the button it explains.
+ */
+function placeHelpPoints(find: Find, help: (topic: HelpTopicId) => HTMLElement) {
+  find('#mission-caprices-title').after(help('caprices'));
+  const map = find('#mission-map');
+  const frame = make('div', { className: 'mission-map-frame' });
+  map.before(frame);
+  frame.append(map, help('scouting'));
+  find('#mission-reroll').after(help('departure'));
 }
 
 /**
@@ -17,119 +137,37 @@ export function bindMissionPreparation(
   dialog: HTMLDialogElement,
   help?: (topic: HelpTopicId) => HTMLElement,
 ) {
-  const find = (selector: string) => dialog.querySelector<HTMLElement>(selector)!;
+  const find: Find = (selector) => dialog.querySelector<HTMLElement>(selector)!;
   const body = find('.mission-dialog-body');
-  const header = document.createElement('header');
-  header.className = 'preparation-header';
-  header.append(find('.eyebrow'), find('#mission-title'), find('#mission-original-rules'));
-  const nav = document.createElement('nav');
-  nav.className = 'preparation-nav';
-  const sections = new Map<PreparationView, HTMLElement>();
-  const buttons = new Map<PreparationView, HTMLButtonElement>();
-  for (const [view, label] of Object.entries({
-    summary: 'Résumé',
-    caprices: 'Caprices',
-    friends: 'Copains',
-    scouting: 'Repérage',
-    options: 'Options',
-  }) as [PreparationView, string][]) {
-    const section =
-      view === 'caprices' ? find('#mission-caprices') : document.createElement('section');
-    section.id = view === 'caprices' ? section.id : `mission-${view}`;
-    section.classList.add('preparation-view');
-    const button =
-      view === 'caprices'
-        ? (find('#mission-caprices-entry') as HTMLButtonElement)
-        : document.createElement('button');
-    button.dataset.preparation = view;
-    button.setAttribute('aria-controls', section.id);
-    if (view !== 'caprices') setText(button, label);
-    button.onclick = () => show(view);
-    sections.set(view, section);
-    buttons.set(view, button);
-    nav.append(button);
-    body.append(section);
-  }
-  const summary = sections.get('summary')!;
-  const caprice = frenchLeaf('strong', '');
-  caprice.id = 'mission-summary-caprice';
-  const friendSummary = document.createElement('p');
-  friendSummary.id = 'mission-summary-friends';
-  const book = document.createElement('p');
-  book.id = 'mission-summary-book';
-  const bookLabel = document.createElement('span');
-  setText(bookLabel, 'Carnet de cette nouvelle partie');
-  const bookName = document.createElement('strong');
-  bookName.dataset.copyRaw = '';
-  book.append(bookLabel, document.createTextNode(' : '), bookName);
-  summary.append(
-    find('#mission-objective'),
-    caprice,
-    friendSummary,
-    book,
-    find('#mission-budget'),
-    find('#mission-party'),
-    find('.mission-facts'),
-    find('#mission-replacement-note'),
+  const header = make(
+    'header',
+    { className: 'preparation-header' },
+    find('.eyebrow'),
+    find('#mission-title'),
+    find('#mission-original-rules'),
   );
-  const friends = sections.get('friends')!;
-  friends.append(
-    find('#caprice-friend-advice'),
-    find('#caprice-friends'),
-    find('#mission-caprice-profile').parentElement!,
-  );
-  sections.get('scouting')!.append(find('.mission-overview'));
-  const options = find('#mission-parent-options') as HTMLDetailsElement;
-  sections.get('options')!.append(find('#mission-reroll'), options);
-  options.open = true;
-  if (help) {
-    // One "?" per view that needs a word of explanation, where the eye looks for it and
-    // without adding a row: beside the title, on the map, beside the button it explains.
-    find('#mission-caprices-title').after(help('caprices'));
-    const map = find('#mission-map');
-    const frame = document.createElement('div');
-    frame.className = 'mission-map-frame';
-    map.before(frame);
-    frame.append(map, help('scouting'));
-    find('#mission-reroll').after(help('departure'));
+  const views = preparationViews(find, (view) => show(view));
+  const section = (view: PreparationView) => views.get(view)!.section;
+  const tab = (view: PreparationView) => views.get(view)!.tab;
+  const nav = make('nav', { className: 'preparation-nav' });
+  for (const parts of views.values()) {
+    nav.append(parts.tab);
+    body.append(parts.section);
   }
+  const updateSummary = missionSummary(find, section('summary'));
+  const options = fillViews(find, section);
+  if (help) placeHelpPoints(find, help);
   header.append(nav);
   body.before(header);
   let current: PreparationView = 'summary';
   let friendsOffered = true;
-  function updateSummary() {
-    const selected = find('#caprice-detail');
-    caprice.hidden = selected.hidden;
-    caprice.textContent = selected.querySelector('h3')?.textContent ?? '';
-    const chosen = Array.from(
-      find('#caprice-friends').querySelectorAll('[aria-pressed="true"] span:last-child'),
-    );
-    friendSummary.hidden = find('#caprice-friend-advice').hidden;
-    friendSummary.replaceChildren();
-    if (chosen.length) {
-      for (const [index, node] of chosen.entries()) {
-        if (index) friendSummary.append(document.createTextNode(' · '));
-        const name = document.createElement('span');
-        // The original name's translation binding remains the source.
-        setText(name, node.getAttribute('data-friend-name') ?? node.textContent ?? '');
-        friendSummary.append(name);
-      }
-    } else
-      setText(
-        friendSummary,
-        'Choisis tes sortes préférées ou laisse les premières recrues choisir les places libres.',
-      );
-    const profile = find('#mission-caprice-profile') as HTMLSelectElement;
-    book.hidden = profile.parentElement!.hidden;
-    bookName.textContent = profile.selectedOptions[0]?.textContent ?? '';
-  }
   function show(requested: PreparationView) {
     const view = availableView(requested, friendsOffered);
     current = view;
     dialog.dataset.preparationView = view;
-    for (const [key, section] of sections) {
-      section.hidden = key !== view;
-      buttons.get(key)!.setAttribute('aria-pressed', String(key === view));
+    for (const [key, parts] of views) {
+      parts.section.hidden = key !== view;
+      parts.tab.setAttribute('aria-pressed', String(key === view));
     }
     body.scrollTop = 0;
     updateSummary();
@@ -140,21 +178,21 @@ export function bindMissionPreparation(
     if (current === 'summary') return;
     event.preventDefault();
     show('summary');
-    buttons.get('summary')!.focus();
+    tab('summary').focus();
   });
   return {
     show,
     /** Show the friends tab only while its view has something to choose. */
     offerFriends(offered: boolean) {
       friendsOffered = offered;
-      const tab = buttons.get('friends')!;
-      const tabFocused = document.activeElement === tab;
+      const friendsTab = tab('friends');
+      const tabFocused = document.activeElement === friendsTab;
       const viewOpen = current === 'friends';
-      tab.hidden = !offered;
+      friendsTab.hidden = !offered;
       if (offered) return;
       if (viewOpen) show('summary');
       // Focus never stays on a tab or in a view that has just disappeared.
-      if (viewOpen || tabFocused) buttons.get('summary')!.focus();
+      if (viewOpen || tabFocused) tab('summary').focus();
     },
     reset() {
       options.open = true;

@@ -1,9 +1,11 @@
-import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
-import type { Kind } from '../data.ts';
-import { kinds } from '../data.ts';
+import { setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
+import { kinds, type Kind } from '../data.ts';
 import { enemyPortraitStyle, portraitStyle } from '../art.ts';
-import { THREAT_DETAILS } from './threatPreview.ts';
-import type { ThreatKind } from './threatPreview.ts';
+import { make } from './dom.ts';
+import { svgNode } from './svg.ts';
+import { THREAT_DETAILS, type ThreatKind } from './threatPreview.ts';
+
+/** The line drawing of an ability, by the `symbol` of a threat. */
 const paths: Record<string, string> = {
   path: 'M3 18h18M5 14l5-5 4 4 5-8',
   fast: 'm9 3-5 9h8l-3 9 11-13h-8l3-5',
@@ -17,38 +19,37 @@ const paths: Record<string, string> = {
   crown: 'm3 5 5 5 4-7 4 7 5-5-2 14H5ZM5 16h14',
 };
 function capabilityIcon(symbol: string) {
-  const ns = 'http://www.w3.org/2000/svg',
-    svg = document.createElementNS(ns, 'svg'),
-    path = document.createElementNS(ns, 'path');
-  svg.setAttribute('viewBox', '0 0 24 24');
-  svg.setAttribute('aria-hidden', 'true');
-  path.setAttribute('d', paths[symbol] ?? paths.path);
-  svg.append(path);
-  return svg;
+  return svgNode(
+    'svg',
+    { viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+    svgNode('path', { d: paths[symbol] ?? paths.path }),
+  );
+}
+/** A portrait drawn by its inline style; decorative, the text beside it says who it is. */
+function portrait(className: string, style: string) {
+  const node = make('span', { className });
+  node.style.cssText = style;
+  node.setAttribute('aria-hidden', 'true');
+  return node;
+}
+/** A snake to expect: its portrait with the badge of its ability, its name, what it does. */
+function threatCard(kind: ThreatKind) {
+  const detail = THREAT_DETAILS[kind];
+  const card = make('div', { className: 'threat-card' });
+  card.dataset.threat = kind;
+  const picture = portrait('enemy-portrait', enemyPortraitStyle(kind));
+  picture.append(make('i', {}, capabilityIcon(detail.symbol)));
+  const copy = make(
+    'div',
+    {},
+    make('strong', { text: detail.name }),
+    make('small', { text: detail.ability }),
+  );
+  card.append(picture, copy);
+  return card;
 }
 export function renderThreatCards(host: HTMLElement, types: readonly ThreatKind[]) {
-  host.replaceChildren();
-  for (const kind of types) {
-    const detail = THREAT_DETAILS[kind],
-      card = document.createElement('div'),
-      portrait = document.createElement('span'),
-      badge = document.createElement('i'),
-      copy = document.createElement('div'),
-      name = document.createElement('strong'),
-      ability = document.createElement('small');
-    card.className = 'threat-card';
-    card.dataset.threat = kind;
-    portrait.className = 'enemy-portrait';
-    portrait.style.cssText = enemyPortraitStyle(kind);
-    portrait.setAttribute('aria-hidden', 'true');
-    badge.append(capabilityIcon(detail.symbol));
-    portrait.append(badge);
-    setDisplayText(name, detail.name);
-    setDisplayText(ability, detail.ability);
-    copy.append(name, ability);
-    card.append(portrait, copy);
-    host.append(card);
-  }
+  host.replaceChildren(...types.map(threatCard));
 }
 export function renderThreatAdvice(
   host: HTMLElement,
@@ -57,13 +58,10 @@ export function renderThreatAdvice(
     text: string;
   },
 ) {
-  const portrait = document.createElement('span'),
-    copy = document.createElement('p');
-  portrait.className = 'portrait';
-  portrait.style.cssText = portraitStyle(advice.kind);
-  portrait.setAttribute('aria-hidden', 'true');
   host.dataset.ally = advice.kind;
   setDisplayAttribute(host, 'aria-label', 'Une idée avec ' + kinds[advice.kind].name);
-  setDisplayText(copy, advice.text);
-  host.replaceChildren(portrait, copy);
+  host.replaceChildren(
+    portrait('portrait', portraitStyle(advice.kind)),
+    make('p', { text: advice.text }),
+  );
 }

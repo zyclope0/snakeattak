@@ -1,8 +1,8 @@
-import { setText as setDisplayText, appendText as appendDisplayText } from '../i18n/dom.ts';
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import { backupSummary, readFamilyBackup, FAMILY_BYTE_LIMIT } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
-import { byId } from './dom.ts';
+import { byId, make } from './dom.ts';
 type Actions = {
   exportRaw: () => string | null;
   applyBackup: (backup: FamilyBackup) => {
@@ -12,34 +12,135 @@ type Actions = {
   finished: () => void;
   persistenceStatus: () => string;
 };
+
+const say = (text: string) => setDisplayText(byId('family-status'), text);
+const sum = (values: readonly number[]) => values.reduce((a, b) => a + b, 0);
+/** The sticker books of a file; older files have none. */
+const albumsOf = (backup: FamilyBackup) =>
+  backup.version === 4 || backup.version === 5 ? backup.albums : null;
+
+/** What a family file would bring back: the camp, the expeditions, the sticker books. */
+function previewText(backup: FamilyBackup): string {
+  const summary = backupSummary(backup);
+  const stars = sum(summary.bestStars);
+  let text =
+    summary.wave === null
+      ? `Favoris et ${stars} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.`
+      : `Camp avant la vague ${summary.wave + 1} · ${summary.allies} alliés · ${summary.gold} pièces · ${stars} étoiles.`;
+  if (backup.version !== 1 && backup.missions) {
+    const missionStars = sum(Object.values(backup.missions.bestStars));
+    if (summary.wave === null && (backup.missions.classicCamp || backup.missions.retryCamp))
+      text = `Progression, favoris et camps conservés dans ce fichier · ${stars} étoiles classiques.`;
+    text += ` Expéditions : ${missionStars} / 18 étoiles. Le camp classique est conservé séparément.`;
+  }
+  return (
+    text +
+    (albumsOf(backup)
+      ? ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.'
+      : ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.')
+  );
+}
+/** The names of the sticker books, exactly as the family wrote them. */
+function albumNameNodes(backup: FamilyBackup) {
+  return (albumsOf(backup)?.children ?? []).map((child) => {
+    const name = make('span');
+    name.dataset.copyRaw = '';
+    name.textContent = ' · ' + child.name;
+    return name;
+  });
+}
+/** Hands the file to the browser as a download. */
+function download(raw: string) {
+  const url = URL.createObjectURL(new Blob([raw], { type: 'application/json' }));
+  const link = make('a');
+  link.href = url;
+  link.download = 'conquete-serpents-famille.json';
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function openPicker(file: HTMLInputElement) {
+  try {
+    if (typeof file.showPicker === 'function') file.showPicker();
+    else file.click();
+  } catch {
+    file.click();
+  }
+}
+
+/**
+ * Choosing a family file and looking at what it holds. Nothing is applied here: the file
+ * that was read waits in `chosen()` until the parent confirms.
+ */
+function bindFamilyPreview(dialog: HTMLDialogElement) {
+  const file = byId<HTMLInputElement>('family-file');
+  const apply = byId<HTMLButtonElement>('family-apply');
+  const albumNames = make('p', { id: 'family-preview-albums' });
+  byId('family-preview-summary').after(albumNames);
+  let pending: FamilyBackup | null = null,
+    generation = 0;
+
+  /** Nothing waits to be applied, and a file still being read is ignored when it arrives. */
+  const forget = () => {
+    pending = null;
+    apply.disabled = true;
+    byId('family-preview').hidden = true;
+    return ++generation;
+  };
+  const reset = () => {
+    forget();
+    file.value = '';
+    byId('family-file-name').textContent = '';
+  };
+  const show = (backup: FamilyBackup) => {
+    setDisplayText(byId('family-preview-summary'), previewText(backup));
+    albumNames.replaceChildren(...albumNameNodes(backup));
+    pending = backup;
+    byId('family-preview').hidden = false;
+    apply.disabled = false;
+    say('Vérifie cet aperçu. Ton aventure actuelle reste intacte tant que tu ne confirmes pas.');
+  };
+  const readSelection = async () => {
+    const turn = forget();
+    const selected = file.files?.[0];
+    if (!selected) return;
+    // The user's filename is local data, never translated.
+    byId('family-file-name').textContent = selected.name;
+    if (selected.size > FAMILY_BYTE_LIMIT)
+      return say('Fichier trop volumineux : rien n’a été modifié.');
+    say('Lecture du fichier…');
+    try {
+      const raw = await selected.text();
+      if (turn !== generation || !dialog.open) return;
+      const backup = readFamilyBackup(raw);
+      if (backup) show(backup);
+      else say('Fichier familial invalide ou incompatible : rien n’a été modifié.');
+    } catch {
+      if (turn === generation) say('Impossible de lire ce fichier : rien n’a été modifié.');
+    }
+  };
+
+  byId('family-choose-file').onclick = () => openPicker(file);
+  file.onchange = readSelection;
+  return { reset, chosen: () => pending };
+}
+
 /** User-selected local data only. Preview and cancellation never mutate the adventure. */
 export function bindFamilyControls(actions: Actions) {
   const dialog = byId<HTMLDialogElement>('family-dialog');
-  const file = byId<HTMLInputElement>('family-file');
-  const apply = byId<HTMLButtonElement>('family-apply');
-  const albumNames = document.createElement('p');
-  albumNames.id = 'family-preview-albums';
-  byId('family-preview-summary').after(albumNames);
+  const preview = bindFamilyPreview(dialog);
   // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
   byId('home-family').after(helpPoint('family'));
-  let pending: FamilyBackup | null = null,
-    generation = 0;
-  const reset = () => {
-    generation++;
-    pending = null;
-    file.value = '';
-    byId('family-file-name').textContent = '';
-    apply.disabled = true;
-    byId('family-preview').hidden = true;
-  };
   const close = () => {
-    reset();
+    preview.reset();
     dialog.close();
     byId('home-family').focus({ preventScroll: true });
   };
+
   byId('home-family').onclick = () => {
-    reset();
-    setDisplayText(byId('family-status'), actions.persistenceStatus());
+    preview.reset();
+    say(actions.persistenceStatus());
     dialog.showModal();
   };
   byId('family-close').onclick = close;
@@ -47,114 +148,21 @@ export function bindFamilyControls(actions: Actions) {
     event.preventDefault();
     close();
   });
-  dialog.addEventListener('close', reset);
+  dialog.addEventListener('close', preview.reset);
   byId('family-export').onclick = () => {
     const raw = actions.exportRaw();
-    if (!raw || !readFamilyBackup(raw)) {
-      setDisplayText(byId('family-status'), 'Impossible de préparer le fichier de cette aventure.');
-      return;
-    }
-    const url = URL.createObjectURL(new Blob([raw], { type: 'application/json' }));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'conquete-serpents-famille.json';
-    document.body.append(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setDisplayText(
-      byId('family-status'),
-      'Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.',
-    );
+    if (!raw || !readFamilyBackup(raw))
+      return say('Impossible de préparer le fichier de cette aventure.');
+    download(raw);
+    say('Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.');
   };
-  byId('family-choose-file').onclick = () => {
-    try {
-      if (typeof file.showPicker === 'function') file.showPicker();
-      else file.click();
-    } catch {
-      file.click();
-    }
-  };
-  file.onchange = async () => {
-    const turn = ++generation;
-    pending = null;
-    apply.disabled = true;
-    byId('family-preview').hidden = true;
-    const selected = file.files?.[0];
-    if (!selected) return;
-    // The user's filename is local data, never translated.
-    byId('family-file-name').textContent = selected.name;
-    if (selected.size > FAMILY_BYTE_LIMIT) {
-      setDisplayText(byId('family-status'), 'Fichier trop volumineux : rien n’a été modifié.');
-      return;
-    }
-    setDisplayText(byId('family-status'), 'Lecture du fichier…');
-    try {
-      const raw = await selected.text();
-      if (turn !== generation || !dialog.open) return;
-      const backup = readFamilyBackup(raw);
-      if (!backup) {
-        setDisplayText(
-          byId('family-status'),
-          'Fichier familial invalide ou incompatible : rien n’a été modifié.',
-        );
-        return;
-      }
-      const summary = backupSummary(backup);
-      const stars = summary.bestStars.reduce((a, b) => a + b, 0);
-      setDisplayText(
-        byId('family-preview-summary'),
-        summary.wave === null
-          ? `Favoris et ${stars} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.`
-          : `Camp avant la vague ${summary.wave + 1} · ${summary.allies} alliés · ${summary.gold} pièces · ${stars} étoiles.`,
-      );
-      if (backup.version !== 1 && backup.missions) {
-        const missionStars = Object.values(backup.missions.bestStars).reduce((a, b) => a + b, 0);
-        if (summary.wave === null && (backup.missions.classicCamp || backup.missions.retryCamp))
-          setDisplayText(
-            byId('family-preview-summary'),
-            `Progression, favoris et camps conservés dans ce fichier · ${stars} étoiles classiques.`,
-          );
-        appendDisplayText(
-          byId('family-preview-summary'),
-          ` Expéditions : ${missionStars} / 18 étoiles. Le camp classique est conservé séparément.`,
-        );
-      }
-      appendDisplayText(
-        byId('family-preview-summary'),
-        backup.version === 4 || backup.version === 5
-          ? ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.'
-          : ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.',
-      );
-      albumNames.replaceChildren();
-      if (backup.version === 4 || backup.version === 5)
-        for (const child of backup.albums.children) {
-          const name = document.createElement('span');
-          name.dataset.copyRaw = '';
-          name.textContent = ' · ' + child.name;
-          albumNames.append(name);
-        }
-      pending = backup;
-      byId('family-preview').hidden = false;
-      apply.disabled = false;
-      setDisplayText(
-        byId('family-status'),
-        'Vérifie cet aperçu. Ton aventure actuelle reste intacte tant que tu ne confirmes pas.',
-      );
-    } catch {
-      if (turn === generation)
-        setDisplayText(
-          byId('family-status'),
-          'Impossible de lire ce fichier : rien n’a été modifié.',
-        );
-    }
-  };
-  apply.onclick = () => {
-    if (!pending) return;
-    const result = actions.applyBackup(pending);
-    setDisplayText(byId('family-status'), result.message);
+  byId('family-apply').onclick = () => {
+    const backup = preview.chosen();
+    if (!backup) return;
+    const result = actions.applyBackup(backup);
+    say(result.message);
     if (!result.ok) return;
-    reset();
+    preview.reset();
     dialog.close();
     actions.finished();
   };
