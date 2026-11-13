@@ -1,4 +1,5 @@
 import type { Kind } from './data.ts';
+import { isRecord } from './plainData.ts';
 export type Milestone = 4 | 8;
 export const REWARDS = {
   'renfort-bouclier': {
@@ -65,12 +66,10 @@ export function freeRecruit(state: RewardState, kind: Kind) {
 }
 export const extraHoneySeconds = (state: RewardState) =>
   state.choices.filter((c) => c.id === 'miel').length * 4;
-const object = (v: unknown): v is Record<string, unknown> =>
-  typeof v === 'object' && v !== null && !Array.isArray(v);
 /** Reject inconsistent rewards; never reapply a gift while reading a save. */
 export function readRewards(raw: unknown, wave: number): RewardState | null {
   if (
-    !object(raw) ||
+    !isRecord(raw) ||
     !Number.isInteger(raw.seed) ||
     (raw.seed as number) < 0 ||
     (raw.seed as number) > 0xffffffff ||
@@ -86,7 +85,7 @@ export function readRewards(raw: unknown, wave: number): RewardState | null {
   let last = 0;
   for (const c of raw.choices) {
     if (
-      !object(c) ||
+      !isRecord(c) ||
       (c.milestone !== 4 && c.milestone !== 8) ||
       c.milestone > wave ||
       c.milestone <= last ||

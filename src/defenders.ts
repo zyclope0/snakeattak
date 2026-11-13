@@ -73,6 +73,10 @@ export function roleDescription(kind: Kind): string {
           : 'Garde son secteur, puis revient à son placement.';
 }
 /** Two nearby fighters relieve a real blockade; the rest keep their sectors. */
+/** Closest to `target` first; the lower id breaks a tie, so the order never depends on the list. */
+const nearestFirst = (target: Point) => (a: Entity, b: Entity) =>
+  Math.hypot(a.x - target.x, a.y - target.y) - Math.hypot(b.x - target.x, b.y - target.y) ||
+  a.id - b.id;
 export function reliefTeams(units: Entity[], enemies: Entity[]): Map<number, Set<number>> {
   const teams = new Map<number, Set<number>>();
   const bridgeTeams = new Map<number, Set<number>>();
@@ -91,18 +95,10 @@ export function reliefTeams(units: Entity[], enemies: Entity[]): Map<number, Set
         teams.set(e.id, bridgeTeams.get(e.lane)!);
         continue;
       }
-      const primary = crowded
-        ? [...engaged].sort(
-            (a, b) =>
-              Math.hypot(a.x - e.x, a.y - e.y) - Math.hypot(b.x - e.x, b.y - e.y) || a.id - b.id,
-          )[0]
-        : undefined;
+      const primary = crowded ? [...engaged].sort(nearestFirst(e))[0] : undefined;
       const nearest = fighters
         .filter((u) => (crowded ? u !== primary : !engaged.includes(u)))
-        .sort(
-          (a, b) =>
-            Math.hypot(a.x - e.x, a.y - e.y) - Math.hypot(b.x - e.x, b.y - e.y) || a.id - b.id,
-        )
+        .sort(nearestFirst(e))
         .slice(0, 2);
       teams.set(e.id, new Set(nearest.map((u) => u.id)));
       if (crowded) bridgeTeams.set(e.lane, teams.get(e.id)!);

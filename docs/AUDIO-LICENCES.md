@@ -5,8 +5,9 @@ silence de tête coupé ; musiques stéréo 128 kb/s). Les sources ne sont pas d
 `nom-1.mp3`, `nom-2.mp3` sont les variantes d'un même signal ; `music-*.mp3` sont les musiques.
 Les bruitages sont décodés en mémoire ; les musiques sont lues en continu (élément audio).
 Le code qui les joue est `src/audio/samples.ts` ; les moments sont décidés dans
-`src/audio/sounds.ts`. Musique et bruitages se règlent séparément dans « Réglages »
-(`src/audio/soundSettings.ts`). Depuis le 12 novembre 2026, sur décision du parent, ils sont
+`src/audio/gameSounds.ts`, le fichier et le volume de chaque moment dans `src/audio/signals.ts` ;
+`src/audio/sounds.ts` relie le tout à la page. Musique et bruitages se règlent séparément dans
+« Réglages » (`src/audio/soundSettings.ts`). Depuis le 12 novembre 2026, sur décision du parent, ils sont
 activés au départ comme dans les jeux mobiles ; le navigateur n'autorise le son qu'au premier
 appui, et le volume ou le mode silencieux du téléphone s'appliquent.
 

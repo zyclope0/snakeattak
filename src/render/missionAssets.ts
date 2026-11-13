@@ -54,6 +54,7 @@ function fightingTextures(game: Game): Set<string> {
   if (!game.mission && game.difficultyWave === 12) textures.add(KING_ART.texture);
   return textures;
 }
+const IMAGE_MISSING = 'Une image n’a pas pu arriver. Réessaie quand la connexion revient.';
 const OPTIONAL = new Set(ATTACK_SHEETS.map((sheet) => sheet.key));
 /** One Phaser loader, no speculative downloads, and a retryable HTML progress panel. */
 export class MissionAssets {
@@ -80,7 +81,7 @@ export class MissionAssets {
     const error = (file: Phaser.Loader.File) => {
       if (OPTIONAL.has(file.key)) return; // The fighter keeps its idle image.
       this.failed.add(file.key);
-      this.show('Une image n’a pas pu arriver. Réessaie quand la connexion revient.', true);
+      this.show(IMAGE_MISSING, true);
     };
     scene.load.on('progress', progress);
     scene.load.on('loaderror', error);
@@ -116,7 +117,7 @@ export class MissionAssets {
     }
     this.waiting = true;
     if ([...missing].some((key) => this.failed.has(key))) {
-      this.show('Une image n’a pas pu arriver. Réessaie quand la connexion revient.', true);
+      this.show(IMAGE_MISSING, true);
       return false;
     }
     if (!this.scene.load.isLoading()) {

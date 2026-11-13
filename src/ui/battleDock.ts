@@ -14,6 +14,7 @@ import { DEFAULT_ROSTERS } from '../roster.ts';
 import { dockKinds } from './dockModel.ts';
 import { portraitStyle } from '../art.ts';
 import { FEAST_CHOICES, feastPot } from './feastControls.ts';
+import { byId } from './dom.ts';
 /** Four shortcuts, not a second catalogue or a second source of recruitment rules. */
 export function bindBattleDock(
   session: Session,
@@ -21,13 +22,12 @@ export function bindBattleDock(
   refresh: () => void,
   openToolHelp: () => void,
 ) {
-  const container = document.getElementById('dock-allies')!;
-  const status = document.getElementById('dock-mode')!;
-  const focusBoard = () => document.getElementById('game')!.focus({ preventScroll: true });
-  document.getElementById('dock-catalogue')!.onclick = () =>
-    document.getElementById('reinforcements-toggle')!.click();
-  const cancel = document.getElementById('dock-cancel') as HTMLButtonElement;
-  const help = document.getElementById('dock-tool-help') as HTMLButtonElement;
+  const container = byId('dock-allies');
+  const status = byId('dock-mode');
+  const focusBoard = () => byId('game').focus({ preventScroll: true });
+  byId('dock-catalogue').onclick = () => byId('reinforcements-toggle').click();
+  const cancel = byId<HTMLButtonElement>('dock-cancel');
+  const help = byId<HTMLButtonElement>('dock-tool-help');
   help.onclick = openToolHelp;
   cancel.onclick = () => {
     session.selectUnit(null);
@@ -70,7 +70,7 @@ export function bindBattleDock(
       refresh();
       focusBoard();
     };
-    document.getElementById('dock-honey')!.append(button);
+    byId('dock-honey').append(button);
     return { button, flavor: flavor.value };
   });
   return () => {

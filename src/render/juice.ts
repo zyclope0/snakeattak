@@ -1,5 +1,5 @@
 import type Phaser from 'phaser';
-import type { Presentation } from './presentation.ts';
+import type { Presentation, Spark } from './presentation.ts';
 import { shakeBoard } from './boardResolution.ts';
 
 const CAPACITY = 40;
@@ -7,9 +7,13 @@ const PUFF = 1,
   SHARD = 2,
   COIN = 3,
   DUST = 4;
+/** A little cloud drifts, slows down by `drag`, fades from `alpha` and grows from `size`. */
+type Cloud = { color: number; alpha: number; drag: number; size: number; growth: number };
+const PUFF_CLOUD: Cloud = { color: 0xf6ecd0, alpha: 0.8, drag: 0.7, size: 0.7, growth: 0.9 },
+  DUST_CLOUD: Cloud = { color: 0xe2d3ad, alpha: 0.5, drag: 0, size: 0.8, growth: 1.3 };
 const CONFETTI = [0xeacd79, 0xb9d795, 0xf0b08c, 0xa8d6de, 0xf6ecd0];
-/** Burst length; the calm falling confetti of BattleScene takes over afterwards. */
-export const CONFETTI_BURST = 2.4;
+/** Burst length; the calm falling confetti takes over afterwards. */
+const CONFETTI_BURST = 2.4;
 
 /** Where a coin flies to, in board coordinates: the HUD counter, kept inside the board. */
 export function coinTarget(
@@ -75,6 +79,11 @@ export class BattleJuice {
     this.life[i] = life;
     this.size[i] = size;
   }
+  /** Frees every slot at once. */
+  private empty() {
+    this.kind.fill(0);
+    this.live = 0;
+  }
   private puff(x: number, y: number, count: number) {
     for (let i = 0; i < count; i++) {
       const angle = ((i + this.random() * 0.6) / count) * Math.PI * 2;
@@ -89,6 +98,34 @@ export class BattleJuice {
       );
     }
   }
+  /** Dust under a heavy step. */
+  private dust(x: number, y: number) {
+    // Never at the expense of a coin in flight: dust only uses free room.
+    for (let i = 0; i < 2 && this.live < CAPACITY / 2; i++)
+      this.spawn(
+        DUST,
+        x + (this.random() - 0.5) * 10,
+        y + 15,
+        (this.random() - 0.5) * 24,
+        -9 - this.random() * 9,
+        0.34 + this.random() * 0.1,
+        2.6 + this.random() * 1.6,
+      );
+  }
+  /** An egg hatches: a small puff and six shards thrown upwards. */
+  private hatch(x: number, y: number) {
+    this.puff(x, y + 10, 3);
+    for (let i = 0; i < 6; i++)
+      this.spawn(
+        SHARD,
+        x,
+        y - 6,
+        (i - 2.5) * 34 + (this.random() - 0.5) * 20,
+        -150 - this.random() * 70,
+        0.55,
+        5 + this.random() * 2,
+      );
+  }
   private coinGoal() {
     // Layout is read at most once a second, and only when a coin appears.
     if (this.clock - this.targetAt < 1) return this.target;
@@ -100,114 +137,125 @@ export class BattleJuice {
     );
     return this.target;
   }
+  /** Turns one cue of the presentation into particles, or into a shake for the king. */
+  private ignite(s: Spark) {
+    if (s.kind === 'ally') this.puff(s.x, s.y + 14, 7);
+    else if (s.kind === 'dust') this.dust(s.x, s.y);
+    else if (s.kind === 'egg') this.hatch(s.x, s.y);
+    else if (s.kind === 'coin') {
+      const goal = this.coinGoal();
+      // vx, vy hold the destination: a coin follows a fixed arc, not a velocity.
+      this.spawn(COIN, s.x, s.y - 14, goal.x, goal.y, 0.8, 9);
+    } else if (s.kind === 'boss') shakeBoard(this.scene, 320, 0.0045);
+  }
   draw(p: Presentation, reduced: boolean) {
-    const g = this.graphics;
     // A new game restarts the visual clock: drop what belonged to the previous one.
     if (p.clock < this.clock) {
-      this.kind.fill(0);
-      this.live = 0;
+      this.empty();
       this.targetAt = -Infinity;
     }
     const dt = Math.max(0, Math.min(0.1, p.clock - this.clock));
     this.clock = p.clock;
     if (reduced) {
       if (this.live || this.drawn) {
-        this.kind.fill(0);
-        this.live = 0;
+        this.empty();
         this.drawn = false;
-        g.clear();
+        this.graphics.clear();
       }
       return;
     }
-    for (const s of p.sparks) {
-      if (s.kind === 'ally') this.puff(s.x, s.y + 14, 7);
-      else if (s.kind === 'dust') {
-        // Never at the expense of a coin in flight: dust only uses free room.
-        for (let i = 0; i < 2 && this.live < CAPACITY / 2; i++)
-          this.spawn(
-            DUST,
-            s.x + (this.random() - 0.5) * 10,
-            s.y + 15,
-            (this.random() - 0.5) * 24,
-            -9 - this.random() * 9,
-            0.34 + this.random() * 0.1,
-            2.6 + this.random() * 1.6,
-          );
-      } else if (s.kind === 'egg') {
-        this.puff(s.x, s.y + 10, 3);
-        for (let i = 0; i < 6; i++)
-          this.spawn(
-            SHARD,
-            s.x,
-            s.y - 6,
-            (i - 2.5) * 34 + (this.random() - 0.5) * 20,
-            -150 - this.random() * 70,
-            0.55,
-            5 + this.random() * 2,
-          );
-      } else if (s.kind === 'coin') {
-        const goal = this.coinGoal();
-        // vx, vy hold the destination: a coin follows a fixed arc, not a velocity.
-        this.spawn(COIN, s.x, s.y - 14, goal.x, goal.y, 0.8, 9);
-      } else if (s.kind === 'boss') shakeBoard(this.scene, 320, 0.0045);
-    }
+    for (const s of p.sparks) this.ignite(s);
     if (!this.live && !this.drawn) return;
-    g.clear();
+    this.graphics.clear();
     this.drawn = this.live > 0;
-    for (let i = 0; i < CAPACITY; i++) {
-      const kind = this.kind[i];
-      if (!kind) continue;
-      const age = (this.age[i] += dt),
-        t = age / this.life[i];
-      if (t >= 1) {
-        this.kind[i] = 0;
-        this.live--;
-        continue;
-      }
-      if (kind === PUFF) {
-        const slow = 1 - t * 0.7;
-        this.x[i] += this.vx[i] * dt * slow;
-        this.y[i] += this.vy[i] * dt * slow;
-        g.fillStyle(0xf6ecd0, (1 - t) * 0.8);
-        g.fillCircle(this.x[i], this.y[i], this.size[i] * (0.7 + t * 0.9));
-      } else if (kind === DUST) {
-        this.x[i] += this.vx[i] * dt;
-        this.y[i] += this.vy[i] * dt;
-        g.fillStyle(0xe2d3ad, (1 - t) * 0.5);
-        g.fillCircle(this.x[i], this.y[i], this.size[i] * (0.8 + t * 1.3));
-      } else if (kind === SHARD) {
-        this.vy[i] += 620 * dt;
-        this.x[i] += this.vx[i] * dt;
-        this.y[i] += this.vy[i] * dt;
-        const s = this.size[i],
-          spin = age * 9 + i,
-          cx = Math.cos(spin) * s,
-          cy = Math.sin(spin) * s,
-          x = this.x[i],
-          y = this.y[i];
-        g.fillStyle(i % 2 ? 0xf3e7c8 : 0xe2c58a, Math.min(1, (1 - t) * 3));
-        g.fillTriangle(x + cx, y + cy, x - cy, y + cx, x - cx * 0.6, y - cy * 0.6);
-      } else {
-        // A little hop where the snake fell, then a glide to the counter.
-        const glide = t * t * (3 - 2 * t),
-          hop = Math.sin(Math.min(1, t * 2.4) * Math.PI) * 30,
-          x = this.x[i] + (this.vx[i] - this.x[i]) * glide,
-          y = this.y[i] + (this.vy[i] - this.y[i]) * glide - hop,
-          r = this.size[i] * (1 - glide * 0.3),
-          alpha = Math.min(1, (1 - t) * 6);
-        g.fillStyle(0xa9772a, alpha);
-        g.fillCircle(x, y, r);
-        g.fillStyle(0xffd66a, alpha);
-        g.fillCircle(x, y, r - 2);
-        g.fillStyle(0xfff3c4, alpha);
-        g.fillCircle(x - r * 0.28, y - r * 0.3, r * 0.3);
-      }
-    }
+    for (let i = 0; i < CAPACITY; i++) if (this.kind[i]) this.drawParticle(i, dt);
+  }
+  /** Ages the particle in slot `i`, then draws it, or frees the slot at the end of its life. */
+  private drawParticle(i: number, dt: number) {
+    const kind = this.kind[i],
+      age = (this.age[i] += dt),
+      t = age / this.life[i];
+    if (t >= 1) {
+      this.kind[i] = 0;
+      this.live--;
+    } else if (kind === PUFF) this.drawCloud(i, t, dt, PUFF_CLOUD);
+    else if (kind === DUST) this.drawCloud(i, t, dt, DUST_CLOUD);
+    else if (kind === SHARD) this.drawShard(i, t, dt, age);
+    else this.drawCoin(i, t);
+  }
+  private drawCloud(i: number, t: number, dt: number, cloud: Cloud) {
+    const g = this.graphics,
+      slow = 1 - t * cloud.drag;
+    this.x[i] += this.vx[i] * dt * slow;
+    this.y[i] += this.vy[i] * dt * slow;
+    g.fillStyle(cloud.color, (1 - t) * cloud.alpha);
+    g.fillCircle(this.x[i], this.y[i], this.size[i] * (cloud.size + t * cloud.growth));
+  }
+  /** A shard of shell falls back under its own weight, spinning. */
+  private drawShard(i: number, t: number, dt: number, age: number) {
+    const g = this.graphics;
+    this.vy[i] += 620 * dt;
+    this.x[i] += this.vx[i] * dt;
+    this.y[i] += this.vy[i] * dt;
+    const s = this.size[i],
+      spin = age * 9 + i,
+      cx = Math.cos(spin) * s,
+      cy = Math.sin(spin) * s,
+      x = this.x[i],
+      y = this.y[i];
+    g.fillStyle(i % 2 ? 0xf3e7c8 : 0xe2c58a, Math.min(1, (1 - t) * 3));
+    g.fillTriangle(x + cx, y + cy, x - cy, y + cx, x - cx * 0.6, y - cy * 0.6);
+  }
+  /** A little hop where the snake fell, then a glide to the counter. */
+  private drawCoin(i: number, t: number) {
+    const g = this.graphics,
+      glide = t * t * (3 - 2 * t),
+      hop = Math.sin(Math.min(1, t * 2.4) * Math.PI) * 30,
+      x = this.x[i] + (this.vx[i] - this.x[i]) * glide,
+      y = this.y[i] + (this.vy[i] - this.y[i]) * glide - hop,
+      r = this.size[i] * (1 - glide * 0.3),
+      alpha = Math.min(1, (1 - t) * 6);
+    g.fillStyle(0xa9772a, alpha);
+    g.fillCircle(x, y, r);
+    g.fillStyle(0xffd66a, alpha);
+    g.fillCircle(x, y, r - 2);
+    g.fillStyle(0xfff3c4, alpha);
+    g.fillCircle(x - r * 0.28, y - r * 0.3, r * 0.3);
+  }
+}
+
+/**
+ * The paper of a victory won `victoryAge` visual seconds ago: a burst from both lower corners,
+ * then a calm fall. With reduced motion the paper appears at once and stays still.
+ */
+export function drawCelebration(
+  g: Phaser.GameObjects.Graphics,
+  victoryAge: number,
+  clock: number,
+  reduced: boolean,
+) {
+  const burst = reduced ? Infinity : victoryAge;
+  if (burst < CONFETTI_BURST) drawConfettiBurst(g, burst);
+  else drawFallingConfetti(g, Math.min(1, burst - CONFETTI_BURST), clock, reduced);
+}
+
+/** Thirty-two papers falling at one speed; `rise` fades them in after the burst. */
+function drawFallingConfetti(
+  g: Phaser.GameObjects.Graphics,
+  rise: number,
+  clock: number,
+  reduced: boolean,
+) {
+  for (let i = 0; i < 32; i++) {
+    const x = (i * 173 + 42) % 1100,
+      y = reduced ? 80 + ((i * 37) % 450) : (i * 71 + clock * 42) % 580;
+    g.fillStyle(i % 2 ? 0xeacd79 : 0xb9d795, 0.7 * rise);
+    g.fillRect(x, y, 5, 9);
   }
 }
 
 /** Closed-form paper burst from both lower corners: no state, no allocation. */
-export function drawConfettiBurst(g: Phaser.GameObjects.Graphics, age: number) {
+function drawConfettiBurst(g: Phaser.GameObjects.Graphics, age: number) {
   const fade = Math.min(1, (CONFETTI_BURST - age) / 0.5);
   if (fade <= 0) return;
   for (let i = 0; i < 36; i++) {

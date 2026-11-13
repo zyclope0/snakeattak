@@ -13,6 +13,7 @@ import type { Kind } from '../data.ts';
 import { portraitStyle, GROUND_ART } from '../art.ts';
 import { chapterIdentityForWave } from '../waves.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
+import { byId } from './dom.ts';
 type Career = ReturnType<typeof createCareer>;
 export function bindMenu(
   session: Session,
@@ -27,19 +28,18 @@ export function bindMenu(
     navigate?: (page: HomePage) => void;
   },
 ) {
-  const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const navigate = actions.navigate ?? bindHomeNavigation().show;
   let draft: Kind[] = [],
     slot = 0,
     pending: (() => void) | null = null;
-  const confirm = el<HTMLDialogElement>('journey-confirm');
+  const confirm = byId<HTMLDialogElement>('journey-confirm');
   const rosterButtons = new Map<Kind, HTMLButtonElement>();
   const enter = () => {
     session.screen = 'battle';
     actions.started();
     actions.view(false);
     actions.refresh();
-    requestAnimationFrame(() => el('start').focus({ preventScroll: true }));
+    requestAnimationFrame(() => byId('start').focus({ preventScroll: true }));
   };
   const showHome = () => {
     session.selectUnit(null);
@@ -48,7 +48,7 @@ export function bindMenu(
     actions.view(true);
     navigate('home');
     refresh();
-    el('home-primary')?.focus({ preventScroll: true });
+    byId('home-primary')?.focus({ preventScroll: true });
   };
   const replace = (action: () => void) => {
     const g = session.game;
@@ -57,25 +57,25 @@ export function bindMenu(
       confirm.showModal();
     } else action();
   };
-  el('journey-cancel').onclick = () => {
+  byId('journey-cancel').onclick = () => {
     pending = null;
     confirm.close();
   };
   confirm.addEventListener('cancel', () => {
     pending = null;
   });
-  el('journey-replace').onclick = () => {
+  byId('journey-replace').onclick = () => {
     const action = pending;
     pending = null;
     confirm.close();
     action?.();
   };
-  el('menu-home').onclick = showHome;
+  byId('menu-home').onclick = showHome;
   document.querySelector<HTMLAnchorElement>('#app .brand')!.onclick = (e) => {
     e.preventDefault();
     showHome();
   };
-  el('home-new').onclick = () =>
+  byId('home-new').onclick = () =>
     replace(() => {
       session.restart();
       enter();
@@ -88,9 +88,9 @@ export function bindMenu(
     }
     enter();
   };
-  el('home-continue').onclick = resumeClassic;
+  byId('home-continue').onclick = resumeClassic;
   for (let i = 0; i < 3; i++) {
-    const button = el<HTMLButtonElement>(`chapter-${i}`);
+    const button = byId<HTMLButtonElement>(`chapter-${i}`);
     const preview = () => button.style.setProperty('--chapter-art', `url("${GROUND_ART[i].url}")`);
     // Do not fetch later battle backgrounds merely to draw menu thumbnails.
     button.style.setProperty(
@@ -103,10 +103,10 @@ export function bindMenu(
     );
     button.addEventListener('pointerenter', preview);
     button.addEventListener('focus', preview);
-    setDisplayText(el(`chapter-focus-${i}`), chapterIdentityForWave(i * 4 + 1).focus);
+    setDisplayText(byId(`chapter-focus-${i}`), chapterIdentityForWave(i * 4 + 1).focus);
     button.onclick = () => {
       if (i === 0) {
-        el('home-new').click();
+        byId('home-new').click();
         return;
       }
       const g = career.chapterGame(i as 1 | 2);
@@ -117,10 +117,10 @@ export function bindMenu(
       });
     };
   }
-  el('home-help').onclick = () => el('help').click();
-  el('home-guide').onclick = () => el('unit-guide').click();
+  byId('home-help').onclick = () => byId('help').click();
+  byId('home-guide').onclick = () => byId('unit-guide').click();
   document.documentElement.style.setProperty('--home-scene', `url("${GROUND_ART[0].url}")`);
-  const select = el<HTMLSelectElement>('roster-slot');
+  const select = byId<HTMLSelectElement>('roster-slot');
   ROSTER_NAMES.forEach((name, i) => {
     const o = document.createElement('option');
     o.value = String(i);
@@ -136,11 +136,11 @@ export function bindMenu(
       b.disabled = session.game.status === 'fighting';
     }
     const pages = Math.ceil(rosterButtons.size / pageSize);
-    el<HTMLButtonElement>('roster-page-previous').disabled = rosterPage === 0;
-    el<HTMLButtonElement>('roster-page-next').disabled = rosterPage >= pages - 1;
-    setDisplayText(el('roster-page-status'), `${rosterPage + 1} / ${pages}`);
-    setDisplayText(el('roster-count'), `${draft.length} / 8 alliés favoris`);
-    el<HTMLButtonElement>('roster-save').disabled =
+    byId<HTMLButtonElement>('roster-page-previous').disabled = rosterPage === 0;
+    byId<HTMLButtonElement>('roster-page-next').disabled = rosterPage >= pages - 1;
+    setDisplayText(byId('roster-page-status'), `${rosterPage + 1} / ${pages}`);
+    setDisplayText(byId('roster-count'), `${draft.length} / 8 alliés favoris`);
+    byId<HTMLButtonElement>('roster-save').disabled =
       draft.length !== 8 || session.game.status === 'fighting';
   };
   for (const [k, d] of Object.entries(kinds)) {
@@ -167,7 +167,7 @@ export function bindMenu(
           : draft;
       updateEditor();
     };
-    el('roster-grid').append(b);
+    byId('roster-grid').append(b);
     rosterButtons.set(kind, b);
   }
   const loadSlot = () => {
@@ -176,15 +176,15 @@ export function bindMenu(
     updateEditor();
   };
   select.onchange = loadSlot;
-  el('roster-page-previous').onclick = () => {
+  byId('roster-page-previous').onclick = () => {
     if (rosterPage > 0) rosterPage--;
     updateEditor();
   };
-  el('roster-page-next').onclick = () => {
+  byId('roster-page-next').onclick = () => {
     if ((rosterPage + 1) * pageSize < rosterButtons.size) rosterPage++;
     updateEditor();
   };
-  el('home-army').onclick = () => {
+  byId('home-army').onclick = () => {
     if (session.game.status === 'fighting') return;
     navigate('favorites');
     rosterPage = 0;
@@ -192,8 +192,8 @@ export function bindMenu(
     loadSlot();
     select.focus();
   };
-  el('roster-back').onclick = showHome;
-  el('roster-save').onclick = () => {
+  byId('roster-back').onclick = showHome;
+  byId('roster-save').onclick = () => {
     if (session.game.status === 'fighting' || !career.setRoster(slot, draft)) return;
     career.activateRoster(slot);
     session.selectUnit(null);
@@ -203,12 +203,12 @@ export function bindMenu(
   function refresh() {
     const state = career.state,
       g = session.game;
-    setDisplayText(el('home-stars'), `${state.bestStars.reduce((a, b) => a + b, 0)} / 9 étoiles`);
-    setDisplayText(el('career-status'), actions.progressStatus?.() ?? career.status);
-    el<HTMLButtonElement>('home-continue').hidden =
+    setDisplayText(byId('home-stars'), `${state.bestStars.reduce((a, b) => a + b, 0)} / 9 étoiles`);
+    setDisplayText(byId('career-status'), actions.progressStatus?.() ?? career.status);
+    byId<HTMLButtonElement>('home-continue').hidden =
       !actions.hasCamp() || (!g.mission && g.status === 'won');
     setDisplayText(
-      el('home-continue'),
+      byId('home-continue'),
       g.mission
         ? 'Reprendre mon aventure classique'
         : g.status === 'lost'
@@ -217,22 +217,22 @@ export function bindMenu(
             ? `Continuer la bataille · vague ${g.wave}`
             : `Continuer · vague ${Math.min(12, g.wave + 1)}`,
     );
-    el<HTMLButtonElement>('home-army').disabled = g.status === 'fighting';
+    byId<HTMLButtonElement>('home-army').disabled = g.status === 'fighting';
     setDisplayTitle(
-      el('home-army'),
+      byId('home-army'),
       g.status === 'fighting'
         ? 'Les favoris se préparent entre les vagues.'
         : 'Préparer trois groupes de huit favoris.',
     );
-    setDisplayText(el('home-active-team'), `Favoris · ${ROSTER_NAMES[state.activeRoster]}`);
+    setDisplayText(byId('home-active-team'), `Favoris · ${ROSTER_NAMES[state.activeRoster]}`);
     for (let i = 0; i < 3; i++) {
       const n = state.bestStars[i];
-      setDisplayText(el(`chapter-stars-${i}`), '★'.repeat(n) + '☆'.repeat(3 - n));
-      setDisplayAttribute(el(`chapter-stars-${i}`), 'aria-label', `${n} étoiles sur 3`);
+      setDisplayText(byId(`chapter-stars-${i}`), '★'.repeat(n) + '☆'.repeat(3 - n));
+      setDisplayAttribute(byId(`chapter-stars-${i}`), 'aria-label', `${n} étoiles sur 3`);
       const available = i === 0 || state.chapterCamps[i - 1] !== null;
-      el<HTMLButtonElement>(`chapter-${i}`).disabled = !available;
+      byId<HTMLButtonElement>(`chapter-${i}`).disabled = !available;
       setDisplayText(
-        el(`chapter-action-${i}`),
+        byId(`chapter-action-${i}`),
         i === 0
           ? 'Commencer ici'
           : available

@@ -1,9 +1,10 @@
 import type { Session } from '../session.ts';
 import { pauseStateFor } from './pauseState.ts';
+import { portraitPhone } from './dom.ts';
 
 /** A portrait touch screen hides the board, so its battle must wait as well. */
 export function bindOrientation(session: Session, refresh: () => void) {
-  const portrait = matchMedia('(pointer: coarse) and (orientation: portrait)');
+  const portrait = portraitPhone();
   const pauses = pauseStateFor(session);
   let pausedGame: Session['game'] | null = null;
   let release: (() => void) | undefined;

@@ -4,6 +4,7 @@ import type { MissionRun } from '../missions.ts';
 import type { Session } from '../session.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { helpPoint } from './helpBubble.ts';
+import { byId } from './dom.ts';
 /** Codes carry setup data only. Preview and launch remain two separate actions. */
 export function bindDepartureControls(
   session: Session,
@@ -13,25 +14,24 @@ export function bindDepartureControls(
     launchClassic: (seed: number, balanceRevision: BalanceRevision) => void;
   },
 ) {
-  const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
-  const input = el<HTMLInputElement>('departure-input');
-  const message = el('departure-message');
-  const classicDialog = el<HTMLDialogElement>('departure-dialog');
+  const input = byId<HTMLInputElement>('departure-input');
+  const message = byId('departure-message');
+  const classicDialog = byId<HTMLDialogElement>('departure-dialog');
   // Page des parents : un « ? » au bout de la ligne du code dit ce qu'un code retrouve.
   input.parentElement!.append(helpPoint('code'));
   let pending: { seed: number; balanceRevision: BalanceRevision } | null = null;
   const legacyLabel = document.createElement('small');
   legacyLabel.id = 'departure-original-rules';
   setDisplayText(legacyLabel, 'Règles d’origine');
-  el('departure-preview-code').after(legacyLabel);
+  byId('departure-preview-code').after(legacyLabel);
   const currentLegacy = legacyLabel.cloneNode() as HTMLElement;
   currentLegacy.id = 'current-original-rules';
   setDisplayText(currentLegacy, 'Règles d’origine');
-  el('current-departure').after(currentLegacy);
+  byId('current-departure').after(currentLegacy);
   function copyButton(fieldId: string, buttonId: string, messageId: string) {
-    const field = el<HTMLInputElement>(fieldId),
-      button = el<HTMLButtonElement>(buttonId),
-      status = el(messageId);
+    const field = byId<HTMLInputElement>(fieldId),
+      button = byId<HTMLButtonElement>(buttonId),
+      status = byId(messageId);
     button.onclick = async () => {
       const code = field.value;
       if (!code) return;
@@ -51,7 +51,7 @@ export function bindDepartureControls(
   }
   copyButton('mission-departure-code', 'mission-departure-copy', 'mission-departure-message');
   copyButton('current-departure-code', 'current-departure-copy', 'current-departure-message');
-  el<HTMLFormElement>('departure-form').onsubmit = (e) => {
+  byId<HTMLFormElement>('departure-form').onsubmit = (e) => {
     e.preventDefault();
     const decoded = decodeDeparture(input.value);
     setDisplayText(message, '');
@@ -79,7 +79,7 @@ export function bindDepartureControls(
     } else {
       pending = { seed: departure.seed, balanceRevision: departure.balance ?? 1 };
       legacyLabel.hidden = departure.balance === 2;
-      setDisplayText(el('departure-preview-code'), encodeDeparture(departure));
+      setDisplayText(byId('departure-preview-code'), encodeDeparture(departure));
       classicDialog.showModal();
     }
   };
@@ -87,14 +87,14 @@ export function bindDepartureControls(
     input.removeAttribute('aria-invalid');
     setDisplayText(message, '');
   };
-  el('departure-cancel').onclick = () => {
+  byId('departure-cancel').onclick = () => {
     pending = null;
     classicDialog.close();
   };
   classicDialog.addEventListener('cancel', () => {
     pending = null;
   });
-  el('departure-start').onclick = () => {
+  byId('departure-start').onclick = () => {
     if (pending === null) return;
     const { seed, balanceRevision } = pending;
     pending = null;
@@ -102,10 +102,10 @@ export function bindDepartureControls(
     actions.launchClassic(seed, balanceRevision);
   };
   function setCode(fieldId: string, messageId: string, code: string) {
-    const field = el<HTMLInputElement>(fieldId);
+    const field = byId<HTMLInputElement>(fieldId);
     if (field.value !== code) {
       field.value = code;
-      setDisplayText(el(messageId), '');
+      setDisplayText(byId(messageId), '');
     }
   }
   return {
@@ -119,8 +119,8 @@ export function bindDepartureControls(
     refresh() {
       currentLegacy.hidden = session.game.balanceRevision !== 1;
       const departure = departureForGame(session.game);
-      el('current-departure').hidden = !departure;
-      el('departure-unavailable').hidden = !!departure;
+      byId('current-departure').hidden = !departure;
+      byId('departure-unavailable').hidden = !!departure;
       if (departure)
         setCode('current-departure-code', 'current-departure-message', encodeDeparture(departure));
     },

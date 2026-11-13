@@ -1,5 +1,6 @@
 import { kinds } from './data.ts';
 import { readFamilyBackup } from './familyBackup.ts';
+import { isRecord } from './plainData.ts';
 
 /**
  * Local players of a shared phone or tablet. Nothing leaves the device: a player is a
@@ -40,8 +41,6 @@ export const PLAYER_KEYS: readonly string[] = [
 type ReadPort = Pick<Storage, 'getItem'>;
 type StoragePort = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
-const object = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
 const playerId = (value: unknown): value is PlayerId =>
   PLAYER_IDS.includes(value as PlayerId) && typeof value === 'string';
 const character = (value: unknown): value is PlayerCharacter =>
@@ -75,7 +74,7 @@ export function createPlayers(): Players {
 export function validatePlayers(value: unknown): Players | null {
   try {
     if (
-      !object(value) ||
+      !isRecord(value) ||
       value.version !== 1 ||
       !Array.isArray(value.players) ||
       value.players.length < 1 ||
@@ -85,7 +84,7 @@ export function validatePlayers(value: unknown): Players | null {
     const players: Player[] = [];
     for (const entry of value.players) {
       if (
-        !object(entry) ||
+        !isRecord(entry) ||
         !playerId(entry.id) ||
         players.some((player) => player.id === entry.id) ||
         !character(entry.character) ||

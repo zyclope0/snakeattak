@@ -3,6 +3,7 @@ import type { MissionId, MissionRun } from './missions.ts';
 import type { Game } from './game.ts';
 import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
 import { capriceById, capriceUnlocked } from './caprices.ts';
+import { isRecord, isStarCount } from './plainData.ts';
 
 export type MissionProgress = {
   version: 1 | 2;
@@ -13,10 +14,6 @@ export type MissionProgress = {
   activeMode: 'classic' | 'missions';
 };
 const LIMIT = 250000;
-const object = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
-const stars = (value: unknown): value is number =>
-  typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= 3;
 const sameRun = (a: MissionRun | null | undefined, b: MissionRun | null | undefined) =>
   !!a &&
   !!b &&
@@ -46,10 +43,10 @@ function copyState(state: MissionProgress): MissionProgress {
 }
 function canonical(value: unknown): MissionProgress | null {
   if (
-    !object(value) ||
+    !isRecord(value) ||
     (value.version !== 1 && value.version !== 2) ||
-    !object(value.bestStars) ||
-    !object(value.lastRuns) ||
+    !isRecord(value.bestStars) ||
+    !isRecord(value.lastRuns) ||
     (value.activeMode !== 'classic' && value.activeMode !== 'missions')
   )
     return null;
@@ -63,7 +60,7 @@ function canonical(value: unknown): MissionProgress | null {
   state.version = value.version;
   state.activeMode = value.activeMode;
   for (const { id } of MISSIONS) {
-    if (!Object.hasOwn(value.bestStars, id) || !stars(value.bestStars[id])) return null;
+    if (!Object.hasOwn(value.bestStars, id) || !isStarCount(value.bestStars[id])) return null;
     state.bestStars[id] = value.bestStars[id];
     if (Object.hasOwn(value.lastRuns, id)) {
       const run = readMissionRun(value.lastRuns[id]);
@@ -134,7 +131,7 @@ export function createMissionProgressController(initial?: MissionProgress) {
       game.base <= 0 ||
       game.enemies.length ||
       game.eggs.length ||
-      !stars(earned) ||
+      !isStarCount(earned) ||
       earned === 0
     )
       return false;

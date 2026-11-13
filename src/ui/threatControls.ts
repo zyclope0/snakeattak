@@ -5,10 +5,10 @@ import { enemyPortraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { currentWaveThreats, threatAdvice } from './threatPreview.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
+import { byId } from './dom.ts';
 export function bindThreatControls(session: Session, refresh: () => void) {
-  const el = (id: string) => document.getElementById(id)!;
-  const dialog = el('threat-dialog') as HTMLDialogElement,
-    button = el('wave-threats') as HTMLButtonElement;
+  const dialog = byId('threat-dialog') as HTMLDialogElement,
+    button = byId('wave-threats') as HTMLButtonElement;
   const modal = pauseForDialog(dialog, session, refresh);
   let observed = session.game,
     local = -1;
@@ -18,15 +18,15 @@ export function bindThreatControls(session: Session, refresh: () => void) {
     if (!preview) return;
     observed = game;
     local = preview.local;
-    setDisplayText(el('threat-title'), `Vague ${preview.local} · Les serpents annoncés`);
+    setDisplayText(byId('threat-title'), `Vague ${preview.local} · Les serpents annoncés`);
     setDisplayText(
-      el('threat-lanes'),
+      byId('threat-lanes'),
       'Voies ouvertes : ' + preview.lanes.map((l) => LANE_NAMES[l]).join(' · '),
     );
     const types = preview.entries.map((e) => e.kind);
-    renderThreatCards(el('wave-threat-list'), types);
+    renderThreatCards(byId('wave-threat-list'), types);
     renderThreatAdvice(
-      el('wave-threat-advice'),
+      byId('wave-threat-advice'),
       threatAdvice(types, (k) => game.isUnlocked(k) && game.capriceAllows(k)),
     );
     const egg = document.createElement('span'),
@@ -38,11 +38,11 @@ export function bindThreatControls(session: Session, refresh: () => void) {
       copy,
       `${preview.eggs} ${preview.eggs === 1 ? 'œuf peut éclore' : 'œufs peuvent éclore'} et ajouter des serpents ordinaires.`,
     );
-    el('wave-threat-eggs').replaceChildren(egg, copy);
+    byId('wave-threat-eggs').replaceChildren(egg, copy);
     modal.open();
-    el('threat-title').focus({ preventScroll: true });
+    byId('threat-title').focus({ preventScroll: true });
   };
-  el('threat-close').onclick = modal.close;
+  byId('threat-close').onclick = modal.close;
   return () => {
     const game = session.game;
     button.hidden = game.status !== 'preparing' || game.wave >= game.totalWaves;

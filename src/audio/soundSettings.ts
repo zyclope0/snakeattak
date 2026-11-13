@@ -36,6 +36,7 @@ export function createSoundSettings(storage?: SoundStorage) {
     },
   };
 }
+export type SoundSettings = ReturnType<typeof createSoundSettings>;
 let storage: SoundStorage | undefined;
 try {
   if (typeof window !== 'undefined') storage = window.localStorage;

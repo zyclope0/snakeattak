@@ -10,6 +10,7 @@ import {
   capriceCount,
   capriceRules,
 } from './caprices.ts';
+import { isRecord } from './plainData.ts';
 
 export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
@@ -91,7 +92,7 @@ const assaults = ['balanced', 'rush', 'escort'] as const;
 const nests = ['spread', 'clustered'] as const;
 /** Canonical copy: callers cannot mutate an active expedition through their input object. */
 export function readMissionRun(raw: unknown): MissionRun | null {
-  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return null;
+  if (!isRecord(raw)) return null;
   const d = raw as Record<string, unknown>;
   if (
     !missionById(d.missionId) ||

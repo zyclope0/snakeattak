@@ -9,27 +9,27 @@ import type { Game } from '../game.ts';
 import { LANES, LANE_NAMES, laneDefense } from '../ai.ts';
 import { TOTAL_WAVES } from '../data.ts';
 import { bossReadout } from '../render/bossReadout.ts';
+import { byId } from './dom.ts';
 /** Stable DOM nodes: a simulation refresh updates values, not whole trees. */
 export function bindHud() {
   const tutorial = bindTutorialLanes();
   const bank = document.createElement('small');
   bank.id = 'caprice-bank';
   bank.className = 'caprice-bank';
-  document.getElementById('gold')!.parentElement!.append(bank);
-  const el = (id: string) => document.getElementById(id)!;
+  byId('gold').parentElement!.append(bank);
   const text = (id: string, value: string) => {
-    const node = el(id);
+    const node = byId(id);
     if (node.textContent !== value) setDisplayText(node, value);
   };
   const lanes = LANES.map((_, i) => {
     const row = document.createElement('span');
     setDisplayMarkup(row, `<b>${LANE_NAMES[i]}</b><i aria-hidden="true"></i><small></small>`);
-    el('lane-status').append(row);
+    byId('lane-status').append(row);
     return { meter: row.querySelector('i')!, count: row.querySelector('small')! };
   });
   const dots = Array.from({ length: TOTAL_WAVES }, () => {
     const dot = document.createElement('i');
-    el('wave-dots').append(dot);
+    byId('wave-dots').append(dot);
     return dot;
   });
   return (game: Game) => {
@@ -43,7 +43,7 @@ export function bindHud() {
       );
     text('base', `${Math.ceil(game.base)} %`);
     const width = `${game.base}%`,
-      meter = el('base-meter');
+      meter = byId('base-meter');
     if (meter.style.width !== width) meter.style.width = width;
     meter.parentElement!.setAttribute('aria-valuenow', String(Math.ceil(game.base)));
     text('wave', String(game.wave));
@@ -87,7 +87,7 @@ export function bindHud() {
       `IA : ${game.difficultyWave >= 5 ? 'tacticienne' : game.difficultyWave >= 3 ? 'attentive' : 'exploratrice'}`,
     );
     const medical = game.units.filter((u) => medicalRules(u.kind) && u.medical);
-    el('medical-status').hidden = !medical.length;
+    byId('medical-status').hidden = !medical.length;
     if (medical.length) {
       const away = medical.filter((u) => u.medical!.phase !== 'ready').length;
       text(
@@ -98,10 +98,10 @@ export function bindHud() {
             : ''),
       );
     }
-    el('app').dataset.status = game.status;
+    byId('app').dataset.status = game.status;
     const king = game.enemies.find((e) => e.boss && e.hp > 0);
     const kingReadout = king ? bossReadout(king, game.tuning) : null;
-    el('boss-status').hidden = !kingReadout;
+    byId('boss-status').hidden = !kingReadout;
     if (kingReadout)
       text(
         'boss-status',
@@ -111,7 +111,7 @@ export function bindHud() {
             : '') +
           (kingReadout.shot ? ' · Crachat annoncé au sol' : ''),
       );
-    el('pause-overlay').hidden =
+    byId('pause-overlay').hidden =
       !game.paused ||
       !!document.querySelector('dialog[open]') ||
       game.status === 'won' ||
