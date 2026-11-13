@@ -92,11 +92,6 @@
   .play-layout {
     display: block;
   }
-  .app.reinforcements-open .play-layout {
-    display: grid;
-    gap: 0;
-    align-items: start;
-  }
   .battle,
   .game-expanded .battle {
     position: relative;
@@ -134,11 +129,6 @@
     gap: 6px;
     visibility: hidden;
     pointer-events: none;
-  }
-  .reinforcements-open #reinforcements {
-    flex-direction: column;
-    visibility: visible;
-    pointer-events: auto;
   }
   .reinforcements .army-title {
     display: flex;
