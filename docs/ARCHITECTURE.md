@@ -602,7 +602,9 @@ les dialogues de lecture (sauvegarde familiale, fiches, options des parents), qu
 retire son fond uni. Derrière : `fond.webp`, la forêt floue de l'illustration d'origine sans
 les personnages, puis deux images de second plan dans `::before`. Le refuge au cristal est
 le fond du panneau du titre, et chaque bouton du bas porte un petit objet du jeu
-(`menu-*.webp`). `scripts/build-home-scene.py` refait ces images à partir
+(`menu-*.webp`). La carte des missions (`mission-*.webp`, choisi par `data-mission`),
+les onglets et les repères de la préparation (`onglet-*`, `repere-*`) suivent le même
+principe. `scripts/build-home-scene.py` refait ces images à partir
 de celles du dépôt (Pillow seul, hors build). Sans prise en charge des masques, l'image
 garde son fond vert : l'accueil reste lisible.
 

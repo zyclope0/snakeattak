@@ -8,7 +8,9 @@
 - masque.webp : la silhouette des personnages, par le même chemin que icon-512.png ;
 - second-plan-gauche.webp, second-plan-droite.webp : plantes et rochers du jeu, derrière eux ;
 - refuge.webp : le refuge au cristal, pour le panneau du titre ;
-- menu-*.webp : un petit objet du jeu pour chaque bouton du bas de l'accueil.
+- menu-*.webp : un petit objet du jeu pour chaque bouton du bas de l'accueil ;
+- mission-*.webp : l'objet de chaque mission, pour la carte des missions ;
+- onglet-*.webp, repere-*.webp : les images de la préparation d'une mission.
 Seul Pillow est nécessaire. Ce n'est pas une étape du build : les fichiers sont suivis dans Git.
 """
 from pathlib import Path
@@ -121,17 +123,30 @@ def round_cut(image):
     return image
 
 
-def menu(image, name):
+def picture(image, name):
     image = image.crop(image.getchannel("A").point(lambda v: 255 if v > 16 else 0).getbbox())
     scale = 128 / max(image.size)
     image = image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)
     square = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
     square.alpha_composite(image, ((128 - image.width) // 2, (128 - image.height) // 2))
-    square.save(out / f"menu-{name}.webp", quality=88, method=6)
+    square.save(out / f"{name}.webp", quality=88, method=6)
 
 
-menu(soft_base(piece("strongholds", 0, (356, 36, 500, 232)), 34), "missions")
-menu(cell("interface-craft", 1), "carnet")
-menu(round_cut(piece("allies-front", 1, (166, 22, 440, 296))), "favoris")
-menu(piece("serpents-family", 3, (0, 40, 512, 512)), "classique")
-menu(cell("interface-craft", 3), "parents")
+picture(soft_base(piece("strongholds", 0, (356, 36, 500, 232)), 34), "menu-missions")
+picture(cell("interface-craft", 1), "menu-carnet")
+picture(round_cut(piece("allies-front", 1, (166, 22, 440, 296))), "menu-favoris")
+picture(piece("serpents-family", 3, (0, 40, 512, 512)), "menu-classique")
+picture(cell("interface-craft", 3), "menu-parents")
+
+# La carte des missions : un objet du jeu par mission.
+picture(cell("strongholds", 0), "mission-refuge")
+picture(cell("terrain-props", 0), "mission-trois-ponts")
+picture(cell("enemies-organic", 1), "mission-course")
+picture(cell("enemies-mechanical", 3), "mission-coquilles")
+picture(cell("serpents-family", 0), "mission-sonnette")
+picture(cell("props-three-bridges", 1), "mission-carrefour")
+
+# La préparation : deux portraits ronds pour les onglets, un serpent pour les attaques.
+picture(round_cut(piece("allies-support", 0, (150, 30, 440, 320))), "onglet-copains")
+picture(round_cut(piece("enemies-organic", 0, (185, 20, 415, 250))), "onglet-reperage")
+picture(cell("enemies-organic", 0), "repere-serpent")
