@@ -14,7 +14,6 @@ import {
   CAPRICES,
   CREATOR_CHALLENGES,
   NO_CAPRICE,
-  capriceById,
   capriceDefinitionForRun,
   capriceRules,
   defineCaprice,

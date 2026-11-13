@@ -11,7 +11,7 @@ import { addEffect, createEntity } from './state.ts';
 import { pickLane } from './movement.ts';
 import type { Game } from '../game.ts';
 
-export function spawnSnake(
+function spawnSnake(
   game: Game,
   x: number,
   y: number,

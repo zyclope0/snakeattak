@@ -8,7 +8,6 @@ export const UNIT_FAMILIES = {
   mutants: 'Mutants',
   defenses: 'Palissades',
 } as const;
-export type UnitFamily = keyof typeof UNIT_FAMILIES;
 
 export const RECRUITABLE_KINDS = Object.keys(kinds).filter((k) => k !== 'hero') as Kind[];
 

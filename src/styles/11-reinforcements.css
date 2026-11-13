@@ -1,8 +1,7 @@
 /* Reinforcements share the landscape viewport; no lane is hidden behind a modal. */
 .mobile-home,
 .reinforcements-toggle,
-.reinforcements-close,
-.reinforcements-backdrop {
+.reinforcements-close {
   display: none;
 }
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
@@ -143,9 +142,6 @@
     visibility: visible;
     pointer-events: auto;
   }
-  .reinforcements-open .reinforcements-backdrop {
-    display: none;
-  }
   .reinforcements .army-title {
     display: flex;
     gap: 6px;
@@ -153,8 +149,7 @@
   .reinforcements .army-title h2 {
     font-size: 20px;
   }
-  .reinforcements .army-total,
-  .reinforcements .shop-intro {
+  .reinforcements .army-total {
     display: none;
   }
   .reinforcements .shop-toolbar {
@@ -181,9 +176,6 @@
     min-height: 48px;
     max-width: 100%;
     white-space: normal;
-  }
-  #reinforcements .quick-cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   #reinforcements .feast-heading {
     flex-wrap: wrap;

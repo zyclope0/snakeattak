@@ -11,7 +11,6 @@ import { ROSTER_NAMES } from '../roster.ts';
 import { kinds, unlockWave } from '../data.ts';
 import type { Kind } from '../data.ts';
 import { portraitStyle, GROUND_ART } from '../art.ts';
-import { levelForWave } from '../levels.ts';
 import { chapterIdentityForWave } from '../waves.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 type Career = ReturnType<typeof createCareer>;
@@ -92,7 +91,6 @@ export function bindMenu(
   el('home-continue').onclick = resumeClassic;
   for (let i = 0; i < 3; i++) {
     const button = el<HTMLButtonElement>(`chapter-${i}`);
-    const level = levelForWave(i * 4 + 1);
     const preview = () => button.style.setProperty('--chapter-art', `url("${GROUND_ART[i].url}")`);
     // Do not fetch later battle backgrounds merely to draw menu thumbnails.
     button.style.setProperty(

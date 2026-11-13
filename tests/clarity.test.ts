@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Game } from '../src/game.ts';
 import { Session } from '../src/session.ts';
-import { decideTemptation, chooseTemptedLane } from '../src/tactics.ts';
+import { decideTemptation } from '../src/tactics.ts';
 import { placementSuggestions } from '../src/placement.ts';
 import { Presentation } from '../src/render/presentation.ts';
 
@@ -11,7 +11,6 @@ test('le diagnostic du miel conserve les décisions et distingue attraction et c
     for (const boss of [false, true]) {
       const roll = i / 1000,
         decision = decideTemptation([4, 2, 0], 6, roll, 0, boss);
-      assert.equal(decision.lane, chooseTemptedLane([4, 2, 0], 6, roll, 0, boss));
       assert.equal(decision.tempted, roll < (boss ? 0.25 : 0.75));
     }
   assert.equal(decideTemptation([0, 0, 0], 1, 0.01, null, false).tempted, false);

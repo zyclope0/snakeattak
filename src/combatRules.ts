@@ -1,6 +1,6 @@
 import type { Entity } from './game.ts';
 
-export const GUARD_RADIUS = 72;
+const GUARD_RADIUS = 72;
 export const GUARD_COOLDOWN = 3;
 export const GUARD_REDUCTION = 0.6;
 /** A leaf stops frontal arrows during approach. Fire, shells and melee pass normally. */

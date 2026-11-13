@@ -6,7 +6,6 @@ export const CELL = 24,
   COLS = 46,
   ROWS = 26;
 /** Compatibility export: the original terrain, never a mutable active map. */
-export const rocks = levelForWave(1).rocks;
 export function blocked(x: number, y: number, level: Level = levelForWave(1)): boolean {
   return (
     !Number.isFinite(x) ||

@@ -18,7 +18,6 @@ import { pauseStateFor } from './pauseState.ts';
 import { bindLifecycle } from './lifecycle.ts';
 import { bindOrientation } from './orientation.ts';
 import { bindReinforcementsDrawer } from './reinforcementsDrawer.ts';
-import { placementReadout } from '../render/placementRange.ts';
 import { bindSquadControls } from './squadControls.ts';
 import { bindAdventureControls } from './adventureControls.ts';
 import type { createCareer } from '../progression.ts';

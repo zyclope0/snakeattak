@@ -203,9 +203,6 @@ export const suggestedCharacter = (state: Players): PlayerCharacter =>
   PLAYER_CHARACTERS.find((kind) => !state.players.some((player) => player.character === kind)) ??
   PLAYER_CHARACTERS[0];
 
-/** The nickname if there is one, else the character's French name from the game's data. */
-export const playerName = (player: Player): string => player.name ?? kinds[player.character].name;
-
 /** A new player becomes the active one. Null when four players already exist. */
 export function addPlayer(
   state: Players,

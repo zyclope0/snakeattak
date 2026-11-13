@@ -49,12 +49,3 @@ export function decideTemptation(
     tempted: false,
   };
 }
-export function chooseTemptedLane(
-  scores: number[],
-  wave: number,
-  roll: number,
-  feastLane: number | null,
-  boss: boolean,
-): number {
-  return decideTemptation(scores, wave, roll, feastLane, boss).lane;
-}

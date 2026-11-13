@@ -218,7 +218,6 @@ export function bindExpeditions(
     );
     // The Missions page prepares a departure; only the home's main button starts at once.
     setDisplayText(el('home-play'), next ? 'Préparer' : 'Préparer encore');
-    const state = progress.state;
     let total = 0;
     for (const [index, card] of cards.entries()) {
       const step = journey[index];

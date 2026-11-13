@@ -219,8 +219,7 @@
   }
   .home-intro .eyebrow,
   .home-intro > p,
-  #home-active-team,
-  .home-caption {
+  #home-active-team {
     display: none;
   }
   .home-intro h1 {
@@ -245,22 +244,6 @@
   }
   .home-diorama {
     min-height: 230px;
-  }
-  .home-unit {
-    transform: scale(0.82);
-    transform-origin: bottom center;
-  }
-  .home-unit.home-dino {
-    left: -4%;
-    bottom: 16px;
-  }
-  .home-unit.home-hero-unit {
-    left: 30%;
-    bottom: 10px;
-  }
-  .home-unit.home-dragon {
-    right: -5%;
-    bottom: 16px;
   }
   .home-next-mission {
     font-size: 13px;

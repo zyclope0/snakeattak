@@ -113,9 +113,6 @@
 .caprice-result-note {
   padding: 8px;
 }
-.caprice-identity {
-  font-weight: bold;
-}
 @media (max-height: 400px) {
   .caprice-row button {
     min-height: 58px;

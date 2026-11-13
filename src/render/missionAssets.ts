@@ -18,7 +18,7 @@ import { stageTheme } from './stageLayout.ts';
 import { onSceneExit } from './sceneExit.ts';
 import { attackSheetsFor } from './attackPose.ts';
 /** Select from the rules without advancing them or consuming their random stream. */
-export function texturesForGame(game: Game): Set<string> {
+function texturesForGame(game: Game): Set<string> {
   const textures = new Set([
     'allies-front',
     'strongholds',
@@ -36,7 +36,7 @@ export function texturesForGame(game: Game): Set<string> {
   return textures;
 }
 /** Sheets of the fighters on the board and of the wave that is fighting or about to come. */
-export function fightingTextures(game: Game): Set<string> {
+function fightingTextures(game: Game): Set<string> {
   const textures = new Set<string>();
   for (const unit of game.units) textures.add(ALLY_ART[unit.kind as Kind].texture);
   for (const enemy of game.enemies)

@@ -6,7 +6,7 @@ import type { RewardPolicy } from './profiles.ts';
 import { performance } from 'node:perf_hooks';
 import { createHash } from 'node:crypto';
 import { Game } from '../../src/game.ts';
-import { kinds, TOTAL_WAVES } from '../../src/data.ts';
+import { TOTAL_WAVES } from '../../src/data.ts';
 import type { BalanceTuning } from '../../src/balanceTuning.ts';
 import { makeBalanceTuning } from '../../src/balanceTuning.ts';
 import { PROFILES, makeBot, purchase, honey } from './profiles.ts';

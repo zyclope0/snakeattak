@@ -90,7 +90,7 @@ export function returnHome(game: Game, u: Entity, speed: number, dt: number) {
   const home = { x: u.homeX, y: u.homeY };
   if (distance(u, home) > 20) moveUnit(game, u, home, speed, dt);
 }
-export function walkRoad(
+function walkRoad(
   game: Game,
   e: Entity,
   goal: Point,
