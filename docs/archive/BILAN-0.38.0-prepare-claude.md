@@ -60,3 +60,7 @@ l'accueil et les objets des boutons sont dérivés d'images du dépôt, sans cr�
 ## Livraison
 
 À compléter par Codex : source figée, code Android, paquets, contrôles du site et de l'APK.
+
+## Addendum — validation du T-rex
+
+Le commit de Claude `3b2b00e` du13 novembre2026 confirme la validation par le parent de la pose d’attaque du T-rex, dents comprises. Cette validation remplace le suivi d’avis en attente dans le rapport préparatoire conservé ci-dessus. Aucun asset ni règle modifié.

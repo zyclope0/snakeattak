@@ -25,6 +25,6 @@ Preuves hors Git : `artifacts/livraison-build57/` et `/workspace/serpents-build5
 ## Livraison et limites
 
 `conquete-serpents-v0.38.0-build57-play.aab` est destiné à une nouvelle version du même **canal de test interne Play**. Aucun envoi Console par Codex. Une installation Play se met à jour via Play ; l’APK debug garde une autre signature.
-Aucun essai physique S24, écoute humaine, TalkBack, police agrandie Android, Safari/Firefox ou mesure FPS/mémoire du téléphone par Codex. Les contrôles de lisibilité restent des captures Chromium ; l’avis du parent et du fils sur les dents du T-rex reste un suivi distinct. Aucun équilibrage ou SDK commercial ajouté.
+Aucun essai physique S24, écoute humaine, TalkBack, police agrandie Android, Safari/Firefox ou mesure FPS/mémoire du téléphone par Codex. Les contrôles de lisibilité restent des captures Chromium ; la pose d’attaque du T-rex, dents comprises, est validée par le parent selon le commit de Claude `3b2b00e` du13 novembre2026. Aucun équilibrage ou SDK commercial ajouté.
 
 Suivi visuel mineur : le bouclier peut se tourner vers l’allié protégé pendant0,4s lors d’un blocage. Ce défaut d’affichage est reproduit ; la protection et les règles restent inchangées. À reprendre lors de la prochaine passe de rendu.
