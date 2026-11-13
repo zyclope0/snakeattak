@@ -151,6 +151,11 @@ async function portrait(p, dialog, name) {
   await capture(p, 'portrait-' + name);
   check(await p.locator(dialog).evaluate((d) => d.open), name + ' stays open during rotation');
   await p.setViewportSize({ width: 780, height: 360 });
+  // The page reacts to the rotation at its next rendering step: wait two frames, so that
+  // the checks that follow read the settled page and not the instant before.
+  await p.evaluate(
+    () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))),
+  );
   check(await p.locator(dialog).isVisible(), name + ' restored after rotation');
   check(
     (await p.evaluate(() => document.activeElement?.id)) === focus,
