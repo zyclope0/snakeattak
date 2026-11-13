@@ -31,6 +31,7 @@ Dans `main`, à publier :
   vignette pas encore gagnée reste pâle. Les noms et les annonces du fils ne changent pas.
 - **Coup porté.** Le combattant garde le côté de son coup jusqu'à la fin du geste.
 - **Onglets de la préparation.** Plus de mot qui déborde, en français comme en anglais.
+- **T-rex.** Sa pose d'attaque, dents comprises, est validée par le parent le 13 novembre.
 
 Images : environ 4 700 crédits Magnific et 4 crédits Recraft depuis le début du chantier
 graphique, avec l'accord du parent ; journaux dans `public/assets/illustrated/`
@@ -55,7 +56,6 @@ l'accueil et les objets des boutons sont dérivés d'images du dépôt, sans cr�
   tourné sur un appareil.
 - Safari, Firefox, TalkBack, perte du contexte WebGL, taille de police agrandie d'Android.
 - La lisibilité des vignettes et des objets à taille réelle n'a été jugée que sur captures.
-- Les dents du T-rex en pose d'attaque attendent l'avis du fils et du parent.
 
 ## Livraison
 
