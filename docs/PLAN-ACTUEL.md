@@ -35,8 +35,12 @@ couleur que le panneau.
   (`icon-512.png` intacte, son fond uni retiré par un masque).
 - Sur le panneau du titre : le refuge au cristal, choisi par le parent.
 - Sur une fenêtre très haute, la carte garde ses proportions et les boutons la suivent.
+- Boutons du bas : un petit objet du jeu remplace chaque pictogramme au trait (drapeau du
+  refuge, médaillon à la feuille, visage du combattant à massue, roi à trois têtes,
+  parchemin). Les onglets de la préparation de mission gardent leurs pictogrammes.
+- Sur téléphone, le bouton des réglages tient dans l'en-tête et ne mord plus sur la carte.
 - Images dérivées de celles du dépôt par `scripts/build-home-scene.py` : zéro crédit,
-  environ 120 Ko de plus à l'accueil.
+  environ 155 Ko de plus à l'accueil.
 
 Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
 

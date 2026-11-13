@@ -7,12 +7,13 @@
 - fond.webp : la forêt floue de l'illustration d'origine, sans les personnages ;
 - masque.webp : la silhouette des personnages, par le même chemin que icon-512.png ;
 - second-plan-gauche.webp, second-plan-droite.webp : plantes et rochers du jeu, derrière eux ;
-- refuge.webp : le refuge au cristal, pour le panneau du titre.
+- refuge.webp : le refuge au cristal, pour le panneau du titre ;
+- menu-*.webp : un petit objet du jeu pour chaque bouton du bas de l'accueil.
 Seul Pillow est nécessaire. Ce n'est pas une étape du build : les fichiers sont suivis dans Git.
 """
 from pathlib import Path
 
-from PIL import Image, ImageEnhance, ImageFilter, ImageOps
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageOps
 
 root = Path(__file__).resolve().parent.parent
 sheets = root / "src/assets/illustrated"
@@ -93,3 +94,44 @@ backdrop = plate.convert("RGB").filter(ImageFilter.GaussianBlur(3))
 backdrop.resize((768, 768), Image.BICUBIC).filter(ImageFilter.GaussianBlur(4)).save(
     out / "fond.webp", quality=72, method=6
 )
+
+
+# Un petit objet du jeu par bouton de l'accueil, dans un carré de 128 px.
+def piece(sheet, index, box):
+    image = Image.open(sheets / f"{sheet}.webp").convert("RGBA")
+    x, y = (index % 2) * 512, (index // 2) * 512
+    return image.crop((x + box[0], y + box[1], x + box[2], y + box[3]))
+
+
+def soft_base(image, rows):
+    """Le bas d'un morceau découpé s'efface en douceur au lieu de finir net."""
+    fade = Image.new("L", image.size, 255)
+    draw = ImageDraw.Draw(fade)
+    for row in range(rows):
+        draw.line((0, image.height - 1 - row, image.width, image.height - 1 - row), fill=round(255 * row / rows))
+    image.putalpha(ImageChops.multiply(image.getchannel("A"), fade))
+    return image
+
+
+def round_cut(image):
+    """Un portrait rond, bord adouci."""
+    disc = Image.new("L", (image.width * 4, image.height * 4), 0)
+    ImageDraw.Draw(disc).ellipse((0, 0, disc.width - 1, disc.height - 1), fill=255)
+    image.putalpha(ImageChops.multiply(image.getchannel("A"), disc.resize(image.size, Image.LANCZOS)))
+    return image
+
+
+def menu(image, name):
+    image = image.crop(image.getchannel("A").point(lambda v: 255 if v > 16 else 0).getbbox())
+    scale = 128 / max(image.size)
+    image = image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)
+    square = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    square.alpha_composite(image, ((128 - image.width) // 2, (128 - image.height) // 2))
+    square.save(out / f"menu-{name}.webp", quality=88, method=6)
+
+
+menu(soft_base(piece("strongholds", 0, (356, 36, 500, 232)), 34), "missions")
+menu(cell("interface-craft", 1), "carnet")
+menu(round_cut(piece("allies-front", 1, (166, 22, 440, 296))), "favoris")
+menu(piece("serpents-family", 3, (0, 40, 512, 512)), "classique")
+menu(cell("interface-craft", 3), "parents")

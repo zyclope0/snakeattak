@@ -37,3 +37,34 @@
     background-size: 32% auto;
   }
 }
+
+/* Un petit objet du jeu sur chaque bouton du bas, à la place d'un pictogramme au trait. */
+#home-screen .home-links button::before {
+  content: '';
+  flex: 0 0 auto;
+  width: max(34px, calc(var(--hu) * 4.2));
+  height: max(34px, calc(var(--hu) * 4.2));
+  background: var(--object) center / contain no-repeat;
+}
+#home-expeditions {
+  --object: url('../assets/home/menu-missions.webp');
+}
+#home-caprice-album {
+  --object: url('../assets/home/menu-carnet.webp');
+}
+#home-army {
+  --object: url('../assets/home/menu-favoris.webp');
+}
+#home-classic {
+  --object: url('../assets/home/menu-classique.webp');
+}
+#home-parents {
+  --object: url('../assets/home/menu-parents.webp');
+}
+@media (max-height: 520px) {
+  /* Écran bas : le bouton des réglages tient dans l'en-tête et ne mord plus sur la carte. */
+  #home-screen .home-header .settings-button {
+    width: 48px;
+    height: 48px;
+  }
+}
