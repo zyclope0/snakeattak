@@ -1,33 +1,160 @@
-import type { createCapriceAlbumsController } from '../capriceAlbums.ts';
+import type { CapriceAlbums, createCapriceAlbumsController } from '../capriceAlbums.ts';
 import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
-import { MISSIONS } from '../missions.ts';
-import { capriceById, capricesForMission, CAPRICE_SET_NAMES } from '../caprices.ts';
+import { MISSIONS, type MissionDefinition } from '../missions.ts';
+import { capricesForMission, CAPRICE_SET_NAMES, type CapriceDefinition } from '../caprices.ts';
 import { setText, setAttribute, createTextNode } from '../i18n/dom.ts';
 import { frenchLeaf } from './capriceCopy.ts';
-import { stickerGraphic, paintSticker } from './capriceIcons.ts';
-export { stickerGraphic } from './capriceIcons.ts';
+import { stickerGraphic } from './capriceIcons.ts';
+import { stickerResultNote } from './capriceResultNote.ts';
 import { pauseForDialog } from './dialogs.ts';
+import { make } from './dom.ts';
+
 export type AlbumsController = ReturnType<typeof createCapriceAlbumsController>;
+type StickerSlot = { node: HTMLElement; id: string; status: HTMLElement };
+
 /** Choosing a sticker book only makes sense when the family already has several. */
 export const albumChoiceShown = (count: number) => count > 1;
+
+/** The family's books in a list, rebuilt only when a book appears or changes its name. */
 export function albumOptions(select: HTMLSelectElement, albums: AlbumsController) {
   const state = albums.state;
   const signature = JSON.stringify(state.children.map((c) => [c.id, c.name]));
   if (select.dataset.options !== signature) {
     select.replaceChildren(
       ...state.children.map((child) => {
-        const o = document.createElement('option');
-        o.value = child.id;
-        o.dataset.copyRaw = '';
-        o.textContent = child.name;
-        return o;
+        const option = make('option');
+        option.value = child.id;
+        // A book's name is the family's own word: it is never translated.
+        option.dataset.copyRaw = '';
+        option.textContent = child.name;
+        return option;
       }),
     );
     select.dataset.options = signature;
   }
   select.value = state.activeId;
 }
+
+/** A sticker's place in the book: the clay vignette of the caprice, with no reward attached. */
+function stickerSlot(caprice: CapriceDefinition): StickerSlot {
+  const node = make('div', { className: 'caprice-sticker' });
+  node.dataset.sticker = caprice.id;
+  const status = make('small');
+  node.append(stickerGraphic(caprice), frenchLeaf('span', caprice.name), status);
+  return { node, id: caprice.id, status };
+}
+
+/** A page of the book: one mission and its two rows of three stickers. */
+function missionPage(mission: MissionDefinition, shown: boolean) {
+  const node = make('section');
+  node.dataset.albumMission = mission.id;
+  node.hidden = !shown;
+  const heading = make('h3', { id: `album-mission-${mission.id}`, text: mission.name });
+  node.setAttribute('aria-labelledby', heading.id);
+  node.append(heading);
+  const stickers: StickerSlot[] = [];
+  for (const set of ['serpents', 'createur'] as const) {
+    const row = capricesForMission(mission.id, set).map(stickerSlot);
+    node.append(
+      frenchLeaf('h4', CAPRICE_SET_NAMES[set]),
+      make('div', { className: 'caprice-album-grid' }, ...row.map((slot) => slot.node)),
+    );
+    stickers.push(...row);
+  }
+  return { node, stickers };
+}
+
+/** The two arrows that turn the pages, one mission at a time, and the page they are on. */
+function albumPager(pages: readonly HTMLElement[], scroller: HTMLElement) {
+  let current = 0;
+  const previous = make('button', { id: 'caprice-album-previous', text: '← Page précédente' });
+  const next = make('button', { id: 'caprice-album-next', text: 'Page suivante →' });
+  const position = make('span', { id: 'caprice-album-page' });
+  position.setAttribute('role', 'status');
+  const nav = make('nav', { className: 'caprice-album-pagination' });
+  setAttribute(nav, 'aria-label', 'Missions du carnet');
+  nav.append(previous, position, next);
+  const show = () => {
+    pages.forEach((page, index) => {
+      page.hidden = index !== current;
+    });
+    previous.disabled = current === 0;
+    next.disabled = current === pages.length - 1;
+    setText(position, `${current + 1} / ${pages.length}`);
+    scroller.scrollTop = 0;
+  };
+  previous.onclick = () => {
+    if (current > 0) current--;
+    show();
+  };
+  next.onclick = () => {
+    if (current < pages.length - 1) current++;
+    show();
+  };
+  return {
+    nav,
+    show,
+    /** The page the next `show` displays; nothing moves until then. */
+    aim(index: number) {
+      current = index;
+    },
+  };
+}
+
+/** The window of the book, not yet in the page: heading, choice of book, pages, save status. */
+function albumBook(albums: AlbumsController) {
+  const dialog = make('dialog', { id: 'caprice-album-dialog', className: 'caprice-album-dialog' });
+  dialog.setAttribute('aria-labelledby', 'caprice-album-title');
+  const title = make('h2', { id: 'caprice-album-title', text: 'Mon carnet de caprices' });
+  const close = make('button', { id: 'caprice-album-close', text: 'Fermer' });
+  // A child's word under the title: what this book is for.
+  const hint = make('p', {
+    id: 'caprice-album-hint',
+    className: 'caprice-album-hint',
+    text: 'Réussis un caprice pour gagner son autocollant.',
+  });
+  dialog.setAttribute('aria-describedby', hint.id);
+  const heading = make('div', { className: 'caprice-album-heading' }, title, hint);
+  // No book is created or renamed here any more. A save that already holds several keeps this
+  // choice to go from one to the other; with a single book there is nothing to choose.
+  const select = make('select', { id: 'caprice-album-profile' });
+  const tools = make(
+    'div',
+    { className: 'caprice-profile-tools' },
+    make('label', {}, createTextNode('Carnet choisi'), select),
+  );
+  tools.hidden = !albumChoiceShown(albums.state.children.length);
+  const status = make('p', { id: 'caprice-album-status' });
+  const pages = MISSIONS.map((mission, index) => missionPage(mission, index === 0));
+  const pageNodes = pages.map((page) => page.node);
+  const slots = make('div', { className: 'caprice-album-slots' }, ...pageNodes);
+  const pager = albumPager(pageNodes, slots);
+  const header = make('header', { className: 'caprice-album-header' }, heading, close);
+  dialog.append(header, tools, pager.nav, slots, status);
+  const stickers = pages.flatMap((page) => page.stickers);
+  return {
+    dialog,
+    close,
+    select,
+    pager,
+    /** The book `bookId` of the family: its stickers earned or still to discover. */
+    show(state: CapriceAlbums, bookId: string, saveStatus: string) {
+      albumOptions(select, albums);
+      tools.hidden = !albumChoiceShown(state.children.length);
+      select.value = bookId;
+      const child = state.children.find((c) => c.id === bookId)!;
+      for (const slot of stickers) {
+        const earned = child.completed.includes(slot.id);
+        slot.node.dataset.earned = String(earned);
+        setText(slot.status, earned ? '✓ Autocollant gagné' : 'À découvrir');
+      }
+      pager.show();
+      setText(status, saveStatus);
+    },
+  };
+}
+
 export function bindCapriceAlbums(
   session: Session,
   albums: AlbumsController,
@@ -35,187 +162,51 @@ export function bindCapriceAlbums(
   status: () => string,
   award: (game: Game) => boolean | undefined = () => undefined,
 ) {
-  const dialog = document.createElement('dialog');
-  dialog.id = 'caprice-album-dialog';
-  dialog.className = 'caprice-album-dialog';
-  dialog.setAttribute('aria-labelledby', 'caprice-album-title');
-  const title = document.createElement('h2');
-  title.id = 'caprice-album-title';
-  setText(title, 'Mon carnet de caprices');
-  const close = document.createElement('button');
-  close.id = 'caprice-album-close';
-  setText(close, 'Fermer');
-  // Un petit mot d'enfant sous le titre : à quoi sert ce carnet.
-  const hint = document.createElement('p');
-  hint.id = 'caprice-album-hint';
-  hint.className = 'caprice-album-hint';
-  setText(hint, 'Réussis un caprice pour gagner son autocollant.');
-  dialog.setAttribute('aria-describedby', hint.id);
-  const heading = document.createElement('div');
-  heading.className = 'caprice-album-heading';
-  heading.append(title, hint);
-  // Plus de création ni de renommage de carnet. Une sauvegarde qui en contient déjà
-  // plusieurs garde ce choix pour passer de l'un à l'autre ; avec un seul, rien à choisir.
-  const tools = document.createElement('div');
-  tools.className = 'caprice-profile-tools';
-  const label = document.createElement('label');
-  label.append(createTextNode('Carnet choisi'));
-  const select = document.createElement('select');
-  select.id = 'caprice-album-profile';
-  label.append(select);
-  tools.append(label);
-  tools.hidden = !albumChoiceShown(albums.state.children.length);
-  const persistence = document.createElement('p');
-  persistence.id = 'caprice-album-status';
-  const slots = document.createElement('div');
-  slots.className = 'caprice-album-slots';
-  let missionPage = 0;
-  const pagination = document.createElement('nav');
-  pagination.className = 'caprice-album-pagination';
-  setAttribute(pagination, 'aria-label', 'Missions du carnet');
-  const previous = document.createElement('button');
-  previous.id = 'caprice-album-previous';
-  setText(previous, '← Page précédente');
-  const next = document.createElement('button');
-  next.id = 'caprice-album-next';
-  setText(next, 'Page suivante →');
-  const pageStatus = document.createElement('span');
-  pageStatus.id = 'caprice-album-page';
-  pageStatus.setAttribute('role', 'status');
-  pagination.append(previous, pageStatus, next);
-  const pages: HTMLElement[] = [];
-  const leaves: { node: HTMLElement; id: string; status: HTMLElement }[] = [];
-  for (const mission of MISSIONS) {
-    const page = document.createElement('section');
-    page.dataset.albumMission = mission.id;
-    page.hidden = pages.length !== missionPage;
-    pages.push(page);
-    slots.append(page);
-    const heading = document.createElement('h3');
-    setText(heading, mission.name);
-    heading.id = `album-mission-${mission.id}`;
-    page.setAttribute('aria-labelledby', heading.id);
-    page.append(heading);
-    for (const set of ['serpents', 'createur'] as const) {
-      page.append(frenchLeaf('h4', CAPRICE_SET_NAMES[set]));
-      const grid = document.createElement('div');
-      grid.className = 'caprice-album-grid';
-      page.append(grid);
-      for (const caprice of capricesForMission(mission.id, set)) {
-        const node = document.createElement('div');
-        node.className = 'caprice-sticker';
-        node.dataset.sticker = caprice.id;
-        // Vignette en pâte à modeler du caprice ; aucune récompense économique.
-        const svg = stickerGraphic(caprice);
-        const earned = document.createElement('small');
-        node.append(svg, frenchLeaf('span', caprice.name), earned);
-        grid.append(node);
-        leaves.push({ node, id: caprice.id, status: earned });
-      }
-    }
-  }
-  const header = document.createElement('header');
-  header.className = 'caprice-album-header';
-  header.append(heading, close);
-  dialog.append(header, tools, pagination, slots, persistence);
-  document.body.append(dialog);
-  const modal = pauseForDialog(dialog, session, refresh);
+  const book = albumBook(albums);
+  document.body.append(book.dialog);
+  const modal = pauseForDialog(book.dialog, session, refresh);
+  const home = make('button', { id: 'home-caprice-album', text: 'Mon carnet de caprices' });
+  document.getElementById('home-expeditions')?.after(home);
+  const result = stickerResultNote(albums, award);
   let returnFocus: HTMLElement | null = null;
+  // The book looked at: the one of the game just played, else the family's active one.
   let viewed: string | null = null;
   let signature = '';
-  const home = document.createElement('button');
-  home.id = 'home-caprice-album';
-  setText(home, 'Mon carnet de caprices');
-  document.getElementById('home-expeditions')?.after(home);
-  const result = document.createElement('button');
-  result.id = 'result-caprice-album';
-  setText(result, 'Voir mon carnet');
-  document.getElementById('mission-result')?.after(result);
-  const note = document.createElement('p');
-  note.id = 'caprice-sticker-result';
-  note.className = 'caprice-result-note';
-  result.before(note);
-  const resultStatus = document.createElement('span');
-  const resultName = frenchLeaf('strong', '');
-  const resultGraphic = stickerGraphic();
-  note.append(resultGraphic, resultName, resultStatus);
+  const restoreFocus = () => returnFocus?.focus({ preventScroll: true });
   function open(owner?: string | null) {
     viewed = owner ?? null;
     if (owner && session.game.mission) {
       const index = MISSIONS.findIndex((m) => m.id === session.game.mission!.missionId);
-      if (index >= 0) missionPage = index;
+      if (index >= 0) book.pager.aim(index);
     }
     returnFocus = document.activeElement as HTMLElement;
     update(true);
     modal.open();
-    close.focus();
+    book.close.focus();
   }
   home.onclick = () => open();
-  result.onclick = () => open(albums.state.campProfileId);
-  close.onclick = () => {
+  result.button.onclick = () => open(albums.state.campProfileId);
+  book.close.onclick = () => {
     modal.close();
-    returnFocus?.focus({ preventScroll: true });
+    restoreFocus();
   };
-  dialog.addEventListener('close', () => returnFocus?.focus({ preventScroll: true }));
-  select.onchange = () => {
-    albums.select(select.value);
+  book.dialog.addEventListener('close', restoreFocus);
+  book.select.onchange = () => {
+    albums.select(book.select.value);
     viewed = null;
     refresh();
     update(true);
   };
-  function showPage() {
-    pages.forEach((page, index) => {
-      page.hidden = index !== missionPage;
-    });
-    previous.disabled = missionPage === 0;
-    next.disabled = missionPage === MISSIONS.length - 1;
-    setText(pageStatus, `${missionPage + 1} / ${MISSIONS.length}`);
-    slots.scrollTop = 0;
-  }
-  previous.onclick = () => {
-    if (missionPage > 0) missionPage--;
-    showPage();
-  };
-  next.onclick = () => {
-    if (missionPage < MISSIONS.length - 1) missionPage++;
-    showPage();
-  };
   function update(force = false) {
     const state = albums.state;
-    const ended = !!session.game.mission?.caprice && ['won', 'lost'].includes(session.game.status);
-    result.hidden = !ended;
-    note.hidden = !ended;
-    if (ended) {
-      const caprice = capriceById(session.game.mission?.caprice)!;
-      resultName.textContent = caprice.name;
-      paintSticker(resultGraphic, caprice);
-      resultGraphic.toggleAttribute('hidden', session.game.status !== 'won');
-      setText(
-        resultStatus,
-        session.game.status === 'lost'
-          ? 'Tu peux réessayer ce même caprice.'
-          : award(session.game) === true
-            ? 'Autocollant gagné !'
-            : albums.has(session.game.mission!.caprice!, state.campProfileId ?? state.activeId)
-              ? 'Cet autocollant est déjà dans le carnet de cette partie.'
-              : 'Ce caprice attend encore son autocollant.',
-      );
-    }
-    if (!dialog.open && !force) return;
-    const next = JSON.stringify([state, viewed, status()]);
+    result.show(session.game, state.campProfileId ?? state.activeId);
+    if (!book.dialog.open && !force) return;
+    // Redrawn only when the books, the one looked at or the save status have changed.
+    const saveStatus = status();
+    const next = JSON.stringify([state, viewed, saveStatus]);
     if (next === signature) return;
     signature = next;
-    albumOptions(select, albums);
-    tools.hidden = !albumChoiceShown(state.children.length);
-    select.value = viewed ?? state.activeId;
-    const child = state.children.find((c) => c.id === (viewed ?? state.activeId))!;
-    for (const leaf of leaves) {
-      const earned = child.completed.includes(leaf.id);
-      leaf.node.dataset.earned = String(earned);
-      setText(leaf.status, earned ? '✓ Autocollant gagné' : 'À découvrir');
-    }
-    showPage();
-    setText(persistence, status());
+    book.show(state, viewed ?? state.activeId, saveStatus);
   }
   return { refresh: () => update(), open };
 }
