@@ -1,16 +1,15 @@
-# Plan actuel — 0.38.0, livraison Android build57
+# Plan actuel — 0.38.0, livraison Android build58
 
-## Livraison actuelle — 0.38.0, Android build57, Sites32 publiée
+## Livraison actuelle — 0.38.0, Android build58, Sites33 publiée
 
-Source figée : `6e80a204a8559fedfe2dcf3ea245248132635297`. PR35/PR36 et correctif `1d84cdc` de Claude.
-Objets sur les missions et la préparation, vingt vignettes pour les36 caprices, noms et annonces
-français du fils préservés, côté du coup conservé et onglets FR/EN ajustés. Version **0.38.0**,
-code **57**, même package et clé d’envoi Play. Aucune règle, sauvegarde ou ancien code changé.
-`npm run verify` : **590 tests** verts. Carnets FR/EN et onglets contrôlés sur les vrais écrans.
-Paquets signés et validés ; navigateur, audit13/13, menus758, caprices294, traduction496,
-présentation14scènes verts. Site public contrôlé sur cinq formats ;112fichiers identiques
-aux paquets, carnets et onglets FR/EN, audio et démarrages APK hors ligne vérifiés.
-[Bilan](BILAN-0.38.0.md) et [Android](ANDROID.md). L’import de l’AAB57 sur le canal interne reste au parent.
+Source figée : `d3e3e02251a29337002b34899bd432ac8b4c24d7`, issue de main `21f0feb` (PR40/PR41 de Claude).
+Carnet et préparation simplifiés, cinq bulles d’aide FR/EN, correction du bouclier.
+Anciens carnets multiples et codes de départ conservés ; règles et sauvegardes inchangées.
+`npm run verify` : **601 tests** verts ; navigateur, audit13/13, menus2261, caprices et traduction verts.
+AAB58 signé avec la clé d’envoi d’origine, APK debug séparé. Site publié et contrôlé sur cinq formats,
+112 fichiers identiques aux paquets, carnet/préparation FR/EN, audio et démarrages APK hors ligne vérifiés.
+[Bilan](BILAN-0.38.0.md), [Android](ANDROID.md). L’import de l’AAB58 dans le canal interne reste au parent.
+Livraison précédente : [build57 / Sites32](archive/BILAN-0.38.0-build57.md).
 
 ## Suivi visuel de 0.38.0
 
@@ -20,7 +19,7 @@ change plus le côté affiché. Affichage seulement, la protection n'a jamais é
 
 ## Essai du parent sur téléphone, 13 novembre — décisions et idées notées
 
-Décidé, en cours dans un lot « simplifier » (pas encore publié) :
+Décisions du lot « simplifier », publiées dans le build58 / Sites33 :
 
 - Le son démarre au premier toucher de l'écran, sur le site comme dans l'application : c'est
   voulu, on ne change rien.
@@ -115,7 +114,7 @@ Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Conso
   français ni en anglais, de 568×320 à 1920×1080.
 - Passage à0.38.0 : appliqué par Codex avec le build57
   (`package.json`, `package-lock.json`, `versionName` Android, README, ANDROID.md, liste de
-  `docs/README.md`). Bilan : [BILAN-0.38.0.md](BILAN-0.38.0.md).
+  `docs/README.md`). Bilan : [build57](archive/BILAN-0.38.0-build57.md).
 
 Pas essayé : installation Android physique sur Galaxy S24, Safari, Firefox, les enfants.
 
@@ -179,7 +178,7 @@ canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en
   fois les fichiers en cache. Pistes restantes : charger en arrière-plan les planches d'alliés
   non posés (2,7 Mo) ; image de l'accueil en WebP (350 → 50 Ko), à décider car la recette exige
   aujourd'hui l'icône Android à l'identique. « Dangers » encore dans la barre du haut.
-- Test physique S24 : mise à jour vers Play57, son au retour dans l’application, fluidité,
+- Test physique S24 : mise à jour vers Play58, son au retour dans l’application, fluidité,
   volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
 - Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
 - Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.

@@ -1,13 +1,13 @@
 # Android — version0.38.0
 
-Dernière livraison : **0.38.0 / build57**, avec les objets des missions/préparation, vingt
-vignettes de caprices, maintien du côté des coups et onglets ajustés FR/EN. Même package
-**com.conqueteserpents.famille**, code57, paysage, minSdk24 / targetSdk36.
+Dernière livraison : **0.38.0 / build58**, avec le carnet et la préparation simplifiés,
+cinq bulles d’aide et le bouclier corrigé. Anciens carnets et codes conservés. Même package
+**com.conqueteserpents.famille**, code58, paysage, minSdk24 / targetSdk36.
 AAB release signé avec la clé d’envoi Play d’origine ; APK debug avec son certificat familial.
 Aucune migration des sauvegardes, règle ou SDK commercial ajouté. [Bilan](BILAN-0.38.0.md).
 
 Dans le canal de test interne existant, créer une nouvelle version et importer
-`conquete-serpents-v0.38.0-build57-play.aab`, puis installer via Google Play avec le même compte
+`conquete-serpents-v0.38.0-build58-play.aab`, puis installer via Google Play avec le même compte
 testeur. L’APK debug conserve une signature distincte de la distribution Play. Aucun envoi
 Console ou essai physique S24 par Codex ; confort et performances à confirmer sur appareil.
 
