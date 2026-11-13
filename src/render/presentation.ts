@@ -1,5 +1,6 @@
 import type { Game, Entity, Effect } from '../game.ts';
-import type { CharacterAction } from './characterMotion.ts';
+import { dustSpacing } from './characterMotion.ts';
+import type { CharacterAction, Gait } from './characterMotion.ts';
 import { encounterReadout } from './encounterReadout.ts';
 import type { EncounterReadout } from './encounterReadout.ts';
 export type Notice = {
@@ -29,7 +30,7 @@ export type Arrival = {
   source: 'den' | 'egg';
 };
 /** One-frame cosmetic cues for BattleJuice; rebuilt at every update. */
-export type Spark = { kind: 'ally' | 'egg' | 'coin' | 'boss'; x: number; y: number };
+export type Spark = { kind: 'ally' | 'egg' | 'coin' | 'boss' | 'dust'; x: number; y: number };
 type Snapshot = { x: number; y: number; hp: number; kind: Entity['kind'] };
 export class Presentation {
   clock = 0;
@@ -47,6 +48,8 @@ export class Presentation {
   flashes = new Map<number, number>();
   /** Age of an ally that was just placed, for its little pop. */
   placed = new Map<number, number>();
+  /** Ground covered by each fighter, so that its walk follows its real movement. */
+  gaits = new Map<number, Gait>();
   /** Seconds since this battle was won in front of the player; Infinity otherwise. */
   victoryAge = Infinity;
   private game: Game | undefined;
@@ -74,6 +77,7 @@ export class Presentation {
     if (fresh) {
       this.flashes.clear();
       this.placed.clear();
+      this.gaits.clear();
       this.victoryAge = Infinity;
       this.game = game;
       this.units.clear();
@@ -194,6 +198,23 @@ export class Presentation {
         this.bossArmor.set(e.id, { phase: state.phase, broken: state.shieldsBroken });
       }
       const old = this.units.get(e.id);
+      if (old) {
+        // Each fighter starts on its own foot: a squad never hops as one block.
+        let gait = this.gaits.get(e.id);
+        if (!gait) this.gaits.set(e.id, (gait = { travel: (e.id * 7.3) % 40, rest: 1 }));
+        const moved = Math.hypot(e.x - old.x, e.y - old.y);
+        // A leap across the board is not a walk (a camp put back in place, a new map).
+        if (moved > 0.01 && moved < 40) {
+          const spacing = dustSpacing(e);
+          if (
+            spacing &&
+            Math.floor((gait.travel + moved) / spacing) > Math.floor(gait.travel / spacing)
+          )
+            this.sparks.push({ kind: 'dust', x: e.x - e.facing * 12, y: e.y });
+          gait.travel += moved;
+          gait.rest = 0;
+        } else gait.rest += dt;
+      }
       if (old && old.hp !== e.hp) {
         if (
           e.kind === 'snake' &&
@@ -258,6 +279,7 @@ export class Presentation {
         this.reactions.delete(id);
         this.flashes.delete(id);
         this.placed.delete(id);
+        this.gaits.delete(id);
         this.actions.delete(id);
         this.roared.delete(id);
       }

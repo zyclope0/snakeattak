@@ -5,6 +5,7 @@ import { LANES } from '../ai.ts';
 import type { Game } from '../game.ts';
 import type { Presentation } from './presentation.ts';
 import { stageTheme, STAGE_SIZES } from './stageLayout.ts';
+import { Figurines } from './figurines.ts';
 /** Live stage props observe presentation signals; never create or redirect monsters. */
 export class Strongholds {
   private dens: Phaser.GameObjects.Image[];
@@ -13,7 +14,9 @@ export class Strongholds {
   private details: Phaser.GameObjects.Graphics;
   private label: Phaser.GameObjects.Text;
   private shownBase = -1;
+  private figurines: Figurines;
   constructor(scene: Phaser.Scene) {
+    this.figurines = Figurines.of(scene);
     this.effects = scene.add.graphics().setDepth(9);
     this.details = scene.add.graphics().setDepth(15.1);
     this.dens = LANES.map((y) =>
@@ -41,6 +44,12 @@ export class Strongholds {
       .setOrigin(0.5)
       .setDepth(15.2);
   }
+  /** The miniature prepared at the size of the screen, shown `width` × `height` board units. */
+  private show(image: Phaser.GameObjects.Image, frame: number, width: number, height: number) {
+    const art = this.figurines.image({ texture: 'strongholds', frame }, width, height);
+    if (image.frame.name !== art.frame) image.setTexture(art.texture, art.frame);
+    return image.setDisplaySize(width, height);
+  }
   draw(game: Game, p: Presentation, reduced: boolean) {
     const g = this.effects,
       detail = this.details;
@@ -53,9 +62,7 @@ export class Strongholds {
       const pulse = recent.reduce((v, a) => Math.max(v, 1 - a.age / 0.9), 0);
       const wake = game.status === 'fighting' && game.remaining > 0 ? 0.13 : 0;
       const den = STAGE_SIZES.dens[lane];
-      this.dens[lane]
-        .setFrame(theme.dens[lane])
-        .setDisplaySize(den.width, den.height)
+      this.show(this.dens[lane], theme.dens[lane], den.width, den.height)
         .setRotation((lane - 1) * 0.025)
         .setTint(pulse > 0.1 ? 0xffe1ac : lane === 2 ? 0xe3edde : theme.tint)
         .setPosition(den.x, den.y + (reduced ? 0 : Math.sin(p.clock * 25) * pulse * 0.9));
@@ -89,9 +96,8 @@ export class Strongholds {
     this.details.setPosition(-33, 6);
     this.label.setPosition(988, 412);
     const shake = reduced ? 0 : Math.sin(p.clock * 45) * p.fortDamage * 2;
-    this.fort
+    this.show(this.fort, 0, fort.width, fort.height)
       .setPosition(fort.x + shake, fort.y)
-      .setDisplaySize(fort.width, fort.height)
       .setTint(
         p.fortDamage > 0.1
           ? 0xffc6a0

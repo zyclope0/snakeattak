@@ -118,6 +118,37 @@ test("la planche d'attaque suit sa planche de repos, sans téléchargement inuti
   );
 });
 
+test('les combattants du plateau et la vague qui vient passent avant les recrues possibles', () => {
+  const keys = new Set(['allies-front', 'allies-support', 'allies-dinosaurs', 'enemies-organic']);
+  const base = (key: string) => !key.endsWith('-attack');
+  const order = (first?: Set<string>) =>
+    attackSheetsFor(keys, base, first).map((sheet) => sheet.key);
+  // Sans priorité : l'ordre des planches.
+  assert.deepEqual(order(), [
+    'allies-front-attack',
+    'allies-support-attack',
+    'enemies-organic-attack',
+    'allies-dinosaurs-attack',
+  ]);
+  // Le héros et les massues sont posés, des serpents ordinaires arrivent : eux d'abord.
+  assert.deepEqual(order(new Set(['allies-front', 'enemies-organic'])), [
+    'allies-front-attack',
+    'enemies-organic-attack',
+    'allies-support-attack',
+    'allies-dinosaurs-attack',
+  ]);
+  // La priorité ne fait rien télécharger de plus, ni avant la planche de repos.
+  assert.deepEqual(
+    attackSheetsFor(
+      new Set(['allies-front']),
+      base,
+      new Set(['enemies-organic', 'serpents-family']),
+    ).map((sheet) => sheet.key),
+    ['allies-front-attack'],
+  );
+  assert.deepEqual(attackSheetsFor(keys, no, new Set(['allies-front'])), []);
+});
+
 test('les portraits du dock gardent la planche de repos', () => {
   for (const kind of ['hero', 'club', 'shield', 'bat'] as const)
     assert.doesNotMatch(portraitStyle(kind), /attack/);

@@ -4,6 +4,8 @@ import Phaser from 'phaser';
 import { LANES } from '../ai.ts';
 import type { Level } from '../levels.ts';
 import { stageComposition, STAGE_SIZES, stageTheme } from './stageLayout.ts';
+import { Figurines } from './figurines.ts';
+import { boardScale } from './boardResolution.ts';
 
 /** A scenery layer; roads are consumed from the same model as the simulation. */
 export function refinedTerrain(
@@ -11,18 +13,29 @@ export function refinedTerrain(
   objects: Phaser.GameObjects.Container,
   level: Level,
   seed: number,
+  /** Pixels of the cache per board unit: props baked into it are prepared at that size. */
+  cacheScale = 1,
 ): Phaser.GameObjects.Image[] {
+  const figurines = Figurines.of(scene);
   const theme = stageTheme(level);
   objects.add(scene.add.image(550, 310, theme.ground).setDisplaySize(1100, 620));
   addSceneryFrame(scene, objects, theme.scenery);
   const ground = scene.add.graphics();
   objects.add(ground);
   drawCraftPaths(ground, level);
-  const prop = (frame: number, x: number, y: number, size: number) =>
-    scene.add
-      .image(x, y, 'props-three-bridges', frame)
+  // `baked` props are drawn once into the cache; the others stay on the board, among the fighters.
+  const prop = (frame: number, x: number, y: number, size: number, baked = true) => {
+    const art = figurines.image(
+      { texture: 'props-three-bridges', frame },
+      size,
+      size,
+      baked ? cacheScale : boardScale(scene),
+    );
+    return scene.add
+      .image(x, y, art.texture, art.frame)
       .setDisplaySize(size, size)
       .setTint(theme.tint);
+  };
   const composition = stageComposition(level, seed);
   // Water expresses the existing impassable column. The three bridge positions
   // and all navigation coordinates stay untouched. Rounded samples overlap to
@@ -56,7 +69,7 @@ export function refinedTerrain(
   }
   const foreground: Phaser.GameObjects.Image[] = [];
   for (const p of composition.decor) {
-    const image = prop(p.frame, p.x, p.y, 52 * p.scale)
+    const image = prop(p.frame, p.x, p.y, 52 * p.scale, !p.foreground)
       .setFlipX(p.flipX)
       .setAngle(p.angle)
       .setTint(theme.tint === 0xffffff ? p.tint : theme.tint);
@@ -66,7 +79,7 @@ export function refinedTerrain(
   for (const rock of level.rocks) {
     ground.fillStyle(0x304d3b, 0.17);
     ground.fillEllipse(rock.x, rock.y + 9, rock.r * 2.2, rock.r);
-    foreground.push(prop(3, rock.x, rock.y - 5, rock.r * 2.2).setDepth(10 + rock.y / 1000));
+    foreground.push(prop(3, rock.x, rock.y - 5, rock.r * 2.2, false).setDepth(10 + rock.y / 1000));
   }
   // Three unobtrusive, distinct lane marks; no terrain text.
   for (const [index, y] of LANES.entries()) {

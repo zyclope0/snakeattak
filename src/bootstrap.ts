@@ -6,6 +6,8 @@ import type { Kind } from './data.ts';
 import './ui/caprices.css';
 import { setText as setDisplayText } from './i18n/dom.ts';
 import { bindBoardResize } from './render/boardResize.ts';
+import { BOARD_WIDTH, BOARD_HEIGHT, bindBoardResolution } from './render/boardResolution.ts';
+import { visualSettings } from './render/visualSettings.ts';
 import { Game } from './game.ts';
 import { createMissionProgress, createMissionProgressController } from './missionProgress.ts';
 import type { MissionRun } from './missions.ts';
@@ -124,8 +126,9 @@ const battleNotices = bindBattleNotices(
 phaser = new Phaser.Game({
   type: Phaser.AUTO,
   parent: 'game',
-  width: 1100,
-  height: 620,
+  // The board in world units; `bindBoardResolution` enlarges the canvas to the screen's pixels.
+  width: BOARD_WIDTH,
+  height: BOARD_HEIGHT,
   backgroundColor: '#6a8b59',
   scene: [new BattleScene(session, refresh, soundFrame, battleNotices)],
   render: { antialias: true },
@@ -133,6 +136,7 @@ phaser = new Phaser.Game({
   audio: { noAudio: true },
 });
 bindBoardResize(phaser, document.getElementById('game')!);
+bindBoardResolution(phaser, () => visualSettings.light);
 const view = (home: boolean) => {
   document.getElementById('home-screen')!.hidden = !home;
   document.getElementById('app')!.hidden = home;

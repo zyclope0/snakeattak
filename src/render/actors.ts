@@ -1,5 +1,5 @@
 import { shellGeometry, drawCapriceShell } from './capriceShell.ts';
-import { CanvasContours } from './canvasContours.ts';
+import { Figurines } from './figurines.ts';
 import { isFlying, flightLift } from '../flying.ts';
 import Phaser from 'phaser';
 import { characterMotion } from './characterMotion.ts';
@@ -25,14 +25,31 @@ import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
 /** Warm paper white, softer than a pure white flash. */
 const FLASH = 0xfff4dc;
+/** Camp colours of the rim: red-orange for living threats, dark green for allies. */
+const ENEMY_RIM = 0xd2552d,
+  ALLY_RIM = 0x233d36;
+/**
+ * Thickness of the rim in board units, and its opacity. A threat must stand out at a glance;
+ * an ally only needs a quiet line that lifts it off the ground.
+ */
+const ENEMY_RIM_WIDTH = 1.7,
+  ENEMY_RIM_ALPHA = 0.94,
+  ALLY_RIM_WIDTH = 1.1,
+  ALLY_RIM_ALPHA = 0.82;
+/** Where a figure stands in its frame: between its feet. */
+const FOOT_X = 0.5,
+  FOOT_Y = 0.82;
 export class Actors {
-  private contours?: CanvasContours;
+  private figurines: Figurines;
+  /** The Canvas renderer cannot tint an image: it shows a prepared pale silhouette instead. */
+  private canvas: boolean;
   private pieces: FramePool<string, Phaser.GameObjects.Image>;
   private shells: FramePool<number, Phaser.GameObjects.Graphics>;
   private shadows: Phaser.GameObjects.Graphics;
   private loaded = (texture: string) => this.scene.textures.exists(texture);
   constructor(private scene: Phaser.Scene) {
-    if (scene.game.renderer.type === Phaser.CANVAS) this.contours = new CanvasContours(scene);
+    this.figurines = Figurines.of(scene);
+    this.canvas = scene.game.renderer.type === Phaser.CANVAS;
     this.shells = new FramePool({
       maxIdle: 128,
       create: () => scene.add.graphics(),
@@ -68,10 +85,9 @@ export class Actors {
     onSceneExit(scene.events, () => {
       this.pieces.clear();
       this.shells.clear();
-      this.contours?.destroy();
     });
   }
-  private piece(key: string, art: ArtFrame) {
+  private piece(key: string, art: { texture: string; frame: number | string }) {
     const image = this.pieces.acquire(key);
     if (image.texture.key !== art.texture || String(image.frame.name) !== String(art.frame))
       image.setTexture(art.texture, art.frame);
@@ -93,18 +109,39 @@ export class Actors {
       if (!idle) continue;
       const u = visualPose(unit, presentation.clock, presentation.reactions, reduced);
       const size = shellGeometry(actorSize(unit.kind, unit.variant, unit.boss), !!unit.shell).size;
-      if (!isFlying(unit)) {
-        this.shadows.fillStyle(0x263f34, 0.18);
-        this.shadows.fillEllipse(unit.x + 2, unit.y + 13, size * 0.58, size * 0.17);
-        this.shadows.lineStyle(1.5, enemy ? 0xb96e54 : 0xe5efdb, enemy ? 0.65 : 0.5);
-        this.shadows.strokeEllipse(unit.x, unit.y + 12, size * 0.55, size * 0.17);
-      }
       const moving = unit.state === 'move' && !reduced;
       const action = presentation.actions.get(unit.id);
-      // Body, both contour layers and the flash all use this one frame: the edge
-      // always has the shape of the image it surrounds.
+      // Body, rim and flash all use this one frame: the rim always has the shape of
+      // the image it surrounds.
       const art = poseArt(idle, action, reduced, this.loaded);
-      const motion = characterMotion(unit, presentation.clock, action, reduced);
+      const figurine = this.figurines.figurine(
+        art,
+        size,
+        size,
+        enemy ? ENEMY_RIM : ALLY_RIM,
+        enemy ? ENEMY_RIM_WIDTH : ALLY_RIM_WIDTH,
+        enemy ? ENEMY_RIM_ALPHA : ALLY_RIM_ALPHA,
+        FOOT_X,
+        FOOT_Y,
+      );
+      const flying = isFlying(unit);
+      const motion = characterMotion(
+        unit,
+        presentation.clock,
+        action,
+        reduced,
+        presentation.gaits.get(unit.id),
+        flying,
+      );
+      if (!flying) {
+        // The shadow stays on the ground and shrinks a little under a hop.
+        const air = 1 + Math.min(0, motion.dy) * 0.03;
+        this.shadows.fillStyle(0x263f34, 0.18);
+        this.shadows.fillEllipse(unit.x + 2, unit.y + 13, size * 0.58 * air, size * 0.17 * air);
+        // The ground ring carries the camp colour too: the rim itself can stay thin.
+        this.shadows.lineStyle(enemy ? 2 : 1.5, enemy ? 0xc9603c : 0xe5efdb, enemy ? 0.8 : 0.5);
+        this.shadows.strokeEllipse(unit.x, unit.y + 12, size * 0.55, size * 0.17);
+      }
       const hurt = presentation.reactions.get(unit.id)?.hurt ?? 0;
       // One pale flash per blow, 100 ms, never restarted within 0.3 s: no strobe.
       const flash = !reduced && (presentation.flashes.get(unit.id) ?? 1) < 0.1;
@@ -124,31 +161,28 @@ export class Actors {
       const width = size * (1 - spring) * entryScale * motion.sx * (1 + squash) * pop,
         height = size * (1 + spring) * entryScale * motion.sy * (1 - squash) * pop,
         x = u.x + motion.dx,
-        y = u.y + 18 + motion.dy - (isFlying(unit) ? flightLift : 0),
+        y = u.y + 18 + motion.dy - (flying ? flightLift : 0),
         alpha = 0.25 + emerge * 0.75,
         depth = 10 + unit.y / 1000,
         flip = spriteFlip(unit.kind, unit.variant, unit.facing);
-      // Shared atlas silhouettes stay in the ordinary image batch. No per-actor FX pass.
-      // Enemy orange is reserved for living threats; allies keep their dark green edge.
-      // Identical transforms prevent ghosts without a per-actor effect pass.
-      for (const [layer, padding, tint, delta] of [
-        ['edge', enemy ? 9 : 4, 0xf9f1d8, 0.00004],
-        ['outline', enemy ? 7 : 3, enemy ? 0xd2552d : 0x233d36, 0.00002],
-      ] as const)
-        this.piece(`${layer}:${unit.id}`, this.contours?.frame(art, tint) ?? art)
-          .setOrigin(0.5, 0.82)
-          .setPosition(x, y)
-          .setDisplaySize(width + padding, height + padding)
-          .setAlpha(alpha)
-          .setRotation(motion.angle)
-          .setFlipX(flip)
-          .setTintFill(tint)
-          .setDepth(depth - delta);
+      // One thin rim behind the body, with the body's own transform: no ghost, no
+      // per-actor effect pass. Red-orange is reserved for living threats.
+      const rim = figurine.rim;
+      this.piece(`edge:${unit.id}`, rim)
+        .setOrigin(rim.originX, rim.originY)
+        .setPosition(x, y)
+        .setDisplaySize(width * rim.scaleX, height * rim.scaleY)
+        .setAlpha(alpha)
+        .setRotation(motion.angle)
+        .setFlipX(flip)
+        // Already coloured on its surface; the tint keeps the camp colour readable on the object.
+        .setTintFill(enemy ? ENEMY_RIM : ALLY_RIM)
+        .setDepth(depth - 0.00002);
       const body = this.piece(
         `entity:${unit.id}`,
-        flash && this.contours ? this.contours.frame(art, FLASH) : art,
+        flash && this.canvas ? this.figurines.fill(art, size, size, FLASH) : figurine.body,
       )
-        .setOrigin(0.5, 0.82)
+        .setOrigin(FOOT_X, FOOT_Y)
         .setPosition(x, y)
         .setDisplaySize(width, height)
         .setAlpha(alpha)
@@ -219,7 +253,7 @@ export class Actors {
     for (const egg of game.eggs) {
       const progress = 1 - egg.hatchIn / egg.duration,
         wobble = progress > 0.7 && !reduced ? Math.sin(game.time * 20) * 0.045 : 0;
-      this.piece(`egg:${egg.id}`, EGG_ART)
+      this.piece(`egg:${egg.id}`, this.figurines.image(EGG_ART, 54, 61))
         .setOrigin(0.5, 0.8)
         .setPosition(egg.x, egg.y + 14)
         .setDisplaySize(54, 61)
@@ -232,7 +266,10 @@ export class Actors {
     }
     if (game.feast) {
       const pot = feastPoint(game.feast, game.level);
-      this.piece('honey', game.feast.flavor === 'sticky' ? HONEY_STICKY_ART : HONEY_ART)
+      this.piece(
+        'honey',
+        this.figurines.image(game.feast.flavor === 'sticky' ? HONEY_STICKY_ART : HONEY_ART, 55, 55),
+      )
         .setOrigin(0.5, 0.8)
         .setPosition(pot.x, pot.y + 6)
         .setDisplaySize(55, 55)

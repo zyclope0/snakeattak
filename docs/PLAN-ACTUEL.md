@@ -13,6 +13,25 @@ Audio en continu, réglages, démarrages APK hors ligne et30MP3 vérifiés.
 [Bilan](BILAN-0.37.0.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
 Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Console par Codex.
 
+## Après le build 54 — netteté du plateau, liseré, marche (pas encore publié)
+
+Demande du parent après essai du site sur ordinateur : figurines floues et détourées trop fort,
+personnages qui glissent, animations absentes à la première vague, combattant à massue blanc.
+
+- Le plateau est dessiné aux pixels réels de l'écran (jusqu'à deux fois 1100×620) ; les règles
+  et les coordonnées restent en 1100×620. Chaque figurine est réduite une fois à sa taille
+  d'écran. « Effets légers » garde le plateau simple ; un garde-fou baisse la taille si
+  l'appareil ne suit pas.
+- Le contour vert foncé des alliés et rouge orangé des ennemis reste, en liseré fin et régulier.
+- Marche façon pâte à modeler, calée sur la distance vraiment parcourue ; les serpents ondulent.
+- Les poses d'attaque des combattants présents arrivent en premier : plus de première vague
+  sans elles sur une connexion lente.
+- Combattant à massue : même pose, peau beige comme les autres (166 crédits Magnific).
+
+Vérifié : `npm run verify` (586 tests, empreintes de parties inchangées) et les 16 recettes de la CI.
+Mesures d'images par seconde faites sans carte graphique (rendu logiciel) : elles ne disent
+rien du vrai téléphone. Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
+
 ## Livraison précédente — Sites28, Android build 53
 
 Les PR20 et PR21 de Claude sont fusionnées : réglages musique/bruitages séparés et
