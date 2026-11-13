@@ -62,6 +62,13 @@
   --object: url('../assets/home/menu-parents.webp');
 }
 @media (max-height: 520px) {
+  /* Compact the destinations without reducing their 48px touch targets. */
+  #home-screen .home-links button {
+    padding: 6px;
+  }
+  #home-main .home-intro {
+    padding-block: 4px;
+  }
   /* Écran bas : le bouton des réglages tient dans l'en-tête et ne mord plus sur la carte. */
   #home-screen .home-header .settings-button {
     width: 48px;
