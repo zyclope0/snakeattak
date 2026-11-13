@@ -521,3 +521,26 @@ Determined, brave, friendly faces. No motion lines, no impact stars, no dust, no
 - Rien n'a été montré aux enfants ni au parent.
 - Le sens de l'attaque suit la direction du personnage au repos ; le rendu d'un sprite
   retourné par le jeu n'a pas été contrôlé.
+
+## Peau du combattant à massue (13 novembre 2026)
+
+Le parent a demandé le même personnage avec la peau des autres : sa tête et ses mains étaient
+restées blanches. Seule la case en haut à droite change, sur `allies-front.webp` et
+`allies-front-attack.webp` ; les trois autres cases sont celles d'avant, au pixel près.
+
+- Outil : Magnific `images_retouch`, mode `edit`, qualité moyenne, sur la planche de repos
+  lJosK3cgv9 et sur la planche d'attaque YMjYLzfWeC.
+- Créations : repos [bxTkcNh5Y2](https://www.magnific.com/app/creation/bxTkcNh5Y2), détourage
+  dtyoJW7XSL ; attaque [9ZQiEhjNYZ](https://www.magnific.com/app/creation/9ZQiEhjNYZ),
+  détourage cplVLZa0eP.
+- Crédits : 166.
+- Recalage : la case d'attaque est descendue de 10 px, comme la précédente.
+- Retouche locale : teinte et saturation de la peau rapprochées de celles des trois autres
+  combattants (teinte 0,100, saturation 0,295 sur les deux planches), pour que la couleur ne
+  saute pas entre le repos et l'attaque.
+
+Consigne (repos ; la même pour l'attaque, avec « swinging » et les ombres au sol) :
+
+```
+SKIN COLOUR CHANGE ONLY, on one figure. The top-right figure (bald man in a green tunic holding a dark wooden club) currently has a white head, white ears and white hands. Repaint only his head, ears and both hands in the same light natural beige modelling-clay skin as the three other figures in this image (same pale beige as the blond boy top-left and the helmeted soldier bottom-left). Keep his eyes white with the same beige irises, keep his smile, nose, facial features, pose, club, green tunic, belt, pouch, white trousers and brown shoes exactly as they are. Do not change the three other figures at all. Keep the plain white background, the same framing, the same positions and sizes, the same handmade clay texture with fingerprints.
+```

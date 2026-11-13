@@ -1,6 +1,7 @@
 import type Phaser from 'phaser';
 import { copy } from './copy.ts';
 import { onLanguageChange } from './language.ts';
+import { boardScale } from '../render/boardResolution.ts';
 
 type CanvasText = Phaser.GameObjects.Text;
 type Source = string | string[];
@@ -49,5 +50,18 @@ export function addCanvasText(
   source: Source,
   style?: Phaser.Types.GameObjects.Text.TextStyle,
 ): CanvasText {
-  return setCanvasText(factory.text(x, y, '', style), source);
+  const node = factory.text(x, y, '', style);
+  // Text is cached as pixels: draw it at the size of the canvas, not of the 1100 px board.
+  // (A label made outside a board, as in the text fixtures, keeps its own resolution.)
+  const resolution = node.scene?.scale ? boardScale(node.scene) : node.style?.resolution;
+  if (resolution !== node.style?.resolution) node.setResolution(resolution);
+  return setCanvasText(node, source);
+}
+/** After the canvas changed size: every living label is drawn again at the new sharpness. */
+export function sharpenCanvasTexts(resolution: number) {
+  for (const ref of live) {
+    const node = ref.deref();
+    if (!node) live.delete(ref);
+    else if (node.style.resolution !== resolution) node.setResolution(resolution);
+  }
 }

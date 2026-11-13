@@ -25,12 +25,20 @@ export function poseArt(
 /**
  * Attack sheets of the base sheets this mission uses and already holds. They are
  * optional: fetched after their base sheet, never waited for, never reported as a failure.
+ * Sheets of `first` (the fighters on the board and the coming wave) head the list: they are
+ * the ones the very next blow will show.
  */
 export function attackSheetsFor(
   keys: ReadonlySet<string>,
   exists: (key: string) => boolean,
+  first?: ReadonlySet<string>,
 ): typeof ATTACK_SHEETS {
-  return ATTACK_SHEETS.filter(
+  const wanted = ATTACK_SHEETS.filter(
     (sheet) => keys.has(sheet.base) && exists(sheet.base) && !exists(sheet.key),
   );
+  if (!first) return wanted;
+  return [
+    ...wanted.filter((sheet) => first.has(sheet.base)),
+    ...wanted.filter((sheet) => !first.has(sheet.base)),
+  ];
 }

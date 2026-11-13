@@ -5,10 +5,9 @@ export function shellGeometry(size: number, shell: boolean) {
   return { size: size * scale, width: size * scale * 0.53, height: size * scale * 0.37 };
 }
 export function drawCapriceShell(g: Phaser.GameObjects.Graphics, width: number, height: number) {
-  g.fillStyle(0xf9f1d8, 1);
-  g.fillEllipse(0, 0, width + 9, height + 9);
-  g.fillStyle(0xd2552d, 1);
-  g.fillEllipse(0, 0, width + 6, height + 6);
+  // Same thin camp rim as the snake that carries it.
+  g.fillStyle(0xd2552d, 0.94);
+  g.fillEllipse(0, 0, width + 3.4, height + 3.4);
   g.fillStyle(0x777c59, 1);
   g.fillEllipse(0, 0, width, height);
   g.lineStyle(2, 0x414d37, 1);

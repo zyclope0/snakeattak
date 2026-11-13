@@ -1,4 +1,8 @@
-import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '../i18n/phaser.ts';
+import {
+  addCanvasText as addCanvasCopy,
+  setCanvasText as setCanvasCopy,
+  sharpenCanvasTexts,
+} from '../i18n/phaser.ts';
 import { ThreatMarkers } from './threatMarkers.ts';
 import { victoryCopy, defeatCopy } from './resultCopy.ts';
 import { activateBoard } from '../ui/boardActions.ts';
@@ -21,6 +25,15 @@ import { LANES } from '../ai.ts';
 import type { Effect } from '../game.ts';
 import type { Session } from '../session.ts';
 import { TerrainLayer } from './terrain.ts';
+import { Figurines } from './figurines.ts';
+import {
+  BOARD_WIDTH,
+  BOARD_HEIGHT,
+  boardPoint,
+  boardScale,
+  shakeBoard,
+  terrainScale,
+} from './boardResolution.ts';
 import { Strongholds } from './strongholds.ts';
 import { bindInputBounds } from './inputBounds.ts';
 import { BossSignals } from './bossSignals.ts';
@@ -38,6 +51,8 @@ export class BattleScene extends Phaser.Scene {
   private feedback!: BattleFeedback;
   private juice!: BattleJuice;
   private resultSize = 0;
+  /** Canvas width the camera, the labels and the terrain cache were last fitted to. */
+  private fittedWidth = 0;
   private motionQuery = window.matchMedia('(prefers-reduced-motion:reduce)');
   private onPresentation: (notice: Notice | null, deltaMs: number) => void;
   private resultStats!: Phaser.GameObjects.Text;
@@ -108,11 +123,9 @@ export class BattleScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseInputBounds);
     this.events.once(Phaser.Scenes.Events.DESTROY, releaseInputBounds);
     this.terrain = new TerrainLayer(this);
-    this.terrain.update(
-      this.session.game.level,
-      this.session.game.mission,
-      this.session.game.initialSeed,
-    );
+    this.fittedWidth = 0;
+    this.fitCanvas();
+    this.drawTerrain();
     this.strongholds = new Strongholds(this);
     this.threatMarkers = new ThreatMarkers(this);
     this.actors = new Actors(this);
@@ -157,10 +170,7 @@ export class BattleScene extends Phaser.Scene {
       .setVisible(false);
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       if (!this.session.selected && !this.session.selectedFeast) return;
-      if (
-        !activateBoard(this.session, { x: pointer.x, y: pointer.y }) &&
-        !this.session.selectedFeast
-      ) {
+      if (!activateBoard(this.session, boardPoint(this, pointer)) && !this.session.selectedFeast) {
         this.session.game.message = this.session.game.paused
           ? 'Reprends la partie pour placer ton renfort.'
           : 'Choisis un espace libre dans le camp, loin des rochers et des alliés.';
@@ -169,6 +179,39 @@ export class BattleScene extends Phaser.Scene {
     });
     this.onChange();
     if (this.session.screen === 'home') this.scene.sleep();
+  }
+  /**
+   * The canvas can be larger than the board (see `boardResolution.ts`): the camera zooms so
+   * that the world stays 1100 × 620, and cached pixels (labels, terrain) follow its size.
+   */
+  private fitCanvas() {
+    if (this.fittedWidth === this.scale.width) return;
+    this.fittedWidth = this.scale.width;
+    const scale = boardScale(this);
+    this.cameras.main
+      .setSize(this.scale.width, this.scale.height)
+      .setZoom(scale)
+      .centerOn(BOARD_WIDTH / 2, BOARD_HEIGHT / 2);
+    sharpenCanvasTexts(scale);
+    Figurines.of(this).setScale(scale);
+    // Scenery props are prepared images too.
+    this.terrain.invalidate();
+    this.resultSize = 0;
+  }
+  private drawTerrain() {
+    const renderer = this.game.renderer;
+    const webgl = renderer.type === Phaser.WEBGL;
+    this.terrain.update(
+      this.session.game.level,
+      this.session.game.mission,
+      this.session.game.initialSeed,
+      terrainScale(
+        boardScale(this),
+        visualSettings.light,
+        webgl,
+        webgl ? (renderer as Phaser.Renderer.WebGL.WebGLRenderer).getMaxTextureSize() : Infinity,
+      ),
+    );
   }
   update(_time: number, delta: number) {
     if (!this.assets.ready(this.session.game)) return;
@@ -187,11 +230,8 @@ export class BattleScene extends Phaser.Scene {
     this.ink.clear();
     this.honeyInk.clear();
     if (this.session.selectedFeast) drawFeastPlacement(this.honeyInk, this.session.game);
-    this.terrain.update(
-      this.session.game.level,
-      this.session.game.mission,
-      this.session.game.initialSeed,
-    );
+    this.fitCanvas();
+    this.drawTerrain();
     this.strongholds.draw(this.session.game, this.presentation, reduced);
     this.threatMarkers.draw(this.session.game);
     drawDefenseMarkers(this.ink, this.session.game);
@@ -232,7 +272,7 @@ export class BattleScene extends Phaser.Scene {
         g.strokeCircle(e.tx, e.ty - 7, 12 + (1 - alpha) * 30);
         if (!this.seenEffects.has(e)) {
           this.seenEffects.add(e);
-          if (!reduced) this.cameras.main.shake(80, 0.001);
+          if (!reduced) shakeBoard(this, 80, 0.001);
         }
       } else if (e.kind === 'fire') {
         g.lineStyle(10, 0xe88a42, alpha * 0.7);
@@ -268,10 +308,11 @@ export class BattleScene extends Phaser.Scene {
     if (this.session.selected) {
       const pointer = this.input.activePointer;
       const onBoard = this.game.canvas.matches(':hover') || pointer.isDown;
+      const p = boardPoint(this, pointer);
       const range = placementReadout(
         this.session.game,
         this.session.selected,
-        onBoard ? { x: pointer.x, y: pointer.y } : undefined,
+        onBoard ? p : undefined,
       );
       if (range) {
         const color = !range.valid
@@ -300,14 +341,7 @@ export class BattleScene extends Phaser.Scene {
         this.ink.lineBetween(p.x - 6, p.y, p.x + 6, p.y);
         this.ink.lineBetween(p.x, p.y - 6, p.x, p.y + 6);
       }
-      const p = this.input.activePointer;
-      if (
-        (p.isDown || this.game.canvas.matches(':hover')) &&
-        p.x >= 0 &&
-        p.x <= 1100 &&
-        p.y >= 0 &&
-        p.y <= 620
-      ) {
+      if (onBoard && p.x >= 0 && p.x <= 1100 && p.y >= 0 && p.y <= 620) {
         this.ink.lineStyle(
           2,
           this.session.game.canRecruit(this.session.selected, p.x, p.y) ? 0xb2eaf4 : 0xe1a07d,
@@ -326,7 +360,7 @@ export class BattleScene extends Phaser.Scene {
     this.overlay.setVisible(end);
     if (end) {
       // The board is drawn at about half size on a phone: keep 13 CSS px at least.
-      const size = Math.ceil(Math.max(18, 13.5 * this.scale.displayScale.x));
+      const size = Math.ceil(Math.max(18, (13.5 * this.scale.displayScale.x) / boardScale(this)));
       if (size !== this.resultSize) {
         this.resultSize = size;
         this.resultSubtitle.setFontSize(Math.max(21, size));

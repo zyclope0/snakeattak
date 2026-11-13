@@ -598,12 +598,67 @@ les dialogues de lecture (sauvegarde familiale, fiches, options des parents), qu
 ## Pose d'attaque (essai, 12 novembre 2026)
 
 Une planche de `art.ts` peut déclarer `attackUrl` : une seconde planche aux mêmes cases,
-chargée sous la clé `<planche>-attack`. Seule `allies-front` en a une ; en ajouter une
+chargée sous la clé `<planche>-attack`. Neuf planches en ont une ; en ajouter une
 autre est une ligne de données et un fichier. `render/attackPose.ts` choisit l'image :
 la case d'attaque pendant 0,2 s après le coup (le même signal `Presentation.actions`
 que l'élan de `characterMotion`), l'image de repos sinon, toujours en « Effets légers »
 et tant que la planche d'attaque n'est pas là. `MissionAssets` la demande en arrière-plan
 une fois sa planche de repos chargée et utile à la mission ; elle n'est jamais attendue,
-son échec n'affiche rien. Corps, liseré clair, contour et éclair utilisent la même case :
-le contour a toujours la forme de l'image montrée (en Canvas, `CanvasContours` indexe
-ses silhouettes par texture et case). Les portraits HTML gardent la planche de repos.
+son échec n'affiche rien. Corps, liseré et éclair utilisent la même case : le liseré a
+toujours la forme de l'image montrée (`Figurines` prépare chaque case à part). Les portraits
+HTML gardent la planche de repos.
+
+Depuis le 13 novembre, les planches d'attaque des combattants posés et de la vague qui vient
+passent d'abord, deux fichiers à la fois (les sept partaient ensemble et arrivaient ensemble) ;
+un fichier en échec est redemandé une fois, dix secondes plus tard ; l'image est décodée hors
+du fil principal quand le navigateur le permet. Elles partent toujours après les images que
+la mission attend : demandées plus tôt, elles retardaient le début de la partie de 15 % sur
+une ligne lente. Mesure sur le build (Chromium, réseau bridé, cache vide,
+« Lancer la vague » dès que possible) : avant, à 1 Mbit/s la moitié des coups de la première
+vague n'avaient pas leur pose (4 % à 0,7 Mbit/s), toutes les vagues suivantes l'avaient.
+
+## Netteté du plateau, liseré et marche (13 novembre 2026)
+
+**Le canvas a les pixels de l'écran.** Le monde reste 1100 × 620 : règles, placement,
+recettes et coordonnées ne changent pas. `render/boardResolution.ts` lit avant chaque pas la
+largeur affichée du plateau et le rapport de pixels de l'appareil, et donne au canvas cette
+largeur exacte (bornée entre 550 et 2200 px, 1100 au plus en « Effets légers », qui reste le
+mode économe). Une taille doit être voulue 250 ms avant de reconstruire le canvas ; un écart
+de 3 px est ignoré. `BattleScene.fitCanvas` règle alors le zoom de la caméra
+(`boardScale` = largeur du canvas / 1100), redessine les textes à cette résolution
+(`sharpenCanvasTexts`), vide les figurines préparées et le cache du décor. Les pointeurs
+passent par `boardPoint`, les secousses par `shakeBoard`. Les bancs d'essai de `tests/`
+créent un jeu fixe de 1100 px : pour eux l'échelle vaut 1.
+
+Un régulateur (`createFrameGovernor`) protège les appareils lents : trois secondes de suite
+sous 40 images par seconde au-dessus du plateau simple, il essaie un demi-cran plus petit ;
+si les images ne viennent pas 15 % plus vite, la taille n'était pas la cause (économie
+d'énergie à 30 images par seconde, processeur occupé), il rétablit la netteté et ne touche
+plus à rien de la session.
+
+**Figurines préparées.** Une case de 512 px dessinée sept fois plus petite par le moteur est
+crénelée (sans mipmap) ou molle (avec : le niveau de 64 px sert pour 70 px à l'écran).
+`render/figurines.ts` réduit donc une fois, par moitiés, chaque image utilisée sur un petit
+canvas de deux fois sa taille d'écran ; le plateau la montre presque pixel pour pixel, comme
+les portraits du dock. Acteurs, œufs, pots de miel, refuge, antres et décors passent par là,
+en WebGL comme en Canvas. Ces surfaces font quelques dizaines à quelques centaines de Kio ;
+elles sont détruites à chaque changement de taille et à la fermeture de la scène. Le cache du
+décor (`TerrainLayer`) est tracé à deux fois le plateau en WebGL : l'écran fait la moyenne des
+bords de chemin au lieu de montrer des marches (11 Mio ; à la taille du canvas en « Effets
+légers » et en Canvas).
+
+**Liseré.** Le contour n'est plus la figurine agrandie et teintée deux fois (épais loin des
+pieds, absent près d'eux, crénelé) : c'est la silhouette réduite, grossie de la même distance
+dans toutes les directions et colorée, sur la même surface que le corps. Rouge orangé
+`0xd2552d` pour les serpents, 1,7 unité ; vert foncé `0x233d36` pour les alliés, 1,1 unité et
+un peu transparent : une menace se voit d'un coup d'œil, un allié n'a besoin que d'un trait.
+L'anneau au sol des serpents porte aussi leur couleur. Une image de moins par acteur.
+
+**Marche.** `Presentation.gaits` mesure le chemin réellement parcouru par chaque combattant
+(positions du moteur, lues seulement). `characterMotion` en tire le pas : petit saut,
+dandinement d'un pied sur l'autre, écrasement à chaque appui, quatre poses par pas comme une
+animation image par image ; les serpents ondulent (étirés puis ramassés), le char vibre, le
+cavalier galope, les volants gardent leur vol à l'horloge. Vitesse ×2 : deux fois plus de
+pas ; pause ou combattant bloqué : pose tenue, puis pied reposé. Les corps lourds soulèvent
+un peu de poussière (`Spark` `dust`, mêmes quarante particules que les pièces, jamais à leur
+place). Rien en « Effets légers ». Aucune règle, aucun tirage du jeu.

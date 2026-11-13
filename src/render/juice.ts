@@ -1,10 +1,12 @@
 import type Phaser from 'phaser';
 import type { Presentation } from './presentation.ts';
+import { shakeBoard } from './boardResolution.ts';
 
 const CAPACITY = 40;
 const PUFF = 1,
   SHARD = 2,
-  COIN = 3;
+  COIN = 3,
+  DUST = 4;
 const CONFETTI = [0xeacd79, 0xb9d795, 0xf0b08c, 0xa8d6de, 0xf6ecd0];
 /** Burst length; the calm falling confetti of BattleScene takes over afterwards. */
 export const CONFETTI_BURST = 2.4;
@@ -21,7 +23,7 @@ export function coinTarget(
 }
 
 /**
- * Cosmetic particles only: placement puffs, egg shards and flying coins.
+ * Cosmetic particles only: placement puffs, egg shards, flying coins and the dust of heavy steps.
  * One Graphics, forty preallocated slots reused in a ring, a private random
  * stream (never the game's), the visual clock (frozen in pause). Nothing is
  * spawned when motion is reduced.
@@ -119,7 +121,19 @@ export class BattleJuice {
     }
     for (const s of p.sparks) {
       if (s.kind === 'ally') this.puff(s.x, s.y + 14, 7);
-      else if (s.kind === 'egg') {
+      else if (s.kind === 'dust') {
+        // Never at the expense of a coin in flight: dust only uses free room.
+        for (let i = 0; i < 2 && this.live < CAPACITY / 2; i++)
+          this.spawn(
+            DUST,
+            s.x + (this.random() - 0.5) * 10,
+            s.y + 15,
+            (this.random() - 0.5) * 24,
+            -9 - this.random() * 9,
+            0.34 + this.random() * 0.1,
+            2.6 + this.random() * 1.6,
+          );
+      } else if (s.kind === 'egg') {
         this.puff(s.x, s.y + 10, 3);
         for (let i = 0; i < 6; i++)
           this.spawn(
@@ -135,7 +149,7 @@ export class BattleJuice {
         const goal = this.coinGoal();
         // vx, vy hold the destination: a coin follows a fixed arc, not a velocity.
         this.spawn(COIN, s.x, s.y - 14, goal.x, goal.y, 0.8, 9);
-      } else if (s.kind === 'boss') this.scene.cameras.main.shake(320, 0.0045);
+      } else if (s.kind === 'boss') shakeBoard(this.scene, 320, 0.0045);
     }
     if (!this.live && !this.drawn) return;
     g.clear();
@@ -156,6 +170,11 @@ export class BattleJuice {
         this.y[i] += this.vy[i] * dt * slow;
         g.fillStyle(0xf6ecd0, (1 - t) * 0.8);
         g.fillCircle(this.x[i], this.y[i], this.size[i] * (0.7 + t * 0.9));
+      } else if (kind === DUST) {
+        this.x[i] += this.vx[i] * dt;
+        this.y[i] += this.vy[i] * dt;
+        g.fillStyle(0xe2d3ad, (1 - t) * 0.5);
+        g.fillCircle(this.x[i], this.y[i], this.size[i] * (0.8 + t * 1.3));
       } else if (kind === SHARD) {
         this.vy[i] += 620 * dt;
         this.x[i] += this.vx[i] * dt;

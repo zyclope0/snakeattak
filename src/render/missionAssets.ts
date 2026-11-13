@@ -32,6 +32,12 @@ export function texturesForGame(game: Game): Set<string> {
   if (scenery) textures.add(scenery);
   for (const kind of Object.keys(kinds) as Kind[])
     if (game.isUnlocked(kind)) textures.add(ALLY_ART[kind].texture);
+  for (const key of fightingTextures(game)) textures.add(key);
+  return textures;
+}
+/** Sheets of the fighters on the board and of the wave that is fighting or about to come. */
+export function fightingTextures(game: Game): Set<string> {
+  const textures = new Set<string>();
   for (const unit of game.units) textures.add(ALLY_ART[unit.kind as Kind].texture);
   for (const enemy of game.enemies)
     textures.add(enemy.boss ? KING_ART.texture : ENEMY_ART[enemy.variant].texture);
@@ -60,7 +66,10 @@ export class MissionAssets {
   private loadStarted: number | null = null;
   /** False while only an optional attack sheet is still arriving: no panel for it. */
   private waiting = false;
-  private posesAsked = new Set<string>();
+  /** Attack sheets on their way, two at most: the most urgent ones are not slowed by the rest. */
+  private posesArriving = new Set<string>();
+  /** Per sheet: how many times it was asked, and not before when it may be asked again. */
+  private posesAsked = new Map<string, { tries: number; retryAt: number }>();
   private closed = false;
   private exists = (key: string) => this.scene.textures.exists(key);
   constructor(private scene: Phaser.Scene) {
@@ -101,7 +110,8 @@ export class MissionAssets {
     if (!missing.size) {
       this.waiting = false;
       this.hide();
-      this.poses(wanted);
+      // Only now: an optional pose never takes bandwidth from an image the mission waits for.
+      this.poses(game, wanted);
       return true;
     }
     this.waiting = true;
@@ -129,22 +139,38 @@ export class MissionAssets {
         this.scene.load.image(ground.key, ground.url);
   }
   /**
-   * Optional attack poses follow their loaded base sheet, once per scene. They never go through
-   * the scene loader: a slow or stalled pose must not delay the textures a mission requires.
+   * Optional attack poses follow the sheets the mission requires. They never go through the
+   * scene loader: a slow or stalled pose must not delay those. The fighters on the board and
+   * the coming wave are served first, two files at a time, so the first blows have their
+   * image even on a slow line; a file that failed is asked once more, later.
    */
-  private poses(keys: Set<string>) {
-    if (this.posesAsked.size === OPTIONAL.size) return;
-    for (const sheet of attackSheetsFor(keys, this.exists)) {
-      if (this.posesAsked.has(sheet.key)) continue;
-      this.posesAsked.add(sheet.key);
+  private poses(game: Game, keys: Set<string>) {
+    if (this.posesArriving.size >= 2) return;
+    const sheets = attackSheetsFor(keys, this.exists);
+    if (!sheets.length) return;
+    const now = performance.now();
+    for (const sheet of attackSheetsFor(keys, this.exists, fightingTextures(game))) {
+      if (this.posesArriving.size >= 2) return;
+      const asked = this.posesAsked.get(sheet.key);
+      if (this.posesArriving.has(sheet.key) || (asked && (asked.tries >= 2 || now < asked.retryAt)))
+        continue;
+      this.posesAsked.set(sheet.key, { tries: (asked?.tries ?? 0) + 1, retryAt: now + 10_000 });
+      this.posesArriving.add(sheet.key);
       const image = new Image();
-      image.onload = () => {
+      const add = () => {
+        this.posesArriving.delete(sheet.key);
         if (this.closed || this.scene.textures.exists(sheet.key)) return;
         this.scene.textures.addSpriteSheet(sheet.key, image, {
           frameWidth: sheet.frameWidth,
           frameHeight: sheet.frameHeight,
         });
       };
+      // Decoded off the main thread where the browser can: no hitch in the middle of a wave.
+      image.onload = () => {
+        if (typeof image.decode === 'function') image.decode().then(add, add);
+        else add();
+      };
+      image.onerror = () => this.posesArriving.delete(sheet.key);
       image.src = sheet.url;
     }
   }
