@@ -158,8 +158,10 @@
   min-width: 0;
 }
 #mission-dialog #mission-map {
+  width: 100%;
   height: auto;
   max-height: none;
+  float: none;
   margin: 0 0 10px;
   border-radius: 12px;
   border: 2px solid #c1b995;
