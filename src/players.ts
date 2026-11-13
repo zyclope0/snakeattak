@@ -118,6 +118,16 @@ export function loadPlayers(device?: ReadPort): Players {
     return createPlayers();
   }
 }
+/**
+ * The players as they are stored now, seen from a page that plays `activeId`. Another tab
+ * of the game may have added, edited or removed players since this page loaded: every
+ * change starts from here, never from the list the page read at its opening. Null when
+ * that player is no longer stored: the page is out of date and must be reloaded.
+ */
+export function storedPlayersFor(device: ReadPort | undefined, activeId: PlayerId): Players | null {
+  const stored = loadPlayers(device);
+  return find(stored, activeId) ? { ...stored, activeId } : null;
+}
 /** False when the device refuses the write: the caller then changes nothing. */
 export function savePlayers(device: Pick<Storage, 'setItem'> | undefined, state: Players): boolean {
   const valid = validatePlayers(state);

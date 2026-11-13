@@ -1128,5 +1128,73 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
     'the refused player is not listed',
   );
   await context.close();
+
+  // ---- Two tabs of the game: each one starts from the stored players, not from its own. ----
+  page = await open(812, 375, { seed: { [FAMILY]: adventure() } });
+  const otherTab = await page.context().newPage();
+  otherTab.on('pageerror', (e) => errors.push(e.message));
+  await otherTab.goto(url);
+  await ready(otherTab);
+  // Both tabs loaded a single player. The first tab creates Alice.
+  await page.locator('#player-chip').click();
+  await page.locator('#player-new').click();
+  await page.locator('.player-character[data-character="dragon"]').click();
+  await page.locator('#player-nickname').fill('Alice');
+  await reloaded(page, () => page.locator('#player-save').click());
+  // The otherTab tab follows the change without being touched.
+  await otherTab.waitForFunction(
+    () => document.querySelector('#player-chip')?.dataset.players === 'several',
+  );
+  check(
+    (await chipState(otherTab)).action === 'Changer de joueur',
+    'a tab follows the players created in another tab',
+  );
+  // Alice earns a star in her own adventure.
+  const aliceKeys = await stored(page);
+  // The otherTab tab now creates Bob: he must not take Alice's place.
+  await otherTab.locator('#player-chip').click();
+  check(
+    (await dialogState(otherTab)).cards.length === 2,
+    'the other tab lists the player created elsewhere',
+  );
+  await otherTab.locator('#player-new').click();
+  await otherTab.locator('.player-character[data-character="dino"]').click();
+  await otherTab.locator('#player-nickname').fill('Bob');
+  await reloaded(otherTab, () => otherTab.locator('#player-save').click());
+  after = await stored(otherTab);
+  assert.deepEqual(
+    JSON.parse(after[PLAYERS_KEY]).players,
+    [
+      { id: 'p1', character: 'hero', name: null },
+      { id: 'p2', character: 'dragon', name: 'Alice' },
+      { id: 'p3', character: 'dino', name: 'Bob' },
+    ],
+    'players after a creation in each tab',
+  );
+  check(true, 'a player created in a otherTab tab gets a free place, not the other tab’s');
+  for (const key of PLAYER_KEYS.map((key) => playerKey(key, 'p2')))
+    assert.equal(after[key], aliceKeys[key], `Alice untouched by Bob's creation: ${key}`);
+  check(
+    (await chipState(otherTab)).name === 'Bob' &&
+      (await otherTab.locator('#mission-total').textContent()) === '0 / 18 étoiles',
+    'the player created in the otherTab tab starts a fresh adventure',
+  );
+  // A tab whose own player was deleted elsewhere reloads instead of writing it back.
+  await otherTab.locator('#home-parents').click();
+  await otherTab.locator('#home-players').click();
+  await otherTab.locator('[data-player="p2"] .player-tool').click();
+  await page.evaluate(() => {
+    window.samePage = true;
+  });
+  await otherTab.locator('#player-delete').click();
+  await page.waitForFunction(() => !window.samePage && !!document.querySelector('#player-chip'));
+  await ready(page);
+  after = await stored(page);
+  check(
+    !JSON.parse(after[PLAYERS_KEY]).players.some((player) => player.id === 'p2') &&
+      PLAYER_KEYS.every((key) => !(playerKey(key, 'p2') in after)),
+    `a tab whose player was deleted elsewhere leaves without restoring it: ${Object.keys(after)}`,
+  );
+  await page.context().close();
   check(errors.length === 0, 'players: ' + JSON.stringify(errors));
 }

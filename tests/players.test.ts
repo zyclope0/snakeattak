@@ -354,3 +354,32 @@ test('deleting removes that player and its four keys only; the last player stays
   assert.equal(clearPlayerData(device, 'p3'), false);
   assert.equal(clearPlayerData(undefined, 'p3'), false);
 });
+
+test('a change starts from the stored players, not from the list a page read at its opening', async () => {
+  const { storedPlayersFor } = await import('../src/players.ts');
+  const device = memory();
+  // Two tabs open on the single default player; nothing is stored yet.
+  const tabA = loadPlayers(device),
+    tabB = loadPlayers(device);
+  assert.deepEqual(storedPlayersFor(device, 'p1'), createPlayers());
+  // Tab A creates Alice.
+  assert.ok(savePlayers(device, addPlayer(tabA, 'dragon', 'Alice')!));
+  // Tab B's own list is stale: from it, Bob would take Alice's place.
+  assert.equal(addPlayer(tabB, 'dino', 'Bob')!.players[1].id, 'p2');
+  // From the stored players, he gets the next free place and Alice stays.
+  const fresh = storedPlayersFor(device, 'p1')!;
+  assert.equal(fresh.activeId, 'p1', 'the page keeps playing as its own player');
+  const withBob = addPlayer(fresh, 'dino', 'Bob')!;
+  assert.deepEqual(
+    withBob.players.map((player) => [player.id, player.name]),
+    [
+      ['p1', null],
+      ['p2', 'Alice'],
+      ['p3', 'Bob'],
+    ],
+  );
+  // A page whose own player was deleted elsewhere is told so.
+  assert.ok(savePlayers(device, removePlayer(withBob, 'p3')!));
+  assert.equal(storedPlayersFor(device, 'p3'), null);
+  assert.ok(storedPlayersFor(device, 'p2'));
+});

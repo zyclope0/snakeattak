@@ -5,6 +5,7 @@ import {
   PLAYER_CHARACTERS,
   PLAYER_CHOSEN_KEY,
   PLAYER_IDS,
+  PLAYERS_KEY,
   addPlayer,
   clearPlayerData,
   editPlayer,
@@ -13,6 +14,7 @@ import {
   removePlayer,
   savePlayers,
   selectPlayer,
+  storedPlayersFor,
   suggestedCharacter,
 } from '../players.ts';
 import type { Player, PlayerCharacter, PlayerId, Players } from '../players.ts';
@@ -161,6 +163,21 @@ export function bindPlayers({ device, players, save, silence }: Options) {
     settle();
   }
   const fail = () => setText(status, 'Impossible d’enregistrer ce joueur sur cet appareil.');
+  /**
+   * Another tab may have changed the players: start again from what is stored. False when
+   * this page's own player was deleted elsewhere; the page then reloads without writing
+   * that adventure back.
+   */
+  function sync(): boolean {
+    const stored = storedPlayersFor(device, state.activeId);
+    if (!stored) {
+      silence();
+      window.location.reload();
+      return false;
+    }
+    state = stored;
+    return true;
+  }
 
   function card(player: Player, managing: boolean) {
     const box = make('div', 'player-card');
@@ -259,6 +276,7 @@ export function bindPlayers({ device, players, save, silence }: Options) {
     back.id = 'player-back';
     back.onclick = () => drawWho(player ? tool(player.id) : '#player-new');
     const submit = () => {
+      if (!sync()) return;
       const name = nicknameFromInput(input.value);
       const next = player ? editPlayer(state, player.id, kind, name) : addPlayer(state, kind, name);
       if (!next || !savePlayers(device, next)) return fail();
@@ -319,6 +337,7 @@ export function bindPlayers({ device, players, save, silence }: Options) {
     window.location.reload();
   }
   function play(id: PlayerId) {
+    if (!sync()) return;
     if (id === state.activeId) {
       remember(true);
       forced = false;
@@ -330,6 +349,7 @@ export function bindPlayers({ device, players, save, silence }: Options) {
     leave();
   }
   function erase(id: PlayerId) {
+    if (!sync()) return;
     const next = removePlayer(state, id);
     if (!next || !device) return fail();
     if (id === state.activeId) {
@@ -351,13 +371,29 @@ export function bindPlayers({ device, players, save, silence }: Options) {
   });
   dialog.addEventListener('close', settle);
   chip.onclick = () => {
+    if (!sync()) return;
     opener = chip;
+    drawOutside();
     drawWho();
   };
   manage.onclick = () => {
+    if (!sync()) return;
     opener = manage;
+    drawOutside();
     drawManage();
   };
+  // The list changed in another tab: follow it, and redraw the list this page is showing.
+  window.addEventListener('storage', (event) => {
+    if (event.key !== null && event.key !== PLAYERS_KEY) return;
+    if (!sync()) return;
+    drawOutside();
+    if (!dialog.open) return;
+    if (dialog.dataset.view === 'who') drawWho();
+    else if (dialog.dataset.view === 'manage') {
+      if (several()) drawManage();
+      else shut();
+    }
+  });
   drawOutside();
   if (several() && !chosen()) {
     forced = true;
