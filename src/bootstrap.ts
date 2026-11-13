@@ -32,6 +32,7 @@ import { BattleScene } from './render/BattleScene.ts';
 import { bindControls } from './ui/controls.ts';
 import './style.css';
 import './ui/mobileMenus.css';
+import './ui/homeScene.css';
 import './ui/homePages.css';
 import './ui/dialogPages.css';
 import './ui/mainActions.css';
