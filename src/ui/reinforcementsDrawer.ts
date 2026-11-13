@@ -3,8 +3,8 @@ import { pauseForDialog } from './dialogs.ts';
 import { pauseStateFor } from './pauseState.ts';
 import { setText } from '../i18n/dom.ts';
 import { availableGold } from './capriceBudget.ts';
-import { byId, make } from './dom.ts';
-import { dialogOpen, focusBoard } from './battleDom.ts';
+import { byId, dialogOpen, make } from './dom.ts';
+import { focusBoard } from './battleDom.ts';
 import { bankSummary } from './battleState.ts';
 
 /** What the catalogue lets the player do at once: its own pause must not block these. */

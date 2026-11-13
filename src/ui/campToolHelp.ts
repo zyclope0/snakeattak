@@ -5,8 +5,7 @@ import { feastIconStyle } from './feastControls.ts';
 import { CAMP_TOOLS, campToolModel, type CampTool } from './campToolModel.ts';
 import { pauseForDialog } from './dialogs.ts';
 import './campToolHelp.css';
-import { byId, make, portraitPhone } from './dom.ts';
-import { setPressed } from './battleDom.ts';
+import { byId, make, portraitPhone, setPressed } from './dom.ts';
 
 const LABELS: Record<CampTool, string> = {
   honey: 'Miel',

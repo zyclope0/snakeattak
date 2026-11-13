@@ -6,8 +6,7 @@ import {
 } from '../i18n/dom.ts';
 import type { Game } from '../game.ts';
 import { LANE_NAMES } from '../ai.ts';
-import { byId, make } from './dom.ts';
-import { decoration } from './battleDom.ts';
+import { byId, decoration, make } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
 /** Presentation observes the engine's mask; it neither advances nor rerolls it. */
 export function bindTutorialLanes() {

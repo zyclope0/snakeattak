@@ -4,8 +4,8 @@ import { defeatCopy, earnedStars } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
 import { visualSettings } from '../render/visualSettings.ts';
-import { byId, make } from './dom.ts';
-import { dialogOpen, forwardClick } from './battleDom.ts';
+import { byId, dialogOpen, forwardClick, make } from './dom.ts';
+import { starRow } from './gameParts.ts';
 import { battleOver } from './battleState.ts';
 
 /** Reuse the existing actions: only their presentation moves after a match. */
@@ -116,9 +116,7 @@ function bindResultStars() {
       stars.hidden = !earned;
       if (!earned) return;
       const row =
-        earned.maximum === 3
-          ? '★'.repeat(earned.count) + '☆'.repeat(3 - earned.count)
-          : `★ ${earned.count} / ${earned.maximum}`;
+        earned.maximum === 3 ? starRow(earned.count) : `★ ${earned.count} / ${earned.maximum}`;
       setDisplayText(stars, row);
       if (earned.maximum === 3 && animated !== row) {
         animated = row;

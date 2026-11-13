@@ -12,9 +12,9 @@ import { GROUND_ART } from '../art.ts';
 import { chapterIdentityForWave } from '../waves.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { byId } from './dom.ts';
+import { starRow } from './gameParts.ts';
 import { bindPendingConfirm } from './pendingConfirm.ts';
 import { bindRosterEditor } from './rosterEditor.ts';
-import { starRow } from './homeDom.ts';
 
 type Career = ReturnType<typeof createCareer>;
 type Actions = {

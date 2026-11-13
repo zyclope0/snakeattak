@@ -7,8 +7,8 @@ import type { Session } from '../session.ts';
 import { portraitStyle } from '../art.ts';
 import type { bindCatalogPages } from './catalogPages.ts';
 import { matchesUnitFamily, RECRUITABLE_KINDS, UNIT_FAMILIES } from './unitCatalog.ts';
-import { byId, make } from './dom.ts';
-import { addOption, revealBoard, setPressed } from './battleDom.ts';
+import { addOption, byId, make, setPressed } from './dom.ts';
+import { revealBoard } from './battleDom.ts';
 import { battleOver } from './battleState.ts';
 
 /** One word under an ally's name: what it is good at. */

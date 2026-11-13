@@ -15,7 +15,7 @@ import { kinds } from '../data.ts';
 import { portraitStyle } from '../art.ts';
 import { bindDepartureControls } from './departures.ts';
 import { byId } from './dom.ts';
-import { originalRulesLabel, portrait } from './homeDom.ts';
+import { originalRulesLabel, portrait } from './gameParts.ts';
 
 type Progress = ReturnType<typeof createMissionProgressController>;
 type Actions = {

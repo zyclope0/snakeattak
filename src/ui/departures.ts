@@ -6,7 +6,7 @@ import type { Session } from '../session.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { helpPoint } from './helpBubble.ts';
 import { byId } from './dom.ts';
-import { originalRulesLabel } from './homeDom.ts';
+import { originalRulesLabel } from './gameParts.ts';
 import { bindPendingConfirm } from './pendingConfirm.ts';
 
 type ClassicDeparture = Extract<Departure, { kind: 'classic' }>;

@@ -1,7 +1,6 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Notice } from '../render/presentation.ts';
-import { byId } from './dom.ts';
-import { dialogOpen } from './battleDom.ts';
+import { byId, dialogOpen } from './dom.ts';
 export type BattleGuide = {
   title: string;
   subtitle: string;

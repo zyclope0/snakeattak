@@ -652,7 +652,10 @@ si c'est le joueur en cours, son stockage est d'abord fermé (`close()`), pour q
 quittée ne réécrive pas son aventure en partant. Un identifiant libéré peut resservir. La
 sauvegarde familiale exporte et remplace l'aventure du joueur en cours.
 
-`ui/players.ts` construit tout l'affichage (aucun balisage dans la page HTML) : la pastille
+`ui/players.ts` et ses modules (`playerList.ts` pour les écritures et le rechargement,
+`playersDialog.ts` pour la fenêtre, `playerViews.ts` pour ses vues, `playerMarks.ts` pour la
+pastille et le bouton des parents, `playerParts.ts` pour les éléments communs) construisent
+tout l'affichage (aucun balisage dans la page HTML) : la pastille
 de l'en-tête de l'accueil, la fenêtre `#players-dialog` et ses vues (« Qui joue ? », « Choisis
 ton personnage », la liste des parents et sa confirmation), le bouton « Joueurs » de la page
 des parents, visible à partir de deux joueurs, et la phrase de la sauvegarde familiale. Le
@@ -755,7 +758,20 @@ conventions :
   `isStarCount`). Un lecteur n'écrit plus son propre `typeof … === 'object'`.
 - **Accès à la page.** `src/ui/dom.ts` : `byId` pour un élément de la page (à la place de
   `document.getElementById(...)!` et des copies locales de `el`), `make` pour en créer un,
-  `portraitPhone` et `narrowScreen` pour les deux tests d'écran qui étaient recopiés.
+  `portraitPhone` et `narrowScreen` pour les deux tests d'écran qui étaient recopiés,
+  `dialogOpen`, `setPressed`, `decoration`, `addOption`, `refreshText`, `forwardClick` pour
+  les petits gestes de page. `src/ui/svg.ts` crée un élément SVG ; `src/ui/gameParts.ts`
+  porte les morceaux propres au jeu (rangée d'étoiles, portrait d'allié).
+- **Interface, un `bind` = une liste de branchements.** Chaque écran garde sa fonction
+  `bind…`, réduite à la liste ordonnée de ce qu'elle branche ; le reste est dans des
+  fonctions nommées ou des modules d'une seule responsabilité : `recruitShop.ts`,
+  `battleCommands.ts`, `battleBriefing.ts` (bataille) ; `rosterEditor.ts`, `missionDraft.ts`,
+  `missionOutcome.ts`, `pendingConfirm.ts` (accueil et missions) ; `capriceFriends.ts`,
+  `capriceResultNote.ts` (caprices). L'ordre des étapes d'un rafraîchissement fait partie du
+  comportement : une étape peut lire ce qu'une précédente a écrit.
+- **Textes.** Une phrase reste un seul littéral ou un seul gabarit : l'inventaire des
+  traductions lit les littéraux du code et le traducteur recompose les phrases. On ne
+  redécoupe pas un texte pour factoriser.
 - **Son, un module par rôle.** `sounds.ts` (page), `gameSounds.ts` (quoi jouer à chaque
   image, dans l'ordre de priorité), `signals.ts` (table moment → fichier, volume, notes de
   repli), `signalPlayer.ts` (fichier d'abord, sinon synthétiseur), `samples.ts` (lecteurs),

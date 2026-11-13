@@ -10,8 +10,8 @@ import { DEFAULT_ROSTERS } from '../roster.ts';
 import { dockKinds } from './dockModel.ts';
 import { portraitStyle } from '../art.ts';
 import { FEAST_CHOICES, feastButton } from './feastControls.ts';
-import { byId, make } from './dom.ts';
-import { decoration, focusBoard, forwardClick, refreshText, setPressed } from './battleDom.ts';
+import { byId, decoration, forwardClick, make, refreshText, setPressed } from './dom.ts';
+import { focusBoard } from './battleDom.ts';
 import { battleOver } from './battleState.ts';
 
 type Career = ReturnType<typeof createCareer>;

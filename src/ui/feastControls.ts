@@ -8,8 +8,7 @@ import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import type { FeastFlavor } from '../tactics.ts';
 import { ART_SHEETS } from '../art.ts';
-import { byId, make } from './dom.ts';
-import { decoration, setPressed } from './battleDom.ts';
+import { byId, decoration, make, setPressed } from './dom.ts';
 import { battleOver } from './battleState.ts';
 
 type FeastChoice = { value: FeastFlavor; label: string; hint: string };

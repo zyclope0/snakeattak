@@ -9,8 +9,7 @@ import { specialAbility, healAmount, attackDamage } from '../unitRules.ts';
 import { portraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { balanceRecruitPrice, CURRENT_BALANCE_REVISION } from '../balanceRevision.ts';
-import { byId, make } from './dom.ts';
-import { addOption } from './battleDom.ts';
+import { addOption, byId, make } from './dom.ts';
 
 /** The card of one ally: its portrait, its power and a few facts read from the rules. */
 export function bindUnitGuide(session: Session, onChange: () => void) {

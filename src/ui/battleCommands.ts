@@ -3,8 +3,7 @@ import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import { campToolModel } from './campToolModel.ts';
 import { pauseStateFor } from './pauseState.ts';
-import { byId } from './dom.ts';
-import { dialogOpen } from './battleDom.ts';
+import { byId, dialogOpen } from './dom.ts';
 import { battleOver } from './battleState.ts';
 
 type Ports = {

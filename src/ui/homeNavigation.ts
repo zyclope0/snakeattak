@@ -1,4 +1,4 @@
-import { byId, portraitPhone } from './dom.ts';
+import { byId, dialogOpen, portraitPhone } from './dom.ts';
 export type HomePage = 'home' | 'missions' | 'classic' | 'parents' | 'favorites';
 
 /**
@@ -70,7 +70,7 @@ export function bindHomeNavigation(): { show(page: HomePage, focus?: boolean): v
     button.addEventListener('click', () => show(button.dataset.homeTarget as HomePage));
   back.onclick = () => show('home');
   screen.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && current !== 'home' && !document.querySelector('dialog[open]')) {
+    if (event.key === 'Escape' && current !== 'home' && !dialogOpen()) {
       event.preventDefault();
       show('home');
     }

@@ -1,8 +1,7 @@
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
-import { byId } from './dom.ts';
-import { addOption } from './battleDom.ts';
+import { addOption, byId } from './dom.ts';
 /** The favourite team in use: it can be changed in camp, never during a wave. */
 export function bindSquadControls(
   session: Session,

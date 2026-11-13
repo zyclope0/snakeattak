@@ -6,7 +6,7 @@ import {
 import './missionJourney.css';
 import type { MissionDefinition, MissionId } from '../missions.ts';
 import { make } from './dom.ts';
-import { starRow } from './homeDom.ts';
+import { starRow } from './gameParts.ts';
 import type { missionJourney } from './missionJourney.ts';
 
 /** Un objet du jeu par mission ; l'image est choisie par la feuille de style. */

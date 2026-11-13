@@ -9,8 +9,7 @@ import type { Game } from '../game.ts';
 import { LANES, LANE_NAMES, laneDefense } from '../ai.ts';
 import { TOTAL_WAVES } from '../data.ts';
 import { bossReadout } from '../render/bossReadout.ts';
-import { byId, make } from './dom.ts';
-import { dialogOpen, refreshText } from './battleDom.ts';
+import { byId, dialogOpen, make, refreshText } from './dom.ts';
 import { bankSummary, battleOver } from './battleState.ts';
 
 type LaneRow = ReturnType<typeof laneRow>;

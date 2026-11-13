@@ -5,8 +5,8 @@ import type { Session } from '../session.ts';
 import { portraitStyle } from '../art.ts';
 import { kinds } from '../data.ts';
 import { honeySheetUrl } from './feastControls.ts';
-import { byId, make, narrowScreen } from './dom.ts';
-import { decoration, dialogOpen, revealBoard } from './battleDom.ts';
+import { byId, decoration, dialogOpen, make, narrowScreen } from './dom.ts';
+import { revealBoard } from './battleDom.ts';
 
 type RewardCard = ReturnType<typeof rewardCard>;
 

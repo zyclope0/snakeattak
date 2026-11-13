@@ -5,7 +5,7 @@ import { ROSTER_NAMES } from '../roster.ts';
 import { kinds, unlockWave } from '../data.ts';
 import type { Kind } from '../data.ts';
 import { byId, make } from './dom.ts';
-import { portrait } from './homeDom.ts';
+import { portrait } from './gameParts.ts';
 
 type Career = ReturnType<typeof createCareer>;
 const PAGE_SIZE = 6;
