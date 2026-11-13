@@ -1,8 +1,9 @@
-import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
 import { byId } from './dom.ts';
+import { addOption } from './battleDom.ts';
+/** The favourite team in use: it can be changed in camp, never during a wave. */
 export function bindSquadControls(
   session: Session,
   career: ReturnType<typeof createCareer> | undefined,
@@ -14,12 +15,7 @@ export function bindSquadControls(
     return () => {};
   }
   const select = byId<HTMLSelectElement>('quick-slot');
-  ROSTER_NAMES.forEach((n, i) => {
-    const o = document.createElement('option');
-    o.value = String(i);
-    setDisplayText(o, n);
-    select.append(o);
-  });
+  ROSTER_NAMES.forEach((name, i) => addOption(select, String(i), name));
   select.onchange = () => {
     if (session.game.status === 'fighting') {
       select.value = String(career.state.activeRoster);

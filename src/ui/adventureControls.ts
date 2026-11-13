@@ -2,6 +2,7 @@ import { setText as setDisplayText } from '../i18n/dom.ts';
 import { heroTrainingState, campToolModel } from './campToolModel.ts';
 import type { Session } from '../session.ts';
 import { byId } from './dom.ts';
+/** Two actions of the camp: encourage the allies, train the hero. */
 export function bindAdventureControls(
   session: Session,
   refresh: () => void,
@@ -14,13 +15,11 @@ export function bindAdventureControls(
     refresh();
   };
   const choices = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-training]'));
-  choices.forEach(
-    (b) =>
-      (b.onclick = () => {
-        session.trainHero(b.dataset.training as 'force' | 'guard');
-        refresh();
-      }),
-  );
+  for (const choice of choices)
+    choice.onclick = () => {
+      session.trainHero(choice.dataset.training as 'force' | 'guard');
+      refresh();
+    };
   return () => {
     const g = session.game;
     encourage.disabled = isPaused() || !campToolModel(g, 'encourage').ready;
@@ -33,7 +32,7 @@ export function bindAdventureControls(
           : '1 fois par vague · attaques plus rapides pendant 8 s',
     );
     const training = heroTrainingState(g);
-    for (const b of choices) b.disabled = isPaused() || !training.ready;
+    for (const choice of choices) choice.disabled = isPaused() || !training.ready;
     setDisplayText(byId('training-status'), training.status);
   };
 }

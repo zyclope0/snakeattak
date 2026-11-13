@@ -9,68 +9,29 @@ import { specialAbility, healAmount, attackDamage } from '../unitRules.ts';
 import { portraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { balanceRecruitPrice, CURRENT_BALANCE_REVISION } from '../balanceRevision.ts';
-import { byId } from './dom.ts';
+import { byId, make } from './dom.ts';
+import { addOption } from './battleDom.ts';
+
+/** The card of one ally: its portrait, its power and a few facts read from the rules. */
 export function bindUnitGuide(session: Session, onChange: () => void) {
   const dialog = byId<HTMLDialogElement>('unit-dialog');
   const select = byId<HTMLSelectElement>('guide-select');
-  for (const [kind, d] of Object.entries(kinds)) {
-    const option = document.createElement('option');
-    option.value = kind;
-    setDisplayText(option, d.name);
-    select.append(option);
-  }
+  for (const [kind, unit] of Object.entries(kinds)) addOption(select, kind, unit.name);
   const modal = pauseForDialog(dialog, session, onChange);
-  function show() {
-    const kind = select.value as Kind,
-      d = kinds[kind];
-    setDisplayText(byId('guide-name'), d.name);
+  const show = () => {
+    const kind = select.value as Kind;
+    setDisplayText(byId('guide-name'), kinds[kind].name);
     byId('guide-portrait').style.cssText = portraitStyle(kind);
     setDisplayText(
       byId('guide-ability'),
       specialAbility(kind, session.game.tuning.splashSecondaryFactor),
     );
-    const price =
-      session.screen === 'home'
-        ? balanceRecruitPrice(kind, CURRENT_BALANCE_REVISION)
-        : session.game.recruitCost(kind);
-    const fields = [
-      ['Camp', 'Nos alliés'],
-      ['Défense', roleDescription(kind)],
-      ['Vie', `${d.hp} PV`],
-      ['Prix', kind === 'hero' ? 'Présent au départ' : price === 0 ? 'Gratuit' : `${price} pièces`],
-      ['Arrivée', `Vague ${unlockWave[kind] ?? 1}`],
-      [
-        'Attaque',
-        healAmount(kind)
-          ? `Soigne ${healAmount(kind)} PV`
-          : `${(attackDamage(kind, 0, session.game.tuning.mutantDamageFactor) * (kind === 'hero' && session.game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1)).toLocaleString('fr-FR')} dégâts`,
-      ],
-      ['Portée', d.range <= 60 ? 'Contact' : d.range < 190 ? 'Moyenne' : 'Longue'],
-      [
-        'Mobilité',
-        d.speed === 0
-          ? 'Fixe'
-          : d.speed >= 225
-            ? 'Très rapide'
-            : d.speed > 120
-              ? 'Rapide'
-              : d.speed < 65
-                ? 'Lente'
-                : 'Moyenne',
-      ],
-    ];
-    const stats = byId('guide-stats');
-    stats.replaceChildren();
-    for (const [label, value] of fields) {
-      const row = document.createElement('div');
-      const title = document.createElement('small'),
-        text = document.createElement('strong');
-      setDisplayText(title, label);
-      setDisplayText(text, value);
-      row.append(title, text);
-      stats.append(row);
-    }
-  }
+    byId('guide-stats').replaceChildren(
+      ...guideFacts(kind, session).map(([label, value]) =>
+        make('div', {}, make('small', { text: label }), make('strong', { text: value })),
+      ),
+    );
+  };
   byId('unit-guide').onclick = () => {
     if (session.selected) select.value = session.selected;
     show();
@@ -78,4 +39,42 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
   };
   select.onchange = show;
   byId('close-unit-guide').onclick = modal.close;
+}
+
+/** Label and value of each line of the card, in the order they are shown. */
+function guideFacts(kind: Kind, session: Session): [label: string, value: string][] {
+  const unit = kinds[kind];
+  return [
+    ['Camp', 'Nos alliés'],
+    ['Défense', roleDescription(kind)],
+    ['Vie', `${unit.hp} PV`],
+    ['Prix', priceFact(kind, session)],
+    ['Arrivée', `Vague ${unlockWave[kind] ?? 1}`],
+    ['Attaque', attackFact(kind, session)],
+    ['Portée', unit.range <= 60 ? 'Contact' : unit.range < 190 ? 'Moyenne' : 'Longue'],
+    ['Mobilité', mobilityFact(unit.speed)],
+  ];
+}
+
+function priceFact(kind: Kind, session: Session): string {
+  if (kind === 'hero') return 'Présent au départ';
+  // From the home screen no battle is open: show the price of a new adventure.
+  const price =
+    session.screen === 'home'
+      ? balanceRecruitPrice(kind, CURRENT_BALANCE_REVISION)
+      : session.game.recruitCost(kind);
+  return price === 0 ? 'Gratuit' : `${price} pièces`;
+}
+
+function attackFact(kind: Kind, session: Session): string {
+  if (healAmount(kind)) return `Soigne ${healAmount(kind)} PV`;
+  const game = session.game;
+  return `${(attackDamage(kind, 0, game.tuning.mutantDamageFactor) * (kind === 'hero' && game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1)).toLocaleString('fr-FR')} dégâts`;
+}
+
+function mobilityFact(speed: number): string {
+  if (speed === 0) return 'Fixe';
+  if (speed >= 225) return 'Très rapide';
+  if (speed > 120) return 'Rapide';
+  return speed < 65 ? 'Lente' : 'Moyenne';
 }

@@ -1,6 +1,7 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Notice } from '../render/presentation.ts';
 import { byId } from './dom.ts';
+import { dialogOpen } from './battleDom.ts';
 export type BattleGuide = {
   title: string;
   subtitle: string;
@@ -37,7 +38,7 @@ export function bindBattleNotices(
     // Keep short events visible during placement; restore the compact gesture
     // as soon as the event clears. Both share one non-interactive bottom line.
     const hint = reminder?.update(deltaMs, {
-      visible: !document.hidden && !document.querySelector('dialog[open]'),
+      visible: !document.hidden && !dialogOpen(),
       blocked: !!notice || placing || (guide.priority ?? 0) > 0,
     });
     const title = notice?.title ?? (placing ? (guide.compact ?? guide.title) : (hint ?? ''));
