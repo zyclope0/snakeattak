@@ -595,6 +595,16 @@ Reste à faire avec la même méthode : l'accueil lui-même et l'écran de jeu (
 plateau, dock), qui gardent leurs seuils par taille mais tiennent sur les tailles mesurées ;
 les dialogues de lecture (sauvegarde familiale, fiches, options des parents), qui défilent.
 
+## Scène de l'accueil — 13 novembre 2026
+
+`src/ui/homeScene.css` habille le premier écran sans toucher au HTML. L'image reste
+`icon-512.png`, la même que l'icône Android ; un masque CSS (`src/assets/home/masque.webp`)
+retire son fond uni. Derrière : `fond.webp`, la forêt floue de l'illustration d'origine sans
+les personnages, puis deux images de second plan dans `::before`. Le refuge au cristal est
+le fond du panneau du titre. `scripts/build-home-scene.py` refait ces cinq images à partir
+de celles du dépôt (Pillow seul, hors build). Sans prise en charge des masques, l'image
+garde son fond vert : l'accueil reste lisible.
+
 ## Pose d'attaque (essai, 12 novembre 2026)
 
 Une planche de `art.ts` peut déclarer `attackUrl` : une seconde planche aux mêmes cases,

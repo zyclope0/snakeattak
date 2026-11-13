@@ -25,6 +25,21 @@ Audio en continu, réglages, démarrages APK hors ligne et30MP3 vérifiés.
 [Bilan du build54](archive/BILAN-0.37.0-build54.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
 Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Console par Codex.
 
+## Après le build 55 — accueil plus habité (pas encore publié)
+
+Demande du parent : l'accueil faisait vide, et le fond de l'image principale avait la même
+couleur que le panneau.
+
+- Derrière le serpent et l'épéiste : la forêt floue de l'illustration d'origine, avec une
+  plante et des fougères du jeu au second plan. Les personnages restent ceux de l'icône
+  (`icon-512.png` intacte, son fond uni retiré par un masque).
+- Sur le panneau du titre : le refuge au cristal, choisi par le parent.
+- Sur une fenêtre très haute, la carte garde ses proportions et les boutons la suivent.
+- Images dérivées de celles du dépôt par `scripts/build-home-scene.py` : zéro crédit,
+  environ 120 Ko de plus à l'accueil.
+
+Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
+
 ## Changements intégrés au build55 — netteté du plateau, liseré, marche (PR30)
 
 Demande du parent après essai du site sur ordinateur : figurines floues et détourées trop fort,
