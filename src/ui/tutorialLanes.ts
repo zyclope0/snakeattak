@@ -6,9 +6,10 @@ import {
 } from '../i18n/dom.ts';
 import type { Game } from '../game.ts';
 import { LANE_NAMES } from '../ai.ts';
+import { byId } from './dom.ts';
 /** Presentation observes the engine's mask; it neither advances nor rerolls it. */
 export function bindTutorialLanes() {
-  const panel = document.getElementById('tutorial-lanes')!;
+  const panel = byId('tutorial-lanes');
   const accessible = document.createElement('span');
   accessible.className = 'sr-only';
   const chips = LANE_NAMES.map((name) => {

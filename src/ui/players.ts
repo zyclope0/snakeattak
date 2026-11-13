@@ -19,6 +19,7 @@ import {
 } from '../players.ts';
 import type { Player, PlayerCharacter, PlayerId, Players } from '../players.ts';
 import './players.css';
+import { byId } from './dom.ts';
 
 type Options = {
   /** The device's storage, undefined when the browser refuses it. */
@@ -93,7 +94,7 @@ export function bindPlayers({ device, players, save, silence }: Options) {
   const manage = words('button', 'Joueurs');
   manage.id = 'home-players';
   manage.setAttribute('aria-haspopup', 'dialog');
-  document.getElementById('home-sound')!.after(manage);
+  byId('home-sound').after(manage);
   const familyNote = make('p');
   familyNote.id = 'family-player-note';
   document.querySelector('#family-dialog > p')!.after(familyNote);

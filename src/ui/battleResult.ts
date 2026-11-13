@@ -4,19 +4,19 @@ import { defeatCopy, earnedStars } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
 import { visualSettings } from '../render/visualSettings.ts';
+import { byId } from './dom.ts';
 /** Reuse the existing actions: only their presentation moves after a match. */
 export function bindBattleResult(session: Session) {
-  const el = (id: string) => document.getElementById(id)!;
-  const app = el('app'),
-    panel = el('battle-result'),
-    content = el('battle-result-content');
+  const app = byId('app'),
+    panel = byId('battle-result'),
+    content = byId('battle-result-content');
   const stars = document.createElement('p');
   stars.id = 'battle-result-stars';
   stars.setAttribute('role', 'img');
   stars.hidden = true;
-  el('battle-result-title').after(stars);
-  const mission = el('mission-battle-actions'),
-    classic = el('end-restart');
+  byId('battle-result-title').after(stars);
+  const mission = byId('mission-battle-actions'),
+    classic = byId('end-restart');
   const homes = [mission, classic].map((node) => ({
     node,
     parent: node.parentNode!,
@@ -26,7 +26,7 @@ export function bindBattleResult(session: Session) {
     const home = homes.find((slot) => slot.node === node)!;
     if (node.parentNode !== home.parent) home.parent.insertBefore(node, home.next);
   };
-  const buttons = el('mission-next').parentElement!;
+  const buttons = byId('mission-next').parentElement!;
   const buttonOrder = Array.from(buttons.childNodes);
   let reordered = false;
   const restoreOrder = () => {
@@ -38,8 +38,8 @@ export function bindBattleResult(session: Session) {
   let observed: Game | null = null;
   let starred = '';
   const motion = window.matchMedia('(prefers-reduced-motion:reduce)');
-  el('end-home').onclick = () => el('menu-home').click();
-  el('result-allies').onclick = () => el('reinforcements-toggle').click();
+  byId('end-home').onclick = () => byId('menu-home').click();
+  byId('result-allies').onclick = () => byId('reinforcements-toggle').click();
   return () => {
     const g = session.game;
     const ended = session.screen === 'battle' && (g.status === 'won' || g.status === 'lost');
@@ -54,7 +54,7 @@ export function bindBattleResult(session: Session) {
       return;
     }
     setDisplayText(
-      el('battle-result-title'),
+      byId('battle-result-title'),
       g.status === 'won'
         ? g.mission?.caprice
           ? 'Caprice réussi !'
@@ -63,7 +63,7 @@ export function bindBattleResult(session: Session) {
     );
     // The caprice summary repeats this heading verbatim. Keep its sticker and
     // actions, and keep the original French announcement on defeat.
-    el('mission-result').hidden = g.status === 'won' && !!g.mission?.caprice;
+    byId('mission-result').hidden = g.status === 'won' && !!g.mission?.caprice;
     const earned = earnedStars(g);
     stars.hidden = !earned;
     if (earned) {
@@ -95,12 +95,12 @@ export function bindBattleResult(session: Session) {
         `${earned.count} étoiles gagnées sur ${earned.maximum}`,
       );
     }
-    el('end-home').hidden = !!g.mission;
-    el('battle-result-summary').hidden = !!g.mission;
+    byId('end-home').hidden = !!g.mission;
+    byId('battle-result-summary').hidden = !!g.mission;
     if (g.mission) {
       restore(classic);
       if (mission.parentNode !== content) content.append(mission);
-      const primary = !el('mission-next').hidden ? el('mission-next') : el('mission-again');
+      const primary = !byId('mission-next').hidden ? byId('mission-next') : byId('mission-again');
       if (buttons.firstElementChild !== primary) {
         buttons.prepend(primary);
         reordered = true;
@@ -110,7 +110,7 @@ export function bindBattleResult(session: Session) {
       restoreOrder();
       if (classic.parentNode !== content) content.append(classic);
       setDisplayText(
-        el('battle-result-summary'),
+        byId('battle-result-summary'),
         `${g.kills} serpents repoussés · cristal ${Math.ceil(g.base)} %`,
       );
     }
@@ -118,9 +118,9 @@ export function bindBattleResult(session: Session) {
       observed = g;
       panel.scrollTop = 0;
       // Show the outcome once; the player can reopen Allies to inspect the army.
-      if (app.classList.contains('reinforcements-open')) el('reinforcements-close').click();
-      const next = el('mission-next');
-      const target = !g.mission ? classic : !next.hidden ? next : el('mission-again');
+      if (app.classList.contains('reinforcements-open')) byId('reinforcements-close').click();
+      const next = byId('mission-next');
+      const target = !g.mission ? classic : !next.hidden ? next : byId('mission-again');
       requestAnimationFrame(() => {
         if (
           session.game === g &&
@@ -129,7 +129,7 @@ export function bindBattleResult(session: Session) {
           !document.hidden &&
           !document.querySelector('dialog[open]') &&
           panel.getClientRects().length &&
-          !el('orientation-notice').getClientRects().length
+          !byId('orientation-notice').getClientRects().length
         ) {
           const area = panel.getBoundingClientRect(),
             button = target.getBoundingClientRect();
@@ -137,7 +137,7 @@ export function bindBattleResult(session: Session) {
             // A compact result can put Retry below the fold. Announce the outcome
             // first instead of scrolling its sole heading and stars out of view;
             // native Tab still reaches the album and every result action.
-            const heading = el('battle-result-title');
+            const heading = byId('battle-result-title');
             heading.tabIndex = -1;
             heading.focus({ preventScroll: true });
           } else target.focus({ preventScroll: true });

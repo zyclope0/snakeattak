@@ -77,9 +77,11 @@ for (const level of levels) {
   Object.freeze(level.rocks);
   Object.freeze(level);
 }
+/** Chapter 0, 1 or 2 of a one-based wave; camp zero and nonfinite inputs are the first chapter. */
+export const chapterIndexForWave = (wave: number): number =>
+  Number.isFinite(wave) ? Math.max(0, Math.min(2, Math.floor((wave - 1) / 4))) : 0;
 export function levelForWave(wave: number): Level {
-  const chapter = Number.isFinite(wave) ? Math.max(0, Math.min(2, Math.floor((wave - 1) / 4))) : 0;
-  return levels[chapter];
+  return levels[chapterIndexForWave(wave)];
 }
 
 /** Bounded, reproducible mission maps; art is shared, collision identities are unique. */

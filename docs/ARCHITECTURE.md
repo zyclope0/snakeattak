@@ -69,7 +69,7 @@ La couche de présentation ne promet plus de sauvegarde. Elle reste indépendant
 
 `unitRules.ts` porte les soins, réductions de dégâts, charge et descriptions des pouvoirs. `ui/unitGuide.ts` présente les fiches sans dupliquer les règles. Le temps de charge est un état de combat ; il est réinitialisé à la reprise d’un camp, comme les autres temporisations.
 
-`audio/sounds.ts` observe le jeu depuis un callback de rendu et synthétise de petits sons via Web Audio. Il ne modifie aucune règle ni aucun tirage aléatoire. Aucun fichier externe ni compte audio n’est requis. L’activation demande un clic ; le son démarre coupé, le volume est limité et le nombre de voix simultanées est plafonné. Le passage de l’onglet en arrière-plan coupe le son. La légère secousse des obus est désactivée quand le navigateur demande des mouvements réduits.
+`audio/sounds.ts` relie le son à la page (boutons, premier geste, arrière-plan) ; `audio/gameSounds.ts` observe le jeu depuis un callback de rendu et décide ce qu’on entend. Il ne modifie aucune règle ni aucun tirage aléatoire. Les sons sont des fichiers du dépôt (`docs/AUDIO-LICENCES.md`), avec un petit synthétiseur Web Audio en repli ; aucun compte audio n’est requis. Le son est actif par défaut et démarre au premier geste, comme le veulent les navigateurs ; le volume est limité et le nombre de voix simultanées est plafonné. Le passage de l’onglet en arrière-plan coupe le son. La légère secousse des obus est désactivée quand le navigateur demande des mouvements réduits.
 
 ## Sauvegarde locale 0.6
 
@@ -741,3 +741,31 @@ cavalier galope, les volants gardent leur vol à l'horloge. Vitesse ×2 : deux f
 pas ; pause ou combattant bloqué : pose tenue, puis pied reposé. Les corps lourds soulèvent
 un peu de poussière (`Spark` `dust`, mêmes quarante particules que les pièces, jamais à leur
 place). Rien en « Effets légers ». Aucune règle, aucun tirage du jeu.
+
+## Nettoyage du code — 13 novembre 2026
+
+Un chantier sans changement de comportement : enlever ce qui ne sert plus, donner une seule
+définition à ce qui était recopié, découper les fonctions-fleuves. Ce qu'il laisse comme
+conventions :
+
+- **Garde-fou.** `tsconfig.json` refuse les variables, imports et paramètres inutilisés
+  (`noUnusedLocals`, `noUnusedParameters`) : `npm run verify` échoue s'il en revient.
+- **Données lues de l'extérieur.** `src/plainData.ts` porte les gardes communs à tout ce qui
+  lit une sauvegarde, un code ou un fichier importé (`isRecord`, `isNumberIn`, `isIntegerIn`,
+  `isStarCount`). Un lecteur n'écrit plus son propre `typeof … === 'object'`.
+- **Accès à la page.** `src/ui/dom.ts` : `byId` pour un élément de la page (à la place de
+  `document.getElementById(...)!` et des copies locales de `el`), `make` pour en créer un,
+  `portraitPhone` et `narrowScreen` pour les deux tests d'écran qui étaient recopiés.
+- **Son, un module par rôle.** `sounds.ts` (page), `gameSounds.ts` (quoi jouer à chaque
+  image, dans l'ordre de priorité), `signals.ts` (table moment → fichier, volume, notes de
+  repli), `signalPlayer.ts` (fichier d'abord, sinon synthétiseur), `samples.ts` (lecteurs),
+  `audioFiles.ts` (le seul module qui dépend de Vite, pour que le reste se teste avec Node).
+- **Rendu.** Chaque `update` ou `draw` est une courte liste d'étapes nommées, dans l'ordre du
+  dessin. `effectTrails.ts` trace les effets du moteur, `placementGuide.ts` l'aide au
+  placement, `boardDepth.ts` donne la profondeur commune aux combattants et au décor.
+  `tests/render-traces.test.ts` fixe l'empreinte de la présentation sur trois parties
+  entières, comme `tests/engine-traces.test.ts` le fait pour les règles.
+
+Vérifié par des comparaisons avant/après hors dépôt : 243 captures du plateau identiques
+octet pour octet (neuf parcours, trois tailles) et une trace de 18 338 appels sonores
+identique. Rien n'a été regardé ni écouté sur un vrai téléphone.

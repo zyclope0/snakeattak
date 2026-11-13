@@ -1,6 +1,7 @@
 import { capriceById } from './caprices.ts';
 import { readMissionRun } from './missions.ts';
 import type { Game } from './game.ts';
+import { isRecord } from './plainData.ts';
 
 export type CapriceAlbum = { id: string; name: string; completed: string[] };
 export type CapriceAlbums = {
@@ -11,8 +12,6 @@ export type CapriceAlbums = {
   campProfileId: string | null;
   children: CapriceAlbum[];
 };
-const object = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
 const validName = (value: unknown): value is string =>
   typeof value === 'string' &&
   value.length <= 24 &&
@@ -37,7 +36,7 @@ export function createCapriceAlbums(): CapriceAlbums {
 export function validateCapriceAlbums(value: unknown): CapriceAlbums | null {
   try {
     if (
-      !object(value) ||
+      !isRecord(value) ||
       value.version !== 1 ||
       !Array.isArray(value.children) ||
       value.children.length < 1 ||
@@ -51,7 +50,7 @@ export function validateCapriceAlbums(value: unknown): CapriceAlbums | null {
     const ids = new Set<string>();
     for (const child of value.children) {
       if (
-        !object(child) ||
+        !isRecord(child) ||
         typeof child.id !== 'string' ||
         !/^child-[1-9]\d{0,15}$/.test(child.id) ||
         !Number.isSafeInteger(Number(child.id.slice(6))) ||

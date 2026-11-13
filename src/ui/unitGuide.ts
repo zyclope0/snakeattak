@@ -9,9 +9,10 @@ import { specialAbility, healAmount, attackDamage } from '../unitRules.ts';
 import { portraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { balanceRecruitPrice, CURRENT_BALANCE_REVISION } from '../balanceRevision.ts';
+import { byId } from './dom.ts';
 export function bindUnitGuide(session: Session, onChange: () => void) {
-  const dialog = document.getElementById('unit-dialog') as HTMLDialogElement;
-  const select = document.getElementById('guide-select') as HTMLSelectElement;
+  const dialog = byId<HTMLDialogElement>('unit-dialog');
+  const select = byId<HTMLSelectElement>('guide-select');
   for (const [kind, d] of Object.entries(kinds)) {
     const option = document.createElement('option');
     option.value = kind;
@@ -22,10 +23,10 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
   function show() {
     const kind = select.value as Kind,
       d = kinds[kind];
-    setDisplayText(document.getElementById('guide-name')!, d.name);
-    document.getElementById('guide-portrait')!.style.cssText = portraitStyle(kind);
+    setDisplayText(byId('guide-name'), d.name);
+    byId('guide-portrait').style.cssText = portraitStyle(kind);
     setDisplayText(
-      document.getElementById('guide-ability')!,
+      byId('guide-ability'),
       specialAbility(kind, session.game.tuning.splashSecondaryFactor),
     );
     const price =
@@ -58,7 +59,7 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
                 : 'Moyenne',
       ],
     ];
-    const stats = document.getElementById('guide-stats')!;
+    const stats = byId('guide-stats');
     stats.replaceChildren();
     for (const [label, value] of fields) {
       const row = document.createElement('div');
@@ -70,11 +71,11 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
       stats.append(row);
     }
   }
-  document.getElementById('unit-guide')!.onclick = () => {
+  byId('unit-guide').onclick = () => {
     if (session.selected) select.value = session.selected;
     show();
     modal.open();
   };
   select.onchange = show;
-  document.getElementById('close-unit-guide')!.onclick = modal.close;
+  byId('close-unit-guide').onclick = modal.close;
 }

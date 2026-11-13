@@ -5,11 +5,11 @@ import { feastIconStyle } from './feastControls.ts';
 import { CAMP_TOOLS, campToolModel, type CampTool } from './campToolModel.ts';
 import { pauseForDialog } from './dialogs.ts';
 import './campToolHelp.css';
+import { byId, portraitPhone } from './dom.ts';
 export function bindCampToolHelp(session: Session, refresh: () => void) {
-  const el = (id: string) => document.getElementById(id)!;
-  const dialog = el('camp-tool-dialog') as HTMLDialogElement;
+  const dialog = byId('camp-tool-dialog') as HTMLDialogElement;
   const modal = pauseForDialog(dialog, session, refresh);
-  const portrait = matchMedia('(pointer: coarse) and (orientation: portrait)');
+  const portrait = portraitPhone();
   portrait.addEventListener('change', () => {
     if (portrait.matches && dialog.open) modal.close();
   });
@@ -24,16 +24,16 @@ export function bindCampToolHelp(session: Session, refresh: () => void) {
       selected = tool;
       show();
     };
-    el('camp-tool-topics').append(button);
+    byId('camp-tool-topics').append(button);
     return button;
   });
   function show() {
     const help = campToolModel(session.game, selected);
     for (const field of ['title', 'when', 'gesture', 'result', 'status'] as const)
-      setDisplayText(el('camp-tool-' + field), help[field]);
-    setDisplayText(el('camp-tool-cost'), help.cost === 0 ? 'Gratuit' : `${help.cost} pièces`);
-    el('camp-tool-picture').style.cssText = illustrations[CAMP_TOOLS.indexOf(selected)];
-    el('camp-tool-picture').dataset.tool = selected;
+      setDisplayText(byId('camp-tool-' + field), help[field]);
+    setDisplayText(byId('camp-tool-cost'), help.cost === 0 ? 'Gratuit' : `${help.cost} pièces`);
+    byId('camp-tool-picture').style.cssText = illustrations[CAMP_TOOLS.indexOf(selected)];
+    byId('camp-tool-picture').dataset.tool = selected;
     buttons.forEach((button) =>
       button.setAttribute('aria-pressed', String(button.dataset.campTool === selected)),
     );
@@ -42,7 +42,7 @@ export function bindCampToolHelp(session: Session, refresh: () => void) {
     show();
     modal.open();
   };
-  el('camp-tool-help').onclick = open;
-  el('close-camp-tool-help').onclick = modal.close;
+  byId('camp-tool-help').onclick = open;
+  byId('close-camp-tool-help').onclick = modal.close;
   return open;
 }

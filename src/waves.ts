@@ -1,4 +1,5 @@
 import type { EnemyKind } from './enemies.ts';
+import { chapterIndexForWave } from './levels.ts';
 export const TOTAL_WAVES = 12;
 export type ChapterIdentity = Readonly<{
   firstWave: number;
@@ -29,8 +30,7 @@ const chapterIdentities: readonly ChapterIdentity[] = [
 
 /** One-based wave; camp zero and nonfinite inputs describe the first chapter. */
 export function chapterIdentityForWave(wave: number): ChapterIdentity {
-  const chapter = Number.isFinite(wave) ? Math.max(0, Math.min(2, Math.floor((wave - 1) / 4))) : 0;
-  return chapterIdentities[chapter];
+  return chapterIdentities[chapterIndexForWave(wave)];
 }
 const chapters = [
   ['Premiers visiteurs', 'Quelques serpents. Prépare tes premières défenses.'],

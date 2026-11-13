@@ -5,6 +5,7 @@ import { validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
 import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
+import { isRecord } from './plainData.ts';
 
 type FamilyData = {
   format: 'conquete-serpents-family';
@@ -23,13 +24,14 @@ const withinLimits = (raw: string) =>
   raw.length <= FAMILY_CHARACTER_LIMIT &&
   new TextEncoder().encode(raw).byteLength <= FAMILY_BYTE_LIMIT;
 
+/** A saved camp played with the second balance revision. */
+const campUsesBalance2 = (raw: string | null): boolean =>
+  raw !== null && decodeCheckpoint(raw)?.balanceRevision === 2;
 function missionProgressHasBalance2(missions: MissionProgress): boolean {
   return (
     missions.version === 2 ||
     Object.values(missions.lastRuns).some((run) => run.balance === 2) ||
-    [missions.retryCamp, missions.classicCamp].some(
-      (raw) => raw !== null && decodeCheckpoint(raw)?.balanceRevision === 2,
-    )
+    [missions.retryCamp, missions.classicCamp].some(campUsesBalance2)
   );
 }
 
@@ -38,7 +40,7 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
   if (typeof text !== 'string' || !withinLimits(text)) return null;
   try {
     const value: unknown = JSON.parse(text);
-    if (typeof value !== 'object' || value === null || Array.isArray(value)) return null;
+    if (!isRecord(value)) return null;
     const data = value as Record<string, unknown>;
     if (
       data.format !== 'conquete-serpents-family' ||
@@ -65,9 +67,7 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
     }
     const career = readCareerState(JSON.stringify(data.career));
     if (!career) return null;
-    balanced ||= career.chapterCamps.some(
-      (raw) => raw !== null && decodeCheckpoint(raw)?.balanceRevision === 2,
-    );
+    balanced ||= career.chapterCamps.some(campUsesBalance2);
     let result: FamilyBackup;
     if (data.version === 2 || data.version === 3 || data.version === 4 || data.version === 5) {
       const missions = validateMissionProgress(data.missions);
@@ -126,11 +126,9 @@ export function writeFamilyBackup(
     const validatedAlbums = albums === undefined ? undefined : validateCapriceAlbums(albums);
     if (albums !== undefined && (!validatedAlbums || !validatedMissions)) return null;
     const balanced =
-      (campRaw !== null && decodeCheckpoint(campRaw)?.balanceRevision === 2) ||
+      campUsesBalance2(campRaw) ||
       (validatedMissions && missionProgressHasBalance2(validatedMissions)) ||
-      validatedCareer.chapterCamps.some(
-        (raw) => raw !== null && decodeCheckpoint(raw)?.balanceRevision === 2,
-      );
+      validatedCareer.chapterCamps.some(campUsesBalance2);
     if (balanced && (!validatedMissions || !validatedAlbums)) return null;
     const tutorial =
       Object.values(validatedMissions?.lastRuns ?? {}).some((run) => run.rules === 2) ||

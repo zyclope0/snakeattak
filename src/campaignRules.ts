@@ -1,3 +1,4 @@
+import { isRecord } from './plainData.ts';
 export const HERO_FORCE_FACTOR = 1.15;
 export type CampaignState = {
   training: 'none' | 'force' | 'guard';
@@ -19,7 +20,7 @@ export const chapterStars = (minBase: number): 1 | 2 | 3 =>
 
 /** Read a prepared camp without granting future scores or an early training. */
 export function readCampaign(raw: unknown, wave: number): CampaignState | null {
-  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return null;
+  if (!isRecord(raw)) return null;
   const d = raw as Record<string, unknown>;
   if (
     !Number.isInteger(wave) ||

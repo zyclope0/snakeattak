@@ -3,12 +3,13 @@ import { pauseForDialog } from './dialogs.ts';
 import { pauseStateFor } from './pauseState.ts';
 import { setText } from '../i18n/dom.ts';
 import { availableGold } from './capriceBudget.ts';
+import { byId } from './dom.ts';
 
 /** A native catalogue owns a pause lease; selecting only prepares the existing action. */
 export function bindReinforcementsDrawer(session: Session, refresh: () => void) {
-  const panel = document.getElementById('reinforcements') as HTMLDialogElement;
-  const toggle = document.getElementById('reinforcements-toggle')!;
-  const close = document.getElementById('reinforcements-close')!;
+  const panel = byId<HTMLDialogElement>('reinforcements');
+  const toggle = byId('reinforcements-toggle');
+  const close = byId('reinforcements-close');
   const modal = pauseForDialog(panel, session, refresh);
   const pauses = pauseStateFor(session);
   const budget = document.createElement('span');
@@ -26,13 +27,13 @@ export function bindReinforcementsDrawer(session: Session, refresh: () => void) 
       content.append(child);
   const body = document.createElement('div');
   body.className = 'catalog-body';
-  body.append(document.getElementById('shop')!, tools);
+  body.append(byId('shop'), tools);
   panel.append(body);
   let trigger: HTMLElement = toggle;
   const sync = () => toggle.setAttribute('aria-expanded', String(panel.open));
   let destination: HTMLElement = toggle;
   const hide = (board = false) => {
-    destination = board ? document.getElementById('game')! : trigger;
+    destination = board ? byId('game') : trigger;
     modal.close();
     sync();
   };
@@ -85,7 +86,7 @@ export function bindReinforcementsDrawer(session: Session, refresh: () => void) 
   );
   panel.addEventListener('click', (event) => {
     if ((event.target as Element).closest('[data-kind]'))
-      document.getElementById('game')!.focus({ preventScroll: true });
+      byId('game').focus({ preventScroll: true });
   });
   return {
     refresh: () => {

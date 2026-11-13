@@ -3,13 +3,14 @@ import { REWARDS } from '../rewards.ts';
 import type { Session } from '../session.ts';
 import { portraitStyle, ART_SHEETS } from '../art.ts';
 import { kinds } from '../data.ts';
+import { byId, narrowScreen } from './dom.ts';
 /** Two decisions in the preparation flow; Game owns every effect and validation. */
 export function bindRewardControls(session: Session, refresh: () => void) {
-  const panel = document.getElementById('reward-panel')!;
-  const title = document.getElementById('reward-title')!;
-  const summary = document.getElementById('reward-summary')!;
-  const ward = document.getElementById('crystal-ward')!;
-  const skip = document.getElementById('skip-reward') as HTMLButtonElement;
+  const panel = byId('reward-panel');
+  const title = byId('reward-title');
+  const summary = byId('reward-summary');
+  const ward = byId('crystal-ward');
+  const skip = byId<HTMLButtonElement>('skip-reward');
   const cards = Array.from({ length: 3 }, () => {
     const button = document.createElement('button');
     button.className = 'reward-card';
@@ -22,23 +23,22 @@ export function bindRewardControls(session: Session, refresh: () => void) {
     detail.className = 'reward-detail';
     setDisplayText(action, 'Choisir ce bonus');
     button.append(icon, name, detail, action);
-    document.getElementById('reward-cards')!.append(button);
+    byId('reward-cards').append(button);
     button.onclick = () => {
       const id = button.dataset.reward;
       if (!id || !session.game.chooseReward(id)) return;
       const kind = REWARDS[id as keyof typeof REWARDS].kind;
       if (kind) session.selectUnit(kind);
       refresh();
-      if (kind && matchMedia('(max-width:800px)').matches)
-        document.getElementById('game')!.scrollIntoView({ block: 'center' });
-      document.getElementById(kind ? 'cancel' : 'start')!.focus({ preventScroll: true });
+      if (kind && narrowScreen()) byId('game').scrollIntoView({ block: 'center' });
+      byId(kind ? 'cancel' : 'start').focus({ preventScroll: true });
     };
     return { button, icon, name, detail };
   });
   skip.onclick = () => {
     if (session.game.skipReward()) {
       refresh();
-      document.getElementById('start')!.focus();
+      byId('start').focus();
     }
   };
   let observed = session.game,
@@ -104,7 +104,7 @@ export function bindRewardControls(session: Session, refresh: () => void) {
     ) {
       focused = key;
       title.focus({ preventScroll: true });
-      if (matchMedia('(max-width:800px)').matches) panel.scrollIntoView({ block: 'nearest' });
+      if (narrowScreen()) panel.scrollIntoView({ block: 'nearest' });
     }
   };
 }

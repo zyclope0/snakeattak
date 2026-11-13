@@ -2,16 +2,17 @@ import { setText as setDisplayText } from '../i18n/dom.ts';
 import { portraitStyle } from '../art.ts';
 import { createChapterReportObserver } from '../chapterReport.ts';
 import type { Session } from '../session.ts';
+import { byId } from './dom.ts';
 /**
  * DOM: details#chapter-report, summary#chapter-report-title,
  * p#chapter-report-summary, ul#chapter-report-army.
  * Keep it after the battle footer, outside the reward controls. No focus or scrolling.
  */
 export function bindChapterReport(session: Session): () => void {
-  const panel = document.getElementById('chapter-report') as HTMLDetailsElement;
-  const title = document.getElementById('chapter-report-title')!;
-  const summary = document.getElementById('chapter-report-summary')!;
-  const army = document.getElementById('chapter-report-army')!;
+  const panel = byId<HTMLDetailsElement>('chapter-report');
+  const title = byId('chapter-report-title');
+  const summary = byId('chapter-report-summary');
+  const army = byId('chapter-report-army');
   const observe = createChapterReportObserver();
   let observed = session.game;
   let displayedWave = 0;
