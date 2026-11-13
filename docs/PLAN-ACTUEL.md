@@ -54,6 +54,13 @@ couleur que le panneau.
   maquette) : un objet du jeu par mission (refuge, pont, serpent vif, œuf, serpent à
   sonnette, fougère), sur les cinq onglets et sur les repères Terrain, Attaques, Œufs.
   La roue des réglages et les commandes courantes (pause, flèches, croix, cadenas) restent.
+- Carnet de caprices : vingt vignettes en pâte à modeler, une par nom de caprice (« La
+  tempête » sert dans deux missions, les trois défis du créateur dans les six). Elles
+  remplacent les dix-huit médaillons au trait dans le carnet, la préparation et le
+  résultat ; une vignette pas encore gagnée reste pâle. Les noms et les annonces du fils ne
+  changent pas. 1 083 crédits Magnific, accord du parent ; journal dans
+  [PROVENANCE-VIGNETTES-2026-11.md](../public/assets/illustrated/PROVENANCE-VIGNETTES-2026-11.md).
+  Le parent garde les serpents à bras de trois vignettes : « ça casse le côté tout identique ».
 - Sur téléphone, le bouton des réglages tient dans l'en-tête et ne mord plus sur la carte.
 - Images dérivées de celles du dépôt par `scripts/build-home-scene.py` : zéro crédit,
   environ 155 Ko de plus à l'accueil.

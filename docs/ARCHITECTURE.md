@@ -608,6 +608,16 @@ principe. `scripts/build-home-scene.py` refait ces images à partir
 de celles du dépôt (Pillow seul, hors build). Sans prise en charge des masques, l'image
 garde son fond vert : l'accueil reste lisible.
 
+## Vignettes des caprices — 13 novembre 2026
+
+`ui/capriceIcons.ts` dessine la vignette d'un caprice dans un `<svg>` : l'image en pâte à
+modeler de `src/assets/caprices/` quand le caprice en a une (`capriceStickerName(id)`), sinon
+le médaillon au trait de sa famille de règles, qui reste le repli d'un caprice ajouté sans
+image. Une image par nom : vingt fichiers pour trente-six caprices. Le `<svg>` garde sa
+taille et ses attributs, donc les feuilles de style et les recettes ne changent pas ;
+`tests/caprice-stickers.test.ts` vérifie que chaque caprice a son fichier et qu'aucun fichier
+ne traîne. Les images ne sont demandées qu'à l'affichage d'une vignette, jamais à l'accueil.
+
 ## Pose d'attaque (essai, 12 novembre 2026)
 
 Une planche de `art.ts` peut déclarer `attackUrl` : une seconde planche aux mêmes cases,

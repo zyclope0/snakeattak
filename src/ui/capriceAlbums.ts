@@ -111,8 +111,8 @@ export function bindCapriceAlbums(
         const node = document.createElement('div');
         node.className = 'caprice-sticker';
         node.dataset.sticker = caprice.id;
-        // Original paper medallion drawn locally; no fetched assets or economic reward.
-        const svg = stickerGraphic(caprice.rules);
+        // Vignette en pâte à modeler du caprice ; aucune récompense économique.
+        const svg = stickerGraphic(caprice);
         const earned = document.createElement('small');
         node.append(svg, frenchLeaf('span', caprice.name), earned);
         grid.append(node);
@@ -210,7 +210,7 @@ export function bindCapriceAlbums(
     if (ended) {
       const caprice = capriceById(session.game.mission?.caprice)!;
       resultName.textContent = caprice.name;
-      paintSticker(resultGraphic, caprice.rules);
+      paintSticker(resultGraphic, caprice);
       resultGraphic.toggleAttribute('hidden', session.game.status !== 'won');
       setText(
         resultStatus,
