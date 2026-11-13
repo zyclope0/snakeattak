@@ -1,6 +1,18 @@
-# Plan actuel — 0.37.0, livraison Android build 54
+# Plan actuel — 0.37.0, livraison Android build55
 
-## Livraison actuelle — Android build 54, Sites29 publiée
+## Livraison actuelle — Android build55, Sites30 publiée
+
+Source figée : `07290c73ea6b4a5dad78b83585801607d922ab1f`, main `4e27314` (PR30 de Claude).
+Plateau net à la résolution de l’écran, figurines et liserés fins, marche/ondulation selon la
+distance, priorité aux poses d’attaque et garde-fou du cache de terrain. Même version affichée
+**0.37.0**, code Android **55**, package et clé d’envoi Play conservés. Aucune règle ou sauvegarde changée.
+`npm run verify` : **584 tests** verts ; CI du main source verte. AAB signé et validé, APK debug prêt.
+Navigateur, audit13/13, menus758, présentation14scènes, rendu et réglages verts.
+DPR1/2/3 et repli Canvas vérifiés ; deux recettes anciennes de rendu actualisées.
+Les73fichiers publics correspondent aux paquets ; audio en ligne et démarrages APK hors ligne FR/EN verts.
+[Bilan](BILAN-0.37.0.md) et [Android](ANDROID.md). L’import de l’AAB55 dans le canal interne reste au parent.
+
+## Livraison précédente — Android build54, Sites29 publiée
 
 Source figée : `d5e1d4767c5391a18022674c580b26a36c290217`, issue de main `eb37730` (PR23 à PR28).
 Graphismes et poses d’attaque, effets visuels, barre mobile simplifiée, réglages regroupés,
@@ -10,10 +22,10 @@ Version affichée **0.37.0**, Android **54**, même package et clé d’envoi Pl
 Navigateur, audit13/13, menus758, présentation14scènes, traduction496 et caprices294 verts.
 Site publié et contrôlé sur quatre formats ; ses73fichiers correspondent aux paquets.
 Audio en continu, réglages, démarrages APK hors ligne et30MP3 vérifiés.
-[Bilan](BILAN-0.37.0.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
+[Bilan du build54](archive/BILAN-0.37.0-build54.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
 Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Console par Codex.
 
-## Après le build 54 — accueil plus habité (pas encore publié)
+## Après le build 55 — accueil plus habité (pas encore publié)
 
 Demande du parent : l'accueil faisait vide, et le fond de l'image principale avait la même
 couleur que le panneau.
@@ -28,7 +40,7 @@ couleur que le panneau.
 
 Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
 
-## Après le build 54 — netteté du plateau, liseré, marche (pas encore publié)
+## Changements intégrés au build55 — netteté du plateau, liseré, marche (PR30)
 
 Demande du parent après essai du site sur ordinateur : figurines floues et détourées trop fort,
 personnages qui glissent, animations absentes à la première vague, combattant à massue blanc.
@@ -45,7 +57,7 @@ personnages qui glissent, animations absentes à la première vague, combattant 
 
 Vérifié : `npm run verify` (584 tests, empreintes de parties inchangées) et les 16 recettes de la CI.
 Mesures d'images par seconde faites sans carte graphique (rendu logiciel) : elles ne disent
-rien du vrai téléphone. Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
+rien du vrai téléphone. Pas essayé : installation Android physique sur Galaxy S24, Safari, Firefox, les enfants.
 
 ## Livraison précédente — Sites28, Android build 53
 
@@ -69,7 +81,7 @@ canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en
   fois les fichiers en cache. Pistes restantes : charger en arrière-plan les planches d'alliés
   non posés (2,7 Mo) ; image de l'accueil en WebP (350 → 50 Ko), à décider car la recette exige
   aujourd'hui l'icône Android à l'identique. « Dangers » encore dans la barre du haut.
-- Test physique S24 : mise à jour vers Play54, son au retour dans l’application, fluidité,
+- Test physique S24 : mise à jour vers Play55, son au retour dans l’application, fluidité,
   volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
 - Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
 - Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.

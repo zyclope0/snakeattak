@@ -2,7 +2,7 @@
 
 Au 12 novembre 2026, **com.conqueteserpents.famille** est le paquet du build52
 accepté sur le canal de test interne Google Play ; le parent confirme son installation.
-Les builds53 et54 conservent cet identifiant, le namespace et la clé d’envoi d’origine.
+Les builds53,54 et55 conservent cet identifiant, le namespace et la clé d’envoi d’origine.
 Aucun renommage de paquet n’est nécessaire pour cette mise à jour.
 
 La clé d’envoi signe l’AAB ; Google Play signe les APK distribués avec sa propre clé.

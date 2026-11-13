@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 import { readFile, writeFile, unlink } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright-core';
+import { revealControl } from '../tests/reveal-controls.mjs';
 const file = '.render-test.html';
 let server, b;
 try {
@@ -36,6 +37,9 @@ try {
   const errs = [];
   p.on('pageerror', (e) => errs.push(e.message));
   await p.goto('http://127.0.0.1:4182/' + file + '?scenario=allies');
+  await p.waitForFunction(
+    () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',
+  );
   await p.waitForTimeout(1000);
   await p.evaluate(() => {
     window.rafDeltas = [];
@@ -57,9 +61,11 @@ try {
     };
   });
   assert.ok(metrics.count >= 10 && metrics.p95 < 200, 'Render stalled: ' + JSON.stringify(metrics));
+  await revealControl(p, '[data-kind="ninja"]');
   const at = Date.now();
   await p.locator('[data-kind="ninja"]').click({ timeout: 10000 });
   const clickMs = Date.now() - at;
+  await p.locator('#reinforcements').waitFor({ state: 'hidden' });
   const shot = Date.now();
   await p.screenshot({ path: 'artifacts/refonte-profile.png', fullPage: true, timeout: 15000 });
   const screenshotMs = Date.now() - shot;
@@ -108,7 +114,7 @@ try {
     }
   }
   assert.deepEqual(errs, []);
-  await mkdir('reports', { recursive: true });
+  await mkdir('artifacts/reports', { recursive: true });
   const result = {
     scenario: 'Chromium, 21 illustrated allies and outlines, 1440px',
     rafMilliseconds: metrics,
@@ -118,7 +124,10 @@ try {
     contextRestore: contextTest,
     restoredLayers: contextTest ? samples.map((s) => s.name) : [],
   };
-  await writeFile('reports/render-performance.json', JSON.stringify(result, null, 2) + '\n');
+  await writeFile(
+    'artifacts/reports/render-performance.json',
+    JSON.stringify(result, null, 2) + '\n',
+  );
   console.log(JSON.stringify(result));
 } finally {
   await b?.close();
