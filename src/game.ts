@@ -6,7 +6,7 @@ import type { CampaignState } from './campaignRules.ts';
 import { makeBalanceTuning } from './balanceTuning.ts';
 import type { BalanceTuning } from './balanceTuning.ts';
 import { isPlacementFree } from './placement.ts';
-import { wavePattern, eggIncubation, waveBriefing } from './waves.ts';
+import { waveBriefing } from './waves.ts';
 import { FEAST_DURATION } from './tactics.ts';
 import type { Feast, FeastFlavor } from './tactics.ts';
 import { LANES } from './ai.ts';
@@ -20,14 +20,33 @@ import type { BalanceRevision } from './balanceRevision.ts';
 import { capriceBudget, capriceRules } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
 import type { Entity, Egg, Effect } from './engine/state.ts';
-import { nextRandom, addAlly } from './engine/state.ts';
+import { addAlly } from './engine/state.ts';
 import { normalizeCamp as normalizeCampRule } from './engine/camp.ts';
-import { spawnNext, hatchEggs } from './engine/spawning.ts';
+import { spawnNext, hatchEggs, layWaveEggs } from './engine/spawning.ts';
 import { tickBosses } from './engine/court.ts';
 import { updateAllies, separateAllies } from './engine/allies.ts';
 import { updateConfusion, updateEnemies } from './engine/enemyTurn.ts';
 import { collectFallen, resolveWave } from './engine/outcome.ts';
 export type { Entity, Egg, Effect } from './engine/state.ts';
+
+const HERO_TRAINING_COST = 90;
+const REPAIR_COST = 80;
+const REPAIR_AMOUNT = 25;
+/** Longest simulated step: a slow frame is cut short rather than leaping over a fight. */
+const MAX_STEP = 0.05;
+
+/** Won or lost: the game no longer advances and nothing can be bought. */
+function isOver(game: Game): boolean {
+  return game.status === 'won' || game.status === 'lost';
+}
+/** Coins the player may spend: a caprice can lock part of the purse in the bank. */
+function spendableGold(game: Game): number {
+  return game.gold - game.caprice.reserve;
+}
+/** The wave being fought or, in the camp, the wave being prepared. */
+function facedWave(game: Game): number {
+  return game.wave + (game.status === 'preparing' ? 1 : 0);
+}
 /**
  * La partie : son état et les commandes du joueur. Les règles de chaque pas de simulation
  * sont dans `src/engine/` et s'exécutent dans l'ordre fixé par `step`. Cet ordre et les
@@ -114,10 +133,7 @@ export class Game {
   }
   /** One-based number of the wave being played, or of the next one while preparing. */
   private get localWave() {
-    return Math.max(
-      1,
-      Math.min(this.totalWaves, this.wave + (this.status === 'preparing' ? 1 : 0)),
-    );
+    return Math.max(1, Math.min(this.totalWaves, facedWave(this)));
   }
   get difficultyWave() {
     const local = this.localWave;
@@ -136,7 +152,7 @@ export class Game {
   }
   get level() {
     if (this.mission) return missionLevel(this.mission.layout);
-    return levelForWave(this.wave + (this.status === 'preparing' ? 1 : 0));
+    return levelForWave(facedWave(this));
   }
   /** Used at chapter boundaries and when restoring an older camp. Keeps live identities. */
   normalizeCamp() {
@@ -155,13 +171,13 @@ export class Game {
       this.paused ||
       this.status !== 'preparing' ||
       (this.mission ? missionById(this.mission.missionId)!.unlockRank < 4 : this.wave < 4) ||
-      this.gold - this.caprice.reserve < 90 ||
+      spendableGold(this) < HERO_TRAINING_COST ||
       this.campaign.training !== 'none' ||
       (path !== 'force' && path !== 'guard') ||
       !this.units.some((u) => u.kind === 'hero' && u.hp > 0)
     )
       return false;
-    this.gold -= 90;
+    this.gold -= HERO_TRAINING_COST;
     this.campaign.training = path;
     this.message =
       path === 'force' ? 'Le héros entraîne sa force !' : 'Le héros entraîne sa garde !';
@@ -232,9 +248,8 @@ export class Game {
     return (
       typeof kind === 'string' &&
       Object.hasOwn(kinds, kind) &&
-      (this.mission
-        ? missionById(this.mission.missionId)!.unlockRank
-        : this.wave + (this.status === 'preparing' ? 1 : 0)) >= (unlockWave[kind] ?? 1)
+      (this.mission ? missionById(this.mission.missionId)!.unlockRank : facedWave(this)) >=
+        (unlockWave[kind] ?? 1)
     );
   }
   /** Sortes d'alliés retenues pour un caprice « copains » (vide sinon). */
@@ -276,11 +291,10 @@ export class Game {
     return (
       !this.paused &&
       this.capriceAllows(kind) &&
-      this.status !== 'won' &&
-      this.status !== 'lost' &&
+      !isOver(this) &&
       kind !== 'hero' &&
       this.isUnlocked(kind) &&
-      this.gold - this.caprice.reserve >= this.recruitCost(kind) &&
+      spendableGold(this) >= this.recruitCost(kind) &&
       isPlacementFree(this.units, x, y, this.level)
     );
   }
@@ -315,27 +329,7 @@ export class Game {
     this.encouragementUsed = false;
     this.encouragementRemaining = 0;
     this.honeyTurns = 0;
-    this.eggs = plan
-      ? plan.eggs.map((egg) => ({
-          ...egg,
-          id: ++this.nextId,
-          y: LANES[egg.lane],
-          duration: egg.hatchIn,
-        }))
-      : Array.from({ length: Math.min(3, 1 + Math.floor(this.wave / 4)) }, (_, i) => {
-          const pickedLane = Math.floor(nextRandom(this) * 3),
-            lane = wavePattern(this.wave) === 'brood' ? i % 3 : pickedLane,
-            duration = eggIncubation(this.wave, i, nextRandom(this));
-          return {
-            id: ++this.nextId,
-            x: 252 + i * 48,
-            y: LANES[lane],
-            lane,
-            hatchIn: duration,
-            duration,
-            count: 2,
-          };
-        });
+    this.eggs = layWaveEggs(this, plan);
     this.message =
       !this.mission && this.wave === TOTAL_WAVES
         ? 'La dernière vague ! Le roi à trois têtes approche…'
@@ -344,28 +338,15 @@ export class Game {
   }
   repair() {
     if (this.mission) this.missionMinBase = Math.min(this.missionMinBase, this.base);
-    if (
-      this.paused ||
-      this.status === 'won' ||
-      this.status === 'lost' ||
-      this.gold - this.caprice.reserve < 80 ||
-      this.base >= 100
-    )
+    if (this.paused || isOver(this) || spendableGold(this) < REPAIR_COST || this.base >= 100)
       return false;
-    this.gold -= 80;
-    this.base = Math.min(100, this.base + 25);
+    this.gold -= REPAIR_COST;
+    this.base = Math.min(100, this.base + REPAIR_AMOUNT);
     return true;
   }
   step(dt: number) {
-    if (
-      this.paused ||
-      this.status === 'won' ||
-      this.status === 'lost' ||
-      !Number.isFinite(dt) ||
-      dt <= 0
-    )
-      return;
-    dt = Math.min(0.05, dt);
+    if (this.paused || isOver(this) || !Number.isFinite(dt) || dt <= 0) return;
+    dt = Math.min(MAX_STEP, dt);
     if (this.mission) this.missionMinBase = Math.min(this.missionMinBase, this.base);
     this.time += dt;
     if (this.feast) {
