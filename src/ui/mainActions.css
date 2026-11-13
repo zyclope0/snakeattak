@@ -41,6 +41,10 @@
   justify-content: flex-start;
   text-align: left;
 }
+#mission-dialog .preparation-nav button {
+  /* Cinq onglets sur une ligne : l'image reste près de son mot. */
+  gap: calc(var(--hu) * 0.35);
+}
 #mission-dialog .preparation-nav button::before {
   content: '';
   flex: 0 0 auto;

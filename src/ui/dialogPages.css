@@ -205,6 +205,8 @@
   gap: calc(var(--hu) * 0.5);
 }
 #mission-dialog .preparation-nav button {
+  /* Chaque onglet part de la largeur de son mot : un mot long ne déborde plus. */
+  flex: 1 1 auto;
   padding: 4px calc(var(--hu) * 0.5);
   font-size: max(12px, calc(var(--hu) * 1.3));
 }
