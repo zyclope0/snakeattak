@@ -48,7 +48,7 @@ try {
   const submit = async (code) => {
     await revealControl(page, '#departure-input');
     await page.locator('#departure-input').fill(code);
-    await page.locator('#departure-form button').click();
+    await page.locator('#departure-form button[type="submit"]').click();
   };
   const before = await family();
   await submit('FOUGERE-42');
@@ -155,7 +155,7 @@ try {
   await mobile.setViewportSize({ width: 812, height: 375 });
   await revealControl(mobile, '#departure-input');
   await mobile.locator('#departure-input').fill(encodeDeparture({ kind: 'classic', seed: 0 }));
-  await mobile.locator('#departure-form button').tap();
+  await mobile.locator('#departure-form button[type="submit"]').tap();
   await mobile.locator('#departure-start').tap();
   await mobile.waitForTimeout(350);
   assert.equal(

@@ -56,4 +56,27 @@ export const supplementEnglish: Record<string, string> = {
   'Page suivante →': 'Next page →',
   '← Précédents': '← Previous',
   'Suivants →': 'Next →',
+  // Les petits « ? » (ui/helpTopics.ts).
+  'J’ai compris': 'Got it',
+  'Aide : les caprices': 'Help: caprices',
+  'C’est quoi, un caprice ?': 'What is a caprice?',
+  'Un caprice, c’est un défi des serpents. Tu rejoues la mission avec une règle qui change. Si tu gagnes, son autocollant va dans ton carnet.':
+    'A caprice is a challenge from the snakes. You replay the mission with one rule that changes. If you win, its sticker goes into your sticker book.',
+  'Le petit s’ouvre quand tu gagnes la mission. Le moyen avec 2 étoiles. Le grand avec 3 étoiles.':
+    'The small one opens when you win the mission. The medium one with 2 stars. The big one with 3 stars.',
+  'Aide : le repérage': 'Help: scouting',
+  'À quoi sert le repérage ?': 'What is scouting for?',
+  'Le repérage te montre les serpents de cette mission et par où ils passent. Regarde-le avant de placer tes alliés.':
+    'Scouting shows you the snakes in this mission and which way they come. Look at it before you place your allies.',
+  'Aide : autre départ': 'Help: another setup',
+  'Chaque départ change un peu la mission : le chemin, la façon d’attaquer des serpents et la place des œufs. Touche « Autre départ » pour en essayer un nouveau.':
+    'Each setup changes the mission a little: the path, how the snakes attack and where the eggs are. Tap “Another setup” to try a new one.',
+  'Aide : la sauvegarde familiale': 'Help: the family save',
+  'La sauvegarde familiale': 'The family save',
+  'Elle range toute l’aventure dans un fichier : les étoiles, le carnet, les favoris. Garde ce fichier pour retrouver l’aventure sur un autre appareil.':
+    'It puts the whole adventure in one file: the stars, the sticker book, the favorites. Keep this file to get the adventure back on another device.',
+  'Aide : le code de départ': 'Help: the setup code',
+  'Le code de départ': 'The setup code',
+  'Un code rejoue la même mission depuis le début : même chemin, mêmes vagues. Il ne garde pas une partie en cours.':
+    'A code replays the same mission from the start: same path, same waves. It does not keep a game in progress.',
 };

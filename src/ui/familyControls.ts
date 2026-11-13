@@ -1,6 +1,7 @@
 import { setText as setDisplayText, appendText as appendDisplayText } from '../i18n/dom.ts';
 import { backupSummary, readFamilyBackup, FAMILY_BYTE_LIMIT } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
+import { helpPoint } from './helpBubble.ts';
 type Actions = {
   exportRaw: () => string | null;
   applyBackup: (backup: FamilyBackup) => {
@@ -19,6 +20,8 @@ export function bindFamilyControls(actions: Actions) {
   const albumNames = document.createElement('p');
   albumNames.id = 'family-preview-albums';
   el('family-preview-summary').after(albumNames);
+  // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
+  el('home-family').after(helpPoint('family'));
   let pending: FamilyBackup | null = null,
     generation = 0;
   const reset = () => {

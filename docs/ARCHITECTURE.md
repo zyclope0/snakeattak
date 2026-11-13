@@ -615,6 +615,14 @@ principe. `scripts/build-home-scene.py` refait ces images à partir
 de celles du dépôt (Pillow seul, hors build). Sans prise en charge des masques, l'image
 garde son fond vert : l'accueil reste lisible.
 
+## Bulles d'aide — 13 novembre 2026
+
+`ui/helpBubble.ts` fournit `helpPoint(sujet)`, un « ? » de 48 px, et une seule fenêtre
+modale `#help-bubble`, construite au premier usage, qui s'ouvre par-dessus ce qui est déjà
+ouvert sans rien fermer ni toucher à la pause. Les textes sont des données
+(`ui/helpTopics.ts`) : un sujet de plus est une entrée et un appel à `helpPoint`. Aucun
+balisage dans la page HTML.
+
 ## Vignettes des caprices — 13 novembre 2026
 
 `ui/capriceIcons.ts` dessine la vignette d'un caprice dans un `<svg>` : l'image en pâte à

@@ -25,6 +25,7 @@ import { bindBattleNotices } from './ui/battleNotices.ts';
 import { createRecruitmentReminder, createReminderMarkers } from './ui/recruitmentReminder.ts';
 import { bindSounds } from './audio/sounds.ts';
 import { bindSettingsDialog } from './ui/settingsDialog.ts';
+import { bindHelpBubble } from './ui/helpBubble.ts';
 import { createPersistence } from './checkpoints.ts';
 import Phaser from 'phaser';
 import { Session } from './session.ts';
@@ -117,6 +118,7 @@ report = bindChapterReport(session);
 refresh();
 // Avant les sons : ils donnent leur état aux interrupteurs de cette fenêtre.
 bindSettingsDialog(() => refresh());
+bindHelpBubble(() => refresh());
 const soundFrame = bindSounds();
 const coach = createCoach(session);
 const battleNotices = bindBattleNotices(

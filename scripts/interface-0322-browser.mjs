@@ -98,7 +98,7 @@ try {
     });
     await page.locator('#home-parent-options > summary').click();
     await page.locator('#departure-input').fill('REFUGE-2-FZZZ-ZZR4-9F');
-    await page.locator('#departure-form button').click();
+    await page.locator('#departure-form button[type="submit"]').click();
     await page.locator('#mission-launch').click();
     await page.waitForFunction(
       () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',

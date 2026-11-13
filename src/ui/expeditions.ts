@@ -1,4 +1,5 @@
 import { bindMissionPreparation } from './missionPreparation.ts';
+import { helpPoint } from './helpBubble.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { bindCapricePreparation, canLaunchCaprice, friendsViewHasContent } from './capriceView.ts';
 import { capriceBudget, capriceRules, capriceDefinitionForRun } from '../caprices.ts';
@@ -73,7 +74,7 @@ export function bindExpeditions(
       dialog.dispatchEvent(new Event('mission-preparation-change'));
     },
   );
-  const views = bindMissionPreparation(dialog);
+  const views = bindMissionPreparation(dialog, helpPoint);
   const departures = bindDepartureControls(session, {
     unlocked: allowed,
     previewMission: preview,

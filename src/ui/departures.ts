@@ -3,6 +3,7 @@ import { decodeDeparture, encodeDeparture, departureForGame } from '../departure
 import type { MissionRun } from '../missions.ts';
 import type { Session } from '../session.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
+import { helpPoint } from './helpBubble.ts';
 /** Codes carry setup data only. Preview and launch remain two separate actions. */
 export function bindDepartureControls(
   session: Session,
@@ -16,6 +17,8 @@ export function bindDepartureControls(
   const input = el<HTMLInputElement>('departure-input');
   const message = el('departure-message');
   const classicDialog = el<HTMLDialogElement>('departure-dialog');
+  // Page des parents : un « ? » au bout de la ligne du code dit ce qu'un code retrouve.
+  input.parentElement!.append(helpPoint('code'));
   let pending: { seed: number; balanceRevision: BalanceRevision } | null = null;
   const legacyLabel = document.createElement('small');
   legacyLabel.id = 'departure-original-rules';

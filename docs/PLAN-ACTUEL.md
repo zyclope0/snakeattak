@@ -30,12 +30,20 @@ Décidé, en cours dans un lot « simplifier » (pas encore publié) :
 - Le code de départ n'est plus montré dans la préparation. Les anciens codes restent
   acceptés sur la page des parents.
 - Le carnet dit en une phrase à quoi il sert ; ses boutons parlent de pages, pas de missions.
+- Cinq petits « ? » à toucher ouvrent une bulle de deux ou trois phrases : caprices, repérage
+  et « Autre départ » dans la préparation, sauvegarde familiale et code de départ chez les
+  parents (`src/ui/helpBubble.ts`, textes dans `src/ui/helpTopics.ts`).
 
 Idées du parent, à instruire avant tout développement :
 
-- **Profils au démarrage.** Sur un téléphone ou une tablette partagés, chaque enfant choisit
-  son profil en ouvrant le jeu ; la progression et le carnet suivent le profil. Cela
-  remplacerait les carnets multiples et plusieurs menus.
+- **Profils locaux, décidés par le parent sur maquette le 13 novembre, à développer.**
+  Sur un appareil partagé, chaque enfant a son joueur : un personnage du jeu et, s'il le
+  veut, un surnom. Quatre joueurs au plus ; deux joueurs peuvent prendre le même
+  personnage. « Qui joue ? » ne s'affiche à l'ouverture que s'il y a au moins deux
+  joueurs. Créer un joueur doit être facile et bien visible depuis l'accueil. Les étoiles,
+  le carnet, les favoris, la mission en cours et l'aventure classique suivent le joueur ;
+  le son et la langue restent ceux de l'appareil. Tout reste sur l'appareil, sans compte.
+  La sauvegarde d'aujourd'hui devient le premier joueur, sans conversion.
 - **Connexion Google ou Facebook.** Le parent y voit de quoi garder les profils et retrouver
   la progression. Ce que disent les règles lues le 13 novembre (à relire sur les pages
   officielles avant de décider, elles changent) : une application destinée d'abord aux
@@ -47,8 +55,6 @@ Idées du parent, à instruire avant tout développement :
   profils locaux sans compte, et plus tard une sauvegarde réservée au parent.
 - **Terrains plus variés.** Croisements différents, quatre routes, tirage plus aléatoire. À
   voir avec le fils : ses règles demandent au moins trois voies reliées.
-- **Petits « ? » d'aide.** Une bulle de deux ou trois phrases à toucher, là où un écran reste
-  obscur après la simplification.
 
 ## Livraison précédente — 0.37.0, Android build56, Sites31 publiée
 

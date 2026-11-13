@@ -384,6 +384,14 @@
   line-height: 1.15;
   white-space: normal;
 }
+/* The family save leaves the last cell of its row to its "?". */
+#home-screen [data-home-page='parents'] .parent-actions #home-family {
+  grid-column: 1 / -2;
+}
+#home-screen [data-home-page='parents'] .parent-actions .help-point {
+  grid-column: -2 / -1;
+  justify-self: start;
+}
 #home-screen #departure-form,
 #home-screen #departure-form + small {
   margin: 0;

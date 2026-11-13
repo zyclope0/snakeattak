@@ -280,7 +280,7 @@ const checks = {
         await page
           .locator('#departure-input')
           .fill(encodeDeparture({ kind: 'classic', seed: 2026 }));
-        await page.locator('#departure-form button').click();
+        await page.locator('#departure-form button[type="submit"]').click();
         await page.locator('#departure-start').click();
         if (await page.locator('#journey-confirm').isVisible())
           await page.locator('#journey-replace').click();
