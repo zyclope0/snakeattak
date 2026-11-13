@@ -201,9 +201,6 @@
     gap: 5px;
   }
   .sound-button {
-    min-width: 84px;
-    width: 84px;
-    font-size: 10px;
     padding-inline: 4px;
     margin-left: 0;
   }

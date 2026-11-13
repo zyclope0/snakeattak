@@ -97,7 +97,6 @@ summary::marker {
 }
 .shop-toolbar {
   display: grid;
-  gap: 8px;
 }
 .shop-tabs {
   display: flex;

@@ -19,24 +19,8 @@
   border-radius: 12px;
   align-self: start;
 }
-.reinforcements-open .battle-dock {
-  display: none;
-}
 #reinforcements {
   display: none;
-}
-.app.reinforcements-open .play-layout {
-  grid-template-columns: minmax(0, 1fr) 310px;
-}
-.reinforcements-open #reinforcements {
-  display: block;
-  visibility: visible;
-  pointer-events: auto;
-  height: 100%;
-  min-height: 0;
-  max-height: 100%;
-  overflow: auto;
-  overscroll-behavior: contain;
 }
 .reinforcements-close {
   display: block;
@@ -162,9 +146,6 @@
     grid-template-columns: minmax(0, 1fr) clamp(176px, 27%, 232px);
     gap: 0;
   }
-  .app.reinforcements-open .play-layout {
-    grid-template-columns: minmax(0, 1fr) clamp(208px, 32%, 232px);
-  }
   /* The outcome needs more reading width than the dock, especially in English
      with Android's side insets. Keep the three normal-mission actions in view. */
   .app.showing-result:not(.reinforcements-open) .play-layout {
@@ -178,10 +159,6 @@
     border: 0;
     border-left: 1px solid #9cbaaa;
     border-radius: 0;
-  }
-  .reinforcements-open #reinforcements {
-    display: flex;
-    max-height: none;
   }
   .dock-card .portrait {
     max-height: 52px;

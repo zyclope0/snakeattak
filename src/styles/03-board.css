@@ -77,7 +77,6 @@
   min-width: 0;
   overflow: hidden;
   width: 100%;
-  aspect-ratio: 1100 / 620;
   background: #80917b;
   scroll-margin-top: 150px;
 }
