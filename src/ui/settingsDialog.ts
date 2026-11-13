@@ -52,6 +52,9 @@ export function bindSettingsDialog(refresh: () => void) {
   const panel = settingsDialog();
   // La pause masque son panneau tant qu'une fenêtre est ouverte : le redessiner à la fermeture.
   panel.addEventListener('close', refresh);
+  // L'événement `close` arrive un instant après la fermeture : avec le bouton « Fermer »,
+  // le panneau de pause revient tout de suite, sans image intermédiaire où il manque.
+  panel.querySelector('#settings-close')?.addEventListener('click', refresh);
   document.querySelectorAll<HTMLButtonElement>('[data-settings]').forEach((opener) =>
     opener.addEventListener('click', () => {
       if (!panel.open) panel.showModal();
