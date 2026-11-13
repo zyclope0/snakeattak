@@ -1,3 +1,4 @@
+import type { StoragePort } from './checkpoints.ts';
 import { readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
 import type { FamilyBackup } from './familyBackup.ts';
 import { validateCareerState } from './progression.ts';
@@ -8,68 +9,107 @@ import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
 
 export const FAMILY_STORAGE_KEY = 'conquete-serpents:family:v1';
-type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
+
+/** What one session remembers about the family file between two calls. */
+type Session = {
+  /** The text last read or written: an identical sync writes nothing. */
+  last: string;
+  /** True once the storage has failed; only an explicit import tries it again. */
+  disabled: boolean;
+  status: string;
+  /** Expeditions and albums of the last file, handed back to callers that omit them. */
+  missions: MissionProgress | undefined;
+  albums: CapriceAlbums | undefined;
+};
+
+/** Private copies: the caller's objects may change after the write. */
+function retain(session: Session, missions?: MissionProgress, albums?: CapriceAlbums): void {
+  session.missions = missions === undefined ? undefined : validateMissionProgress(missions)!;
+  session.albums = albums === undefined ? undefined : validateCapriceAlbums(albums)!;
+}
+
+function save(
+  storage: StoragePort | undefined,
+  session: Session,
+  raw: string,
+  explicitImport: boolean,
+  missions?: MissionProgress,
+  albums?: CapriceAlbums,
+): boolean {
+  if (!storage || (session.disabled && !explicitImport)) return false;
+  // Confirmation still performs a write, so a blocked storage cannot accept an import.
+  if (!explicitImport && raw === session.last) return true;
+  try {
+    storage.setItem(FAMILY_STORAGE_KEY, raw);
+    session.last = raw;
+    retain(session, missions, albums);
+    session.disabled = false;
+    session.status = 'Aventure familiale enregistrée sur cet appareil';
+    return true;
+  } catch {
+    session.disabled = true;
+    session.status = 'Sauvegarde familiale indisponible : stockage bloqué ou plein';
+    return false;
+  }
+}
+
+function load(storage: StoragePort | undefined, session: Session): FamilyBackup | null {
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(FAMILY_STORAGE_KEY);
+    if (raw === null) {
+      session.status = 'Aucune sauvegarde familiale sur cet appareil';
+      return null;
+    }
+    const backup = readFamilyBackup(raw);
+    if (!backup) {
+      session.status = 'Sauvegarde familiale incompatible : reprise historique';
+      return null;
+    }
+    session.last = JSON.stringify(backup);
+    retain(session, backup.missions, backup.albums);
+    session.status = 'Aventure familiale enregistrée sur cet appareil';
+    return backup;
+  } catch {
+    session.disabled = true;
+    session.status = 'Sauvegarde familiale indisponible';
+    return null;
+  }
+}
+
+/**
+ * An imported object is checked part by part before it is written as text: JSON would turn
+ * a hole or a NaN into null and let it through.
+ */
+function validateImport(backup: FamilyBackup): FamilyBackup | null {
+  try {
+    if (!validateCareerState(backup?.career)) return null;
+    const withAlbums = backup.version === 4 || backup.version === 5;
+    if (!withAlbums && Object.hasOwn(backup, 'albums')) return null;
+    if (backup.version !== 1 && !validateMissionProgress(backup.missions)) return null;
+    if (withAlbums && !validateCapriceAlbums(backup.albums)) return null;
+    return readFamilyBackup(JSON.stringify(backup));
+  } catch {
+    return null;
+  }
+}
 
 /** One authoritative browser write is the entire persistent import transaction. */
 export function createFamilyPersistence(storage?: StoragePort) {
-  let last = '';
-  let disabled = false;
-  let retainedMissions: MissionProgress | undefined;
-  let retainedAlbums: CapriceAlbums | undefined;
-  let status = storage
-    ? 'Aucune sauvegarde familiale sur cet appareil'
-    : 'Sauvegarde familiale indisponible';
-  function save(
-    raw: string,
-    explicitImport: boolean,
-    missions?: MissionProgress,
-    albums?: CapriceAlbums,
-  ): boolean {
-    if (!storage || (disabled && !explicitImport)) return false;
-    // Confirmation still performs a write, so a blocked storage cannot accept an import.
-    if (!explicitImport && raw === last) return true;
-    try {
-      storage.setItem(FAMILY_STORAGE_KEY, raw);
-      last = raw;
-      retainedMissions = missions === undefined ? undefined : validateMissionProgress(missions)!;
-      retainedAlbums = albums === undefined ? undefined : validateCapriceAlbums(albums)!;
-      disabled = false;
-      status = 'Aventure familiale enregistrée sur cet appareil';
-      return true;
-    } catch {
-      disabled = true;
-      status = 'Sauvegarde familiale indisponible : stockage bloqué ou plein';
-      return false;
-    }
-  }
+  const session: Session = {
+    last: '',
+    disabled: false,
+    status: storage
+      ? 'Aucune sauvegarde familiale sur cet appareil'
+      : 'Sauvegarde familiale indisponible',
+    missions: undefined,
+    albums: undefined,
+  };
   return {
     get status() {
-      return status;
+      return session.status;
     },
-    load(): FamilyBackup | null {
-      if (!storage) return null;
-      try {
-        const raw = storage.getItem(FAMILY_STORAGE_KEY);
-        if (raw === null) {
-          status = 'Aucune sauvegarde familiale sur cet appareil';
-          return null;
-        }
-        const backup = readFamilyBackup(raw);
-        if (!backup) {
-          status = 'Sauvegarde familiale incompatible : reprise historique';
-          return null;
-        }
-        last = JSON.stringify(backup);
-        retainedMissions = backup.missions && validateMissionProgress(backup.missions)!;
-        retainedAlbums = backup.albums && validateCapriceAlbums(backup.albums)!;
-        status = 'Aventure familiale enregistrée sur cet appareil';
-        return backup;
-      } catch {
-        disabled = true;
-        status = 'Sauvegarde familiale indisponible';
-        return null;
-      }
-    },
+    load: (): FamilyBackup | null => load(storage, session),
     sync(
       campRaw: string | null,
       career: CareerState,
@@ -77,33 +117,29 @@ export function createFamilyPersistence(storage?: StoragePort) {
       albums?: CapriceAlbums,
     ): boolean {
       // Older callers must not erase loaded expeditions or albums by omitting arguments.
-      const nextMissions = missions === undefined ? retainedMissions : missions;
-      const nextAlbums = albums === undefined ? retainedAlbums : albums;
+      const nextMissions = missions === undefined ? session.missions : missions;
+      const nextAlbums = albums === undefined ? session.albums : albums;
       const raw = writeFamilyBackup(campRaw, career, nextMissions, nextAlbums);
       if (!raw) {
-        status = 'Sauvegarde familiale invalide : aucune écriture';
+        session.status = 'Sauvegarde familiale invalide : aucune écriture';
         return false;
       }
-      return save(raw, false, nextMissions, nextAlbums);
+      return save(storage, session, raw, false, nextMissions, nextAlbums);
     },
     import(backup: FamilyBackup): boolean {
-      let validated: FamilyBackup | null;
-      try {
-        validated =
-          validateCareerState(backup?.career) &&
-          (backup.version === 4 || backup.version === 5 || !Object.hasOwn(backup, 'albums')) &&
-          (backup.version === 1 || validateMissionProgress(backup.missions)) &&
-          ((backup.version !== 4 && backup.version !== 5) || validateCapriceAlbums(backup.albums))
-            ? readFamilyBackup(JSON.stringify(backup))
-            : null;
-      } catch {
-        validated = null;
-      }
+      const validated = validateImport(backup);
       if (!validated) {
-        status = 'Fichier familial invalide : import refusé';
+        session.status = 'Fichier familial invalide : import refusé';
         return false;
       }
-      return save(JSON.stringify(validated), true, validated.missions, validated.albums);
+      return save(
+        storage,
+        session,
+        JSON.stringify(validated),
+        true,
+        validated.missions,
+        validated.albums,
+      );
     },
   };
 }

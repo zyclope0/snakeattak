@@ -487,6 +487,7 @@ plus.
 | Module de `src/engine/` | Contenu                                                         |
 | ----------------------- | --------------------------------------------------------------- |
 | `state.ts`              | Types `Entity`, `Egg`, `Effect` ; tirage aléatoire ; création   |
+| `field.ts`              | Repères du plateau (camp, ponts, cristal) ; place libre         |
 | `camp.ts`               | Remise en place du camp entre deux chapitres                    |
 | `spawning.ts`           | Entrée des serpents, carapaces, garde du roi, éclosion des œufs |
 | `movement.ts`           | Choix de voie, marche sur les chemins, déplacement des alliés   |
@@ -504,6 +505,13 @@ Preuve que rien n'a bougé : 131 parties complètes rejouées avant et après av
 empreinte, les 549 tests historiques, et 3 840 parties du simulateur `balance:modes` aux
 résultats identiques sur l'ancien et le nouveau code. `tests/engine-traces.test.ts` garde 21
 de ces parties comme filet permanent.
+
+Le 13 novembre 2026, les longues fonctions de ces modules ont été coupées en étapes nommées
+(un tour d'allié : soigner ou combattre ; un tour de serpent : pondre, mordre, marcher, entrer
+au cristal ; une entrée de vague : rôle, voie, carapace, cour). Aucune ne dépasse 41 lignes.
+Les coordonnées et rayons répétés ont un nom, dans `field.ts` ou en tête du module qui les
+emploie, à valeur égale. L'ordre des appels, des tirages et des additions n'a pas bougé :
+570 parties complètes comparées pas après pas, état entier, avant et après.
 
 ## Feuille de style et page découpées — 11 novembre 2026
 
@@ -756,6 +764,11 @@ conventions :
 - **Données lues de l'extérieur.** `src/plainData.ts` porte les gardes communs à tout ce qui
   lit une sauvegarde, un code ou un fichier importé (`isRecord`, `isNumberIn`, `isIntegerIn`,
   `isStarCount`). Un lecteur n'écrit plus son propre `typeof … === 'object'`.
+- **Sauvegardes et codes.** Chaque lecteur est une suite d'étapes nommées (en-tête, mission,
+  caprice, unités, récompenses, campagne) ; `src/checkpointUnits.ts` lit et écrit les unités
+  d'un camp. Les versions du format sont décrites une seule fois, pour l'écriture et la
+  lecture. L'ordre des contrôles fait partie du comportement : un lecteur qui construit une
+  partie consomme le générateur aléatoire.
 - **Accès à la page.** `src/ui/dom.ts` : `byId` pour un élément de la page (à la place de
   `document.getElementById(...)!` et des copies locales de `el`), `make` pour en créer un,
   `portraitPhone` et `narrowScreen` pour les deux tests d'écran qui étaient recopiés,
