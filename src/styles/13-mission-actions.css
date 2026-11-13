@@ -1,6 +1,5 @@
 /* Mission actions stay outside the scrollable preview, before the first tap. */
 #mission-dialog {
-  width: min(780px, calc(100% - 24px - var(--app-safe-left) - var(--app-safe-right)));
   padding: 0;
   overflow: hidden;
 }

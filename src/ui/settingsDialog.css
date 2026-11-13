@@ -4,7 +4,6 @@
   width: clamp(48px, calc(var(--hu) * 5.4), 64px);
   height: clamp(48px, calc(var(--hu) * 5.4), 64px);
   padding: 0;
-  border-radius: 12px;
   display: grid;
   place-items: center;
 }

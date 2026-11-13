@@ -270,9 +270,7 @@
 
 /* One mission per page; only the bounded content area scrolls. */
 .caprice-album-dialog[open] {
-  display: flex;
   flex-direction: column;
-  gap: 8px;
   inset: max(6px, var(--app-safe-top, 0px)) max(6px, var(--app-safe-right, 0px))
     max(6px, var(--app-safe-bottom, 0px)) max(6px, var(--app-safe-left, 0px));
   max-width: calc(
@@ -281,12 +279,7 @@
   max-height: calc(
     100dvh - max(6px, var(--app-safe-top, 0px)) - max(6px, var(--app-safe-bottom, 0px))
   );
-  height: min(
-    700px,
-    calc(100dvh - max(12px, var(--app-safe-top, 0px)) - max(12px, var(--app-safe-bottom, 0px)))
-  );
   overflow: hidden;
-  padding: 12px;
 }
 .caprice-album-dialog [hidden] {
   display: none !important;
@@ -297,7 +290,6 @@
   flex-shrink: 0;
 }
 .caprice-album-dialog .caprice-album-header h2 {
-  font-size: 20px;
   margin: 0;
 }
 .caprice-album-dialog .caprice-profile-tools {
@@ -321,12 +313,6 @@
   min-height: 0;
   flex: 1;
   overscroll-behavior: contain;
-}
-.caprice-album-slots h3 {
-  margin: 4px 0 8px;
-}
-.caprice-album-slots h4 {
-  margin: 8px 0;
 }
 #caprice-album-status {
   margin: 0;

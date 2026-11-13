@@ -24,7 +24,6 @@
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
   gap: 10px;
 }
 #home-main .home-hero {
@@ -49,9 +48,6 @@
   display: flex;
 }
 #home-screen #home-primary {
-  min-width: 180px;
-  min-height: 48px;
-  font-size: 20px;
   background: #edbd57;
   color: #263e34;
   border-color: #b68a36;
@@ -105,10 +101,6 @@
   margin: 0;
   overscroll-behavior: contain;
 }
-#home-screen .home-page > h1 {
-  margin: 0 0 10px;
-  font-size: 24px;
-}
 #home-screen .home-disclosure {
   margin: 0;
 }
@@ -117,7 +109,6 @@
 }
 #home-screen .home-disclosure > section {
   margin: 0;
-  padding: 12px;
 }
 #home-screen .page-actions,
 .parent-actions,
@@ -142,28 +133,13 @@
 #home-screen .mission-card {
   min-width: 0;
 }
-#home-screen .roster-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-#home-screen .roster-card {
-  min-height: 100px;
-}
-#home-screen .army-editor > h1 {
-  margin: 8px 0;
-  font-size: 26px;
-}
 #home-screen .army-editor > p {
   margin: 8px 0;
 }
-#home-screen .roster-toolbar {
-  margin: 8px 0;
-}
 #home-screen .roster-pagination {
-  position: sticky;
   top: 0;
   z-index: 1;
   background: var(--paper);
-  padding: 4px 0;
 }
 #home-screen :focus-visible {
   outline: 3px solid #edae44;
@@ -229,10 +205,6 @@
 }
 
 /* Preparation is a fixed header and departure bar around one bounded view. */
-#mission-dialog[open] {
-  height: min(720px, calc(var(--app-height) - 16px));
-  max-height: calc(var(--app-height) - 16px);
-}
 #mission-dialog [hidden],
 #reinforcements [hidden] {
   display: none !important;
@@ -240,10 +212,6 @@
 .preparation-header {
   flex: 0 0 auto;
   padding: 10px 14px 0;
-}
-#mission-dialog .preparation-header h2 {
-  margin: 0 0 6px;
-  font-size: 22px;
 }
 .preparation-nav,
 .catalog-pagination {
@@ -274,7 +242,6 @@
 #mission-dialog .mission-dialog-body {
   flex: 1;
   min-height: 0;
-  padding: 10px 14px;
 }
 #mission-summary > p {
   margin: 6px 0;
@@ -286,7 +253,6 @@
 #mission-dialog .mission-dialog-actions {
   display: flex;
   flex-wrap: nowrap;
-  padding: 8px 14px;
 }
 #mission-dialog .mission-dialog-actions button {
   flex: 1;
@@ -312,7 +278,6 @@
 
 /* The catalogue is in the browser's top layer; the battle dock remains real time. */
 #app #reinforcements[open] {
-  display: flex;
   flex-direction: column;
   position: fixed;
   inset: var(--app-safe-top) var(--app-safe-right) var(--app-safe-bottom) var(--app-safe-left);
@@ -321,7 +286,6 @@
   max-width: 1100px;
   max-height: calc(var(--app-height) - 16px);
   margin: auto;
-  padding: 10px 14px;
   overflow: hidden;
   visibility: visible;
   pointer-events: auto;
@@ -329,7 +293,6 @@
   color: var(--ink);
   border: 2px solid #8ca97e;
   border-radius: 16px;
-  gap: 6px;
 }
 #reinforcements::backdrop {
   background: #102e28aa;
@@ -400,7 +363,6 @@
   grid-template-columns: 48px minmax(0, 1fr) auto;
   align-items: center;
   justify-items: start;
-  min-height: 74px;
   text-align: left;
   padding: 6px;
   gap: 6px;
