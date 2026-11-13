@@ -111,9 +111,17 @@
   line-height: 1.15;
 }
 .caprice-album-slots .caprice-sticker svg {
-  width: calc(var(--hu) * 3.4);
-  height: calc(var(--hu) * 3.4);
+  /* La vignette est le sujet de la case : elle prend la place, le nom reste dessous. */
+  width: min(calc(var(--hu) * 5.6), 60%);
+  height: auto;
+  aspect-ratio: 1;
   flex-shrink: 0;
+}
+@media (max-height: 340px) {
+  /* Écran très bas : un nom sur trois lignes doit encore tenir sous la vignette. */
+  .caprice-album-slots .caprice-sticker svg {
+    width: min(calc(var(--hu) * 4.2), 60%);
+  }
 }
 .caprice-album-slots .caprice-sticker small {
   font-size: max(10px, calc(var(--hu) * 1.05));

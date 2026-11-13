@@ -160,7 +160,7 @@ export function bindCapricePreparation(
       if (albums) albumOptions(profile, albums);
       if (!caprice) return;
       title.textContent = caprice.name;
-      paintSticker(graphic, caprice.rules);
+      paintSticker(graphic, caprice);
       announce.textContent = caprice.announce;
       setText(explanation, capriceExplanation(caprice.rules));
       listen.hidden = !speech.available();

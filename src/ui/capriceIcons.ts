@@ -1,4 +1,49 @@
-import { NO_CAPRICE, type CapriceRules } from '../caprices.ts';
+import { NO_CAPRICE, type CapriceDefinition, type CapriceRules } from '../caprices.ts';
+
+/**
+ * Les vignettes en pâte à modeler, une par nom de caprice (`src/assets/caprices/`).
+ * Hors de Vite (tests unitaires), la liste est vide : le dessin au trait sert de repli.
+ */
+const stickerUrls: Record<string, string> = import.meta.env
+  ? import.meta.glob<string>('../assets/caprices/*.webp', {
+      eager: true,
+      query: '?url',
+      import: 'default',
+    })
+  : {};
+
+/** Les trois défis du créateur ont le même nom dans les six missions : une vignette chacun. */
+const CREATOR_STICKERS: Record<string, string> = {
+  petit: 'la-tirelire',
+  moyen: 'les-carapaces',
+  grand: 'la-grande-charge',
+};
+/** Les caprices des serpents, par identifiant ; « La tempête » revient dans deux missions. */
+const SNAKE_STICKERS: Record<string, string> = {
+  'refuge-petit': 'serpents-presses',
+  'refuge-moyen': 'mega-serpent',
+  'refuge-grand': 'la-tempete',
+  'trois-ponts-petit': 'bourse-trouee',
+  'trois-ponts-moyen': 'blindcrocs',
+  'trois-ponts-grand': 'grandes-rafales',
+  'course-petit': 'rafales',
+  'course-moyen': 'petite-tempete',
+  'course-grand': 'roi-invite',
+  'coquilles-petit': 'pique-nique-oeufs',
+  'coquilles-moyen': 'grosse-fringale',
+  'coquilles-grand': 'la-tempete',
+  'sonnette-petit': 'deux-copains',
+  'sonnette-moyen': 'crocs-pointus',
+  'sonnette-grand': 'serpents-costauds',
+  'carrefour-petit': 'plus-de-miel',
+  'carrefour-moyen': 'un-seul-copain',
+  'carrefour-grand': 'roi-fringale',
+};
+/** Nom du fichier de la vignette d'un caprice, ou rien pour un caprice sans vignette. */
+export function capriceStickerName(id: string): string | undefined {
+  const creator = /-createur-(petit|moyen|grand)$/.exec(id);
+  return creator ? CREATOR_STICKERS[creator[1]!] : SNAKE_STICKERS[id];
+}
 
 /** Presentation categories derived only from the canonical challenge flags. */
 export function capriceIconType(r: CapriceRules) {
@@ -42,18 +87,28 @@ const motifs: Record<ReturnType<typeof capriceIconType>, string> = {
   paths: '<path d="M10 30V20l10-8 10 8v10M20 12v18m-14-7 4-4 4 4m12 0 4-4 4 4"/>',
   snake: '<path d="M11 25c-5-10 18-13 18-5 0 7-19 1-13-7"/>',
 };
-export function paintSticker(svg: SVGElement, rules: CapriceRules = NO_CAPRICE) {
-  const type = capriceIconType(rules);
-  if (svg.dataset.capriceIcon === type) return;
+type Stickered = Pick<CapriceDefinition, 'id' | 'rules'>;
+/**
+ * Dessine la vignette d'un caprice : son image en pâte à modeler, ou, faute d'image, le
+ * médaillon au trait de sa famille de règles.
+ */
+export function paintSticker(svg: SVGElement, caprice?: Stickered) {
+  const type = capriceIconType(caprice?.rules ?? NO_CAPRICE);
+  const name = (caprice && capriceStickerName(caprice.id)) ?? '';
+  const url = name && stickerUrls[`../assets/caprices/${name}.webp`];
+  const sticker = url ? name : '';
+  if (svg.dataset.capriceIcon === type && svg.dataset.capriceSticker === sticker) return;
   svg.dataset.capriceIcon = type;
-  svg.innerHTML =
-    '<path d="M20 2 25 6 32 5 34 12 39 17 35 23 35 31 28 33 22 39 16 35 8 35 6 28 1 22 5 16 5 8 12 6Z" fill="#e8b95e" stroke="#79613c"/>' +
-    `<g fill="none" stroke="#355b48" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${motifs[type]}</g>`;
+  svg.dataset.capriceSticker = sticker;
+  svg.innerHTML = url
+    ? `<image href="${url}" width="40" height="40"/>`
+    : '<path d="M20 2 25 6 32 5 34 12 39 17 35 23 35 31 28 33 22 39 16 35 8 35 6 28 1 22 5 16 5 8 12 6Z" fill="#e8b95e" stroke="#79613c"/>' +
+      `<g fill="none" stroke="#355b48" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${motifs[type]}</g>`;
 }
-export function stickerGraphic(rules: CapriceRules = NO_CAPRICE) {
+export function stickerGraphic(caprice?: Stickered) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('viewBox', '0 0 40 40');
   svg.setAttribute('aria-hidden', 'true');
-  paintSticker(svg, rules);
+  paintSticker(svg, caprice);
   return svg;
 }
