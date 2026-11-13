@@ -1,16 +1,15 @@
-# Android — version 0.37.0
+# Android — version0.38.0
 
-Dernière livraison : **0.37.0 / build56**, avec l’accueil illustré et le retour immédiat
-de la pause après les réglages (PR32 et PR33 de Claude). Codex complète les espacements
-sur écran bas, libellé de mission visible en français/anglais et cibles48px conservées.
-Même package **com.conqueteserpents.famille**, code56, paysage, minSdk24 / targetSdk36.
+Dernière livraison : **0.38.0 / build57**, avec les objets des missions/préparation, vingt
+vignettes de caprices, maintien du côté des coups et onglets ajustés FR/EN. Même package
+**com.conqueteserpents.famille**, code57, paysage, minSdk24 / targetSdk36.
 AAB release signé avec la clé d’envoi Play d’origine ; APK debug avec son certificat familial.
-Ressources embarquées, aucun serveur ou SDK commercial ajouté. [Bilan et limites](BILAN-0.37.0.md).
+Aucune migration des sauvegardes, règle ou SDK commercial ajouté. [Bilan](BILAN-0.38.0.md).
 
-Créer une nouvelle version du canal de test interne existant et importer
-`conquete-serpents-v0.37.0-build56-play.aab`, puis installer la mise à jour via Google Play avec
-le même compte testeur. L’APK debug conserve une signature distincte de la distribution Play.
-Aucun envoi Console ou essai physique S24 par Codex ; confort sur appareil encore à confirmer.
+Dans le canal de test interne existant, créer une nouvelle version et importer
+`conquete-serpents-v0.38.0-build57-play.aab`, puis installer via Google Play avec le même compte
+testeur. L’APK debug conserve une signature distincte de la distribution Play. Aucun envoi
+Console ou essai physique S24 par Codex ; confort et performances à confirmer sur appareil.
 
 VersionName 0.32.1, versionCode 36 : correction du défilement tactile du
 catalogue en paysage. Même identifiant et certificat debug ; mise à jour

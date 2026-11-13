@@ -1,62 +1,30 @@
-# Bilan 0.38.0 — préparé, pas encore publié
+# Bilan 0.38.0 — Missions et vignettes, Android build57
 
-Rédigé le 13 novembre 2026 par Claude à la demande du parent. Le jeu affiche encore
-**0.37.0** : ce numéro a couvert huit livraisons (builds 49 à 56) alors que le jeu a
-beaucoup changé. Le passage à 0.38.0 est proposé pour le prochain build ; Codex l'applique
-et complète la partie « Livraison ». Aucune règle, aucune valeur d'équilibrage et aucune
-sauvegarde n'ont changé depuis la 0.37.0 d'origine.
+Livraison du 13 novembre 2026, version **0.38.0**, Android **57**. [Site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/) publié, version Sites **32**.
+Source figée : `6e80a204a8559fedfe2dcf3ea245248132635297`. PR35 et PR36 de Claude, plus son correctif `1d84cdc`, intégré à cette livraison.
 
-## Fait depuis la première 0.37.0
+## Fait
 
-Déjà en ligne (builds 52 à 56) :
+- Missions et préparation : objets du jeu sur les cartes des six missions, les cinq onglets et les repères Terrain, Attaques, Œufs.
+- Carnet, préparation et résultat : **20 vignettes en pâte à modeler pour les 36 caprices**, une par nom ; les vignettes non gagnées restent pâles. Noms et annonces du fils inchangés. [Journal des ressources](../public/assets/illustrated/PROVENANCE-VIGNETTES-2026-11.md).
+- Correctifs de Claude : le combattant garde le côté du coup pendant son geste ; les mots des onglets ne débordent plus en français/anglais. Ces ajustements concernent uniquement le rendu et l’interface.
+- Codex applique le passage0.37.0→0.38.0 prévu par le bilan préparatoire et le code Android56→57. Même package `com.conqueteserpents.famille`, même clé d’envoi Play ; aucune règle, valeur de caprice, sauvegarde ou ancien code de départ changé depuis le build56. Aucune génération ou dépense supplémentaire par Codex.
 
-- **Son.** Vrais bruitages et quatre musiques choisis par le parent, lus en continu ;
-  musique et bruitages réglables séparément, mémorisés, activés au départ.
-- **Réglages.** Une seule fenêtre (son, langue, effets légers, aide), ouverte de l'accueil et
-  de la pause ; langue du téléphone au premier lancement ; retour à l'accueil depuis la pause.
-- **Personnages.** Onze planches refaites en pâte à modeler, neuf planches de poses
-  d'attaque, combattant à massue à la peau des autres.
-- **Combat.** Éclair au coup, respiration, pièces qui volent, confettis de victoire ; marche
-  calée sur la distance parcourue, serpents qui ondulent.
-- **Plateau.** Dessiné aux pixels réels de l'écran, figurines réduites une fois, liseré fin
-  vert foncé pour les alliés et rouge orangé pour les ennemis.
-- **Accueil.** Forêt de l'illustration d'origine derrière les personnages, refuge au
-  cristal, un objet du jeu sur chaque bouton du bas.
-
-Dans `main`, à publier :
-
-- **Missions et préparation.** Un objet du jeu par mission, sur les cinq onglets et sur les
-  repères Terrain, Attaques, Œufs. La roue des réglages et les commandes courantes restent.
-- **Carnet de caprices.** Vingt vignettes en pâte à modeler, une par nom de caprice ; une
-  vignette pas encore gagnée reste pâle. Les noms et les annonces du fils ne changent pas.
-- **Coup porté.** Le combattant garde le côté de son coup jusqu'à la fin du geste.
-- **Onglets de la préparation.** Plus de mot qui déborde, en français comme en anglais.
-
-Images : environ 4 700 crédits Magnific et 4 crédits Recraft depuis le début du chantier
-graphique, avec l'accord du parent ; journaux dans `public/assets/illustrated/`
-(`PROVENANCE-RESTYLE-2026-11.md`, `PROVENANCE-VIGNETTES-2026-11.md`). Les décors de
-l'accueil et les objets des boutons sont dérivés d'images du dépôt, sans crédit.
+La version reprend aussi les sons, personnages, plateau net et accueil déjà publiés dans les builds52 à56. [Bilan du build56](archive/BILAN-0.37.0-build56.md), [rapport préparatoire de Claude](archive/BILAN-0.38.0-prepare-claude.md).
 
 ## Vérifié
 
-- `npm run verify` : 590 tests verts, empreintes de parties identiques
-  (`tests/engine-traces.test.ts`).
-- Les seize recettes de la CI vertes sur chaque lot fusionné.
-- Captures contrôlées de 568×320 à 1920×1080, en français et en anglais, pour l'accueil,
-  la carte des missions, la préparation et le carnet.
-- Une course de la recette des menus (lecture trop tôt après une rotation) a été reproduite
-  et corrigée sans retirer de contrôle.
+- `npm run verify` : **590 tests**, aucun échec ; format, types, build et budgets verts, empreintes du moteur conservées. Navigateur, audit **13/13**, menus **758**, caprices **294**, traduction **496** et présentation **14 scènes** verts.
+- Carnet parcouru par ses vrais boutons en FR/EN à780×360 avec marges système simulées : **36 identifiants et noms exacts dans chaque langue**, 20 images distinctes décodables. Préparation à1024×768 et1280×800 FR/EN : les cinq onglets, dans chacune des cinq vues, restent dans leurs boutons et gardent leurs cibles48px.
+- AAB release signé avec la clé d’envoi Play d’origine et vérifié par jarsigner/bundletool ; APK debug avec son certificat familial distinct. **112 fichiers web**, dont30MP3, identiques au build et aux paquets. Paysage, minSdk24 / targetSdk36 ; aucun serveur ou permission INTERNET/BILLING/AD_ID ajouté.
+- Site public contrôlé sur cinq formats, dont1280×1024 et780×360 avec marges simulées ; aucun problème JavaScript. Ses **112 fichiers** correspondent aux paquets. Carnet FR/EN (36 noms et20 images), onglets FR/EN aux deux formats, lecture continue et réglages audio revérifiés en ligne sans erreur. Le retour de pause est visible dans le même clic de fermeture.
+- Démarrages du contenu du vrai APK hors ligne FR/EN et décodage de tous les MP3 verts.
 
-## Pas vérifié
+Preuves hors Git : `artifacts/livraison-build57/` et `/workspace/serpents-build57-20261113/`.
 
-- Rien n'a été essayé sur le Galaxy S24 ni avec les enfants depuis le build 52.
-- La fluidité du plateau net n'a été mesurée que sans carte graphique : ces chiffres ne
-  disent rien du vrai téléphone. Le garde-fou de taille et « Effets légers » n'ont jamais
-  tourné sur un appareil.
-- Safari, Firefox, TalkBack, perte du contexte WebGL, taille de police agrandie d'Android.
-- La lisibilité des vignettes et des objets à taille réelle n'a été jugée que sur captures.
-- Les dents du T-rex en pose d'attaque attendent l'avis du fils et du parent.
+## Livraison et limites
 
-## Livraison
+`conquete-serpents-v0.38.0-build57-play.aab` est destiné à une nouvelle version du même **canal de test interne Play**. Aucun envoi Console par Codex. Une installation Play se met à jour via Play ; l’APK debug garde une autre signature.
+Aucun essai physique S24, écoute humaine, TalkBack, police agrandie Android, Safari/Firefox ou mesure FPS/mémoire du téléphone par Codex. Les contrôles de lisibilité restent des captures Chromium ; l’avis du parent et du fils sur les dents du T-rex reste un suivi distinct. Aucun équilibrage ou SDK commercial ajouté.
 
-À compléter par Codex : source figée, code Android, paquets, contrôles du site et de l'APK.
+Suivi visuel mineur : le bouclier peut se tourner vers l’allié protégé pendant0,4s lors d’un blocage. Ce défaut d’affichage est reproduit ; la protection et les règles restent inchangées. À reprendre lors de la prochaine passe de rendu.

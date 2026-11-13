@@ -1,6 +1,24 @@
-# Plan actuel — 0.37.0, livraison Android build56
+# Plan actuel — 0.38.0, livraison Android build57
 
-## Livraison actuelle — Android build56, Sites31 publiée
+## Livraison actuelle — 0.38.0, Android build57, Sites32 publiée
+
+Source figée : `6e80a204a8559fedfe2dcf3ea245248132635297`. PR35/PR36 et correctif `1d84cdc` de Claude.
+Objets sur les missions et la préparation, vingt vignettes pour les36 caprices, noms et annonces
+français du fils préservés, côté du coup conservé et onglets FR/EN ajustés. Version **0.38.0**,
+code **57**, même package et clé d’envoi Play. Aucune règle, sauvegarde ou ancien code changé.
+`npm run verify` : **590 tests** verts. Carnets FR/EN et onglets contrôlés sur les vrais écrans.
+Paquets signés et validés ; navigateur, audit13/13, menus758, caprices294, traduction496,
+présentation14scènes verts. Site public contrôlé sur cinq formats ;112fichiers identiques
+aux paquets, carnets et onglets FR/EN, audio et démarrages APK hors ligne vérifiés.
+[Bilan](BILAN-0.38.0.md) et [Android](ANDROID.md). L’import de l’AAB57 sur le canal interne reste au parent.
+
+## Suivi visuel de0.38.0
+
+Le bouclier peut brièvement se tourner vers l’allié protégé lors d’un effet `block` ;
+cosmétique (0,4s), sans incidence sur la protection. Corriger l’orientation d’affichage
+lors d’une prochaine passe, sans changer les règles.
+
+## Livraison précédente — 0.37.0, Android build56, Sites31 publiée
 
 Source figée : `f04f3d5fb1df8f53db9f72dbd9a64a373b50a735`, main `34be40e` (PR32 et PR33).
 Accueil illustré, refuge et objets sur les boutons, réglages dégagés et pause restaurée
@@ -10,7 +28,7 @@ Version **0.37.0**, code **56**, même package et clé d’envoi Play. Aucune r�
 `npm run verify` : **584 tests** verts. Navigateur, audit13/13 et menus758 verts sur le code final ; réglages de rendu verts.
 Site contrôlé sur cinq formats, légende de mission FR/EN et cibles48px vérifiées ;
 83 fichiers publics identiques aux paquets, audio/retour de pause et démarrages APK hors ligne verts.
-[Bilan](BILAN-0.37.0.md) et [Android](ANDROID.md). Le parent importera l’AAB56 dans le canal interne existant.
+[Bilan du build56](archive/BILAN-0.37.0-build56.md) et [Android](ANDROID.md). Le parent importera l’AAB56 dans le canal interne existant.
 
 ## Livraison précédente — Android build55, Sites30 publiée
 
@@ -37,7 +55,7 @@ Audio en continu, réglages, démarrages APK hors ligne et30MP3 vérifiés.
 [Bilan du build54](archive/BILAN-0.37.0-build54.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
 Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Console par Codex.
 
-## Dans main, pas encore publié — proposé comme 0.38.0 (PR35, PR36 et suivante)
+## Changements intégrés à0.38.0 — PR35, PR36 et correctif1d84cdc
 
 - Carte des missions et préparation (inventaire du 13 novembre, choix du parent sur
   maquette) : un objet du jeu par mission (refuge, pont, serpent vif, œuf, serpent à
@@ -54,11 +72,11 @@ Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Conso
   règles l'ont déjà retourné vers sa prochaine cible (`blowFacing`, affichage seulement).
 - Préparation : chaque onglet part de la largeur de son mot ; plus de débordement mesuré en
   français ni en anglais, de 568×320 à 1920×1080.
-- Passage à 0.38.0 : proposé au parent, à appliquer par Codex avec le prochain build
+- Passage à0.38.0 : appliqué par Codex avec le build57
   (`package.json`, `package-lock.json`, `versionName` Android, README, ANDROID.md, liste de
-  `docs/README.md`). Bilan préparé : [BILAN-0.38.0.md](BILAN-0.38.0.md).
+  `docs/README.md`). Bilan : [BILAN-0.38.0.md](BILAN-0.38.0.md).
 
-Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
+Pas essayé : installation Android physique sur Galaxy S24, Safari, Firefox, les enfants.
 
 ## Changements intégrés au build56 — accueil plus habité (PR32 et PR33)
 
@@ -120,7 +138,7 @@ canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en
   fois les fichiers en cache. Pistes restantes : charger en arrière-plan les planches d'alliés
   non posés (2,7 Mo) ; image de l'accueil en WebP (350 → 50 Ko), à décider car la recette exige
   aujourd'hui l'icône Android à l'identique. « Dangers » encore dans la barre du haut.
-- Test physique S24 : mise à jour vers Play56, son au retour dans l’application, fluidité,
+- Test physique S24 : mise à jour vers Play57, son au retour dans l’application, fluidité,
   volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
 - Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
 - Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.
