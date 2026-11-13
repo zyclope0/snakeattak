@@ -28,7 +28,7 @@ personnages qui glissent, animations absentes à la première vague, combattant 
   sans elles sur une connexion lente.
 - Combattant à massue : même pose, peau beige comme les autres (166 crédits Magnific).
 
-Vérifié : `npm run verify` (586 tests, empreintes de parties inchangées) et les 16 recettes de la CI.
+Vérifié : `npm run verify` (584 tests, empreintes de parties inchangées) et les 16 recettes de la CI.
 Mesures d'images par seconde faites sans carte graphique (rendu logiciel) : elles ne disent
 rien du vrai téléphone. Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
 
