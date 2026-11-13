@@ -36,14 +36,17 @@ Décidé, en cours dans un lot « simplifier » (pas encore publié) :
 
 Idées du parent, à instruire avant tout développement :
 
-- **Profils locaux, décidés par le parent sur maquette le 13 novembre, à développer.**
-  Sur un appareil partagé, chaque enfant a son joueur : un personnage du jeu et, s'il le
-  veut, un surnom. Quatre joueurs au plus ; deux joueurs peuvent prendre le même
-  personnage. « Qui joue ? » ne s'affiche à l'ouverture que s'il y a au moins deux
-  joueurs. Créer un joueur doit être facile et bien visible depuis l'accueil. Les étoiles,
-  le carnet, les favoris, la mission en cours et l'aventure classique suivent le joueur ;
-  le son et la langue restent ceux de l'appareil. Tout reste sur l'appareil, sans compte.
-  La sauvegarde d'aujourd'hui devient le premier joueur, sans conversion.
+- **Profils locaux, décidés par le parent sur maquette le 13 novembre — développés, en
+  attente de son accord sur captures.** Sur un appareil partagé, chaque enfant a son joueur :
+  un personnage du jeu et, s'il le veut, un surnom. Quatre joueurs au plus ; deux joueurs
+  peuvent prendre le même personnage. Au premier lancement, le joueur par défaut est le Héros
+  et l'enfant joue tout de suite. « Qui joue ? » ne s'affiche à l'ouverture que s'il y a au
+  moins deux joueurs. Une pastille en haut de l'accueil dit « Ajouter un joueur ». Les
+  étoiles, le carnet, les favoris, la mission en cours et l'aventure classique suivent le
+  joueur ; le son et la langue restent ceux de l'appareil. Tout reste sur l'appareil, sans
+  compte. La sauvegarde d'aujourd'hui est le premier joueur, sans conversion : les autres
+  joueurs utilisent les mêmes clés avec un suffixe (`src/players.ts`). Supprimer un joueur
+  se fait chez les parents, avec confirmation.
 - **Connexion Google ou Facebook.** Le parent y voit de quoi garder les profils et retrouver
   la progression. Ce que disent les règles lues le 13 novembre (à relire sur les pages
   officielles avant de décider, elles changent) : une application destinée d'abord aux

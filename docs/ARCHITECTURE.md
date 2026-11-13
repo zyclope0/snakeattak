@@ -623,6 +623,47 @@ ouvert sans rien fermer ni toucher à la pause. Les textes sont des données
 (`ui/helpTopics.ts`) : un sujet de plus est une entrée et un appel à `helpPoint`. Aucun
 balisage dans la page HTML.
 
+## Joueurs de l'appareil — 13 novembre 2026
+
+Un téléphone ou une tablette partagés accueillent jusqu'à quatre joueurs, sans compte et sans
+rien envoyer : un joueur est un personnage du jeu et, s'il le veut, un surnom.
+
+`players.ts` (sans navigateur, testé par `tests/players.test.ts`) porte la liste, sous la clé
+de l'appareil `conquete-serpents:players:v1` :
+`{ version: 1, activeId, players: [{ id: 'p1'…'p4', character, name | null }] }`. Tout ce qui
+est lu est reconstruit champ par champ ; une donnée absente ou invalide donne l'état de départ,
+un seul joueur `p1`, le Héros, sans surnom. Au tout premier lancement, aucun écran ne
+s'intercale et rien n'est écrit sous cette clé.
+
+L'aventure d'un joueur reste dans les quatre clés existantes (`family:v1`, `camp:v1`,
+`progress:v1`, `recruitment-reminder:v1`), sans changement de format. `p1` les utilise telles
+quelles : une sauvegarde d'avant les joueurs est donc le joueur 1, sans migration. `p2` à `p4`
+utilisent les mêmes clés suivies de `:p2` … `:p4`. `bootstrap.ts` ne donne plus
+`localStorage` aux contrôleurs de sauvegarde, mais `playerStorage(localStorage, activeId)`, qui
+traduit les clés ; le son, la langue, les effets légers et la liste des joueurs restent
+communs à l'appareil. Un test vérifie que ces contrôleurs ne touchent que les quatre clés de
+leur joueur.
+
+Changer de joueur ou en créer un écrit `activeId` puis recharge la page : chaque contrôleur
+est reconstruit sur les bonnes clés. `sessionStorage` retient que le joueur a été choisi
+depuis l'ouverture du jeu ; « Qui joue ? » ne s'ouvre seul qu'avec deux joueurs au moins et
+sans ce repère. Supprimer un joueur retire ses quatre clés et son entrée, jamais le dernier ;
+si c'est le joueur en cours, son stockage est d'abord fermé (`close()`), pour que la page
+quittée ne réécrive pas son aventure en partant. Un identifiant libéré peut resservir. La
+sauvegarde familiale exporte et remplace l'aventure du joueur en cours.
+
+`ui/players.ts` construit tout l'affichage (aucun balisage dans la page HTML) : la pastille
+de l'en-tête de l'accueil, la fenêtre `#players-dialog` et ses vues (« Qui joue ? », « Choisis
+ton personnage », la liste des parents et sa confirmation), le bouton « Joueurs » de la page
+des parents, visible à partir de deux joueurs, et la phrase de la sauvegarde familiale. Le
+nom d'un personnage suit la langue ; un surnom est écrit tel quel (`data-copy-raw`). Les
+portraits sont de petites images (`src/assets/home/joueur-*.webp`,
+`scripts/build-home-scene.py`) désignées par la feuille `ui/players.css` : seuls ceux qui
+sont affichés sont chargés, jamais les planches des alliés. La pastille se règle sur la
+largeur réelle de l'en-tête (requête de conteneur, marges du système déduites) : ses deux
+lignes dès 640 px, un peu resserrées sous 730 px ; en dessous, le portrait seul avec une
+pastille (« + » ou deux flèches). L'en-tête de l'accueil tient sur une seule rangée.
+
 ## Vignettes des caprices — 13 novembre 2026
 
 `ui/capriceIcons.ts` dessine la vignette d'un caprice dans un `<svg>` : l'image en pâte à

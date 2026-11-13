@@ -10,7 +10,8 @@
 - refuge.webp : le refuge au cristal, pour le panneau du titre ;
 - menu-*.webp : un petit objet du jeu pour chaque bouton du bas de l'accueil ;
 - mission-*.webp : l'objet de chaque mission, pour la carte des missions ;
-- onglet-*.webp, repere-*.webp : les images de la préparation d'une mission.
+- onglet-*.webp, repere-*.webp : les images de la préparation d'une mission ;
+- joueur-*.webp : le portrait de chaque personnage qu'un joueur peut choisir.
 Seul Pillow est nécessaire. Ce n'est pas une étape du build : les fichiers sont suivis dans Git.
 """
 from pathlib import Path
@@ -150,3 +151,36 @@ picture(cell("props-three-bridges", 1), "mission-carrefour")
 picture(round_cut(piece("allies-support", 0, (150, 30, 440, 320))), "onglet-copains")
 picture(round_cut(piece("enemies-organic", 0, (185, 20, 415, 250))), "onglet-reperage")
 picture(cell("enemies-organic", 0), "repere-serpent")
+
+# Les joueurs : un portrait par personnage à choisir (src/players.ts), sans charger les
+# grandes planches des alliés sur l'accueil.
+def figure(image):
+    """Le personnage seul : les miettes d'une case voisine, au bord, sont retirées."""
+    labels = image.getchannel("A").point(lambda v: 255 if v > 16 else 0)
+    count = 0
+    while count < 254:
+        box = labels.point(lambda v: 255 if v == 255 else 0).getbbox()
+        if not box:
+            break
+        row = labels.crop((box[0], box[1], box[2], box[1] + 1)).tobytes()
+        count += 1
+        ImageDraw.floodfill(labels, (box[0] + row.index(255), box[1]), count)
+    sizes = labels.histogram()
+    largest = max(sizes[1 : count + 1])
+    keep = labels.point([255 if 0 < v <= count and sizes[v] * 20 >= largest else 0 for v in range(256)])
+    # Le bord adouci du personnage est gardé avec lui.
+    image.putalpha(ImageChops.multiply(image.getchannel("A"), keep.filter(ImageFilter.MaxFilter(5))))
+    return image
+
+
+for character, sheet, index in (
+    ("hero", "allies-front", 0),
+    ("club", "allies-front", 1),
+    ("archer", "allies-support", 0),
+    ("ninja", "allies-support", 3),
+    ("knight", "allies-elite", 0),
+    ("dragon", "allies-creatures", 0),
+    ("dino", "allies-creatures", 1),
+    ("triceratops", "allies-dinosaurs", 1),
+):
+    picture(figure(cell(sheet, index)), f"joueur-{character}")
