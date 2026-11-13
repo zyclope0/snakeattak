@@ -42,7 +42,7 @@
   text-align: left;
 }
 #mission-dialog .preparation-nav button {
-  /* Cinq onglets sur une ligne : l'image reste près de son mot. */
+  /* Quatre ou cinq onglets sur une ligne : l'image reste près de son mot. */
   gap: calc(var(--hu) * 0.35);
 }
 #mission-dialog .preparation-nav button::before {
@@ -68,7 +68,7 @@
   --object: url('../assets/home/menu-parents.webp');
 }
 @media (max-width: 600px) {
-  /* Petit téléphone : cinq onglets serrés, l'image cède la place au mot. */
+  /* Petit téléphone : les onglets sont serrés, l'image cède la place au mot. */
   #mission-dialog .preparation-nav button {
     gap: 3px;
   }

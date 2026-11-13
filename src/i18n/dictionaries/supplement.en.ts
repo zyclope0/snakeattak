@@ -50,10 +50,10 @@ export const supplementEnglish: Record<string, string> = {
   Missions: 'Missions',
   'Aventure classique': 'Classic adventure',
   'Aide et sauvegarde': 'Help and backup',
-  'Gérer les carnets': 'Manage sticker books',
   'Missions du carnet': 'Sticker book missions',
-  '← Mission précédente': '← Previous mission',
-  'Mission suivante →': 'Next mission →',
+  'Réussis un caprice pour gagner son autocollant.': 'Complete a caprice to earn its sticker.',
+  '← Page précédente': '← Previous page',
+  'Page suivante →': 'Next page →',
   '← Précédents': '← Previous',
   'Suivants →': 'Next →',
 };

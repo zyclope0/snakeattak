@@ -757,12 +757,44 @@ try {
                     mission.waves,
                   ),
               );
-              for (const view of ['summary', 'caprices', 'friends', 'scouting', 'options']) {
+              // A normal mission of a family with one sticker book has nothing to choose
+              // among friends: that tab is hidden, the four others are inspected.
+              check(
+                `${name}: mission ${mission.id} hides the empty friends tab`,
+                (await page.locator('[data-preparation="friends"]').isHidden()) &&
+                  (await page.locator('.preparation-nav button:visible').count()) === 4,
+              );
+              for (const view of ['summary', 'caprices', 'scouting', 'options']) {
                 await page.locator(`[data-preparation="${view}"]`).click();
                 await inspectEnglish(
                   page,
                   '#mission-dialog',
                   `${name}: mission ${mission.id} ${view}`,
+                );
+              }
+              if (mission.id === 'sonnette') {
+                // A caprice that limits the kinds of allies brings the friends tab back.
+                await page.locator('[data-preparation="caprices"]').click();
+                await page.locator('[data-caprice="sonnette-petit"]').click();
+                check(
+                  `${name}: mission ${mission.id} shows the friends tab for its caprice`,
+                  await page.locator('[data-preparation="friends"]').isVisible(),
+                );
+                await page.locator('[data-preparation="friends"]').click();
+                check(
+                  `${name}: mission ${mission.id} friends view offers ally kinds`,
+                  (await page.locator('[data-caprice-friend]:visible').count()) > 0,
+                );
+                await inspectEnglish(
+                  page,
+                  '#mission-dialog',
+                  `${name}: mission ${mission.id} friends`,
+                );
+                await page.locator('[data-preparation="caprices"]').click();
+                await page.locator('#mission-normal').click();
+                check(
+                  `${name}: mission ${mission.id} hides the friends tab again`,
+                  await page.locator('[data-preparation="friends"]').isHidden(),
                 );
               }
               check(

@@ -99,9 +99,7 @@
   gap: 8px;
   align-items: center;
 }
-.caprice-profile-tools input,
 .caprice-profile-tools select,
-.caprice-profile-tools button,
 .caprice-album-dialog > button {
   min-height: 48px;
 }
@@ -214,16 +212,24 @@
   }
 }
 
-/* The same paper controls in preparation and in every local sticker book. */
+/* The same paper controls in preparation and in every local sticker book. The preparation
+   moves its book choice into the friends view, so that view is named here too. */
 .caprice-profile-tools label,
 .caprice-detail label {
   display: grid;
   gap: 8px;
   min-width: 0;
 }
-.caprice-profile-tools input,
+#mission-friends > label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
 .caprice-profile-tools select,
-.caprice-detail select {
+.caprice-detail select,
+#mission-friends select {
   color: var(--ink);
   background: var(--paper);
   border: 1px solid #8ca97e;
@@ -305,25 +311,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-}
-#caprice-album-manage {
-  flex: 1;
-  min-width: 160px;
-}
-#caprice-album-manage > summary {
-  min-height: 48px;
-  padding: 12px 8px;
-  cursor: pointer;
-}
-.caprice-profile-management {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding-block: 8px;
-}
-.caprice-profile-tools:has(#caprice-album-manage[open]) {
-  max-height: 40%;
-  overflow: auto;
 }
 .caprice-album-pagination {
   display: flex;

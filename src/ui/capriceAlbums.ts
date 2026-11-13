@@ -9,6 +9,8 @@ import { stickerGraphic, paintSticker } from './capriceIcons.ts';
 export { stickerGraphic } from './capriceIcons.ts';
 import { pauseForDialog } from './dialogs.ts';
 export type AlbumsController = ReturnType<typeof createCapriceAlbumsController>;
+/** Choosing a sticker book only makes sense when the family already has several. */
+export const albumChoiceShown = (count: number) => count > 1;
 export function albumOptions(select: HTMLSelectElement, albums: AlbumsController) {
   const state = albums.state;
   const signature = JSON.stringify(state.children.map((c) => [c.id, c.name]));
@@ -43,6 +45,17 @@ export function bindCapriceAlbums(
   const close = document.createElement('button');
   close.id = 'caprice-album-close';
   setText(close, 'Fermer');
+  // Un petit mot d'enfant sous le titre : à quoi sert ce carnet.
+  const hint = document.createElement('p');
+  hint.id = 'caprice-album-hint';
+  hint.className = 'caprice-album-hint';
+  setText(hint, 'Réussis un caprice pour gagner son autocollant.');
+  dialog.setAttribute('aria-describedby', hint.id);
+  const heading = document.createElement('div');
+  heading.className = 'caprice-album-heading';
+  heading.append(title, hint);
+  // Plus de création ni de renommage de carnet. Une sauvegarde qui en contient déjà
+  // plusieurs garde ce choix pour passer de l'un à l'autre ; avec un seul, rien à choisir.
   const tools = document.createElement('div');
   tools.className = 'caprice-profile-tools';
   const label = document.createElement('label');
@@ -50,27 +63,8 @@ export function bindCapriceAlbums(
   const select = document.createElement('select');
   select.id = 'caprice-album-profile';
   label.append(select);
-  const name = document.createElement('input');
-  name.id = 'caprice-album-name';
-  name.maxLength = 24;
-  const add = document.createElement('button');
-  add.id = 'caprice-album-add';
-  setText(add, 'Ajouter un carnet');
-  const rename = document.createElement('button');
-  rename.id = 'caprice-album-rename';
-  setText(rename, 'Renommer');
-  const nameLabel = document.createElement('label');
-  nameLabel.htmlFor = name.id;
-  nameLabel.append(createTextNode('Nom du carnet'), name);
-  const manage = document.createElement('details');
-  manage.id = 'caprice-album-manage';
-  const manageLabel = document.createElement('summary');
-  setText(manageLabel, 'Gérer les carnets');
-  const management = document.createElement('div');
-  management.className = 'caprice-profile-management';
-  management.append(nameLabel, add, rename);
-  manage.append(manageLabel, management);
-  tools.append(label, manage);
+  tools.append(label);
+  tools.hidden = !albumChoiceShown(albums.state.children.length);
   const persistence = document.createElement('p');
   persistence.id = 'caprice-album-status';
   const slots = document.createElement('div');
@@ -81,10 +75,10 @@ export function bindCapriceAlbums(
   setAttribute(pagination, 'aria-label', 'Missions du carnet');
   const previous = document.createElement('button');
   previous.id = 'caprice-album-previous';
-  setText(previous, '← Mission précédente');
+  setText(previous, '← Page précédente');
   const next = document.createElement('button');
   next.id = 'caprice-album-next';
-  setText(next, 'Mission suivante →');
+  setText(next, 'Page suivante →');
   const pageStatus = document.createElement('span');
   pageStatus.id = 'caprice-album-page';
   pageStatus.setAttribute('role', 'status');
@@ -122,7 +116,7 @@ export function bindCapriceAlbums(
   }
   const header = document.createElement('header');
   header.className = 'caprice-album-header';
-  header.append(title, close);
+  header.append(heading, close);
   dialog.append(header, tools, pagination, slots, persistence);
   document.body.append(dialog);
   const modal = pauseForDialog(dialog, session, refresh);
@@ -147,7 +141,6 @@ export function bindCapriceAlbums(
   note.append(resultGraphic, resultName, resultStatus);
   function open(owner?: string | null) {
     viewed = owner ?? null;
-    manage.open = false;
     if (owner && session.game.mission) {
       const index = MISSIONS.findIndex((m) => m.id === session.game.mission!.missionId);
       if (index >= 0) missionPage = index;
@@ -169,21 +162,6 @@ export function bindCapriceAlbums(
     viewed = null;
     refresh();
     update(true);
-  };
-  add.onclick = () => {
-    if (albums.add(name.value)) {
-      name.value = '';
-      viewed = null;
-      refresh();
-      update(true);
-    }
-  };
-  rename.onclick = () => {
-    if (albums.rename(viewed ?? albums.state.activeId, name.value)) {
-      name.value = '';
-      refresh();
-      update(true);
-    }
   };
   function showPage() {
     pages.forEach((page, index) => {
@@ -228,6 +206,7 @@ export function bindCapriceAlbums(
     if (next === signature) return;
     signature = next;
     albumOptions(select, albums);
+    tools.hidden = !albumChoiceShown(state.children.length);
     select.value = viewed ?? state.activeId;
     const child = state.children.find((c) => c.id === (viewed ?? state.activeId))!;
     for (const leaf of leaves) {
@@ -236,7 +215,6 @@ export function bindCapriceAlbums(
       setText(leaf.status, earned ? '✓ Autocollant gagné' : 'À découvrir');
     }
     showPage();
-    add.disabled = state.children.length >= 8;
     setText(persistence, status());
   }
   return { refresh: () => update(), open };

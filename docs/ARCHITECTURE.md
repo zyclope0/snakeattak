@@ -572,16 +572,23 @@ tailles, du petit téléphone à l'ordinateur, avec et sans marges système.
 `src/ui/dialogPages.css` applique la même méthode aux dialogues qui servent d'écrans. L'unité
 `--hu` est définie sur la page entière (`:root`, dans `homePages.css`), donc partagée.
 
-| Dialogue             | Ce qui reste toujours en vue                                               |
-| -------------------- | -------------------------------------------------------------------------- |
-| Carnet de caprices   | Les six autocollants d'une mission ; la sortie, même en gérant les carnets |
-| Préparation          | Le titre et les cinq vues sur une rangée ; « C'est parti ! »               |
-| Catalogue des alliés | Six alliés par page ; filtres et pages sur une rangée                      |
-| Comment jouer        | « C'est parti ! » et la fermeture, pendant que le texte défile             |
-| Serpents annoncés    | La vague à gauche, œufs et conseil à droite ; « Retour au camp »           |
+| Dialogue             | Ce qui reste toujours en vue                                           |
+| -------------------- | ---------------------------------------------------------------------- |
+| Carnet de caprices   | Les six autocollants d'une mission, la phrase qui explique ; la sortie |
+| Préparation          | Le titre et ses quatre ou cinq vues sur une rangée ; « C'est parti ! » |
+| Catalogue des alliés | Six alliés par page ; filtres et pages sur une rangée                  |
+| Comment jouer        | « C'est parti ! » et la fermeture, pendant que le texte défile         |
+| Serpents annoncés    | La vague à gauche, œufs et conseil à droite ; « Retour au camp »       |
 
 Le même fichier porte la règle des cibles tactiles : 48 px au moins pour tout bouton, liste ou
 volet d'un dialogue, de l'en-tête et de la barre de commandes, à toute taille d'écran.
+
+Depuis le 13 novembre 2026, l'interface ne crée ni ne renomme plus de carnet : le choix du
+carnet (dialogue du carnet et préparation) n'apparaît que pour une sauvegarde qui en contient
+déjà plusieurs (`albumChoiceShown`). L'onglet « Copains » de la préparation n'apparaît que s'il
+a quelque chose à proposer (`friendsViewHasContent`) ; s'il disparaît pendant qu'il est ouvert,
+le résumé reprend la main (`availableView`). Le code de départ reste produit et lisible depuis
+la page des parents ; son bloc est seulement masqué dans la préparation (`hidden`).
 
 Seuils de repli restants : sous 600 px de large ou en portrait, les pages du catalogue passent
 sous les filtres. Un très petit téléphone (568×320) montre une rangée de trois alliés à la
