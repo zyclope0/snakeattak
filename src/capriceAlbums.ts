@@ -1,7 +1,7 @@
 import { capriceById } from './caprices.ts';
 import { readMissionRun } from './missions.ts';
 import type { Game } from './game.ts';
-import { isRecord } from './plainData.ts';
+import { hasControlCharacter, isArrayOfLength, isIntegerIn, isRecord } from './plainData.ts';
 
 export type CapriceAlbum = { id: string; name: string; completed: string[] };
 export type CapriceAlbums = {
@@ -12,11 +12,14 @@ export type CapriceAlbums = {
   campProfileId: string | null;
   children: CapriceAlbum[];
 };
+const MAX_CHILDREN = 8;
+// The 36 challenges of the catalogue: an album cannot hold more stickers.
+const MAX_COMPLETED = 36;
 const validName = (value: unknown): value is string =>
   typeof value === 'string' &&
   value.length <= 24 &&
   value.trim().length > 0 &&
-  !/[\u0000-\u001f\u007f-\u009f]/u.test(value);
+  !hasControlCharacter(value);
 const copy = (state: CapriceAlbums): CapriceAlbums => ({
   ...state,
   children: state.children.map((child) => ({ ...child, completed: [...child.completed] })),
@@ -32,57 +35,73 @@ export function createCapriceAlbums(): CapriceAlbums {
   };
 }
 
+/** `child-N`, where N is a number that `nextId` has already handed out. */
+function isChildId(id: unknown, nextId: number): id is string {
+  if (typeof id !== 'string' || !/^child-[1-9]\d{0,15}$/.test(id)) return false;
+  const number = Number(id.slice(6));
+  return Number.isSafeInteger(number) && number < nextId;
+}
+
+/** The challenges won by one child: known ones, each of them once. */
+function readCompleted(saved: unknown): string[] | null {
+  if (!isArrayOfLength(saved, 0, MAX_COMPLETED)) return null;
+  const completed: string[] = [];
+  for (const id of saved) {
+    if (typeof id !== 'string' || !capriceById(id) || completed.includes(id)) return null;
+    completed.push(id);
+  }
+  return completed;
+}
+
+/** One album; `taken` holds the identifiers already read: two children never share one. */
+function readChild(
+  saved: unknown,
+  nextId: number,
+  taken: ReadonlySet<string>,
+): CapriceAlbum | null {
+  if (
+    !isRecord(saved) ||
+    !isChildId(saved.id, nextId) ||
+    taken.has(saved.id) ||
+    !validName(saved.name)
+  )
+    return null;
+  const completed = readCompleted(saved.completed);
+  return completed && { id: saved.id, name: saved.name, completed };
+}
+
+function readAlbums(value: unknown): CapriceAlbums | null {
+  if (
+    !isRecord(value) ||
+    value.version !== 1 ||
+    !isArrayOfLength(value.children, 1, MAX_CHILDREN) ||
+    !isIntegerIn(value.nextId, 2, Number.MAX_SAFE_INTEGER)
+  )
+    return null;
+  const children: CapriceAlbum[] = [];
+  const ids = new Set<string>();
+  for (const saved of value.children) {
+    const child = readChild(saved, value.nextId, ids);
+    if (!child) return null;
+    ids.add(child.id);
+    children.push(child);
+  }
+  const isChild = (id: unknown): id is string => typeof id === 'string' && ids.has(id);
+  if (!isChild(value.activeId) || (value.campProfileId !== null && !isChild(value.campProfileId)))
+    return null;
+  return {
+    version: 1,
+    activeId: value.activeId,
+    nextId: value.nextId,
+    campProfileId: value.campProfileId,
+    children,
+  };
+}
+
 /** Reconstruct bounded plain data before it can enter an atomic family write. */
 export function validateCapriceAlbums(value: unknown): CapriceAlbums | null {
   try {
-    if (
-      !isRecord(value) ||
-      value.version !== 1 ||
-      !Array.isArray(value.children) ||
-      value.children.length < 1 ||
-      value.children.length > 8 ||
-      typeof value.nextId !== 'number' ||
-      !Number.isSafeInteger(value.nextId) ||
-      value.nextId < 2
-    )
-      return null;
-    const children: CapriceAlbum[] = [];
-    const ids = new Set<string>();
-    for (const child of value.children) {
-      if (
-        !isRecord(child) ||
-        typeof child.id !== 'string' ||
-        !/^child-[1-9]\d{0,15}$/.test(child.id) ||
-        !Number.isSafeInteger(Number(child.id.slice(6))) ||
-        Number(child.id.slice(6)) >= value.nextId ||
-        ids.has(child.id) ||
-        !validName(child.name) ||
-        !Array.isArray(child.completed) ||
-        child.completed.length > 36
-      )
-        return null;
-      const completed: string[] = [];
-      for (const id of child.completed) {
-        if (typeof id !== 'string' || !capriceById(id) || completed.includes(id)) return null;
-        completed.push(id);
-      }
-      ids.add(child.id);
-      children.push({ id: child.id, name: child.name, completed });
-    }
-    if (
-      typeof value.activeId !== 'string' ||
-      !ids.has(value.activeId) ||
-      (value.campProfileId !== null &&
-        (typeof value.campProfileId !== 'string' || !ids.has(value.campProfileId)))
-    )
-      return null;
-    return {
-      version: 1,
-      activeId: value.activeId,
-      nextId: value.nextId,
-      campProfileId: value.campProfileId,
-      children,
-    };
+    return readAlbums(value);
   } catch {
     return null;
   }
@@ -97,7 +116,11 @@ export function createCapriceAlbumsController(initial?: CapriceAlbums) {
       return copy(state);
     },
     add(name: string): string | null {
-      if (!validName(name) || state.children.length >= 8 || state.nextId >= Number.MAX_SAFE_INTEGER)
+      if (
+        !validName(name) ||
+        state.children.length >= MAX_CHILDREN ||
+        state.nextId >= Number.MAX_SAFE_INTEGER
+      )
         return null;
       const id = `child-${state.nextId++}`;
       state.children.push({ id, name, completed: [] });

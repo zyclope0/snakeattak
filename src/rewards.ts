@@ -1,5 +1,5 @@
 import type { Kind } from './data.ts';
-import { isRecord } from './plainData.ts';
+import { isArrayOfLength, isNumberIn, isRecord, isUint32 } from './plainData.ts';
 export type Milestone = 4 | 8;
 export const REWARDS = {
   'renfort-bouclier': {
@@ -66,49 +66,66 @@ export function freeRecruit(state: RewardState, kind: Kind) {
 }
 export const extraHoneySeconds = (state: RewardState) =>
   state.choices.filter((c) => c.id === 'miel').length * 4;
+/** The camps that follow waves 4 and 8, where a reward is offered. */
+export const isMilestone = (value: unknown): value is Milestone => value === 4 || value === 8;
+
+// Damage absorbed by one « cristal » reward: the ward of a save cannot exceed what was chosen.
+const CRYSTAL_WARD = 18;
+
+type SavedRewards = Record<string, unknown> & { seed: number; choices: unknown[]; ward: number };
+
+/** The fields that stand alone: seed, at most two choices, ward, and a pending offer due now. */
+function hasValidHeader(raw: unknown, wave: number): raw is SavedRewards {
+  return (
+    isRecord(raw) &&
+    isUint32(raw.seed) &&
+    isArrayOfLength(raw.choices, 0, 2) &&
+    isNumberIn(raw.ward, 0, Number.MAX_VALUE) &&
+    (raw.pending === null || (isMilestone(raw.pending) && raw.pending === wave))
+  );
+}
+
+/**
+ * One past choice. It was made at a milestone already reached, after the previous one, among
+ * the three cards really offered; only a recruit voucher may still be unused.
+ */
+function readChoice(
+  saved: unknown,
+  seed: number,
+  wave: number,
+  previousMilestone: number,
+): RewardChoice | null {
+  if (
+    !isRecord(saved) ||
+    !isMilestone(saved.milestone) ||
+    saved.milestone > wave ||
+    saved.milestone <= previousMilestone ||
+    typeof saved.used !== 'boolean' ||
+    typeof saved.id !== 'string'
+  )
+    return null;
+  const skipped = saved.id === 'skip';
+  if (!skipped && !rewardOffer(seed, saved.milestone).includes(saved.id as RewardId)) return null;
+  if ((skipped || !REWARDS[saved.id as RewardId].kind) && !saved.used) return null;
+  return { milestone: saved.milestone, id: saved.id as RewardChoice['id'], used: saved.used };
+}
+
 /** Reject inconsistent rewards; never reapply a gift while reading a save. */
 export function readRewards(raw: unknown, wave: number): RewardState | null {
-  if (
-    !isRecord(raw) ||
-    !Number.isInteger(raw.seed) ||
-    (raw.seed as number) < 0 ||
-    (raw.seed as number) > 0xffffffff ||
-    !Array.isArray(raw.choices) ||
-    raw.choices.length > 2 ||
-    typeof raw.ward !== 'number' ||
-    !Number.isFinite(raw.ward) ||
-    raw.ward < 0 ||
-    (raw.pending !== null && ((raw.pending !== 4 && raw.pending !== 8) || raw.pending !== wave))
-  )
-    return null;
-  const state = freshRewards(raw.seed as number);
-  let last = 0;
-  for (const c of raw.choices) {
-    if (
-      !isRecord(c) ||
-      (c.milestone !== 4 && c.milestone !== 8) ||
-      c.milestone > wave ||
-      c.milestone <= last ||
-      typeof c.used !== 'boolean' ||
-      typeof c.id !== 'string' ||
-      (c.id !== 'skip' && !rewardOffer(state.seed, c.milestone).includes(c.id as RewardId)) ||
-      ((c.id === 'skip' || !REWARDS[c.id as RewardId].kind) && !c.used)
-    )
-      return null;
-    last = c.milestone;
-    state.choices.push({ milestone: c.milestone, id: c.id as RewardChoice['id'], used: c.used });
+  if (!hasValidHeader(raw, wave)) return null;
+  const state = freshRewards(raw.seed);
+  let previousMilestone = 0;
+  for (const saved of raw.choices) {
+    const choice = readChoice(saved, state.seed, wave, previousMilestone);
+    if (!choice) return null;
+    previousMilestone = choice.milestone;
+    state.choices.push(choice);
   }
-  if (
-    state.choices.some((c) => c.milestone === raw.pending) ||
-    raw.ward > state.choices.filter((c) => c.id === 'cristal').length * 18
-  )
-    return null;
-  if (
-    (wave === 4 || wave === 8) &&
-    raw.pending !== wave &&
-    !state.choices.some((c) => c.milestone === wave)
-  )
-    return null;
+  const answered = (milestone: unknown) => state.choices.some((c) => c.milestone === milestone);
+  const crystals = state.choices.filter((c) => c.id === 'cristal').length;
+  if (answered(raw.pending) || raw.ward > crystals * CRYSTAL_WARD) return null;
+  // At a milestone the offer is either still pending or already answered.
+  if (isMilestone(wave) && raw.pending !== wave && !answered(wave)) return null;
   state.pending = raw.pending as Milestone | null;
   state.ward = raw.ward;
   return state;

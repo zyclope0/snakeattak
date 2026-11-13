@@ -1,4 +1,5 @@
 import type { MissionId } from './missions.ts';
+import { isIntegerIn } from './plainData.ts';
 
 /**
  * Caprices des serpents : trois variantes de règles par mission, débloquées par les étoiles.
@@ -94,41 +95,27 @@ export const CAPRICE_UNLOCK_STARS: Readonly<Record<CapriceTier, number>> = Objec
 });
 
 const catalog = new Map<string, CapriceDefinition>();
+// Bounds of the rules. A value is compared as it is written: the catalogue is typed, and
+// the balance lab must get the same answer as before for anything it tries.
+const isPositiveUpTo = (value: number, max: number) => value > 0 && value <= max;
+const isBetween = (value: number, min: number, max: number) => value >= min && value <= max;
 function validRules(rules: CapriceRules) {
   return (
-    rules.budget > 0 &&
-    rules.budget <= 1 &&
-    rules.cadence > 0 &&
-    rules.cadence <= 1 &&
-    rules.speed >= 1 &&
-    rules.speed <= 2 &&
-    rules.hp > 0 &&
-    rules.hp <= 2 &&
-    (rules.shellBite === undefined || (rules.shellBite >= 1 && rules.shellBite <= 3)) &&
-    rules.bite >= 1 &&
-    rules.bite <= 3 &&
-    rules.count >= 1 &&
-    rules.count <= 2 &&
-    Number.isInteger(rules.eggs) &&
-    rules.eggs >= 0 &&
-    rules.eggs <= 2 &&
-    rules.hatch > 0 &&
-    rules.hatch <= 1 &&
-    Number.isInteger(rules.kinds) &&
-    rules.kinds >= 0 &&
-    rules.kinds <= 3 &&
-    Number.isInteger(rules.reserve) &&
-    rules.reserve >= 0 &&
-    rules.reserve <= 5000 &&
-    Number.isInteger(rules.shellEvery) &&
-    rules.shellEvery >= 0 &&
-    rules.shellEvery <= 6 &&
-    rules.shellSpeed > 0 &&
-    rules.shellSpeed <= 1 &&
-    rules.shellHp >= 1 &&
-    rules.shellHp <= 5 &&
-    rules.shellArmor >= 0 &&
-    rules.shellArmor <= 0.8
+    isPositiveUpTo(rules.budget, 1) &&
+    isPositiveUpTo(rules.cadence, 1) &&
+    isBetween(rules.speed, 1, 2) &&
+    isPositiveUpTo(rules.hp, 2) &&
+    (rules.shellBite === undefined || isBetween(rules.shellBite, 1, 3)) &&
+    isBetween(rules.bite, 1, 3) &&
+    isBetween(rules.count, 1, 2) &&
+    isIntegerIn(rules.eggs, 0, 2) &&
+    isPositiveUpTo(rules.hatch, 1) &&
+    isIntegerIn(rules.kinds, 0, 3) &&
+    isIntegerIn(rules.reserve, 0, 5000) &&
+    isIntegerIn(rules.shellEvery, 0, 6) &&
+    isPositiveUpTo(rules.shellSpeed, 1) &&
+    isBetween(rules.shellHp, 1, 5) &&
+    isBetween(rules.shellArmor, 0, 0.8)
   );
 }
 /**
