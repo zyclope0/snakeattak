@@ -240,6 +240,8 @@
 }
 #mission-dialog #mission-summary .mission-facts dt {
   display: flex;
+  /* L'image à côté du mot, pas au-dessus : le résumé tient sur un téléphone avec marges. */
+  flex-direction: row;
   align-items: center;
   gap: calc(var(--hu) * 0.5);
   font-size: max(11px, calc(var(--hu) * 1.2));
