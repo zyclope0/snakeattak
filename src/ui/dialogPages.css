@@ -19,10 +19,20 @@
 .caprice-album-dialog .caprice-album-header {
   display: contents;
 }
-.caprice-album-dialog .caprice-album-header h2 {
+/* The title and its one-sentence explanation share the first cell. */
+.caprice-album-dialog .caprice-album-heading {
   grid-column: 1;
   grid-row: 1;
+  min-width: 0;
+}
+.caprice-album-dialog .caprice-album-header h2 {
   font-size: max(16px, calc(var(--hu) * 1.9));
+  line-height: 1.15;
+}
+.caprice-album-dialog .caprice-album-hint {
+  margin: 0;
+  font-size: max(12px, calc(var(--hu) * 1.25));
+  line-height: 1.2;
 }
 #caprice-album-close {
   grid-column: 3;
@@ -39,24 +49,6 @@
 }
 .caprice-profile-tools > label {
   font-size: max(12px, calc(var(--hu) * 1.3));
-}
-/* Managing the books opens over the page instead of pushing the stickers away. */
-.caprice-album-dialog .caprice-profile-tools:has(#caprice-album-manage[open]) {
-  /* An absolutely placed grid item is contained by its grid area: every row, but not the
-     last column, so the exit stays reachable. */
-  grid-column: 1 / 3;
-  grid-row: 1 / -1;
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 2;
-  flex-wrap: wrap;
-  max-height: 100%;
-  overflow: auto;
-  padding: calc(var(--hu) * 0.8);
-  border: 1px solid #8ca97e;
-  border-radius: calc(var(--hu) * 1);
-  background: var(--paper);
-  box-shadow: 0 4px 0 #b7a27a;
 }
 .caprice-album-pagination {
   grid-column: 1 / -1;
@@ -167,7 +159,7 @@
   }
 }
 
-/* ---- Mission preparation: title and the five views on one row, departure always in view. ---- */
+/* ---- Mission preparation: title and its views on one row, departure always in view. ---- */
 #mission-dialog[open] {
   /* The whole safe width on a phone, a comfortable panel on a large screen. */
   width: min(

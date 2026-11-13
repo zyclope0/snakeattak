@@ -1,6 +1,6 @@
 import { bindMissionPreparation } from './missionPreparation.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
-import { bindCapricePreparation, canLaunchCaprice } from './capriceView.ts';
+import { bindCapricePreparation, canLaunchCaprice, friendsViewHasContent } from './capriceView.ts';
 import { capriceBudget, capriceRules, capriceDefinitionForRun } from '../caprices.ts';
 import type { Kind } from '../data.ts';
 import type { AlbumsController } from './capriceAlbums.ts';
@@ -116,6 +116,7 @@ export function bindExpeditions(
     draft = run;
     legacyLabel.hidden = run.balance === 2;
     preparation.update(run, progress.state.bestStars[run.missionId] ?? 0);
+    views.offerFriends(friendsViewHasContent(run, albums?.state.children.length ?? 0));
     departures.preview(run);
     setDisplayText(el('mission-title'), mission.name);
     setDisplayText(el('mission-objective'), mission.objective);

@@ -42,7 +42,16 @@ import { setText, createTextNode } from '../i18n/dom.ts';
 import { capriceExplanation, frenchLeaf } from './capriceCopy.ts';
 import { paintSticker } from './capriceIcons.ts';
 import { capriceSpeech } from './capriceSpeech.ts';
-import { albumOptions, stickerGraphic, type AlbumsController } from './capriceAlbums.ts';
+import {
+  albumChoiceShown,
+  albumOptions,
+  stickerGraphic,
+  type AlbumsController,
+} from './capriceAlbums.ts';
+/** The friends view exists only when it offers a choice: ally kinds, or several sticker books. */
+export function friendsViewHasContent(run: MissionRun, albumCount: number) {
+  return !!capriceDefinitionForRun(run)?.rules.kinds || albumChoiceShown(albumCount);
+}
 export function bindCapricePreparation(
   dialog: HTMLDialogElement,
   onSelect: (id?: string) => void,
@@ -102,7 +111,11 @@ export function bindCapricePreparation(
   const profile = document.createElement('select');
   profile.id = 'mission-caprice-profile';
   profileLabel.append(profile);
-  profileLabel.hidden = !albums;
+  // With a single sticker book there is nothing to choose: the control stays out of the way.
+  const showProfile = () => {
+    profileLabel.hidden = !albumChoiceShown(albums?.state.children.length ?? 0);
+  };
+  showProfile();
   profile.onchange = () => {
     albums?.select(profile.value);
     onProfileChange();
@@ -158,6 +171,7 @@ export function bindCapricePreparation(
       friends.replaceChildren();
       friendAdvice.hidden = !caprice?.rules.kinds;
       if (albums) albumOptions(profile, albums);
+      showProfile();
       if (!caprice) return;
       title.textContent = caprice.name;
       paintSticker(graphic, caprice);

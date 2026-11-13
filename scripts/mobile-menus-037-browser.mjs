@@ -36,8 +36,10 @@ function family(mode = 'missions') {
   progress.sync(classic);
   progress.switchMode(mode);
   const albums = createCapriceAlbumsController();
+  // The interface no longer creates or renames books: this family already had two, the
+  // second with a name that must stay raw text on screen.
   albums.rename('child-1', 'Camille');
-  albums.add('Lou');
+  albums.add('Lou <ami>');
   albums.select('child-1');
   return writeFamilyBackup(
     encodeCheckpoint(mode === 'missions' ? mission : classic),
@@ -254,7 +256,12 @@ try {
     );
     check(await p.locator('#mission-summary').isVisible(), 'short summary visible');
     check(!(await p.locator('#mission-caprices').isVisible()), 'caprices have separate view');
-    for (const view of ['caprices', 'friends', 'scouting', 'options']) {
+    check(
+      (await p.locator('[data-preparation="friends"]').isHidden()) &&
+        (await p.locator('.preparation-nav button:visible').count()) === 4,
+      'normal mission with one book hides the empty friends tab',
+    );
+    for (const view of ['caprices', 'scouting', 'options']) {
       await p.locator(`[data-preparation="${view}"]`).click();
       check(
         (await p.locator('#mission-dialog').getAttribute('data-preparation-view')) === view,
@@ -299,8 +306,24 @@ try {
     await p.locator('#home-back').click();
     await p.locator('#home-caprice-album').click();
     check(
-      !(await p.locator('#caprice-album-manage').evaluate((n) => n.open)),
-      'book management collapsed',
+      (await p
+        .locator(
+          '#caprice-album-manage, #caprice-album-name, #caprice-album-add, #caprice-album-rename',
+        )
+        .count()) === 0,
+      'book management is gone',
+    );
+    check(
+      (await p.locator('#caprice-album-profile').count()) === 1 &&
+        (await p.locator('.caprice-profile-tools').isHidden()),
+      'single book offers no book choice',
+    );
+    check(
+      (await p.locator('#caprice-album-hint').textContent()) ===
+        'Réussis un caprice pour gagner son autocollant.' &&
+        (await p.locator('#caprice-album-previous').textContent()) === '← Page précédente' &&
+        (await p.locator('#caprice-album-next').textContent()) === 'Page suivante →',
+      'book explains itself and names its page buttons',
     );
     const seen = [];
     for (let i = 0; i < MISSIONS.length; i++) {
@@ -337,19 +360,17 @@ try {
   const p = await pageAt(780, 360, family());
   await p.locator('#home-caprice-album').click();
   await p.locator('#caprice-album-next').click();
+  check(
+    await p.locator('#caprice-album-profile').isVisible(),
+    'a family with two saved books keeps its book choice',
+  );
   await p.locator('#caprice-album-profile').selectOption('child-2');
-  await p.locator('#caprice-album-manage > summary').click();
-  await p.locator('#caprice-album-name').fill('Lou <ami>');
-  await p.locator('#caprice-album-rename').click();
+  check((await saved(p)).albums.activeId === 'child-2', 'book choice selects the saved book');
   check(
-    (await saved(p)).albums.children.find((c) => c.id === 'child-2').name === 'Lou <ami>',
-    'rename targets selected book',
+    (await saved(p)).albums.children.find((c) => c.id === 'child-2').name === 'Lou <ami>' &&
+      (await saved(p)).albums.children.find((c) => c.id === 'child-1').name === 'Camille',
+    'choosing a book leaves both saved names unchanged',
   );
-  check(
-    (await saved(p)).albums.children.find((c) => c.id === 'child-1').name === 'Camille',
-    'other book unchanged',
-  );
-  await p.locator('#caprice-album-manage > summary').click();
   const leaves = await p.locator('[data-sticker]:visible [lang="fr"]').allTextContents();
   await p.locator('#caprice-album-close').click();
   await chooseLanguage(p, 'en');
@@ -503,8 +524,8 @@ try {
     ['classic', '[data-home-page="classic"]'],
     ['parents', '#home-parent-options'],
   ];
-  async function openAt(w, h, insets) {
-    const phone = await pageAt(w, h);
+  async function openAt(w, h, insets, raw) {
+    const phone = await pageAt(w, h, raw);
     if (insets)
       await phone.evaluate((margins) => {
         for (const [side, value] of Object.entries(margins))
@@ -608,6 +629,8 @@ try {
       return {
         frame: frame.toJSON(),
         stickers: count('.caprice-sticker'),
+        hint: count('.caprice-album-hint'),
+        choice: count('#caprice-album-profile'),
         cards: count('#shop .unit-card'),
         launch: count('#mission-launch'),
         play: count('#play-help'),
@@ -640,15 +663,47 @@ try {
     let state = await dialogState(phone, '#caprice-album-dialog');
     check(state.stickers === 6, `six stickers in view at ${where}: ${JSON.stringify(state)}`);
     check(inSafeArea(state.frame) && !state.small.length, `sticker book whole at ${where}`);
-    await phone.locator('#caprice-album-manage > summary').click();
     check(
-      await phone.locator('#caprice-album-close').evaluate((node) => {
+      state.hint === 1 && state.choice === 0,
+      `book sentence in view and no book choice with one book at ${where}`,
+    );
+    const exitReachable = (page) =>
+      page.locator('#caprice-album-close').evaluate((node) => {
         const r = node.getBoundingClientRect();
         return node.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2));
-      }),
-      `book exit stays reachable while managing books at ${where}`,
-    );
+      });
+    check(await exitReachable(phone), `book exit stays reachable at ${where}`);
     await phone.locator('#caprice-album-close').click();
+    // A family that already had two books keeps its choice: everything must still fit.
+    const several = await openAt(w, h, insets, family());
+    await several.locator('#home-caprice-album').click();
+    state = await dialogState(several, '#caprice-album-dialog');
+    check(
+      state.stickers === 6 && state.hint === 1 && state.choice === 1,
+      `six stickers, sentence and book choice in view with two books at ${where}: ${JSON.stringify(state)}`,
+    );
+    check(
+      inSafeArea(state.frame) && !state.small.length,
+      `sticker book with two books whole at ${where}`,
+    );
+    check(await exitReachable(several), `book exit stays reachable with two books at ${where}`);
+    await several.locator('#caprice-album-close').click();
+    await showHomePage(several, 'missions');
+    await several.locator('#home-play').click();
+    await several.locator('#mission-dialog[open]').waitFor();
+    await several.locator('#mission-dialog [data-preparation="friends"]').click();
+    state = await dialogState(several, '#mission-dialog');
+    check(
+      state.overflow <= 1 &&
+        state.launch === 1 &&
+        (await several.locator('#mission-caprice-profile').isVisible()),
+      `preparation book choice fits with its departure at ${where}: ${JSON.stringify(state)}`,
+    );
+    check(
+      inSafeArea(state.frame) && !state.small.length,
+      `preparation book choice whole at ${where}: ${state.small}`,
+    );
+    await several.close();
     await showHomePage(phone, 'parents');
     await phone.locator('#home-help').click();
     state = await dialogState(phone, '#help-dialog');

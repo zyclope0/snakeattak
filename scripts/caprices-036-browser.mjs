@@ -32,12 +32,15 @@ async function ready(url) {
   throw Error('Server unavailable');
 }
 const familyKey = 'conquete-serpents:family:v1';
-function controlled() {
+// Books can no longer be created or renamed in the interface: a family that already has
+// several keeps them in its save, which is how these controlled states get theirs.
+function controlled(moreBooks = []) {
   const progress = createMissionProgress();
   for (const m of MISSIONS) progress.bestStars[m.id] = 3;
   const albums = createCapriceAlbumsController();
   albums.rename('child-1', 'A');
   albums.add('B');
+  for (const name of moreBooks) albums.add(name);
   albums.select('child-1');
   return writeFamilyBackup(null, createCareer().state, progress, albums.state);
 }
@@ -57,7 +60,11 @@ async function pageAt(width = 1280, height = 800, locale = 'fr', controlledFamil
           sessionStorage.setItem('seeded', '1');
         }
       },
-      { key: familyKey, raw: controlled(), locale },
+      {
+        key: familyKey,
+        raw: typeof controlledFamily === 'string' ? controlledFamily : controlled(),
+        locale,
+      },
     );
   await page.goto('http://127.0.0.1:4373');
   await page.locator('#home-screen').waitFor({ state: 'visible' });
@@ -490,6 +497,45 @@ try {
   await locked.locator('#departure-form button[type=submit]').click();
   check(await locked.locator('#mission-dialog').isHidden(), 'locked code cannot preview or launch');
   await locked.close();
+  // The preparation no longer shows its code but still makes it, and the parents' page
+  // still finds the same departure from it.
+  const coded = await pageAt();
+  await prepare(coded);
+  await coded.locator('[data-preparation="options"]').click();
+  const codedRun = JSON.parse(await coded.locator('#mission-dialog').getAttribute('data-run'));
+  const hiddenCode = await coded.locator('#mission-departure-code').inputValue();
+  check(
+    hiddenCode === encodeDeparture({ kind: 'mission', run: codedRun }),
+    'preparation still makes the code of its departure',
+  );
+  check(
+    (await coded.locator('.departure-share:visible').count()) === 0 &&
+      (await coded.locator('#mission-departure-code').isHidden()) &&
+      (await coded.locator('#mission-departure-copy').isHidden()),
+    'preparation hides the departure code and its copy button',
+  );
+  check(
+    (await coded.locator('#mission-plan').isVisible()) &&
+      (await coded.locator('#mission-reroll').isVisible()),
+    'options keep the plan and another departure',
+  );
+  await coded.locator('#mission-close').click();
+  await showHomePage(coded, 'parents');
+  check(
+    (await coded.locator('#departure-form').isVisible()) &&
+      (await coded.locator('#departure-input').isVisible()),
+    'parents page keeps its form to find a departure',
+  );
+  await coded.locator('#departure-input').fill(hiddenCode);
+  await coded.locator('#departure-form button[type=submit]').click();
+  check(await coded.locator('#mission-dialog').isVisible(), 'parents form accepts that code');
+  assert.deepEqual(
+    JSON.parse(await coded.locator('#mission-dialog').getAttribute('data-run')),
+    codedRun,
+    'parents form finds the very same departure',
+  );
+  checks++;
+  await coded.close();
   for (const [width, height] of [
     [1280, 800],
     [1366, 768],
@@ -554,6 +600,21 @@ try {
       }
       await leaveBattle(p);
       await p.locator('#home-caprice-album').click();
+      check(
+        (await p.locator('#caprice-album-hint').isVisible()) &&
+          (await p.locator('#caprice-album-hint').innerText()) ===
+            (locale === 'en'
+              ? 'Complete a caprice to earn its sticker.'
+              : 'Réussis un caprice pour gagner son autocollant.'),
+        'notebook says what it is for ' + width + locale,
+      );
+      check(
+        (await p.locator('#caprice-album-previous').innerText()) ===
+          (locale === 'en' ? '← Previous page' : '← Page précédente') &&
+          (await p.locator('#caprice-album-next').innerText()) ===
+            (locale === 'en' ? 'Next page →' : 'Page suivante →'),
+        'notebook page buttons are named for what they do ' + width + locale,
+      );
       await p.locator('.caprice-album-slots').evaluate((n) => (n.scrollTop = n.scrollHeight));
       await onScreen(p.locator('#caprice-album-close'), p, 'notebook close ' + width);
       await shot(p, `album-scrolled-${width}x${height}-${locale}`);
@@ -561,14 +622,27 @@ try {
       await p.close();
     }
   // Production import/export and language actions; controlled valid file input.
-  const familyPage = await pageAt();
+  // The third book comes from the family's save: the notebook no longer creates any.
+  const familyPage = await pageAt(1280, 800, 'fr', controlled(['Café <ami>']));
   await familyPage.locator('#home-caprice-album').click();
-  await familyPage.locator('#caprice-album-manage > summary').click();
-  await familyPage.locator('#caprice-album-name').fill('Café <ami>');
-  await familyPage.locator('#caprice-album-add').click();
   check(
-    (await familyPage.locator('#caprice-album-profile').inputValue()) === 'child-3',
-    'add local child',
+    (await familyPage
+      .locator(
+        '#caprice-album-manage, #caprice-album-name, #caprice-album-add, #caprice-album-rename',
+      )
+      .count()) === 0,
+    'notebook offers no way to add or rename a book',
+  );
+  check(
+    (await familyPage.locator('#caprice-album-profile').isVisible()) &&
+      (await familyPage.locator('#caprice-album-profile option').count()) === 3,
+    'books already saved stay selectable',
+  );
+  await familyPage.locator('#caprice-album-profile').selectOption('child-3');
+  check(
+    (await familyPage.locator('#caprice-album-profile').inputValue()) === 'child-3' &&
+      (await saved(familyPage)).albums.activeId === 'child-3',
+    'select saved local child',
   );
   await familyPage.keyboard.press('Escape');
   check(
@@ -619,6 +693,63 @@ try {
     (await saved(familyPage)).albums.children.length === 1,
     'old import replaces books with default',
   );
+  // A single book: nothing to choose in the notebook nor in the preparation.
+  await showHomePage(familyPage, 'home');
+  await familyPage.locator('#home-caprice-album').click();
+  check(
+    (await familyPage.locator('#caprice-album-profile').count()) === 1 &&
+      (await familyPage.locator('.caprice-profile-tools').isHidden()),
+    'single book hides the notebook book choice and its label',
+  );
+  await familyPage.locator('#caprice-album-close').click();
+  await showHomePage(familyPage, 'missions');
+  await familyPage.locator('[data-mission-card="refuge"]').click();
+  check(
+    (await familyPage.locator('[data-preparation="friends"]').isHidden()) &&
+      (await familyPage.locator('#mission-caprice-profile').isHidden()) &&
+      (await familyPage.locator('.preparation-nav button:visible').count()) === 4,
+    'single book and normal mission hide the empty friends tab',
+  );
+  await familyPage.locator('#mission-close').click();
+  // A file with several books still imports, and the choice comes back with them.
+  await showHomePage(familyPage, 'parents');
+  await familyPage.locator('#home-family').click();
+  await familyPage.locator('#family-file').setInputFiles({
+    name: 'family.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(controlled()),
+  });
+  await familyPage.locator('#family-apply').click();
+  check(
+    (await saved(familyPage)).albums.children.map((child) => child.name).join() === 'A,B',
+    'import of a file with several books keeps every book',
+  );
+  await showHomePage(familyPage, 'home');
+  await familyPage.locator('#home-caprice-album').click();
+  check(
+    (await familyPage.locator('#caprice-album-profile').isVisible()) &&
+      (await familyPage.locator('#caprice-album-profile option').count()) === 2,
+    'several imported books bring the notebook book choice back',
+  );
+  await familyPage.locator('#caprice-album-close').click();
+  await showHomePage(familyPage, 'missions');
+  await familyPage.locator('[data-mission-card="refuge"]').click();
+  check(
+    await familyPage.locator('[data-preparation="friends"]').isVisible(),
+    'several books show the friends tab for its book choice',
+  );
+  await familyPage.locator('[data-preparation="friends"]').click();
+  await familyPage.locator('#mission-caprice-profile').selectOption('child-2');
+  check(
+    (await saved(familyPage)).albums.activeId === 'child-2',
+    'preparation book choice still selects a saved book',
+  );
+  await familyPage.locator('[data-preparation="summary"]').click();
+  check(
+    (await familyPage.locator('#mission-summary-book strong').innerText()) === 'B',
+    'summary names the chosen book',
+  );
+  await familyPage.locator('#mission-close').click();
   await familyPage.close();
   const blocked = await pageAt();
   const retained = await saved(blocked);

@@ -3,6 +3,11 @@ import { frenchLeaf } from './capriceCopy.ts';
 
 export type PreparationView = 'summary' | 'caprices' | 'friends' | 'scouting' | 'options';
 
+/** The view to show: a friends view with nothing to choose gives way to the summary. */
+export function availableView(view: PreparationView, friendsOffered: boolean): PreparationView {
+  return view === 'friends' && !friendsOffered ? 'summary' : view;
+}
+
 /** Rearrange existing preparation controls; the expedition controller owns the draft. */
 export function bindMissionPreparation(dialog: HTMLDialogElement) {
   const find = (selector: string) => dialog.querySelector<HTMLElement>(selector)!;
@@ -44,6 +49,7 @@ export function bindMissionPreparation(dialog: HTMLDialogElement) {
   const friendSummary = document.createElement('p');
   friendSummary.id = 'mission-summary-friends';
   const book = document.createElement('p');
+  book.id = 'mission-summary-book';
   const bookLabel = document.createElement('span');
   setText(bookLabel, 'Carnet de cette nouvelle partie');
   const bookName = document.createElement('strong');
@@ -72,6 +78,7 @@ export function bindMissionPreparation(dialog: HTMLDialogElement) {
   header.append(nav);
   body.before(header);
   let current: PreparationView = 'summary';
+  let friendsOffered = true;
   function updateSummary() {
     const selected = find('#caprice-detail');
     caprice.hidden = selected.hidden;
@@ -98,7 +105,8 @@ export function bindMissionPreparation(dialog: HTMLDialogElement) {
     book.hidden = profile.parentElement!.hidden;
     bookName.textContent = profile.selectedOptions[0]?.textContent ?? '';
   }
-  function show(view: PreparationView) {
+  function show(requested: PreparationView) {
+    const view = availableView(requested, friendsOffered);
     current = view;
     dialog.dataset.preparationView = view;
     for (const [key, section] of sections) {
@@ -118,6 +126,18 @@ export function bindMissionPreparation(dialog: HTMLDialogElement) {
   });
   return {
     show,
+    /** Show the friends tab only while its view has something to choose. */
+    offerFriends(offered: boolean) {
+      friendsOffered = offered;
+      const tab = buttons.get('friends')!;
+      const tabFocused = document.activeElement === tab;
+      const viewOpen = current === 'friends';
+      tab.hidden = !offered;
+      if (offered) return;
+      if (viewOpen) show('summary');
+      // Focus never stays on a tab or in a view that has just disappeared.
+      if (viewOpen || tabFocused) buttons.get('summary')!.focus();
+    },
     reset() {
       options.open = true;
       show('summary');

@@ -12,11 +12,43 @@ présentation14scènes verts. Site public contrôlé sur cinq formats ;112fichie
 aux paquets, carnets et onglets FR/EN, audio et démarrages APK hors ligne vérifiés.
 [Bilan](BILAN-0.38.0.md) et [Android](ANDROID.md). L’import de l’AAB57 sur le canal interne reste au parent.
 
-## Suivi visuel de0.38.0
+## Suivi visuel de 0.38.0
 
-Le bouclier peut brièvement se tourner vers l’allié protégé lors d’un effet `block` ;
-cosmétique (0,4s), sans incidence sur la protection. Corriger l’orientation d’affichage
-lors d’une prochaine passe, sans changer les règles.
+Relevé par Codex : le bouclier se tournait un instant vers l'allié protégé lors d'un blocage,
+parce que l'effet `block` vise cet allié. Corrigé dans le lot « simplifier » : un blocage ne
+change plus le côté affiché. Affichage seulement, la protection n'a jamais été touchée.
+
+## Essai du parent sur téléphone, 13 novembre — décisions et idées notées
+
+Décidé, en cours dans un lot « simplifier » (pas encore publié) :
+
+- Le son démarre au premier toucher de l'écran, sur le site comme dans l'application : c'est
+  voulu, on ne change rien.
+- On ne peut plus créer ni renommer de carnet de caprices. Un seul carnet par défaut ; une
+  sauvegarde qui en a déjà plusieurs les garde et peut encore en changer.
+- L'onglet « Copains » de la préparation se cache quand il n'a rien à proposer.
+- Le code de départ n'est plus montré dans la préparation. Les anciens codes restent
+  acceptés sur la page des parents.
+- Le carnet dit en une phrase à quoi il sert ; ses boutons parlent de pages, pas de missions.
+
+Idées du parent, à instruire avant tout développement :
+
+- **Profils au démarrage.** Sur un téléphone ou une tablette partagés, chaque enfant choisit
+  son profil en ouvrant le jeu ; la progression et le carnet suivent le profil. Cela
+  remplacerait les carnets multiples et plusieurs menus.
+- **Connexion Google ou Facebook.** Le parent y voit de quoi garder les profils et retrouver
+  la progression. Ce que disent les règles lues le 13 novembre (à relire sur les pages
+  officielles avant de décider, elles changent) : une application destinée d'abord aux
+  enfants ne doit utiliser ni la connexion Google ni Play Jeux ; une application « tous
+  publics » peut les proposer en option, sans les exiger ; Meta interdit sa plateforme aux
+  applications pour les moins de 13 ans sauf accord particulier. Un compte, même minimal,
+  est une donnée personnelle : politique de confidentialité, fiche « Sécurité des données »
+  de Play, consentement d'un parent. Piste compatible avec les règles du projet : des
+  profils locaux sans compte, et plus tard une sauvegarde réservée au parent.
+- **Terrains plus variés.** Croisements différents, quatre routes, tirage plus aléatoire. À
+  voir avec le fils : ses règles demandent au moins trois voies reliées.
+- **Petits « ? » d'aide.** Une bulle de deux ou trois phrases à toucher, là où un écran reste
+  obscur après la simplification.
 
 ## Livraison précédente — 0.37.0, Android build56, Sites31 publiée
 

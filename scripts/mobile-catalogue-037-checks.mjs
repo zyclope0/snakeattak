@@ -27,11 +27,29 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       await p.locator('[data-mission-card="sonnette"]').click();
       const retained = await p.evaluate(() => JSON.stringify(window.capricesFixture.session.game));
       const previewRun = JSON.parse(await p.locator('#mission-dialog').getAttribute('data-run'));
+      check(
+        (await p.locator('[data-preparation="friends"]').isHidden()) &&
+          (await p.locator('.preparation-nav button:visible').count()) === 4,
+        'normal preparation with one book shows no friends tab ' + language,
+      );
       await p.locator('[data-preparation="options"]').click();
+      // The code is still made for every departure; the preparation no longer shows it.
       check(
         (await p.locator('#mission-departure-code').inputValue()) ===
           encodeDeparture({ kind: 'mission', run: previewRun }),
         'preview keeps exact departure code ' + language,
+      );
+      check(
+        (await p.locator('.departure-share:visible').count()) === 0 &&
+          (await p.locator('#mission-departure-code').isHidden()) &&
+          (await p.locator('#mission-departure-copy').isHidden()),
+        'preparation hides the departure code ' + language,
+      );
+      check(
+        (await p.locator('#mission-plan').isVisible()) &&
+          (await p.locator('#mission-retry').isVisible()) &&
+          (await p.locator('#mission-reroll').isVisible()),
+        'options keep the plan, the last departure and another departure ' + language,
       );
       await p.locator('#mission-retry').click();
       const retryRun = JSON.parse(await p.locator('#mission-dialog').getAttribute('data-run'));
@@ -60,7 +78,17 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
         (await p.locator('#mission-dialog').getAttribute('data-preparation-view')) === 'caprices',
         'selection preserves active preparation view ' + language,
       );
+      check(
+        (await p.locator('[data-preparation="friends"]').isVisible()) &&
+          (await p.locator('.preparation-nav button:visible').count()) === 5,
+        'a caprice that limits ally kinds shows the friends tab ' + language,
+      );
       await p.locator('[data-preparation="friends"]').click();
+      check(
+        (await p.locator('[data-preparation="friends"]').getAttribute('aria-pressed')) === 'true' &&
+          (await p.locator('.preparation-nav [aria-pressed="true"]').count()) === 1,
+        'friends tab is the one pressed ' + language,
+      );
       for (const kind of ['ninja', 'medic'])
         await p.locator(`[data-caprice-friend="${kind}"]`).click();
       check(
@@ -82,9 +110,30 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
         'summary reflects chosen friends ' + language,
       );
       check(await p.locator('#mission-land').isVisible(), 'summary reflects terrain ' + language);
-      await p.locator('[data-preparation="caprices"]').click();
-      await p.locator('#mission-normal').click();
+      // The friends tab leaves while its own view is open: the summary takes over, focus too.
       await p.locator('[data-preparation="friends"]').click();
+      await p.locator('[data-preparation="friends"]').focus();
+      await p.locator('#mission-normal').evaluate((button) => button.click());
+      check(
+        (await p.locator('#mission-dialog').getAttribute('data-preparation-view')) === 'summary' &&
+          (await p.locator('#mission-summary').isVisible()) &&
+          (await p.locator('[data-preparation="summary"]').getAttribute('aria-pressed')) ===
+            'true' &&
+          (await p.locator('.preparation-nav [aria-pressed="true"]:visible').count()) === 1,
+        'a friends view that empties falls back to the summary ' + language,
+      );
+      check(
+        await p
+          .locator('[data-preparation="summary"]')
+          .evaluate((button) => button === document.activeElement),
+        'focus follows to the summary tab ' + language,
+      );
+      check(
+        (await p.locator('[data-preparation="friends"]').isHidden()) &&
+          (await p.locator('#mission-friends').isHidden()) &&
+          (await p.locator('#mission-summary-friends').isHidden()),
+        'normal preparation hides the friends tab, its view and its summary line ' + language,
+      );
       check(
         (await p.locator('[data-caprice-friend]:visible').count()) === 0,
         'normal preparation invents no army selection ' + language,
