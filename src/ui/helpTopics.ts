@@ -1,14 +1,14 @@
 /**
- * Les petits « ? » : un écran qui reste flou reçoit un point d'aide. Ici seulement les
- * textes, en mots d'enfant ; `helpBubble.ts` dessine le bouton et sa bulle. L'anglais est
- * dans `i18n/dictionaries/supplement.en.ts`.
+ * The small "?": a screen that stays unclear gets a help point. Only the texts are here, in
+ * a child's words; `helpBubble.ts` draws the button and its bubble. The English is in
+ * `i18n/dictionaries/supplement.en.ts`.
  */
 export type HelpTopicId = 'caprices' | 'scouting' | 'departure' | 'family' | 'code';
 export type HelpTopic = {
-  /** Nom du bouton pour les lecteurs d'écran : « Aide : <sujet> ». */
+  /** The button's name for screen readers: "Aide : <topic>". */
   readonly label: string;
   readonly title: string;
-  /** Un ou deux paragraphes courts. */
+  /** One or two short paragraphs. */
   readonly text: readonly string[];
 };
 export const HELP_TOPICS: Readonly<Record<HelpTopicId, HelpTopic>> = Object.freeze({
@@ -17,7 +17,7 @@ export const HELP_TOPICS: Readonly<Record<HelpTopicId, HelpTopic>> = Object.free
     title: 'C’est quoi, un caprice ?',
     text: [
       'Un caprice, c’est un défi des serpents. Tu rejoues la mission avec une règle qui change. Si tu gagnes, son autocollant va dans ton carnet.',
-      // Suit CAPRICE_UNLOCK_STARS (caprices.ts) : une mission gagnée vaut au moins une étoile.
+      // Follows CAPRICE_UNLOCK_STARS (caprices.ts): a mission won is worth at least one star.
       'Le petit s’ouvre quand tu gagnes la mission. Le moyen avec 2 étoiles. Le grand avec 3 étoiles.',
     ],
   },
@@ -50,5 +50,5 @@ export const HELP_TOPICS: Readonly<Record<HelpTopicId, HelpTopic>> = Object.free
     ],
   },
 });
-/** Le libellé du seul bouton de la bulle. */
+/** The label of the bubble's only button. */
 export const HELP_CLOSE = 'J’ai compris';
