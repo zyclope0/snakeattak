@@ -11,6 +11,18 @@ AAB58 signé avec la clé d’envoi d’origine, APK debug séparé. Site publi�
 [Bilan](BILAN-0.38.0.md), [Android](ANDROID.md). L’import de l’AAB58 dans le canal interne reste au parent.
 Livraison précédente : [build57 / Sites32](archive/BILAN-0.38.0-build57.md).
 
+## Nettoyage du code — 13 novembre, après le build58
+
+Demande du parent : code mort, répétitions, fonctions-fleuves. Aucun changement de
+comportement ; rien n'est publié tant que Codex n'a pas fait un nouveau build.
+Fusionné dans `main` : code mort (PR44), fonctions communes, son et rendu (PR45), styles
+(PR46). Interface : PR47. Prêts et prouvés, **en attente de l'accord du parent** : moteur de
+règles et lecteurs de sauvegardes (branches locales, pas encore proposés).
+`npm run verify` : **645 tests** verts ; les 16 étapes navigateur de la CI vertes.
+Détail, preuves, limites et liste de ce qui est encore écrit en dur (trois chapitres, trois
+voies, douze vagues) : [bilan du nettoyage](BILAN-NETTOYAGE-2026-11.md).
+Non vérifié : vrai téléphone, APK, enfants.
+
 ## Suivi visuel de 0.38.0
 
 Relevé par Codex : le bouclier se tournait un instant vers l'allié protégé lors d'un blocage,
