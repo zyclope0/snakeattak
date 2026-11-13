@@ -205,4 +205,16 @@ test('la présentation note le côté du coup à partir de l’effet, pas de l�
   });
   presentation.update(game, 16);
   assert.equal(presentation.actions.get(club.id)?.facing, -1);
+  // Un blocage vise l'allié protégé : il ne retourne pas le bouclier vers lui.
+  game.effects.push({
+    sourceId: club.id,
+    x: club.x,
+    y: club.y,
+    tx: club.x + 30,
+    ty: club.y,
+    kind: 'block',
+    life: 0.2,
+  });
+  presentation.update(game, 16);
+  assert.equal(presentation.actions.get(club.id)?.facing, undefined);
 });

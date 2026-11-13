@@ -293,7 +293,8 @@ export class Presentation {
           this.actions.set(e.sourceId, {
             age: 0,
             kind: e.kind,
-            facing: e.tx > e.x ? 1 : e.tx < e.x ? -1 : undefined,
+            // A block points at the ally being protected, not at the snake: keep the rules' side.
+            facing: e.kind === 'block' ? undefined : e.tx > e.x ? 1 : e.tx < e.x ? -1 : undefined,
           });
           const source = game.units.find((u) => u.id === e.sourceId);
           if (
