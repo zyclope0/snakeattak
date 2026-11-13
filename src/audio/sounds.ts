@@ -3,6 +3,7 @@ import type { Game } from '../game.ts';
 import type { Effect } from '../game.ts';
 import { createSamples, type Cue } from './samples.ts';
 import { soundSettings } from './soundSettings.ts';
+import { byId } from '../ui/dom.ts';
 /**
  * Sons du jeu : fichiers locaux (`src/assets/audio`, licences dans `docs/AUDIO-LICENCES.md`),
  * avec le petit synthétiseur en repli tant qu'un fichier n'est pas décodé.
@@ -10,10 +11,10 @@ import { soundSettings } from './soundSettings.ts';
  * Aucun appel réseau hors du site, aucune règle de jeu modifiée.
  */
 export function bindSounds() {
-  const button = document.getElementById('sound-toggle') as HTMLButtonElement;
-  const musicButton = document.getElementById('setting-music') as HTMLButtonElement;
-  const effectsButton = document.getElementById('setting-effects') as HTMLButtonElement;
-  const homeScreen = document.getElementById('home-screen')!;
+  const button = byId<HTMLButtonElement>('sound-toggle');
+  const musicButton = byId<HTMLButtonElement>('setting-music');
+  const effectsButton = byId<HTMLButtonElement>('setting-effects');
+  const homeScreen = byId('home-screen');
   const settings = soundSettings;
   let context: AudioContext | undefined,
     master: GainNode | undefined,

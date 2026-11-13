@@ -1,5 +1,6 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Notice } from '../render/presentation.ts';
+import { byId } from './dom.ts';
 export type BattleGuide = {
   title: string;
   subtitle: string;
@@ -24,8 +25,8 @@ export function bindBattleNotices(
     update: (deltaMs: number, ports: { visible: boolean; blocked: boolean }) => string | null;
   },
 ) {
-  const panel = document.getElementById('encounter')!;
-  const announcement = document.getElementById('battle-announcement')!;
+  const panel = byId('encounter');
+  const announcement = byId('battle-announcement');
   let previous = '';
   let previousAnnouncement = '';
   return (notice: Notice | null, deltaMs = 0) => {
@@ -50,7 +51,7 @@ export function bindBattleNotices(
     if (key === previous) return;
     previous = key;
     panel.dataset.tone = tone;
-    setDisplayText(document.getElementById('encounter-title')!, content.title);
-    setDisplayText(document.getElementById('encounter-tip')!, content.subtitle);
+    setDisplayText(byId('encounter-title'), content.title);
+    setDisplayText(byId('encounter-tip'), content.subtitle);
   };
 }

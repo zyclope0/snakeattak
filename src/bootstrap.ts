@@ -39,6 +39,7 @@ import './ui/homeScene.css';
 import './ui/homePages.css';
 import './ui/dialogPages.css';
 import './ui/mainActions.css';
+import { byId } from './ui/dom.ts';
 let device: Storage | undefined;
 try {
   device = window.localStorage;
@@ -107,7 +108,7 @@ const refresh = bindControls(
     report?.();
     expeditions?.();
     refreshPrimary?.();
-    setDisplayText(document.getElementById('save-status')!, family.status);
+    setDisplayText(byId('save-status'), family.status);
   },
   career,
   {
@@ -143,11 +144,11 @@ phaser = new Phaser.Game({
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   audio: { noAudio: true },
 });
-bindBoardResize(phaser, document.getElementById('game')!);
+bindBoardResize(phaser, byId('game'));
 bindBoardResolution(phaser, () => visualSettings.light);
 const view = (home: boolean) => {
-  document.getElementById('home-screen')!.hidden = !home;
-  document.getElementById('app')!.hidden = home;
+  byId('home-screen').hidden = !home;
+  byId('app').hidden = home;
   // Both screens share a document: never inherit the map/menu scroll in battle.
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   requestAnimationFrame(() => {
@@ -211,7 +212,7 @@ function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = fa
   session.screen = 'battle';
   view(false);
   refresh();
-  document.getElementById('start')!.focus({ preventScroll: true });
+  byId('start').focus({ preventScroll: true });
   return true;
 }
 expeditions = bindExpeditions(
@@ -249,14 +250,14 @@ expeditions = bindExpeditions(
   albums,
 );
 refreshPrimary = () => {
-  const primary = document.getElementById('home-primary')!;
+  const primary = byId('home-primary');
   const missionResume = !!missionGame || !!missions.state.retryCamp;
-  const classicResume = !document.getElementById('home-continue')!.hidden;
+  const classicResume = !byId('home-continue').hidden;
   const resume = missions.state.activeMode === 'missions' ? missionResume : classicResume;
   setDisplayText(primary, resume ? 'Reprendre' : 'Jouer');
   if (resume)
     setDisplayText(
-      document.getElementById('home-next-mission')!,
+      byId('home-next-mission'),
       missions.state.activeMode === 'missions'
         ? 'Reprendre ma mission'
         : 'Reprendre mon aventure classique',

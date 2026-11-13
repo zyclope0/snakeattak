@@ -1,3 +1,4 @@
+import { byId, portraitPhone } from './dom.ts';
 export type HomePage = 'home' | 'missions' | 'classic' | 'parents' | 'favorites';
 
 /** Visibility and focus only; mode and save decisions stay with their controllers. */
@@ -5,9 +6,9 @@ export function bindHomeNavigation(): { show(page: HomePage, focus?: boolean): v
   // A fixed div outside a native modal is inert and cannot cover the top layer.
   // Host the same notice in the most recently opened modal during portrait,
   // preserving every dialog's open state, focus and pause lease.
-  const notice = document.getElementById('orientation-notice')!;
+  const notice = byId('orientation-notice');
   const noticeParent = notice.parentElement!;
-  const portrait = matchMedia('(pointer: coarse) and (orientation: portrait)');
+  const portrait = portraitPhone();
   const modals: HTMLDialogElement[] = [];
   const positionNotice = () => {
     const parent = portrait.matches ? (modals.at(-1) ?? noticeParent) : noticeParent;
@@ -24,8 +25,8 @@ export function bindHomeNavigation(): { show(page: HomePage, focus?: boolean): v
   }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
   portrait.addEventListener('change', positionNotice);
   positionNotice();
-  const screen = document.getElementById('home-screen')!;
-  const back = document.getElementById('home-back')!;
+  const screen = byId('home-screen');
+  const back = byId('home-back');
   let current: HomePage = 'home';
   let returnFocus: HTMLElement | null = null;
   function show(page: HomePage, focus = true) {

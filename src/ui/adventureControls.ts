@@ -1,13 +1,14 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import { heroTrainingState, campToolModel } from './campToolModel.ts';
 import type { Session } from '../session.ts';
+import { byId } from './dom.ts';
 export function bindAdventureControls(
   session: Session,
   refresh: () => void,
   isPaused = () => session.game.paused,
 ) {
-  const encourage = document.getElementById('encourage') as HTMLButtonElement;
-  const status = document.getElementById('encourage-status')!;
+  const encourage = byId<HTMLButtonElement>('encourage');
+  const status = byId('encourage-status');
   encourage.onclick = () => {
     session.game.encourage();
     refresh();
@@ -33,6 +34,6 @@ export function bindAdventureControls(
     );
     const training = heroTrainingState(g);
     for (const b of choices) b.disabled = isPaused() || !training.ready;
-    setDisplayText(document.getElementById('training-status')!, training.status);
+    setDisplayText(byId('training-status'), training.status);
   };
 }

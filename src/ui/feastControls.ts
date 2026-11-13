@@ -7,6 +7,7 @@ import { LANE_NAMES } from '../ai.ts';
 import type { Session } from '../session.ts';
 import type { FeastFlavor } from '../tactics.ts';
 import { ART_SHEETS } from '../art.ts';
+import { byId } from './dom.ts';
 export const FEAST_CHOICES: ReadonlyArray<{
   value: FeastFlavor;
   label: string;
@@ -39,10 +40,10 @@ export function bindFeastControls(
   onChange: () => void,
   isPaused = () => session.game.paused,
 ) {
-  const container = document.getElementById('feast-controls')!;
-  const flavorContainer = document.getElementById('feast-flavors')!;
-  const hint = document.getElementById('feast-hint')!;
-  const status = document.getElementById('feast-status')!;
+  const container = byId('feast-controls');
+  const flavorContainer = byId('feast-flavors');
+  const hint = byId('feast-hint');
+  const status = byId('feast-status');
   let selected: FeastFlavor = 'lure';
   let observed = session.game;
   const canChoose = () =>

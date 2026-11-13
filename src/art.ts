@@ -181,15 +181,16 @@ export const EGG_ART = frame('enemies-mechanical', 3);
 export const HONEY_ART = frame('miels-parapluie', 2);
 export const HONEY_STICKY_ART = frame('miels-parapluie', 3);
 export const UMBRELLA_CLOSED_ART = frame('miels-parapluie', 1);
-export function portraitStyle(kind: Kind): string {
-  const art = ALLY_ART[kind],
-    sheet = ART_SHEETS.find((s) => s.key === art.texture)!;
+/** Inline style that shows one cell of a 2 × 2 sheet as the background of an element. */
+function cellStyle(art: ArtFrame): string {
+  const sheet = ART_SHEETS.find((s) => s.key === art.texture)!;
   return `background-image:url("${sheet.url}");background-size:200% ${(1024 / sheet.frameHeight) * 100}%;background-repeat:no-repeat;background-position:${art.frame % 2 ? 100 : 0}% ${art.frame >= 2 ? 100 : 0}%`;
+}
+export function portraitStyle(kind: Kind): string {
+  return cellStyle(ALLY_ART[kind]);
 }
 
 /** Same atlas crops as actors; flying/healer portraits get a capability badge in UI. */
 export function enemyPortraitStyle(kind: EnemyKind | 'king' | 'egg'): string {
-  const art = kind === 'king' ? KING_ART : kind === 'egg' ? EGG_ART : ENEMY_ART[kind];
-  const sheet = ART_SHEETS.find((s) => s.key === art.texture)!;
-  return `background-image:url("${sheet.url}");background-size:200% ${(1024 / sheet.frameHeight) * 100}%;background-repeat:no-repeat;background-position:${art.frame % 2 ? 100 : 0}% ${art.frame >= 2 ? 100 : 0}%`;
+  return cellStyle(kind === 'king' ? KING_ART : kind === 'egg' ? EGG_ART : ENEMY_ART[kind]);
 }

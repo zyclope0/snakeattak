@@ -5,6 +5,7 @@ import { kinds, TOTAL_WAVES } from './data.ts';
 import type { Kind } from './data.ts';
 import { missionById, readMissionRun, isPersistableMissionRun } from './missions.ts';
 import { ensureMedical, medicalRules, readMedical } from './healing.ts';
+import { isRecord, isNumberIn, isIntegerIn } from './plainData.ts';
 
 const KEY = 'conquete-serpents:camp:v1';
 const LIMIT = 100000;
@@ -103,34 +104,20 @@ export function encodeCheckpoint(game: Game): string | null {
   });
   return raw.length <= LIMIT ? raw : null;
 }
-const object = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
-const number = (v: unknown, min: number, max: number): v is number =>
-  typeof v === 'number' && Number.isFinite(v) && v >= min && v <= max;
-const integer = (v: unknown, min: number, max: number): v is number =>
-  number(v, min, max) && Number.isInteger(v);
 export function decodeCheckpoint(raw: string): Game | null {
   if (typeof raw !== 'string' || raw.length > LIMIT) return null;
   try {
     const d: unknown = JSON.parse(raw);
     if (
-      !object(d) ||
-      (d.version !== 1 &&
-        d.version !== 2 &&
-        d.version !== 3 &&
-        d.version !== 4 &&
-        d.version !== 5 &&
-        d.version !== 6 &&
-        d.version !== 7 &&
-        d.version !== 8 &&
-        d.version !== 9) ||
-      !integer(d.wave, 0, TOTAL_WAVES - 1) ||
-      !integer(d.gold, 0, 10000000) ||
-      !number(d.base, 1, 100) ||
-      !integer(d.rng, 0, 4294967295) ||
-      !integer(d.nextId, 0, 10000000) ||
-      !integer(d.kills, 0, 1000000) ||
-      !integer(d.hatched, 0, 1000000) ||
+      !isRecord(d) ||
+      !isIntegerIn(d.version, 1, 9) ||
+      !isIntegerIn(d.wave, 0, TOTAL_WAVES - 1) ||
+      !isIntegerIn(d.gold, 0, 10000000) ||
+      !isNumberIn(d.base, 1, 100) ||
+      !isIntegerIn(d.rng, 0, 4294967295) ||
+      !isIntegerIn(d.nextId, 0, 10000000) ||
+      !isIntegerIn(d.kills, 0, 1000000) ||
+      !isIntegerIn(d.hatched, 0, 1000000) ||
       !Array.isArray(d.units) ||
       d.units.length > UNIT_LIMIT
     )
@@ -142,9 +129,10 @@ export function decodeCheckpoint(raw: string): Game | null {
     if (
       d.version === 9
         ? d.balance !== 2 ||
-          !integer(d.initialSeed, 0, 0xffffffff) ||
+          !isIntegerIn(d.initialSeed, 0, 0xffffffff) ||
           (hasMission && mission?.balance !== 2)
-        : Object.hasOwn(d, 'balance') || (object(d.mission) && Object.hasOwn(d.mission, 'balance'))
+        : Object.hasOwn(d, 'balance') ||
+          (isRecord(d.mission) && Object.hasOwn(d.mission, 'balance'))
     )
       return null;
     if (
@@ -160,7 +148,7 @@ export function decodeCheckpoint(raw: string): Game | null {
       hasMission &&
       (!mission ||
         d.wave >= missionById(mission.missionId)!.waves.length ||
-        !number(d.missionMinBase, 1, d.base))
+        !isNumberIn(d.missionMinBase, 1, d.base))
     )
       return null;
     const game = new Game(d.rng, undefined, mission ?? undefined, d.version === 9 ? 2 : 1),
@@ -179,7 +167,7 @@ export function decodeCheckpoint(raw: string): Game | null {
     if (
       modern &&
       Object.hasOwn(d, 'initialSeed') &&
-      (!integer(d.initialSeed, 0, 0xffffffff) || (mission && d.initialSeed !== mission.seed))
+      (!isIntegerIn(d.initialSeed, 0, 0xffffffff) || (mission && d.initialSeed !== mission.seed))
     )
       return null;
     game.initialSeed =
@@ -189,15 +177,15 @@ export function decodeCheckpoint(raw: string): Game | null {
     let heroes = 0;
     for (const u of d.units) {
       if (
-        !object(u) ||
+        !isRecord(u) ||
         typeof u.kind !== 'string' ||
         !Object.hasOwn(kinds, u.kind) ||
-        !integer(u.id, 1, d.nextId) ||
+        !isIntegerIn(u.id, 1, d.nextId) ||
         ids.has(u.id) ||
-        !number(u.x, 580, 1080) ||
-        !number(u.y, 96, 552) ||
-        !number(u.homeY, 96, 552) ||
-        (d.version !== 1 && !number(u.homeX, 580, 1080))
+        !isNumberIn(u.x, 580, 1080) ||
+        !isNumberIn(u.y, 96, 552) ||
+        !isNumberIn(u.homeY, 96, 552) ||
+        (d.version !== 1 && !isNumberIn(u.homeX, 580, 1080))
       )
         return null;
       const kind = u.kind as Kind,
@@ -210,11 +198,11 @@ export function decodeCheckpoint(raw: string): Game | null {
         : null;
       if (
         modern &&
-        ((rules && (!medical || !number(u.medicalCool, 0, rules.interval))) ||
+        ((rules && (!medical || !isNumberIn(u.medicalCool, 0, rules.interval))) ||
           (!rules && (Object.hasOwn(u, 'medical') || Object.hasOwn(u, 'medicalCool'))))
       )
         return null;
-      if (!number(u.hp, 0, max) || u.hp <= 0) return null;
+      if (!isNumberIn(u.hp, 0, max) || u.hp <= 0) return null;
       if (kind === 'hero' && ++heroes > 1) return null;
       ids.add(u.id);
       const home = { x: d.version === 1 ? u.x : (u.homeX as number), y: u.homeY };

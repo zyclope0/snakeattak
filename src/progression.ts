@@ -2,6 +2,7 @@ import type { Game } from './game.ts';
 import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
 import { freshRosters, isRoster } from './roster.ts';
 import type { Roster } from './roster.ts';
+import { isRecord, isStarCount } from './plainData.ts';
 
 export type CareerState = {
   version: 1;
@@ -13,11 +14,7 @@ export type CareerState = {
 const KEY = 'conquete-serpents:progress:v1';
 const PROFILE_LIMIT = 250000;
 const CAMP_LIMIT = 100000;
-const object = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
 const slotIndex = (slot: unknown): slot is 0 | 1 | 2 => slot === 0 || slot === 1 || slot === 2;
-const stars = (value: unknown): value is number =>
-  typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= 3;
 const freshState = (): CareerState => ({
   version: 1,
   bestStars: [0, 0, 0],
@@ -43,11 +40,11 @@ export function readCareerState(raw: string): CareerState | null {
   try {
     const value: unknown = JSON.parse(raw);
     if (
-      !object(value) ||
+      !isRecord(value) ||
       value.version !== 1 ||
       !Array.isArray(value.bestStars) ||
       value.bestStars.length !== 3 ||
-      ![...value.bestStars].every(stars) ||
+      ![...value.bestStars].every(isStarCount) ||
       !Array.isArray(value.rosters) ||
       value.rosters.length !== 3 ||
       ![...value.rosters].every(isRoster) ||
@@ -70,9 +67,9 @@ export function readCareerState(raw: string): CareerState | null {
 /** Validate live objects before JSON can silently turn sparse chapter slots into null. */
 export function validateCareerState(value: unknown): CareerState | null {
   if (
-    !object(value) ||
+    !isRecord(value) ||
     !Array.isArray(value.bestStars) ||
-    ![...value.bestStars].every(stars) ||
+    ![...value.bestStars].every(isStarCount) ||
     !Array.isArray(value.rosters) ||
     ![...value.rosters].every(isRoster) ||
     !Array.isArray(value.chapterCamps) ||
@@ -147,7 +144,7 @@ export function createCareer(
     sync(game: Game) {
       const earned = game.campaign.chapterStars;
       for (const index of [0, 1, 2] as const) {
-        if (stars(earned[index]))
+        if (isStarCount(earned[index]))
           state.bestStars[index] = Math.max(state.bestStars[index], earned[index]);
       }
       if (

@@ -8,6 +8,7 @@ import { ART_SHEETS, GROUND_ART } from '../art.ts';
 import type { Kind } from '../data.ts';
 import { missionScouting } from './missionScouting.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
+import { byId } from './dom.ts';
 /** A readable map, sharing the real paths rather than painting roads into a background. */
 export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
   const ns = 'http://www.w3.org/2000/svg';
@@ -123,18 +124,17 @@ export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
   });
 }
 export function showMissionScouting(run: MissionRun, chosen: readonly Kind[] = []) {
-  const el = (id: string) => document.getElementById(id)!;
   const scouting = missionScouting(run, chosen),
     types = scouting.types;
-  setDisplayText(el('mission-plan'), scouting.plan);
-  renderThreatCards(el('mission-threats'), types.slice(0, 3));
-  renderThreatCards(el('mission-other-threats'), types.slice(3));
-  const more = el('mission-more-threats') as HTMLDetailsElement;
+  setDisplayText(byId('mission-plan'), scouting.plan);
+  renderThreatCards(byId('mission-threats'), types.slice(0, 3));
+  renderThreatCards(byId('mission-other-threats'), types.slice(3));
+  const more = byId('mission-more-threats') as HTMLDetailsElement;
   more.open = false;
   more.hidden = types.length <= 3;
   setDisplayText(
-    el('mission-more-title'),
+    byId('mission-more-title'),
     `${types.length - 3} autres ${types.length - 3 === 1 ? 'serpent' : 'serpents'}`,
   );
-  renderThreatAdvice(el('mission-advice'), scouting.advice);
+  renderThreatAdvice(byId('mission-advice'), scouting.advice);
 }

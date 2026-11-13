@@ -35,6 +35,7 @@ import type { Kind } from '../data.ts';
 import type { Session } from '../session.ts';
 import { portraitStyle, UI_ART_URL } from '../art.ts';
 import { matchesUnitFamily, RECRUITABLE_KINDS, UNIT_FAMILIES } from './unitCatalog.ts';
+import { byId, narrowScreen } from './dom.ts';
 export function bindControls(
   session: Session,
   afterChange: () => void = () => {},
@@ -44,20 +45,19 @@ export function bindControls(
   },
 ) {
   document.documentElement.style.setProperty('--ui-art', `url("${UI_ART_URL}")`);
-  const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const pauses = pauseStateFor(session);
   const syncOrientation = bindOrientation(session, refresh);
   const cards = new Map<Kind, HTMLButtonElement>();
   const refreshHud = bindHud();
   const refreshResult = bindBattleResult(session);
-  el('mobile-home').onclick = () => el('menu-home').click();
-  el('pause-home').onclick = () => el('menu-home').click();
+  byId('mobile-home').onclick = () => byId('menu-home').click();
+  byId('pause-home').onclick = () => byId('menu-home').click();
   bindDisplay();
   const catalogue = bindReinforcementsDrawer(session, refresh);
   const pages = bindCatalogPages(refresh);
   bindVisualSettings();
   let catalogView: 'ready' | 'future' = 'ready';
-  const familySelect = el<HTMLSelectElement>('shop-family');
+  const familySelect = byId<HTMLSelectElement>('shop-family');
   for (const [value, label] of Object.entries(UNIT_FAMILIES)) {
     const option = document.createElement('option');
     option.value = value;
@@ -68,12 +68,12 @@ export function bindControls(
     pages.reset();
     refresh();
   };
-  el('shop-ready').onclick = () => {
+  byId('shop-ready').onclick = () => {
     catalogView = 'ready';
     pages.reset();
     refresh();
   };
-  el('shop-future').onclick = () => {
+  byId('shop-future').onclick = () => {
     catalogView = 'future';
     pages.reset();
     refresh();
@@ -117,11 +117,10 @@ export function bindControls(
       session.game.message = session.selected
         ? `${d.name} : touche un espace libre dans ton camp, à droite.`
         : 'Placement annulé.';
-      if (session.selected && window.matchMedia('(max-width:800px)').matches)
-        el('game').scrollIntoView({ block: 'center' });
+      if (session.selected && narrowScreen()) byId('game').scrollIntoView({ block: 'center' });
       refresh();
     };
-    el('shop').append(b);
+    byId('shop').append(b);
     cards.set(kind, b);
   }
   const refreshSquad = bindSquadControls(session, career, refresh);
@@ -132,31 +131,31 @@ export function bindControls(
   const refreshThreats = bindThreatControls(session, refresh);
   const refreshRewards = bindRewardControls(session, refresh);
   bindUnitGuide(session, refresh);
-  el('start').onclick = () => {
+  byId('start').onclick = () => {
     afterChange();
     session.game.startWave();
     refresh();
   };
-  el('pause').onclick = () => {
+  byId('pause').onclick = () => {
     if (session.game.status === 'won' || session.game.status === 'lost') return;
     if (session.game.paused) pauses.resume();
     else pauses.interrupt();
     refresh();
   };
-  el('resume-game').onclick = () => {
+  byId('resume-game').onclick = () => {
     if (session.game.status === 'won' || session.game.status === 'lost') return;
     pauses.resume();
     refresh();
   };
-  el('speed').onclick = () => {
+  byId('speed').onclick = () => {
     session.speed = session.speed === 1 ? 2 : 1;
     refresh();
   };
-  el('repair').onclick = () => {
+  byId('repair').onclick = () => {
     session.repair();
     refresh();
   };
-  el('cancel').onclick = () => {
+  byId('cancel').onclick = () => {
     session.selectUnit(null);
     session.game.message = 'Placement annulé. Choisis un allié ou lance la vague.';
     refresh();
@@ -168,24 +167,24 @@ export function bindControls(
     familySelect.value = 'all';
     refresh();
   };
-  const restartDialog = el<HTMLDialogElement>('restart-dialog');
+  const restartDialog = byId<HTMLDialogElement>('restart-dialog');
   const restartModal = pauseForDialog(restartDialog, session, refresh);
-  el('reset').onclick = () => {
+  byId('reset').onclick = () => {
     const g = session.game;
     if (session.hasPlaced || g.wave > 0 || g.gold !== 300 || g.base !== 100) restartModal.open();
     else restart();
   };
-  el('keep-playing').onclick = restartModal.close;
-  el('confirm-restart').onclick = () => {
+  byId('keep-playing').onclick = restartModal.close;
+  byId('confirm-restart').onclick = () => {
     restart();
     restartModal.close();
   };
-  el('end-restart').onclick = restart;
-  const dialog = el<HTMLDialogElement>('help-dialog');
+  byId('end-restart').onclick = restart;
+  const dialog = byId<HTMLDialogElement>('help-dialog');
   const helpModal = pauseForDialog(dialog, session, refresh);
-  el('help').onclick = helpModal.open;
-  el('close-help').onclick = helpModal.close;
-  el('play-help').onclick = helpModal.close;
+  byId('help').onclick = helpModal.open;
+  byId('close-help').onclick = helpModal.close;
+  byId('play-help').onclick = helpModal.close;
   bindLifecycle(session, refresh);
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape' && !document.querySelector('dialog[open]')) {
@@ -220,25 +219,25 @@ export function bindControls(
     const briefing = session.game.briefing;
     const finished = session.game.status === 'won' || session.game.status === 'lost';
     setDisplayText(
-      el('level-name'),
+      byId('level-name'),
       session.game.mission
         ? missionById(session.game.mission.missionId)!.name
         : session.game.level.name,
     );
     setDisplayText(
-      el('level-subtitle'),
+      byId('level-subtitle'),
       session.game.mission ? session.game.level.name : session.game.level.subtitle,
     );
     if (finished) session.selectUnit(null);
-    el('end-restart').hidden = !finished || !!session.game.mission;
+    byId('end-restart').hidden = !finished || !!session.game.mission;
     setDisplayText(
-      el('brief-title'),
+      byId('brief-title'),
       `${session.game.status === 'preparing' ? 'Prochaine vague' : 'Vague en cours'} · ${Math.max(1, nextWave)} / ${session.game.totalWaves} · ${briefing.title}`,
     );
-    setDisplayText(el('brief-tip'), briefing.tip);
+    setDisplayText(byId('brief-tip'), briefing.tip);
     if (finished) {
       setDisplayText(
-        el('brief-title'),
+        byId('brief-title'),
         session.game.status === 'won'
           ? session.game.mission
             ? 'Expédition réussie !'
@@ -246,7 +245,7 @@ export function bindControls(
           : 'Le camp est tombé',
       );
       setDisplayText(
-        el('brief-tip'),
+        byId('brief-tip'),
         session.game.status === 'won'
           ? session.game.mission
             ? 'Tes alliés ont tenu ! Retrouve la carte pour choisir la suite.'
@@ -260,49 +259,49 @@ export function bindControls(
     refreshHud(session.game);
     refreshResult();
     const selected = session.selected;
-    el('selection-panel').hidden = !selected && !session.selectedFeast;
-    el('message').hidden = !!selected || !!session.selectedFeast;
+    byId('selection-panel').hidden = !selected && !session.selectedFeast;
+    byId('message').hidden = !!selected || !!session.selectedFeast;
     if (selected) {
-      setDisplayText(el('selection-name'), kinds[selected].name);
-      setDisplayText(el('selection-hint'), placementAdvice(selected).hint);
-      el('selection-portrait').style.cssText = portraitStyle(selected);
+      setDisplayText(byId('selection-name'), kinds[selected].name);
+      setDisplayText(byId('selection-hint'), placementAdvice(selected).hint);
+      byId('selection-portrait').style.cssText = portraitStyle(selected);
     } else if (session.selectedFeast) {
       setDisplayText(
-        el('selection-name'),
+        byId('selection-name'),
         session.selectedFeast === 'sticky' ? 'Miel collant' : 'Miel attirant',
       );
       setDisplayText(
-        el('selection-hint'),
+        byId('selection-hint'),
         session.actionHint ??
           'Touche un chemin attaqué. Les boutons Haut, Centre et Bas restent disponibles.',
       );
-      el('selection-portrait').style.cssText = feastIconStyle(session.selectedFeast);
+      byId('selection-portrait').style.cssText = feastIconStyle(session.selectedFeast);
     }
     if (finished) {
-      el<HTMLDetailsElement>('brief-title').closest('details')!.open = true;
-      el<HTMLDetailsElement>('camp-observation').open = true;
-      el<HTMLDetailsElement>('camp-tools').open = true;
+      byId<HTMLDetailsElement>('brief-title').closest('details')!.open = true;
+      byId<HTMLDetailsElement>('camp-observation').open = true;
+      byId<HTMLDetailsElement>('camp-tools').open = true;
     }
-    setDisplayText(el('pause'), session.game.paused ? '▶' : 'Ⅱ');
+    setDisplayText(byId('pause'), session.game.paused ? '▶' : 'Ⅱ');
     setDisplayAttribute(
-      el('pause'),
+      byId('pause'),
       'aria-label',
       session.game.paused ? 'Reprendre' : 'Mettre en pause',
     );
-    setDisplayText(el('speed'), `×${session.speed}`);
+    setDisplayText(byId('speed'), `×${session.speed}`);
     const end = session.game.status === 'won' || session.game.status === 'lost';
-    el<HTMLButtonElement>('start').disabled =
+    byId<HTMLButtonElement>('start').disabled =
       session.game.status !== 'preparing' ||
       session.game.paused ||
       session.game.rewards.pending !== null;
     // Presentation only: during a wave the launch button gives its place to the speed button.
-    el('start').dataset.state = end
+    byId('start').dataset.state = end
       ? 'ended'
       : session.game.rewards.pending !== null
         ? 'reward'
         : session.game.status;
     setDisplayText(
-      el('start'),
+      byId('start'),
       end
         ? 'Partie terminée'
         : session.game.rewards.pending !== null
@@ -313,11 +312,11 @@ export function bindControls(
               ? 'Vague suivante'
               : 'Lancer la vague',
     );
-    el<HTMLButtonElement>('pause').disabled = end;
-    el('pause').hidden = end;
-    el<HTMLButtonElement>('repair').disabled =
+    byId<HTMLButtonElement>('pause').disabled = end;
+    byId('pause').hidden = end;
+    byId<HTMLButtonElement>('repair').disabled =
       catalogue.actionsPaused() || !campToolModel(session.game, 'repair').ready;
-    el('cancel').hidden = !session.selected && !session.selectedFeast;
+    byId('cancel').hidden = !session.selected && !session.selectedFeast;
     let ready = 0,
       future = 0;
     for (const kind of cards.keys()) {
@@ -327,13 +326,13 @@ export function bindControls(
       else future++;
     }
     if (!future) catalogView = 'ready';
-    el<HTMLButtonElement>('shop-future').disabled = !future;
-    setDisplayText(el('shop-ready'), `Disponibles (${ready})`);
-    setDisplayText(el('shop-future'), `À découvrir (${future})`);
-    el('shop-ready').setAttribute('aria-pressed', String(catalogView === 'ready'));
-    el('shop-future').setAttribute('aria-pressed', String(catalogView === 'future'));
+    byId<HTMLButtonElement>('shop-future').disabled = !future;
+    setDisplayText(byId('shop-ready'), `Disponibles (${ready})`);
+    setDisplayText(byId('shop-future'), `À découvrir (${future})`);
+    byId('shop-ready').setAttribute('aria-pressed', String(catalogView === 'ready'));
+    byId('shop-future').setAttribute('aria-pressed', String(catalogView === 'future'));
     setDisplayText(
-      el('shop-note'),
+      byId('shop-note'),
       catalogView === 'ready'
         ? ready
           ? 'Choisis un allié, puis place-le dans ton camp. Les prix sont en pièces.'
@@ -351,7 +350,7 @@ export function bindControls(
       const cost = session.game.recruitCost(kind);
       b.disabled =
         end ||
-        (session.game.paused && !(el('reinforcements') as HTMLDialogElement).open) ||
+        (session.game.paused && !(byId('reinforcements') as HTMLDialogElement).open) ||
         locked ||
         !canSpend(session.game, cost);
       const price = b.querySelector<HTMLElement>('.price')!;

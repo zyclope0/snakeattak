@@ -112,26 +112,24 @@ export class Game {
   get totalWaves() {
     return this.mission ? missionById(this.mission.missionId)!.waves.length : TOTAL_WAVES;
   }
-  get difficultyWave() {
-    const local = Math.max(
+  /** One-based number of the wave being played, or of the next one while preparing. */
+  private get localWave() {
+    return Math.max(
       1,
       Math.min(this.totalWaves, this.wave + (this.status === 'preparing' ? 1 : 0)),
     );
+  }
+  get difficultyWave() {
+    const local = this.localWave;
     return this.mission ? missionById(this.mission.missionId)!.waves[local - 1] : local;
   }
   get briefing() {
     return this.mission
-      ? missionWave(
-          this.mission,
-          Math.max(1, Math.min(this.totalWaves, this.wave + (this.status === 'preparing' ? 1 : 0))),
-        ).pattern
+      ? missionWave(this.mission, this.localWave).pattern
       : waveBriefing(this.difficultyWave);
   }
   get enemyLanes(): readonly number[] {
-    return activeEnemyLanes(
-      this.mission,
-      Math.max(1, Math.min(this.totalWaves, this.wave + (this.status === 'preparing' ? 1 : 0))),
-    );
+    return activeEnemyLanes(this.mission, this.localWave);
   }
   get missionStars(): number {
     return this.mission && this.status === 'won' ? chapterStars(this.missionMinBase) : 0;

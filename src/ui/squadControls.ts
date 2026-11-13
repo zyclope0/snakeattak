@@ -2,17 +2,18 @@ import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
+import { byId } from './dom.ts';
 export function bindSquadControls(
   session: Session,
   career: ReturnType<typeof createCareer> | undefined,
   refresh: () => void,
 ) {
-  const panel = document.getElementById('quick-army')!;
+  const panel = byId('quick-army');
   if (!career) {
     panel.hidden = true;
     return () => {};
   }
-  const select = document.getElementById('quick-slot') as HTMLSelectElement;
+  const select = byId<HTMLSelectElement>('quick-slot');
   ROSTER_NAMES.forEach((n, i) => {
     const o = document.createElement('option');
     o.value = String(i);

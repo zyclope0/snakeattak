@@ -2,6 +2,7 @@ import { setText as setDisplayText, appendText as appendDisplayText } from '../i
 import { backupSummary, readFamilyBackup, FAMILY_BYTE_LIMIT } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
+import { byId } from './dom.ts';
 type Actions = {
   exportRaw: () => string | null;
   applyBackup: (backup: FamilyBackup) => {
@@ -13,45 +14,44 @@ type Actions = {
 };
 /** User-selected local data only. Preview and cancellation never mutate the adventure. */
 export function bindFamilyControls(actions: Actions) {
-  const el = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
-  const dialog = el<HTMLDialogElement>('family-dialog');
-  const file = el<HTMLInputElement>('family-file');
-  const apply = el<HTMLButtonElement>('family-apply');
+  const dialog = byId<HTMLDialogElement>('family-dialog');
+  const file = byId<HTMLInputElement>('family-file');
+  const apply = byId<HTMLButtonElement>('family-apply');
   const albumNames = document.createElement('p');
   albumNames.id = 'family-preview-albums';
-  el('family-preview-summary').after(albumNames);
+  byId('family-preview-summary').after(albumNames);
   // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
-  el('home-family').after(helpPoint('family'));
+  byId('home-family').after(helpPoint('family'));
   let pending: FamilyBackup | null = null,
     generation = 0;
   const reset = () => {
     generation++;
     pending = null;
     file.value = '';
-    el('family-file-name').textContent = '';
+    byId('family-file-name').textContent = '';
     apply.disabled = true;
-    el('family-preview').hidden = true;
+    byId('family-preview').hidden = true;
   };
   const close = () => {
     reset();
     dialog.close();
-    el('home-family').focus({ preventScroll: true });
+    byId('home-family').focus({ preventScroll: true });
   };
-  el('home-family').onclick = () => {
+  byId('home-family').onclick = () => {
     reset();
-    setDisplayText(el('family-status'), actions.persistenceStatus());
+    setDisplayText(byId('family-status'), actions.persistenceStatus());
     dialog.showModal();
   };
-  el('family-close').onclick = close;
+  byId('family-close').onclick = close;
   dialog.addEventListener('cancel', (event) => {
     event.preventDefault();
     close();
   });
   dialog.addEventListener('close', reset);
-  el('family-export').onclick = () => {
+  byId('family-export').onclick = () => {
     const raw = actions.exportRaw();
     if (!raw || !readFamilyBackup(raw)) {
-      setDisplayText(el('family-status'), 'Impossible de préparer le fichier de cette aventure.');
+      setDisplayText(byId('family-status'), 'Impossible de préparer le fichier de cette aventure.');
       return;
     }
     const url = URL.createObjectURL(new Blob([raw], { type: 'application/json' }));
@@ -63,11 +63,11 @@ export function bindFamilyControls(actions: Actions) {
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setDisplayText(
-      el('family-status'),
+      byId('family-status'),
       'Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.',
     );
   };
-  el('family-choose-file').onclick = () => {
+  byId('family-choose-file').onclick = () => {
     try {
       if (typeof file.showPicker === 'function') file.showPicker();
       else file.click();
@@ -79,23 +79,23 @@ export function bindFamilyControls(actions: Actions) {
     const turn = ++generation;
     pending = null;
     apply.disabled = true;
-    el('family-preview').hidden = true;
+    byId('family-preview').hidden = true;
     const selected = file.files?.[0];
     if (!selected) return;
     // The user's filename is local data, never translated.
-    el('family-file-name').textContent = selected.name;
+    byId('family-file-name').textContent = selected.name;
     if (selected.size > FAMILY_BYTE_LIMIT) {
-      setDisplayText(el('family-status'), 'Fichier trop volumineux : rien n’a été modifié.');
+      setDisplayText(byId('family-status'), 'Fichier trop volumineux : rien n’a été modifié.');
       return;
     }
-    setDisplayText(el('family-status'), 'Lecture du fichier…');
+    setDisplayText(byId('family-status'), 'Lecture du fichier…');
     try {
       const raw = await selected.text();
       if (turn !== generation || !dialog.open) return;
       const backup = readFamilyBackup(raw);
       if (!backup) {
         setDisplayText(
-          el('family-status'),
+          byId('family-status'),
           'Fichier familial invalide ou incompatible : rien n’a été modifié.',
         );
         return;
@@ -103,7 +103,7 @@ export function bindFamilyControls(actions: Actions) {
       const summary = backupSummary(backup);
       const stars = summary.bestStars.reduce((a, b) => a + b, 0);
       setDisplayText(
-        el('family-preview-summary'),
+        byId('family-preview-summary'),
         summary.wave === null
           ? `Favoris et ${stars} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.`
           : `Camp avant la vague ${summary.wave + 1} · ${summary.allies} alliés · ${summary.gold} pièces · ${stars} étoiles.`,
@@ -112,16 +112,16 @@ export function bindFamilyControls(actions: Actions) {
         const missionStars = Object.values(backup.missions.bestStars).reduce((a, b) => a + b, 0);
         if (summary.wave === null && (backup.missions.classicCamp || backup.missions.retryCamp))
           setDisplayText(
-            el('family-preview-summary'),
+            byId('family-preview-summary'),
             `Progression, favoris et camps conservés dans ce fichier · ${stars} étoiles classiques.`,
           );
         appendDisplayText(
-          el('family-preview-summary'),
+          byId('family-preview-summary'),
           ` Expéditions : ${missionStars} / 18 étoiles. Le camp classique est conservé séparément.`,
         );
       }
       appendDisplayText(
-        el('family-preview-summary'),
+        byId('family-preview-summary'),
         backup.version === 4 || backup.version === 5
           ? ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.'
           : ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.',
@@ -135,16 +135,16 @@ export function bindFamilyControls(actions: Actions) {
           albumNames.append(name);
         }
       pending = backup;
-      el('family-preview').hidden = false;
+      byId('family-preview').hidden = false;
       apply.disabled = false;
       setDisplayText(
-        el('family-status'),
+        byId('family-status'),
         'Vérifie cet aperçu. Ton aventure actuelle reste intacte tant que tu ne confirmes pas.',
       );
     } catch {
       if (turn === generation)
         setDisplayText(
-          el('family-status'),
+          byId('family-status'),
           'Impossible de lire ce fichier : rien n’a été modifié.',
         );
     }
@@ -152,7 +152,7 @@ export function bindFamilyControls(actions: Actions) {
   apply.onclick = () => {
     if (!pending) return;
     const result = actions.applyBackup(pending);
-    setDisplayText(el('family-status'), result.message);
+    setDisplayText(byId('family-status'), result.message);
     if (!result.ok) return;
     reset();
     dialog.close();
