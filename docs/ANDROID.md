@@ -1,16 +1,16 @@
 # Android — version 0.37.0
 
-Dernière livraison : **0.37.0 / build55**, avec le plateau plus net, les liserés fins,
-la marche des figurines et les poses d’attaque prioritaires (PR30 de Claude).
-Même package **com.conqueteserpents.famille**, code55, paysage, minSdk24 / targetSdk36.
-AAB release signé avec la clé d’envoi Play d’origine, vérifié par jarsigner et bundletool ;
-APK debug familial avec son certificat distinct. Ressources embarquées, aucun serveur ou SDK
-commercial ajouté. [Bilan et limites](BILAN-0.37.0.md).
+Dernière livraison : **0.37.0 / build56**, avec l’accueil illustré et le retour immédiat
+de la pause après les réglages (PR32 et PR33 de Claude). Codex complète les espacements
+sur écran bas, libellé de mission visible en français/anglais et cibles48px conservées.
+Même package **com.conqueteserpents.famille**, code56, paysage, minSdk24 / targetSdk36.
+AAB release signé avec la clé d’envoi Play d’origine ; APK debug avec son certificat familial.
+Ressources embarquées, aucun serveur ou SDK commercial ajouté. [Bilan et limites](BILAN-0.37.0.md).
 
-Dans le canal de test interne existant, créer une nouvelle version et importer
-`conquete-serpents-v0.37.0-build55-play.aab`, puis installer la mise à jour via Google Play avec
-le même compte testeur. L’APK debug ne remplace pas la signature de distribution Play.
-Aucun envoi Console ou essai physique S24 par Codex ; fluidité et mémoire à confirmer sur appareil.
+Créer une nouvelle version du canal de test interne existant et importer
+`conquete-serpents-v0.37.0-build56-play.aab`, puis installer la mise à jour via Google Play avec
+le même compte testeur. L’APK debug conserve une signature distincte de la distribution Play.
+Aucun envoi Console ou essai physique S24 par Codex ; confort sur appareil encore à confirmer.
 
 VersionName 0.32.1, versionCode 36 : correction du défilement tactile du
 catalogue en paysage. Même identifiant et certificat debug ; mise à jour

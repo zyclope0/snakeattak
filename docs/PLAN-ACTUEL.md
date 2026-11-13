@@ -1,6 +1,18 @@
-# Plan actuel — 0.37.0, livraison Android build55
+# Plan actuel — 0.37.0, livraison Android build56
 
-## Livraison actuelle — Android build55, Sites30 publiée
+## Livraison actuelle — Android build56, Sites31 publiée
+
+Source figée : `f04f3d5fb1df8f53db9f72dbd9a64a373b50a735`, main `34be40e` (PR32 et PR33).
+Accueil illustré, refuge et objets sur les boutons, réglages dégagés et pause restaurée
+pendant le clic de fermeture. Espacements complétés par Codex pour garder le nom de la
+prochaine mission visible sur écran bas FR/EN, cibles tactiles48px conservées.
+Version **0.37.0**, code **56**, même package et clé d’envoi Play. Aucune règle ou sauvegarde changée.
+`npm run verify` : **584 tests** verts. Navigateur, audit13/13 et menus758 verts sur le code final ; réglages de rendu verts.
+Site contrôlé sur cinq formats, légende de mission FR/EN et cibles48px vérifiées ;
+83 fichiers publics identiques aux paquets, audio/retour de pause et démarrages APK hors ligne verts.
+[Bilan](BILAN-0.37.0.md) et [Android](ANDROID.md). Le parent importera l’AAB56 dans le canal interne existant.
+
+## Livraison précédente — Android build55, Sites30 publiée
 
 Source figée : `07290c73ea6b4a5dad78b83585801607d922ab1f`, main `4e27314` (PR30 de Claude).
 Plateau net à la résolution de l’écran, figurines et liserés fins, marche/ondulation selon la
@@ -10,7 +22,7 @@ distance, priorité aux poses d’attaque et garde-fou du cache de terrain. Mêm
 Navigateur, audit13/13, menus758, présentation14scènes, rendu et réglages verts.
 DPR1/2/3 et repli Canvas vérifiés ; deux recettes anciennes de rendu actualisées.
 Les73fichiers publics correspondent aux paquets ; audio en ligne et démarrages APK hors ligne FR/EN verts.
-[Bilan](BILAN-0.37.0.md) et [Android](ANDROID.md). L’import de l’AAB55 dans le canal interne reste au parent.
+[Bilan du build55](archive/BILAN-0.37.0-build55.md) et [Android](ANDROID.md). L’import de l’AAB55 dans le canal interne reste au parent.
 
 ## Livraison précédente — Android build54, Sites29 publiée
 
@@ -25,7 +37,7 @@ Audio en continu, réglages, démarrages APK hors ligne et30MP3 vérifiés.
 [Bilan du build54](archive/BILAN-0.37.0-build54.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
 Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Console par Codex.
 
-## Après le build 55 — accueil plus habité (pas encore publié)
+## Changements intégrés au build56 — accueil plus habité (PR32 et PR33)
 
 Demande du parent : l'accueil faisait vide, et le fond de l'image principale avait la même
 couleur que le panneau.
@@ -42,7 +54,7 @@ couleur que le panneau.
 - Images dérivées de celles du dépôt par `scripts/build-home-scene.py` : zéro crédit,
   environ 155 Ko de plus à l'accueil.
 
-Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
+Pas essayé : installation Android physique sur Galaxy S24, Safari, Firefox, les enfants.
 
 ## Changements intégrés au build55 — netteté du plateau, liseré, marche (PR30)
 
@@ -85,7 +97,7 @@ canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en
   fois les fichiers en cache. Pistes restantes : charger en arrière-plan les planches d'alliés
   non posés (2,7 Mo) ; image de l'accueil en WebP (350 → 50 Ko), à décider car la recette exige
   aujourd'hui l'icône Android à l'identique. « Dangers » encore dans la barre du haut.
-- Test physique S24 : mise à jour vers Play55, son au retour dans l’application, fluidité,
+- Test physique S24 : mise à jour vers Play56, son au retour dans l’application, fluidité,
   volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
 - Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
 - Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.
