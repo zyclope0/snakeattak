@@ -16,8 +16,8 @@ Livraison précédente : [build57 / Sites32](archive/BILAN-0.38.0-build57.md).
 Demande du parent : code mort, répétitions, fonctions-fleuves. Aucun changement de
 comportement ; rien n'est publié tant que Codex n'a pas fait un nouveau build.
 Fusionné dans `main` : code mort (PR44), fonctions communes, son et rendu (PR45), styles
-(PR46). Interface : PR47. Prêts et prouvés, **en attente de l'accord du parent** : moteur de
-règles et lecteurs de sauvegardes (branches locales, pas encore proposés).
+(PR46), interface (PR47). Moteur de règles et lecteurs de sauvegardes : PR48, proposés après
+l'accord du parent du 13 novembre.
 `npm run verify` : **645 tests** verts ; les 16 étapes navigateur de la CI vertes.
 Détail, preuves, limites et liste de ce qui est encore écrit en dur (trois chapitres, trois
 voies, douze vagues) : [bilan du nettoyage](BILAN-NETTOYAGE-2026-11.md).

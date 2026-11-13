@@ -14,9 +14,9 @@ n'a changé. La version publiée reste 0.38.0 build 58 ; ce travail attend le pr
 | 2. Son                  | 45, fusionné | `bindSounds` : 235 lignes et 22 niveaux d'imbrication → 56 lignes et 3 niveaux ; une table « moment → son »                                         |
 | 2. Rendu                | 45, fusionné | Plus aucune fonction au-dessus de 49 lignes (8 dépassaient 60) ; petites allocations par image retirées                                             |
 | 3. Styles               | 46, fusionné | 42 déclarations toujours écrasées, 8 règles de classes jamais posées                                                                                |
-| 4. Interface            | 47           | Chaque `bind…` devient une liste de branchements ; `controls.ts` 404 → 125 lignes ; 17 nouveaux modules d'une seule responsabilité                  |
-| 5. Moteur de règles     | à ouvrir     | `updateAllies` 120 → 13 lignes, `updateEnemies` 81 → 14 ; repères du plateau nommés (`src/engine/field.ts`). **Attend l'accord du parent.**         |
-| 6. Sauvegardes et codes | à ouvrir     | `decodeCheckpoint` 172 lignes et 110 branches → étapes nommées de 19 lignes ; gardes réunis. **Attend l'accord du parent.**                         |
+| 4. Interface            | 47, fusionné | Chaque `bind…` devient une liste de branchements ; `controls.ts` 404 → 125 lignes ; 17 nouveaux modules d'une seule responsabilité                  |
+| 5. Moteur de règles     | 48           | `updateAllies` 120 → 13 lignes, `updateEnemies` 81 → 14 ; repères du plateau nommés (`src/engine/field.ts`). Accord du parent le 13 novembre.       |
+| 6. Sauvegardes et codes | 48           | `decodeCheckpoint` 172 lignes et 110 branches → étapes nommées de 19 lignes ; gardes réunis. Accord du parent le 13 novembre.                       |
 | 7. Scripts et recettes  | pas commencé | Voir « Ce qui reste »                                                                                                                               |
 
 Garde-fou ajouté : `tsconfig.json` refuse les variables, imports et paramètres inutilisés.
@@ -93,7 +93,7 @@ la liste. Ajouter un chapitre, un terrain, une voie ou des vagues demande de tou
 
 ## Ce qui reste
 
-- **Décisions du parent** : fusion des lots 5 et 6 ; 135 règles de style qui ne servent
+- **Décisions du parent** : 135 règles de style qui ne servent
   qu'en portrait ou sous 700 px de large (gardées par défaut) ; 29 scripts que plus rien
   n'appelle ; garder ou non les outils de comparaison dans le dépôt.
 - **Recettes** : faire charger aux pages de test les mêmes feuilles que le jeu ; réunir ce

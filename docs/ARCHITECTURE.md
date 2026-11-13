@@ -764,6 +764,11 @@ conventions :
 - **Données lues de l'extérieur.** `src/plainData.ts` porte les gardes communs à tout ce qui
   lit une sauvegarde, un code ou un fichier importé (`isRecord`, `isNumberIn`, `isIntegerIn`,
   `isStarCount`). Un lecteur n'écrit plus son propre `typeof … === 'object'`.
+- **Sauvegardes et codes.** Chaque lecteur est une suite d'étapes nommées (en-tête, mission,
+  caprice, unités, récompenses, campagne) ; `src/checkpointUnits.ts` lit et écrit les unités
+  d'un camp. Les versions du format sont décrites une seule fois, pour l'écriture et la
+  lecture. L'ordre des contrôles fait partie du comportement : un lecteur qui construit une
+  partie consomme le générateur aléatoire.
 - **Accès à la page.** `src/ui/dom.ts` : `byId` pour un élément de la page (à la place de
   `document.getElementById(...)!` et des copies locales de `el`), `make` pour en créer un,
   `portraitPhone` et `narrowScreen` pour les deux tests d'écran qui étaient recopiés,
