@@ -1,8 +1,10 @@
 import type { Game } from './game.ts';
 import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
+import type { StoragePort } from './checkpoints.ts';
 import { freshRosters, isRoster } from './roster.ts';
 import type { Roster } from './roster.ts';
-import { isRecord, isStarCount } from './plainData.ts';
+import { isMilestone } from './rewards.ts';
+import { isArrayOfLength, isRecord, isStarCount, readBoundedJson } from './plainData.ts';
 
 export type CareerState = {
   version: 1;
@@ -11,7 +13,7 @@ export type CareerState = {
   activeRoster: 0 | 1 | 2;
   chapterCamps: [string | null, string | null];
 };
-const KEY = 'conquete-serpents:progress:v1';
+export const CAREER_STORAGE_KEY = 'conquete-serpents:progress:v1';
 const PROFILE_LIMIT = 250000;
 const CAMP_LIMIT = 100000;
 const slotIndex = (slot: unknown): slot is 0 | 1 | 2 => slot === 0 || slot === 1 || slot === 2;
@@ -29,49 +31,58 @@ const copyState = (state: CareerState): CareerState => ({
   rosters: [[...state.rosters[0]], [...state.rosters[1]], [...state.rosters[2]]],
   chapterCamps: [...state.chapterCamps],
 });
+/** A chapter camp is the camp of wave 4 (slot 0) or 8 (slot 1) with its reward still to choose. */
 function readCamp(raw: unknown, slot: number): Game | null {
   if (typeof raw !== 'string' || raw.length > CAMP_LIMIT) return null;
   const game = decodeCheckpoint(raw);
   const wave = slot === 0 ? 4 : 8;
   return game?.wave === wave && game.rewards.pending === wave ? game : null;
 }
-export function readCareerState(raw: string): CareerState | null {
-  if (typeof raw !== 'string' || raw.length > PROFILE_LIMIT) return null;
-  try {
-    const value: unknown = JSON.parse(raw);
-    if (
-      !isRecord(value) ||
-      value.version !== 1 ||
-      !Array.isArray(value.bestStars) ||
-      value.bestStars.length !== 3 ||
-      ![...value.bestStars].every(isStarCount) ||
-      !Array.isArray(value.rosters) ||
-      value.rosters.length !== 3 ||
-      ![...value.rosters].every(isRoster) ||
-      !slotIndex(value.activeRoster) ||
-      !Array.isArray(value.chapterCamps) ||
-      value.chapterCamps.length !== 2 ||
-      ![...value.chapterCamps].every((camp, slot) => camp === null || readCamp(camp, slot) !== null)
-    )
-      return null;
-    const canonical = copyState(value as CareerState);
-    canonical.chapterCamps = canonical.chapterCamps.map((raw, slot) =>
-      raw === null ? null : encodeCheckpoint(readCamp(raw, slot)!),
-    ) as CareerState['chapterCamps'];
-    return canonical;
-  } catch {
-    return null;
+// The copy turns an empty slot of a live array into `undefined`, which `every` then sees.
+const areStars = (value: unknown): value is unknown[] =>
+  Array.isArray(value) && [...value].every(isStarCount);
+const areRosters = (value: unknown): value is unknown[] =>
+  Array.isArray(value) && [...value].every(isRoster);
+
+/** Both chapter camps written again in the current format; null if one is not readable. */
+function readChapterCamps(saved: unknown[]): CareerState['chapterCamps'] | null {
+  const camps: (string | null)[] = [];
+  for (const [slot, raw] of saved.entries()) {
+    const game = raw === null ? null : readCamp(raw, slot);
+    if (raw !== null && !game) return null;
+    camps.push(game && encodeCheckpoint(game));
   }
+  return camps as CareerState['chapterCamps'];
+}
+
+function readCareer(value: unknown): CareerState | null {
+  if (
+    !isRecord(value) ||
+    value.version !== 1 ||
+    !areStars(value.bestStars) ||
+    value.bestStars.length !== 3 ||
+    !areRosters(value.rosters) ||
+    value.rosters.length !== 3 ||
+    !slotIndex(value.activeRoster) ||
+    !isArrayOfLength(value.chapterCamps, 2, 2)
+  )
+    return null;
+  const chapterCamps = readChapterCamps(value.chapterCamps);
+  if (!chapterCamps) return null;
+  const canonical = copyState(value as CareerState);
+  canonical.chapterCamps = chapterCamps;
+  return canonical;
+}
+export function readCareerState(raw: string): CareerState | null {
+  return readBoundedJson(raw, PROFILE_LIMIT, readCareer);
 }
 
 /** Validate live objects before JSON can silently turn sparse chapter slots into null. */
 export function validateCareerState(value: unknown): CareerState | null {
   if (
     !isRecord(value) ||
-    !Array.isArray(value.bestStars) ||
-    ![...value.bestStars].every(isStarCount) ||
-    !Array.isArray(value.rosters) ||
-    ![...value.rosters].every(isRoster) ||
+    !areStars(value.bestStars) ||
+    !areRosters(value.rosters) ||
     !Array.isArray(value.chapterCamps) ||
     ![...value.chapterCamps].every((camp) => camp === null || typeof camp === 'string')
   )
@@ -83,34 +94,66 @@ export function validateCareerState(value: unknown): CareerState | null {
   }
 }
 
-/** Local career data is separate from the current camp; loading never grants rewards. */
-export function createCareer(
-  storage?: Pick<Storage, 'getItem' | 'setItem'>,
-  initialState?: CareerState,
-) {
-  let state = freshState();
-  let last = '';
-  let status = storage
-    ? 'Progression enregistrée sur cet appareil'
-    : 'Progression locale indisponible';
+type Start = { state: CareerState; last: string; status: string };
+
+/**
+ * What a session starts from: the given career, else the stored one, else a fresh one.
+ * `last` is the text already in storage, so that an unchanged career is not written again.
+ */
+function startCareer(storage?: StoragePort, initialState?: CareerState): Start {
+  const fresh: Start = {
+    state: freshState(),
+    last: '',
+    status: storage
+      ? 'Progression enregistrée sur cet appareil'
+      : 'Progression locale indisponible',
+  };
   if (initialState !== undefined) {
-    const loaded = validateCareerState(initialState);
-    if (loaded) state = loaded;
-    else status = 'Profil initial incompatible : nouvelle progression';
-  } else if (storage) {
-    try {
-      const raw = storage.getItem(KEY);
-      if (raw !== null) {
-        const loaded = readCareerState(raw);
-        if (loaded) {
-          state = loaded;
-          last = JSON.stringify(state);
-        } else status = 'Profil local incompatible : nouvelle progression';
-      }
-    } catch {
-      status = 'Progression locale indisponible';
-    }
+    const state = validateCareerState(initialState);
+    if (state) return { ...fresh, state };
+    return { ...fresh, status: 'Profil initial incompatible : nouvelle progression' };
   }
+  if (!storage) return fresh;
+  try {
+    const raw = storage.getItem(CAREER_STORAGE_KEY);
+    if (raw === null) return fresh;
+    const state = readCareerState(raw);
+    if (state) return { ...fresh, state, last: JSON.stringify(state) };
+    return { ...fresh, status: 'Profil local incompatible : nouvelle progression' };
+  } catch {
+    return { ...fresh, status: 'Progression locale indisponible' };
+  }
+}
+
+/** Best stars only grow: a weaker replay never lowers them. */
+function recordChapterStars(state: CareerState, game: Game): void {
+  const earned = game.campaign.chapterStars;
+  for (const index of [0, 1, 2] as const) {
+    if (isStarCount(earned[index]))
+      state.bestStars[index] = Math.max(state.bestStars[index], earned[index]);
+  }
+}
+
+/** Keep the camp of a chapter's end as it stood before its reward was chosen. */
+function rememberChapterCamp(state: CareerState, game: Game): void {
+  if (game.status !== 'preparing' || !isMilestone(game.wave) || game.rewards.pending !== game.wave)
+    return;
+  const slot = game.wave === 4 ? 0 : 1;
+  const previous = readCamp(state.chapterCamps[slot], slot);
+  // Keep the original pre-choice camp through repeated syncs and reloads.
+  if (
+    previous &&
+    previous.rewards.seed === game.rewards.seed &&
+    previous.balanceRevision === game.balanceRevision
+  )
+    return;
+  const raw = encodeCheckpoint(game);
+  if (raw && readCamp(raw, slot)) state.chapterCamps[slot] = raw;
+}
+
+/** Local career data is separate from the current camp; loading never grants rewards. */
+export function createCareer(storage?: StoragePort, initialState?: CareerState) {
+  let { state, last, status } = startCareer(storage, initialState);
   function persist() {
     if (!storage) return;
     const raw = JSON.stringify(state);
@@ -120,7 +163,7 @@ export function createCareer(
       return;
     }
     try {
-      storage.setItem(KEY, raw);
+      storage.setItem(CAREER_STORAGE_KEY, raw);
       last = raw;
       status = 'Progression enregistrée sur cet appareil';
     } catch {
@@ -142,28 +185,8 @@ export function createCareer(
       return true;
     },
     sync(game: Game) {
-      const earned = game.campaign.chapterStars;
-      for (const index of [0, 1, 2] as const) {
-        if (isStarCount(earned[index]))
-          state.bestStars[index] = Math.max(state.bestStars[index], earned[index]);
-      }
-      if (
-        game.status === 'preparing' &&
-        (game.wave === 4 || game.wave === 8) &&
-        game.rewards.pending === game.wave
-      ) {
-        const slot = game.wave === 4 ? 0 : 1;
-        const previous = readCamp(state.chapterCamps[slot], slot);
-        // Keep the original pre-choice camp through repeated syncs and reloads.
-        if (
-          !previous ||
-          previous.rewards.seed !== game.rewards.seed ||
-          previous.balanceRevision !== game.balanceRevision
-        ) {
-          const raw = encodeCheckpoint(game);
-          if (raw && readCamp(raw, slot)) state.chapterCamps[slot] = raw;
-        }
-      }
+      recordChapterStars(state, game);
+      rememberChapterCamp(state, game);
       persist();
     },
     setRoster(slot: number, roster: Roster): boolean {
