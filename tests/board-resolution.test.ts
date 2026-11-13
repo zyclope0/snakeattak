@@ -151,4 +151,7 @@ test('le décor est mis en cache deux fois plus fin que le plateau, sauf en lég
   assert.equal(terrainScale(1.5, false, false, Infinity), 1.5);
   // Carte graphique limitée à 2048 px : on reste à la taille du canvas.
   assert.equal(terrainScale(1, false, true, 2048), 1);
+  // Canvas plus large que cette limite : le cache s'arrête à la limite, 2046 px ici.
+  assert.equal(terrainScale(2, false, true, 2048), 1.86);
+  assert.ok(Math.ceil(1100 * terrainScale(2, false, true, 2048)) <= 2048);
 });

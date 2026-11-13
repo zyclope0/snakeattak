@@ -49,7 +49,8 @@ export function shakeBoard(scene: Phaser.Scene, duration: number, intensity: num
 /**
  * Pixels of the terrain cache per board unit. WebGL has no anti-aliasing inside a render
  * texture: twice the board lets the screen average the path edges instead of showing steps.
- * « Effets légers » and the Canvas renderer keep the cache at the size of the canvas.
+ * « Effets légers » and the Canvas renderer keep the cache at the size of the canvas, and the
+ * cache never exceeds the largest texture of the graphics card.
  */
 export function terrainScale(
   boardScale: number,
@@ -58,7 +59,10 @@ export function terrainScale(
   maxTexture: number,
 ): number {
   const wanted = webgl && !light ? Math.max(2, boardScale) : boardScale;
-  return maxTexture >= BOARD_WIDTH * wanted ? wanted : boardScale;
+  if (maxTexture >= BOARD_WIDTH * wanted) return wanted;
+  // Never wider than the graphics card allows, even when the canvas itself is: a cache
+  // that cannot be created shows no terrain at all. Rounded down to a hundredth.
+  return Math.min(boardScale, Math.floor((maxTexture / BOARD_WIDTH) * 100) / 100);
 }
 
 /** Under 40 images a second, the picture is no longer fluid. */
