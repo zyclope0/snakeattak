@@ -1,36 +1,19 @@
-import { bindMissionPreparation } from './missionPreparation.ts';
-import { helpPoint } from './helpBubble.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
-import { bindCapricePreparation, canLaunchCaprice, friendsViewHasContent } from './capriceView.ts';
-import { capriceBudget, capriceRules, capriceDefinitionForRun } from '../caprices.ts';
 import type { Kind } from '../data.ts';
 import type { AlbumsController } from './capriceAlbums.ts';
-import {
-  setText as setDisplayText,
-  setTitle as setDisplayTitle,
-  setAttribute as setDisplayAttribute,
-  setMarkup as setDisplayMarkup,
-} from '../i18n/dom.ts';
-import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
-import { defeatCopy } from '../render/resultCopy.ts';
+import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
-import { MISSIONS, createMissionRun, missionById } from '../missions.ts';
-import type { MissionRun } from '../missions.ts';
+import { MISSIONS, createMissionRun } from '../missions.ts';
+import type { MissionId, MissionRun } from '../missions.ts';
 import type { createMissionProgressController } from '../missionProgress.ts';
-import { kinds } from '../data.ts';
-import { portraitStyle } from '../art.ts';
-import { bindDepartureControls } from './departures.ts';
+import { bindMissionDraft, freshSeed } from './missionDraft.ts';
+import { bindMissionOutcome } from './missionOutcome.ts';
 import { missionJourney } from './missionJourney.ts';
-import { missionEmblem, missionStatusBadge } from './missionJourneyView.ts';
+import { missionCard, showJourney } from './missionJourneyView.ts';
 import { byId } from './dom.ts';
+
 type Progress = ReturnType<typeof createMissionProgressController>;
-const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
-const assaults = {
-  balanced: 'Arrivées régulières',
-  rush: 'Petits groupes rapides',
-  escort: 'Avancées groupées',
-};
-const nests = { spread: 'Éclosions décalées', clustered: 'Couvée groupée' };
+
 /** Mission selection is separate from combat controls and never writes simulation rules. */
 export function bindExpeditions(
   session: Session,
@@ -46,168 +29,35 @@ export function bindExpeditions(
   },
   albums?: AlbumsController,
 ) {
-  const dialog = byId<HTMLDialogElement>('mission-dialog');
-  let draft: MissionRun | null = null;
-  const legacyLabel = document.createElement('small');
-  legacyLabel.id = 'mission-original-rules';
-  setDisplayText(legacyLabel, 'Règles d’origine');
-  byId('mission-title').after(legacyLabel);
-  const allowed = (run: MissionRun) =>
-    canLaunchCaprice(
-      run,
-      progress.unlocked(run.missionId),
-      progress.state.bestStars[run.missionId] ?? 0,
-    );
-  const preparation = bindCapricePreparation(
-    dialog,
-    (id) => {
-      if (draft) {
-        const { caprice: _, ...normal } = draft;
-        preview(id ? { ...normal, caprice: id } : normal, false);
-      }
-    },
-    albums,
-    actions.profileChanged,
-    portraitStyle,
-    (chosen) => {
-      if (draft) showMissionScouting(draft, chosen);
-      dialog.dispatchEvent(new Event('mission-preparation-change'));
-    },
-  );
-  const views = bindMissionPreparation(dialog, helpPoint);
-  const departures = bindDepartureControls(session, {
-    unlocked: allowed,
-    previewMission: preview,
-    launchClassic: actions.launchClassic,
-  });
+  const draft = bindMissionDraft(session, progress, actions, albums);
+  /** A new draw of a mission; its last departure tells which draw not to repeat. */
+  const freshRun = (id: MissionId) => createMissionRun(id, freshSeed(), progress.lastRun(id), 2);
+  const prepare = (id: MissionId) => draft.show(freshRun(id));
   const cards = MISSIONS.map((mission, index) => {
-    const button = document.createElement('button');
-    button.className = 'mission-card';
-    button.dataset.missionCard = mission.id;
-    const number = document.createElement('small');
-    setDisplayText(
-      number,
-      `${String(index + 1).padStart(2, '0')} · ${mission.waves.length} vagues`,
-    );
-    const name = document.createElement('strong');
-    setDisplayText(name, mission.name);
-    const objective = document.createElement('span');
-    setDisplayText(objective, mission.objective);
-    const stars = document.createElement('span');
-    stars.className = 'mission-stars';
-    stars.setAttribute('role', 'img');
-    const availability = document.createElement('small');
-    button.append(
-      missionEmblem(mission.id),
-      missionStatusBadge(),
-      number,
-      name,
-      objective,
-      stars,
-      availability,
-    );
-    button.onclick = () =>
-      preview(createMissionRun(mission.id, freshSeed(), progress.lastRun(mission.id), 2));
-    byId('mission-cards').append(button);
-    return { button, stars, availability, id: mission.id };
+    const card = missionCard(mission, index);
+    card.button.onclick = () => prepare(mission.id);
+    byId('mission-cards').append(card.button);
+    return card;
   });
-  function preview(run: MissionRun, resetScroll = true) {
-    if (!allowed(run)) return;
-    const mission = missionById(run.missionId)!;
-    draft = run;
-    legacyLabel.hidden = run.balance === 2;
-    preparation.update(run, progress.state.bestStars[run.missionId] ?? 0);
-    views.offerFriends(friendsViewHasContent(run, albums?.state.children.length ?? 0));
-    departures.preview(run);
-    setDisplayText(byId('mission-title'), mission.name);
-    setDisplayText(byId('mission-objective'), mission.objective);
-    byId('mission-replacement-note').hidden = !actions.canResume();
-    setDisplayText(
-      byId('mission-budget'),
-      `${capriceBudget(mission.budget, capriceRules(run))} pièces · ${mission.waves.length} vagues · nouveaux alliés`,
-    );
-    setDisplayText(byId('mission-land'), ['Détours', 'Méandres', 'Carrefour'][run.layout]);
-    setDisplayText(byId('mission-assault'), assaults[run.assault]);
-    setDisplayText(byId('mission-nest'), nests[run.nest]);
-    byId('mission-retry').hidden = !progress.lastRun(run.missionId);
-    drawMissionPreview(byId('mission-map') as unknown as SVGElement, run);
-    showMissionScouting(run, preparation.chosen());
-    const party = byId('mission-party');
-    party.replaceChildren();
-    for (const kind of ['hero', 'club', 'club'] as const) {
-      const portrait = document.createElement('span');
-      portrait.className = 'portrait';
-      portrait.style.cssText = portraitStyle(kind);
-      setDisplayTitle(portrait, kinds[kind].name);
-      party.append(portrait);
-    }
-    dialog.dataset.run = JSON.stringify(run);
-    if (!dialog.open) dialog.showModal();
-    dialog.dispatchEvent(new Event('mission-preparation-change'));
-    if (resetScroll) {
-      views.reset();
-      dialog.scrollTop = 0;
-      dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
-      byId('mission-title').focus({ preventScroll: true });
-    }
-  }
   const nextMission = () =>
     MISSIONS.find((m) => progress.unlocked(m.id) && !progress.state.bestStars[m.id]) ??
     [...MISSIONS].reverse().find((m) => progress.unlocked(m.id))!;
-  const play = () => {
-    const next = nextMission();
-    preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2));
-  };
+  const play = () => prepare(nextMission().id);
   /** The home's main button: no dialog between the first tap and the board. */
   const playNow = () => {
-    const next = nextMission();
-    const run = createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2);
-    if (allowed(run)) actions.launch(run, []);
+    const run = freshRun(nextMission().id);
+    if (draft.allowed(run)) actions.launch(run, []);
   };
   byId('home-play').onclick = play;
-  byId('mission-close').onclick = () => dialog.close();
-  byId('mission-reroll').onclick = () => {
-    if (draft) {
-      const { rules: _, ...draw } = createMissionRun(
-        draft.missionId,
-        freshSeed(),
-        draft,
-        draft.balance,
-      );
-      const next = draft.rules === 2 ? { ...draw, rules: 2 as const } : draw;
-      preview(draft.caprice ? { ...next, caprice: draft.caprice } : next);
-    }
-  };
-  byId('mission-retry').onclick = () => {
-    const previous = draft && progress.lastRun(draft.missionId);
-    if (previous) preview(previous);
-  };
-  byId('mission-launch').onclick = () => {
-    if (!draft || !allowed(draft)) return;
-    const run = draft;
-    if (actions.launch(run, preparation.chosen()) !== false) dialog.close();
-  };
   byId('mission-continue').onclick = actions.resume;
-  byId('mission-back-map').onclick = () => {
-    actions.home();
-    actions.showMissions?.();
-    byId<HTMLDetailsElement>('mission-list').open = true;
-    byId('expedition-heading').scrollIntoView({ block: 'start' });
-    byId('expedition-heading').focus({ preventScroll: true });
-  };
-  byId('mission-again').onclick = () => {
-    if (session.game.mission)
-      actions.launch(session.game.mission, session.game.capriceKindsChosen, true);
-  };
-  byId('mission-next').onclick = () => {
-    const index = MISSIONS.findIndex((m) => m.id === session.game.mission?.missionId);
-    const next = MISSIONS[index + 1];
-    if (!next || !progress.unlocked(next.id)) return;
-    actions.home();
-    preview(createMissionRun(next.id, freshSeed(), progress.lastRun(next.id), 2));
-  };
+  const refreshOutcome = bindMissionOutcome(session, {
+    ...actions,
+    prepare,
+    unlocked: progress.unlocked,
+  });
+
   const refresh = () => {
-    departures.refresh();
+    draft.refreshCodes();
     const journey = missionJourney(progress.state.bestStars, progress.unlocked);
     const next = journey.find((step) => step.status === 'next');
     setDisplayText(
@@ -218,49 +68,9 @@ export function bindExpeditions(
     );
     // The Missions page prepares a departure; only the home's main button starts at once.
     setDisplayText(byId('home-play'), next ? 'Préparer' : 'Préparer encore');
-    let total = 0;
-    for (const [index, card] of cards.entries()) {
-      const step = journey[index];
-      total += step.stars;
-      setDisplayText(card.stars, '★'.repeat(step.stars) + '☆'.repeat(3 - step.stars));
-      setDisplayAttribute(card.stars, 'aria-label', step.starLabel);
-      card.button.disabled = step.disabled;
-      card.button.dataset.journeyStatus = step.status;
-      if (step.status === 'next') card.button.setAttribute('aria-current', 'step');
-      else card.button.removeAttribute('aria-current');
-      setDisplayText(card.availability, `${step.symbol} ${step.label}`);
-    }
-    setDisplayText(byId('mission-total'), `${total} / 18 étoiles`);
+    setDisplayText(byId('mission-total'), `${showJourney(cards, journey)} / 18 étoiles`);
     byId('mission-continue').hidden = !actions.canResume();
-    const g = session.game,
-      run = g.mission;
-    byId('mission-battle-actions').hidden = !run;
-    if (!run) return;
-    const caprice = capriceDefinitionForRun(run);
-    setDisplayText(byId('mission-battle-title'), 'Tes alliés');
-    setDisplayText(byId('mission-battle-config'), `${assaults[run.assault]} · ${nests[run.nest]}`);
-    const end = g.status === 'won' || g.status === 'lost';
-    byId('mission-result').hidden = !end;
-    setDisplayText(
-      byId('mission-result'),
-      caprice
-        ? g.status === 'won'
-          ? 'Caprice réussi !'
-          : ''
-        : g.status === 'won'
-          ? `Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`
-          : defeatCopy(g).subtitle,
-    );
-    if (caprice && g.status === 'lost') {
-      const node = byId('mission-result');
-      // Clear the previous whole-node copy binding before adopting a protected leaf.
-      setDisplayMarkup(node, '<span data-copy-raw lang="fr"></span>');
-      const phrase = node.firstElementChild!;
-      phrase.textContent = caprice.announce;
-    }
-    byId('mission-again').hidden = !end;
-    const index = MISSIONS.findIndex((m) => m.id === run.missionId);
-    byId('mission-next').hidden = g.status !== 'won' || !!caprice || index >= MISSIONS.length - 1;
+    refreshOutcome();
   };
   return Object.assign(refresh, { play, playNow, resume: actions.resume });
 }
