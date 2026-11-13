@@ -47,13 +47,26 @@ try {
   await page.waitForFunction(() =>
     window.renderProbe?.phaser.scene.getScene('Battle')?.sys.isActive(),
   );
-  await page.waitForTimeout(300);
+  await page.evaluate(() => {
+    // A fully stocked medic has no badge. Make one visible in this synthetic
+    // lifecycle fixture before checking that its retained label is released.
+    const medic = window.renderProbe.game.units.find((unit) => unit.medical);
+    if (!medic) throw Error('Lifecycle fixture requires a medic');
+    medic.medical.bandages = 0;
+  });
+  await page.waitForFunction(() => {
+    const scene = window.renderProbe.phaser.scene.getScene('Battle');
+    return scene.actors.pieces.stats.active > 0 && scene.medicalSignals.labels.stats.active > 0;
+  });
   await page.evaluate(() => {
     window.renderProbe.game.units = [];
     window.renderProbe.game.enemies = [];
     window.renderProbe.game.effects = [];
   });
-  await page.waitForTimeout(150);
+  await page.waitForFunction(() => {
+    const scene = window.renderProbe.phaser.scene.getScene('Battle');
+    return scene.actors.pieces.stats.idle > 0 && scene.medicalSignals.labels.stats.idle > 0;
+  });
   const idle = await page.evaluate(() => {
     const scene = window.renderProbe.phaser.scene.getScene('Battle');
     window.removedPools = { images: scene.actors.pieces, texts: scene.medicalSignals.labels };
@@ -80,18 +93,16 @@ try {
   result.directDestroy = true;
   await page.goto('http://127.0.0.1:4198/?debug-performance');
   await page.locator('#home-screen').waitFor({ state: 'visible' });
-  await showHomePage(page, 'parents');
-  await page.locator('#home-help').click();
+  await page.locator('#home-settings').click();
   await page.locator('#light-effects').check();
   assert.equal(await page.evaluate(() => localStorage.getItem('conquete-serpents:visual:v1')), '1');
   await page.reload();
-  await showHomePage(page, 'parents');
-  await page.locator('#home-help').click();
+  await page.locator('#home-settings').click();
   assert.equal(await page.locator('#light-effects').isChecked(), true);
   await page.locator('#light-effects').focus();
   await page.keyboard.press('Space');
   assert.equal(await page.locator('#light-effects').isChecked(), false);
-  await page.locator('#close-help').click();
+  await page.locator('#settings-close').click();
   await showHomePage(page, 'classic');
   await page.locator('#home-new').click();
   await page.locator('#home-screen').waitFor({ state: 'hidden' });
@@ -131,14 +142,13 @@ try {
   await mobile.goto('http://127.0.0.1:4198/?debug-performance');
   assert.ok(await mobile.locator('#orientation-notice').isVisible());
   await mobile.setViewportSize({ width: 812, height: 375 });
-  await showHomePage(mobile, 'parents');
-  await mobile.locator('#home-help').click();
+  await mobile.locator('#home-settings').click();
   await mobile.locator('#light-effects').check();
   await mobile.screenshot({
     path: 'artifacts/performance-024/mobile-settings.png',
     fullPage: true,
   });
-  await mobile.locator('#close-help').click();
+  await mobile.locator('#settings-close').click();
   await showHomePage(mobile, 'classic');
   await mobile.locator('#home-new').click();
   await mobile.locator('canvas').waitFor();
@@ -153,8 +163,9 @@ try {
   result.touch = true;
   await mobile.close();
   assert.deepEqual(errors, []);
+  await mkdir('artifacts/reports', { recursive: true });
   await writeFile(
-    'reports/render-settings-0.24.json',
+    'artifacts/reports/render-settings-0.24.json',
     JSON.stringify({ result, errors, physicalDevice: false }, null, 2) + '\n',
   );
   console.log(JSON.stringify({ result, errors }));
