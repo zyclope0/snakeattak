@@ -1,16 +1,22 @@
 import { chapterIndex, chapterStars } from '../campaignRules.ts';
 import { cancelBossShot } from '../boss.ts';
 import { missionById } from '../missions.ts';
+import type { Milestone } from '../rewards.ts';
 import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
 import type { WaveNumbers } from './enemyTurn.ts';
 import type { Game } from '../game.ts';
 
+/** Coins earned for a defeated snake, and for the king. */
+const SNAKE_BOUNTY = 12;
+const KING_BOUNTY = 90;
+
 /** Pièces des serpents vaincus, puis retrait des morts. */
 export function collectFallen(game: Game) {
   for (const e of game.enemies)
+    // A snake that reached the crystal has maxHp 0: it pays nothing.
     if (e.hp <= 0 && e.maxHp > 0) {
-      game.gold += e.boss ? 90 : 12;
+      game.gold += e.boss ? KING_BOUNTY : SNAKE_BOUNTY;
       game.kills++;
       addEffect(game, e, e, 'gold');
     }
@@ -21,36 +27,49 @@ export function collectFallen(game: Game) {
 export function resolveWave(game: Game, dt: number, stats: WaveNumbers) {
   game.encouragementRemaining = Math.max(0, game.encouragementRemaining - dt);
   if (game.encouragementRemaining <= 1e-9) game.encouragementRemaining = 0;
-  if (game.base <= 0) {
-    game.status = 'lost';
-    for (const e of game.enemies) cancelBossShot(e.bossState);
-    game.feast = null;
-    game.encouragementRemaining = 0;
-    game.message = 'Le camp est tombé… Une autre stratégie ?';
-  } else if (
+  if (game.base <= 0) loseCamp(game);
+  else if (waveCleared(game)) closeWave(game, stats.reward);
+}
+function loseCamp(game: Game) {
+  game.status = 'lost';
+  for (const e of game.enemies) cancelBossShot(e.bossState);
+  game.feast = null;
+  game.encouragementRemaining = 0;
+  game.message = 'Le camp est tombé… Une autre stratégie ?';
+}
+/** Every snake of the wave has entered and fallen, and no egg is left to hatch. */
+function waveCleared(game: Game): boolean {
+  return (
     game.status === 'fighting' &&
     game.remaining === 0 &&
     game.enemies.length === 0 &&
     game.eggs.length === 0
-  ) {
-    game.feast = null;
-    game.encouragementRemaining = 0;
-    if (!game.mission && game.wave % 4 === 0) {
-      const chapter = chapterIndex(game.wave);
-      game.campaign.chapterStars[chapter] = chapterStars(game.campaign.chapterMin[chapter]);
-    }
-    game.gold += stats.reward;
-    game.status = game.wave === game.totalWaves ? 'won' : 'preparing';
-    if (!game.mission && game.status === 'preparing' && (game.wave === 4 || game.wave === 8)) {
-      normalizeCamp(game);
-      if (!game.rewards.choices.some((c) => c.milestone === game.wave))
-        game.rewards.pending = game.wave;
-    }
-    game.message =
-      game.status === 'won'
-        ? game.mission
-          ? `Victoire ! ${missionById(game.mission.missionId)!.name} : ${game.missionStars} étoiles !`
-          : 'Victoire ! Le roi à trois têtes est vaincu !'
-        : `Vague repoussée ! +${stats.reward} pièces. Prépare la suite.`;
+  );
+}
+function closeWave(game: Game, reward: number) {
+  game.feast = null;
+  game.encouragementRemaining = 0;
+  if (!game.mission && game.wave % 4 === 0) {
+    const chapter = chapterIndex(game.wave);
+    game.campaign.chapterStars[chapter] = chapterStars(game.campaign.chapterMin[chapter]);
   }
+  game.gold += reward;
+  game.status = game.wave === game.totalWaves ? 'won' : 'preparing';
+  if (game.status === 'won') {
+    game.message = victoryMessage(game);
+    return;
+  }
+  if (!game.mission && (game.wave === 4 || game.wave === 8)) openChapter(game, game.wave);
+  game.message = `Vague repoussée ! +${reward} pièces. Prépare la suite.`;
+}
+/** After waves 4 and 8 the map changes and a reward card is offered, once per milestone. */
+function openChapter(game: Game, milestone: Milestone) {
+  normalizeCamp(game);
+  if (!game.rewards.choices.some((c) => c.milestone === milestone))
+    game.rewards.pending = milestone;
+}
+function victoryMessage(game: Game): string {
+  return game.mission
+    ? `Victoire ! ${missionById(game.mission.missionId)!.name} : ${game.missionStars} étoiles !`
+    : 'Victoire ! Le roi à trois têtes est vaincu !';
 }

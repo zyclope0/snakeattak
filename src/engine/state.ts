@@ -55,6 +55,18 @@ export type Effect = Point & {
   life: number;
 };
 export const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
+/** Sort order: the nearest to `origin` first, the oldest fighter on a tie. */
+export const closerTo = (origin: Point, a: Entity, b: Entity) =>
+  distance(a, origin) - distance(b, origin) || a.id - b.id;
+/** Turns a fighter towards what it fights. */
+export function faceToward(entity: Entity, target: Point) {
+  entity.facing = target.x >= entity.x ? 1 : -1;
+}
+/** Drops the current path, so the next move plans a new one at once. */
+export function forgetPath(entity: Entity) {
+  entity.path = [];
+  entity.nav = 0;
+}
 /** Seul tirage aléatoire du combat : chaque appel avance la graine de la partie. */
 export function nextRandom(game: Game) {
   game.rng = (Math.imul(game.rng, 1664525) + 1013904223) >>> 0;
