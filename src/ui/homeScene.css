@@ -62,6 +62,11 @@
   --object: url('../assets/home/menu-parents.webp');
 }
 @media (max-height: 520px) {
+  /* Keep two-line labels beside the objects, leaving room for the next mission. */
+  #home-screen .home-links button {
+    padding: 6px;
+    gap: 4px;
+  }
   /* Écran bas : le bouton des réglages tient dans l'en-tête et ne mord plus sur la carte. */
   #home-screen .home-header .settings-button {
     width: 48px;
