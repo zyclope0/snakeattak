@@ -79,4 +79,25 @@ export const supplementEnglish: Record<string, string> = {
   'Le code de départ': 'The setup code',
   'Un code rejoue la même mission depuis le début : même chemin, mêmes vagues. Il ne garde pas une partie en cours.':
     'A code replays the same mission from the start: same path, same waves. It does not keep a game in progress.',
+  // Les joueurs de l'appareil (ui/players.ts). Un surnom n'est jamais traduit.
+  'Ajouter un joueur': 'Add a player',
+  'Changer de joueur': 'Switch player',
+  'Qui joue ?': 'Who is playing?',
+  'Nouveau joueur': 'New player',
+  'Choisis ton personnage': 'Choose your character',
+  Modifier: 'Edit',
+  'Ton surnom (si tu veux)': 'Your nickname (if you like)',
+  'C’est moi !': "That's me!",
+  Enregistrer: 'Save',
+  'Chaque joueur garde ses étoiles et son carnet sur cet appareil.':
+    'Each player keeps their own stars and sticker book on this device.',
+  Joueurs: 'Players',
+  Supprimer: 'Delete',
+  'Supprimer ce joueur ?': 'Delete this player?',
+  'Ses étoiles et son carnet seront effacés de cet appareil.':
+    'Their stars and sticker book will be erased from this device.',
+  'Ce fichier ne garde que l’aventure du joueur en cours :':
+    'This file only keeps the adventure of the current player:',
+  'Impossible d’enregistrer ce joueur sur cet appareil.':
+    'This player cannot be saved on this device.',
 };

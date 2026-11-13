@@ -26,6 +26,8 @@ import { createRecruitmentReminder, createReminderMarkers } from './ui/recruitme
 import { bindSounds } from './audio/sounds.ts';
 import { bindSettingsDialog } from './ui/settingsDialog.ts';
 import { bindHelpBubble } from './ui/helpBubble.ts';
+import { loadPlayers, playerStorage } from './players.ts';
+import { bindPlayers } from './ui/players.ts';
 import { createPersistence } from './checkpoints.ts';
 import Phaser from 'phaser';
 import { Session } from './session.ts';
@@ -37,12 +39,15 @@ import './ui/homeScene.css';
 import './ui/homePages.css';
 import './ui/dialogPages.css';
 import './ui/mainActions.css';
-let storage: Storage | undefined;
+let device: Storage | undefined;
 try {
-  storage = window.localStorage;
+  device = window.localStorage;
 } catch {
   /* Some private/file contexts block storage. */
 }
+// Every save below goes through the active player's keys; player 1 keeps the historical ones.
+const players = loadPlayers(device);
+const storage = device && playerStorage(device, players.activeId);
 const persistence = createPersistence(storage);
 const family = createFamilyPersistence(storage);
 const familySaved = family.load();
@@ -313,3 +318,4 @@ view(true);
 menu.refresh();
 expeditions();
 refreshPrimary();
+bindPlayers({ device, players, save: refresh, silence: () => storage?.close() });
