@@ -1,8 +1,9 @@
 import { NO_CAPRICE, type CapriceDefinition, type CapriceRules } from '../caprices.ts';
+import { svgNode } from './svg.ts';
 
 /**
- * Les vignettes en pâte à modeler, une par nom de caprice (`src/assets/caprices/`).
- * Hors de Vite (tests unitaires), la liste est vide : le dessin au trait sert de repli.
+ * The modelling-clay stickers, one per caprice name (`src/assets/caprices/`). Outside Vite
+ * (unit tests) the list is empty: the line drawing is the fallback.
  */
 const stickerUrls: Record<string, string> = import.meta.env
   ? import.meta.glob<string>('../assets/caprices/*.webp', {
@@ -12,13 +13,13 @@ const stickerUrls: Record<string, string> = import.meta.env
     })
   : {};
 
-/** Les trois défis du créateur ont le même nom dans les six missions : une vignette chacun. */
+/** The creator's three challenges keep their name in all six missions: one sticker each. */
 const CREATOR_STICKERS: Record<string, string> = {
   petit: 'la-tirelire',
   moyen: 'les-carapaces',
   grand: 'la-grande-charge',
 };
-/** Les caprices des serpents, par identifiant ; « La tempête » revient dans deux missions. */
+/** The snakes' caprices, by id; "La tempête" comes back in two missions. */
 const SNAKE_STICKERS: Record<string, string> = {
   'refuge-petit': 'serpents-presses',
   'refuge-moyen': 'mega-serpent',
@@ -39,7 +40,7 @@ const SNAKE_STICKERS: Record<string, string> = {
   'carrefour-moyen': 'un-seul-copain',
   'carrefour-grand': 'roi-fringale',
 };
-/** Nom du fichier de la vignette d'un caprice, ou rien pour un caprice sans vignette. */
+/** The file name of a caprice's sticker, or nothing for a caprice that has none. */
 export function capriceStickerName(id: string): string | undefined {
   const creator = /-createur-(petit|moyen|grand)$/.exec(id);
   return creator ? CREATOR_STICKERS[creator[1]!] : SNAKE_STICKERS[id];
@@ -89,8 +90,8 @@ const motifs: Record<ReturnType<typeof capriceIconType>, string> = {
 };
 type Stickered = Pick<CapriceDefinition, 'id' | 'rules'>;
 /**
- * Dessine la vignette d'un caprice : son image en pâte à modeler, ou, faute d'image, le
- * médaillon au trait de sa famille de règles.
+ * Draws the sticker of a caprice: its modelling-clay picture or, for want of one, the line
+ * medallion of its family of rules. Nothing is redrawn while the sticker stays the same.
  */
 export function paintSticker(svg: SVGElement, caprice?: Stickered) {
   const type = capriceIconType(caprice?.rules ?? NO_CAPRICE);
@@ -106,9 +107,7 @@ export function paintSticker(svg: SVGElement, caprice?: Stickered) {
       `<g fill="none" stroke="#355b48" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${motifs[type]}</g>`;
 }
 export function stickerGraphic(caprice?: Stickered) {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 40 40');
-  svg.setAttribute('aria-hidden', 'true');
+  const svg = svgNode('svg', { viewBox: '0 0 40 40', 'aria-hidden': 'true' });
   paintSticker(svg, caprice);
   return svg;
 }

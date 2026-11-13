@@ -32,6 +32,10 @@ export function capriceExplanation(r: CapriceRules) {
     ? sentence[0].toLocaleUpperCase('fr') + sentence.slice(1) + '.'
     : 'Prépare tes alliés pour protéger le cristal.';
 }
+/**
+ * An element for the child's own words (names and announcements of the caprices): written in
+ * French in every language, and marked so that the translator leaves them alone.
+ */
 export function frenchLeaf(tag: string, text: string) {
   const node = document.createElement(tag);
   node.dataset.copyRaw = '';
