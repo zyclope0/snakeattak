@@ -1,6 +1,5 @@
 import { victoryCopy, defeatCopy } from '../render/resultCopy.ts';
 import { placementAdvice } from './placementAdvice.ts';
-import { roleDescription } from '../defenders.ts';
 import type { Session } from '../session.ts';
 import { kinds } from '../data.ts';
 import { chapterIdentityForWave } from '../waves.ts';

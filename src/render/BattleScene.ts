@@ -19,7 +19,6 @@ import { Actors } from './actors.ts';
 import { Presentation } from './presentation.ts';
 import type { Notice } from './presentation.ts';
 import { BattleFeedback } from './battleFeedback.ts';
-import { LANE_NAMES } from '../ai.ts';
 import Phaser from 'phaser';
 import { LANES } from '../ai.ts';
 import type { Effect } from '../game.ts';

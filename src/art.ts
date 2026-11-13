@@ -128,7 +128,6 @@ const attackFrames = new Map<string, ArtFrame[]>(
 export function attackArt(art: ArtFrame): ArtFrame | undefined {
   return attackFrames.get(art.texture)?.[art.frame];
 }
-export const GROUND_ART_URL = groundUrl;
 export const GROUND_ART = [
   { key: 'ground-clearing', url: groundUrl },
   { key: 'ground-grove', url: groveUrl },
@@ -182,12 +181,6 @@ export const EGG_ART = frame('enemies-mechanical', 3);
 export const HONEY_ART = frame('miels-parapluie', 2);
 export const HONEY_STICKY_ART = frame('miels-parapluie', 3);
 export const UMBRELLA_CLOSED_ART = frame('miels-parapluie', 1);
-export const PROP_ART = {
-  bridge: frame('terrain-props', 0),
-  bramble: frame('terrain-props', 1),
-  beacon: frame('terrain-props', 2),
-  boulder: frame('terrain-props', 3),
-};
 export function portraitStyle(kind: Kind): string {
   const art = ALLY_ART[kind],
     sheet = ART_SHEETS.find((s) => s.key === art.texture)!;

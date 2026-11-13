@@ -183,21 +183,3 @@ export function bindCopyTree(root: Node): void {
   }
   for (const child of Array.from(root.childNodes)) bindCopyTree(child);
 }
-export function bindingCounts() {
-  let nodes = 0,
-    texts = 0,
-    attributes = 0;
-  for (const ref of live) {
-    const node = ref.deref();
-    if (!node) {
-      live.delete(ref);
-      continue;
-    }
-    const binding = bindings.get(node);
-    if (!binding) continue;
-    nodes++;
-    if (binding.text !== undefined) texts++;
-    attributes += binding.attributes?.size ?? 0;
-  }
-  return { nodes, texts, attributes };
-}

@@ -14,7 +14,7 @@ import { moveUnit, returnHome } from './movement.ts';
 import { hitEnemy } from './damage.ts';
 import type { Game } from '../game.ts';
 
-export function threat(game: Game, u: Entity, e: Entity) {
+function threat(u: Entity, e: Entity) {
   // Protect home lane, but intercept nearby intruders and urgent threats to the crystal.
   return (
     distance(u, e) +
@@ -23,10 +23,10 @@ export function threat(game: Game, u: Entity, e: Entity) {
     Math.max(0, e.x - 780) * 0.5
   );
 }
-export function supplyGoal(game: Game, unit: Entity): Point {
+function supplyGoal(game: Game, unit: Entity): Point {
   return nearestCampPoint({ x: 984, y: 324 + ((unit.id % 3) - 1) * 36 }, game.level);
 }
-export function medicalReady(game: Game, unit: Entity, dt: number): boolean {
+function medicalReady(game: Game, unit: Entity, dt: number): boolean {
   if (!game.tuning.tacticalRulesEnabled) return true;
   const medical = ensureMedical(unit);
   if (!medical) return false;
@@ -74,7 +74,7 @@ export function updateAllies(game: Game, dt: number) {
     }
     if (!d.damage) continue;
     const score = (e: Entity) =>
-      threat(game, u, e) +
+      threat(u, e) +
       (defenseRole(u.kind as Kind) === 'mobile' ? 120 * (assignments.get(e.id) ?? 0) : 0) -
       (u.kind === 'ninja' && e.variant === 'spitter' && e.x >= 612 && distance(u, e) <= 280
         ? 180

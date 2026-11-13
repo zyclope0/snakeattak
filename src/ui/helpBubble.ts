@@ -51,7 +51,7 @@ function helpBubble() {
 }
 
 /** Ouvre la bulle sur un sujet ; à la fermeture, le focus revient au « ? » touché. */
-export function openHelp(topic: HelpTopicId, from: HTMLElement | null = null) {
+function openHelp(topic: HelpTopicId, from: HTMLElement | null = null) {
   const panel = helpBubble();
   const help = HELP_TOPICS[topic];
   panel.dataset.help = topic;

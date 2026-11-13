@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Game } from '../src/game.ts';
-import { chooseTemptedLane, FEAST_DURATION } from '../src/tactics.ts';
+import { decideTemptation, FEAST_DURATION } from '../src/tactics.ts';
 import { chooseLane } from '../src/ai.ts';
 
 test('un goûter gratuit par vague, seulement pendant le combat et sur une vraie voie', () => {
@@ -46,7 +46,7 @@ test('nouvelle vague recharge le goûter et retire le pot précédent', () => {
 test('sans goûter, la stratégie et le hasard existants sont conservés', () => {
   for (let i = 0; i < 100; i++)
     assert.equal(
-      chooseTemptedLane([8, 0, 4], 6, i / 100, null, false),
+      decideTemptation([8, 0, 4], 6, i / 100, null, false).lane,
       chooseLane([8, 0, 4], 6, i / 100),
     );
 });
@@ -56,9 +56,9 @@ test('le goûter attire même vers une voie défendue mais ne commande pas tous 
     boss = 0;
   for (let i = 0; i < 1000; i++) {
     const r = (i + 0.5) / 1000;
-    if (chooseTemptedLane([10, 0, 0], 6, r, 0, false) === 0) normal++;
-    if (chooseTemptedLane([10, 0, 0], 6, r, 0, true) === 0) boss++;
-    counts[chooseTemptedLane([10, 0, 0], 6, r, 0, false) === 0 ? 0 : 1]++;
+    if (decideTemptation([10, 0, 0], 6, r, 0, false).lane === 0) normal++;
+    if (decideTemptation([10, 0, 0], 6, r, 0, true).lane === 0) boss++;
+    counts[decideTemptation([10, 0, 0], 6, r, 0, false).lane === 0 ? 0 : 1]++;
   }
   assert.ok(normal >= 750 && normal < 950);
   assert.ok(boss < normal - 300);

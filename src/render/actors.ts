@@ -15,7 +15,6 @@ import {
   HONEY_STICKY_ART,
   UMBRELLA_CLOSED_ART,
 } from '../art.ts';
-import type { ArtFrame } from '../art.ts';
 import type { Entity, Game } from '../game.ts';
 import { enemySpeed } from '../enemies.ts';
 import type { Kind } from '../data.ts';

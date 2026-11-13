@@ -25,7 +25,6 @@
   --ink: #193f38;
   --muted: #596e60;
   --honey: #f1bd57;
-  --danger: #b5423d;
   /* Capacitor zeros its variables when an older WebView is already inset natively. */
   --app-safe-top: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
   --app-safe-right: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));

@@ -88,7 +88,7 @@ export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
     priority: 100,
   },
 };
-export function orderedThreats(types: Iterable<ThreatKind>): ThreatKind[] {
+function orderedThreats(types: Iterable<ThreatKind>): ThreatKind[] {
   return [...new Set(types)].sort(
     (a, b) => THREAT_DETAILS[b].priority - THREAT_DETAILS[a].priority,
   );

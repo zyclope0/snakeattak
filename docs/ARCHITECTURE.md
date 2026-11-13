@@ -14,7 +14,7 @@ Le jeu reste une application statique : navigateur + fichiers sur un hébergemen
 | `src/engine/`               | Règles d’un pas : apparitions, alliés, serpents, roi, dégâts, fin de vague. |
 | `src/tactics.ts`            | Règles du miel, durée et attraction ; sans navigateur.                      |
 | `src/ui/feastControls.ts`   | Commandes et statut du goûter.                                              |
-| `src/render/feast.ts`       | Pot et parfum dessinés à partir de l’état.                                  |
+| `src/render/honeyZone.ts`   | Pot et parfum dessinés à partir de l’état.                                  |
 | `src/ai.ts`                 | Évaluation des voies et choix tactiques pondérés.                           |
 | `src/navigation.ts`         | A*, obstacles et cache de chemins borné.                                    |
 | `src/data.ts`               | Catalogue historique immuable.                                              |
@@ -67,7 +67,7 @@ La couche de présentation ne promet plus de sauvegarde. Elle reste indépendant
 
 ## Catalogue et présentation 0.7
 
-`unitRules.ts` porte les soins, réductions de dégâts, charge et descriptions des pouvoirs. `ui/unitGuide.ts` présente les fiches sans dupliquer les règles. `render/specialUnits.ts` dessine le tank, le cavalier et le chevalier à deux têtes. Le temps de charge est un état de combat ; il est réinitialisé à la reprise d’un camp, comme les autres temporisations.
+`unitRules.ts` porte les soins, réductions de dégâts, charge et descriptions des pouvoirs. `ui/unitGuide.ts` présente les fiches sans dupliquer les règles. Le temps de charge est un état de combat ; il est réinitialisé à la reprise d’un camp, comme les autres temporisations.
 
 `audio/sounds.ts` observe le jeu depuis un callback de rendu et synthétise de petits sons via Web Audio. Il ne modifie aucune règle ni aucun tirage aléatoire. Aucun fichier externe ni compte audio n’est requis. L’activation demande un clic ; le son démarre coupé, le volume est limité et le nombre de voix simultanées est plafonné. Le passage de l’onglet en arrière-plan coupe le son. La légère secousse des obus est désactivée quand le navigateur demande des mouvements réduits.
 

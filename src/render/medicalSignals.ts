@@ -10,7 +10,7 @@ export class MedicalSignals {
   private labels: FramePool<number, Phaser.GameObjects.Text>;
   private station: Phaser.GameObjects.Graphics;
   private stationLabel: Phaser.GameObjects.Text;
-  constructor(private scene: Phaser.Scene) {
+  constructor(scene: Phaser.Scene) {
     this.labels = new FramePool({
       maxIdle: 16,
       create: () =>

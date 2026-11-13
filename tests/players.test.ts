@@ -12,7 +12,6 @@ import {
   loadPlayers,
   nicknameFromInput,
   playerKey,
-  playerName,
   playerStars,
   playerStorage,
   readPlayers,
@@ -75,7 +74,7 @@ test('the first launch is one player, the Héros, with no nickname', () => {
   });
   assert.deepEqual(loadPlayers(memory()), createPlayers());
   assert.deepEqual(loadPlayers(undefined), createPlayers());
-  assert.equal(playerName(createPlayers().players[0]), 'Héros');
+  assert.equal(createPlayers().players[0].name, null);
 });
 
 test('eight characters of the game can be chosen and none is special', () => {
@@ -284,8 +283,8 @@ test('adding: up to four players, the same character twice, the new player becom
   assert.equal(suggestedCharacter(state), 'archer');
   assert.equal(addPlayer(createPlayers(), 'wall' as never, null), null);
   assert.equal(addPlayer(createPlayers(), 'hero', ' padded '), null);
-  assert.equal(playerName(state.players[2]), 'Zoé');
-  assert.equal(playerName(state.players[1]), 'Héros');
+  assert.equal(state.players[2].name, 'Zoé');
+  assert.equal(state.players[1].name, null);
 });
 
 test('editing changes the character and the nickname only', () => {

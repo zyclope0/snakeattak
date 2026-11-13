@@ -16,7 +16,7 @@ const paths: Record<string, string> = {
   heal: 'm8 3-5 5 13 13 5-5ZM8 9l7 7m-4-5 2 2',
   crown: 'm3 5 5 5 4-7 4 7 5-5-2 14H5ZM5 16h14',
 };
-export function capabilityIcon(symbol: string) {
+function capabilityIcon(symbol: string) {
   const ns = 'http://www.w3.org/2000/svg',
     svg = document.createElementNS(ns, 'svg'),
     path = document.createElementNS(ns, 'path');

@@ -91,44 +91,6 @@
   min-height: 320px;
   overflow: hidden;
 }
-.home-unit {
-  position: absolute;
-  display: block;
-  background-repeat: no-repeat;
-  width: 155px;
-  height: 170px;
-  filter: drop-shadow(0 12px 8px #143c3466);
-}
-.home-dino {
-  left: 3%;
-  bottom: 54px;
-  width: 170px;
-  height: 185px;
-}
-.home-hero-unit {
-  /* Clip only the stray atlas fragment to the right of the feet, not the actor. */
-  clip-path: polygon(0 0, 100% 0, 100% 86%, 68% 86%, 68% 100%, 0 100%);
-  left: 33%;
-  bottom: 46px;
-  width: 130px;
-  height: 155px;
-  z-index: 2;
-}
-.home-dragon {
-  right: 0;
-  bottom: 56px;
-  width: 170px;
-  height: 185px;
-}
-.home-caption {
-  position: absolute;
-  bottom: 20px;
-  left: 10%;
-  right: 10%;
-  text-align: center;
-  font-size: 12px;
-  color: #fff4d8;
-}
 .journey-map {
   margin: 30px 0 22px;
 }
@@ -310,40 +272,6 @@
   margin-bottom: 7px;
   width: 100%;
 }
-.quick-cards {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 5px;
-}
-.quick-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 6px 2px;
-  min-width: 0;
-  min-height: 70px;
-  background: #fffdf2;
-  border: 1px solid #bdc9a8;
-  color: #274c39;
-}
-.quick-card .portrait {
-  width: 38px;
-  height: 40px;
-}
-.quick-card > span:not(.portrait) {
-  font-size: 9px;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.quick-card small {
-  font-size: 9px;
-  color: #80602c;
-}
-.quick-card[aria-pressed='true'] {
-  border: 2px solid #227b61;
-}
 .hero-school {
   border-top: 1px solid #61836a;
   padding: 10px 16px;
@@ -418,19 +346,6 @@
   .home-diorama {
     min-height: 300px;
   }
-  .home-unit {
-    transform: scale(0.8);
-    transform-origin: bottom center;
-  }
-  .home-dino {
-    left: -15%;
-  }
-  .home-dragon {
-    right: -15%;
-  }
-  .home-hero-unit {
-    left: 24%;
-  }
   .journey-title {
     align-items: start;
     flex-direction: column;
@@ -485,25 +400,6 @@
   }
   .home-diorama {
     min-height: 160px;
-  }
-  .home-unit {
-    transform: scale(0.65);
-  }
-  .home-dino {
-    left: -1%;
-    bottom: 25px;
-  }
-  .home-hero-unit {
-    left: 31%;
-    bottom: 20px;
-  }
-  .home-dragon {
-    right: -1%;
-    bottom: 25px;
-  }
-  .home-caption {
-    bottom: 8px;
-    font-size: 10px;
   }
   .chapter-cards {
     grid-template-columns: 1fr;
