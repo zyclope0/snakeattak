@@ -2,7 +2,7 @@ import { shellGeometry, drawCapriceShell } from './capriceShell.ts';
 import { Figurines } from './figurines.ts';
 import { isFlying, flightLift } from '../flying.ts';
 import Phaser from 'phaser';
-import { characterMotion } from './characterMotion.ts';
+import { blowFacing, characterMotion } from './characterMotion.ts';
 import { poseArt } from './attackPose.ts';
 import { feastPoint, stickySpeed } from '../tactics.ts';
 import { actorSize, spriteFlip } from './actorLayout.ts';
@@ -164,7 +164,8 @@ export class Actors {
         y = u.y + 18 + motion.dy - (flying ? flightLift : 0),
         alpha = 0.25 + emerge * 0.75,
         depth = 10 + unit.y / 1000,
-        flip = spriteFlip(unit.kind, unit.variant, unit.facing);
+        // The image keeps the side of the blow until the swing is over.
+        flip = spriteFlip(unit.kind, unit.variant, blowFacing(unit.facing, action));
       // One thin rim behind the body, with the body's own transform: no ghost, no
       // per-actor effect pass. Red-orange is reserved for living threats.
       const rim = figurine.rim;

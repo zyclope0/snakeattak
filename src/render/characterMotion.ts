@@ -1,5 +1,19 @@
 import type { Entity, Effect } from '../game.ts';
-export type CharacterAction = { age: number; kind: Effect['kind'] };
+export type CharacterAction = {
+  age: number;
+  kind: Effect['kind'];
+  /** Side the blow went to, seen when it was struck: 1 right, -1 left. */
+  facing?: 1 | -1;
+};
+/** Visual seconds a swing lasts: the body finishes its blow before it turns. */
+export const SWING_SECONDS = 0.4;
+/**
+ * The side a fighter shows right now. The rules may turn it at once towards its next
+ * target; on screen it keeps the side of the blow until the swing is over.
+ */
+export function blowFacing(facing: number, action: CharacterAction | undefined): number {
+  return action?.facing && action.age < SWING_SECONDS ? action.facing : facing;
+}
 export type CharacterMotion = { dx: number; dy: number; angle: number; sx: number; sy: number };
 /** What `Presentation` has seen of a fighter's walk: never read by the rules. */
 export type Gait = {
@@ -101,8 +115,9 @@ export function characterMotion(
     }
     return pose;
   }
-  const t = Math.min(1, action.age / 0.4),
-    swing = Math.sin(Math.PI * t);
+  const t = Math.min(1, action.age / SWING_SECONDS),
+    swing = Math.sin(Math.PI * t),
+    facing = blowFacing(u.facing, action);
   if (
     u.kind === 'club' ||
     u.kind === 'bat' ||
@@ -111,13 +126,13 @@ export function characterMotion(
     u.kind === 'twohead' ||
     u.kind === 'mutantRock'
   ) {
-    pose.dx += u.facing * swing * 6;
-    pose.angle -= u.facing * swing * 0.13;
+    pose.dx += facing * swing * 6;
+    pose.angle -= facing * swing * 0.13;
     pose.sx += swing * 0.07;
     pose.sy -= swing * 0.05;
   } else if (u.kind === 'ninja' || u.kind === 'raptor') {
-    pose.dx += u.facing * swing * 6;
-    pose.angle -= u.facing * swing * 0.08;
+    pose.dx += facing * swing * 6;
+    pose.angle -= facing * swing * 0.08;
     pose.sx += swing * 0.08;
     pose.sy -= swing * 0.05;
   } else if (u.kind === 'dragon') {
@@ -127,27 +142,27 @@ export function characterMotion(
   } else if (u.kind === 'dino' || u.kind === 'trex') {
     pose.dy -= swing * 5;
     pose.sx += swing * 0.05;
-    pose.angle -= u.facing * swing * 0.04;
+    pose.angle -= facing * swing * 0.04;
   } else if (u.kind === 'triceratops') {
-    pose.dx += u.facing * swing * 5;
-    pose.angle += u.facing * swing * 0.045;
+    pose.dx += facing * swing * 5;
+    pose.angle += facing * swing * 0.045;
   } else if (u.kind === 'stegosaurus') {
-    pose.dx -= u.facing * swing * 3;
-    pose.angle += u.facing * swing * 0.07;
+    pose.dx -= facing * swing * 3;
+    pose.angle += facing * swing * 0.07;
   } else if (u.kind === 'mutantStretch') {
-    pose.dx += u.facing * swing * 3;
+    pose.dx += facing * swing * 3;
     pose.sx += swing * 0.14;
     pose.sy -= swing * 0.08;
   } else if (u.kind === 'shield' && action.kind === 'block') {
-    pose.angle -= u.facing * swing * 0.09;
+    pose.angle -= facing * swing * 0.09;
   } else if (u.kind === 'snake') {
     // A bite: the snake stretches towards its prey.
-    pose.dx += u.facing * swing * 5;
+    pose.dx += facing * swing * 5;
     pose.sx += swing * 0.1;
     pose.sy -= swing * 0.06;
   } else {
     // Archers, tanks and the like: a short recoil.
-    pose.dx -= u.facing * swing * 2.5;
+    pose.dx -= facing * swing * 2.5;
     pose.sx -= swing * 0.06;
     pose.sy += swing * 0.05;
   }

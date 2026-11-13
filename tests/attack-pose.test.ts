@@ -153,3 +153,56 @@ test('les portraits du dock gardent la planche de repos', () => {
   for (const kind of ['hero', 'club', 'shield', 'bat'] as const)
     assert.doesNotMatch(portraitStyle(kind), /attack/);
 });
+
+test('le combattant garde le côté de son coup jusqu’à la fin du geste', async () => {
+  const { blowFacing, SWING_SECONDS, characterMotion } =
+    await import('../src/render/characterMotion.ts');
+  // Les règles l'ont déjà retourné vers la gauche ; le coup, lui, est parti à droite.
+  assert.equal(blowFacing(-1, { age: 0.05, kind: 'hit', facing: 1 }), 1);
+  assert.equal(blowFacing(-1, { age: SWING_SECONDS - 0.01, kind: 'hit', facing: 1 }), 1);
+  // Le geste fini, ou sans côté connu, il suit de nouveau les règles.
+  assert.equal(blowFacing(-1, { age: SWING_SECONDS, kind: 'hit', facing: 1 }), -1);
+  assert.equal(blowFacing(-1, { age: 0.05, kind: 'hit' }), -1);
+  assert.equal(blowFacing(1, undefined), 1);
+  // L'élan part du côté du coup, pas du côté où les règles l'ont retourné.
+  const { Game } = await import('../src/game.ts');
+  const game = new Game();
+  const club = game.units.find((unit) => unit.kind === 'club')!;
+  club.facing = -1;
+  const towardBlow = characterMotion(club, 0, { age: 0.2, kind: 'hit', facing: 1 }, false);
+  const withoutSide = characterMotion(club, 0, { age: 0.2, kind: 'hit' }, false);
+  assert.ok(towardBlow.dx > 0, 'élan vers la droite');
+  assert.ok(withoutSide.dx < 0, 'sans côté connu, élan du côté des règles');
+});
+
+test('la présentation note le côté du coup à partir de l’effet, pas de l’orientation', async () => {
+  const { Presentation } = await import('../src/render/presentation.ts');
+  const { Game } = await import('../src/game.ts');
+  const game = new Game(),
+    presentation = new Presentation();
+  presentation.update(game, 16);
+  const club = game.units.find((unit) => unit.kind === 'club')!;
+  club.facing = -1;
+  game.effects.push({
+    sourceId: club.id,
+    x: club.x,
+    y: club.y,
+    tx: club.x + 30,
+    ty: club.y,
+    kind: 'hit',
+    life: 0.2,
+  });
+  presentation.update(game, 16);
+  assert.equal(presentation.actions.get(club.id)?.facing, 1);
+  game.effects.push({
+    sourceId: club.id,
+    x: club.x,
+    y: club.y,
+    tx: club.x - 30,
+    ty: club.y,
+    kind: 'hit',
+    life: 0.2,
+  });
+  presentation.update(game, 16);
+  assert.equal(presentation.actions.get(club.id)?.facing, -1);
+});

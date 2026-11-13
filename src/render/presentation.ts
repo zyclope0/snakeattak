@@ -290,7 +290,11 @@ export class Presentation {
           e.sourceId !== undefined &&
           ['hit', 'fire', 'arrow', 'shell', 'block'].includes(e.kind)
         ) {
-          this.actions.set(e.sourceId, { age: 0, kind: e.kind });
+          this.actions.set(e.sourceId, {
+            age: 0,
+            kind: e.kind,
+            facing: e.tx > e.x ? 1 : e.tx < e.x ? -1 : undefined,
+          });
           const source = game.units.find((u) => u.id === e.sourceId);
           if (
             source?.kind === 'dino' &&

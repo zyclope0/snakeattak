@@ -37,6 +37,29 @@ Audio en continu, réglages, démarrages APK hors ligne et30MP3 vérifiés.
 [Bilan du build54](archive/BILAN-0.37.0-build54.md), [Android](ANDROID.md), [provenance des images](../public/assets/illustrated/PROVENANCE-RESTYLE-2026-11.md).
 Le parent importera l’AAB54 dans le canal interne existant ; aucun envoi Console par Codex.
 
+## Dans main, pas encore publié — proposé comme 0.38.0 (PR35, PR36 et suivante)
+
+- Carte des missions et préparation (inventaire du 13 novembre, choix du parent sur
+  maquette) : un objet du jeu par mission (refuge, pont, serpent vif, œuf, serpent à
+  sonnette, fougère), sur les cinq onglets et sur les repères Terrain, Attaques, Œufs.
+  La roue des réglages et les commandes courantes (pause, flèches, croix, cadenas) restent.
+- Carnet de caprices : vingt vignettes en pâte à modeler, une par nom de caprice (« La
+  tempête » sert dans deux missions, les trois défis du créateur dans les six). Elles
+  remplacent les dix-huit médaillons au trait dans le carnet, la préparation et le
+  résultat ; une vignette pas encore gagnée reste pâle. Les noms et les annonces du fils ne
+  changent pas. 1 083 crédits Magnific, accord du parent ; journal dans
+  [PROVENANCE-VIGNETTES-2026-11.md](../public/assets/illustrated/PROVENANCE-VIGNETTES-2026-11.md).
+  Le parent garde les serpents à bras de trois vignettes : « ça casse le côté tout identique ».
+- Coup porté : le combattant garde le côté de son coup jusqu'à la fin du geste, même si les
+  règles l'ont déjà retourné vers sa prochaine cible (`blowFacing`, affichage seulement).
+- Préparation : chaque onglet part de la largeur de son mot ; plus de débordement mesuré en
+  français ni en anglais, de 568×320 à 1920×1080.
+- Passage à 0.38.0 : proposé au parent, à appliquer par Codex avec le prochain build
+  (`package.json`, `package-lock.json`, `versionName` Android, README, ANDROID.md, liste de
+  `docs/README.md`). Bilan préparé : [BILAN-0.38.0.md](BILAN-0.38.0.md).
+
+Pas essayé : Galaxy S24, APK, Safari, Firefox, les enfants.
+
 ## Changements intégrés au build56 — accueil plus habité (PR32 et PR33)
 
 Demande du parent : l'accueil faisait vide, et le fond de l'image principale avait la même
@@ -50,17 +73,6 @@ couleur que le panneau.
 - Boutons du bas : un petit objet du jeu remplace chaque pictogramme au trait (drapeau du
   refuge, médaillon à la feuille, visage du combattant à massue, roi à trois têtes,
   parchemin).
-- Carte des missions et préparation (inventaire du 13 novembre, choix du parent sur
-  maquette) : un objet du jeu par mission (refuge, pont, serpent vif, œuf, serpent à
-  sonnette, fougère), sur les cinq onglets et sur les repères Terrain, Attaques, Œufs.
-  La roue des réglages et les commandes courantes (pause, flèches, croix, cadenas) restent.
-- Carnet de caprices : vingt vignettes en pâte à modeler, une par nom de caprice (« La
-  tempête » sert dans deux missions, les trois défis du créateur dans les six). Elles
-  remplacent les dix-huit médaillons au trait dans le carnet, la préparation et le
-  résultat ; une vignette pas encore gagnée reste pâle. Les noms et les annonces du fils ne
-  changent pas. 1 083 crédits Magnific, accord du parent ; journal dans
-  [PROVENANCE-VIGNETTES-2026-11.md](../public/assets/illustrated/PROVENANCE-VIGNETTES-2026-11.md).
-  Le parent garde les serpents à bras de trois vignettes : « ça casse le côté tout identique ».
 - Sur téléphone, le bouton des réglages tient dans l'en-tête et ne mord plus sur la carte.
 - Images dérivées de celles du dépôt par `scripts/build-home-scene.py` : zéro crédit,
   environ 155 Ko de plus à l'accueil.
