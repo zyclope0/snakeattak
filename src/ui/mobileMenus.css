@@ -490,7 +490,7 @@
   #mission-summary #mission-party {
     margin: 4px 0;
   }
-  #mission-summary .mission-facts dt svg {
+  #mission-summary .mission-facts dt::before {
     display: none;
   }
   #mission-summary .mission-facts > div {

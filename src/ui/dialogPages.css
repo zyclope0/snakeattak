@@ -240,13 +240,15 @@
 }
 #mission-dialog #mission-summary .mission-facts dt {
   display: flex;
+  /* L'image à côté du mot, pas au-dessus : le résumé tient sur un téléphone avec marges. */
+  flex-direction: row;
   align-items: center;
   gap: calc(var(--hu) * 0.5);
   font-size: max(11px, calc(var(--hu) * 1.2));
 }
-#mission-dialog #mission-summary .mission-facts dt svg {
-  width: calc(var(--hu) * 2.2);
-  height: calc(var(--hu) * 2.2);
+#mission-dialog #mission-summary .mission-facts dt::before {
+  width: max(26px, calc(var(--hu) * 3));
+  height: max(26px, calc(var(--hu) * 3));
 }
 #mission-dialog #mission-summary .mission-facts dd {
   margin: 0;

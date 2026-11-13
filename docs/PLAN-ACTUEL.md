@@ -49,7 +49,11 @@ couleur que le panneau.
 - Sur une fenêtre très haute, la carte garde ses proportions et les boutons la suivent.
 - Boutons du bas : un petit objet du jeu remplace chaque pictogramme au trait (drapeau du
   refuge, médaillon à la feuille, visage du combattant à massue, roi à trois têtes,
-  parchemin). Les onglets de la préparation de mission gardent leurs pictogrammes.
+  parchemin).
+- Carte des missions et préparation (inventaire du 13 novembre, choix du parent sur
+  maquette) : un objet du jeu par mission (refuge, pont, serpent vif, œuf, serpent à
+  sonnette, fougère), sur les cinq onglets et sur les repères Terrain, Attaques, Œufs.
+  La roue des réglages et les commandes courantes (pause, flèches, croix, cadenas) restent.
 - Sur téléphone, le bouton des réglages tient dans l'en-tête et ne mord plus sur la carte.
 - Images dérivées de celles du dépôt par `scripts/build-home-scene.py` : zéro crédit,
   environ 155 Ko de plus à l'accueil.

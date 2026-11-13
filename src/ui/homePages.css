@@ -140,10 +140,6 @@
   width: calc(var(--hu) * 4.4);
   height: calc(var(--hu) * 4.4);
 }
-#home-screen #mission-cards .mission-emblem svg {
-  width: 86%;
-  height: 86%;
-}
 #home-screen #mission-cards .mission-status-badge {
   position: static;
   grid-column: 3;

@@ -89,9 +89,21 @@
   gap: 4px;
   font-size: 12px;
 }
-.mission-facts dt svg {
+.mission-facts dt::before {
+  content: '';
+  flex: 0 0 auto;
   width: 30px;
   height: 30px;
+  background: var(--object) center / contain no-repeat;
+}
+.mission-facts dt[data-fact='land'] {
+  --object: url('../assets/home/mission-trois-ponts.webp');
+}
+.mission-facts dt[data-fact='assault'] {
+  --object: url('../assets/home/repere-serpent.webp');
+}
+.mission-facts dt[data-fact='nest'] {
+  --object: url('../assets/home/mission-coquilles.webp');
 }
 .mission-facts dd {
   font-size: 16px;
@@ -304,7 +316,7 @@
   .mission-facts dt {
     font-size: 10px;
   }
-  .mission-facts dt svg {
+  .mission-facts dt::before {
     width: 22px;
     height: 22px;
   }

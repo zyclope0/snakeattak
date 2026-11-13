@@ -79,9 +79,29 @@
     inset 0 3px 0 #e4e8be,
     0 3px 0 #9b8b65;
 }
-.mission-emblem svg {
-  width: 76px;
-  height: 76px;
+.mission-emblem[data-mission] {
+  background-image: var(--object);
+  background-size: 84%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.mission-emblem[data-mission='refuge'] {
+  --object: url('../assets/home/mission-refuge.webp');
+}
+.mission-emblem[data-mission='trois-ponts'] {
+  --object: url('../assets/home/mission-trois-ponts.webp');
+}
+.mission-emblem[data-mission='course'] {
+  --object: url('../assets/home/mission-course.webp');
+}
+.mission-emblem[data-mission='coquilles'] {
+  --object: url('../assets/home/mission-coquilles.webp');
+}
+.mission-emblem[data-mission='sonnette'] {
+  --object: url('../assets/home/mission-sonnette.webp');
+}
+.mission-emblem[data-mission='carrefour'] {
+  --object: url('../assets/home/mission-carrefour.webp');
 }
 #mission-cards .mission-stars {
   color: #755218;
