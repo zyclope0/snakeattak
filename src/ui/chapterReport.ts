@@ -1,8 +1,38 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import { portraitStyle } from '../art.ts';
-import { createChapterReportObserver } from '../chapterReport.ts';
+import { createChapterReportObserver, type ChapterReport } from '../chapterReport.ts';
 import type { Session } from '../session.ts';
-import { byId } from './dom.ts';
+import { byId, make } from './dom.ts';
+
+/** French plural mark; the sentences below keep their shape for the translator. */
+const plural = (count: number) => (count > 1 ? 's' : '');
+
+function reportTitle(report: ChapterReport) {
+  return `Chapitre ${report.chapter} accompli · ${report.terrainName} · ${'★'.repeat(report.stars)}${'☆'.repeat(3 - report.stars)}`;
+}
+
+/**
+ * When the report has no crystal minimum that accounts for the stars, the sentence says the
+ * stars are kept and gives no number.
+ */
+function reportSummary(report: ChapterReport) {
+  const minimum =
+    report.crystalMinimum === null
+      ? 'minimum historique non disponible'
+      : `minimum du chapitre ${Math.floor(report.crystalMinimum)}/100 PV`;
+  const score =
+    report.crystalMinimum === null ? `conservée${plural(report.stars)}` : 'pour ce passage';
+  return `${report.stars} étoile${plural(report.stars)} sur 3 ${score}. Cristal : ${minimum} · actuellement ${Math.ceil(report.crystalCurrent)}/100 PV. ${report.alliesPresent} allié${plural(report.alliesPresent)} présent${plural(report.alliesPresent)}. ${report.killsSinceAdventureStart} serpent${plural(report.killsSinceAdventureStart)} vaincu${plural(report.killsSinceAdventureStart)} depuis le début de l’aventure.`;
+}
+
+/** One kind of ally still standing: its portrait and how many there are. */
+function armyEntry(unit: ChapterReport['army'][number]) {
+  const portrait = make('span', { className: 'chapter-report-portrait' });
+  portrait.setAttribute('aria-hidden', 'true');
+  portrait.style.cssText = portraitStyle(unit.kind);
+  return make('li', {}, portrait, make('span', { text: `${unit.name} × ${unit.count}` }));
+}
+
 /**
  * DOM: details#chapter-report, summary#chapter-report-title,
  * p#chapter-report-summary, ul#chapter-report-army.
@@ -21,6 +51,7 @@ export function bindChapterReport(session: Session): () => void {
     const game = session.game;
     const { report, fresh } = observe(game);
     const nextWave = report?.wave ?? 0;
+    // Another game or another chapter: the panel folds back and is written again.
     if (game !== observed || nextWave !== displayedWave) {
       observed = game;
       displayedWave = nextWave;
@@ -35,33 +66,8 @@ export function bindChapterReport(session: Session): () => void {
     const next = JSON.stringify(report);
     if (next === rendered) return;
     rendered = next;
-    setDisplayText(
-      title,
-      `Chapitre ${report.chapter} accompli · ${report.terrainName} · ${'★'.repeat(report.stars)}${'☆'.repeat(3 - report.stars)}`,
-    );
-    const minimum =
-      report.crystalMinimum === null
-        ? 'minimum historique non disponible'
-        : `minimum du chapitre ${Math.floor(report.crystalMinimum)}/100 PV`;
-    const score =
-      report.crystalMinimum === null
-        ? `conservée${report.stars > 1 ? 's' : ''}`
-        : 'pour ce passage';
-    setDisplayText(
-      summary,
-      `${report.stars} étoile${report.stars > 1 ? 's' : ''} sur 3 ${score}. Cristal : ${minimum} · actuellement ${Math.ceil(report.crystalCurrent)}/100 PV. ${report.alliesPresent} allié${report.alliesPresent > 1 ? 's' : ''} présent${report.alliesPresent > 1 ? 's' : ''}. ${report.killsSinceAdventureStart} serpent${report.killsSinceAdventureStart > 1 ? 's' : ''} vaincu${report.killsSinceAdventureStart > 1 ? 's' : ''} depuis le début de l’aventure.`,
-    );
-    const entries = report.army.map((unit) => {
-      const item = document.createElement('li');
-      const portrait = document.createElement('span');
-      const label = document.createElement('span');
-      portrait.className = 'chapter-report-portrait';
-      portrait.setAttribute('aria-hidden', 'true');
-      portrait.style.cssText = portraitStyle(unit.kind);
-      setDisplayText(label, `${unit.name} × ${unit.count}`);
-      item.append(portrait, label);
-      return item;
-    });
-    army.replaceChildren(...entries);
+    setDisplayText(title, reportTitle(report));
+    setDisplayText(summary, reportSummary(report));
+    army.replaceChildren(...report.army.map(armyEntry));
   };
 }

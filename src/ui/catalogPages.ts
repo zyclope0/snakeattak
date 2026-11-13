@@ -1,20 +1,16 @@
-import { setText, setAttribute } from '../i18n/dom.ts';
+import { setAttribute } from '../i18n/dom.ts';
+import { make } from './dom.ts';
+
+const CARDS_PER_PAGE = 6;
 
 /** Presentation pagination receives the controller's already-filtered cards. */
 export function bindCatalogPages(onChange: () => void) {
-  const nav = document.createElement('nav');
-  nav.className = 'catalog-pagination';
-  setAttribute(nav, 'aria-label', 'Pages des alliés');
-  const previous = document.createElement('button');
-  previous.id = 'catalog-previous';
-  setText(previous, '← Précédents');
-  const status = document.createElement('span');
-  status.id = 'catalog-page';
+  const previous = make('button', { id: 'catalog-previous', text: '← Précédents' });
+  const status = make('span', { id: 'catalog-page' });
   status.setAttribute('role', 'status');
-  const next = document.createElement('button');
-  next.id = 'catalog-next';
-  setText(next, 'Suivants →');
-  nav.append(previous, status, next);
+  const next = make('button', { id: 'catalog-next', text: 'Suivants →' });
+  const nav = make('nav', { className: 'catalog-pagination' }, previous, status, next);
+  setAttribute(nav, 'aria-label', 'Pages des alliés');
   const body = document.querySelector<HTMLElement>('#reinforcements .catalog-body')!;
   body.before(nav);
   let page = 0;
@@ -35,10 +31,10 @@ export function bindCatalogPages(onChange: () => void) {
       revealResults = true;
     },
     refresh(cards: HTMLButtonElement[]) {
-      const total = Math.max(1, Math.ceil(cards.length / 6));
+      const total = Math.max(1, Math.ceil(cards.length / CARDS_PER_PAGE));
       page = Math.min(page, total - 1);
       cards.forEach((card, index) => {
-        card.hidden = Math.floor(index / 6) !== page;
+        card.hidden = Math.floor(index / CARDS_PER_PAGE) !== page;
       });
       status.textContent = `${page + 1} / ${total}`;
       previous.disabled = page === 0;

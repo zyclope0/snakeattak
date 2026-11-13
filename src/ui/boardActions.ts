@@ -1,3 +1,4 @@
+import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import type { Level } from '../levels.ts';
 import type { Point } from '../navigation.ts';
@@ -25,16 +26,16 @@ export function activateBoard(session: Session, point: Point): boolean {
   if (session.selectedFeast) {
     const lane = feastLaneAtPoint(point, session.game.level);
     if (lane !== null && session.placeFeast(lane)) return true;
-    session.actionHint = session.game.paused
-      ? 'Reprends la partie.'
-      : session.game.status !== 'fighting'
-        ? 'Lance la vague.'
-        : lane === null
-          ? 'Touche un chemin.'
-          : !session.game.enemyLanes.includes(lane)
-            ? 'Voie paisible.'
-            : 'Pot déjà utilisé.';
+    session.actionHint = feastRefusal(session.game, lane);
     return false;
   }
   return session.placeSelected(point.x, point.y);
+}
+
+/** Why the pot stayed in hand, in the order the player can fix it. */
+function feastRefusal(game: Game, lane: number | null): string {
+  if (game.paused) return 'Reprends la partie.';
+  if (game.status !== 'fighting') return 'Lance la vague.';
+  if (lane === null) return 'Touche un chemin.';
+  return game.enemyLanes.includes(lane) ? 'Pot déjà utilisé.' : 'Voie paisible.';
 }

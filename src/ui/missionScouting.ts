@@ -3,6 +3,19 @@ import { kinds, type Kind } from '../data.ts';
 import { canHitFlying } from '../flying.ts';
 import { missionById, missionWave, type MissionRun } from '../missions.ts';
 import { missionThreats, threatAdvice } from './threatPreview.ts';
+
+/**
+ * Flying snakes arrive from wave rank 6 (`flyingVariant`): a mission that reaches it says so.
+ * Under a caprice the allies may be limited, so the sentence names those who can reach them.
+ */
+function flyingNotice(run: MissionRun, flyingKinds: readonly Kind[]): string {
+  if (!missionById(run.missionId)!.waves.some((rank) => rank >= 6)) return '';
+  if (!run.caprice)
+    return 'Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.';
+  if (!flyingKinds.length) return 'Des volants arriveront dans cette mission.';
+  return `Des volants arriveront dans cette mission : alliés possibles, ${flyingKinds.map((kind) => kinds[kind].name).join(' · ')}.`;
+}
+
 /** An isolated proposed Game supplies the same availability as the eventual launch. */
 export function missionScouting(run: MissionRun, chosen: readonly Kind[] = []) {
   const game = new Game(run.seed, undefined, run);
@@ -13,14 +26,7 @@ export function missionScouting(run: MissionRun, chosen: readonly Kind[] = []) {
   const flyingKinds = (Object.keys(kinds) as Kind[]).filter(
     (kind) => canHitFlying(kind) && available(kind),
   );
-  let flyingPlan = '';
-  if (missionById(run.missionId)!.waves.some((rank) => rank >= 6)) {
-    flyingPlan = !run.caprice
-      ? 'Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.'
-      : flyingKinds.length
-        ? `Des volants arriveront dans cette mission : alliés possibles, ${flyingKinds.map((kind) => kinds[kind].name).join(' · ')}.`
-        : 'Des volants arriveront dans cette mission.';
-  }
+  const flyingPlan = flyingNotice(run, flyingKinds);
   return {
     types,
     advice: threatAdvice(types, available),

@@ -93,6 +93,40 @@ function orderedThreats(types: Iterable<ThreatKind>): ThreatKind[] {
     (a, b) => THREAT_DETAILS[b].priority - THREAT_DETAILS[a].priority,
   );
 }
+/** A mission wave as planned; a caprice with the king gives him the last place of the last wave. */
+function missionWaveKinds(
+  game: PreviewSource,
+  local: number,
+  composition: readonly EnemyKind[],
+): ThreatKind[] {
+  const crowned = capriceRules(game.mission).king && local === game.totalWaves;
+  return composition.map((kind, index) =>
+    crowned && index === composition.length - 1 ? 'king' : kind,
+  );
+}
+/**
+ * A wave of the classic adventure, place by place, counted down as `variantFor` expects.
+ * The king closes the last wave; with the tactical rules his court comes with him and they
+ * take the last four places together.
+ */
+function classicWaveKinds(game: PreviewSource, local: number): ThreatKind[] {
+  const tactical = game.tuning.tacticalRulesEnabled;
+  const kinds: ThreatKind[] = [];
+  for (let remaining = waveStats(local).count; remaining > 0; remaining--) {
+    const court = tactical && local === TOTAL_WAVES && remaining <= 4;
+    const royal = local === TOTAL_WAVES && (remaining === 1 || court);
+    if (!royal) {
+      const base = variantFor(local, remaining);
+      kinds.push(tactical ? flyingVariant(base, local, remaining) : base);
+      continue;
+    }
+    kinds.push('king');
+    if (!court) continue;
+    for (const member of BOSS_COURT) kinds.push(member.variant);
+    break;
+  }
+  return kinds;
+}
 /** Species projection only. No lane draw, arrival timer or RNG is predicted. */
 export function waveThreats(game: PreviewSource, local: number): WaveThreats {
   if (!Number.isInteger(local) || local < 1 || local > game.totalWaves)
@@ -100,31 +134,11 @@ export function waveThreats(game: PreviewSource, local: number): WaveThreats {
   const plan = game.mission
     ? missionWave(game.mission, local, game.tuning.tacticalRulesEnabled)
     : null;
+  const kinds = plan
+    ? missionWaveKinds(game, local, plan.composition)
+    : classicWaveKinds(game, local);
   const counts = new Map<ThreatKind, number>();
-  const add = (kind: ThreatKind) => counts.set(kind, (counts.get(kind) ?? 0) + 1);
-  if (plan)
-    for (const [index, kind] of plan.composition.entries())
-      add(
-        capriceRules(game.mission).king &&
-          local === game.totalWaves &&
-          index === plan.composition.length - 1
-          ? 'king'
-          : kind,
-      );
-  else
-    for (let remaining = waveStats(local).count; remaining > 0; remaining--) {
-      const court = game.tuning.tacticalRulesEnabled && local === TOTAL_WAVES && remaining <= 4;
-      if (local === TOTAL_WAVES && (remaining === 1 || court)) {
-        add('king');
-        if (court) {
-          for (const member of BOSS_COURT) add(member.variant);
-          break;
-        }
-      } else {
-        const base = variantFor(local, remaining);
-        add(game.tuning.tacticalRulesEnabled ? flyingVariant(base, local, remaining) : base);
-      }
-    }
+  for (const kind of kinds) counts.set(kind, (counts.get(kind) ?? 0) + 1);
   return {
     local,
     lanes: activeEnemyLanes(game.mission, local),

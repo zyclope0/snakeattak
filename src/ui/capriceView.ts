@@ -5,10 +5,20 @@ import {
   capriceUnlocked,
   CAPRICE_SET_NAMES,
   CAPRICE_UNLOCK_STARS,
+  type CapriceDefinition,
   type CapriceSet,
 } from '../caprices.ts';
-import { missionById, type MissionRun } from '../missions.ts';
-import { kinds, unlockWave, type Kind } from '../data.ts';
+import type { MissionRun } from '../missions.ts';
+import type { Kind } from '../data.ts';
+import { setText, createTextNode } from '../i18n/dom.ts';
+import { albumChoiceShown, albumOptions, type AlbumsController } from './capriceAlbums.ts';
+import { capriceExplanation, frenchLeaf } from './capriceCopy.ts';
+import { friendPicker } from './capriceFriends.ts';
+import { paintSticker, stickerGraphic } from './capriceIcons.ts';
+import { capriceSpeech } from './capriceSpeech.ts';
+import { make } from './dom.ts';
+export { friendChoices } from './capriceFriends.ts';
+
 export function capriceRows(run: MissionRun, stars: number) {
   return (['serpents', 'createur'] as CapriceSet[]).map((set) => ({
     title: CAPRICE_SET_NAMES[set],
@@ -19,6 +29,9 @@ export function capriceRows(run: MissionRun, stars: number) {
     })),
   }));
 }
+type CapriceRow = ReturnType<typeof capriceRows>[number];
+type CapriceCard = CapriceRow['cards'][number];
+
 export function canLaunchCaprice(run: MissionRun, missionOpen: boolean, stars: number) {
   const caprice = run.caprice ? capriceById(run.caprice) : null;
   return (
@@ -27,31 +40,97 @@ export function canLaunchCaprice(run: MissionRun, missionOpen: boolean, stars: n
       (!!caprice && caprice.missionId === run.missionId && capriceUnlocked(caprice.tier, stars)))
   );
 }
-export function friendChoices(run: MissionRun): Kind[] {
-  const rank = missionById(run.missionId)!.unlockRank;
-  const rules = capriceDefinitionForRun(run)?.rules;
-  return (Object.keys(kinds) as Kind[]).filter(
-    (k) =>
-      k !== 'hero' &&
-      (unlockWave[k] ?? 1) <= rank &&
-      !(rules?.noHealers && (k === 'nurse' || k === 'medic')),
-  );
-}
 
-import { setText, createTextNode } from '../i18n/dom.ts';
-import { capriceExplanation, frenchLeaf } from './capriceCopy.ts';
-import { paintSticker } from './capriceIcons.ts';
-import { capriceSpeech } from './capriceSpeech.ts';
-import {
-  albumChoiceShown,
-  albumOptions,
-  stickerGraphic,
-  type AlbumsController,
-} from './capriceAlbums.ts';
 /** The friends view exists only when it offers a choice: ally kinds, or several sticker books. */
 export function friendsViewHasContent(run: MissionRun, albumCount: number) {
   return !!capriceDefinitionForRun(run)?.rules.kinds || albumChoiceShown(albumCount);
 }
+
+/** A caprice to choose: the child's name for it, and the stars that open it. */
+function capriceCard(card: CapriceCard, onSelect: (id: string) => void) {
+  const button = make('button');
+  button.dataset.caprice = card.definition.id;
+  button.classList.toggle('caprice-locked', !card.open);
+  button.disabled = !card.open;
+  const status = make('small', {
+    text: card.open ? `${card.stars} ★ · Choisir` : `🔒 ${card.stars} ★ nécessaires`,
+  });
+  button.append(frenchLeaf('strong', card.definition.name), status);
+  button.onclick = () => onSelect(card.definition.id);
+  return button;
+}
+
+/** A row of three: its title in the child's words, then its cards. */
+function capriceRow(row: CapriceRow, onSelect: (id: string) => void) {
+  const cards = row.cards.map((card) => capriceCard(card, onSelect));
+  return [frenchLeaf('h3', row.title), make('div', { className: 'caprice-row' }, ...cards)];
+}
+
+/** The two rows of a mission: the snakes' caprices, then the creator's challenge. */
+function capriceCardRows(onSelect: (id: string) => void) {
+  const node = make('div');
+  let built = '';
+  return {
+    node,
+    show(run: MissionRun, stars: number) {
+      // The cards only change with the mission, the stars won and the rules revision.
+      const key = JSON.stringify([run.missionId, stars, run.balance]);
+      if (key !== built) {
+        built = key;
+        node.replaceChildren(
+          ...capriceRows(run, stars).flatMap((row) => capriceRow(row, onSelect)),
+        );
+      }
+      for (const button of Array.from(node.querySelectorAll<HTMLButtonElement>('[data-caprice]')))
+        button.setAttribute('aria-pressed', String(button.dataset.caprice === run.caprice));
+    },
+  };
+}
+
+/** The chosen caprice as the child wrote it: name, sticker, announcement, what it changes. */
+function capriceAnnouncement(speech: ReturnType<typeof capriceSpeech>) {
+  const title = frenchLeaf('h3', '');
+  const announce = frenchLeaf('p', '');
+  announce.id = 'caprice-announce';
+  const graphic = stickerGraphic();
+  const announcement = make('div', { className: 'caprice-announcement' }, graphic, announce);
+  const explanation = make('p');
+  const listen = make('button', { id: 'caprice-listen', text: 'Écouter' });
+  return {
+    nodes: [title, announcement, explanation, listen],
+    show(caprice: CapriceDefinition) {
+      title.textContent = caprice.name;
+      paintSticker(graphic, caprice);
+      announce.textContent = caprice.announce;
+      setText(explanation, capriceExplanation(caprice.rules));
+      listen.hidden = !speech.available();
+      listen.onclick = () => speech.speak(caprice.announce);
+    },
+  };
+}
+
+/** The sticker book that the new game will fill. */
+function bookChoice(albums: AlbumsController | undefined, onChange: () => void) {
+  const select = make('select', { id: 'mission-caprice-profile' });
+  const label = make('label', {}, createTextNode('Carnet de cette nouvelle partie'), select);
+  // With a single sticker book there is nothing to choose: the control stays out of the way.
+  const showOrHide = () => {
+    label.hidden = !albumChoiceShown(albums?.state.children.length ?? 0);
+  };
+  showOrHide();
+  select.onchange = () => {
+    albums?.select(select.value);
+    onChange();
+  };
+  return {
+    label,
+    refresh() {
+      if (albums) albumOptions(select, albums);
+      showOrHide();
+    },
+  };
+}
+
 export function bindCapricePreparation(
   dialog: HTMLDialogElement,
   onSelect: (id?: string) => void,
@@ -60,154 +139,48 @@ export function bindCapricePreparation(
   portraitStyle: (kind: Kind) => string = () => '',
   onFriendsChange: (chosen: readonly Kind[]) => void = () => {},
 ) {
-  const region = document.createElement('section');
-  region.id = 'mission-caprices';
-  region.className = 'caprice-rows';
-  const heading = document.createElement('h3');
-  heading.id = 'mission-caprices-title';
+  const region = make('section', { id: 'mission-caprices', className: 'caprice-rows' });
+  const heading = make('h3', { id: 'mission-caprices-title', text: 'Caprices' });
+  // Kept as the page has always had it; no code moves the focus to this title any more.
   heading.tabIndex = -1;
-  setText(heading, 'Caprices');
   region.setAttribute('aria-labelledby', heading.id);
-  const availability = document.createElement('p');
-  const entry = document.createElement('button');
-  entry.id = 'mission-caprices-entry';
+  const availability = make('p');
+  // The tab of this view: `missionPreparation.ts` moves it into its row and makes it work.
+  const entry = make('button', { id: 'mission-caprices-entry' });
   entry.setAttribute('aria-controls', region.id);
-  entry.onclick = () => {
-    heading.scrollIntoView({ block: 'start' });
-    heading.focus({ preventScroll: true });
-  };
   dialog.querySelector('#mission-title')!.after(entry);
-  const normal = document.createElement('button');
-  normal.id = 'mission-normal';
-  setText(normal, 'Mission normale');
+  const normal = make('button', { id: 'mission-normal', text: 'Mission normale' });
   normal.onclick = () => onSelect();
-  const rows = document.createElement('div');
-  const detail = document.createElement('div');
-  detail.id = 'caprice-detail';
-  detail.className = 'caprice-detail';
-  const title = frenchLeaf('h3', ''),
-    announce = frenchLeaf('p', '');
-  announce.id = 'caprice-announce';
-  const announcement = document.createElement('div');
-  announcement.className = 'caprice-announcement';
-  const graphic = stickerGraphic();
-  announcement.append(graphic, announce);
-  const explanation = document.createElement('p');
-  const listen = document.createElement('button');
-  listen.id = 'caprice-listen';
-  setText(listen, 'Écouter');
   const speech = capriceSpeech();
-  const friendAdvice = document.createElement('p');
-  friendAdvice.id = 'caprice-friend-advice';
-  setText(
-    friendAdvice,
-    'Choisis tes sortes préférées ou laisse les premières recrues choisir les places libres.',
+  const cards = capriceCardRows(onSelect);
+  const announcement = capriceAnnouncement(speech);
+  const friends = friendPicker(portraitStyle, onFriendsChange);
+  const book = bookChoice(albums, onProfileChange);
+  const detail = make(
+    'div',
+    { id: 'caprice-detail', className: 'caprice-detail' },
+    ...announcement.nodes,
+    friends.advice,
+    friends.list,
+    book.label,
   );
-  const friends = document.createElement('div');
-  friends.className = 'caprice-friends';
-  friends.id = 'caprice-friends';
-  const profileLabel = document.createElement('label');
-  profileLabel.append(createTextNode('Carnet de cette nouvelle partie'));
-  const profile = document.createElement('select');
-  profile.id = 'mission-caprice-profile';
-  profileLabel.append(profile);
-  // With a single sticker book there is nothing to choose: the control stays out of the way.
-  const showProfile = () => {
-    profileLabel.hidden = !albumChoiceShown(albums?.state.children.length ?? 0);
-  };
-  showProfile();
-  profile.onchange = () => {
-    albums?.select(profile.value);
-    onProfileChange();
-  };
-  detail.append(title, announcement, explanation, listen, friendAdvice, friends, profileLabel);
-  region.append(heading, availability, normal, rows, detail);
+  region.append(heading, availability, normal, cards.node, detail);
   dialog.querySelector('#mission-parent-options')!.before(region);
-  let chosen = new Set<Kind>(),
-    current: MissionRun | null = null;
-  let rowKey = '';
   dialog.addEventListener('close', speech.cancel);
   return {
-    chosen: () => [...chosen],
+    chosen: friends.chosen,
     update(run: MissionRun, stars: number) {
       speech.cancel();
       setText(entry, 'Caprices');
       availability.hidden = stars > 0;
       setText(availability, 'Caprices · gagne une étoile pour jouer');
-      if (current?.missionId !== run.missionId || current?.caprice !== run.caprice)
-        chosen = new Set();
-      current = run;
-      const key = JSON.stringify([run.missionId, stars, run.balance]);
-      if (key !== rowKey) {
-        rowKey = key;
-        rows.replaceChildren();
-        for (const row of capriceRows(run, stars)) {
-          const heading = frenchLeaf('h3', row.title);
-          const grid = document.createElement('div');
-          grid.className = 'caprice-row';
-          rows.append(heading, grid);
-          for (const card of row.cards) {
-            const b = document.createElement('button');
-            b.dataset.caprice = card.definition.id;
-            b.classList.toggle('caprice-locked', !card.open);
-            b.disabled = !card.open;
-            b.setAttribute('aria-pressed', String(run.caprice === card.definition.id));
-            const status = document.createElement('small');
-            setText(
-              status,
-              card.open ? `${card.stars} ★ · Choisir` : `🔒 ${card.stars} ★ nécessaires`,
-            );
-            b.append(frenchLeaf('strong', card.definition.name), status);
-            b.onclick = () => onSelect(card.definition.id);
-            grid.append(b);
-          }
-        }
-      }
-      for (const button of Array.from(rows.querySelectorAll<HTMLButtonElement>('[data-caprice]')))
-        button.setAttribute('aria-pressed', String(button.dataset.caprice === run.caprice));
+      cards.show(run, stars);
       normal.setAttribute('aria-pressed', String(!run.caprice));
       const caprice = capriceDefinitionForRun(run);
       detail.hidden = !caprice;
-      friends.replaceChildren();
-      friendAdvice.hidden = !caprice?.rules.kinds;
-      if (albums) albumOptions(profile, albums);
-      showProfile();
-      if (!caprice) return;
-      title.textContent = caprice.name;
-      paintSticker(graphic, caprice);
-      announce.textContent = caprice.announce;
-      setText(explanation, capriceExplanation(caprice.rules));
-      listen.hidden = !speech.available();
-      listen.onclick = () => speech.speak(caprice.announce);
-      if (caprice.rules.kinds) {
-        for (const kind of friendChoices(run)) {
-          const b = document.createElement('button');
-          b.dataset.capriceFriend = kind;
-          const portrait = document.createElement('span');
-          portrait.className = 'portrait';
-          portrait.setAttribute('aria-hidden', 'true');
-          portrait.style.cssText = portraitStyle(kind);
-          const name = document.createElement('span');
-          name.dataset.friendName = kinds[kind].name;
-          setText(name, kinds[kind].name);
-          b.append(portrait, name);
-          b.setAttribute('aria-pressed', String(chosen.has(kind)));
-          b.disabled = !chosen.has(kind) && chosen.size >= caprice.rules.kinds;
-          b.onclick = () => {
-            if (chosen.has(kind)) chosen.delete(kind);
-            else if (chosen.size < caprice.rules.kinds) chosen.add(kind);
-            for (const button of Array.from(
-              friends.querySelectorAll<HTMLButtonElement>('button'),
-            )) {
-              const selected = chosen.has(button.dataset.capriceFriend as Kind);
-              button.setAttribute('aria-pressed', String(selected));
-              button.disabled = !selected && chosen.size >= caprice.rules.kinds;
-            }
-            onFriendsChange([...chosen]);
-          };
-          friends.append(b);
-        }
-      }
+      friends.show(run, caprice?.rules.kinds ?? 0);
+      book.refresh();
+      if (caprice) announcement.show(caprice);
     },
   };
 }

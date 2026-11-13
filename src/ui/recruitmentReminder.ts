@@ -6,6 +6,12 @@ import { availableGold } from './capriceBudget.ts';
 export const REMINDER_TEXT = 'Tu as des pièces, recrute !';
 const STORAGE_KEY = 'conquete-serpents:recruitment-reminder:v1';
 const LIMIT = 64;
+/** Coins left unspent before the reminder is worth showing. */
+const SPARE_COINS = 500;
+/** How long the player is left alone, how long the line stays, how often a spot is sought. */
+const PATIENCE_MS = 10000;
+const SHOWN_MS = 4000;
+const PROBE_EVERY_MS = 500;
 const memory: string[] = [];
 type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
 /** UI preference only: bounded departure codes, never family/game save data. */
@@ -67,54 +73,62 @@ export function createRecruitmentReminder(session: Session, markers = createRemi
   let waited = 0;
   let remaining = 0;
   let probeAfter = 0;
-  let code = '';
   const departureCode = () => {
     const departure = departureForGame(session.game);
     return departure ? encodeDeparture(departure) : 'legacy-classic-without-seed';
   };
-  code = departureCode();
+  let code = departureCode();
+  const startOver = () => {
+    waited = remaining = probeAfter = 0;
+  };
+  /** Another game, a purchase or too few coins: the wait starts again. */
+  const observe = () => {
+    if (game !== session.game) {
+      game = session.game;
+      code = departureCode();
+      startOver();
+      purchases = session.purchaseCount;
+      previousGold = game.gold;
+    }
+    const spent = game.gold < previousGold;
+    previousGold = game.gold;
+    if (spent || purchases !== session.purchaseCount || availableGold(game) < SPARE_COINS) {
+      purchases = session.purchaseCount;
+      startOver();
+    }
+  };
+  /** The player is watching a fight, with nothing in hand. */
+  const watching = (visible: boolean) =>
+    visible &&
+    session.screen === 'battle' &&
+    game.status === 'fighting' &&
+    !game.paused &&
+    !session.selected &&
+    !session.selectedFeast;
   return {
     update(deltaMs: number, ports: { visible: boolean; blocked: boolean }): string | null {
-      if (game !== session.game) {
-        game = session.game;
-        code = departureCode();
-        waited = remaining = probeAfter = 0;
-        purchases = session.purchaseCount;
-        previousGold = game.gold;
-      }
-      const spent = game.gold < previousGold;
-      previousGold = game.gold;
-      if (spent || purchases !== session.purchaseCount || availableGold(game) < 500) {
-        purchases = session.purchaseCount;
-        waited = remaining = probeAfter = 0;
-      }
-      const active =
-        ports.visible &&
-        session.screen === 'battle' &&
-        game.status === 'fighting' &&
-        !game.paused &&
-        !session.selected &&
-        !session.selectedFeast;
+      observe();
       // Discard suspended/invalid frames; no background time is caught up.
-      if (!active || !Number.isFinite(deltaMs) || deltaMs <= 0 || deltaMs > 250) return null;
-      if (availableGold(game) < 500) return null;
+      if (!watching(ports.visible) || !Number.isFinite(deltaMs) || deltaMs <= 0 || deltaMs > 250)
+        return null;
+      if (availableGold(game) < SPARE_COINS) return null;
       if (remaining > 0) {
         if (ports.blocked) return null;
         remaining = Math.max(0, remaining - deltaMs);
         return remaining > 0 ? REMINDER_TEXT : null;
       }
       if (markers.has(code)) return null;
-      waited = Math.min(10000, waited + deltaMs);
-      if (waited < 10000 || ports.blocked) return null;
+      waited = Math.min(PATIENCE_MS, waited + deltaMs);
+      if (waited < PATIENCE_MS || ports.blocked) return null;
       probeAfter -= deltaMs;
       if (probeAfter > 0) return null;
       if (!hasLegalRecruitment(session)) {
-        probeAfter = 500;
+        probeAfter = PROBE_EVERY_MS;
         return null;
       }
       // The caller has made the bottom line available, so this is an actual display.
       markers.mark(code);
-      remaining = 4000;
+      remaining = SHOWN_MS;
       return REMINDER_TEXT;
     },
   };

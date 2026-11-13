@@ -1,5 +1,5 @@
 import { setAttribute as setDisplayAttribute, setText as setDisplayText } from '../i18n/dom.ts';
-import { byId } from './dom.ts';
+import { byId, dialogOpen } from './dom.ts';
 /** Layout preference only: simulation and browser zoom remain under their own control. */
 export function bindDisplay() {
   const button = byId('display-toggle');
@@ -18,6 +18,6 @@ export function bindDisplay() {
   };
   button.onclick = toggle;
   document.addEventListener('keydown', (event) => {
-    if (event.code === 'Escape' && expanded && !document.querySelector('dialog[open]')) toggle();
+    if (event.code === 'Escape' && expanded && !dialogOpen()) toggle();
   });
 }

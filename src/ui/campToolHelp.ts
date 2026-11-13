@@ -5,21 +5,36 @@ import { feastIconStyle } from './feastControls.ts';
 import { CAMP_TOOLS, campToolModel, type CampTool } from './campToolModel.ts';
 import { pauseForDialog } from './dialogs.ts';
 import './campToolHelp.css';
-import { byId, portraitPhone } from './dom.ts';
+import { byId, make, portraitPhone, setPressed } from './dom.ts';
+
+const LABELS: Record<CampTool, string> = {
+  honey: 'Miel',
+  encourage: 'Encourager',
+  repair: 'Réparer',
+  hero: 'Héros',
+};
+
+/** One window explains the four tools of the camp. Returns the function that opens it. */
 export function bindCampToolHelp(session: Session, refresh: () => void) {
   const dialog = byId('camp-tool-dialog') as HTMLDialogElement;
   const modal = pauseForDialog(dialog, session, refresh);
   const portrait = portraitPhone();
+  // Upright, the board and this window give way to the notice that asks to turn the device.
   portrait.addEventListener('change', () => {
     if (portrait.matches && dialog.open) modal.close();
   });
   let selected: CampTool = 'honey';
-  const labels = ['Miel', 'Encourager', 'Réparer', 'Héros'];
-  const illustrations = [feastIconStyle('lure'), portraitStyle('club'), '', portraitStyle('hero')];
-  const buttons = CAMP_TOOLS.map((tool, index) => {
-    const button = document.createElement('button');
+  // The repair has no picture of its own: the style sheet draws it from `data-tool`.
+  const pictures: Record<CampTool, string> = {
+    honey: feastIconStyle('lure'),
+    encourage: portraitStyle('club'),
+    repair: '',
+    hero: portraitStyle('hero'),
+  };
+  const buttons = CAMP_TOOLS.map((tool) => {
+    const button = make('button');
     button.dataset.campTool = tool;
-    setDisplayText(button, labels[index]);
+    setDisplayText(button, LABELS[tool]);
     button.onclick = () => {
       selected = tool;
       show();
@@ -32,11 +47,9 @@ export function bindCampToolHelp(session: Session, refresh: () => void) {
     for (const field of ['title', 'when', 'gesture', 'result', 'status'] as const)
       setDisplayText(byId('camp-tool-' + field), help[field]);
     setDisplayText(byId('camp-tool-cost'), help.cost === 0 ? 'Gratuit' : `${help.cost} pièces`);
-    byId('camp-tool-picture').style.cssText = illustrations[CAMP_TOOLS.indexOf(selected)];
+    byId('camp-tool-picture').style.cssText = pictures[selected];
     byId('camp-tool-picture').dataset.tool = selected;
-    buttons.forEach((button) =>
-      button.setAttribute('aria-pressed', String(button.dataset.campTool === selected)),
-    );
+    for (const button of buttons) setPressed(button, button.dataset.campTool === selected);
   }
   const open = () => {
     show();

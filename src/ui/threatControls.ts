@@ -1,11 +1,16 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
+import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import { LANE_NAMES } from '../ai.ts';
 import { enemyPortraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { currentWaveThreats, threatAdvice } from './threatPreview.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
-import { byId } from './dom.ts';
+import { byId, make } from './dom.ts';
+
+type WaveThreats = NonNullable<ReturnType<typeof currentWaveThreats>>;
+
+/** The snakes announced for the next wave, in a window opened from the camp. */
 export function bindThreatControls(session: Session, refresh: () => void) {
   const dialog = byId('threat-dialog') as HTMLDialogElement,
     button = byId('wave-threats') as HTMLButtonElement;
@@ -18,27 +23,7 @@ export function bindThreatControls(session: Session, refresh: () => void) {
     if (!preview) return;
     observed = game;
     local = preview.local;
-    setDisplayText(byId('threat-title'), `Vague ${preview.local} · Les serpents annoncés`);
-    setDisplayText(
-      byId('threat-lanes'),
-      'Voies ouvertes : ' + preview.lanes.map((l) => LANE_NAMES[l]).join(' · '),
-    );
-    const types = preview.entries.map((e) => e.kind);
-    renderThreatCards(byId('wave-threat-list'), types);
-    renderThreatAdvice(
-      byId('wave-threat-advice'),
-      threatAdvice(types, (k) => game.isUnlocked(k) && game.capriceAllows(k)),
-    );
-    const egg = document.createElement('span'),
-      copy = document.createElement('p');
-    egg.className = 'enemy-portrait';
-    egg.style.cssText = enemyPortraitStyle('egg');
-    egg.setAttribute('aria-hidden', 'true');
-    setDisplayText(
-      copy,
-      `${preview.eggs} ${preview.eggs === 1 ? 'œuf peut éclore' : 'œufs peuvent éclore'} et ajouter des serpents ordinaires.`,
-    );
-    byId('wave-threat-eggs').replaceChildren(egg, copy);
+    showThreats(game, preview);
     modal.open();
     byId('threat-title').focus({ preventScroll: true });
   };
@@ -46,10 +31,36 @@ export function bindThreatControls(session: Session, refresh: () => void) {
   return () => {
     const game = session.game;
     button.hidden = game.status !== 'preparing' || game.wave >= game.totalWaves;
+    // The window describes one wave of one battle: it closes when either moves on.
     if (
       dialog.open &&
       (observed !== game || game.status !== 'preparing' || game.wave + 1 !== local)
     )
       modal.close();
   };
+}
+
+function showThreats(game: Game, preview: WaveThreats) {
+  setDisplayText(byId('threat-title'), `Vague ${preview.local} · Les serpents annoncés`);
+  setDisplayText(
+    byId('threat-lanes'),
+    'Voies ouvertes : ' + preview.lanes.map((l) => LANE_NAMES[l]).join(' · '),
+  );
+  const types = preview.entries.map((e) => e.kind);
+  renderThreatCards(byId('wave-threat-list'), types);
+  renderThreatAdvice(
+    byId('wave-threat-advice'),
+    threatAdvice(types, (k) => game.isUnlocked(k) && game.capriceAllows(k)),
+  );
+  byId('wave-threat-eggs').replaceChildren(...eggWarning(preview.eggs));
+}
+
+function eggWarning(eggs: number) {
+  const egg = make('span', { className: 'enemy-portrait' });
+  egg.style.cssText = enemyPortraitStyle('egg');
+  egg.setAttribute('aria-hidden', 'true');
+  const copy = make('p', {
+    text: `${eggs} ${eggs === 1 ? 'œuf peut éclore' : 'œufs peuvent éclore'} et ajouter des serpents ordinaires.`,
+  });
+  return [egg, copy];
 }
