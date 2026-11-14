@@ -58,8 +58,9 @@ export function freezeTuning(tuning: VoyageTuning): VoyageTuning {
  */
 export const VOYAGE_TUNINGS: Readonly<Record<VoyageVersion, VoyageTuning>> = Object.freeze({
   // Version 1, proposed on 14 November 2026 and adjusted the same day after the parent asked
-  // for a voyage « harder for the average player ». Not published yet. The figures are
-  // those of the automatic players over 300 seeds (docs/VOYAGE.md).
+  // for a voyage « harder for the average player »; the parent agreed to it that day. Not
+  // published yet. The figures are those of the automatic players over 300 seeds
+  // (docs/VOYAGE.md).
   1: freezeTuning({
     stages: [
       // Stages 1 and 2: the first missions as they are. Every automatic player wins them
