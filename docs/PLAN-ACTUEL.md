@@ -1,5 +1,49 @@
 # Plan actuel — 0.38.0, livraison Android build60
 
+## Confidentialité dans l'application et site sur Infomaniak — 14 novembre, pas encore publié
+
+Demande du parent du 14 novembre : rendre la politique de confidentialité lisible hors ligne
+dans l'application, et préparer le transfert du site vers **https://snakeattacktd.com**
+(hébergement Web classique d'Infomaniak, publication lancée à la main depuis GitHub
+Actions). Le build Android reste fait par Codex. Rien n'est en ligne sur le nouveau domaine,
+et l'ancien site n'est pas touché. Marche à suivre complète : [SITE.md](SITE.md).
+
+- **Texte** : repris mot pour mot de la page publiée (français et anglais), rangé dans une
+  seule source dont sortent la page publique et la fenêtre de l'application. Ajouts à
+  confirmer par le parent : la ligne « Mise à jour : 14 novembre 2026 » et le lien vers la
+  page publique.
+- **Application** : bouton « Confidentialité » / « Privacy policy » dans « Pour les
+  parents » ; fenêtre presque plein écran, titre et « Fermer » fixes, texte qui défile au
+  doigt, langue du jeu, lien volontaire vers snakeattacktd.com/confidentialite. Aucun SDK,
+  aucun appel réseau : le lien n'ouvre le navigateur que si le parent le touche.
+- **Site** : page `/confidentialite` en HTML simple sans JavaScript, `.htaccess` (HTTPS,
+  adresse sans « www », en-têtes, cache), workflow « Publier le site », contrôle du site en
+  ligne, retour arrière par republication d'un commit.
+
+Vérifié : `npm run verify` ; dans les menus, 170 contrôles pour la confidentialité (six
+tailles dont 780×360 avec marges système, français et anglais, défilement au doigt, fermeture,
+rien demandé hors du jeu) ; lecture hors ligne après démarrage à froid ; page publique
+ouverte sans JavaScript ; contrôle du site essayé sur une copie locale du build.
+
+Non vérifié : aucune publication réelle sur Infomaniak (`.htaccess`, rsync, certificat et
+redirections jamais essayés sur l'hébergement) ; rien sur le Galaxy S24 ni dans l'APK, en
+particulier l'ouverture des liens ; les liens de la fiche Play ne sont pas changés.
+
+À faire par le parent : créer le site et le compte SSH chez Infomaniak, ranger les quatre
+secrets dans GitHub, lancer « Publier le site » ; dire s'il veut une phrase sur les journaux
+de l'hébergeur dans la politique (proposition dans [SITE.md](SITE.md)) ; prévenir les
+familles que les sauvegardes du site ne suivent pas le changement d'adresse.
+
+À faire par Codex pour le build 61 : monter `versionCode`, puis relire la politique et
+mettre `POLICY_APP` à jour dans `src/i18n/privacyPolicy.ts` (un test le réclame). Notes de
+version proposées :
+
+> **FR.** Nouveau dans « Pour les parents » : la politique de confidentialité se lit
+> maintenant dans le jeu, même sans connexion.
+>
+> **EN.** New in “For parents”: the privacy policy can now be read inside the game, even
+> offline.
+
 ## Livraison actuelle — 0.38.0, Android build60, Sites35 publiée
 
 Source figée : `f8552429ee7e291b13e07b85ca294b1db24b035d`, intégration du dernier main et de la PR51 de Claude.

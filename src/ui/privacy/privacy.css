@@ -1,0 +1,88 @@
+/* La fenêtre de la confidentialité : son titre et « Fermer » restent en place, le texte
+   défile dessous. Pensée pour un téléphone couché : presque tout l'écran, une ligne de
+   lecture qui ne s'étire pas, des caractères assez grands pour un adulte sans loupe. */
+#privacy-dialog {
+  max-width: min(760px, calc(100% - 24px - var(--app-safe-left) - var(--app-safe-right)));
+  width: 100%;
+  height: calc(var(--app-height) - 24px);
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+}
+#privacy-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+#privacy-dialog > header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px 10px 20px;
+  border-bottom: 1px solid #c9d3bd;
+}
+#privacy-dialog #privacy-title {
+  margin: 0;
+  font-size: clamp(20px, calc(var(--hu) * 2.2), 26px);
+}
+#privacy-close {
+  flex: 0 0 auto;
+  min-height: 48px;
+  min-width: 96px;
+}
+#privacy-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding: 4px 20px 20px;
+}
+#privacy-body:focus-visible {
+  outline: 3px solid #f0b94d;
+  outline-offset: -3px;
+}
+#privacy-body article {
+  max-width: 68ch;
+  margin-inline: auto;
+  overflow-wrap: anywhere;
+}
+#privacy-body h3 {
+  margin: 14px 0 6px;
+  font-size: 19px;
+  line-height: 1.25;
+}
+#privacy-body h4 {
+  margin: 18px 0 4px;
+  font-size: 17px;
+  line-height: 1.25;
+  color: #1a4c3d;
+}
+#privacy-dialog #privacy-body p {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+#privacy-body strong {
+  color: #1a4c3d;
+}
+#privacy-body a {
+  color: #12604e;
+  text-underline-offset: 0.15em;
+}
+#privacy-dialog #privacy-body .privacy-updated {
+  font-weight: 700;
+}
+/* Le lien vers la page publique : une vraie cible pour le doigt, à la fin du texte. */
+#privacy-dialog #privacy-body .privacy-public {
+  margin: 18px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #c9d3bd;
+}
+#privacy-body .privacy-public a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  font-weight: 700;
+}

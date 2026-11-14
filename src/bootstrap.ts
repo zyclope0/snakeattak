@@ -30,6 +30,7 @@ import { bindHelpBubble } from './ui/helpBubble.ts';
 import { loadPlayers, playerStorage } from './players.ts';
 import { bindPlayers } from './ui/players.ts';
 import { bindVoyageDoor } from './ui/voyageDoor.ts';
+import { bindPrivacyDoor } from './ui/privacyDoor.ts';
 import { createPersistence } from './checkpoints.ts';
 import Phaser from 'phaser';
 import { Session } from './session.ts';
@@ -158,6 +159,7 @@ voyage = bindVoyageDoor({
   home: () => menu!.showHome(),
   navigate: (page) => navigation.show(page),
 });
+bindPrivacyDoor();
 bindFamilyControls({
   persistenceStatus: () => family.status,
   exportRaw: exportFamily,

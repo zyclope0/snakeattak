@@ -25,4 +25,13 @@ assert.ok(
   'Missing independent Phaser chunk',
 );
 assert.ok(!files.some((f) => f === 'references'), 'Design references do not belong in production');
+// The public privacy policy is a page of its own, readable without the game or JavaScript.
+const policy = await readFile('dist/confidentialite/index.html', 'utf8');
+assert.match(
+  policy,
+  /<article id="fr"[\s\S]+<article id="en" lang="en"/,
+  'Policy in both languages',
+);
+assert.doesNotMatch(policy, /<script|<link rel="stylesheet"/, 'The policy page stands alone');
+assert.match(await readFile('dist/.htaccess', 'utf8'), /RewriteEngine On/, 'Apache configuration');
 console.log(JSON.stringify({ htmlBytes: Buffer.byteLength(html), assets: report }, null, 2));

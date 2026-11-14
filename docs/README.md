@@ -1,6 +1,6 @@
 # Documents du projet
 
-Onze documents vivants. Tout le reste est de l'historique, rangé dans [archive/](archive/).
+Douze documents vivants. Tout le reste est de l'historique, rangé dans [archive/](archive/).
 
 ## À lire pour travailler
 
@@ -12,6 +12,7 @@ Onze documents vivants. Tout le reste est de l'historique, rangé dans [archive/
 | [CAPRICES.md](CAPRICES.md)                                             | Les 36 défis du fils : noms, annonces, valeurs, mesures     |
 | [VOYAGE.md](VOYAGE.md)                                                 | Le voyage : réglages proposés, mesures, décisions à prendre |
 | [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone    |
+| [SITE.md](SITE.md)                                                     | Le site sur Infomaniak : publier, revenir en arrière        |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version publiée                 |
 | [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste |
 | [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique               |
