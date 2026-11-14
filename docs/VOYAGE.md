@@ -4,7 +4,8 @@ Mode décidé par le parent le 14 novembre 2026, sur maquettes : cinq étapes ti
 un bonus à garder entre deux étapes, le roi à trois têtes à la fin. Ce document donne les
 réglages de la **version 1** du voyage et les mesures qui les justifient. Le modèle et le
 branchement sur le moteur sont décrits dans [ARCHITECTURE.md](ARCHITECTURE.md), section
-« Le voyage ». **La version 1 n'est pas publiée.**
+« Le voyage ». **Première publication de la version1 le 14 novembre2026, build60 / Sites35.
+Ses réglages et tirages sont figés ; toute évolution sera une nouvelle version.**
 
 Deux passages d'équilibrage ont eu lieu le même jour. Après le premier, le parent a validé
 six choix (voir « Décisions prises ») et demandé : « Plus dur pour moyen en gérant l'impact
@@ -297,7 +298,7 @@ jour).
 1. **La marche devant le roi** : l'accepter (le voyage est une montée vers un combat final),
    ou demander une règle nouvelle pour les étapes 3 et 4, ce que la table du voyage ne sait
    pas faire.
-2. **Essayer avec les enfants** avant de publier : si leur jeu ressemble à celui de
+2. **Essayer avec les enfants** sur cette livraison de test, avant toute sortie en production : si leur jeu ressemble à celui de
    l'apprenti, le voyage est trop dur pour eux à la dernière étape, et c'est la bourse des
    missions ou le roi qu'il faudrait regarder, pas la table du voyage.
 

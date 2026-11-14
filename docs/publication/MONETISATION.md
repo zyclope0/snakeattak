@@ -1,10 +1,11 @@
 # Monétisation — version 1 sans serveur
 
 **Étape 4 documentaire, 8 novembre 2026. Rien n'est intégré ni activé.**
-État actualisé au 14 novembre2026 : application0.38.0/code59, sans publicité,
-achat ou permission INTERNET. Le compte Play est activé ; le parent a envoyé le
-build52 en test interne avec le paquet `com.conqueteserpents.famille` et confirme
-son installation. Le build59 signé est préparé pour mettre à jour ce même canal.
+État actualisé au 14 novembre2026 : application0.38.0/code60, sans publicité,
+achat ou permission INTERNET. Le compte Play est activé ; le bilan Play Console
+transmis par le parent confirme le build59 accessible aux testeurs internes, avec le paquet
+`com.conqueteserpents.famille`. Le build60 signé est préparé pour mettre à jour ce même canal ;
+aucun envoi Console de ce build par Codex.
 Les choix ci-dessous restent documentaires ; aucun SDK ou produit intégré.
 [Sources datées](sources-etape-4.json).
 
