@@ -25,7 +25,7 @@ reste 0.38.0.
 - Les écrans sont chargés à la demande, dans un paquet à part : le paquet principal passe de
   190 910 à 192 769 octets (plafond 200 000), la page HTML ne change pas.
 
-Vérifié : `npm run verify` (**TESTS tests**) ; les 16 étapes navigateur de la CI ; menus 5461
+Vérifié : `npm run verify` (**711 tests**) ; les 16 étapes navigateur de la CI ; menus 5461
 contrôles dont 536 pour le voyage, en français et en anglais, à 780×360, 812×375, 568×320 et
 1280×800 : une étape gagnée pour de bon, le bonus, le sac, un rechargement, une étape quittée,
 le camp tombé, le voyage fini, le code donné puis reçu, un code faux refusé, un second
@@ -37,14 +37,16 @@ Non vérifié : rien n'est essayé sur un vrai téléphone ni avec les enfants ;
 joué un voyage ; l'APK n'est pas refait. La durée d'un voyage (15 à 19 minutes estimées) et la
 difficulté ressentie restent à mesurer avec eux : si leur jeu ressemble à celui de
 l'apprenti, la dernière étape est trop dure. La cinquième étape n'a pas été gagnée pour de
-bon dans le navigateur (fin forcée sur une page de contrôle). Une phrase de la maquette a
-changé : « Vous ferez le même voyage » est devenu « Il ou elle fera le même voyage que toi »,
-parce que le contrôle du tutoiement refuse « vous ».
+bon dans le navigateur (fin forcée sur une page de contrôle).
 
-À décider par le parent : les écrans construits ; une phrase qui annonce la bourse réduite
-devant le roi ; la marche devant le roi (le moyen gagne l'étape 4 à 99 % et la cinquième à
-54 %) ; un code tapé sans tirets, aujourd'hui refusé ; l'étiquette « Nouveau », qui disparaît
-dès que le joueur a ouvert un voyage.
+Trois accords du parent le 14 novembre, après la planche des écrans : la carte dit « Le roi
+t'a pris 300 pièces. » quand l'étape du roi est à jouer ; un code de voyage tapé sans ses
+tirets est accepté ; « Vous ferez le même voyage » (maquette) devient « Il ou elle fera le
+même voyage que toi », le contrôle du tutoiement refusant « vous ».
+
+À décider par le parent : les écrans construits ; la marche devant le roi (le moyen gagne
+l'étape 4 à 99 % et la cinquième à 54 %) ; l'étiquette « Nouveau », qui disparaît dès que le
+joueur a ouvert un voyage.
 
 ## Livraison actuelle — 0.38.0, Android build58, Sites33 publiée
 

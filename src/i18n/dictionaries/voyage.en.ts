@@ -26,6 +26,7 @@ export const voyageEnglish: Record<string, string> = {
   'Caprice surprise : {0}': 'Surprise caprice: {0}',
   'Caprice surprise :': 'Surprise caprice:',
   'Caprice surprise': 'Surprise caprice',
+  'Le roi t’a pris {0} pièces.': 'The king took {0} of your coins.',
   'Recommencer l’étape': 'Start the stage again',
   'Ton voyage est gardé sur cet appareil entre deux étapes. Une étape quittée repart de son début.':
     'Your voyage is saved on this device between stages. A stage you leave starts again from the beginning.',
@@ -64,8 +65,8 @@ export const voyageEnglish: Record<string, string> = {
   'Tape le code qu’on t’a donné': 'Type the code you were given',
   'Faire ce voyage': 'Play this voyage',
   'VOYAGE-1-0000-00': 'VOYAGE-1-0000-00',
-  'Ce n’est pas un code de voyage. Écris-le avec ses tirets, comme VOYAGE-1-0YK9-AY.':
-    'That is not a voyage code. Type it with its dashes, like VOYAGE-1-0YK9-AY.',
+  'Ce n’est pas un code de voyage. Un code s’écrit comme VOYAGE-1-0YK9-AY.':
+    'That is not a voyage code. A code looks like VOYAGE-1-0YK9-AY.',
   'Il y a une erreur dans ce code. Vérifie les lettres et les chiffres.':
     'There is a mistake in this code. Check the letters and numbers.',
   'Ce code vient d’une autre version du jeu. Demande à un parent de mettre le jeu à jour.':

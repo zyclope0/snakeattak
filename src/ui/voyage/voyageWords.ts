@@ -64,6 +64,8 @@ export const terrainLine = (land: string): string => `Terrain : ${land}`;
 export const exitsLine = (lairs: number): string =>
   `Première vague : les serpents sortent de ${lairs} antre${plural(lairs)}`;
 export const surpriseLabel = (caprice: string): string => `Caprice surprise : ${caprice}`;
+/** Before the king's stage: the purse is smaller there, and the child is told why. */
+export const kingPurseLine = (taken: number): string => `Le roi t’a pris ${taken} pièces.`;
 
 /**
  * The button of the stop to play. A stage left halfway is not kept: where the child comes
@@ -111,7 +113,7 @@ export const replaceSentence = (state: VoyageState): string =>
 
 type Refusal = Extract<VoyageCode, { ok: false }>['reason'];
 const REFUSALS: Record<Refusal, string> = {
-  format: 'Ce n’est pas un code de voyage. Écris-le avec ses tirets, comme VOYAGE-1-0YK9-AY.',
+  format: 'Ce n’est pas un code de voyage. Un code s’écrit comme VOYAGE-1-0YK9-AY.',
   checksum: 'Il y a une erreur dans ce code. Vérifie les lettres et les chiffres.',
   version: 'Ce code vient d’une autre version du jeu. Demande à un parent de mettre le jeu à jour.',
 };

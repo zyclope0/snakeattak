@@ -288,16 +288,16 @@ fichier de sauvegarde familiale ; la version 1 ne changera plus une fois publié
 
 **La bourse du roi réduite de 300 pièces est acceptée par le parent le 14 novembre**, après
 lecture des mesures du second passage, en sachant que l'expert qui prend ses cartes au hasard
-y perd dix points et que la marche devant le roi reste.
+y perd dix points et que la marche devant le roi reste. La carte du voyage le dit à l'enfant
+quand l'étape du roi est à jouer : « Le roi t'a pris 300 pièces. » (accord du parent, même
+jour).
 
 ## Décisions qui restent
 
-1. **Dire la bourse du roi à l'enfant.** Aucun écran ne l'annonce encore ; une phrase sur le
-   cinquième arrêt de la carte est proposée au parent.
-2. **La marche devant le roi** : l'accepter (le voyage est une montée vers un combat final),
+1. **La marche devant le roi** : l'accepter (le voyage est une montée vers un combat final),
    ou demander une règle nouvelle pour les étapes 3 et 4, ce que la table du voyage ne sait
    pas faire.
-3. **Essayer avec les enfants** avant de publier : si leur jeu ressemble à celui de
+2. **Essayer avec les enfants** avant de publier : si leur jeu ressemble à celui de
    l'apprenti, le voyage est trop dur pour eux à la dernière étape, et c'est la bourse des
    missions ou le roi qu'il faudrait regarder, pas la table du voyage.
 

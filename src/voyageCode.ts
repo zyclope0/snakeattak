@@ -9,11 +9,14 @@ import type { VoyageVersion } from './voyageTuning.ts';
  * types it plays the same five stages, the same caprices and is offered the same cards;
  * the bag, the stages won and the record stay with each player.
  *
+ * The dashes are there to read the code aloud. A child may leave them out, or type spaces
+ * or anything else between the parts: only the letters and the digits are read.
+ *
  * The version names a table of `voyageTuning.ts`. A code of an older version keeps drawing
  * the voyage it always drew.
  */
 const WORD = 'VOYAGE';
-const WRITTEN_CODE = /^([A-Z]+)-(\d)-([A-Z0-9]{4})-([A-Z0-9]{2})$/;
+const TYPED_CODE = /^VOYAGE(\d)([A-Z0-9]{4})([A-Z0-9]{2})$/;
 const SEED_SIGNS = 4;
 /** Far longer than a code with a few stray spaces: the rest is not read at all. */
 const INPUT_LIMIT = 64;
@@ -38,9 +41,9 @@ export function encodeVoyage(
 /** Reads what a child typed. A wrong code is an answer, never an exception. */
 export function decodeVoyage(raw: unknown): VoyageCode {
   if (typeof raw !== 'string' || raw.length > INPUT_LIMIT) return refused('format');
-  const match = WRITTEN_CODE.exec(tidyCode(raw));
-  if (!match || match[1] !== WORD) return refused('format');
-  const [, , written, typedSigns, typedCheck] = match;
+  const match = TYPED_CODE.exec(tidyCode(raw).replace(/[^A-Z0-9]/g, ''));
+  if (!match) return refused('format');
+  const [, written, typedSigns, typedCheck] = match;
   const version = Number(written);
   if (!isVoyageVersion(version)) return refused('version');
   const signs = readLookalikes(typedSigns);

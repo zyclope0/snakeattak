@@ -15,6 +15,7 @@ import { svgNode } from '../svg.ts';
 import { stopMap } from './stopMap.ts';
 import {
   exitsLine,
+  kingPurseLine,
   stopStates,
   stopWords,
   surpriseLabel,
@@ -221,5 +222,11 @@ export function voyagePath(state: VoyageState, actions: PathActions): HTMLElemen
     stop.style.setProperty('--swing', String(swings[index]));
     list.append(stop);
   }
-  return make('div', { className: 'voyage-path' }, trail(widths, swings), list);
+  const path = make('div', { className: 'voyage-path' }, trail(widths, swings), list);
+  const next = voyagePlanOf(state).stages[state.won];
+  // The king's stage is the one to play and its purse is smaller: said on the map, before
+  // the child finds fewer coins on the board.
+  if (travelling && next.king && next.coins < 0)
+    path.prepend(make('p', { className: 'path-purse', text: kingPurseLine(-next.coins) }));
+  return path;
 }

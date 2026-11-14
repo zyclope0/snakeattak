@@ -120,6 +120,17 @@
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
 }
+/* « Le roi t'a pris 300 pièces. » : dans le coin du chemin que les quatre premiers arrêts
+   laissent libre quand l'étape du roi est à jouer. */
+.voyage-view .path-purse {
+  position: absolute;
+  top: 0;
+  left: calc(var(--hu) * 1);
+  font:
+    500 max(14px, calc(var(--hu) * 1.45)) / 1.2 Fredoka,
+    sans-serif;
+  color: #8a4b1f;
+}
 .voyage-stop {
   position: relative;
   min-width: 0;

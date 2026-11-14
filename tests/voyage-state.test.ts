@@ -219,6 +219,11 @@ test('a voyage code names the seed and reads back, however a child types it', ()
     code.replace('VOYAGE', 'Voyagé'),
     code.replace(/0/g, 'O'),
     code.replace(/0/g, 'o'),
+    // The dashes help to read the code aloud; a child may leave them out.
+    code.replace(/-/g, ''),
+    code.replace(/-/g, ' ').toLowerCase(),
+    code.replace(/-/g, '_'),
+    code.replace('-', ''),
   ])
     assert.deepEqual(decodeVoyage(typed), { ok: true, seed: SEED, version: 1 }, typed);
   // Seed 33 is written 0011: an l or an I typed for a 1 is read as the 1 it looks like.
@@ -246,7 +251,8 @@ test('a damaged code is refused with a reason, never with an exception', () => {
     [`${word}-${version}-${signs}X-${check}`, 'format'],
     [`${word}-${version}-${signs.slice(1)}-${check}`, 'format'],
     [`${word}-${version}-U${signs.slice(1)}-${check}`, 'format'],
-    [`${word}${version}${signs}${check}`, 'format'],
+    [`${word}${version}${signs}${check}${check}`, 'format'],
+    [`${word}${signs}${check}`, 'format'],
     [`${word}-A-${signs}-${check}`, 'format'],
     [code + ' '.repeat(80), 'format'],
     ['', 'format'],

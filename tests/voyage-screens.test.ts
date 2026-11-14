@@ -27,6 +27,7 @@ import {
   exitsLine,
   fallenSentence,
   keepingNote,
+  kingPurseLine,
   recordLine,
   replaceSentence,
   stageOutcome,
@@ -102,6 +103,10 @@ test('the stops of the path: won, to play, ahead, and where the camp fell', () =
   assert.equal(stopWords(2, 'Le refuge', 'fallen').state, 'Le camp est tombé ici');
   assert.equal(exitsLine(1), 'Première vague : les serpents sortent de 1 antre');
   assert.equal(exitsLine(3), 'Première vague : les serpents sortent de 3 antres');
+  // The king's stage has a smaller purse: the map says so, with the number of the table.
+  const last = planVoyage(SEED)!.stages.at(-1)!;
+  assert.equal(last.king && last.coins, -300);
+  assert.equal(kingPurseLine(-last.coins), 'Le roi t’a pris 300 pièces.');
 });
 
 test('a stage left halfway says that it starts again, where the child comes back', () => {
@@ -259,6 +264,7 @@ test('every sentence of the voyage reads in English, the caprice names stay Fren
       [stageOutcome(fallen, 3).note, 'The camp fell at stage 3. You can try this voyage again.'],
       [stageOutcome(fallen, 3).button, 'See my voyage'],
       [surpriseLabel('Grosse fringale'), 'Surprise caprice: Grosse fringale'],
+      [kingPurseLine(300), 'The king took 300 of your coins.'],
     ];
     for (const [french, expected] of english) assert.equal(copy(french), expected, french);
     for (const reason of ['format', 'checksum', 'version'] as const)

@@ -41,6 +41,7 @@ const TEXT = {
     stop: (n, name) => `Étape ${n} : ${name}`,
     surprise: (name) => `Caprice surprise : ${name}`,
     king: 'Le roi à trois têtes',
+    purse: 'Le roi t’a pris 300 pièces.',
     mark: (n) => `Le voyage · Étape ${n} sur 5`,
     stageWon: 'Étape réussie !',
     wonNote: (n) => `Étape ${n} sur 5 réussie. Choisis maintenant un bonus pour la suite.`,
@@ -65,7 +66,7 @@ const TEXT = {
     other: 'Un autre voyage',
     haveCode: 'Tu as un code ?',
     refused: {
-      format: 'Ce n’est pas un code de voyage. Écris-le avec ses tirets, comme VOYAGE-1-0YK9-AY.',
+      format: 'Ce n’est pas un code de voyage. Un code s’écrit comme VOYAGE-1-0YK9-AY.',
       checksum: 'Il y a une erreur dans ce code. Vérifie les lettres et les chiffres.',
       version:
         'Ce code vient d’une autre version du jeu. Demande à un parent de mettre le jeu à jour.',
@@ -90,6 +91,7 @@ const TEXT = {
     stop: (n, name) => `Stage ${n}: ${name}`,
     surprise: (name) => `Surprise caprice: ${name}`,
     king: 'The Three-Headed King',
+    purse: 'The king took 300 of your coins.',
     mark: (n) => `The Voyage · Stage ${n} of 5`,
     stageWon: 'Stage complete!',
     wonNote: (n) => `Stage ${n} of 5 complete. Now choose a bonus for the rest of the voyage.`,
@@ -117,7 +119,7 @@ const TEXT = {
     other: 'Another voyage',
     haveCode: 'Do you have a code?',
     refused: {
-      format: 'That is not a voyage code. Type it with its dashes, like VOYAGE-1-0YK9-AY.',
+      format: 'That is not a voyage code. A code looks like VOYAGE-1-0YK9-AY.',
       checksum: 'There is a mistake in this code. Check the letters and numbers.',
       version: 'This code comes from another version of the game. Ask a parent to update the game.',
     },
@@ -203,6 +205,7 @@ const voyageState = (page) =>
       );
     };
     const buttons = [...panel.querySelectorAll('button')].filter(shown);
+    const purse = panel.querySelector('.path-purse');
     return {
       page: screen.dataset.page,
       view: document.querySelector('.voyage-page').dataset.view,
@@ -228,6 +231,16 @@ const voyageState = (page) =>
           [...stop.querySelectorAll('.stop-caprice, .stop-king')].every((node) => inside(node)),
       })),
       go: words('#voyage-go'),
+      // « Le roi t'a pris 300 pièces. » : whole, and clear of every stop and of what hangs on it.
+      purse: words('.path-purse'),
+      purseClear:
+        !purse ||
+        (inside(purse) &&
+          !stops.some((stop) =>
+            [stop, ...stop.querySelectorAll('.stop-badge, .stop-king, .stop-caprice')].some(
+              (node) => overlap(purse, node),
+            ),
+          )),
       bag: panel.querySelector('.voyage-bag')?.getAttribute('aria-label') ?? null,
       cards: [...panel.querySelectorAll('.voyage-bag .bag-card .bonus-picture')].map(
         (node) => node.dataset.bonus,
@@ -605,6 +618,10 @@ export async function checkVoyage({ browser, url, check, capture }) {
       );
       check(state.code === encodeVoyage(MAP_SEED), `the code of the voyage is shown, ${report}`);
       check(fits(state), `map fits with 48 px targets, ${report}`);
+      check(
+        state.purse === null,
+        `nothing is said of the king's purse before his stage, ${report}`,
+      );
       await capture(page, `voyage-map-${w}x${h}-${language}`);
       // A sticker tells what its caprice does: the child's words in French, the rules translated.
       await page.locator('.voyage-stop[data-state="ahead"] .stop-caprice').first().click();
@@ -662,6 +679,10 @@ export async function checkVoyage({ browser, url, check, capture }) {
       check(
         state.stops[4].king === t.king && state.stops[4].whole && state.places === 4,
         `last stage ${where} keeps its king and a full bag in view: ${JSON.stringify(state)}`,
+      );
+      check(
+        state.purse === t.purse && state.purseClear,
+        `last stage ${where} tells the smaller purse, clear of the stops: ${JSON.stringify(state)}`,
       );
       await page.close();
 
@@ -807,8 +828,9 @@ export async function checkVoyage({ browser, url, check, capture }) {
       );
     }
     await capture(page, `voyage-code-refused-${w}x${h}-${language}`);
-    // The code of a brother or a sister, typed as a child types: the same voyage, at once.
-    await typeCode(page, ` ${encodeVoyage(SEED).toLowerCase()} `);
+    // The code of a brother or a sister, typed as a child types, in small letters and
+    // without its dashes: the same voyage, at once.
+    await typeCode(page, ` ${encodeVoyage(SEED).toLowerCase().replace(/-/g, ' ')} `);
     state = await voyageState(page);
     check(
       state.code === encodeVoyage(SEED) &&
