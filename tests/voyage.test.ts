@@ -134,9 +134,12 @@ test('three different cards are offered after each stage but the last', () => {
         assert.ok(Object.hasOwn(REWARDS, card));
         offered.add(card);
       }
-      // Drawn like the cards of the great adventure: one ally and two of the others.
-      assert.equal(stage.offer.filter((card) => REWARDS[card].kind).length, 1);
+      // With an ally, drawn like the cards of the great adventure: one ally and two of the
+      // others. Without one, the three others.
+      const allies = stage.offer.filter((card) => REWARDS[card].kind).length;
+      assert.equal(allies, tuning.stages[index].ally ? 1 : 0);
     }
+  assert.ok(tuning.stages.slice(0, 4).some((stage) => stage.ally));
   assert.deepEqual([...offered].sort(), Object.keys(REWARDS).sort());
 });
 
@@ -159,7 +162,8 @@ test('the table of the voyage is frozen and only names what exists', () => {
   for (const stage of tuning.stages) {
     assert.ok(stage.missions.length > 0);
     for (const id of stage.missions) assert.ok(order(id) >= 0, id);
-    assert.ok(Number.isInteger(stage.coins) && stage.coins >= 0);
+    assert.ok(Number.isInteger(stage.coins) && Math.abs(stage.coins) <= 5000);
+    assert.equal(typeof stage.ally, 'boolean');
     assert.ok(Object.isFrozen(stage) && Object.isFrozen(stage.missions));
   }
   for (const id of tuning.excluded) assert.ok(capriceById(id), id);
@@ -183,4 +187,27 @@ test('a table with no way through draws nothing; another table draws another voy
   const plan = drawVoyage(7, gentle) as VoyagePlan;
   assert.ok(plan.stages.every((stage) => stageCaprice(stage) === null));
   assert.equal(plan.tuning, gentle);
+});
+
+test('a stage whose offer has no ally offers the three other cards, in a varying order', () => {
+  const plain = freezeTuning({
+    ...tuning,
+    stages: tuning.stages.map((stage) => ({ ...stage, ally: false })),
+  });
+  const orders = new Set<string>();
+  for (const seed of seeds.slice(0, 300)) {
+    const plan = drawVoyage(seed, plain)!;
+    assert.deepEqual(drawVoyage(seed, plain), plan);
+    for (const stage of plan.stages.slice(0, 4)) {
+      assert.deepEqual([...stage.offer].sort(), ['cristal', 'miel', 'pieces']);
+      orders.add(stage.offer.join());
+    }
+    assert.deepEqual(plan.stages[4].offer, []);
+    // The stages themselves are the ones of the usual table: only the cards differ.
+    assert.deepEqual(
+      plan.stages.map((stage) => stage.run),
+      planVoyage(seed)!.stages.map((stage) => stage.run),
+    );
+  }
+  assert.equal(orders.size, 6);
 });

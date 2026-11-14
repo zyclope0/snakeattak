@@ -4,7 +4,7 @@
 // Usage : npm run balance:voyage            (ou node scripts/balance-voyage.mjs)
 //   SEEDS=100        voyages par joueur et par façon de remplir le sac
 //   FIRST=0          rang de la première graine (pour mesurer d'autres graines)
-//   PROFILES=expert,moyen,petit            joueurs : expert, moyen, petit, massues, gros
+//   PROFILES=expert,moyen,apprenti,petit   joueurs : expert, moyen, apprenti, petit, massues, gros
 //   POLICIES=raisonnable,hasard,aucun,...  sacs : voir scripts/voyage-lab/travel.ts ; le
 //                    premier de la liste sert aux tableaux par étape et aux graines extrêmes
 //   TABLE=1          réglages : 1 (ceux du jeu), brut (missions et caprices tels quels),
@@ -12,7 +12,7 @@
 //   JOBS=4           processus en parallèle (défaut : tous les cœurs)
 //   OUT=artifacts/voyage/rapport.json      rapport complet (jamais dans Git)
 //
-// Environ 0,7 s de calcul par voyage : 100 graines, 3 joueurs et 9 sacs prennent 8 minutes
+// Environ 0,7 s de calcul par voyage : 100 graines, 4 joueurs et 9 sacs prennent 10 minutes
 // sur 4 cœurs. Pour un essai rapide : SEEDS=20 POLICIES=raisonnable npm run balance:voyage
 import { fork } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -28,7 +28,7 @@ import { POLICIES, playVoyage, seedAt } from './voyage-lab/travel.ts';
 const env = process.env;
 const SEEDS = Number(env.SEEDS ?? 100);
 const FIRST = Number(env.FIRST ?? 0);
-const profiles = (env.PROFILES ?? 'expert,moyen,petit').split(',');
+const profiles = (env.PROFILES ?? 'expert,moyen,apprenti,petit').split(',');
 const policies = (env.POLICIES ?? POLICIES.join()).split(',');
 const TABLE = env.TABLE ?? '1';
 const JOBS = Math.max(1, Number(env.JOBS ?? availableParallelism()));

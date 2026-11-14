@@ -3,7 +3,7 @@ import { MISSIONS, MISSION_SETUPS, missionSetup, readMissionRun } from './missio
 import type { MissionId, MissionRun } from './missions.ts';
 import { capriceDefinitionForRun, capricesForMission } from './caprices.ts';
 import type { CapriceDefinition } from './caprices.ts';
-import { rewardOffer } from './rewards.ts';
+import { REWARDS, rewardOffer } from './rewards.ts';
 import type { RewardId } from './rewards.ts';
 import { isIntegerIn } from './plainData.ts';
 import { BAG_MILESTONE, STAGE_BAG_LIMIT } from './voyageRules.ts';
@@ -34,7 +34,7 @@ export type VoyageStage = Readonly<{
   run: MissionRun;
   /** The three-headed king closes this stage. */
   king: boolean;
-  /** Coins this stage adds to the purse of its mission. */
+  /** Coins this stage adds to the purse of its mission; negative, coins it takes away. */
   coins: number;
   /** The three cards offered once the stage is won; none after the last stage. */
   offer: readonly RewardId[];
@@ -104,6 +104,24 @@ function surprises(
   return unseen.length ? unseen : allowed;
 }
 
+const PLAIN_CARDS = (Object.keys(REWARDS) as RewardId[]).filter((id) => !REWARDS[id].kind);
+
+/**
+ * The three cards offered after a stage. With an ally they are drawn like the cards of the
+ * great adventure: an ally and two of the three others. Without one, the three others are
+ * offered, in an order of their own.
+ */
+function drawOffer(seed: number, index: number, withAlly: boolean): RewardId[] {
+  if (withAlly) return rewardOffer(mix(seed, OFFER + index), BAG_MILESTONE);
+  const random = stream(seed, OFFER + index);
+  const cards = [...PLAIN_CARDS];
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [cards[i], cards[j]] = [cards[j], cards[i]];
+  }
+  return cards;
+}
+
 /** One stage. The order of its draws is part of the rules: setup, seed, caprice. */
 function drawStage(
   seed: number,
@@ -131,8 +149,7 @@ function drawStage(
     run,
     king: last,
     coins: tuning.stages[index].coins,
-    // The cards of the great adventure, drawn the same way: an ally and two of the others.
-    offer: Object.freeze(last ? [] : rewardOffer(mix(seed, OFFER + index), BAG_MILESTONE)),
+    offer: Object.freeze(last ? [] : drawOffer(seed, index, tuning.stages[index].ally)),
   });
 }
 

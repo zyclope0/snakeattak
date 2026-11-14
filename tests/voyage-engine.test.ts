@@ -12,8 +12,14 @@ import { createCapriceAlbumsController } from '../src/capriceAlbums.ts';
 import { FEAST_DURATION } from '../src/tactics.ts';
 import { readStageRules } from '../src/voyageRules.ts';
 import type { StageRules } from '../src/voyageRules.ts';
-import { createStageGame, planVoyage, stageCaprice, stageRulesFor } from '../src/voyage.ts';
-import { VOYAGE_TUNINGS } from '../src/voyageTuning.ts';
+import {
+  createStageGame,
+  drawVoyage,
+  planVoyage,
+  stageCaprice,
+  stageRulesFor,
+} from '../src/voyage.ts';
+import { VOYAGE_TUNINGS, freezeTuning } from '../src/voyageTuning.ts';
 import { fight } from './voyage-helpers.ts';
 
 const tuning = VOYAGE_TUNINGS[1];
@@ -89,6 +95,20 @@ test('an ally of the bag is free once per stage, then costs its price', () => {
   // The next stage is a new camp: the same bag gives its allies again.
   const next = createStageGame(plan, stage, ['renfort-ninja'])!;
   assert.equal(next.recruitCost('ninja'), 0);
+});
+
+test('a stage may open with a smaller purse, and a purse never goes below zero', () => {
+  const thrifty = freezeTuning({
+    ...tuning,
+    stages: tuning.stages.map((stage, index) => ({ ...stage, coins: index === 4 ? -250 : 0 })),
+  });
+  const voyage = drawVoyage(2026, thrifty)!;
+  const run = voyage.stages[4].run;
+  const purse = capriceBudget(missionById(run.missionId)!.budget, capriceRules(run));
+  assert.equal(createStageGame(voyage, 4, [])!.gold, purse - 250);
+  assert.equal(createStageGame(voyage, 4, ['pieces'])!.gold, purse - 250 + tuning.bonusCoins);
+  assert.equal(createStageGame(voyage, 3, [])!.stage!.coins, 0);
+  assert.equal(new Game(run.seed, undefined, run, 2, { ...bare, coins: -5000 }).gold, 0);
 });
 
 test('the crystal ward of the bag absorbs the first serpents that get through', () => {
@@ -182,7 +202,7 @@ test('the engine refuses a stage that is not an expedition of the second revisio
     [],
     { ...bare, version: 2 },
     { ...bare, king: 1 },
-    { ...bare, coins: -1 },
+    { ...bare, coins: -5001 },
     { ...bare, coins: 1.5 },
     { ...bare, coins: 5001 },
     { ...bare, ward: -1 },

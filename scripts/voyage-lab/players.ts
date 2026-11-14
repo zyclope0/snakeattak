@@ -1,6 +1,11 @@
-// Joueurs automatiques du laboratoire du voyage. Ce sont ceux de `balance-modes.mjs` et de
-// `caprices-lab.mjs` (expert, moyen, petit, massues, gros), pour que les mesures se comparent,
-// avec un geste de plus : poser d'abord les alliés offerts par le sac de voyage.
+// Joueurs automatiques du laboratoire du voyage : ceux de `balance-modes.mjs` et de
+// `caprices-lab.mjs` (expert, moyen, petit, massues, gros), avec trois différences.
+// 1. Ils posent d'abord les alliés offerts par le sac de voyage.
+// 2. Ceux qui achètent « une voie après l'autre » (moyen, apprenti, petit, gros) commencent
+//    par une voie qui dépend de la graine du combat, et non toujours par la première.
+// 3. L'apprenti est nouveau : le joueur moyen, arrêté à quatre achats par vague. Il se place
+//    entre le petit (deux achats) et le moyen (tout dépenser), là où jouent sans doute les
+//    enfants.
 // Un joueur automatique n'est pas un enfant : il ne répare pas le cristal, n'entraîne pas le
 // héros, ne regarde pas la carte du voyage et ne se trompe jamais de bouton.
 import { LANES, laneDefense } from '../../src/ai.ts';
@@ -9,7 +14,7 @@ import type { Kind } from '../../src/data.ts';
 import type { Game } from '../../src/game.ts';
 import { REWARDS } from '../../src/rewards.ts';
 
-export const PROFILES = ['expert', 'moyen', 'petit', 'massues', 'gros'] as const;
+export const PROFILES = ['expert', 'moyen', 'apprenti', 'petit', 'massues', 'gros'] as const;
 export type Profile = (typeof PROFILES)[number];
 export type StageResult = {
   status: 'won' | 'lost' | 'timeout';
@@ -32,13 +37,21 @@ const FRONT = [660, 708, 756, 804, 852, 900, 948];
 const REAR = [900, 948, 852, 804, 756, 708, 660];
 const ROTATION: Kind[] = ['club', 'shield', 'archer'];
 const EXPERT_ORDER: Kind[] = ['archer', 'shield', 'club'];
+/** Achats par vague des joueurs qui ne dépensent pas tout. */
+const PURCHASES_PER_WAVE: Partial<Record<Profile, number>> = { petit: 2, apprenti: 4 };
 const BIG = (Object.keys(kinds) as Kind[])
   .filter((kind) => !['hero', 'wall', 'medic', 'nurse'].includes(kind))
   .sort((a, b) => kinds[b].cost - kinds[a].cost);
 
 /** Les gestes d'achat d'un joueur sur une partie. */
 function shopper(game: Game) {
-  let rotation = 0;
+  // Acheter « une voie après l'autre » marie la sorte d'allié à la voie : dans une vague,
+  // chaque voie ne reçoit qu'une sorte, et la voie de départ décide laquelle a les archers.
+  // Un cadeau du sac posé d'abord décale ce mariage. Mesuré sur 200 graines sans aucun
+  // allié offert : 37 % de voyages terminés en partant de la première voie, 61 % en partant
+  // d'une autre. La voie de départ suit donc la graine du combat, brassée parce qu'une
+  // mission pose déjà ses nids selon la graine modulo trois.
+  let rotation = (Math.imul(game.initialSeed ?? 0, 2654435761) >>> 16) % 3;
   const affordable = (kind: Kind) =>
     game.isUnlocked(kind) &&
     game.capriceAllows(kind) &&
@@ -95,7 +108,7 @@ function prepare(game: Game, profile: Profile, wave: number, shop: ReturnType<ty
       if (!order.some(buyWhereWeak)) break;
     }
   } else {
-    const limit = profile === 'petit' ? 2 : 40;
+    const limit = PURCHASES_PER_WAVE[profile] ?? 40;
     let bought = 0;
     for (let i = 0; i < 60 && bought < limit; i++) {
       if (buyInTurn(ROTATION[(wave + i) % 3]) || ROTATION.some(buyInTurn)) bought++;

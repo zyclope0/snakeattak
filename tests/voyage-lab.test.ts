@@ -45,7 +45,7 @@ test('every way to fill the bag is known, and an empty bag stays empty', () => {
   assert.ok(playVoyage(seed, 'petit', 'aucun', tuning).stages.every((row) => row.card === null));
   const honey = playVoyage(seed, 'petit', 'sac:miel', tuning).stages.map((row) => row.card);
   assert.deepEqual(honey, ['miel', 'miel', 'miel', 'miel', null]);
-  assert.deepEqual([...PROFILES], ['expert', 'moyen', 'petit', 'massues', 'gros']);
+  assert.deepEqual([...PROFILES], ['expert', 'moyen', 'apprenti', 'petit', 'massues', 'gros']);
   assert.equal(RAW_TUNING.stages.length, 5);
 });
 
