@@ -10,7 +10,8 @@ import {
   capriceCount,
   capriceRules,
 } from './caprices.ts';
-import { isRecord } from './plainData.ts';
+import type { CapriceRules } from './caprices.ts';
+import { isIntegerIn, isOneOf, isRecord, isUint32 } from './plainData.ts';
 
 export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
@@ -88,35 +89,50 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
 export function missionById(id: unknown): MissionDefinition | null {
   return MISSIONS.find((mission) => mission.id === id) ?? null;
 }
+/**
+ * The eighteen setups of a mission: three terrains, three assaults, two ways to lay the
+ * eggs. Their order is written in the departure codes: never reorder them.
+ */
+export const MISSION_SETUPS = 18;
+const layouts = [0, 1, 2] as const;
 const assaults = ['balanced', 'rush', 'escort'] as const;
 const nests = ['spread', 'clustered'] as const;
+type MissionSetup = Pick<MissionRun, 'layout' | 'assault' | 'nest'>;
+export function missionSetup(index: number): MissionSetup {
+  return {
+    layout: (index % 3) as 0 | 1 | 2,
+    assault: assaults[Math.floor(index / 3) % 3],
+    nest: nests[Math.floor(index / 9)],
+  };
+}
+export function missionSetupIndex(setup: MissionSetup): number {
+  return setup.layout + assaults.indexOf(setup.assault) * 3 + nests.indexOf(setup.nest) * 9;
+}
 /** Canonical copy: callers cannot mutate an active expedition through their input object. */
 export function readMissionRun(raw: unknown): MissionRun | null {
-  if (!isRecord(raw)) return null;
-  const d = raw as Record<string, unknown>;
   if (
-    !missionById(d.missionId) ||
-    typeof d.seed !== 'number' ||
-    !Number.isInteger(d.seed) ||
-    d.seed < 0 ||
-    d.seed > 0xffffffff ||
-    (d.layout !== 0 && d.layout !== 1 && d.layout !== 2) ||
-    !assaults.includes(d.assault as MissionRun['assault']) ||
-    !nests.includes(d.nest as MissionRun['nest'])
+    !isRecord(raw) ||
+    !missionById(raw.missionId) ||
+    !isUint32(raw.seed) ||
+    !isOneOf(raw.layout, layouts) ||
+    !isOneOf(raw.assault, assaults) ||
+    !isOneOf(raw.nest, nests)
   )
     return null;
-  if (Object.hasOwn(d, 'balance') && d.balance !== 2) return null;
-  if (Object.hasOwn(d, 'rules') && (d.rules !== 2 || d.missionId !== 'refuge')) return null;
-  if (Object.hasOwn(d, 'caprice') && capriceById(d.caprice)?.missionId !== d.missionId) return null;
+  // The three optional fields are either absent or exactly what their rule allows.
+  if (Object.hasOwn(raw, 'balance') && raw.balance !== 2) return null;
+  if (Object.hasOwn(raw, 'rules') && (raw.rules !== 2 || raw.missionId !== 'refuge')) return null;
+  if (Object.hasOwn(raw, 'caprice') && capriceById(raw.caprice)?.missionId !== raw.missionId)
+    return null;
   return Object.freeze({
-    missionId: d.missionId as MissionId,
-    ...(d.balance === 2 ? { balance: 2 as const } : {}),
-    ...(d.rules === 2 ? { rules: 2 as const } : {}),
-    seed: d.seed,
-    layout: d.layout,
-    assault: d.assault as MissionRun['assault'],
-    nest: d.nest as MissionRun['nest'],
-    ...(Object.hasOwn(d, 'caprice') ? { caprice: d.caprice as string } : {}),
+    missionId: raw.missionId as MissionId,
+    ...(raw.balance === 2 ? { balance: 2 as const } : {}),
+    ...(raw.rules === 2 ? { rules: 2 as const } : {}),
+    seed: raw.seed,
+    layout: raw.layout,
+    assault: raw.assault,
+    nest: raw.nest,
+    ...(Object.hasOwn(raw, 'caprice') ? { caprice: raw.caprice as string } : {}),
   });
 }
 /** Revision 2 persists only immutable catalogue identities; Game/lab may use aliases. */
@@ -135,25 +151,22 @@ export function createMissionRun(
   balance?: 2,
 ): MissionRun {
   if (balance !== undefined && balance !== 2) throw new RangeError('Révision invalide');
-  if (!missionById(id) || !Number.isInteger(seed) || seed < 0 || seed > 0xffffffff)
-    throw new RangeError('Expédition invalide');
+  if (!missionById(id) || !isUint32(seed)) throw new RangeError('Expédition invalide');
   // Eighteen bounded configurations. Incrementing the slot does not change the retry seed.
   let slot = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
-  slot %= 18;
+  slot %= MISSION_SETUPS;
   const prior = readMissionRun(previous);
   const configAt = (index: number) => ({
     missionId: id,
     ...(balance === 2 ? { balance: 2 as const } : {}),
     ...(id === 'refuge' ? { rules: 2 as const } : {}),
     seed,
-    layout: (index % 3) as 0 | 1 | 2,
-    assault: assaults[Math.floor(index / 3) % 3],
-    nest: nests[Math.floor(index / 9)],
+    ...missionSetup(index),
   });
   let config = configAt(slot);
   // A visible new departure always changes the terrain. Retry and saved runs
   // are restored through readMissionRun, without passing through this draw.
-  if (prior && config.layout === prior.layout) config = configAt((slot + 1) % 18);
+  if (prior && config.layout === prior.layout) config = configAt((slot + 1) % MISSION_SETUPS);
   return Object.freeze(config);
 }
 export type MissionWave = Readonly<{
@@ -164,6 +177,77 @@ export type MissionWave = Readonly<{
   eggs: readonly Readonly<{ lane: 0 | 1 | 2; x: number; hatchIn: number; count: number }>[];
   pattern: Readonly<{ title: string; tip: string }>;
 }>;
+/** The serpent of one slot once the assault has reshaped the usual line-up of the rank. */
+function assaultVariant(
+  assault: MissionRun['assault'],
+  rank: number,
+  index: number,
+  usual: EnemyKind,
+): EnemyKind {
+  if (assault === 'rush') {
+    const light = usual === 'normal' || usual === 'runner' || usual === 'armored';
+    return rank >= 3 && index % 3 !== 2 && light ? 'runner' : usual;
+  }
+  if (assault !== 'escort') return usual;
+  if (rank >= 5 && index % 4 === 0) return rank >= 6 ? 'umbrella' : 'armored';
+  if (rank >= 7 && index % 4 === 1) return 'spitter';
+  return usual;
+}
+/** Seconds between two serpents, repeated in a loop: small packs, escorts or a steady line. */
+function assaultCadence(assault: MissionRun['assault']): number[] {
+  return assault === 'rush' ? [0.4, 0.4, 2] : assault === 'escort' ? [0.65, 0.65, 1.55] : [0.95];
+}
+/** Up to three seconds of delay per egg, drawn from the seed alone: a retry hatches alike. */
+function incubationJitter(seed: number, local: number, index: number): number {
+  return (
+    (((Math.imul(
+      (seed ^ Math.imul(local, 2654435761) ^ Math.imul(index + 1, 2246822519)) >>> 0,
+      1664525,
+    ) +
+      1013904223) >>>
+      0) /
+      4294967296) *
+    3
+  );
+}
+/** Where and when the eggs of one wave hatch. An egg never lies on a lane closed to serpents. */
+function missionEggs(run: MissionRun, local: number, rank: number, caprice: CapriceRules) {
+  const clustered = run.nest === 'clustered';
+  const nestLane = (run.seed + local) % 3;
+  const lanes = activeEnemyLanes(run, local);
+  const count = Math.min(3, (rank >= 8 ? 3 : rank >= 4 ? 2 : 1) + caprice.eggs);
+  return Array.from({ length: count }, (_, index) => {
+    const wanted = clustered ? nestLane : (nestLane + index) % 3;
+    const lane = lanes.includes(wanted) ? wanted : lanes[(run.seed + local + index) % lanes.length];
+    return Object.freeze({
+      lane: lane as 0 | 1 | 2,
+      x: 252 + index * (clustered ? 24 : 48),
+      hatchIn:
+        ((clustered ? 10 + index * 0.8 : 7 + index * 6) +
+          incubationJitter(run.seed, local, index)) *
+        caprice.hatch,
+      count: 2,
+    });
+  });
+}
+/** The advice shown before the wave: the assault, the nests, then the flying serpents. */
+function patternTip(run: MissionRun, rank: number, tacticalRulesEnabled: boolean): string {
+  const assaultTip =
+    run.assault === 'rush'
+      ? 'Petits groupes rapides : garde des alliés mobiles.'
+      : run.assault === 'escort'
+        ? 'Les escortes arrivent ensemble : combine contact et soutien.'
+        : 'Les arrivées sont régulières : répartis les gardiens.';
+  const nestTip =
+    run.nest === 'clustered'
+      ? 'La couvée est concentrée sur une voie.'
+      : 'Les éclosions sont réparties et décalées.';
+  const flyingTip =
+    tacticalRulesEnabled && rank >= 6
+      ? ' Des serpents volants arrivent : archers, dragons et tanks peuvent les toucher.'
+      : '';
+  return `${assaultTip} ${nestTip}${flyingTip}`;
+}
 /** Local waves are one-based. No boss or species from a later rank can enter this plan. */
 export function missionWave(
   run: MissionRun,
@@ -172,73 +256,27 @@ export function missionWave(
 ): MissionWave {
   const valid = readMissionRun(run);
   const definition = valid && missionById(valid.missionId);
-  if (!definition || !Number.isInteger(local) || local < 1 || local > definition.waves.length)
+  if (!valid || !definition || !isIntegerIn(local, 1, definition.waves.length))
     throw new RangeError('Vague de mission invalide');
   const rank = definition.waves[local - 1];
   const caprice = capriceRules(valid);
   const rankStats = waveStats(rank);
   const stats = Object.freeze({ ...rankStats, count: capriceCount(rankStats.count, caprice) });
   const composition = Array.from({ length: stats.count }, (_, index): EnemyKind => {
-    const normal = variantFor(rank, stats.count - index);
-    let base = normal;
-    if (
-      run.assault === 'rush' &&
-      rank >= 3 &&
-      index % 3 !== 2 &&
-      (normal === 'normal' || normal === 'runner' || normal === 'armored')
-    )
-      base = 'runner';
-    else if (run.assault === 'escort' && rank >= 5 && index % 4 === 0)
-      base = rank >= 6 ? 'umbrella' : 'armored';
-    else if (run.assault === 'escort' && rank >= 7 && index % 4 === 1) base = 'spitter';
-    return tacticalRulesEnabled ? flyingVariant(base, rank, stats.count - index) : base;
-  });
-  const cadence =
-    run.assault === 'rush' ? [0.4, 0.4, 2] : run.assault === 'escort' ? [0.65, 0.65, 1.55] : [0.95];
-  const nestLane = ((run.seed + local) % 3) as 0 | 1 | 2;
-  const incubationJitter = (index: number) =>
-    (((Math.imul(
-      (run.seed ^ Math.imul(local, 2654435761) ^ Math.imul(index + 1, 2246822519)) >>> 0,
-      1664525,
-    ) +
-      1013904223) >>>
-      0) /
-      4294967296) *
-    3;
-  const lanes = activeEnemyLanes(valid!, local);
-  const eggs = Array.from(
-    { length: Math.min(3, (rank >= 8 ? 3 : rank >= 4 ? 2 : 1) + caprice.eggs) },
-    (_, index) =>
-      Object.freeze({
-        lane: (lanes.includes(run.nest === 'clustered' ? nestLane : (nestLane + index) % 3)
-          ? run.nest === 'clustered'
-            ? nestLane
-            : (nestLane + index) % 3
-          : lanes[(run.seed + local + index) % lanes.length]) as 0 | 1 | 2,
-        x: 252 + index * (run.nest === 'clustered' ? 24 : 48),
-        hatchIn:
-          ((run.nest === 'clustered' ? 10 + index * 0.8 : 7 + index * 6) +
-            incubationJitter(index)) *
-          caprice.hatch,
-        count: 2,
-      }),
-  );
-  const assaultTip =
-    run.assault === 'rush'
-      ? 'Petits groupes rapides : garde des alliés mobiles.'
-      : run.assault === 'escort'
-        ? 'Les escortes arrivent ensemble : combine contact et soutien.'
-        : 'Les arrivées sont régulières : répartis les gardiens.';
-  const pattern = Object.freeze({
-    title: waveBriefing(rank).title,
-    tip: `${assaultTip} ${run.nest === 'clustered' ? 'La couvée est concentrée sur une voie.' : 'Les éclosions sont réparties et décalées.'}${tacticalRulesEnabled && rank >= 6 ? ' Des serpents volants arrivent : archers, dragons et tanks peuvent les toucher.' : ''}`,
+    // The usual line-up is numbered by serpents still to come: the first one has the most.
+    const remaining = stats.count - index;
+    const kind = assaultVariant(valid.assault, rank, index, variantFor(rank, remaining));
+    return tacticalRulesEnabled ? flyingVariant(kind, rank, remaining) : kind;
   });
   return Object.freeze({
     rank,
     stats,
     composition: Object.freeze(composition),
-    cadence: Object.freeze(cadence),
-    eggs: Object.freeze(eggs),
-    pattern,
+    cadence: Object.freeze(assaultCadence(valid.assault)),
+    eggs: Object.freeze(missionEggs(valid, local, rank, caprice)),
+    pattern: Object.freeze({
+      title: waveBriefing(rank).title,
+      tip: patternTip(valid, rank, tacticalRulesEnabled),
+    }),
   });
 }

@@ -1,6 +1,6 @@
 # Documents du projet
 
-Dix documents vivants. Tout le reste est de l'historique, rangé dans [archive/](archive/).
+Onze documents vivants. Tout le reste est de l'historique, rangé dans [archive/](archive/).
 
 ## À lire pour travailler
 
@@ -12,6 +12,7 @@ Dix documents vivants. Tout le reste est de l'historique, rangé dans [archive/]
 | [CAPRICES.md](CAPRICES.md)                                             | Les 36 défis du fils : noms, annonces, valeurs, mesures     |
 | [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone    |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version publiée                 |
+| [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste |
 | [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique               |
 | [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour |
 | [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver             |
