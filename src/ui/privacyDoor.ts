@@ -12,7 +12,8 @@ export function bindPrivacyDoor() {
   const door = make('button', { id: 'home-privacy', text: NAME });
   door.type = 'button';
   door.setAttribute('aria-haspopup', 'dialog');
-  byId('home-sound').after(door);
+  // Last of the small buttons, after « Joueurs » when several children share the device.
+  byId('home-family').before(door);
   let opening: Promise<() => void> | undefined;
   door.onclick = () => {
     opening ??= import('./privacy/privacyWindow.ts').then((module) => module.privacyWindow());
