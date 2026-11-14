@@ -1,11 +1,25 @@
-# Plan actuel — 0.38.0, livraison Android build59
+# Plan actuel — 0.38.0, livraison Android build60
 
-## Le voyage — 14 novembre, développé, pas encore fusionné
+## Livraison actuelle — 0.38.0, Android build60, Sites35 publiée
+
+Source figée : `f8552429ee7e291b13e07b85ca294b1db24b035d`, intégration du dernier main et de la PR51 de Claude.
+Nouveau mode « Le voyage », version1 : cinq étapes, caprices surprises, bonus conservés,
+roi et codes partageables. Les réglages approuvés sont maintenant figés ; anciens modes,
+sauvegardes et codes conservés. Même package et clé d’envoi Play, version0.38.0/code60.
+`npm run verify` : **711 tests** verts ; navigateur, audit, menus/Voyage, caprices, traduction,
+interruptions, hors ligne et parcours des missions verts. CI du source Claude entièrement verte.
+AAB60 signé, APK debug et ZIP des sources prêts ; site publié avec128fichiers identiques
+aux paquets, cinq formats publics et parcours natif du Voyage FR/EN vérifiés.
+[Bilan](BILAN-0.38.0.md), [Android](ANDROID.md), [Voyage](VOYAGE.md).
+Importer l’AAB60 dans le canal interne existant. Essais physiques S24/enfants restant au parent.
+Livraison précédente : [build59 / Sites34](archive/BILAN-0.38.0-build59.md).
+
+## Le voyage — 14 novembre, publié dans le build60 / Sites35
 
 Nouveau mode décidé par le parent le 14 novembre, **avec l'accord de son fils le même jour** :
 cinq étapes tirées d'une graine, un caprice surprise à partir de la troisième, le roi à trois
-têtes à la cinquième, un bonus à garder entre deux étapes. Rien n'est publié ; la version
-reste 0.38.0.
+têtes à la cinquième, un bonus à garder entre deux étapes. Première publication de la
+version1, désormais figée ; version de l’application0.38.0 conservée.
 
 - **Réglages de la version 1, acceptés par le parent le 14 novembre sur mesures**
   ([VOYAGE.md](VOYAGE.md)). Premier passage : six choix validés (caprices « copains »
@@ -14,8 +28,8 @@ reste 0.38.0.
   figée une fois publiée). Le parent a ensuite demandé « plus dur pour le joueur moyen, en
   protégeant l'expert » : second passage, un seul réglage, **300 pièces de moins dans la
   bourse de la dernière étape**. Sur 300 voyages simulés, cartes bien choisies : expert 81 %,
-  moyen 53 %, apprenti 26 %, débutant 4 % ; tous passent les trois premières étapes. Une fois
-  publiée, la version 1 ne changera plus : un code doit toujours donner le même voyage.
+  moyen 53 %, apprenti 26 %, débutant 4 % ; tous passent les trois premières étapes. La version1 est désormais
+  figée : un code doit toujours donner le même voyage.
 - **Écrans** : faits. Décisions du parent sur maquettes : l'entrée à côté de « Jouer » (et
   non un sixième bouton en bas), le caprice surprise montré à l'avance sur la carte, les
   bonus gardés pour tout le reste du voyage. S'y ajoutent, conçus dans le même style : le camp
@@ -35,7 +49,8 @@ Les 570 parties de référence du jeu hors voyage sont identiques. Captures hors
 dans [Architecture](ARCHITECTURE.md), section « Le voyage ».
 
 Non vérifié : rien n'est essayé sur un vrai téléphone ni avec les enfants ; aucun enfant n'a
-joué un voyage ; l'APK n'est pas refait. La durée d'un voyage (15 à 19 minutes estimées) et la
+joué un voyage. L’APK et l’AAB sont maintenant construits et contrôlés. La durée d’un voyage
+(15 à 19 minutes estimées) et la
 difficulté ressentie restent à mesurer avec eux : si leur jeu ressemble à celui de
 l'apprenti, la dernière étape est trop dure. La cinquième étape n'a pas été gagnée pour de
 bon dans le navigateur (fin forcée sur une page de contrôle).
@@ -45,21 +60,9 @@ t'a pris 300 pièces. » quand l'étape du roi est à jouer ; un code de voyage 
 tirets est accepté ; « Vous ferez le même voyage » (maquette) devient « Il ou elle fera le
 même voyage que toi », le contrôle du tutoiement refusant « vous ».
 
-À décider par le parent : les écrans construits ; la marche devant le roi (le moyen gagne
+À essayer par le parent et les enfants : les écrans construits ; la marche devant le roi (le moyen gagne
 l'étape 4 à 99 % et la cinquième à 54 %) ; l'étiquette « Nouveau », qui disparaît dès que le
 joueur a ouvert un voyage.
-
-## Livraison actuelle — 0.38.0, Android build59, Sites34 publiée
-
-Source figée : `bedda44697e3ea3a7bf9666b48cf3d82da26525d`, issue de main `5b7306c` (PR43 à49 de Claude).
-Joueurs locaux, autocollants sur les missions et proposition de rejouer un caprice ; nettoyage
-important du code. Anciens codes et aventure conservés, règles et valeurs inchangées.
-`npm run verify` : **658 tests** verts ; navigateur, audit13/13, menus, caprices, traduction,
-interruptions et hors ligne verts. CI du main source entièrement verte.
-AAB59 signé avec la clé d’envoi d’origine ; site publié,120 fichiers identiques aux paquets,
-cinq formats publics et audio contrôlés. Installation physique S24 restant au parent.
-[Bilan](BILAN-0.38.0.md), [Android](ANDROID.md). Importer l’AAB59 dans le canal interne existant.
-Livraison précédente : [build58 / Sites33](archive/BILAN-0.38.0-build58.md).
 
 ## Nettoyage du code — 13 novembre, après le build58
 
