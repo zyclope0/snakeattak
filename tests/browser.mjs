@@ -261,7 +261,9 @@ const voyage = await browser.newPage({
 });
 voyage.setDefaultTimeout(15000);
 voyage.on('pageerror', (e) => errors.push(e.message));
-await voyage.goto(gameUrl);
+// The fourth page of this recipe: the single file of the portable build is 27 MB to read
+// again beside the three others, which a busy machine does not do in fifteen seconds.
+await voyage.goto(gameUrl, { timeout: 60000 });
 await voyage.locator('#home-voyage').click();
 await voyage.locator('#home-screen[data-page="voyage"]').waitFor();
 if ((await voyage.locator('.voyage-stop').count()) !== 5) throw Error('Carte du voyage incomplète');
