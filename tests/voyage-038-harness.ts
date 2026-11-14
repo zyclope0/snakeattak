@@ -5,6 +5,8 @@
 // read from and written to localStorage, which the recipe fills before the page loads.
 import { bindHomeNavigation } from '../src/ui/homeNavigation.ts';
 import { Session } from '../src/session.ts';
+import { Game } from '../src/game.ts';
+import { createMissionRun } from '../src/missions.ts';
 import { createCareer } from '../src/progression.ts';
 import { bindControls } from '../src/ui/controls.ts';
 import { bindVoyageDoor } from '../src/ui/voyageDoor.ts';
@@ -52,7 +54,12 @@ show(true);
 Object.assign(window, {
   voyageFixture: {
     session,
-    /** Ends the stage on the board as the engine would, then redraws the page. */
+    /** An ordinary mission on the board: its result must not know of the voyage. */
+    mission() {
+      session.useGame(new Game(7, undefined, createMissionRun('refuge', 7, undefined, 2)));
+      show(false);
+    },
+    /** Ends the game on the board as the engine would, then redraws the page. */
     end(status: 'won' | 'lost') {
       const game = session.game;
       game.status = status;

@@ -1329,6 +1329,42 @@ export async function checkVoyage({ browser, url, check, capture }) {
       );
       await under.close();
     }
+
+    // Once the voyage has been opened, the result of an ordinary mission stays a mission's:
+    // nothing of the voyage in it or in focus, no stray text among its buttons.
+    const after = await open(812, 375, {
+      target: `${url}/${FIXTURE}`,
+      seed: { [VOYAGE_STORAGE_KEY]: logOf(SEED, 2) },
+    });
+    await after.waitForFunction(() => !!window.voyageFixture);
+    await enter(after);
+    await after.evaluate(() => {
+      window.voyageFixture.mission();
+      window.voyageFixture.end('won');
+      // Redrawn as the game redraws it at every save.
+      window.voyageFixture.end('won');
+    });
+    await settle(after);
+    const ordinary = await after.evaluate(() => {
+      const row = document.querySelector('#mission-next').parentElement;
+      const shown = (node) => !!node && node.getClientRects().length > 0;
+      return {
+        stray: [...row.childNodes]
+          .filter((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim())
+          .map((node) => node.textContent.trim()),
+        focus: document.activeElement?.id,
+        voyage: shown(document.querySelector('#voyage-result')),
+        mark: shown(document.querySelector('#voyage-mark')),
+      };
+    });
+    check(
+      !ordinary.stray.length &&
+        ordinary.focus !== 'voyage-continue' &&
+        !ordinary.voyage &&
+        !ordinary.mark,
+      `a mission ended after a voyage was opened keeps its own result: ${JSON.stringify(ordinary)}`,
+    );
+    await after.close();
   } finally {
     await rm(FIXTURE, { force: true });
   }

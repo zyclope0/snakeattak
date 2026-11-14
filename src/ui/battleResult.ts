@@ -47,7 +47,7 @@ export function bindBattleResult(session: Session) {
   /** Once per finished battle: back to the top, focus on what comes next. */
   const present = (game: Game) => {
     panel.scrollTop = 0;
-    const target = game.mission ? missionFollowUp() : classic;
+    const target = followUp(game, classic);
     requestAnimationFrame(() => {
       if (session.game === game && resultOnScreen(panel, app)) focusOutcome(panel, target);
     });
@@ -158,14 +158,22 @@ function rememberPlaces(nodes: HTMLElement[]) {
 
 /**
  * What comes next after a mission: the following one, else a caprice to try, else the same
- * departure again; after a voyage stage, the way on in the voyage. The caprice button only
- * exists once the missions are bound, the voyage's once a voyage has been opened.
+ * departure again. The caprice button only exists once the missions are bound.
  */
 function missionFollowUp(): HTMLElement {
-  const shown = ['voyage-continue', 'mission-next', 'mission-caprice-replay']
+  const shown = ['mission-next', 'mission-caprice-replay']
     .map((id) => document.getElementById(id))
     .find((button) => button && !button.hidden);
   return shown ?? byId('mission-again');
+}
+/**
+ * The button that takes the focus when a battle ends. A voyage stage has one way on, which
+ * the voyage adds to the result (ui/voyage); it is asked for only after a stage, so that the
+ * result of a mission never looks at it.
+ */
+function followUp(game: Game, classic: HTMLElement): HTMLElement {
+  if (game.stage) return document.getElementById('voyage-continue') ?? classic;
+  return game.mission ? missionFollowUp() : classic;
 }
 
 /** After a mission, the button that continues comes first; elsewhere the page's order. */
