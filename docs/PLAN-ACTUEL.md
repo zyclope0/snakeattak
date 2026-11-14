@@ -1,5 +1,43 @@
 # Plan actuel — 0.38.0, livraison Android build58
 
+## Le voyage — 14 novembre, développé, en attente de l'accord du parent
+
+Nouveau mode décidé par le parent le 14 novembre, **avec l'accord de son fils le même jour** :
+cinq étapes tirées d'une graine, un caprice surprise à partir de la troisième, le roi à trois
+têtes à la cinquième, un bonus à garder entre deux étapes. Rien n'est fusionné ni publié ; la
+version reste 0.38.0.
+
+- **Cœur** (modèle, moteur, laboratoire) : fait, 300 graines mesurées. Les réglages de la
+  version 1 **attendent l'accord du parent sur mesures** ([VOYAGE.md](VOYAGE.md)) ; le parent
+  a demandé une grosse passe d'équilibrage avant de les fixer. Une fois publiée, la version 1
+  ne changera plus : un code doit toujours donner le même voyage.
+- **Écrans** : faits. Décisions du parent sur maquettes : l'entrée à côté de « Jouer » (et
+  non un sixième bouton en bas), le caprice surprise montré à l'avance sur la carte, les
+  bonus gardés pour tout le reste du voyage. S'y ajoutent, conçus dans le même style : le camp
+  tombé (« Refaire ce voyage »), le code reçu, la reprise, la question avant de remplacer un
+  voyage en cours, le repère de l'étape pendant la bataille et « Continuer le voyage » à la
+  fin d'une étape. Par joueur ; ni classement, ni minuteur, ni récompense de retour.
+- Les écrans sont chargés à la demande, dans un paquet à part : le paquet principal passe de
+  190 910 à 192 769 octets (plafond 200 000), la page HTML ne change pas.
+
+Vérifié : `npm run verify` (**709 tests**) ; les 16 étapes navigateur de la CI ; menus 5461
+contrôles dont 536 pour le voyage, en français et en anglais, à 780×360, 812×375, 568×320 et
+1280×800 : une étape gagnée pour de bon, le bonus, le sac, un rechargement, une étape quittée,
+le camp tombé, le voyage fini, le code donné puis reçu, un code faux refusé, un second
+joueur, aucune étoile ni autocollant, les autres sauvegardes identiques à l'octet près.
+Captures hors dépôt. Détail dans [Architecture](ARCHITECTURE.md), section « Le voyage ».
+
+Non vérifié : rien n'est essayé sur un vrai téléphone ni avec les enfants ; aucun enfant n'a
+joué un voyage ; l'APK n'est pas refait. La durée d'un voyage (15 à 19 minutes estimées) et la
+difficulté ressentie restent à mesurer avec eux. Une phrase de la maquette a changé : « Vous
+ferez le même voyage » est devenu « Il ou elle fera le même voyage que toi », parce que le
+contrôle du tutoiement refuse « vous ».
+
+À décider par le parent : les réglages de la version 1 ; les questions ouvertes de
+[VOYAGE.md](VOYAGE.md) (cartes qui ne se valent pas, étape quittée qui repart de son début,
+voyage absent de la sauvegarde familiale) ; l'étiquette « Nouveau », qui disparaît dès que le
+joueur a ouvert un voyage.
+
 ## Livraison actuelle — 0.38.0, Android build58, Sites33 publiée
 
 Source figée : `d3e3e02251a29337002b34899bd432ac8b4c24d7`, issue de main `21f0feb` (PR40/PR41 de Claude).
