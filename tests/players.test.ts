@@ -31,6 +31,8 @@ import { createFamilyPersistence } from '../src/familyPersistence.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { createMissionProgress } from '../src/missionProgress.ts';
 import { createReminderMarkers } from '../src/ui/recruitmentReminder.ts';
+import { startVoyage } from '../src/voyageState.ts';
+import { loadVoyageLog, logVoyage, saveVoyageLog } from '../src/voyageStorage.ts';
 
 const FAMILY = 'conquete-serpents:family:v1';
 function memory(initial: Record<string, string> = {}) {
@@ -191,6 +193,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     'conquete-serpents:camp:v1',
     'conquete-serpents:progress:v1',
     'conquete-serpents:recruitment-reminder:v1',
+    'conquete-serpents:voyage:v1',
   ]);
   for (const key of PLAYER_KEYS) {
     assert.equal(playerKey(key, 'p1'), key);
@@ -208,7 +211,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     for (const id of ['p1', 'p2', 'p3', 'p4'] as const) assert.equal(playerKey(key, id), key);
 });
 
-test('the persistence code only ever touches the four keys of its player', () => {
+test('the persistence code only ever touches the five keys of its player', () => {
   for (const id of ['p1', 'p2', 'p4'] as const) {
     const device = memory();
     const storage = playerStorage(device, id);
@@ -221,6 +224,7 @@ test('the persistence code only ever touches the four keys of its player', () =>
     persistence.load();
     assert.equal(persistence.sync(encodeCheckpoint(game), career.state), true);
     createReminderMarkers(storage, []).mark('PONTS-1-0000-7X8R-A1');
+    assert.equal(saveVoyageLog(storage, logVoyage(loadVoyageLog(storage), startVoyage(7)!)!), true);
     const expected = PLAYER_KEYS.map((key) => (id === 'p1' ? key : `${key}:${id}`)).sort();
     assert.deepEqual([...device.touched].sort(), expected);
     assert.deepEqual([...device.values.keys()].sort(), expected);
@@ -304,7 +308,7 @@ test('editing changes the character and the nickname only', () => {
   assert.equal(selectPlayer(state, 'p4'), null);
 });
 
-test('deleting removes that player and its four keys only; the last player stays', () => {
+test('deleting removes that player and its five keys only; the last player stays', () => {
   const device = memory();
   for (const id of ['p1', 'p2', 'p3'] as const)
     for (const key of PLAYER_KEYS) device.values.set(playerKey(key, id), `${id}-data`);

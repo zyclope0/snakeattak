@@ -104,6 +104,9 @@ function saveDocument(game: Game, version: number, units: unknown[]) {
 
 export function encodeCheckpoint(game: Game): string | null {
   if (isFightingOrOver(game)) return null;
+  // A camp has no place for the rules of a voyage stage: read back, it would be a plain
+  // expedition. A voyage is saved between two stages instead (voyageStorage.ts).
+  if (game.stage) return null;
   if (game.mission && !isPersistableMissionRun(game.mission)) return null;
   const survivors = game.units.filter((u) => u.hp > 0);
   if (survivors.length > UNIT_LIMIT) return null;

@@ -80,10 +80,15 @@ function kingBringsCourt(game: Game): boolean {
     game.remaining <= COURT_SLOTS
   );
 }
-/** The king closes the classic adventure, and a mission whose caprice calls for it. */
+/**
+ * The king closes the classic adventure, a mission whose caprice calls for it, and the
+ * last stage of a voyage.
+ */
 function isKingSlot(game: Game, withCourt: boolean): boolean {
-  if (game.mission)
-    return game.caprice.king && game.wave === game.totalWaves && game.remaining === 1;
+  if (game.mission) {
+    const invited = game.caprice.king || !!game.stage?.king;
+    return invited && game.wave === game.totalWaves && game.remaining === 1;
+  }
   return game.wave === TOTAL_WAVES && (game.remaining === 1 || withCourt);
 }
 function slotVariant(

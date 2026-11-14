@@ -3,6 +3,7 @@ import { CAMP_STORAGE_KEY } from './checkpoints.ts';
 import { readFamilyBackup } from './familyBackup.ts';
 import { FAMILY_STORAGE_KEY } from './familyPersistence.ts';
 import { CAREER_STORAGE_KEY } from './progression.ts';
+import { VOYAGE_STORAGE_KEY } from './voyageStorage.ts';
 import {
   hasControlCharacter,
   isArrayOfLength,
@@ -48,6 +49,7 @@ export const PLAYER_KEYS: readonly string[] = [
   CAMP_STORAGE_KEY,
   CAREER_STORAGE_KEY,
   'conquete-serpents:recruitment-reminder:v1',
+  VOYAGE_STORAGE_KEY,
 ];
 type ReadPort = Pick<Storage, 'getItem'>;
 type StoragePort = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
