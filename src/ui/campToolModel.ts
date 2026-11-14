@@ -80,7 +80,8 @@ function repairHelp(game: Game) {
     gesture: 'Tous les alliés → Conseils et outils → Actions du camp → Réparer le cristal.',
     result:
       'Le cristal regagne jusqu’à 25 points de vie, sans dépasser 100.' +
-      (game.mission ? ' Les dégâts subis restent comptés pour tes étoiles.' : ''),
+      // A voyage stage is a mission that earns no star.
+      (game.mission && !game.stage ? ' Les dégâts subis restent comptés pour tes étoiles.' : ''),
     ready: inPlay(game) && game.base < 100 && canSpend(game, REPAIR_COST),
     status: bankNotice(game) + repairStatus(game),
   };

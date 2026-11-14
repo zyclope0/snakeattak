@@ -11,6 +11,7 @@ import type { Game } from './game.ts';
 import { CAPRICE_TIERS, capriceById, capricesForMission } from './caprices.ts';
 import type { CapriceDefinition } from './caprices.ts';
 import { isOneOf, isUint32 } from './plainData.ts';
+import { checkDigits, codeDigits, codeNumber, readLookalikes, tidyCode } from './codeText.ts';
 
 export type Departure =
   | Readonly<{ kind: 'classic'; seed: number; balance?: 2 }>
@@ -41,31 +42,10 @@ const TUTORIAL_BIT = 128;
 const seedFactor = (rule: string) => (hasTutorialBit(rule) ? 256 : SETUP_RANGE);
 const NO_CHALLENGE = 'N0';
 
-const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 const words = ['REFUGE', 'PONTS', 'VIFS', 'COQUILLES', 'SONNETTE', 'FOUGERE'] as const;
 
-function digits(value: number, count: number) {
-  let result = '';
-  for (let i = 0; i < count; i++) {
-    result = alphabet[value % 32] + result;
-    value = Math.floor(value / 32);
-  }
-  return result;
-}
-function number(text: string): number | null {
-  let value = 0;
-  for (const letter of text) {
-    const index = alphabet.indexOf(letter);
-    if (index < 0) return null;
-    value = value * 32 + index;
-  }
-  return value;
-}
 function checksum(word: string, payload: string, version: string, suffix = '') {
-  let hash = 2166136261;
-  for (const letter of `${word}-${version}-${payload}${suffix ? `-${suffix}` : ''}`)
-    hash = Math.imul(hash ^ letter.charCodeAt(0), 16777619) >>> 0;
-  return digits(hash & 1023, 2);
+  return checkDigits(`${word}-${version}-${payload}${suffix ? `-${suffix}` : ''}`);
 }
 
 /** What a code is made of before it is written out. */
@@ -107,38 +87,27 @@ export function encodeDeparture(departure: Departure): string {
   const { word, rule, seed, config, suffix } =
     departure.kind === 'mission' ? missionParts(departure.run) : classicParts(departure);
   if (!isUint32(seed)) throw new RangeError('Graine invalide');
-  const payload = digits(seed * seedFactor(rule) + config, 8);
+  const payload = codeDigits(seed * seedFactor(rule) + config, 8);
   return `${word}-${rule}-${payload.slice(0, 4)}-${payload.slice(4)}-${suffix ? `${suffix}-` : ''}${checksum(word, payload, rule, suffix)}`;
 }
 
 const WRITTEN_CODE = /^([A-Z]+)-(\d)-([A-Z0-9]{4})-([A-Z0-9]{4})-(?:([A-Z0-9]{2})-)?([A-Z0-9]{2})$/;
 const CHALLENGE_SUFFIX = /^[SC][123]$/;
-/** A child may type lower case, accents and spaces. */
-const tidy = (raw: string) =>
-  raw
-    .trim()
-    .toUpperCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s/g, '');
-/** The alphabet has no O, I or L: read them as the digits they look like. */
-const lookalikes = (text: string) => text.replace(/O/g, '0').replace(/[IL]/g, '1');
-
 /** A code that is written correctly: its fields, with the payload as a number. */
 type WrittenCode = { ok: true; word: string; rule: Rule; suffix: string; value: number };
 
 function splitCode(raw: unknown): WrittenCode | Refusal {
   if (typeof raw !== 'string' || raw.length > 96) return refused('format');
-  const match = WRITTEN_CODE.exec(tidy(raw));
+  const match = WRITTEN_CODE.exec(tidyCode(raw));
   if (!match) return refused('format');
   const [, word, rule, a, b, suffix = '', check] = match;
   if (!isOneOf(rule, RULES)) return refused('version');
   // The suffix comes with the versions that name a challenge, and only with them.
   if (hasTutorialBit(rule) ? !suffix : !!suffix) return refused('format');
-  const payload = lookalikes(a + b);
-  const value = number(payload);
-  if (value === null || number(lookalikes(check)) === null) return refused('format');
-  if (checksum(word, payload, rule, suffix) !== lookalikes(check)) return refused('checksum');
+  const payload = readLookalikes(a + b);
+  const value = codeNumber(payload);
+  if (value === null || codeNumber(readLookalikes(check)) === null) return refused('format');
+  if (checksum(word, payload, rule, suffix) !== readLookalikes(check)) return refused('checksum');
   return { ok: true, word, rule, suffix, value };
 }
 

@@ -11,8 +11,11 @@ import { bindPendingConfirm } from './pendingConfirm.ts';
 
 type ClassicDeparture = Extract<Departure, { kind: 'classic' }>;
 
-/** The « Copier » button of a code. Without a clipboard, the code is selected instead. */
-function bindCopyButton(fieldId: string, buttonId: string, messageId: string) {
+/**
+ * The « Copier » button of a code. Without a clipboard, the code is selected instead. The
+ * voyage copies its own code the same way.
+ */
+export function bindCopyButton(fieldId: string, buttonId: string, messageId: string) {
   const field = byId<HTMLInputElement>(fieldId),
     button = byId<HTMLButtonElement>(buttonId),
     status = byId(messageId);
@@ -119,9 +122,11 @@ export function bindDepartureControls(
     },
     refresh() {
       currentLegacy.hidden = session.game.balanceRevision !== 1;
-      const departure = departureForGame(session.game);
+      // A voyage stage has no departure code of its own: the voyage has one for all five.
+      const stage = !!session.game.stage;
+      const departure = stage ? null : departureForGame(session.game);
       byId('current-departure').hidden = !departure;
-      byId('departure-unavailable').hidden = !!departure;
+      byId('departure-unavailable').hidden = !!departure || stage;
       if (departure)
         setCode('current-departure-code', 'current-departure-message', encodeDeparture(departure));
     },

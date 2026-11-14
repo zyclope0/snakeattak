@@ -26,7 +26,8 @@ type Actions = {
 };
 
 export const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
-const lands = ['Détours', 'Méandres', 'Carrefour'];
+/** The three terrains of a mission, as the preparation and the voyage map name them. */
+export const lands = ['Détours', 'Méandres', 'Carrefour'];
 export const assaults = {
   balanced: 'Arrivées régulières',
   rush: 'Petits groupes rapides',

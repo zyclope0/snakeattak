@@ -149,6 +149,8 @@ export function createCapriceAlbumsController(initial?: CapriceAlbums) {
       if (
         !owner ||
         !run?.caprice ||
+        // A caprice met during a voyage is won with the bag's help: no sticker for it.
+        game.stage ||
         game.status !== 'won' ||
         game.wave !== game.totalWaves ||
         !(game.base > 0) ||

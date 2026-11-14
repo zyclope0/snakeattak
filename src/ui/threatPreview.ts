@@ -13,7 +13,9 @@ import { missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
 
 export type ThreatKind = EnemyKind | 'king';
-export type PreviewSource = Pick<Game, 'mission' | 'tuning' | 'totalWaves'>;
+/** What a preview reads of a game. A mission looked at before its departure has no stage. */
+export type PreviewSource = Pick<Game, 'mission' | 'tuning' | 'totalWaves'> &
+  Partial<Pick<Game, 'stage'>>;
 export type WaveThreats = {
   local: number;
   lanes: readonly number[];
@@ -93,13 +95,17 @@ function orderedThreats(types: Iterable<ThreatKind>): ThreatKind[] {
     (a, b) => THREAT_DETAILS[b].priority - THREAT_DETAILS[a].priority,
   );
 }
-/** A mission wave as planned; a caprice with the king gives him the last place of the last wave. */
+/**
+ * A mission wave as planned; a caprice with the king, or the last stage of a voyage, gives him
+ * the last place of the last wave.
+ */
 function missionWaveKinds(
   game: PreviewSource,
   local: number,
   composition: readonly EnemyKind[],
 ): ThreatKind[] {
-  const crowned = capriceRules(game.mission).king && local === game.totalWaves;
+  const invited = capriceRules(game.mission).king || !!game.stage?.king;
+  const crowned = invited && local === game.totalWaves;
   return composition.map((kind, index) =>
     crowned && index === composition.length - 1 ? 'king' : kind,
   );

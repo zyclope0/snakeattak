@@ -270,6 +270,7 @@ export const modelEnglish: Record<string, string> = {
   Vif: 'Swift Snake',
   VIFS: 'VIFS',
   Vive: 'Speedy',
+  VOYAGE: 'VOYAGE',
   '· PHASE {0}/3': '· PHASE {0}/3',
   '{0} FPS · méd. {1} / min. {2} · Maj. {3} ms p95':
     '{0} FPS · median {1} / min. {2} · Update {3} ms p95',

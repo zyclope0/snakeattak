@@ -11,7 +11,8 @@
 - menu-*.webp : un petit objet du jeu pour chaque bouton du bas de l'accueil ;
 - mission-*.webp : l'objet de chaque mission, pour la carte des missions ;
 - onglet-*.webp, repere-*.webp : les images de la préparation d'une mission ;
-- joueur-*.webp : le portrait de chaque personnage qu'un joueur peut choisir.
+- joueur-*.webp : le portrait de chaque personnage qu'un joueur peut choisir ;
+- voyage-*.webp : le panneau du voyage, l'antre de ses petites cartes et les images de ses bonus.
 Seul Pillow est nécessaire. Ce n'est pas une étape du build : les fichiers sont suivis dans Git.
 """
 from pathlib import Path
@@ -124,12 +125,12 @@ def round_cut(image):
     return image
 
 
-def picture(image, name):
+def picture(image, name, side=128):
     image = image.crop(image.getchannel("A").point(lambda v: 255 if v > 16 else 0).getbbox())
-    scale = 128 / max(image.size)
+    scale = side / max(image.size)
     image = image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)
-    square = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
-    square.alpha_composite(image, ((128 - image.width) // 2, (128 - image.height) // 2))
+    square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    square.alpha_composite(image, ((side - image.width) // 2, (side - image.height) // 2))
     square.save(out / f"{name}.webp", quality=88, method=6)
 
 
@@ -184,3 +185,20 @@ for character, sheet, index in (
     ("triceratops", "allies-dinosaurs", 1),
 ):
     picture(figure(cell(sheet, index)), f"joueur-{character}")
+
+# Le voyage : le panneau de bois de son bouton et de son titre (plus large que haut, gardé à
+# ses proportions), l'antre des petites cartes de ses étapes, et une image par bonus à garder
+# (les trois alliés offerts et le pot de miel). Les bonus s'affichent en grand sur leur
+# carte : 192 px.
+sign = cell("interface-craft", 0)
+sign.resize((176, round(sign.height * 176 / sign.width)), Image.LANCZOS).save(
+    out / "voyage-panneau.webp", quality=88, method=6
+)
+picture(cell("strongholds", 1), "voyage-antre")
+picture(cell("miels-parapluie", 2), "voyage-miel", 192)
+for ally, sheet, index in (
+    ("bouclier", "allies-front", 2),
+    ("ninja", "allies-support", 3),
+    ("raptor", "allies-dinosaurs", 0),
+):
+    picture(figure(cell(sheet, index)), f"voyage-{ally}", 192)
