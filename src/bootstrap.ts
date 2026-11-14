@@ -157,7 +157,6 @@ voyage = bindVoyageDoor({
   play: playStage,
   home: () => menu!.showHome(),
   navigate: (page) => navigation.show(page),
-  refresh,
 });
 bindFamilyControls({
   persistenceStatus: () => family.status,

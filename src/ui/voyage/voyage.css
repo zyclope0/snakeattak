@@ -662,7 +662,7 @@
   border-radius: 999px;
   background: #f6eecff0;
   color: #254738;
-  font-size: max(12px, calc(var(--hu) * 1.2));
+  font-size: max(12px, calc(var(--hu) * 1.05));
   font-weight: 800;
   line-height: 1.4;
   pointer-events: none;

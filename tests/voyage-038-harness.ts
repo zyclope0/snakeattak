@@ -46,7 +46,6 @@ voyage = bindVoyageDoor({
   },
   home,
   navigate: (page) => navigation.show(page),
-  refresh,
 });
 bindSettingsDialog(() => refresh());
 show(true);

@@ -16,7 +16,6 @@ export type VoyagePorts = {
   /** Leaves the board for the home screen, as its own button does. */
   home: () => void;
   navigate: (page: HomePage) => void;
-  refresh: () => void;
 };
 type Screens = {
   open: () => void;
