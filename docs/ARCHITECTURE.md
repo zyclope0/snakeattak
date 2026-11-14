@@ -785,3 +785,46 @@ conventions :
 Vérifié par des comparaisons avant/après hors dépôt : 243 captures du plateau identiques
 octet pour octet (neuf parcours, trois tailles) et une trace de 18 338 appels sonores
 identique. Rien n'a été regardé ni écouté sur un vrai téléphone.
+
+## Rejouer avec un caprice — 13 novembre 2026
+
+Les 36 caprices et leur carnet existaient ; rien ne les montrait hors de la préparation. Trois
+endroits les disent maintenant, sans rien écrire : on lit les étoiles et le carnet, les règles
+et la sauvegarde ne changent pas.
+
+- `ui/stickerGoals.ts` (sans page, `tests/sticker-goals.test.ts`) fait les comptes :
+  `missionStickers` (les six autocollants d'une mission, ceux qui sont gagnés, ceux qu'on peut
+  jouer avec les étoiles gagnées, les étoiles qui ouvrent les suivants), `replayOffer` (la
+  phrase et le bouton d'après une victoire) et `capriceToPlay` (la mission vers laquelle
+  l'accueil conduit quand les six missions sont gagnées).
+- `ui/stickerRow.ts` dessine six places sur une rangée, dans l'ordre de la page du carnet. Un
+  autocollant gagné montre son image en pâte à modeler en fond de sa place ; les autres
+  places n'ont pas d'image.
+- Carte de mission (`missionJourneyView.ts`) : la rangée sous les étoiles, dès que la mission
+  est jouable, avec le libellé « Autocollants : 2 sur 6 ».
+- Fin de mission (`missionOutcome.ts`, `stickerOffer`) : après une victoire, la rangée, la
+  phrase et « Rejouer avec un caprice » (« Un autre caprice » après un caprice), qui ouvre la
+  préparation de la même mission sur ses caprices (`missionDraft.ts`, `showCaprices`). Sans
+  caprice ouvert à gagner, pas de bouton : la phrase dit quelles étoiles ouvrent la suite, ou
+  que la page est pleine. `battleResult.ts` met en tête la mission suivante, sinon ce bouton,
+  sinon « Réessayer ».
+- Préparation (`capriceView.ts`) : un caprice dont l'autocollant est gagné dit « ✓ Gagné ».
+- Accueil (`expeditions.ts`, `bootstrap.ts`) : les six missions gagnées, le bouton principal
+  devient « Jouer un caprice » et sa phrase compte les autocollants qui restent. Une mission
+  qui vient d'être gagnée ne demande plus à être reprise : le bouton propose la suite, et
+  « Reprendre ma mission » reste sur la page Missions.
+
+Le carnet lu est celui que remplira la prochaine partie ; après une partie, celui de cette
+partie. Ils ne diffèrent que pour une sauvegarde ancienne qui garde plusieurs carnets.
+
+Sur téléphone couché, le panneau de résultat range ses boutons deux par deux quand il porte
+cette proposition (`data-sticker-offer` : `pairs`, ou `lead` quand un bouton impair prend la
+première rangée) ; le résultat tient alors sans défiler à 780×360, marges du système comprises
+pour une mission normale. Sur ordinateur, le panneau prend la hauteur de la fenêtre au lieu de
+s'arrêter à 460 px. `npm run test:mobile-menus` (`scripts/mobile-replay-038-checks.mjs`)
+contrôle les cartes et l'accueil dans le vrai jeu, et le résultat sur une page de contrôle
+(`tests/replay-038-harness.ts`), en français et en anglais.
+
+Limite connue : après la fermeture du jeu, une mission terminée laisse son dernier camp dans
+la sauvegarde ; l'accueil dit alors « Reprendre », comme avant. Le distinguer d'une mission
+vraiment interrompue demanderait une donnée de plus dans la sauvegarde.

@@ -17,6 +17,30 @@ Relevé par Codex : le bouclier se tournait un instant vers l'allié protégé l
 parce que l'effet `block` vise cet allié. Corrigé dans le lot « simplifier » : un blocage ne
 change plus le côté affiché. Affichage seulement, la protection n'a jamais été touchée.
 
+## Retour du parent, 13 novembre — « court et peu rejouable »
+
+**Rejouer avec un caprice : développé, en attente de l'accord du parent sur captures.** Rien
+n'est fusionné ni publié ; la version reste 0.38.0. Les 36 caprices et leur carnet existaient
+mais ne se voyaient pas. Ils se voient maintenant à trois endroits, sans toucher à une règle,
+à l'équilibrage ni à la sauvegarde (on lit les étoiles et le carnet, on n'écrit rien) :
+
+- Carte de mission : six places d'autocollants sous les étoiles, pleines pour les caprices
+  réussis, dès que la mission est jouable.
+- Fin de mission gagnée : « Il te reste 4 autocollants à gagner ici. » et le bouton « Rejouer
+  avec un caprice » (« Un autre caprice » après un caprice), qui ouvre la préparation de la
+  même mission sur ses caprices ; un caprice déjà réussi y dit « ✓ Gagné ». Sans caprice
+  ouvert à gagner, la phrase dit quelles étoiles ouvrent la suite.
+- Accueil, les six missions gagnées : le bouton principal devient « Jouer un caprice » et sa
+  phrase compte les autocollants qui restent. Une mission qui vient d'être gagnée ne demande
+  plus à être reprise.
+
+Vérifié : `npm run verify` (653 tests), la série navigateur de la CI, menus 4925 dont 1113
+pour ce lot, en français et en anglais ; captures hors dépôt. Non essayé sur un vrai
+téléphone ni avec les enfants. À décider par le parent : après la fermeture du jeu, une
+mission terminée laisse son dernier camp et l'accueil dit encore « Reprendre » ; le
+distinguer demanderait une donnée de plus dans la sauvegarde. Détail dans
+[Architecture](ARCHITECTURE.md), section « Rejouer avec un caprice ».
+
 ## Essai du parent sur téléphone, 13 novembre — décisions et idées notées
 
 Décisions du lot « simplifier », publiées dans le build58 / Sites33 :
