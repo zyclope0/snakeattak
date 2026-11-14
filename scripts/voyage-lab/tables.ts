@@ -10,11 +10,21 @@ import { freezeTuning } from '../../src/voyageTuning.ts';
  */
 export const RAW_TUNING = freezeTuning({
   stages: [
-    { missions: ['refuge', 'trois-ponts'], tiers: [], coins: 0 },
-    { missions: ['trois-ponts', 'course'], tiers: [], coins: 0 },
-    { missions: ['course', 'coquilles'], tiers: ['petit', 'moyen', 'grand'], coins: 0 },
-    { missions: ['coquilles', 'sonnette'], tiers: ['petit', 'moyen', 'grand'], coins: 0 },
-    { missions: ['sonnette', 'carrefour'], tiers: ['petit', 'moyen', 'grand'], coins: 0 },
+    { missions: ['refuge', 'trois-ponts'], tiers: [], coins: 0, ally: true },
+    { missions: ['trois-ponts', 'course'], tiers: [], coins: 0, ally: true },
+    { missions: ['course', 'coquilles'], tiers: ['petit', 'moyen', 'grand'], coins: 0, ally: true },
+    {
+      missions: ['coquilles', 'sonnette'],
+      tiers: ['petit', 'moyen', 'grand'],
+      coins: 0,
+      ally: true,
+    },
+    {
+      missions: ['sonnette', 'carrefour'],
+      tiers: ['petit', 'moyen', 'grand'],
+      coins: 0,
+      ally: true,
+    },
   ],
   excluded: [],
   bonusCoins: 100,

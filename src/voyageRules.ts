@@ -15,7 +15,8 @@ export type StageRules = Readonly<{
   version: 1;
   /** The three-headed king closes the last wave, whatever the caprice says. */
   king: boolean;
-  /** Coins added to the purse of the mission: the bag's coins and the stage's allowance. */
+  /** Coins added to the purse of the mission: the bag's coins and the stage's allowance,
+   *  which may take coins away. The purse never goes below zero. */
   coins: number;
   /** Damage the crystal ward absorbs from the first wave on. */
   ward: number;
@@ -43,7 +44,7 @@ export function readStageRules(raw: unknown): StageRules | null {
     !isRecord(raw) ||
     raw.version !== 1 ||
     typeof raw.king !== 'boolean' ||
-    !isIntegerIn(raw.coins, 0, COINS_LIMIT) ||
+    !isIntegerIn(raw.coins, -COINS_LIMIT, COINS_LIMIT) ||
     !isIntegerIn(raw.ward, 0, WARD_LIMIT) ||
     !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||
     !raw.bag.every(isBonusCard)
@@ -63,7 +64,7 @@ export function readStageRules(raw: unknown): StageRules | null {
  * voucher, exactly like the one of the great adventure: the child places it.
  */
 export function openStage(game: Game, stage: StageRules) {
-  game.gold += stage.coins;
+  game.gold = Math.max(0, game.gold + stage.coins);
   game.rewards.ward += stage.ward;
   for (const id of stage.bag)
     game.rewards.choices.push({ milestone: BAG_MILESTONE, id, used: !REWARDS[id].kind });

@@ -8,8 +8,12 @@ export type StageTuning = Readonly<{
   missions: readonly MissionId[];
   /** Levels of caprice that may surprise this stage; an empty list means no caprice. */
   tiers: readonly CapriceTier[];
-  /** Coins added to the mission's purse at this stage, before the bag's own coins. */
+  /** Coins added to the mission's purse at this stage, before the bag's own coins; a
+   *  negative number takes coins away. */
   coins: number;
+  /** One of the three cards offered after this stage is a free ally. Without it the
+   *  three other cards are offered. The last stage offers nothing. */
+  ally: boolean;
 }>;
 
 /** Every number the voyage owns. Missions, caprices, allies and serpents keep theirs. */
@@ -53,24 +57,35 @@ export function freezeTuning(tuning: VoyageTuning): VoyageTuning {
  * agreement. The measures behind version 1 are in docs/VOYAGE.md.
  */
 export const VOYAGE_TUNINGS: Readonly<Record<VoyageVersion, VoyageTuning>> = Object.freeze({
-  // Version 1, proposed on 14 November 2026 and waiting for the parent's agreement. The
-  // figures are those of the automatic players over 300 seeds (docs/VOYAGE.md).
+  // Version 1, proposed on 14 November 2026 and adjusted the same day after the parent asked
+  // for a voyage « harder for the average player ». Not published yet. The figures are
+  // those of the automatic players over 300 seeds (docs/VOYAGE.md).
   1: freezeTuning({
     stages: [
       // Stages 1 and 2: the first missions as they are. Every automatic player wins them
       // every time; they teach the voyage before anything surprises it.
-      { missions: ['refuge', 'trois-ponts'], tiers: [], coins: 0 },
-      { missions: ['trois-ponts', 'course'], tiers: [], coins: 0 },
+      { missions: ['refuge', 'trois-ponts'], tiers: [], coins: 0, ally: true },
+      { missions: ['trois-ponts', 'course'], tiers: [], coins: 0, ally: true },
       // Stage 3: the first surprise is a small caprice. With any caprice of the mission
-      // the beginner won this stage 57 times in 100, and the great caprice of the shells
-      // stopped the expert one time in four; with a small one everybody passes.
-      { missions: ['course', 'coquilles'], tiers: ['petit'], coins: 0 },
-      // Stage 4: a small or a medium caprice. Expert and average players still pass; the
-      // beginner wins 59 times in 100. A great caprice here would mostly stop the beginner.
-      { missions: ['coquilles', 'sonnette'], tiers: ['petit', 'moyen'], coins: 0 },
-      // Stage 5: a medium or a great caprice, and the king. A voyage is decided here: the
-      // expert wins this stage 83 times in 100, the average player 72.
-      { missions: ['sonnette', 'carrefour'], tiers: ['moyen', 'grand'], coins: 0 },
+      // the great caprice of the shells stopped the expert one time in four; with a small
+      // one every player passes, the beginner too.
+      { missions: ['course', 'coquilles'], tiers: ['petit'], coins: 0, ally: true },
+      // Stage 4: a small or a medium caprice. Expert and average players still pass, the
+      // apprentice wins 96 times in 100, the beginner 62. Medium and great caprices one
+      // stage earlier changed nothing for the expert nor the average player.
+      { missions: ['coquilles', 'sonnette'], tiers: ['petit', 'moyen'], coins: 0, ally: true },
+      // Stage 5: a medium or a great caprice, the king, and 300 coins less in the purse.
+      // The smaller purse is what the second pass added. It stops the player who spends
+      // everything without care far more than the expert: voyages finished went from 67
+      // to 53 in 100 for the average player, from 83 to 81 for the expert, and did not
+      // move for the players who leave coins unspent. 200 coins less left the average
+      // player at 59, 400 took the expert down to 78. The last stage offers no card.
+      {
+        missions: ['sonnette', 'carrefour'],
+        tiers: ['moyen', 'grand'],
+        coins: -300,
+        ally: false,
+      },
     ],
     // The two caprices that limit the kinds of allies. The free allies of the bag take the
     // places of the friends the child would choose: carrying allies, the expert won the
@@ -81,8 +96,8 @@ export const VOYAGE_TUNINGS: Readonly<Record<VoyageVersion, VoyageTuning>> = Obj
     bonusCoins: 100,
     bonusWard: 18,
     // The king as it comes in a mission. A sturdier king (8, then 10) took the expert from
-    // 83 voyages finished in 100 to 81, then 77, and the average player from 71 to 70, then
-    // 68: it stops the best players first, so the king stays as it is.
+    // 83 voyages finished in 100 to 81, then 77, and the average player from 67 to 68, then
+    // 65: it stops the best players first, so the king stays as it is.
     kingHp: 6.5,
   }),
 });
