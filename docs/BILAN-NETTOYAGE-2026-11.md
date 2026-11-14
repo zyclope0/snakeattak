@@ -1,5 +1,9 @@
 # Bilan — nettoyage du code, 13 novembre 2026
 
+> Livraison du 14 novembre : les lots fusionnés décrits ici sont inclus dans le build59 /
+> Sites34. Les mesures ci-dessous restent celles du 13 novembre ; voir le
+> [bilan de livraison](BILAN-0.38.0.md) pour les vérifications actuelles.
+
 Demande du parent : après beaucoup de petits ajouts, enlever le code mort, donner une seule
 définition à ce qui se répète, découper les fonctions-fleuves. Contrainte : aucun changement
 de comportement. Aucune règle du jeu, valeur d'équilibrage, texte ni format de sauvegarde
