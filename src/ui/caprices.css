@@ -16,6 +16,10 @@
   padding: 10px;
   white-space: normal;
 }
+/* A caprice whose sticker is earned takes the colour of an earned sticker in the book. */
+.caprice-row button[data-earned='true'] {
+  background: #f7e7b1;
+}
 .caprice-row button[aria-pressed='true'] {
   outline: 3px solid #bc742c;
   background: #ffebbc;
@@ -193,6 +197,27 @@
 }
 .caprice-result-note strong {
   line-height: 1.25;
+}
+/* Six sticker places in one row (a mission card, the result of a mission). An empty place
+   is a dashed ring; a sticker that is earned sits on a gold disc, under its clay picture. */
+.sticker-row {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 2px;
+}
+.sticker-row[hidden] {
+  display: none;
+}
+.sticker-row > span {
+  box-sizing: border-box;
+  aspect-ratio: 1;
+  border: 1.5px dashed #a8946a;
+  border-radius: 50%;
+  background: #fbf3d9 center / 92% no-repeat;
+}
+.sticker-row > [data-earned='true'] {
+  border: 1.5px solid #b98a2c;
+  background-color: #f6d67a;
 }
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
   #caprice-bank {

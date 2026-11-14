@@ -45,6 +45,11 @@ export function capriceStickerName(id: string): string | undefined {
   const creator = /-createur-(petit|moyen|grand)$/.exec(id);
   return creator ? CREATOR_STICKERS[creator[1]!] : SNAKE_STICKERS[id];
 }
+/** The address of a caprice's clay sticker; nothing for a caprice without one, or outside Vite. */
+export function stickerUrl(id: string): string | undefined {
+  const name = capriceStickerName(id);
+  return name ? stickerUrls[`../assets/caprices/${name}.webp`] : undefined;
+}
 
 /** Presentation categories derived only from the canonical challenge flags. */
 export function capriceIconType(r: CapriceRules) {
@@ -96,7 +101,7 @@ type Stickered = Pick<CapriceDefinition, 'id' | 'rules'>;
 export function paintSticker(svg: SVGElement, caprice?: Stickered) {
   const type = capriceIconType(caprice?.rules ?? NO_CAPRICE);
   const name = (caprice && capriceStickerName(caprice.id)) ?? '';
-  const url = name && stickerUrls[`../assets/caprices/${name}.webp`];
+  const url = caprice && stickerUrl(caprice.id);
   const sticker = url ? name : '';
   if (svg.dataset.capriceIcon === type && svg.dataset.capriceSticker === sticker) return;
   svg.dataset.capriceIcon = type;

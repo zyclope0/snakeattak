@@ -26,7 +26,7 @@ export function bindBattleResult(session: Session) {
     if (game.mission) {
       restore(classic);
       if (mission.parentNode !== content) content.append(mission);
-      buttons.promote(!byId('mission-next').hidden ? byId('mission-next') : byId('mission-again'));
+      buttons.promote(missionFollowUp());
       return;
     }
     restore(mission);
@@ -40,8 +40,7 @@ export function bindBattleResult(session: Session) {
   /** Once per finished battle: back to the top, focus on what comes next. */
   const present = (game: Game) => {
     panel.scrollTop = 0;
-    const next = byId('mission-next');
-    const target = !game.mission ? classic : !next.hidden ? next : byId('mission-again');
+    const target = game.mission ? missionFollowUp() : classic;
     requestAnimationFrame(() => {
       if (session.game === game && resultOnScreen(panel, app)) focusOutcome(panel, target);
     });
@@ -148,21 +147,36 @@ function rememberPlaces(nodes: HTMLElement[]) {
   };
 }
 
+/**
+ * What comes next after a mission: the following one, else a caprice to try, else the same
+ * departure again. The caprice button only exists once the missions are bound.
+ */
+function missionFollowUp(): HTMLElement {
+  const shown = ['mission-next', 'mission-caprice-replay']
+    .map((id) => document.getElementById(id))
+    .find((button) => button && !button.hidden);
+  return shown ?? byId('mission-again');
+}
+
 /** After a mission, the button that continues comes first; elsewhere the page's order. */
 function bindPrimaryButton() {
   const buttons = byId('mission-next').parentElement!;
-  const pageOrder = Array.from(buttons.childNodes);
-  let reordered = false;
+  // Read at the first move, not at binding, and again if the row has grown since: the
+  // missions add their own buttons to this row, and none may be left out of it.
+  let pageOrder: ChildNode[] | null = null;
   return {
     promote(primary: HTMLElement) {
-      if (buttons.firstElementChild === primary) return;
-      buttons.prepend(primary);
-      reordered = true;
+      // A button that comes with its sentence moves with it, as one block of the row.
+      const block = Array.from(buttons.children).find((child) => child.contains(primary))!;
+      if (buttons.firstElementChild === block) return;
+      if (pageOrder?.length !== buttons.childNodes.length)
+        pageOrder = Array.from(buttons.childNodes);
+      buttons.replaceChildren(block, ...pageOrder.filter((node) => node !== block));
     },
     restore() {
-      if (!reordered) return;
+      if (!pageOrder) return;
       buttons.replaceChildren(...pageOrder);
-      reordered = false;
+      pageOrder = null;
     },
   };
 }

@@ -282,6 +282,10 @@ function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = fa
 function missionCanResume() {
   return !!missionGame || !!missions.state.retryCamp;
 }
+/** A mission waits to be continued, unless the one on record has just been won. */
+function missionWaits() {
+  return missionCanResume() && missionGame?.status !== 'won';
+}
 /** Back to the mission under way, the classic adventure being set aside first. */
 function resumeMission() {
   if (!session.game.mission && hasCamp) {
@@ -298,12 +302,16 @@ function resumeMission() {
   showBattle();
 }
 
-/** The big button of the home: « Reprendre » what was last played, else « Jouer ». */
+/**
+ * The big button of the home: « Reprendre » what waits to be continued, else « Jouer » the
+ * next mission or, once the six are won, « Jouer un caprice ». A mission just won is
+ * finished: it leaves the button to what comes next and stays on the Missions page.
+ */
 function refreshHomePrimary() {
   const primary = byId('home-primary');
   const inMissions = missions.state.activeMode === 'missions';
-  const resume = inMissions ? missionCanResume() : !byId('home-continue').hidden;
-  setDisplayText(primary, resume ? 'Reprendre' : 'Jouer');
+  const resume = inMissions ? missionWaits() : !byId('home-continue').hidden;
+  setDisplayText(primary, resume ? 'Reprendre' : expeditions!.playLabel());
   if (resume)
     setDisplayText(
       byId('home-next-mission'),

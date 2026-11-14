@@ -17,6 +17,7 @@ import { friendPicker } from './capriceFriends.ts';
 import { paintSticker, stickerGraphic } from './capriceIcons.ts';
 import { capriceSpeech } from './capriceSpeech.ts';
 import { make } from './dom.ts';
+import type { StickerEarned } from './stickerGoals.ts';
 export { friendChoices } from './capriceFriends.ts';
 
 export function capriceRows(run: MissionRun, stars: number) {
@@ -46,23 +47,31 @@ export function friendsViewHasContent(run: MissionRun, albumCount: number) {
   return !!capriceDefinitionForRun(run)?.rules.kinds || albumChoiceShown(albumCount);
 }
 
-/** A caprice to choose: the child's name for it, and the stars that open it. */
-function capriceCard(card: CapriceCard, onSelect: (id: string) => void) {
+/** What a card says under the name: closed, its sticker already earned, or to choose. */
+function cardStatus(card: CapriceCard, earned: boolean): string {
+  if (!card.open) return `🔒 ${card.stars} ★ nécessaires`;
+  return earned ? '✓ Gagné' : `${card.stars} ★ · Choisir`;
+}
+
+/**
+ * A caprice to choose: the child's name for it, and the stars that open it. One whose
+ * sticker is earned says so and can still be played again.
+ */
+function capriceCard(card: CapriceCard, earned: boolean, onSelect: (id: string) => void) {
   const button = make('button');
   button.dataset.caprice = card.definition.id;
+  button.dataset.earned = String(earned);
   button.classList.toggle('caprice-locked', !card.open);
   button.disabled = !card.open;
-  const status = make('small', {
-    text: card.open ? `${card.stars} ★ · Choisir` : `🔒 ${card.stars} ★ nécessaires`,
-  });
+  const status = make('small', { text: cardStatus(card, earned) });
   button.append(frenchLeaf('strong', card.definition.name), status);
   button.onclick = () => onSelect(card.definition.id);
   return button;
 }
 
 /** A row of three: its title in the child's words, then its cards. */
-function capriceRow(row: CapriceRow, onSelect: (id: string) => void) {
-  const cards = row.cards.map((card) => capriceCard(card, onSelect));
+function capriceRow(row: CapriceRow, earned: StickerEarned, onSelect: (id: string) => void) {
+  const cards = row.cards.map((card) => capriceCard(card, earned(card.definition.id), onSelect));
   return [frenchLeaf('h3', row.title), make('div', { className: 'caprice-row' }, ...cards)];
 }
 
@@ -72,14 +81,15 @@ function capriceCardRows(onSelect: (id: string) => void) {
   let built = '';
   return {
     node,
-    show(run: MissionRun, stars: number) {
-      // The cards only change with the mission, the stars won and the rules revision.
-      const key = JSON.stringify([run.missionId, stars, run.balance]);
+    show(run: MissionRun, stars: number, earned: StickerEarned) {
+      const rows = capriceRows(run, stars);
+      // The cards only change with the mission, the stars won, the rules revision and the
+      // stickers of the book.
+      const won = rows.map((row) => row.cards.map((card) => earned(card.definition.id)));
+      const key = JSON.stringify([run.missionId, stars, run.balance, won]);
       if (key !== built) {
         built = key;
-        node.replaceChildren(
-          ...capriceRows(run, stars).flatMap((row) => capriceRow(row, onSelect)),
-        );
+        node.replaceChildren(...rows.flatMap((row) => capriceRow(row, earned, onSelect)));
       }
       for (const button of Array.from(node.querySelectorAll<HTMLButtonElement>('[data-caprice]')))
         button.setAttribute('aria-pressed', String(button.dataset.caprice === run.caprice));
@@ -155,7 +165,13 @@ export function bindCapricePreparation(
   const cards = capriceCardRows(onSelect);
   const announcement = capriceAnnouncement(speech);
   const friends = friendPicker(portraitStyle, onFriendsChange);
-  const book = bookChoice(albums, onProfileChange);
+  // The stickers of the book that the new game will fill.
+  const earned: StickerEarned = (id) => albums?.has(id) ?? false;
+  let shown: [MissionRun, number] | null = null;
+  const book = bookChoice(albums, () => {
+    if (shown) cards.show(...shown, earned);
+    onProfileChange();
+  });
   const detail = make(
     'div',
     { id: 'caprice-detail', className: 'caprice-detail' },
@@ -174,7 +190,8 @@ export function bindCapricePreparation(
       setText(entry, 'Caprices');
       availability.hidden = stars > 0;
       setText(availability, 'Caprices · gagne une étoile pour jouer');
-      cards.show(run, stars);
+      shown = [run, stars];
+      cards.show(run, stars, earned);
       normal.setAttribute('aria-pressed', String(!run.caprice));
       const caprice = capriceDefinitionForRun(run);
       detail.hidden = !caprice;

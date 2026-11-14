@@ -20,6 +20,7 @@ const GUARDED_ACTIONS = [
   '#mission-back-map',
   '#mission-again',
   '#mission-next',
+  '#mission-caprice-replay',
 ].join(',');
 
 /** A native catalogue owns a pause lease; selecting only prepares the existing action. */

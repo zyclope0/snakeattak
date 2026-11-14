@@ -136,14 +136,14 @@
 }
 #home-screen #mission-cards .mission-emblem {
   grid-column: 1;
-  grid-row: 1 / 5;
+  grid-row: 1 / 6;
   width: calc(var(--hu) * 4.4);
   height: calc(var(--hu) * 4.4);
 }
 #home-screen #mission-cards .mission-status-badge {
   position: static;
   grid-column: 3;
-  grid-row: 1 / 5;
+  grid-row: 1 / 6;
   width: max(40px, calc(var(--hu) * 4));
   height: max(40px, calc(var(--hu) * 4));
 }
@@ -165,13 +165,19 @@
   font-size: max(13px, calc(var(--hu) * 1.5));
   line-height: 1.1;
 }
+/* The six sticker places under the stars: they share the text column and shrink with it. */
+#home-screen #mission-cards .sticker-row {
+  max-width: calc(var(--hu) * 12.4);
+  gap: calc(var(--hu) * 0.25);
+  margin-top: calc(var(--hu) * 0.3);
+}
 /* Mission number and objective return in the preparation; they show here only with room.
    The status stays readable for assistive technology while the badge shows it. */
 #home-screen #mission-cards .mission-card > small:first-of-type,
 #home-screen
   #mission-cards
   .mission-card
-  > span:not(.mission-stars):not(.mission-emblem):not(.mission-status-badge) {
+  > span:not(.mission-stars):not(.sticker-row):not(.mission-emblem):not(.mission-status-badge) {
   display: none;
 }
 #home-screen #mission-cards .mission-card > small:last-child {
@@ -462,7 +468,7 @@
   #home-screen
     #mission-cards
     .mission-card
-    > span:not(.mission-stars):not(.mission-emblem):not(.mission-status-badge),
+    > span:not(.mission-stars):not(.sticker-row):not(.mission-emblem):not(.mission-status-badge),
   #home-screen .chapter-card .chapter-focus,
   #home-screen .journey-map .journey-title small {
     display: revert;
@@ -473,7 +479,7 @@
   #home-screen
     #mission-cards
     .mission-card
-    > span:not(.mission-stars):not(.mission-emblem):not(.mission-status-badge) {
+    > span:not(.mission-stars):not(.sticker-row):not(.mission-emblem):not(.mission-status-badge) {
     font-size: max(12px, calc(var(--hu) * 0.9));
     line-height: 1.3;
   }

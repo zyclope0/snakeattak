@@ -8,6 +8,9 @@ import type { MissionDefinition, MissionId } from '../missions.ts';
 import { make } from './dom.ts';
 import { starRow } from './gameParts.ts';
 import type { missionJourney } from './missionJourney.ts';
+import { missionStickers } from './stickerGoals.ts';
+import type { StickerEarned } from './stickerGoals.ts';
+import { stickerRow } from './stickerRow.ts';
 
 /** Un objet du jeu par mission ; l'image est choisie par la feuille de style. */
 function missionEmblem(id: MissionId) {
@@ -27,12 +30,16 @@ function missionStatusBadge() {
   return badge;
 }
 
-/** A mission of the map: its emblem, its number and waves, its name, its goal, its stars. */
+/**
+ * A mission of the map: its emblem, its number and waves, its name, its goal, its stars and
+ * its stickers.
+ */
 export function missionCard(mission: MissionDefinition, index: number) {
   const button = make('button', { className: 'mission-card' });
   button.dataset.missionCard = mission.id;
   const stars = make('span', { className: 'mission-stars' });
   stars.setAttribute('role', 'img');
+  const stickers = stickerRow();
   const availability = make('small');
   button.append(
     missionEmblem(mission.id),
@@ -43,15 +50,20 @@ export function missionCard(mission: MissionDefinition, index: number) {
     make('strong', { text: mission.name }),
     make('span', { text: mission.objective }),
     stars,
+    stickers.row,
     availability,
   );
-  return { button, stars, availability };
+  return { button, stars, stickers, availability };
 }
 
-/** Each card follows its step of the journey; returns the stars won in all. */
+/**
+ * Each card follows its step of the journey and the sticker book; returns the stars won in
+ * all. A mission still locked shows no stickers: there is nothing to earn in it yet.
+ */
 export function showJourney(
   cards: readonly ReturnType<typeof missionCard>[],
   journey: ReturnType<typeof missionJourney>,
+  earned: StickerEarned,
 ): number {
   let total = 0;
   for (const [index, card] of cards.entries()) {
@@ -59,6 +71,8 @@ export function showJourney(
     total += step.stars;
     setDisplayText(card.stars, starRow(step.stars));
     setDisplayAttribute(card.stars, 'aria-label', step.starLabel);
+    card.stickers.row.hidden = step.disabled;
+    card.stickers.show(missionStickers(step.id, step.stars, earned));
     card.button.disabled = step.disabled;
     card.button.dataset.journeyStatus = step.status;
     if (step.status === 'next') card.button.setAttribute('aria-current', 'step');
