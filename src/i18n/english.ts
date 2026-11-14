@@ -4,6 +4,7 @@ import { uiAEnglish } from './dictionaries/ui-a.en.ts';
 import { uiBEnglish } from './dictionaries/ui-b.en.ts';
 import { extraEnglish } from './dictionaries/extra.en.ts';
 import { supplementEnglish } from './dictionaries/supplement.en.ts';
+import { voyageEnglish } from './dictionaries/voyage.en.ts';
 
 export const english: Readonly<Record<string, string>> = Object.freeze({
   ...modelEnglish,
@@ -11,5 +12,6 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   ...uiBEnglish,
   ...extraEnglish,
   ...supplementEnglish,
+  ...voyageEnglish,
   ...capricesEnglish,
 });

@@ -1,5 +1,5 @@
 import { byId, dialogOpen, portraitPhone } from './dom.ts';
-export type HomePage = 'home' | 'missions' | 'classic' | 'parents' | 'favorites';
+export type HomePage = 'home' | 'missions' | 'classic' | 'parents' | 'favorites' | 'voyage';
 
 /**
  * A fixed div outside a native modal is inert and cannot cover the top layer.
