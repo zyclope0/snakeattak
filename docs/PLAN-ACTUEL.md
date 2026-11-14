@@ -25,11 +25,12 @@ reste 0.38.0.
 - Les écrans sont chargés à la demande, dans un paquet à part : le paquet principal passe de
   190 910 à 192 769 octets (plafond 200 000), la page HTML ne change pas.
 
-Vérifié : `npm run verify` (**711 tests**) ; les 16 étapes navigateur de la CI ; menus 5461
-contrôles dont 536 pour le voyage, en français et en anglais, à 780×360, 812×375, 568×320 et
-1280×800 : une étape gagnée pour de bon, le bonus, le sac, un rechargement, une étape quittée,
-le camp tombé, le voyage fini, le code donné puis reçu, un code faux refusé, un second
-joueur, aucune étoile ni autocollant, les autres sauvegardes identiques à l'octet près.
+Vérifié : `npm run verify` (**711 tests**) ; les 16 étapes navigateur de la CI ; dans les
+menus, plus de 530 contrôles pour le voyage, en français et en anglais, à 780×360, 812×375,
+568×320 et 1280×800 : une étape gagnée pour de bon, le bonus, le sac, un rechargement, une
+étape quittée, le camp tombé, le voyage fini, le code donné puis reçu (tapé sans tirets), un
+code faux refusé, un second joueur, aucune étoile ni autocollant, les autres sauvegardes
+identiques à l'octet près, la fin d'une mission ordinaire inchangée après un voyage.
 Les 570 parties de référence du jeu hors voyage sont identiques. Captures hors dépôt. Détail
 dans [Architecture](ARCHITECTURE.md), section « Le voyage ».
 
