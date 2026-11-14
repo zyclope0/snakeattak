@@ -23,7 +23,7 @@ function outside(words: string, address: string) {
   const link = plain('a', words);
   link.href = address;
   link.target = '_blank';
-  link.rel = 'noopener noreferrer';
+  link.relList.add('noopener', 'noreferrer');
   return link;
 }
 

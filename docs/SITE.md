@@ -129,10 +129,9 @@ L'ancien site ajoutait à chaque page un script de protection de son hébergeur
 (`/cdn-cgi/challenge-platform/…`). Le nouveau site n'en a pas : la page de confidentialité
 ne charge aucun script.
 
-**Écart à faire trancher par l'éditeur.** La politique approuvée décrit l'application
-Android ; elle ne dit rien des journaux du site. Elle ne prétend pas non plus que le site
-n'en a pas. Si l'éditeur veut le dire, voici une formulation de travail, **non publiée** et
-à relire, à ajouter dans les deux langues avec une nouvelle date :
+**Dit dans la politique.** La page d'abord publiée décrivait l'application Android et ne
+parlait pas des journaux du site. Le parent a accepté le 14 novembre 2026 d'y ajouter une
+section « Site web » / « Website », dans les deux langues, placée avant le contact :
 
 > **FR.** Le site snakeattacktd.com est hébergé par Infomaniak, en Suisse. Comme tout
 > serveur Web, l'hébergeur enregistre dans des journaux techniques l'adresse IP, la date, la
@@ -144,6 +143,9 @@ n'en a pas. Si l'éditeur veut le dire, voici une formulation de travail, **non 
 > web server, the host records visitors' IP address, date, requested page, and browser in
 > technical logs, to run and protect the service. The host keeps these logs for a few days.
 > zyclope does not use them to track visitors, and the site sets no cookies.
+
+Cette section ne devient vraie qu'une fois le site en ligne sur Infomaniak. Tant que
+l'ancien site sert sa propre page, celle-ci ne la contient pas.
 
 ## La politique de confidentialité : une seule source
 
@@ -159,9 +161,11 @@ pour mot de la page publiée le 14 novembre 2026. La page publique
 - Le même test compare la version et le build cités par la politique à `package.json` et à
   `android/app/build.gradle`. **Un nouveau build Android demande donc de relire la politique
   et de mettre à jour `POLICY_APP`** dans `src/i18n/privacyPolicy.ts`.
-- Ajouts à ce qui était publié, à confirmer par l'éditeur : la ligne « Mise à jour : 14
-  novembre 2026 » (la page n'avait pas de date) et, dans l'application seulement, le lien
-  « Lire cette politique sur snakeattacktd.com ».
+- Ajouts à ce qui était publié, acceptés par le parent le 14 novembre 2026 : la ligne
+  « Mise à jour : 14 novembre 2026 » (la page n'avait pas de date), la section « Site web »
+  ci-dessus et, dans l'application seulement, le lien « Lire cette politique sur
+  snakeattacktd.com ». Le test retire ces ajouts avant de comparer le reste à la page de
+  référence, et vérifie la section « Site web » mot pour mot.
 
 ## Ce qui n'est pas vérifié
 

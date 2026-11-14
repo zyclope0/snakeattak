@@ -9,9 +9,10 @@ Actions). Le build Android reste fait par Codex. Rien n'est en ligne sur le nouv
 et l'ancien site n'est pas touché. Marche à suivre complète : [SITE.md](SITE.md).
 
 - **Texte** : repris mot pour mot de la page publiée (français et anglais), rangé dans une
-  seule source dont sortent la page publique et la fenêtre de l'application. Ajouts à
-  confirmer par le parent : la ligne « Mise à jour : 14 novembre 2026 » et le lien vers la
-  page publique.
+  seule source dont sortent la page publique et la fenêtre de l'application. Trois ajouts
+  acceptés par le parent le 14 novembre : la ligne « Mise à jour : 14 novembre 2026 », une
+  section « Site web » qui dit ce que l'hébergeur enregistre, et le lien vers la page
+  publique.
 - **Application** : bouton « Confidentialité » / « Privacy policy » dans « Pour les
   parents » ; fenêtre presque plein écran, titre et « Fermer » fixes, texte qui défile au
   doigt, langue du jeu, lien volontaire vers snakeattacktd.com/confidentialite. Aucun SDK,
@@ -30,9 +31,9 @@ redirections jamais essayés sur l'hébergement) ; rien sur le Galaxy S24 ni dan
 particulier l'ouverture des liens ; les liens de la fiche Play ne sont pas changés.
 
 À faire par le parent : créer le site et le compte SSH chez Infomaniak, ranger les quatre
-secrets dans GitHub, lancer « Publier le site » ; dire s'il veut une phrase sur les journaux
-de l'hébergeur dans la politique (proposition dans [SITE.md](SITE.md)) ; prévenir les
-familles que les sauvegardes du site ne suivent pas le changement d'adresse.
+secrets dans GitHub, lancer « Publier le site » ; relever dans `ik-logs` ce que les journaux
+contiennent vraiment ; prévenir les familles que les sauvegardes du site ne suivent pas le
+changement d'adresse.
 
 À faire par Codex pour le build 61 : monter `versionCode`, puis relire la politique et
 mettre `POLICY_APP` à jour dans `src/i18n/privacyPolicy.ts` (un test le réclame). Notes de

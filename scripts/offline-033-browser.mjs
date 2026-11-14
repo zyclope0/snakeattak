@@ -188,7 +188,7 @@ try {
     [
       'fr',
       'Politique de confidentialité de La Conquête des Serpents / Snake Attack TD',
-      4,
+      5,
       'https://snakeattacktd.com/confidentialite',
     ],
   );

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { privacyPageHtml } from '../deploy/privacyPage.ts';
-import { POLICY_APP, PRIVACY_POLICY } from '../src/i18n/privacyPolicy.ts';
+import { POLICY_APP, PRIVACY_POLICY, WEBSITE_HEADING } from '../src/i18n/privacyPolicy.ts';
 import { PUBLIC_PRIVACY_URL, SITE_HOST } from '../src/site.ts';
 
 const published = readFileSync('tests/fixtures/confidentialite-publiee-2026-11-14.html', 'utf8');
@@ -10,13 +10,21 @@ const published = readFileSync('tests/fixtures/confidentialite-publiee-2026-11-1
 const tight = (html: string) => html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
 const between = (html: string, open: string, close: string) =>
   html.slice(html.indexOf(open), html.indexOf(close) + close.length);
-const withoutDates = (html: string) => html.replace(/<p class="updated">[^<]*<\/p>/g, '');
+/**
+ * The page without what the publisher added to the words first published: the date of the
+ * last change and the section about the website.
+ */
+const asFirstPublished = (html: string) =>
+  Object.values(WEBSITE_HEADING).reduce(
+    (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
+    html.replace(/<p class="updated">[^<]*<\/p>/g, ''),
+  );
 
 test('the policy is word for word the one its publisher approved, in both languages', () => {
   const page = privacyPageHtml();
   // The words, the headings, the bold names and the links of both languages.
   assert.equal(
-    tight(withoutDates(between(page, '<main>', '</main>'))),
+    tight(asFirstPublished(between(page, '<main>', '</main>'))),
     tight(between(published, '<main>', '</main>')),
   );
   // The way around the page and its name.
@@ -25,6 +33,29 @@ test('the policy is word for word the one its publisher approved, in both langua
     tight(between(published, '<header>', '</header>')),
   );
   assert.equal(between(page, '<title>', '</title>'), between(published, '<title>', '</title>'));
+});
+
+test('the section about the website says what the publisher approved, in both languages', () => {
+  const section = (language: 'fr' | 'en') =>
+    PRIVACY_POLICY[language].sections.find(
+      (candidate) => candidate.heading === WEBSITE_HEADING[language],
+    )!;
+  assert.deepEqual(section('fr').paragraphs, [
+    [
+      'Le site snakeattacktd.com est hébergé par Infomaniak, en Suisse. Comme tout serveur Web, l’hébergeur enregistre dans des journaux techniques l’adresse IP, la date, la page demandée et le navigateur des visiteurs, pour faire fonctionner et protéger le service. Ces journaux sont conservés quelques jours par l’hébergeur. zyclope ne les utilise pas pour suivre les visiteurs et le site ne dépose aucun cookie.',
+    ],
+  ]);
+  assert.deepEqual(section('en').paragraphs, [
+    [
+      'The snakeattacktd.com website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors, and the site sets no cookies.',
+    ],
+  ]);
+  // It comes after Google Play and before the contact, in both languages.
+  for (const language of ['fr', 'en'] as const) {
+    const headings = PRIVACY_POLICY[language].sections.map((candidate) => candidate.heading);
+    assert.equal(headings.indexOf(WEBSITE_HEADING[language]), 3, language);
+    assert.equal(headings.length, 5, language);
+  }
 });
 
 test('the public page stands alone: no script, no outside resource, its own address', () => {

@@ -7,7 +7,8 @@ import type { Language } from './language.ts';
  * (ui/privacy): they cannot drift apart.
  *
  * The words are legal commitments, taken as they were published on 14 November 2026
- * (tests/fixtures/confidentialite-publiee-2026-11-14.html, which a test compares them to).
+ * (tests/fixtures/confidentialite-publiee-2026-11-14.html, which a test compares them to),
+ * with the section about the website the publisher added the same day.
  * They are not rewritten, shortened or translated here: a change is a decision of the
  * publisher, made in both languages, with a new date. The policy speaks to parents and
  * says « vous »; the rest of the game says « tu ».
@@ -32,6 +33,13 @@ export type PolicyText = {
  * Android build: a new build is a moment to read the policy again.
  */
 export const POLICY_APP = { version: '0.38.0', build: 60 };
+
+/**
+ * The section about the website, added by the publisher on 14 November 2026 when the site
+ * moved to its own address: what the host records. It is the only part of the policy that
+ * was not on the page first published.
+ */
+export const WEBSITE_HEADING = { fr: 'Site web', en: 'Website' } as const;
 
 export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
   fr: {
@@ -76,6 +84,14 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
               href: 'https://policies.google.com/privacy?hl=fr',
             },
             '.',
+          ],
+        ],
+      },
+      {
+        heading: WEBSITE_HEADING.fr,
+        paragraphs: [
+          [
+            `Le site ${SITE_HOST} est hébergé par Infomaniak, en Suisse. Comme tout serveur Web, l’hébergeur enregistre dans des journaux techniques l’adresse IP, la date, la page demandée et le navigateur des visiteurs, pour faire fonctionner et protéger le service. Ces journaux sont conservés quelques jours par l’hébergeur. zyclope ne les utilise pas pour suivre les visiteurs et le site ne dépose aucun cookie.`,
           ],
         ],
       },
@@ -140,6 +156,14 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
             "Google Play handles downloads and updates. Google Play also checks where the app was installed from. This check may occasionally require a connection if the Play Store has been offline for a long time. Google's handling of information through its services is described in the ",
             { a: 'Google Privacy Policy', href: 'https://policies.google.com/privacy?hl=en' },
             '.',
+          ],
+        ],
+      },
+      {
+        heading: WEBSITE_HEADING.en,
+        paragraphs: [
+          [
+            `The ${SITE_HOST} website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors, and the site sets no cookies.`,
           ],
         ],
       },
