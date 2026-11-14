@@ -18,7 +18,7 @@ const ROAD_COLOUR = '#f2dfb2';
 const QUIET_ROAD_COLOUR = '#b2bdaa';
 
 /** The level's terrain, dimmed under a green veil: the roads are drawn over it. */
-function drawGround(svg: SVGElement, level: Level) {
+export function drawGround(svg: SVGElement, level: Level) {
   const ground =
     GROUND_ART.find((g) => g.key === 'ground-' + (level.artId ?? level.id)) ?? GROUND_ART[0];
   svg.append(
@@ -47,7 +47,7 @@ function road(points: readonly Point[], stroke: string, width: number) {
 }
 
 /** The three lanes, then the junctions between them: the real paths of the level. */
-function drawRoads(svg: SVGElement, level: Level, lanes: readonly number[]) {
+export function drawRoads(svg: SVGElement, level: Level, lanes: readonly number[]) {
   for (const lane of [0, 1, 2]) {
     const active = lanes.includes(lane);
     const path = road(laneRoad(lane, level), active ? ROAD_COLOUR : QUIET_ROAD_COLOUR, 44);
@@ -59,7 +59,7 @@ function drawRoads(svg: SVGElement, level: Level, lanes: readonly number[]) {
 }
 
 /** Each rock with its shadow on the ground. */
-function drawRocks(svg: SVGElement, level: Level) {
+export function drawRocks(svg: SVGElement, level: Level) {
   for (const rock of level.rocks)
     svg.append(
       svgNode('ellipse', {

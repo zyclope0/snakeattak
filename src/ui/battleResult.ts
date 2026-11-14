@@ -1,6 +1,6 @@
 import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import './battleResult.css';
-import { defeatCopy, earnedStars } from '../render/resultCopy.ts';
+import { defeatCopy, earnedStars, victoryCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
 import { visualSettings } from '../render/visualSettings.ts';
@@ -23,6 +23,13 @@ export function bindBattleResult(session: Session) {
   forwardClick('result-allies', 'reinforcements-toggle');
   /** The actions of the mode that was played move into the result; the others go home. */
   const gatherActions = (game: Game) => {
+    // A voyage stage brings its own way on (ui/voyage): neither a mission's nor the classic's.
+    if (game.stage) {
+      restore(mission);
+      restore(classic);
+      buttons.restore();
+      return;
+    }
     if (game.mission) {
       restore(classic);
       if (mission.parentNode !== content) content.append(mission);
@@ -69,14 +76,16 @@ export function bindBattleResult(session: Session) {
   };
 }
 
+/** A stage won says so even under a caprice; a mission keeps « Bravo ! » or its caprice. */
+function victoryTitle(game: Game) {
+  if (game.stage) return victoryCopy(game).title;
+  return game.mission?.caprice ? 'Caprice réussi !' : 'Bravo !';
+}
+
 function showOutcomeTitle(game: Game) {
   setDisplayText(
     byId('battle-result-title'),
-    game.status === 'won'
-      ? game.mission?.caprice
-        ? 'Caprice réussi !'
-        : 'Bravo !'
-      : defeatCopy(game).title,
+    game.status === 'won' ? victoryTitle(game) : defeatCopy(game).title,
   );
   // The caprice summary repeats this heading verbatim. Keep its sticker and
   // actions, and keep the original French announcement on defeat.
@@ -149,10 +158,11 @@ function rememberPlaces(nodes: HTMLElement[]) {
 
 /**
  * What comes next after a mission: the following one, else a caprice to try, else the same
- * departure again. The caprice button only exists once the missions are bound.
+ * departure again; after a voyage stage, the way on in the voyage. The caprice button only
+ * exists once the missions are bound, the voyage's once a voyage has been opened.
  */
 function missionFollowUp(): HTMLElement {
-  const shown = ['mission-next', 'mission-caprice-replay']
+  const shown = ['voyage-continue', 'mission-next', 'mission-caprice-replay']
     .map((id) => document.getElementById(id))
     .find((button) => button && !button.hidden);
   return shown ?? byId('mission-again');
