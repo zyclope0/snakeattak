@@ -589,6 +589,10 @@
   background: #e7eddb;
   flex-wrap: nowrap;
 }
+/* Le bouton garde ses mots sur une ligne ; c'est le champ qui cède la place. */
+.voyage-window .departure-entry button {
+  flex: 0 0 auto;
+}
 .voyage-window .departure-entry input {
   flex: 1 1 auto;
   min-height: 48px;

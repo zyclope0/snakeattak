@@ -293,6 +293,36 @@ const fits = (state) =>
   !state.overlapping.length &&
   state.titleRow;
 
+/** A window of the voyage: it does not scroll, and each control is whole and 48 px high. */
+const windowState = (page, selector) =>
+  page.locator(selector).evaluate((dialog) => {
+    const frame = dialog.getBoundingClientRect();
+    const controls = [...dialog.querySelectorAll('button, input')].filter(
+      (node) => node.getClientRects().length,
+    );
+    const name = (node) => node.id || node.textContent.trim();
+    return {
+      open: dialog.open,
+      scrolls: dialog.scrollHeight > dialog.clientHeight + 1,
+      small: controls.filter((node) => node.getBoundingClientRect().height < 47.5).map(name),
+      cut: controls
+        .filter(
+          (node) =>
+            node.tagName === 'BUTTON' &&
+            (node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + 1),
+        )
+        .map(name),
+      outside: controls
+        .filter((node) => {
+          const r = node.getBoundingClientRect();
+          return r.left < frame.left || r.right > frame.right || r.bottom > frame.bottom;
+        })
+        .map(name),
+    };
+  });
+const windowWhole = (state) =>
+  state.open && !state.scrolls && !state.small.length && !state.cut.length && !state.outside.length;
+
 /** The result panel of a stage: its title, the one way on, and nothing of a mission. */
 const resultState = (page) =>
   page.evaluate(() => {
@@ -603,7 +633,22 @@ export async function checkVoyage({ browser, url, check, capture }) {
           : bubble.rules.length > 10 && bubble.rules !== capriceExplanation(fourth.rules),
         `caprice window ${where} explains the rules in the language: ${bubble.rules}`,
       );
+      const bubbleWindow = await windowState(page, '#voyage-caprice');
+      check(
+        windowWhole(bubbleWindow),
+        `caprice window ${where} is whole: ${JSON.stringify(bubbleWindow)}`,
+      );
       await page.locator('#voyage-caprice > button').click();
+      // The code of the voyage and « Autre voyage », opened from the map.
+      for (const [opener, selector] of [
+        ['#voyage-code', '#voyage-gift'],
+        ['#voyage-other-open', '#voyage-other'],
+      ]) {
+        await page.locator(opener).click();
+        const shown = await windowState(page, selector);
+        check(windowWhole(shown), `${selector} ${where} is whole: ${JSON.stringify(shown)}`);
+        await page.locator(`${selector} > button:last-child`).click();
+      }
       await page.close();
 
       // The last stage to play: the king and the sticker stay inside the largest stop.
@@ -1147,6 +1192,11 @@ export async function checkVoyage({ browser, url, check, capture }) {
         have.heading === t.haveCode && have.fresh === 0 && have.fits && !have.small,
         `end ${where}: « J’ai un code » asks for the code only: ${JSON.stringify(have)}`,
       );
+      const receive = await windowState(page, '#voyage-other');
+      check(
+        windowWhole(receive),
+        `end ${where}: the window of a code received is whole: ${JSON.stringify(receive)}`,
+      );
       await capture(page, `voyage-receive-${w}x${h}-${language}`);
       await typeCode(page, gift.code);
       state = await voyageState(page);
@@ -1230,6 +1280,11 @@ export async function checkVoyage({ browser, url, check, capture }) {
           question.fits &&
           !question.small,
         `replace ${where}: the question says what would stop: ${JSON.stringify(question)}`,
+      );
+      const asked = await windowState(under, '#voyage-replace');
+      check(
+        windowWhole(asked),
+        `replace ${where}: the question is whole: ${JSON.stringify(asked)}`,
       );
       await capture(under, `voyage-replace-${w}x${h}-${language}`);
       await under.locator('#voyage-keep').click();
