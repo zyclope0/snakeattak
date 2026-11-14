@@ -1,27 +1,28 @@
-# Plan actuel — 0.38.0, livraison Android build58
+# Plan actuel — 0.38.0, livraison Android build59
 
-## Livraison actuelle — 0.38.0, Android build58, Sites33 publiée
+## Livraison actuelle — 0.38.0, Android build59, Sites34 publiée
 
-Source figée : `d3e3e02251a29337002b34899bd432ac8b4c24d7`, issue de main `21f0feb` (PR40/PR41 de Claude).
-Carnet et préparation simplifiés, cinq bulles d’aide FR/EN, correction du bouclier.
-Anciens carnets multiples et codes de départ conservés ; règles et sauvegardes inchangées.
-`npm run verify` : **601 tests** verts ; navigateur, audit13/13, menus2261, caprices et traduction verts.
-AAB58 signé avec la clé d’envoi d’origine, APK debug séparé. Site publié et contrôlé sur cinq formats,
-112 fichiers identiques aux paquets, carnet/préparation FR/EN, audio et démarrages APK hors ligne vérifiés.
-[Bilan](BILAN-0.38.0.md), [Android](ANDROID.md). L’import de l’AAB58 dans le canal interne reste au parent.
-Livraison précédente : [build57 / Sites32](archive/BILAN-0.38.0-build57.md).
+Source figée : `bedda44697e3ea3a7bf9666b48cf3d82da26525d`, issue de main `5b7306c` (PR43 à49 de Claude).
+Joueurs locaux, autocollants sur les missions et proposition de rejouer un caprice ; nettoyage
+important du code. Anciens codes et aventure conservés, règles et valeurs inchangées.
+`npm run verify` : **658 tests** verts ; navigateur, audit13/13, menus, caprices, traduction,
+interruptions et hors ligne verts. CI du main source entièrement verte.
+AAB59 signé avec la clé d’envoi d’origine ; site publié,120 fichiers identiques aux paquets,
+cinq formats publics et audio contrôlés. Installation physique S24 restant au parent.
+[Bilan](BILAN-0.38.0.md), [Android](ANDROID.md). Importer l’AAB59 dans le canal interne existant.
+Livraison précédente : [build58 / Sites33](archive/BILAN-0.38.0-build58.md).
 
 ## Nettoyage du code — 13 novembre, après le build58
 
 Demande du parent : code mort, répétitions, fonctions-fleuves. Aucun changement de
-comportement ; rien n'est publié tant que Codex n'a pas fait un nouveau build.
+comportement. Intégré à la livraison build59 / Sites34 du 14 novembre.
 Fusionné dans `main` : code mort (PR44), fonctions communes, son et rendu (PR45), styles
-(PR46), interface (PR47). Moteur de règles et lecteurs de sauvegardes : PR48, proposés après
+(PR46), interface (PR47). Moteur de règles et lecteurs de sauvegardes : PR48, fusionnés après
 l'accord du parent du 13 novembre.
 `npm run verify` : **645 tests** verts ; les 16 étapes navigateur de la CI vertes.
 Détail, preuves, limites et liste de ce qui est encore écrit en dur (trois chapitres, trois
 voies, douze vagues) : [bilan du nettoyage](BILAN-NETTOYAGE-2026-11.md).
-Non vérifié : vrai téléphone, APK, enfants.
+APK construit et contrôlé dans le build59. Non vérifié : vrai téléphone et enfants.
 
 ## Suivi visuel de 0.38.0
 
@@ -31,8 +32,8 @@ change plus le côté affiché. Affichage seulement, la protection n'a jamais é
 
 ## Retour du parent, 13 novembre — « court et peu rejouable »
 
-**Rejouer avec un caprice : développé, en attente de l'accord du parent sur captures.** Rien
-n'est fusionné ni publié ; la version reste 0.38.0. Les 36 caprices et leur carnet existaient
+**Rejouer avec un caprice : fusionné en PR49 et publié dans le build59 / Sites34**,
+sur demande du parent de publier le dernier Git. La version reste 0.38.0. Les 36 caprices et leur carnet existaient
 mais ne se voyaient pas. Ils se voient maintenant à trois endroits, sans toucher à une règle,
 à l'équilibrage ni à la sauvegarde (on lit les étoiles et le carnet, on n'écrit rien) :
 
@@ -46,7 +47,7 @@ mais ne se voyaient pas. Ils se voient maintenant à trois endroits, sans touche
   phrase compte les autocollants qui restent. Une mission qui vient d'être gagnée ne demande
   plus à être reprise.
 
-Vérifié : `npm run verify` (653 tests), la série navigateur de la CI, menus 4925 dont 1113
+Vérifié le 13 novembre : `npm run verify` (653 tests), la série navigateur de la CI, menus 4925 dont 1113
 pour ce lot, en français et en anglais ; captures hors dépôt. Non essayé sur un vrai
 téléphone ni avec les enfants. À décider par le parent : après la fermeture du jeu, une
 mission terminée laisse son dernier camp et l'accueil dit encore « Reprendre » ; le
@@ -69,10 +70,10 @@ Décisions du lot « simplifier », publiées dans le build58 / Sites33 :
   et « Autre départ » dans la préparation, sauvegarde familiale et code de départ chez les
   parents (`src/ui/helpBubble.ts`, textes dans `src/ui/helpTopics.ts`).
 
-Idées du parent, à instruire avant tout développement :
+Profils publiés et pistes du parent restant à instruire :
 
-- **Profils locaux, décidés par le parent sur maquette le 13 novembre — développés, en
-  attente de son accord sur captures.** Sur un appareil partagé, chaque enfant a son joueur :
+- **Profils locaux, décidés par le parent sur maquette le 13 novembre — fusionnés en PR43,
+  publiés dans le build59 / Sites34 sur sa demande de publication du dernier Git.** Sur un appareil partagé, chaque enfant a son joueur :
   un personnage du jeu et, s'il le veut, un surnom. Quatre joueurs au plus ; deux joueurs
   peuvent prendre le même personnage. Au premier lancement, le joueur par défaut est le Héros
   et l'enfant joue tout de suite. « Qui joue ? » ne s'affiche à l'ouverture que s'il y a au
@@ -214,7 +215,7 @@ canal interne Play reste à faire par le parent. Le build52 fonctionne déjà en
   fois les fichiers en cache. Pistes restantes : charger en arrière-plan les planches d'alliés
   non posés (2,7 Mo) ; image de l'accueil en WebP (350 → 50 Ko), à décider car la recette exige
   aujourd'hui l'icône Android à l'identique. « Dangers » encore dans la barre du haut.
-- Test physique S24 : mise à jour vers Play58, son au retour dans l’application, fluidité,
+- Test physique S24 : mise à jour vers Play59, son au retour dans l’application, fluidité,
   volumes et taille de police Android. Les marges et interruptions mesurées ici sont simulées.
 - Continuer le test interne ; préparer le test fermé ensuite, sans pub ou achat activé.
 - Les résultats longs de caprices restent défilables ; ne pas les annoncer sans défilement.
