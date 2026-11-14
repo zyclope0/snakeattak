@@ -467,6 +467,13 @@ try {
       await page.locator('#mission-next').isHidden(),
       'caprice does not promise next normal mission',
     );
+    // The book of the game that was played (A) decides what is left, whichever book is active.
+    check(
+      (await page.locator('#mission-caprice-replay').innerText()) === 'Un autre caprice' &&
+        (await page.locator('#mission-sticker-hint').innerText()).trim() ===
+          'Il te reste 5 autocollants à gagner ici.',
+      'played caprice win counts the stickers left and offers another caprice',
+    );
     await shot(page, 'production-A-win');
     await page.locator('#result-caprice-album').click();
     check(

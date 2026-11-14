@@ -100,4 +100,17 @@ export const supplementEnglish: Record<string, string> = {
     'This file only keeps the adventure of the current player:',
   'Impossible d’enregistrer ce joueur sur cet appareil.':
     'This player cannot be saved on this device.',
+  // Rejouer avec un caprice (ui/stickerGoals.ts) : cartes des missions, fin de mission, accueil.
+  'Autocollants : {0} sur 6': 'Stickers: {0} out of 6',
+  'Il te reste {0} autocollants à gagner ici.': 'You have {0} stickers left to earn here.',
+  'Il te reste 1 autocollant à gagner ici.': 'You have 1 sticker left to earn here.',
+  'Tu as gagné les 6 autocollants de cette mission !': 'You earned all 6 stickers in this mission!',
+  'Gagne {0} étoiles ici pour ouvrir d’autres caprices.':
+    'Earn {0} stars here to open more caprices.',
+  'Rejouer avec un caprice': 'Replay with a caprice',
+  'Un autre caprice': 'Another caprice',
+  'Jouer un caprice': 'Play a caprice',
+  '✓ Gagné': '✓ Earned',
+  'Il te reste {0} autocollants à gagner.': 'You have {0} stickers left to earn.',
+  'Il te reste 1 autocollant à gagner.': 'You have 1 sticker left to earn.',
 };
