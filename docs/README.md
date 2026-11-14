@@ -10,6 +10,7 @@ Onze documents vivants. Tout le reste est de l'historique, rangé dans [archive/
 | [PASSATION-CLAUDE-CODE.md](PASSATION-CLAUDE-CODE.md)                   | État au 10 novembre 2026, décisions prises, travail à faire |
 | [ARCHITECTURE.md](ARCHITECTURE.md)                                     | Comment le code est découpé, et pourquoi Phaser 3           |
 | [CAPRICES.md](CAPRICES.md)                                             | Les 36 défis du fils : noms, annonces, valeurs, mesures     |
+| [VOYAGE.md](VOYAGE.md)                                                 | Le voyage : réglages proposés, mesures, décisions à prendre |
 | [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone    |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version publiée                 |
 | [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste |

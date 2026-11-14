@@ -651,6 +651,8 @@ utilisent les mêmes clés suivies de `:p2` … `:p4`. `bootstrap.ts` ne donne p
 traduit les clés ; le son, la langue, les effets légers et la liste des joueurs restent
 communs à l'appareil. Un test vérifie que ces contrôleurs ne touchent que les quatre clés de
 leur joueur.
+Depuis le 14 novembre, une cinquième clé suit le joueur de la même façon : `voyage:v1`, le
+carnet du voyage (section « Le voyage »).
 
 Changer de joueur ou en créer un écrit `activeId` puis recharge la page : chaque contrôleur
 est reconstruit sur les bonnes clés. `sessionStorage` retient que le joueur a été choisi
@@ -841,3 +843,110 @@ contrôle les cartes et l'accueil dans le vrai jeu, et le résultat sur une page
 Limite connue : après la fermeture du jeu, une mission terminée laisse son dernier camp dans
 la sauvegarde ; l'accueil dit alors « Reprendre », comme avant. Le distinguer d'une mission
 vraiment interrompue demanderait une donnée de plus dans la sauvegarde.
+
+## Le voyage — 14 novembre 2026
+
+Un mode « progression + hasard » décidé par le parent le 14 novembre : cinq étapes tirées
+d'une graine, un bonus à garder entre deux étapes, le roi à trois têtes à la fin. Ce lot pose
+le cœur (modèle, branchement sur le moteur, laboratoire) ; les écrans sont un autre lot.
+Réglages et mesures : [VOYAGE.md](VOYAGE.md).
+
+### Modèle
+
+Tout est calculé depuis la graine, avant le premier combat, sans navigateur ni horloge.
+
+| Module             | Contenu                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| `voyageTuning.ts`  | La table des réglages, une par version du voyage ; tout ce que le voyage peut régler |
+| `voyage.ts`        | Le plan d'une graine (`planVoyage`), les règles et la partie d'une étape             |
+| `voyageState.ts`   | L'état d'un voyage et ses transitions ; validé par reconstruction                    |
+| `voyageCode.ts`    | Le code du voyage, `VOYAGE-1-7X8R-K4` : version, graine, deux signes de contrôle     |
+| `voyageStorage.ts` | Le carnet d'un joueur : voyage en cours, record personnel, lecture et écriture       |
+| `voyageRules.ts`   | Ce qu'une étape ajoute au moteur (`StageRules`)                                      |
+| `codeText.ts`      | L'écriture commune aux codes de départ et de voyage (alphabet, contrôle, saisie)     |
+
+- **Plan.** Une graine tient sur 20 bits (un million de voyages) pour que le code reste court.
+  `planVoyage(graine)` tire un itinéraire parmi ceux que la table permet (jamais deux fois la
+  même mission, toujours dans l'ordre du jeu), puis pour chaque étape un terrain, une
+  attaque, des nids, la graine du combat et, à partir de la troisième, un caprice de la
+  mission. Chaque question posée à la graine a son propre tirage (`mix`, `stream`) : en
+  ajouter une ne décale pas les autres, et le hasard d'un combat n'est jamais consommé.
+  Les trois cartes offertes après une étape viennent de `rewardOffer` (un allié et deux des
+  trois autres cartes), sur un tirage propre à l'étape.
+- **Étape.** Une étape est un `MissionRun` ordinaire de la révision 2 (le refuge garde ses
+  règles d'apprentissage : une voie, puis deux, puis trois). Le caprice est dans le
+  `MissionRun`, donc connu d'avance et montrable sur la carte.
+- **État.** `{ version, seed, won, bag, status }` : étapes réussies, cartes gardées dans
+  l'ordre, `travelling`, `fallen` ou `arrived`. Le plan n'est jamais enregistré, il se retire
+  de la graine. `readVoyageState` reconstruit l'état et refuse tout ce qu'un vrai voyage ne
+  peut pas atteindre (carte jamais offerte, sac trop long, voyage arrivé sans cinq étapes).
+  Les transitions rendent un nouvel état gelé, ou `null` sans rien changer.
+- **Carnet.** Une clé par joueur, `conquete-serpents:voyage:v1`, ajoutée à `PLAYER_KEYS` : le
+  joueur 1 l'utilise telle quelle, les autres avec leur suffixe, et supprimer un joueur
+  l'efface. `{ version: 1, best, current }` : le record (étapes réussies du plus long voyage,
+  jamais comparé entre enfants) et le voyage en cours ou le dernier fini. Stockage absent,
+  refusé ou donnée abîmée : carnet vide, jamais d'exception.
+
+### Branchement sur le moteur
+
+`Game` reçoit un cinquième paramètre facultatif, `stage: StageRules` :
+`{ version: 1, king, coins, ward, bag }`. C'est la seule extension, et elle est versionnée
+comme une révision d'équilibrage : une nouvelle façon d'ouvrir une étape sera une version 2 à
+côté de la première. Sans ce paramètre, rien ne change.
+
+- `game.ts` : le constructeur valide l'étape (`readStageRules`, copie gelée), exige une
+  expédition de la révision 2, puis appelle `openStage` : pièces ajoutées à la bourse de la
+  mission, garde du cristal, et une entrée par carte dans `game.rewards.choices`. Les alliés
+  offerts et le miel passent donc par le code de la grande aventure (`freeRecruit`,
+  `extraHoneySeconds`) sans le modifier. L'étape est un champ privé (`#stage`, lu par
+  `game.stage`) : `JSON.stringify(game)` est le même qu'avant.
+- `engine/spawning.ts` : le roi ferme la dernière vague si le caprice l'invite **ou** si
+  l'étape le demande (`isKingSlot`). Sa vie vient du réglage `bossHpMultiplier` déjà
+  existant, que `createStageGame` passe au constructeur.
+- `checkpoints.ts` : `encodeCheckpoint` refuse une partie de voyage. Un camp n'a pas de place
+  pour les règles d'une étape ; relu, ce serait une expédition ordinaire.
+- `missionProgress.ts`, `capriceAlbums.ts` : une étape gagnée ne donne ni étoile ni
+  autocollant à la mission qu'elle emprunte (elle est jouée avec le sac).
+- `departures.ts` : l'alphabet, les signes de contrôle et la lecture de la saisie sont partis
+  dans `codeText.ts`, à l'identique, pour que le code du voyage s'écrive comme un code de
+  départ.
+- `players.ts` : la clé du voyage rejoint `PLAYER_KEYS`.
+- `i18n/dictionaries/model.en.ts` : une ligne, `VOYAGE: 'VOYAGE'`. L'inventaire des textes
+  lit tous les littéraux du code ; le mot du code est le même en anglais, comme `AVENTURE`.
+
+Aucun format de sauvegarde ni de code de départ ne change : pas de nouvelle version de camp,
+de progression ou de fichier familial.
+
+### Ce qui est enregistré, ce qui ne l'est pas
+
+- Enregistré, entre deux étapes : la graine, les étapes réussies, les cartes gardées, le
+  record. C'est au lot « écrans » d'appeler `saveVoyageLog` après chaque transition.
+- Pas enregistré : le camp d'une étape en cours. **Une étape quittée en cours repart de son
+  début**, avec le même terrain, les mêmes serpents et le même sac (`stageGame` refait le
+  camp). Reprendre au milieu demanderait une version 10 des camps, à côté des neuf autres.
+- Pas dans la sauvegarde familiale : le fichier familial n'exporte pas le voyage.
+
+### Pour le lot « écrans »
+
+```ts
+const log = loadVoyageLog(storage); // log.best, log.current (reprise)
+const state = startVoyage(voyageSeedFrom(random32)); // ou startVoyage(code.seed, code.version)
+const plan = voyagePlanOf(state); // carte : plan.stages[i].run, .king, .offer ; stageCaprice(stage)
+const game = stageGame(state); // nouveau camp de l'étape, sac déballé ; session.useGame(game)
+const after = recordStage(state, game); // partie finie : étape réussie, ou voyage tombé
+bonusOffer(after); // trois cartes si voyagePhase(after) === 'bonus'
+const next = chooseBonus(after, card);
+saveVoyageLog(storage, logVoyage(log, next)); // après chaque transition
+encodeVoyage(state.seed, state.version); // « VOYAGE-1-… » ; decodeVoyage(texte) pour le lire
+```
+
+`voyagePhase(state)` dit quoi proposer : `stage`, `bonus`, `fallen`, `arrived`.
+
+### Laboratoire
+
+`npm run balance:voyage` (`scripts/balance-voyage.mjs`, modules dans `scripts/voyage-lab/`)
+joue des voyages entiers sur le vrai moteur avec les joueurs automatiques des autres
+laboratoires, sur tous les cœurs, et écrit `artifacts/voyage/rapport.json`.
+`tests/voyage-traces.test.ts` fige six voyages joués en entier par les appels de l'interface,
+comme `tests/engine-traces.test.ts` fige les parties : une empreinte qui change est un code
+de voyage qui ne donne plus le même voyage.
