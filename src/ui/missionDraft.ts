@@ -135,6 +135,11 @@ export function bindMissionDraft(
     dialog.querySelector('.mission-dialog-body')!.scrollTop = 0;
     byId('mission-title').focus({ preventScroll: true });
   }
+  /** Opens the preparation straight on the caprices of this departure, for who comes for one. */
+  function showCaprices(run: MissionRun) {
+    show(run);
+    if (draft === run) views.show('caprices');
+  }
 
   byId('mission-close').onclick = () => dialog.close();
   byId('mission-reroll').onclick = () => {
@@ -148,5 +153,5 @@ export function bindMissionDraft(
     if (!draft || !allowed(draft)) return;
     if (actions.launch(draft, preparation.chosen()) !== false) dialog.close();
   };
-  return { show, allowed, refreshCodes: departures.refresh };
+  return { show, showCaprices, allowed, refreshCodes: departures.refresh };
 }

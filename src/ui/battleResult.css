@@ -8,7 +8,9 @@
   gap: 10px;
   padding: 12px;
   min-height: 0;
-  max-height: min(100%, 460px);
+  /* The whole result stays on the first screen: a low window keeps the short panel, a
+     tall one lets it use the height it has, so a caprice result and its actions fit. */
+  max-height: min(100%, max(460px, calc(var(--app-height) - 104px)));
   overflow-y: auto;
   overscroll-behavior: contain;
   background: #f3eedc;
@@ -78,6 +80,29 @@
   line-height: 1.25;
   border-radius: 10px;
 }
+/* What the caprices of the mission still offer: the six sticker places beside a sentence
+   that counts those left, then the button that replays the mission with a caprice. */
+.mission-sticker-offer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mission-sticker-offer[hidden] {
+  display: none;
+}
+#battle-result #mission-sticker-hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 0;
+}
+#mission-sticker-hint .sticker-row {
+  flex: 0 0 104px;
+}
+#mission-sticker-hint > span:last-child {
+  flex: 1 1 110px;
+}
 .showing-result .battle-dock {
   display: none;
 }
@@ -114,5 +139,49 @@
   }
   #battle-result p {
     margin-bottom: 2px;
+  }
+  /* A mission that is won offers its caprices: up to four actions under a sentence. The
+     pieces of the panel then flow as one wrapped row, so that everything stays in view: what
+     was won and the sentence first, then the buttons two by two, in the order of the page.
+     An odd one leads, on a row of its own. */
+  #battle-result [data-sticker-offer] {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 6px;
+  }
+  #battle-result [data-sticker-offer] > div,
+  #battle-result [data-sticker-offer] .mission-sticker-offer {
+    display: contents;
+  }
+  #battle-result [data-sticker-offer] :is(p, button) {
+    flex: 1 1 100%;
+    margin: 0;
+  }
+  #battle-result [data-sticker-offer] button {
+    order: 1;
+    flex-basis: calc(50% - 3px);
+    width: auto;
+  }
+  #battle-result [data-sticker-offer='lead'] #result-caprice-album,
+  #battle-result [data-sticker-offer='lead'] #mission-next,
+  #battle-result [data-sticker-offer='lead'] #mission-caprice-replay {
+    flex-basis: 100%;
+  }
+  /* The sticker that was played for: its picture beside its name, to leave the actions room. */
+  #battle-result .caprice-result-note {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0 8px;
+    padding: 4px 8px;
+    text-align: left;
+  }
+  #battle-result .caprice-result-note svg {
+    grid-row: 1 / 3;
+    width: 48px;
+    height: 48px;
+  }
+  #battle-result .caprice-result-note :is(strong, span) {
+    grid-column: 2;
   }
 }

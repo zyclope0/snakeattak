@@ -5,7 +5,8 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    # The 17 steps take 29 to 44 minutes depending on the runner: leave room for a slow one.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
