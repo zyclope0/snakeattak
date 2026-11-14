@@ -19,6 +19,8 @@ import { balanceRecruitPrice } from './balanceRevision.ts';
 import type { BalanceRevision } from './balanceRevision.ts';
 import { capriceBudget, capriceRules } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
+import { openStage, readStageRules } from './voyageRules.ts';
+import type { StageRules } from './voyageRules.ts';
 import type { Entity, Egg, Effect } from './engine/state.ts';
 import { addAlly } from './engine/state.ts';
 import { normalizeCamp as normalizeCampRule } from './engine/camp.ts';
@@ -98,14 +100,24 @@ export class Game {
   get balanceRevision(): BalanceRevision {
     return this.#balanceRevision;
   }
+  /** Stage of a voyage this game plays; null for every other game. Never saved in a camp. */
+  readonly #stage: StageRules | null;
+  get stage(): StageRules | null {
+    return this.#stage;
+  }
   constructor(
     seed = 2026,
     tuning?: Partial<BalanceTuning>,
     mission?: MissionRun,
     balance?: BalanceRevision,
+    stage?: StageRules,
   ) {
     this.mission = mission === undefined ? null : readMissionRun(mission);
     if (mission !== undefined && !this.mission) throw new RangeError('Expédition invalide');
+    this.#stage = stage === undefined ? null : readStageRules(stage);
+    // A stage is an expedition of the second balance revision, nothing older.
+    if (stage !== undefined && (!this.#stage || this.mission?.balance !== 2))
+      throw new RangeError('Expédition invalide');
     const revision = this.mission?.balance ?? 1;
     if (
       (balance !== undefined && balance !== 1 && balance !== 2) ||
@@ -124,6 +136,7 @@ export class Game {
     this.rng = seed >>> 0;
     this.initialSeed = this.rng;
     this.rewards = freshRewards(seed);
+    if (this.#stage) openStage(this, this.#stage);
     addAlly(this, 'club', 756, 180);
     addAlly(this, 'club', 756, 468);
     addAlly(this, 'hero', 828, 324);

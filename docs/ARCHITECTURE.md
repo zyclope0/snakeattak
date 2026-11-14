@@ -651,6 +651,9 @@ utilisent les mêmes clés suivies de `:p2` … `:p4`. `bootstrap.ts` ne donne p
 traduit les clés ; le son, la langue, les effets légers et la liste des joueurs restent
 communs à l'appareil. Un test vérifie que ces contrôleurs ne touchent que les quatre clés de
 leur joueur.
+Depuis le 14 novembre, une cinquième clé suit le joueur de la même façon : `voyage:v1`, le
+carnet du voyage (section « Le voyage »). Les écrans du voyage reçoivent le même
+`playerStorage` que les autres contrôleurs.
 
 Changer de joueur ou en créer un écrit `activeId` puis recharge la page : chaque contrôleur
 est reconstruit sur les bonnes clés. `sessionStorage` retient que le joueur a été choisi
@@ -841,3 +844,204 @@ contrôle les cartes et l'accueil dans le vrai jeu, et le résultat sur une page
 Limite connue : après la fermeture du jeu, une mission terminée laisse son dernier camp dans
 la sauvegarde ; l'accueil dit alors « Reprendre », comme avant. Le distinguer d'une mission
 vraiment interrompue demanderait une donnée de plus dans la sauvegarde.
+
+## Le voyage — 14 novembre 2026
+
+Un mode « progression + hasard » décidé par le parent le 14 novembre : cinq étapes tirées
+d'une graine, un bonus à garder entre deux étapes, le roi à trois têtes à la fin. Un premier
+lot a posé le cœur (modèle, branchement sur le moteur, laboratoire) ; un second les écrans,
+décrits plus bas. Réglages et mesures : [VOYAGE.md](VOYAGE.md).
+
+### Modèle
+
+Tout est calculé depuis la graine, avant le premier combat, sans navigateur ni horloge.
+
+| Module             | Contenu                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| `voyageTuning.ts`  | La table des réglages, une par version du voyage ; tout ce que le voyage peut régler |
+| `voyage.ts`        | Le plan d'une graine (`planVoyage`), les règles et la partie d'une étape             |
+| `voyageState.ts`   | L'état d'un voyage et ses transitions ; validé par reconstruction                    |
+| `voyageCode.ts`    | Le code du voyage, `VOYAGE-1-7X8R-K4` : version, graine, deux signes de contrôle     |
+| `voyageStorage.ts` | Le carnet d'un joueur : voyage en cours, record personnel, lecture et écriture       |
+| `voyageRules.ts`   | Ce qu'une étape ajoute au moteur (`StageRules`)                                      |
+| `codeText.ts`      | L'écriture commune aux codes de départ et de voyage (alphabet, contrôle, saisie)     |
+
+- **Plan.** Une graine tient sur 20 bits (un million de voyages) pour que le code reste court.
+  `planVoyage(graine)` tire un itinéraire parmi ceux que la table permet (jamais deux fois la
+  même mission, toujours dans l'ordre du jeu), puis pour chaque étape un terrain, une
+  attaque, des nids, la graine du combat et, à partir de la troisième, un caprice de la
+  mission. Chaque question posée à la graine a son propre tirage (`mix`, `stream`) : en
+  ajouter une ne décale pas les autres, et le hasard d'un combat n'est jamais consommé.
+  Les trois cartes offertes après une étape viennent de `rewardOffer` (un allié et deux des
+  trois autres cartes), sur un tirage propre à l'étape. La table peut retirer l'allié d'une
+  offre (`ally: false`) : ce sont alors les trois autres cartes, toujours trois. La version 1
+  ne s'en sert pas.
+- **Étape.** Une étape est un `MissionRun` ordinaire de la révision 2 (le refuge garde ses
+  règles d'apprentissage : une voie, puis deux, puis trois). Le caprice est dans le
+  `MissionRun`, donc connu d'avance et montrable sur la carte.
+- **État.** `{ version, seed, won, bag, status }` : étapes réussies, cartes gardées dans
+  l'ordre, `travelling`, `fallen` ou `arrived`. Le plan n'est jamais enregistré, il se retire
+  de la graine. `readVoyageState` reconstruit l'état et refuse tout ce qu'un vrai voyage ne
+  peut pas atteindre (carte jamais offerte, sac trop long, voyage arrivé sans cinq étapes).
+  Les transitions rendent un nouvel état gelé, ou `null` sans rien changer.
+- **Carnet.** Une clé par joueur, `conquete-serpents:voyage:v1`, ajoutée à `PLAYER_KEYS` : le
+  joueur 1 l'utilise telle quelle, les autres avec leur suffixe, et supprimer un joueur
+  l'efface. `{ version: 1, best, current }` : le record (étapes réussies du plus long voyage,
+  jamais comparé entre enfants) et le voyage en cours ou le dernier fini. Stockage absent,
+  refusé ou donnée abîmée : carnet vide, jamais d'exception.
+
+### Branchement sur le moteur
+
+`Game` reçoit un cinquième paramètre facultatif, `stage: StageRules` :
+`{ version: 1, king, coins, ward, bag }`. C'est la seule extension, et elle est versionnée
+comme une révision d'équilibrage : une nouvelle façon d'ouvrir une étape sera une version 2 à
+côté de la première. Sans ce paramètre, rien ne change.
+
+- `game.ts` : le constructeur valide l'étape (`readStageRules`, copie gelée), exige une
+  expédition de la révision 2, puis appelle `openStage` : pièces ajoutées à la bourse de la
+  mission (ou retirées : la dernière étape de la version 1 part avec 300 pièces de moins, et
+  une bourse ne descend jamais sous zéro), garde du cristal, et une entrée par carte dans
+  `game.rewards.choices`. Les alliés
+  offerts et le miel passent donc par le code de la grande aventure (`freeRecruit`,
+  `extraHoneySeconds`) sans le modifier. L'étape est un champ privé (`#stage`, lu par
+  `game.stage`) : `JSON.stringify(game)` est le même qu'avant.
+- `engine/spawning.ts` : le roi ferme la dernière vague si le caprice l'invite **ou** si
+  l'étape le demande (`isKingSlot`). Sa vie vient du réglage `bossHpMultiplier` déjà
+  existant, que `createStageGame` passe au constructeur.
+- `checkpoints.ts` : `encodeCheckpoint` refuse une partie de voyage. Un camp n'a pas de place
+  pour les règles d'une étape ; relu, ce serait une expédition ordinaire.
+- `missionProgress.ts`, `capriceAlbums.ts` : une étape gagnée ne donne ni étoile ni
+  autocollant à la mission qu'elle emprunte (elle est jouée avec le sac).
+- `departures.ts` : l'alphabet, les signes de contrôle et la lecture de la saisie sont partis
+  dans `codeText.ts`, à l'identique, pour que le code du voyage s'écrive comme un code de
+  départ.
+- `players.ts` : la clé du voyage rejoint `PLAYER_KEYS`.
+- `i18n/dictionaries/model.en.ts` : une ligne, `VOYAGE: 'VOYAGE'`. L'inventaire des textes
+  lit tous les littéraux du code ; le mot du code est le même en anglais, comme `AVENTURE`.
+
+Aucun format de sauvegarde ni de code de départ ne change : pas de nouvelle version de camp,
+de progression ou de fichier familial.
+
+### Ce qui est enregistré, ce qui ne l'est pas
+
+- Enregistré, entre deux étapes : la graine, les étapes réussies, les cartes gardées, le
+  record. Les écrans appellent `saveVoyageLog` après chaque transition (`commit`, dans
+  `ui/voyage/voyageScreens.ts`) ; une étape gagnée ou perdue est enregistrée dès la fin du
+  combat, avant que l'enfant ne touche « Continuer le voyage ».
+- Pas enregistré : le camp d'une étape en cours. **Une étape quittée en cours repart de son
+  début**, avec le même terrain, les mêmes serpents et le même sac (`stageGame` refait le
+  camp). Reprendre au milieu demanderait une version 10 des camps, à côté des neuf autres.
+- Pas dans la sauvegarde familiale : le fichier familial n'exporte pas le voyage.
+
+### Ce que les écrans appellent
+
+```ts
+const log = loadVoyageLog(storage); // log.best, log.current (reprise)
+const state = startVoyage(voyageSeedFrom(random32)); // ou startVoyage(code.seed, code.version)
+const plan = voyagePlanOf(state); // carte : plan.stages[i].run, .king, .offer ; stageCaprice(stage)
+const game = stageGame(state); // nouveau camp de l'étape, sac déballé ; session.useGame(game)
+const after = recordStage(state, game); // partie finie : étape réussie, ou voyage tombé
+bonusOffer(after); // trois cartes si voyagePhase(after) === 'bonus'
+const next = chooseBonus(after, card);
+saveVoyageLog(storage, logVoyage(log, next)); // après chaque transition
+encodeVoyage(state.seed, state.version); // « VOYAGE-1-… » ; decodeVoyage(texte) pour le lire
+```
+
+`voyagePhase(state)` dit quoi proposer : `stage`, `bonus`, `fallen`, `arrived`.
+
+### Écrans
+
+Décidés par le parent sur maquettes le 14 novembre : l'entrée à côté de « Jouer », le caprice
+surprise montré à l'avance sur la carte, des bonus gardés pour tout le reste du voyage. Aucun
+balisage dans la page HTML : tout est construit en TypeScript.
+
+| Module                           | Rôle                                                                              |
+| -------------------------------- | --------------------------------------------------------------------------------- |
+| `ui/voyageDoor.ts`               | Le bouton de l'accueil et le chargement des écrans ; seul module chargé au départ |
+| `ui/voyage/voyageScreens.ts`     | Le carnet du joueur et les branchements : un bouton demande, le modèle décide     |
+| `ui/voyage/voyageWords.ts`       | Toutes les phrases, choisies d'après l'état, sans page (`voyage-screens.test.ts`) |
+| `ui/voyage/voyagePage.ts`        | La page parmi celles de l'accueil : titre, panneau, record, note du bas           |
+| `ui/voyage/voyageViews.ts`       | Les quatre vues : carte, choix d'un bonus, voyage fini, camp tombé                |
+| `ui/voyage/voyagePath.ts`        | Le chemin et ses arrêts ; `stopMap.ts` dessine la petite carte d'un arrêt         |
+| `ui/voyage/voyageBag.ts`         | « Ton sac de voyage » et l'image d'un bonus ; `bonusChoice.ts`, les trois cartes  |
+| `ui/voyage/voyageCodeWindows.ts` | Le code donné (« Copier ») et « Un autre voyage » (nouveau voyage, code reçu)     |
+| `ui/voyage/voyageReplace.ts`     | La question posée avant de remplacer un voyage en cours (`pendingConfirm.ts`)     |
+| `ui/voyage/capriceBubble.ts`     | Ce que veut dire un autocollant de la carte : nom, annonce, règles changées       |
+| `ui/voyage/voyageBattle.ts`      | Sur le plateau : le repère de l'étape, puis la phrase et le bouton de la fin      |
+| `ui/voyage/voyage.css`           | La feuille du voyage, dans l'unité `--hu`, chargée avec les écrans                |
+
+- **Accueil.** `#home-voyage` suit « Jouer » : « Le voyage » avec l'étiquette « Nouveau » tant
+  que le joueur n'a jamais ouvert de voyage, « Reprendre le voyage » dès qu'une étape est
+  réussie et qu'il en reste (`voyageDoor`). Sur un écran bas, les deux boutons partagent une
+  rangée et « Jouer » prend la largeur qui reste (`homeScene.css`).
+- **Page.** Le voyage est une page de l'accueil (`data-home-page="voyage"`, `HomePage`), donc
+  « ← Accueil » et Échap fonctionnent comme ailleurs. Sa vue (`data-view`) suit
+  `voyagePhase` : `map`, `bonus`, `arrived`, `fallen`. Une première visite tire un voyage et
+  l'enregistre aussitôt, pour que son code ne change pas d'une visite à l'autre.
+- **Carte.** Cinq arrêts ; chacun montre le vrai tracé de son terrain (les fonctions de
+  `missionPreview.ts`), une tête de serpent par antre d'où sort la première vague, l'autocollant
+  de son caprice à partir du troisième, le roi au cinquième. L'autocollant est un bouton de
+  48 px qui ouvre `capriceBubble`. L'arrêt à jouer porte son nom et « C'est parti ! » ; le
+  nom et l'annonce d'un caprice restent en français (`frenchLeaf`).
+- **Reprise.** Une étape quittée repart de son début : la note sous la carte le dit toujours,
+  et le bouton devient « Recommencer l'étape » quand l'étape a été commencée puis quittée
+  depuis l'ouverture du jeu (`leftHalfway`) ; après un rechargement, rien ne permet de le
+  savoir, puisque le camp d'une étape n'est pas enregistré.
+- **Bonus.** Les titres sont ceux de `REWARDS` ; le détail est réécrit pour le voyage (« à
+  chaque étape »), et les pièces viennent de la table (`tuning.bonusCoins`). Pas de bouton
+  pour passer.
+- **Fins.** Voyage fini : « Un nouveau voyage », « Donner mon voyage », « J'ai un code ». Camp
+  tombé : « Refaire ce voyage », « Un nouveau voyage », « J'ai un code ». Le record est dans
+  la rangée du haut pendant le voyage, dans le panneau à la fin.
+- **Remplacer.** Un voyage qui a une étape réussie et des étapes à jouer (`underWay`) n'est
+  remplacé qu'après une question ; un voyage sans étape réussie ou terminé l'est sans rien
+  demander.
+
+### Chargement à la demande
+
+Le paquet principal est près de son plafond (200 000 octets, `scripts/check-dist.mjs`). Il ne
+porte que `voyageDoor.ts` et quelques conditions sur `game.stage` ; au premier toucher du
+bouton, `import('./voyage/voyageScreens.ts')` charge les écrans, leur feuille et leurs images
+dans un paquet à part (`voyageScreens-*.js` et `.css`). Une partie de voyage ne peut exister
+qu'après ce chargement, puisqu'une étape n'est jamais enregistrée comme camp : le repère et la
+fin d'étape sont donc dans ce paquet. Si le paquet n'arrive pas (réseau coupé, cache vide), le
+bouton le dit et le prochain toucher redemande. Le modèle (`voyage*.ts`) est dans le paquet des
+règles, déjà chargé. Dans l'export en un seul fichier, tout est dans la page.
+`npm run test:browser` ouvre le voyage et lance sa première étape, sur le build normal comme
+sur l'export en un seul fichier ; `npm run test:offline` l'ouvre sans réseau et vérifie que
+ses fichiers sont servis depuis le disque.
+
+Octets : `bootstrap` 190 910 → 192 769 ; `rules` 90 358 → 95 078 ; `english` 78 032 → 82 880 ;
+nouveaux `voyageScreens` 15 071 (script) et 14 555 (feuille). La page HTML ne change pas
+(32 287).
+
+### Sur l'écran de bataille
+
+- `bootstrap.ts` : `playStage` met l'étape sur le plateau (la partie qui s'y trouvait est mise
+  de côté comme pour une mission, `setGameAside`) ; « Recommencer » relance l'étape, jamais
+  une mission ; une étape n'est jamais prise pour la mission à reprendre. Le voyage est
+  rafraîchi en dernier (`saveAndRedraw`).
+- `missionOutcome.ts` masque tout le panneau de mission pour une étape : ni carte des
+  missions, ni mission suivante, ni caprice à rejouer, ni autocollant. `battleResult.ts` n'y
+  range aucune action de mission ; `resultCopy.ts` ne compte pas d'étoiles et donne ses mots
+  à l'étape (« Étape réussie ! », « Le voyage s'arrête ici »). `voyageBattle.ts` ajoute la
+  phrase et l'unique bouton : « Continuer le voyage » (vers le choix du bonus, ou la fin),
+  « Voir mon voyage » après une défaite.
+- `threatPreview.ts` annonce le roi à la dernière vague de la dernière étape, quel que soit le
+  caprice ; `departures.ts` ne montre pas de code de départ pendant une étape.
+- `npm run test:mobile-menus` (`scripts/mobile-voyage-038-checks.mjs`) contrôle le voyage dans
+  le vrai jeu, et les fins d'étape longues à atteindre sur une page de contrôle
+  (`tests/voyage-038-harness.ts`), en français et en anglais, à 780×360, 812×375, 568×320 et
+  1280×800.
+- Images : `voyage-*.webp` dans `src/assets/home/`, dérivées par
+  `scripts/build-home-scene.py` (provenance :
+  `public/assets/illustrated/PROVENANCE-VOYAGE-2026-11.md`).
+
+### Laboratoire
+
+`npm run balance:voyage` (`scripts/balance-voyage.mjs`, modules dans `scripts/voyage-lab/`)
+joue des voyages entiers sur le vrai moteur avec les joueurs automatiques des autres
+laboratoires, sur tous les cœurs, et écrit `artifacts/voyage/rapport.json`.
+`tests/voyage-traces.test.ts` fige six voyages joués en entier par les appels de l'interface,
+comme `tests/engine-traces.test.ts` fige les parties : une empreinte qui change est un code
+de voyage qui ne donne plus le même voyage.

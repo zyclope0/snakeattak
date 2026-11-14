@@ -252,12 +252,32 @@ if (
   !(await mobile.locator('#feast-status').innerText()).includes('Miel collant')
 )
   throw Error('Goûter tactile absent');
+// The voyage: its screens come in a package of their own, or inside the single file of the
+// portable build. Either way its door opens the map and a first stage starts.
+const voyage = await browser.newPage({
+  locale: 'fr-CH',
+  viewport: { width: 812, height: 375 },
+  hasTouch: true,
+});
+voyage.setDefaultTimeout(15000);
+voyage.on('pageerror', (e) => errors.push(e.message));
+// The fourth page of this recipe: the single file of the portable build is 27 MB to read
+// again beside the three others, which a busy machine does not do in fifteen seconds.
+await voyage.goto(gameUrl, { timeout: 60000 });
+await voyage.locator('#home-voyage').click();
+await voyage.locator('#home-screen[data-page="voyage"]').waitFor();
+if ((await voyage.locator('.voyage-stop').count()) !== 5) throw Error('Carte du voyage incomplète');
+await voyage.locator('#voyage-go').click();
+await voyage.locator('#start').waitFor({ state: 'visible' });
+if ((await voyage.locator('#voyage-mark').innerText()) !== 'Le voyage · Étape 1 sur 5')
+  throw Error('Repère du voyage absent');
 console.log(
   JSON.stringify({
     desktop:
       'dock and full catalog on request, tank guide, sound toggle, recruit, checkpoint reload, unlocks, briefing, both honeys, flavour locking/pause/reset, help OK',
     mobile:
       'portrait guidance, 812×375 board >=85% height, drawer, touch recruit/start/sticky honey OK',
+    voyage: 'door, map of five stops, first stage and its mark OK',
     pageErrors: errors,
   }),
 );

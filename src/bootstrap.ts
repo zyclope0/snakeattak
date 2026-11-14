@@ -29,6 +29,7 @@ import { bindSettingsDialog } from './ui/settingsDialog.ts';
 import { bindHelpBubble } from './ui/helpBubble.ts';
 import { loadPlayers, playerStorage } from './players.ts';
 import { bindPlayers } from './ui/players.ts';
+import { bindVoyageDoor } from './ui/voyageDoor.ts';
 import { createPersistence } from './checkpoints.ts';
 import Phaser from 'phaser';
 import { Session } from './session.ts';
@@ -89,6 +90,7 @@ let refreshPrimary: (() => void) | undefined;
 let menu: ReturnType<typeof bindMenu> | undefined;
 let phaser: Phaser.Game | undefined;
 let report: (() => void) | undefined;
+let voyage: ReturnType<typeof bindVoyageDoor> | undefined;
 const navigation = bindHomeNavigation();
 const refresh = bindControls(session, saveAndRedraw, career, { restart: restartGame });
 // Render restored counters before waiting for image decoding.
@@ -149,6 +151,13 @@ expeditions = bindExpeditions(
   albums,
 );
 refreshPrimary = refreshHomePrimary;
+voyage = bindVoyageDoor({
+  session,
+  storage,
+  play: playStage,
+  home: () => menu!.showHome(),
+  navigate: (page) => navigation.show(page),
+});
 bindFamilyControls({
   persistenceStatus: () => family.status,
   exportRaw: exportFamily,
@@ -214,11 +223,14 @@ function saveAndRedraw() {
   expeditions?.();
   refreshPrimary?.();
   setDisplayText(byId('save-status'), family.status);
+  // Last: on a voyage stage, the voyage has the final word on what the board says.
+  voyage?.refresh();
 }
-/** « Recommencer » : the same mission again, or a new classic adventure. */
+/** « Recommencer » : the same stage or the same mission again, or a new classic adventure. */
 function restartGame() {
   const run = session.game.mission;
-  if (run) launchMission(run, session.game.capriceKindsChosen, true);
+  if (session.game.stage) voyage?.restartStage();
+  else if (run) launchMission(run, session.game.capriceKindsChosen, true);
   else session.restart();
 }
 
@@ -250,7 +262,8 @@ function showBattle() {
 /** The classic adventure to go back to: from a mission, the one that was set aside. */
 function restoreClassic(): Game | null {
   if (!session.game.mission) return campMemory.load() ?? persistence.load();
-  missionGame = session.game;
+  // A voyage stage is not a mission to come back to: it starts again from the voyage.
+  if (!session.game.stage) missionGame = session.game;
   const classic = liveOrStored(classicGame, missions.state.classicCamp);
   if (classic) campMemory.replace(missions.state.classicCamp);
   return classic;
@@ -262,13 +275,17 @@ function gameStarted() {
   if (!session.game.mission) classicGame = session.game;
 }
 
+/** Before another game takes the board: the one on screen is recorded and kept for its mode. */
+function setGameAside() {
+  if (hasCamp) missions.sync(session.game);
+  recordAlbum(session.game);
+  if (!session.game.mission && hasCamp) classicGame = session.game;
+}
 /** Starts a mission; false when the departure is refused: the game on screen then stays. */
 function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = false) {
   const next = prepareMissionLaunch(run, chosen, missions);
   if (!next) return false;
-  if (hasCamp) missions.sync(session.game);
-  recordAlbum(session.game);
-  if (!session.game.mission && hasCamp) classicGame = session.game;
+  setGameAside();
   if (!missions.started(run)) return false;
   if (!retry) albums.beginRun();
   session.useGame(next);
@@ -278,6 +295,16 @@ function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = fa
   showBattle();
   byId('start').focus({ preventScroll: true });
   return true;
+}
+/**
+ * Puts a stage of the voyage on the board. Nothing of it is kept as a camp: the mission and
+ * the classic adventure set aside stay as they are, and the voyage records the stage itself.
+ */
+function playStage(game: Game) {
+  setGameAside();
+  session.useGame(game);
+  showBattle();
+  byId('start').focus({ preventScroll: true });
 }
 function missionCanResume() {
   return !!missionGame || !!missions.state.retryCamp;

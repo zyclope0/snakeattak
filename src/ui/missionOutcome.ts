@@ -102,7 +102,9 @@ export function bindMissionOutcome(session: Session, actions: Actions) {
 
   return function refresh() {
     const g = session.game,
-      run = g.mission;
+      // A voyage stage borrows a mission without being one: no map of the missions, no next
+      // mission, no caprice to replay. The voyage says what comes next (ui/voyage).
+      run = g.stage ? null : g.mission;
     byId('mission-battle-actions').hidden = !run;
     if (!run) return;
     const caprice = capriceDefinitionForRun(run);

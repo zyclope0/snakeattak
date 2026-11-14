@@ -148,6 +148,8 @@ function recordWin(state: MissionProgress, game: Game): boolean {
   if (
     !run ||
     !isPersistableMissionRun(run) ||
+    // A voyage stage is won with the bag's help: no star for the mission it borrows.
+    game.stage ||
     !isUnlocked(state, run.missionId) ||
     game.status !== 'won' ||
     game.wave !== game.totalWaves ||

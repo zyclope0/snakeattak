@@ -75,3 +75,78 @@
     height: 48px;
   }
 }
+
+/* « Le voyage » : un deuxième bouton à côté de « Jouer », avec son panneau de bois. Seul ce
+   bouton est chargé avec l'accueil ; les écrans du voyage ont leur propre feuille
+   (ui/voyage/voyage.css), qui arrive avec eux. */
+#home-screen #home-voyage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hu) * 0.6);
+  max-width: calc(var(--hu) * 19);
+  min-height: 48px;
+  padding: 6px max(10px, calc(var(--hu) * 1.2)) 6px 8px;
+  font-size: max(15px, calc(var(--hu) * 1.6));
+  line-height: 1.1;
+  text-align: left;
+}
+#home-voyage::before {
+  content: '';
+  flex: 0 0 auto;
+  width: max(44px, calc(var(--hu) * 4.6));
+  height: max(24px, calc(var(--hu) * 2.5));
+  background: url('../assets/home/voyage-panneau.webp') center / contain no-repeat;
+}
+#home-voyage .voyage-new {
+  position: absolute;
+  top: -7px;
+  right: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--honey);
+  color: #3f330f;
+  box-shadow: 0 2px 0 #a37524;
+  font:
+    800 11px/1.5 'Nunito Sans',
+    sans-serif;
+}
+@media (max-height: 520px) {
+  /* Écran bas : le refuge décoratif se fait plus petit pour ne pas passer sous le bouton. */
+  #home-main .home-intro {
+    background-size: 25% auto;
+    background-position: right 3% bottom 0;
+  }
+  /* Pas de place pour une deuxième rangée : les deux boutons restent côte à côte, et
+     « Jouer » prend la largeur que « Le voyage » lui laisse. */
+  #home-main .home-actions {
+    flex-wrap: nowrap;
+  }
+  #home-screen .home-actions #home-primary {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: max(180px, calc(var(--hu) * 22));
+  }
+  #home-screen #home-voyage {
+    flex: 0 0 auto;
+  }
+}
+@media (max-width: 600px) {
+  /* Petit téléphone : le panneau s'efface pour que le bouton reste à côté de « Jouer ». */
+  #home-voyage::before {
+    display: none;
+  }
+  #home-screen #home-voyage {
+    padding-left: 12px;
+  }
+}
+@media (min-width: 1000px) and (min-height: 680px) {
+  /* Les deux boutons sont l'un sous l'autre : l'étiquette passe à droite du bouton. */
+  #home-voyage .voyage-new {
+    top: 50%;
+    right: -12px;
+    translate: 100% -50%;
+    padding: 2px 10px;
+    font-size: 13px;
+  }
+}

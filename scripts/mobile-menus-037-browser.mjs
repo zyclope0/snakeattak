@@ -3,6 +3,7 @@ import { checkCatalogue } from './mobile-catalogue-037-checks.mjs';
 import { checkHelpPoints } from './mobile-help-038-checks.mjs';
 import { checkPlayers } from './mobile-players-038-checks.mjs';
 import { checkReplay } from './mobile-replay-038-checks.mjs';
+import { checkVoyage } from './mobile-voyage-038-checks.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -191,6 +192,7 @@ try {
   await checkHelpPoints({ pageAt, check, capture, portrait });
   await checkPlayers({ browser, url, check, capture, portrait });
   await checkReplay({ browser, url, pageAt, check, capture });
+  await checkVoyage({ browser, url, check, capture });
   if (process.env.MOBILE_MENUS_BEFORE) {
     for (const [w, h] of [
       [780, 360],

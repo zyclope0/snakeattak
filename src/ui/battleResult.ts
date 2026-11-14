@@ -1,6 +1,6 @@
 import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import './battleResult.css';
-import { defeatCopy, earnedStars } from '../render/resultCopy.ts';
+import { defeatCopy, earnedStars, victoryCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
 import { visualSettings } from '../render/visualSettings.ts';
@@ -23,6 +23,13 @@ export function bindBattleResult(session: Session) {
   forwardClick('result-allies', 'reinforcements-toggle');
   /** The actions of the mode that was played move into the result; the others go home. */
   const gatherActions = (game: Game) => {
+    // A voyage stage brings its own way on (ui/voyage): neither a mission's nor the classic's.
+    if (game.stage) {
+      restore(mission);
+      restore(classic);
+      buttons.restore();
+      return;
+    }
     if (game.mission) {
       restore(classic);
       if (mission.parentNode !== content) content.append(mission);
@@ -40,7 +47,7 @@ export function bindBattleResult(session: Session) {
   /** Once per finished battle: back to the top, focus on what comes next. */
   const present = (game: Game) => {
     panel.scrollTop = 0;
-    const target = game.mission ? missionFollowUp() : classic;
+    const target = followUp(game, classic);
     requestAnimationFrame(() => {
       if (session.game === game && resultOnScreen(panel, app)) focusOutcome(panel, target);
     });
@@ -69,14 +76,16 @@ export function bindBattleResult(session: Session) {
   };
 }
 
+/** A stage won says so even under a caprice; a mission keeps « Bravo ! » or its caprice. */
+function victoryTitle(game: Game) {
+  if (game.stage) return victoryCopy(game).title;
+  return game.mission?.caprice ? 'Caprice réussi !' : 'Bravo !';
+}
+
 function showOutcomeTitle(game: Game) {
   setDisplayText(
     byId('battle-result-title'),
-    game.status === 'won'
-      ? game.mission?.caprice
-        ? 'Caprice réussi !'
-        : 'Bravo !'
-      : defeatCopy(game).title,
+    game.status === 'won' ? victoryTitle(game) : defeatCopy(game).title,
   );
   // The caprice summary repeats this heading verbatim. Keep its sticker and
   // actions, and keep the original French announcement on defeat.
@@ -156,6 +165,15 @@ function missionFollowUp(): HTMLElement {
     .map((id) => document.getElementById(id))
     .find((button) => button && !button.hidden);
   return shown ?? byId('mission-again');
+}
+/**
+ * The button that takes the focus when a battle ends. A voyage stage has one way on, which
+ * the voyage adds to the result (ui/voyage); it is asked for only after a stage, so that the
+ * result of a mission never looks at it.
+ */
+function followUp(game: Game, classic: HTMLElement): HTMLElement {
+  if (game.stage) return document.getElementById('voyage-continue') ?? classic;
+  return game.mission ? missionFollowUp() : classic;
 }
 
 /** After a mission, the button that continues comes first; elsewhere the page's order. */
