@@ -872,7 +872,9 @@ Tout est calculé depuis la graine, avant le premier combat, sans navigateur ni 
   mission. Chaque question posée à la graine a son propre tirage (`mix`, `stream`) : en
   ajouter une ne décale pas les autres, et le hasard d'un combat n'est jamais consommé.
   Les trois cartes offertes après une étape viennent de `rewardOffer` (un allié et deux des
-  trois autres cartes), sur un tirage propre à l'étape.
+  trois autres cartes), sur un tirage propre à l'étape. La table peut retirer l'allié d'une
+  offre (`ally: false`) : ce sont alors les trois autres cartes, toujours trois. La version 1
+  ne s'en sert pas.
 - **Étape.** Une étape est un `MissionRun` ordinaire de la révision 2 (le refuge garde ses
   règles d'apprentissage : une voie, puis deux, puis trois). Le caprice est dans le
   `MissionRun`, donc connu d'avance et montrable sur la carte.
@@ -896,7 +898,9 @@ côté de la première. Sans ce paramètre, rien ne change.
 
 - `game.ts` : le constructeur valide l'étape (`readStageRules`, copie gelée), exige une
   expédition de la révision 2, puis appelle `openStage` : pièces ajoutées à la bourse de la
-  mission, garde du cristal, et une entrée par carte dans `game.rewards.choices`. Les alliés
+  mission (ou retirées : la dernière étape de la version 1 part avec 300 pièces de moins, et
+  une bourse ne descend jamais sous zéro), garde du cristal, et une entrée par carte dans
+  `game.rewards.choices`. Les alliés
   offerts et le miel passent donc par le code de la grande aventure (`freeRecruit`,
   `extraHoneySeconds`) sans le modifier. L'étape est un champ privé (`#stage`, lu par
   `game.stage`) : `JSON.stringify(game)` est le même qu'avant.
