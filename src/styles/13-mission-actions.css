@@ -20,7 +20,7 @@
   gap: 8px;
   padding: 12px;
   border-top: 1px solid #cbd4bc;
-  background: #f7f4e7;
+  background: var(--paper);
   box-shadow: 0 -5px 18px #173e3712;
 }
 .mission-dialog-actions button {

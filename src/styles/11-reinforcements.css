@@ -252,13 +252,13 @@
     z-index: 1000;
     place-items: center;
     padding: 32px;
-    background: #173e37;
-    color: #f7f4e7;
+    background: var(--forest);
+    color: var(--paper);
     text-align: center;
   }
   .orientation-notice > div > span {
     font-size: 90px;
-    color: #f1bd57;
+    color: var(--honey);
   }
   .orientation-notice h1 {
     font-size: 32px;
@@ -295,8 +295,8 @@
     z-index: 18;
     overflow: auto;
     padding: 12px 20px;
-    background: #f7f4e7;
-    color: #193f38;
+    background: var(--paper);
+    color: var(--ink);
   }
   #reward-panel .reward-portrait {
     width: 40px;

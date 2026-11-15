@@ -319,7 +319,7 @@ summary::marker {
   font-size: 12px;
 }
 #feast-controls button.active {
-  background: #0c7468;
+  background: var(--jade);
   outline: 2px solid #d6a248;
   outline-offset: 1px;
 }

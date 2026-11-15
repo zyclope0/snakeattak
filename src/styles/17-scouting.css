@@ -24,7 +24,7 @@
   flex: 0 0 auto;
   padding: 10px 16px;
   border-top: 1px solid #cbd4bc;
-  background: #f7f4e7;
+  background: var(--paper);
 }
 .threat-dialog-actions button {
   width: 100%;
