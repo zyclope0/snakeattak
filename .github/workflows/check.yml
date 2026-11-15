@@ -1,12 +1,21 @@
 name: Verify game
-on: [push, pull_request]
+# Une fois par commit : à chaque PR, et sur main après une fusion. Cinq tâches en
+# parallèle au lieu d'une file de 17 étapes : la plus longue fixe la durée de l'ensemble.
+on:
+  push:
+    branches: [main]
+  pull_request:
 permissions:
   contents: read
+concurrency:
+  group: verify-${{ github.event.pull_request.number || github.ref }}
+  # Un nouveau commit sur une PR remplace la vérification du précédent.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   verify:
+    # Format, tests unitaires, build, puis le jeu dans le navigateur sous ses deux formes.
     runs-on: ubuntu-latest
-    # The 17 steps take 29 to 44 minutes depending on the runner: leave room for a slow one.
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,18 +30,48 @@ jobs:
       # browser alone instead of failing before any test has run.
       - run: npx playwright install --with-deps chromium || npx playwright install chromium
       - run: npm run test:browser
-      - run: npm run test:audit
-      - run: npm run test:threat-preparation
-      - run: npm run test:reinforcements-scroll
-      - run: npm run test:child-mobile
-      - run: npm run test:interruptions
-      - run: npm run test:offline
-      - run: npm run test:presentation
-      - run: npm run test:tactical-clarity
-      - run: npm run test:locale
-      - run: npm run test:caprices
-      - run: npm run test:mission-journey
-      - run: npm run test:mobile-menus
       - run: npm run build:portable
       - run: npm run test:family
       - run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser
+  recettes:
+    # Les recettes navigateur, réparties en groupes. `test:render` reste un outil à lancer à
+    # la main : il mesure une vitesse, qui dépend de la machine.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - groupe: écrans
+            recettes: >-
+              test:audit test:threat-preparation test:reinforcements-scroll test:child-mobile
+              test:interruptions test:offline test:presentation test:tactical-clarity
+              test:mission-journey
+          - groupe: langue et caprices
+            recettes: test:locale test:caprices
+          - groupe: menus
+            recettes: test:mobile-menus
+          # Les recettes des premières versions qui passent encore : hors de la CI, quatorze
+          # autres avaient pourri sans que personne le voie.
+          - groupe: règles et rendu
+            recettes: >-
+              test:rewards test:journey test:missions:regressions test:medical-persistence
+              test:stage test:render-settings test:tactical
+    name: recettes (${{ matrix.groupe }})
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium || npx playwright install chromium
+      # Plusieurs recettes lisent le site construit.
+      - run: npm run build
+      - name: Recettes
+        run: |
+          for recette in ${{ matrix.recettes }}; do
+            echo "::group::$recette"
+            npm run "$recette"
+            echo "::endgroup::"
+          done

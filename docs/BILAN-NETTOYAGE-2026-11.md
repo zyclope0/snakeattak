@@ -95,15 +95,45 @@ la liste. Ajouter un chapitre, un terrain, une voie ou des vagues demande de tou
 - **Trois dispositions de terrain par mission** : `layout: 0 | 1 | 2` (`src/missions.ts`,
   `src/levels.ts`, `src/departures.ts`).
 
+## Ménage du 15 novembre 2026
+
+Demande du parent après un état des lieux : la CI frôlait sa limite, le paquet principal
+son plafond, et l'outillage pesait autant que le jeu.
+
+- **CI** : cinq tâches en parallèle au lieu d'une file de 17 étapes (38 à 52 minutes, pour
+  une limite de 60), et une seule fois par commit au lieu de deux. Une PR est verte quand
+  ses cinq tâches le sont.
+- **Recettes hors CI** : sur 22, 14 échouaient — toutes parce qu'elles cherchaient des
+  boutons d'avant les refontes de l'interface (0.31 à 0.38), ou une mesure « avant » qui
+  n'existe plus. Elles sont retirées avec les fichiers qu'elles étaient seules à utiliser.
+  Les sept qui passent entrent dans la CI (`test:rewards`, `test:journey`,
+  `test:missions:regressions`, `test:medical-persistence`, `test:stage`,
+  `test:render-settings`, `test:tactical`). `test:render` reste un outil à lancer à la
+  main : il mesure une vitesse, qui dépend de la machine.
+- **Scripts** : 27 fichiers que plus rien n'appelait sont retirés, puis 18 autres devenus
+  orphelins avec les recettes mortes. `scripts/` passe de 98 à 52 fichiers. Trois scripts
+  restent bien que rien ne les appelle : ils documentent la fabrication d'images publiées
+  (`clean-strongholds.py`, `export-android-icon.py`, `export-scenery-034.py`).
+- **Paquet principal** : le diagnostic de performance (`?perf=1`) devient un paquet à la
+  demande ; 193 311 → 189 574 octets pour un plafond de 200 000. Mettre le rendu dans un
+  fichier à part a été essayé et écarté : le petit fichier d'entrée aurait dû attendre
+  Phaser avant d'afficher « Chargement… ».
+- **Plan** : `docs/PLAN-ACTUEL.md` tient en une page ; l'ancien est archivé.
+
+Un point relevé en passant, laissé tel quel : sur téléphone couché, le panneau qui explique
+la vague (`#encounter-tip`, « Vague 1 · … ») n'est pas affiché ; une ancienne recette
+(0.19) vérifiait qu'il le restait. Le bouton « Dangers » le remplace peut-être à dessein
+depuis l'interface enfant (0.29 à 0.31) : au parent de dire si c'est voulu.
+
+Non vérifié : la nouvelle CI n'a tourné que sur la PR de ce lot ; rien sur téléphone.
+
 ## Ce qui reste
 
 - **Décisions du parent** : 135 règles de style qui ne servent
-  qu'en portrait ou sous 700 px de large (gardées par défaut) ; 29 scripts que plus rien
-  n'appelle ; garder ou non les outils de comparaison dans le dépôt.
+  qu'en portrait ou sous 700 px de large (gardées par défaut) ; garder ou non les outils de
+  comparaison dans le dépôt ; sortir de Git les 845 fichiers de `reports/`.
 - **Recettes** : faire charger aux pages de test les mêmes feuilles que le jeu ; réunir ce
-  que les recettes recopient (serveur, navigateur, tailles d'écran, environ 500 lignes) ;
-  trois recettes hors CI échouaient déjà avant ce chantier (`test:lisibilite`,
-  `interface-0361-navigation`, `test:departures`).
+  que les recettes recopient (serveur, navigateur, tailles d'écran, environ 500 lignes).
 - **Petites dettes notées, non traitées** : `readMedical` (`src/healing.ts`) et `isRoster`
   (`src/roster.ts`) recopient des gardes de `plainData.ts` ; quatre constructions du
   portrait d'un allié diffèrent par l'ordre de leurs attributs ; l'or de départ `300` est

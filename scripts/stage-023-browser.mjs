@@ -236,8 +236,9 @@ try {
     assert.deepEqual(checks.classicRegions, ['clearing', 'grove', 'ruins']);
   }
   assert.deepEqual(errors, []);
+  // The reference measure is kept in Git; an ordinary run leaves its result outside it.
   await writeFile(
-    `reports/stage-023-${before ? 'before' : 'after'}.json`,
+    before ? 'reports/stage-023-before.json' : 'artifacts/stage-023/after.json',
     JSON.stringify({ results, checks, errors, physicalDevice: false }, null, 2) + '\n',
   );
   console.log(JSON.stringify({ phase: before ? 'before' : 'after', results, checks, errors }));

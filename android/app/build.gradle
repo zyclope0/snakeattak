@@ -18,8 +18,13 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // R8 shrinks and optimises the Java code of the release build, and writes the
+            // mapping file that the app bundle carries to Google Play: crash reports are
+            // readable there. Capacitor ships its own keep rules; ours are in
+            // proguard-rules.pro. The debug APK is not minified: a release build must be
+            // started on a device before it is uploaded (docs/ANDROID.md).
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

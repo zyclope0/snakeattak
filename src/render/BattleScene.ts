@@ -34,7 +34,7 @@ import { Strongholds } from './strongholds.ts';
 import { bindInputBounds } from './inputBounds.ts';
 import { BossSignals } from './bossSignals.ts';
 import { visualSettings } from './visualSettings.ts';
-import { DevPerformance } from './devPerformance.ts';
+import type { DevPerformance } from './devPerformance.ts';
 import { pauseForDialog } from '../ui/dialogs.ts';
 import { performanceEnabled } from './performanceRecording.ts';
 import { onSceneExit } from './sceneExit.ts';
@@ -100,7 +100,7 @@ export class BattleScene extends Phaser.Scene {
     onSceneExit(this.events, () => {
       this.initialized = false;
     });
-    if (performanceEnabled(location.search, import.meta.env.DEV)) this.createMeter();
+    if (performanceEnabled(location.search, import.meta.env.DEV)) void this.createMeter();
     const releaseInputBounds = bindInputBounds(this.game.canvas, () => this.scale.updateBounds());
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, releaseInputBounds);
     this.events.once(Phaser.Scenes.Events.DESTROY, releaseInputBounds);
@@ -134,8 +134,14 @@ export class BattleScene extends Phaser.Scene {
     this.onChange();
     if (this.session.screen === 'home') this.scene.sleep();
   }
-  /** The developer's frame meter: suspended while the scene sleeps, removed with it. */
-  private createMeter() {
+  /**
+   * The developer's frame meter: suspended while the scene sleeps, removed with it. Players
+   * never see it, so it comes in a package of its own, asked for only with « ?perf=1 ».
+   */
+  private async createMeter() {
+    const { DevPerformance } = await import('./devPerformance.ts');
+    // The scene may have been left while the package was on its way.
+    if (!this.initialized) return;
     this.meter = new DevPerformance(
       this.game.canvas.parentElement!,
       (dialog) => pauseForDialog(dialog, this.session, this.onChange),
