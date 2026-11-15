@@ -3,9 +3,9 @@
 Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
 
-## Livraison actuelle — 0.38.0, Android build61, site snakeattacktd.com
+## Livraison préparée — 0.38.0, Android build62, site snakeattacktd.com
 
-- **Application** : 0.38.0 / build61 préparé par Codex le 15 novembre (AAB signé), à importer
+- **Application** : 0.38.0 / build62 préparé par Codex le 15 novembre (AAB signé), à importer
   dans le canal de test interne de Google Play. Aventure de 12 vagues, 6 missions, 36
   caprices, le voyage (version 1, figée), quatre joueurs locaux, français et anglais, et la
   politique de confidentialité lisible hors ligne dans « Pour les parents ».
@@ -14,11 +14,14 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   « Publier le site ». Politique de confidentialité publique à `/confidentialite`. L'ancien
   site `…chatgpt.site` reste en ligne et affiche l'avis de migration. [Site](SITE.md).
 
-## Dans `main`, pas encore dans un build
+## Optimisation dans `main`, livraison62 sur PR58
 
 - **Build release optimisé** : R8 activé pour répondre à deux remarques de la Play Console.
-  **Jamais construit** : le build 62 sera le premier ; à vérifier sur un build release
-  installé avant tout envoi ([Android](ANDROID.md)).
+  Le candidat62 est construit/signé, mapping embarqué, verify717 et navigateur verts.
+  **Recette native passée selon le compte rendu du parent** sur Android15 x86_64/WHPX :
+  hors ligne, victoire, reprise61→62, sauvegarde, Voyage, confidentialité et marges système.
+  Aucun crash/ANR ; échec cloud non reproduit. Preuves conservées dans sa session Windows,
+  non accessibles ici. PR58 ouverte ; aucun envoi, fusion ou publication ([Android](ANDROID.md)).
 - **Ménage du 15 novembre** : CI en cinq tâches parallèles, une seule fois par commit ;
   diagnostic de performance chargé à la demande (paquet principal 189,6 Ko sur 200) ;
   scripts et recettes morts retirés, recettes vivantes mises dans la CI ; ce plan ramené à une
@@ -62,8 +65,9 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
    tombent, si la marche devant le roi les décourage, combien de temps dure un voyage, ce
    qu'ils redemandent. C'est ce qui décide du point 4.
 2. **Fiche Play** : mettre `https://snakeattacktd.com/confidentialite` comme adresse de
-   confidentialité, puis importer l'AAB61 dans le canal interne. Le **build 62** (Codex)
-   sera le premier build release optimisé : l'installer et le lancer avant de l'envoyer.
+   confidentialité, puis importer l'AAB62 dans le canal interne après intégration de PR58.
+   Le premier release optimisé a passé la checklist sur l'émulateur accéléré selon le
+   parent ; mise à jour via Play et confort du build62 sur S24 restent à contrôler.
 3. **Préparer le test fermé** : Google demande à un compte personnel 12 testeurs pendant 14
    jours avant la production. Il faut une fiche à jour (textes et captures du jeu actuel ; le
    dossier [publication/](publication/) décrit encore la 0.32.4) et une décision du parent sur
