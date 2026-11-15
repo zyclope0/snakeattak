@@ -1080,3 +1080,39 @@ rien hors du jeu ; `test:offline` la relit après un démarrage à froid sans r�
 canonique de la page, `.htaccess` et le contrôle du site en ligne
 (`scripts/check-live-site.mjs`). La publication est un workflow lancé à la main
 (`.github/workflows/deploy-site.yml`) ; rien ne part seul.
+
+## Textes hors du code — 15 novembre 2026
+
+Règle du parent : rien de ce qui se lit à l'écran n'est écrit dans le code. Un texte se
+change, ou se traduit, à un seul endroit.
+
+- **`src/texts/fr/<domaine>.ts`** : les textes français, en constantes nommées, un fichier
+  par domaine du jeu (`battle`, `allies`, `snakes`, `home`, `voyageScreens`…). Le nom dit ce
+  que dit le texte (`cestParti`, `etapeNSurN`). Un texte à valeurs s'écrit avec `{0}`,
+  `{1}`… et se remplit par `fill(TEXT.etapeNSurN, 2, 5)` (`src/texts/fill.ts`).
+- **`src/texts/en/<domaine>.ts`** : l'anglais, sous les mêmes noms. Les mots du fils (noms
+  et annonces des caprices) y restent en français, mot pour mot.
+- **`src/texts/en/recomposed.ts`** : l'anglais des phrases qui n'ont pas de constante — les
+  textes de la page (`src/html`, à sortir à leur tour) et les morceaux que le jeu assemble
+  en marchant.
+- **`src/i18n/dictionary.en.ts`** est **généré** par `npm run texts:build`
+  (`scripts/build-texts.ts`) depuis ces catalogues. On ne l'édite pas.
+- Le code importe son catalogue : `import * as TEXT from '../texts/fr/home.ts'`. Un module
+  chargé à la demande a son propre catalogue, pour que ses textes ne partent pas avec le
+  paquet de départ ; les boutons de l'accueil qui l'ouvrent prennent leurs mots dans `home`.
+
+Ce qui ne change pas : le français reste la langue de référence du moteur et des
+sauvegardes, et le traducteur (`src/i18n/copy.ts`) cherche toujours l'anglais d'un texte
+français affiché. La migration n'a donc touché ni message du moteur, ni sauvegarde, ni
+empreinte de partie rejouée.
+
+Garde-fous (`tests/texts-catalogue.test.ts`) : aucun texte affiché dans un fichier
+TypeScript hors de `src/texts` et `src/i18n` ; chaque texte français a son anglais sous le
+même nom ; un même texte français n'a qu'un anglais ; l'anglais n'invente pas de valeur ; le
+dictionnaire généré est à jour. `scripts/displayed-text.ts` dit ce qui compte comme un texte
+affiché, pour ce test et pour l'inventaire de `npm run test:locale`.
+
+Preuve de la migration (849 textes, 115 fichiers) : inventaire des textes identique avant
+et après (1 054), dictionnaire anglais identique entrée par entrée (1 135), tests unitaires
+et recettes navigateur verts. Coût : environ 6 Ko de code de plus au démarrage (une
+déclaration par texte), le paquet principal restant à 189,7 Ko sur 200.
