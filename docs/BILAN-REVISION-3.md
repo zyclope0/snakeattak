@@ -48,6 +48,24 @@ Elle allonge les parties (une demi-minute à une minute de plus) et le joueur le
 tombe un peu plus tôt (un quart de vague). Les vagues courtes du début ne sont pas touchées :
 les œufs en plus arrivent surtout à partir de la vague 6 et devant King Snake.
 
+### Le choix confirmé sur des mesures solides
+
+Les quatre réglages ont ensuite été rejoués sur le vrai code, 200 parties par joueur et par
+réglage, mêmes départs. Le taux de victoire de l'expert reste entre 56 % et 62 % : aucun
+écart n'est plus grand que le hasard de 200 parties.
+
+| Réglage                      | Œufs en plus par partie (petit → expert) | Parties du petit joueur avec un œuf | Durée en plus (petit → expert) | Vague atteinte par le petit |
+| ---------------------------- | ---------------------------------------: | ----------------------------------: | -----------------------------: | --------------------------: |
+| Sans la règle                |                                        0 |                                 0 % |                              — |                        7,59 |
+| Discret : 60 s, un œuf       |                                  0 → 0,5 |                                 2 % |                      0 → + 6 s |                        7,59 |
+| Un seul : 45 s, un œuf       |                                1,1 → 2,7 |                                79 % |                  + 18 → + 33 s |                        7,46 |
+| **Présent : 45 s puis 60 s** |                                2,0 → 5,3 |                                79 % |                  + 30 → + 74 s |                        7,36 |
+| Marqué : 40 s, 50 s, 60 s    |                               4,9 → 13,3 |                               100 % |                 + 46 → + 145 s |                        7,11 |
+
+Le parent a revu ces chiffres le 15 novembre et **a gardé « présent »**. Tant qu'aucun build
+ni le site ne porte la révision 3, ses valeurs peuvent encore être corrigées sur place ; une
+fois publiée, un autre réglage sera une révision 4.
+
 ## Comment c'est vérifié
 
 - `npm run verify` : 756 tests, dont `tests/balance-revision-3.test.ts` (la règle à 45 s et
