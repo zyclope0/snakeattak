@@ -1,5 +1,11 @@
 # Marche à suivre — avant la première publication
 
+> **État courant au15novembre2026.** Build60 confirmé en test interne par le parent ;
+> build61 préparé avec confidentialité hors ligne. URL à renseigner dans Play :
+> **https://snakeattacktd.com/confidentialite**. Aucun accès authentifié Console dans cette
+> session, aucun envoi ou attestation par Codex. Les indications ci-dessous du8novembre
+> sont historiques ; [SITE.md](../SITE.md) et [PLAN-ACTUEL.md](../PLAN-ACTUEL.md) font foi.
+
 État au 8 novembre 2026 : compte personnel créé, validation d'identité en attente
 selon le dernier retour. Aucun accès au compte ou statut de validation présumé
 ici. Ni clé de publication, ni produit créé, ni invitation envoyée dans cette mission.

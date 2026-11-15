@@ -1,17 +1,18 @@
 # Android — version0.38.0
 
-Dernière livraison : **0.38.0 / build60**, avec le mode « Le voyage » : cinq étapes,
-caprices, bonus conservés et code partageable. Anciennes aventures et profils conservés.
-Même package **com.conqueteserpents.famille**, code60, paysage, minSdk24 / targetSdk36.
-AAB release signé avec la clé d’envoi Play d’origine ; APK debug avec son certificat familial.
-Aucune migration des sauvegardes, règle ou SDK commercial ajouté. [Bilan](BILAN-0.38.0.md).
+Dernière livraison préparée : **0.38.0 / build61**, politique de confidentialité FR/EN
+lisible hors ligne dans « Pour les parents ». Source et résultats : [Bilan](BILAN-0.38.0.md).
+Même package **com.conqueteserpents.famille**, paysage, minSdk24 / targetSdk36 ;
+même clé d’envoi Play, aucun SDK commercial ni permission INTERNET ajouté.
 
-Dans le canal de test interne existant, créer une nouvelle version et importer
-`conquete-serpents-v0.38.0-build60-play.aab`, puis installer via Google Play avec le même compte
-testeur. L’APK debug conserve une signature distincte de la distribution Play. Aucun envoi
-Console ou essai physique S24 par Codex ; confort et performances à confirmer sur appareil.
+Importer `conquete-serpents-v0.38.0-build61-play.aab` dans une nouvelle version du canal
+interne existant. L’APK debug a une signature distincte de Play ; il ne s’installe pas en
+mise à jour de l’application distribuée par Play. Pas d’upload Console par Codex.
+Le parent testera sur S24 le défilement et les liens externes depuis la fenêtre.
 
-## Build release optimisé — à partir du build 61
+Les sections plus bas sont historiques ; l’état et les numéros en tête font foi.
+
+## Build release optimisé — à partir du build 62
 
 Demande du parent du 15 novembre 2026, après deux remarques de la Play Console (« Optimisation
 du code : faible », « absence de fichier de désobscurcissement »). Le build **release**

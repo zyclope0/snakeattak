@@ -3,22 +3,22 @@
 Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
 
-## Livraison actuelle — 0.38.0, Android build60, site snakeattacktd.com
+## Livraison actuelle — 0.38.0, Android build61, site snakeattacktd.com
 
-- **Application** : 0.38.0 / build60 dans le canal de test interne de Google Play. Aventure de
-  12 vagues, 6 missions, 36 caprices, le voyage (version 1, figée), quatre joueurs locaux,
-  français et anglais. [Bilan](BILAN-0.38.0.md), [Android](ANDROID.md), [Voyage](VOYAGE.md).
-- **Site** : https://snakeattacktd.com sur Infomaniak depuis le 15 novembre, publié à la main
-  depuis `main` par « Publier le site ». Politique de confidentialité publique à
-  `/confidentialite`. L'ancien site `…chatgpt.site` est encore en ligne. [Site](SITE.md).
+- **Application** : 0.38.0 / build61 préparé par Codex le 15 novembre (AAB signé), à importer
+  dans le canal de test interne de Google Play. Aventure de 12 vagues, 6 missions, 36
+  caprices, le voyage (version 1, figée), quatre joueurs locaux, français et anglais, et la
+  politique de confidentialité lisible hors ligne dans « Pour les parents ».
+  [Bilan](BILAN-0.38.0.md), [Android](ANDROID.md), [Voyage](VOYAGE.md).
+- **Site** : https://snakeattacktd.com sur Infomaniak, publié à la main depuis `main` par
+  « Publier le site ». Politique de confidentialité publique à `/confidentialite`. L'ancien
+  site `…chatgpt.site` reste en ligne et affiche l'avis de migration. [Site](SITE.md).
 
 ## Dans `main`, pas encore dans un build
 
-- **Confidentialité dans l'application** (PR53) : bouton dans « Pour les parents », lisible
-  hors ligne, même texte que la page publique.
 - **Build release optimisé** : R8 activé pour répondre à deux remarques de la Play Console.
-  **Jamais construit** : à vérifier sur un build release installé avant tout envoi
-  ([Android](ANDROID.md)).
+  **Jamais construit** : le build 62 sera le premier ; à vérifier sur un build release
+  installé avant tout envoi ([Android](ANDROID.md)).
 - **Ménage du 15 novembre** : CI en cinq tâches parallèles, une seule fois par commit ;
   diagnostic de performance chargé à la demande (paquet principal 189,6 Ko sur 200) ;
   scripts et recettes morts retirés, recettes vivantes mises dans la CI ; ce plan ramené à une
@@ -29,7 +29,7 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 - **Le voyage avec les enfants.** Réglé sur des joueurs automatiques, puis figé à la
   publication. Les simulations disent qu'un joueur « apprenti » tombe devant le roi trois
   fois sur quatre. Aucune séance d'enfant n'est notée dans le dépôt.
-- **Le build 60 et la suite sur le téléphone** : le parent essaie les builds sur son Galaxy
+- **Le build 61 sur le téléphone** : le parent essaie les builds sur son Galaxy
   S24 (derniers retours notés : build 50 et 13 novembre) ; rien n'est noté pour le voyage, la
   fenêtre de confidentialité, ni l'ouverture de ses liens.
 - **Le site** : contrôlé automatiquement à la publication ; pas encore noté comme ouvert et
@@ -41,13 +41,9 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 1. **Faire jouer les enfants au voyage**, 30 à 45 minutes sur le téléphone, et noter : où ils
    tombent, si la marche devant le roi les décourage, combien de temps dure un voyage, ce
    qu'ils redemandent. C'est ce qui décide du point 4.
-2. **Build 61** (Codex) : monter `versionCode`, mettre `POLICY_APP` à jour dans
-   `src/i18n/privacyPolicy.ts` (un test le réclame), vérifier le build release optimisé, puis
-   mettre `https://snakeattacktd.com/confidentialite` dans la fiche Play. Notes de version :
-   - FR : « Nouveau dans « Pour les parents » : la politique de confidentialité se lit
-     maintenant dans le jeu, même sans connexion. »
-   - EN : “New in “For parents”: the privacy policy can now be read inside the game, even
-     offline.”
+2. **Fiche Play** : mettre `https://snakeattacktd.com/confidentialite` comme adresse de
+   confidentialité, puis importer l'AAB61 dans le canal interne. Le **build 62** (Codex)
+   sera le premier build release optimisé : l'installer et le lancer avant de l'envoyer.
 3. **Préparer le test fermé** : Google demande à un compte personnel 12 testeurs pendant 14
    jours avant la production. Il faut une fiche à jour (textes et captures du jeu actuel ; le
    dossier [publication/](publication/) décrit encore la 0.32.4) et une décision du parent sur
@@ -59,8 +55,7 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 
 ## Décisions qui attendent le parent
 
-- Prévenir les familles de l'ancien site que leurs sauvegardes ne suivent pas le changement
-  d'adresse (texte prêt dans [SITE.md](SITE.md)), et dire quand l'ancien site s'arrête.
+- Dire quand l'ancien site s'arrête ; il affiche déjà l'avis de migration.
 - La marche devant le roi dans le voyage : l'accepter ou demander une version 2.
 - À l'accueil, « Reprendre » s'affiche encore pour un joueur qui a tout fini : le corriger
   demande d'enregistrer une donnée de plus.

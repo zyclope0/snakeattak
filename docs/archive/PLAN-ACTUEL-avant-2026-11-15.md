@@ -1,4 +1,4 @@
-# Plan actuel — 0.38.0, livraison Android build60
+# Plan actuel — 0.38.0, livraison Android build61
 
 ## Confidentialité dans l'application et site sur Infomaniak — site en ligne le 15 novembre
 
@@ -6,8 +6,7 @@ Demande du parent du 14 novembre : rendre la politique de confidentialité lisib
 dans l'application, et préparer le transfert du site vers **https://snakeattacktd.com**
 (hébergement Web classique d'Infomaniak, publication lancée à la main depuis GitHub
 Actions). Fusionné en PR53. **Le site est en ligne sur snakeattacktd.com depuis le 15
-novembre**, publié depuis `main` (`7d30a84`) ; l'ancien site n'est pas touché. La fenêtre de
-l'application attend le build 61, fait par Codex. Marche à suivre : [SITE.md](SITE.md).
+novembre**, publié depuis `main` (`7d30a84`) ; l'ancien site n'est pas touché. La fenêtre est intégrée aux paquets Android61 préparés par Codex. Marche à suivre : [SITE.md](SITE.md).
 
 - **Texte** : repris mot pour mot de la page publiée (français et anglais), rangé dans une
   seule source dont sortent la page publique et la fenêtre de l'application. Trois ajouts
@@ -31,17 +30,17 @@ Vérifié en ligne par le contrôle automatique de la publication : page et scri
 en-têtes, cache, redirections `http://` et `www.`, aucun cookie, politique identique à celle
 du dépôt.
 
-Non vérifié : le site n'a pas été ouvert ni joué par une personne sur le nouveau domaine ;
-rien sur le Galaxy S24 ni dans l'APK, en particulier l'ouverture des liens ; les liens de la
+Non vérifié : aucune personne n’a encore joué sur le nouveau domaine ;
+rien sur le Galaxy S24 ni sur un appareil Android, en particulier l'ouverture des liens ; les liens de la
 fiche Play ne sont pas changés.
 
 À faire par le parent : mettre `https://snakeattacktd.com/confidentialite` dans la fiche
-Play ; relever dans `ik-logs` ce que les journaux contiennent vraiment ; prévenir les
-familles que les sauvegardes du site ne suivent pas le changement d'adresse ; décider quand
+Play ; relever dans `ik-logs` ce que les journaux contiennent vraiment ; décider quand
 l'ancien site s'arrête.
 
-À faire par Codex pour le build 61 : monter `versionCode`, puis relire la politique et
-mettre `POLICY_APP` à jour dans `src/i18n/privacyPolicy.ts` (un test le réclame). Notes de
+Build61 préparé : `versionCode` et `POLICY_APP.build`61, sans changer les engagements ni
+la date du texte approuvé. Le test actualise uniquement version/build attendus de
+l’archive ; son texte reste intact et les valeurs affichées sont contrôlées. Notes de
 version proposées :
 
 > **FR.** Nouveau dans « Pour les parents » : la politique de confidentialité se lit
@@ -50,7 +49,26 @@ version proposées :
 > **EN.** New in “For parents”: the privacy policy can now be read inside the game, even
 > offline.
 
-## Livraison actuelle — 0.38.0, Android build60, Sites35 publiée
+## Livraison actuelle — 0.38.0, Android build61
+
+Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`, depuis main `675d52f` (PR53/54 fusionnées,
+CI43664700689 verte). PR55 parallèle (`961883c`) intégrée : même produit, contrôle de
+texte plus strict conservé. Confidentialité hors ligne FR/EN, même package et signature Play.
+Verify717tests, navigateur, audit13/13, menus5648, hors ligne et sauvegarde familiale verts.
+AAB61 signé/validé, APK debug construit ; lecture du contenu réel de l’APK hors ligne
+FR/EN vérifiée à780×360 avec marges simulées. Aucune règle ou sauvegarde modifiée.
+Site Infomaniak publié uniquement par « Publier le site », run43698517225 réussi,
+commit `099cebf` de main. Politique publique identique,131fichiers distribués identiques
+aux paquets ; accueil, confidentialité et camp vérifiés en ligne sur trois formats FR/EN.
+CI complète de main43698515202 encore en cours au contrôle ; gates locales et workflow
+de publication verts.
+L’avis de migration de l’ancien hébergement est déjà publié par une autre session
+(Sites37, `fe8bd54`) ; six contrôles locaux FR/EN, dont deux multi-profils, et réponse
+publique200 vérifiés. Aucun ancien asset ni politique remplacé. URL Play à modifier dans
+une session connectée.
+[Bilan](BILAN-0.38.0.md) · [Android](ANDROID.md) · [Site et migration](SITE.md).
+
+## Livraison précédente — 0.38.0, Android build60, Sites35 publiée
 
 Source figée : `f8552429ee7e291b13e07b85ca294b1db24b035d`, intégration du dernier main et de la PR51 de Claude.
 Nouveau mode « Le voyage », version1 : cinq étapes, caprices surprises, bonus conservés,
@@ -60,7 +78,7 @@ sauvegardes et codes conservés. Même package et clé d’envoi Play, version0.
 interruptions, hors ligne et parcours des missions verts. CI du source Claude entièrement verte.
 AAB60 signé, APK debug et ZIP des sources prêts ; site publié avec128fichiers identiques
 aux paquets, cinq formats publics et parcours natif du Voyage FR/EN vérifiés.
-[Bilan](BILAN-0.38.0.md), [Android](ANDROID.md), [Voyage](VOYAGE.md).
+[Bilan du build60](archive/BILAN-0.38.0-build60.md), [Android](ANDROID.md), [Voyage](VOYAGE.md).
 Importer l’AAB60 dans le canal interne existant. Essais physiques S24/enfants restant au parent.
 Livraison précédente : [build59 / Sites34](archive/BILAN-0.38.0-build59.md).
 

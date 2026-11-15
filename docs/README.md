@@ -4,20 +4,21 @@ Douze documents vivants. Tout le reste est de l'historique, rangé dans [archive
 
 ## À lire pour travailler
 
-| Document                                                               | À quoi il sert                                              |
-| ---------------------------------------------------------------------- | ----------------------------------------------------------- |
-| [PLAN-ACTUEL.md](PLAN-ACTUEL.md)                                       | Où on en est, ce qui est en cours, ce qui n'est pas vérifié |
-| [PASSATION-CLAUDE-CODE.md](PASSATION-CLAUDE-CODE.md)                   | État au 10 novembre 2026, décisions prises, travail à faire |
-| [ARCHITECTURE.md](ARCHITECTURE.md)                                     | Comment le code est découpé, et pourquoi Phaser 3           |
-| [CAPRICES.md](CAPRICES.md)                                             | Les 36 défis du fils : noms, annonces, valeurs, mesures     |
-| [VOYAGE.md](VOYAGE.md)                                                 | Le voyage : réglages proposés, mesures, décisions à prendre |
-| [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone    |
-| [SITE.md](SITE.md)                                                     | Le site sur Infomaniak : publier, revenir en arrière        |
-| [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version publiée                 |
-| [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste |
-| [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique               |
-| [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour |
-| [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver             |
+| Document                                                               | À quoi il sert                                                                          |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [PLAN-ACTUEL.md](PLAN-ACTUEL.md)                                       | Où on en est, ce qui est en cours, ce qui n'est pas vérifié                             |
+| [PASSATION-CLAUDE-CODE.md](PASSATION-CLAUDE-CODE.md)                   | État au 10 novembre 2026, décisions prises, travail à faire                             |
+| [ARCHITECTURE.md](ARCHITECTURE.md)                                     | Comment le code est découpé, et pourquoi Phaser 3                                       |
+| [CAPRICES.md](CAPRICES.md)                                             | Les 36 défis du fils : noms, annonces, valeurs, mesures                                 |
+| [VOYAGE.md](VOYAGE.md)                                                 | Le voyage : réglages proposés, mesures, décisions à prendre                             |
+| [SITE.md](SITE.md)                                                     | Hébergement Infomaniak, publication manuelle, confidentialité et migration des familles |
+| [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone                                |
+| [SITE.md](SITE.md)                                                     | Le site sur Infomaniak : publier, revenir en arrière                                    |
+| [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version publiée                                             |
+| [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste                             |
+| [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique                                           |
+| [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour                             |
+| [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver                                         |
 
 Les règles du jeu sont à la racine : `GAME_DESIGN.md`, `AGENTS.md`, `CLAUDE.md`.
 
