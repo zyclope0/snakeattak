@@ -86,7 +86,7 @@ export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
     priority: 85,
   },
   king: {
-    name: TEXT.roiATroisTetes,
+    name: TEXT.kingSnake,
     ability: TEXT.contactCrachatADistanceEtTeteMixte,
     symbol: 'crown',
     priority: 100,

@@ -10,11 +10,17 @@ export const byId = <T extends HTMLElement = HTMLElement>(id: string): T =>
   document.getElementById(id) as T;
 
 const PORTRAIT_PHONE = '(pointer: coarse) and (orientation: portrait)';
+/**
+ * The width under which the page is one column (`src/styles/06-responsive.css`). A media
+ * query cannot read a variable: `tests/screen-thresholds.test.ts` holds the two together.
+ */
+export const NARROW_SCREEN_WIDTH = 920;
+const NARROW_SCREEN = `(max-width: ${NARROW_SCREEN_WIDTH}px)`;
 /** A touch screen held upright: the board is hidden and the game asks to turn the device. */
 export const portraitPhone = (): MediaQueryList => matchMedia(PORTRAIT_PHONE);
 
 /** The narrow layout, where the camp panel sits under the board. */
-export const narrowScreen = (): boolean => matchMedia('(max-width:800px)').matches;
+export const narrowScreen = (): boolean => matchMedia(NARROW_SCREEN).matches;
 
 type Features = {
   id?: string;

@@ -5,7 +5,7 @@ export const collant = 'COLLANT';
 export const attirant = 'ATTIRANT';
 export const nSerpentsRepoussesNAllies =
   '{0} serpents repoussés · {1} alliés survivants · camp {2} %';
-export const roiATroisTetesNNPvN = 'ROI À TROIS TÊTES · {0} / {1} PV{2}';
+export const kingSnakeNNPvN = 'KING SNAKE · {0} / {1} PV{2}';
 export const phaseN3 = ' · PHASE {0}/3';
 export const gardienne = 'Gardienne';
 export const cracheuse = 'Cracheuse';
@@ -34,7 +34,7 @@ export const defenseFixe = 'Défense fixe';
 export const contact = 'Contact';
 export const campNN = 'Camp {0}{1}';
 export const vagueNN = 'Vague {0} · {1}';
-export const leRoiATroisTetesEntreDansLaVallee = 'LE ROI À TROIS TÊTES ENTRE DANS LA VALLÉE';
+export const kingSnakeEntreDansLaVallee = 'KING SNAKE ENTRE DANS LA VALLÉE';
 export const sIlAtteintLeCristalLaPartieEst =
   'S’il atteint le cristal, la partie est perdue. Attention à ses œufs !';
 export const vagueNRepoussee = 'Vague {0} repoussée !';

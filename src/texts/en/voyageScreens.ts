@@ -15,7 +15,7 @@ export const faireCeVoyage = 'Play this voyage';
 export const unAutreVoyage = 'Another voyage';
 export const unNouveauVoyage = 'A new voyage';
 export const tuAsUnCode = 'Do you have a code?';
-export const leRoiATroisTetes = 'The Three-Headed King';
+export const kingSnake = 'King Snake';
 export const capriceSurprise2 = 'Surprise caprice:';
 export const changerDeVoyage = 'Change voyage?';
 export const garderMonVoyage = 'Keep my voyage';
@@ -34,7 +34,7 @@ export const etapeNReussie = 'Stage {0} complete!';
 export const bravoTuAsFiniLeVoyage = 'Well done, you finished the voyage!';
 export const tonVoyageSArreteALEtapeN = 'Your voyage stops at stage {0}';
 export const tonPlusLongVoyageNEtapeN = 'Your longest voyage: {0} stage{1}';
-export const nEtapesJusquAuRoiATroisTetes = '{0} stages to the Three-Headed King';
+export const nEtapesJusquAKingSnake = '{0} stages to King Snake';
 export const etapeReussie = 'Stage complete';
 export const etapeAJouer = 'Stage to play';
 export const etapeAVenir = 'Stage ahead';
@@ -73,8 +73,7 @@ export const leVoyageEtapeNSurN = 'The Voyage · Stage {0} of {1}';
 export const leCampEstTombeALEtapeNTuPourras =
   'The camp fell at stage {0}. You can try this voyage again.';
 export const voirMonVoyage = 'See my voyage';
-export const leRoiATroisTetesEstBattuTuAsFiniLe =
-  'The Three-Headed King is beaten. You finished the voyage!';
+export const kingSnakeEstBattuTuAsFiniLeVoyage = 'King Snake is beaten. You finished the voyage!';
 export const continuerLeVoyage = 'Continue the voyage';
 export const etapeNSurNReussieChoisisMaintenant =
   'Stage {0} of {1} complete. Now choose a bonus for the rest of the voyage.';

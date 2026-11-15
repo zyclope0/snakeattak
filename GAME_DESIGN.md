@@ -202,6 +202,9 @@ Interface :
 
 10. **Un index des serpents**, comme un petit wiki. Aujourd'hui : il existe des fiches pour
     les alliés, rien pour les serpents.
+    **Fait le 15 novembre 2026** : « Tous les serpents » montre les treize serpents et
+    l'œuf, avec ce que fait chacun et la vague où il arrive. Il s'ouvre depuis « Dangers »
+    pendant une partie et depuis « Favoris ». Aucune règle ni image nouvelle.
 11. **Voir ses unités plus vite.** Les favoris lui plaisent, mais il faut trop de touchers
     pour voir tous les alliés. Il accepte que la solution actuelle soit peut-être la moins
     mauvaise.
@@ -210,6 +213,10 @@ Précisions du fils, le même jour :
 
 - **Le boss s'appelle « King Snake »** et a l'allure d'un cobra royal à trois têtes. Le nom
   est le sien : il reste tel quel en français comme en anglais.
+  **Fait le 15 novembre 2026** (accord du parent) : là où le jeu disait « le roi à trois
+  têtes », il dit « King Snake », en français comme en anglais. « Le roi » tout court reste
+  (« Si le roi entre… », « Garde du roi ») : King Snake est toujours un roi. Les caprices du
+  fils qui nomment le roi ne changent pas. Son dessin est inchangé.
 - **Le serpent ninja** est aussi rapide que le Ninja, et parfois il se téléporte dans le dos
   d'un personnage.
 - **La sauterelle** n'attaque pas dans le dos de tous les personnages : elle saute derrière

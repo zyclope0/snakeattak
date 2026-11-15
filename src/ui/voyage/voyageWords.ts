@@ -39,7 +39,7 @@ export const recordLine = (best: number): string =>
 
 /** What the map promises, for screens with room to spare. */
 export const voyagePromise = (state: VoyageState): string =>
-  fill(TEXT.nEtapesJusquAuRoiATroisTetes, stagesOf(state));
+  fill(TEXT.nEtapesJusquAKingSnake, stagesOf(state));
 
 export type StopState = 'done' | 'next' | 'ahead' | 'fallen';
 /** Where each stop of the path stands: won, to play, still ahead, or where the camp fell. */
@@ -137,7 +137,7 @@ export function stageOutcome(after: VoyageState, stage: number): { note: string;
       };
     case 'arrived':
       return {
-        note: TEXT.leRoiATroisTetesEstBattuTuAsFiniLe,
+        note: TEXT.kingSnakeEstBattuTuAsFiniLeVoyage,
         button: TEXT.continuerLeVoyage,
       };
     default:

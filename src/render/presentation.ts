@@ -218,7 +218,7 @@ export class Presentation {
       if (!fresh) this.sparks.push({ kind: 'boss', x: boss.x, y: boss.y });
       this.announce({
         kind: 'boss',
-        title: TEXT.leRoiATroisTetesEntreDansLaVallee,
+        title: TEXT.kingSnakeEntreDansLaVallee,
         subtitle: TEXT.sIlAtteintLeCristalLaPartieEst,
         duration: 4,
         priority: 4,

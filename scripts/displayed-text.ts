@@ -38,7 +38,6 @@ const NOT_SHOWN = new Set([
   'NFD', // the Unicode form given to `String.normalize`
   'Fredoka', // the font family of the titles (src/render/fonts.ts)
   'Nunito Sans', // the font family of the texts (src/render/fonts.ts)
-  'Arial', // the font family of the lair names on the mission map
 ]);
 
 const numbers = String.raw`\(\s*-?[\d.]+(?:[\s,]+-?[\d.]+)*\s*\)`;
@@ -76,7 +75,7 @@ function browserValue(s: string) {
 function human(s: string) {
   const fixed = s.replace(/\{\d+\}/g, '');
   return (
-    (/[A-Za-zÀ-ÿŒœ]{3}/.test(fixed) || fixed === 'et le') &&
+    (/[A-Za-zÀ-ÿŒœ]{3}/.test(fixed) || fixed === 'et') &&
     (/[\sÀ-ÿŒœ]/.test(fixed) || /^[A-ZÀ-ÝŒ]/.test(fixed)) &&
     !/^https?:|^\.[^\s]|^#|^--|^[\w.-]+\.(?:ts|js|json|webp|png|woff2|html|txt)$/.test(s) &&
     !/[{}][^\d]|\b(?:display|font-size|background|position|padding):|(?:^|\s)(?:const|return|function)\s|\b(?:aria-|data-)[\w-]+=/i.test(

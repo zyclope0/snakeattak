@@ -128,7 +128,7 @@ test('English Cobra warning describes retaliation damage, never a health reward'
 
 test('mixed-markup help fragments and all ranged allies keep their English meaning', async () => {
   await setLanguage('en');
-  assert.equal(copy(' et le '), ' and the ');
+  assert.equal(copy(' et '), ' and ');
   assert.equal(copy('. Le mamba noir retire '), '. The Black Mamba deals ');
   assert.match(copy('devant les tireurs'), /ranged allies/);
   assert.doesNotMatch(copy('devant les tireurs'), /archers/i);

@@ -131,7 +131,7 @@ test('les nouvelles races arrivent progressivement et le boss à trois têtes re
         wave >= start,
       );
   }
-  assert.match(waveBriefing(12).title, /trois têtes/i);
+  assert.match(waveBriefing(12).title, /King Snake/);
   const { g } = duel();
   g.wave = 12;
   g.remaining = 1;

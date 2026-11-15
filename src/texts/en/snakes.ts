@@ -50,6 +50,6 @@ export const troisFrontsLeMambaNoirRetire3PvA =
   'Three fronts. Defeating a Black Mamba costs the attacker 3 HP: keep healers nearby.';
 export const avantLeRoi = 'Before the King';
 export const prepareTesAlliesEtRepareTonCristal = 'Prepare your allies and repair your Crystal.';
-export const leRoiATroisTetes = 'The Three-Headed King';
+export const kingSnake = 'King Snake';
 export const gardienneAuContactCracheuseA =
   'A guard head for melee, a spitter head for ranged attacks, and a mixed head. Two guards and a healer escort the King. Melee attacks break his armor plates. If he reaches the Crystal, you lose!';

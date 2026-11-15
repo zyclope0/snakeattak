@@ -26,6 +26,15 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 - **Rien en dur (15 novembre)** : textes, clés de stockage, nombres du jeu, repères du
   plateau, limites et couches du dessin ont chacun un nom et un seul lieu ; aucune valeur ni
   aucun texte n'a changé ([bilan](BILAN-NETTOYAGE-2026-11.md), « Rien en dur »).
+- **King Snake (15 novembre)** : le roi à trois têtes porte le nom choisi par le fils, dans
+  les deux langues ; « le roi » tout court reste. Trois messages du moteur le nomment : les
+  empreintes de cinq parties de référence ont changé de hachage, rien d'autre.
+- **Écran étroit** : le code suit maintenant la même largeur que les styles (920 px au lieu
+  de 800) pour ramener le plateau ou une récompense à l'écran. **À essayer sur le téléphone.**
+- **Carte d'une mission** : les noms des voies sont dans la police du jeu (ils étaient en
+  Arial). Ils restent très petits sur téléphone : à regarder avec les enfants.
+- **Index des serpents** (idée du fils) : « Tous les serpents », treize serpents et l'œuf,
+  depuis « Dangers » et depuis « Favoris ». Pas encore montré aux enfants.
 
 ## Ce qui n'est pas vérifié
 

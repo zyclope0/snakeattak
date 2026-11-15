@@ -50,6 +50,6 @@ export const troisFrontsLeMambaNoirRetire3PvA =
   'Trois fronts. Le mamba noir retire 3 PV à celui qui le tue : garde des soins en soutien.';
 export const avantLeRoi = 'Avant le roi';
 export const prepareTesAlliesEtRepareTonCristal = 'Prépare tes alliés et répare ton cristal.';
-export const leRoiATroisTetes = 'Le roi à trois têtes';
+export const kingSnake = 'King Snake';
 export const gardienneAuContactCracheuseA =
   'Gardienne au contact, cracheuse à distance et tête mixte. Deux gardes et un soigneur escortent le roi ; la mêlée brise ses plaques. S’il atteint le cristal, la partie est perdue !';

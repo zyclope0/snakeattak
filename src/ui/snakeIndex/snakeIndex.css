@@ -1,0 +1,82 @@
+/* L'index des serpents : son titre et « Fermer » restent en place, les fiches défilent
+   dessous. Trois colonnes sur un téléphone couché, deux quand la place manque. */
+#snake-index-dialog {
+  max-width: min(980px, calc(100% - 24px - var(--app-safe-left) - var(--app-safe-right)));
+  width: 100%;
+  height: calc(var(--app-height) - 24px);
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+}
+#snake-index-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+#snake-index-dialog > header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px 10px 20px;
+  border-bottom: 1px solid #c9d3bd;
+}
+#snake-index-dialog #snake-index-title {
+  margin: 0;
+  font-size: clamp(20px, calc(var(--hu) * 2.2), 26px);
+}
+#snake-index-close {
+  flex: 0 0 auto;
+  min-height: 48px;
+  min-width: 96px;
+}
+#snake-index-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding: 12px 16px 18px;
+}
+#snake-index-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+/* Une fiche n'est pas une puce de liste : ni marge ni retrait des listes des fenêtres. */
+#snake-index-list .snake-entry {
+  margin: 0;
+  padding: 0;
+}
+.snake-entry .threat-card {
+  height: 100%;
+  align-items: flex-start;
+  padding: 8px;
+}
+.snake-entry .threat-card strong {
+  font-size: 15px;
+}
+.snake-entry .threat-card small {
+  font-size: 13px;
+}
+.snake-entry .threat-card em {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  color: #2f6a5b;
+}
+@media (max-width: 700px) {
+  #snake-index-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 400px) {
+  #snake-index-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

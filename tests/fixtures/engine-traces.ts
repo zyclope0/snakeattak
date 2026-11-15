@@ -1,9 +1,13 @@
 // Empreintes produites par le moteur de la 0.37.0 (commit 9558aff), avant le découpage de game.ts.
 // Ne les régénère pas pour faire passer un test : une empreinte différente est une partie différente.
+// 15 novembre 2026 : le roi s'appelle « King Snake » (nom donné par le fils). Les messages du
+// moteur qui le nomment font partie de l'empreinte : trois parties classiques changent de
+// hachage, sans rien d'autre (même issue, même vague, mêmes pièces, mêmes pas). Avec les
+// trois anciens messages, toutes les empreintes d'avant repassent.
 export const expectedTraces: Readonly<Record<string, string>> = Object.freeze({
-  'classique r1': 'won w12 b100 g442 k200 s11655 052e6478c9f67cc9b1de870a',
-  'classique r2': 'won w12 b100 g460 k184 s13983 c43cc39e544a98203520b4f4',
-  'classique sans règles tactiques': 'won w12 b100 g567 k200 s13873 47e8b308893dbb7d1f412fcb',
+  'classique r1': 'won w12 b100 g442 k200 s11655 ce7dadc68c0211af17e04fc7',
+  'classique r2': 'won w12 b100 g460 k184 s13983 9b41755417b58e00d40b4a9d',
+  'classique sans règles tactiques': 'won w12 b100 g567 k200 s13873 3eeda8696186b90a12ead3ce',
   'mission refuge': 'won w3 b100 g323 k25 s1838 ba997879695c6fcf0aa1a91d',
   'défi refuge-moyen r2': 'won w3 b100 g401 k44 s2568 bc0c8fb2412a1402f1b8aae1',
   'défi refuge-createur-moyen r1': 'won w3 b100 g313 k25 s3276 27780a3d968e5a7921f42b10',

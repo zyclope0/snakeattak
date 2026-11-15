@@ -26,6 +26,11 @@
   border-top: 1px solid #cbd4bc;
   background: var(--paper);
 }
+.threat-dialog-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 8px;
+}
 .threat-dialog-actions button {
   width: 100%;
   min-height: 48px;

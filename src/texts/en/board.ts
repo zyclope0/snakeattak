@@ -4,7 +4,7 @@ export const choisisUnEspaceLibreDansLeCampLoin =
 export const collant = 'SLOW';
 export const attirant = 'LURE';
 export const nSerpentsRepoussesNAllies = '{0} snakes defeated · {1} allies left · camp {2}%';
-export const roiATroisTetesNNPvN = 'THREE-HEADED KING · {0} / {1} HP{2}';
+export const kingSnakeNNPvN = 'KING SNAKE · {0} / {1} HP{2}';
 export const phaseN3 = '· PHASE {0}/3';
 export const gardienne = 'Guardian';
 export const cracheuse = 'Spitter';
@@ -33,7 +33,7 @@ export const defenseFixe = 'Fixed defense';
 export const contact = 'Melee';
 export const campNN = 'Camp {0}{1}';
 export const vagueNN = 'Wave {0} · {1}';
-export const leRoiATroisTetesEntreDansLaVallee = 'THE THREE-HEADED KING ENTERS THE VALLEY';
+export const kingSnakeEntreDansLaVallee = 'KING SNAKE ENTERS THE VALLEY';
 export const sIlAtteintLeCristalLaPartieEst =
   'If he reaches the Crystal, the game is lost. Watch out for his eggs!';
 export const vagueNRepoussee = 'Wave {0} cleared!';

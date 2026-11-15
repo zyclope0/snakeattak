@@ -306,7 +306,7 @@ if (scenario === 'royal-guard') {
 } else if (scenario === 'won') {
   game.wave = 12;
   game.status = 'won';
-  game.message = 'Victoire ! Le roi à trois têtes est vaincu !';
+  game.message = 'Victoire ! King Snake est vaincu !';
   game.kills = 99;
   game.base = 76;
 }

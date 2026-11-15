@@ -8,7 +8,7 @@ test('douze vagues annoncées, introduction progressive et boss à la dernière'
   assert.equal(TOTAL_WAVES, 12);
   assert.match(waveBriefing(3).tip, /rapide/i);
   assert.match(waveBriefing(7).tip, /distance/i);
-  assert.match(waveBriefing(12).title, /roi/i);
+  assert.equal(waveBriefing(12).title, 'King Snake');
 });
 test('les nouvelles unités se débloquent progressivement sans achat prématuré', () => {
   const g = new Game();

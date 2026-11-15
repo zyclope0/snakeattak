@@ -85,7 +85,7 @@ test('the record counts stages, in the singular and the plural, and is silent at
   assert.equal(recordLine(1), 'Ton plus long voyage : 1 étape');
   assert.equal(recordLine(3), 'Ton plus long voyage : 3 étapes');
   assert.equal(recordLine(5), 'Ton plus long voyage : 5 étapes');
-  assert.equal(voyagePromise(start), '5 étapes jusqu’au roi à trois têtes');
+  assert.equal(voyagePromise(start), '5 étapes jusqu’à King Snake');
 });
 
 test('the stops of the path: won, to play, ahead, and where the camp fell', () => {
@@ -175,7 +175,7 @@ test('the end of a stage offers one way on: the bonus, the end, or the fallen ca
     button: 'Continuer le voyage',
   });
   assert.deepEqual(stageOutcome(arrived, 5), {
-    note: 'Le roi à trois têtes est battu. Tu as fini le voyage !',
+    note: 'King Snake est battu. Tu as fini le voyage !',
     button: 'Continuer le voyage',
   });
   assert.deepEqual(stageOutcome(fallen, 3), {
@@ -243,7 +243,7 @@ test('every sentence of the voyage reads in English, the caprice names stay Fren
       [voyageHeading(fallen).title, 'Your voyage stops at stage 3'],
       [recordLine(1), 'Your longest voyage: 1 stage'],
       [recordLine(3), 'Your longest voyage: 3 stages'],
-      [voyagePromise(start), '5 stages to the Three-Headed King'],
+      [voyagePromise(start), '5 stages to King Snake'],
       [stopWords(2, 'La course des vifs', 'next').name, 'Stage 3: The Swift Run'],
       [exitsLine(1), 'First wave: snakes come out of 1 lair'],
       [exitsLine(3), 'First wave: snakes come out of 3 lairs'],

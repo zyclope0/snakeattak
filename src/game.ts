@@ -356,7 +356,7 @@ export class Game {
     this.eggs = layWaveEggs(this, plan);
     this.message =
       !this.mission && this.wave === TOTAL_WAVES
-        ? TEXT.laDerniereVagueLeRoiATroisTetes
+        ? TEXT.laDerniereVagueKingSnakeApproche
         : fill(TEXT.vagueNDefendsLeCamp, this.wave);
     return true;
   }

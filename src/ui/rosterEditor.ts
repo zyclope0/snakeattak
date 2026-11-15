@@ -7,6 +7,7 @@ import { kinds, unlockWave } from '../data.ts';
 import type { Kind } from '../data.ts';
 import { byId, make } from './dom.ts';
 import { portrait } from './gameParts.ts';
+import { snakeIndexDoor } from './snakeIndexDoor.ts';
 import * as TEXT from '../texts/fr/guide.ts';
 import { fill } from '../texts/fill.ts';
 
@@ -99,6 +100,14 @@ export function bindRosterEditor(
     loadSlot();
     select.focus();
   };
+  // The allies on this page, their opponents one touch away.
+  byId('roster-page-status').after(
+    snakeIndexDoor(
+      'roster-all-snakes',
+      TEXT.tousLesSerpents,
+      TEXT.lesSerpentsNeSontPasArrivesReessaie,
+    ),
+  );
   byId('roster-back').onclick = actions.back;
   byId('roster-save').onclick = () => {
     if (fighting() || !career.setRoster(slot, draft)) return;

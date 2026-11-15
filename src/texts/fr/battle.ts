@@ -17,13 +17,13 @@ export const soigneAutourDeSonPlacementRetourne =
   'Soigne autour de son placement ; retourne au fort refaire ses bandages.';
 export const defenseFixeResteASonPlacement = 'Défense fixe : reste à son placement.';
 export const gardeSonSecteurPuisRevientASon = 'Garde son secteur, puis revient à son placement.';
-export const leRoiATroisTetesAPonduUnNouvelOeuf = 'Le roi à trois têtes a pondu un nouvel œuf !';
+export const kingSnakeAPonduUnNouvelOeuf = 'King Snake a pondu un nouvel œuf !';
 export const laProtectionDuCristalAAbsorbeN = 'La protection du cristal a absorbé {0} dégâts !';
 export const unSerpentAAtteintLeCamp = 'Un serpent a atteint le camp !';
 export const leCampEstTombeUneAutreStrategie = 'Le camp est tombé… Une autre stratégie ?';
 export const vagueRepousseeNPiecesPrepareLa = 'Vague repoussée ! +{0} pièces. Prépare la suite.';
 export const victoireNNEtoiles = 'Victoire ! {0} : {1} étoiles !';
-export const victoireLeRoiATroisTetesEstVaincu = 'Victoire ! Le roi à trois têtes est vaincu !';
+export const victoireKingSnakeEstVaincu = 'Victoire ! King Snake est vaincu !';
 export const leRoiArriveAvecSaGardeEtUnSoigneur =
   'Le roi arrive avec sa garde et un soigneur ! Chaque tête a son rôle.';
 export const desOeufsOntEclosDeNouveauxSerpents =
@@ -38,7 +38,7 @@ export const leMielColleAuxEcaillesLesSerpents =
 export const leGouterEstServiLesSerpents =
   'Le goûter est servi ! Les serpents gourmands sont tentés de changer de voie.';
 export const nRejointLeCamp = '{0} rejoint le camp !';
-export const laDerniereVagueLeRoiATroisTetes = 'La dernière vague ! Le roi à trois têtes approche…';
+export const laDerniereVagueKingSnakeApproche = 'La dernière vague ! King Snake approche…';
 export const vagueNDefendsLeCamp = 'Vague {0} : défends le camp !';
 export const coordonneesDeCampInvalides = 'Coordonnées de camp invalides';
 export const aucunePlaceLibreDansLeCamp = 'Aucune place libre dans le camp';

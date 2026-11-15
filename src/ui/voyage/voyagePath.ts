@@ -82,7 +82,7 @@ function sticker(caprice: CapriceDefinition, explain: PathActions['explain']) {
 function king() {
   const picture = make('img', { className: 'stop-king' });
   picture.src = kingUrl;
-  setAttribute(picture, 'alt', TEXT.leRoiATroisTetes);
+  setAttribute(picture, 'alt', TEXT.kingSnake);
   return picture;
 }
 
