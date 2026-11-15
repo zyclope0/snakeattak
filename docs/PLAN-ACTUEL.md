@@ -19,9 +19,10 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 - **Build release optimisé** : R8 activé pour répondre à deux remarques de la Play Console.
   **Jamais construit** : à vérifier sur un build release installé avant tout envoi
   ([Android](ANDROID.md)).
-- **Ménage du 15 novembre** : CI en quatre tâches parallèles, une seule fois par commit ;
+- **Ménage du 15 novembre** : CI en cinq tâches parallèles, une seule fois par commit ;
   diagnostic de performance chargé à la demande (paquet principal 189,6 Ko sur 200) ;
-  scripts et recettes morts retirés ; ce plan ramené à une page.
+  scripts et recettes morts retirés, recettes vivantes mises dans la CI ; ce plan ramené à une
+  page.
 
 ## Ce qui n'est pas vérifié
 

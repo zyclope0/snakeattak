@@ -1,5 +1,5 @@
 name: Verify game
-# Une fois par commit : à chaque PR, et sur main après une fusion. Quatre tâches en
+# Une fois par commit : à chaque PR, et sur main après une fusion. Cinq tâches en
 # parallèle au lieu d'une file de 17 étapes : la plus longue fixe la durée de l'ensemble.
 on:
   push:
@@ -34,7 +34,8 @@ jobs:
       - run: npm run test:family
       - run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser
   recettes:
-    # Les recettes navigateur, réparties en trois groupes de durée voisine.
+    # Les recettes navigateur, réparties en groupes. `test:render` reste un outil à lancer à
+    # la main : il mesure une vitesse, qui dépend de la machine.
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -50,6 +51,12 @@ jobs:
             recettes: test:locale test:caprices
           - groupe: menus
             recettes: test:mobile-menus
+          # Les recettes des premières versions qui passent encore : hors de la CI, quatorze
+          # autres avaient pourri sans que personne le voie.
+          - groupe: règles et rendu
+            recettes: >-
+              test:rewards test:journey test:missions:regressions test:medical-persistence
+              test:stage test:render-settings test:tactical
     name: recettes (${{ matrix.groupe }})
     steps:
       - uses: actions/checkout@v4
