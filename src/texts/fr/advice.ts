@@ -99,3 +99,5 @@ export const lesAutresVoiesRestentPaisibles = 'Les autres voies restent paisible
 export const lesTroisVoiesSontAttaquees = 'Les trois voies sont attaquées.';
 export const attaquee = 'attaquée';
 export const paisiblePourCetteVague = 'paisible pour cette vague';
+export const tousLesSerpents = 'Tous les serpents';
+export const lesSerpentsNeSontPasArrivesReessaie = 'Les serpents ne sont pas arrivés. Réessaie.';

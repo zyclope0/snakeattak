@@ -1227,3 +1227,25 @@ endroits où Android le veut.
 Les mots des codes (`AVENTURE`, `PONTS`, `VOYAGE`…) restent dans les catalogues : un enfant
 les lit et les recopie. Ils font aussi partie du format des codes : les traduire ou les
 changer rendrait illisibles les codes déjà donnés.
+
+## Index des serpents — 15 novembre 2026
+
+Idée du fils : un index qui montre tous les serpents. Aucune règle nouvelle, aucune image
+nouvelle : l'index réunit ce que le jeu savait déjà.
+
+- **`src/ui/snakeIndex/`** est un paquet chargé à la demande (1,8 Ko), comme le voyage et la
+  confidentialité : `snakeIndex.ts` construit la fenêtre, `snakeEntries.ts` donne la liste.
+- **Les fiches** sont celles de la fenêtre « Dangers » (`renderThreatCards`,
+  `THREAT_DETAILS`) : portrait, nom, ce que fait le serpent. L'index y ajoute la vague où
+  l'enfant le rencontre dans la grande aventure, et la fiche de l'œuf.
+- **La vague vient des règles** : `snakeEntries()` interroge `waveThreats` pour les douze
+  vagues. Une vague qui change déplace ses serpents dans l'index sans rien retaper.
+- **Deux portes**, faites par `snakeIndexDoor` (`src/ui/snakeIndexDoor.ts`, seul morceau
+  chargé avec le jeu) : dans « Dangers », à côté de « Retour au camp », et dans « Favoris »,
+  dans la rangée des pages. Si le paquet n'arrive pas, le bouton le dit et redemande au
+  prochain toucher.
+- Textes dans `src/texts/fr/snakeIndex.ts` et son miroir anglais.
+
+Vérifié par `tests/snake-index.test.ts` (chaque serpent une fois, dans l'ordre de
+l'aventure, King Snake en dernier) et par la recette `test:threat-preparation` (quatorze
+fiches avec leur portrait, bouton de 48 px, la fenêtre « Dangers » reste ouverte dessous).

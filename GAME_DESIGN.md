@@ -202,6 +202,9 @@ Interface :
 
 10. **Un index des serpents**, comme un petit wiki. Aujourd'hui : il existe des fiches pour
     les alliés, rien pour les serpents.
+    **Fait le 15 novembre 2026** : « Tous les serpents » montre les treize serpents et
+    l'œuf, avec ce que fait chacun et la vague où il arrive. Il s'ouvre depuis « Dangers »
+    pendant une partie et depuis « Favoris ». Aucune règle ni image nouvelle.
 11. **Voir ses unités plus vite.** Les favoris lui plaisent, mais il faut trop de touchers
     pour voir tous les alliés. Il accepte que la solution actuelle soit peut-être la moins
     mauvaise.

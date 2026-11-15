@@ -33,6 +33,8 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   de 800) pour ramener le plateau ou une récompense à l'écran. **À essayer sur le téléphone.**
 - **Carte d'une mission** : les noms des voies sont dans la police du jeu (ils étaient en
   Arial). Ils restent très petits sur téléphone : à regarder avec les enfants.
+- **Index des serpents** (idée du fils) : « Tous les serpents », treize serpents et l'œuf,
+  depuis « Dangers » et depuis « Favoris ». Pas encore montré aux enfants.
 
 ## Ce qui n'est pas vérifié
 

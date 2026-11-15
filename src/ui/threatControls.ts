@@ -7,6 +7,7 @@ import { pauseForDialog } from './dialogs.ts';
 import { currentWaveThreats, threatAdvice } from './threatPreview.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
 import { byId, make } from './dom.ts';
+import { snakeIndexDoor } from './snakeIndexDoor.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 import { fill } from '../texts/fill.ts';
 
@@ -30,6 +31,13 @@ export function bindThreatControls(session: Session, refresh: () => void) {
     byId('threat-title').focus({ preventScroll: true });
   };
   byId('threat-close').onclick = modal.close;
+  byId('threat-close').after(
+    snakeIndexDoor(
+      'threat-all-snakes',
+      TEXT.tousLesSerpents,
+      TEXT.lesSerpentsNeSontPasArrivesReessaie,
+    ),
+  );
   return () => {
     const game = session.game;
     button.hidden = game.status !== 'preparing' || game.wave >= game.totalWaves;

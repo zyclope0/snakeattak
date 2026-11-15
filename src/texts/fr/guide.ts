@@ -24,3 +24,5 @@ export const fixe = 'Fixe';
 export const tresRapide = 'Très rapide';
 export const rapide = 'Rapide';
 export const lente = 'Lente';
+export const tousLesSerpents = 'Tous les serpents';
+export const lesSerpentsNeSontPasArrivesReessaie = 'Les serpents ne sont pas arrivés. Réessaie.';

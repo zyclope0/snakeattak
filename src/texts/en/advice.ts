@@ -98,3 +98,5 @@ export const lesAutresVoiesRestentPaisibles = 'The other lanes stay peaceful.';
 export const lesTroisVoiesSontAttaquees = 'All three lanes are under attack.';
 export const attaquee = 'under attack';
 export const paisiblePourCetteVague = 'peaceful this wave';
+export const tousLesSerpents = 'All the snakes';
+export const lesSerpentsNeSontPasArrivesReessaie = 'The snakes did not arrive. Try again.';

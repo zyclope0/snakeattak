@@ -127,6 +127,24 @@ try {
     await page.locator('#wave-threats').click();
     await onScreen(page.locator('#threat-close'), page, 'Close');
     assert.ok((await page.locator('#wave-threat-list [data-threat] .enemy-portrait').count()) > 0);
+    // The index of the snakes opens over the dangers: every snake and the egg, each with
+    // its portrait, and a way back that a finger can press.
+    await onScreen(page.locator('#threat-all-snakes'), page, 'All the snakes');
+    await page.locator('#threat-all-snakes').click();
+    await page.locator('#snake-index-dialog').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('.snake-entry').count(), 14, 'thirteen snakes and the egg');
+    assert.equal(await page.locator('.snake-entry .enemy-portrait').count(), 14);
+    assert.equal(
+      await page.locator('.snake-entry [data-threat="king"] strong').innerText(),
+      'King Snake',
+    );
+    await onScreen(page.locator('#snake-index-close'), page, 'Close the index');
+    await page.screenshot({
+      path: `artifacts/threat-preparation-036/index-${width}-${safe[1]}.png`,
+    });
+    await page.locator('#snake-index-close').click();
+    await page.locator('#snake-index-dialog').waitFor({ state: 'hidden' });
+    assert.equal(await page.locator('#threat-dialog').isVisible(), true, 'the dangers stay open');
     await page.screenshot({
       path: `artifacts/threat-preparation-036/threats-${width}-${safe[1]}.png`,
     });
