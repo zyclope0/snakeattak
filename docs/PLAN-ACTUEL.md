@@ -14,18 +14,27 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   « Publier le site ». Politique de confidentialité publique à `/confidentialite`. L'ancien
   site `…chatgpt.site` reste en ligne et affiche l'avis de migration. [Site](SITE.md).
 
-## Optimisation dans `main`, livraison62 sur PR58
+## Dans le build 62
 
 - **Build release optimisé** : R8 activé pour répondre à deux remarques de la Play Console.
-  Le candidat62 est construit/signé, mapping embarqué, verify717 et navigateur verts.
+  Le build 62 est construit et signé, mapping embarqué, verify et navigateur verts.
   **Recette native passée selon le compte rendu du parent** sur Android15 x86_64/WHPX :
   hors ligne, victoire, reprise61→62, sauvegarde, Voyage, confidentialité et marges système.
   Aucun crash/ANR ; échec cloud non reproduit. Preuves conservées dans sa session Windows,
-  non accessibles ici. PR58 ouverte ; aucun envoi, fusion ou publication ([Android](ANDROID.md)).
+  non accessibles ici. PR 58 fusionnée le 15 novembre avec l'accord du parent ; aucun envoi à
+  Play ni publication du site ([Android](ANDROID.md)).
 - **Ménage du 15 novembre** : CI en cinq tâches parallèles, une seule fois par commit ;
   diagnostic de performance chargé à la demande (paquet principal 189,6 Ko sur 200) ;
   scripts et recettes morts retirés, recettes vivantes mises dans la CI ; ce plan ramené à une
   page.
+
+## Dans `main`, pas dans le build 62
+
+Le paquet 62 a été construit avant ces lots : ils attendent le **build 63**, à construire
+depuis `main`. Le site est publié depuis `main` : le publier en même temps que le build 63,
+parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans le build 62
+([bilan de la révision 3](BILAN-REVISION-3.md), « À savoir avant de publier »).
+
 - **Rien en dur (15 novembre)** : textes, clés de stockage, nombres du jeu, repères du
   plateau, limites et couches du dessin ont chacun un nom et un seul lieu ; aucune valeur ni
   aucun texte n'a changé ([bilan](BILAN-NETTOYAGE-2026-11.md), « Rien en dur »).
@@ -52,9 +61,11 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 - **Le voyage avec les enfants.** Réglé sur des joueurs automatiques, puis figé à la
   publication. Les simulations disent qu'un joueur « apprenti » tombe devant le roi trois
   fois sur quatre. Aucune séance d'enfant n'est notée dans le dépôt.
-- **Le build 61 sur le téléphone** : le parent essaie les builds sur son Galaxy
-  S24 (derniers retours notés : build 50 et 13 novembre) ; rien n'est noté pour le voyage, la
-  fenêtre de confidentialité, ni l'ouverture de ses liens.
+- **Le build 62 sur le téléphone** : essayé par le parent sur un émulateur Android 15, pas
+  sur son Galaxy S24 (derniers retours notés sur le téléphone : build 50 et 13 novembre) ;
+  la mise à jour distribuée par Play n'est pas essayée non plus.
+- **Les lots d'après le build 62** (King Snake, index des serpents, catalogue en un écran,
+  œuf de plus) : dans aucun build, jamais vus sur un téléphone ni par les enfants.
 - **Le site** : contrôlé automatiquement à la publication ; pas encore noté comme ouvert et
   joué par une personne sur le nouveau domaine.
 - **L'anglais** : pas relu par une personne.
@@ -65,9 +76,10 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
    tombent, si la marche devant le roi les décourage, combien de temps dure un voyage, ce
    qu'ils redemandent. C'est ce qui décide du point 4.
 2. **Fiche Play** : mettre `https://snakeattacktd.com/confidentialite` comme adresse de
-   confidentialité, puis importer l'AAB62 dans le canal interne après intégration de PR58.
-   Le premier release optimisé a passé la checklist sur l'émulateur accéléré selon le
-   parent ; mise à jour via Play et confort du build62 sur S24 restent à contrôler.
+   confidentialité, puis importer l'AAB62 dans le canal interne. Le premier release
+   optimisé a passé la checklist sur l'émulateur accéléré selon le parent ; mise à jour via
+   Play et confort du build62 sur S24 restent à contrôler. Ensuite, **build 63** (Codex)
+   depuis `main` pour les ajouts du fils, à essayer sur le téléphone avec les enfants.
 3. **Préparer le test fermé** : Google demande à un compte personnel 12 testeurs pendant 14
    jours avant la production. Il faut une fiche à jour (textes et captures du jeu actuel ; le
    dossier [publication/](publication/) décrit encore la 0.32.4) et une décision du parent sur
