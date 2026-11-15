@@ -5,8 +5,15 @@ Décision du parent, 14 novembre 2026 : le site du jeu quitte
 hébergement Web classique d'Infomaniak, publié à la main depuis Git par GitHub Actions.
 L'ancien site reste en ligne pendant la transition : personne ne le supprime dans ce lot.
 
-**Rien n'est encore en ligne sur le nouveau domaine.** Ce document décrit ce qui est prêt
-dans le dépôt, ce que le parent doit faire une fois, et ce qui n'a pas pu être essayé.
+**En ligne depuis le 15 novembre 2026.** Première publication réussie du premier coup,
+depuis `main` au commit `7d30a84` (lancement n° 1 de « Publier le site »). Le contrôle du
+site en ligne a tout trouvé conforme : page et script servis, en-têtes de sécurité, cache
+long des fichiers à empreinte, `version.json` au bon commit, politique identique octet pour
+octet à celle du dépôt, `/confidentialite` renvoyé vers `/confidentialite/`, `http://` et
+`www.` renvoyés vers `https://snakeattacktd.com`, aucun cookie.
+
+Ce document décrit ce que le build produit, ce qui a été réglé une fois chez Infomaniak et
+dans GitHub, comment publier et revenir en arrière, et ce qui reste à vérifier.
 
 ## Ce que le build produit
 
@@ -31,7 +38,12 @@ L'adresse du site est écrite à un seul endroit, `src/site.ts`.
   `/confidentialite/` et sert la page. Le jeu n'a qu'une page, il n'y a pas d'autre adresse à
   actualiser.
 
-## À faire une fois par le parent
+## Réglé une fois par le parent (15 novembre 2026)
+
+Fait : site `snakeattacktd.com` créé sur l'hébergement (Apache, sans application), `www` en
+alias, certificat Let's Encrypt installé, adresses A et AAAA ajoutées à la zone DNS sans
+toucher à la messagerie, compte FTP + SSH de déploiement avec une clé ed25519, quatre
+secrets dans GitHub. Les étapes, pour les refaire ou changer de clé :
 
 1. **Infomaniak, Manager** : créer le site `snakeattacktd.com` sur l'hébergement Web, activer
    le certificat SSL gratuit, et noter le dossier du site (souvent `sites/snakeattacktd.com`).
@@ -169,9 +181,12 @@ pour mot de la page publiée le 14 novembre 2026. La page publique
 
 ## Ce qui n'est pas vérifié
 
-- Aucune publication sur Infomaniak : ni le `.htaccess` sur un vrai Apache, ni rsync sur
-  l'hébergement, ni le certificat, ni les redirections réelles. Le premier lancement du
-  workflow est le premier essai ; son dernier pas dit ce qui ne va pas.
+- Le site n'a pas été ouvert ni joué par une personne sur le nouveau domaine : le contrôle
+  est automatique (réponses, en-têtes, redirections, texte de la politique).
+- Le contenu réel des journaux de l'hébergeur (`ik-logs`) n'a pas été lu ; la section « Site
+  web » de la politique s'appuie sur la documentation d'Infomaniak.
 - La fenêtre de l'application sur le Galaxy S24 et l'ouverture des liens depuis l'APK.
 - Les liens de la fiche Google Play : à remplacer par le parent ou Codex par
-  `https://snakeattacktd.com/confidentialite` une fois le site en ligne et contrôlé.
+  `https://snakeattacktd.com/confidentialite`.
+- Les familles de l'ancien site ne sont pas encore prévenues, et l'ancien site sert toujours
+  son ancienne page de confidentialité, sans la section « Site web ».
