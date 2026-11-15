@@ -206,6 +206,21 @@ Interface :
     pour voir tous les alliés. Il accepte que la solution actuelle soit peut-être la moins
     mauvaise.
 
+Précisions du fils, le même jour :
+
+- **Le boss s'appelle « King Snake »** et a l'allure d'un cobra royal à trois têtes. Le nom
+  est le sien : il reste tel quel en français comme en anglais.
+- **Le serpent ninja** est aussi rapide que le Ninja, et parfois il se téléporte dans le dos
+  d'un personnage.
+- **La sauterelle** n'attaque pas dans le dos de tous les personnages : elle saute derrière
+  les lignes. Ensuite, si le cristal est le plus proche, elle va sur le cristal ; sinon elle
+  attaque les personnages qui sont entre le cristal et elle.
+- **Dinosaures** : il laisse l'équilibrage pierre-feuille-ciseaux à faire, le spinosaure
+  restant le meilleur.
+- **Le boss caché** se débloque en touchant des pommes qui apparaissent discrètement tout au
+  long de l'aventure.
+- **L'index** montre tous les serpents, pas seulement ceux déjà rencontrés.
+
 À respecter en les instruisant : les soldats restent autonomes et aucun mort ne revient ; un
 serpent qui tue d'un coup doit rester rare, fragile et annoncé ; le boss caché se débloque
 en jouant, jamais par un retour quotidien ni un minuteur ; l'hommage au jeu du serpent se
