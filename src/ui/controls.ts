@@ -1,4 +1,3 @@
-import { bindCatalogPages } from './catalogPages.ts';
 import { bindBattleResult } from './battleResult.ts';
 import { bindThreatControls } from './threatControls.ts';
 import { bindCampToolHelp } from './campToolHelp.ts';
@@ -48,9 +47,8 @@ export function bindControls(
   forwardClick('pause-home', 'menu-home');
   bindDisplay();
   const catalogue = bindReinforcementsDrawer(session, refresh);
-  const pages = bindCatalogPages(refresh);
   bindVisualSettings();
-  const shop = bindRecruitShop(session, pages, refresh);
+  const shop = bindRecruitShop(session, refresh);
   const refreshSquad = bindSquadControls(session, career, refresh);
   const refreshAdventure = bindAdventureControls(session, refresh, catalogue.actionsPaused);
   const refreshFeast = bindFeastControls(session, refresh, catalogue.actionsPaused);

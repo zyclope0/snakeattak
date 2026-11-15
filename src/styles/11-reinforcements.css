@@ -216,11 +216,6 @@
     font-size: 11px;
     line-height: 14px;
   }
-  #reinforcements .shop-family select {
-    min-height: 48px;
-    padding-inline: 3px;
-    font-size: 11px;
-  }
   #reinforcements #shop .unit-card {
     min-height: 76px;
     padding: 4px 3px;
