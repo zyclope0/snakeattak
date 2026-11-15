@@ -99,13 +99,15 @@ export function encodeDeparture(departure: Departure): string {
   return `${word}-${rule}-${payload.slice(0, 4)}-${payload.slice(4)}-${suffix ? `${suffix}-` : ''}${checksum(word, payload, rule, suffix)}`;
 }
 
+/** Far longer than any code, even typed with stray spaces: the rest is not read at all. */
+export const DEPARTURE_INPUT_LIMIT = 96;
 const WRITTEN_CODE = /^([A-Z]+)-(\d)-([A-Z0-9]{4})-([A-Z0-9]{4})-(?:([A-Z0-9]{2})-)?([A-Z0-9]{2})$/;
 const CHALLENGE_SUFFIX = /^[SC][123]$/;
 /** A code that is written correctly: its fields, with the payload as a number. */
 type WrittenCode = { ok: true; word: string; rule: Rule; suffix: string; value: number };
 
 function splitCode(raw: unknown): WrittenCode | Refusal {
-  if (typeof raw !== 'string' || raw.length > 96) return refused('format');
+  if (typeof raw !== 'string' || raw.length > DEPARTURE_INPUT_LIMIT) return refused('format');
   const match = WRITTEN_CODE.exec(tidyCode(raw));
   if (!match) return refused('format');
   const [, word, rule, a, b, suffix = '', check] = match;

@@ -1,4 +1,5 @@
-import { PLAYERS_KEY, nicknameFromInput, suggestedCharacter } from '../players.ts';
+import { nicknameFromInput, suggestedCharacter } from '../players.ts';
+import { PLAYERS_KEY } from '../storageKeys.ts';
 import type { Player, PlayerCharacter, PlayerId } from '../players.ts';
 import './players.css';
 import { createPlayerList, type PlayerListOptions } from './playerList.ts';

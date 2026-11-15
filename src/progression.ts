@@ -1,10 +1,11 @@
 import type { Game } from './game.ts';
-import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
+import { CAMP_CHARACTER_LIMIT, decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
 import type { StoragePort } from './checkpoints.ts';
 import { freshRosters, isRoster } from './roster.ts';
 import type { Roster } from './roster.ts';
 import { isMilestone } from './rewards.ts';
 import { isArrayOfLength, isRecord, isStarCount, readBoundedJson } from './plainData.ts';
+import { CAREER_STORAGE_KEY } from './storageKeys.ts';
 import * as TEXT from './texts/fr/adventure.ts';
 
 export type CareerState = {
@@ -14,9 +15,7 @@ export type CareerState = {
   activeRoster: 0 | 1 | 2;
   chapterCamps: [string | null, string | null];
 };
-export const CAREER_STORAGE_KEY = 'conquete-serpents:progress:v1';
 const PROFILE_LIMIT = 250000;
-const CAMP_LIMIT = 100000;
 const slotIndex = (slot: unknown): slot is 0 | 1 | 2 => slot === 0 || slot === 1 || slot === 2;
 const freshState = (): CareerState => ({
   version: 1,
@@ -34,7 +33,7 @@ const copyState = (state: CareerState): CareerState => ({
 });
 /** A chapter camp is the camp of wave 4 (slot 0) or 8 (slot 1) with its reward still to choose. */
 function readCamp(raw: unknown, slot: number): Game | null {
-  if (typeof raw !== 'string' || raw.length > CAMP_LIMIT) return null;
+  if (typeof raw !== 'string' || raw.length > CAMP_CHARACTER_LIMIT) return null;
   const game = decodeCheckpoint(raw);
   const wave = slot === 0 ? 4 : 8;
   return game?.wave === wave && game.rewards.pending === wave ? game : null;

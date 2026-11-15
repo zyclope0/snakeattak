@@ -1,10 +1,5 @@
-import {
-  getLanguage,
-  LANGUAGE_KEY,
-  onLanguageChange,
-  selectInitialLanguage,
-  setLanguage,
-} from './language.ts';
+import { getLanguage, onLanguageChange, selectInitialLanguage, setLanguage } from './language.ts';
+import { LANGUAGE_KEY } from '../storageKeys.ts';
 import { bindCopyTree, setAttribute, setText } from './dom.ts';
 import { make } from '../ui/dom.ts';
 import { settingsList } from '../ui/settingsDialog.ts';

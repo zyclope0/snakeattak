@@ -3,6 +3,8 @@ import type { Kind } from './data.ts';
 import * as TEXT from './texts/fr/allies.ts';
 
 export type Roster = Kind[];
+/** A team of favourites always holds this many different allies. */
+export const ROSTER_SIZE = 8;
 // Favourites only: recruitment still uses Game's prices, placement and wave locks.
 export const DEFAULT_ROSTERS: [Roster, Roster, Roster] = [
   ['club', 'shield', 'nurse', 'archer', 'ninja', 'medic', 'dragon', 'knight'],
@@ -19,10 +21,10 @@ export const freshRosters = (): [Roster, Roster, Roster] => [
 export function isRoster(raw: unknown): raw is Roster {
   return (
     Array.isArray(raw) &&
-    raw.length === 8 &&
+    raw.length === ROSTER_SIZE &&
     [...raw].every(
       (kind) => typeof kind === 'string' && kind !== 'hero' && Object.hasOwn(kinds, kind),
     ) &&
-    new Set(raw).size === 8
+    new Set(raw).size === ROSTER_SIZE
   );
 }

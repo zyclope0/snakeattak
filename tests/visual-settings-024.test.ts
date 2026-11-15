@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createVisualSettings, VISUAL_SETTINGS_KEY } from '../src/render/visualSettings.ts';
+import { createVisualSettings } from '../src/render/visualSettings.ts';
+import { VISUAL_SETTINGS_KEY } from '../src/storageKeys.ts';
 
 test('la préférence visuelle se conserve séparément des sauvegardes du jeu', () => {
   const entries = new Map<string, string>();

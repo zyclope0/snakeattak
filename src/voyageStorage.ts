@@ -1,4 +1,5 @@
 import { isIntegerIn, isRecord, readBoundedJson } from './plainData.ts';
+import { VOYAGE_STORAGE_KEY } from './storageKeys.ts';
 import { readVoyageState } from './voyageState.ts';
 import type { VoyageState } from './voyageState.ts';
 import { VOYAGE_TUNINGS } from './voyageTuning.ts';
@@ -9,7 +10,6 @@ import { VOYAGE_TUNINGS } from './voyageTuning.ts';
  * the active player's storage, and deleting a player removes it. Nothing leaves the device
  * and nothing compares two children.
  */
-export const VOYAGE_STORAGE_KEY = 'conquete-serpents:voyage:v1';
 // A log is a few dozen characters; anything much longer was not written by the game.
 const LOG_LIMIT = 2000;
 /** The longest voyage of any version of the rules: a record cannot be longer. */

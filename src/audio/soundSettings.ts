@@ -1,4 +1,5 @@
-export const SOUND_SETTINGS_KEY = 'conquete-serpents:sound:v1';
+import { SOUND_SETTINGS_KEY } from '../storageKeys.ts';
+
 type SoundStorage = Pick<Storage, 'getItem' | 'setItem'>;
 
 /**

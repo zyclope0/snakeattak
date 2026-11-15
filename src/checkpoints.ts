@@ -15,10 +15,11 @@ import {
   isArrayOfLength,
   readBoundedJson,
 } from './plainData.ts';
+import { CAMP_STORAGE_KEY } from './storageKeys.ts';
 import * as TEXT from './texts/fr/saves.ts';
 
-export const CAMP_STORAGE_KEY = 'conquete-serpents:camp:v1';
-const LIMIT = 100000;
+/** A saved camp is never longer: anything beyond was not written by the game. */
+export const CAMP_CHARACTER_LIMIT = 100000;
 /** What the persistence needs from the browser storage; tests pass a double. */
 export type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
 
@@ -122,7 +123,7 @@ export function encodeCheckpoint(game: Game): string | null {
     units.push(saved);
   }
   const raw = JSON.stringify(saveDocument(game, version, units));
-  return raw.length <= LIMIT ? raw : null;
+  return raw.length <= CAMP_CHARACTER_LIMIT ? raw : null;
 }
 
 /** A parsed save whose own counters are within bounds; the rest is still unknown. */
@@ -302,7 +303,7 @@ function readCheckpoint(data: unknown): Game | null {
 }
 
 export function decodeCheckpoint(raw: string): Game | null {
-  return readBoundedJson(raw, LIMIT, readCheckpoint);
+  return readBoundedJson(raw, CAMP_CHARACTER_LIMIT, readCheckpoint);
 }
 
 /** Storage failures are local UX failures, never simulation failures. No network involved. */

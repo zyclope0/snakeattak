@@ -1,6 +1,7 @@
 import type Phaser from 'phaser';
 import type { Presentation, Spark } from './presentation.ts';
-import { shakeBoard } from './boardResolution.ts';
+import { BOARD_WIDTH, BOARD_HEIGHT, shakeBoard } from './boardResolution.ts';
+import { nextSeed, seedShare } from '../seededRandom.ts';
 
 const CAPACITY = 40;
 const PUFF = 1,
@@ -21,8 +22,8 @@ export function coinTarget(
   counter: { left: number; top: number; width: number; height: number } | undefined,
 ) {
   if (!counter || !(canvas.width > 0) || !(canvas.height > 0)) return { x: 60, y: 12 };
-  const x = ((counter.left + counter.width / 2 - canvas.left) / canvas.width) * 1100,
-    y = ((counter.top + counter.height / 2 - canvas.top) / canvas.height) * 620;
+  const x = ((counter.left + counter.width / 2 - canvas.left) / canvas.width) * BOARD_WIDTH,
+    y = ((counter.top + counter.height / 2 - canvas.top) / canvas.height) * BOARD_HEIGHT;
   return { x: Math.max(16, Math.min(1084, x)), y: Math.max(12, Math.min(608, y)) };
 }
 
@@ -55,8 +56,8 @@ export class BattleJuice {
     this.graphics = scene.add.graphics().setDepth(21);
   }
   private random() {
-    this.seed = (Math.imul(this.seed, 1664525) + 1013904223) >>> 0;
-    return this.seed / 4294967296;
+    this.seed = nextSeed(this.seed);
+    return seedShare(this.seed);
   }
   private spawn(
     kind: number,
@@ -247,7 +248,7 @@ function drawFallingConfetti(
   reduced: boolean,
 ) {
   for (let i = 0; i < 32; i++) {
-    const x = (i * 173 + 42) % 1100,
+    const x = (i * 173 + 42) % BOARD_WIDTH,
       y = reduced ? 80 + ((i * 37) % 450) : (i * 71 + clock * 42) % 580;
     g.fillStyle(i % 2 ? 0xeacd79 : 0xb9d795, 0.7 * rise);
     g.fillRect(x, y, 5, 9);

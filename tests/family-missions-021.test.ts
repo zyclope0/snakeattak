@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createCareer } from '../src/progression.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
-import { createFamilyPersistence, FAMILY_STORAGE_KEY } from '../src/familyPersistence.ts';
+import { createFamilyPersistence } from '../src/familyPersistence.ts';
+import { FAMILY_STORAGE_KEY } from '../src/storageKeys.ts';
 
 const progress = () => ({
   version: 1 as const,

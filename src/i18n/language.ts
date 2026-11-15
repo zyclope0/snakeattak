@@ -1,5 +1,4 @@
 export type Language = 'fr' | 'en';
-export const LANGUAGE_KEY = 'conquete-serpents:language:v1';
 let current: Language = 'fr';
 let catalogue: Readonly<Record<string, string>> = {};
 let englishLoad: Promise<void> | undefined;

@@ -1,5 +1,5 @@
 import { setText } from '../../i18n/dom.ts';
-import { decodeVoyage } from '../../voyageCode.ts';
+import { VOYAGE_INPUT_LIMIT, decodeVoyage } from '../../voyageCode.ts';
 import type { VoyageVersion } from '../../voyageTuning.ts';
 import { bindCopyButton } from '../departures.ts';
 import { make } from '../dom.ts';
@@ -44,7 +44,7 @@ export function giftWindow(): (code: string) => void {
 function codeForm(take: (seed: number, version: VoyageVersion) => void) {
   const input = make('input', { id: 'voyage-code-input', className: 'departure-value' });
   input.type = 'text';
-  input.maxLength = 64;
+  input.maxLength = VOYAGE_INPUT_LIMIT;
   input.autocomplete = 'off';
   input.autocapitalize = 'characters';
   input.spellcheck = false;

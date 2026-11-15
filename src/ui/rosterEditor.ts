@@ -1,7 +1,7 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
-import { ROSTER_NAMES } from '../roster.ts';
+import { ROSTER_NAMES, ROSTER_SIZE } from '../roster.ts';
 import { kinds, unlockWave } from '../data.ts';
 import type { Kind } from '../data.ts';
 import { byId, make } from './dom.ts';
@@ -11,7 +11,6 @@ import { fill } from '../texts/fill.ts';
 
 type Career = ReturnType<typeof createCareer>;
 const PAGE_SIZE = 6;
-const ROSTER_SIZE = 8;
 
 /** One ally of the « Favoris » page: portrait, name, and the wave that brings it. */
 function rosterCard(kind: Kind) {

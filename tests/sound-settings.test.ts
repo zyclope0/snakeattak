@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createSoundSettings, SOUND_SETTINGS_KEY } from '../src/audio/soundSettings.ts';
+import { createSoundSettings } from '../src/audio/soundSettings.ts';
+import { SOUND_SETTINGS_KEY } from '../src/storageKeys.ts';
 
 const memory = (initial?: string) => {
   const data = new Map<string, string>(

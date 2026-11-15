@@ -1,6 +1,7 @@
 import type { Level } from '../levels.ts';
 import { laneRoad, junctionRoad, routeJunctions } from '../routes.ts';
 import { LANES } from '../ai.ts';
+import { seededStream } from '../seededRandom.ts';
 
 /** Pure presentation palette; all maps share the readable layout. */
 export function stageTheme(level: Level) {
@@ -56,11 +57,7 @@ export type StageProp = {
 
 /** Bounded rejection sampling (Poisson distance), in a separate cosmetic stream. */
 export function stageComposition(level: Level, seed: number) {
-  let state = (seed ^ 0x73616765 ^ (level.layout?.junctions[0] ?? 0)) >>> 0;
-  const random = () => {
-    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
-    return state / 4294967296;
-  };
+  const random = seededStream((seed ^ 0x73616765 ^ (level.layout?.junctions[0] ?? 0)) >>> 0);
   const roads = [0, 1, 2]
     .flatMap((lane) => laneRoad(lane, level))
     .concat(...routeJunctions(level).map((x) => junctionRoad(x, level)));

@@ -10,6 +10,7 @@ import { BAG_MILESTONE, STAGE_BAG_LIMIT } from './voyageRules.ts';
 import type { StageRules } from './voyageRules.ts';
 import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS, isVoyageVersion } from './voyageTuning.ts';
 import type { StageTuning, VoyageTuning, VoyageVersion } from './voyageTuning.ts';
+import { SEED_RANGE, seededStream } from './seededRandom.ts';
 
 /**
  * « Le voyage » : five stages drawn from a seed, like a world of a block game. A stage is
@@ -62,8 +63,7 @@ function mix(seed: number, salt: number): number {
 }
 /** A private random source: the fights never share it, so nothing here shifts a fight. */
 function stream(seed: number, salt: number): () => number {
-  let state = mix(seed, salt);
-  return () => (state = (Math.imul(state, 1664525) + 1013904223) >>> 0) / 4294967296;
+  return seededStream(mix(seed, salt));
 }
 const pick = <T>(random: () => number, list: readonly T[]): T =>
   list[Math.floor(random() * list.length)];
@@ -133,7 +133,7 @@ function drawStage(
   const random = stream(seed, STAGE + index);
   const last = index === tuning.stages.length - 1;
   const setup = missionSetup(Math.floor(random() * MISSION_SETUPS));
-  const fightSeed = Math.floor(random() * 4294967296);
+  const fightSeed = Math.floor(random() * SEED_RANGE);
   const candidates = surprises(missionId, tuning.stages[index], tuning, last, met);
   const caprice = candidates.length ? pick(random, candidates) : null;
   const run = readMissionRun({

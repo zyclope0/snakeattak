@@ -1,6 +1,7 @@
 import type { Kind } from './data.ts';
 import { isArrayOfLength, isNumberIn, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/rewards.ts';
+import { seededStream } from './seededRandom.ts';
 export type Milestone = 4 | 8;
 export const REWARDS = {
   'renfort-bouclier': {
@@ -50,8 +51,7 @@ export const freshRewards = (seed: number): RewardState => ({
 });
 /** Independent draw: opening an offer never consumes combat randomness. */
 export function rewardOffer(seed: number, milestone: Milestone): RewardId[] {
-  let state = (seed ^ Math.imul(milestone, 0x9e3779b9)) >>> 0;
-  const random = () => (state = (Math.imul(state, 1664525) + 1013904223) >>> 0) / 4294967296;
+  const random = seededStream((seed ^ Math.imul(milestone, 0x9e3779b9)) >>> 0);
   const shuffle = <T>(values: T[]) => {
     for (let i = values.length - 1; i > 0; i--) {
       const j = Math.floor(random() * (i + 1));
