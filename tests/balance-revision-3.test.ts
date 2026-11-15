@@ -22,9 +22,9 @@ import * as TEXT from '../src/texts/fr/battle.ts';
 
 // Third balance revision, 15 November 2026: an idea of the child (« more eggs when the game
 // lasts »), values chosen by the parent after 240 simulated games. Retyped on purpose.
-test('la révision 3 est la révision courante et garde les prix de la révision 2', () => {
-  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3]);
-  assert.equal(CURRENT_BALANCE_REVISION, 3);
+test('la révision 3 existe toujours et garde les prix de la révision 2', () => {
+  assert.ok(BALANCE_REVISIONS.includes(3));
+  assert.ok(CURRENT_BALANCE_REVISION >= 3);
   for (const kind of Object.keys(kinds) as Kind[])
     assert.equal(balanceRecruitPrice(kind, 3), balanceRecruitPrice(kind, 2), kind);
   assert.equal(lateEggRule(1), null);

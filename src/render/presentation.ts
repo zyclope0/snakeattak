@@ -34,7 +34,7 @@ export type Arrival = {
 };
 /** One-frame cosmetic cues for BattleJuice; rebuilt at every update. */
 export type Spark = { kind: 'ally' | 'egg' | 'coin' | 'boss' | 'dust'; x: number; y: number };
-type Snapshot = { x: number; y: number; hp: number; kind: Entity['kind'] };
+type Snapshot = { x: number; y: number; hp: number; kind: Entity['kind']; dodges: number };
 /** Visual seconds a blow keeps its pose. */
 export const ACTION_SECONDS = 0.55;
 /** Visual seconds before a fighter that was just hit can flash again. */
@@ -264,11 +264,15 @@ export class Presentation {
     const old = this.units.get(e.id);
     if (!old) {
       if (!fresh) this.welcome(e);
-      this.units.set(e.id, { x: e.x, y: e.y, hp: e.hp, kind: e.kind });
+      this.units.set(e.id, { x: e.x, y: e.y, hp: e.hp, kind: e.kind, dodges: e.dodges ?? 0 });
       return;
     }
     this.followWalk(e, old, dt);
     if (old.hp !== e.hp) this.watchHealth(e, old.hp);
+    // A ninja snake that lets a blow pass says so: nothing else shows that the blow missed.
+    const dodges = e.dodges ?? 0;
+    if (dodges < old.dodges) this.text(e.x, e.y - 62, TEXT.esquive, '#d9d4f2');
+    old.dodges = dodges;
     old.x = e.x;
     old.y = e.y;
     old.hp = e.hp;

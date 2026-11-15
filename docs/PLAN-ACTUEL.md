@@ -56,6 +56,12 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   pas. Mesuré sur 1 200 parties simulées : même taux de victoire, parties plus longues
   d'environ une minute. Le parent a revu quatre réglages sur 200 parties chacun et a gardé
   celui-ci ([bilan](BILAN-REVISION-3.md)). **Pas encore joué par les enfants.**
+- **Trois nouveaux serpents** (idées du fils) : « Grands crocs » (morsure double, dès la
+  vague 8), « Serpent rare » (très fragile, sa morsure fait tomber une Massue, vagues 8 et 11) et « Serpent ninja » (rapide, esquive le premier coup, dès la vague 6), dans la grande
+  aventure seulement. C'est la **révision d'équilibrage 4**. Le parent a choisi ce que fait le
+  ninja et accepté qu'un expert simulé gagne une partie sur deux (62 % → 52 %). **Noms et
+  images provisoires** : au fils de nommer, au parent de décider des dessins
+  ([bilan](BILAN-REVISION-4.md)). **Pas encore joué par les enfants.**
 
 ## Ce qui n'est pas vérifié
 
@@ -66,7 +72,8 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   sur son Galaxy S24 (derniers retours notés sur le téléphone : build 50 et 13 novembre) ;
   la mise à jour distribuée par Play n'est pas essayée non plus.
 - **Les lots d'après le build 62** (King Snake, index des serpents, catalogue en un écran,
-  œuf de plus) : dans aucun build, jamais vus sur un téléphone ni par les enfants.
+  œuf de plus, trois nouveaux serpents) : dans aucun build, jamais vus sur un téléphone ni
+  par les enfants.
 - **Le site** : contrôlé automatiquement à la publication ; pas encore noté comme ouvert et
   joué par une personne sur le nouveau domaine.
 - **L'anglais** : pas relu par une personne.

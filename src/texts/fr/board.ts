@@ -47,6 +47,7 @@ export const laVagueDureIlEclotBientot = 'La vague dure : il éclot bientôt.';
 export const phaseNProtection = 'Phase {0} : protection !';
 export const protectionBrisee = 'Protection brisée !';
 export const clac = 'Clac !';
+export const esquive = 'Esquive !';
 export const aLaRescousse = 'À la rescousse !';
 export const tombe = 'Tombé';
 export const unAllieEstTombe = 'Un allié est tombé';

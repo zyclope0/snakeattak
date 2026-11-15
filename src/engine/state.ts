@@ -26,6 +26,8 @@ export type Entity = Point & {
   nav: number;
   boss: boolean;
   bossState?: BossState;
+  /** Blows a ninja snake still dodges. Absent on every other fighter. */
+  dodges?: number;
   /** Carapace d'un caprice : plus lente, plus solide, blindée. Absente sinon. */
   shell?: true;
   medical?: MedicalState;

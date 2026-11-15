@@ -30,6 +30,11 @@ export function enemyPace(game: Game, e: Entity) {
 /** Tous les coups alliés passent ici : attribution du tueur, zone et seconde tête comprises. */
 export function hitEnemy(game: Game, source: Entity, target: Entity, damage: number) {
   if (target.hp <= 0) return;
+  // A ninja snake lets its first blow pass: nothing else happens to it.
+  if (target.dodges) {
+    target.dodges--;
+    return;
+  }
   const ranged = defenseRole(source.kind as Kind) === 'ranged';
   const state = ensureBossState(target, game.tuning);
   const unabsorbed = state

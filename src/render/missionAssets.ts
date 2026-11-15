@@ -52,7 +52,7 @@ function fightingTextures(game: Game): Set<string> {
   const variants = game.mission
     ? missionWave(game.mission, local, game.tuning.tacticalRulesEnabled).composition
     : Array.from({ length: waveStats(game.difficultyWave).count }, (_, i) =>
-        variantFor(game.difficultyWave, i + 1),
+        variantFor(game.difficultyWave, i + 1, game.balanceRevision),
       );
   for (const variant of variants) textures.add(ENEMY_ART[variant].texture);
   if (!game.mission && game.difficultyWave === TOTAL_WAVES) textures.add(KING_ART.texture);

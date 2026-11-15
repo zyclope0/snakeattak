@@ -80,6 +80,7 @@ test("une planche d'attaque a les cases de sa planche de repos", () => {
       ['allies-dinosaurs-attack', 'allies-dinosaurs'],
       ['serpents-family-attack', 'serpents-family'],
       ['allies-mutants-attack', 'allies-mutants'],
+      ['serpents-nouveaux-attack', 'serpents-nouveaux'],
     ],
   );
   // Chaque personnage et chaque serpent a sa pose ; les décors et les objets n'en ont pas.

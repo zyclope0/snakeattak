@@ -120,6 +120,37 @@ export const enemies = {
     tint: 0xabb5ce,
     scale: 0.95,
   },
+  // The three newcomers of the fourth balance revision (ideas of the child, 15 November 2026).
+  fang: {
+    name: TEXT.grandsCrocs,
+    hp: 1,
+    speed: 0.85,
+    damage: 2,
+    range: 44,
+    armor: 0,
+    tint: 0xff9d8a,
+    scale: 1.15,
+  },
+  rare: {
+    name: TEXT.serpentRare,
+    hp: 0.3,
+    speed: 1.1,
+    damage: 1,
+    range: 44,
+    armor: 0,
+    tint: 0xffe27a,
+    scale: 0.85,
+  },
+  shadow: {
+    name: TEXT.serpentNinja,
+    hp: 0.8,
+    speed: 1.4,
+    damage: 0.9,
+    range: 44,
+    armor: 0,
+    tint: 0x8a84b8,
+    scale: 0.95,
+  },
 } as const;
 export type EnemyKind = keyof typeof enemies;
 

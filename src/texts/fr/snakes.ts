@@ -10,6 +10,9 @@ export const cracheur = 'Cracheur';
 export const serpentASonnette = 'Serpent à sonnette';
 export const cobraRoyal = 'Cobra royal';
 export const mambaNoir = 'Mamba noir';
+export const grandsCrocs = 'Grands crocs';
+export const serpentRare = 'Serpent rare';
+export const serpentNinja = 'Serpent ninja';
 export const decouvrirLesTroisVoies = 'Découvrir les trois voies';
 export const repartisTesGardiensRetiensLesVifs =
   'Répartis tes gardiens, retiens les vifs en groupes et surveille les premières éclosions.';

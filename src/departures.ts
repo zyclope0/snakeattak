@@ -8,6 +8,8 @@ import {
 } from './missions.ts';
 import type { MissionRun } from './missions.ts';
 import type { Game } from './game.ts';
+import { isClassicRevision } from './balanceRevision.ts';
+import type { ClassicRevision } from './balanceRevision.ts';
 import { CAPRICE_TIERS, capriceById, capricesForMission } from './caprices.ts';
 import type { CapriceDefinition } from './caprices.ts';
 import { isOneOf, isUint32 } from './plainData.ts';
@@ -15,7 +17,7 @@ import { checkDigits, codeDigits, codeNumber, readLookalikes, tidyCode } from '.
 import * as TEXT from './texts/fr/adventure.ts';
 
 export type Departure =
-  | Readonly<{ kind: 'classic'; seed: number; balance?: 2 | 3 }>
+  | Readonly<{ kind: 'classic'; seed: number; balance?: 2 | ClassicRevision }>
   | Readonly<{ kind: 'mission'; run: MissionRun }>;
 type Refusal = { ok: false; reason: 'format' | 'version' | 'checksum' | 'setup' };
 type Result = { ok: true; departure: Departure } | Refusal;
@@ -31,10 +33,15 @@ const refused = (reason: Refusal['reason']): Refusal => ({ ok: false, reason });
  *   1  the great adventure or an expedition    2  the tutorial refuge only
  *   3  an expedition with a challenge          4  the second balance revision
  *   5  the third balance revision: the great adventure only, written like version 1
+ *   6  the fourth balance revision: the same
  * Setup 0 is the great adventure; 1 to 108 are the eighteen setups of each of the six
  * missions. Versions 3 and 4 keep one more bit for the tutorial rules of the refuge.
  */
-const RULES = ['1', '2', '3', '4', '5'] as const;
+const RULES = ['1', '2', '3', '4', '5', '6'] as const;
+/** The rule of each revision that exists in the great adventure only. */
+const CLASSIC_RULE: Readonly<Record<ClassicRevision, Rule>> = { 3: '5', 4: '6' };
+const classicRevisionOf = (rule: string): ClassicRevision | null =>
+  rule === '6' ? 4 : rule === '5' ? 3 : null;
 type Rule = (typeof RULES)[number];
 const hasTutorialBit = (rule: string) => rule === '3' || rule === '4';
 // The setup takes the low seven bits of the payload; the tutorial bit, when there is one,
@@ -80,13 +87,21 @@ function missionParts(raw: MissionRun): CodeParts {
     suffix: run.caprice ? challengeSuffix(run.caprice) : run.balance === 2 ? NO_CHALLENGE : '',
   };
 }
-function classicParts(departure: { seed: number; balance?: 2 | 3 }): CodeParts {
-  if (Object.hasOwn(departure, 'balance') && departure.balance !== 2 && departure.balance !== 3)
+function classicParts(departure: { seed: number; balance?: 2 | ClassicRevision }): CodeParts {
+  if (
+    Object.hasOwn(departure, 'balance') &&
+    departure.balance !== 2 &&
+    !isClassicRevision(departure.balance)
+  )
     throw new RangeError(TEXT.revisionInvalide);
   const second = departure.balance === 2;
   return {
     word: TEXT.aventure,
-    rule: departure.balance === 3 ? '5' : second ? '4' : '1',
+    rule: isClassicRevision(departure.balance)
+      ? CLASSIC_RULE[departure.balance]
+      : second
+        ? '4'
+        : '1',
     seed: departure.seed,
     config: 0,
     suffix: second ? NO_CHALLENGE : '',
@@ -145,12 +160,13 @@ export function decodeDeparture(raw: unknown): Result {
   if (hasChallenge && (config === 0 || !CHALLENGE_SUFFIX.test(suffix))) return refused('setup');
   if (config === 0) {
     if (word !== TEXT.aventure) return refused('setup');
-    const balance =
-      rule === '5' ? { balance: 3 as const } : rule === '4' ? { balance: 2 as const } : {};
+    const classic = classicRevisionOf(rule);
+    const balance = classic ? { balance: classic } : rule === '4' ? { balance: 2 as const } : {};
     return { ok: true, departure: Object.freeze({ kind: 'classic', seed, ...balance }) };
   }
-  // The third revision has no expedition: such a code was not written by the game.
-  if (rule === '5') return refused('setup');
+  // The third revision and the later ones have no expedition: such a code was not written
+  // by the game.
+  if (classicRevisionOf(rule)) return refused('setup');
   const slot = config - 1;
   const index = Math.floor(slot / MISSION_SETUPS);
   if (word !== words[index]) return refused('setup');
@@ -179,8 +195,8 @@ export function departureForGame(
     ? Object.freeze({
         kind: 'classic',
         seed: game.initialSeed,
-        ...(game.balanceRevision === 3
-          ? { balance: 3 as const }
+        ...(isClassicRevision(game.balanceRevision)
+          ? { balance: game.balanceRevision }
           : game.balanceRevision === 2
             ? { balance: 2 as const }
             : {}),

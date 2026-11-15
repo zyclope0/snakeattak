@@ -77,6 +77,8 @@ function traces(): Record<string, string> {
   out['classique r2'] = play(new Game(16838, undefined, undefined, 2), 5);
   // The same departure and the same player as the line above, under the third revision.
   out['classique r3'] = play(new Game(16838, undefined, undefined, 3), 5);
+  // And under the fourth: the three newcomers are in its waves.
+  out['classique r4'] = play(new Game(16838, undefined, undefined, 4), 5);
   out['classique sans règles tactiques'] = play(new Game(57, { tacticalRulesEnabled: false }), 2);
   let n = 0;
   for (const mission of MISSIONS) {

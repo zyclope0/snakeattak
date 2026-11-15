@@ -17,7 +17,7 @@ import { fill } from '../texts/fill.ts';
 export type ThreatKind = EnemyKind | 'king';
 /** What a preview reads of a game. A mission looked at before its departure has no stage. */
 export type PreviewSource = Pick<Game, 'mission' | 'tuning' | 'totalWaves'> &
-  Partial<Pick<Game, 'stage'>>;
+  Partial<Pick<Game, 'stage' | 'balanceRevision'>>;
 export type WaveThreats = {
   local: number;
   lanes: readonly number[];
@@ -73,6 +73,24 @@ export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
   },
   royal: { name: enemies.royal.name, ability: retaliation('royal'), symbol: 'burst', priority: 70 },
   mamba: { name: enemies.mamba.name, ability: retaliation('mamba'), symbol: 'burst', priority: 75 },
+  shadow: {
+    name: enemies.shadow.name,
+    ability: TEXT.rapideIlEsquiveLePremierCoup,
+    symbol: 'fast',
+    priority: 62,
+  },
+  fang: {
+    name: enemies.fang.name,
+    ability: TEXT.sesGrandsCrocsFontTresMal,
+    symbol: 'fangs',
+    priority: 72,
+  },
+  rare: {
+    name: enemies.rare.name,
+    ability: TEXT.tresFragileMaisSaMorsureFaitTomber,
+    symbol: 'fangs',
+    priority: 78,
+  },
   flying: {
     name: enemies.flying.name,
     ability: TEXT.seulsArchersDragonsEtTanksLe,
@@ -124,7 +142,7 @@ function classicWaveKinds(game: PreviewSource, local: number): ThreatKind[] {
     const court = tactical && local === TOTAL_WAVES && remaining <= 4;
     const royal = local === TOTAL_WAVES && (remaining === 1 || court);
     if (!royal) {
-      const base = variantFor(local, remaining);
+      const base = variantFor(local, remaining, game.balanceRevision);
       kinds.push(tactical ? flyingVariant(base, local, remaining) : base);
       continue;
     }
@@ -181,6 +199,10 @@ export function threatAdvice(
 ): { kind: Kind; text: string } {
   if (types.includes('flying') && available('archer'))
     return { kind: 'archer', text: TEXT.penseAuxArchersPourToucherLes };
+  if (types.includes('rare') && available('archer'))
+    return { kind: 'archer', text: TEXT.unArcherPeutArreterLeSerpentRare };
+  if (types.includes('fang') && available('shield'))
+    return { kind: 'shield', text: TEXT.unBouclierEncaisseLesGrandsCrocs };
   if (types.includes('spitter') && available('ninja'))
     return { kind: 'ninja', text: TEXT.unNinjaRapidePeutRejoindreLes };
   if (types.includes('rattlesnake') && available('dragon'))

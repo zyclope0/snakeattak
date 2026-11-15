@@ -3,9 +3,9 @@
 // 10 novembre 2026 (44 092 parties sur la v0.36.0), adapté ensuite aux révisions d'équilibrage.
 //
 // Usage : node scripts/balance-modes.mjs <sortie.json> [shard] [shards] [modes.json]
-//   REVISION=1|2|3 révision d'équilibrage des départs (défaut : 3, la révision courante).
-//                  La révision 3 n'existe que dans la grande aventure : les missions et les
-//                  défis se jouent alors en révision 2.
+//   REVISION=1|2|3|4 révision d'équilibrage des départs (défaut : 4, la révision courante).
+//                  Les révisions 3 et 4 n'existent que dans la grande aventure : les missions
+//                  et les défis se jouent alors en révision 2.
 //   SETS=12        lots de 18 départs par mission (12 = 216 parties par mode et par joueur)
 //   CLASSIC=200    parties de grande aventure par joueur
 //   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros
@@ -30,7 +30,7 @@ const shard = Number(shardArg),
 const dt = 1 / 30;
 const PROFILES = (process.env.PROFILES ?? 'expert,moyen,petit').split(',');
 const SETS = Number(process.env.SETS ?? 12);
-const REVISION = Number(process.env.REVISION ?? 3);
+const REVISION = Number(process.env.REVISION ?? 4);
 const MISSION_REVISION = Math.min(REVISION, 2);
 const CLASSIC = Number(process.env.CLASSIC ?? 200);
 
