@@ -12,27 +12,22 @@ const between = (html: string, open: string, close: string) =>
   html.slice(html.indexOf(open), html.indexOf(close) + close.length);
 /**
  * The page without what the publisher added to the words first published: the date of the
- * last change and the section about the website. Only the version/build numbers of its
- * scope vary between releases; their actual values are checked against Gradle below.
+ * last change and the section about the website.
  */
 const asFirstPublished = (html: string) =>
   Object.values(WEBSITE_HEADING).reduce(
     (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
-    html
-      .replace(/<p class="updated">[^<]*<\/p>/g, '')
-      .replace(
-        /(<strong>(?:Application Android|Android app) )\d+\.\d+\.\d+, build \d+(<\/strong>)/g,
-        '$1VERSION, build BUILD$2',
-      ),
+    html.replace(/<p class="updated">[^<]*<\/p>/g, ''),
   );
 
 test('the policy is word for word the one its publisher approved, in both languages', () => {
   const page = privacyPageHtml();
-  // The words, the headings, the bold names and the links of both languages.
-  assert.equal(
-    tight(asFirstPublished(between(page, '<main>', '</main>'))),
-    tight(asFirstPublished(between(published, '<main>', '</main>'))),
+  // Only the Android release label can differ from the archived wording.
+  const expected = between(published, '<main>', '</main>').replaceAll(
+    /<strong>(Application Android|Android app) 0\.38\.0, build 60<\/strong>/g,
+    `<strong>$1 ${POLICY_APP.version}, build ${POLICY_APP.build}</strong>`,
   );
+  assert.equal(tight(asFirstPublished(between(page, '<main>', '</main>'))), tight(expected));
   // The way around the page and its name.
   assert.equal(
     tight(between(page, '<header>', '</header>')),
