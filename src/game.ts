@@ -123,6 +123,10 @@ export class Game {
   get lateEggs(): LateEggRule | null {
     return this.#lateEggs;
   }
+  /** How many eggs the current wave has received for lasting; the board announces each one. */
+  get lateEggsLaid(): number {
+    return this.#lateEggsLaid;
+  }
   /** Stage of a voyage this game plays; null for every other game. Never saved in a camp. */
   readonly #stage: StageRules | null;
   get stage(): StageRules | null {

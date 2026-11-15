@@ -85,6 +85,31 @@ test('une vague qui dure pond un œuf à 45 s, un second à 60 s, pas plus', () 
   assert.ok(before.seconds > 45);
 });
 
+test('le plateau annonce l’œuf de plus au moment où il apparaît', async () => {
+  const { Presentation } = await import('../src/render/presentation.ts');
+  const BOARD = await import('../src/texts/fr/board.ts');
+  const game = kingWave(3);
+  const board = new Presentation();
+  board.update(game, 16);
+  const said: number[] = [];
+  let seconds = 0;
+  while (game.status === 'fighting' && seconds < 70) {
+    game.step(1 / 30);
+    seconds += 1 / 30;
+    const before = board.notice?.title;
+    board.update(game, 1000 / 30);
+    if (board.notice?.title === BOARD.unOeufDePlusEstApparu && before !== board.notice.title)
+      said.push(Math.round(seconds));
+  }
+  assert.equal(game.lateEggsLaid, 2);
+  assert.equal(said[0], 45, 'le bandeau arrive avec le premier œuf');
+  assert.equal(english[BOARD.unOeufDePlusEstApparu], 'One more egg has appeared!');
+  assert.equal(
+    english[BOARD.laVagueDureIlEclotBientot],
+    'This wave is taking long: it hatches soon.',
+  );
+});
+
 test('une vague courte ne pond rien, et le compte repart à chaque vague', () => {
   const game = new Game(5, undefined, undefined, 3);
   game.gold = 20000;

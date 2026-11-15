@@ -93,6 +93,7 @@ export class Presentation {
   private wave = 0;
   private status: Game['status'] = 'preparing';
   private hatched = 0;
+  private lateEggs = 0;
   private bossSeen = false;
   private heard = new WeakSet<Effect>();
   private base = 100;
@@ -131,6 +132,7 @@ export class Presentation {
     this.wave = game.wave;
     this.status = game.status;
     this.hatched = game.hatched;
+    this.lateEggs = game.lateEggsLaid;
   }
   /** Another game: nothing seen in the previous one may leak into it. */
   private reset(game: Game) {
@@ -154,6 +156,7 @@ export class Presentation {
     this.wave = game.wave;
     this.status = game.status;
     this.hatched = game.hatched;
+    this.lateEggs = game.lateEggsLaid;
     this.bossSeen = false;
     this.heard = new WeakSet();
     this.clock = 0;
@@ -200,7 +203,7 @@ export class Presentation {
       if (this.notice.remaining <= 0) this.notice = null;
     }
   }
-  /** Banners for what just changed: a new wave, the king, a wave repelled, eggs hatching. */
+  /** Banners for what just changed: a new wave, the king, a wave repelled, eggs hatching or appearing. */
   private announceTurns(game: Game, fresh: boolean) {
     if (!fresh && game.wave !== this.wave) {
       const chapter = game.briefing;
@@ -244,6 +247,15 @@ export class Presentation {
         priority: 0,
       });
     }
+    // A wave that lasts receives one more egg (third balance revision): say it on the board.
+    if (!fresh && game.lateEggsLaid > this.lateEggs)
+      this.announce({
+        kind: 'egg',
+        title: TEXT.unOeufDePlusEstApparu,
+        subtitle: TEXT.laVagueDureIlEclotBientot,
+        duration: 2.6,
+        priority: 2,
+      });
   }
   /** Compares a fighter with what was seen of it at the previous update. */
   private watchFighter(e: Entity, fresh: boolean, dt: number) {

@@ -478,8 +478,9 @@ chacun éclot en 8 s et donne deux serpents.
   reste en version 5 et la progression des missions en version 2 : elles savaient déjà nommer
   une révision. Un fichier d'avant se relit comme avant ; un appareil resté sur une ancienne
   version du jeu refuse un camp ou un code de la révision 3, sans rien abîmer.
-- **Ce que voit l'enfant.** Une annonce quand l'œuf apparaît, une phrase dans « Dangers » et
-  une dans l'aide. Aucun minuteur n'est affiché.
+- **Ce que voit l'enfant.** `Presentation` lit `game.lateEggsLaid` et montre un bandeau quand
+  l'œuf apparaît (le message du moteur ne se voit que dans le panneau des alliés) ; une
+  phrase dans « Dangers » et une dans l'aide. Aucun minuteur n'est affiché.
 
 `ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
 et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la

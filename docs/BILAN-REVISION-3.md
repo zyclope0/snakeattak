@@ -11,9 +11,9 @@ réglage (« présent : après 45 s ») après une première mesure. Dans `main`
   et donne deux serpents. Le compte repart à chaque vague.
 - **Où.** Grande aventure seulement. Les six missions, les 36 défis et le voyage restent en
   révision 2, sans cette règle.
-- **Ce que voit l'enfant.** L'annonce « La vague dure… Un nouvel œuf est apparu ! », une
-  phrase dans « Dangers » (« Si la vague dure, un œuf de plus peut arriver. ») et une dans
-  l'aide. Aucun minuteur ni compte à rebours.
+- **Ce que voit l'enfant.** L'œuf sur le plateau et, au bas du plateau, le bandeau « Un œuf
+  de plus est apparu ! » ; une phrase dans « Dangers » (« Si la vague dure, un œuf de plus
+  peut arriver. ») et une dans l'aide. Aucun minuteur ni compte à rebours.
 - **Rien d'ancien ne change.** C'est une nouvelle révision : un camp sauvegardé ou un code de
   départ d'avant garde ses règles. Les nouvelles grandes aventures partent en révision 3 :
   code `AVENTURE-5-…`, camp en version 10. Détail technique dans
@@ -50,9 +50,10 @@ les œufs en plus arrivent surtout à partir de la vague 6 et devant King Snake.
 
 ## Comment c'est vérifié
 
-- `npm run verify` : 755 tests, dont `tests/balance-revision-3.test.ts` (la règle à 45 s et
+- `npm run verify` : 756 tests, dont `tests/balance-revision-3.test.ts` (la règle à 45 s et
   60 s, pas de troisième œuf, rien dans une vague courte, rien en révision 1 ou 2, rien dans
-  une mission ; camp version 10 ; code règle 5 ; sauvegarde familiale ; texte anglais).
+  une mission ; bandeau du plateau ; camp version 10 ; code règle 5 ; sauvegarde familiale ;
+  texte anglais).
 - **Parties d'avant identiques.** 570 parties entières rejouées (110 435 empreintes) sur
   `main` et sur cette branche, comparées à la même référence : la liste des écarts est la
   même au caractère près dans les deux cas (les 114 parties où un message nomme King Snake).
@@ -63,7 +64,11 @@ les œufs en plus arrivent surtout à partir de la vague 6 et devant King Snake.
   le nouveau lit ou refuse pour une autre raison, et des objets fabriqués par le banc
   d'essai avec « révision 3 », qui n'existaient pas avant.
 - Une partie de référence de la révision 3 est ajoutée à `tests/engine-traces.test.ts`.
-- Recettes navigateur : voir la PR.
+- **Dans le navigateur**, sur un camp de la vague 12 en 780×360, 1280×800 et 812×375 en
+  anglais : la phrase de « Dangers », l'œuf et le bandeau apparaissent, sans erreur de page.
+  Ce contrôle a montré que la première annonce ne se voyait pas pendant le combat (elle
+  n'était écrite que dans le panneau des alliés) : le bandeau a été ajouté pour cela.
+- Les recettes navigateur de la CI passent (voir la PR).
 
 ## Ce qui n'est pas vérifié
 
