@@ -5,6 +5,7 @@ import { encounterReadout } from './encounterReadout.ts';
 import type { EncounterReadout } from './encounterReadout.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
+import { isMilestone } from '../rewards.ts';
 export type Notice = {
   kind: 'wave' | 'boss' | 'clear' | 'egg' | 'fallen';
   title: string;
@@ -228,7 +229,7 @@ export class Presentation {
         kind: 'clear',
         title: fill(TEXT.vagueNRepoussee, game.wave),
         subtitle:
-          !game.mission && (game.wave === 4 || game.wave === 8)
+          !game.mission && isMilestone(game.wave)
             ? fill(TEXT.nouvelleClairiereN, game.level.name)
             : TEXT.prepareLesProchainsAllies,
         duration: 2.8,

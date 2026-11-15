@@ -1160,6 +1160,20 @@ Où sont les valeurs :
   `ROSTER_SIZE` (`roster.ts`), `DEPARTURE_INPUT_LIMIT` (`departures.ts`),
   `VOYAGE_INPUT_LIMIT` (`voyageCode.ts`), `CAMP_CHARACTER_LIMIT` (`checkpoints.ts`).
 - **Taille du plateau** : `BOARD_WIDTH` et `BOARD_HEIGHT` (`render/boardResolution.ts`).
+- **`src/gameConstants.ts`** : les nombres qui donnent sa forme à une partie —
+  `LANE_COUNT`, `CHAPTER_COUNT`, `WAVES_PER_CHAPTER`, `TOTAL_WAVES`, `REWARD_WAVES`,
+  `START_GOLD`, `CRYSTAL_MAX`, `START_TEAM_SIZE`, `GOLD_LIMIT`, `DEFAULT_SEED` — et
+  `chapterOfWave`, la seule formule du chapitre d'une vague (elle était écrite deux fois).
+  Le nombre d'œufs d'une vague est `waveEggCount` (`waves.ts`) : l'écran des dangers
+  l'appelle au lieu de refaire le calcul.
+- **`src/boardLandmarks.ts`** : les repères du plateau que les règles nomment (bords du
+  camp, front, alerte et ligne du cristal, portée du contact). Un module sans import :
+  le placement, les chemins et le camp les lisent sans boucle ; `engine/field.ts` les
+  réexporte pour les règles d'un pas.
+- **Restent à côté de leur règle**, parce qu'ils ne servent qu'une fois et font la partie :
+  les scripts de vagues (`waves.ts`, `missions.ts`), les poids de l'IA (`ai.ts`,
+  `defenders.ts`), la géométrie des routes (`routes.ts`).
 
-Garde-fou : `tests/storage-keys.test.ts` retape chaque clé, chaque limite et le calcul du
-tirage sur mille pas.
+Garde-fous : `tests/storage-keys.test.ts` retape chaque clé, chaque limite et le calcul du
+tirage sur mille pas ; `tests/game-constants.test.ts` retape chaque nombre du jeu et chaque
+repère, et vérifie qu'une partie neuve commence bien avec eux.

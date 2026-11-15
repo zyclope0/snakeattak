@@ -4,6 +4,7 @@ import { kinds, type Kind } from '../data.ts';
 import { missionById } from '../missions.ts';
 import * as TEXT from '../texts/fr/camp.ts';
 import { fill } from '../texts/fill.ts';
+import { CRYSTAL_MAX } from '../gameConstants.ts';
 
 export const CAMP_TOOLS = ['honey', 'encourage', 'repair', 'hero'] as const;
 export type CampTool = (typeof CAMP_TOOLS)[number];
@@ -80,14 +81,14 @@ function repairHelp(game: Game) {
       TEXT.leCristalRegagneJusquA25PointsDe +
       // A voyage stage is a mission that earns no star.
       (game.mission && !game.stage ? TEXT.lesDegatsSubisRestentComptesPour : ''),
-    ready: inPlay(game) && game.base < 100 && canSpend(game, REPAIR_COST),
+    ready: inPlay(game) && game.base < CRYSTAL_MAX && canSpend(game, REPAIR_COST),
     status: bankNotice(game) + repairStatus(game),
   };
 }
 
 function repairStatus(game: Game): string {
   if (!inPlay(game)) return TEXT.laPartieEstTerminee;
-  if (game.base >= 100) return TEXT.tonCristalEstIntact;
+  if (game.base >= CRYSTAL_MAX) return TEXT.tonCristalEstIntact;
   if (!canSpend(game, REPAIR_COST))
     return fill(TEXT.ilManqueNPiecesPourReparer, REPAIR_COST - availableGold(game));
   return fill(TEXT.cristalN100ReparationPossible, game.base);

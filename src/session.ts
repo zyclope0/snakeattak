@@ -2,6 +2,7 @@ import { Game } from './game.ts';
 import type { Kind } from './data.ts';
 import type { FeastFlavor } from './tactics.ts';
 import { CURRENT_BALANCE_REVISION, type BalanceRevision } from './balanceRevision.ts';
+import { START_TEAM_SIZE } from './gameConstants.ts';
 
 const STEP = 1 / 30;
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
@@ -30,7 +31,7 @@ export class Session {
   useGame(game: Game) {
     this.game = game;
     this.selectUnit(null);
-    this.hasPlaced = game.wave > 0 || game.units.length > 3;
+    this.hasPlaced = game.wave > 0 || game.units.length > START_TEAM_SIZE;
     this.speed = 1;
     this.accumulator = 0;
   }

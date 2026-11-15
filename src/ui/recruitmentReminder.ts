@@ -4,6 +4,7 @@ import type { Session } from '../session.ts';
 import { REMINDER_STORAGE_KEY } from '../storageKeys.ts';
 import { availableGold } from './capriceBudget.ts';
 import * as TEXT from '../texts/fr/recruiting.ts';
+import { CAMP_BOTTOM, CAMP_LEFT, CAMP_RIGHT, CAMP_TOP } from '../boardLandmarks.ts';
 
 export const REMINDER_TEXT = TEXT.tuAsDesPiecesRecrute;
 const LIMIT = 64;
@@ -61,8 +62,8 @@ export function hasLegalRecruitment(session: Session) {
   );
   const kind = candidates[0];
   if (!kind) return false;
-  for (let y = 108; y <= 540; y += 12)
-    for (let x = 600; x <= 984; x += 12) if (game.canRecruit(kind, x, y)) return true;
+  for (let y = CAMP_TOP; y <= CAMP_BOTTOM; y += 12)
+    for (let x = CAMP_LEFT; x <= CAMP_RIGHT; x += 12) if (game.canRecruit(kind, x, y)) return true;
   return false;
 }
 

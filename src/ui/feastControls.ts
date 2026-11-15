@@ -12,6 +12,7 @@ import { byId, decoration, make, setPressed } from './dom.ts';
 import { battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/camp.ts';
 import { fill } from '../texts/fill.ts';
+import { LANE_COUNT } from '../gameConstants.ts';
 
 type FeastChoice = { value: FeastFlavor; label: string; hint: string };
 export const FEAST_CHOICES: ReadonlyArray<FeastChoice> = [
@@ -43,7 +44,8 @@ export const feastButton = (choice: FeastChoice) =>
   make('button', {}, feastPot(choice.value), copyTextNode(choice.label));
 
 /** The tutorial mission opens its lanes one after the other: some stay quiet. */
-const someLanesQuiet = (game: Game) => game.mission?.rules === 2 && game.enemyLanes.length < 3;
+const someLanesQuiet = (game: Game) =>
+  game.mission?.rules === 2 && game.enemyLanes.length < LANE_COUNT;
 
 /** One free pot per wave: its flavour, the lane it is poured on, and what became of it. */
 export function bindFeastControls(

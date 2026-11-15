@@ -3,6 +3,8 @@ import type { Kind } from './data.ts';
 import { kinds } from './data.ts';
 import { levelForWave } from './levels.ts';
 import { chapterStars } from './campaignRules.ts';
+import { isMilestone } from './rewards.ts';
+import { TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
 
 export type ChapterReport = Readonly<{
   chapter: 1 | 2 | 3;
@@ -20,9 +22,9 @@ export type ChapterReport = Readonly<{
 export function chapterReportFor(game: Game): ChapterReport | null {
   if (game.mission) return null;
   const wave = game.wave;
-  if (wave !== 4 && wave !== 8 && wave !== 12) return null;
-  if (game.status !== (wave === 12 ? 'won' : 'preparing')) return null;
-  const chapter = (wave / 4) as 1 | 2 | 3;
+  if (!isMilestone(wave) && wave !== TOTAL_WAVES) return null;
+  if (game.status !== (wave === TOTAL_WAVES ? 'won' : 'preparing')) return null;
+  const chapter = (wave / WAVES_PER_CHAPTER) as 1 | 2 | 3;
   const stars = game.campaign.chapterStars[chapter - 1];
   if (!Number.isInteger(stars) || stars < 1 || stars > 3) return null;
   const counts = new Map<Kind, number>();

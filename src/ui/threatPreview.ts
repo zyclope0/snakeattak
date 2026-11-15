@@ -6,7 +6,7 @@ import type { EnemyKind } from '../enemies.ts';
 import { enemies } from '../enemies.ts';
 import { deathRetaliation } from '../enemyAbilities.ts';
 import { BOSS_COURT } from '../bossCourt.ts';
-import { variantFor, TOTAL_WAVES } from '../waves.ts';
+import { variantFor, waveEggCount, TOTAL_WAVES } from '../waves.ts';
 import { flyingVariant } from '../flying.ts';
 import { activeEnemyLanes } from '../tutorial.ts';
 import { missionById, missionWave } from '../missions.ts';
@@ -151,7 +151,7 @@ export function waveThreats(game: PreviewSource, local: number): WaveThreats {
     local,
     lanes: activeEnemyLanes(game.mission, local),
     entries: orderedThreats(counts.keys()).map((kind) => ({ kind, count: counts.get(kind)! })),
-    eggs: plan?.eggs.length ?? Math.min(3, 1 + Math.floor(local / 4)),
+    eggs: plan?.eggs.length ?? waveEggCount(local),
   };
 }
 export function currentWaveThreats(game: Game): WaveThreats | null {

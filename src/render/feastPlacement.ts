@@ -1,4 +1,5 @@
 import type Phaser from 'phaser';
+import { LANE_IDS } from '../ai.ts';
 import type { Game } from '../game.ts';
 import type { Level } from '../levels.ts';
 import { lanePoint } from '../routes.ts';
@@ -9,7 +10,7 @@ export function drawFeastPlacement(ink: Phaser.GameObjects.Graphics, game: Game)
   if (game.paused || game.status !== 'fighting' || game.feastUsed) return;
   let roads = paths.get(game.level);
   if (!roads) {
-    roads = [0, 1, 2].map((lane) =>
+    roads = LANE_IDS.map((lane) =>
       Array.from({ length: 37 }, (_, i) => lanePoint(108 + i * 24, lane, game.level)),
     );
     paths.set(game.level, roads);

@@ -1,4 +1,5 @@
 import * as TEXT from './texts/fr/adventure.ts';
+import { chapterOfWave } from './gameConstants.ts';
 /** Immutable terrain data shared by simulation and renderer; never an active global map. */
 export type Rock = Readonly<{ x: number; y: number; r: number }>;
 export type Level = Readonly<{
@@ -80,7 +81,7 @@ for (const level of levels) {
 }
 /** Chapter 0, 1 or 2 of a one-based wave; camp zero and nonfinite inputs are the first chapter. */
 export const chapterIndexForWave = (wave: number): number =>
-  Number.isFinite(wave) ? Math.max(0, Math.min(2, Math.floor((wave - 1) / 4))) : 0;
+  Number.isFinite(wave) ? chapterOfWave(wave) : 0;
 export function levelForWave(wave: number): Level {
   return levels[chapterIndexForWave(wave)];
 }

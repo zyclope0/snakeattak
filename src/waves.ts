@@ -1,7 +1,12 @@
 import type { EnemyKind } from './enemies.ts';
 import { chapterIndexForWave } from './levels.ts';
 import * as TEXT from './texts/fr/snakes.ts';
-export const TOTAL_WAVES = 12;
+import { LANE_COUNT, TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
+export { TOTAL_WAVES };
+/** A wave of the adventure lays one egg, then one more per chapter begun, three at most. */
+const MAX_WAVE_EGGS = 3;
+export const waveEggCount = (wave: number): number =>
+  Math.min(MAX_WAVE_EGGS, 1 + Math.floor(wave / WAVES_PER_CHAPTER));
 export type ChapterIdentity = Readonly<{
   firstWave: number;
   lastWave: number;
@@ -9,25 +14,16 @@ export type ChapterIdentity = Readonly<{
   tip: string;
 }>;
 const chapterIdentities: readonly ChapterIdentity[] = [
-  {
-    firstWave: 1,
-    lastWave: 4,
-    focus: TEXT.decouvrirLesTroisVoies,
-    tip: TEXT.repartisTesGardiensRetiensLesVifs,
-  },
-  {
-    firstWave: 5,
-    lastWave: 8,
-    focus: TEXT.dejouerLesEscortes,
-    tip: TEXT.lesPlaquesEtLesParapluiesProtegent,
-  },
-  {
-    firstWave: 9,
-    lastWave: 12,
-    focus: TEXT.tenirLeDernierRempart,
-    tip: TEXT.ressortsEnTriosEspacesSoinsEn,
-  },
-].map((identity) => Object.freeze(identity));
+  { focus: TEXT.decouvrirLesTroisVoies, tip: TEXT.repartisTesGardiensRetiensLesVifs },
+  { focus: TEXT.dejouerLesEscortes, tip: TEXT.lesPlaquesEtLesParapluiesProtegent },
+  { focus: TEXT.tenirLeDernierRempart, tip: TEXT.ressortsEnTriosEspacesSoinsEn },
+].map((identity, chapter) =>
+  Object.freeze({
+    firstWave: chapter * WAVES_PER_CHAPTER + 1,
+    lastWave: (chapter + 1) * WAVES_PER_CHAPTER,
+    ...identity,
+  }),
+);
 
 /** One-based wave; camp zero and nonfinite inputs describe the first chapter. */
 export function chapterIdentityForWave(wave: number): ChapterIdentity {
@@ -67,7 +63,7 @@ export function spawnDelay(wave: number, index: number): number {
   return wavePattern(wave) === 'rush' ? (index % 3 === 2 ? 2 : 0.4) : 0.95;
 }
 export function entryLane(wave: number, index: number, picked: number): number {
-  return wavePattern(wave) === 'pincer' ? index % 3 : picked;
+  return wavePattern(wave) === 'pincer' ? index % LANE_COUNT : picked;
 }
 export function eggIncubation(wave: number, index: number, roll: number): number {
   return wavePattern(wave) === 'brood' ? 6 + index * 6 + roll * 3 : 7 + roll * 8;

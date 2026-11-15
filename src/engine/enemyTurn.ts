@@ -21,6 +21,7 @@ import { updateCourt, updateBossShot, shootersFirst } from './court.ts';
 import type { Game } from '../game.ts';
 import * as TEXT from '../texts/fr/battle.ts';
 import { fill } from '../texts/fill.ts';
+import { LANE_COUNT } from '../gameConstants.ts';
 
 /** The king lays a two-snake egg in the snakes' half, while fewer than six eggs wait. */
 const ROYAL_EGG_INTERVAL = 12;
@@ -88,7 +89,7 @@ function march(game: Game, e: Entity, dt: number, stats: WaveNumbers) {
 function brood(game: Game, king: Entity, dt: number) {
   king.broodCool -= dt;
   if (king.broodCool > 0 || game.eggs.length >= MAX_EGGS) return;
-  const lane = Math.floor(nextRandom(game) * 3);
+  const lane = Math.floor(nextRandom(game) * LANE_COUNT);
   game.eggs.push({
     id: ++game.nextId,
     x: ROYAL_EGG_X,

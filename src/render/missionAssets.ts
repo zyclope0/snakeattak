@@ -19,6 +19,7 @@ import { onSceneExit } from './sceneExit.ts';
 import { attackSheetsFor } from './attackPose.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
+import { TOTAL_WAVES } from '../gameConstants.ts';
 /** Select from the rules without advancing them or consuming their random stream. */
 function texturesForGame(game: Game): Set<string> {
   const textures = new Set([
@@ -53,7 +54,7 @@ function fightingTextures(game: Game): Set<string> {
         variantFor(game.difficultyWave, i + 1),
       );
   for (const variant of variants) textures.add(ENEMY_ART[variant].texture);
-  if (!game.mission && game.difficultyWave === 12) textures.add(KING_ART.texture);
+  if (!game.mission && game.difficultyWave === TOTAL_WAVES) textures.add(KING_ART.texture);
   return textures;
 }
 const IMAGE_MISSING = TEXT.uneImageNAPasPuArriverReessaie;
