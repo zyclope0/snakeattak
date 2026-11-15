@@ -8,6 +8,7 @@ import { ART_SHEETS, GROUND_ART } from '../art.ts';
 import type { Kind } from '../data.ts';
 import { missionScouting } from './missionScouting.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../render/boardResolution.ts';
 import { byId } from './dom.ts';
 import { svgNode } from './svg.ts';
 import * as TEXT from '../texts/fr/missionScreens.ts';
@@ -28,12 +29,19 @@ export function drawGround(svg: SVGElement, level: Level) {
       href: ground.url,
       x: 0,
       y: 0,
-      width: 1100,
-      height: 620,
+      width: BOARD_WIDTH,
+      height: BOARD_HEIGHT,
       preserveAspectRatio: TEXT.xmidymidSlice,
       opacity: 0.55,
     }),
-    svgNode('rect', { x: 0, y: 70, width: 1100, height: 510, fill: '#779585', opacity: 0.35 }),
+    svgNode('rect', {
+      x: 0,
+      y: 70,
+      width: BOARD_WIDTH,
+      height: 510,
+      fill: '#779585',
+      opacity: 0.35,
+    }),
   );
 }
 

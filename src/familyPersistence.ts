@@ -7,9 +7,8 @@ import { validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
 import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
+import { FAMILY_STORAGE_KEY } from './storageKeys.ts';
 import * as TEXT from './texts/fr/family.ts';
-
-export const FAMILY_STORAGE_KEY = 'conquete-serpents:family:v1';
 
 /** What one session remembers about the family file between two calls. */
 type Session = {

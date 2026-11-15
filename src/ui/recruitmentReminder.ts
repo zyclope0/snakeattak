@@ -1,11 +1,11 @@
 import { kinds, type Kind } from '../data.ts';
 import { departureForGame, encodeDeparture } from '../departures.ts';
 import type { Session } from '../session.ts';
+import { REMINDER_STORAGE_KEY } from '../storageKeys.ts';
 import { availableGold } from './capriceBudget.ts';
 import * as TEXT from '../texts/fr/recruiting.ts';
 
 export const REMINDER_TEXT = TEXT.tuAsDesPiecesRecrute;
-const STORAGE_KEY = 'conquete-serpents:recruitment-reminder:v1';
 const LIMIT = 64;
 /** Coins left unspent before the reminder is worth showing. */
 const SPARE_COINS = 500;
@@ -19,7 +19,7 @@ type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
 export function createReminderMarkers(storage?: StoragePort, fallback = memory) {
   let codes = fallback;
   try {
-    const raw = storage?.getItem(STORAGE_KEY);
+    const raw = storage?.getItem(REMINDER_STORAGE_KEY);
     const parsed: unknown = raw ? JSON.parse(raw) : null;
     if (Array.isArray(parsed)) {
       codes = [
@@ -41,7 +41,7 @@ export function createReminderMarkers(storage?: StoragePort, fallback = memory) 
       const next = [...codes.filter((c) => c !== code), code].slice(-LIMIT);
       codes.splice(0, codes.length, ...next);
       try {
-        storage?.setItem(STORAGE_KEY, JSON.stringify(codes));
+        storage?.setItem(REMINDER_STORAGE_KEY, JSON.stringify(codes));
       } catch {
         /* Memory stays authoritative for this page. */
       }

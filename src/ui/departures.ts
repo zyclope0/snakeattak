@@ -1,5 +1,10 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
-import { decodeDeparture, encodeDeparture, departureForGame } from '../departures.ts';
+import {
+  DEPARTURE_INPUT_LIMIT,
+  decodeDeparture,
+  encodeDeparture,
+  departureForGame,
+} from '../departures.ts';
 import type { Departure } from '../departures.ts';
 import type { MissionRun } from '../missions.ts';
 import type { Session } from '../session.ts';
@@ -84,6 +89,7 @@ export function bindDepartureControls(
   },
 ) {
   const input = byId<HTMLInputElement>('departure-input');
+  input.maxLength = DEPARTURE_INPUT_LIMIT;
   const message = byId('departure-message');
   // Page des parents : un « ? » au bout de la ligne du code dit ce qu'un code retrouve.
   input.parentElement!.append(helpPoint('code'));

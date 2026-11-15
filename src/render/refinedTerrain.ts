@@ -6,7 +6,7 @@ import type { Level } from '../levels.ts';
 import { stageComposition, STAGE_SIZES, stageTheme } from './stageLayout.ts';
 import type { StageProp } from './stageLayout.ts';
 import { Figurines } from './figurines.ts';
-import { boardScale } from './boardResolution.ts';
+import { BOARD_WIDTH, BOARD_HEIGHT, boardScale } from './boardResolution.ts';
 import { standingDepth } from './boardDepth.ts';
 
 type Graphics = Phaser.GameObjects.Graphics;
@@ -38,7 +38,7 @@ function drawStream(ground: Graphics) {
     ground.fillStyle(color, alpha);
     for (const p of STREAM) ground.fillCircle(p.x, p.y, radius);
   }
-  for (let y = 8; y < 620; y += 23) {
+  for (let y = 8; y < BOARD_HEIGHT; y += 23) {
     ground.lineStyle(1.4, 0xc5e5dc, 0.45);
     ground.lineBetween(513 + Math.sin(y) * 5, y, 530 + Math.sin(y) * 5, y + 2);
     ground.lineStyle(1, 0xc5e5dc, 0.25);
@@ -83,7 +83,11 @@ export function refinedTerrain(
 ): Image[] {
   const figurines = Figurines.of(scene);
   const theme = stageTheme(level);
-  objects.add(scene.add.image(550, 310, theme.ground).setDisplaySize(1100, 620));
+  objects.add(
+    scene.add
+      .image(BOARD_WIDTH / 2, BOARD_HEIGHT / 2, theme.ground)
+      .setDisplaySize(BOARD_WIDTH, BOARD_HEIGHT),
+  );
   addSceneryFrame(scene, objects, theme.scenery);
   const ground = scene.add.graphics();
   objects.add(ground);

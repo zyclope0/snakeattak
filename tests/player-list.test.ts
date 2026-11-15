@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PLAYERS_KEY, PLAYER_CHOSEN_KEY, playerKey } from '../src/players.ts';
+import { playerKey } from '../src/players.ts';
+import { PLAYERS_KEY, PLAYER_CHOSEN_KEY } from '../src/storageKeys.ts';
 import type { Players } from '../src/players.ts';
 import { createPlayerList } from '../src/ui/playerList.ts';
 

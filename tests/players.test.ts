@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { PLAYERS_KEY } from '../src/storageKeys.ts';
 import {
-  PLAYERS_KEY,
   PLAYER_CHARACTERS,
   PLAYER_KEYS,
   addPlayer,

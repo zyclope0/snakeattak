@@ -7,6 +7,7 @@ import { kinds } from '../data.ts';
 import type { Kind } from '../data.ts';
 import type { Point } from '../navigation.ts';
 import type { Game } from '../game.ts';
+import { nextSeed, seedShare } from '../seededRandom.ts';
 
 export type Entity = Point & {
   id: number;
@@ -69,8 +70,8 @@ export function forgetPath(entity: Entity) {
 }
 /** Seul tirage aléatoire du combat : chaque appel avance la graine de la partie. */
 export function nextRandom(game: Game) {
-  game.rng = (Math.imul(game.rng, 1664525) + 1013904223) >>> 0;
-  return game.rng / 4294967296;
+  game.rng = nextSeed(game.rng);
+  return seedShare(game.rng);
 }
 export function addEffect(game: Game, a: Point, b: Point, kind: Effect['kind']) {
   game.effects.push({

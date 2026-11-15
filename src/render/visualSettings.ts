@@ -1,4 +1,5 @@
-export const VISUAL_SETTINGS_KEY = 'conquete-serpents:visual:v1';
+import { VISUAL_SETTINGS_KEY } from '../storageKeys.ts';
+
 type VisualStorage = Pick<Storage, 'getItem' | 'setItem'>;
 
 /** Device preference, independent of campaign, economy and family exports. */

@@ -1,9 +1,13 @@
 import { kinds } from './data.ts';
-import { CAMP_STORAGE_KEY } from './checkpoints.ts';
 import { readFamilyBackup } from './familyBackup.ts';
-import { FAMILY_STORAGE_KEY } from './familyPersistence.ts';
-import { CAREER_STORAGE_KEY } from './progression.ts';
-import { VOYAGE_STORAGE_KEY } from './voyageStorage.ts';
+import {
+  CAMP_STORAGE_KEY,
+  CAREER_STORAGE_KEY,
+  FAMILY_STORAGE_KEY,
+  PLAYERS_KEY,
+  REMINDER_STORAGE_KEY,
+  VOYAGE_STORAGE_KEY,
+} from './storageKeys.ts';
 import {
   hasControlCharacter,
   isArrayOfLength,
@@ -18,9 +22,6 @@ import {
  * character of the game and an optional nickname, and owns one adventure in the browser's
  * storage. No browser object here; `ui/players.ts` draws the screens.
  */
-export const PLAYERS_KEY = 'conquete-serpents:players:v1';
-/** `sessionStorage` only: the player was chosen since the application was opened. */
-export const PLAYER_CHOSEN_KEY = 'conquete-serpents:player-chosen:v1';
 export const PLAYER_IDS = ['p1', 'p2', 'p3', 'p4'] as const;
 export type PlayerId = (typeof PLAYER_IDS)[number];
 export const PLAYER_CHARACTERS = [
@@ -48,7 +49,7 @@ export const PLAYER_KEYS: readonly string[] = [
   FAMILY_STORAGE_KEY,
   CAMP_STORAGE_KEY,
   CAREER_STORAGE_KEY,
-  'conquete-serpents:recruitment-reminder:v1',
+  REMINDER_STORAGE_KEY,
   VOYAGE_STORAGE_KEY,
 ];
 type ReadPort = Pick<Storage, 'getItem'>;

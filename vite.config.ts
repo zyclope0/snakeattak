@@ -69,6 +69,9 @@ export default defineConfig(({ mode }) => {
               output: {
                 manualChunks(id) {
                   if (id.includes('/node_modules/phaser/')) return 'phaser';
+                  // The first script reads the language key before the rules are loaded: on
+                  // its own, this module does not make that script wait for the rules.
+                  if (id.endsWith('/src/storageKeys.ts')) return 'keys';
                   // Cache the browser-independent rules separately from the expanding UI.
                   if (
                     /\/src\/(?:engine\/)?[^/]+\.ts$/.test(id) &&

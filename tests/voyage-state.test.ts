@@ -15,8 +15,8 @@ import {
 import type { VoyageState } from '../src/voyageState.ts';
 import { decodeVoyage, encodeVoyage } from '../src/voyageCode.ts';
 import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
+import { VOYAGE_STORAGE_KEY } from '../src/storageKeys.ts';
 import {
-  VOYAGE_STORAGE_KEY,
   createVoyageLog,
   loadVoyageLog,
   logVoyage,

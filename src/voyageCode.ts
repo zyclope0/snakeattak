@@ -20,7 +20,7 @@ const WORD = TEXT.voyage;
 const TYPED_CODE = /^VOYAGE(\d)([A-Z0-9]{4})([A-Z0-9]{2})$/;
 const SEED_SIGNS = 4;
 /** Far longer than a code with a few stray spaces: the rest is not read at all. */
-const INPUT_LIMIT = 64;
+export const VOYAGE_INPUT_LIMIT = 64;
 
 type Refusal = { ok: false; reason: 'format' | 'version' | 'checksum' };
 export type VoyageCode = { ok: true; seed: number; version: VoyageVersion } | Refusal;
@@ -41,7 +41,7 @@ export function encodeVoyage(
 
 /** Reads what a child typed. A wrong code is an answer, never an exception. */
 export function decodeVoyage(raw: unknown): VoyageCode {
-  if (typeof raw !== 'string' || raw.length > INPUT_LIMIT) return refused('format');
+  if (typeof raw !== 'string' || raw.length > VOYAGE_INPUT_LIMIT) return refused('format');
   const match = TYPED_CODE.exec(tidyCode(raw).replace(/[^A-Z0-9]/g, ''));
   if (!match) return refused('format');
   const [, written, typedSigns, typedCheck] = match;

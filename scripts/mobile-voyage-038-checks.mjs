@@ -4,12 +4,12 @@ import { revealControl } from '../tests/reveal-controls.mjs';
 import { capriceExplanation } from '../src/ui/capriceCopy.ts';
 import { english } from '../src/i18n/english.ts';
 import { missionById } from '../src/missions.ts';
-import { PLAYER_CHOSEN_KEY, PLAYERS_KEY } from '../src/players.ts';
 import { REWARDS } from '../src/rewards.ts';
 import { planVoyage, stageCaprice } from '../src/voyage.ts';
 import { encodeVoyage } from '../src/voyageCode.ts';
 import { readVoyageState } from '../src/voyageState.ts';
-import { validateVoyageLog, VOYAGE_STORAGE_KEY } from '../src/voyageStorage.ts';
+import { PLAYER_CHOSEN_KEY, PLAYERS_KEY, VOYAGE_STORAGE_KEY } from '../src/storageKeys.ts';
+import { validateVoyageLog } from '../src/voyageStorage.ts';
 
 const LANGUAGE = 'conquete-serpents:language:v1';
 const FIXTURE = '.voyage-038-fixture.html';

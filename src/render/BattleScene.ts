@@ -167,7 +167,14 @@ export class BattleScene extends Phaser.Scene {
    * the atmosphere, outcome detail and survivors without repeating that title.
    */
   private createResultOverlay() {
-    const shade = this.add.rectangle(550, 310, 1100, 620, 0x082a23, 0.82);
+    const shade = this.add.rectangle(
+      BOARD_WIDTH / 2,
+      BOARD_HEIGHT / 2,
+      BOARD_WIDTH,
+      BOARD_HEIGHT,
+      0x082a23,
+      0.82,
+    );
     const centredLine = (y: number, fontSize: string, color: string) =>
       addCanvasCopy(this.add, 550, y, '', {
         fontFamily: BODY_FONT,

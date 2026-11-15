@@ -11,7 +11,8 @@ import {
 import { CAPRICES, CREATOR_CHALLENGES } from '../src/caprices.ts';
 import { createCareer } from '../src/progression.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
-import { createFamilyPersistence, FAMILY_STORAGE_KEY } from '../src/familyPersistence.ts';
+import { createFamilyPersistence } from '../src/familyPersistence.ts';
+import { FAMILY_STORAGE_KEY } from '../src/storageKeys.ts';
 import * as albumsModule from '../src/capriceAlbums.ts';
 function albums() {
   return albumsModule.createCapriceAlbumsController();

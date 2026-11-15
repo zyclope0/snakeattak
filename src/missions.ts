@@ -13,6 +13,7 @@ import {
 import type { CapriceRules } from './caprices.ts';
 import { isIntegerIn, isOneOf, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/adventure.ts';
+import { nextSeed, seedShare } from './seededRandom.ts';
 
 export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
@@ -154,7 +155,7 @@ export function createMissionRun(
   if (balance !== undefined && balance !== 2) throw new RangeError(TEXT.revisionInvalide);
   if (!missionById(id) || !isUint32(seed)) throw new RangeError(TEXT.expeditionInvalide);
   // Eighteen bounded configurations. Incrementing the slot does not change the retry seed.
-  let slot = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+  let slot = nextSeed(seed);
   slot %= MISSION_SETUPS;
   const prior = readMissionRun(previous);
   const configAt = (index: number) => ({
@@ -201,14 +202,9 @@ function assaultCadence(assault: MissionRun['assault']): number[] {
 /** Up to three seconds of delay per egg, drawn from the seed alone: a retry hatches alike. */
 function incubationJitter(seed: number, local: number, index: number): number {
   return (
-    (((Math.imul(
-      (seed ^ Math.imul(local, 2654435761) ^ Math.imul(index + 1, 2246822519)) >>> 0,
-      1664525,
-    ) +
-      1013904223) >>>
-      0) /
-      4294967296) *
-    3
+    seedShare(
+      nextSeed((seed ^ Math.imul(local, 2654435761) ^ Math.imul(index + 1, 2246822519)) >>> 0),
+    ) * 3
   );
 }
 /** Where and when the eggs of one wave hatch. An egg never lies on a lane closed to serpents. */

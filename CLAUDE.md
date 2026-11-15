@@ -54,6 +54,9 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
 ## Méthode
 
 - Une branche par lot (`claude/<sujet>`), une PR vers `main`, jamais de fusion sans accord.
+- Une valeur qui a un sens dans le jeu (clé de stockage, limite, nombre de voies, de vagues, de
+  pièces) a un nom et un seul lieu ; on importe ce nom, on ne retape pas la valeur. Lui donner
+  un nom ne la change jamais (`docs/ARCHITECTURE.md`, « Valeurs hors du code »).
 - Les règles restent dans `src/game.ts`, `src/engine/` et les modules de règles, jamais dans le
   rendu ni le HTML. `tests/engine-traces.test.ts` rejoue des parties entières : une empreinte
   qui change est une partie qui change.

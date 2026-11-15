@@ -1,5 +1,5 @@
+import { PLAYER_CHOSEN_KEY } from '../storageKeys.ts';
 import {
-  PLAYER_CHOSEN_KEY,
   addPlayer,
   clearPlayerData,
   editPlayer,

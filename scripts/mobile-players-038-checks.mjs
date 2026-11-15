@@ -10,13 +10,8 @@ import { createCareer } from '../src/progression.ts';
 import { createCapriceAlbumsController } from '../src/capriceAlbums.ts';
 import { capricesForMission } from '../src/caprices.ts';
 import { writeFamilyBackup } from '../src/familyBackup.ts';
-import {
-  PLAYERS_KEY,
-  PLAYER_CHARACTERS,
-  PLAYER_CHOSEN_KEY,
-  PLAYER_KEYS,
-  playerKey,
-} from '../src/players.ts';
+import { PLAYER_CHARACTERS, PLAYER_KEYS, playerKey } from '../src/players.ts';
+import { PLAYERS_KEY, PLAYER_CHOSEN_KEY } from '../src/storageKeys.ts';
 
 const FAMILY = 'conquete-serpents:family:v1';
 // Android's system margins as the other recipes simulate them.
