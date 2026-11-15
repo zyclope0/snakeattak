@@ -167,3 +167,47 @@ en seconde rangée : facile « La tirelire » (un tiers des pièces de départ r
 banque), moyen « Les carapaces » (certains serpents très lents, très solides et blindés,
 pas tous), difficile « La grande charge » (rapides, beaucoup de vie et de dégâts).
 Le nom de rangée évite le prénom de l'enfant. Valeurs : docs/CAPRICES.md.
+
+## Idées du fils — 15 novembre 2026, à instruire
+
+Retours du fils après le build 61, notés tels qu'il les a dits. **Rien n'est décidé ni
+développé.** Sa propre règle pour tout le lot : chaque ajout se pense avec l'équilibrage et
+arrive à la bonne vague ou à la bonne difficulté. Toute nouveauté de jeu passe donc par une
+mesure, l'accord du parent et une nouvelle révision d'équilibrage ; le voyage version 1,
+publié, ne change pas.
+
+Serpents :
+
+1. **Le boss est un cobra royal à trois têtes.** Aujourd'hui : le roi à trois têtes existe,
+   et « Cobra royal » est le nom d'un serpent ordinaire. À voir avec lui : l'allure du roi
+   (capuchon de cobra) et lequel des deux garde le nom.
+2. **Des serpents à grands crocs**, qui font beaucoup de dégâts.
+3. **Un serpent très rare, avec très peu de vie**, mais capable par exemple de tuer un
+   Massue d'un seul coup.
+4. **Un serpent ninja.**
+5. **Des serpents « sauterelles »**, volants, qui sautent derrière nos lignes, dans le dos
+   de certaines troupes.
+6. **Un plus beau dessin pour les serpents volants.**
+7. **Plus d'œufs à mesure que la partie dure.**
+8. **Un boss final caché**, inspiré du tout premier jeu du serpent qui grandit en mangeant
+   (le genre « Snake »), avec une façon de le débloquer à trouver.
+
+Alliés :
+
+9. **Plus d'espèces de dinosaures**, équilibrées façon pierre-feuille-ciseaux. **Le
+   spinosaure doit être le meilleur du jeu.** Aujourd'hui : Petit dinosaure, Vélociraptor,
+   Tricératops, Stégosaure et Tyrannosaure.
+
+Interface :
+
+10. **Un index des serpents**, comme un petit wiki. Aujourd'hui : il existe des fiches pour
+    les alliés, rien pour les serpents.
+11. **Voir ses unités plus vite.** Les favoris lui plaisent, mais il faut trop de touchers
+    pour voir tous les alliés. Il accepte que la solution actuelle soit peut-être la moins
+    mauvaise.
+
+À respecter en les instruisant : les soldats restent autonomes et aucun mort ne revient ; un
+serpent qui tue d'un coup doit rester rare, fragile et annoncé ; le boss caché se débloque
+en jouant, jamais par un retour quotidien ni un minuteur ; l'hommage au jeu du serpent se
+fait avec un dessin original en pâte à modeler ; tout nouveau dessin est une dépense à faire
+accepter par le parent.
