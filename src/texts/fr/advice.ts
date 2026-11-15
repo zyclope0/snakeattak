@@ -101,3 +101,5 @@ export const attaquee = 'attaquée';
 export const paisiblePourCetteVague = 'paisible pour cette vague';
 export const tousLesSerpents = 'Tous les serpents';
 export const lesSerpentsNeSontPasArrivesReessaie = 'Les serpents ne sont pas arrivés. Réessaie.';
+export const siLaVagueDureUnOeufDePlusPeutArriver =
+  'Si la vague dure, un œuf de plus peut arriver.';

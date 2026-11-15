@@ -95,7 +95,7 @@ function readModeCamp(
 ): string | null {
   if (typeof raw !== 'string') return null;
   const game = decodeCheckpoint(raw);
-  if (!game || (version === 1 && game.balanceRevision === 2)) return null;
+  if (!game || (version === 1 && game.balanceRevision >= 2)) return null;
   if (field === 'classicCamp' ? !!game.mission : !game.mission) return null;
   if (game.mission && !sameRun(game.mission, lastRuns[game.mission.missionId])) return null;
   return encodeCheckpoint(game);
@@ -176,7 +176,7 @@ function rememberCamp(state: MissionProgress, game: Game): boolean {
   if (!raw) return false;
   const field = run ? 'retryCamp' : 'classicCamp';
   const changed = state[field] !== raw || (!!run && !sameRun(run, state.lastRuns[run.missionId]));
-  if (game.balanceRevision === 2) state.version = 2;
+  if (game.balanceRevision >= 2) state.version = 2;
   state[field] = raw;
   if (run) state.lastRuns[run.missionId] = run;
   return changed;

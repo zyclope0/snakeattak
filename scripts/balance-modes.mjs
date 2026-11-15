@@ -3,7 +3,9 @@
 // 10 novembre 2026 (44 092 parties sur la v0.36.0), adapté ensuite aux révisions d'équilibrage.
 //
 // Usage : node scripts/balance-modes.mjs <sortie.json> [shard] [shards] [modes.json]
-//   REVISION=1|2   révision d'équilibrage des départs (défaut : 2, la révision courante)
+//   REVISION=1|2|3 révision d'équilibrage des départs (défaut : 3, la révision courante).
+//                  La révision 3 n'existe que dans la grande aventure : les missions et les
+//                  défis se jouent alors en révision 2.
 //   SETS=12        lots de 18 départs par mission (12 = 216 parties par mode et par joueur)
 //   CLASSIC=200    parties de grande aventure par joueur
 //   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros
@@ -28,7 +30,8 @@ const shard = Number(shardArg),
 const dt = 1 / 30;
 const PROFILES = (process.env.PROFILES ?? 'expert,moyen,petit').split(',');
 const SETS = Number(process.env.SETS ?? 12);
-const REVISION = Number(process.env.REVISION ?? 2);
+const REVISION = Number(process.env.REVISION ?? 3);
+const MISSION_REVISION = Math.min(REVISION, 2);
 const CLASSIC = Number(process.env.CLASSIC ?? 200);
 
 function play(g, profile) {
@@ -200,7 +203,7 @@ for (const m of modes) {
         for (const nest of ['spread', 'clustered']) {
           const seed = (20261109 + mi * 104729 + layout * 997 + set * 7919) >>> 0;
           const base =
-            REVISION === 2
+            MISSION_REVISION === 2
               ? createMissionRun(m.missionId, seed, null, 2)
               : createMissionRun(m.missionId, seed);
           const run = {
@@ -219,7 +222,7 @@ const results = [];
 for (const j of mine) {
   const g = j.classic
     ? new Game(j.seed, undefined, undefined, REVISION)
-    : new Game(j.run.seed, undefined, j.run, REVISION);
+    : new Game(j.run.seed, undefined, j.run, MISSION_REVISION);
   let out;
   try {
     out = play(g, j.profile);

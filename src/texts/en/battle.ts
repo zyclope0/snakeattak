@@ -41,3 +41,4 @@ export const laDerniereVagueKingSnakeApproche = 'The final wave! King Snake is c
 export const vagueNDefendsLeCamp = 'Wave {0}: defend the camp!';
 export const coordonneesDeCampInvalides = 'Invalid camp coordinates';
 export const aucunePlaceLibreDansLeCamp = 'No free space in the camp';
+export const laVagueDureUnNouvelOeufEstApparu = 'This wave is taking long… A new egg has appeared!';

@@ -7,6 +7,9 @@
 export const expectedTraces: Readonly<Record<string, string>> = Object.freeze({
   'classique r1': 'won w12 b100 g442 k200 s11655 ce7dadc68c0211af17e04fc7',
   'classique r2': 'won w12 b100 g460 k184 s13983 9b41755417b58e00d40b4a9d',
+  // Third revision (15 November 2026): the same departure and player as r2. The eggs of the
+  // waves that drag on cost 18 points of crystal and 37 seconds; the game is still won.
+  'classique r3': 'won w12 b82 g391 k177 s15092 a85967571a3222d9018ae89a',
   'classique sans règles tactiques': 'won w12 b100 g567 k200 s13873 3eeda8696186b90a12ead3ce',
   'mission refuge': 'won w3 b100 g323 k25 s1838 ba997879695c6fcf0aa1a91d',
   'défi refuge-moyen r2': 'won w3 b100 g401 k44 s2568 bc0c8fb2412a1402f1b8aae1',

@@ -4,7 +4,7 @@ import * as TEXT from './texts/fr/snakes.ts';
 import { LANE_COUNT, TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
 export { TOTAL_WAVES };
 /** A wave of the adventure lays one egg, then one more per chapter begun, three at most. */
-const MAX_WAVE_EGGS = 3;
+export const MAX_WAVE_EGGS = 3;
 export const waveEggCount = (wave: number): number =>
   Math.min(MAX_WAVE_EGGS, 1 + Math.floor(wave / WAVES_PER_CHAPTER));
 export type ChapterIdentity = Readonly<{

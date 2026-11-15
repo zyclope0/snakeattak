@@ -34,9 +34,9 @@ const withinLimits = (raw: string) =>
 /** The file as returned to the caller, unless written out again it would be too large. */
 const withinSize = (backup: FamilyBackup) => (withinLimits(JSON.stringify(backup)) ? backup : null);
 
-/** A saved camp played with the second balance revision. */
+/** A saved camp played with the second balance revision or a later one. */
 const campUsesBalance2 = (raw: string | null): boolean =>
-  raw !== null && decodeCheckpoint(raw)?.balanceRevision === 2;
+  raw !== null && (decodeCheckpoint(raw)?.balanceRevision ?? 1) >= 2;
 function missionProgressHasBalance2(missions: MissionProgress): boolean {
   return (
     missions.version === 2 ||
@@ -57,7 +57,7 @@ function readCamp(saved: unknown): Camp | null {
   const game = decodeCheckpoint(saved);
   const raw = game && encodeCheckpoint(game);
   if (!game || !raw) return null;
-  return { raw, tutorial: game.mission?.rules === 2, balanced: game.balanceRevision === 2 };
+  return { raw, tutorial: game.mission?.rules === 2, balanced: game.balanceRevision >= 2 };
 }
 
 /** Every field is rebuilt by its own reader; a version too old for its content is refused. */

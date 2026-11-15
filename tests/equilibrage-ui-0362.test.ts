@@ -9,21 +9,25 @@ import { capriceDefinitionForRun } from '../src/caprices.ts';
 import { capriceExplanation } from '../src/ui/capriceCopy.ts';
 import { copy } from '../src/i18n/copy.ts';
 import { setLanguage } from '../src/i18n/language.ts';
+import { CURRENT_BALANCE_REVISION } from '../src/balanceRevision.ts';
 
-test('new session/restart opt into revision 2; explicit legacy and restored games keep their rules', () => {
+test('new session/restart opt into the current revision; explicit legacy and restored games keep their rules', () => {
   const session = new Session(0);
-  assert.equal(session.game.balanceRevision, 2);
+  assert.equal(session.game.balanceRevision, CURRENT_BALANCE_REVISION);
   assert.equal(session.game.recruitCost('trex'), 340);
   session.restart(0xffffffff, 1);
   assert.equal(session.game.balanceRevision, 1);
   assert.equal(session.game.recruitCost('trex'), 390);
   session.restart(0);
+  assert.equal(session.game.balanceRevision, CURRENT_BALANCE_REVISION);
+  session.restart(0, 2);
   assert.equal(session.game.balanceRevision, 2);
+  assert.equal(session.game.recruitCost('trex'), 340);
   const legacy = new Game(3);
   session.useGame(legacy);
   assert.equal(session.game, legacy);
   assert.equal(session.game.balanceRevision, 1);
-  for (const balance of [undefined, 2] as const) {
+  for (const balance of [undefined, 2, 3] as const) {
     const code = encodeDeparture({ kind: 'classic', seed: 0, ...(balance ? { balance } : {}) });
     const result = decodeDeparture(code);
     assert.ok(result.ok && result.departure.kind === 'classic');

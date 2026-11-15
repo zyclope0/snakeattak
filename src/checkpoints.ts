@@ -34,6 +34,7 @@ export type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
  *   7  the tutorial refuge (rules 2)
  *   8  an expedition with a challenge
  *   9  the second balance revision
+ *  10  the third balance revision, in the great adventure only
  */
 const savesHomes = (version: number) => version !== 1;
 const savesRewards = (version: number) => version >= 3;
@@ -50,8 +51,8 @@ const isFightingOrOver = (game: Game) =>
   !!game.eggs.length ||
   game.wave >= game.totalWaves;
 
-/** The tutorial refuge and the second balance revision only exist with the tactical rules. */
-const needsTacticalRules = (game: Game) => game.mission?.rules === 2 || game.balanceRevision === 2;
+/** The tutorial refuge and the later balance revisions only exist with the tactical rules. */
+const needsTacticalRules = (game: Game) => game.mission?.rules === 2 || game.balanceRevision >= 2;
 
 /** A second-revision camp can give its departure code back: a seed, the expedition's own. */
 function hasKnownDeparture(game: Game): boolean {
@@ -60,6 +61,7 @@ function hasKnownDeparture(game: Game): boolean {
 }
 
 function saveVersion(game: Game): number {
+  if (game.balanceRevision === 3) return 10;
   if (game.balanceRevision === 2) return 9;
   if (game.mission?.caprice) return 8;
   if (game.mission?.rules === 2) return 7;
@@ -83,7 +85,7 @@ function savedRewards(game: Game) {
 function saveDocument(game: Game, version: number, units: unknown[]) {
   return {
     version,
-    ...(version === 9 ? { balance: 2 } : {}),
+    ...(version === 10 ? { balance: 3 } : version === 9 ? { balance: 2 } : {}),
     ...(isModern(version) && game.initialSeed !== null ? { initialSeed: game.initialSeed } : {}),
     ...(game.mission
       ? { mission: game.mission, missionMinBase: Math.min(game.missionMinBase, game.base) }
@@ -114,7 +116,9 @@ export function encodeCheckpoint(game: Game): string | null {
   if (survivors.length > UNIT_LIMIT) return null;
   // Keep the frozen classic witness byte-compatible with the pre-tactical camp.
   if (needsTacticalRules(game) && !game.tuning.tacticalRulesEnabled) return null;
-  if (game.balanceRevision === 2 && !hasKnownDeparture(game)) return null;
+  if (game.balanceRevision >= 2 && !hasKnownDeparture(game)) return null;
+  // The third revision is a great adventure: what cannot be read back is not written.
+  if (game.balanceRevision === 3 && game.mission) return null;
   const version = saveVersion(game);
   const units = [];
   for (const unit of survivors) {
@@ -142,7 +146,7 @@ type Save = Record<string, unknown> & {
 function isSaveHeader(data: unknown): data is Save {
   return (
     isRecord(data) &&
-    isIntegerIn(data.version, 1, 9) &&
+    isIntegerIn(data.version, 1, 10) &&
     isIntegerIn(data.wave, 0, TOTAL_WAVES - 1) &&
     isIntegerIn(data.gold, 0, GOLD_LIMIT) &&
     isNumberIn(data.base, 1, CRYSTAL_MAX) &&
@@ -154,12 +158,16 @@ function isSaveHeader(data: unknown): data is Save {
   );
 }
 
-/** Only version 9 names the second balance revision, and then everything in it does. */
+/**
+ * Only versions 9 and 10 name a balance revision, and then everything in them does. The
+ * third revision is a great adventure: a version 10 camp never holds an expedition.
+ */
 function revisionMatchesVersion(
   save: Save,
   hasMission: boolean,
   mission: MissionRun | null,
 ): boolean {
+  if (save.version === 10) return save.balance === 3 && isUint32(save.initialSeed) && !hasMission;
   if (save.version === 9)
     return (
       save.balance === 2 && isUint32(save.initialSeed) && (!hasMission || mission?.balance === 2)
@@ -172,6 +180,7 @@ function revisionMatchesVersion(
 
 /** Versions 7 and 8 each exist for one kind of expedition; the older ones know neither. */
 function missionMatchesVersion(version: number, mission: MissionRun | null): boolean {
+  if (version === 10) return mission === null;
   if (version === 9) return true;
   if (version === 8) return !!mission?.caprice;
   if (version === 7) return mission?.rules === 2;
@@ -291,7 +300,8 @@ function readCheckpoint(data: unknown): Game | null {
   if (!revisionMatchesVersion(data, hasMission, mission)) return null;
   if (!missionMatchesVersion(data.version, mission)) return null;
   if (hasMission && !isMissionCamp(data, mission)) return null;
-  const game = new Game(data.rng, undefined, mission ?? undefined, data.version === 9 ? 2 : 1);
+  const revision = data.version === 10 ? 3 : data.version === 9 ? 2 : 1;
+  const game = new Game(data.rng, undefined, mission ?? undefined, revision);
   const kindsSaved = savesCapriceKinds(data.version, mission);
   if (kindsSaved && !restoreCapriceKinds(game, data.capriceKindsChosen)) return null;
   if (!restoreDepartureSeed(game, data, mission)) return null;

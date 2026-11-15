@@ -204,7 +204,7 @@ export const desLaVague6SaGrandeFeuilleProtege =
   'Dès la vague 6, sa grande feuille protège des flèches venant de face pendant sa marche. Au contact, il se découvre : garde des combattants devant tes archers ! Le souffle du bébé dragon et les obus restent utiles.';
 export const attentionAuxOeufs = 'Attention aux œufs !';
 export const ilsEclosentAUnMomentImprevisible =
-  'Ils éclosent à un moment imprévisible pendant la vague et libèrent chacun deux petits serpents. La vague se termine une fois tous les œufs éclos et les serpents repoussés.';
+  'Ils éclosent à un moment imprévisible pendant la vague et libèrent chacun deux petits serpents. La vague se termine une fois tous les œufs éclos et les serpents repoussés. Dans la grande aventure, si une vague dure longtemps, un œuf de plus peut apparaître.';
 export const deuxMielsUnSeulPotParVague = 'Deux miels, un seul pot par vague.';
 export const choisis = 'Choisis';
 export const attirer = 'Attirer';

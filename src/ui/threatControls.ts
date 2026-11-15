@@ -62,10 +62,11 @@ function showThreats(game: Game, preview: WaveThreats) {
     byId('wave-threat-advice'),
     threatAdvice(types, (k) => game.isUnlocked(k) && game.capriceAllows(k)),
   );
-  byId('wave-threat-eggs').replaceChildren(...eggWarning(preview.eggs));
+  byId('wave-threat-eggs').replaceChildren(...eggWarning(preview.eggs, !!game.lateEggs));
 }
 
-function eggWarning(eggs: number) {
+/** `late`: this game also brings an egg when a wave drags on, and says so beforehand. */
+function eggWarning(eggs: number, late: boolean) {
   const egg = make('span', { className: 'enemy-portrait' });
   egg.style.cssText = enemyPortraitStyle('egg');
   egg.setAttribute('aria-hidden', 'true');
@@ -76,5 +77,7 @@ function eggWarning(eggs: number) {
       eggs === 1 ? TEXT.oeufPeutEclore : TEXT.oeufsPeuventEclore,
     ),
   });
-  return [egg, copy];
+  if (!late) return [egg, copy];
+  const note = make('p', { text: TEXT.siLaVagueDureUnOeufDePlusPeutArriver });
+  return [egg, make('div', {}, copy, note)];
 }

@@ -28,8 +28,8 @@ import {
 import { levelForWave, missionLevel } from './levels.ts';
 import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
-import { balanceRecruitPrice } from './balanceRevision.ts';
-import type { BalanceRevision } from './balanceRevision.ts';
+import { balanceRecruitPrice, isBalanceRevision, lateEggRule } from './balanceRevision.ts';
+import type { BalanceRevision, LateEggRule } from './balanceRevision.ts';
 import { capriceBudget, capriceRules } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
 import { openStage, readStageRules } from './voyageRules.ts';
@@ -37,7 +37,7 @@ import type { StageRules } from './voyageRules.ts';
 import type { Entity, Egg, Effect } from './engine/state.ts';
 import { addAlly } from './engine/state.ts';
 import { normalizeCamp as normalizeCampRule } from './engine/camp.ts';
-import { spawnNext, hatchEggs, layWaveEggs } from './engine/spawning.ts';
+import { spawnNext, hatchEggs, layWaveEggs, layLateEgg } from './engine/spawning.ts';
 import { tickBosses } from './engine/court.ts';
 import { updateAllies, separateAllies } from './engine/allies.ts';
 import { updateConfusion, updateEnemies } from './engine/enemyTurn.ts';
@@ -112,6 +112,21 @@ export class Game {
   get balanceRevision(): BalanceRevision {
     return this.#balanceRevision;
   }
+  /**
+   * The eggs of a wave that drags on, or null in a game that has none. Private with its two
+   * counters: a camp is saved between waves, so nothing of them is ever written, and the
+   * fingerprints of older games do not see them.
+   */
+  readonly #lateEggs: LateEggRule | null;
+  #waveSeconds = 0;
+  #lateEggsLaid = 0;
+  get lateEggs(): LateEggRule | null {
+    return this.#lateEggs;
+  }
+  /** How many eggs the current wave has received for lasting; the board announces each one. */
+  get lateEggsLaid(): number {
+    return this.#lateEggsLaid;
+  }
   /** Stage of a voyage this game plays; null for every other game. Never saved in a camp. */
   readonly #stage: StageRules | null;
   get stage(): StageRules | null {
@@ -131,12 +146,14 @@ export class Game {
     if (stage !== undefined && (!this.#stage || this.mission?.balance !== 2))
       throw new RangeError(TEXT.expeditionInvalide);
     const revision = this.mission?.balance ?? 1;
+    // An expedition names its own revision; the third one only exists in the great adventure.
     if (
-      (balance !== undefined && balance !== 1 && balance !== 2) ||
+      (balance !== undefined && !isBalanceRevision(balance)) ||
       (this.mission && balance !== undefined && balance !== revision)
     )
       throw new RangeError(TEXT.revisionInvalide);
     this.#balanceRevision = balance ?? revision;
+    this.#lateEggs = this.mission ? null : lateEggRule(this.#balanceRevision);
     if (this.mission) {
       seed = this.mission.seed;
       this.gold = capriceBudget(
@@ -347,6 +364,8 @@ export class Game {
     const plan = this.mission ? missionWave(this.mission, this.wave) : null;
     this.remaining = (plan?.stats ?? waveStats(this.wave)).count;
     this.spawnTimer = 0;
+    this.#waveSeconds = 0;
+    this.#lateEggsLaid = 0;
     this.status = 'fighting';
     this.feast = null;
     this.feastUsed = false;
@@ -373,6 +392,19 @@ export class Game {
     this.base = Math.min(CRYSTAL_MAX, this.base + REPAIR_AMOUNT);
     return true;
   }
+  /** A wave that lasts brings one more egg, then another, up to the rule's limit. */
+  #layLateEggs(dt: number) {
+    const rule = this.#lateEggs;
+    if (!rule || this.status !== 'fighting') return;
+    this.#waveSeconds += dt;
+    if (
+      this.#lateEggsLaid >= rule.most ||
+      this.#waveSeconds < rule.after + this.#lateEggsLaid * rule.every
+    )
+      return;
+    this.eggs.push(layLateEgg(this, rule, this.#lateEggsLaid++));
+    this.message = TEXT.laVagueDureUnNouvelOeufEstApparu;
+  }
   step(dt: number) {
     if (this.paused || isOver(this) || !Number.isFinite(dt) || dt <= 0) return;
     dt = Math.min(MAX_STEP, dt);
@@ -386,6 +418,7 @@ export class Game {
     this.units = this.units.filter((u) => u.hp > 0);
     spawnNext(this, dt);
     hatchEggs(this, dt);
+    this.#layLateEggs(dt);
     tickBosses(this, dt);
     updateConfusion(this, dt);
     updateAllies(this, dt);
