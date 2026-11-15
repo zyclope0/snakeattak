@@ -196,9 +196,9 @@ pour mot de la page publiée le 14 novembre 2026. La page publique
 ## Point de livraison Codex — 15 novembre2026
 
 - Android61 préparé : `versionCode`61 et `POLICY_APP.build`61, version0.38.0, même package
-  et clé d’envoi. Texte et date de la politique inchangés. La comparaison à la fixture
-  historique neutralise seulement les nombres version/build ; leur valeur réelle est
-  vérifiée séparément contre Gradle/package.json.
+  et clé d’envoi. Texte et date de la politique inchangés. La comparaison actualise uniquement
+  version/build attendus de la fixture historique, sans la modifier. Les nombres réellement
+  affichés et les autres mots restent comparés, en plus du contrôle Gradle/package.json.
 - Verify717tests, navigateur, audit13/13, menus5648 (170 confidentialité), hors ligne et
   sauvegarde familiale verts. Politique du vrai APK lisible hors ligne FR/EN à780×360
   avec marges simulées, texte exact, défilement et fermeture, sans requête extérieure.

@@ -39,8 +39,8 @@ Play ; relever dans `ik-logs` ce que les journaux contiennent vraiment ; décide
 l'ancien site s'arrête.
 
 Build61 préparé : `versionCode` et `POLICY_APP.build`61, sans changer les engagements ni
-la date du texte approuvé. Le test de texte neutralise seulement version/build dans la
-comparaison à la fixture historique ; les valeurs effectives restent contrôlées. Notes de
+la date du texte approuvé. Le test actualise uniquement version/build attendus de
+l’archive ; son texte reste intact et les valeurs affichées sont contrôlées. Notes de
 version proposées :
 
 > **FR.** Nouveau dans « Pour les parents » : la politique de confidentialité se lit
@@ -52,7 +52,8 @@ version proposées :
 ## Livraison actuelle — 0.38.0, Android build61
 
 Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`, depuis main `675d52f` (PR53/54 fusionnées,
-CI43664700689 verte). Confidentialité hors ligne FR/EN, même package et signature Play.
+CI43664700689 verte). PR55 parallèle (`961883c`) intégrée : même produit, contrôle de
+texte plus strict conservé. Confidentialité hors ligne FR/EN, même package et signature Play.
 Verify717tests, navigateur, audit13/13, menus5648, hors ligne et sauvegarde familiale verts.
 AAB61 signé/validé, APK debug construit ; lecture du contenu réel de l’APK hors ligne
 FR/EN vérifiée à780×360 avec marges simulées. Aucune règle ou sauvegarde modifiée.

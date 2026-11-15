@@ -2,7 +2,9 @@
 
 Livraison préparée le15novembre2026 : **0.38.0 / Android61**. Site officiel :
 https://snakeattacktd.com/ ; politique : https://snakeattacktd.com/confidentialite.
-Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`, issue de main `675d52f` (PR53 et54 de Claude).
+Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`, issue de main `675d52f` (PR53 et54 de Claude). La préparation parallèle PR55
+(`961883c`) est intégrée à la branche de livraison : produit identique, contrôle de texte
+plus strict conservé.
 
 ## Fait
 
@@ -12,9 +14,9 @@ Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`, issue de main `
 - `versionCode`60→61 et `POLICY_APP.build`61, version0.38.0 conservée. Aucun engagement de
   confidentialité ni date du texte approuvé changé ; aucun réglage de jeu, format de
   sauvegarde, code de départ, permission ou SDK ajouté.
-- Le test de texte historique neutralise uniquement les nombres version/build des deux
-  portées : la fixture publiée du14novembre reste intacte, tous les autres mots sont
-  comparés, les métadonnées réelles restent vérifiées contre Gradle/package.json.
+- Le test actualise uniquement version/build attendus dans la portée de l’archive ; la
+  fixture publiée du14novembre reste intacte. Tous les autres mots et les numéros réellement
+  affichés sont comparés, les métadonnées étant aussi vérifiées contre Gradle/package.json.
 - AAB signé avec la clé Play d’origine ; APK debug avec le certificat familial distinct.
   Notes de version FR/EN fournies ; historique [build60](archive/BILAN-0.38.0-build60.md).
 
