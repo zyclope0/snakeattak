@@ -113,7 +113,7 @@ record**, ni les réglages : ceux-là sont à refaire. Vérifié dans le code (`
 et par `npm run test:family` ; pas essayé entre les deux vrais sites.
 
 Texte proposé pour prévenir les familles sur l'ancien site, à faire valider par le parent
-avant tout affichage (ce lot n'ajoute aucun message dans le jeu) :
+avant tout affichage (historique du lot initial) :
 
 > **FR.** Le jeu déménage sur snakeattacktd.com. Tes parties restent sur cet ancien site :
 > elles ne suivent pas toutes seules. Pour les emporter, demande à un parent d'ouvrir « Pour
@@ -186,7 +186,39 @@ pour mot de la page publiée le 14 novembre 2026. La page publique
 - Le contenu réel des journaux de l'hébergeur (`ik-logs`) n'a pas été lu ; la section « Site
   web » de la politique s'appuie sur la documentation d'Infomaniak.
 - La fenêtre de l'application sur le Galaxy S24 et l'ouverture des liens depuis l'APK.
+  Le contenu du véritable APK61 a été contrôlé hors ligne FR/EN dans un navigateur, avec
+  marges simulées ; cela ne remplace pas l’essai physique.
 - Les liens de la fiche Google Play : à remplacer par le parent ou Codex par
   `https://snakeattacktd.com/confidentialite`.
-- Les familles de l'ancien site ne sont pas encore prévenues, et l'ancien site sert toujours
-  son ancienne page de confidentialité, sans la section « Site web ».
+- L’ancien site sert sa propre page de confidentialité, sans la section Infomaniak.
+  Il affiche désormais l’avis de migration : voir ci-dessous.
+
+## Point de livraison Codex — 15 novembre2026
+
+- Android61 préparé : `versionCode`61 et `POLICY_APP.build`61, version0.38.0, même package
+  et clé d’envoi. Texte et date de la politique inchangés. La comparaison à la fixture
+  historique neutralise seulement les nombres version/build ; leur valeur réelle est
+  vérifiée séparément contre Gradle/package.json.
+- Verify717tests, navigateur, audit13/13, menus5648 (170 confidentialité), hors ligne et
+  sauvegarde familiale verts. Politique du vrai APK lisible hors ligne FR/EN à780×360
+  avec marges simulées, texte exact, défilement et fermeture, sans requête extérieure.
+- Pendant cette préparation, une autre session a déjà publié l’avis FR/EN sur l’ancien
+  site : Sites37, source `fe8bd54c391f6ce54df2e0199ee41801b469862b`. Le contrôle avant
+  publication a détecté ce changement distant : Codex a retiré son propre brouillon,
+  conservé l’avis existant et n’a rien republié sur cet hébergement. Six contrôles locaux
+  FR/EN, dont deux avec plusieurs profils, passent ; l’URL publique répond200 et contient
+  l’avis. Les128fichiers préexistants hors index sont inchangés, politique comprise.
+- La fiche Play n’est pas modifiée ici : aucun profil de navigateur authentifié Google
+  disponible. Renseigner **https://snakeattacktd.com/confidentialite** depuis la session
+  connectée du parent ; ni Alpha ni production activés.
+
+Notes à coller dans Play :
+
+```text
+<fr-FR>
+Nouveau dans « Pour les parents » : la politique de confidentialité se lit maintenant dans le jeu, même sans connexion.
+</fr-FR>
+<en-US>
+New in “For parents”: the privacy policy can now be read inside the game, even offline.
+</en-US>
+```
