@@ -9,6 +9,7 @@ import type { Kind } from '../data.ts';
 import { missionScouting } from './missionScouting.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../render/boardResolution.ts';
+import { BODY_FONT } from '../render/fonts.ts';
 import { byId } from './dom.ts';
 import { SERPENT_ARROW_COLOR, svgNode } from './svg.ts';
 import * as TEXT from '../texts/fr/missionScreens.ts';
@@ -24,8 +25,6 @@ const QUIET_ROAD_COLOUR = '#b2bdaa';
 const GROUND_FIT = 'xMidYMid slice';
 /** Mirrors a picture of the sheet, to face the other way (`transform`). */
 const MIRRORED = 'translate(512 0) scale(-1 1)';
-/** The face of the lair names on this small map. */
-const LABEL_FONT = 'Arial';
 
 /** The level's terrain, dimmed under a green veil: the roads are drawn over it. */
 export function drawGround(svg: SVGElement, level: Level) {
@@ -128,7 +127,7 @@ function drawLairs(svg: SVGElement, lanes: readonly number[]) {
       y: LANES[lane] - 34,
       fill: '#173e37',
       'font-size': 24,
-      'font-family': LABEL_FONT,
+      'font-family': BODY_FONT,
       'font-weight': 'bold',
     });
     svg.append(miniature(8, LANES[lane] - 90, 150, 150, 1), label);

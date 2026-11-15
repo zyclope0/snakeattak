@@ -101,7 +101,7 @@ export class BattleFeedback {
       setCanvasCopy(
         this.bossLabel,
         fill(
-          TEXT.roiATroisTetesNNPvN,
+          TEXT.kingSnakeNNPvN,
           Math.ceil(boss.hp),
           Math.ceil(boss.maxHp),
           bossReadout(boss, game.tuning) ? fill(TEXT.phaseN3, boss.bossState!.phase) : '',

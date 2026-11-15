@@ -18,13 +18,13 @@ export const soigneAutourDeSonPlacementRetourne =
 export const defenseFixeResteASonPlacement = 'Fixed defense: stays where you place it.';
 export const gardeSonSecteurPuisRevientASon =
   'Guards its area, then returns to where you placed it.';
-export const leRoiATroisTetesAPonduUnNouvelOeuf = 'The Three-Headed King has laid another egg!';
+export const kingSnakeAPonduUnNouvelOeuf = 'King Snake has laid another egg!';
 export const laProtectionDuCristalAAbsorbeN = 'The Crystal’s shield absorbed {0} damage!';
 export const unSerpentAAtteintLeCamp = 'A snake reached the camp!';
 export const leCampEstTombeUneAutreStrategie = 'The camp has fallen… Try another plan?';
 export const vagueRepousseeNPiecesPrepareLa = 'Wave cleared! +{0} coins. Prepare for the next one.';
 export const victoireNNEtoiles = 'Victory! {0}: {1} stars!';
-export const victoireLeRoiATroisTetesEstVaincu = 'Victory! The Three-Headed King is defeated!';
+export const victoireKingSnakeEstVaincu = 'Victory! King Snake is defeated!';
 export const leRoiArriveAvecSaGardeEtUnSoigneur =
   'The King arrives with his guards and a healer! Each head has its own role.';
 export const desOeufsOntEclosDeNouveauxSerpents = 'Eggs have hatched! More snakes are coming.';
@@ -37,7 +37,7 @@ export const leMielColleAuxEcaillesLesSerpents =
   'Honey sticks to their scales! Snakes slow down on this lane.';
 export const leGouterEstServiLesSerpents = 'Snack time! Hungry snakes may switch lanes for Honey.';
 export const nRejointLeCamp = '{0} joins the camp!';
-export const laDerniereVagueLeRoiATroisTetes = 'The final wave! The Three-Headed King is coming…';
+export const laDerniereVagueKingSnakeApproche = 'The final wave! King Snake is coming…';
 export const vagueNDefendsLeCamp = 'Wave {0}: defend the camp!';
 export const coordonneesDeCampInvalides = 'Invalid camp coordinates';
 export const aucunePlaceLibreDansLeCamp = 'No free space in the camp';

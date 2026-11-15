@@ -41,7 +41,7 @@ const chapters = [
   [TEXT.laGrandeCavalcade, TEXT.deuxRessortsEncadrentLaPremiere],
   [TEXT.lesPontsSAniment, TEXT.troisFrontsLeMambaNoirRetire3PvA],
   [TEXT.avantLeRoi, TEXT.prepareTesAlliesEtRepareTonCristal],
-  [TEXT.leRoiATroisTetes, TEXT.gardienneAuContactCracheuseA],
+  [TEXT.kingSnake, TEXT.gardienneAuContactCracheuseA],
 ];
 export function waveBriefing(wave: number) {
   const [title, tip] = chapters[Math.max(0, Math.min(11, wave - 1))];

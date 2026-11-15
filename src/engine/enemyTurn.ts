@@ -100,7 +100,7 @@ function brood(game: Game, king: Entity, dt: number) {
     count: 2,
   });
   king.broodCool = ROYAL_EGG_INTERVAL;
-  game.message = TEXT.leRoiATroisTetesAPonduUnNouvelOeuf;
+  game.message = TEXT.kingSnakeAPonduUnNouvelOeuf;
 }
 /** The ally within reach to bite: the nearest, except that spitters aim at shooters first. */
 function biteTarget(game: Game, e: Entity): Entity | undefined {

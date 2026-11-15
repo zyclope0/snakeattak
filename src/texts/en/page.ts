@@ -157,8 +157,8 @@ export const resultat = 'Result';
 export const laValleeABesoinDeToi = 'The valley needs you';
 export const repousse = 'Fight off';
 export const n12VaguesDeSerpents = `${TOTAL_WAVES} waves of snakes`;
-export const etLe = 'and the';
-export const roiATroisTetes = 'Three-Headed King';
+export const et = 'and';
+export const kingSnake = 'King Snake';
 export const pourGagnerTonCampDoitResterDebout =
   'to win. Your camp must stay standing. If the king gets in, the game is lost! He lays eggs during the last wave. His guardian head protects his body: allies who fight up close break his shields faster. His spitting head marks the ground before its next shot, which hits just once. Shield Guards near your ranged allies can soften his shots. Each new phase may bring a shield.';
 export const apresLesVagues4Et8ChoisisUnBonusUn = `After waves ${REWARD_WAVES[0]} and ${REWARD_WAVES[1]}, choose a bonus: a free ally to place, longer-lasting Honey, extra coins, or Crystal protection. Choose one bonus at each stage. Your choice is kept if you reload the game.`;
@@ -268,7 +268,7 @@ export const reprendre = 'Resume';
 export const laGrandeAventure12Vagues = `The big adventure · ${TOTAL_WAVES} waves`;
 export const choisirUnChapitre = 'Choose a chapter';
 export const taRouteDansLaVallee = 'Your path through the valley';
-export const douzeVaguesJusquAuRoiATroisTetes = 'Twelve waves to the Three-Headed King';
+export const douzeVaguesJusquAKingSnake = 'Twelve waves to King Snake';
 export const n09Etoiles = '0 / 9 stars';
 export const uneEtoilePourFinirDeuxDes60Trois =
   'One star for finishing · two from 60% · three from 90%';

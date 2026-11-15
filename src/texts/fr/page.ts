@@ -158,8 +158,8 @@ export const resultat = 'Résultat';
 export const laValleeABesoinDeToi = 'La vallée a besoin de toi';
 export const repousse = 'Repousse';
 export const n12VaguesDeSerpents = `${TOTAL_WAVES} vagues de serpents`;
-export const etLe = 'et le';
-export const roiATroisTetes = 'Roi à trois têtes';
+export const et = 'et';
+export const kingSnake = 'King Snake';
 export const pourGagnerTonCampDoitResterDebout =
   'pour gagner. Ton camp doit rester debout. Si le roi entre, la partie est perdue ! Il pond des œufs pendant la dernière vague. Sa tête gardienne protège son corps : les combattants au contact brisent plus vite ses protections. Sa tête cracheuse annonce au sol la zone de son prochain tir, qui frappe une seule fois. Des boucliers près de tes tireurs peuvent amortir ses tirs. Chaque nouvelle phase peut apporter une protection.';
 export const apresLesVagues4Et8ChoisisUnBonusUn = `Après les vagues ${REWARD_WAVES[0]} et ${REWARD_WAVES[1]}, choisis un bonus : un allié offert à placer, du miel plus durable, une réserve de pièces ou une protection du cristal. Un seul choix par étape, conservé si tu recharges la partie.`;
@@ -269,7 +269,7 @@ export const reprendre = 'Reprendre';
 export const laGrandeAventure12Vagues = `La grande aventure · ${TOTAL_WAVES} vagues`;
 export const choisirUnChapitre = 'Choisir un chapitre';
 export const taRouteDansLaVallee = 'Ta route dans la vallée';
-export const douzeVaguesJusquAuRoiATroisTetes = 'Douze vagues jusqu’au roi à trois têtes';
+export const douzeVaguesJusquAKingSnake = 'Douze vagues jusqu’à King Snake';
 export const n09Etoiles = '0 / 9 étoiles';
 export const uneEtoilePourFinirDeuxDes60Trois =
   'Une étoile pour finir · deux dès 60 % · trois dès 90 %';

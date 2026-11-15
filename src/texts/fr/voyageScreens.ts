@@ -15,7 +15,7 @@ export const faireCeVoyage = 'Faire ce voyage';
 export const unAutreVoyage = 'Un autre voyage';
 export const unNouveauVoyage = 'Un nouveau voyage';
 export const tuAsUnCode = 'Tu as un code ?';
-export const leRoiATroisTetes = 'Le roi à trois têtes';
+export const kingSnake = 'King Snake';
 export const capriceSurprise2 = 'Caprice surprise :';
 export const changerDeVoyage = 'Changer de voyage ?';
 export const garderMonVoyage = 'Garder mon voyage';
@@ -34,7 +34,7 @@ export const etapeNReussie = 'Étape {0} réussie !';
 export const bravoTuAsFiniLeVoyage = 'Bravo, tu as fini le voyage !';
 export const tonVoyageSArreteALEtapeN = 'Ton voyage s’arrête à l’étape {0}';
 export const tonPlusLongVoyageNEtapeN = 'Ton plus long voyage : {0} étape{1}';
-export const nEtapesJusquAuRoiATroisTetes = '{0} étapes jusqu’au roi à trois têtes';
+export const nEtapesJusquAKingSnake = '{0} étapes jusqu’à King Snake';
 export const etapeReussie = 'Étape réussie';
 export const etapeAJouer = 'Étape à jouer';
 export const etapeAVenir = 'Étape à venir';
@@ -73,8 +73,7 @@ export const leVoyageEtapeNSurN = 'Le voyage · Étape {0} sur {1}';
 export const leCampEstTombeALEtapeNTuPourras =
   'Le camp est tombé à l’étape {0}. Tu pourras refaire ce voyage.';
 export const voirMonVoyage = 'Voir mon voyage';
-export const leRoiATroisTetesEstBattuTuAsFiniLe =
-  'Le roi à trois têtes est battu. Tu as fini le voyage !';
+export const kingSnakeEstBattuTuAsFiniLeVoyage = 'King Snake est battu. Tu as fini le voyage !';
 export const continuerLeVoyage = 'Continuer le voyage';
 export const etapeNSurNReussieChoisisMaintenant =
   'Étape {0} sur {1} réussie. Choisis maintenant un bonus pour la suite.';

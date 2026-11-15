@@ -67,7 +67,6 @@ test('a value written for the browser is not a text, a sentence beside it still 
     'NFD',
     'Fredoka',
     'Nunito Sans',
-    'Arial',
   ])
     assert.deepEqual(displayedTexts(value), [], value);
   // Words a child could read are refused, even when they look a little like the above.

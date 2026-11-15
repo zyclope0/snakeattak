@@ -75,5 +75,5 @@ function openChapter(game: Game, milestone: Milestone) {
 function victoryMessage(game: Game): string {
   return game.mission
     ? fill(TEXT.victoireNNEtoiles, missionById(game.mission.missionId)!.name, game.missionStars)
-    : TEXT.victoireLeRoiATroisTetesEstVaincu;
+    : TEXT.victoireKingSnakeEstVaincu;
 }

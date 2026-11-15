@@ -3,9 +3,11 @@
 // La version 1 n'était pas publiée quand ces empreintes ont été refaites. Une fois publiée,
 // ne les régénère pas pour faire passer un test : une empreinte différente est un voyage
 // différent pour un code déjà partagé. De nouveaux réglages sont une version 2 du voyage.
+// 15 novembre 2026 : le roi s'appelle « King Snake ». Un voyage change de hachage parce que
+// son dernier message nomme le roi ; son code, ses bonus et chaque étape sont les mêmes.
 export const expectedVoyageTraces: Readonly<Record<string, string>> = Object.freeze({
   'graine 2026, joueur 0':
-    'VOYAGE-1-01ZA-AV fallen 4/5 [renfort-raptor cristal cristal miel] won w3 b100 g313 k25 s2137 | won w3 b100 g364 k31 s2102 | won w3 b100 g1045 k37 s2313 | won w3 b100 g603 k74 s3506 | lost w4 b0 g258 k63 s6381 a94e2229e6ba05f4f0f92e9d',
+    'VOYAGE-1-01ZA-AV fallen 4/5 [renfort-raptor cristal cristal miel] won w3 b100 g313 k25 s2137 | won w3 b100 g364 k31 s2102 | won w3 b100 g1045 k37 s2313 | won w3 b100 g603 k74 s3506 | lost w4 b0 g258 k63 s6381 5582550b41f155d4f34ea3d1',
   'graine 31337, joueur 1':
     'VOYAGE-1-0YK9-AY fallen 4/5 [renfort-bouclier pieces miel renfort-ninja] won w3 b100 g323 k25 s1889 | won w3 b100 g754 k31 s2937 | won w3 b100 g650 k37 s2456 | won w3 b91 g586 k73 s4728 | lost w3 b0 g460 k26 s3520 3ed66d6fb2c127ba8d80d077',
   'graine 777, joueur 3':
