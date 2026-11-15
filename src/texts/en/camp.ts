@@ -1,3 +1,11 @@
+import {
+  CRYSTAL_MAX,
+  ENCOURAGEMENT_SECONDS,
+  HERO_TRAINING_COST,
+  REPAIR_AMOUNT,
+  WAVES_PER_CHAPTER,
+} from '../../gameConstants.ts';
+
 export const pasDeMielDansCeCaprice = 'No honey in this caprice';
 export const reserveBancaireProtegee = 'Protected bank reserve ·';
 export const leHerosEstTombeAucunEntrainement = 'The Hero has fallen. Training is unavailable.';
@@ -5,13 +13,12 @@ export const frappeRenforcee15DeDegatsDuHeros = 'Power Strike · +15% hero damag
 export const gardien15SurLesCoupsEtTirsRecus = 'Guardian · −15% damage from hits and shots';
 export const dansUneAutreExpeditionDesLesTrois =
   'In another expedition, starting with The Three Bridges';
-export const disponibleApresLaVague4 = 'Available after wave 4';
-export const entreDeuxVagues90Pieces = 'Between waves · 90 coins';
+export const disponibleApresLaVague4 = `Available after wave ${WAVES_PER_CHAPTER}`;
+export const entreDeuxVagues90Pieces = `Between waves · ${HERO_TRAINING_COST} coins`;
 export const ilManqueNPiecesPourLEntrainement = 'You need {0} more coins for training';
-export const n90PiecesUnSeulEntrainementPourCes = '90 coins · one training choice for these allies';
+export const n90PiecesUnSeulEntrainementPourCes = `${HERO_TRAINING_COST} coins · one training choice for these allies`;
 export const entrainerLeHeros = 'Train the hero';
-export const entreDeuxVaguesDesLesTroisPontsEn =
-  'Between waves. From The Three Bridges in expeditions; after wave 4 in classic mode.';
+export const entreDeuxVaguesDesLesTroisPontsEn = `Between waves. From The Three Bridges in expeditions; after wave ${WAVES_PER_CHAPTER} in classic mode.`;
 export const tousLesAlliesConseilsEtOutils =
   'All allies → Tips and tools → Camp actions → Train the Hero. Choose Power Strike or Guardian.';
 export const frappe15DeDegatsGardien15SurLes =
@@ -21,18 +28,17 @@ export const siLeCristalAPerduDeLaVieAvantOu =
   'If the crystal has lost health, before or during a wave.';
 export const tousLesAlliesConseilsEtOutils2 =
   'All allies → Tips and tools → Camp actions → Repair the crystal.';
-export const leCristalRegagneJusquA25PointsDe =
-  'The crystal regains up to 25 health points, up to a maximum of 100.';
+export const leCristalRegagneJusquA25PointsDe = `The crystal regains up to ${REPAIR_AMOUNT} health points, up to a maximum of ${CRYSTAL_MAX}.`;
 export const lesDegatsSubisRestentComptesPour = 'Damage taken still counts toward your stars.';
 export const laPartieEstTerminee = 'The game is over';
 export const tonCristalEstIntact = 'Your crystal is at full health';
 export const ilManqueNPiecesPourReparer = 'You need {0} more coins to repair';
-export const cristalN100ReparationPossible = 'Crystal: {0} / 100 · can be repaired';
+export const cristalN100ReparationPossible = `Crystal: {0} / ${CRYSTAL_MAX} · can be repaired`;
 export const encourager = 'Encourage';
 export const pendantLeCombatQuandTesAllies = 'During battle, when your allies can attack.';
 export const tousLesAlliesConseilsEtOutils3 =
   'All allies → Tips and tools → Camp actions → Encourage our allies.';
-export const leursAttaquesAccelerentPendant8S = 'Their attacks speed up for 8 s. Once per wave.';
+export const leursAttaquesAccelerentPendant8S = `Their attacks speed up for ${ENCOURAGEMENT_SECONDS} s. Once per wave.`;
 export const encouragesNS = 'Encouraged · {0} s';
 export const revientALaProchaineVague = 'Returns next wave';
 export const aUtiliserPendantLeCombat = 'Use during battle';

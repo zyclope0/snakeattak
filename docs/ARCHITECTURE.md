@@ -1145,6 +1145,8 @@ Les règles :
 6. Un id de la page reste une chaîne, mais un test vérifie qu'il existe.
 7. Ce qui n'est pas un texte affiché (une requête d'écran, un dégradé, un attribut SVG) ne va
    pas dans `src/texts/`.
+8. Une phrase ne retape pas un nombre du jeu : elle le prend dans sa constante, en français
+   comme en anglais (`` `camp de ${START_GOLD} pièces` ``).
 
 Où sont les valeurs :
 
@@ -1178,6 +1180,22 @@ Où sont les valeurs :
   deux nuances voisines change l'image : c'est une décision de direction artistique.
 - **`SHEET` et `sheetUrl`** (`src/art.ts`) : les planches d'images nommées hors de `art.ts`.
   Un nom qui ne correspond à aucune planche ne compile pas.
+- **Prix du camp et récompenses** (`gameConstants.ts`) : `REPAIR_COST`, `REPAIR_AMOUNT`,
+  `HERO_TRAINING_COST`, `ENCOURAGEMENT_SECONDS`, `REWARD_COINS`, `CRYSTAL_WARD`,
+  `HONEY_REWARD_SECONDS`, `STAR_MAX`, `MISSION_COUNT`, `ROSTER_SIZE`. Le prix de la
+  réparation et celui de l'entraînement étaient écrits deux fois, dans la règle et dans
+  l'écran du camp.
+- **Nombres dans les phrases** : quarante phrases des catalogues (« pendant 8 secondes »,
+  « 90 pièces », « 12 vagues de serpents », « / 18 étoiles »…) prennent leur nombre dans ces
+  constantes, dans les deux langues. Le catalogue importe `gameConstants.ts`, module sans
+  import : pas de boucle avec les règles. Le texte produit est le même au caractère près
+  — le dictionnaire généré n'a pas changé d'un octet — donc ni message du moteur ni
+  empreinte de partie ne bouge. L'inventaire des textes (`scripts/extract-locale-035.mjs`)
+  lit maintenant le catalogue comme le jeu le lit, nombres écrits.
+- **Phrases laissées telles quelles** : les fiches des alliés et l'aide longue, dont les
+  nombres viennent des tables par unité (`data.ts`, `unitRules.ts`) — vague de déblocage,
+  bandages, pourcentages, durées à virgule. Les relier demanderait de générer ces
+  paragraphes ; un changement d'équilibrage doit encore les relire.
 - **Restent à côté de leur règle**, parce qu'ils ne servent qu'une fois et font la partie :
   les scripts de vagues (`waves.ts`, `missions.ts`), les poids de l'IA (`ai.ts`,
   `defenders.ts`), la géométrie des routes (`routes.ts`).
@@ -1186,4 +1204,7 @@ Garde-fous : `tests/storage-keys.test.ts` retape chaque clé, chaque limite et l
 tirage sur mille pas ; `tests/game-constants.test.ts` retape chaque nombre du jeu et chaque
 repère, et vérifie qu'une partie neuve commence bien avec eux ;
 `tests/board-depth.test.ts` retape la table des couches et les couleurs partagées, et refuse
-une profondeur écrite en chiffres dans `src/render/`.
+une profondeur écrite en chiffres dans `src/render/` ; `tests/game-constants.test.ts` refuse
+aussi, dans les catalogues, les formes d'un nombre du jeu tapé à la main ;
+`tests/app-identity.test.ts` vérifie que l'identifiant de l'application est le même aux six
+endroits où Android le veut.

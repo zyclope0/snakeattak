@@ -1,3 +1,5 @@
+import { MISSION_COUNT, STAR_MAX } from '../../gameConstants.ts';
+
 export const aventureFamilialeEnregistreeSurCet = 'Family adventure saved on this device';
 export const sauvegardeFamilialeIndisponible =
   'Family save unavailable: storage is blocked or full';
@@ -12,8 +14,7 @@ export const campAvantLaVagueNNAlliesNPiecesN =
   'Camp before wave {0} · {1} allies · {2} coins · {3} stars.';
 export const progressionFavorisEtCampsConserves =
   'Progress, favorites and camps kept in this file · {0} classic stars.';
-export const expeditionsN18EtoilesLeCamp =
-  'Expeditions: {0} / 18 stars. Your classic camp is kept separately.';
+export const expeditionsN18EtoilesLeCamp = `Expeditions: {0} / ${MISSION_COUNT * STAR_MAX} stars. Your classic camp is kept separately.`;
 export const lesCarnetsEtLeursAutocollantsSont =
   'Sticker books and their stickers are included and will replace the current books.';
 export const ceFichierNeContientAucunCarnetLes =

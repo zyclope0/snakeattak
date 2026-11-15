@@ -1,3 +1,15 @@
+import {
+  ENCOURAGEMENT_SECONDS,
+  HERO_TRAINING_COST,
+  MISSION_COUNT,
+  REPAIR_AMOUNT,
+  REWARD_WAVES,
+  ROSTER_SIZE,
+  START_GOLD,
+  STAR_MAX,
+  TOTAL_WAVES,
+} from '../../gameConstants.ts';
+
 export const laConqueteDesSerpents = 'Snake Attack TD';
 export const tourneTonTelephone = 'Turn your phone';
 export const lesTroisCheminsOntBesoinDePlace = 'The three paths need room.';
@@ -88,15 +100,15 @@ export const n1PotVague = '1 pot / wave';
 export const attireLesGourmandsVersCetteVoie = 'Lures hungry snakes toward this lane.';
 export const choisirLaVoieDuGouter = 'Choose the Honey lane';
 export const encouragerNosAllies = 'Encourage our allies';
-export const n1FoisParVague8Secondes = 'Once per wave · 8 seconds';
+export const n1FoisParVague8Secondes = `Once per wave · ${ENCOURAGEMENT_SECONDS} seconds`;
 export const unPotGratuitAChaqueVague = 'One free pot every wave';
 export const reparerLeCristal = 'Repair the crystal';
-export const n25PointsDeVie = '+25 health points';
+export const n25PointsDeVie = `+${REPAIR_AMOUNT} health points`;
 export const entrainerLeHeros = 'Train the hero';
 export const frappeRenforcee = 'Power Strike';
-export const n15DeDegats90Pieces = '+15% damage · 90 coins';
+export const n15DeDegats90Pieces = `+15% damage · ${HERO_TRAINING_COST} coins`;
 export const gardien = 'Guardian';
-export const n15SurLesCoupsRecus90Pieces = '−15% damage taken · 90 coins';
+export const n15SurLesCoupsRecus90Pieces = `−15% damage taken · ${HERO_TRAINING_COST} coins`;
 export const uneAventureEnDouzeVagues = 'A twelve-wave adventure';
 export const details = 'Details';
 export const prepareTonCamp2 = 'Prepare your camp.';
@@ -110,8 +122,7 @@ export const sauvegardeLocaleEntreLesVagues = 'Saved on this device between wave
 export const nouvellePartie = '↻ New game';
 export const prototypeV4 = 'Prototype V4';
 export const retrouverCetteAventureClassique = 'Restore this classic adventure';
-export const douzeVaguesUnCristalEtUnNouveau =
-  'Twelve waves, one Crystal, and a fresh camp with 300 coins. Choose any allies you like.';
+export const douzeVaguesUnCristalEtUnNouveau = `Twelve waves, one Crystal, and a fresh camp with ${START_GOLD} coins. Choose any allies you like.`;
 export const siTuAsDejaUnCampEnCoursUne =
   'If you already have a camp in progress, a confirmation lets you keep it.';
 export const annuler2 = 'Cancel';
@@ -145,13 +156,12 @@ export const geste = 'Action';
 export const resultat = 'Result';
 export const laValleeABesoinDeToi = 'The valley needs you';
 export const repousse = 'Fight off';
-export const n12VaguesDeSerpents = '12 waves of snakes';
+export const n12VaguesDeSerpents = `${TOTAL_WAVES} waves of snakes`;
 export const etLe = 'and the';
 export const roiATroisTetes = 'Three-Headed King';
 export const pourGagnerTonCampDoitResterDebout =
   'to win. Your camp must stay standing. If the king gets in, the game is lost! He lays eggs during the last wave. His guardian head protects his body: allies who fight up close break his shields faster. His spitting head marks the ground before its next shot, which hits just once. Shield Guards near your ranged allies can soften his shots. Each new phase may bring a shield.';
-export const apresLesVagues4Et8ChoisisUnBonusUn =
-  'After waves 4 and 8, choose a bonus: a free ally to place, longer-lasting Honey, extra coins, or Crystal protection. Choose one bonus at each stage. Your choice is kept if you reload the game.';
+export const apresLesVagues4Et8ChoisisUnBonusUn = `After waves ${REWARD_WAVES[0]} and ${REWARD_WAVES[1]}, choose a bonus: a free ally to place, longer-lasting Honey, extra coins, or Crystal protection. Choose one bonus at each stage. Your choice is kept if you reload the game.`;
 export const prepare = 'Prepare.';
 export const choisisUnAlliePuisToucheLeCampA =
   'Choose an ally, then tap the camp on the right to place it.';
@@ -224,7 +234,7 @@ export const cEstParti = "Let's go!";
 export const aventureFamilialeSauvegardeLocale =
   'A family adventure · Saved on this device between waves';
 export const accueilDeLAventure = 'Adventure home';
-export const n018Etoiles = '0 / 18 stars';
+export const n018Etoiles = `0 / ${MISSION_COUNT * STAR_MAX} stars`;
 export const accueil2 = '← Home';
 export const protege = 'Protect';
 export const leCristal = 'the crystal!';
@@ -255,7 +265,7 @@ export const retrouver = 'Restore';
 export const leCodeRetrouveLeTerrainEtLesVagues =
   'The code brings back the terrain and waves. You prepare new allies.';
 export const reprendre = 'Resume';
-export const laGrandeAventure12Vagues = 'The big adventure · 12 waves';
+export const laGrandeAventure12Vagues = `The big adventure · ${TOTAL_WAVES} waves`;
 export const choisirUnChapitre = 'Choose a chapter';
 export const taRouteDansLaVallee = 'Your path through the valley';
 export const douzeVaguesJusquAuRoiATroisTetes = 'Twelve waves to the Three-Headed King';
@@ -278,7 +288,7 @@ export const tesAlliesFavoris = 'Your favorite allies.';
 export const choisisHuitRaccourcisDeRecrutement =
   'Choose eight recruitment shortcuts. All other allies stay in the catalog. Their prices and arrival waves stay the same.';
 export const composition = 'Team';
-export const n88AlliesFavoris = '8 / 8 favorite allies';
+export const n88AlliesFavoris = `${ROSTER_SIZE} / ${ROSTER_SIZE} favorite allies`;
 export const utiliserCesFavoris = 'Use these favorites';
 export const precedents = '← Previous';
 export const suivants = 'Next →';

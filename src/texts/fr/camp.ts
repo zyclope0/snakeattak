@@ -1,17 +1,23 @@
+import {
+  CRYSTAL_MAX,
+  ENCOURAGEMENT_SECONDS,
+  HERO_TRAINING_COST,
+  REPAIR_AMOUNT,
+  WAVES_PER_CHAPTER,
+} from '../../gameConstants.ts';
+
 export const pasDeMielDansCeCaprice = 'Pas de miel dans ce caprice';
 export const reserveBancaireProtegee = 'Réserve bancaire protégée · ';
 export const leHerosEstTombeAucunEntrainement = 'Le héros est tombé. Aucun entraînement possible.';
 export const frappeRenforcee15DeDegatsDuHeros = 'Frappe renforcée · +15 % de dégâts du héros';
 export const gardien15SurLesCoupsEtTirsRecus = 'Gardien · −15 % sur les coups et tirs reçus';
 export const dansUneAutreExpeditionDesLesTrois = 'Dans une autre expédition, dès Les trois ponts';
-export const disponibleApresLaVague4 = 'Disponible après la vague 4';
-export const entreDeuxVagues90Pieces = 'Entre deux vagues · 90 pièces';
+export const disponibleApresLaVague4 = `Disponible après la vague ${WAVES_PER_CHAPTER}`;
+export const entreDeuxVagues90Pieces = `Entre deux vagues · ${HERO_TRAINING_COST} pièces`;
 export const ilManqueNPiecesPourLEntrainement = 'Il manque {0} pièces pour l’entraînement';
-export const n90PiecesUnSeulEntrainementPourCes =
-  '90 pièces · un seul entraînement pour ces alliés';
+export const n90PiecesUnSeulEntrainementPourCes = `${HERO_TRAINING_COST} pièces · un seul entraînement pour ces alliés`;
 export const entrainerLeHeros = 'Entraîner le héros';
-export const entreDeuxVaguesDesLesTroisPontsEn =
-  'Entre deux vagues. Dès Les trois ponts en expédition ; après la vague 4 en classique.';
+export const entreDeuxVaguesDesLesTroisPontsEn = `Entre deux vagues. Dès Les trois ponts en expédition ; après la vague ${WAVES_PER_CHAPTER} en classique.`;
 export const tousLesAlliesConseilsEtOutils =
   'Tous les alliés → Conseils et outils → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.';
 export const frappe15DeDegatsGardien15SurLes =
@@ -21,20 +27,18 @@ export const siLeCristalAPerduDeLaVieAvantOu =
   'Si le cristal a perdu de la vie, avant ou pendant une vague.';
 export const tousLesAlliesConseilsEtOutils2 =
   'Tous les alliés → Conseils et outils → Actions du camp → Réparer le cristal.';
-export const leCristalRegagneJusquA25PointsDe =
-  'Le cristal regagne jusqu’à 25 points de vie, sans dépasser 100.';
+export const leCristalRegagneJusquA25PointsDe = `Le cristal regagne jusqu’à ${REPAIR_AMOUNT} points de vie, sans dépasser ${CRYSTAL_MAX}.`;
 export const lesDegatsSubisRestentComptesPour =
   ' Les dégâts subis restent comptés pour tes étoiles.';
 export const laPartieEstTerminee = 'La partie est terminée';
 export const tonCristalEstIntact = 'Ton cristal est intact';
 export const ilManqueNPiecesPourReparer = 'Il manque {0} pièces pour réparer';
-export const cristalN100ReparationPossible = 'Cristal : {0} / 100 · réparation possible';
+export const cristalN100ReparationPossible = `Cristal : {0} / ${CRYSTAL_MAX} · réparation possible`;
 export const encourager = 'Encourager';
 export const pendantLeCombatQuandTesAllies = 'Pendant le combat, quand tes alliés peuvent frapper.';
 export const tousLesAlliesConseilsEtOutils3 =
   'Tous les alliés → Conseils et outils → Actions du camp → Encourager nos alliés.';
-export const leursAttaquesAccelerentPendant8S =
-  'Leurs attaques accélèrent pendant 8 s. Une fois par vague.';
+export const leursAttaquesAccelerentPendant8S = `Leurs attaques accélèrent pendant ${ENCOURAGEMENT_SECONDS} s. Une fois par vague.`;
 export const encouragesNS = 'Encouragés · {0} s';
 export const revientALaProchaineVague = 'Revient à la prochaine vague';
 export const aUtiliserPendantLeCombat = 'À utiliser pendant le combat';

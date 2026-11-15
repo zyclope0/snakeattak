@@ -1,3 +1,5 @@
+import { ENCOURAGEMENT_SECONDS } from '../../gameConstants.ts';
+
 export const haut = 'Top';
 export const centre = 'Middle';
 export const bas = 'Bottom';
@@ -31,7 +33,7 @@ export const choisisUnAllie = 'Choose an ally.';
 export const expeditionInvalide = 'Invalid mission';
 export const leHerosEntraineSaForce = 'Hero training: Power Strike!';
 export const leHerosEntraineSaGarde = 'Hero training: Guardian!';
-export const courageLesAlliesFrappentPlusVite = 'Encourage: allies attack faster for 8 seconds!';
+export const courageLesAlliesFrappentPlusVite = `Encourage: allies attack faster for ${ENCOURAGEMENT_SECONDS} seconds!`;
 export const leMielColleAuxEcaillesLesSerpents =
   'Honey sticks to their scales! Snakes slow down on this lane.';
 export const leGouterEstServiLesSerpents = 'Snack time! Hungry snakes may switch lanes for Honey.';

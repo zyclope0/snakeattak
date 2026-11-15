@@ -1,6 +1,8 @@
+import { ROSTER_SIZE } from '../../gameConstants.ts';
+
 export const reglesDOrigine = 'Règles d’origine';
 export const vagueN = 'Vague {0}';
-export const n8AlliesFavoris = '{0} / 8 alliés favoris';
+export const n8AlliesFavoris = `{0} / ${ROSTER_SIZE} alliés favoris`;
 export const camp = 'Camp';
 export const nosAllies = 'Nos alliés';
 export const defense = 'Défense';
