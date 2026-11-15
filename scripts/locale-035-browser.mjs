@@ -700,21 +700,23 @@ try {
             const catalogKinds = [];
             for (const tab of ['shop-ready', 'shop-future']) {
               await page.locator(`#${tab}`).click();
-              const cards = [];
-              for (;;) {
-                cards.push(
-                  ...(await page.locator('#shop .unit-card:not([hidden])').evaluateAll((cards) =>
-                    cards.map((card) => ({
-                      kind: card.dataset.kind,
-                      name: card.querySelector('strong').textContent,
-                      title: card.title,
-                      aria: card.getAttribute('aria-label'),
-                    })),
-                  )),
-                );
-                if (await page.locator('#catalog-next').isDisabled()) break;
-                await page.locator('#catalog-next').click();
-              }
+              // No pages: the tab shows all its cards at once, as many as it announces.
+              const cards = await page.locator('#shop .unit-card:visible').evaluateAll((cards) =>
+                cards.map((card) => ({
+                  kind: card.dataset.kind,
+                  name: card.querySelector('strong').textContent,
+                  title: card.title,
+                  aria: card.getAttribute('aria-label'),
+                })),
+              );
+              const announced = Number(
+                (await page.locator(`#${tab}`).textContent()).match(/\((\d+)\)/)?.[1],
+              );
+              check(
+                `${name}: ${tab} shows every card it announces at once`,
+                cards.length === announced,
+                { announced, shown: cards.length },
+              );
               catalogKinds.push(...cards.map((card) => card.kind));
               check(
                 `${name}: ${tab} English catalog cards`,

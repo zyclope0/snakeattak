@@ -588,7 +588,7 @@ tailles, du petit téléphone à l'ordinateur, avec et sans marges système.
 | -------------------- | ---------------------------------------------------------------------- |
 | Carnet de caprices   | Les six autocollants d'une mission, la phrase qui explique ; la sortie |
 | Préparation          | Le titre et ses quatre ou cinq vues sur une rangée ; « C'est parti ! » |
-| Catalogue des alliés | Six alliés par page ; filtres et pages sur une rangée                  |
+| Catalogue des alliés | Le titre et les deux onglets ; tous les alliés en petites cartes       |
 | Comment jouer        | « C'est parti ! » et la fermeture, pendant que le texte défile         |
 | Serpents annoncés    | La vague à gauche, œufs et conseil à droite ; « Retour au camp »       |
 
@@ -602,9 +602,10 @@ a quelque chose à proposer (`friendsViewHasContent`) ; s'il disparaît pendant 
 le résumé reprend la main (`availableView`). Le code de départ reste produit et lisible depuis
 la page des parents ; son bloc est seulement masqué dans la préparation (`hidden`).
 
-Seuils de repli restants : sous 600 px de large ou en portrait, les pages du catalogue passent
-sous les filtres. Un très petit téléphone (568×320) montre une rangée de trois alliés à la
-fois.
+Depuis le 15 novembre 2026, le catalogue n'a plus ni pages ni liste de familles : chaque
+onglet montre tous ses alliés en petites cartes, sur cinq colonnes. Seuil de repli restant :
+jusqu'à 700 px de large, quatre colonnes ; sur un très petit téléphone (568×320), les rangées
+qui ne tiennent pas se font défiler.
 
 `npm run test:mobile-menus` contrôle ces dialogues sur six tailles, dont deux avec marges
 système : autocollants, alliés, départ et retour en vue, cadre dans la zone sûre, cibles de

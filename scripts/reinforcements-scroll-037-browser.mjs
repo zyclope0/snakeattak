@@ -1,4 +1,5 @@
 import { showHomePage } from '../tests/browser-entry.mjs';
+import { catalogueView, REMOVED_CATALOGUE_CONTROLS } from '../tests/reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
@@ -225,26 +226,72 @@ try {
     assert.deepEqual(after.selected, before.selected);
     assert.equal(after.open, true);
     assert.equal(after.pageY, before.pageY);
-    // A page replaces the historical long list. Both swipe directions must be
-    // harmless whether the bounded body scrolls or all six cards already fit.
+    // Every ally of a tab is on one screen. Both swipe directions must be harmless
+    // whether the body scrolls or all the cards already fit.
     await swipe(page, point.x, point.to, point.y);
     assert.equal((await snapshot(page)).gold, before.gold);
     assert.deepEqual((await snapshot(page)).selected, before.selected);
     assert.equal((await snapshot(page)).open, true);
-    const seen = new Set();
+    assert.equal(
+      await page.locator(REMOVED_CATALOGUE_CONTROLS).count(),
+      0,
+      'No pager and no family list',
+    );
+    const seen = new Set(),
+      shown = {};
     for (const tab of ['shop-ready', 'shop-future']) {
       await page.locator('#' + tab).tap();
-      do {
-        const ids = await page
-          .locator('#shop .unit-card:visible')
-          .evaluateAll((ns) => ns.map((n) => n.dataset.kind));
-        assert.ok(ids.length <= 6, 'Six allies maximum on each page');
-        for (const id of ids) seen.add(id);
-        if (await page.locator('#catalog-next').isDisabled()) break;
-        await page.locator('#catalog-next').tap();
-      } while (true);
+      const view = await catalogueView(page);
+      assert.deepEqual(view.tab, [tab], 'Tab pressed');
+      assert.equal(view.scrollTop, 0, 'A tab starts at its first ally');
+      assert.equal(
+        view.cards.length,
+        tab === 'shop-ready' ? view.ready : view.future,
+        'A tab shows every ally it announces at once',
+      );
+      assert.ok(
+        view.cards.every((card) => (card.state === 'locked') === (tab === 'shop-future')),
+        'Available and future allies stay apart',
+      );
+      assert.equal(view.columns, width <= 700 ? 4 : 5, 'Five columns, four on a narrow screen');
+      assert.ok(
+        view.cards.every((card) => card.height >= 48 && card.width >= 48),
+        'Every ally card is a 48 px target: ' + JSON.stringify(view.cards),
+      );
+      // Nothing to turn: a card below the fold is reached by the body's own scroll, and then
+      // it is the card itself that a finger meets.
+      for (const card of view.cards) {
+        assert.ok(
+          await page.locator(`#shop [data-kind="${card.kind}"]`).evaluate((node) => {
+            // The body's own scroll range, as far as this card needs and no further.
+            const body = node.closest('.catalog-body');
+            const frame = body.getBoundingClientRect();
+            const start = node.getBoundingClientRect();
+            if (start.top < frame.top) body.scrollTop -= frame.top - start.top;
+            else if (start.bottom > frame.bottom)
+              body.scrollTop += Math.min(start.bottom - frame.bottom, start.top - frame.top);
+            const r = node.getBoundingClientRect();
+            const top = Math.max(r.top, frame.top),
+              bottom = Math.min(r.bottom, frame.bottom);
+            return (
+              bottom - top >= Math.min(r.height, frame.height) - 1 &&
+              document
+                .elementFromPoint(r.left + r.width / 2, (top + bottom) / 2)
+                ?.closest('.unit-card') === node
+            );
+          }),
+          `Ally ${card.kind} reachable in the catalogue body`,
+        );
+        seen.add(card.kind);
+      }
+      shown[tab] = {
+        cards: view.cards.length,
+        columns: view.columns,
+        whole: view.cards.filter((card) => card.inBody).length,
+        tallest: Math.max(...view.cards.map((card) => card.height)),
+      };
     }
-    assert.equal(seen.size, 20, 'Every ally reachable through visible tabs and pages');
+    assert.equal(seen.size, 20, 'Every ally reachable through the two visible tabs');
     const locked = await pointOnCard(page);
     assert.equal(locked.disabled, true);
     const lockedBefore = await snapshot(page);
@@ -291,6 +338,7 @@ try {
       height,
       safe,
       alliesReached: seen.size,
+      shown,
       requestedFingerDistance: Math.round(point.y - point.to),
       bodyScroll,
     });
@@ -299,7 +347,7 @@ try {
     });
     await page.close();
   }
-  // Large screens use the same six-card pages and harmless touch gestures.
+  // Large screens show the same one-screen catalogue, with harmless touch gestures.
   const desktop = await browser.newPage({
     locale: 'fr-CH',
     viewport: { width: 1280, height: 800 },
@@ -314,14 +362,25 @@ try {
   await desktop.locator('#shop-future').click();
   const shop = await desktop.locator('#shop').boundingBox();
   await swipe(desktop, shop.x + shop.width * 0.25, shop.y + shop.height - 20, shop.y + 15);
-  assert.ok((await desktop.locator('#shop .unit-card:visible').count()) <= 6);
   const desktopBefore = await snapshot(desktop);
-  const desktopPageBefore = await desktop.locator('#catalog-page').textContent();
-  await desktop.locator('#catalog-next').click();
-  assert.notEqual(await desktop.locator('#catalog-page').textContent(), desktopPageBefore);
-  assert.equal((await snapshot(desktop)).gold, desktopBefore.gold);
-  assert.deepEqual((await snapshot(desktop)).selected, desktopBefore.selected);
-  assert.equal((await snapshot(desktop)).open, true);
+  // Each tab shows all its allies whole, with nothing to scroll or turn; going from one tab
+  // to the other buys nothing, selects nothing and closes nothing.
+  for (const tab of ['shop-future', 'shop-ready']) {
+    await desktop.locator('#' + tab).click();
+    const view = await catalogueView(desktop);
+    assert.deepEqual(view.tab, [tab]);
+    assert.equal(view.cards.length, tab === 'shop-ready' ? view.ready : view.future);
+    assert.equal(view.ready + view.future, 20);
+    assert.equal(view.columns, 5);
+    assert.ok(
+      view.cards.every((card) => card.inBody && card.height >= 48),
+      'Desktop allies whole in the catalogue: ' + JSON.stringify(view.cards),
+    );
+    assert.equal((await snapshot(desktop)).gold, desktopBefore.gold);
+    assert.deepEqual((await snapshot(desktop)).selected, desktopBefore.selected);
+    assert.equal((await snapshot(desktop)).open, true);
+  }
+  assert.equal(await desktop.locator(REMOVED_CATALOGUE_CONTROLS).count(), 0);
   await desktop.close();
   assert.deepEqual(errors, []);
   assert.ok(
@@ -343,7 +402,7 @@ try {
           'no selection/purchase/close on drag',
           'tap still selects',
           'no document scroll at boundary',
-          'all 20 allies reachable in six-card pages on small and large screens',
+          'all 20 allies shown by the two tabs without pages, each reachable in the scrolling body, on small and large screens',
         ],
         errors,
       },

@@ -1,4 +1,5 @@
 import { chooseLanguage, leaveBattle, showHomePage } from '../tests/browser-entry.mjs';
+import { REMOVED_CATALOGUE_CONTROLS } from '../tests/reveal-controls.mjs';
 import { checkCatalogue } from './mobile-catalogue-037-checks.mjs';
 import { checkHelpPoints } from './mobile-help-038-checks.mjs';
 import { checkPlayers } from './mobile-players-038-checks.mjs';
@@ -741,11 +742,17 @@ try {
     await phone.locator('#reinforcements-toggle:visible, #dock-catalogue:visible').first().click();
     await phone.locator('#reinforcements[open]').waitFor();
     state = await dialogState(phone, '#reinforcements');
-    // A very small phone shows one row of allies at a time; the body scrolls to the next.
-    const expected = w >= 640 ? 6 : 3;
+    // Every available ally on one screen. A very small phone shows four columns and whole
+    // rows only as far as its height goes; the body scrolls to the others.
+    const listed = await phone.locator('#shop .unit-card:visible').count();
+    check(
+      listed > 0 && (await phone.locator(REMOVED_CATALOGUE_CONTROLS).count()) === 0,
+      `allies listed without pages at ${where}`,
+    );
+    const expected = w >= 640 ? listed : Math.min(listed, 4);
     check(
       state.cards >= expected,
-      `${expected} allies in view at ${where}: ${JSON.stringify(state)}`,
+      `${expected} of ${listed} allies in view at ${where}: ${JSON.stringify(state)}`,
     );
     check(inSafeArea(state.frame) && !state.small.length, `catalogue whole at ${where}`);
     await phone.close();
