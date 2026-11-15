@@ -54,7 +54,8 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   plus tard, pas plus de deux par vague. C'est la **révision d'équilibrage 3** : les parties,
   codes et sauvegardes d'avant gardent leurs règles ; missions, défis et voyage ne changent
   pas. Mesuré sur 1 200 parties simulées : même taux de victoire, parties plus longues
-  d'environ une minute ([bilan](BILAN-REVISION-3.md)). **Pas encore joué par les enfants.**
+  d'environ une minute. Le parent a revu quatre réglages sur 200 parties chacun et a gardé
+  celui-ci ([bilan](BILAN-REVISION-3.md)). **Pas encore joué par les enfants.**
 
 ## Ce qui n'est pas vérifié
 
