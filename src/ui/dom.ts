@@ -2,8 +2,10 @@ import { setText } from '../i18n/dom.ts';
 import * as TEXT from '../texts/fr/battleScreens.ts';
 
 /**
- * The element of the page that has this id. The page is assembled from `src/html/` and the
- * build checks it: an id written here is there. One definition for every screen.
+ * The element of the page that has this id. The page is assembled from `src/html/`; the build
+ * does not check ids, a test does (`tests/dom-ids.test.ts`): it reads every id looked up in
+ * `src/` and refuses one that is neither in the assembled page nor given by the code to an
+ * element it builds. One definition for every screen.
  */
 export const byId = <T extends HTMLElement = HTMLElement>(id: string): T =>
   document.getElementById(id) as T;
