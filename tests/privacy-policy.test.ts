@@ -12,12 +12,18 @@ const between = (html: string, open: string, close: string) =>
   html.slice(html.indexOf(open), html.indexOf(close) + close.length);
 /**
  * The page without what the publisher added to the words first published: the date of the
- * last change and the section about the website.
+ * last change and the section about the website. Only the version/build numbers of its
+ * scope vary between releases; their actual values are checked against Gradle below.
  */
 const asFirstPublished = (html: string) =>
   Object.values(WEBSITE_HEADING).reduce(
     (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
-    html.replace(/<p class="updated">[^<]*<\/p>/g, ''),
+    html
+      .replace(/<p class="updated">[^<]*<\/p>/g, '')
+      .replace(
+        /(<strong>(?:Application Android|Android app) )\d+\.\d+\.\d+, build \d+(<\/strong>)/g,
+        '$1VERSION, build BUILD$2',
+      ),
   );
 
 test('the policy is word for word the one its publisher approved, in both languages', () => {
@@ -25,7 +31,7 @@ test('the policy is word for word the one its publisher approved, in both langua
   // The words, the headings, the bold names and the links of both languages.
   assert.equal(
     tight(asFirstPublished(between(page, '<main>', '</main>'))),
-    tight(between(published, '<main>', '</main>')),
+    tight(asFirstPublished(between(published, '<main>', '</main>'))),
   );
   // The way around the page and its name.
   assert.equal(
