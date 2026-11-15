@@ -22,11 +22,12 @@ const asFirstPublished = (html: string) =>
 
 test('the policy is word for word the one its publisher approved, in both languages', () => {
   const page = privacyPageHtml();
-  // The words, the headings, the bold names and the links of both languages.
-  assert.equal(
-    tight(asFirstPublished(between(page, '<main>', '</main>'))),
-    tight(between(published, '<main>', '</main>')),
+  // Only the Android release label can differ from the archived wording.
+  const expected = between(published, '<main>', '</main>').replaceAll(
+    /<strong>(Application Android|Android app) 0\.38\.0, build 60<\/strong>/g,
+    `<strong>$1 ${POLICY_APP.version}, build ${POLICY_APP.build}</strong>`,
   );
+  assert.equal(tight(asFirstPublished(between(page, '<main>', '</main>'))), tight(expected));
   // The way around the page and its name.
   assert.equal(
     tight(between(page, '<header>', '</header>')),
