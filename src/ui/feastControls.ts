@@ -10,18 +10,20 @@ import type { FeastFlavor } from '../tactics.ts';
 import { ART_SHEETS } from '../art.ts';
 import { byId, decoration, make, setPressed } from './dom.ts';
 import { battleOver } from './battleState.ts';
+import * as TEXT from '../texts/fr/camp.ts';
+import { fill } from '../texts/fill.ts';
 
 type FeastChoice = { value: FeastFlavor; label: string; hint: string };
 export const FEAST_CHOICES: ReadonlyArray<FeastChoice> = [
   {
     value: 'lure',
-    label: 'Attirer',
-    hint: 'Attire les gourmands vers cette voie aux prochaines jonctions.',
+    label: TEXT.attirer,
+    hint: TEXT.attireLesGourmandsVersCetteVoieAux,
   },
   {
     value: 'sticky',
-    label: 'Ralentir',
-    hint: 'Pose une flaque de miel collant sur le passage choisi.',
+    label: TEXT.ralentir,
+    hint: TEXT.poseUneFlaqueDeMielCollantSurLe,
   },
 ];
 /** The sheet that holds both honey pots. */
@@ -30,7 +32,7 @@ export function feastIconStyle(flavor: FeastFlavor) {
   return `background-image:url("${honeySheetUrl()}");background-position:${flavor === 'sticky' ? 100 : 0}% 100%`;
 }
 export const feastName = (flavor: FeastFlavor) =>
-  flavor === 'sticky' ? 'Miel collant' : 'Miel attirant';
+  flavor === 'sticky' ? TEXT.mielCollant : TEXT.mielAttirant;
 function feastPot(flavor: FeastFlavor) {
   const icon = decoration('span', 'feast-pot');
   icon.style.cssText = feastIconStyle(flavor);
@@ -138,34 +140,59 @@ function showLane(
   setDisplayTitle(
     button,
     !attacked
-      ? 'Cette voie reste paisible pendant cette vague.'
-      : `${flavor === 'sticky' ? 'Ralentir les serpents sur le passage' : 'Attirer les serpents vers la voie'} ${LANE_NAMES[lane].toLowerCase()} pendant ${game.feastDuration} secondes`,
+      ? TEXT.cetteVoieRestePaisiblePendantCette
+      : fill(
+          TEXT.nNPendantNSecondes,
+          flavor === 'sticky'
+            ? TEXT.ralentirLesSerpentsSurLePassage
+            : TEXT.attirerLesSerpentsVersLaVoie,
+          LANE_NAMES[lane].toLowerCase(),
+          game.feastDuration,
+        ),
   );
 }
 
 function feastHint(game: Game, flavor: FeastFlavor): string {
-  if (game.caprice.noHoney) return 'Pas de miel dans ce caprice';
+  if (game.caprice.noHoney) return TEXT.pasDeMielDansCeCaprice;
   const lanes = game.enemyLanes;
   return (
-    'Touche un chemin pour poser le miel, ou utilise les boutons ci-dessous. ' +
+    TEXT.toucheUnCheminPourPoserLeMielOu +
     FEAST_CHOICES.find((choice) => choice.value === flavor)!.hint +
     (someLanesQuiet(game)
-      ? ` Voie${lanes.length > 1 ? 's' : ''} attaquée${lanes.length > 1 ? 's' : ''} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. « — » : paisible.`
+      ? fill(
+          TEXT.voieNAttaqueeNNPaisible,
+          lanes.length > 1 ? 's' : '',
+          lanes.length > 1 ? 's' : '',
+          lanes.map((l) => LANE_NAMES[l]).join(' et '),
+        )
       : '')
   );
 }
 
 function feastStatus(game: Game, flavor: FeastFlavor): string {
-  const turns = `${game.honeyTurns} détour${game.honeyTurns > 1 ? 's' : ''}`;
-  if (game.caprice.noHoney) return 'Pas de miel dans ce caprice';
-  if (battleOver(game)) return 'À retrouver dans la prochaine partie';
+  const turns = fill(TEXT.nDetourN, game.honeyTurns, game.honeyTurns > 1 ? 's' : '');
+  if (game.caprice.noHoney) return TEXT.pasDeMielDansCeCaprice;
+  if (battleOver(game)) return TEXT.aRetrouverDansLaProchainePartie;
   if (game.feast)
     return game.feast.flavor === 'sticky'
-      ? `Miel collant · ${LANE_NAMES[game.feast.lane]} · ${Math.ceil(game.feast.remaining)} s · ralentit sur le passage`
-      : `Miel attirant · ${LANE_NAMES[game.feast.lane]} · ${Math.ceil(game.feast.remaining)} s · ${turns}`;
+      ? fill(
+          TEXT.mielCollantNNSRalentitSurLePassage,
+          LANE_NAMES[game.feast.lane],
+          Math.ceil(game.feast.remaining),
+        )
+      : fill(
+          TEXT.mielAttirantNNSN,
+          LANE_NAMES[game.feast.lane],
+          Math.ceil(game.feast.remaining),
+          turns,
+        );
   if (game.feastUsed)
-    return `${feastName(flavor)} utilisé${flavor === 'lure' ? ` · ${turns}` : ''} · revient à la prochaine vague`;
+    return fill(
+      TEXT.nUtiliseNRevientALaProchaineVague,
+      feastName(flavor),
+      flavor === 'lure' ? ` · ${turns}` : '',
+    );
   if (game.status === 'preparing')
-    return `Un pot gratuit par vague · ${game.feastDuration} s · choisis ton miel`;
-  return `Prêt ! Choisis la voie à ${flavor === 'sticky' ? 'ralentir' : 'attirer'}`;
+    return fill(TEXT.unPotGratuitParVagueNSChoisisTon, game.feastDuration);
+  return fill(TEXT.pretChoisisLaVoieAN, flavor === 'sticky' ? 'ralentir' : 'attirer');
 }

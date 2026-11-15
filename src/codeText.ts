@@ -1,3 +1,4 @@
+import * as TEXT from './texts/fr/battle.ts';
 /**
  * The writing shared by the codes a child reads aloud or copies: departure codes and voyage
  * codes. Thirty-two signs without O, I, L or U, so that no two of them look alike.
@@ -34,7 +35,7 @@ export const tidyCode = (raw: string): string =>
   raw
     .trim()
     .toUpperCase()
-    .normalize('NFD')
+    .normalize(TEXT.nfd)
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s/g, '');
 /** The alphabet has no O, I or L: read them as the digits they look like. */

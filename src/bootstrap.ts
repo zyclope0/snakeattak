@@ -43,6 +43,7 @@ import './ui/homePages.css';
 import './ui/dialogPages.css';
 import './ui/mainActions.css';
 import { byId } from './ui/dom.ts';
+import * as TEXT from './texts/fr/home.ts';
 
 // The page is assembled here, top to bottom: what is stored, the game on screen, then every
 // part of the interface in its binding order. The steps named below are function
@@ -340,11 +341,11 @@ function refreshHomePrimary() {
   const primary = byId('home-primary');
   const inMissions = missions.state.activeMode === 'missions';
   const resume = inMissions ? missionWaits() : !byId('home-continue').hidden;
-  setDisplayText(primary, resume ? 'Reprendre' : expeditions!.playLabel());
+  setDisplayText(primary, resume ? TEXT.reprendre : expeditions!.playLabel());
   if (resume)
     setDisplayText(
       byId('home-next-mission'),
-      inMissions ? 'Reprendre ma mission' : 'Reprendre mon aventure classique',
+      inMissions ? TEXT.reprendreMaMission : TEXT.reprendreMonAventureClassique,
     );
   primary.onclick = () => {
     if (!resume) expeditions!.playNow();
@@ -364,13 +365,12 @@ function exportFamily() {
  */
 function applyFamily(backup: FamilyBackup) {
   const canonical = readFamilyBackup(JSON.stringify(backup));
-  if (!canonical) return { ok: false, message: 'Fichier invalide : rien n’a été modifié.' };
+  if (!canonical) return { ok: false, message: TEXT.fichierInvalideRienNAEteModifie };
   const game = canonical.camp === null ? null : decodeCheckpoint(canonical.camp);
   if (!family.import(canonical))
     return {
       ok: false,
-      message:
-        'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.',
+      message: TEXT.impossibleDeConserverCeFichierSur,
     };
   albums.replaceState(
     canonical.version === 4 || canonical.version === 5 ? canonical.albums : createCapriceAlbums(),
@@ -385,5 +385,5 @@ function applyFamily(backup: FamilyBackup) {
   else session.restart();
   hasCamp = game !== null;
   session.screen = 'home';
-  return { ok: true, message: 'Aventure familiale retrouvée.' };
+  return { ok: true, message: TEXT.aventureFamilialeRetrouvee };
 }

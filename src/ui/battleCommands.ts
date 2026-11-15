@@ -5,6 +5,7 @@ import { campToolModel } from './campToolModel.ts';
 import { pauseStateFor } from './pauseState.ts';
 import { byId, dialogOpen } from './dom.ts';
 import { battleOver } from './battleState.ts';
+import * as TEXT from '../texts/fr/battleScreens.ts';
 
 type Ports = {
   /** Runs just before a wave starts: the camp is saved as the player prepared it. */
@@ -38,7 +39,7 @@ export function bindBattleCommands(session: Session, refresh: () => void, ports:
   };
   byId('cancel').onclick = () => {
     session.selectUnit(null);
-    session.game.message = 'Placement annulé. Choisis un allié ou lance la vague.';
+    session.game.message = TEXT.placementAnnuleChoisisUnAllieOu;
     refresh();
   };
   return () => {
@@ -46,7 +47,7 @@ export function bindBattleCommands(session: Session, refresh: () => void, ports:
     const finished = battleOver(game);
     const pause = byId<HTMLButtonElement>('pause');
     setText(pause, game.paused ? '▶' : 'Ⅱ');
-    setAttribute(pause, 'aria-label', game.paused ? 'Reprendre' : 'Mettre en pause');
+    setAttribute(pause, 'aria-label', game.paused ? TEXT.reprendre : TEXT.mettreEnPause);
     setText(byId('speed'), `×${session.speed}`);
     showStart(game);
     pause.disabled = finished;
@@ -72,8 +73,7 @@ export function bindBattleKeys(session: Session, refresh: () => void) {
 
 function spacePauses(session: Session, target: EventTarget | null): boolean {
   const typing =
-    target instanceof HTMLElement &&
-    target.closest('button, select, input, textarea, summary, a, [contenteditable]');
+    target instanceof HTMLElement && target.closest(TEXT.buttonSelectInputTextareaSummaryA);
   return session.screen === 'battle' && !battleOver(session.game) && !typing && !dialogOpen();
 }
 
@@ -94,8 +94,8 @@ function showStart(game: Game) {
 }
 
 function startLabel(game: Game): string {
-  if (battleOver(game)) return 'Partie terminée';
-  if (game.rewards.pending !== null) return 'Choisir un bonus';
-  if (game.status === 'fighting') return 'Vague en cours…';
-  return game.wave ? 'Vague suivante' : 'Lancer la vague';
+  if (battleOver(game)) return TEXT.partieTerminee;
+  if (game.rewards.pending !== null) return TEXT.choisirUnBonus;
+  if (game.status === 'fighting') return TEXT.vagueEnCours;
+  return game.wave ? TEXT.vagueSuivante : TEXT.lancerLaVague;
 }

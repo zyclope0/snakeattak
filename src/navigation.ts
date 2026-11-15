@@ -1,6 +1,7 @@
 import { LANES } from './ai.ts';
 import { levelForWave } from './levels.ts';
 import type { Level } from './levels.ts';
+import * as TEXT from './texts/fr/battle.ts';
 export type Point = { x: number; y: number };
 export const CELL = 24,
   COLS = 46,
@@ -98,7 +99,7 @@ export function nearestCampPoint(
   reserved: readonly Point[] = [],
 ): Point {
   if (!Number.isFinite(goal.x) || !Number.isFinite(goal.y))
-    throw new RangeError('Coordonnées de camp invalides');
+    throw new RangeError(TEXT.coordonneesDeCampInvalides);
   goal = { x: Math.max(600, Math.min(984, goal.x)), y: Math.max(108, Math.min(540, goal.y)) };
   const legal = (p: Point) =>
     !blocked(p.x, p.y, level) &&
@@ -118,6 +119,6 @@ export function nearestCampPoint(
       a.x - b.x,
   )[0];
   // A full camp must not silently receive an occupied or blocked point.
-  if (!closest) throw new Error('Aucune place libre dans le camp');
+  if (!closest) throw new Error(TEXT.aucunePlaceLibreDansLeCamp);
   return closest;
 }

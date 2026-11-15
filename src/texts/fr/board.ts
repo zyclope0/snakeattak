@@ -1,0 +1,78 @@
+export const reprendsLaPartiePourPlacerTon = 'Reprends la partie pour placer ton renfort.';
+export const choisisUnEspaceLibreDansLeCampLoin =
+  'Choisis un espace libre dans le camp, loin des rochers et des alliés.';
+export const collant = 'COLLANT';
+export const attirant = 'ATTIRANT';
+export const nSerpentsRepoussesNAllies =
+  '{0} serpents repoussés · {1} alliés survivants · camp {2} %';
+export const roiATroisTetesNNPvN = 'ROI À TROIS TÊTES · {0} / {1} PV{2}';
+export const phaseN3 = ' · PHASE {0}/3';
+export const gardienne = 'Gardienne';
+export const cracheuse = 'Cracheuse';
+export const mixte = 'Mixte';
+export const phaseN3N = 'Phase {0}/3 · {1}';
+export const protectionActive = 'Protection active';
+export const aDecouvert = 'À découvert';
+export const soigneurN = 'Soigneur · {0}';
+export const gardeDuRoi = 'Garde du roi';
+export const tir = ' • Tir';
+export const eclosionNS = 'Éclosion · {0} s';
+export const allieHesite = 'allié hésite';
+export const alliesHesitent = 'alliés hésitent';
+export const courageAttaquesAccelereesNS = 'Courage ! · attaques accélérées · {0} s';
+export const crachatIciNS = 'Crachat ici · {0} s';
+export const fredoka = 'Fredoka';
+export const nunitoSans = 'Nunito Sans';
+export const invalidInactivePoolCapacity = 'Invalid inactive pool capacity';
+export const reserveNNS = 'Réserve · {0} · {1} s';
+export const reserve = 'Réserve';
+export const uneImageNAPasPuArriverReessaie =
+  'Une image n’a pas pu arriver. Réessaie quand la connexion revient.';
+export const preparationDuTerrainN = 'Préparation du terrain… {0} %';
+export const preparationDuTerrain = 'Préparation du terrain…';
+export const tir2 = 'Tir';
+export const soin = 'Soin';
+export const defenseFixe = 'Défense fixe';
+export const contact = 'Contact';
+export const campNN = 'Camp {0}{1}';
+export const vagueNN = 'Vague {0} · {1}';
+export const leRoiATroisTetesEntreDansLaVallee = 'LE ROI À TROIS TÊTES ENTRE DANS LA VALLÉE';
+export const sIlAtteintLeCristalLaPartieEst =
+  'S’il atteint le cristal, la partie est perdue. Attention à ses œufs !';
+export const vagueNRepoussee = 'Vague {0} repoussée !';
+export const nouvelleClairiereN = 'Nouvelle clairière : {0}.';
+export const prepareLesProchainsAllies = 'Prépare les prochains alliés.';
+export const cracLesOeufsOntEclos = 'CRAC ! Les œufs ont éclos';
+export const deNouveauxGourmandsArrivent = 'De nouveaux gourmands arrivent…';
+export const phaseNProtection = 'Phase {0} : protection !';
+export const protectionBrisee = 'Protection brisée !';
+export const clac = 'Clac !';
+export const aLaRescousse = 'À la rescousse !';
+export const tombe = 'Tombé';
+export const unAllieEstTombe = 'Un allié est tombé';
+export const lesMedecinsSoignentLesVivantsLes =
+  'Les médecins soignent les vivants ; les alliés prennent la relève.';
+export const grrr = 'Grrr !';
+export const poc = 'Poc !';
+export const protege = 'Protégé !';
+export const miam = 'Miam !';
+export const pieces = '+ pièces';
+export const etapeReussie = 'Étape réussie !';
+export const capriceReussi = 'Caprice réussi !';
+export const bravo = 'Bravo !';
+export const tesAlliesOntProtegeLeCristal = 'Tes alliés ont protégé le cristal pendant {0} vagues.';
+export const victoire = 'Victoire !';
+export const tesAlliesOntTenuLesNVaguesEt =
+  'Tes alliés ont tenu les {0} vagues et repoussé le roi !';
+export const leVoyageSArreteIci = 'Le voyage s’arrête ici';
+export const tuPeuxRefaireCeVoyageOuEnCommencer =
+  'Tu peux refaire ce voyage ou en commencer un nouveau.';
+export const onReessaie = 'On réessaie ?';
+export const reessaieCeMemeDepartOuChoisisUne =
+  'Réessaie ce même départ ou choisis une autre mission.';
+export const rejoueUneAventurePuisEssaieDAutres =
+  'Rejoue une aventure, puis essaie d’autres alliés.';
+export const refugeN = 'REFUGE · {0} %';
+export const invalidCapacity = 'Invalid capacity';
+export const fpsPerComplete1000msActiveWindow =
+  'FPS per complete >=1000ms active window; median/min of last 3600 windows; longest frame and active duration over whole recording. Partial window excluded from FPS.';

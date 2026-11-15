@@ -1,6 +1,8 @@
 import { setText } from '../i18n/dom.ts';
 import { kinds } from '../data.ts';
 import type { Player, PlayerCharacter } from '../players.ts';
+import * as TEXT from '../texts/fr/players.ts';
+import { fill } from '../texts/fill.ts';
 
 type Tag = keyof HTMLElementTagNameMap;
 
@@ -49,7 +51,7 @@ export function playerCard(player: Player, stars: number, managing: boolean) {
   // In the parents' list the face is not a button: only « Supprimer » acts.
   const face = part(managing ? 'div' : 'button', 'player-face');
   face.append(avatar(player.character), name, starCount(stars));
-  const tool = words('button', managing ? 'Supprimer' : 'Modifier', 'player-tool');
+  const tool = words('button', managing ? TEXT.supprimer : TEXT.modifier, 'player-tool');
   tool.setAttribute('aria-describedby', name.id);
   box.append(face, tool);
   return { box, face, tool };
@@ -60,6 +62,6 @@ function starCount(stars: number) {
   const star = part('span');
   star.setAttribute('aria-hidden', 'true');
   star.textContent = '★';
-  count.append(star, words('span', `${stars} / 18 étoiles`));
+  count.append(star, words('span', fill(TEXT.n18Etoiles, stars)));
   return count;
 }

@@ -6,6 +6,8 @@ import { availableGold } from './capriceBudget.ts';
 import { byId, dialogOpen, make } from './dom.ts';
 import { focusBoard } from './battleDom.ts';
 import { bankSummary } from './battleState.ts';
+import * as TEXT from '../texts/fr/recruiting.ts';
+import { fill } from '../texts/fill.ts';
 
 /** What the catalogue lets the player do at once: its own pause must not block these. */
 const GUARDED_ACTIONS = [
@@ -67,7 +69,10 @@ export function bindReinforcementsDrawer(session: Session, refresh: () => void) 
     refresh: () => {
       sync();
       const game = session.game;
-      setText(budget, game.caprice.reserve ? bankSummary(game) : `${availableGold(game)} pièces`);
+      setText(
+        budget,
+        game.caprice.reserve ? bankSummary(game) : fill(TEXT.nPieces, availableGold(game)),
+      );
     },
     actionsPaused: () =>
       document.hidden || (panel.open ? pauses.pausedAfterRelease() : session.game.paused),
@@ -101,7 +106,7 @@ function arrangeCatalogue(panel: HTMLDialogElement) {
   const tools = make(
     'details',
     { id: 'catalog-tools' },
-    make('summary', { text: 'Conseils et outils' }),
+    make('summary', { text: TEXT.conseilsEtOutils }),
     content,
   );
   for (const child of Array.from(panel.children))

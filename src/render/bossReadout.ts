@@ -1,13 +1,15 @@
 import type { Entity } from '../game.ts';
 import type { BalanceTuning } from '../balanceTuning.ts';
 import { BOSS_HEAD_IDS } from '../boss.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 /** Display data derived from the actual combat clock, never a second timer. */
 export function bossReadout(entity: Entity, tuning: Readonly<BalanceTuning>) {
   const state = entity.bossState;
   if (!entity.boss || entity.hp <= 0 || !state || !tuning.bossEnabled) return null;
-  const labels = { guard: 'Gardienne', ranged: 'Cracheuse', hybrid: 'Mixte' };
+  const labels = { guard: TEXT.gardienne, ranged: TEXT.cracheuse, hybrid: TEXT.mixte };
   const heads = state.heads
     ? BOSS_HEAD_IDS.map((id) => {
         const h = state.heads![id];
@@ -27,7 +29,11 @@ export function bossReadout(entity: Entity, tuning: Readonly<BalanceTuning>) {
     heads,
     phase: state.phase,
     shieldRatio: state.shieldMax > 0 ? clamp(state.shield / state.shieldMax) : 0,
-    label: `Phase ${state.phase}/3 · ${state.shield > 0 ? 'Protection active' : 'À découvert'}`,
+    label: fill(
+      TEXT.phaseN3N,
+      state.phase,
+      state.shield > 0 ? TEXT.protectionActive : TEXT.aDecouvert,
+    ),
     shot:
       state.windup > 0 && shotAlive
         ? {

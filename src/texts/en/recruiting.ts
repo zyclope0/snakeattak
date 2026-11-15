@@ -1,0 +1,52 @@
+export const choisirLeMielPuisToucherUnChemin = ': choose Honey, then tap a path';
+export const offert = 'Free';
+export const pieces = 'coins';
+export const reserveBancaireProtegee = ', protected bank reserve';
+export const pasAssezDePieces = ', not enough coins';
+export const toucheUnChemin = 'Tap a path';
+export const placeTonAllie = 'Place your ally';
+export const pasDeMielDansCeCaprice = 'No honey in this caprice';
+export const mielUtilise = 'Honey used';
+export const tesFavoris = 'Your favorites';
+export const precedents = '← Previous';
+export const suivants = 'Next →';
+export const pagesDesAllies = 'Ally pages';
+export const contact = 'Melee';
+export const rapide = 'Fast';
+export const soins = 'Healing';
+export const distance = 'Ranged';
+export const blocage = 'Blocking';
+export const souffle = 'Fire breath';
+export const robuste = 'Sturdy';
+export const protection = 'Protection';
+export const puissance = 'Power';
+export const armure = 'Armor';
+export const charge = 'Charge';
+export const double = 'Double';
+export const obus = 'Shells';
+export const allonge = 'Reach';
+export const nToucheUnEspaceLibreDansTonCampA = '{0}: tap an open spot in your camp on the right.';
+export const placementAnnule = 'Placement canceled.';
+export const disponiblesN = 'Available ({0})';
+export const aDecouvrirN = 'Coming later ({0})';
+export const voiciLesProchainsAlliesLeGuide =
+  'Here are the next allies. The guide explains their roles before they arrive.';
+export const choisisUnAlliePuisPlaceLeDansTon =
+  'Choose an ally, then place it in your camp. Prices are in coins.';
+export const aucunAlliePermisDansCeFiltrePourCe =
+  'No allowed allies in this filter for this caprice.';
+export const cesAlliesArriventPlusTardOuvreA =
+  'These allies arrive later. Open “Coming later” to meet them.';
+export const encoreNPieces = 'Need {0} more coins';
+export const ilManqueNPieces = 'You need {0} more coins';
+export const nPieces = '{0} coins';
+export const aDecouvrirDansUneAutreMission = 'Discover in another mission';
+export const arriveALaVagueN = 'Arrives on wave {0}';
+export const reserveBancaireProtegee2 = 'Protected bank reserve';
+export const tuAsDesPiecesRecrute = 'You have coins, recruit an ally!';
+export const conseilsEtOutils = 'Tips and tools';
+export const tous = 'All';
+export const humains = 'Humans';
+export const dinosauresEtDragon = 'Dinosaurs and dragon';
+export const mutants = 'Mutants';
+export const palissades = 'Palisades';

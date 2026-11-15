@@ -3,10 +3,10 @@ import { kinds, unlockWave, type Kind } from '../data.ts';
 import { missionById, type MissionRun } from '../missions.ts';
 import { setText } from '../i18n/dom.ts';
 import { make } from './dom.ts';
+import * as TEXT from '../texts/fr/capriceScreens.ts';
 
 /** Said in the friends view, and again in the summary while no friend is chosen. */
-export const FRIEND_ADVICE =
-  'Choisis tes sortes préférées ou laisse les premières recrues choisir les places libres.';
+export const FRIEND_ADVICE = TEXT.choisisTesSortesPrefereesOuLaisse;
 
 /** The ally kinds a mission offers to pick from: unlocked at its rank, allowed by its caprice. */
 export function friendChoices(run: MissionRun): Kind[] {

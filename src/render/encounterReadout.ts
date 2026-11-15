@@ -1,5 +1,7 @@
 import type { Game } from '../game.ts';
 import { bossReadout } from './bossReadout.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 
 type TimedLabel = { remaining: number; label: string };
 export type EncounterReadout = {
@@ -20,7 +22,7 @@ export function encounterReadout(game: Readonly<Game>): EncounterReadout {
       x: egg.x,
       y: egg.y,
       remaining: egg.hatchIn,
-      label: `Éclosion · ${Math.ceil(egg.hatchIn)} s`,
+      label: fill(TEXT.eclosionNS, Math.ceil(egg.hatchIn)),
     });
     if (result.eggs.length === 6) break;
   }
@@ -28,13 +30,13 @@ export function encounterReadout(game: Readonly<Game>): EncounterReadout {
   if (confused)
     result.confusion = {
       count: confused,
-      label: `? ${confused} ${confused === 1 ? 'allié hésite' : 'alliés hésitent'}`,
+      label: `? ${confused} ${confused === 1 ? TEXT.allieHesite : TEXT.alliesHesitent}`,
     };
   if (game.encouragementRemaining > 0)
     result.encouragement = {
       remaining: game.encouragementRemaining,
       ratio: Math.max(0, Math.min(1, game.encouragementRemaining / 8)),
-      label: `Courage ! · attaques accélérées · ${Math.ceil(game.encouragementRemaining)} s`,
+      label: fill(TEXT.courageAttaquesAccelereesNS, Math.ceil(game.encouragementRemaining)),
     };
   for (const boss of game.enemies) {
     // BossSignals owns the circle, cross and arc; share its exact target readout.
@@ -46,7 +48,7 @@ export function encounterReadout(game: Readonly<Game>): EncounterReadout {
       y: shot.y,
       radius: shot.radius,
       remaining,
-      label: `Crachat ici · ${Math.ceil(remaining)} s`,
+      label: fill(TEXT.crachatIciNS, Math.ceil(remaining)),
     };
     break;
   }

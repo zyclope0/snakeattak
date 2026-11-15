@@ -7,6 +7,8 @@ import { visualSettings } from '../render/visualSettings.ts';
 import { byId, dialogOpen, forwardClick, make } from './dom.ts';
 import { starRow } from './gameParts.ts';
 import { battleOver } from './battleState.ts';
+import * as TEXT from '../texts/fr/battleScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 /** Reuse the existing actions: only their presentation moves after a match. */
 export function bindBattleResult(session: Session) {
@@ -41,7 +43,7 @@ export function bindBattleResult(session: Session) {
     if (classic.parentNode !== content) content.append(classic);
     setDisplayText(
       byId('battle-result-summary'),
-      `${game.kills} serpents repoussés · cristal ${Math.ceil(game.base)} %`,
+      fill(TEXT.nSerpentsRepoussesCristalN, game.kills, Math.ceil(game.base)),
     );
   };
   /** Once per finished battle: back to the top, focus on what comes next. */
@@ -79,7 +81,7 @@ export function bindBattleResult(session: Session) {
 /** A stage won says so even under a caprice; a mission keeps « Bravo ! » or its caprice. */
 function victoryTitle(game: Game) {
   if (game.stage) return victoryCopy(game).title;
-  return game.mission?.caprice ? 'Caprice réussi !' : 'Bravo !';
+  return game.mission?.caprice ? TEXT.capriceReussi : TEXT.bravo;
 }
 
 function showOutcomeTitle(game: Game) {
@@ -133,7 +135,7 @@ function bindResultStars() {
       setDisplayAttribute(
         stars,
         'aria-label',
-        `${earned.count} étoiles gagnées sur ${earned.maximum}`,
+        fill(TEXT.nEtoilesGagneesSurN, earned.count, earned.maximum),
       );
     },
     /** The next result animates its stars again. */

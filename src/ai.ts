@@ -1,9 +1,10 @@
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
+import * as TEXT from './texts/fr/battle.ts';
 /** Three bridge approaches and two vertical junctions; coordinates also used by the renderer. */
 export const LANES = [180, 324, 468] as const;
 export const LANE_IDS: readonly number[] = Object.freeze([0, 1, 2]);
-export const LANE_NAMES = ['Haut', 'Centre', 'Bas'] as const;
+export const LANE_NAMES = [TEXT.haut, TEXT.centre, TEXT.bas] as const;
 type Defender = { kind: Kind | 'snake'; x: number; y: number; hp: number; maxHp: number };
 export function laneDefense(units: Defender[]): number[] {
   return LANES.map((y) =>
@@ -36,7 +37,7 @@ export function chooseLane(
     new Set(allowed).size !== allowed.length ||
     allowed.some((l) => !Number.isInteger(l) || l < 0 || l > 2)
   )
-    throw new RangeError('Invalid active lanes');
+    throw new RangeError(TEXT.invalidActiveLanes);
   const intelligence = Math.min(0.86, 0.12 + Math.max(0, wave - 1) * 0.148);
   const min = Math.min(...allowed.map((l) => scores[l])),
     weak = allowed.map((l) => Math.exp(-(scores[l] - min) * 0.9)),

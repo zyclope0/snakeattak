@@ -18,6 +18,8 @@ import { paintSticker, stickerGraphic } from './capriceIcons.ts';
 import { capriceSpeech } from './capriceSpeech.ts';
 import { make } from './dom.ts';
 import type { StickerEarned } from './stickerGoals.ts';
+import * as TEXT from '../texts/fr/capriceScreens.ts';
+import { fill } from '../texts/fill.ts';
 export { friendChoices } from './capriceFriends.ts';
 
 export function capriceRows(run: MissionRun, stars: number) {
@@ -49,8 +51,8 @@ export function friendsViewHasContent(run: MissionRun, albumCount: number) {
 
 /** What a card says under the name: closed, its sticker already earned, or to choose. */
 function cardStatus(card: CapriceCard, earned: boolean): string {
-  if (!card.open) return `🔒 ${card.stars} ★ nécessaires`;
-  return earned ? '✓ Gagné' : `${card.stars} ★ · Choisir`;
+  if (!card.open) return fill(TEXT.nNecessaires, card.stars);
+  return earned ? TEXT.gagne : fill(TEXT.nChoisir, card.stars);
 }
 
 /**
@@ -105,7 +107,7 @@ function capriceAnnouncement(speech: ReturnType<typeof capriceSpeech>) {
   const graphic = stickerGraphic();
   const announcement = make('div', { className: 'caprice-announcement' }, graphic, announce);
   const explanation = make('p');
-  const listen = make('button', { id: 'caprice-listen', text: 'Écouter' });
+  const listen = make('button', { id: 'caprice-listen', text: TEXT.ecouter });
   return {
     nodes: [title, announcement, explanation, listen],
     show(caprice: CapriceDefinition) {
@@ -122,7 +124,7 @@ function capriceAnnouncement(speech: ReturnType<typeof capriceSpeech>) {
 /** The sticker book that the new game will fill. */
 function bookChoice(albums: AlbumsController | undefined, onChange: () => void) {
   const select = make('select', { id: 'mission-caprice-profile' });
-  const label = make('label', {}, createTextNode('Carnet de cette nouvelle partie'), select);
+  const label = make('label', {}, createTextNode(TEXT.carnetDeCetteNouvellePartie), select);
   // With a single sticker book there is nothing to choose: the control stays out of the way.
   const showOrHide = () => {
     label.hidden = !albumChoiceShown(albums?.state.children.length ?? 0);
@@ -150,7 +152,7 @@ export function bindCapricePreparation(
   onFriendsChange: (chosen: readonly Kind[]) => void = () => {},
 ) {
   const region = make('section', { id: 'mission-caprices', className: 'caprice-rows' });
-  const heading = make('h3', { id: 'mission-caprices-title', text: 'Caprices' });
+  const heading = make('h3', { id: 'mission-caprices-title', text: TEXT.caprices });
   // Kept as the page has always had it; no code moves the focus to this title any more.
   heading.tabIndex = -1;
   region.setAttribute('aria-labelledby', heading.id);
@@ -159,7 +161,7 @@ export function bindCapricePreparation(
   const entry = make('button', { id: 'mission-caprices-entry' });
   entry.setAttribute('aria-controls', region.id);
   dialog.querySelector('#mission-title')!.after(entry);
-  const normal = make('button', { id: 'mission-normal', text: 'Mission normale' });
+  const normal = make('button', { id: 'mission-normal', text: TEXT.missionNormale });
   normal.onclick = () => onSelect();
   const speech = capriceSpeech();
   const cards = capriceCardRows(onSelect);
@@ -187,9 +189,9 @@ export function bindCapricePreparation(
     chosen: friends.chosen,
     update(run: MissionRun, stars: number) {
       speech.cancel();
-      setText(entry, 'Caprices');
+      setText(entry, TEXT.caprices);
       availability.hidden = stars > 0;
-      setText(availability, 'Caprices · gagne une étoile pour jouer');
+      setText(availability, TEXT.capricesGagneUneEtoilePourJouer);
       shown = [run, stars];
       cards.show(run, stars, earned);
       normal.setAttribute('aria-pressed', String(!run.caprice));

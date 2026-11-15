@@ -1,20 +1,22 @@
 import { capriceById } from '../caprices.ts';
 import type { Game } from '../game.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 
 /** A voyage stage is neither a mission nor a caprice to the child: it names itself. */
 const missionVictoryTitle = (game: Pick<Game, 'mission' | 'stage'>) =>
-  game.stage ? 'Étape réussie !' : game.mission?.caprice ? 'Caprice réussi !' : 'Bravo !';
+  game.stage ? TEXT.etapeReussie : game.mission?.caprice ? TEXT.capriceReussi : TEXT.bravo;
 
 /** Presentation only: describe the completed mode, never infer another mission's boss. */
 export function victoryCopy(game: Pick<Game, 'mission' | 'stage' | 'totalWaves'>) {
   return game.mission
     ? {
         title: missionVictoryTitle(game),
-        subtitle: `Tes alliés ont protégé le cristal pendant ${game.totalWaves} vagues.`,
+        subtitle: fill(TEXT.tesAlliesOntProtegeLeCristal, game.totalWaves),
       }
     : {
-        title: 'Victoire !',
-        subtitle: `Tes alliés ont tenu les ${game.totalWaves} vagues et repoussé le roi !`,
+        title: TEXT.victoire,
+        subtitle: fill(TEXT.tesAlliesOntTenuLesNVaguesEt, game.totalWaves),
       };
 }
 
@@ -23,16 +25,16 @@ export function defeatCopy(game: Pick<Game, 'mission' | 'stage'>) {
   // A fallen camp ends the voyage: there is no same departure to retry, but the same voyage.
   if (game.stage)
     return {
-      title: 'Le voyage s’arrête ici',
-      subtitle: 'Tu peux refaire ce voyage ou en commencer un nouveau.',
+      title: TEXT.leVoyageSArreteIci,
+      subtitle: TEXT.tuPeuxRefaireCeVoyageOuEnCommencer,
     };
   return {
-    title: 'On réessaie ?',
+    title: TEXT.onReessaie,
     subtitle:
       capriceById(game.mission?.caprice)?.announce ??
       (game.mission
-        ? 'Réessaie ce même départ ou choisis une autre mission.'
-        : 'Rejoue une aventure, puis essaie d’autres alliés.'),
+        ? TEXT.reessaieCeMemeDepartOuChoisisUne
+        : TEXT.rejoueUneAventurePuisEssaieDAutres),
   };
 }
 

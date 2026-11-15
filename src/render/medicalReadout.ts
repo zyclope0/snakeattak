@@ -1,5 +1,7 @@
 import type { Entity } from '../game.ts';
 import { medicalRules } from '../healing.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 
 /** Compact labels derived from live stock; full stock needs no repeating caption. */
 export function medicalReadout(units: readonly Entity[]) {
@@ -27,6 +29,6 @@ export function medicalReadout(units: readonly Entity[]) {
   return {
     badges,
     present,
-    reserveLabel: refilling ? `Réserve · ${refilling} · ${Math.ceil(remaining)} s` : 'Réserve',
+    reserveLabel: refilling ? fill(TEXT.reserveNNS, refilling, Math.ceil(remaining)) : TEXT.reserve,
   };
 }

@@ -15,6 +15,7 @@ import {
   isArrayOfLength,
   readBoundedJson,
 } from './plainData.ts';
+import * as TEXT from './texts/fr/saves.ts';
 
 export const CAMP_STORAGE_KEY = 'conquete-serpents:camp:v1';
 const LIMIT = 100000;
@@ -276,7 +277,7 @@ function restoreCounters(game: Game, save: Save, mission: MissionRun | null): vo
   game.nextId = save.nextId;
   game.kills = save.kills;
   game.hatched = save.hatched;
-  game.message = save.wave ? 'Camp retrouvé ! Prépare la prochaine vague.' : 'Ton camp est prêt.';
+  game.message = save.wave ? TEXT.campRetrouvePrepareLaProchaine : TEXT.tonCampEstPret;
 }
 
 /** Rebuild a game from parsed data, one checked step after the other; null on any doubt. */
@@ -308,7 +309,7 @@ export function decodeCheckpoint(raw: string): Game | null {
 export function createPersistence(storage?: StoragePort) {
   let disabled = false;
   let last = '',
-    status = storage ? 'Sauvegarde locale entre les vagues' : 'Sauvegarde locale indisponible';
+    status = storage ? TEXT.sauvegardeLocaleEntreLesVagues : TEXT.sauvegardeLocaleIndisponible;
   return {
     get status() {
       return status;
@@ -321,12 +322,12 @@ export function createPersistence(storage?: StoragePort) {
         const game = decodeCheckpoint(raw);
         if (game) {
           last = raw;
-          status = 'Camp sauvegardé sur cet appareil';
-        } else status = 'Ancienne sauvegarde incompatible : nouvelle aventure';
+          status = TEXT.campSauvegardeSurCetAppareil;
+        } else status = TEXT.ancienneSauvegardeIncompatible;
         return game;
       } catch {
         disabled = true;
-        status = 'Sauvegarde locale indisponible';
+        status = TEXT.sauvegardeLocaleIndisponible;
         return null;
       }
     },
@@ -337,10 +338,10 @@ export function createPersistence(storage?: StoragePort) {
       try {
         storage.setItem(CAMP_STORAGE_KEY, raw);
         last = raw;
-        status = 'Camp sauvegardé sur cet appareil';
+        status = TEXT.campSauvegardeSurCetAppareil;
       } catch {
         disabled = true;
-        status = 'Sauvegarde locale indisponible';
+        status = TEXT.sauvegardeLocaleIndisponible;
       }
     },
   };

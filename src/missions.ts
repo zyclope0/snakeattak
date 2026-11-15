@@ -12,6 +12,7 @@ import {
 } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
 import { isIntegerIn, isOneOf, isRecord, isUint32 } from './plainData.ts';
+import * as TEXT from './texts/fr/adventure.ts';
 
 export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
@@ -37,48 +38,48 @@ export const MISSIONS: readonly MissionDefinition[] = Object.freeze(
   [
     {
       id: 'refuge',
-      name: 'Le refuge',
-      objective: 'Protège le cristal pendant trois vagues.',
+      name: TEXT.leRefuge,
+      objective: TEXT.protegeLeCristalPendantTroisVagues,
       waves: [1, 2, 3],
       budget: 450,
       unlockRank: 3,
     },
     {
       id: 'trois-ponts',
-      name: 'Les trois ponts',
-      objective: 'Garde les trois passages ouverts à tes défenseurs.',
+      name: TEXT.lesTroisPonts,
+      objective: TEXT.gardeLesTroisPassagesOuvertsATes,
       waves: [2, 3, 4],
       budget: 550,
       unlockRank: 4,
     },
     {
       id: 'course',
-      name: 'La course des vifs',
-      objective: 'Intercepte les rapides avant le refuge.',
+      name: TEXT.laCourseDesVifs,
+      objective: TEXT.intercepteLesRapidesAvantLeRefuge,
       waves: [3, 4, 5],
       budget: 700,
       unlockRank: 5,
     },
     {
       id: 'coquilles',
-      name: 'Les premières coquilles',
-      objective: 'Résiste aux éclosions et aux premières escortes.',
+      name: TEXT.lesPremieresCoquilles,
+      objective: TEXT.resisteAuxEclosionsEtAuxPremieres,
       waves: [4, 5, 6],
       budget: 850,
       unlockRank: 6,
     },
     {
       id: 'sonnette',
-      name: 'Dragon et sonnette',
-      objective: 'Surmonte les hésitations et protège tes soutiens.',
+      name: TEXT.dragonEtSonnette,
+      objective: TEXT.surmonteLesHesitationsEtProtegeTes,
       waves: [5, 6, 7],
       budget: 1050,
       unlockRank: 7,
     },
     {
       id: 'carrefour',
-      name: 'Le carrefour des fougères',
-      objective: 'Tiens quatre vagues aux deux jonctions.',
+      name: TEXT.leCarrefourDesFougeres,
+      objective: TEXT.tiensQuatreVaguesAuxDeuxJonctions,
       waves: [5, 6, 7, 8],
       budget: 1300,
       unlockRank: 8,
@@ -150,8 +151,8 @@ export function createMissionRun(
   previous?: MissionRun | null,
   balance?: 2,
 ): MissionRun {
-  if (balance !== undefined && balance !== 2) throw new RangeError('Révision invalide');
-  if (!missionById(id) || !isUint32(seed)) throw new RangeError('Expédition invalide');
+  if (balance !== undefined && balance !== 2) throw new RangeError(TEXT.revisionInvalide);
+  if (!missionById(id) || !isUint32(seed)) throw new RangeError(TEXT.expeditionInvalide);
   // Eighteen bounded configurations. Incrementing the slot does not change the retry seed.
   let slot = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
   slot %= MISSION_SETUPS;
@@ -234,18 +235,15 @@ function missionEggs(run: MissionRun, local: number, rank: number, caprice: Capr
 function patternTip(run: MissionRun, rank: number, tacticalRulesEnabled: boolean): string {
   const assaultTip =
     run.assault === 'rush'
-      ? 'Petits groupes rapides : garde des alliés mobiles.'
+      ? TEXT.petitsGroupesRapidesGardeDesAllies
       : run.assault === 'escort'
-        ? 'Les escortes arrivent ensemble : combine contact et soutien.'
-        : 'Les arrivées sont régulières : répartis les gardiens.';
+        ? TEXT.lesEscortesArriventEnsembleCombine
+        : TEXT.lesArriveesSontRegulieresRepartis;
   const nestTip =
     run.nest === 'clustered'
-      ? 'La couvée est concentrée sur une voie.'
-      : 'Les éclosions sont réparties et décalées.';
-  const flyingTip =
-    tacticalRulesEnabled && rank >= 6
-      ? ' Des serpents volants arrivent : archers, dragons et tanks peuvent les toucher.'
-      : '';
+      ? TEXT.laCouveeEstConcentreeSurUneVoie
+      : TEXT.lesEclosionsSontRepartiesEt;
+  const flyingTip = tacticalRulesEnabled && rank >= 6 ? TEXT.desSerpentsVolantsArriventArchers : '';
   return `${assaultTip} ${nestTip}${flyingTip}`;
 }
 /** Local waves are one-based. No boss or species from a later rank can enter this plan. */
@@ -257,7 +255,7 @@ export function missionWave(
   const valid = readMissionRun(run);
   const definition = valid && missionById(valid.missionId);
   if (!valid || !definition || !isIntegerIn(local, 1, definition.waves.length))
-    throw new RangeError('Vague de mission invalide');
+    throw new RangeError(TEXT.vagueDeMissionInvalide);
   const rank = definition.waves[local - 1];
   const caprice = capriceRules(valid);
   const rankStats = waveStats(rank);

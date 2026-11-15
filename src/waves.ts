@@ -1,5 +1,6 @@
 import type { EnemyKind } from './enemies.ts';
 import { chapterIndexForWave } from './levels.ts';
+import * as TEXT from './texts/fr/snakes.ts';
 export const TOTAL_WAVES = 12;
 export type ChapterIdentity = Readonly<{
   firstWave: number;
@@ -11,20 +12,20 @@ const chapterIdentities: readonly ChapterIdentity[] = [
   {
     firstWave: 1,
     lastWave: 4,
-    focus: 'Découvrir les trois voies',
-    tip: 'Répartis tes gardiens, retiens les vifs en groupes et surveille les premières éclosions.',
+    focus: TEXT.decouvrirLesTroisVoies,
+    tip: TEXT.repartisTesGardiensRetiensLesVifs,
   },
   {
     firstWave: 5,
     lastWave: 8,
-    focus: 'Déjouer les escortes',
-    tip: 'Les plaques et les parapluies protègent l’approche. Un mobile peut déloger les cracheurs derrière eux.',
+    focus: TEXT.dejouerLesEscortes,
+    tip: TEXT.lesPlaquesEtLesParapluiesProtegent,
   },
   {
     firstWave: 9,
     lastWave: 12,
-    focus: 'Tenir le dernier rempart',
-    tip: 'Ressorts en trios espacés, soins en soutien : garde tes alliés prêts pour les trois têtes.',
+    focus: TEXT.tenirLeDernierRempart,
+    tip: TEXT.ressortsEnTriosEspacesSoinsEn,
   },
 ].map((identity) => Object.freeze(identity));
 
@@ -33,45 +34,18 @@ export function chapterIdentityForWave(wave: number): ChapterIdentity {
   return chapterIdentities[chapterIndexForWave(wave)];
 }
 const chapters = [
-  ['Premiers visiteurs', 'Quelques serpents. Prépare tes premières défenses.'],
-  ['Par les trois ponts', 'Les arrivées alternent entre les trois voies. Répartis tes gardiens.'],
-  [
-    'La course des vifs',
-    'Petits groupes de rapides, puis une respiration : garde des alliés mobiles.',
-  ],
-  [
-    'La première couvée',
-    'Deux éclosions décalées. Les sonnettes font hésiter les alliés proches : le bébé dragon souffle sur les groupes.',
-  ],
-  [
-    'Les rouages du bosquet',
-    'Le serpent à rouages porte une plaque : elle casse à mi-vie. Combine dégâts et soins.',
-  ],
-  [
-    'Les trois fronts',
-    'Un serpent volant arrive : archers, dragons et tanks peuvent le toucher. Les feuilles protègent des flèches en marche : place aussi des combattants au contact.',
-  ],
-  [
-    'Attention aux cracheurs',
-    'Un cracheur à distance suit un parapluie en marche. Les alliés mobiles peuvent le déloger.',
-  ],
-  [
-    'La grande couvée',
-    'Trois éclosions décalées sur trois voies. Le cobra royal montre sa collerette : 2 PV au tueur à sa mort.',
-  ],
-  [
-    'La grande cavalcade',
-    'Deux ressorts encadrent la première carapace. Les trios arrivent moins serrés : garde un renfort mobile pour leurs impulsions.',
-  ],
-  [
-    'Les ponts s’animent',
-    'Trois fronts. Le mamba noir retire 3 PV à celui qui le tue : garde des soins en soutien.',
-  ],
-  ['Avant le roi', 'Prépare tes alliés et répare ton cristal.'],
-  [
-    'Le roi à trois têtes',
-    'Gardienne au contact, cracheuse à distance et tête mixte. Deux gardes et un soigneur escortent le roi ; la mêlée brise ses plaques. S’il atteint le cristal, la partie est perdue !',
-  ],
+  [TEXT.premiersVisiteurs, TEXT.quelquesSerpentsPrepareTes],
+  [TEXT.parLesTroisPonts, TEXT.lesArriveesAlternentEntreLesTrois],
+  [TEXT.laCourseDesVifs, TEXT.petitsGroupesDeRapidesPuisUne],
+  [TEXT.laPremiereCouvee, TEXT.deuxEclosionsDecaleesLesSonnettes],
+  [TEXT.lesRouagesDuBosquet, TEXT.leSerpentARouagesPorteUnePlaque],
+  [TEXT.lesTroisFronts, TEXT.unSerpentVolantArriveArchers],
+  [TEXT.attentionAuxCracheurs, TEXT.unCracheurADistanceSuitUnParapluie],
+  [TEXT.laGrandeCouvee, TEXT.troisEclosionsDecaleesSurTrois],
+  [TEXT.laGrandeCavalcade, TEXT.deuxRessortsEncadrentLaPremiere],
+  [TEXT.lesPontsSAniment, TEXT.troisFrontsLeMambaNoirRetire3PvA],
+  [TEXT.avantLeRoi, TEXT.prepareTesAlliesEtRepareTonCristal],
+  [TEXT.leRoiATroisTetes, TEXT.gardienneAuContactCracheuseA],
 ];
 export function waveBriefing(wave: number) {
   const [title, tip] = chapters[Math.max(0, Math.min(11, wave - 1))];

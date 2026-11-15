@@ -3,6 +3,8 @@ import { addCanvasText as addCanvasCopy, setCanvasText as setCanvasCopy } from '
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
 import { bossReadout } from './bossReadout.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 /** Finite graphics layers; no images, per-actor shader or independent simulation. */
 export class BossSignals {
   private ground: Phaser.GameObjects.Graphics;
@@ -43,7 +45,7 @@ export class BossSignals {
         ink.strokeEllipse(boss.x, boss.y + 4, 34, 13);
         setCanvasCopy(
           this.courtLabels[courtIndex++],
-          healer ? `Soigneur · ${boss.court.charges}` : 'Garde du roi',
+          healer ? fill(TEXT.soigneurN, boss.court.charges) : TEXT.gardeDuRoi,
         )
           .setPosition(boss.x, boss.y - 42)
           .setVisible(true);
@@ -64,7 +66,7 @@ export class BossSignals {
           }
           setCanvasCopy(
             this.headLabels[i],
-            `${head.label}${head.alive ? (head.active ? ' • Tir' : '') : ' KO'}`,
+            `${head.label}${head.alive ? (head.active ? TEXT.tir : '') : ' KO'}`,
           )
             .setPosition(x, boss.y - 119)
             .setVisible(true);

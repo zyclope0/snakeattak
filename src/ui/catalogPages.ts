@@ -1,16 +1,17 @@
 import { setAttribute } from '../i18n/dom.ts';
 import { make } from './dom.ts';
+import * as TEXT from '../texts/fr/recruiting.ts';
 
 const CARDS_PER_PAGE = 6;
 
 /** Presentation pagination receives the controller's already-filtered cards. */
 export function bindCatalogPages(onChange: () => void) {
-  const previous = make('button', { id: 'catalog-previous', text: '← Précédents' });
+  const previous = make('button', { id: 'catalog-previous', text: TEXT.precedents });
   const status = make('span', { id: 'catalog-page' });
   status.setAttribute('role', 'status');
-  const next = make('button', { id: 'catalog-next', text: 'Suivants →' });
+  const next = make('button', { id: 'catalog-next', text: TEXT.suivants });
   const nav = make('nav', { className: 'catalog-pagination' }, previous, status, next);
-  setAttribute(nav, 'aria-label', 'Pages des alliés');
+  setAttribute(nav, 'aria-label', TEXT.pagesDesAllies);
   const body = document.querySelector<HTMLElement>('#reinforcements .catalog-body')!;
   body.before(nav);
   let page = 0;

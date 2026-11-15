@@ -8,6 +8,7 @@ import { helpPoint } from './helpBubble.ts';
 import { byId } from './dom.ts';
 import { originalRulesLabel } from './gameParts.ts';
 import { bindPendingConfirm } from './pendingConfirm.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
 
 type ClassicDeparture = Extract<Departure, { kind: 'classic' }>;
 
@@ -23,16 +24,16 @@ export function bindCopyButton(fieldId: string, buttonId: string, messageId: str
     const code = field.value;
     if (!code) return;
     try {
-      if (!navigator.clipboard?.writeText) throw Error('clipboard unavailable');
+      if (!navigator.clipboard?.writeText) throw Error(TEXT.clipboardUnavailable);
       await navigator.clipboard.writeText(code);
       setDisplayText(
         status,
-        field.value === code ? 'Code copié.' : 'Le départ a changé ; copie son nouveau code.',
+        field.value === code ? TEXT.codeCopie : TEXT.leDepartAChangeCopieSonNouveauCode,
       );
     } catch {
       field.focus();
       field.select();
-      setDisplayText(status, 'Code sélectionné : copie-le avec le menu de ton appareil.');
+      setDisplayText(status, TEXT.codeSelectionneCopieLeAvecLeMenuDe);
     }
   };
 }
@@ -58,8 +59,8 @@ function bindCodeForm(
       setDisplayText(
         message,
         decoded.reason === 'version'
-          ? 'Ce code utilise une autre version des règles. Vérifie la version du jeu.'
-          : 'Code incomplet ou incorrect. Vérifie les lettres et les chiffres.',
+          ? TEXT.ceCodeUtiliseUneAutreVersionDes
+          : TEXT.codeIncompletOuIncorrectVerifieLes,
       );
       input.setAttribute('aria-invalid', 'true');
       return;
@@ -108,7 +109,7 @@ export function bindDepartureControls(
       return askClassic(departure);
     }
     if (actions.unlocked(departure.run)) return actions.previewMission(departure.run);
-    setDisplayText(message, 'Cette mission est encore verrouillée. Termine d’abord la précédente.');
+    setDisplayText(message, TEXT.cetteMissionEstEncoreVerrouillee);
   }
   bindCodeForm(input, message, open);
 

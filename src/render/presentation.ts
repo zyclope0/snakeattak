@@ -3,6 +3,8 @@ import { dustSpacing } from './characterMotion.ts';
 import type { CharacterAction, Gait } from './characterMotion.ts';
 import { encounterReadout } from './encounterReadout.ts';
 import type { EncounterReadout } from './encounterReadout.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 export type Notice = {
   kind: 'wave' | 'boss' | 'clear' | 'egg' | 'fallen';
   title: string;
@@ -176,7 +178,7 @@ export class Presentation {
       this.text(
         1002,
         232,
-        `Camp ${change > 0 ? '+' : '−'}${Math.round(Math.abs(change))}`,
+        fill(TEXT.campNN, change > 0 ? '+' : '−', Math.round(Math.abs(change))),
         change > 0 ? '#c2f4a8' : '#ffd49d',
       );
     }
@@ -203,7 +205,7 @@ export class Presentation {
       const chapter = game.briefing;
       this.announce({
         kind: 'wave',
-        title: `Vague ${game.wave} · ${chapter.title}`,
+        title: fill(TEXT.vagueNN, game.wave, chapter.title),
         subtitle: chapter.tip,
         duration: 2.6,
         priority: 1,
@@ -215,8 +217,8 @@ export class Presentation {
       if (!fresh) this.sparks.push({ kind: 'boss', x: boss.x, y: boss.y });
       this.announce({
         kind: 'boss',
-        title: 'LE ROI À TROIS TÊTES ENTRE DANS LA VALLÉE',
-        subtitle: 'S’il atteint le cristal, la partie est perdue. Attention à ses œufs !',
+        title: TEXT.leRoiATroisTetesEntreDansLaVallee,
+        subtitle: TEXT.sIlAtteintLeCristalLaPartieEst,
         duration: 4,
         priority: 4,
       });
@@ -224,19 +226,19 @@ export class Presentation {
     if (!fresh && this.status === 'fighting' && game.status === 'preparing')
       this.announce({
         kind: 'clear',
-        title: `Vague ${game.wave} repoussée !`,
+        title: fill(TEXT.vagueNRepoussee, game.wave),
         subtitle:
           !game.mission && (game.wave === 4 || game.wave === 8)
-            ? `Nouvelle clairière : ${game.level.name}.`
-            : 'Prépare les prochains alliés.',
+            ? fill(TEXT.nouvelleClairiereN, game.level.name)
+            : TEXT.prepareLesProchainsAllies,
         duration: 2.8,
         priority: 2,
       });
     if (game.hatched > this.hatched) {
       this.announce({
         kind: 'egg',
-        title: 'CRAC ! Les œufs ont éclos',
-        subtitle: 'De nouveaux gourmands arrivent…',
+        title: TEXT.cracLesOeufsOntEclos,
+        subtitle: TEXT.deNouveauxGourmandsArrivent,
         duration: 1.8,
         priority: 0,
       });
@@ -263,9 +265,9 @@ export class Presentation {
   private watchRoyalArmor(king: Entity, state: NonNullable<Entity['bossState']>) {
     const previous = this.bossArmor.get(king.id);
     if (previous && state.phase > previous.phase)
-      this.text(king.x, king.y - 115, `Phase ${state.phase} : protection !`, '#bce9f0');
+      this.text(king.x, king.y - 115, fill(TEXT.phaseNProtection, state.phase), '#bce9f0');
     else if (previous && state.shieldsBroken > previous.broken)
-      this.text(king.x, king.y - 115, 'Protection brisée !', '#bce9f0');
+      this.text(king.x, king.y - 115, TEXT.protectionBrisee, '#bce9f0');
     this.bossArmor.set(king.id, { phase: state.phase, broken: state.shieldsBroken });
   }
   /** Feeds the walk with the ground really covered, and raises dust under heavy steps. */
@@ -289,7 +291,7 @@ export class Presentation {
   private watchHealth(e: Entity, before: number) {
     const half = e.maxHp * 0.5;
     if (e.kind === 'snake' && e.variant === 'clockwork' && before > half && e.hp <= half) {
-      this.text(e.x, e.y - 62, 'Clac !', '#efc382');
+      this.text(e.x, e.y - 62, TEXT.clac, '#efc382');
       this.bursts.push({ x: e.x, y: e.y - 10, age: 0, color: 0xd9ad62 });
     }
     const change = e.hp - before;
@@ -312,7 +314,7 @@ export class Presentation {
   /** A newcomer: an ally just placed, or a snake out of its den or its egg. */
   private welcome(e: Entity) {
     if (e.kind !== 'snake') {
-      this.text(e.x, e.y - 72, 'À la rescousse !', '#c6e8ed');
+      this.text(e.x, e.y - 72, TEXT.aLaRescousse, '#c6e8ed');
       this.placed.set(e.id, 0);
       this.sparks.push({ kind: 'ally', x: e.x, y: e.y });
       return;
@@ -333,11 +335,11 @@ export class Presentation {
     for (const [id, old] of this.units) {
       if (this.seen.has(id)) continue;
       if (old.kind !== 'snake') {
-        this.text(old.x, old.y - 40, 'Tombé', '#d4d5c8');
+        this.text(old.x, old.y - 40, TEXT.tombe, '#d4d5c8');
         this.announce({
           kind: 'fallen',
-          title: 'Un allié est tombé',
-          subtitle: 'Les médecins soignent les vivants ; les alliés prennent la relève.',
+          title: TEXT.unAllieEstTombe,
+          subtitle: TEXT.lesMedecinsSoignentLesVivantsLes,
           duration: 1.8,
           priority: 0,
         });
@@ -375,7 +377,7 @@ export class Presentation {
       e.kind === 'hit' &&
       this.clock - (this.roared.get(source.id) ?? -10) >= 3
     ) {
-      this.text(source.x, source.y - 66, 'Grrr !', '#e4e6ae');
+      this.text(source.x, source.y - 66, TEXT.grrr, '#e4e6ae');
       this.roared.set(source.id, this.clock);
     }
   }
@@ -386,13 +388,13 @@ export class Presentation {
       this.text(
         e.tx,
         e.ty - 60,
-        recipient ? 'Poc !' : 'Protégé !',
+        recipient ? TEXT.poc : TEXT.protege,
         recipient ? '#dceeb1' : '#b4e4ed',
       );
     }
-    if (e.kind === 'honey') this.text(e.x, e.y - 45, 'Miam !', '#ffe3a0');
+    if (e.kind === 'honey') this.text(e.x, e.y - 45, TEXT.miam, '#ffe3a0');
     if (e.kind === 'gold') {
-      this.text(e.x, e.y - 25, '+ pièces', '#ffdf8b');
+      this.text(e.x, e.y - 25, TEXT.pieces, '#ffdf8b');
       this.bursts.push({ x: e.x, y: e.y, age: 0, color: 0xecc96c });
       this.sparks.push({ kind: 'coin', x: e.x, y: e.y });
     }

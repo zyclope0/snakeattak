@@ -3,28 +3,30 @@ import { kinds } from '../data.ts';
 import { defenseRole, type DefenseRole } from '../defenders.ts';
 import { laneDefense, LANE_NAMES } from '../ai.ts';
 import type { Game } from '../game.ts';
+import * as TEXT from '../texts/fr/advice.ts';
+import { fill } from '../texts/fill.ts';
 
 /** Where each role does its best work: the full sentence, and a few words for the board. */
 const SPOTS: Record<DefenseRole, { hint: string; short: string }> = {
   support: {
-    hint: 'Place-le derrière les combattants. Le cercle montre ses soins ; les bandages sont limités.',
-    short: 'à l’abri des combattants',
+    hint: TEXT.placeLeDerriereLesCombattantsLe,
+    short: TEXT.aLAbriDesCombattants,
   },
   ranged: {
-    hint: 'Place-le derrière les combattants, près du chemin. Le cercle montre sa portée de tir.',
-    short: 'derrière les combattants',
+    hint: TEXT.placeLeDerriereLesCombattantsPres,
+    short: TEXT.derriereLesCombattants,
   },
   mobile: {
-    hint: 'Près d’un passage : il intervient sur les trois voies. Il choisit seul ses cibles.',
-    short: 'près d’un passage, trois voies',
+    hint: TEXT.presDUnPassageIlIntervientSurLes,
+    short: TEXT.presDUnPassageTroisVoies,
   },
   fixed: {
-    hint: 'Défense fixe : elle reste ici. Place-la sur le passage des serpents.',
-    short: 'sur le passage des serpents',
+    hint: TEXT.defenseFixeElleResteIciPlaceLaSur,
+    short: TEXT.surLePassageDesSerpents,
   },
   guard: {
-    hint: 'Devant les tireurs : il garde son secteur, combat au contact et revient à sa place.',
-    short: 'devant les tireurs',
+    hint: TEXT.devantLesTireursIlGardeSonSecteur,
+    short: TEXT.devantLesTireurs,
   },
 };
 
@@ -39,11 +41,11 @@ export function placementAdvice(kind: Kind) {
   return {
     role,
     range: kinds[kind].range,
-    hint: 'Touche une place libre à droite. ' + hint,
+    hint: TEXT.toucheUnePlaceLibreADroite + hint,
     compactHint:
       kinds[kind].range > 0
-        ? `Touche à droite · ${short} · portée ${reach}`
-        : `Touche à droite · ${short}`,
+        ? fill(TEXT.toucheADroiteNPorteeN, short, reach)
+        : fill(TEXT.toucheADroiteN, short),
   };
 }
 
@@ -56,5 +58,5 @@ export function weakLaneAdvice(game: Pick<Game, 'status' | 'wave' | 'enemyLanes'
   const low = lanes.reduce((a, b) => (scores[a] <= scores[b] ? a : b));
   const strongest = Math.max(...lanes.map((i) => scores[i]));
   if (!strongest || scores[low] >= strongest * 0.65) return null;
-  return `À renforcer : ${LANE_NAMES[low]}`;
+  return fill(TEXT.aRenforcerN, LANE_NAMES[low]);
 }

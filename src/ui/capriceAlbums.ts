@@ -9,6 +9,7 @@ import { stickerGraphic } from './capriceIcons.ts';
 import { stickerResultNote } from './capriceResultNote.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { make } from './dom.ts';
+import * as TEXT from '../texts/fr/capriceScreens.ts';
 
 export type AlbumsController = ReturnType<typeof createCapriceAlbumsController>;
 type StickerSlot = { node: HTMLElement; id: string; status: HTMLElement };
@@ -68,12 +69,12 @@ function missionPage(mission: MissionDefinition, shown: boolean) {
 /** The two arrows that turn the pages, one mission at a time, and the page they are on. */
 function albumPager(pages: readonly HTMLElement[], scroller: HTMLElement) {
   let current = 0;
-  const previous = make('button', { id: 'caprice-album-previous', text: '← Page précédente' });
-  const next = make('button', { id: 'caprice-album-next', text: 'Page suivante →' });
+  const previous = make('button', { id: 'caprice-album-previous', text: TEXT.pagePrecedente });
+  const next = make('button', { id: 'caprice-album-next', text: TEXT.pageSuivante });
   const position = make('span', { id: 'caprice-album-page' });
   position.setAttribute('role', 'status');
   const nav = make('nav', { className: 'caprice-album-pagination' });
-  setAttribute(nav, 'aria-label', 'Missions du carnet');
+  setAttribute(nav, 'aria-label', TEXT.missionsDuCarnet);
   nav.append(previous, position, next);
   const show = () => {
     pages.forEach((page, index) => {
@@ -106,13 +107,13 @@ function albumPager(pages: readonly HTMLElement[], scroller: HTMLElement) {
 function albumBook(albums: AlbumsController) {
   const dialog = make('dialog', { id: 'caprice-album-dialog', className: 'caprice-album-dialog' });
   dialog.setAttribute('aria-labelledby', 'caprice-album-title');
-  const title = make('h2', { id: 'caprice-album-title', text: 'Mon carnet de caprices' });
-  const close = make('button', { id: 'caprice-album-close', text: 'Fermer' });
+  const title = make('h2', { id: 'caprice-album-title', text: TEXT.monCarnetDeCaprices });
+  const close = make('button', { id: 'caprice-album-close', text: TEXT.fermer });
   // A child's word under the title: what this book is for.
   const hint = make('p', {
     id: 'caprice-album-hint',
     className: 'caprice-album-hint',
-    text: 'Réussis un caprice pour gagner son autocollant.',
+    text: TEXT.reussisUnCapricePourGagnerSon,
   });
   dialog.setAttribute('aria-describedby', hint.id);
   const heading = make('div', { className: 'caprice-album-heading' }, title, hint);
@@ -122,7 +123,7 @@ function albumBook(albums: AlbumsController) {
   const tools = make(
     'div',
     { className: 'caprice-profile-tools' },
-    make('label', {}, createTextNode('Carnet choisi'), select),
+    make('label', {}, createTextNode(TEXT.carnetChoisi), select),
   );
   tools.hidden = !albumChoiceShown(albums.state.children.length);
   const status = make('p', { id: 'caprice-album-status' });
@@ -147,7 +148,7 @@ function albumBook(albums: AlbumsController) {
       for (const slot of stickers) {
         const earned = child.completed.includes(slot.id);
         slot.node.dataset.earned = String(earned);
-        setText(slot.status, earned ? '✓ Autocollant gagné' : 'À découvrir');
+        setText(slot.status, earned ? TEXT.autocollantGagne : TEXT.aDecouvrir);
       }
       pager.show();
       setText(status, saveStatus);
@@ -165,7 +166,7 @@ export function bindCapriceAlbums(
   const book = albumBook(albums);
   document.body.append(book.dialog);
   const modal = pauseForDialog(book.dialog, session, refresh);
-  const home = make('button', { id: 'home-caprice-album', text: 'Mon carnet de caprices' });
+  const home = make('button', { id: 'home-caprice-album', text: TEXT.monCarnetDeCaprices });
   document.getElementById('home-expeditions')?.after(home);
   const result = stickerResultNote(albums, award);
   let returnFocus: HTMLElement | null = null;

@@ -6,6 +6,7 @@ import { catalogueOf, createSamples } from './samples.ts';
 import { createSignalPlayer, type SoundEngine } from './signalPlayer.ts';
 import { BUTTON_PRESSED, SETTING_CHANGED } from './signals.ts';
 import { soundSettings, type SoundSettings } from './soundSettings.ts';
+import * as TEXT from '../texts/fr/sound.ts';
 
 type Switches = { all: HTMLButtonElement; music: HTMLButtonElement; effects: HTMLButtonElement };
 type Choice = Pick<SoundSettings, 'music' | 'effects'>;
@@ -104,17 +105,17 @@ function startEngine(engine: SoundEngine) {
 function showSwitches(switches: Switches, choice: Choice, unavailable = false) {
   const any = anySound(choice);
   showSwitch(switches.all, allSoundsLabel(any, unavailable), any && !unavailable);
-  showSwitch(switches.music, choice.music ? 'Musique activée' : 'Musique coupée', choice.music);
+  showSwitch(switches.music, choice.music ? TEXT.musiqueActivee : TEXT.musiqueCoupee, choice.music);
   showSwitch(
     switches.effects,
-    choice.effects ? 'Bruitages activés' : 'Bruitages coupés',
+    choice.effects ? TEXT.bruitagesActives : TEXT.bruitagesCoupes,
     choice.effects,
   );
 }
 
 function allSoundsLabel(any: boolean, unavailable: boolean) {
-  if (unavailable) return 'Sons indisponibles';
-  return any ? '♪ Sons activés' : '♪ Sons coupés';
+  if (unavailable) return TEXT.sonsIndisponibles;
+  return any ? TEXT.sonsActives : TEXT.sonsCoupes;
 }
 
 function showSwitch(button: HTMLButtonElement, label: string, on: boolean) {

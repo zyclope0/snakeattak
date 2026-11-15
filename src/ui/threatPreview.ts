@@ -11,6 +11,8 @@ import { flyingVariant } from '../flying.ts';
 import { activeEnemyLanes } from '../tutorial.ts';
 import { missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
+import * as TEXT from '../texts/fr/advice.ts';
+import { fill } from '../texts/fill.ts';
 
 export type ThreatKind = EnemyKind | 'king';
 /** What a preview reads of a game. A mission looked at before its departure has no stage. */
@@ -24,48 +26,48 @@ export type WaveThreats = {
 };
 type ThreatDetail = { name: string; ability: string; symbol: string; priority: number };
 const retaliation = (variant: 'royal' | 'mamba') =>
-  `${deathRetaliation({ variant, boss: false })} PV au tueur à sa mort`;
+  fill(TEXT.nPvAuTueurASaMort, deathRetaliation({ variant, boss: false }));
 export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
   normal: {
     name: enemies.normal.name,
-    ability: 'Avance vers ton cristal',
+    ability: TEXT.avanceVersTonCristal,
     symbol: 'path',
     priority: 0,
   },
-  runner: { name: enemies.runner.name, ability: 'Court très vite', symbol: 'fast', priority: 20 },
+  runner: { name: enemies.runner.name, ability: TEXT.courtTresVite, symbol: 'fast', priority: 20 },
   armored: {
     name: enemies.armored.name,
-    ability: 'Sa carapace réduit les dégâts',
+    ability: TEXT.saCarapaceReduitLesDegats,
     symbol: 'shield',
     priority: 25,
   },
   clockwork: {
     name: enemies.clockwork.name,
-    ability: 'Sa plaque casse à mi-vie',
+    ability: TEXT.saPlaqueCasseAMiVie,
     symbol: 'gear',
     priority: 35,
   },
   spring: {
     name: enemies.spring.name,
-    ability: 'Bondit par à-coups',
+    ability: TEXT.bonditParACoups,
     symbol: 'fast',
     priority: 40,
   },
   umbrella: {
     name: enemies.umbrella.name,
-    ability: 'Sa feuille réduit les flèches de face en marche',
+    ability: TEXT.saFeuilleReduitLesFlechesDeFaceEn,
     symbol: 'shield',
     priority: 45,
   },
   rattlesnake: {
     name: enemies.rattlesnake.name,
-    ability: 'Fait hésiter les alliés proches',
+    ability: TEXT.faitHesiterLesAlliesProches,
     symbol: 'confusion',
     priority: 60,
   },
   spitter: {
     name: enemies.spitter.name,
-    ability: 'Crache à distance : un coup par tir',
+    ability: TEXT.cracheADistanceUnCoupParTir,
     symbol: 'shot',
     priority: 65,
   },
@@ -73,19 +75,19 @@ export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
   mamba: { name: enemies.mamba.name, ability: retaliation('mamba'), symbol: 'burst', priority: 75 },
   flying: {
     name: enemies.flying.name,
-    ability: 'Seuls archers, dragons et tanks le touchent',
+    ability: TEXT.seulsArchersDragonsEtTanksLe,
     symbol: 'wing',
     priority: 80,
   },
   courtHealer: {
     name: enemies.courtHealer.name,
-    ability: 'Soigne le roi et ses gardes',
+    ability: TEXT.soigneLeRoiEtSesGardes,
     symbol: 'heal',
     priority: 85,
   },
   king: {
-    name: 'Roi à trois têtes',
-    ability: 'Contact, crachat à distance et tête mixte',
+    name: TEXT.roiATroisTetes,
+    ability: TEXT.contactCrachatADistanceEtTeteMixte,
     symbol: 'crown',
     priority: 100,
   },
@@ -136,7 +138,7 @@ function classicWaveKinds(game: PreviewSource, local: number): ThreatKind[] {
 /** Species projection only. No lane draw, arrival timer or RNG is predicted. */
 export function waveThreats(game: PreviewSource, local: number): WaveThreats {
   if (!Number.isInteger(local) || local < 1 || local > game.totalWaves)
-    throw new RangeError('Vague de prévision invalide');
+    throw new RangeError(TEXT.vagueDePrevisionInvalide);
   const plan = game.mission
     ? missionWave(game.mission, local, game.tuning.tacticalRulesEnabled)
     : null;
@@ -178,12 +180,12 @@ export function threatAdvice(
   available: (kind: Kind) => boolean,
 ): { kind: Kind; text: string } {
   if (types.includes('flying') && available('archer'))
-    return { kind: 'archer', text: 'Pense aux archers pour toucher les volants.' };
+    return { kind: 'archer', text: TEXT.penseAuxArchersPourToucherLes };
   if (types.includes('spitter') && available('ninja'))
-    return { kind: 'ninja', text: 'Un ninja rapide peut rejoindre les cracheurs.' };
+    return { kind: 'ninja', text: TEXT.unNinjaRapidePeutRejoindreLes };
   if (types.includes('rattlesnake') && available('dragon'))
-    return { kind: 'dragon', text: 'Le bébé dragon souffle sur les groupes de serpents.' };
+    return { kind: 'dragon', text: TEXT.leBebeDragonSouffleSurLesGroupesDe };
   if (types.includes('runner') && available('shield'))
-    return { kind: 'shield', text: 'Un bouclier aide à retenir les vifs.' };
-  return { kind: 'club', text: 'Garde des massues près des passages attaqués.' };
+    return { kind: 'shield', text: TEXT.unBouclierAideARetenirLesVifs };
+  return { kind: 'club', text: TEXT.gardeDesMassuesPresDesPassages };
 }

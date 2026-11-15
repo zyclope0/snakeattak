@@ -1,4 +1,5 @@
 import { setText } from '../i18n/dom.ts';
+import * as TEXT from '../texts/fr/battleScreens.ts';
 
 /**
  * The element of the page that has this id. The page is assembled from `src/html/` and the
@@ -8,8 +9,7 @@ export const byId = <T extends HTMLElement = HTMLElement>(id: string): T =>
   document.getElementById(id) as T;
 
 /** A touch screen held upright: the board is hidden and the game asks to turn the device. */
-export const portraitPhone = (): MediaQueryList =>
-  matchMedia('(pointer: coarse) and (orientation: portrait)');
+export const portraitPhone = (): MediaQueryList => matchMedia(TEXT.pointerCoarseAndOrientation);
 
 /** The narrow layout, where the camp panel sits under the board. */
 export const narrowScreen = (): boolean => matchMedia('(max-width:800px)').matches;

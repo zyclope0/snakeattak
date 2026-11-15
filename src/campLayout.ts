@@ -1,6 +1,7 @@
 import { blocked, CELL } from './navigation.ts';
 import type { Point } from './navigation.ts';
 import type { Level } from './levels.ts';
+import * as TEXT from './texts/fr/battle.ts';
 
 type Resident = { id: number; homeX: number; homeY: number };
 
@@ -21,7 +22,7 @@ export function denseCampHomes(units: readonly Resident[], level: Level): Map<nu
         )
       )
         slots.push({ x, y, used: 0 });
-  if (!slots.length) throw new Error('Aucun domicile navigable dans le camp');
+  if (!slots.length) throw new Error(TEXT.aucunDomicileNavigableDansLeCamp);
   const homes = new Map<number, Point>();
   // Stable IDs and row/column order settle ties without consuming game randomness.
   for (const unit of [...units].sort((a, b) => a.id - b.id)) {

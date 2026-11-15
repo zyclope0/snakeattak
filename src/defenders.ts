@@ -6,6 +6,7 @@ import { nearestCampPoint } from './navigation.ts';
 import type { Point } from './navigation.ts';
 import { levelForWave } from './levels.ts';
 import type { Level } from './levels.ts';
+import * as TEXT from './texts/fr/battle.ts';
 export type DefenseRole = 'guard' | 'ranged' | 'mobile' | 'support' | 'fixed';
 export function defenseRole(kind: Kind): DefenseRole {
   if (kind === 'wall') return 'fixed';
@@ -61,16 +62,16 @@ export function defenseGoal(unit: Entity, enemy: Entity, level: Level = levelFor
 }
 export function roleDescription(kind: Kind): string {
   const role = defenseRole(kind);
-  if (kind === 'ninja') return 'Chasseur mobile : déloge les cracheurs et protège le cristal.';
+  if (kind === 'ninja') return TEXT.chasseurMobileDelogeLesCracheursEt;
   return role === 'mobile'
-    ? 'Renfort mobile : intervient sur les trois voies.'
+    ? TEXT.renfortMobileIntervientSurLesTrois
     : role === 'ranged'
-      ? 'Tire depuis son secteur et riposte au danger.'
+      ? TEXT.tireDepuisSonSecteurEtRiposteAu
       : role === 'support'
-        ? 'Soigne autour de son placement ; retourne au fort refaire ses bandages.'
+        ? TEXT.soigneAutourDeSonPlacementRetourne
         : role === 'fixed'
-          ? 'Défense fixe : reste à son placement.'
-          : 'Garde son secteur, puis revient à son placement.';
+          ? TEXT.defenseFixeResteASonPlacement
+          : TEXT.gardeSonSecteurPuisRevientASon;
 }
 /** Two nearby fighters relieve a real blockade; the rest keep their sectors. */
 /** Closest to `target` first; the lower id breaks a tie, so the order never depends on the list. */

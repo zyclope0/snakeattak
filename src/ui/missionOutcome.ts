@@ -11,6 +11,8 @@ import { assaults, nests } from './missionDraft.ts';
 import { replayOffer } from './stickerGoals.ts';
 import type { StickerTally } from './stickerGoals.ts';
 import { stickerRow } from './stickerRow.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 type Actions = {
   launch: (run: MissionRun, kinds?: readonly Kind[], retry?: boolean) => void | boolean;
@@ -29,9 +31,14 @@ const indexOf = (id?: MissionId) => MISSIONS.findIndex((m) => m.id === id);
 
 function resultText(g: Game, run: MissionRun, caprice: boolean): string {
   const won = g.status === 'won';
-  if (caprice) return won ? 'Caprice réussi !' : '';
+  if (caprice) return won ? TEXT.capriceReussi : '';
   if (!won) return defeatCopy(g).subtitle;
-  return `Mission réussie ! ${run.missionId === MISSIONS.at(-1)!.id ? 'Les six missions sont terminées. Rejoue-les autrement !' : 'Prochaine mission disponible sur la carte.'}`;
+  return fill(
+    TEXT.missionReussieN,
+    run.missionId === MISSIONS.at(-1)!.id
+      ? TEXT.lesSixMissionsSontTermineesRejoue
+      : TEXT.prochaineMissionDisponibleSurLa,
+  );
 }
 
 /**
@@ -108,7 +115,7 @@ export function bindMissionOutcome(session: Session, actions: Actions) {
     byId('mission-battle-actions').hidden = !run;
     if (!run) return;
     const caprice = capriceDefinitionForRun(run);
-    setDisplayText(byId('mission-battle-title'), 'Tes alliés');
+    setDisplayText(byId('mission-battle-title'), TEXT.tesAllies);
     setDisplayText(byId('mission-battle-config'), `${assaults[run.assault]} · ${nests[run.nest]}`);
     const end = g.status === 'won' || g.status === 'lost';
     const result = byId('mission-result');

@@ -2,6 +2,8 @@ import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '
 import { FrameMetrics } from './frameMetrics.ts';
 import { PerformanceRecording } from './performanceRecording.ts';
 import type { pauseForDialog } from '../ui/dialogs.ts';
+import * as TEXT from '../texts/fr/diagnostic.ts';
+import { fill } from '../texts/fill.ts';
 /** Explicit local opt-in. No network or persistence. Reading owns a temporary UI pause. */
 export class DevPerformance {
   private metrics = new FrameMetrics();
@@ -36,7 +38,7 @@ export class DevPerformance {
     this.output = document.createElement('output');
     this.output.dataset.performance = 'local';
     this.output.setAttribute('aria-live', 'off');
-    setDisplayText(this.output, 'Mesure…');
+    setDisplayText(this.output, TEXT.mesure);
     this.panel.append(this.output);
     const button = (label: string, action: () => void, container: HTMLElement) => {
       const el = document.createElement('button');
@@ -50,22 +52,22 @@ export class DevPerformance {
     this.dialog.className = 'performance-dialog';
     this.modal = bindDialog(this.dialog);
     const title = document.createElement('h2');
-    setDisplayText(title, 'Relevé local de performance');
+    setDisplayText(title, TEXT.releveLocalDePerformance);
     this.report = document.createElement('textarea');
     this.report.readOnly = true;
-    setDisplayAttribute(this.report, 'aria-label', 'Rapport à copier');
+    setDisplayAttribute(this.report, 'aria-label', TEXT.rapportACopier);
     this.dialog.append(title, this.report);
     button(
-      'Sélectionner le relevé',
+      TEXT.selectionnerLeReleve,
       () => {
         this.report.focus();
         this.report.select();
       },
       this.dialog,
     );
-    button('Fermer', () => this.modal.close(), this.dialog);
+    button(TEXT.fermer, () => this.modal.close(), this.dialog);
     button(
-      'Relevé',
+      TEXT.releve,
       () => {
         this.report.value = JSON.stringify(this.snapshot(), null, 2);
         this.modal.open();
@@ -73,7 +75,7 @@ export class DevPerformance {
       this.panel,
     );
     button(
-      'Recommencer la mesure',
+      TEXT.recommencerLaMesure,
       () => {
         this.reset();
         this.report.value = JSON.stringify(this.snapshot(), null, 2);
@@ -120,8 +122,7 @@ export class DevPerformance {
       lastAssetLoadMs:
         Number.isFinite(loadMs) && this.parent.dataset.loadDurationMs ? loadMs : null,
       jsHeapBytes: memory && Number.isFinite(memory.usedJSHeapSize) ? memory.usedJSHeapSize : null,
-      memoryScope:
-        'JS heap if exposed by WebView; not total Android app memory. Null means unavailable.',
+      memoryScope: TEXT.jsHeapIfExposedByWebviewNotTotal,
       userAgent: navigator.userAgent,
       deviceModel: null,
       androidVersion: null,
@@ -144,7 +145,13 @@ export class DevPerformance {
       r = this.recording.snapshot();
     setDisplayText(
       this.output,
-      `${s.fps.toFixed(0)} FPS · méd. ${r.fpsMedian?.toFixed(0) ?? '—'} / min. ${r.fpsMin?.toFixed(0) ?? '—'} · Maj. ${s.updateP95Ms.toFixed(1)} ms p95`,
+      fill(
+        TEXT.nFpsMedNMinNMajNMsP95,
+        s.fps.toFixed(0),
+        r.fpsMedian?.toFixed(0) ?? '—',
+        r.fpsMin?.toFixed(0) ?? '—',
+        s.updateP95Ms.toFixed(1),
+      ),
     );
     this.output.dataset.activeMs = String(r.activeMs);
     this.lastLabel = now;

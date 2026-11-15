@@ -6,6 +6,8 @@ import { kinds, unlockWave } from '../data.ts';
 import type { Kind } from '../data.ts';
 import { byId, make } from './dom.ts';
 import { portrait } from './gameParts.ts';
+import * as TEXT from '../texts/fr/guide.ts';
+import { fill } from '../texts/fill.ts';
 
 type Career = ReturnType<typeof createCareer>;
 const PAGE_SIZE = 6;
@@ -21,7 +23,7 @@ function rosterCard(kind: Kind) {
   card.append(
     face,
     make('strong', { text: kinds[kind].name }),
-    make('small', { text: `Vague ${unlockWave[kind] ?? 1}` }),
+    make('small', { text: fill(TEXT.vagueN, unlockWave[kind] ?? 1) }),
   );
   return card;
 }
@@ -52,7 +54,7 @@ export function bindRosterEditor(
     byId<HTMLButtonElement>('roster-page-previous').disabled = page === 0;
     byId<HTMLButtonElement>('roster-page-next').disabled = page >= pages - 1;
     setDisplayText(byId('roster-page-status'), `${page + 1} / ${pages}`);
-    setDisplayText(byId('roster-count'), `${draft.length} / 8 alliés favoris`);
+    setDisplayText(byId('roster-count'), fill(TEXT.n8AlliesFavoris, draft.length));
     byId<HTMLButtonElement>('roster-save').disabled = draft.length !== ROSTER_SIZE || fighting();
   };
   const toggle = (kind: Kind) => {

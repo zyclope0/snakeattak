@@ -4,6 +4,7 @@ import { enemyPortraitStyle, portraitStyle } from '../art.ts';
 import { make } from './dom.ts';
 import { svgNode } from './svg.ts';
 import { THREAT_DETAILS, type ThreatKind } from './threatPreview.ts';
+import * as TEXT from '../texts/fr/advice.ts';
 
 /** The line drawing of an ability, by the `symbol` of a threat. */
 const paths: Record<string, string> = {
@@ -59,7 +60,7 @@ export function renderThreatAdvice(
   },
 ) {
   host.dataset.ally = advice.kind;
-  setDisplayAttribute(host, 'aria-label', 'Une idée avec ' + kinds[advice.kind].name);
+  setDisplayAttribute(host, 'aria-label', TEXT.uneIdeeAvec + kinds[advice.kind].name);
   host.replaceChildren(
     portrait('portrait', portraitStyle(advice.kind)),
     make('p', { text: advice.text }),

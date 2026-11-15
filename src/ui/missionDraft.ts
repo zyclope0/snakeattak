@@ -16,6 +16,8 @@ import { portraitStyle } from '../art.ts';
 import { bindDepartureControls } from './departures.ts';
 import { byId } from './dom.ts';
 import { originalRulesLabel, portrait } from './gameParts.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 type Progress = ReturnType<typeof createMissionProgressController>;
 type Actions = {
@@ -27,13 +29,13 @@ type Actions = {
 
 export const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
 /** The three terrains of a mission, as the preparation and the voyage map name them. */
-export const lands = ['Détours', 'Méandres', 'Carrefour'];
+export const lands = [TEXT.detours, TEXT.meandres, TEXT.carrefour];
 export const assaults = {
-  balanced: 'Arrivées régulières',
-  rush: 'Petits groupes rapides',
-  escort: 'Avancées groupées',
+  balanced: TEXT.arriveesRegulieres,
+  rush: TEXT.petitsGroupesRapides,
+  escort: TEXT.avanceesGroupees,
 };
-export const nests = { spread: 'Éclosions décalées', clustered: 'Couvée groupée' };
+export const nests = { spread: TEXT.eclosionsDecalees, clustered: TEXT.couveeGroupee };
 
 /** Another draw of the same mission: its rules and its caprice stay. */
 function drawAgain(run: MissionRun): MissionRun {
@@ -50,7 +52,11 @@ function describeRun(run: MissionRun, resumable: boolean, replayable: boolean) {
   byId('mission-replacement-note').hidden = !resumable;
   setDisplayText(
     byId('mission-budget'),
-    `${capriceBudget(mission.budget, capriceRules(run))} pièces · ${mission.waves.length} vagues · nouveaux alliés`,
+    fill(
+      TEXT.nPiecesNVaguesNouveauxAllies,
+      capriceBudget(mission.budget, capriceRules(run)),
+      mission.waves.length,
+    ),
   );
   setDisplayText(byId('mission-land'), lands[run.layout]);
   setDisplayText(byId('mission-assault'), assaults[run.assault]);

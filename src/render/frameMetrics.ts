@@ -1,3 +1,4 @@
+import * as TEXT from '../texts/fr/diagnostic.ts';
 /** Small fixed window, allocated once; no telemetry or game state. */
 export class FrameMetrics {
   private frameTimes: Float64Array;
@@ -5,7 +6,8 @@ export class FrameMetrics {
   private count = 0;
   private index = 0;
   constructor(capacity = 120) {
-    if (!Number.isInteger(capacity) || capacity < 1) throw new RangeError('Invalid metrics window');
+    if (!Number.isInteger(capacity) || capacity < 1)
+      throw new RangeError(TEXT.invalidMetricsWindow);
     this.frameTimes = new Float64Array(capacity);
     this.updateTimes = new Float64Array(capacity);
   }

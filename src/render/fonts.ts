@@ -1,6 +1,7 @@
+import * as TEXT from '../texts/fr/board.ts';
 /** Local faces shared by every canvas label; CSS owns their bundled @font-face URLs. */
-export const DISPLAY_FONT = 'Fredoka';
-export const BODY_FONT = 'Nunito Sans';
+export const DISPLAY_FONT = TEXT.fredoka;
+export const BODY_FONT = TEXT.nunitoSans;
 
 /** Canvas text caches pixels, so load the faces before constructing Phaser text. */
 export async function loadGameFonts(): Promise<void> {

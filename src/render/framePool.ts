@@ -1,3 +1,4 @@
+import * as TEXT from '../texts/fr/board.ts';
 type PoolOptions<V> = {
   maxIdle: number;
   create: () => V;
@@ -17,7 +18,7 @@ export class FramePool<K, V> {
   private options: PoolOptions<V>;
   constructor(options: PoolOptions<V>) {
     if (!Number.isInteger(options.maxIdle) || options.maxIdle < 0)
-      throw new RangeError('Invalid inactive pool capacity');
+      throw new RangeError(TEXT.invalidInactivePoolCapacity);
     this.options = options;
   }
   beginFrame() {

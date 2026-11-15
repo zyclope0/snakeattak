@@ -2,6 +2,8 @@ import { setText as setDisplayText } from '../i18n/dom.ts';
 import { heroTrainingState, campToolModel } from './campToolModel.ts';
 import type { Session } from '../session.ts';
 import { byId } from './dom.ts';
+import * as TEXT from '../texts/fr/home.ts';
+import { fill } from '../texts/fill.ts';
 /** Two actions of the camp: encourage the allies, train the hero. */
 export function bindAdventureControls(
   session: Session,
@@ -26,10 +28,10 @@ export function bindAdventureControls(
     setDisplayText(
       status,
       g.encouragementRemaining > 0
-        ? `Encouragés · ${Math.ceil(g.encouragementRemaining)} s`
+        ? fill(TEXT.encouragesNS, Math.ceil(g.encouragementRemaining))
         : g.encouragementUsed
-          ? 'Revient à la prochaine vague'
-          : '1 fois par vague · attaques plus rapides pendant 8 s',
+          ? TEXT.revientALaProchaineVague
+          : TEXT.n1FoisParVagueAttaquesPlusRapides,
     );
     const training = heroTrainingState(g);
     for (const choice of choices) choice.disabled = isPaused() || !training.ready;

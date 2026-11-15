@@ -22,6 +22,7 @@ import {
   terrainLine,
   type StopState,
 } from './voyageWords.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 type PathActions = {
   /** The button of the stop to play; a voyage that is over has none. */
@@ -81,7 +82,7 @@ function sticker(caprice: CapriceDefinition, explain: PathActions['explain']) {
 function king() {
   const picture = make('img', { className: 'stop-king' });
   picture.src = kingUrl;
-  setAttribute(picture, 'alt', 'Le roi à trois têtes');
+  setAttribute(picture, 'alt', TEXT.leRoiATroisTetes);
   return picture;
 }
 
@@ -133,7 +134,7 @@ function nextStopContent(
       make(
         'p',
         { className: 'stop-surprise' },
-        make('span', { text: 'Caprice surprise :' }),
+        make('span', { text: TEXT.capriceSurprise2 }),
         ' ',
         frenchLeaf('strong', caprice.name),
       ),

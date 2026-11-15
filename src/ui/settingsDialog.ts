@@ -1,5 +1,6 @@
 import { make } from './dom.ts';
 import './settingsDialog.css';
+import * as TEXT from '../texts/fr/settings.ts';
 
 let dialog: HTMLDialogElement | undefined;
 
@@ -20,7 +21,7 @@ export function settingsDialog() {
   if (dialog) return dialog;
   const made = make('dialog', { id: 'settings-dialog' });
   made.setAttribute('aria-labelledby', 'settings-title');
-  const title = make('h2', { id: 'settings-title', text: 'Réglages' });
+  const title = make('h2', { id: 'settings-title', text: TEXT.reglages });
   const list = make(
     'div',
     { className: 'settings-list' },
@@ -30,13 +31,13 @@ export function settingsDialog() {
   const help = make('button', {
     id: 'settings-help',
     className: 'secondary',
-    text: 'Comment jouer',
+    text: TEXT.commentJouer,
   });
   help.onclick = () => {
     made.close();
     document.getElementById('help')?.click();
   };
-  const close = make('button', { id: 'settings-close', className: 'primary', text: 'Fermer' });
+  const close = make('button', { id: 'settings-close', className: 'primary', text: TEXT.fermer });
   close.onclick = () => made.close();
   made.append(title, list, make('div', { className: 'dialog-actions' }, help, close));
   document.body.append(made);

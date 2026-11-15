@@ -12,6 +12,7 @@ import { CAPRICE_TIERS, capriceById, capricesForMission } from './caprices.ts';
 import type { CapriceDefinition } from './caprices.ts';
 import { isOneOf, isUint32 } from './plainData.ts';
 import { checkDigits, codeDigits, codeNumber, readLookalikes, tidyCode } from './codeText.ts';
+import * as TEXT from './texts/fr/adventure.ts';
 
 export type Departure =
   | Readonly<{ kind: 'classic'; seed: number; balance?: 2 }>
@@ -42,7 +43,14 @@ const TUTORIAL_BIT = 128;
 const seedFactor = (rule: string) => (hasTutorialBit(rule) ? 256 : SETUP_RANGE);
 const NO_CHALLENGE = 'N0';
 
-const words = ['REFUGE', 'PONTS', 'VIFS', 'COQUILLES', 'SONNETTE', 'FOUGERE'] as const;
+const words = [
+  TEXT.refuge,
+  TEXT.ponts,
+  TEXT.vifs,
+  TEXT.coquilles,
+  TEXT.sonnette,
+  TEXT.fougere,
+] as const;
 
 function checksum(word: string, payload: string, version: string, suffix = '') {
   return checkDigits(`${word}-${version}-${payload}${suffix ? `-${suffix}` : ''}`);
@@ -58,7 +66,7 @@ function challengeSuffix(id: string): string {
 }
 function missionParts(raw: MissionRun): CodeParts {
   const run = readMissionRun(raw);
-  if (!run || !isPersistableMissionRun(run)) throw new RangeError('Départ invalide');
+  if (!run || !isPersistableMissionRun(run)) throw new RangeError(TEXT.departInvalide);
   // The newest rule in use names the version: older codes keep their exact text.
   const rule = run.balance === 2 ? '4' : run.caprice ? '3' : run.rules === 2 ? '2' : '1';
   const index = MISSIONS.findIndex((m) => m.id === run.missionId);
@@ -73,10 +81,10 @@ function missionParts(raw: MissionRun): CodeParts {
 }
 function classicParts(departure: { seed: number; balance?: 2 }): CodeParts {
   if (Object.hasOwn(departure, 'balance') && departure.balance !== 2)
-    throw new RangeError('Révision invalide');
+    throw new RangeError(TEXT.revisionInvalide);
   const revised = departure.balance === 2;
   return {
-    word: 'AVENTURE',
+    word: TEXT.aventure,
     rule: revised ? '4' : '1',
     seed: departure.seed,
     config: 0,
@@ -86,7 +94,7 @@ function classicParts(departure: { seed: number; balance?: 2 }): CodeParts {
 export function encodeDeparture(departure: Departure): string {
   const { word, rule, seed, config, suffix } =
     departure.kind === 'mission' ? missionParts(departure.run) : classicParts(departure);
-  if (!isUint32(seed)) throw new RangeError('Graine invalide');
+  if (!isUint32(seed)) throw new RangeError(TEXT.graineInvalide);
   const payload = codeDigits(seed * seedFactor(rule) + config, 8);
   return `${word}-${rule}-${payload.slice(0, 4)}-${payload.slice(4)}-${suffix ? `${suffix}-` : ''}${checksum(word, payload, rule, suffix)}`;
 }
@@ -133,7 +141,7 @@ export function decodeDeparture(raw: unknown): Result {
   const hasChallenge = rule === '3' || (rule === '4' && suffix !== NO_CHALLENGE);
   if (hasChallenge && (config === 0 || !CHALLENGE_SUFFIX.test(suffix))) return refused('setup');
   if (config === 0) {
-    if (word !== 'AVENTURE') return refused('setup');
+    if (word !== TEXT.aventure) return refused('setup');
     const balance = rule === '4' ? { balance: 2 as const } : {};
     return { ok: true, departure: Object.freeze({ kind: 'classic', seed, ...balance }) };
   }

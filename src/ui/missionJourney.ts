@@ -1,13 +1,15 @@
 import { MISSIONS } from '../missions.ts';
 import type { MissionId } from '../missions.ts';
 import type { MissionProgress } from '../missionProgress.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 type Status = 'locked' | 'complete' | 'next' | 'available';
 const LABELS: Record<Status, string> = {
-  locked: 'Verrouillée · termine la précédente',
-  complete: 'Terminée · rejouer',
-  next: 'Prochaine mission',
-  available: 'Mission ouverte',
+  locked: TEXT.verrouilleeTermineLaPrecedente,
+  complete: TEXT.termineeRejouer,
+  next: TEXT.prochaineMission,
+  available: TEXT.missionOuverte,
 };
 const SYMBOLS: Record<Status, string> = {
   locked: '🔒',
@@ -36,7 +38,7 @@ export function missionJourney(
       id: mission.id,
       number: index + 1,
       stars,
-      starLabel: `${stars} étoile${stars > 1 ? 's' : ''} sur 3`,
+      starLabel: fill(TEXT.nEtoileNSur3, stars, stars > 1 ? 's' : ''),
       disabled,
       status,
       label: LABELS[status],

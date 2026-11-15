@@ -7,6 +7,8 @@ import { ARRIVAL_SECONDS } from './presentation.ts';
 import type { Arrival, Presentation } from './presentation.ts';
 import { stageTheme, STAGE_SIZES } from './stageLayout.ts';
 import { Figurines } from './figurines.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 /** Under these shares of its health, the refuge looks worn, then badly cracked. */
 const WORN_BASE = 50,
   CRACKED_BASE = 25;
@@ -141,7 +143,7 @@ export class Strongholds {
       );
     if (this.shownBase === Math.ceil(game.base)) return;
     this.shownBase = Math.ceil(game.base);
-    setCanvasCopy(this.label, `REFUGE · ${this.shownBase} %`).setColor(
+    setCanvasCopy(this.label, fill(TEXT.refugeN, this.shownBase)).setColor(
       game.base <= CRACKED_BASE ? '#ffd19c' : '#f5edcd',
     );
   }

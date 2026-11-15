@@ -5,6 +5,7 @@ import { createPlayerList, type PlayerListOptions } from './playerList.ts';
 import { placePlayerMarks } from './playerMarks.ts';
 import { createPlayersDialog } from './playersDialog.ts';
 import { confirmView, manageView, pickView, whoView } from './playerViews.ts';
+import * as TEXT from '../texts/fr/players.ts';
 
 type Gestures = {
   play: (id: PlayerId) => void;
@@ -24,7 +25,7 @@ function playerScreens(
     const { cards, note } = whoView(list.state, list.stars, on.play, pick, () => pick(null));
     const target = cards.querySelector<HTMLElement>(focus);
     const first = cards.querySelector<HTMLElement>('.player-face')!;
-    dialog.show('who', 'Qui joue ?', [cards, note], target ?? first);
+    dialog.show('who', TEXT.quiJoue, [cards, note], target ?? first);
   }
   function pick(editing: PlayerId | null) {
     const player = list.find(editing);
@@ -34,12 +35,12 @@ function playerScreens(
       (kind, nickname) => on.savePick(player, kind, nickname),
       () => who(player ? toolOf(player.id) : '#player-new'),
     );
-    dialog.show('pick', 'Choisis ton personnage', view.content, view.focus);
+    dialog.show('pick', TEXT.choisisTonPersonnage, view.content, view.focus);
   }
   function manage(focus?: PlayerId) {
     const cards = manageView(list.state, list.stars, confirm);
     const tool = focus && cards.querySelector<HTMLElement>(toolOf(focus));
-    dialog.show('manage', 'Joueurs', [cards], tool || dialog.close);
+    dialog.show('manage', TEXT.joueurs, [cards], tool || dialog.close);
   }
   function confirm(id: PlayerId) {
     const player = list.find(id);
@@ -49,7 +50,7 @@ function playerScreens(
       () => on.erase(id),
       () => manage(id),
     );
-    dialog.show('confirm', 'Supprimer ce joueur ?', view.content, view.focus);
+    dialog.show('confirm', TEXT.supprimerCeJoueur, view.content, view.focus);
   }
   return { who, manage };
 }

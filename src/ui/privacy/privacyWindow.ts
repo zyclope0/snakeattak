@@ -5,6 +5,7 @@ import { PRIVACY_POLICY } from '../../i18n/privacyPolicy.ts';
 import type { PolicyPart } from '../../i18n/privacyPolicy.ts';
 import { PUBLIC_PRIVACY_URL } from '../../site.ts';
 import { make } from '../dom.ts';
+import * as TEXT from '../../texts/fr/privacy.ts';
 
 /**
  * The words of the policy are written as they are: each language has its own approved text,
@@ -65,8 +66,8 @@ function policy(language: Language): HTMLElement {
  * while it is open. Returns the function that opens it at the top of the text.
  */
 export function privacyWindow(): () => void {
-  const heading = make('h2', { id: 'privacy-title', text: 'Confidentialité' });
-  const close = make('button', { id: 'privacy-close', className: 'secondary', text: 'Fermer' });
+  const heading = make('h2', { id: 'privacy-title', text: TEXT.confidentialite });
+  const close = make('button', { id: 'privacy-close', className: 'secondary', text: TEXT.fermer });
   close.type = 'button';
   const body = make('div', { id: 'privacy-body' });
   // A reader with a keyboard scrolls the words with the arrow keys.

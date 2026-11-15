@@ -10,6 +10,8 @@ import { missionScouting } from './missionScouting.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
 import { byId } from './dom.ts';
 import { svgNode } from './svg.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 type Level = ReturnType<typeof missionLevel>;
 type Point = { x: number; y: number };
@@ -28,7 +30,7 @@ export function drawGround(svg: SVGElement, level: Level) {
       y: 0,
       width: 1100,
       height: 620,
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: TEXT.xmidymidSlice,
       opacity: 0.55,
     }),
     svgNode('rect', { x: 0, y: 70, width: 1100, height: 510, fill: '#779585', opacity: 0.35 }),
@@ -98,7 +100,7 @@ function miniature(
       href: ART_SHEETS.find((s) => s.key === 'strongholds')!.url,
       width: 1024,
       height: 1024,
-      ...(flip ? { transform: 'translate(512 0) scale(-1 1)' } : {}),
+      ...(flip ? { transform: TEXT.translate5120Scale11 } : {}),
     }),
   );
 }
@@ -111,7 +113,7 @@ function drawLairs(svg: SVGElement, lanes: readonly number[]) {
       y: LANES[lane] - 34,
       fill: '#173e37',
       'font-size': 24,
-      'font-family': 'Arial',
+      'font-family': TEXT.arial,
       'font-weight': 'bold',
     });
     svg.append(miniature(8, LANES[lane] - 90, 150, 150, 1), label);
@@ -151,7 +153,7 @@ export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
   setDisplayAttribute(
     svg,
     'aria-label',
-    `Trois voies visibles. Première vague : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. Antres à gauche, cristal à droite.`,
+    fill(TEXT.troisVoiesVisiblesPremiereVagueN, lanes.map((l) => LANE_NAMES[l]).join(' et ')),
   );
   drawGround(svg, level);
   drawRoads(svg, level, lanes);
@@ -173,7 +175,7 @@ export function showMissionScouting(run: MissionRun, chosen: readonly Kind[] = [
   more.hidden = others <= 0;
   setDisplayText(
     byId('mission-more-title'),
-    `${others} autres ${others === 1 ? 'serpent' : 'serpents'}`,
+    fill(TEXT.nAutresN, others, others === 1 ? 'serpent' : 'serpents'),
   );
   renderThreatAdvice(byId('mission-advice'), scouting.advice);
 }

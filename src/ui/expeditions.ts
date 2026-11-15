@@ -13,6 +13,8 @@ import { missionCard, showJourney } from './missionJourneyView.ts';
 import { capriceToPlay, missionStickers } from './stickerGoals.ts';
 import type { StickerEarned } from './stickerGoals.ts';
 import { byId } from './dom.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 type Progress = ReturnType<typeof createMissionProgressController>;
 
@@ -63,7 +65,7 @@ export function bindExpeditions(
     const run = freshRun(nextMission().id);
     if (draft.allowed(run)) actions.launch(run, []);
   };
-  const playLabel = () => (nextCaprice() ? 'Jouer un caprice' : 'Jouer');
+  const playLabel = () => (nextCaprice() ? TEXT.jouerUnCaprice : TEXT.jouer);
   byId('home-play').onclick = play;
   byId('mission-continue').onclick = actions.resume;
   const refreshOutcome = bindMissionOutcome(session, {
@@ -81,14 +83,14 @@ export function bindExpeditions(
     setDisplayText(
       byId('home-next-mission'),
       next
-        ? `Prochaine mission : ${nextMission().name}`
-        : (nextCaprice()?.sentence ?? `Rejouer la mission : ${nextMission().name}`),
+        ? fill(TEXT.prochaineMissionN, nextMission().name)
+        : (nextCaprice()?.sentence ?? fill(TEXT.rejouerLaMissionN, nextMission().name)),
     );
     // The Missions page prepares a departure; only the home's main button starts at once.
-    setDisplayText(byId('home-play'), next ? 'Préparer' : 'Préparer encore');
+    setDisplayText(byId('home-play'), next ? TEXT.preparer : TEXT.preparerEncore);
     setDisplayText(
       byId('mission-total'),
-      `${showJourney(cards, journey, inNextBook)} / 18 étoiles`,
+      fill(TEXT.n18Etoiles, showJourney(cards, journey, inNextBook)),
     );
     byId('mission-continue').hidden = !actions.canResume();
     refreshOutcome();

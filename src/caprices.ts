@@ -1,5 +1,6 @@
 import type { MissionId } from './missions.ts';
 import { isIntegerIn } from './plainData.ts';
+import * as TEXT from './texts/fr/caprices.ts';
 
 /**
  * Caprices des serpents : trois variantes de règles par mission, débloquées par les étoiles.
@@ -12,8 +13,8 @@ export type CapriceTier = 'petit' | 'moyen' | 'grand';
 /** Deux rangées par mission : les caprices des serpents et le défi inventé par le fils. */
 export type CapriceSet = 'serpents' | 'createur';
 export const CAPRICE_SET_NAMES: Readonly<Record<CapriceSet, string>> = Object.freeze({
-  serpents: 'Caprices des serpents',
-  createur: 'Le défi du créateur',
+  serpents: TEXT.capricesDesSerpents,
+  createur: TEXT.leDefiDuCreateur,
 });
 export type CapriceRules = Readonly<{
   /** Facteur sur la bourse de départ de la mission. */
@@ -127,7 +128,7 @@ export function defineCaprice(
 ): CapriceDefinition {
   const rules = Object.freeze({ ...NO_CAPRICE, ...definition.rules });
   if (!validRules(rules) || catalog.has(definition.id))
-    throw new RangeError('Caprice invalide : ' + definition.id);
+    throw new RangeError(TEXT.capriceInvalide + definition.id);
   const frozen = Object.freeze({ ...definition, rules });
   catalog.set(frozen.id, frozen);
   return frozen;
@@ -137,82 +138,76 @@ export function defineCaprice(
 export const CAPRICES: readonly CapriceDefinition[] = Object.freeze(
   (
     [
-      ['refuge', 'petit', 'Serpents pressés', 'On arrive tous en même temps !', { cadence: 0.55 }],
+      ['refuge', 'petit', TEXT.serpentsPresses, TEXT.onArriveTousEnMemeTemps, { cadence: 0.55 }],
       [
         'refuge',
         'moyen',
-        'Méga serpent',
-        'Deux fois plus de serpents costauds !',
+        TEXT.megaSerpent,
+        TEXT.deuxFoisPlusDeSerpentsCostauds,
         { count: 2, hp: 1.5 },
       ],
       [
         'refuge',
         'grand',
-        'La tempête',
-        'Plus nombreux, plus durs, plus mordants !',
+        TEXT.laTempete,
+        TEXT.plusNombreuxPlusDursPlusMordants,
         { bite: 2, hp: 1.75, count: 1.75 },
       ],
-      ['trois-ponts', 'petit', 'Bourse trouée', 'On a grignoté tes pièces !', { budget: 0.5 }],
+      ['trois-ponts', 'petit', TEXT.bourseTrouee, TEXT.onAGrignoteTesPieces, { budget: 0.5 }],
       [
         'trois-ponts',
         'moyen',
-        'Blindcrocs',
-        'Nos crocs piquent, nos écailles tiennent !',
+        TEXT.blindcrocs,
+        TEXT.nosCrocsPiquentNosEcaillesTiennent,
         { bite: 3, hp: 2 },
       ],
       [
         'trois-ponts',
         'grand',
-        'Grandes rafales de serpents',
-        'Les rafales reviennent, encore plus fortes !',
+        TEXT.grandesRafalesDeSerpents,
+        TEXT.lesRafalesReviennentEncorePlus,
         { bite: 2.5, hp: 1.75, count: 1.75 },
       ],
-      ['course', 'petit', 'Rafales de serpents', 'Ça glisse, ça file !', { speed: 1.4, hp: 0.8 }],
+      ['course', 'petit', TEXT.rafalesDeSerpents, TEXT.caGlisseCaFile, { speed: 1.4, hp: 0.8 }],
       [
         'course',
         'moyen',
-        'La petite tempête',
-        'Les vifs se mettent en tempête !',
+        TEXT.laPetiteTempete,
+        TEXT.lesVifsSeMettentEnTempete,
         { bite: 2.5, hp: 1.5, count: 1.5 },
       ],
       [
         'course',
         'grand',
-        "Le roi s'invite",
-        'Le roi veut voir la course !',
+        TEXT.leRoiSInvite,
+        TEXT.leRoiVeutVoirLaCourse,
         { king: true, bite: 2, hp: 1.5, count: 1.25 },
       ],
       [
         'coquilles',
         'petit',
-        "Pique-nique d'œufs",
-        'On a pondu pour le goûter !',
+        TEXT.piqueNiqueDOeufs,
+        TEXT.onAPonduPourLeGouter,
         { eggs: 2, hatch: 0.6 },
       ],
-      ['coquilles', 'moyen', 'Grosse fringale', 'Deux fois plus de serpents !', { count: 2 }],
+      ['coquilles', 'moyen', TEXT.grosseFringale, TEXT.deuxFoisPlusDeSerpents, { count: 2 }],
       [
         'coquilles',
         'grand',
-        'La tempête',
-        'Plus nombreux, plus durs, plus mordants !',
+        TEXT.laTempete,
+        TEXT.plusNombreuxPlusDursPlusMordants,
         { bite: 1.5, hp: 1.5, count: 1.5 },
       ],
-      [
-        'sonnette',
-        'petit',
-        'Deux copains seulement',
-        "Choisis deux sortes d'alliés !",
-        { kinds: 2 },
-      ],
-      ['sonnette', 'moyen', 'Crocs pointus', 'Nos morsures font plus mal !', { bite: 1.5 }],
-      ['sonnette', 'grand', 'Serpents costauds', 'On a mangé nos légumes !', { hp: 2 }],
-      ['carrefour', 'petit', 'Plus de miel !', 'On a léché le pot !', { noHoney: true }],
-      ['carrefour', 'moyen', 'Un seul copain', "Une seule sorte d'allié !", { kinds: 1 }],
+      ['sonnette', 'petit', TEXT.deuxCopainsSeulement, TEXT.choisisDeuxSortesDAllies, { kinds: 2 }],
+      ['sonnette', 'moyen', TEXT.crocsPointus, TEXT.nosMorsuresFontPlusMal, { bite: 1.5 }],
+      ['sonnette', 'grand', TEXT.serpentsCostauds, TEXT.onAMangeNosLegumes, { hp: 2 }],
+      ['carrefour', 'petit', TEXT.plusDeMiel, TEXT.onALecheLePot, { noHoney: true }],
+      ['carrefour', 'moyen', TEXT.unSeulCopain, TEXT.uneSeuleSorteDAllie, { kinds: 1 }],
       [
         'carrefour',
         'grand',
-        'Le roi et sa grande fringale',
-        'Le roi arrive avec ses invités !',
+        TEXT.leRoiEtSaGrandeFringale,
+        TEXT.leRoiArriveAvecSesInvites,
         { king: true, count: 1.5 },
       ],
     ] as const
@@ -261,8 +256,8 @@ export const CREATOR_CHALLENGES: readonly CapriceDefinition[] = Object.freeze(
         set: 'createur',
         missionId,
         tier: 'petit',
-        name: 'La tirelire',
-        announce: 'Garde des pièces dans la banque !',
+        name: TEXT.laTirelire,
+        announce: TEXT.gardeDesPiecesDansLaBanque,
         rules: { reserve: values.reserve },
       }),
       defineCaprice({
@@ -270,8 +265,8 @@ export const CREATOR_CHALLENGES: readonly CapriceDefinition[] = Object.freeze(
         set: 'createur',
         missionId,
         tier: 'moyen',
-        name: 'Les carapaces',
-        announce: 'Lents, mais durs comme des pierres !',
+        name: TEXT.lesCarapaces,
+        announce: TEXT.lentsMaisDursCommeDesPierres,
         rules: { shellEvery: 3, shellSpeed: 0.5, shellHp: values.shellHp, shellArmor: 0.5 },
       }),
       defineCaprice({
@@ -279,8 +274,8 @@ export const CREATOR_CHALLENGES: readonly CapriceDefinition[] = Object.freeze(
         set: 'createur',
         missionId,
         tier: 'grand',
-        name: 'La grande charge',
-        announce: 'On fonce, on mord, on tient !',
+        name: TEXT.laGrandeCharge,
+        announce: TEXT.onFonceOnMordOnTient,
         rules: values.charge,
       }),
     ];

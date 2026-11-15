@@ -2,6 +2,7 @@ import { setAttribute } from '../../i18n/dom.ts';
 import type { RewardId } from '../../rewards.ts';
 import { decoration, make } from '../dom.ts';
 import { bagLabel } from './voyageWords.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /**
  * The picture of a bonus card. The style sheet chooses it from the name of the card: a
@@ -23,7 +24,7 @@ export function bagRow(bag: readonly RewardId[], places: number) {
   const row = make('div', { className: 'voyage-bag' });
   row.setAttribute('role', 'img');
   setAttribute(row, 'aria-label', bagLabel(bag.length, places));
-  const title = make('span', { className: 'bag-title', text: 'Ton sac de voyage' });
+  const title = make('span', { className: 'bag-title', text: TEXT.tonSacDeVoyage });
   row.append(title);
   for (let place = 0; place < places; place++) {
     const id = bag[place];

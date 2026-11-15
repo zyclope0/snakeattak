@@ -1,0 +1,40 @@
+export const placementAnnuleChoisisUnAllieOu =
+  'Placement canceled. Choose an ally or start the wave.';
+export const reprendre = 'Resume';
+export const mettreEnPause = 'Pause';
+export const buttonSelectInputTextareaSummaryA =
+  'button, select, input, textarea, summary, a, [contenteditable]';
+export const partieTerminee = 'Game over';
+export const choisirUnBonus = 'Choose a bonus';
+export const vagueEnCours = 'Wave in progress…';
+export const vagueSuivante = 'Next wave';
+export const lancerLaVague = 'Start wave';
+export const tesAlliesDeGrandsCourageux = 'Your brave allies';
+export const lesAlliesAgissentSeulsAToiDe =
+  'Your allies act on their own. Help them by preparing well.';
+export const nSerpentsRepoussesCristalN = '{0} snakes defeated · Crystal {1}%';
+export const capriceReussi = 'Caprice completed!';
+export const bravo = 'Well done!';
+export const nEtoilesGagneesSurN = 'Stars earned: {0} out of {1}';
+export const nALaBanqueNDisponibles = '{0} in the bank · {1} available';
+export const reprendsLaPartie = 'Resume the game.';
+export const lanceLaVague = 'Start the wave.';
+export const toucheUnChemin = 'Tap a path.';
+export const potDejaUtilise = 'Pot already used.';
+export const voiePaisible = 'Peaceful lane.';
+export const reduireLaVueDeJeu = 'Shrink the game view';
+export const agrandirLaVueDeJeu = 'Enlarge the game view';
+export const reduire = 'Shrink';
+export const agrandir = 'Enlarge';
+export const pointerCoarseAndOrientation = '(pointer: coarse) and (orientation: portrait)';
+export const nOeufNNEclosions = 'Eggs: {0} · Hatched: {2}';
+export const victoire = 'VICTORY';
+export const campTombe = 'CAMP FALLEN';
+export const enPause = 'PAUSED';
+export const batailleEnCours = 'BATTLE IN PROGRESS';
+export const preparation = 'PREPARING';
+export const nSerpents = '{0} snakes';
+export const bandagesNEnReserve = 'Bandages in stock: {0}';
+export const soignantRefaitSonStock = 'healer is restocking';
+export const soignantsRefontLeurStock = 'healers are restocking';
+export const crachatAnnonceAuSol = '· Spit warning shown on the ground';

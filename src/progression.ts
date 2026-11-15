@@ -5,6 +5,7 @@ import { freshRosters, isRoster } from './roster.ts';
 import type { Roster } from './roster.ts';
 import { isMilestone } from './rewards.ts';
 import { isArrayOfLength, isRecord, isStarCount, readBoundedJson } from './plainData.ts';
+import * as TEXT from './texts/fr/adventure.ts';
 
 export type CareerState = {
   version: 1;
@@ -104,14 +105,12 @@ function startCareer(storage?: StoragePort, initialState?: CareerState): Start {
   const fresh: Start = {
     state: freshState(),
     last: '',
-    status: storage
-      ? 'Progression enregistrée sur cet appareil'
-      : 'Progression locale indisponible',
+    status: storage ? TEXT.progressionEnregistreeSurCet : TEXT.progressionLocaleIndisponible,
   };
   if (initialState !== undefined) {
     const state = validateCareerState(initialState);
     if (state) return { ...fresh, state };
-    return { ...fresh, status: 'Profil initial incompatible : nouvelle progression' };
+    return { ...fresh, status: TEXT.profilInitialIncompatibleNouvelle };
   }
   if (!storage) return fresh;
   try {
@@ -119,9 +118,9 @@ function startCareer(storage?: StoragePort, initialState?: CareerState): Start {
     if (raw === null) return fresh;
     const state = readCareerState(raw);
     if (state) return { ...fresh, state, last: JSON.stringify(state) };
-    return { ...fresh, status: 'Profil local incompatible : nouvelle progression' };
+    return { ...fresh, status: TEXT.profilLocalIncompatibleNouvelle };
   } catch {
-    return { ...fresh, status: 'Progression locale indisponible' };
+    return { ...fresh, status: TEXT.progressionLocaleIndisponible };
   }
 }
 
@@ -159,15 +158,15 @@ export function createCareer(storage?: StoragePort, initialState?: CareerState) 
     const raw = JSON.stringify(state);
     if (raw === last) return;
     if (raw.length > PROFILE_LIMIT) {
-      status = 'Progression locale indisponible : profil trop volumineux';
+      status = TEXT.progressionLocaleIndisponible2;
       return;
     }
     try {
       storage.setItem(CAREER_STORAGE_KEY, raw);
       last = raw;
-      status = 'Progression enregistrée sur cet appareil';
+      status = TEXT.progressionEnregistreeSurCet;
     } catch {
-      status = 'Progression locale indisponible : stockage bloqué ou plein';
+      status = TEXT.progressionLocaleIndisponible3;
     }
   }
   return {

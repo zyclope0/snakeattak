@@ -4,6 +4,7 @@ import { make } from '../dom.ts';
 import { bindPendingConfirm } from '../pendingConfirm.ts';
 import { voyageWindow } from './voyageWindow.ts';
 import { replaceSentence } from './voyageWords.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /**
  * Asked before a voyage under way gives its place to another: what would stop, and two
@@ -13,17 +14,17 @@ import { replaceSentence } from './voyageWords.ts';
 export function replaceWindow(
   accept: (next: VoyageState) => void,
 ): (current: VoyageState, next: VoyageState) => void {
-  const { dialog } = voyageWindow('voyage-replace', 'Changer de voyage ?');
+  const { dialog } = voyageWindow('voyage-replace', TEXT.changerDeVoyage);
   const sentence = make('p', { id: 'voyage-replace-text' });
   const keep = make('button', {
     id: 'voyage-keep',
     className: 'secondary',
-    text: 'Garder mon voyage',
+    text: TEXT.garderMonVoyage,
   });
   const change = make('button', {
     id: 'voyage-change',
     className: 'primary',
-    text: 'Changer de voyage',
+    text: TEXT.changerDeVoyage2,
   });
   keep.type = change.type = 'button';
   dialog.append(sentence, make('div', { className: 'dialog-actions' }, keep, change));

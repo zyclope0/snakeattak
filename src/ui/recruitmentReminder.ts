@@ -2,8 +2,9 @@ import { kinds, type Kind } from '../data.ts';
 import { departureForGame, encodeDeparture } from '../departures.ts';
 import type { Session } from '../session.ts';
 import { availableGold } from './capriceBudget.ts';
+import * as TEXT from '../texts/fr/recruiting.ts';
 
-export const REMINDER_TEXT = 'Tu as des pièces, recrute !';
+export const REMINDER_TEXT = TEXT.tuAsDesPiecesRecrute;
 const STORAGE_KEY = 'conquete-serpents:recruitment-reminder:v1';
 const LIMIT = 64;
 /** Coins left unspent before the reminder is worth showing. */

@@ -6,12 +6,14 @@ import { CAMP_TOOLS, campToolModel, type CampTool } from './campToolModel.ts';
 import { pauseForDialog } from './dialogs.ts';
 import './campToolHelp.css';
 import { byId, make, portraitPhone, setPressed } from './dom.ts';
+import * as TEXT from '../texts/fr/help.ts';
+import { fill } from '../texts/fill.ts';
 
 const LABELS: Record<CampTool, string> = {
-  honey: 'Miel',
-  encourage: 'Encourager',
-  repair: 'Réparer',
-  hero: 'Héros',
+  honey: TEXT.miel,
+  encourage: TEXT.encourager,
+  repair: TEXT.reparer,
+  hero: TEXT.heros,
 };
 
 /** One window explains the four tools of the camp. Returns the function that opens it. */
@@ -46,7 +48,10 @@ export function bindCampToolHelp(session: Session, refresh: () => void) {
     const help = campToolModel(session.game, selected);
     for (const field of ['title', 'when', 'gesture', 'result', 'status'] as const)
       setDisplayText(byId('camp-tool-' + field), help[field]);
-    setDisplayText(byId('camp-tool-cost'), help.cost === 0 ? 'Gratuit' : `${help.cost} pièces`);
+    setDisplayText(
+      byId('camp-tool-cost'),
+      help.cost === 0 ? TEXT.gratuit : fill(TEXT.nPieces, help.cost),
+    );
     byId('camp-tool-picture').style.cssText = pictures[selected];
     byId('camp-tool-picture').dataset.tool = selected;
     for (const button of buttons) setPressed(button, button.dataset.campTool === selected);

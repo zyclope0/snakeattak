@@ -17,6 +17,8 @@ import {
 import { stageTheme } from './stageLayout.ts';
 import { onSceneExit } from './sceneExit.ts';
 import { attackSheetsFor } from './attackPose.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 /** Select from the rules without advancing them or consuming their random stream. */
 function texturesForGame(game: Game): Set<string> {
   const textures = new Set([
@@ -54,7 +56,7 @@ function fightingTextures(game: Game): Set<string> {
   if (!game.mission && game.difficultyWave === 12) textures.add(KING_ART.texture);
   return textures;
 }
-const IMAGE_MISSING = 'Une image n’a pas pu arriver. Réessaie quand la connexion revient.';
+const IMAGE_MISSING = TEXT.uneImageNAPasPuArriverReessaie;
 const OPTIONAL = new Set(ATTACK_SHEETS.map((sheet) => sheet.key));
 /** One Phaser loader, no speculative downloads, and a retryable HTML progress panel. */
 export class MissionAssets {
@@ -76,7 +78,7 @@ export class MissionAssets {
   constructor(private scene: Phaser.Scene) {
     const progress = (value: number) => {
       if (this.waiting && !this.failed.size)
-        this.show(`Préparation du terrain… ${Math.round(value * 100)} %`);
+        this.show(fill(TEXT.preparationDuTerrainN, Math.round(value * 100)));
     };
     const error = (file: Phaser.Loader.File) => {
       if (OPTIONAL.has(file.key)) return; // The fighter keeps its idle image.
@@ -102,7 +104,7 @@ export class MissionAssets {
     this.current = game;
     this.queue(texturesForGame(game));
     this.waiting = true;
-    this.show('Préparation du terrain…');
+    this.show(TEXT.preparationDuTerrain);
   }
   ready(game: Game): boolean {
     this.current = game;
@@ -123,7 +125,7 @@ export class MissionAssets {
     if (!this.scene.load.isLoading()) {
       this.failed.clear();
       this.queue(missing);
-      this.show('Préparation du terrain…');
+      this.show(TEXT.preparationDuTerrain);
       this.scene.load.start();
     }
     return false;

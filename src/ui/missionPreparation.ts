@@ -3,6 +3,7 @@ import { frenchLeaf } from './capriceCopy.ts';
 import { FRIEND_ADVICE } from './capriceFriends.ts';
 import { make } from './dom.ts';
 import type { HelpTopicId } from './helpTopics.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
 
 export type PreparationView = 'summary' | 'caprices' | 'friends' | 'scouting' | 'options';
 type Find = (selector: string) => HTMLElement;
@@ -11,11 +12,11 @@ type Views = Map<PreparationView, ViewParts>;
 
 /** The views, in the order of their tabs. `capriceView.ts` writes the caprices tab itself. */
 const VIEW_LABELS: Record<PreparationView, string> = {
-  summary: 'Résumé',
-  caprices: 'Caprices',
-  friends: 'Copains',
-  scouting: 'Repérage',
-  options: 'Options',
+  summary: TEXT.resume,
+  caprices: TEXT.caprices,
+  friends: TEXT.copains,
+  scouting: TEXT.reperage,
+  options: TEXT.options,
 };
 
 /** The view to show: a friends view with nothing to choose gives way to the summary. */
@@ -60,7 +61,7 @@ function missionSummary(find: Find, section: HTMLElement) {
   const book = make(
     'p',
     { id: 'mission-summary-book' },
-    make('span', { text: 'Carnet de cette nouvelle partie' }),
+    make('span', { text: TEXT.carnetDeCetteNouvellePartie }),
     ' : ',
     bookName,
   );

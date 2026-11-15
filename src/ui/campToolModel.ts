@@ -2,19 +2,21 @@ import { availableGold, canSpend } from './capriceBudget.ts';
 import type { Game } from '../game.ts';
 import { kinds, type Kind } from '../data.ts';
 import { missionById } from '../missions.ts';
+import * as TEXT from '../texts/fr/camp.ts';
+import { fill } from '../texts/fill.ts';
 
 export const CAMP_TOOLS = ['honey', 'encourage', 'repair', 'hero'] as const;
 export type CampTool = (typeof CAMP_TOOLS)[number];
 
 const REPAIR_COST = 80;
 const TRAINING_COST = 90;
-const NO_HONEY = 'Pas de miel dans ce caprice';
+const NO_HONEY = TEXT.pasDeMielDansCeCaprice;
 
 /** A battle that is still played: in camp or in a wave. */
 const inPlay = (game: Game) => game.status === 'preparing' || game.status === 'fighting';
 
 /** A caprice that keeps coins at the bank says so before anything about the price. */
-const bankNotice = (game: Game) => (game.caprice.reserve ? 'Réserve bancaire protégée · ' : '');
+const bankNotice = (game: Game) => (game.caprice.reserve ? TEXT.reserveBancaireProtegee : '');
 
 /** At least one living ally that can hit: encouraging them has an effect. */
 export const hasFighters = (game: Game) =>
@@ -38,17 +40,15 @@ export function heroTrainingState(game: Game) {
 }
 
 function trainingStatus(game: Game, eligible: boolean, hero: boolean): string {
-  if (!hero) return 'Le héros est tombé. Aucun entraînement possible.';
-  if (game.campaign.training === 'force') return 'Frappe renforcée · +15 % de dégâts du héros';
-  if (game.campaign.training === 'guard') return 'Gardien · −15 % sur les coups et tirs reçus';
+  if (!hero) return TEXT.leHerosEstTombeAucunEntrainement;
+  if (game.campaign.training === 'force') return TEXT.frappeRenforcee15DeDegatsDuHeros;
+  if (game.campaign.training === 'guard') return TEXT.gardien15SurLesCoupsEtTirsRecus;
   if (!eligible)
-    return game.mission
-      ? 'Dans une autre expédition, dès Les trois ponts'
-      : 'Disponible après la vague 4';
-  if (game.status !== 'preparing') return 'Entre deux vagues · 90 pièces';
+    return game.mission ? TEXT.dansUneAutreExpeditionDesLesTrois : TEXT.disponibleApresLaVague4;
+  if (game.status !== 'preparing') return TEXT.entreDeuxVagues90Pieces;
   if (!canSpend(game, TRAINING_COST))
-    return `Il manque ${TRAINING_COST - availableGold(game)} pièces pour l’entraînement`;
-  return '90 pièces · un seul entraînement pour ces alliés';
+    return fill(TEXT.ilManqueNPiecesPourLEntrainement, TRAINING_COST - availableGold(game));
+  return TEXT.n90PiecesUnSeulEntrainementPourCes;
 }
 
 /** Read-only help: no command, selection, clock, persistence or random draw. */
@@ -62,12 +62,10 @@ export function campToolModel(game: Game, tool: CampTool) {
 function heroHelp(game: Game) {
   return {
     cost: TRAINING_COST,
-    title: 'Entraîner le héros',
-    when: 'Entre deux vagues. Dès Les trois ponts en expédition ; après la vague 4 en classique.',
-    gesture:
-      'Tous les alliés → Conseils et outils → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.',
-    result:
-      'Frappe : +15 % de dégâts. Gardien : −15 % sur les coups reçus. Un seul choix pour ces alliés.',
+    title: TEXT.entrainerLeHeros,
+    when: TEXT.entreDeuxVaguesDesLesTroisPontsEn,
+    gesture: TEXT.tousLesAlliesConseilsEtOutils,
+    result: TEXT.frappe15DeDegatsGardien15SurLes,
     ...heroTrainingState(game),
   };
 }
@@ -75,68 +73,62 @@ function heroHelp(game: Game) {
 function repairHelp(game: Game) {
   return {
     cost: REPAIR_COST,
-    title: 'Réparer le cristal',
-    when: 'Si le cristal a perdu de la vie, avant ou pendant une vague.',
-    gesture: 'Tous les alliés → Conseils et outils → Actions du camp → Réparer le cristal.',
+    title: TEXT.reparerLeCristal,
+    when: TEXT.siLeCristalAPerduDeLaVieAvantOu,
+    gesture: TEXT.tousLesAlliesConseilsEtOutils2,
     result:
-      'Le cristal regagne jusqu’à 25 points de vie, sans dépasser 100.' +
+      TEXT.leCristalRegagneJusquA25PointsDe +
       // A voyage stage is a mission that earns no star.
-      (game.mission && !game.stage ? ' Les dégâts subis restent comptés pour tes étoiles.' : ''),
+      (game.mission && !game.stage ? TEXT.lesDegatsSubisRestentComptesPour : ''),
     ready: inPlay(game) && game.base < 100 && canSpend(game, REPAIR_COST),
     status: bankNotice(game) + repairStatus(game),
   };
 }
 
 function repairStatus(game: Game): string {
-  if (!inPlay(game)) return 'La partie est terminée';
-  if (game.base >= 100) return 'Ton cristal est intact';
+  if (!inPlay(game)) return TEXT.laPartieEstTerminee;
+  if (game.base >= 100) return TEXT.tonCristalEstIntact;
   if (!canSpend(game, REPAIR_COST))
-    return `Il manque ${REPAIR_COST - availableGold(game)} pièces pour réparer`;
-  return `Cristal : ${game.base} / 100 · réparation possible`;
+    return fill(TEXT.ilManqueNPiecesPourReparer, REPAIR_COST - availableGold(game));
+  return fill(TEXT.cristalN100ReparationPossible, game.base);
 }
 
 function encourageHelp(game: Game) {
   return {
     cost: 0,
-    title: 'Encourager',
-    when: 'Pendant le combat, quand tes alliés peuvent frapper.',
-    gesture: 'Tous les alliés → Conseils et outils → Actions du camp → Encourager nos alliés.',
-    result: 'Leurs attaques accélèrent pendant 8 s. Une fois par vague.',
+    title: TEXT.encourager,
+    when: TEXT.pendantLeCombatQuandTesAllies,
+    gesture: TEXT.tousLesAlliesConseilsEtOutils3,
+    result: TEXT.leursAttaquesAccelerentPendant8S,
     ready: game.status === 'fighting' && !game.encouragementUsed && hasFighters(game),
     status: encourageStatus(game),
   };
 }
 
 function encourageStatus(game: Game): string {
-  if (!inPlay(game)) return 'La partie est terminée';
+  if (!inPlay(game)) return TEXT.laPartieEstTerminee;
   if (game.encouragementRemaining > 0)
-    return `Encouragés · ${Math.ceil(game.encouragementRemaining)} s`;
-  if (game.encouragementUsed) return 'Revient à la prochaine vague';
-  if (game.status === 'preparing') return 'À utiliser pendant le combat';
-  return hasFighters(game)
-    ? 'Un encouragement gratuit pour cette vague'
-    : 'Aucun allié capable de frapper';
+    return fill(TEXT.encouragesNS, Math.ceil(game.encouragementRemaining));
+  if (game.encouragementUsed) return TEXT.revientALaProchaineVague;
+  if (game.status === 'preparing') return TEXT.aUtiliserPendantLeCombat;
+  return hasFighters(game) ? TEXT.unEncouragementGratuitPourCette : TEXT.aucunAllieCapableDeFrapper;
 }
 
 function honeyHelp(game: Game) {
   const banned = game.caprice.noHoney;
   return {
     cost: 0,
-    title: 'Le miel',
-    when: banned ? NO_HONEY : 'Pendant une vague, sur un chemin attaqué. Un pot gratuit par vague.',
-    gesture: banned
-      ? NO_HONEY
-      : 'Choisis Attirer ou Ralentir, puis touche un chemin. Annuler garde ton pot.',
-    result: banned
-      ? NO_HONEY
-      : `Attirer détourne les gourmands aux jonctions. Ralentir freine sur la flaque. Le miel dure ${game.feastDuration} s.`,
+    title: TEXT.leMiel,
+    when: banned ? NO_HONEY : TEXT.pendantUneVagueSurUnCheminAttaque,
+    gesture: banned ? NO_HONEY : TEXT.choisisAttirerOuRalentirPuisTouche,
+    result: banned ? NO_HONEY : fill(TEXT.attirerDetourneLesGourmandsAux, game.feastDuration),
     ready: !banned && game.status === 'fighting' && !game.feastUsed,
     status: banned ? NO_HONEY : honeyStatus(game),
   };
 }
 
 function honeyStatus(game: Game): string {
-  if (!inPlay(game)) return 'La partie est terminée';
-  if (game.feastUsed) return 'Pot utilisé · revient à la prochaine vague';
-  return game.status === 'preparing' ? 'Ton pot attend le combat' : 'Ton pot est prêt';
+  if (!inPlay(game)) return TEXT.laPartieEstTerminee;
+  if (game.feastUsed) return TEXT.potUtiliseRevientALaProchaineVague;
+  return game.status === 'preparing' ? TEXT.tonPotAttendLeCombat : TEXT.tonPotEstPret;
 }

@@ -4,6 +4,7 @@ import type { Level } from '../levels.ts';
 import type { Point } from '../navigation.ts';
 import { LANES } from '../ai.ts';
 import { lanePoint } from '../routes.ts';
+import * as TEXT from '../texts/fr/battleScreens.ts';
 
 /** Hit-test the visible walking paths. Ambiguous merging paths at the fort are excluded. */
 export function feastLaneAtPoint(point: Point, level: Level): number | null {
@@ -34,8 +35,8 @@ export function activateBoard(session: Session, point: Point): boolean {
 
 /** Why the pot stayed in hand, in the order the player can fix it. */
 function feastRefusal(game: Game, lane: number | null): string {
-  if (game.paused) return 'Reprends la partie.';
-  if (game.status !== 'fighting') return 'Lance la vague.';
-  if (lane === null) return 'Touche un chemin.';
-  return game.enemyLanes.includes(lane) ? 'Pot déjà utilisé.' : 'Voie paisible.';
+  if (game.paused) return TEXT.reprendsLaPartie;
+  if (game.status !== 'fighting') return TEXT.lanceLaVague;
+  if (lane === null) return TEXT.toucheUnChemin;
+  return game.enemyLanes.includes(lane) ? TEXT.potDejaUtilise : TEXT.voiePaisible;
 }

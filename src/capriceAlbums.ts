@@ -2,6 +2,7 @@ import { capriceById } from './caprices.ts';
 import { readMissionRun } from './missions.ts';
 import type { Game } from './game.ts';
 import { hasControlCharacter, isArrayOfLength, isIntegerIn, isRecord } from './plainData.ts';
+import * as TEXT from './texts/fr/caprices.ts';
 
 export type CapriceAlbum = { id: string; name: string; completed: string[] };
 export type CapriceAlbums = {
@@ -31,7 +32,7 @@ export function createCapriceAlbums(): CapriceAlbums {
     activeId: 'child-1',
     nextId: 2,
     campProfileId: null,
-    children: [{ id: 'child-1', name: 'Mon carnet', completed: [] }],
+    children: [{ id: 'child-1', name: TEXT.monCarnet, completed: [] }],
   };
 }
 

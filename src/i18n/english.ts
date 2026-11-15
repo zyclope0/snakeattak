@@ -1,19 +1,5 @@
-import { capricesEnglish } from './dictionaries/caprices.en.ts';
-import { modelEnglish } from './dictionaries/model.en.ts';
-import { uiAEnglish } from './dictionaries/ui-a.en.ts';
-import { uiBEnglish } from './dictionaries/ui-b.en.ts';
-import { extraEnglish } from './dictionaries/extra.en.ts';
-import { supplementEnglish } from './dictionaries/supplement.en.ts';
-import { voyageEnglish } from './dictionaries/voyage.en.ts';
-import { privacyEnglish } from './dictionaries/privacy.en.ts';
-
-export const english: Readonly<Record<string, string>> = Object.freeze({
-  ...modelEnglish,
-  ...uiAEnglish,
-  ...uiBEnglish,
-  ...extraEnglish,
-  ...supplementEnglish,
-  ...voyageEnglish,
-  ...privacyEnglish,
-  ...capricesEnglish,
-});
+/**
+ * The English of the game, loaded only when English is chosen. The dictionary is built from
+ * the catalogues of texts (`src/texts/`) by `npm run texts:build`; nothing is written here.
+ */
+export { english } from './dictionary.en.ts';
