@@ -1,28 +1,28 @@
-<section id="home-screen" class="home-screen" aria-label="Accueil de l’aventure" hidden>
+<section id="home-screen" class="home-screen" aria-label="{{accueilDeLAventure}}" hidden>
   <header class="home-header">
     <span class="home-brand"
-      ><span class="crest" aria-hidden="true"></span> La Conquête <em>des Serpents</em
+      ><span class="crest" aria-hidden="true"></span> {{laConquete}} <em>{{desSerpents}}</em
       ><small class="build-version" data-app-version>v__APP_VERSION__</small></span
-    ><strong id="mission-total" class="home-stars">0 / 18 étoiles</strong
+    ><strong id="mission-total" class="home-stars">{{n018Etoiles}}</strong
     ><button
       id="home-settings"
       class="settings-button"
       data-settings
-      aria-label="Réglages"
+      aria-label="{{reglages}}"
     ></button>
   </header>
-  <button id="home-back" class="secondary" hidden>← Accueil</button>
+  <button id="home-back" class="secondary" hidden>{{accueil2}}</button>
   <div id="home-main" data-home-page="home">
     <section class="home-hero">
       <div class="home-intro">
-        <span class="eyebrow">À toi de jouer</span>
-        <h1>Protège<br />le cristal !</h1>
-        <p>Six missions pour protéger ton cristal.</p>
+        <span class="eyebrow">{{aToiDeJouer}}</span>
+        <h1>{{protege}}<br />{{leCristal}}</h1>
+        <p>{{sixMissionsPourProtegerTonCristal}}</p>
         <div class="home-actions">
-          <button id="home-primary" class="primary">Jouer</button>
+          <button id="home-primary" class="primary">{{jouer}}</button>
         </div>
         <span id="home-next-mission" class="home-next-mission"></span
-        ><small id="home-active-team">Équipe Équilibrée</small>
+        ><small id="home-active-team">{{equipeEquilibree}}</small>
       </div>
       <div class="home-diorama">
         <img
@@ -30,55 +30,52 @@
           src="/resources/android-icon/icon-512.png"
           width="512"
           height="512"
-          alt="Un héros au bouclier bleu protège le cristal face à un serpent, en pâte à modeler."
+          alt="{{unHerosAuBouclierBleuProtegeLe}}"
         />
       </div>
     </section>
-    <nav class="home-links" aria-label="Préparer mon aventure">
-      <button id="home-expeditions" data-home-target="missions">Missions</button>
-      <button id="home-army">Favoris</button>
-      <button id="home-classic" data-home-target="classic">Aventure classique</button>
-      <button id="home-parents" data-home-target="parents">Pour les parents</button>
+    <nav class="home-links" aria-label="{{preparerMonAventure}}">
+      <button id="home-expeditions" data-home-target="missions">{{missions}}</button>
+      <button id="home-army">{{favoris}}</button>
+      <button id="home-classic" data-home-target="classic">{{aventureClassique}}</button>
+      <button id="home-parents" data-home-target="parents">{{pourLesParents}}</button>
     </nav>
   </div>
   <section data-home-page="missions" class="home-page" hidden>
     <div class="page-actions">
-      <button id="home-play" class="primary">Préparer</button>
-      <button id="mission-continue" class="secondary" hidden>Reprendre ma mission</button>
+      <button id="home-play" class="primary">{{preparer}}</button>
+      <button id="mission-continue" class="secondary" hidden>{{reprendreMaMission}}</button>
     </div>
     <details id="mission-list" class="home-disclosure" open>
-      <summary>La carte des missions</summary>
+      <summary>{{laCarteDesMissions}}</summary>
       <section class="expedition-map" aria-labelledby="expedition-heading">
         <div class="journey-title">
           <div>
-            <span class="eyebrow">Nouveau · Les expéditions</span>
-            <h2 id="expedition-heading" tabindex="-1">Six missions dans les fougères</h2>
+            <span class="eyebrow">{{nouveauLesExpeditions}}</span>
+            <h2 id="expedition-heading" tabindex="-1">{{sixMissionsDansLesFougeres}}</h2>
           </div>
         </div>
-        <p>Tes alliés et les serpents changent selon la mission.</p>
+        <p>{{tesAlliesEtLesSerpentsChangent}}</p>
 
         <div id="mission-cards" class="mission-cards"></div>
-        <small
-          >Une victoire ouvre la suite. Six missions à rejouer avec d’autres
-          configurations.</small
-        >
+        <small>{{uneVictoireOuvreLaSuiteSixMissions}}</small>
       </section>
     </details>
   </section>
   <section data-home-page="parents" class="home-page" hidden>
-    <h1 tabindex="-1">Pour les parents</h1>
-    <nav class="parent-actions" aria-label="Aide et sauvegarde">
-      <button id="home-guide">Fiches des alliés</button>
-      <button id="home-help">Comment jouer</button>
-      <button id="home-sound" data-settings>Réglages</button>
-      <button id="home-family">Sauvegarde familiale</button>
+    <h1 tabindex="-1">{{pourLesParents}}</h1>
+    <nav class="parent-actions" aria-label="{{aideEtSauvegarde}}">
+      <button id="home-guide">{{fichesDesAllies}}</button>
+      <button id="home-help">{{commentJouer}}</button>
+      <button id="home-sound" data-settings>{{reglages}}</button>
+      <button id="home-family">{{sauvegardeFamiliale}}</button>
     </nav>
     <details id="home-parent-options" class="home-disclosure" open>
-      <summary>Pour les parents</summary>
+      <summary>{{pourLesParents}}</summary>
       <section class="departure-panel" aria-labelledby="departure-heading">
-        <h2 id="departure-heading">Un code d’aventure ?</h2>
+        <h2 id="departure-heading">{{unCodeDAventure}}</h2>
         <form id="departure-form">
-          <label for="departure-input">Retrouver un départ</label>
+          <label for="departure-input">{{retrouverUnDepart}}</label>
           <div class="departure-entry">
             <input
               id="departure-input"
@@ -87,59 +84,56 @@
               autocomplete="off"
               autocapitalize="characters"
               spellcheck="false"
-              placeholder="PONTS-1-0000-7X8R-A1"
+              placeholder="{{ponts100007x8rA1}}"
               aria-describedby="departure-message"
-            /><button class="secondary" type="submit">Retrouver</button>
+            /><button class="secondary" type="submit">{{retrouver}}</button>
           </div>
           <p id="departure-message" class="departure-message" role="status"></p>
         </form>
-        <small
-          >Le code retrouve le terrain et les vagues. Tu prépares de nouveaux alliés.</small
-        >
+        <small>{{leCodeRetrouveLeTerrainEtLesVagues}}</small>
       </section>
     </details>
   </section>
   <section data-home-page="classic" class="home-page" hidden>
-    <h1 tabindex="-1">Aventure classique</h1>
+    <h1 tabindex="-1">{{aventureClassique}}</h1>
     <div class="page-actions">
-      <button id="home-continue" class="primary" hidden>Reprendre</button>
-      <button id="home-new" class="secondary">La grande aventure · 12 vagues</button>
+      <button id="home-continue" class="primary" hidden>{{reprendre}}</button>
+      <button id="home-new" class="secondary">{{laGrandeAventure12Vagues}}</button>
     </div>
     <details id="classic-options" class="home-disclosure" open>
-      <summary>Choisir un chapitre</summary>
+      <summary>{{choisirUnChapitre}}</summary>
       <section class="journey-map" aria-labelledby="journey-heading">
         <div class="journey-title">
           <div>
-            <span class="eyebrow">Ta route dans la vallée</span>
-            <h2 id="journey-heading">Douze vagues jusqu’au roi à trois têtes</h2>
-            <span id="home-stars" class="home-stars">0 / 9 étoiles</span>
+            <span class="eyebrow">{{taRouteDansLaVallee}}</span>
+            <h2 id="journey-heading">{{douzeVaguesJusquAuRoiATroisTetes}}</h2>
+            <span id="home-stars" class="home-stars">{{n09Etoiles}}</span>
           </div>
           <small
-            >Une étoile pour finir · deux dès 60 % · trois dès 90 %<br />Le cristal doit garder
-            ce minimum durant le chapitre.</small
+            >{{uneEtoilePourFinirDeuxDes60Trois}}<br />{{leCristalDoitGarderCeMinimumDurant}}</small
           >
         </div>
         <div class="chapter-cards">
           <button id="chapter-0" class="chapter-card" data-chapter="0">
-            <span class="chapter-image"></span><small>01 · Vagues 1 à 4</small
-            ><strong>La clairière des fougères</strong
+            <span class="chapter-image"></span><small>{{n01Vagues1A4}}</small
+            ><strong>{{laClairiereDesFougeres}}</strong
             ><span id="chapter-focus-0" class="chapter-focus"></span
             ><span id="chapter-stars-0" class="chapter-stars">☆☆☆</span
-            ><span id="chapter-action-0">Commencer ici</span>
+            ><span id="chapter-action-0">{{commencerIci}}</span>
           </button>
           <button id="chapter-1" class="chapter-card" data-chapter="1">
-            <span class="chapter-image"></span><small>02 · Vagues 5 à 8</small
-            ><strong>Le bosquet ambré</strong
+            <span class="chapter-image"></span><small>{{n02Vagues5A8}}</small
+            ><strong>{{leBosquetAmbre}}</strong
             ><span id="chapter-focus-1" class="chapter-focus"></span
             ><span id="chapter-stars-1" class="chapter-stars">☆☆☆</span
-            ><span id="chapter-action-1">À découvrir dans l’aventure</span>
+            ><span id="chapter-action-1">{{aDecouvrirDansLAventure}}</span>
           </button>
           <button id="chapter-2" class="chapter-card" data-chapter="2">
-            <span class="chapter-image"></span><small>03 · Vagues 9 à 12</small
-            ><strong>Le jardin des vieilles pierres</strong
+            <span class="chapter-image"></span><small>{{n03Vagues9A12}}</small
+            ><strong>{{leJardinDesVieillesPierres}}</strong
             ><span id="chapter-focus-2" class="chapter-focus"></span
             ><span id="chapter-stars-2" class="chapter-stars">☆☆☆</span
-            ><span id="chapter-action-2">À découvrir dans l’aventure</span>
+            ><span id="chapter-action-2">{{aDecouvrirDansLAventure}}</span>
           </button>
         </div>
       </section>
@@ -152,27 +146,24 @@
     aria-labelledby="army-editor-title"
     hidden
   >
-    <button id="roster-back" class="quiet">← Retour sans enregistrer</button
-    ><span class="eyebrow">Le camp se prépare</span>
-    <h1 id="army-editor-title" tabindex="-1">Tes alliés favoris.</h1>
-    <p>
-      Choisis huit raccourcis de recrutement. Tous les autres alliés restent dans le catalogue ;
-      leurs prix et leurs vagues d’arrivée ne changent pas.
-    </p>
+    <button id="roster-back" class="quiet">{{retourSansEnregistrer}}</button
+    ><span class="eyebrow">{{leCampSePrepare}}</span>
+    <h1 id="army-editor-title" tabindex="-1">{{tesAlliesFavoris}}</h1>
+    <p>{{choisisHuitRaccourcisDeRecrutement}}</p>
     <div class="roster-toolbar">
-      <label for="roster-slot">Composition</label
+      <label for="roster-slot">{{composition}}</label
       ><select id="roster-slot"></select
-      ><strong id="roster-count">8 / 8 alliés favoris</strong
-      ><button id="roster-save" class="primary">Utiliser ces favoris</button>
+      ><strong id="roster-count">{{n88AlliesFavoris}}</strong
+      ><button id="roster-save" class="primary">{{utiliserCesFavoris}}</button>
     </div>
     <div class="roster-pagination">
-      <button id="roster-page-previous">← Précédents</button>
+      <button id="roster-page-previous">{{precedents}}</button>
       <span id="roster-page-status" role="status"></span>
-      <button id="roster-page-next">Suivants →</button>
+      <button id="roster-page-next">{{suivants}}</button>
     </div>
     <div id="roster-grid" class="roster-grid"></div>
   </section>
   <footer class="home-footer">
-    <span id="career-status">Progression locale sur cet appareil</span>
+    <span id="career-status">{{progressionLocaleSurCetAppareil}}</span>
   </footer>
 </section>

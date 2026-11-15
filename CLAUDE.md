@@ -31,7 +31,8 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
 ## Interface
 
 - Tutoiement, phrases courtes, un mot d'enfant plutôt qu'un chiffre technique.
-- Aucun texte écrit dans le code. Chaque texte est une constante de `src/texts/fr/<domaine>.ts`,
+- Aucun texte écrit dans le code ni dans la page. Chaque texte est une constante de
+  `src/texts/fr/<domaine>.ts` (`page.ts` pour les gabarits, qui l'appellent par `{{nom}}`),
   avec son anglais sous le même nom dans `src/texts/en/` ; `fill()` y met les valeurs. Après un
   changement : `npm run texts:build`, puis `npm run test:locale` vert. Un test refuse un texte
   laissé dans le code (`docs/ARCHITECTURE.md`, « Textes hors du code »).

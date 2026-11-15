@@ -1092,9 +1092,13 @@ change, ou se traduit, à un seul endroit.
   `{1}`… et se remplit par `fill(TEXT.etapeNSurN, 2, 5)` (`src/texts/fill.ts`).
 - **`src/texts/en/<domaine>.ts`** : l'anglais, sous les mêmes noms. Les mots du fils (noms
   et annonces des caprices) y restent en français, mot pour mot.
-- **`src/texts/en/recomposed.ts`** : l'anglais des phrases qui n'ont pas de constante — les
-  textes de la page (`src/html`, à sortir à leur tour) et les morceaux que le jeu assemble
-  en marchant.
+- **`src/texts/fr/page.ts`** : les textes de la page. Les gabarits (`index.html`,
+  `src/html/`) ne contiennent que des noms entre accolades, `{{allerAuPlateau}}` ; le build
+  y écrit le texte français (`fillTexts`, `deploy/assembleHtml.ts`) et s'arrête si un nom
+  n'a pas de texte. La page reçue par le navigateur est la même qu'avant.
+- **`src/texts/en/recomposed.ts`** : l'anglais des 81 morceaux que le jeu assemble en
+  marchant (un statut fait de plusieurs parties, un mot mis en minuscules) et qui n'ont donc
+  pas de constante.
 - **`src/i18n/dictionary.en.ts`** est **généré** par `npm run texts:build`
   (`scripts/build-texts.ts`) depuis ces catalogues. On ne l'édite pas.
 - Le code importe son catalogue : `import * as TEXT from '../texts/fr/home.ts'`. Un module
@@ -1107,12 +1111,15 @@ français affiché. La migration n'a donc touché ni message du moteur, ni sauve
 empreinte de partie rejouée.
 
 Garde-fous (`tests/texts-catalogue.test.ts`) : aucun texte affiché dans un fichier
-TypeScript hors de `src/texts` et `src/i18n` ; chaque texte français a son anglais sous le
-même nom ; un même texte français n'a qu'un anglais ; l'anglais n'invente pas de valeur ; le
-dictionnaire généré est à jour. `scripts/displayed-text.ts` dit ce qui compte comme un texte
-affiché, pour ce test et pour l'inventaire de `npm run test:locale`.
+TypeScript hors de `src/texts` et `src/i18n`, ni dans un gabarit de la page ; chaque texte
+français a son anglais sous le même nom ; un même texte français n'a qu'un anglais ;
+l'anglais n'invente pas de valeur ; le dictionnaire généré est à jour.
+`scripts/displayed-text.ts` dit ce qui compte comme un texte affiché, pour ce test et pour
+l'inventaire de `npm run test:locale`.
 
-Preuve de la migration (849 textes, 115 fichiers) : inventaire des textes identique avant
-et après (1 054), dictionnaire anglais identique entrée par entrée (1 135), tests unitaires
-et recettes navigateur verts. Coût : environ 6 Ko de code de plus au démarrage (une
-déclaration par texte), le paquet principal restant à 189,7 Ko sur 200.
+Preuve de la migration (1 054 textes : 849 dans 115 fichiers TypeScript, 270 dans la
+page, certains communs) : inventaire des textes identique avant et après, dictionnaire
+anglais identique entrée par entrée (1 135), texte mis en page par le navigateur identique
+caractère pour caractère, tests unitaires et recettes navigateur verts. Coût : environ 6 Ko
+de code de plus au démarrage (une déclaration par texte), le paquet principal restant à
+189,7 Ko sur 200 ; la page HTML perd 46 octets.
