@@ -15,8 +15,6 @@ export const conserveeN = 'kept';
 export const pourCePassage = 'for this run';
 export const nEtoileNSur3NCristalNActuellementN =
   'Stars: {0} out of 3 {2}. Crystal: {3} · now {4}/100 HP. Allies present: {5}. Snakes defeated since the adventure began: {8}.';
-export const linearGradient135deg486d58E6dcad = 'linear-gradient(135deg, #486d58, #e6dcad)';
-export const linearGradient135deg547b79Dce7df = 'linear-gradient(135deg, #547b79, #dce7df)';
 export const reessayerLaVague = 'Retry wave';
 export const continuerLaBatailleVagueN = 'Continue the battle · wave {0}';
 export const continuerVagueN = 'Continue · wave {0}';

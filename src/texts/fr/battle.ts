@@ -6,7 +6,6 @@ export const revisionInvalide = 'Révision invalide';
 export const nMustBeBoolean = '{0} must be boolean';
 export const nMustBeFiniteInNN = '{0} must be finite in [{1}, {2}]';
 export const aucunDomicileNavigableDansLeCamp = 'Aucun domicile navigable dans le camp';
-export const nfd = 'NFD';
 export const chasseurMobileDelogeLesCracheursEt =
   'Chasseur mobile : déloge les cracheurs et protège le cristal.';
 export const renfortMobileIntervientSurLesTrois =

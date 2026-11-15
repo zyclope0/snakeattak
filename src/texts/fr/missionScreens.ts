@@ -43,9 +43,6 @@ export const copains = 'Copains';
 export const reperage = 'Repérage';
 export const options = 'Options';
 export const carnetDeCetteNouvellePartie = 'Carnet de cette nouvelle partie';
-export const xmidymidSlice = 'xMidYMid slice';
-export const translate5120Scale11 = 'translate(512 0) scale(-1 1)';
-export const arial = 'Arial';
 export const troisVoiesVisiblesPremiereVagueN =
   'Trois voies visibles. Première vague : {0}. Antres à gauche, cristal à droite.';
 export const nAutresN = '{0} autres {1}';

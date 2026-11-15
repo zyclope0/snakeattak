@@ -34,7 +34,44 @@ const NOT_SHOWN = new Set([
   'PerformanceObserver',
   'Unknown',
   'AbortError',
+  // Exact values, each with what it is. A new one is added here, not as a broader rule.
+  'NFD', // the Unicode form given to `String.normalize`
+  'Fredoka', // the font family of the titles (src/render/fonts.ts)
+  'Nunito Sans', // the font family of the texts (src/render/fonts.ts)
+  'Arial', // the font family of the lair names on the mission map
 ]);
+
+const numbers = String.raw`\(\s*-?[\d.]+(?:[\s,]+-?[\d.]+)*\s*\)`;
+const transform = `(?:translate|scale|rotate|skewX|skewY|matrix)${numbers}`;
+const feature = String.raw`\(\s*[a-z-]+(?:\s*:\s*[\w.%/-]+)?\s*\)`;
+const cssCall = String.raw`(?:(?:repeating-)?(?:linear|radial|conic)-gradient|rgba?|hsla?|var|calc)\([\w\s#%.,+*/-]*(?:\([\w\s#%.,+*/-]*\)[\w\s#%.,+*/-]*)*\)`;
+const selector = String.raw`(?:[a-z][a-z0-9-]*)?(?:[.#][\w-]+|\[[a-z-]+(?:[~|^$*]?=[^\]\s]+)?\])*`;
+/**
+ * Values written for the browser, in its own grammar: they hold words and spaces and are
+ * never read by a player. Each rule takes the whole string and nothing looser.
+ */
+const BROWSER_VALUES: [shape: RegExp, mark: RegExp][] = [
+  // A CSS value made of function calls only: `linear-gradient(135deg, #486d58, #e6dcad)`.
+  [new RegExp(`^${cssCall}(?:[\\s,]+${cssCall})*$`), /\(/],
+  // A media query, one `(feature: value)` at least: `(pointer: coarse) and (hover: none)`.
+  [
+    new RegExp(
+      `^(?:(?:not|only)\\s+)?(?:(?:all|screen|print)\\s+and\\s+)?${feature}(?:\\s*(?:and|or|,)\\s*(?:not\\s+)?${feature})*$`,
+    ),
+    /\(\s*[a-z-]+\s*:/,
+  ],
+  // An SVG transform list, numbers only: `translate(512 0) scale(-1 1)`.
+  [new RegExp(`^${transform}(?:[\\s,]+${transform})*$`), /\(/],
+  // The keywords of the SVG `preserveAspectRatio`: `xMidYMid slice`.
+  [/^x(?:Min|Mid|Max)Y(?:Min|Mid|Max)(?:\s+(?:meet|slice))?$/, /^x/],
+  // A list of CSS selectors, one an attribute at least: `button, input, [contenteditable]`.
+  [new RegExp(`^${selector}(?:\\s*,\\s*${selector})+$`), /\[[a-z-]+(?:[~|^$*]?=[^\]\s]+)?\]/],
+];
+function browserValue(s: string) {
+  // A computed part of such a value is a number: `translate(${x} 0)`.
+  const value = s.replace(/\{\d+\}/g, '0');
+  return BROWSER_VALUES.some(([shape, mark]) => shape.test(value) && mark.test(value));
+}
 /** Words a player may read: letters, with a space, an accent or a capital to start. */
 function human(s: string) {
   const fixed = s.replace(/\{\d+\}/g, '');
@@ -45,7 +82,8 @@ function human(s: string) {
     !/[{}][^\d]|\b(?:display|font-size|background|position|padding):|(?:^|\s)(?:const|return|function)\s|\b(?:aria-|data-)[\w-]+=/i.test(
       fixed,
     ) &&
-    !NOT_SHOWN.has(s)
+    !NOT_SHOWN.has(s) &&
+    !browserValue(s)
   );
 }
 

@@ -2,8 +2,6 @@ export const placementAnnuleChoisisUnAllieOu =
   'Placement annulé. Choisis un allié ou lance la vague.';
 export const reprendre = 'Reprendre';
 export const mettreEnPause = 'Mettre en pause';
-export const buttonSelectInputTextareaSummaryA =
-  'button, select, input, textarea, summary, a, [contenteditable]';
 export const partieTerminee = 'Partie terminée';
 export const choisirUnBonus = 'Choisir un bonus';
 export const vagueEnCours = 'Vague en cours…';
@@ -26,7 +24,6 @@ export const reduireLaVueDeJeu = 'Réduire la vue de jeu';
 export const agrandirLaVueDeJeu = 'Agrandir la vue de jeu';
 export const reduire = 'Réduire';
 export const agrandir = 'Agrandir';
-export const pointerCoarseAndOrientation = '(pointer: coarse) and (orientation: portrait)';
 export const nOeufNNEclosions = '{0} œuf{1} · {2} éclosions';
 export const victoire = 'VICTOIRE';
 export const campTombe = 'CAMP TOMBÉ';
