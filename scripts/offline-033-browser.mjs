@@ -164,6 +164,41 @@ try {
       `Voyage file served from disk: ${file}`,
     );
   checks.push('the voyage opens offline from its own package and starts its first stage');
+  // The privacy policy ships inside the application: after a cold start without network,
+  // the parents' page opens it from its own package, in the language of the game.
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await showHomePage(page, 'parents');
+  await page.locator('#home-privacy').waitFor({ state: 'visible' });
+  assert.ok(
+    ![...served].some((p) => p.includes('privacyWindow')),
+    'The privacy package is not loaded before its button is touched',
+  );
+  await page.locator('#home-privacy').click();
+  await page.locator('#privacy-dialog[open]').waitFor();
+  assert.deepEqual(
+    await page
+      .locator('#privacy-body article')
+      .evaluate((article) => [
+        article.lang,
+        article.querySelector('h3').textContent,
+        article.querySelectorAll('h4').length,
+        article.querySelector('.privacy-public a').getAttribute('href'),
+      ]),
+    [
+      'fr',
+      'Politique de confidentialité de La Conquête des Serpents / Snake Attack TD',
+      5,
+      'https://snakeattacktd.com/confidentialite',
+    ],
+  );
+  for (const file of [/privacyWindow-[\w-]+\.js$/, /privacyWindow-[\w-]+\.css$/])
+    assert.ok(
+      [...served].some((p) => file.test(p)),
+      `Privacy file served from disk: ${file}`,
+    );
+  await page.locator('#privacy-close').click();
+  checks.push('the privacy policy is read offline, from a package of its own, after a cold start');
   assert.deepEqual(external, []);
   assert.deepEqual(missing, []);
   assert.deepEqual(errors, []);

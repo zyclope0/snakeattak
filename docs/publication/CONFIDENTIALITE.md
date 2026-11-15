@@ -1,5 +1,9 @@
 # Confidentialité — brouillons à compléter
 
+> **Historique.** Ces brouillons datent de la préparation de novembre (jeu 0.32.4). La
+> politique approuvée et publiée est dans `src/i18n/privacyPolicy.ts` : c'est la seule
+> source de la page publique et de la fenêtre de l'application. Voir [SITE.md](../SITE.md).
+
 **Ne pas publier ce document comme politique finale d'une application avec pubs.**
 L'application actuelle0.32.4 ne contient pas de SDK publicitaire ni de facturation.
 L'identité du responsable, son contact et la configuration de la future version

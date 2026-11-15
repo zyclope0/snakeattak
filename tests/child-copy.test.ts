@@ -14,7 +14,9 @@ test('les sources et le HTML tutoient directement, y compris les impératifs san
     'index.html',
     ...readdirSync('src', { recursive: true })
       .filter((p) => /\.(ts|css|html|json|svg|txt)$/.test(String(p)))
-      .map((p) => 'src/' + p),
+      .map((p) => 'src/' + p)
+      // The privacy policy speaks to parents, in the words its publisher approved: « vous ».
+      .filter((file) => file !== 'src/i18n/privacyPolicy.ts'),
   ];
   const matches = files.flatMap((file) =>
     [...readFileSync(file, 'utf8').matchAll(forbidden)].map((m) => `${file}: ${m[0]}`),

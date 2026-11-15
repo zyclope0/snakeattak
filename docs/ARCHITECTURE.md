@@ -49,6 +49,10 @@ Le build exporte `_headers` pour les hébergeurs qui comprennent ce format, par 
 
 La politique inclut nosniff, refus d'intégration en iframe, désactivation des permissions caméra/micro/géolocalisation, scripts uniquement de la même origine, et cache long uniquement pour les assets à empreinte. Les styles inline restent autorisés car Phaser et le tableau de bord ajustent des styles à l'exécution. Le prototype V4 historique conserve sa propre exception pour son script inline. La politique et le cache ont été testés sur la prévisualisation HTTP ; leur application en production dépendra de l'hébergeur choisi. L'export file:// n'a pas d'en-têtes HTTP.
 
+Depuis le 14 novembre 2026, le build écrit aussi `.htaccess`, la même politique pour un
+hébergement Apache, avec l'adresse unique du site (`src/site.ts`) : voir « Confidentialité
+et site » plus bas et [SITE.md](SITE.md).
+
 ## Lisibilité et prise en main 0.9
 
 `placement.ts` partage la validation spatiale et les suggestions de placement. `Game.canRecruit` expose une requête sans dépense ; `Session.placeSelected` coordonne la sélection et le vrai achat. Les suggestions laissent plus d’espace visuel que le minimum légal et ne limitent pas le placement libre.
@@ -1045,3 +1049,34 @@ laboratoires, sur tous les cœurs, et écrit `artifacts/voyage/rapport.json`.
 `tests/voyage-traces.test.ts` fige six voyages joués en entier par les appels de l'interface,
 comme `tests/engine-traces.test.ts` fige les parties : une empreinte qui change est un code
 de voyage qui ne donne plus le même voyage.
+
+## Confidentialité et site — 14 novembre 2026
+
+La politique de confidentialité a **une seule source**, `src/i18n/privacyPolicy.ts` : le
+texte approuvé en français et en anglais, repris mot pour mot de la page publiée, plus la
+date de mise à jour et la version de l'application qu'il décrit (`POLICY_APP`). Ce sont des
+engagements juridiques : le module ne les traduit pas par le dictionnaire, et le contrôle du
+tutoiement l'ignore (la politique dit « vous » aux parents).
+
+Deux rendus sortent de cette source :
+
+- **la page publique** `dist/confidentialite/index.html` (`deploy/privacyPage.ts`), écrite
+  par le build : HTML simple, sans JavaScript, les deux langues sur une page ;
+- **la fenêtre de l'application** (`src/ui/privacy/privacyWindow.ts`), ouverte par le
+  bouton « Confidentialité » de la page des parents (`src/ui/privacyDoor.ts`). Seul le
+  bouton est chargé au départ ; le texte et la fenêtre sont un paquet à part, embarqué dans
+  l'application, donc lisible hors ligne. Le texte est posé en nœuds bruts dans un élément
+  `data-copy-raw` : le traducteur de l'interface n'y touche pas, la fenêtre choisit
+  elle-même le texte de la langue du jeu. Aucun balisage ajouté dans `src/html/`.
+
+`tests/privacy-policy.test.ts` tient le tout : texte identique à la page publiée de
+référence, page sans script ni ressource extérieure, version citée égale à celle de
+`package.json` et de `android/app/build.gradle`, configuration Apache. Dans le navigateur,
+`scripts/mobile-privacy-038-checks.mjs` (dans `test:mobile-menus`) ouvre la fenêtre à six
+tailles et dans les deux langues, la fait défiler au doigt et vérifie qu'elle ne demande
+rien hors du jeu ; `test:offline` la relit après un démarrage à froid sans réseau.
+
+`src/site.ts` donne l'adresse du site à tout le monde : le lien de la fenêtre, l'adresse
+canonique de la page, `.htaccess` et le contrôle du site en ligne
+(`scripts/check-live-site.mjs`). La publication est un workflow lancé à la main
+(`.github/workflows/deploy-site.yml`) ; rien ne part seul.

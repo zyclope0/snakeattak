@@ -1,7 +1,15 @@
-import { copyFileSync, writeFileSync, readFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
-import { webHeaders, legacyPolicy, assetCache, hostHeadersFile } from './deploy/policy.ts';
+import {
+  webHeaders,
+  legacyPolicy,
+  assetCache,
+  hostHeadersFile,
+  apacheConfig,
+} from './deploy/policy.ts';
+import { privacyPageHtml } from './deploy/privacyPage.ts';
+import { PRIVACY_FOLDER } from './src/site.ts';
 import { assembleHtml } from './deploy/assembleHtml.ts';
 
 export default defineConfig(({ mode }) => {
@@ -39,7 +47,13 @@ export default defineConfig(({ mode }) => {
           copyFileSync('public/prototype-v4.html', `${outDir}/prototype-v4.html`);
           copyFileSync('public/assets/illustrated/PROVENANCE.md', `${outDir}/asset-provenance.md`);
           copyFileSync('public/FONT-LICENCES.txt', `${outDir}/FONT-LICENCES.txt`);
-          if (!portable) writeFileSync(`${outDir}/_headers`, hostHeadersFile());
+          if (portable) return;
+          writeFileSync(`${outDir}/_headers`, hostHeadersFile());
+          writeFileSync(`${outDir}/.htaccess`, apacheConfig());
+          // The public privacy policy: a page of plain HTML beside the game, from the same
+          // source as the window of the application.
+          mkdirSync(`${outDir}/${PRIVACY_FOLDER}`, { recursive: true });
+          writeFileSync(`${outDir}/${PRIVACY_FOLDER}/index.html`, privacyPageHtml());
         },
       },
     ],

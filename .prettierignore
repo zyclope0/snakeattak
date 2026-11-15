@@ -13,3 +13,4 @@ android/
 
 # Preserve byte-identical user audit source documents and hashes.
 docs/audit-source-2026-11/originaux/
+tests/fixtures/confidentialite-publiee-2026-11-14.html

@@ -390,6 +390,14 @@
   line-height: 1.15;
   white-space: normal;
 }
+/* « Joueurs » only shows when several children share the device: with it, five buttons
+   share the first row where a landscape screen is wide enough for five. A browser that
+   does not know `:has` keeps four columns, and the fifth button starts a row. */
+@media (min-width: 640px) and (orientation: landscape) {
+  #home-screen [data-home-page='parents'] .parent-actions:has(#home-players:not([hidden])) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
 /* The family save leaves the last cell of its row to its "?". */
 #home-screen [data-home-page='parents'] .parent-actions #home-family {
   grid-column: 1 / -2;

@@ -252,6 +252,10 @@ if (
   !(await mobile.locator('#feast-status').innerText()).includes('Miel collant')
 )
   throw Error('Goûter tactile absent');
+// The two games above have said all they had to: left running, they keep the machine busy
+// while the next page loads.
+await mobile.close();
+await page.close();
 // The voyage: its screens come in a package of their own, or inside the single file of the
 // portable build. Either way its door opens the map and a first stage starts.
 const voyage = await browser.newPage({
@@ -261,8 +265,8 @@ const voyage = await browser.newPage({
 });
 voyage.setDefaultTimeout(15000);
 voyage.on('pageerror', (e) => errors.push(e.message));
-// The fourth page of this recipe: the single file of the portable build is 27 MB to read
-// again beside the three others, which a busy machine does not do in fifteen seconds.
+// The single file of the portable build is 27 MB to read again: on a slow machine of the
+// CI, fifteen seconds were not enough beside two running games.
 await voyage.goto(gameUrl, { timeout: 60000 });
 await voyage.locator('#home-voyage').click();
 await voyage.locator('#home-screen[data-page="voyage"]').waitFor();

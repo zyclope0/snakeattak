@@ -2,6 +2,7 @@ import { chooseLanguage, leaveBattle, showHomePage } from '../tests/browser-entr
 import { checkCatalogue } from './mobile-catalogue-037-checks.mjs';
 import { checkHelpPoints } from './mobile-help-038-checks.mjs';
 import { checkPlayers } from './mobile-players-038-checks.mjs';
+import { checkPrivacy } from './mobile-privacy-038-checks.mjs';
 import { checkReplay } from './mobile-replay-038-checks.mjs';
 import { checkVoyage } from './mobile-voyage-038-checks.mjs';
 import assert from 'node:assert/strict';
@@ -193,6 +194,7 @@ try {
   await checkPlayers({ browser, url, check, capture, portrait });
   await checkReplay({ browser, url, pageAt, check, capture });
   await checkVoyage({ browser, url, check, capture });
+  await checkPrivacy({ pageAt, check, capture, url });
   if (process.env.MOBILE_MENUS_BEFORE) {
     for (const [w, h] of [
       [780, 360],

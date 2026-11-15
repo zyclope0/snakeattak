@@ -1,0 +1,77 @@
+name: Publier le site
+# Lancé à la main seulement (onglet Actions, « Run workflow ») : jamais à une poussée. Compile
+# le site depuis Git et l'envoie sur l'hébergement Infomaniak. Marche à suivre, secrets à
+# créer et retour arrière : docs/SITE.md.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branche, étiquette ou commit à publier'
+        required: true
+        default: main
+      confirmation:
+        description: 'Écrire PUBLIER pour confirmer'
+        required: true
+      prune:
+        description: 'Retirer aussi du serveur les fichiers que ce build ne contient plus'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: publier-le-site
+  cancel-in-progress: false
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Confirmation
+        if: ${{ inputs.confirmation != 'PUBLIER' }}
+        run: |
+          echo "La publication n'est pas confirmée : écrire PUBLIER dans le champ de confirmation."
+          exit 1
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # Format, tests unitaires et build : rien n'est envoyé si l'un d'eux échoue.
+      - run: npm run verify
+      - name: Marquer le build
+        run: |
+          printf '{"commit":"%s","ref":"%s","version":"%s"}\n' \
+            "$(git rev-parse HEAD)" "${{ inputs.ref }}" "$(node -p "require('./package.json').version")" \
+            > dist/version.json
+          cat dist/version.json
+      - name: Préparer la connexion
+        env:
+          SSH_KEY: ${{ secrets.INFOMANIAK_SSH_KEY }}
+          SSH_HOST: ${{ secrets.INFOMANIAK_SSH_HOST }}
+        run: |
+          test -n "$SSH_KEY" && test -n "$SSH_HOST" || { echo "Secrets INFOMANIAK_* absents : voir docs/SITE.md."; exit 1; }
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
+          ssh-keyscan -t ed25519 "$SSH_HOST" >> ~/.ssh/known_hosts
+      - name: Envoyer le site
+        env:
+          SSH_HOST: ${{ secrets.INFOMANIAK_SSH_HOST }}
+          SSH_USER: ${{ secrets.INFOMANIAK_SSH_USER }}
+          SITE_PATH: ${{ secrets.INFOMANIAK_SITE_PATH }}
+        run: |
+          test -n "$SSH_USER" && test -n "$SITE_PATH" || { echo "Secrets INFOMANIAK_* absents : voir docs/SITE.md."; exit 1; }
+          # Les fichiers arrivent d'abord à côté, puis prennent leur place ensemble. Sans
+          # « prune », rien n'est retiré du serveur : une page ouverte pendant l'envoi trouve
+          # encore ses anciens fichiers.
+          rsync --recursive --links --times --compress --delay-updates \
+            ${{ inputs.prune && '--delete-after --exclude=.well-known/ --exclude=.user.ini' || '' }} \
+            -e "ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes" \
+            dist/ "$SSH_USER@$SSH_HOST:$SITE_PATH/"
+      - name: Vérifier le site en ligne
+        run: node scripts/check-live-site.mjs https://snakeattacktd.com "$(git rev-parse HEAD)"
+      - name: Effacer la clé
+        if: always()
+        run: rm -f ~/.ssh/deploy
