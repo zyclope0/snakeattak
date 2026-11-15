@@ -2,8 +2,10 @@ import { blocked, CELL } from './navigation.ts';
 import type { Point } from './navigation.ts';
 import type { Game } from './game.ts';
 import type { Kind } from './data.ts';
+import { LANES } from './ai.ts';
 import { levelForWave } from './levels.ts';
 import type { Level } from './levels.ts';
+import { CAMP_BOTTOM, CAMP_LEFT, CAMP_RIGHT, CAMP_TOP } from './boardLandmarks.ts';
 export function isPlacementFree(
   units: (Point & { homeX?: number; homeY?: number })[],
   x: number,
@@ -13,10 +15,10 @@ export function isPlacementFree(
   return (
     Number.isFinite(x) &&
     Number.isFinite(y) &&
-    x >= 600 &&
-    x <= 984 &&
-    y >= 108 &&
-    y <= 540 &&
+    x >= CAMP_LEFT &&
+    x <= CAMP_RIGHT &&
+    y >= CAMP_TOP &&
+    y <= CAMP_BOTTOM &&
     !blocked(x, y, level) &&
     !blocked(
       Math.floor(x / CELL) * CELL + CELL / 2,
@@ -35,7 +37,7 @@ export function isPlacementFree(
 /** Only hints: the player can still place on any legal open spot in the camp. */
 export function placementSuggestions(game: Game, kind: Kind): Point[] {
   const points: Point[] = [];
-  for (const y of [180, 324, 468]) {
+  for (const y of LANES) {
     let count = 0;
     for (const x of [900, 780, 660, 972, 852, 732, 612])
       if (

@@ -24,6 +24,7 @@ import { battleOver } from './battleState.ts';
 import { openCampDetails, showBriefing, showLevel, showSelection } from './battleBriefing.ts';
 import { bindBattleCommands, bindBattleKeys } from './battleCommands.ts';
 import { bindRecruitShop } from './recruitShop.ts';
+import { CRYSTAL_MAX, START_GOLD } from '../gameConstants.ts';
 
 /**
  * Wires the battle screen. Each part of the screen has its own module; this function only
@@ -104,7 +105,8 @@ function bindRestart(session: Session, refresh: () => void, restart: () => void)
   const modal = pauseForDialog(byId<HTMLDialogElement>('restart-dialog'), session, refresh);
   byId('reset').onclick = () => {
     const game = session.game;
-    if (session.hasPlaced || game.wave > 0 || game.gold !== 300 || game.base !== 100) modal.open();
+    if (session.hasPlaced || game.wave > 0 || game.gold !== START_GOLD || game.base !== CRYSTAL_MAX)
+      modal.open();
     else restart();
   };
   byId('keep-playing').onclick = modal.close;

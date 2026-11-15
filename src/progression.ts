@@ -7,6 +7,7 @@ import { isMilestone } from './rewards.ts';
 import { isArrayOfLength, isRecord, isStarCount, readBoundedJson } from './plainData.ts';
 import { CAREER_STORAGE_KEY } from './storageKeys.ts';
 import * as TEXT from './texts/fr/adventure.ts';
+import { REWARD_WAVES } from './gameConstants.ts';
 
 export type CareerState = {
   version: 1;
@@ -35,7 +36,7 @@ const copyState = (state: CareerState): CareerState => ({
 function readCamp(raw: unknown, slot: number): Game | null {
   if (typeof raw !== 'string' || raw.length > CAMP_CHARACTER_LIMIT) return null;
   const game = decodeCheckpoint(raw);
-  const wave = slot === 0 ? 4 : 8;
+  const wave = REWARD_WAVES[slot === 0 ? 0 : 1];
   return game?.wave === wave && game.rewards.pending === wave ? game : null;
 }
 // The copy turns an empty slot of a live array into `undefined`, which `every` then sees.
@@ -136,7 +137,7 @@ function recordChapterStars(state: CareerState, game: Game): void {
 function rememberChapterCamp(state: CareerState, game: Game): void {
   if (game.status !== 'preparing' || !isMilestone(game.wave) || game.rewards.pending !== game.wave)
     return;
-  const slot = game.wave === 4 ? 0 : 1;
+  const slot = game.wave === REWARD_WAVES[0] ? 0 : 1;
   const previous = readCamp(state.chapterCamps[slot], slot);
   // Keep the original pre-choice camp through repeated syncs and reloads.
   if (

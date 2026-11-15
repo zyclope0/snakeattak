@@ -1,5 +1,13 @@
 import { activeEnemyLanes } from './tutorial.ts';
-import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
+import {
+  CRYSTAL_WARD,
+  REWARD_COINS,
+  freshRewards,
+  rewardOffer,
+  REWARDS,
+  freeRecruit,
+  extraHoneySeconds,
+} from './rewards.ts';
 import type { RewardState, RewardId } from './rewards.ts';
 import { freshCampaign, chapterIndex, chapterStars } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
@@ -12,6 +20,13 @@ import type { Feast, FeastFlavor } from './tactics.ts';
 import { LANES } from './ai.ts';
 import { kinds, TOTAL_WAVES, waveStats, unlockWave } from './data.ts';
 import type { Kind } from './data.ts';
+import {
+  CRYSTAL_MAX,
+  DEFAULT_SEED,
+  GOLD_LIMIT,
+  START_GOLD,
+  WAVES_PER_CHAPTER,
+} from './gameConstants.ts';
 import { levelForWave, missionLevel } from './levels.ts';
 import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
@@ -36,6 +51,8 @@ export type { Entity, Egg, Effect } from './engine/state.ts';
 const HERO_TRAINING_COST = 90;
 const REPAIR_COST = 80;
 const REPAIR_AMOUNT = 25;
+/** How long « Courage ! » makes the allies strike faster. */
+const ENCOURAGEMENT_SECONDS = 8;
 /** Longest simulated step: a slow frame is cut short rather than leaping over a fight. */
 const MAX_STEP = 0.05;
 
@@ -57,8 +74,8 @@ function facedWave(game: Game): number {
  * tirages de `nextRandom` décident de la partie : les changer casse les anciens codes.
  */
 export class Game {
-  gold = 300;
-  base = 100;
+  gold = START_GOLD;
+  base = CRYSTAL_MAX;
   wave = 0;
   status: 'preparing' | 'fighting' | 'won' | 'lost' = 'preparing';
   paused = false;
@@ -92,7 +109,7 @@ export class Game {
   set initialSeed(seed: number | null) {
     this.#departureSeed = seed;
   }
-  missionMinBase = 100;
+  missionMinBase = CRYSTAL_MAX;
   /** Sortes d'alliés recrutées pendant une mission à caprice « copains ». */
   readonly #capriceKinds = new Set<Kind>();
   get caprice(): CapriceRules {
@@ -108,7 +125,7 @@ export class Game {
     return this.#stage;
   }
   constructor(
-    seed = 2026,
+    seed = DEFAULT_SEED,
     tuning?: Partial<BalanceTuning>,
     mission?: MissionRun,
     balance?: BalanceRevision,
@@ -206,7 +223,7 @@ export class Game {
     )
       return false;
     this.encouragementUsed = true;
-    this.encouragementRemaining = 8;
+    this.encouragementRemaining = ENCOURAGEMENT_SECONDS;
     this.message = TEXT.courageLesAlliesFrappentPlusVite;
     return true;
   }
@@ -225,8 +242,8 @@ export class Game {
     const key = id as RewardId;
     this.rewards.choices.push({ milestone, id: key, used: !REWARDS[key].kind });
     this.rewards.pending = null;
-    if (key === 'pieces') this.gold = Math.min(10000000, this.gold + 100);
-    if (key === 'cristal') this.rewards.ward += 18;
+    if (key === 'pieces') this.gold = Math.min(GOLD_LIMIT, this.gold + REWARD_COINS);
+    if (key === 'cristal') this.rewards.ward += CRYSTAL_WARD;
     this.message = REWARDS[key].title + ' ! ' + REWARDS[key].detail;
     return true;
   }
@@ -332,7 +349,7 @@ export class Game {
       return false;
     this.normalizeCamp();
     this.wave++;
-    if (!this.mission && (this.wave - 1) % 4 === 0)
+    if (!this.mission && (this.wave - 1) % WAVES_PER_CHAPTER === 0)
       this.campaign.chapterMin[chapterIndex(this.wave)] = this.base;
     const plan = this.mission ? missionWave(this.mission, this.wave) : null;
     this.remaining = (plan?.stats ?? waveStats(this.wave)).count;
@@ -352,10 +369,15 @@ export class Game {
   }
   repair() {
     if (this.mission) this.missionMinBase = Math.min(this.missionMinBase, this.base);
-    if (this.paused || isOver(this) || spendableGold(this) < REPAIR_COST || this.base >= 100)
+    if (
+      this.paused ||
+      isOver(this) ||
+      spendableGold(this) < REPAIR_COST ||
+      this.base >= CRYSTAL_MAX
+    )
       return false;
     this.gold -= REPAIR_COST;
-    this.base = Math.min(100, this.base + REPAIR_AMOUNT);
+    this.base = Math.min(CRYSTAL_MAX, this.base + REPAIR_AMOUNT);
     return true;
   }
   step(dt: number) {

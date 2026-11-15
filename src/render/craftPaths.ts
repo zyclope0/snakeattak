@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { LANE_IDS } from '../ai.ts';
 import type { Level } from '../levels.ts';
 import type { Point } from '../navigation.ts';
 import { laneRoad, junctionRoad, routeJunctions } from '../routes.ts';
@@ -21,7 +22,7 @@ export function drawCraftPaths(ground: Phaser.GameObjects.Graphics, level: Level
     stroke(road, 32, 0xbca27a, 1);
     stroke(road, 24, 0xd4bd92, 0.8);
   }
-  for (const lane of [0, 1, 2]) {
+  for (const lane of LANE_IDS) {
     const road = laneRoad(lane, level);
     stroke(road, 78, 0x344c40, 0.04, 3);
     stroke(road, 69, 0x344c40, 0.1, 4);

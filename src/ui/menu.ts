@@ -10,6 +10,7 @@ import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
 import { GROUND_ART } from '../art.ts';
 import { chapterIdentityForWave } from '../waves.ts';
+import { START_GOLD, START_TEAM_SIZE, TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { byId } from './dom.ts';
 import { starRow } from './gameParts.ts';
@@ -39,14 +40,16 @@ const CHAPTER_PLACEHOLDERS = [
 /** An adventure that has begun is never replaced without asking. */
 const begun = (session: Session) => {
   const g = session.game;
-  return g.wave > 0 || g.gold !== 300 || g.units.length !== 3 || session.hasPlaced;
+  return (
+    g.wave > 0 || g.gold !== START_GOLD || g.units.length !== START_TEAM_SIZE || session.hasPlaced
+  );
 };
 
 function continueLabel(g: Game) {
   if (g.mission) return TEXT.reprendreMonAventureClassique;
   if (g.status === 'lost') return TEXT.reessayerLaVague;
   if (g.status === 'fighting') return fill(TEXT.continuerLaBatailleVagueN, g.wave);
-  return fill(TEXT.continuerVagueN, Math.min(12, g.wave + 1));
+  return fill(TEXT.continuerVagueN, Math.min(TOTAL_WAVES, g.wave + 1));
 }
 function chapterActionLabel(chapter: number, available: boolean) {
   if (chapter === 0) return TEXT.commencerIci;
@@ -62,7 +65,10 @@ function bindChapters(career: Career, startFrom: (game: Game) => void) {
     button.style.setProperty('--chapter-art', CHAPTER_PLACEHOLDERS[i]);
     button.addEventListener('pointerenter', preview);
     button.addEventListener('focus', preview);
-    setDisplayText(byId(`chapter-focus-${i}`), chapterIdentityForWave(i * 4 + 1).focus);
+    setDisplayText(
+      byId(`chapter-focus-${i}`),
+      chapterIdentityForWave(i * WAVES_PER_CHAPTER + 1).focus,
+    );
     button.onclick = () => {
       // The first chapter is the whole adventure: the very gesture of its own button.
       if (i === 0) return byId('home-new').click();

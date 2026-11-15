@@ -2,7 +2,8 @@ import type { Kind } from './data.ts';
 import { isArrayOfLength, isNumberIn, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/rewards.ts';
 import { seededStream } from './seededRandom.ts';
-export type Milestone = 4 | 8;
+import { REWARD_WAVES } from './gameConstants.ts';
+export type Milestone = (typeof REWARD_WAVES)[number];
 export const REWARDS = {
   'renfort-bouclier': {
     title: TEXT.unGardienArrive,
@@ -68,10 +69,13 @@ export function freeRecruit(state: RewardState, kind: Kind) {
 export const extraHoneySeconds = (state: RewardState) =>
   state.choices.filter((c) => c.id === 'miel').length * 4;
 /** The camps that follow waves 4 and 8, where a reward is offered. */
-export const isMilestone = (value: unknown): value is Milestone => value === 4 || value === 8;
+export const isMilestone = (value: unknown): value is Milestone =>
+  (REWARD_WAVES as readonly unknown[]).includes(value);
 
 // Damage absorbed by one « cristal » reward: the ward of a save cannot exceed what was chosen.
-const CRYSTAL_WARD = 18;
+export const CRYSTAL_WARD = 18;
+/** What the « pièces » reward adds to the purse. */
+export const REWARD_COINS = 100;
 
 type SavedRewards = Record<string, unknown> & { seed: number; choices: unknown[]; ward: number };
 

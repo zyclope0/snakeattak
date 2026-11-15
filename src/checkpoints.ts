@@ -2,7 +2,7 @@ import { isMilestone, readRewards } from './rewards.ts';
 import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
 import { Game } from './game.ts';
-import { TOTAL_WAVES } from './data.ts';
+import { CRYSTAL_MAX, GOLD_LIMIT, TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
 import type { Kind } from './data.ts';
 import { missionById, readMissionRun, isPersistableMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
@@ -144,8 +144,8 @@ function isSaveHeader(data: unknown): data is Save {
     isRecord(data) &&
     isIntegerIn(data.version, 1, 9) &&
     isIntegerIn(data.wave, 0, TOTAL_WAVES - 1) &&
-    isIntegerIn(data.gold, 0, 10000000) &&
-    isNumberIn(data.base, 1, 100) &&
+    isIntegerIn(data.gold, 0, GOLD_LIMIT) &&
+    isNumberIn(data.base, 1, CRYSTAL_MAX) &&
     isUint32(data.rng) &&
     isIntegerIn(data.nextId, 0, 10000000) &&
     isIntegerIn(data.kills, 0, 1000000) &&
@@ -240,7 +240,7 @@ function restoreRewards(game: Game, save: Save, mission: MissionRun | null): boo
 function exceedsMission(campaign: CampaignState, mission: MissionRun): boolean {
   return (
     campaign.chapterStars.some((stars) => stars !== 0) ||
-    campaign.chapterMin.some((hp) => hp !== 100) ||
+    campaign.chapterMin.some((hp) => hp !== CRYSTAL_MAX) ||
     (campaign.training !== 'none' && missionById(mission.missionId)!.unlockRank < 4)
   );
 }
@@ -248,7 +248,7 @@ function exceedsMission(campaign: CampaignState, mission: MissionRun): boolean {
 /** A camp older than the campaign: one star per finished chapter, the crystal as it stands. */
 function legacyCampaign(wave: number, base: number): CampaignState {
   const campaign = freshCampaign();
-  for (let i = 0; i < Math.floor(wave / 4); i++) campaign.chapterStars[i] = 1;
+  for (let i = 0; i < Math.floor(wave / WAVES_PER_CHAPTER); i++) campaign.chapterStars[i] = 1;
   campaign.chapterMin[chapterIndex(wave + 1)] = base;
   return campaign;
 }
@@ -258,7 +258,7 @@ function restoreCampaign(game: Game, save: Save, mission: MissionRun | null): bo
     Object.assign(game.campaign, legacyCampaign(save.wave, save.base));
     return true;
   }
-  const campaign = readCampaign(save.campaign, mission ? 12 : save.wave);
+  const campaign = readCampaign(save.campaign, mission ? TOTAL_WAVES : save.wave);
   if (!campaign || (mission && exceedsMission(campaign, mission))) return false;
   Object.assign(game.campaign, campaign);
   return true;

@@ -2,6 +2,7 @@ import { blocked, CELL } from './navigation.ts';
 import type { Point } from './navigation.ts';
 import type { Level } from './levels.ts';
 import * as TEXT from './texts/fr/battle.ts';
+import { CAMP_BOTTOM, CAMP_LEFT, CAMP_RIGHT, CAMP_TOP } from './boardLandmarks.ts';
 
 type Resident = { id: number; homeX: number; homeY: number };
 
@@ -11,8 +12,8 @@ export function denseCampHomes(units: readonly Resident[], level: Level): Map<nu
   const spacing = 28.000001;
   const rowHeight = (spacing * Math.sqrt(3)) / 2;
   const slots: (Point & { used: number })[] = [];
-  for (let row = 0, y = 108; y <= 540; row++, y = 108 + row * rowHeight)
-    for (let x = 600 + (row % 2 ? spacing / 2 : 0); x <= 984; x += spacing)
+  for (let row = 0, y = CAMP_TOP; y <= CAMP_BOTTOM; row++, y = CAMP_TOP + row * rowHeight)
+    for (let x = CAMP_LEFT + (row % 2 ? spacing / 2 : 0); x <= CAMP_RIGHT; x += spacing)
       if (
         !blocked(x, y, level) &&
         !blocked(

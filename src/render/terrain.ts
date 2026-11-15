@@ -5,6 +5,7 @@ import { refinedTerrain } from './refinedTerrain.ts';
 import { onSceneExit } from './sceneExit.ts';
 import { drawSaucer } from './saucer.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT } from './boardResolution.ts';
+import { DEFAULT_SEED } from '../gameConstants.ts';
 
 /** One cached ground and bounded foreground; never changes navigation geometry. */
 export class TerrainLayer {
@@ -34,10 +35,10 @@ export class TerrainLayer {
   update(
     level: Level,
     mission: MissionRun | null = null,
-    initialSeed: number | null = 2026,
+    initialSeed: number | null = DEFAULT_SEED,
     scale = 1,
   ) {
-    const seed = mission?.seed ?? initialSeed ?? 2026;
+    const seed = mission?.seed ?? initialSeed ?? DEFAULT_SEED;
     const key = `${level.id}:${seed}:${scale}`;
     if (this.levelId === key) return;
     this.levelId = key;

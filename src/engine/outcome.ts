@@ -1,7 +1,9 @@
 import { chapterIndex, chapterStars } from '../campaignRules.ts';
 import { cancelBossShot } from '../boss.ts';
 import { missionById } from '../missions.ts';
+import { isMilestone } from '../rewards.ts';
 import type { Milestone } from '../rewards.ts';
+import { WAVES_PER_CHAPTER } from '../gameConstants.ts';
 import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
 import type { WaveNumbers } from './enemyTurn.ts';
@@ -51,7 +53,7 @@ function waveCleared(game: Game): boolean {
 function closeWave(game: Game, reward: number) {
   game.feast = null;
   game.encouragementRemaining = 0;
-  if (!game.mission && game.wave % 4 === 0) {
+  if (!game.mission && game.wave % WAVES_PER_CHAPTER === 0) {
     const chapter = chapterIndex(game.wave);
     game.campaign.chapterStars[chapter] = chapterStars(game.campaign.chapterMin[chapter]);
   }
@@ -61,7 +63,7 @@ function closeWave(game: Game, reward: number) {
     game.message = victoryMessage(game);
     return;
   }
-  if (!game.mission && (game.wave === 4 || game.wave === 8)) openChapter(game, game.wave);
+  if (!game.mission && isMilestone(game.wave)) openChapter(game, game.wave);
   game.message = fill(TEXT.vagueRepousseeNPiecesPrepareLa, reward);
 }
 /** After waves 4 and 8 the map changes and a reward card is offered, once per milestone. */

@@ -10,6 +10,7 @@ import { byId, decoration, make } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 import { fill } from '../texts/fill.ts';
+import { LANE_COUNT } from '../gameConstants.ts';
 /** Presentation observes the engine's mask; it neither advances nor rerolls it. */
 export function bindTutorialLanes() {
   const panel = byId('tutorial-lanes');
@@ -34,7 +35,9 @@ export function bindTutorialLanes() {
       TEXT.vagueNNN,
       wave,
       lanes.map((l) => LANE_NAMES[l]).join(' et '),
-      lanes.length < 3 ? TEXT.lesAutresVoiesRestentPaisibles : TEXT.lesTroisVoiesSontAttaquees,
+      lanes.length < LANE_COUNT
+        ? TEXT.lesAutresVoiesRestentPaisibles
+        : TEXT.lesTroisVoiesSontAttaquees,
     );
     setDisplayText(accessible, label);
     setDisplayAttribute(panel, 'aria-label', label);

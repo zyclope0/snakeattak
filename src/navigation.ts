@@ -2,6 +2,7 @@ import { LANES } from './ai.ts';
 import { levelForWave } from './levels.ts';
 import type { Level } from './levels.ts';
 import * as TEXT from './texts/fr/battle.ts';
+import { CAMP_BOTTOM, CAMP_LEFT, CAMP_RIGHT, CAMP_TOP } from './boardLandmarks.ts';
 export type Point = { x: number; y: number };
 export const CELL = 24,
   COLS = 46,
@@ -100,15 +101,18 @@ export function nearestCampPoint(
 ): Point {
   if (!Number.isFinite(goal.x) || !Number.isFinite(goal.y))
     throw new RangeError(TEXT.coordonneesDeCampInvalides);
-  goal = { x: Math.max(600, Math.min(984, goal.x)), y: Math.max(108, Math.min(540, goal.y)) };
+  goal = {
+    x: Math.max(CAMP_LEFT, Math.min(CAMP_RIGHT, goal.x)),
+    y: Math.max(CAMP_TOP, Math.min(CAMP_BOTTOM, goal.y)),
+  };
   const legal = (p: Point) =>
     !blocked(p.x, p.y, level) &&
     !blocked(center(Math.floor(p.x / CELL)), center(Math.floor(p.y / CELL)), level) &&
     !reserved.some((r) => Math.hypot(r.x - p.x, r.y - p.y) < 28);
   if (legal(goal)) return goal;
   const candidates: Point[] = [];
-  for (let x = 600; x <= 984; x += CELL / 2)
-    for (let y = 108; y <= 540; y += CELL / 2) {
+  for (let x = CAMP_LEFT; x <= CAMP_RIGHT; x += CELL / 2)
+    for (let y = CAMP_TOP; y <= CAMP_BOTTOM; y += CELL / 2) {
       const p = { x, y };
       if (legal(p)) candidates.push(p);
     }

@@ -3,7 +3,15 @@ import { flyingVariant } from '../flying.ts';
 import { BOSS_COURT, COURT_HEAL } from '../bossCourt.ts';
 import { ensureBossState } from '../boss.ts';
 import type { EnemyKind } from '../enemies.ts';
-import { variantFor, spawnDelay, entryLane, wavePattern, eggIncubation } from '../waves.ts';
+import {
+  variantFor,
+  spawnDelay,
+  entryLane,
+  wavePattern,
+  eggIncubation,
+  waveEggCount,
+} from '../waves.ts';
+import { LANE_COUNT } from '../gameConstants.ts';
 import { LANES } from '../ai.ts';
 import { TOTAL_WAVES, waveStats } from '../data.ts';
 import { missionWave } from '../missions.ts';
@@ -158,9 +166,9 @@ export function layWaveEggs(game: Game, plan: MissionWave | null): Egg[] {
       y: LANES[egg.lane],
       duration: egg.hatchIn,
     }));
-  return Array.from({ length: Math.min(3, 1 + Math.floor(game.wave / 4)) }, (_, i) => {
-    const pickedLane = Math.floor(nextRandom(game) * 3),
-      lane = wavePattern(game.wave) === 'brood' ? i % 3 : pickedLane,
+  return Array.from({ length: waveEggCount(game.wave) }, (_, i) => {
+    const pickedLane = Math.floor(nextRandom(game) * LANE_COUNT),
+      lane = wavePattern(game.wave) === 'brood' ? i % LANE_COUNT : pickedLane,
       duration = eggIncubation(game.wave, i, nextRandom(game));
     return {
       id: ++game.nextId,

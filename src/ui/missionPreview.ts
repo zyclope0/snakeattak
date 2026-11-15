@@ -2,7 +2,7 @@ import { setAttribute as setDisplayAttribute, setText as setDisplayText } from '
 import type { MissionRun } from '../missions.ts';
 import { missionLevel } from '../levels.ts';
 import { activeEnemyLanes } from '../tutorial.ts';
-import { LANE_NAMES, LANES } from '../ai.ts';
+import { LANE_IDS, LANE_NAMES, LANES } from '../ai.ts';
 import { laneRoad, junctionRoad, routeJunctions } from '../routes.ts';
 import { ART_SHEETS, GROUND_ART } from '../art.ts';
 import type { Kind } from '../data.ts';
@@ -13,6 +13,7 @@ import { byId } from './dom.ts';
 import { svgNode } from './svg.ts';
 import * as TEXT from '../texts/fr/missionScreens.ts';
 import { fill } from '../texts/fill.ts';
+import { LANE_COUNT } from '../gameConstants.ts';
 
 type Level = ReturnType<typeof missionLevel>;
 type Point = { x: number; y: number };
@@ -58,7 +59,7 @@ function road(points: readonly Point[], stroke: string, width: number) {
 
 /** The three lanes, then the junctions between them: the real paths of the level. */
 export function drawRoads(svg: SVGElement, level: Level, lanes: readonly number[]) {
-  for (const lane of [0, 1, 2]) {
+  for (const lane of LANE_IDS) {
     const active = lanes.includes(lane);
     const path = road(laneRoad(lane, level), active ? ROAD_COLOUR : QUIET_ROAD_COLOUR, 44);
     path.dataset.previewLane = String(lane);
@@ -115,7 +116,7 @@ function miniature(
 
 /** A lair at the mouth of each lane, its name, and an arrow where the first wave comes out. */
 function drawLairs(svg: SVGElement, lanes: readonly number[]) {
-  for (let lane = 0; lane < 3; lane++) {
+  for (let lane = 0; lane < LANE_COUNT; lane++) {
     const label = svgNode('text', {
       x: 185,
       y: LANES[lane] - 34,

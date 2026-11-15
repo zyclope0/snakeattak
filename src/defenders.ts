@@ -7,6 +7,13 @@ import type { Point } from './navigation.ts';
 import { levelForWave } from './levels.ts';
 import type { Level } from './levels.ts';
 import * as TEXT from './texts/fr/battle.ts';
+import {
+  CAMP_FRONT_X,
+  CAMP_LEFT,
+  CAMP_RIGHT,
+  CONTACT_RANGE,
+  CRYSTAL_ALERT_X,
+} from './boardLandmarks.ts';
 export type DefenseRole = 'guard' | 'ranged' | 'mobile' | 'support' | 'fixed';
 export function defenseRole(kind: Kind): DefenseRole {
   if (kind === 'wall') return 'fixed';
@@ -19,19 +26,19 @@ export function defenseRole(kind: Kind): DefenseRole {
 export function canEngage(unit: Entity, enemy: Entity): boolean {
   if (enemy.hp <= 0) return false;
   // Immediate self-defence remains possible at the lip of a bridge.
-  if (Math.hypot(unit.x - enemy.x, unit.y - enemy.y) <= 44 || rangedThreat(unit, enemy))
+  if (Math.hypot(unit.x - enemy.x, unit.y - enemy.y) <= CONTACT_RANGE || rangedThreat(unit, enemy))
     return true;
-  if (enemy.x < 600) return false;
+  if (enemy.x < CAMP_LEFT) return false;
   return (
     defenseRole(unit.kind as Kind) === 'mobile' ||
-    enemy.x >= 900 ||
+    enemy.x >= CRYSTAL_ALERT_X ||
     Math.abs(enemy.y - unit.homeY) <= 108
   );
 }
 function rangedThreat(unit: Entity, enemy: Entity): boolean {
   return (
-    enemy.x >= 612 &&
-    enemies[enemy.variant].range > 44 &&
+    enemy.x >= CAMP_FRONT_X &&
+    enemies[enemy.variant].range > CONTACT_RANGE &&
     Math.hypot(unit.x - enemy.x, unit.y - enemy.y) <= enemies[enemy.variant].range + 24
   );
 }
@@ -43,7 +50,7 @@ export function defenseGoal(unit: Entity, enemy: Entity, level: Level = levelFor
     (role === 'guard' &&
       Math.hypot(unit.x - enemy.x, unit.y - enemy.y) <= kinds[unit.kind as Kind].range + 72)
   )
-    return { x: Math.max(612, Math.min(984, enemy.x)), y: enemy.y };
+    return { x: Math.max(CAMP_FRONT_X, Math.min(CAMP_RIGHT, enemy.x)), y: enemy.y };
   const range = kinds[unit.kind as Kind].range;
   // A held front needs covering fire. A rear battery may approach a stopped
   // opponent far enough to shoot, while keeping its lane and weapon depth.
@@ -54,8 +61,8 @@ export function defenseGoal(unit: Entity, enemy: Entity, level: Level = levelFor
       : Math.max(unit.homeX - 96, enemy.x);
   return nearestCampPoint(
     {
-      x: Math.max(600, Math.min(984, x)),
-      y: role === 'ranged' && enemy.x < 900 ? unit.homeY : enemy.y,
+      x: Math.max(CAMP_LEFT, Math.min(CAMP_RIGHT, x)),
+      y: role === 'ranged' && enemy.x < CRYSTAL_ALERT_X ? unit.homeY : enemy.y,
     },
     level,
   );
@@ -89,7 +96,7 @@ export function reliefTeams(units: Entity[], enemies: Entity[]): Map<number, Set
           canEngage(u, e) && Math.hypot(u.x - e.x, u.y - e.y) <= kinds[u.kind as Kind].range + 20,
       );
       const crowded =
-        e.x < 612 &&
+        e.x < CAMP_FRONT_X &&
         enemies.filter((v) => v.hp > 0 && Math.hypot(v.x - e.x, v.y - e.y) < 84).length >= 3;
       if (engaged.length && !crowded) continue;
       if (crowded && bridgeTeams.has(e.lane)) {

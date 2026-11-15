@@ -44,6 +44,7 @@ import './ui/dialogPages.css';
 import './ui/mainActions.css';
 import { byId } from './ui/dom.ts';
 import * as TEXT from './texts/fr/home.ts';
+import { START_TEAM_SIZE } from './gameConstants.ts';
 
 // The page is assembled here, top to bottom: what is stored, the game on screen, then every
 // part of the interface in its binding order. The steps named below are function
@@ -76,7 +77,7 @@ const saved = familySaved
   : persistence.load();
 if (saved) {
   session.game = saved;
-  session.hasPlaced = saved.wave > 0 || saved.units.length > 3;
+  session.hasPlaced = saved.wave > 0 || saved.units.length > START_TEAM_SIZE;
 }
 openAlbumForCaprice(saved, missions.state.retryCamp);
 const campMemory = createCampMemory(saved ?? undefined);

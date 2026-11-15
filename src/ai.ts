@@ -1,6 +1,7 @@
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 import * as TEXT from './texts/fr/battle.ts';
+import { LANE_COUNT } from './gameConstants.ts';
 /** Three bridge approaches and two vertical junctions; coordinates also used by the renderer. */
 export const LANES = [180, 324, 468] as const;
 export const LANE_IDS: readonly number[] = Object.freeze([0, 1, 2]);
@@ -35,7 +36,7 @@ export function chooseLane(
   if (
     !allowed.length ||
     new Set(allowed).size !== allowed.length ||
-    allowed.some((l) => !Number.isInteger(l) || l < 0 || l > 2)
+    allowed.some((l) => !Number.isInteger(l) || l < 0 || l >= LANE_COUNT)
   )
     throw new RangeError(TEXT.invalidActiveLanes);
   const intelligence = Math.min(0.86, 0.12 + Math.max(0, wave - 1) * 0.148);

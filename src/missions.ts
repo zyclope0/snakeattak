@@ -14,6 +14,7 @@ import type { CapriceRules } from './caprices.ts';
 import { isIntegerIn, isOneOf, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/adventure.ts';
 import { nextSeed, seedShare } from './seededRandom.ts';
+import { LANE_COUNT } from './gameConstants.ts';
 
 export type MissionId =
   'refuge' | 'trois-ponts' | 'course' | 'coquilles' | 'sonnette' | 'carrefour';
@@ -210,11 +211,11 @@ function incubationJitter(seed: number, local: number, index: number): number {
 /** Where and when the eggs of one wave hatch. An egg never lies on a lane closed to serpents. */
 function missionEggs(run: MissionRun, local: number, rank: number, caprice: CapriceRules) {
   const clustered = run.nest === 'clustered';
-  const nestLane = (run.seed + local) % 3;
+  const nestLane = (run.seed + local) % LANE_COUNT;
   const lanes = activeEnemyLanes(run, local);
   const count = Math.min(3, (rank >= 8 ? 3 : rank >= 4 ? 2 : 1) + caprice.eggs);
   return Array.from({ length: count }, (_, index) => {
-    const wanted = clustered ? nestLane : (nestLane + index) % 3;
+    const wanted = clustered ? nestLane : (nestLane + index) % LANE_COUNT;
     const lane = lanes.includes(wanted) ? wanted : lanes[(run.seed + local + index) % lanes.length];
     return Object.freeze({
       lane: lane as 0 | 1 | 2,
