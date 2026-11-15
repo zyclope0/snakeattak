@@ -203,7 +203,7 @@ export const desLaVague6SaGrandeFeuilleProtege =
   "From wave 6, its large leaf blocks arrows from the front while it moves. It lowers the leaf in melee: keep fighters in front of your Archers! Baby Dragon's breath and shells still help.";
 export const attentionAuxOeufs = 'Watch out for eggs!';
 export const ilsEclosentAUnMomentImprevisible =
-  'They hatch at an unpredictable time during the wave, each releasing two little snakes. The wave ends when all eggs have hatched and all snakes have been defeated.';
+  'They hatch at an unpredictable time during the wave, each releasing two little snakes. The wave ends when all eggs have hatched and all snakes have been defeated. In the big adventure, if a wave lasts a long time, one more egg may appear.';
 export const deuxMielsUnSeulPotParVague = 'Two kinds of Honey, one pot per wave.';
 export const choisis = 'Choose';
 export const attirer = 'Lure';

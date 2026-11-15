@@ -189,6 +189,11 @@ Serpents :
    de certaines troupes.
 6. **Un plus beau dessin pour les serpents volants.**
 7. **Plus d'œufs à mesure que la partie dure.**
+   **Fait le 15 novembre 2026** (sens et valeurs choisis par le parent, après mesure) : dans
+   la grande aventure, quand une vague dure plus de 45 secondes, un œuf de plus apparaît ; un
+   second 15 secondes plus tard ; pas plus de deux par vague. Chacun éclot en 8 secondes et
+   donne deux serpents. C'est la révision d'équilibrage 3 : les parties, codes et sauvegardes
+   d'avant gardent leurs règles. Missions, défis et voyage ne changent pas.
 8. **Un boss final caché**, inspiré du tout premier jeu du serpent qui grandit en mangeant
    (le genre « Snake »), avec une façon de le débloquer à trouver.
 

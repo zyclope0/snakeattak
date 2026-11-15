@@ -64,7 +64,8 @@ test('historical catalog, 75 deterministic traces, code and camp bytes and famil
   for (const raw of fixture.family) assert.equal(JSON.stringify(readFamilyBackup(raw)), raw);
 });
 test('prices opt in to revision 2, old defaults and free recruits survive', () => {
-  assert.equal(CURRENT_BALANCE_REVISION, 2);
+  // The current revision moved on (tests/balance-revision-3.test.ts); the second keeps its prices.
+  assert.ok(CURRENT_BALANCE_REVISION >= 2);
   for (const kind of Object.keys(kinds) as Kind[]) {
     assert.equal(balanceRecruitPrice(kind), kinds[kind].cost);
     assert.equal(
@@ -81,8 +82,8 @@ test('prices opt in to revision 2, old defaults and free recruits survive', () =
   assert.equal(new Game(42, undefined, modern).balanceRevision, 2);
   assert.throws(() => new Game(42, undefined, modern, 1));
   assert.throws(() => new Game(42, undefined, basic, 2));
-  assert.throws(() => new Game(42, undefined, undefined, 3 as 2));
-  assert.throws(() => balanceRecruitPrice('tank', 3 as 2));
+  assert.throws(() => new Game(42, undefined, undefined, 4 as 2));
+  assert.throws(() => balanceRecruitPrice('tank', 4 as 2));
   assert.equal(readMissionRun({ ...modern, balance: 1 }), null);
   assert.equal(readMissionRun({ ...modern, balance: 3 }), null);
   assert.equal(readMissionRun(modern)?.balance, 2);

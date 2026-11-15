@@ -110,7 +110,8 @@ export function bindDepartureControls(
   /** A mission code opens its preparation; a classic one is confirmed in its own window. */
   function open(departure: Departure) {
     if (departure.kind === 'classic') {
-      legacyLabel.hidden = departure.balance === 2;
+      // Only the first balance is « the original rules »; every later revision says nothing.
+      legacyLabel.hidden = departure.balance !== undefined;
       setDisplayText(byId('departure-preview-code'), encodeDeparture(departure));
       return askClassic(departure);
     }

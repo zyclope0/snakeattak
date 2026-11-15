@@ -37,6 +37,12 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   depuis « Dangers » et depuis « Favoris ». Pas encore montré aux enfants.
 - **Catalogue en un seul écran** (idée du fils, choix du parent) : tous les alliés en petites
   cartes, sans pages ni liste de familles. Pas encore montré aux enfants.
+- **Un œuf de plus quand une vague dure** (idée du fils, valeurs choisies par le parent) :
+  dans la grande aventure, après 45 secondes de vague un œuf apparaît, un second 15 secondes
+  plus tard, pas plus de deux par vague. C'est la **révision d'équilibrage 3** : les parties,
+  codes et sauvegardes d'avant gardent leurs règles ; missions, défis et voyage ne changent
+  pas. Mesuré sur 1 200 parties simulées : même taux de victoire, parties plus longues
+  d'environ une minute ([bilan](BILAN-REVISION-3.md)). **Pas encore joué par les enfants.**
 
 ## Ce qui n'est pas vérifié
 

@@ -449,14 +449,37 @@ récompense, son ou tirage aléatoire n'est ajouté.
 
 ## Équilibrage versionné — 0.36.2
 
-`balanceRevision.ts` résout deux révisions immuables : 1 historique, 2 pour
-les nouveaux départs explicitement créés par la session. `data.ts` et les
+`balanceRevision.ts` résout des révisions immuables : 1 historique, 2 pour
+les nouveaux départs explicitement créés par la session (3 depuis le 15 novembre, plus bas). `data.ts` et les
 36 définitions historiques ne changent pas. Game expose sa révision readonly ;
 les prix et les définitions de caprices sont résolus sans mutation et avec cache.
 Les anciennes API gardent leur défaut historique. Les reprises, codes et réessais
 conservent la révision : code 4, camp 9, progression 2 et famille 5 portent la
 révision 2 ; les lecteurs historiques restent disponibles. Les carnets restent
 au format 1 et partagent la campagne et ses étoiles.
+
+### Révision 3 — 15 novembre 2026
+
+Idée du fils (« plus d'œufs quand la partie dure »), valeurs choisies par le parent après
+mesure ([bilan](BILAN-REVISION-3.md)). `balanceRevision.ts` connaît trois révisions ; la
+troisième garde les prix de la deuxième et ajoute `lateEggRule` : dans une vague qui dure, un
+œuf de plus apparaît après 45 s, un second 15 s plus tard, jamais plus de deux par vague ;
+chacun éclot en 8 s et donne deux serpents.
+
+- **Grande aventure seulement.** Une mission, un défi ou une étape du voyage restent en
+  révision 2 : `Game` refuse une mission en révision 3, et le voyage version 1 ne change pas.
+- **Moteur.** `Game` compte les secondes de la vague et les œufs pondus dans deux champs
+  privés, remis à zéro par `startWave` ; `layLateEgg` (`engine/spawning.ts`) tire la voie avec
+  le tirage de la partie et pose l'œuf à droite des trois places des œufs ordinaires
+  (`MAX_WAVE_EGGS`). Les champs sont privés pour que l'empreinte d'une partie des révisions 1
+  et 2 ne change pas d'un caractère.
+- **Ce qui porte la révision.** Code de départ : règle 5 (`AVENTURE-5-…`), refusée pour une
+  expédition. Camp : version 10, avec `balance: 3`, sans mission. La sauvegarde familiale
+  reste en version 5 et la progression des missions en version 2 : elles savaient déjà nommer
+  une révision. Un fichier d'avant se relit comme avant ; un appareil resté sur une ancienne
+  version du jeu refuse un camp ou un code de la révision 3, sans rien abîmer.
+- **Ce que voit l'enfant.** Une annonce quand l'œuf apparaît, une phrase dans « Dangers » et
+  une dans l'aide. Aucun minuteur n'est affiché.
 
 `ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
 et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la

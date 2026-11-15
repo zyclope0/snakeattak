@@ -10,6 +10,7 @@ import {
   wavePattern,
   eggIncubation,
   waveEggCount,
+  MAX_WAVE_EGGS,
 } from '../waves.ts';
 import { LANE_COUNT } from '../gameConstants.ts';
 import { LANES } from '../ai.ts';
@@ -21,6 +22,7 @@ import { addEffect, createEntity, nextRandom } from './state.ts';
 import { DEN_EXIT_X } from './field.ts';
 import { pickLane } from './movement.ts';
 import type { Game } from '../game.ts';
+import type { LateEggRule } from '../balanceRevision.ts';
 import * as TEXT from '../texts/fr/battle.ts';
 
 /** The king arrives with its court in the last four slots of the last classic wave. */
@@ -180,6 +182,22 @@ export function layWaveEggs(game: Game, plan: MissionWave | null): Egg[] {
       count: 2,
     };
   });
+}
+/**
+ * The egg of a wave that drags on (third balance revision): one draw for its lane. It lies
+ * past the eggs of the wave, which take the first three places.
+ */
+export function layLateEgg(game: Game, rule: LateEggRule, index: number): Egg {
+  const lane = Math.floor(nextRandom(game) * LANE_COUNT);
+  return {
+    id: ++game.nextId,
+    x: 252 + (MAX_WAVE_EGGS + index) * 48,
+    y: LANES[lane],
+    lane,
+    hatchIn: rule.hatchIn,
+    duration: rule.hatchIn,
+    count: rule.count,
+  };
 }
 /** Éclosion des œufs arrivés à terme. */
 export function hatchEggs(game: Game, dt: number) {

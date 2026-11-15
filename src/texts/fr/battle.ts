@@ -42,3 +42,4 @@ export const laDerniereVagueKingSnakeApproche = 'La dernière vague ! King Snake
 export const vagueNDefendsLeCamp = 'Vague {0} : défends le camp !';
 export const coordonneesDeCampInvalides = 'Coordonnées de camp invalides';
 export const aucunePlaceLibreDansLeCamp = 'Aucune place libre dans le camp';
+export const laVagueDureUnNouvelOeufEstApparu = 'La vague dure… Un nouvel œuf est apparu !';
