@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { buildDictionary, dictionarySource } from '../scripts/build-texts.ts';
-import { literalTexts } from '../scripts/displayed-text.ts';
+import { displayedTexts, literalTexts } from '../scripts/displayed-text.ts';
+import { fillTexts, readIndexHtml } from '../deploy/assembleHtml.ts';
 import { fill } from '../src/texts/fill.ts';
 
 const placeholders = (text: string) => [...text.matchAll(/\{(\d+)\}/g)].map((match) => match[1]);
@@ -50,4 +51,28 @@ test('no displayed text is written in the code: every one lives in src/texts', (
     ),
   );
   assert.deepEqual(written, []);
+});
+
+test('the page templates hold names of texts, never words', () => {
+  const templates = [
+    'index.html',
+    ...readdirSync('src/html')
+      .filter((name) => name.endsWith('.html'))
+      .map((name) => `src/html/${name}`),
+  ];
+  assert.ok(templates.length >= 10);
+  const written = templates.flatMap((file) =>
+    // A name between braces is not a word: what is left must be markup only.
+    displayedTexts(readFileSync(file, 'utf8').replace(/\{\{\w+\}\}/g, '')).map(
+      (text) => `${file}: ${text}`,
+    ),
+  );
+  assert.deepEqual(written, []);
+  // Every name has its text, and the assembled page has no brace left.
+  assert.doesNotMatch(readIndexHtml(), /\{\{|\}\}/);
+  assert.throws(() => fillTexts('<p>{{noSuchText}}</p>'), /noSuchText/);
+  assert.equal(
+    fillTexts('<p title="{{a}}">{{b}}</p>', { a: 'x "y"', b: 'A & B' }),
+    '<p title="x &quot;y&quot;">A &amp; B</p>',
+  );
 });

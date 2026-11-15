@@ -1,35 +1,35 @@
 <div class="app" id="app" hidden>
   <header class="app-header">
-    <a class="brand" href="./" aria-label="La Conquête des Serpents, accueil">
+    <a class="brand" href="./" aria-label="{{laConqueteDesSerpentsAccueil}}">
       <span class="crest" aria-hidden="true"></span>
-      <h1>La Conquête <small>des Serpents</small></h1>
+      <h1>{{laConquete}} <small>{{desSerpents}}</small></h1>
       <small class="build-version" data-app-version>v__APP_VERSION__</small></a
     >
-    <span class="edition">À toi de jouer</span>
-    <button class="quiet" id="menu-home" aria-label="Retour à l’accueil">
-      ← <span class="home-back-label">Accueil</span>
+    <span class="edition">{{aToiDeJouer}}</span>
+    <button class="quiet" id="menu-home" aria-label="{{retourALAccueil}}">
+      ← <span class="home-back-label">{{accueil}}</span>
     </button>
-    <button class="quiet" id="help" aria-label="Afficher les règles">
-      ? <span>Comment jouer</span>
+    <button class="quiet" id="help" aria-label="{{afficherLesRegles}}">
+      ? <span>{{commentJouer}}</span>
     </button>
   </header>
   <main>
-    <section class="dashboard" aria-label="Ton camp">
+    <section class="dashboard" aria-label="{{tonCamp}}">
       <div class="resource treasure-stat">
         <span class="coin" aria-hidden="true">●</span>
         <div>
-          <small>Pièces</small><strong><span id="gold">300</span></strong>
+          <small>{{pieces}}</small><strong><span id="gold">300</span></strong>
         </div>
       </div>
       <div class="resource base-stat">
         <span class="heart" aria-hidden="true">♥</span>
         <div>
-          <small>Cristal</small><strong id="base">100 %</strong>
+          <small>{{cristal}}</small><strong id="base">100 %</strong>
           <small id="crystal-ward" hidden></small>
           <div
             class="meter"
             role="progressbar"
-            aria-label="Vie du cristal"
+            aria-label="{{vieDuCristal}}"
             aria-valuemin="0"
             aria-valuemax="100"
             aria-valuenow="100"
@@ -39,9 +39,9 @@
         </div>
       </div>
       <div class="wave-stat">
-        <small id="phase">PRÉPARATION</small
+        <small id="phase">{{preparation}}</small
         ><strong
-          >Vague <span id="wave">0</span><em> / <span id="wave-total">12</span></em></strong
+          >{{vague}} <span id="wave">0</span><em> / <span id="wave-total">12</span></em></strong
         >
         <div id="wave-dots" aria-hidden="true"></div>
       </div>
@@ -49,30 +49,30 @@
         <button
           id="pause"
           class="square"
-          aria-label="Mettre en pause"
-          title="Pause, touche Espace"
+          aria-label="{{mettreEnPause}}"
+          title="{{pauseToucheEspace}}"
         >
           Ⅱ
         </button>
-        <button id="speed" class="square" aria-label="Changer la vitesse">×1</button>
+        <button id="speed" class="square" aria-label="{{changerLaVitesse}}">×1</button>
         <button
           id="sound-toggle"
           class="square sound-button"
           aria-pressed="false"
-          title="Activer ou couper les sons"
+          title="{{activerOuCouperLesSons}}"
         >
-          ♪ Sons coupés
+          {{sonsCoupes}}
         </button>
         <button
           id="display-toggle"
           class="square display-button"
           aria-pressed="false"
-          title="Donner plus de place au plateau"
+          title="{{donnerPlusDePlaceAuPlateau}}"
         >
-          ⛶ <span>Agrandir</span>
+          ⛶ <span>{{agrandir}}</span>
         </button>
-        <button id="mobile-home" class="square mobile-home" aria-label="Retour à l’accueil">
-          Accueil
+        <button id="mobile-home" class="square mobile-home" aria-label="{{retourALAccueil}}">
+          {{accueil}}
         </button>
         <button
           id="reinforcements-toggle"
@@ -80,7 +80,7 @@
           aria-controls="reinforcements"
           aria-expanded="false"
         >
-          Alliés
+          {{allies}}
         </button>
         <button
           id="wave-threats"
@@ -88,19 +88,19 @@
           aria-haspopup="dialog"
           aria-controls="threat-dialog"
         >
-          Dangers
+          {{dangers}}
         </button>
-        <button id="start" class="primary">Lancer la vague</button>
+        <button id="start" class="primary">{{lancerLaVague}}</button>
       </div>
     </section>
     <div class="play-layout">
-      <section class="battle" aria-label="La bataille">
+      <section class="battle" aria-label="{{laBataille}}">
         <div class="battle-heading">
           <div class="clearing-title">
-            <h2 id="level-name">La clairière des trois passages</h2>
-            <small id="level-subtitle">Trois voies. Un camp à défendre.</small>
+            <h2 id="level-name">{{laClairiereDesTroisPassages}}</h2>
+            <small id="level-subtitle">{{troisVoiesUnCampADefendre}}</small>
           </div>
-          <small class="team-legend"><span>◆ Alliés</span><span>▲ Serpents</span></small>
+          <small class="team-legend"><span>{{allies2}}</span><span>{{serpents}}</span></small>
         </div>
 
         <div class="battle-stage">
@@ -113,17 +113,17 @@
             hidden
           ></div>
           <section id="reward-panel" class="reward-panel" aria-labelledby="reward-title" hidden>
-            <span class="reward-eyebrow">Un cadeau pour la suite</span>
-            <h3 id="reward-title" tabindex="-1">Choisis ton bonus</h3>
-            <p>Un seul cadeau. À toi de choisir ce qui aidera tes alliés !</p>
+            <span class="reward-eyebrow">{{unCadeauPourLaSuite}}</span>
+            <h3 id="reward-title" tabindex="-1">{{choisisTonBonus}}</h3>
+            <p>{{unSeulCadeauAToiDeChoisirCeQui}}</p>
             <div id="reward-cards" class="reward-cards"></div>
-            <button id="skip-reward" class="quiet">Continuer sans bonus</button>
+            <button id="skip-reward" class="quiet">{{continuerSansBonus}}</button>
           </section>
           <div
             id="game"
             role="img"
             tabindex="0"
-            aria-label="Champ de bataille : serpents à gauche, cristal à droite. Choisis un allié puis touche une zone libre du camp pour le placer."
+            aria-label="{{champDeBatailleSerpentsAGauche}}"
           ></div>
           <div
             id="battle-announcement"
@@ -135,36 +135,41 @@
           ></div>
           <div id="loading-overlay" class="loading-overlay" role="status" hidden>
             <div>
-              <strong id="loading-status">Préparation du terrain…</strong>
-              <button id="loading-retry" class="primary" hidden>Réessayer</button>
+              <strong id="loading-status">{{preparationDuTerrain}}</strong>
+              <button id="loading-retry" class="primary" hidden>{{reessayer}}</button>
             </div>
           </div>
           <div id="pause-overlay" class="pause-overlay" hidden>
             <div>
-              <span aria-hidden="true">Ⅱ</span><strong>En pause</strong>
-              <p>Ton camp t’attend.</p>
-              <button id="resume-game" class="primary">Reprendre la partie</button>
-              <button id="pause-settings" class="secondary" data-settings>Réglages</button>
-              <button id="pause-home" class="secondary">Accueil</button>
+              <span aria-hidden="true">Ⅱ</span><strong>{{enPause}}</strong>
+              <p>{{tonCampTAttend}}</p>
+              <button id="resume-game" class="primary">{{reprendreLaPartie}}</button>
+              <button id="pause-settings" class="secondary" data-settings>{{reglages}}</button>
+              <button id="pause-home" class="secondary">{{accueil}}</button>
             </div>
           </div>
         </div>
       </section>
-      <aside id="battle-dock" class="battle-dock" aria-label="Alliés favoris et miel">
+      <aside id="battle-dock" class="battle-dock" aria-label="{{alliesFavorisEtMiel}}">
         <div
           id="dock-allies"
           class="dock-allies"
           role="group"
-          aria-label="Quatre alliés favoris"
+          aria-label="{{quatreAlliesFavoris}}"
         ></div>
-        <p id="dock-mode" role="status" aria-live="polite">Tes favoris</p>
-        <div id="dock-honey" class="dock-honey" role="group" aria-label="Choisir le miel"></div>
+        <p id="dock-mode" role="status" aria-live="polite">{{tesFavoris}}</p>
+        <div
+          id="dock-honey"
+          class="dock-honey"
+          role="group"
+          aria-label="{{choisirLeMiel}}"
+        ></div>
         <div class="dock-actions">
-          <button id="dock-catalogue" aria-controls="reinforcements">Tous les alliés</button>
-          <button id="dock-cancel" aria-label="Annuler le choix" hidden>✕</button>
+          <button id="dock-catalogue" aria-controls="reinforcements">{{tousLesAllies}}</button>
+          <button id="dock-cancel" aria-label="{{annulerLeChoix}}" hidden>✕</button>
           <button
             id="dock-tool-help"
-            aria-label="Comprendre les outils"
+            aria-label="{{comprendreLesOutils}}"
             aria-haspopup="dialog"
             aria-controls="camp-tool-dialog"
           >
@@ -178,19 +183,19 @@
         aria-labelledby="battle-result-title"
         hidden
       >
-        <h2 id="battle-result-title">Bravo !</h2>
+        <h2 id="battle-result-title">{{bravo}}</h2>
         <p id="battle-result-summary" hidden></p>
         <div id="battle-result-content"></div>
-        <button id="end-home" class="secondary">Retour à l’accueil</button>
-        <button id="result-allies" class="secondary">Voir mes alliés</button>
+        <button id="end-home" class="secondary">{{retourALAccueil}}</button>
+        <button id="result-allies" class="secondary">{{voirMesAllies}}</button>
       </section>
-      <dialog id="reinforcements" class="reinforcements" aria-label="Les alliés">
+      <dialog id="reinforcements" class="reinforcements" aria-label="{{lesAllies}}">
         <div class="army-title">
-          <h2>Alliés</h2>
+          <h2>{{allies}}</h2>
           <button
             id="reinforcements-close"
             class="reinforcements-close quiet"
-            aria-label="Fermer les alliés"
+            aria-label="{{fermerLesAllies}}"
           >
             <svg
               viewBox="0 0 24 24"
@@ -203,15 +208,15 @@
               focusable="false"
             >
               <path d="m6 6 12 12M18 6 6 18" /></svg
-            ><span>Fermer</span>
+            ><span>{{fermer}}</span>
           </button>
           <span class="army-total"
-            ><strong class="count" id="army-count">3</strong> au camp</span
+            ><strong class="count" id="army-count">3</strong> {{auCamp}}</span
           ><button
             id="unit-guide"
-            aria-label="Fiches des alliés"
+            aria-label="{{fichesDesAllies}}"
             class="guide-button"
-            title="Consulter les fiches des alliés"
+            title="{{consulterLesFichesDesAllies}}"
           >
             <svg
               viewBox="0 0 24 24"
@@ -224,27 +229,27 @@
               focusable="false"
             >
               <path d="M3 4h7l2 2 2-2h7v16h-7l-2 1-2-1H3zM12 6v15" /></svg
-            ><span>Fiches</span>
+            ><span>{{fiches}}</span>
           </button>
         </div>
         <div class="shop-toolbar">
-          <div class="shop-tabs" aria-label="Afficher les alliés">
-            <button id="shop-ready" aria-pressed="true">Disponibles</button
-            ><button id="shop-future" aria-pressed="false">À découvrir</button>
+          <div class="shop-tabs" aria-label="{{afficherLesAllies}}">
+            <button id="shop-ready" aria-pressed="true">{{disponibles}}</button
+            ><button id="shop-future" aria-pressed="false">{{aDecouvrir}}</button>
           </div>
           <label class="shop-family" for="shop-family"
-            ><span class="sr-only">Famille d’alliés</span
-            ><select id="shop-family" aria-label="Famille d’alliés"></select
+            ><span class="sr-only">{{familleDAllies}}</span
+            ><select id="shop-family" aria-label="{{familleDAllies}}"></select
           ></label>
         </div>
-        <p id="shop-note" class="sr-only">Choisis un allié, puis touche ton camp.</p>
-        <div id="shop" aria-label="Recruter nos unités"></div>
+        <p id="shop-note" class="sr-only">{{choisisUnAlliePuisToucheTonCamp}}</p>
+        <div id="shop" aria-label="{{recruterNosUnites}}"></div>
         <details id="camp-observation" class="camp-readout">
-          <summary>Conseils</summary>
+          <summary>{{conseils}}</summary>
           <section
             id="mission-battle-actions"
             class="mission-battle-actions"
-            aria-label="Mon expédition"
+            aria-label="{{monExpedition}}"
             hidden
           >
             <div>
@@ -253,10 +258,10 @@
               <p id="mission-result" role="status" hidden></p>
             </div>
             <div class="mission-battle-buttons">
-              <button id="mission-back-map" class="secondary">Carte des missions</button
+              <button id="mission-back-map" class="secondary">{{carteDesMissions}}</button
               ><button id="mission-again" class="secondary" hidden>
-                Réessayer le même départ</button
-              ><button id="mission-next" class="primary" hidden>Mission suivante</button>
+                {{reessayerLeMemeDepart}}</button
+              ><button id="mission-next" class="primary" hidden>{{missionSuivante}}</button>
             </div>
           </section>
           <div
@@ -266,57 +271,55 @@
             aria-live="polite"
             data-tone="idle"
           >
-            <strong id="encounter-title">Prépare ton camp</strong
-            ><span id="encounter-tip">Choisis un allié et place-le à droite.</span>
+            <strong id="encounter-title">{{prepareTonCamp}}</strong
+            ><span id="encounter-tip">{{choisisUnAllieEtPlaceLeADroite}}</span>
             <span id="medical-status" class="medical-status" hidden></span>
             <span id="boss-status" class="boss-status" hidden></span>
           </div>
           <div class="tactics">
-            <div id="lane-status" aria-label="Défenses par voie"></div>
-            <small id="ai-mode">IA : exploratrice</small><small id="egg-count">0 œuf</small>
+            <div id="lane-status" aria-label="{{defensesParVoie}}"></div>
+            <small id="ai-mode">{{iaExploratrice}}</small
+            ><small id="egg-count">{{n0Oeuf}}</small>
           </div>
         </details>
         <div class="battle-footer">
-          <span id="message" role="status">Choisis tes alliés pour défendre le cristal.</span>
+          <span id="message" role="status">{{choisisTesAlliesPourDefendreLe}}</span>
           <div id="selection-panel" hidden>
             <span id="selection-portrait" class="portrait" aria-hidden="true"></span
             ><span
               ><strong id="selection-name"></strong
-              ><small id="selection-hint"
-                >Touche un espace libre à droite. Le cercle montre la portée initiale ; nos
-                alliés se déplacent ensuite seuls.</small
-              ></span
-            ><button id="cancel" class="text-button" hidden>Annuler ✕</button>
+              ><small id="selection-hint">{{toucheUnEspaceLibreADroiteLeCercle}}</small></span
+            ><button id="cancel" class="text-button" hidden>{{annuler}}</button>
           </div>
         </div>
 
         <details id="quick-army" class="quick-army">
-          <summary>Favoris</summary>
-          <label for="quick-slot" class="sr-only">Favoris actifs</label
+          <summary>{{favoris}}</summary>
+          <label for="quick-slot" class="sr-only">{{favorisActifs}}</label
           ><select id="quick-slot"></select>
         </details>
 
         <details id="camp-tools" class="camp-tools">
-          <summary>Actions du camp</summary>
+          <summary>{{actionsDuCamp}}</summary>
           <button id="camp-tool-help" aria-haspopup="dialog" aria-controls="camp-tool-dialog">
-            Comprendre les outils
+            {{comprendreLesOutils}}
           </button>
           <section class="feast-panel" aria-labelledby="feast-title">
             <div class="feast-heading">
-              <h3 id="feast-title">Le miel tactique</h3>
-              <span>1 pot / vague</span>
+              <h3 id="feast-title">{{leMielTactique}}</h3>
+              <span>{{n1PotVague}}</span>
             </div>
-            <div id="feast-flavors" role="group" aria-label="Choisir le miel"></div>
-            <p id="feast-hint">Attire les gourmands vers cette voie.</p>
-            <div id="feast-controls" role="group" aria-label="Choisir la voie du goûter"></div>
-            <button id="encourage" class="encourage-button">Encourager nos alliés</button
-            ><small id="encourage-status" role="status">1 fois par vague · 8 secondes</small>
-            <small id="feast-status" role="status">Un pot gratuit à chaque vague</small>
+            <div id="feast-flavors" role="group" aria-label="{{choisirLeMiel}}"></div>
+            <p id="feast-hint">{{attireLesGourmandsVersCetteVoie}}</p>
+            <div id="feast-controls" role="group" aria-label="{{choisirLaVoieDuGouter}}"></div>
+            <button id="encourage" class="encourage-button">{{encouragerNosAllies}}</button
+            ><small id="encourage-status" role="status">{{n1FoisParVague8Secondes}}</small>
+            <small id="feast-status" role="status">{{unPotGratuitAChaqueVague}}</small>
           </section>
           <button id="repair" class="repair">
             <span
-              ><span aria-hidden="true">✚</span> Réparer le cristal
-              <small>+25 points de vie</small></span
+              ><span aria-hidden="true">✚</span> {{reparerLeCristal}}
+              <small>{{n25PointsDeVie}}</small></span
             ><strong>80 <span aria-hidden="true">●</span></strong>
           </button>
           <div class="camp-details">
@@ -326,27 +329,31 @@
               <ul id="chapter-report-army" class="chapter-report-army"></ul>
             </details>
             <details class="hero-school">
-              <summary id="hero-training">Entraîner le héros</summary>
+              <summary id="hero-training">{{entrainerLeHeros}}</summary>
               <p id="training-status"></p>
               <div>
                 <button data-training="force">
-                  Frappe renforcée<br /><small>+15 % de dégâts · 90 pièces</small></button
+                  {{frappeRenforcee}}<br /><small>{{n15DeDegats90Pieces}}</small></button
                 ><button data-training="guard">
-                  Gardien<br /><small>−15 % sur les coups reçus · 90 pièces</small>
+                  {{gardien}}<br /><small>{{n15SurLesCoupsRecus90Pieces}}</small>
                 </button>
               </div>
             </details>
             <details class="briefing">
               <summary>
-                <strong id="brief-title">Une aventure en douze vagues</strong
-                ><span>Détails</span>
+                <strong id="brief-title">{{uneAventureEnDouzeVagues}}</strong
+                ><span>{{details}}</span>
               </summary>
-              <p id="brief-tip">Prépare ton camp.</p>
-              <button id="end-restart" class="primary" hidden>Rejouer une aventure</button>
+              <p id="brief-tip">{{prepareTonCamp2}}</p>
+              <button id="end-restart" class="primary" hidden>{{rejouerUneAventure}}</button>
             </details>
             <p id="reward-summary" class="reward-summary" role="status" hidden></p>
-            <section id="current-departure" class="departure-share" aria-label="Code de départ">
-              <label for="current-departure-code">Partager ou retrouver ce départ</label>
+            <section
+              id="current-departure"
+              class="departure-share"
+              aria-label="{{codeDeDepart}}"
+            >
+              <label for="current-departure-code">{{partagerOuRetrouverCeDepart}}</label>
               <div class="departure-entry">
                 <input
                   id="current-departure-code"
@@ -354,19 +361,19 @@
                   readonly
                   aria-describedby="current-departure-message"
                 /><button id="current-departure-copy" class="secondary" type="button">
-                  Copier le code
+                  {{copierLeCode}}
                 </button>
               </div>
               <p id="current-departure-message" class="departure-message" role="status"></p>
             </section>
             <p id="departure-unavailable" class="departure-message" hidden>
-              Code disponible pour les nouveaux départs ; ton ancien camp reste conservé.
+              {{codeDisponiblePourLesNouveaux}}
             </p>
             <footer>
-              <span id="save-status" role="status">Sauvegarde locale entre les vagues</span>
+              <span id="save-status" role="status">{{sauvegardeLocaleEntreLesVagues}}</span>
               <div>
-                <button id="reset" class="text-button">↻ Nouvelle partie</button
-                ><a href="./prototype-v4.html">Prototype V4</a>
+                <button id="reset" class="text-button">{{nouvellePartie}}</button
+                ><a href="./prototype-v4.html">{{prototypeV4}}</a>
               </div>
             </footer>
           </div>

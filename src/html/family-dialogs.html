@@ -1,34 +1,27 @@
 <dialog id="family-dialog" aria-labelledby="family-title">
-  <h2 id="family-title">Ton aventure, à garder.</h2>
-  <p>
-    Le fichier garde le dernier camp préparé, tes missions, les étoiles et tes favoris. Une
-    bataille en cours sera à rejouer depuis son début. Après la victoire finale, tes étoiles
-    sont conservées.
-  </p>
-  <button id="family-export" class="primary">Exporter mon aventure</button>
-  <label for="family-file">Retrouver un fichier familial</label>
+  <h2 id="family-title">{{tonAventureAGarder}}</h2>
+  <p>{{leFichierGardeLeDernierCampPrepare}}</p>
+  <button id="family-export" class="primary">{{exporterMonAventure}}</button>
+  <label for="family-file">{{retrouverUnFichierFamilial}}</label>
   <input id="family-file" type="file" accept=".json,application/json" hidden />
   <button id="family-choose-file" class="secondary" type="button" aria-controls="family-file">
-    Choisir un fichier
+    {{choisirUnFichier}}
   </button>
   <span id="family-file-name" role="status"></span>
   <section id="family-preview" hidden>
-    <h3>Ce fichier contient</h3>
+    <h3>{{ceFichierContient}}</h3>
     <p id="family-preview-summary"></p>
-    <p>Il remplacera le camp, les étoiles et les favoris de ce navigateur.</p>
-    <button id="family-apply" class="primary" disabled>Remplacer mon aventure</button>
+    <p>{{ilRemplaceraLeCampLesEtoilesEtLes}}</p>
+    <button id="family-apply" class="primary" disabled>{{remplacerMonAventure}}</button>
   </section>
   <p id="family-status" role="status"></p>
-  <button id="family-close" class="secondary" autofocus>Garder mon aventure et revenir</button>
+  <button id="family-close" class="secondary" autofocus>{{garderMonAventureEtRevenir}}</button>
 </dialog>
 <dialog id="journey-confirm" aria-labelledby="journey-confirm-title">
-  <h2 id="journey-confirm-title">Remplacer le camp actuel ?</h2>
-  <p>
-    Les meilleures étoiles et tes favoris sont conservées. Le camp courant sera remplacé par
-    celui de l’aventure choisie.
-  </p>
+  <h2 id="journey-confirm-title">{{remplacerLeCampActuel}}</h2>
+  <p>{{lesMeilleuresEtoilesEtTesFavoris}}</p>
   <div class="dialog-actions">
-    <button id="journey-cancel" autofocus>Garder mon camp</button
-    ><button id="journey-replace" class="primary">Recommencer ici</button>
+    <button id="journey-cancel" autofocus>{{garderMonCamp}}</button
+    ><button id="journey-replace" class="primary">{{recommencerIci}}</button>
   </div>
 </dialog>

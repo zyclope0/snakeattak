@@ -1,6 +1,6 @@
 <dialog id="mission-dialog" aria-labelledby="mission-title">
   <div class="mission-dialog-body">
-    <span class="eyebrow">Ton prochain défi</span>
+    <span class="eyebrow">{{tonProchainDefi}}</span>
     <h2 id="mission-title" tabindex="-1"></h2>
     <p id="mission-objective"></p>
 
@@ -11,65 +11,61 @@
           id="mission-map"
           viewBox="0 70 1100 510"
           role="img"
-          aria-label="Aperçu des trois voies et de leurs jonctions"
+          aria-label="{{apercuDesTroisVoiesEtDeLeurs}}"
         ></svg>
         <strong id="mission-budget"></strong>
-        <div
-          id="mission-party"
-          aria-label="Un nouveau héros et deux nouveaux combattants à massue"
-        ></div>
+        <div id="mission-party" aria-label="{{unNouveauHerosEtDeuxNouveaux}}"></div>
       </div>
       <section class="mission-scouting" aria-labelledby="mission-scout-title">
-        <h3 id="mission-scout-title">Dans cette mission</h3>
+        <h3 id="mission-scout-title">{{dansCetteMission}}</h3>
         <div id="mission-threats" class="threat-cards"></div>
         <details id="mission-more-threats">
-          <summary id="mission-more-title">Les autres serpents</summary>
+          <summary id="mission-more-title">{{lesAutresSerpents}}</summary>
           <div id="mission-other-threats" class="threat-cards"></div>
         </details>
       </section>
     </div>
     <dl class="mission-facts">
       <div>
-        <dt data-fact="land">Terrain</dt>
+        <dt data-fact="land">{{terrain}}</dt>
         <dd id="mission-land"></dd>
       </div>
       <div>
-        <dt data-fact="assault">Attaques</dt>
+        <dt data-fact="assault">{{attaques}}</dt>
         <dd id="mission-assault"></dd>
       </div>
       <div>
-        <dt data-fact="nest">Œufs</dt>
+        <dt data-fact="nest">{{oeufs}}</dt>
         <dd id="mission-nest"></dd>
       </div>
     </dl>
     <p id="mission-replacement-note" class="mission-replacement-note" hidden>
-      Ce départ remplace ta mission en cours.
+      {{ceDepartRemplaceTaMissionEnCours}}
     </p>
     <details id="mission-parent-options">
-      <summary>Pour les parents</summary>
+      <summary>{{pourLesParents}}</summary>
       <div class="departure-share" hidden>
-        <label for="mission-departure-code">Code de ce départ</label>
+        <label for="mission-departure-code">{{codeDeCeDepart}}</label>
         <div class="departure-entry">
           <input
             id="mission-departure-code"
             class="departure-value"
             readonly
             aria-describedby="mission-departure-message"
-          /><button id="mission-departure-copy" class="secondary" type="button">Copier</button>
+          /><button id="mission-departure-copy" class="secondary" type="button">
+            {{copier}}
+          </button>
         </div>
         <p id="mission-departure-message" class="departure-message" role="status"></p>
       </div>
-      <button id="mission-retry" class="secondary" hidden>Retrouver mon dernier départ</button>
+      <button id="mission-retry" class="secondary" hidden>{{retrouverMonDernierDepart}}</button>
       <p id="mission-plan"></p>
-      <p class="mission-save-note">
-        Ton camp classique est conservé. Ce départ remplace l’expédition en cours ; les étoiles
-        et tes favoris restent.
-      </p>
+      <p class="mission-save-note">{{tonCampClassiqueEstConserveCe}}</p>
     </details>
   </div>
   <div class="mission-dialog-actions">
-    <button id="mission-launch" class="primary">C’est parti !</button
-    ><button id="mission-reroll" class="secondary">Autre départ</button
-    ><button id="mission-close" class="secondary">Retour</button>
+    <button id="mission-launch" class="primary">{{cEstParti2}}</button
+    ><button id="mission-reroll" class="secondary">{{autreDepart}}</button
+    ><button id="mission-close" class="secondary">{{retour}}</button>
   </div>
 </dialog>
