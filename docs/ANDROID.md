@@ -21,13 +21,41 @@ est réduit et optimisé, et l'AAB emporte son fichier de correspondance, que Pl
 Capacitor 8 fournit ses propres règles de conservation ; l'application n'a pas d'autre code
 natif que `MainActivity`. Les numéros de ligne sont gardés pour les rapports de plantage.
 
-**À vérifier avant tout envoi, parce que cela n'a pas pu être construit ici** (pas de SDK
-Android dans la session de Claude) : l'APK debug n'est pas réduit, il ne prouve donc plus
+**À vérifier avant tout envoi** (le candidat a depuis été construit par Codex, mais
+sa qualification native reste bloquée ; voir ci-dessous) : l'APK debug n'est pas réduit, il ne prouve donc plus
 rien sur le build release. Construire le release, l'installer (émulateur ou canal interne),
 puis contrôler au moins : démarrage à froid hors ligne, une vague jouée, une sauvegarde
 reprise après fermeture, le voyage ouvert, « Confidentialité » ouverte, les marges système
 en paysage. Si le release ne démarre pas, remettre `minifyEnabled false` : rien d'autre ne
 dépend de ce réglage.
+
+### Candidat62 construit le15novembre — qualification native bloquée
+
+Source produit `4d9724d98f27e9df69289c3954163609e3c27898` : compteur et `POLICY_APP.build`62,
+version0.38.0, mêmes package et clé d’envoi ; aucun changement de texte juridique, règle
+ou sauvegarde. Verify717tests, navigateur, hors ligne et sauvegarde familiale verts.
+AAB release signé/validé, mapping R8 embarqué (5426936octets), DEX7111200→790240octets.
+L’APK de test est généré de cet AAB, non débogable ; DEX et132fichiers web correspondent.
+
+**Pas qualifié pour Play.** L’APK optimisé s’installe sur l’émulateur officiel Android35
+(API35,37.2.13,x86_64) sans KVM, puis le rendu WebView s’arrête : `SIGTRAP` dans
+`CrRendererMain` / `libmonochrome_64.so`. Le seul réglage `minifyEnabled false` a été
+essayé dans une compilation de comparaison : même arrêt, APK installé relu depuis
+l’émulateur pour confirmer ses DEX non optimisés. Le retour àfalse ne corrige donc pas
+l’échec observé. La configuration candidate du dépôt reste àtrue, en attente d’un essai
+fiable ; cela ne prouve pas qu’elle fonctionne sur S24.
+
+Les services Android de cet émulateur affichent aussi des ANR ; son délai watchdog système
+a été allongé pour l’émulation logicielle, sans changer l’APK ni ses protections.
+**La checklist ci-dessus reste entièrement à passer** : aucun camp jouable, vague, reprise,
+voyage, confidentialité ou confort de paysage validé nativement. Pas d’envoi Play, fusion
+ou publication de ce candidat. Vérifier sur émulateur accéléré ou appareil de test adapté.
+L’APK signé avec la clé d’envoi peut être incompatible avec la signature de l’app Play :
+ne pas désinstaller la version familiale pour cet essai.
+
+Preuves hors Git : `artifacts/livraison-build62/` et
+`/workspace/serpents-build62-20261115/`. Un kit de validation Windows est préparé pour
+un émulateur local ; son script n’a pas été exécuté sous Windows ici.
 
 « Taille de la page de mémoire : compatible avec les pages de 16 Ko » est un résultat
 favorable, pas une alerte : l'application n'embarque aucune bibliothèque native à elle.

@@ -14,11 +14,13 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   « Publier le site ». Politique de confidentialité publique à `/confidentialite`. L'ancien
   site `…chatgpt.site` reste en ligne et affiche l'avis de migration. [Site](SITE.md).
 
-## Dans `main`, pas encore dans un build
+## Dans `main`, en qualification pour le build62
 
 - **Build release optimisé** : R8 activé pour répondre à deux remarques de la Play Console.
-  **Jamais construit** : le build 62 sera le premier ; à vérifier sur un build release
-  installé avant tout envoi ([Android](ANDROID.md)).
+  Le candidat62 est construit/signé, mapping embarqué, verify717 et navigateur verts.
+  **Qualification native bloquée** : crash WebView dans l’émulateur logiciel, reproduit
+  avec et sans R8. Aucun envoi/fusion/publication ; checklist à passer sur environnement
+  natif fiable avant livraison ([Android](ANDROID.md)).
 - **Ménage du 15 novembre** : CI en cinq tâches parallèles, une seule fois par commit ;
   diagnostic de performance chargé à la demande (paquet principal 189,6 Ko sur 200) ;
   scripts et recettes morts retirés, recettes vivantes mises dans la CI ; ce plan ramené à une
@@ -43,7 +45,8 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
    qu'ils redemandent. C'est ce qui décide du point 4.
 2. **Fiche Play** : mettre `https://snakeattacktd.com/confidentialite` comme adresse de
    confidentialité, puis importer l'AAB61 dans le canal interne. Le **build 62** (Codex)
-   sera le premier build release optimisé : l'installer et le lancer avant de l'envoyer.
+   est le premier candidat release optimisé ; son installation réussit, mais le lancement
+   jouable n’est pas validé : passer la checklist avant tout envoi.
 3. **Préparer le test fermé** : Google demande à un compte personnel 12 testeurs pendant 14
    jours avant la production. Il faut une fiche à jour (textes et captures du jeu actuel ; le
    dossier [publication/](publication/) décrit encore la 0.32.4) et une décision du parent sur
