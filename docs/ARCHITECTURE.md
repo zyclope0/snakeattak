@@ -1123,3 +1123,43 @@ anglais identique entrée par entrée (1 135), texte mis en page par le navigate
 caractère pour caractère, tests unitaires et recettes navigateur verts. Coût : environ 6 Ko
 de code de plus au démarrage (une déclaration par texte), le paquet principal restant à
 189,7 Ko sur 200 ; la page HTML perd 46 octets.
+
+## Valeurs hors du code — 15 novembre 2026
+
+Suite de la règle du parent : ce qui a un sens dans le jeu a un nom et un seul lieu. Un
+nombre ou une adresse retapés à deux endroits finissent par ne plus dire la même chose.
+
+Les règles :
+
+1. Une valeur qui a un sens dans le jeu (voies, chapitres, vagues, pièces, cristal, limites)
+   a un nom et un seul lieu ; partout ailleurs on importe ce nom.
+2. Une valeur d'équilibrage vit dans un fichier de données ou de réglage, jamais dans
+   `src/ui/` ni `src/render/`. L'interface ne recalcule pas une règle : elle appelle le moteur.
+3. Donner un nom ne change jamais la valeur : mêmes empreintes de parties rejouées, mêmes
+   sauvegardes, mêmes codes. Une nouvelle valeur reste une nouvelle révision d'équilibrage.
+4. Clés de stockage, formats et limites de sauvegarde : un module, et un test qui retape la
+   valeur. Les tests et les recettes continuent d'écrire ces valeurs en clair, exprès : ils
+   cassent si l'une change par erreur.
+5. Une couleur ou une profondeur utilisée dans deux fichiers passe par une table ; une
+   valeur de dessin utilisée une seule fois reste à côté du dessin.
+6. Un id de la page reste une chaîne, mais un test vérifie qu'il existe.
+7. Ce qui n'est pas un texte affiché (une requête d'écran, un dégradé, un attribut SVG) ne va
+   pas dans `src/texts/`.
+
+Où sont les valeurs :
+
+- **`src/storageKeys.ts`** : les dix clés du stockage du navigateur. Une clé est l'adresse
+  de la sauvegarde d'un enfant ; un changement de sens prend une nouvelle clé (`:v2`),
+  l'ancienne reste lisible. Le module a son propre petit fichier dans le build (`keys-…js`) :
+  le premier script lit la clé de la langue et ne doit pas attendre le paquet des règles.
+- **`src/seededRandom.ts`** : le pas du tirage au hasard (`nextSeed`, `seedShare`,
+  `seededStream`). Le combat, les récompenses, le voyage et le décor gardent chacun leur
+  état mais avancent tous par ce calcul. Le changer change toutes les parties et tous les
+  codes déjà donnés.
+- **Limites** : chacune est exportée par son module de règles et lue par l'interface —
+  `ROSTER_SIZE` (`roster.ts`), `DEPARTURE_INPUT_LIMIT` (`departures.ts`),
+  `VOYAGE_INPUT_LIMIT` (`voyageCode.ts`), `CAMP_CHARACTER_LIMIT` (`checkpoints.ts`).
+- **Taille du plateau** : `BOARD_WIDTH` et `BOARD_HEIGHT` (`render/boardResolution.ts`).
+
+Garde-fou : `tests/storage-keys.test.ts` retape chaque clé, chaque limite et le calcul du
+tirage sur mille pas.
