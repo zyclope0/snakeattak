@@ -4,17 +4,17 @@ Jeu de défense familial imaginé à partir du jeu d'un enfant. Prépare un dét
 pour protéger le cristal sur **trois voies interconnectées**, puis observe les
 alliés combattre et se soigner de façon autonome.
 
-**Version publiée : 0.38.0 / Android60 · Français/anglais · Code propriétaire.**
+**Version préparée : 0.38.0 / Android61 · Français/anglais · Code propriétaire.**
 
 [Jouer sur le site](https://snakeattacktd.com/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
 · [Guide Android](docs/ANDROID.md)
 
-Dernière nouveauté de Claude livrée : **Le voyage**, cinq étapes tirées d’une graine,
-des caprices surprises, un bonus conservé entre deux étapes et le roi à la fin.
-Voyages par joueur, codes partageables, version1 figée ; anciens modes et sauvegardes conservés.
-La version affichée reste **0.38.0** ; Android utilise le **build60**.
-Source des paquets : `f8552429ee7e291b13e07b85ca294b1db24b035d`.
+Dernière livraison : **Confidentialité** dans « Pour les parents », lisible hors ligne
+FR/EN. Site et politique publics sur [snakeattacktd.com](https://snakeattacktd.com/).
+Le voyage et tous les anciens modes, codes et sauvegardes sont conservés.
+Version affichée **0.38.0**, Android **build61**, même package et clé d’envoi Play.
+Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`.
 [Bilan et vérifications](docs/BILAN-0.38.0.md) · [Licences audio](docs/AUDIO-LICENCES.md).
 Le son est activé au départ et se règle dans « Réglages ». Reçus et captures dans `artifacts/`, hors Git.
 

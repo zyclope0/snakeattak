@@ -1,30 +1,55 @@
-# Bilan 0.38.0 — Le voyage, Android build60
+# Bilan 0.38.0 — Confidentialité, Android build61
 
-Livraison du 14 novembre2026 : **0.38.0 / Android60**, [site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/) publié en version Sites **35**.
-Source figée : `f8552429ee7e291b13e07b85ca294b1db24b035d`, intégration de la PR51 de Claude (`b328901`) avec main `d5bd04e`, puis compteur Android60. Conflit de plan résolu en conservant le bilan du build59 et les nouvelles décisions du Voyage.
+Livraison préparée le15novembre2026 : **0.38.0 / Android61**. Site officiel :
+https://snakeattacktd.com/ ; politique : https://snakeattacktd.com/confidentialite.
+Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`, issue de main `675d52f` (PR53 et54 de Claude). La préparation parallèle PR55
+(`961883c`) est intégrée à la branche de livraison : produit identique, contrôle de texte
+plus strict conservé.
 
 ## Fait
 
-- **Le voyage** : cinq étapes tirées d’une graine, caprices surprises à partir de la troisième, roi à trois têtes à la dernière ; trois bonus proposés entre étapes, un à garder pour toute la suite. Budget de la dernière étape réduit de300pièces comme approuvé ; aucun nouveau réglage de Codex.
-- Carte, sac, choix de bonus, code partageable, reprise et résultats FR/EN. Noms/annonces des caprices en français. Interface chargée à la demande ; illustrations dérivées des assets du dépôt, sans génération payante.
-- Voyage par joueur, gardé entre étapes ; une étape quittée recommence au début. Il ne donne ni étoile ni autocollant, et reste hors du fichier familial comme décidé. Anciennes sauvegardes et codes conservés.
-- **Première publication de la version1 du Voyage : ses règles et tirages sont désormais figés.** Toute modification future demandera une nouvelle version, sans modifier les anciens codes.
-- Version affichée0.38.0 maintenue ; Android59→60, même package `com.conqueteserpents.famille` et certificat d’envoi Play. AAB release, APK debug et ZIP des sources préparés. Aucun SDK, achat, publicité ou serveur ajouté.
-
-[Build59](archive/BILAN-0.38.0-build59.md) · [réglages du Voyage](VOYAGE.md) · [architecture](ARCHITECTURE.md).
+- Bouton « Confidentialité » / « Privacy policy » dans « Pour les parents » : texte complet
+  FR/EN embarqué, défilement et fermeture, lien public volontaire. Une seule source
+  `src/i18n/privacyPolicy.ts` pour la fenêtre et la page publique.
+- `versionCode`60→61 et `POLICY_APP.build`61, version0.38.0 conservée. Aucun engagement de
+  confidentialité ni date du texte approuvé changé ; aucun réglage de jeu, format de
+  sauvegarde, code de départ, permission ou SDK ajouté.
+- Le test actualise uniquement version/build attendus dans la portée de l’archive ; la
+  fixture publiée du14novembre reste intacte. Tous les autres mots et les numéros réellement
+  affichés sont comparés, les métadonnées étant aussi vérifiées contre Gradle/package.json.
+- AAB signé avec la clé Play d’origine ; APK debug avec le certificat familial distinct.
+  Notes de version FR/EN fournies ; historique [build60](archive/BILAN-0.38.0-build60.md).
 
 ## Vérifié
 
-- `npm run verify` : **711 tests**,0échec ; format/types/build/budgets verts. Navigateur, audit **13/13**, menus **5478**, caprices **330**, traduction **504**, interruptions, hors ligne et parcours des missions verts. CI du source Claude entièrement verte (run43631495016).
-- Tests du Voyage : première étape réellement gagnée dans le navigateur, bonus/sac/reprise, codes avec ou sans tirets, refus des codes invalides, profils distincts et absence d’écriture dans les autres progressions. Empreintes de compatibilité des anciens modes conservées ; relecture indépendante sans problème critique ou important.
-- Contrôles publics sur cinq formats, dont1280×800,812×375 EN et780×360 avec marges simulées. Contrôle supplémentaire du Voyage FR/EN à780×360 et1280×800 : cinq étapes, code et carte identiques après rechargement, lancement de l’étape. Carnet FR/EN :36 noms exacts et20 images décodables. Aucun problème JavaScript relevé par ces recettes.
-- AAB signé avec la clé d’envoi d’origine, validé jarsigner/bundletool ; non débogable, paysage, minSdk24/targetSdk36. APK debug signé séparément. **128 fichiers web**, dont30MP3, identiques entre build, paquets et site public ; aucune clé privée embarquée. ZIP des sources issu de Git, contrôlé et accompagné d’empreintes.
-- Contenu du vrai APK démarré hors ligne FR/EN ; tous les MP3 décodés. Audio continu et réglages locaux/publics verts.
+- `npm run verify` : **717 tests**,0échec ; format, types, build et budgets verts.
+- Navigateur, audit13/13, menus **5648 contrôles** (dont170 confidentialité), hors ligne et
+  sauvegarde familiale verts. Les anciens formats de sauvegarde restent lisibles.
+- Politique du vrai APK démarrée à froid hors ligne FR/EN,780×360 avec marges simulées :
+  texte exact, build61, défilement, fermeture et lien correct, aucune requête extérieure.
+- AAB : signature jarsigner et validation bundletool vertes, paquet
+  `com.conqueteserpents.famille`, paysage, minSdk24/targetSdk36, non débogable.
+  **131 fichiers web**, dont30MP3, identiques au build dans APK et AAB ; `.htaccess` est
+  réservé au serveur Apache et exclu par le packaging Android. Aucune clé privée embarquée.
+- Avis de migration déjà publié par une autre session sur l’ancien hébergement :
+  Sites37, source `fe8bd54c391f6ce54df2e0199ee41801b469862b`. Brouillon concurrent de Codex
+  abandonné pour préserver ce travail. Six cas locaux FR/EN, dont deux à plusieurs profils,
+  verts ; réponse publique200 et présence de l’avis vérifiées. Aucun fichier préexistant
+  hors index, ni politique de cet hébergement remplacé.
+- Relecture indépendante : aucune anomalie source/paquet ; un défaut multi-profils du
+  brouillon de notice a été reproduit et corrigé, avant abandon de ce brouillon au profit
+  de l’avis déjà publié. Aucun changement graphique ou fonctionnel supplémentaire.
 
-Preuves hors Git : `artifacts/livraison-build60/` et `/workspace/serpents-build60-20261114/`.
+Preuves hors Git : `artifacts/livraison-build61/` et `/workspace/serpents-build61-20261115/`.
 
 ## Livraison et limites
 
-Importer `conquete-serpents-v0.38.0-build60-play.aab` dans une nouvelle version du **canal de test interne existant**. Aucun envoi Console par Codex. L’APK debug conserve une autre signature que Play.
+Importer `conquete-serpents-v0.38.0-build61-play.aab` dans une nouvelle version du canal
+interne existant. Ni upload Play, ni activation Alpha, ni production, ni attestation par
+Codex. L’accès authentifié Play est absent de cette session : la mise à jour de son URL
+reste à faire dans la session connectée du parent.
 
-À essayer avec les enfants et sur le S24 : la durée et la difficulté du Voyage, notamment la marche devant le roi. La cinquième victoire est contrôlée sur une page de test, pas gagnée de bout en bout dans le navigateur. Aucun essai physique, TalkBack, police agrandie, écoute humaine ou Safari/Firefox revendiqué.
+L’installation/mise à jour physique, les liens externes depuis la WebView et le confort S24
+restent à essayer sur appareil ; les tests navigateur simulent les fichiers de l’APK et
+les marges système. Aucun test TalkBack/Safari/Firefox ni examen des journaux Infomaniak.
+Les exports familiaux n’incluent pas les profils ni le Voyage : voir [SITE.md](SITE.md).
