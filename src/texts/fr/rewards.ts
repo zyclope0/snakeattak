@@ -1,0 +1,15 @@
+export const unGardienArrive = 'Un gardien arrive';
+export const unBouclierOffertAPlacerDansTonCamp = 'Un Bouclier offert, à placer dans ton camp.';
+export const unEclairEnRenfort = 'Un éclair en renfort';
+export const unNinjaOffertAPlacerDansTonCamp = 'Un Ninja offert, à placer dans ton camp.';
+export const unAmiAGriffes = 'Un ami à griffes';
+export const unVelociraptorOffertAPlacerDansTon = 'Un Vélociraptor offert, à placer dans ton camp.';
+export const laGrandeReserveDeMiel = 'La grande réserve de miel';
+export const n4SecondesPourChaquePotJusquALaFin =
+  '+4 secondes pour chaque pot, jusqu’à la fin de la partie.';
+export const laGardeDuCristal = 'La garde du cristal';
+export const absorbe18DegatsAuCristalNeBloque =
+  'Absorbe 18 dégâts au cristal. Ne bloque pas le roi.';
+export const laBourseDesAventuriers = 'La bourse des aventuriers';
+export const n100PiecesPourRecruterLesAlliesDe =
+  '+100 pièces pour recruter les alliés de ton choix.';

@@ -3,6 +3,8 @@ import { backupSummary, readFamilyBackup, FAMILY_BYTE_LIMIT } from '../familyBac
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
+import * as TEXT from '../texts/fr/family.ts';
+import { fill } from '../texts/fill.ts';
 type Actions = {
   exportRaw: () => string | null;
   applyBackup: (backup: FamilyBackup) => {
@@ -25,19 +27,25 @@ function previewText(backup: FamilyBackup): string {
   const stars = sum(summary.bestStars);
   let text =
     summary.wave === null
-      ? `Favoris et ${stars} étoiles seulement. Aucun camp de reprise : les anciens alliés seront remplacés.`
-      : `Camp avant la vague ${summary.wave + 1} · ${summary.allies} alliés · ${summary.gold} pièces · ${stars} étoiles.`;
+      ? fill(TEXT.favorisEtNEtoilesSeulementAucun, stars)
+      : fill(
+          TEXT.campAvantLaVagueNNAlliesNPiecesN,
+          summary.wave + 1,
+          summary.allies,
+          summary.gold,
+          stars,
+        );
   if (backup.version !== 1 && backup.missions) {
     const missionStars = sum(Object.values(backup.missions.bestStars));
     if (summary.wave === null && (backup.missions.classicCamp || backup.missions.retryCamp))
-      text = `Progression, favoris et camps conservés dans ce fichier · ${stars} étoiles classiques.`;
-    text += ` Expéditions : ${missionStars} / 18 étoiles. Le camp classique est conservé séparément.`;
+      text = fill(TEXT.progressionFavorisEtCampsConserves, stars);
+    text += fill(TEXT.expeditionsN18EtoilesLeCamp, missionStars);
   }
   return (
     text +
     (albumsOf(backup)
-      ? ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.'
-      : ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.')
+      ? TEXT.lesCarnetsEtLeursAutocollantsSont
+      : TEXT.ceFichierNeContientAucunCarnetLes)
   );
 }
 /** The names of the sticker books, exactly as the family wrote them. */
@@ -99,7 +107,7 @@ function bindFamilyPreview(dialog: HTMLDialogElement) {
     pending = backup;
     byId('family-preview').hidden = false;
     apply.disabled = false;
-    say('Vérifie cet aperçu. Ton aventure actuelle reste intacte tant que tu ne confirmes pas.');
+    say(TEXT.verifieCetApercuTonAventure);
   };
   const readSelection = async () => {
     const turn = forget();
@@ -107,17 +115,16 @@ function bindFamilyPreview(dialog: HTMLDialogElement) {
     if (!selected) return;
     // The user's filename is local data, never translated.
     byId('family-file-name').textContent = selected.name;
-    if (selected.size > FAMILY_BYTE_LIMIT)
-      return say('Fichier trop volumineux : rien n’a été modifié.');
-    say('Lecture du fichier…');
+    if (selected.size > FAMILY_BYTE_LIMIT) return say(TEXT.fichierTropVolumineuxRienNAEte);
+    say(TEXT.lectureDuFichier);
     try {
       const raw = await selected.text();
       if (turn !== generation || !dialog.open) return;
       const backup = readFamilyBackup(raw);
       if (backup) show(backup);
-      else say('Fichier familial invalide ou incompatible : rien n’a été modifié.');
+      else say(TEXT.fichierFamilialInvalideOu);
     } catch {
-      if (turn === generation) say('Impossible de lire ce fichier : rien n’a été modifié.');
+      if (turn === generation) say(TEXT.impossibleDeLireCeFichierRienNAEte);
     }
   };
 
@@ -151,10 +158,9 @@ export function bindFamilyControls(actions: Actions) {
   dialog.addEventListener('close', preview.reset);
   byId('family-export').onclick = () => {
     const raw = actions.exportRaw();
-    if (!raw || !readFamilyBackup(raw))
-      return say('Impossible de préparer le fichier de cette aventure.');
+    if (!raw || !readFamilyBackup(raw)) return say(TEXT.impossibleDePreparerLeFichierDe);
     download(raw);
-    say('Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.');
+    say(TEXT.fichierPretConserveLePourReprendre);
   };
   byId('family-apply').onclick = () => {
     const backup = preview.chosen();

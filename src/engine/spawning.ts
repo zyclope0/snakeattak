@@ -13,6 +13,7 @@ import { addEffect, createEntity, nextRandom } from './state.ts';
 import { DEN_EXIT_X } from './field.ts';
 import { pickLane } from './movement.ts';
 import type { Game } from '../game.ts';
+import * as TEXT from '../texts/fr/battle.ts';
 
 /** The king arrives with its court in the last four slots of the last classic wave. */
 const COURT_SLOTS = 4;
@@ -66,7 +67,7 @@ export function spawnNext(game: Game, dt: number) {
   if (withCourt) {
     spawnCourt(game, entry, stats.hp);
     game.remaining = 0;
-    game.message = 'Le roi arrive avec sa garde et un soigneur ! Chaque tête a son rôle.';
+    game.message = TEXT.leRoiArriveAvecSaGardeEtUnSoigneur;
   } else game.remaining--;
   game.spawnTimer = plan
     ? plan.cadence[index % plan.cadence.length] * game.caprice.cadence
@@ -193,5 +194,5 @@ function hatch(game: Game, egg: Egg) {
     );
   game.hatched += egg.count;
   addEffect(game, egg, egg, 'hit');
-  game.message = 'Des œufs ont éclos ! De nouveaux serpents arrivent.';
+  game.message = TEXT.desOeufsOntEclosDeNouveauxSerpents;
 }

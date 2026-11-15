@@ -41,6 +41,8 @@ import { onSceneExit } from './sceneExit.ts';
 import { BODY_FONT } from './fonts.ts';
 import { BattleJuice, drawCelebration } from './juice.ts';
 import { EffectTrails } from './effectTrails.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 /** Milliseconds between two refreshes of the HTML dashboard. */
 const HUD_PERIOD_MS = 180;
 export class BattleScene extends Phaser.Scene {
@@ -187,8 +189,8 @@ export class BattleScene extends Phaser.Scene {
     if (!this.session.selected && !this.session.selectedFeast) return;
     if (!activateBoard(this.session, boardPoint(this, pointer)) && !this.session.selectedFeast) {
       this.session.game.message = this.session.game.paused
-        ? 'Reprends la partie pour placer ton renfort.'
-        : 'Choisis un espace libre dans le camp, loin des rochers et des alliés.';
+        ? TEXT.reprendsLaPartiePourPlacerTon
+        : TEXT.choisisUnEspaceLibreDansLeCampLoin;
     }
     this.onChange();
   }
@@ -276,7 +278,7 @@ export class BattleScene extends Phaser.Scene {
     const pot = drawHoneyZone(this.honeyInk, game, this.presentation.clock, reduced);
     setCanvasCopy(
       this.feastLabel.setPosition(pot.x, pot.y + 43),
-      `${feast.flavor === 'sticky' ? 'COLLANT' : 'ATTIRANT'} · ${Math.ceil(feast.remaining)} s`,
+      `${feast.flavor === 'sticky' ? TEXT.collant : TEXT.attirant} · ${Math.ceil(feast.remaining)} s`,
     );
   }
   private drawPlacement(game: Game, kind: Kind) {
@@ -313,7 +315,7 @@ export class BattleScene extends Phaser.Scene {
     );
     setCanvasCopy(
       this.resultStats,
-      `${game.kills} serpents repoussés · ${game.units.length} alliés survivants · camp ${Math.ceil(game.base)} %`,
+      fill(TEXT.nSerpentsRepoussesNAllies, game.kills, game.units.length, Math.ceil(game.base)),
     ).setY(300 + this.resultSubtitle.height / 2 + 16 + this.resultStats.height / 2);
   }
   /** The HTML dashboard is refreshed a few times a second, not at every frame. */

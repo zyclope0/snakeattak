@@ -13,6 +13,7 @@ import { FEAST_CHOICES, feastButton } from './feastControls.ts';
 import { byId, decoration, forwardClick, make, refreshText, setPressed } from './dom.ts';
 import { focusBoard } from './battleDom.ts';
 import { battleOver } from './battleState.ts';
+import * as TEXT from '../texts/fr/recruiting.ts';
 
 type Career = ReturnType<typeof createCareer>;
 type AllyShortcut = ReturnType<typeof allyShortcut>;
@@ -76,11 +77,7 @@ function honeyShortcut(
 ) {
   const button = feastButton(choice);
   button.dataset.dockFeast = choice.value;
-  setDisplayAttribute(
-    button,
-    'aria-label',
-    choice.label + ' : choisir le miel puis toucher un chemin',
-  );
+  setDisplayAttribute(button, 'aria-label', choice.label + TEXT.choisirLeMielPuisToucherUnChemin);
   button.onclick = () => {
     if (button.disabled) return;
     session.selectFeast(session.selectedFeast === choice.value ? null : choice.value);
@@ -101,13 +98,13 @@ function showAlly(card: AllyShortcut, kind: Kind | undefined, session: Session) 
     setDisplayText(card.name, kinds[kind].name);
   }
   const cost = game.recruitCost(kind);
-  setDisplayText(card.price, cost === 0 ? 'Offert' : cost + ' ●');
+  setDisplayText(card.price, cost === 0 ? TEXT.offert : cost + ' ●');
   card.button.disabled = game.paused || battleOver(game) || !canSpend(game, cost);
   setPressed(card.button, session.selected === kind);
   setDisplayAttribute(
     card.button,
     'aria-label',
-    `${kinds[kind].name}, ${cost === 0 ? 'offert' : cost + ' pièces'}${!canSpend(game, cost) ? (game.caprice.reserve ? ', réserve bancaire protégée' : ', pas assez de pièces') : ''}`,
+    `${kinds[kind].name}, ${cost === 0 ? 'offert' : cost + TEXT.pieces}${!canSpend(game, cost) ? (game.caprice.reserve ? TEXT.reserveBancaireProtegee : TEXT.pasAssezDePieces) : ''}`,
   );
 }
 
@@ -121,10 +118,10 @@ function showPot({ button, flavor }: HoneyShortcut, session: Session) {
 function dockHint(session: Session): string {
   const game = session.game;
   if (session.actionHint !== null) return session.actionHint;
-  if (session.selectedFeast) return 'Touche un chemin';
-  if (session.selected) return 'Place ton allié';
+  if (session.selectedFeast) return TEXT.toucheUnChemin;
+  if (session.selected) return TEXT.placeTonAllie;
   const weakLane = weakLaneAdvice(game);
   if (weakLane !== null) return weakLane;
-  if (game.caprice.noHoney) return 'Pas de miel dans ce caprice';
-  return game.feastUsed ? 'Miel utilisé' : 'Tes favoris';
+  if (game.caprice.noHoney) return TEXT.pasDeMielDansCeCaprice;
+  return game.feastUsed ? TEXT.mielUtilise : TEXT.tesFavoris;
 }

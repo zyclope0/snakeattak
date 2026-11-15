@@ -1,5 +1,6 @@
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
+import * as TEXT from './texts/fr/allies.ts';
 
 export type Roster = Kind[];
 // Favourites only: recruitment still uses Game's prices, placement and wave locks.
@@ -8,7 +9,7 @@ export const DEFAULT_ROSTERS: [Roster, Roster, Roster] = [
   ['club', 'nurse', 'raptor', 'triceratops', 'stegosaurus', 'dino', 'trex', 'dragon'],
   ['club', 'nurse', 'ninja', 'raptor', 'archer', 'cavalry', 'bat', 'mutantStretch'],
 ];
-export const ROSTER_NAMES = ['Équilibrée', 'Dinos', 'Vive'] as const;
+export const ROSTER_NAMES = [TEXT.equilibree, TEXT.dinos, TEXT.vive] as const;
 export const freshRosters = (): [Roster, Roster, Roster] => [
   [...DEFAULT_ROSTERS[0]],
   [...DEFAULT_ROSTERS[1]],

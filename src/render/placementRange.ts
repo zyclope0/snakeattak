@@ -4,6 +4,7 @@ import type { Kind } from '../data.ts';
 import { kinds } from '../data.ts';
 import { healAmount } from '../unitRules.ts';
 import { placementSuggestions } from '../placement.ts';
+import * as TEXT from '../texts/fr/board.ts';
 export function placementReadout(game: Game, kind: Kind, pointer?: { x: number; y: number }) {
   const p =
     pointer && Number.isFinite(pointer.x) && Number.isFinite(pointer.y)
@@ -18,11 +19,11 @@ export function placementReadout(game: Game, kind: Kind, pointer?: { x: number; 
     healing: healAmount(kind) > 0,
     category:
       healAmount(kind) > 0
-        ? 'Soin'
+        ? TEXT.soin
         : kind === 'wall'
-          ? 'Défense fixe'
+          ? TEXT.defenseFixe
           : defenseRole(kind) === 'ranged'
-            ? 'Tir'
-            : 'Contact',
+            ? TEXT.tir2
+            : TEXT.contact,
   };
 }

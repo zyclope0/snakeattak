@@ -1,5 +1,7 @@
 import type { Game } from '../game.ts';
 import { availableGold } from './capriceBudget.ts';
+import * as TEXT from '../texts/fr/battleScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 /** Won or lost: nothing more can be played in this battle. */
 export const battleOver = (game: Pick<Game, 'status'>): boolean =>
@@ -11,4 +13,4 @@ export const announcedWave = (game: Pick<Game, 'status' | 'wave' | 'totalWaves'>
 
 /** What a caprice keeps at the bank, and what is left to spend. */
 export const bankSummary = (game: Pick<Game, 'gold' | 'caprice'>): string =>
-  `${game.caprice.reserve} à la banque · ${availableGold(game)} disponibles`;
+  fill(TEXT.nALaBanqueNDisponibles, game.caprice.reserve, availableGold(game));

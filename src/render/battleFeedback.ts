@@ -5,6 +5,8 @@ import type { Game } from '../game.ts';
 import type { Presentation } from './presentation.ts';
 import { bossReadout } from './bossReadout.ts';
 import { eggLabelPositions } from './encounterReadout.ts';
+import * as TEXT from '../texts/fr/board.ts';
+import { fill } from '../texts/fill.ts';
 export class BattleFeedback {
   private graphics: Phaser.GameObjects.Graphics;
   private labels: Phaser.GameObjects.Text[] = [];
@@ -95,7 +97,12 @@ export class BattleFeedback {
       g.fillTriangle(boss.x - 6, boss.y + 39, boss.x + 6, boss.y + 39, boss.x, boss.y + 31);
       setCanvasCopy(
         this.bossLabel,
-        `ROI À TROIS TÊTES · ${Math.ceil(boss.hp)} / ${Math.ceil(boss.maxHp)} PV${bossReadout(boss, game.tuning) ? ` · PHASE ${boss.bossState!.phase}/3` : ''}`,
+        fill(
+          TEXT.roiATroisTetesNNPvN,
+          Math.ceil(boss.hp),
+          Math.ceil(boss.maxHp),
+          bossReadout(boss, game.tuning) ? fill(TEXT.phaseN3, boss.bossState!.phase) : '',
+        ),
       );
       g.fillStyle(0x183829);
       g.fillRoundedRect(410, 24, 280, 9, 4);

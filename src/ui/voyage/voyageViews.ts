@@ -8,6 +8,7 @@ import { bonusChoice, bonusRule } from './bonusChoice.ts';
 import { bagRow } from './voyageBag.ts';
 import { voyagePath } from './voyagePath.ts';
 import { fallenSentence, recordLine, startLabel, voyagePromise } from './voyageWords.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /** What the buttons of the views ask for; the voyage itself decides what happens. */
 export type ViewActions = {
@@ -40,7 +41,7 @@ function codeButton(state: VoyageState, give: () => void) {
   const button = make(
     'button',
     { id: 'voyage-code' },
-    make('span', { text: 'Code du voyage' }),
+    make('span', { text: TEXT.codeDuVoyage }),
     code,
   );
   button.type = 'button';
@@ -68,7 +69,7 @@ export function mapView(state: VoyageState, leftHalfway: boolean, actions: ViewA
       'div',
       { className: 'voyage-intro' },
       make('h2', { text: voyagePromise(state) }),
-      make('p', { text: 'Chaque voyage est différent. Entre deux étapes, tu choisis un bonus.' }),
+      make('p', { text: TEXT.chaqueVoyageEstDifferentEntreDeux }),
     ),
     voyagePath(state, {
       start: { label: startLabel(leftHalfway), go: actions.start },
@@ -78,7 +79,7 @@ export function mapView(state: VoyageState, leftHalfway: boolean, actions: ViewA
       'div',
       { className: 'voyage-foot' },
       bagOf(state),
-      action('voyage-other-open', 'secondary', 'Autre voyage', () => actions.other(false)),
+      action('voyage-other-open', 'secondary', TEXT.autreVoyage, () => actions.other(false)),
       codeButton(state, actions.give),
     ),
   ];
@@ -101,9 +102,9 @@ export function arrivedView(state: VoyageState, best: number, actions: ViewActio
     make(
       'div',
       { className: 'voyage-actions' },
-      action('voyage-new', 'primary', 'Un nouveau voyage', actions.fresh),
-      action('voyage-give', 'secondary', 'Donner mon voyage', actions.give),
-      action('voyage-have-code', 'secondary', 'J’ai un code', () => actions.other(true)),
+      action('voyage-new', 'primary', TEXT.unNouveauVoyage, actions.fresh),
+      action('voyage-give', 'secondary', TEXT.donnerMonVoyage, actions.give),
+      action('voyage-have-code', 'secondary', TEXT.jAiUnCode, () => actions.other(true)),
     ),
   ];
 }
@@ -120,9 +121,9 @@ export function fallenView(state: VoyageState, best: number, actions: ViewAction
     make(
       'div',
       { className: 'voyage-actions' },
-      action('voyage-again', 'primary', 'Refaire ce voyage', actions.again),
-      action('voyage-new', 'secondary', 'Un nouveau voyage', actions.fresh),
-      action('voyage-have-code', 'secondary', 'J’ai un code', () => actions.other(true)),
+      action('voyage-again', 'primary', TEXT.refaireCeVoyage, actions.again),
+      action('voyage-new', 'secondary', TEXT.unNouveauVoyage, actions.fresh),
+      action('voyage-have-code', 'secondary', TEXT.jAiUnCode, () => actions.other(true)),
     ),
   ];
 }

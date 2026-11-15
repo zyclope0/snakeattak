@@ -7,6 +7,7 @@ import { validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
 import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
+import * as TEXT from './texts/fr/family.ts';
 
 export const FAMILY_STORAGE_KEY = 'conquete-serpents:family:v1';
 
@@ -44,11 +45,11 @@ function save(
     session.last = raw;
     retain(session, missions, albums);
     session.disabled = false;
-    session.status = 'Aventure familiale enregistrée sur cet appareil';
+    session.status = TEXT.aventureFamilialeEnregistreeSurCet;
     return true;
   } catch {
     session.disabled = true;
-    session.status = 'Sauvegarde familiale indisponible : stockage bloqué ou plein';
+    session.status = TEXT.sauvegardeFamilialeIndisponible;
     return false;
   }
 }
@@ -58,21 +59,21 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
   try {
     const raw = storage.getItem(FAMILY_STORAGE_KEY);
     if (raw === null) {
-      session.status = 'Aucune sauvegarde familiale sur cet appareil';
+      session.status = TEXT.aucuneSauvegardeFamilialeSurCet;
       return null;
     }
     const backup = readFamilyBackup(raw);
     if (!backup) {
-      session.status = 'Sauvegarde familiale incompatible : reprise historique';
+      session.status = TEXT.sauvegardeFamilialeIncompatible;
       return null;
     }
     session.last = JSON.stringify(backup);
     retain(session, backup.missions, backup.albums);
-    session.status = 'Aventure familiale enregistrée sur cet appareil';
+    session.status = TEXT.aventureFamilialeEnregistreeSurCet;
     return backup;
   } catch {
     session.disabled = true;
-    session.status = 'Sauvegarde familiale indisponible';
+    session.status = TEXT.sauvegardeFamilialeIndisponible2;
     return null;
   }
 }
@@ -99,9 +100,7 @@ export function createFamilyPersistence(storage?: StoragePort) {
   const session: Session = {
     last: '',
     disabled: false,
-    status: storage
-      ? 'Aucune sauvegarde familiale sur cet appareil'
-      : 'Sauvegarde familiale indisponible',
+    status: storage ? TEXT.aucuneSauvegardeFamilialeSurCet : TEXT.sauvegardeFamilialeIndisponible2,
     missions: undefined,
     albums: undefined,
   };
@@ -121,7 +120,7 @@ export function createFamilyPersistence(storage?: StoragePort) {
       const nextAlbums = albums === undefined ? session.albums : albums;
       const raw = writeFamilyBackup(campRaw, career, nextMissions, nextAlbums);
       if (!raw) {
-        session.status = 'Sauvegarde familiale invalide : aucune écriture';
+        session.status = TEXT.sauvegardeFamilialeInvalideAucune;
         return false;
       }
       return save(storage, session, raw, false, nextMissions, nextAlbums);
@@ -129,7 +128,7 @@ export function createFamilyPersistence(storage?: StoragePort) {
     import(backup: FamilyBackup): boolean {
       const validated = validateImport(backup);
       if (!validated) {
-        session.status = 'Fichier familial invalide : import refusé';
+        session.status = TEXT.fichierFamilialInvalideImport;
         return false;
       }
       return save(

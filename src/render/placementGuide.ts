@@ -7,6 +7,7 @@ import { defenseRole } from '../defenders.ts';
 import { placementSuggestions } from '../placement.ts';
 import { placementReadout } from './placementRange.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT } from './boardResolution.ts';
+import * as TEXT from '../texts/fr/board.ts';
 
 type Graphics = Phaser.GameObjects.Graphics;
 type Range = NonNullable<ReturnType<typeof placementReadout>>;
@@ -17,7 +18,7 @@ function drawRange(ink: Graphics, range: Range) {
     ? 0xd99574
     : range.healing
       ? 0x9bd1a0
-      : range.category === 'Tir'
+      : range.category === TEXT.tir2
         ? 0x8bd9e9
         : 0xf0d18a;
   ink.fillStyle(color, 0.07);

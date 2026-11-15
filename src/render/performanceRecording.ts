@@ -1,3 +1,4 @@
+import * as TEXT from '../texts/fr/board.ts';
 /** Local diagnostics only: complete windows >=1s, bounded to one active hour. */
 export class PerformanceRecording {
   private windows: number[] = [];
@@ -10,7 +11,7 @@ export class PerformanceRecording {
   private capacity: number;
   constructor(capacity = 3600) {
     this.capacity = capacity;
-    if (!Number.isInteger(capacity) || capacity < 1) throw new RangeError('Invalid capacity');
+    if (!Number.isInteger(capacity) || capacity < 1) throw new RangeError(TEXT.invalidCapacity);
   }
   record(ms: number) {
     if (!Number.isFinite(ms) || ms <= 0) return false;
@@ -40,8 +41,7 @@ export class PerformanceRecording {
       fpsMin: n ? sorted[0] : null,
       longestFrameMs: this.longest || null,
       truncated: this.truncated,
-      method:
-        'FPS per complete >=1000ms active window; median/min of last 3600 windows; longest frame and active duration over whole recording. Partial window excluded from FPS.',
+      method: TEXT.fpsPerComplete1000msActiveWindow,
     };
   }
   reset() {

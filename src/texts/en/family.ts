@@ -1,0 +1,30 @@
+export const aventureFamilialeEnregistreeSurCet = 'Family adventure saved on this device';
+export const sauvegardeFamilialeIndisponible =
+  'Family save unavailable: storage is blocked or full';
+export const aucuneSauvegardeFamilialeSurCet = 'No family save on this device';
+export const sauvegardeFamilialeIncompatible = 'Family save is incompatible: trying the older save';
+export const sauvegardeFamilialeIndisponible2 = 'Family save unavailable';
+export const sauvegardeFamilialeInvalideAucune = 'Invalid family save: nothing saved';
+export const fichierFamilialInvalideImport = 'Invalid family file: import refused';
+export const favorisEtNEtoilesSeulementAucun =
+  'Only favorites and {0} stars. No camp to resume: the old allies will be replaced.';
+export const campAvantLaVagueNNAlliesNPiecesN =
+  'Camp before wave {0} · {1} allies · {2} coins · {3} stars.';
+export const progressionFavorisEtCampsConserves =
+  'Progress, favorites and camps kept in this file · {0} classic stars.';
+export const expeditionsN18EtoilesLeCamp =
+  'Expeditions: {0} / 18 stars. Your classic camp is kept separately.';
+export const lesCarnetsEtLeursAutocollantsSont =
+  'Sticker books and their stickers are included and will replace the current books.';
+export const ceFichierNeContientAucunCarnetLes =
+  'This file contains no sticker books: current books will be replaced by an empty book.';
+export const verifieCetApercuTonAventure =
+  'Check this preview. Your current adventure stays as it is until you confirm.';
+export const fichierTropVolumineuxRienNAEte = 'File too large: nothing was changed.';
+export const lectureDuFichier = 'Reading file…';
+export const fichierFamilialInvalideOu =
+  'Invalid or incompatible family file: nothing was changed.';
+export const impossibleDeLireCeFichierRienNAEte = 'Could not read this file: nothing was changed.';
+export const impossibleDePreparerLeFichierDe = 'Could not prepare the file for this adventure.';
+export const fichierPretConserveLePourReprendre =
+  'File ready. Keep it to resume this adventure in another browser.';

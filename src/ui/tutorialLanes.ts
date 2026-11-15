@@ -8,6 +8,8 @@ import type { Game } from '../game.ts';
 import { LANE_NAMES } from '../ai.ts';
 import { byId, decoration, make } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
+import * as TEXT from '../texts/fr/advice.ts';
+import { fill } from '../texts/fill.ts';
 /** Presentation observes the engine's mask; it neither advances nor rerolls it. */
 export function bindTutorialLanes() {
   const panel = byId('tutorial-lanes');
@@ -28,7 +30,12 @@ export function bindTutorialLanes() {
       key = `${wave}:${lanes.join(',')}`;
     if (key === previous) return;
     previous = key;
-    const label = `Vague ${wave} : ${lanes.map((l) => LANE_NAMES[l]).join(' et ')}. ${lanes.length < 3 ? 'Les autres voies restent paisibles.' : 'Les trois voies sont attaquées.'}`;
+    const label = fill(
+      TEXT.vagueNNN,
+      wave,
+      lanes.map((l) => LANE_NAMES[l]).join(' et '),
+      lanes.length < 3 ? TEXT.lesAutresVoiesRestentPaisibles : TEXT.lesTroisVoiesSontAttaquees,
+    );
     setDisplayText(accessible, label);
     setDisplayAttribute(panel, 'aria-label', label);
     for (const [lane, { chip, icon }] of chips.entries()) {
@@ -36,7 +43,7 @@ export function bindTutorialLanes() {
       chip.dataset.active = String(active);
       setDisplayTitle(
         chip,
-        `${LANE_NAMES[lane]} : ${active ? 'attaquée' : 'paisible pour cette vague'}`,
+        `${LANE_NAMES[lane]} : ${active ? TEXT.attaquee : TEXT.paisiblePourCetteVague}`,
       );
       setDisplayText(icon, active ? '▲' : '—');
     }

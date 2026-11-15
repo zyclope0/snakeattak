@@ -1,3 +1,4 @@
+import * as TEXT from './texts/fr/adventure.ts';
 /** Immutable terrain data shared by simulation and renderer; never an active global map. */
 export type Rock = Readonly<{ x: number; y: number; r: number }>;
 export type Level = Readonly<{
@@ -21,8 +22,8 @@ export type Level = Readonly<{
 const levels: readonly Level[] = [
   {
     id: 'clearing',
-    name: 'La clairière des fougères',
-    subtitle: 'Vagues 1 à 4 · Les premiers passages',
+    name: TEXT.laClairiereDesFougeres,
+    subtitle: TEXT.vagues1A4LesPremiersPassages,
     palette: {
       ground: 0x91a66d,
       path: 0xc3ac7f,
@@ -38,8 +39,8 @@ const levels: readonly Level[] = [
   },
   {
     id: 'grove',
-    name: 'Le bosquet ambré',
-    subtitle: 'Vagues 5 à 8 · Les rouages se réveillent',
+    name: TEXT.leBosquetAmbre,
+    subtitle: TEXT.vagues5A8LesRouagesSeReveillent,
     palette: {
       ground: 0xa0a370,
       path: 0xc9ad80,
@@ -55,8 +56,8 @@ const levels: readonly Level[] = [
   },
   {
     id: 'ruins',
-    name: 'Le jardin des vieilles pierres',
-    subtitle: 'Vagues 9 à 12 · Le dernier rempart',
+    name: TEXT.leJardinDesVieillesPierres,
+    subtitle: TEXT.vagues9A12LeDernierRempart,
     palette: {
       ground: 0x7f9c83,
       path: 0xb5b298,
@@ -90,8 +91,8 @@ const missionLevels: readonly Level[] = [
     ...levels[0],
     id: 'mission-clearing-0',
     artId: 'clearing',
-    name: 'La clairière des détours',
-    subtitle: 'Expédition · Les détours des fougères',
+    name: TEXT.laClairiereDesDetours,
+    subtitle: TEXT.expeditionLesDetoursDesFougeres,
     layout: { junctions: [336, 672], curves: [34, -30, -36] },
     rocks: [
       { x: 816, y: 120, r: 25 },
@@ -103,8 +104,8 @@ const missionLevels: readonly Level[] = [
     ...levels[0],
     id: 'mission-clearing-1',
     artId: 'clearing',
-    name: 'La clairière des méandres',
-    subtitle: 'Expédition · Les longs méandres',
+    name: TEXT.laClairiereDesMeandres,
+    subtitle: TEXT.expeditionLesLongsMeandres,
     layout: { junctions: [396, 720], curves: [-36, 32, 38] },
     rocks: [
       { x: 816, y: 252, r: 29 },
@@ -116,8 +117,8 @@ const missionLevels: readonly Level[] = [
     ...levels[0],
     id: 'mission-clearing-2',
     artId: 'clearing',
-    name: 'Le carrefour des fougères',
-    subtitle: 'Expédition · Les carrefours rapprochés',
+    name: TEXT.leCarrefourDesFougeres,
+    subtitle: TEXT.expeditionLesCarrefoursRapproches,
     layout: { junctions: [360, 648], curves: [42, 38, -30] },
     rocks: [
       { x: 780, y: 120, r: 24 },

@@ -1,6 +1,7 @@
 import { portraitStyle } from '../art.ts';
 import type { Kind } from '../data.ts';
 import { make } from './dom.ts';
+import * as TEXT from '../texts/fr/guide.ts';
 
 /** Stars won out of three, as the cards show them: ★★☆. */
 export const starRow = (count: number): string => '★'.repeat(count) + '☆'.repeat(3 - count);
@@ -17,7 +18,7 @@ export function portrait(kind: Kind) {
  * it was created with. Whoever shows the departure hides the mark under the current rules.
  */
 export function originalRulesLabel(id: string, anchor: HTMLElement) {
-  const label = make('small', { id, text: 'Règles d’origine' });
+  const label = make('small', { id, text: TEXT.reglesDOrigine });
   anchor.after(label);
   return label;
 }

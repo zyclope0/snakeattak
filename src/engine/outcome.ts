@@ -6,6 +6,8 @@ import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
 import type { WaveNumbers } from './enemyTurn.ts';
 import type { Game } from '../game.ts';
+import * as TEXT from '../texts/fr/battle.ts';
+import { fill } from '../texts/fill.ts';
 
 /** Coins earned for a defeated snake, and for the king. */
 const SNAKE_BOUNTY = 12;
@@ -35,7 +37,7 @@ function loseCamp(game: Game) {
   for (const e of game.enemies) cancelBossShot(e.bossState);
   game.feast = null;
   game.encouragementRemaining = 0;
-  game.message = 'Le camp est tombé… Une autre stratégie ?';
+  game.message = TEXT.leCampEstTombeUneAutreStrategie;
 }
 /** Every snake of the wave has entered and fallen, and no egg is left to hatch. */
 function waveCleared(game: Game): boolean {
@@ -60,7 +62,7 @@ function closeWave(game: Game, reward: number) {
     return;
   }
   if (!game.mission && (game.wave === 4 || game.wave === 8)) openChapter(game, game.wave);
-  game.message = `Vague repoussée ! +${reward} pièces. Prépare la suite.`;
+  game.message = fill(TEXT.vagueRepousseeNPiecesPrepareLa, reward);
 }
 /** After waves 4 and 8 the map changes and a reward card is offered, once per milestone. */
 function openChapter(game: Game, milestone: Milestone) {
@@ -70,6 +72,6 @@ function openChapter(game: Game, milestone: Milestone) {
 }
 function victoryMessage(game: Game): string {
   return game.mission
-    ? `Victoire ! ${missionById(game.mission.missionId)!.name} : ${game.missionStars} étoiles !`
-    : 'Victoire ! Le roi à trois têtes est vaincu !';
+    ? fill(TEXT.victoireNNEtoiles, missionById(game.mission.missionId)!.name, game.missionStars)
+    : TEXT.victoireLeRoiATroisTetesEstVaincu;
 }

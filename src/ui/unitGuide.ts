@@ -10,6 +10,8 @@ import { portraitStyle } from '../art.ts';
 import { pauseForDialog } from './dialogs.ts';
 import { balanceRecruitPrice, CURRENT_BALANCE_REVISION } from '../balanceRevision.ts';
 import { addOption, byId, make } from './dom.ts';
+import * as TEXT from '../texts/fr/guide.ts';
+import { fill } from '../texts/fill.ts';
 
 /** The card of one ally: its portrait, its power and a few facts read from the rules. */
 export function bindUnitGuide(session: Session, onChange: () => void) {
@@ -44,36 +46,42 @@ export function bindUnitGuide(session: Session, onChange: () => void) {
 function guideFacts(kind: Kind, session: Session): [label: string, value: string][] {
   const unit = kinds[kind];
   return [
-    ['Camp', 'Nos alliés'],
-    ['Défense', roleDescription(kind)],
-    ['Vie', `${unit.hp} PV`],
-    ['Prix', priceFact(kind, session)],
-    ['Arrivée', `Vague ${unlockWave[kind] ?? 1}`],
-    ['Attaque', attackFact(kind, session)],
-    ['Portée', unit.range <= 60 ? 'Contact' : unit.range < 190 ? 'Moyenne' : 'Longue'],
-    ['Mobilité', mobilityFact(unit.speed)],
+    [TEXT.camp, TEXT.nosAllies],
+    [TEXT.defense, roleDescription(kind)],
+    [TEXT.vie, `${unit.hp} PV`],
+    [TEXT.prix, priceFact(kind, session)],
+    [TEXT.arrivee, fill(TEXT.vagueN, unlockWave[kind] ?? 1)],
+    [TEXT.attaque, attackFact(kind, session)],
+    [TEXT.portee, unit.range <= 60 ? TEXT.contact : unit.range < 190 ? TEXT.moyenne : TEXT.longue],
+    [TEXT.mobilite, mobilityFact(unit.speed)],
   ];
 }
 
 function priceFact(kind: Kind, session: Session): string {
-  if (kind === 'hero') return 'Présent au départ';
+  if (kind === 'hero') return TEXT.presentAuDepart;
   // From the home screen no battle is open: show the price of a new adventure.
   const price =
     session.screen === 'home'
       ? balanceRecruitPrice(kind, CURRENT_BALANCE_REVISION)
       : session.game.recruitCost(kind);
-  return price === 0 ? 'Gratuit' : `${price} pièces`;
+  return price === 0 ? TEXT.gratuit : fill(TEXT.nPieces, price);
 }
 
 function attackFact(kind: Kind, session: Session): string {
-  if (healAmount(kind)) return `Soigne ${healAmount(kind)} PV`;
+  if (healAmount(kind)) return fill(TEXT.soigneNPv, healAmount(kind));
   const game = session.game;
-  return `${(attackDamage(kind, 0, game.tuning.mutantDamageFactor) * (kind === 'hero' && game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1)).toLocaleString('fr-FR')} dégâts`;
+  return fill(
+    TEXT.nDegats,
+    (
+      attackDamage(kind, 0, game.tuning.mutantDamageFactor) *
+      (kind === 'hero' && game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1)
+    ).toLocaleString('fr-FR'),
+  );
 }
 
 function mobilityFact(speed: number): string {
-  if (speed === 0) return 'Fixe';
-  if (speed >= 225) return 'Très rapide';
-  if (speed > 120) return 'Rapide';
-  return speed < 65 ? 'Lente' : 'Moyenne';
+  if (speed === 0) return TEXT.fixe;
+  if (speed >= 225) return TEXT.tresRapide;
+  if (speed > 120) return TEXT.rapide;
+  return speed < 65 ? TEXT.lente : TEXT.moyenne;
 }

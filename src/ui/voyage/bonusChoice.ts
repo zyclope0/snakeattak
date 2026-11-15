@@ -3,6 +3,7 @@ import type { RewardId } from '../../rewards.ts';
 import { make } from '../dom.ts';
 import { bonusPicture } from './voyageBag.ts';
 import { bonusWords } from './voyageWords.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /** One of the three cards: the whole card is the button. */
 function bonusCard(id: RewardId, coins: number, choose: (id: RewardId) => void) {
@@ -13,7 +14,7 @@ function bonusCard(id: RewardId, coins: number, choose: (id: RewardId) => void) 
     bonusPicture(id),
     make('strong', { text: words.title }),
     make('span', { className: 'bonus-detail', text: words.detail }),
-    make('small', { text: 'Choisir ce bonus' }),
+    make('small', { text: TEXT.choisirCeBonus }),
   );
   card.type = 'button';
   card.dataset.bonus = id;
@@ -32,7 +33,7 @@ export function bonusChoice(
   choose: (id: RewardId) => void,
 ): HTMLElement[] {
   return [
-    make('h2', { text: 'Choisis un bonus pour la suite du voyage' }),
+    make('h2', { text: TEXT.choisisUnBonusPourLaSuiteDuVoyage }),
     make('div', { className: 'bonus-cards' }, ...offer.map((id) => bonusCard(id, coins, choose))),
   ];
 }
@@ -41,5 +42,5 @@ export function bonusChoice(
 export const bonusRule = () =>
   make('p', {
     className: 'bonus-rule',
-    text: 'Tu le gardes dans ton sac jusqu’à la fin du voyage.',
+    text: TEXT.tuLeGardesDansTonSacJusquALaFinDu,
   });

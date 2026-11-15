@@ -5,6 +5,7 @@ import type { AlbumsController } from './capriceAlbums.ts';
 import { frenchLeaf } from './capriceCopy.ts';
 import { paintSticker, stickerGraphic } from './capriceIcons.ts';
 import { make } from './dom.ts';
+import * as TEXT from '../texts/fr/capriceScreens.ts';
 
 type Award = (game: Game) => boolean | undefined;
 
@@ -13,7 +14,7 @@ type Award = (game: Game) => boolean | undefined;
  * became of it, and the button that opens the book.
  */
 export function stickerResultNote(albums: AlbumsController, award: Award) {
-  const button = make('button', { id: 'result-caprice-album', text: 'Voir mon carnet' });
+  const button = make('button', { id: 'result-caprice-album', text: TEXT.voirMonCarnet });
   document.getElementById('mission-result')?.after(button);
   const graphic = stickerGraphic();
   const name = frenchLeaf('strong', '');
@@ -28,11 +29,11 @@ export function stickerResultNote(albums: AlbumsController, award: Award) {
   button.before(note);
   /** The game's own verdict first, then what the book of this game already holds. */
   const verdict = (game: Game, bookId: string) => {
-    if (game.status === 'lost') return 'Tu peux réessayer ce même caprice.';
-    if (award(game) === true) return 'Autocollant gagné !';
+    if (game.status === 'lost') return TEXT.tuPeuxReessayerCeMemeCaprice;
+    if (award(game) === true) return TEXT.autocollantGagne2;
     return albums.has(game.mission!.caprice!, bookId)
-      ? 'Cet autocollant est déjà dans le carnet de cette partie.'
-      : 'Ce caprice attend encore son autocollant.';
+      ? TEXT.cetAutocollantEstDejaDansLeCarnet
+      : TEXT.ceCapriceAttendEncoreSon;
   };
   return {
     button,

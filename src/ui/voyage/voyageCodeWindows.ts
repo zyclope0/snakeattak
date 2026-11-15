@@ -5,23 +5,28 @@ import { bindCopyButton } from '../departures.ts';
 import { make } from '../dom.ts';
 import { closeButton, voyageWindow } from './voyageWindow.ts';
 import { codeRefusal } from './voyageWords.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /**
  * « Donner mon voyage » : the code of the voyage, to copy or to read aloud. A brother or a
  * sister who types it plays the same five stages. Returns the function that shows a code.
  */
 export function giftWindow(): (code: string) => void {
-  const { dialog } = voyageWindow('voyage-gift', 'Donne ton voyage');
+  const { dialog } = voyageWindow('voyage-gift', TEXT.donneTonVoyage);
   const field = make('input', { id: 'voyage-gift-code', className: 'departure-value' });
   field.readOnly = true;
   field.setAttribute('aria-labelledby', 'voyage-gift-title');
-  const copy = make('button', { id: 'voyage-gift-copy', className: 'secondary', text: 'Copier' });
+  const copy = make('button', {
+    id: 'voyage-gift-copy',
+    className: 'secondary',
+    text: TEXT.copier,
+  });
   copy.type = 'button';
   const message = make('p', { id: 'voyage-gift-message', className: 'departure-message' });
   message.setAttribute('role', 'status');
   dialog.append(
     make('p', {
-      text: 'Donne ce code à ton frère ou à ta sœur. Il ou elle fera le même voyage que toi.',
+      text: TEXT.donneCeCodeATonFrereOuATaSoeurIlOu,
     }),
     make('div', { className: 'departure-entry' }, field, copy),
     message,
@@ -43,13 +48,13 @@ function codeForm(take: (seed: number, version: VoyageVersion) => void) {
   input.autocomplete = 'off';
   input.autocapitalize = 'characters';
   input.spellcheck = false;
-  input.placeholder = 'VOYAGE-1-0000-00';
-  const label = make('label', { text: 'Tape le code qu’on t’a donné' });
+  input.placeholder = TEXT.voyage1000000;
+  const label = make('label', { text: TEXT.tapeLeCodeQuOnTADonne });
   label.htmlFor = input.id;
   const message = make('p', { id: 'voyage-code-message', className: 'departure-message' });
   message.setAttribute('role', 'status');
   input.setAttribute('aria-describedby', message.id);
-  const submit = make('button', { className: 'secondary', text: 'Faire ce voyage' });
+  const submit = make('button', { className: 'secondary', text: TEXT.faireCeVoyage });
   submit.type = 'submit';
   const form = make(
     'form',
@@ -89,11 +94,11 @@ export function otherVoyageWindow(actions: {
   fresh: () => void;
   take: (seed: number, version: VoyageVersion) => void;
 }): (codeOnly: boolean) => void {
-  const { dialog, heading } = voyageWindow('voyage-other', 'Un autre voyage');
+  const { dialog, heading } = voyageWindow('voyage-other', TEXT.unAutreVoyage);
   const fresh = make('button', {
     id: 'voyage-other-new',
     className: 'primary',
-    text: 'Un nouveau voyage',
+    text: TEXT.unNouveauVoyage,
   });
   fresh.type = 'button';
   fresh.onclick = () => {
@@ -106,7 +111,7 @@ export function otherVoyageWindow(actions: {
   });
   dialog.append(fresh, code.form, closeButton(dialog, 'secondary'));
   return (codeOnly) => {
-    setText(heading, codeOnly ? 'Tu as un code ?' : 'Un autre voyage');
+    setText(heading, codeOnly ? TEXT.tuAsUnCode : TEXT.unAutreVoyage);
     fresh.hidden = codeOnly;
     code.reset();
     dialog.showModal();

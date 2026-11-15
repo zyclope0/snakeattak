@@ -127,10 +127,12 @@ test('le carnet ne propose plus de créer ni de renommer, et ses nouveaux textes
   );
   assert.equal(english['← Page précédente'], '← Previous page');
   assert.equal(english['Page suivante →'], 'Next page →');
+  // The words of the book live in the catalogue of its screens, not in its code.
+  const catalogue = readFileSync('src/texts/fr/capriceScreens.ts', 'utf8');
   for (const french of [
     'Réussis un caprice pour gagner son autocollant.',
     '← Page précédente',
     'Page suivante →',
   ])
-    assert.ok(album.includes(`'${french}'`), french);
+    assert.ok(catalogue.includes(`'${french}'`), french);
 });

@@ -3,12 +3,20 @@ import { portraitStyle } from '../art.ts';
 import { createChapterReportObserver, type ChapterReport } from '../chapterReport.ts';
 import type { Session } from '../session.ts';
 import { byId, make } from './dom.ts';
+import * as TEXT from '../texts/fr/home.ts';
+import { fill } from '../texts/fill.ts';
 
 /** French plural mark; the sentences below keep their shape for the translator. */
 const plural = (count: number) => (count > 1 ? 's' : '');
 
 function reportTitle(report: ChapterReport) {
-  return `Chapitre ${report.chapter} accompli · ${report.terrainName} · ${'★'.repeat(report.stars)}${'☆'.repeat(3 - report.stars)}`;
+  return fill(
+    TEXT.chapitreNAccompliNNN,
+    report.chapter,
+    report.terrainName,
+    '★'.repeat(report.stars),
+    '☆'.repeat(3 - report.stars),
+  );
 }
 
 /**
@@ -18,11 +26,26 @@ function reportTitle(report: ChapterReport) {
 function reportSummary(report: ChapterReport) {
   const minimum =
     report.crystalMinimum === null
-      ? 'minimum historique non disponible'
-      : `minimum du chapitre ${Math.floor(report.crystalMinimum)}/100 PV`;
+      ? TEXT.minimumHistoriqueNonDisponible
+      : fill(TEXT.minimumDuChapitreN100Pv, Math.floor(report.crystalMinimum));
   const score =
-    report.crystalMinimum === null ? `conservée${plural(report.stars)}` : 'pour ce passage';
-  return `${report.stars} étoile${plural(report.stars)} sur 3 ${score}. Cristal : ${minimum} · actuellement ${Math.ceil(report.crystalCurrent)}/100 PV. ${report.alliesPresent} allié${plural(report.alliesPresent)} présent${plural(report.alliesPresent)}. ${report.killsSinceAdventureStart} serpent${plural(report.killsSinceAdventureStart)} vaincu${plural(report.killsSinceAdventureStart)} depuis le début de l’aventure.`;
+    report.crystalMinimum === null
+      ? fill(TEXT.conserveeN, plural(report.stars))
+      : TEXT.pourCePassage;
+  return fill(
+    TEXT.nEtoileNSur3NCristalNActuellementN,
+    report.stars,
+    plural(report.stars),
+    score,
+    minimum,
+    Math.ceil(report.crystalCurrent),
+    report.alliesPresent,
+    plural(report.alliesPresent),
+    plural(report.alliesPresent),
+    report.killsSinceAdventureStart,
+    plural(report.killsSinceAdventureStart),
+    plural(report.killsSinceAdventureStart),
+  );
 }
 
 /** One kind of ally still standing: its portrait and how many there are. */

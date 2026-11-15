@@ -2,6 +2,7 @@ import { checkDigits, codeDigits, codeNumber, readLookalikes, tidyCode } from '.
 import { isVoyageSeed } from './voyage.ts';
 import { CURRENT_VOYAGE_VERSION, isVoyageVersion } from './voyageTuning.ts';
 import type { VoyageVersion } from './voyageTuning.ts';
+import * as TEXT from './texts/fr/voyage.ts';
 
 /**
  * A voyage code reads `VOYAGE-V-SSSS-CC`: the version of the voyage rules, four signs for
@@ -15,7 +16,7 @@ import type { VoyageVersion } from './voyageTuning.ts';
  * The version names a table of `voyageTuning.ts`. A code of an older version keeps drawing
  * the voyage it always drew.
  */
-const WORD = 'VOYAGE';
+const WORD = TEXT.voyage;
 const TYPED_CODE = /^VOYAGE(\d)([A-Z0-9]{4})([A-Z0-9]{2})$/;
 const SEED_SIGNS = 4;
 /** Far longer than a code with a few stray spaces: the rest is not read at all. */

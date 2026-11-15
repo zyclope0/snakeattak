@@ -7,6 +7,8 @@ import { pauseForDialog } from './dialogs.ts';
 import { currentWaveThreats, threatAdvice } from './threatPreview.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
 import { byId, make } from './dom.ts';
+import * as TEXT from '../texts/fr/advice.ts';
+import { fill } from '../texts/fill.ts';
 
 type WaveThreats = NonNullable<ReturnType<typeof currentWaveThreats>>;
 
@@ -41,10 +43,10 @@ export function bindThreatControls(session: Session, refresh: () => void) {
 }
 
 function showThreats(game: Game, preview: WaveThreats) {
-  setDisplayText(byId('threat-title'), `Vague ${preview.local} · Les serpents annoncés`);
+  setDisplayText(byId('threat-title'), fill(TEXT.vagueNLesSerpentsAnnonces, preview.local));
   setDisplayText(
     byId('threat-lanes'),
-    'Voies ouvertes : ' + preview.lanes.map((l) => LANE_NAMES[l]).join(' · '),
+    TEXT.voiesOuvertes + preview.lanes.map((l) => LANE_NAMES[l]).join(' · '),
   );
   const types = preview.entries.map((e) => e.kind);
   renderThreatCards(byId('wave-threat-list'), types);
@@ -60,7 +62,11 @@ function eggWarning(eggs: number) {
   egg.style.cssText = enemyPortraitStyle('egg');
   egg.setAttribute('aria-hidden', 'true');
   const copy = make('p', {
-    text: `${eggs} ${eggs === 1 ? 'œuf peut éclore' : 'œufs peuvent éclore'} et ajouter des serpents ordinaires.`,
+    text: fill(
+      TEXT.nNEtAjouterDesSerpentsOrdinaires,
+      eggs,
+      eggs === 1 ? TEXT.oeufPeutEclore : TEXT.oeufsPeuventEclore,
+    ),
   });
   return [egg, copy];
 }

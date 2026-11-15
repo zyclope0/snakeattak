@@ -1,0 +1,40 @@
+export const placementAnnuleChoisisUnAllieOu =
+  'Placement annulé. Choisis un allié ou lance la vague.';
+export const reprendre = 'Reprendre';
+export const mettreEnPause = 'Mettre en pause';
+export const buttonSelectInputTextareaSummaryA =
+  'button, select, input, textarea, summary, a, [contenteditable]';
+export const partieTerminee = 'Partie terminée';
+export const choisirUnBonus = 'Choisir un bonus';
+export const vagueEnCours = 'Vague en cours…';
+export const vagueSuivante = 'Vague suivante';
+export const lancerLaVague = 'Lancer la vague';
+export const tesAlliesDeGrandsCourageux = 'Tes alliés, de grands courageux';
+export const lesAlliesAgissentSeulsAToiDe =
+  'Les alliés agissent seuls. À toi de préparer leurs meilleures chances.';
+export const nSerpentsRepoussesCristalN = '{0} serpents repoussés · cristal {1} %';
+export const capriceReussi = 'Caprice réussi !';
+export const bravo = 'Bravo !';
+export const nEtoilesGagneesSurN = '{0} étoiles gagnées sur {1}';
+export const nALaBanqueNDisponibles = '{0} à la banque · {1} disponibles';
+export const reprendsLaPartie = 'Reprends la partie.';
+export const lanceLaVague = 'Lance la vague.';
+export const toucheUnChemin = 'Touche un chemin.';
+export const potDejaUtilise = 'Pot déjà utilisé.';
+export const voiePaisible = 'Voie paisible.';
+export const reduireLaVueDeJeu = 'Réduire la vue de jeu';
+export const agrandirLaVueDeJeu = 'Agrandir la vue de jeu';
+export const reduire = 'Réduire';
+export const agrandir = 'Agrandir';
+export const pointerCoarseAndOrientation = '(pointer: coarse) and (orientation: portrait)';
+export const nOeufNNEclosions = '{0} œuf{1} · {2} éclosions';
+export const victoire = 'VICTOIRE';
+export const campTombe = 'CAMP TOMBÉ';
+export const enPause = 'EN PAUSE';
+export const batailleEnCours = 'BATAILLE EN COURS';
+export const preparation = 'PRÉPARATION';
+export const nSerpents = '{0} serpents';
+export const bandagesNEnReserve = 'Bandages : {0} en réserve';
+export const soignantRefaitSonStock = 'soignant refait son stock';
+export const soignantsRefontLeurStock = 'soignants refont leur stock';
+export const crachatAnnonceAuSol = ' · Crachat annoncé au sol';

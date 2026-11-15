@@ -7,6 +7,8 @@ import { kinds } from '../data.ts';
 import { honeySheetUrl } from './feastControls.ts';
 import { byId, decoration, dialogOpen, make, narrowScreen } from './dom.ts';
 import { revealBoard } from './battleDom.ts';
+import * as TEXT from '../texts/fr/camp.ts';
+import { fill } from '../texts/fill.ts';
 
 type RewardCard = ReturnType<typeof rewardCard>;
 
@@ -41,7 +43,7 @@ export function bindRewardControls(session: Session, refresh: () => void) {
     }
     const offer = game.rewardOffer;
     panel.hidden = !offer.length || game.status !== 'preparing';
-    setDisplayText(title, `Vague ${game.wave} repoussée ! Choisis ton bonus`);
+    setDisplayText(title, fill(TEXT.vagueNRepousseeChoisisTonBonus, game.wave));
     skip.disabled = game.paused;
     for (const [i, card] of cards.entries()) if (offer[i]) showReward(card, offer[i], game.paused);
     showChosenRewards(game);
@@ -53,7 +55,7 @@ function rewardCard(session: Session, refresh: () => void) {
   const icon = decoration('span', 'reward-portrait');
   const name = make('strong');
   const detail = make('span', { className: 'reward-detail' });
-  const action = make('small', { text: 'Choisir ce bonus' });
+  const action = make('small', { text: TEXT.choisirCeBonus });
   const button = make('button', { className: 'reward-card' }, icon, name, detail, action);
   byId('reward-cards').append(button);
   button.onclick = () => {
@@ -108,19 +110,19 @@ function showChosenRewards(game: Game) {
     summary,
     notes.length
       ? notes.join(' · ')
-      : `${gifts.length} bonus choisi${gifts.length > 1 ? 's' : ''} pour cette aventure`,
+      : fill(TEXT.nBonusChoisiNPourCetteAventure, gifts.length, gifts.length > 1 ? 's' : ''),
   );
   ward.hidden = game.rewards.ward <= 0;
-  setDisplayText(ward, `+${game.rewards.ward} protection`);
+  setDisplayText(ward, fill(TEXT.nProtection, game.rewards.ward));
 }
 
 function rewardNotes(game: Game): string[] {
   const notes: string[] = [];
-  if (game.feastDuration > 14) notes.push(`Miel : ${game.feastDuration} s`);
-  if (game.rewards.ward > 0) notes.push(`Cristal : ${game.rewards.ward} points de protection`);
+  if (game.feastDuration > 14) notes.push(fill(TEXT.mielNS, game.feastDuration));
+  if (game.rewards.ward > 0) notes.push(fill(TEXT.cristalNPointsDeProtection, game.rewards.ward));
   for (const choice of game.rewards.choices) {
     const kind = choice.id !== 'skip' && !choice.used ? REWARDS[choice.id].kind : null;
-    if (kind) notes.push(`${kinds[kind].name} offert à placer`);
+    if (kind) notes.push(fill(TEXT.nOffertAPlacer, kinds[kind].name));
   }
   return notes;
 }

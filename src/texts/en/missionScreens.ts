@@ -1,0 +1,57 @@
+export const clipboardUnavailable = 'clipboard unavailable';
+export const codeCopie = 'Code copied.';
+export const leDepartAChangeCopieSonNouveauCode = 'The setup has changed. Copy its new code.';
+export const codeSelectionneCopieLeAvecLeMenuDe =
+  "Code selected: copy it using your device's menu.";
+export const ceCodeUtiliseUneAutreVersionDes =
+  'This code uses a different version of the rules. Check the game version.';
+export const codeIncompletOuIncorrectVerifieLes =
+  'This code is incomplete or incorrect. Check the letters and numbers.';
+export const cetteMissionEstEncoreVerrouillee =
+  'This mission is still locked. Finish the previous one first.';
+export const jouerUnCaprice = 'Play a caprice';
+export const jouer = 'Play';
+export const prochaineMissionN = 'Next mission: {0}';
+export const rejouerLaMissionN = 'Replay mission: {0}';
+export const preparer = 'Prepare';
+export const preparerEncore = 'Prepare again';
+export const n18Etoiles = '{0} / 18 stars';
+export const detours = 'Detours';
+export const meandres = 'Winding Paths';
+export const carrefour = 'Crossroads';
+export const arriveesRegulieres = 'Steady arrivals';
+export const petitsGroupesRapides = 'Small, fast groups';
+export const avanceesGroupees = 'Grouped advances';
+export const eclosionsDecalees = 'Staggered hatchings';
+export const couveeGroupee = 'Clustered eggs';
+export const nPiecesNVaguesNouveauxAllies = '{0} coins · {1} waves · new allies';
+export const verrouilleeTermineLaPrecedente = 'Locked · finish the previous mission';
+export const termineeRejouer = 'Complete · replay';
+export const prochaineMission = 'Next mission';
+export const missionOuverte = 'Mission unlocked';
+export const nEtoileNSur3 = 'Stars: {0} out of 3';
+export const nNVagues = '{0} · {1} waves';
+export const capriceReussi = 'Caprice completed!';
+export const missionReussieN = 'Mission complete! {0}';
+export const lesSixMissionsSontTermineesRejoue =
+  'All six missions are complete. Replay them with a new plan!';
+export const prochaineMissionDisponibleSurLa = 'The next mission is available on the map.';
+export const tesAllies = 'Your allies';
+export const resume = 'Summary';
+export const caprices = 'Caprices';
+export const copains = 'Friends';
+export const reperage = 'Scouting';
+export const options = 'Options';
+export const carnetDeCetteNouvellePartie = 'Sticker book for this new game';
+export const xmidymidSlice = 'xMidYMid slice';
+export const translate5120Scale11 = 'translate(512 0) scale(-1 1)';
+export const arial = 'Arial';
+export const troisVoiesVisiblesPremiereVagueN =
+  'Three visible lanes. First wave: {0}. Dens on the left, crystal on the right.';
+export const nAutresN = '{0} more {1}';
+export const desVolantsArriverontDansCette =
+  'Flying snakes will appear in this mission: bring Archers, a Baby Dragon, or a tank.';
+export const desVolantsArriverontDansCette2 = 'Flying snakes will appear in this mission.';
+export const desVolantsArriverontDansCette3 =
+  'Flying snakes will appear in this mission: possible allies, {0}.';
+export const invalidPreparationFriendChoice = 'Invalid preparation friend choice';

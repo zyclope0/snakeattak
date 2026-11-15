@@ -1,3 +1,5 @@
+import * as TEXT from './texts/fr/battle.ts';
+import { fill } from './texts/fill.ts';
 /** Immutable, per-campaign balance. No adaptation during play. */
 export type BalanceTuning = {
   bossEnabled: boolean;
@@ -58,12 +60,12 @@ export function makeBalanceTuning(overrides: Partial<BalanceTuning> = {}): Reado
     if (!Object.hasOwn(overrides, key)) continue;
     const value = overrides[key];
     if (key === 'bossEnabled' || key === 'tacticalRulesEnabled') {
-      if (typeof value !== 'boolean') throw new TypeError(`${key} must be boolean`);
+      if (typeof value !== 'boolean') throw new TypeError(fill(TEXT.nMustBeBoolean, key));
       result[key] = value;
     } else {
       const [min, max] = limits[key];
       if (typeof value !== 'number' || !Number.isFinite(value) || value < min || value > max)
-        throw new RangeError(`${key} must be finite in [${min}, ${max}]`);
+        throw new RangeError(fill(TEXT.nMustBeFiniteInNN, key, min, max));
       result[key] = value;
     }
   }

@@ -1,35 +1,36 @@
 import type { Kind } from './data.ts';
 import { isArrayOfLength, isNumberIn, isRecord, isUint32 } from './plainData.ts';
+import * as TEXT from './texts/fr/rewards.ts';
 export type Milestone = 4 | 8;
 export const REWARDS = {
   'renfort-bouclier': {
-    title: 'Un gardien arrive',
-    detail: 'Un Bouclier offert, à placer dans ton camp.',
+    title: TEXT.unGardienArrive,
+    detail: TEXT.unBouclierOffertAPlacerDansTonCamp,
     kind: 'shield',
   },
   'renfort-ninja': {
-    title: 'Un éclair en renfort',
-    detail: 'Un Ninja offert, à placer dans ton camp.',
+    title: TEXT.unEclairEnRenfort,
+    detail: TEXT.unNinjaOffertAPlacerDansTonCamp,
     kind: 'ninja',
   },
   'renfort-raptor': {
-    title: 'Un ami à griffes',
-    detail: 'Un Vélociraptor offert, à placer dans ton camp.',
+    title: TEXT.unAmiAGriffes,
+    detail: TEXT.unVelociraptorOffertAPlacerDansTon,
     kind: 'raptor',
   },
   miel: {
-    title: 'La grande réserve de miel',
-    detail: '+4 secondes pour chaque pot, jusqu’à la fin de la partie.',
+    title: TEXT.laGrandeReserveDeMiel,
+    detail: TEXT.n4SecondesPourChaquePotJusquALaFin,
     kind: null,
   },
   cristal: {
-    title: 'La garde du cristal',
-    detail: 'Absorbe 18 dégâts au cristal. Ne bloque pas le roi.',
+    title: TEXT.laGardeDuCristal,
+    detail: TEXT.absorbe18DegatsAuCristalNeBloque,
     kind: null,
   },
   pieces: {
-    title: 'La bourse des aventuriers',
-    detail: '+100 pièces pour recruter les alliés de ton choix.',
+    title: TEXT.laBourseDesAventuriers,
+    detail: TEXT.n100PiecesPourRecruterLesAlliesDe,
     kind: null,
   },
 } as const;

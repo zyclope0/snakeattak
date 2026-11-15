@@ -1,0 +1,36 @@
+export const reprendre = 'Resume';
+export const reprendreMaMission = 'Resume my mission';
+export const reprendreMonAventureClassique = 'Resume my classic adventure';
+export const fichierInvalideRienNAEteModifie = 'Invalid file: nothing has changed.';
+export const impossibleDeConserverCeFichierSur =
+  'This browser could not save the file. Your current adventure is still safe.';
+export const aventureFamilialeRetrouvee = 'Family adventure restored.';
+export const encouragesNS = 'Encouraged · {0} s';
+export const revientALaProchaineVague = 'Returns next wave';
+export const n1FoisParVagueAttaquesPlusRapides = 'Once per wave · faster attacks for 8 s';
+export const chapitreNAccompliNNN = 'Chapter {0} complete · {1} · {2}{3}';
+export const minimumHistoriqueNonDisponible = 'past minimum unavailable';
+export const minimumDuChapitreN100Pv = 'chapter minimum {0}/100 HP';
+export const conserveeN = 'kept';
+export const pourCePassage = 'for this run';
+export const nEtoileNSur3NCristalNActuellementN =
+  'Stars: {0} out of 3 {2}. Crystal: {3} · now {4}/100 HP. Allies present: {5}. Snakes defeated since the adventure began: {8}.';
+export const linearGradient135deg486d58E6dcad = 'linear-gradient(135deg, #486d58, #e6dcad)';
+export const linearGradient135deg547b79Dce7df = 'linear-gradient(135deg, #547b79, #dce7df)';
+export const reessayerLaVague = 'Retry wave';
+export const continuerLaBatailleVagueN = 'Continue the battle · wave {0}';
+export const continuerVagueN = 'Continue · wave {0}';
+export const commencerIci = 'Start here';
+export const rejouerDepuisMonCamp = 'Replay from my camp';
+export const aDecouvrirDansLAventure = 'Discover during the adventure';
+export const nEtoilesSur3 = '{0} stars out of 3';
+export const n9Etoiles = '{0} / 9 stars';
+export const lesFavorisSePreparentEntreLes = 'Set up your favorites between waves.';
+export const preparerTroisGroupesDeHuitFavoris = 'Prepare three groups of eight favorites.';
+export const favorisN = 'Favorites · {0}';
+export const reprendreLeVoyage = 'Resume the voyage';
+export const leVoyage = 'The Voyage';
+export const nouveau = 'New';
+export const leVoyageNAPasPuSOuvrirReessaie = 'The voyage could not open. Try again.';
+export const confidentialite = 'Privacy policy';
+export const confidentialiteIndisponible = 'Privacy policy unavailable. Try again.';

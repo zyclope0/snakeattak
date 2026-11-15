@@ -7,6 +7,8 @@ import { encounterReadout } from '../render/encounterReadout.ts';
 import type { BattleGuide } from './battleNotices.ts';
 import type { Effect, Game } from '../game.ts';
 import { campToolModel, hasFighters, heroTrainingState } from './campToolModel.ts';
+import * as TEXT from '../texts/fr/advice.ts';
+import { fill } from '../texts/fill.ts';
 /** Session-local observation; retain a real first hit between render frames. */
 export function createCoach(session: Session) {
   let previous = session.game,
@@ -41,8 +43,8 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
     firstStepsGuide(session) ??
     fightGuide(game, contactSeen) ??
     campGuide(game) ?? {
-      title: 'Observe les voies faibles',
-      subtitle: 'Tes alliés agissent seuls. Tu peux aussi acheter des alliés pendant le combat.',
+      title: TEXT.observeLesVoiesFaibles,
+      subtitle: TEXT.tesAlliesAgissentSeulsTuPeuxAussi,
     }
   );
 }
@@ -51,12 +53,12 @@ export function coachFor(session: Session, contactSeen?: boolean): BattleGuide {
 function choiceGuide(session: Session): BattleGuide | null {
   if (session.selectedFeast)
     return {
-      title: session.actionHint ?? 'Touche un chemin',
-      subtitle: 'Choisis une voie attaquée pour poser ton miel. Annuler garde ton pot.',
+      title: session.actionHint ?? TEXT.toucheUnChemin,
+      subtitle: TEXT.choisisUneVoieAttaqueePourPoserTon,
     };
   if (session.selected)
     return {
-      title: `2 · Place ton ${kinds[session.selected].name.toLowerCase()}`,
+      title: fill(TEXT.n2PlaceTonN, kinds[session.selected].name.toLowerCase()),
       subtitle: placementAdvice(session.selected).hint,
       compact: placementAdvice(session.selected).compactHint,
     };
@@ -74,12 +76,12 @@ function firstStepsGuide(session: Session): BattleGuide | null {
   if (session.game.wave !== 0) return null;
   if (!session.hasPlaced)
     return {
-      title: '1 · Choisis ton premier allié',
-      subtitle: 'Pour commencer, essaie une massue ou un archer dans les alliés disponibles.',
+      title: TEXT.n1ChoisisTonPremierAllie,
+      subtitle: TEXT.pourCommencerEssaieUneMassueOuUn,
     };
   return {
-    title: '3 · Ton allié est prêt !',
-    subtitle: 'Lance la vague. Tes alliés se déplaceront et combattront tout seuls.',
+    title: TEXT.n3TonAllieEstPret,
+    subtitle: TEXT.lanceLaVagueTesAlliesSeDeplaceront,
   };
 }
 
@@ -93,29 +95,33 @@ function signalGuide(game: Game): BattleGuide | null {
   const readout = encounterReadout(game);
   if (readout.shot)
     return {
-      title: 'Le roi prépare son crachat',
+      title: TEXT.leRoiPrepareSonCrachat,
       priority: 5,
-      subtitle:
-        'Le cercle au sol indique la zone qui sera touchée. Surveille tes alliés sur cette voie.',
+      subtitle: TEXT.leCercleAuSolIndiqueLaZoneQuiSera,
     };
   if (readout.eggs.length)
     return {
-      title: `Éclosion dans ${Math.ceil(Math.min(...readout.eggs.map((e) => e.remaining)))} s`,
+      title: fill(
+        TEXT.eclosionDansNS,
+        Math.ceil(Math.min(...readout.eggs.map((e) => e.remaining))),
+      ),
       priority: 3,
-      subtitle: 'Les œufs marqués vont libérer des serpents. Garde un allié en réserve.',
+      subtitle: TEXT.lesOeufsMarquesVontLibererDes,
     };
   if (readout.confusion)
     return {
       title: readout.confusion.label,
       priority: 2,
-      subtitle:
-        'La sonnette fait hésiter les alliés proches. Ils reprennent ensuite le combat sans tirer sur leurs amis.',
+      subtitle: TEXT.laSonnetteFaitHesiterLesAllies,
     };
   if (readout.encouragement)
     return {
-      title: 'Courage ! Les attaques accélèrent',
+      title: TEXT.courageLesAttaquesAccelerent,
       priority: 1,
-      subtitle: `${Math.ceil(readout.encouragement.remaining)} s restantes. Le bouton revient à la prochaine vague.`,
+      subtitle: fill(
+        TEXT.nSRestantesLeBoutonRevientALa,
+        Math.ceil(readout.encouragement.remaining),
+      ),
     };
   return null;
 }
@@ -125,8 +131,8 @@ function encourageGuide(game: Game, contactSeen?: boolean): BattleGuide | null {
   const striking = contactSeen ?? game.units.some((u) => u.hp > 0 && u.state === 'attack');
   if (game.encouragementUsed || !striking || !hasFighters(game)) return null;
   return {
-    title: 'Tes alliés frappent : pense à Encourager',
-    subtitle: 'Une fois par vague, leurs attaques accélèrent pendant 8 s. Choisis le moment !',
+    title: TEXT.tesAlliesFrappentPenseAEncourager,
+    subtitle: TEXT.uneFoisParVagueLeursAttaques,
   };
 }
 
@@ -134,9 +140,8 @@ function encourageGuide(game: Game, contactSeen?: boolean): BattleGuide | null {
 function honeyGuide(game: Game): BattleGuide | null {
   if (game.wave > 3 || game.feastUsed) return null;
   return {
-    title: 'Le piège gourmand',
-    subtitle:
-      'Choisis Attirer pour détourner les gourmands, ou Ralentir pour freiner ceux qui traversent la flaque. Puis choisis une voie.',
+    title: TEXT.lePiegeGourmand,
+    subtitle: TEXT.choisisAttirerPourDetournerLes,
   };
 }
 
@@ -144,13 +149,13 @@ function campGuide(game: Game): BattleGuide | null {
   if (game.status !== 'preparing') return null;
   if (campToolModel(game, 'repair').ready)
     return {
-      title: 'Pense à réparer ton cristal',
-      subtitle: 'Dans Actions du camp : 80 pièces pour regagner jusqu’à 25 points de vie.',
+      title: TEXT.penseAReparerTonCristal,
+      subtitle: TEXT.dansActionsDuCamp80PiecesPour,
     };
   if (heroTrainingState(game).ready)
     return {
-      title: 'Tu peux entraîner ton héros',
-      subtitle: 'Dans Actions du camp : choisis Frappe ou Gardien pour 90 pièces.',
+      title: TEXT.tuPeuxEntrainerTonHeros,
+      subtitle: TEXT.dansActionsDuCampChoisisFrappeOu,
     };
   if (game.mission) return { title: game.briefing.title, subtitle: game.briefing.tip };
   const identity = chapterIdentityForWave(game.wave + 1);

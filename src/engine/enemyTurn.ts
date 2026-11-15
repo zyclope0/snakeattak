@@ -19,6 +19,8 @@ import { followRoute } from './movement.ts';
 import { enemyPace, damageAlly } from './damage.ts';
 import { updateCourt, updateBossShot, shootersFirst } from './court.ts';
 import type { Game } from '../game.ts';
+import * as TEXT from '../texts/fr/battle.ts';
+import { fill } from '../texts/fill.ts';
 
 /** The king lays a two-snake egg in the snakes' half, while fewer than six eggs wait. */
 const ROYAL_EGG_INTERVAL = 12;
@@ -97,7 +99,7 @@ function brood(game: Game, king: Entity, dt: number) {
     count: 2,
   });
   king.broodCool = ROYAL_EGG_INTERVAL;
-  game.message = 'Le roi à trois têtes a pondu un nouvel œuf !';
+  game.message = TEXT.leRoiATroisTetesAPonduUnNouvelOeuf;
 }
 /** The ally within reach to bite: the nearest, except that spitters aim at shooters first. */
 function biteTarget(game: Game, e: Entity): Entity | undefined {
@@ -150,6 +152,6 @@ function enterCrystal(game: Game, e: Entity) {
   cancelBossShot(e.bossState);
   game.message =
     absorbed > 0
-      ? `La protection du cristal a absorbé ${absorbed} dégâts !`
-      : 'Un serpent a atteint le camp !';
+      ? fill(TEXT.laProtectionDuCristalAAbsorbeN, absorbed)
+      : TEXT.unSerpentAAtteintLeCamp;
 }

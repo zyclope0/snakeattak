@@ -11,6 +11,8 @@ import { TOTAL_WAVES } from '../data.ts';
 import { bossReadout } from '../render/bossReadout.ts';
 import { byId, dialogOpen, make, refreshText } from './dom.ts';
 import { bankSummary, battleOver } from './battleState.ts';
+import * as TEXT from '../texts/fr/battleScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 type LaneRow = ReturnType<typeof laneRow>;
 
@@ -34,7 +36,7 @@ export function bindHud() {
     showWaveDots(game, dots);
     showText(
       'egg-count',
-      `${game.eggs.length} œuf${game.eggs.length > 1 ? 's' : ''} · ${game.hatched} éclosions`,
+      fill(TEXT.nOeufNNEclosions, game.eggs.length, game.eggs.length > 1 ? 's' : '', game.hatched),
     );
     showText('ai-mode', `IA : ${snakeCunning(game.difficultyWave)}`);
     showMedicalStock(game);
@@ -74,10 +76,10 @@ function showCrystal(game: Game) {
 }
 
 function phaseLabel(game: Game): string {
-  if (game.status === 'won') return 'VICTOIRE';
-  if (game.status === 'lost') return 'CAMP TOMBÉ';
-  if (game.paused) return 'EN PAUSE';
-  return game.status === 'fighting' ? 'BATAILLE EN COURS' : 'PRÉPARATION';
+  if (game.status === 'won') return TEXT.victoire;
+  if (game.status === 'lost') return TEXT.campTombe;
+  if (game.paused) return TEXT.enPause;
+  return game.status === 'fighting' ? TEXT.batailleEnCours : TEXT.preparation;
 }
 
 /** How well each lane is defended, next to how many snakes walk on it. */
@@ -91,7 +93,7 @@ function showLanes(game: Game, rows: LaneRow[]) {
     if (row.meter.style.getPropertyValue('--strength') !== strength)
       row.meter.style.setProperty('--strength', strength);
     refreshText(row.count, `${counts[i]} ▲`);
-    setDisplayAttribute(row.count, 'aria-label', `${counts[i]} serpents`);
+    setDisplayAttribute(row.count, 'aria-label', fill(TEXT.nSerpents, counts[i]));
   }
 }
 
@@ -112,9 +114,12 @@ function showMedicalStock(game: Game) {
   const away = healers.filter((u) => u.medical!.phase !== 'ready').length;
   showText(
     'medical-status',
-    `Bandages : ${healers.reduce((n, u) => n + u.medical!.bandages, 0)} en réserve` +
+    fill(
+      TEXT.bandagesNEnReserve,
+      healers.reduce((n, u) => n + u.medical!.bandages, 0),
+    ) +
       (away
-        ? ` · ${away} ${away === 1 ? 'soignant refait son stock' : 'soignants refont leur stock'}`
+        ? ` · ${away} ${away === 1 ? TEXT.soignantRefaitSonStock : TEXT.soignantsRefontLeurStock}`
         : ''),
   );
 }
@@ -130,6 +135,6 @@ function showKing(game: Game) {
       (readout.heads
         ? ` · ${readout.heads.map((h) => h.label + (h.alive ? '' : ' KO')).join(' / ')}`
         : '') +
-      (readout.shot ? ' · Crachat annoncé au sol' : ''),
+      (readout.shot ? TEXT.crachatAnnonceAuSol : ''),
   );
 }

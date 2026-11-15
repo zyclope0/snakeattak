@@ -11,6 +11,8 @@ import type { missionJourney } from './missionJourney.ts';
 import { missionStickers } from './stickerGoals.ts';
 import type { StickerEarned } from './stickerGoals.ts';
 import { stickerRow } from './stickerRow.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 /** Un objet du jeu par mission ; l'image est choisie par la feuille de style. */
 function missionEmblem(id: MissionId) {
@@ -45,7 +47,7 @@ export function missionCard(mission: MissionDefinition, index: number) {
     missionEmblem(mission.id),
     missionStatusBadge(),
     make('small', {
-      text: `${String(index + 1).padStart(2, '0')} · ${mission.waves.length} vagues`,
+      text: fill(TEXT.nNVagues, String(index + 1).padStart(2, '0'), mission.waves.length),
     }),
     make('strong', { text: mission.name }),
     make('span', { text: mission.objective }),

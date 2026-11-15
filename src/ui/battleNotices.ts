@@ -1,6 +1,7 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Notice } from '../render/presentation.ts';
 import { byId, dialogOpen } from './dom.ts';
+import * as TEXT from '../texts/fr/battleScreens.ts';
 export type BattleGuide = {
   title: string;
   subtitle: string;
@@ -17,8 +18,8 @@ export function chooseBattleMessage(notice: Notice | null, guide: BattleGuide, p
 }
 export function bindBattleNotices(
   getGuide: () => BattleGuide = () => ({
-    title: 'Tes alliés, de grands courageux',
-    subtitle: 'Les alliés agissent seuls. À toi de préparer leurs meilleures chances.',
+    title: TEXT.tesAlliesDeGrandsCourageux,
+    subtitle: TEXT.lesAlliesAgissentSeulsAToiDe,
   }),
   forceGuide = () => false,
   reminder?: {

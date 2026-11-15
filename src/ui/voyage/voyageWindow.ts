@@ -1,4 +1,5 @@
 import { make } from '../dom.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /**
  * A small window of the voyage, built on first use and named by its heading. It opens over
@@ -15,7 +16,7 @@ export function voyageWindow(id: string, title: string) {
 
 /** A button that only closes its window. */
 export function closeButton(dialog: HTMLDialogElement, className: string) {
-  const button = make('button', { className, text: 'Fermer' });
+  const button = make('button', { className, text: TEXT.fermer });
   button.type = 'button';
   button.onclick = () => dialog.close();
   return button;

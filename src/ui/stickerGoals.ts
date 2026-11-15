@@ -2,6 +2,8 @@ import { CAPRICE_UNLOCK_STARS, capricesForMission, capriceUnlocked } from '../ca
 import type { CapriceDefinition } from '../caprices.ts';
 import { MISSIONS } from '../missions.ts';
 import type { MissionId } from '../missions.ts';
+import * as TEXT from '../texts/fr/capriceScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 /** Tells whether the sticker of a caprice is already in the book that is looked at. */
 export type StickerEarned = (capriceId: string) => boolean;
@@ -43,7 +45,7 @@ export function missionStickers(
 
 /** What a mission card says of its stickers to someone who cannot see the six slots. */
 export const stickerCountLabel = (tally: StickerTally): string =>
-  `Autocollants : ${tally.earned} sur 6`;
+  fill(TEXT.autocollantsNSur6, tally.earned);
 
 /**
  * After a mission is won, with or without a caprice: what is left to earn in it, and the
@@ -54,19 +56,18 @@ export function replayOffer(
   tally: StickerTally,
   afterCaprice: boolean,
 ): { sentence: string; button: string | null } {
-  if (!tally.left)
-    return { sentence: 'Tu as gagné les 6 autocollants de cette mission !', button: null };
+  if (!tally.left) return { sentence: TEXT.tuAsGagneLes6AutocollantsDeCette, button: null };
   if (!tally.playable)
     return {
-      sentence: `Gagne ${tally.starsToOpen} étoiles ici pour ouvrir d’autres caprices.`,
+      sentence: fill(TEXT.gagneNEtoilesIciPourOuvrirDAutres, tally.starsToOpen),
       button: null,
     };
   return {
     sentence:
       tally.left > 1
-        ? `Il te reste ${tally.left} autocollants à gagner ici.`
-        : 'Il te reste 1 autocollant à gagner ici.',
-    button: afterCaprice ? 'Un autre caprice' : 'Rejouer avec un caprice',
+        ? fill(TEXT.ilTeResteNAutocollantsAGagnerIci, tally.left)
+        : TEXT.ilTeReste1AutocollantAGagnerIci,
+    button: afterCaprice ? TEXT.unAutreCaprice : TEXT.rejouerAvecUnCaprice,
   };
 }
 
@@ -90,8 +91,6 @@ export function capriceToPlay(
   return {
     missionId: open.id,
     sentence:
-      left > 1
-        ? `Il te reste ${left} autocollants à gagner.`
-        : 'Il te reste 1 autocollant à gagner.',
+      left > 1 ? fill(TEXT.ilTeResteNAutocollantsAGagner, left) : TEXT.ilTeReste1AutocollantAGagner,
   };
 }

@@ -9,6 +9,7 @@ import { feastIconStyle, feastName } from './feastControls.ts';
 import { placementAdvice } from './placementAdvice.ts';
 import { byId } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
+import * as TEXT from '../texts/fr/advice.ts';
 
 /** The name of the place: the mission first when there is one, then its map. */
 export function showLevel(game: Game) {
@@ -29,21 +30,21 @@ export function showBriefing(game: Game) {
 function waveBriefing(game: Game) {
   const briefing = game.briefing;
   return {
-    title: `${game.status === 'preparing' ? 'Prochaine vague' : 'Vague en cours'} · ${Math.max(1, announcedWave(game))} / ${game.totalWaves} · ${briefing.title}`,
+    title: `${game.status === 'preparing' ? TEXT.prochaineVague : TEXT.vagueEnCours} · ${Math.max(1, announcedWave(game))} / ${game.totalWaves} · ${briefing.title}`,
     tip: briefing.tip,
   };
 }
 
 function outcomeBriefing(game: Game) {
-  if (game.status !== 'won') return { title: 'Le camp est tombé', tip: defeatCopy(game).subtitle };
+  if (game.status !== 'won') return { title: TEXT.leCampEstTombe, tip: defeatCopy(game).subtitle };
   return game.mission
     ? {
-        title: 'Expédition réussie !',
-        tip: 'Tes alliés ont tenu ! Retrouve la carte pour choisir la suite.',
+        title: TEXT.expeditionReussie,
+        tip: TEXT.tesAlliesOntTenuRetrouveLaCarte,
       }
     : {
-        title: 'La vallée est sauvée !',
-        tip: 'Douze vagues repoussées. Le goûter peut commencer !',
+        title: TEXT.laValleeEstSauvee,
+        tip: TEXT.douzeVaguesRepousseesLeGouterPeut,
       };
 }
 
@@ -57,8 +58,7 @@ export function showSelection(session: Session) {
   else if (feast)
     showChoice(
       feastName(feast),
-      session.actionHint ??
-        'Touche un chemin attaqué. Les boutons Haut, Centre et Bas restent disponibles.',
+      session.actionHint ?? TEXT.toucheUnCheminAttaqueLesBoutons,
       feastIconStyle(feast),
     );
 }

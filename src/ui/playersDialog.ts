@@ -1,5 +1,6 @@
 import { setText } from '../i18n/dom.ts';
 import { part, words } from './playerParts.ts';
+import * as TEXT from '../texts/fr/players.ts';
 
 export type PlayersView = 'who' | 'pick' | 'manage' | 'confirm';
 
@@ -21,7 +22,7 @@ export function createPlayersDialog(askAgain: () => void, fallback: HTMLElement)
   const head = part('div', 'players-head');
   const title = part('h2');
   title.id = 'players-title';
-  const close = words('button', 'Fermer', 'secondary');
+  const close = words('button', TEXT.fermer, 'secondary');
   close.id = 'players-close';
   head.append(title, close);
   // The body alone is redrawn: the "turn your phone" notice may be lodged in the dialog.
@@ -80,6 +81,6 @@ export function createPlayersDialog(askAgain: () => void, fallback: HTMLElement)
     require(answer: boolean) {
       required = answer;
     },
-    fail: () => setText(status, 'Impossible d’enregistrer ce joueur sur cet appareil.'),
+    fail: () => setText(status, TEXT.impossibleDEnregistrerCeJoueurSur),
   };
 }

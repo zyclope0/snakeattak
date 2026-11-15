@@ -2,6 +2,7 @@ import { kinds } from '../data.ts';
 import { NICKNAME_LIMIT, PLAYER_CHARACTERS, PLAYER_IDS } from '../players.ts';
 import type { Player, PlayerCharacter, PlayerId, Players } from '../players.ts';
 import { avatar, nameOf, part, playerCard, words } from './playerParts.ts';
+import * as TEXT from '../texts/fr/players.ts';
 
 type Stars = (id: PlayerId) => number;
 type Pick = (id: PlayerId) => void;
@@ -17,11 +18,7 @@ export function whoView(state: Players, stars: Stars, play: Pick, edit: Pick, ad
     cards.append(box);
   }
   if (state.players.length < PLAYER_IDS.length) cards.append(newPlayerCard(add));
-  const note = words(
-    'p',
-    'Chaque joueur garde ses étoiles et son carnet sur cet appareil.',
-    'players-note',
-  );
+  const note = words('p', TEXT.chaqueJoueurGardeSesEtoilesEtSon, 'players-note');
   return { cards, note };
 }
 
@@ -34,8 +31,8 @@ function newPlayerCard(add: () => void) {
   plus.textContent = '+';
   card.append(
     plus,
-    words('strong', 'Nouveau joueur', 'player-name'),
-    words('small', 'Choisis ton personnage'),
+    words('strong', TEXT.nouveauJoueur, 'player-name'),
+    words('small', TEXT.choisisTonPersonnage),
   );
   card.onclick = () => add();
   return card;
@@ -50,9 +47,9 @@ export function pickView(
 ) {
   const { grid, pressed, chosen } = characterGrid(character);
   const { field, input } = nicknameField(player?.name ?? '');
-  const confirm = words('button', player ? 'Enregistrer' : 'C’est moi !', 'primary');
+  const confirm = words('button', player ? TEXT.enregistrer : TEXT.cEstMoi, 'primary');
   confirm.id = 'player-save';
-  const back = words('button', 'Retour', 'secondary');
+  const back = words('button', TEXT.retour, 'secondary');
   back.id = 'player-back';
   back.onclick = () => goBack();
   const send = () => submit(chosen(), input.value);
@@ -104,7 +101,7 @@ function nicknameField(value: string) {
   input.setAttribute('autocapitalize', 'words');
   input.setAttribute('enterkeyhint', 'done');
   input.value = value;
-  field.append(words('span', 'Ton surnom (si tu veux)'), input);
+  field.append(words('span', TEXT.tonSurnomSiTuVeux), input);
   return { field, input };
 }
 
@@ -125,12 +122,12 @@ export function confirmView(player: Player, remove: () => void, keep: () => void
   const face = part('div', 'player-face');
   face.append(avatar(player.character), nameOf(player));
   who.append(face);
-  const text = words('p', 'Ses étoiles et son carnet seront effacés de cet appareil.');
+  const text = words('p', TEXT.sesEtoilesEtSonCarnetSerontEffaces);
   text.id = 'player-delete-text';
-  const yes = words('button', 'Supprimer', 'danger');
+  const yes = words('button', TEXT.supprimer, 'danger');
   yes.id = 'player-delete';
   yes.onclick = () => remove();
-  const no = words('button', 'Annuler', 'secondary');
+  const no = words('button', TEXT.annuler, 'secondary');
   no.id = 'player-keep';
   no.onclick = () => keep();
   const actions = part('div', 'player-form');

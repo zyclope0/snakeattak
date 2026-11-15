@@ -1,7 +1,8 @@
 import { setText } from '../i18n/dom.ts';
 import { byId, make } from './dom.ts';
+import * as TEXT from '../texts/fr/home.ts';
 
-const NAME = 'Confidentialité';
+const NAME = TEXT.confidentialite;
 
 /**
  * « Confidentialité », among the parents' buttons. Only this button is loaded with the game:
@@ -26,7 +27,7 @@ export function bindPrivacyDoor() {
       () => {
         // The package did not arrive (a web page without network nor cache): ask again.
         opening = undefined;
-        setText(door, 'Confidentialité indisponible. Réessaie.');
+        setText(door, TEXT.confidentialiteIndisponible);
       },
     );
   };

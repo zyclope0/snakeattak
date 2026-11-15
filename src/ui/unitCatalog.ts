@@ -1,12 +1,13 @@
 import { kinds } from '../data.ts';
 import type { Kind } from '../data.ts';
+import * as TEXT from '../texts/fr/recruiting.ts';
 
 export const UNIT_FAMILIES = {
-  all: 'Tous',
-  humans: 'Humains',
-  creatures: 'Dinosaures et dragon',
-  mutants: 'Mutants',
-  defenses: 'Palissades',
+  all: TEXT.tous,
+  humans: TEXT.humains,
+  creatures: TEXT.dinosauresEtDragon,
+  mutants: TEXT.mutants,
+  defenses: TEXT.palissades,
 } as const;
 
 export const RECRUITABLE_KINDS = Object.keys(kinds).filter((k) => k !== 'hero') as Kind[];

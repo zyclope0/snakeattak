@@ -5,6 +5,7 @@ import { loadVoyageLog } from '../voyageStorage.ts';
 import type { VoyageLog } from '../voyageStorage.ts';
 import { byId, make } from './dom.ts';
 import type { HomePage } from './homeNavigation.ts';
+import * as TEXT from '../texts/fr/home.ts';
 
 /** What the page lends to the voyage: the game on screen, the player's storage, the way around. */
 export type VoyagePorts = {
@@ -30,7 +31,7 @@ type Screens = {
 export function voyageDoor(log: VoyageLog): { label: string; fresh: boolean } {
   const current = log.current;
   const resume = current?.status === 'travelling' && current.won > 0;
-  return { label: resume ? 'Reprendre le voyage' : 'Le voyage', fresh: !current };
+  return { label: resume ? TEXT.reprendreLeVoyage : TEXT.leVoyage, fresh: !current };
 }
 
 /**
@@ -40,7 +41,7 @@ export function voyageDoor(log: VoyageLog): { label: string; fresh: boolean } {
  */
 export function bindVoyageDoor(ports: VoyagePorts) {
   const label = make('span');
-  const tag = make('small', { className: 'voyage-new', text: 'Nouveau' });
+  const tag = make('small', { className: 'voyage-new', text: TEXT.nouveau });
   const door = make('button', { id: 'home-voyage' }, label, tag);
   byId('home-primary').after(door);
   let screens: Screens | undefined;
@@ -66,7 +67,7 @@ export function bindVoyageDoor(ports: VoyagePorts) {
       () => {
         // The package did not arrive (no network, no cache): the next touch asks again.
         loading = undefined;
-        setText(label, 'Le voyage n’a pas pu s’ouvrir. Réessaie.');
+        setText(label, TEXT.leVoyageNAPasPuSOuvrirReessaie);
       },
     );
   };

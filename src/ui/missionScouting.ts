@@ -3,6 +3,8 @@ import { kinds, type Kind } from '../data.ts';
 import { canHitFlying } from '../flying.ts';
 import { missionById, missionWave, type MissionRun } from '../missions.ts';
 import { missionThreats, threatAdvice } from './threatPreview.ts';
+import * as TEXT from '../texts/fr/missionScreens.ts';
+import { fill } from '../texts/fill.ts';
 
 /**
  * Flying snakes arrive from wave rank 6 (`flyingVariant`): a mission that reaches it says so.
@@ -10,17 +12,19 @@ import { missionThreats, threatAdvice } from './threatPreview.ts';
  */
 function flyingNotice(run: MissionRun, flyingKinds: readonly Kind[]): string {
   if (!missionById(run.missionId)!.waves.some((rank) => rank >= 6)) return '';
-  if (!run.caprice)
-    return 'Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.';
-  if (!flyingKinds.length) return 'Des volants arriveront dans cette mission.';
-  return `Des volants arriveront dans cette mission : alliés possibles, ${flyingKinds.map((kind) => kinds[kind].name).join(' · ')}.`;
+  if (!run.caprice) return TEXT.desVolantsArriverontDansCette;
+  if (!flyingKinds.length) return TEXT.desVolantsArriverontDansCette2;
+  return fill(
+    TEXT.desVolantsArriverontDansCette3,
+    flyingKinds.map((kind) => kinds[kind].name).join(' · '),
+  );
 }
 
 /** An isolated proposed Game supplies the same availability as the eventual launch. */
 export function missionScouting(run: MissionRun, chosen: readonly Kind[] = []) {
   const game = new Game(run.seed, undefined, run);
   if (chosen.length && !game.chooseCapriceKinds(chosen))
-    throw new RangeError('Invalid preparation friend choice');
+    throw new RangeError(TEXT.invalidPreparationFriendChoice);
   const available = (kind: Kind) => game.isUnlocked(kind) && game.capriceAllows(kind);
   const types = missionThreats(run);
   const flyingKinds = (Object.keys(kinds) as Kind[]).filter(

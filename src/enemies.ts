@@ -1,6 +1,7 @@
+import * as TEXT from './texts/fr/snakes.ts';
 export const enemies = {
   normal: {
-    name: 'Serpent',
+    name: TEXT.serpent,
     hp: 1,
     speed: 1,
     damage: 1,
@@ -10,7 +11,7 @@ export const enemies = {
     scale: 1,
   },
   flying: {
-    name: 'Serpent volant',
+    name: TEXT.serpentVolant,
     hp: 0.65,
     speed: 1.2,
     damage: 0.75,
@@ -20,7 +21,7 @@ export const enemies = {
     scale: 1,
   },
   courtHealer: {
-    name: 'Serpent soigneur',
+    name: TEXT.serpentSoigneur,
     hp: 0.7,
     speed: 1,
     damage: 0,
@@ -30,7 +31,7 @@ export const enemies = {
     scale: 1,
   },
   runner: {
-    name: 'Vif',
+    name: TEXT.vif,
     hp: 0.65,
     speed: 1.55,
     damage: 0.8,
@@ -40,7 +41,7 @@ export const enemies = {
     scale: 0.85,
   },
   armored: {
-    name: 'Carapace',
+    name: TEXT.carapace,
     hp: 1.9,
     speed: 0.72,
     damage: 1.2,
@@ -50,7 +51,7 @@ export const enemies = {
     scale: 1.15,
   },
   clockwork: {
-    name: 'Serpent à rouages',
+    name: TEXT.serpentARouages,
     hp: 1.65,
     speed: 0.82,
     damage: 1.1,
@@ -60,7 +61,7 @@ export const enemies = {
     scale: 1.12,
   },
   spring: {
-    name: 'Serpent à ressort',
+    name: TEXT.serpentARessort,
     hp: 0.85,
     speed: 1,
     damage: 0.9,
@@ -70,7 +71,7 @@ export const enemies = {
     scale: 0.95,
   },
   umbrella: {
-    name: 'Serpent parapluie',
+    name: TEXT.serpentParapluie,
     hp: 1.35,
     speed: 0.82,
     damage: 0.9,
@@ -80,7 +81,7 @@ export const enemies = {
     scale: 1.05,
   },
   spitter: {
-    name: 'Cracheur',
+    name: TEXT.cracheur,
     hp: 0.9,
     speed: 0.9,
     damage: 0.8,
@@ -90,7 +91,7 @@ export const enemies = {
     scale: 1,
   },
   rattlesnake: {
-    name: 'Serpent à sonnette',
+    name: TEXT.serpentASonnette,
     hp: 0.95,
     speed: 0.9,
     damage: 0.8,
@@ -100,7 +101,7 @@ export const enemies = {
     scale: 1,
   },
   royal: {
-    name: 'Cobra royal',
+    name: TEXT.cobraRoyal,
     hp: 1.15,
     speed: 0.9,
     damage: 1,
@@ -110,7 +111,7 @@ export const enemies = {
     scale: 1.08,
   },
   mamba: {
-    name: 'Mamba noir',
+    name: TEXT.mambaNoir,
     hp: 0.85,
     speed: 1.25,
     damage: 1,

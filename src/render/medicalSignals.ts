@@ -5,6 +5,7 @@ import type { Game } from '../game.ts';
 import { medicalReadout } from './medicalReadout.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
+import * as TEXT from '../texts/fr/board.ts';
 /** Stock labels read the simulation; rendering never advances a recharge. */
 export class MedicalSignals {
   private labels: FramePool<number, Phaser.GameObjects.Text>;
@@ -33,7 +34,7 @@ export class MedicalSignals {
     });
     onSceneExit(scene.events, () => this.labels.clear());
     this.station = scene.add.graphics().setDepth(15.4);
-    this.stationLabel = addCanvasCopy(scene.add, 988, 442, 'Réserve', {
+    this.stationLabel = addCanvasCopy(scene.add, 988, 442, TEXT.reserve, {
       fontFamily: BODY_FONT,
       fontSize: '11px',
       color: '#f6f0d8',

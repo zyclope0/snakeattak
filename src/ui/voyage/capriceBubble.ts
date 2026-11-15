@@ -4,6 +4,7 @@ import { capriceExplanation, frenchLeaf } from '../capriceCopy.ts';
 import { paintSticker, stickerGraphic } from '../capriceIcons.ts';
 import { make } from '../dom.ts';
 import { closeButton, voyageWindow } from './voyageWindow.ts';
+import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /**
  * What a sticker of the path stands for: the caprice that will surprise that stage. Its
@@ -12,7 +13,7 @@ import { closeButton, voyageWindow } from './voyageWindow.ts';
  * that shows a caprice.
  */
 export function capriceBubble(): (caprice: CapriceDefinition) => void {
-  const { dialog, heading } = voyageWindow('voyage-caprice', 'Caprice surprise');
+  const { dialog, heading } = voyageWindow('voyage-caprice', TEXT.capriceSurprise);
   const graphic = stickerGraphic();
   const name = frenchLeaf('strong', '');
   const announce = frenchLeaf('p', '');

@@ -29,6 +29,8 @@ import { tickBosses } from './engine/court.ts';
 import { updateAllies, separateAllies } from './engine/allies.ts';
 import { updateConfusion, updateEnemies } from './engine/enemyTurn.ts';
 import { collectFallen, resolveWave } from './engine/outcome.ts';
+import * as TEXT from './texts/fr/battle.ts';
+import { fill } from './texts/fill.ts';
 export type { Entity, Egg, Effect } from './engine/state.ts';
 
 const HERO_TRAINING_COST = 90;
@@ -77,7 +79,7 @@ export class Game {
   spawnTimer = 0;
   nextId = 0;
   kills = 0;
-  message = 'Choisis un allié.';
+  message = TEXT.choisisUnAllie;
   readonly tuning: Readonly<BalanceTuning>;
   readonly rewards: RewardState;
   readonly campaign: CampaignState = freshCampaign();
@@ -113,17 +115,17 @@ export class Game {
     stage?: StageRules,
   ) {
     this.mission = mission === undefined ? null : readMissionRun(mission);
-    if (mission !== undefined && !this.mission) throw new RangeError('Expédition invalide');
+    if (mission !== undefined && !this.mission) throw new RangeError(TEXT.expeditionInvalide);
     this.#stage = stage === undefined ? null : readStageRules(stage);
     // A stage is an expedition of the second balance revision, nothing older.
     if (stage !== undefined && (!this.#stage || this.mission?.balance !== 2))
-      throw new RangeError('Expédition invalide');
+      throw new RangeError(TEXT.expeditionInvalide);
     const revision = this.mission?.balance ?? 1;
     if (
       (balance !== undefined && balance !== 1 && balance !== 2) ||
       (this.mission && balance !== undefined && balance !== revision)
     )
-      throw new RangeError('Révision invalide');
+      throw new RangeError(TEXT.revisionInvalide);
     this.#balanceRevision = balance ?? revision;
     if (this.mission) {
       seed = this.mission.seed;
@@ -192,8 +194,7 @@ export class Game {
       return false;
     this.gold -= HERO_TRAINING_COST;
     this.campaign.training = path;
-    this.message =
-      path === 'force' ? 'Le héros entraîne sa force !' : 'Le héros entraîne sa garde !';
+    this.message = path === 'force' ? TEXT.leHerosEntraineSaForce : TEXT.leHerosEntraineSaGarde;
     return true;
   }
   encourage(): boolean {
@@ -206,7 +207,7 @@ export class Game {
       return false;
     this.encouragementUsed = true;
     this.encouragementRemaining = 8;
-    this.message = 'Courage ! Les alliés frappent plus vite pendant 8 secondes !';
+    this.message = TEXT.courageLesAlliesFrappentPlusVite;
     return true;
   }
   recruitCost(kind: Kind) {
@@ -253,8 +254,8 @@ export class Game {
     this.feastUsed = true;
     this.message =
       flavor === 'sticky'
-        ? 'Le miel colle aux écailles ! Les serpents ralentissent sur cette voie.'
-        : 'Le goûter est servi ! Les serpents gourmands sont tentés de changer de voie.';
+        ? TEXT.leMielColleAuxEcaillesLesSerpents
+        : TEXT.leGouterEstServiLesSerpents;
     return true;
   }
   isUnlocked(kind: Kind) {
@@ -318,7 +319,7 @@ export class Game {
     if (voucher) voucher.used = true;
     addAlly(this, kind, x, y);
     if (this.caprice.kinds) this.#capriceKinds.add(kind);
-    this.message = `${kinds[kind].name} rejoint le camp !`;
+    this.message = fill(TEXT.nRejointLeCamp, kinds[kind].name);
     return true;
   }
   startWave() {
@@ -345,8 +346,8 @@ export class Game {
     this.eggs = layWaveEggs(this, plan);
     this.message =
       !this.mission && this.wave === TOTAL_WAVES
-        ? 'La dernière vague ! Le roi à trois têtes approche…'
-        : `Vague ${this.wave} : défends le camp !`;
+        ? TEXT.laDerniereVagueLeRoiATroisTetes
+        : fill(TEXT.vagueNDefendsLeCamp, this.wave);
     return true;
   }
   repair() {

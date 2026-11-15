@@ -15,6 +15,8 @@ import { byId } from './dom.ts';
 import { starRow } from './gameParts.ts';
 import { bindPendingConfirm } from './pendingConfirm.ts';
 import { bindRosterEditor } from './rosterEditor.ts';
+import * as TEXT from '../texts/fr/home.ts';
+import { fill } from '../texts/fill.ts';
 
 type Career = ReturnType<typeof createCareer>;
 type Actions = {
@@ -30,8 +32,8 @@ const CHAPTERS = [0, 1, 2] as const;
 /** What a chapter card shows until its real background is asked for. */
 const CHAPTER_PLACEHOLDERS = [
   'var(--home-scene)',
-  'linear-gradient(135deg, #486d58, #e6dcad)',
-  'linear-gradient(135deg, #547b79, #dce7df)',
+  TEXT.linearGradient135deg486d58E6dcad,
+  TEXT.linearGradient135deg547b79Dce7df,
 ];
 
 /** An adventure that has begun is never replaced without asking. */
@@ -41,14 +43,14 @@ const begun = (session: Session) => {
 };
 
 function continueLabel(g: Game) {
-  if (g.mission) return 'Reprendre mon aventure classique';
-  if (g.status === 'lost') return 'Réessayer la vague';
-  if (g.status === 'fighting') return `Continuer la bataille · vague ${g.wave}`;
-  return `Continuer · vague ${Math.min(12, g.wave + 1)}`;
+  if (g.mission) return TEXT.reprendreMonAventureClassique;
+  if (g.status === 'lost') return TEXT.reessayerLaVague;
+  if (g.status === 'fighting') return fill(TEXT.continuerLaBatailleVagueN, g.wave);
+  return fill(TEXT.continuerVagueN, Math.min(12, g.wave + 1));
 }
 function chapterActionLabel(chapter: number, available: boolean) {
-  if (chapter === 0) return 'Commencer ici';
-  return available ? 'Rejouer depuis mon camp' : 'À découvrir dans l’aventure';
+  if (chapter === 0) return TEXT.commencerIci;
+  return available ? TEXT.rejouerDepuisMonCamp : TEXT.aDecouvrirDansLAventure;
 }
 
 /** The three chapter cards of the classic adventure: thumbnail, focus, and where each starts. */
@@ -73,7 +75,7 @@ function refreshChapters(state: Career['state']) {
   for (const i of CHAPTERS) {
     const stars = state.bestStars[i];
     setDisplayText(byId(`chapter-stars-${i}`), starRow(stars));
-    setDisplayAttribute(byId(`chapter-stars-${i}`), 'aria-label', `${stars} étoiles sur 3`);
+    setDisplayAttribute(byId(`chapter-stars-${i}`), 'aria-label', fill(TEXT.nEtoilesSur3, stars));
     const available = i === 0 || state.chapterCamps[i - 1] !== null;
     byId<HTMLButtonElement>(`chapter-${i}`).disabled = !available;
     setDisplayText(byId(`chapter-action-${i}`), chapterActionLabel(i, available));
@@ -84,7 +86,13 @@ function refreshChapters(state: Career['state']) {
 function refreshMenu(session: Session, career: Career, actions: Actions) {
   const state = career.state,
     g = session.game;
-  setDisplayText(byId('home-stars'), `${state.bestStars.reduce((a, b) => a + b, 0)} / 9 étoiles`);
+  setDisplayText(
+    byId('home-stars'),
+    fill(
+      TEXT.n9Etoiles,
+      state.bestStars.reduce((a, b) => a + b, 0),
+    ),
+  );
   setDisplayText(byId('career-status'), actions.progressStatus?.() ?? career.status);
   byId<HTMLButtonElement>('home-continue').hidden =
     !actions.hasCamp() || (!g.mission && g.status === 'won');
@@ -93,10 +101,10 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
   setDisplayTitle(
     byId('home-army'),
     g.status === 'fighting'
-      ? 'Les favoris se préparent entre les vagues.'
-      : 'Préparer trois groupes de huit favoris.',
+      ? TEXT.lesFavorisSePreparentEntreLes
+      : TEXT.preparerTroisGroupesDeHuitFavoris,
   );
-  setDisplayText(byId('home-active-team'), `Favoris · ${ROSTER_NAMES[state.activeRoster]}`);
+  setDisplayText(byId('home-active-team'), fill(TEXT.favorisN, ROSTER_NAMES[state.activeRoster]));
   refreshChapters(state);
 }
 
