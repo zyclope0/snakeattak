@@ -1,10 +1,9 @@
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 import * as TEXT from './texts/fr/allies.ts';
+import { ROSTER_SIZE } from './gameConstants.ts';
 
 export type Roster = Kind[];
-/** A team of favourites always holds this many different allies. */
-export const ROSTER_SIZE = 8;
 // Favourites only: recruitment still uses Game's prices, placement and wave locks.
 export const DEFAULT_ROSTERS: [Roster, Roster, Roster] = [
   ['club', 'shield', 'nurse', 'archer', 'ninja', 'medic', 'dragon', 'knight'],

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync, readdirSync } from 'node:fs';
 import {
   CHAPTER_COUNT,
   CRYSTAL_MAX,
@@ -128,8 +129,59 @@ test('une vague de l’aventure pond un œuf de plus par chapitre, trois au plus
   );
 });
 
-test('les récompenses gardent leurs montants', async () => {
-  const { CRYSTAL_WARD, REWARD_COINS } = await import('../src/rewards.ts');
-  assert.equal(CRYSTAL_WARD, 18);
-  assert.equal(REWARD_COINS, 100);
+test('les prix du camp et les récompenses gardent leurs montants', async () => {
+  const constants = await import('../src/gameConstants.ts');
+  assert.deepEqual(
+    [
+      constants.REWARD_COINS,
+      constants.CRYSTAL_WARD,
+      constants.HONEY_REWARD_SECONDS,
+      constants.REPAIR_COST,
+      constants.REPAIR_AMOUNT,
+      constants.HERO_TRAINING_COST,
+      constants.ENCOURAGEMENT_SECONDS,
+      constants.STAR_MAX,
+      constants.MISSION_COUNT,
+      constants.ROSTER_SIZE,
+    ],
+    [100, 18, 4, 80, 25, 90, 8, 3, 6, 8],
+  );
+  const { MISSIONS } = await import('../src/missions.ts');
+  assert.equal(MISSIONS.length, constants.MISSION_COUNT);
+});
+
+// A sentence that states a number of the game takes it from its constant
+// (`${START_GOLD} pièces`), so that a new value cannot leave a sentence behind. These are
+// the shapes such a number has when it is typed by hand.
+test('aucune phrase ne retape un nombre du jeu', () => {
+  const typed = [
+    /(?<![\d.,])300 (?:pièces|coins)\b/,
+    /(?<![\d.,])(?:80|90) (?:pièces|coins)\b/,
+    /\+100 (?:pièces|coins)\b/,
+    /(?<![\d.,])12 (?:vagues|waves)\b/,
+    /\b(?:vagues|waves) 4 (?:et|and) 8\b/,
+    /(?:pendant|for) 8 s\b/,
+    /(?<![\d.,])8 (?:secondes|seconds)\b/,
+    /\+4 (?:secondes|seconds)\b/,
+    /(?<![\d.,])18 (?:dégâts|damage)\b/,
+    /(?<![\d.,])25 (?:points|health)\b/,
+    /\/ ?100\b/,
+    /\/ (?:8|18) /,
+    /(?:sur|out of) 3\b/,
+  ];
+  for (const language of ['fr', 'en'])
+    for (const name of readdirSync(`src/texts/${language}`)) {
+      const file = `src/texts/${language}/${name}`;
+      // What stands between `${` and `}` is a constant, not a typed number.
+      const lines = readFileSync(file, 'utf8')
+        .replace(/\$\{[^}]*\}/g, '')
+        .split('\n');
+      for (const [index, line] of lines.entries())
+        for (const shape of typed)
+          assert.doesNotMatch(
+            line,
+            shape,
+            `${file}:${index + 1} — prends ce nombre dans src/gameConstants.ts`,
+          );
+    }
 });

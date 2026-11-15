@@ -23,6 +23,24 @@ export const START_GOLD = 300;
 export const CRYSTAL_MAX = 100;
 export const START_TEAM_SIZE = 3;
 
+/** The actions of the camp, between two waves: mending the crystal, training the hero. */
+export const REPAIR_COST = 80;
+export const REPAIR_AMOUNT = 25;
+export const HERO_TRAINING_COST = 90;
+/** How long « Courage ! » makes the allies strike faster. */
+export const ENCOURAGEMENT_SECONDS = 8;
+
+/** What the three rewards without an ally give: coins, a ward for the crystal, longer honey. */
+export const REWARD_COINS = 100;
+export const CRYSTAL_WARD = 18;
+export const HONEY_REWARD_SECONDS = 4;
+
+/** A chapter or an expedition earns three stars at most; there are six expeditions. */
+export const STAR_MAX = 3;
+export const MISSION_COUNT = 6;
+/** A team of favourites always holds this many different allies. */
+export const ROSTER_SIZE = 8;
+
 /** No purse holds more; a save that claims more was not written by the game. */
 export const GOLD_LIMIT = 10000000;
 

@@ -7,20 +7,23 @@ import { bossReadout } from './bossReadout.ts';
 import { eggLabelPositions } from './encounterReadout.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
+import * as DEPTH from './boardLayers.ts';
+import * as BOARD_COLOR from './palette.ts';
+import { cssColor } from './cssColor.ts';
 export class BattleFeedback {
   private graphics: Phaser.GameObjects.Graphics;
   private labels: Phaser.GameObjects.Text[] = [];
   private encounterLabels: Phaser.GameObjects.Text[] = [];
   private bossLabel: Phaser.GameObjects.Text;
   constructor(scene: Phaser.Scene) {
-    this.graphics = scene.add.graphics().setDepth(22);
+    this.graphics = scene.add.graphics().setDepth(DEPTH.feedback);
     this.bossLabel = addCanvasCopy(scene.add, 550, 13, '', {
       fontFamily: BODY_FONT,
       fontSize: '12px',
       color: '#ffe2a0',
     })
       .setOrigin(0.5)
-      .setDepth(23);
+      .setDepth(DEPTH.feedbackLabels);
     // Six imminent eggs, one confusion summary, courage and the existing boss target.
     for (let i = 0; i < 9; i++)
       this.encounterLabels.push(
@@ -33,7 +36,7 @@ export class BattleFeedback {
           strokeThickness: 2,
         })
           .setOrigin(0.5)
-          .setDepth(23)
+          .setDepth(DEPTH.feedbackLabels)
           .setVisible(false),
       );
     for (let i = 0; i < 40; i++)
@@ -46,7 +49,7 @@ export class BattleFeedback {
           strokeThickness: 3,
         })
           .setOrigin(0.5)
-          .setDepth(24)
+          .setDepth(DEPTH.floatingWords)
           .setVisible(false),
       );
   }
@@ -140,9 +143,9 @@ export class BattleFeedback {
     const eggLabels = eggLabelPositions(r.eggs);
     for (const [i, egg] of r.eggs.entries()) {
       const label = eggLabels[i];
-      g.lineStyle(1.5, 0xe2c58a, 0.85);
+      g.lineStyle(1.5, BOARD_COLOR.parchment, 0.85);
       g.lineBetween(label.x, label.y + 14, egg.x, egg.y - 30);
-      plaque(i, egg.label, label.x, label.y, 146, 0xe2c58a, '#ffe2a0');
+      plaque(i, egg.label, label.x, label.y, 146, BOARD_COLOR.parchment, '#ffe2a0');
       // A shell crack supplements the existing egg progress arc and wobble.
       g.lineStyle(3, 0xffe2a0, 1);
       g.lineBetween(egg.x - 5, egg.y - 26, egg.x + 3, egg.y - 18);
@@ -151,15 +154,23 @@ export class BattleFeedback {
     }
     if (r.confusion)
       // Actors already draws a question mark on every affected ally.
-      plaque(6, r.confusion.label, 278, 585, 246, 0xd8b8e9, '#f4dcff');
+      plaque(6, r.confusion.label, 278, 585, 246, 0xd8b8e9, cssColor(BOARD_COLOR.confusion));
     if (r.encouragement) {
-      plaque(7, r.encouragement.label, 842, 585, 420, 0xe2c58a, '#ffe2a0');
-      g.fillStyle(0xe2c58a, 1);
+      plaque(7, r.encouragement.label, 842, 585, 420, BOARD_COLOR.parchment, '#ffe2a0');
+      g.fillStyle(BOARD_COLOR.parchment, 1);
       g.fillTriangle(642, 580, 650, 585, 642, 590);
       g.fillRoundedRect(660, 602, 376 * r.encouragement.ratio, 3, 1);
     }
     if (r.shot)
       // The only target shape remains in BossSignals, using the same readout.
-      plaque(8, r.shot.label, r.shot.x, r.shot.y - r.shot.radius - 23, 168, 0xf3ac79, '#ffd58b');
+      plaque(
+        8,
+        r.shot.label,
+        r.shot.x,
+        r.shot.y - r.shot.radius - 23,
+        168,
+        0xf3ac79,
+        cssColor(BOARD_COLOR.kingWarning),
+      );
   }
 }

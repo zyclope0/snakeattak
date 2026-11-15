@@ -4,13 +4,11 @@ import { kinds, type Kind } from '../data.ts';
 import { missionById } from '../missions.ts';
 import * as TEXT from '../texts/fr/camp.ts';
 import { fill } from '../texts/fill.ts';
-import { CRYSTAL_MAX } from '../gameConstants.ts';
+import { CRYSTAL_MAX, HERO_TRAINING_COST, REPAIR_COST } from '../gameConstants.ts';
 
 export const CAMP_TOOLS = ['honey', 'encourage', 'repair', 'hero'] as const;
 export type CampTool = (typeof CAMP_TOOLS)[number];
 
-const REPAIR_COST = 80;
-const TRAINING_COST = 90;
 const NO_HONEY = TEXT.pasDeMielDansCeCaprice;
 
 /** A battle that is still played: in camp or in a wave. */
@@ -35,7 +33,7 @@ export function heroTrainingState(game: Game) {
       hero &&
       game.status === 'preparing' &&
       game.campaign.training === 'none' &&
-      canSpend(game, TRAINING_COST),
+      canSpend(game, HERO_TRAINING_COST),
     status: bankNotice(game) + trainingStatus(game, eligible, hero),
   };
 }
@@ -47,8 +45,8 @@ function trainingStatus(game: Game, eligible: boolean, hero: boolean): string {
   if (!eligible)
     return game.mission ? TEXT.dansUneAutreExpeditionDesLesTrois : TEXT.disponibleApresLaVague4;
   if (game.status !== 'preparing') return TEXT.entreDeuxVagues90Pieces;
-  if (!canSpend(game, TRAINING_COST))
-    return fill(TEXT.ilManqueNPiecesPourLEntrainement, TRAINING_COST - availableGold(game));
+  if (!canSpend(game, HERO_TRAINING_COST))
+    return fill(TEXT.ilManqueNPiecesPourLEntrainement, HERO_TRAINING_COST - availableGold(game));
   return TEXT.n90PiecesUnSeulEntrainementPourCes;
 }
 
@@ -62,7 +60,7 @@ export function campToolModel(game: Game, tool: CampTool) {
 
 function heroHelp(game: Game) {
   return {
-    cost: TRAINING_COST,
+    cost: HERO_TRAINING_COST,
     title: TEXT.entrainerLeHeros,
     when: TEXT.entreDeuxVaguesDesLesTroisPontsEn,
     gesture: TEXT.tousLesAlliesConseilsEtOutils,

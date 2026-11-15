@@ -1,7 +1,8 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
-import { ROSTER_NAMES, ROSTER_SIZE } from '../roster.ts';
+import { ROSTER_NAMES } from '../roster.ts';
+import { ROSTER_SIZE } from '../gameConstants.ts';
 import { kinds, unlockWave } from '../data.ts';
 import type { Kind } from '../data.ts';
 import { byId, make } from './dom.ts';

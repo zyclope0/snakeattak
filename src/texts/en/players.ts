@@ -1,3 +1,5 @@
+import { MISSION_COUNT, STAR_MAX } from '../../gameConstants.ts';
+
 export const joueurs = 'Players';
 export const changerDeJoueur = 'Switch player';
 export const ajouterUnJoueur = 'Add a player';
@@ -5,7 +7,7 @@ export const ceFichierNeGardeQueLAventureDu =
   'This file only keeps the adventure of the current player:';
 export const supprimer = 'Delete';
 export const modifier = 'Edit';
-export const n18Etoiles = '{0} / 18 stars';
+export const n18Etoiles = `{0} / ${MISSION_COUNT * STAR_MAX} stars`;
 export const chaqueJoueurGardeSesEtoilesEtSon =
   'Each player keeps their own stars and sticker book on this device.';
 export const nouveauJoueur = 'New player';

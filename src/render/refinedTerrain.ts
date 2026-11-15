@@ -8,6 +8,7 @@ import type { StageProp } from './stageLayout.ts';
 import { Figurines } from './figurines.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT, boardScale } from './boardResolution.ts';
 import { standingDepth } from './boardDepth.ts';
+import { SHEET } from '../art.ts';
 
 type Graphics = Phaser.GameObjects.Graphics;
 type Image = Phaser.GameObjects.Image;
@@ -95,7 +96,7 @@ export function refinedTerrain(
   // `baked` props are drawn once into the cache; the others stay on the board, among the fighters.
   const prop: PropMaker = (frame, x, y, size, baked = true) => {
     const art = figurines.image(
-      { texture: 'props-three-bridges', frame },
+      { texture: SHEET.threeBridgesProps, frame },
       size,
       size,
       baked ? cacheScale : boardScale(scene),

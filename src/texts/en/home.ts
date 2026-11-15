@@ -1,3 +1,5 @@
+import { CRYSTAL_MAX, ENCOURAGEMENT_SECONDS, STAR_MAX } from '../../gameConstants.ts';
+
 export const reprendre = 'Resume';
 export const reprendreMaMission = 'Resume my mission';
 export const reprendreMonAventureClassique = 'Resume my classic adventure';
@@ -7,14 +9,13 @@ export const impossibleDeConserverCeFichierSur =
 export const aventureFamilialeRetrouvee = 'Family adventure restored.';
 export const encouragesNS = 'Encouraged · {0} s';
 export const revientALaProchaineVague = 'Returns next wave';
-export const n1FoisParVagueAttaquesPlusRapides = 'Once per wave · faster attacks for 8 s';
+export const n1FoisParVagueAttaquesPlusRapides = `Once per wave · faster attacks for ${ENCOURAGEMENT_SECONDS} s`;
 export const chapitreNAccompliNNN = 'Chapter {0} complete · {1} · {2}{3}';
 export const minimumHistoriqueNonDisponible = 'past minimum unavailable';
-export const minimumDuChapitreN100Pv = 'chapter minimum {0}/100 HP';
+export const minimumDuChapitreN100Pv = `chapter minimum {0}/${CRYSTAL_MAX} HP`;
 export const conserveeN = 'kept';
 export const pourCePassage = 'for this run';
-export const nEtoileNSur3NCristalNActuellementN =
-  'Stars: {0} out of 3 {2}. Crystal: {3} · now {4}/100 HP. Allies present: {5}. Snakes defeated since the adventure began: {8}.';
+export const nEtoileNSur3NCristalNActuellementN = `Stars: {0} out of ${STAR_MAX} {2}. Crystal: {3} · now {4}/${CRYSTAL_MAX} HP. Allies present: {5}. Snakes defeated since the adventure began: {8}.`;
 export const linearGradient135deg486d58E6dcad = 'linear-gradient(135deg, #486d58, #e6dcad)';
 export const linearGradient135deg547b79Dce7df = 'linear-gradient(135deg, #547b79, #dce7df)';
 export const reessayerLaVague = 'Retry wave';
@@ -23,7 +24,7 @@ export const continuerVagueN = 'Continue · wave {0}';
 export const commencerIci = 'Start here';
 export const rejouerDepuisMonCamp = 'Replay from my camp';
 export const aDecouvrirDansLAventure = 'Discover during the adventure';
-export const nEtoilesSur3 = '{0} stars out of 3';
+export const nEtoilesSur3 = `{0} stars out of ${STAR_MAX}`;
 export const n9Etoiles = '{0} / 9 stars';
 export const lesFavorisSePreparentEntreLes = 'Set up your favorites between waves.';
 export const preparerTroisGroupesDeHuitFavoris = 'Prepare three groups of eight favorites.';

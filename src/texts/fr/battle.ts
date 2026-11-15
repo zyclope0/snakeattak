@@ -1,3 +1,5 @@
+import { ENCOURAGEMENT_SECONDS } from '../../gameConstants.ts';
+
 export const haut = 'Haut';
 export const centre = 'Centre';
 export const bas = 'Bas';
@@ -31,8 +33,7 @@ export const choisisUnAllie = 'Choisis un allié.';
 export const expeditionInvalide = 'Expédition invalide';
 export const leHerosEntraineSaForce = 'Le héros entraîne sa force !';
 export const leHerosEntraineSaGarde = 'Le héros entraîne sa garde !';
-export const courageLesAlliesFrappentPlusVite =
-  'Courage ! Les alliés frappent plus vite pendant 8 secondes !';
+export const courageLesAlliesFrappentPlusVite = `Courage ! Les alliés frappent plus vite pendant ${ENCOURAGEMENT_SECONDS} secondes !`;
 export const leMielColleAuxEcaillesLesSerpents =
   'Le miel colle aux écailles ! Les serpents ralentissent sur cette voie.';
 export const leGouterEstServiLesSerpents =

@@ -6,6 +6,7 @@ import { medicalReadout } from './medicalReadout.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
 import * as TEXT from '../texts/fr/board.ts';
+import * as DEPTH from './boardLayers.ts';
 /** Stock labels read the simulation; rendering never advances a recharge. */
 export class MedicalSignals {
   private labels: FramePool<number, Phaser.GameObjects.Text>;
@@ -23,7 +24,7 @@ export class MedicalSignals {
           padding: { x: 4, y: 2 },
         })
           .setOrigin(0.5, 0)
-          .setDepth(17),
+          .setDepth(DEPTH.signalLabels),
       activate: (label) => {
         label.addToDisplayList().setActive(true).setVisible(true);
       },
@@ -33,7 +34,7 @@ export class MedicalSignals {
       destroy: (label) => label.destroy(),
     });
     onSceneExit(scene.events, () => this.labels.clear());
-    this.station = scene.add.graphics().setDepth(15.4);
+    this.station = scene.add.graphics().setDepth(DEPTH.medicalStation);
     this.stationLabel = addCanvasCopy(scene.add, 988, 442, TEXT.reserve, {
       fontFamily: BODY_FONT,
       fontSize: '11px',
@@ -42,7 +43,7 @@ export class MedicalSignals {
       padding: { x: 4, y: 3 },
     })
       .setOrigin(0.5)
-      .setDepth(17)
+      .setDepth(DEPTH.signalLabels)
       .setVisible(false);
   }
   draw(game: Game) {

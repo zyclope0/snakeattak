@@ -6,6 +6,7 @@ import { onSceneExit } from './sceneExit.ts';
 import { drawSaucer } from './saucer.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT } from './boardResolution.ts';
 import { DEFAULT_SEED } from '../gameConstants.ts';
+import * as DEPTH from './boardLayers.ts';
 
 /** One cached ground and bounded foreground; never changes navigation geometry. */
 export class TerrainLayer {
@@ -15,7 +16,7 @@ export class TerrainLayer {
   private scale = 0;
   private foreground: Phaser.GameObjects.Image[] = [];
   constructor(private scene: Phaser.Scene) {
-    this.objects = scene.add.container(0, 0).setDepth(0);
+    this.objects = scene.add.container(0, 0).setDepth(DEPTH.terrain);
     const renderer = scene.game.renderer;
     const invalidate = () => {
       this.levelId = '';
@@ -49,7 +50,7 @@ export class TerrainLayer {
         .renderTexture(0, 0, Math.ceil(BOARD_WIDTH * scale), Math.ceil(BOARD_HEIGHT * scale))
         .setOrigin(0)
         .setScale(1 / scale)
-        .setDepth(0);
+        .setDepth(DEPTH.terrain);
     }
     for (const image of this.foreground) image.destroy();
     this.foreground = [];

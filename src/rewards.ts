@@ -2,7 +2,7 @@ import type { Kind } from './data.ts';
 import { isArrayOfLength, isNumberIn, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/rewards.ts';
 import { seededStream } from './seededRandom.ts';
-import { REWARD_WAVES } from './gameConstants.ts';
+import { CRYSTAL_WARD, HONEY_REWARD_SECONDS, REWARD_WAVES } from './gameConstants.ts';
 export type Milestone = (typeof REWARD_WAVES)[number];
 export const REWARDS = {
   'renfort-bouclier': {
@@ -67,15 +67,10 @@ export function freeRecruit(state: RewardState, kind: Kind) {
   return state.choices.find((c) => c.id !== 'skip' && !c.used && REWARDS[c.id].kind === kind);
 }
 export const extraHoneySeconds = (state: RewardState) =>
-  state.choices.filter((c) => c.id === 'miel').length * 4;
+  state.choices.filter((c) => c.id === 'miel').length * HONEY_REWARD_SECONDS;
 /** The camps that follow waves 4 and 8, where a reward is offered. */
 export const isMilestone = (value: unknown): value is Milestone =>
   (REWARD_WAVES as readonly unknown[]).includes(value);
-
-// Damage absorbed by one « cristal » reward: the ward of a save cannot exceed what was chosen.
-export const CRYSTAL_WARD = 18;
-/** What the « pièces » reward adds to the purse. */
-export const REWARD_COINS = 100;
 
 type SavedRewards = Record<string, unknown> & { seed: number; choices: unknown[]; ward: number };
 
@@ -128,6 +123,7 @@ export function readRewards(raw: unknown, wave: number): RewardState | null {
   }
   const answered = (milestone: unknown) => state.choices.some((c) => c.milestone === milestone);
   const crystals = state.choices.filter((c) => c.id === 'cristal').length;
+  // The ward of a save cannot exceed what the « cristal » rewards chosen have given.
   if (answered(raw.pending) || raw.ward > crystals * CRYSTAL_WARD) return null;
   // At a milestone the offer is either still pending or already answered.
   if (isMilestone(wave) && raw.pending !== wave && !answered(wave)) return null;

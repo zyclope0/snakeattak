@@ -5,6 +5,8 @@ import type { Game } from '../game.ts';
 import { LANES } from '../ai.ts';
 import { ENEMY_ART, KING_ART } from '../art.ts';
 import { currentWaveThreats } from '../ui/threatPreview.ts';
+import * as DEPTH from './boardLayers.ts';
+import { SHEET } from '../art.ts';
 /** Representative species at every open den. Never predicts an adaptive lane. */
 export class ThreatMarkers {
   private cards: Phaser.GameObjects.Image[];
@@ -13,13 +15,13 @@ export class ThreatMarkers {
   private observed?: Game;
   private wave = -1;
   constructor(scene: Phaser.Scene) {
-    this.ink = scene.add.graphics().setDepth(16);
+    this.ink = scene.add.graphics().setDepth(DEPTH.warnings);
     this.cards = Array.from({ length: 6 }, () =>
       scene.add
-        .image(0, 0, 'enemies-organic', 0)
+        .image(0, 0, SHEET.enemiesOrganic, 0)
         .setName('threat-marker')
         .setDisplaySize(52, 52)
-        .setDepth(16.1)
+        .setDepth(DEPTH.threatIcons)
         .setVisible(false),
     );
     this.symbols = this.cards.map(() =>
@@ -32,7 +34,7 @@ export class ThreatMarkers {
         padding: { x: 3, y: 1 },
       })
         .setOrigin(0.5)
-        .setDepth(16.2)
+        .setDepth(DEPTH.threatCounts)
         .setVisible(false),
     );
   }

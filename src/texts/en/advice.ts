@@ -1,3 +1,10 @@
+import {
+  ENCOURAGEMENT_SECONDS,
+  HERO_TRAINING_COST,
+  REPAIR_AMOUNT,
+  REPAIR_COST,
+} from '../../gameConstants.ts';
+
 export const prochaineVague = 'Next wave';
 export const vagueEnCours = 'Wave in progress';
 export const leCampEstTombe = 'The camp has fallen';
@@ -32,17 +39,14 @@ export const laSonnetteFaitHesiterLesAllies =
 export const courageLesAttaquesAccelerent = 'Keep going! Your allies attack faster';
 export const nSRestantesLeBoutonRevientALa = '{0} s left. The button returns next wave.';
 export const tesAlliesFrappentPenseAEncourager = 'Your allies are attacking: try Encourage';
-export const uneFoisParVagueLeursAttaques =
-  'Once per wave, their attacks speed up for 8 s. Choose your moment!';
+export const uneFoisParVagueLeursAttaques = `Once per wave, their attacks speed up for ${ENCOURAGEMENT_SECONDS} s. Choose your moment!`;
 export const lePiegeGourmand = 'The tasty trap';
 export const choisisAttirerPourDetournerLes =
   'Choose Lure to turn hungry snakes, or Slow to slow snakes crossing the puddle. Then choose a lane.';
 export const penseAReparerTonCristal = 'Remember to repair your crystal';
-export const dansActionsDuCamp80PiecesPour =
-  'In Camp actions: spend 80 coins to restore up to 25 health points.';
+export const dansActionsDuCamp80PiecesPour = `In Camp actions: spend ${REPAIR_COST} coins to restore up to ${REPAIR_AMOUNT} health points.`;
 export const tuPeuxEntrainerTonHeros = 'You can train your Hero';
-export const dansActionsDuCampChoisisFrappeOu =
-  'In Camp actions: choose Power Strike or Guardian for 90 coins.';
+export const dansActionsDuCampChoisisFrappeOu = `In Camp actions: choose Power Strike or Guardian for ${HERO_TRAINING_COST} coins.`;
 export const placeLeDerriereLesCombattantsLe =
   'Place them behind your fighters. The circle shows healing range; bandages are limited.';
 export const aLAbriDesCombattants = 'behind your fighters';

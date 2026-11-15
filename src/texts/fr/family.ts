@@ -1,3 +1,5 @@
+import { MISSION_COUNT, STAR_MAX } from '../../gameConstants.ts';
+
 export const aventureFamilialeEnregistreeSurCet = 'Aventure familiale enregistrée sur cet appareil';
 export const sauvegardeFamilialeIndisponible =
   'Sauvegarde familiale indisponible : stockage bloqué ou plein';
@@ -13,8 +15,7 @@ export const campAvantLaVagueNNAlliesNPiecesN =
   'Camp avant la vague {0} · {1} alliés · {2} pièces · {3} étoiles.';
 export const progressionFavorisEtCampsConserves =
   'Progression, favoris et camps conservés dans ce fichier · {0} étoiles classiques.';
-export const expeditionsN18EtoilesLeCamp =
-  ' Expéditions : {0} / 18 étoiles. Le camp classique est conservé séparément.';
+export const expeditionsN18EtoilesLeCamp = ` Expéditions : {0} / ${MISSION_COUNT * STAR_MAX} étoiles. Le camp classique est conservé séparément.`;
 export const lesCarnetsEtLeursAutocollantsSont =
   ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.';
 export const ceFichierNeContientAucunCarnetLes =

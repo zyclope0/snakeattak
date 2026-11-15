@@ -1,3 +1,5 @@
+import { MISSION_COUNT, STAR_MAX } from '../../gameConstants.ts';
+
 export const clipboardUnavailable = 'clipboard unavailable';
 export const codeCopie = 'Code copied.';
 export const leDepartAChangeCopieSonNouveauCode = 'The setup has changed. Copy its new code.';
@@ -15,7 +17,7 @@ export const prochaineMissionN = 'Next mission: {0}';
 export const rejouerLaMissionN = 'Replay mission: {0}';
 export const preparer = 'Prepare';
 export const preparerEncore = 'Prepare again';
-export const n18Etoiles = '{0} / 18 stars';
+export const n18Etoiles = `{0} / ${MISSION_COUNT * STAR_MAX} stars`;
 export const detours = 'Detours';
 export const meandres = 'Winding Paths';
 export const carrefour = 'Crossroads';
@@ -29,7 +31,7 @@ export const verrouilleeTermineLaPrecedente = 'Locked · finish the previous mis
 export const termineeRejouer = 'Complete · replay';
 export const prochaineMission = 'Next mission';
 export const missionOuverte = 'Mission unlocked';
-export const nEtoileNSur3 = 'Stars: {0} out of 3';
+export const nEtoileNSur3 = `Stars: {0} out of ${STAR_MAX}`;
 export const nNVagues = '{0} · {1} waves';
 export const capriceReussi = 'Caprice completed!';
 export const missionReussieN = 'Mission complete! {0}';

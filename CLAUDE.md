@@ -33,9 +33,11 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
 - Tutoiement, phrases courtes, un mot d'enfant plutôt qu'un chiffre technique.
 - Aucun texte écrit dans le code ni dans la page. Chaque texte est une constante de
   `src/texts/fr/<domaine>.ts` (`page.ts` pour les gabarits, qui l'appellent par `{{nom}}`),
-  avec son anglais sous le même nom dans `src/texts/en/` ; `fill()` y met les valeurs. Après un
-  changement : `npm run texts:build`, puis `npm run test:locale` vert. Un test refuse un texte
-  laissé dans le code (`docs/ARCHITECTURE.md`, « Textes hors du code »).
+  avec son anglais sous le même nom dans `src/texts/en/` ; `fill()` y met les valeurs. Un
+  nombre du jeu dans une phrase vient de sa constante (`` `${START_GOLD} pièces` ``), jamais
+  tapé à la main. Après un changement : `npm run texts:build`, puis `npm run test:locale`
+  vert. Un test refuse un texte laissé dans le code (`docs/ARCHITECTURE.md`, « Textes hors du
+  code »).
 - Cibles tactiles de 48 px au moins ; contrôler en paysage téléphone 780×360 et 812×375, et sur
   ordinateur 1280×800.
 - Direction artistique pâte à modeler / papier mâché ; les textes du plateau dans la police du jeu.

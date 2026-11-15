@@ -16,6 +16,7 @@ import {
   HONEY_ART,
   HONEY_STICKY_ART,
   UMBRELLA_CLOSED_ART,
+  SHEET,
 } from '../art.ts';
 import type { Egg, Entity, Game } from '../game.ts';
 import { enemySpeed } from '../enemies.ts';
@@ -24,7 +25,9 @@ import type { Arrival, Presentation } from './presentation.ts';
 import { ACTION_SECONDS, PLACED_SECONDS, visualPose } from './presentation.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
-import { standingDepth } from './boardDepth.ts';
+import { eggDepth, standingDepth } from './boardDepth.ts';
+import * as DEPTH from './boardLayers.ts';
+import * as BOARD_COLOR from './palette.ts';
 type Graphics = Phaser.GameObjects.Graphics;
 /** Warm paper white, softer than a pure white flash. */
 const FLASH = 0xfff4dc;
@@ -43,7 +46,7 @@ type Camp = {
   ringAlpha: number;
 };
 const ENEMY_CAMP: Camp = {
-    rim: 0xd2552d,
+    rim: BOARD_COLOR.serpentRim,
     rimWidth: 1.7,
     rimAlpha: 0.94,
     ring: 0xc9603c,
@@ -194,10 +197,10 @@ export class Actors {
       },
       destroy: (g) => g.destroy(),
     });
-    this.shadows = scene.add.graphics().setDepth(9.7);
+    this.shadows = scene.add.graphics().setDepth(DEPTH.groundMarks);
     this.pieces = new FramePool({
       maxIdle: 384,
-      create: () => scene.add.image(0, 0, 'allies-front', 0),
+      create: () => scene.add.image(0, 0, SHEET.alliesFront, 0),
       activate: (image) => {
         // An egg or honey pot can reuse a former tilted/tinted silhouette.
         image
@@ -389,8 +392,8 @@ export class Actors {
       .setPosition(egg.x, egg.y + 14)
       .setDisplaySize(54, 61)
       .setRotation(wobble)
-      .setDepth(8 + egg.y / 1000);
-    ink.lineStyle(2, 0xe2c58a, 0.65);
+      .setDepth(eggDepth(egg.y));
+    ink.lineStyle(2, BOARD_COLOR.parchment, 0.65);
     ink.beginPath();
     ink.arc(egg.x, egg.y + 5, 20, -Math.PI / 2, -Math.PI / 2 + progress * Math.PI * 2);
     ink.strokePath();
@@ -404,21 +407,21 @@ export class Actors {
       .setOrigin(0.5, 0.8)
       .setPosition(pot.x, pot.y + 6)
       .setDisplaySize(55, 55)
-      .setDepth(9);
+      .setDepth(DEPTH.honeyPot);
   }
   private confusion(u: Entity, size: number, ink: Graphics) {
     const x = u.x + 18,
       y = u.y - size * 0.68 - 10;
     ink.fillStyle(0x3c2c56, 0.96);
     ink.fillRoundedRect(x - 8, y - 10, 17, 22, 6);
-    ink.lineStyle(1.5, 0xf4dcff, 1);
+    ink.lineStyle(1.5, BOARD_COLOR.confusion, 1);
     ink.strokeRoundedRect(x - 8, y - 10, 17, 22, 6);
-    ink.lineStyle(2, 0xf4dcff, 1);
+    ink.lineStyle(2, BOARD_COLOR.confusion, 1);
     ink.beginPath();
     ink.arc(x, y - 3, 3.5, Math.PI, Math.PI * 2.65);
     ink.strokePath();
     ink.lineBetween(x - 1.5, y + 1, x - 1.5, y + 3);
-    ink.fillStyle(0xf4dcff, 1);
+    ink.fillStyle(BOARD_COLOR.confusion, 1);
     ink.fillCircle(x - 1.5, y + 7, 1.3);
   }
   /** The camp mark under the feet, and the health bar once the fighter is wounded. */

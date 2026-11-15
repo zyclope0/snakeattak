@@ -2,6 +2,8 @@ import type Phaser from 'phaser';
 import type { Presentation, Spark } from './presentation.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT, shakeBoard } from './boardResolution.ts';
 import { nextSeed, seedShare } from '../seededRandom.ts';
+import * as DEPTH from './boardLayers.ts';
+import * as BOARD_COLOR from './palette.ts';
 
 const CAPACITY = 40;
 const PUFF = 1,
@@ -53,7 +55,7 @@ export class BattleJuice {
   private scene: Phaser.Scene;
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
-    this.graphics = scene.add.graphics().setDepth(21);
+    this.graphics = scene.add.graphics().setDepth(DEPTH.sparks);
   }
   private random() {
     this.seed = nextSeed(this.seed);
@@ -204,7 +206,7 @@ export class BattleJuice {
       cy = Math.sin(spin) * s,
       x = this.x[i],
       y = this.y[i];
-    g.fillStyle(i % 2 ? 0xf3e7c8 : 0xe2c58a, Math.min(1, (1 - t) * 3));
+    g.fillStyle(i % 2 ? 0xf3e7c8 : BOARD_COLOR.parchment, Math.min(1, (1 - t) * 3));
     g.fillTriangle(x + cx, y + cy, x - cy, y + cx, x - cx * 0.6, y - cy * 0.6);
   }
   /** A little hop where the snake fell, then a glide to the counter. */
@@ -218,7 +220,7 @@ export class BattleJuice {
       alpha = Math.min(1, (1 - t) * 6);
     g.fillStyle(0xa9772a, alpha);
     g.fillCircle(x, y, r);
-    g.fillStyle(0xffd66a, alpha);
+    g.fillStyle(BOARD_COLOR.coin, alpha);
     g.fillCircle(x, y, r - 2);
     g.fillStyle(0xfff3c4, alpha);
     g.fillCircle(x - r * 0.28, y - r * 0.3, r * 0.3);
