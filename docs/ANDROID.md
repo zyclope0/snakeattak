@@ -55,8 +55,8 @@ Le téléphone familial n'a pas été touché. L'essai61→62 utilise la clé d'
 remplace pas une mise à jour distribuée et signée par Google Play.
 
 La recette requise sur émulateur est donc rapportée comme passée ; le blocage cloud
-ci-dessous reste historique. R8 reste activé. PR58 ouverte, sans fusion, upload Play ou
-publication du site. Le rapport `RECETTE.md` et l'archive
+ci-dessous reste historique. R8 reste activé. PR58 fusionnée le 15 novembre avec l'accord
+du parent, sans upload Play ni publication du site. Le rapport `RECETTE.md` et l'archive
 `Snake-Attack-TD-build62-preuves.zip` sont conservés dans la session Windows du parent.
 
 ### Construction et échec initial de l'émulateur cloud — historique

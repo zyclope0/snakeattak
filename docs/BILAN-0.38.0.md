@@ -31,8 +31,8 @@ départ, permission, SDK ou texte juridique dans cette livraison.
   Pas de modification d'interface dans cette livraison. S24 et mise à jour signée par
   Play restent à essayer ; le téléphone familial a été préservé.
 
-PR58 reste ouverte. Aucun envoi à Google Play, activation Alpha, fusion ou publication
-du site dans cette étape. Le site reste celui publié pour la livraison61.
+PR58 fusionnée le 15 novembre avec l'accord du parent. Aucun envoi à Google Play,
+activation Alpha ou publication du site dans cette étape. Le site reste celui publié pour la livraison61.
 
 Notes à importer avec l'AAB62 :
 
