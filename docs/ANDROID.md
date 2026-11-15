@@ -11,6 +11,26 @@ Dans le canal de test interne existant, créer une nouvelle version et importer
 testeur. L’APK debug conserve une signature distincte de la distribution Play. Aucun envoi
 Console ou essai physique S24 par Codex ; confort et performances à confirmer sur appareil.
 
+## Build release optimisé — à partir du build 61
+
+Demande du parent du 15 novembre 2026, après deux remarques de la Play Console (« Optimisation
+du code : faible », « absence de fichier de désobscurcissement »). Le build **release**
+passe par R8 (`minifyEnabled true`, règles `proguard-android-optimize.txt`) : le code Java
+est réduit et optimisé, et l'AAB emporte son fichier de correspondance, que Play lit seul.
+Capacitor 8 fournit ses propres règles de conservation ; l'application n'a pas d'autre code
+natif que `MainActivity`. Les numéros de ligne sont gardés pour les rapports de plantage.
+
+**À vérifier avant tout envoi, parce que cela n'a pas pu être construit ici** (pas de SDK
+Android dans la session de Claude) : l'APK debug n'est pas réduit, il ne prouve donc plus
+rien sur le build release. Construire le release, l'installer (émulateur ou canal interne),
+puis contrôler au moins : démarrage à froid hors ligne, une vague jouée, une sauvegarde
+reprise après fermeture, le voyage ouvert, « Confidentialité » ouverte, les marges système
+en paysage. Si le release ne démarre pas, remettre `minifyEnabled false` : rien d'autre ne
+dépend de ce réglage.
+
+« Taille de la page de mémoire : compatible avec les pages de 16 Ko » est un résultat
+favorable, pas une alerte : l'application n'embarque aucune bibliothèque native à elle.
+
 VersionName 0.32.1, versionCode 36 : correction du défilement tactile du
 catalogue en paysage. Même identifiant et certificat debug ; mise à jour
 par-dessus la précédente. Voir BILAN-0.32.1.md ; confort S24 à confirmer.

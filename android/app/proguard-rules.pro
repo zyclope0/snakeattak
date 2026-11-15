@@ -12,10 +12,7 @@
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Line numbers stay in the release build, under a neutral file name: with the mapping file
+# of the bundle, Google Play turns a crash report back into readable Java.
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile

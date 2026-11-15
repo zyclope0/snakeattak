@@ -37,7 +37,9 @@ Un fichier restauré réapparaît comme « non suivi » : ne le recommite pas.
   trois images de `AUDIT-VISUEL-MOBILE-2026-11-10.md`). Le texte reste lisible.
 - Six anciens scripts de rapport (`report-adventure-019.mjs`, `report-rewards-017.py`,
   `plot-balance-016.py`, `report-campaign-018.py`, `control-020.mjs`, `report-balance-016.py`)
-  lisent les dossiers `balance-0.16` à `0.19` : restaure-les avant de les relancer.
+  lisaient les dossiers `balance-0.16` à `0.19`. Ils ont été retirés à leur tour le 15
+  novembre 2026, avec 21 autres scripts que plus rien n'appelait : `git log -- scripts/<nom>`
+  les retrouve.
 - Aucun test ni aucune recette de la CI ne lit un fichier retiré.
 - Les clones existants gardent leur taille : seul un clone neuf ou superficiel est plus léger.
   Réduire l'historique lui-même demanderait une réécriture, qui attend l'accord du parent.

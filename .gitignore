@@ -12,3 +12,5 @@ coverage/
 .tactical-022-test.html
 
 .superpowers/
+__pycache__/
+*.pyc
