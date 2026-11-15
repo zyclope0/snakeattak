@@ -208,6 +208,8 @@ Interface :
 11. **Voir ses unités plus vite.** Les favoris lui plaisent, mais il faut trop de touchers
     pour voir tous les alliés. Il accepte que la solution actuelle soit peut-être la moins
     mauvaise.
+    **Fait le 15 novembre 2026** (choix du parent) : le catalogue montre tous les alliés sur
+    un seul écran, en petites cartes ; plus de pages ni de liste de familles.
 
 Précisions du fils, le même jour :
 

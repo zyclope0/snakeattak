@@ -75,7 +75,6 @@ export const fiches = 'Unit guide';
 export const afficherLesAllies = 'Show allies';
 export const disponibles = 'Available';
 export const aDecouvrir = 'Coming later';
-export const familleDAllies = 'Ally family';
 export const choisisUnAlliePuisToucheTonCamp = 'Choose an ally, then tap your camp.';
 export const recruterNosUnites = 'Recruit our units';
 export const conseils = 'Tips';

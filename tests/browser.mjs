@@ -1,4 +1,4 @@
-import { revealControl } from './reveal-controls.mjs';
+import { catalogueView, REMOVED_CATALOGUE_CONTROLS, revealControl } from './reveal-controls.mjs';
 import { enterBattle } from './browser-entry.mjs';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
@@ -45,22 +45,43 @@ if (!(await page.locator('[data-kind="dragon"]').isVisible()))
   throw Error('Aperçu des futures unités absent');
 await revealControl(page, '#shop-ready');
 await page.locator('#shop-ready').click();
-await page.locator('#shop-family').selectOption('mutants');
-if ((await page.locator('#shop [data-kind]:visible').count()) !== 0)
-  throw Error('Mutant recruté avant son déblocage');
+// Un seul écran : ni pages ni liste de familles, chaque onglet montre tous ses alliés d'un coup.
+if (await page.locator(REMOVED_CATALOGUE_CONTROLS).count())
+  throw Error('Pages ou liste de familles encore dans le catalogue');
+const readyView = await catalogueView(page);
+const readyKinds = readyView.cards.map((card) => card.kind);
+if (readyKinds.length !== readyView.ready || readyView.cards.some((c) => c.state === 'locked'))
+  throw Error('Les alliés disponibles ne sont pas tous montrés d’un coup');
+if (readyView.cards.some((card) => !card.inBody || card.height < 48 || card.width < 48))
+  throw Error('Carte d’allié disponible hors du catalogue ou trop petite');
+for (const kind of ['mutantRock', 'mutantStretch'])
+  if (readyKinds.includes(kind)) throw Error('Mutant recruté avant son déblocage');
 await revealControl(page, '#shop-future');
 await page.locator('#shop-future').click();
-if ((await page.locator('#shop [data-kind]:visible').count()) !== 2)
-  throw Error('Filtre des deux mutants incomplet');
-await page.locator('#shop-family').selectOption('creatures');
-if ((await page.locator('#shop [data-kind]:visible').count()) !== 6)
-  throw Error('Filtre dinosaures et bébé dragon incomplet');
+const futureView = await catalogueView(page);
+const futureKinds = futureView.cards.map((card) => card.kind);
+if (futureKinds.length !== futureView.future || futureView.cards.some((c) => c.state !== 'locked'))
+  throw Error('Les alliés à découvrir ne sont pas tous montrés d’un coup');
+if (futureView.cards.some((card) => !card.inBody || card.height < 48 || card.width < 48))
+  throw Error('Carte d’allié à découvrir hors du catalogue ou trop petite');
+if (
+  new Set([...readyKinds, ...futureKinds]).size !== 20 ||
+  readyView.ready + readyView.future !== 20
+)
+  throw Error('Les deux onglets ne montrent pas les vingt alliés');
+for (const kind of ['mutantRock', 'mutantStretch'])
+  if (!(await page.locator(`#shop [data-kind="${kind}"]`).isVisible()))
+    throw Error(`Mutant à découvrir absent : ${kind}`);
 for (const kind of ['raptor', 'triceratops', 'stegosaurus', 'trex', 'dino', 'dragon'])
-  if (!(await page.locator(`[data-kind="${kind}"]`).isVisible()))
+  if (!(await page.locator(`#shop [data-kind="${kind}"]`).isVisible()))
     throw Error(`Créature alliée absente : ${kind}`);
-await page.locator('#shop-family').selectOption('all');
+// Une carte à découvrir dit sa vague d'arrivée ; une carte disponible ne garde que nom et prix.
+if (!(await page.locator('#shop [data-kind="dragon"] small').isVisible()))
+  throw Error('Vague d’arrivée absente d’une carte à découvrir');
 await revealControl(page, '#shop-ready');
 await page.locator('#shop-ready').click();
+if (await page.locator('#shop .unit-card:visible small:visible').count())
+  throw Error('Texte en trop sur une carte disponible');
 await revealControl(page, '#unit-guide');
 await page.locator('#unit-guide').click();
 if ((await page.locator('#guide-select option').count()) !== 21)

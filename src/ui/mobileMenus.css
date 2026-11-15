@@ -245,14 +245,12 @@
   margin: 0 0 6px;
   font-size: 22px;
 }
-.preparation-nav,
-.catalog-pagination {
+.preparation-nav {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 .preparation-nav button,
-.catalog-pagination button,
 #mission-dialog #mission-reroll {
   min-height: 48px;
   min-width: 48px;
@@ -372,23 +370,17 @@
   min-height: 48px;
   min-width: 48px;
 }
-#app #reinforcements .shop-family select {
-  width: 100%;
-  max-width: 260px;
-}
-.catalog-pagination {
-  flex: 0 0 auto;
-  justify-content: center;
-}
 #app #reinforcements .catalog-body {
   flex: 1;
   min-height: 0;
   overflow: auto;
   overscroll-behavior: contain;
 }
+/* Tous les alliés sur un seul écran : cinq colonnes de petites cartes, sans pages à tourner.
+   Une carte dit le nom et le prix ; ce qui manque pour la prendre s'ajoute dessous. */
 #app #reinforcements #shop {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   max-height: none;
   min-height: 0;
   overflow: visible;
@@ -397,24 +389,47 @@
 }
 #app #reinforcements #shop .unit-card {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) auto;
+  grid-template-columns: 44px minmax(0, 1fr);
   align-items: center;
+  align-content: center;
   justify-items: start;
-  min-height: 74px;
+  min-height: 60px;
   text-align: left;
-  padding: 6px;
-  gap: 6px;
+  padding: 4px 6px;
+  column-gap: 6px;
+  row-gap: 1px;
 }
 #app #reinforcements .unit-card .portrait {
+  grid-row: 1 / span 2;
   width: 44px;
   height: 44px;
 }
+#app #reinforcements .unit-card .unit-info {
+  min-width: 0;
+}
 #app #reinforcements .unit-info strong {
+  display: block;
   font-size: 13px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 #app #reinforcements .unit-info small {
   display: block;
   font-size: 11px;
+  line-height: 1.15;
+}
+/* Le mot de spécialité (« Contact », « Soins ») reste dans les fiches : ici il laisse la
+   place aux vingt cartes. Un allié trop cher garde son prix, grisé ; un allié à découvrir
+   dit à quelle vague il arrive ; un allié que la réserve du caprice retient le dit aussi. */
+#app #reinforcements .unit-card:not([data-state='locked'], [data-reserved]) .unit-info small {
+  display: none;
+}
+#app #reinforcements #shop .unit-card .price {
+  position: static;
+  grid-column: 2;
+  justify-self: start;
+  margin: 0;
+  font-size: 12px;
 }
 #catalog-tools {
   margin: 6px 2px;
@@ -447,21 +462,30 @@
   #app #reinforcements .army-title h2 {
     font-size: 18px;
   }
+  /* Quatre rangées de 48 px, même avec un nom sur deux lignes : les vingt alliés tiennent
+     sous le titre et les onglets d'un téléphone de 360 px de haut. */
+  #app #reinforcements #shop {
+    gap: 4px;
+  }
   #app #reinforcements #shop .unit-card {
-    min-height: 64px;
+    min-height: 48px;
     grid-template-columns: 38px minmax(0, 1fr);
-    position: relative;
-    padding-right: 42px;
+    padding: 1px 5px;
+    column-gap: 5px;
+    row-gap: 0;
   }
   #app #reinforcements .unit-card .portrait {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
   }
-  #reinforcements .unit-card .price {
-    position: absolute;
-    right: 4px;
-    bottom: 6px;
+  #app #reinforcements .unit-info strong {
+    font-size: 12px;
+    line-height: 1.05;
+  }
+  #app #reinforcements #shop .unit-card .price {
     font-size: 11px;
+    padding: 0 6px;
+    line-height: 1.25;
   }
 }
 @media (max-width: 600px) {
@@ -472,12 +496,12 @@
   #app #reinforcements .army-total {
     display: none;
   }
-  #app #reinforcements #shop .unit-card {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 4px 6px 24px;
-  }
-  #app #reinforcements .unit-card .portrait {
-    display: none;
+}
+/* Un petit écran couché : quatre colonnes, pour que les noms les plus longs restent entiers.
+   La cinquième rangée se fait défiler. */
+@media (max-width: 700px) {
+  #app #reinforcements #shop {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

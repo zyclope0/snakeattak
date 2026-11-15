@@ -35,6 +35,8 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   Arial). Ils restent très petits sur téléphone : à regarder avec les enfants.
 - **Index des serpents** (idée du fils) : « Tous les serpents », treize serpents et l'œuf,
   depuis « Dangers » et depuis « Favoris ». Pas encore montré aux enfants.
+- **Catalogue en un seul écran** (idée du fils, choix du parent) : tous les alliés en petites
+  cartes, sans pages ni liste de familles. Pas encore montré aux enfants.
 
 ## Ce qui n'est pas vérifié
 

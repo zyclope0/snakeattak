@@ -76,7 +76,6 @@ export const fiches = 'Fiches';
 export const afficherLesAllies = 'Afficher les alliés';
 export const disponibles = 'Disponibles';
 export const aDecouvrir = 'À découvrir';
-export const familleDAllies = 'Famille d’alliés';
 export const choisisUnAlliePuisToucheTonCamp = 'Choisis un allié, puis touche ton camp.';
 export const recruterNosUnites = 'Recruter nos unités';
 export const conseils = 'Conseils';

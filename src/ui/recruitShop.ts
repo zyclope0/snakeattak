@@ -5,9 +5,8 @@ import type { Kind } from '../data.ts';
 import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import { portraitStyle } from '../art.ts';
-import type { bindCatalogPages } from './catalogPages.ts';
-import { matchesUnitFamily, RECRUITABLE_KINDS, UNIT_FAMILIES } from './unitCatalog.ts';
-import { addOption, byId, make, setPressed } from './dom.ts';
+import { RECRUITABLE_KINDS } from './unitCatalog.ts';
+import { byId, make, setPressed } from './dom.ts';
 import { revealBoard } from './battleDom.ts';
 import { battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/recruiting.ts';
@@ -41,26 +40,18 @@ const SPECIALITIES: Partial<Record<Kind, string>> = {
 type ShopView = 'ready' | 'future';
 
 /**
- * The catalogue of allies: a family filter, two tabs and one card per ally. A card only
- * selects; the purchase itself happens on the board, through Session.
+ * The catalogue of allies: two tabs and one small card per ally, all on one screen. A child
+ * sees every ally at once, without pages to turn. A card only selects; the purchase itself
+ * happens on the board, through Session.
  */
-export function bindRecruitShop(
-  session: Session,
-  pages: ReturnType<typeof bindCatalogPages>,
-  refresh: () => void,
-) {
+export function bindRecruitShop(session: Session, refresh: () => void) {
   let view: ShopView = 'ready';
-  const family = byId<HTMLSelectElement>('shop-family');
-  for (const [value, label] of Object.entries(UNIT_FAMILIES)) addOption(family, value, label);
-  const showFirstPage = () => {
-    pages.reset();
-    refresh();
-  };
   const show = (next: ShopView) => {
     view = next;
-    showFirstPage();
+    refresh();
+    // The other list starts at its first ally, wherever the last one was left.
+    byId('shop').parentElement!.scrollTop = 0;
   };
-  family.onchange = showFirstPage;
   byId('shop-ready').onclick = () => show('ready');
   byId('shop-future').onclick = () => show('future');
   const cards = new Map<Kind, HTMLButtonElement>();
@@ -69,13 +60,11 @@ export function bindRecruitShop(
     byId('shop').append(card);
     cards.set(kind, card);
   }
-  const listed = (kind: Kind) =>
-    matchesUnitFamily(kind, family.value) && session.game.capriceAllows(kind);
+  const listed = (kind: Kind) => session.game.capriceAllows(kind);
   return {
-    /** A new battle starts from every family, on the allies that are ready. */
+    /** A new battle starts on the allies that are ready. */
     showEverything() {
       view = 'ready';
-      family.value = 'all';
     },
     refresh() {
       const game = session.game;
@@ -91,7 +80,6 @@ export function bindRecruitShop(
         card.hidden = !listed(kind) || game.isUnlocked(kind) !== (view === 'ready');
         showCard(card, kind, session, frozen);
       }
-      pages.refresh([...cards.values()].filter((card) => !card.hidden));
     },
   };
 }
@@ -149,6 +137,8 @@ function showCard(card: HTMLButtonElement, kind: Kind, session: Session, frozen:
   );
   const reason = cardNote(game, kind, cost, (missing) => fill(TEXT.ilManqueNPieces, missing));
   card.dataset.state = locked ? 'locked' : poor ? 'poor' : chosen ? 'selected' : 'ready';
+  // The coins are there but the caprice keeps them in the bank: the card must say why.
+  card.toggleAttribute('data-reserved', !locked && poor && !!game.caprice.reserve);
   setAttribute(
     card,
     'aria-label',

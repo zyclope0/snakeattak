@@ -1,5 +1,5 @@
 import { showHomePage } from './browser-entry.mjs';
-import { revealControl } from './reveal-controls.mjs';
+import { catalogueView, REMOVED_CATALOGUE_CONTROLS, revealControl } from './reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
@@ -83,7 +83,17 @@ try {
   assert.equal(await p.locator('#dock-allies [data-dock-kind]:visible').count(), 4);
   assert.equal(await p.locator('#quick-slot').inputValue(), '1');
   await revealControl(p, '[data-kind="ninja"]');
-  assert.ok((await p.locator('#shop .unit-card:visible').count()) <= 6);
+  // One screen: the tab shows every ally it announces, whole, without pages to turn.
+  assert.equal(await p.locator(REMOVED_CATALOGUE_CONTROLS).count(), 0);
+  const view = await catalogueView(p);
+  assert.deepEqual(view.tab, ['shop-ready']);
+  assert.equal(view.ready + view.future, 20);
+  assert.equal(view.cards.length, view.ready, 'Every available ally is shown at once');
+  assert.equal(await p.locator('#shop .unit-card:visible').count(), view.ready);
+  assert.ok(
+    view.cards.every((card) => card.state !== 'locked' && card.inBody && card.height >= 48),
+    'Available allies whole in the catalogue: ' + JSON.stringify(view.cards),
+  );
   const catalogueKinds = await p
     .locator('#shop .unit-card')
     .evaluateAll((cards) => cards.map((c) => c.dataset.kind));

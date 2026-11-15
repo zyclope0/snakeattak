@@ -1,7 +1,11 @@
 import { chooseLanguage, showHomePage } from '../tests/browser-entry.mjs';
 import { encodeDeparture } from '../src/departures.ts';
 import { capricesForMission } from '../src/caprices.ts';
-import { revealControl } from '../tests/reveal-controls.mjs';
+import {
+  catalogueView,
+  REMOVED_CATALOGUE_CONTROLS,
+  revealControl,
+} from '../tests/reveal-controls.mjs';
 import { readFile, writeFile, rm } from 'node:fs/promises';
 
 /** Controlled browser states use the real session and binders, outside production. */
@@ -168,7 +172,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       refresh();
     });
     async function fixedCatalogueCommands(safe = false) {
-      const selectors = ['.army-title', '.shop-toolbar', '#catalog-previous', '#catalog-next'];
+      const selectors = ['.army-title', '.shop-toolbar', '#shop-ready', '#shop-future'];
       const body = p.locator('.catalog-body');
       await body.evaluate((element) => {
         element.scrollTop = 0;
@@ -212,17 +216,35 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
           );
         }
       }
-      const pageBefore = await p.locator('#catalog-page').textContent();
-      if (!(await p.locator('#catalog-next').isDisabled())) {
-        await p.locator('#catalog-next').click();
+      // The tabs are the only way through the catalogue: after the tools have been scrolled
+      // to their end, a finger still meets them, and they still change the list.
+      for (const id of ['shop-ready', 'shop-future'])
         check(
-          (await p.locator('#catalog-page').textContent()) !== pageBefore,
-          'fixed next remains usable after expanded tools scroll',
+          await p.locator('#' + id).evaluate((tab) => {
+            const r = tab.getBoundingClientRect();
+            return tab.contains(
+              document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2),
+            );
+          }),
+          `fixed tab stays on top after expanded tools scroll ${id}, safe=${safe}`,
         );
-        await p.locator('#catalog-previous').click();
+      if (!(await p.locator('#shop-future').isDisabled())) {
+        const readyKinds = (await catalogueView(p)).cards.map((card) => card.kind);
+        await p.locator('#shop-future').click();
+        let view = await catalogueView(p);
         check(
-          (await p.locator('#catalog-page').textContent()) === pageBefore,
-          'fixed previous returns after expanded tools scroll',
+          view.tab.join() === 'shop-future' &&
+            view.scrollTop === 0 &&
+            view.cards.length === view.future &&
+            view.cards.every((card) => card.state === 'locked' && !readyKinds.includes(card.kind)),
+          'fixed future tab remains usable after expanded tools scroll',
+        );
+        await p.locator('#shop-ready').click();
+        view = await catalogueView(p);
+        check(
+          view.tab.join() === 'shop-ready' &&
+            view.cards.map((card) => card.kind).join() === readyKinds.join(),
+          'fixed ready tab returns after expanded tools scroll',
         );
       }
       await capture(
@@ -260,48 +282,98 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       }),
       'catalogue freezes exact game state',
     );
-    const all = [];
-    for (;;) {
-      const ids = await p
-        .locator('#shop .unit-card:visible')
-        .evaluateAll((ns) => ns.map((n) => n.dataset.kind));
-      check(ids.length <= 6, 'catalogue at most six cards');
-      all.push(...ids);
-      if (await p.locator('#catalog-next').isDisabled()) break;
-      await p.locator('#catalog-next').click();
-    }
-    check(all.length === 20 && new Set(all).size === 20, 'pages reach all twenty allies exactly');
+    check(
+      (await p.locator(REMOVED_CATALOGUE_CONTROLS).count()) === 0,
+      'catalogue has no pager and no family list',
+    );
+    // A late camp on a phone held sideways: the twenty allies on one screen, nothing to
+    // turn, nothing to scroll.
+    const wholeLateCamp = async (where) => {
+      const view = await catalogueView(p);
+      const kinds = view.cards.map((card) => card.kind);
+      check(
+        kinds.length === 20 && new Set(kinds).size === 20 && view.ready === 20,
+        'one screen lists all twenty allies exactly ' + where,
+      );
+      check(
+        view.tab.join() === 'shop-ready' &&
+          view.future === 0 &&
+          (await p.locator('#shop-future').isDisabled()),
+        'late camp has only available allies ' + where,
+      );
+      check(
+        view.scrollTop === 0 && view.cards.every((card) => card.inBody),
+        `twenty allies whole inside the catalogue body without scrolling ${where}: ` +
+          JSON.stringify(view.cards.filter((card) => !card.inBody)),
+      );
+      check(
+        view.cards.every((card) => card.height >= 48 && card.width >= 48),
+        `every ally card is a 48 px target ${where}: ` +
+          JSON.stringify(view.cards.filter((card) => card.height < 48 || card.width < 48)),
+      );
+      check(view.columns === 5, 'five columns of allies ' + where);
+      check(
+        (await p.locator('#shop .unit-card:visible small:visible').count()) === 0,
+        'an available card keeps only its name and price ' + where,
+      );
+    };
+    await wholeLateCamp('780x360');
     await p.evaluate(() => {
       const f = window.capricesFixture;
       f.session.game.wave = 0;
       f.refresh();
     });
+    const early = await catalogueView(p);
     check(
-      (await p.locator('#catalog-page').textContent()) === '1 / 1' &&
-        (await p.locator('#catalog-next').isDisabled()),
-      'page clamps when unlocked result set shrinks',
+      early.tab.join() === 'shop-ready' &&
+        early.cards.length === early.ready &&
+        early.ready < 20 &&
+        early.ready + early.future === 20 &&
+        early.cards.every((card) => card.state !== 'locked' && card.inBody),
+      'list follows the unlocked set when it shrinks: ' + JSON.stringify(early),
     );
+    // The other tab starts at its first ally, wherever the body was left.
+    for (const id of ['catalog-tools', 'camp-tools'])
+      await p.locator('#' + id).evaluate((element) => {
+        element.open = true;
+      });
+    await p.locator('.catalog-body').evaluate((element) => {
+      element.scrollTop = element.scrollHeight;
+    });
+    check(
+      (await catalogueView(p)).scrollTop > 0,
+      'early catalogue body scrolled before tab change',
+    );
+    await p.locator('#shop-future').click();
+    const later = await catalogueView(p);
+    check(
+      later.tab.join() === 'shop-future' && later.scrollTop === 0,
+      'tab change returns to the first ally',
+    );
+    check(
+      later.cards.length === later.future &&
+        later.cards.every((card) => card.state === 'locked') &&
+        new Set([...early.cards, ...later.cards].map((card) => card.kind)).size === 20,
+      'future tab shows at once every ally still to come',
+    );
+    check(
+      (await p.locator('#shop .unit-card:visible small:visible').count()) === later.future,
+      'each future card says when it arrives',
+    );
+    for (const id of ['catalog-tools', 'camp-tools'])
+      await p.locator('#' + id).evaluate((element) => {
+        element.open = false;
+      });
     await p.evaluate(() => {
       const f = window.capricesFixture;
       f.session.game.wave = 9;
       f.refresh();
     });
-    check(
-      (await p.locator('#catalog-page').textContent()) === '1 / 4',
-      'unlock refresh stays on bounded page',
-    );
-    const filter = await p
-      .locator('#shop-family option')
-      .evaluateAll((ns) => ns.find((n) => n.value !== 'all').value);
-    await p.locator('#shop-family').selectOption(filter);
-    check(
-      (await p.locator('#catalog-page').textContent()).startsWith('1 / '),
-      'filter resets page',
-    );
-    await p.locator('#shop-family').selectOption('all');
+    // No ally is left to come: the catalogue falls back on the available ones.
+    await wholeLateCamp('after unlock refresh');
     check(
       (await p.locator('#catalog-budget').textContent()) === '10000 pièces',
-      'browsing and filtering preserve budget',
+      'browsing both tabs preserves budget',
     );
     const before = await p.evaluate(() => {
       const g = window.capricesFixture.session.game;
@@ -410,9 +482,41 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
     ]) {
       await p.setViewportSize({ width, height });
       if (!(await p.locator('#reinforcements').isVisible())) await open();
-      for (const id of ['reinforcements-close', 'catalog-previous', 'catalog-next'])
+      for (const id of ['reinforcements-close', 'shop-ready', 'shop-future'])
         await reachable(p, '#' + id);
-      check((await p.locator('#shop .unit-card:visible').count()) <= 6, 'six cards after resize');
+      if (width >= 780) await wholeLateCamp(`${width}x${height}`);
+      else {
+        // A very small phone: four columns, and the fifth row comes with the body's scroll.
+        const small = await catalogueView(p);
+        check(
+          small.cards.length === 20 && small.ready === 20 && small.columns === 4,
+          'twenty allies listed in four columns after resize',
+        );
+        check(
+          small.cards.every((card) => card.height >= 48 && card.width >= 48),
+          'small phone ally cards are 48 px targets',
+        );
+        check(
+          small.cards.filter((card) => card.inBody).length >= 4 && small.scrollRange > 0,
+          'small phone shows whole rows and scrolls to the others: ' + JSON.stringify(small),
+        );
+        check(
+          await p
+            .locator('#shop .unit-card:visible')
+            .last()
+            .evaluate((card) => {
+              const body = card.closest('.catalog-body');
+              body.scrollTop +=
+                card.getBoundingClientRect().bottom - body.getBoundingClientRect().bottom;
+              const r = card.getBoundingClientRect(),
+                frame = body.getBoundingClientRect();
+              const reached = r.top >= frame.top - 0.5 && r.bottom <= frame.bottom + 0.5;
+              body.scrollTop = 0;
+              return reached;
+            }),
+          'small phone body scroll reaches the last ally whole',
+        );
+      }
       check(
         await p.locator('#reinforcements').evaluate((d) => d.scrollHeight <= d.clientHeight + 1),
         'catalogue shell has no clipped root overflow',
@@ -577,7 +681,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
         document.documentElement.style.setProperty(`--safe-area-inset-${side}`, `${value}px`);
     });
     await open();
-    for (const id of ['reinforcements-close', 'unit-guide', 'shop-family', 'catalog-next']) {
+    for (const id of ['reinforcements-close', 'unit-guide', 'shop-ready', 'shop-future']) {
       const box = await p.locator('#' + id).boundingBox();
       check(
         box.y >= 24 && box.x + box.width <= 536 && box.y + box.height <= 304,
