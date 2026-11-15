@@ -149,6 +149,9 @@ Ce qui est fait :
 - **Dessin** : table des couches du plateau, six couleurs partagées, planches nommées.
 - **Phrases** : quarante phrases prennent leurs nombres dans les constantes, dans les deux
   langues.
+- **Page et styles** : un test vérifie que chacun des 216 ids cherchés par le code existe ;
+  dix valeurs techniques qui avaient suivi les textes dans les catalogues en sont sorties ;
+  19 couleurs retapées passent par leur variable.
 
 Comment c'est vérifié :
 
@@ -158,7 +161,12 @@ Comment c'est vérifié :
   empreintes) : aucune ne diffère.
 - Lecture et écriture des sauvegardes et des codes comparées à la référence (plus d'un
   million de cas, 35 familles) : zéro différence.
-- Dictionnaire anglais généré identique à l'octet près, inventaire des textes identique.
+- Dictionnaire anglais généré identique à l'octet près et inventaire des textes identique
+  pour les phrases ; ils ne perdent ensuite que les dix valeurs techniques (1 125 entrées,
+  1 044 textes).
+- Styles : feuilles construites identiques une fois les variables remplacées par leur
+  valeur ; couleurs calculées par Chromium identiques sur la page de départ (3 978
+  relevés) à 1280×800, 780×360 et 360×780.
 - Les cinq tâches de la CI sur chaque PR.
 
 Ce qui est laissé, et pourquoi :
@@ -178,8 +186,10 @@ Ce qui est laissé, et pourquoi :
   récompense ou un départ comme il le fait à 780 px. Corriger change un comportement : à
   essayer sur le téléphone.
 
-Non vérifié : rien sur téléphone ni avec les enfants. Le coût au démarrage est d'environ
-6 Ko pour les textes et 0,6 Ko pour les valeurs ; le paquet principal fait 190,1 Ko sur 200.
+Non vérifié : rien sur téléphone ni avec les enfants ; les couleurs calculées n'ont pas été
+relevées sur les écrans construits après le chargement (voyage, joueurs, fenêtres). Le
+premier script passe de 16 à 12 Ko ; le paquet principal fait 192,4 Ko sur 200, soit
+7,6 Ko de marge : le prochain contenu devra en tenir compte.
 
 ## Ce qui reste
 

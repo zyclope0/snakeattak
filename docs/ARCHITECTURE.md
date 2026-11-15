@@ -1196,6 +1196,21 @@ Où sont les valeurs :
   nombres viennent des tables par unité (`data.ts`, `unitRules.ts`) — vague de déblocage,
   bandages, pourcentages, durées à virgule. Les relier demanderait de générer ces
   paragraphes ; un changement d'équilibrage doit encore les relire.
+- **Ids de la page** : ils restent des chaînes. `tests/dom-ids.test.ts` (avec
+  `scripts/dom-ids.ts`) relève chaque id cherché par `byId`, `getElementById` ou
+  `forwardClick` — 216 aujourd'hui — et vérifie qu'il est dans la page assemblée ou créé
+  par le code ; il refuse aussi un id en double dans la page. Les recherches par
+  `querySelector('#…')` ne sont pas couvertes.
+- **Ce qui n'est pas un texte** : dix valeurs écrites pour le navigateur (une requête
+  d'écran, deux dégradés, un sélecteur, deux attributs SVG, trois noms de police, la forme
+  Unicode `NFD`) avaient suivi les textes dans les catalogues. Elles sont redevenues des
+  constantes nommées à côté de leur usage. `scripts/displayed-text.ts` reconnaît ces formes
+  une par une, sans règle large : une vraie phrase écrite dans le code reste refusée. Le
+  dictionnaire anglais compte donc 1 125 entrées au lieu de 1 135, et l'inventaire 1 044
+  textes au lieu de 1 054 ; aucun texte affiché n'a disparu.
+- **Couleurs des styles** : là où la valeur exacte d'une des sept variables de
+  `src/styles/01-base.css` était retapée (19 fois, 13 fichiers), la règle passe par la
+  variable. Les nuances voisines ne sont pas fusionnées.
 - **Restent à côté de leur règle**, parce qu'ils ne servent qu'une fois et font la partie :
   les scripts de vagues (`waves.ts`, `missions.ts`), les poids de l'IA (`ai.ts`,
   `defenders.ts`), la géométrie des routes (`routes.ts`).
@@ -1208,3 +1223,7 @@ une profondeur écrite en chiffres dans `src/render/` ; `tests/game-constants.te
 aussi, dans les catalogues, les formes d'un nombre du jeu tapé à la main ;
 `tests/app-identity.test.ts` vérifie que l'identifiant de l'application est le même aux six
 endroits où Android le veut.
+
+Les mots des codes (`AVENTURE`, `PONTS`, `VOYAGE`…) restent dans les catalogues : un enfant
+les lit et les recopie. Ils font aussi partie du format des codes : les traduire ou les
+changer rendrait illisibles les codes déjà donnés.
