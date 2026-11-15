@@ -4,7 +4,7 @@
   grid-column: 1 / -1;
   min-width: 0;
   background: var(--forest);
-  color: #f7f4e7;
+  color: var(--paper);
   border-radius: 10px;
   overflow: clip;
 }

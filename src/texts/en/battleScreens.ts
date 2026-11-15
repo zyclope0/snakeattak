@@ -2,8 +2,6 @@ export const placementAnnuleChoisisUnAllieOu =
   'Placement canceled. Choose an ally or start the wave.';
 export const reprendre = 'Resume';
 export const mettreEnPause = 'Pause';
-export const buttonSelectInputTextareaSummaryA =
-  'button, select, input, textarea, summary, a, [contenteditable]';
 export const partieTerminee = 'Game over';
 export const choisirUnBonus = 'Choose a bonus';
 export const vagueEnCours = 'Wave in progress…';
@@ -26,7 +24,6 @@ export const reduireLaVueDeJeu = 'Shrink the game view';
 export const agrandirLaVueDeJeu = 'Enlarge the game view';
 export const reduire = 'Shrink';
 export const agrandir = 'Enlarge';
-export const pointerCoarseAndOrientation = '(pointer: coarse) and (orientation: portrait)';
 export const nOeufNNEclosions = 'Eggs: {0} · Hatched: {2}';
 export const victoire = 'VICTORY';
 export const campTombe = 'CAMP FALLEN';

@@ -20,6 +20,12 @@ type Point = { x: number; y: number };
 const ROAD_COLOUR = '#f2dfb2';
 /** A lane the first wave does not use is drawn paler. */
 const QUIET_ROAD_COLOUR = '#b2bdaa';
+/** The terrain fills the frame and is cropped at its edges (`preserveAspectRatio`). */
+const GROUND_FIT = 'xMidYMid slice';
+/** Mirrors a picture of the sheet, to face the other way (`transform`). */
+const MIRRORED = 'translate(512 0) scale(-1 1)';
+/** The face of the lair names on this small map. */
+const LABEL_FONT = 'Arial';
 
 /** The level's terrain, dimmed under a green veil: the roads are drawn over it. */
 export function drawGround(svg: SVGElement, level: Level) {
@@ -32,7 +38,7 @@ export function drawGround(svg: SVGElement, level: Level) {
       y: 0,
       width: BOARD_WIDTH,
       height: BOARD_HEIGHT,
-      preserveAspectRatio: TEXT.xmidymidSlice,
+      preserveAspectRatio: GROUND_FIT,
       opacity: 0.55,
     }),
     svgNode('rect', {
@@ -109,7 +115,7 @@ function miniature(
       href: sheetUrl(SHEET.strongholds),
       width: 1024,
       height: 1024,
-      ...(flip ? { transform: TEXT.translate5120Scale11 } : {}),
+      ...(flip ? { transform: MIRRORED } : {}),
     }),
   );
 }
@@ -122,7 +128,7 @@ function drawLairs(svg: SVGElement, lanes: readonly number[]) {
       y: LANES[lane] - 34,
       fill: '#173e37',
       'font-size': 24,
-      'font-family': TEXT.arial,
+      'font-family': LABEL_FONT,
       'font-weight': 'bold',
     });
     svg.append(miniature(8, LANES[lane] - 90, 150, 150, 1), label);

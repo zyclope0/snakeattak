@@ -167,7 +167,7 @@
   margin: 18px 0;
   border: 1px solid #b9c8ae;
   border-radius: 16px;
-  background: #f7f4e7;
+  background: var(--paper);
   color: #254738;
 }
 .departure-panel h2 {

@@ -8,7 +8,6 @@ export const revisionInvalide = 'Invalid revision';
 export const nMustBeBoolean = '{0} must be boolean';
 export const nMustBeFiniteInNN = '{0} must be finite in [{1}, {2}]';
 export const aucunDomicileNavigableDansLeCamp = 'No reachable home position in the camp';
-export const nfd = 'NFD';
 export const chasseurMobileDelogeLesCracheursEt =
   'Mobile hunter: chases away Spitters and protects the Crystal.';
 export const renfortMobileIntervientSurLesTrois = 'Mobile backup: helps on all three lanes.';

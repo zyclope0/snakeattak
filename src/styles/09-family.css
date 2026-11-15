@@ -21,7 +21,7 @@
   font: inherit;
   border: 1px solid #a4b392;
   border-radius: 8px;
-  background: #f7f4e7;
+  background: var(--paper);
 }
 #family-preview {
   border-block: 1px solid #c6ceb7;

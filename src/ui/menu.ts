@@ -33,8 +33,8 @@ const CHAPTERS = [0, 1, 2] as const;
 /** What a chapter card shows until its real background is asked for. */
 const CHAPTER_PLACEHOLDERS = [
   'var(--home-scene)',
-  TEXT.linearGradient135deg486d58E6dcad,
-  TEXT.linearGradient135deg547b79Dce7df,
+  'linear-gradient(135deg, #486d58, #e6dcad)',
+  'linear-gradient(135deg, #547b79, #dce7df)',
 ];
 
 /** An adventure that has begun is never replaced without asking. */

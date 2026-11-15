@@ -1,9 +1,10 @@
-import * as TEXT from './texts/fr/battle.ts';
 /**
  * The writing shared by the codes a child reads aloud or copies: departure codes and voyage
  * codes. Thirty-two signs without O, I, L or U, so that no two of them look alike.
  */
 const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+/** The Unicode form that writes an accent apart from its letter, so that it can be dropped. */
+const ACCENTS_APART = 'NFD';
 
 /** `value` written on exactly `count` signs, most significant first. */
 export function codeDigits(value: number, count: number): string {
@@ -35,7 +36,7 @@ export const tidyCode = (raw: string): string =>
   raw
     .trim()
     .toUpperCase()
-    .normalize(TEXT.nfd)
+    .normalize(ACCENTS_APART)
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s/g, '');
 /** The alphabet has no O, I or L: read them as the digits they look like. */

@@ -45,9 +45,6 @@ export const copains = 'Friends';
 export const reperage = 'Scouting';
 export const options = 'Options';
 export const carnetDeCetteNouvellePartie = 'Sticker book for this new game';
-export const xmidymidSlice = 'xMidYMid slice';
-export const translate5120Scale11 = 'translate(512 0) scale(-1 1)';
-export const arial = 'Arial';
 export const troisVoiesVisiblesPremiereVagueN =
   'Three visible lanes. First wave: {0}. Dens on the left, crystal on the right.';
 export const nAutresN = '{0} more {1}';

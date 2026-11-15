@@ -39,7 +39,7 @@
     position: sticky;
     top: 132px;
     z-index: 10;
-    box-shadow: 0 5px 0 #173e37;
+    box-shadow: 0 5px 0 var(--forest);
   }
   .clearing-title h2 {
     font-size: 19px;

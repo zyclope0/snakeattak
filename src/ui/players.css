@@ -162,7 +162,7 @@
     place-items: center;
     width: 21px;
     height: 21px;
-    border: 2px solid #173e37;
+    border: 2px solid var(--forest);
     border-radius: 50%;
     background: var(--honey);
     color: #3f330f;

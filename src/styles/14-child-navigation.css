@@ -102,7 +102,7 @@
 }
 .mission-facts dd {
   font-size: 16px;
-  color: #173e37;
+  color: var(--forest);
 }
 #mission-budget {
   color: #3c593c;

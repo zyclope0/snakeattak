@@ -71,9 +71,10 @@ export function bindBattleKeys(session: Session, refresh: () => void) {
   });
 }
 
+/** What uses the Space key itself: a control pressed, a field typed in. */
+const TAKES_SPACE = 'button, select, input, textarea, summary, a, [contenteditable]';
 function spacePauses(session: Session, target: EventTarget | null): boolean {
-  const typing =
-    target instanceof HTMLElement && target.closest(TEXT.buttonSelectInputTextareaSummaryA);
+  const typing = target instanceof HTMLElement && target.closest(TAKES_SPACE);
   return session.screen === 'battle' && !battleOver(session.game) && !typing && !dialogOpen();
 }
 
