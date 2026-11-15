@@ -30,7 +30,7 @@ Vérifié en ligne par le contrôle automatique de la publication : page et scri
 en-têtes, cache, redirections `http://` et `www.`, aucun cookie, politique identique à celle
 du dépôt.
 
-Non vérifié : le site n'a pas été ouvert ni joué par une personne sur le nouveau domaine ;
+Non vérifié : aucune personne n’a encore joué sur le nouveau domaine ;
 rien sur le Galaxy S24 ni sur un appareil Android, en particulier l'ouverture des liens ; les liens de la
 fiche Play ne sont pas changés.
 
@@ -57,7 +57,11 @@ texte plus strict conservé. Confidentialité hors ligne FR/EN, même package et
 Verify717tests, navigateur, audit13/13, menus5648, hors ligne et sauvegarde familiale verts.
 AAB61 signé/validé, APK debug construit ; lecture du contenu réel de l’APK hors ligne
 FR/EN vérifiée à780×360 avec marges simulées. Aucune règle ou sauvegarde modifiée.
-Publication Infomaniak uniquement par « Publier le site » ; état final à renseigner.
+Site Infomaniak publié uniquement par « Publier le site », run43698517225 réussi,
+commit `099cebf` de main. Politique publique identique,131fichiers distribués identiques
+aux paquets ; accueil, confidentialité et camp vérifiés en ligne sur trois formats FR/EN.
+CI complète de main43698515202 encore en cours au contrôle ; gates locales et workflow
+de publication verts.
 L’avis de migration de l’ancien hébergement est déjà publié par une autre session
 (Sites37, `fe8bd54`) ; six contrôles locaux FR/EN, dont deux multi-profils, et réponse
 publique200 vérifiés. Aucun ancien asset ni politique remplacé. URL Play à modifier dans

@@ -40,6 +40,17 @@ plus strict conservé.
   brouillon de notice a été reproduit et corrigé, avant abandon de ce brouillon au profit
   de l’avis déjà publié. Aucun changement graphique ou fonctionnel supplémentaire.
 
+- Publication Infomaniak réussie par le seul workflow « Publier le site », run43698517225,
+  source main `099cebf07dcf9f119c05d9f792c43248aca1a88b` (PR55 et56 intégrées). Le workflow
+  vérifie717tests, HTTPS, redirections HTTP/www, cache, politique exacte et absence de cookie.
+  Les131fichiers distribués sont identiques aux paquets ; contrôle public navigateur
+  accueil→confidentialité→camp à1280×800FR,780×360FR,812×375EN sans erreur ni ressource manquante.
+  Le plateau mesure1065,66×600,81px à1280×800,553,55×311,73px à780×360.
+- CI complète de main43698515202 en cours au dernier contrôle ; ne pas la confondre avec
+  la publication terminée ou les recettes locales vertes. Le contrôle HTTP de Node depuis
+  ce conteneur est limité par son proxy ; la redirection301 est confirmée par curl et par
+  le contrôle complet du workflow.
+
 Preuves hors Git : `artifacts/livraison-build61/` et `/workspace/serpents-build61-20261115/`.
 
 ## Livraison et limites

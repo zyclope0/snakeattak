@@ -222,3 +222,15 @@ Nouveau dans « Pour les parents » : la politique de confidentialité se lit ma
 New in “For parents”: the privacy policy can now be read inside the game, even offline.
 </en-US>
 ```
+
+### Publication du build61
+
+PR55 et56 intégrées, publication manuelle « Publier le site »
+[43698517225](https://github.com/zyclope0/snakeattak/actions/runs/43698517225) réussie depuis
+main `099cebf07dcf9f119c05d9f792c43248aca1a88b`, sans purge. Le contrôle du workflow est
+entièrement vert, politique exacte et redirections comprises. Les131fichiers distribués
+comparés au build correspondent aux paquets Android (30MP3) ; `.htaccess` reste propre
+au serveur Web. Le navigateur a parcouru accueil, confidentialité et camp FR/EN sur
+1280×800,780×360 et812×375, sans erreur ou ressource manquante. Aucun essai humain revendiqué.
+La CI complète de main43698515202 est encore en cours au dernier contrôle ; elle est
+distincte des717tests et du contrôle de publication déjà passés.
