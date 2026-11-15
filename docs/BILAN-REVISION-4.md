@@ -62,7 +62,10 @@ défense quand un nouveau serpent arrive.
   branche : la liste des écarts à la référence est la même au caractère près. La partie de
   référence de la révision 3 garde son empreinte ; une partie de référence de la révision 4
   est ajoutée.
-- **Sauvegardes et codes d'avant lus pareil** : voir la PR pour le compte.
+- **Sauvegardes et codes d'avant lus pareil.** 1 533 261 cas comparés (camps, codes,
+  carrières, carnets, fichiers familiaux, entiers ou abîmés). Par rapport à la révision 3,
+  un seul écart nouveau : 474 codes écrits avec la règle 6, que le jeu refusait
+  (« version ») et qu'il refuse toujours, pour une autre raison. Tout le reste est identique.
 - **Dans le navigateur** (camp de la vague 7, puis la vague 8), en 780×360, 1280×800 et
   812×375 en anglais : les trois fiches dans « Dangers » et dans l'index, les trois serpents
   sur le plateau, aucune erreur de page.
