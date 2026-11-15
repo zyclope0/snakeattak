@@ -127,6 +127,60 @@ depuis l'interface enfant (0.29 à 0.31) : au parent de dire si c'est voulu.
 
 Non vérifié : la nouvelle CI n'a tourné que sur la PR de ce lot ; rien sur téléphone.
 
+## Rien en dur — 15 novembre 2026
+
+Demande du parent : ce qui ne doit pas être écrit en dur dans le code en sort, à un seul
+endroit, pour que le jeu reste facile à adapter. Les règles sont dans `CLAUDE.md` et dans
+`docs/ARCHITECTURE.md` (« Textes hors du code », « Valeurs hors du code »).
+
+Ce qui est fait :
+
+- **Textes** : les 1 054 textes affichés sont dans `src/texts/fr/` et `src/texts/en/`, sous
+  le même nom dans les deux langues ; la page ne contient plus que des noms. Le dictionnaire
+  anglais est généré.
+- **Clés de stockage** : les dix dans `src/storageKeys.ts`. Une était tapée deux fois.
+- **Tirage au hasard** : un seul calcul (`src/seededRandom.ts`), recopié sept fois avant.
+- **Nombres du jeu** (`src/gameConstants.ts`) : voies, chapitres, vagues, camps à
+  récompense, départ d'une partie, prix du camp, montants des récompenses, étoiles. Deux
+  formules écrites deux fois n'en font plus qu'une (chapitre d'une vague, œufs d'une vague).
+  Les prix de la réparation et de l'entraînement étaient recopiés dans l'écran du camp.
+- **Repères du plateau** (`src/boardLandmarks.ts`) : retapés une trentaine de fois.
+- **Limites** : équipe de 8, longueur des codes, taille d'un camp, chacune à un endroit.
+- **Dessin** : table des couches du plateau, six couleurs partagées, planches nommées.
+- **Phrases** : quarante phrases prennent leurs nombres dans les constantes, dans les deux
+  langues.
+
+Comment c'est vérifié :
+
+- Aucune valeur ne change : des tests retapent chaque clé, chaque limite, chaque nombre,
+  chaque repère, chaque couche et chaque couleur partagée.
+- 570 parties rejouées sur le moteur après chaque lot qui touche aux règles (110 435
+  empreintes) : aucune ne diffère.
+- Lecture et écriture des sauvegardes et des codes comparées à la référence (plus d'un
+  million de cas, 35 familles) : zéro différence.
+- Dictionnaire anglais généré identique à l'octet près, inventaire des textes identique.
+- Les cinq tâches de la CI sur chaque PR.
+
+Ce qui est laissé, et pourquoi :
+
+- Les scripts de vagues, les poids de l'IA, la géométrie des routes et les coordonnées de
+  dessin : chaque nombre n'y sert qu'une fois ; le nommer n'apporte rien.
+- Les 387 couleurs des styles et leurs 23 seuils d'écran : les ramener à une palette change
+  l'image, écran par écran. C'est un chantier de direction artistique, avec captures et
+  accord du parent.
+- Les fiches des alliés et l'aide longue : leurs nombres viennent des tables par unité ; un
+  changement d'équilibrage doit encore les relire.
+
+À décider par le parent :
+
+- Le code considère l'écran « étroit » sous 800 px, les styles sous 920 px. Entre les deux
+  (dont un téléphone couché de 812 px), le jeu ne recentre pas le plateau après une
+  récompense ou un départ comme il le fait à 780 px. Corriger change un comportement : à
+  essayer sur le téléphone.
+
+Non vérifié : rien sur téléphone ni avec les enfants. Le coût au démarrage est d'environ
+6 Ko pour les textes et 0,6 Ko pour les valeurs ; le paquet principal fait 190,1 Ko sur 200.
+
 ## Ce qui reste
 
 - **Décisions du parent** : 135 règles de style qui ne servent
