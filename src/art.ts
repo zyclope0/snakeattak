@@ -104,6 +104,22 @@ export const ART_SHEETS = [
   },
   { key: 'props-three-bridges', url: threeBridgesPropsUrl, frameWidth: 512, frameHeight: 512 },
 ] as const;
+export type SheetKey = (typeof ART_SHEETS)[number]['key'];
+/**
+ * The sheets that the code names outside this file. A key retyped elsewhere and gone astray
+ * would load nothing and say nothing: these names do not compile if the sheet is not above.
+ */
+export const SHEET = {
+  alliesFront: 'allies-front',
+  enemiesOrganic: 'enemies-organic',
+  enemiesMechanical: 'enemies-mechanical',
+  strongholds: 'strongholds',
+  honeyAndUmbrella: 'miels-parapluie',
+  threeBridgesProps: 'props-three-bridges',
+} as const satisfies Record<string, SheetKey>;
+/** Where the browser finds a sheet. */
+export const sheetUrl = (key: SheetKey): string =>
+  ART_SHEETS.find((sheet) => sheet.key === key)!.url;
 /** Attack sheets, loaded with their base sheet under the key `<base>-attack`. */
 export const ATTACK_SHEETS = ART_SHEETS.flatMap((sheet) =>
   'attackUrl' in sheet
@@ -138,7 +154,7 @@ export const SCENERY_ART = [
   { key: 'scenery-marsh', url: marshUrl },
 ] as const;
 export const UI_ART_URL = uiUrl;
-const frame = (texture: string, frame: number): ArtFrame => ({ texture, frame });
+const frame = (texture: SheetKey, frame: number): ArtFrame => ({ texture, frame });
 export const ALLY_ART: Record<Kind, ArtFrame> = {
   hero: frame('allies-front', 0),
   club: frame('allies-front', 1),

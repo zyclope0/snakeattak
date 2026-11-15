@@ -9,6 +9,8 @@ import { stageTheme, STAGE_SIZES } from './stageLayout.ts';
 import { Figurines } from './figurines.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
+import * as DEPTH from './boardLayers.ts';
+import { SHEET } from '../art.ts';
 /** Under these shares of its health, the refuge looks worn, then badly cracked. */
 const WORN_BASE = 50,
   CRACKED_BASE = 25;
@@ -39,25 +41,25 @@ export class Strongholds {
   private figurines: Figurines;
   constructor(scene: Phaser.Scene) {
     this.figurines = Figurines.of(scene);
-    this.effects = scene.add.graphics().setDepth(9);
+    this.effects = scene.add.graphics().setDepth(DEPTH.strongholdEffects);
     // The gauge, cracks and cross are drawn around the first refuge, at (1021, 354): the layer
     // follows the refuge to where the stage layout puts it now.
-    this.details = scene.add.graphics().setDepth(15.1).setPosition(-33, 6);
+    this.details = scene.add.graphics().setDepth(DEPTH.refugeDetails).setPosition(-33, 6);
     this.dens = LANES.map((y) =>
       scene.add
-        .image(72, y + 23, 'strongholds', 1)
+        .image(72, y + 23, SHEET.strongholds, 1)
         .setOrigin(0.5, 0.82)
         .setDisplaySize(142, 138)
-        .setDepth(9.4),
+        .setDepth(DEPTH.dens),
     );
     // The reference miniature's door is on the right: mirror it towards the attackers.
     this.fort = scene.add
-      .image(1021, 354, 'strongholds', 0)
+      .image(1021, 354, SHEET.strongholds, 0)
       .setOrigin(0.5, 0.82)
       .setDisplaySize(157, 178)
       .setFlipX(true)
       // Every legal defender stays visible, including placements beside the gate.
-      .setDepth(9.6);
+      .setDepth(DEPTH.refuge);
     this.label = addCanvasCopy(scene.add, 988, 412, '', {
       fontFamily: DISPLAY_FONT,
       fontSize: '11px',
@@ -66,11 +68,11 @@ export class Strongholds {
       padding: { x: 7, y: 4 },
     })
       .setOrigin(0.5)
-      .setDepth(15.2);
+      .setDepth(DEPTH.refugeLabel);
   }
   /** The miniature prepared at the size of the screen, shown `width` × `height` board units. */
   private show(image: Phaser.GameObjects.Image, frame: number, width: number, height: number) {
-    const art = this.figurines.image({ texture: 'strongholds', frame }, width, height);
+    const art = this.figurines.image({ texture: SHEET.strongholds, frame }, width, height);
     if (image.frame.name !== art.frame) image.setTexture(art.texture, art.frame);
     return image.setDisplaySize(width, height);
   }

@@ -1170,10 +1170,20 @@ Où sont les valeurs :
   camp, front, alerte et ligne du cristal, portée du contact). Un module sans import :
   le placement, les chemins et le camp les lisent sans boucle ; `engine/field.ts` les
   réexporte pour les règles d'un pas.
+- **`src/render/boardLayers.ts`** : la table `DEPTH` des couches du plateau, du sol vers le
+  haut. Vingt-neuf `setDepth` étaient répartis dans dix fichiers, avec vingt-deux valeurs :
+  pour glisser une couche, on lit maintenant un seul tableau.
+- **`src/render/palette.ts`** : les six couleurs du plateau utilisées par plus d'un dessin
+  (`BOARD_COLOR`). Une couleur qui ne sert qu'à un dessin reste à côté de lui. Fusionner
+  deux nuances voisines change l'image : c'est une décision de direction artistique.
+- **`SHEET` et `sheetUrl`** (`src/art.ts`) : les planches d'images nommées hors de `art.ts`.
+  Un nom qui ne correspond à aucune planche ne compile pas.
 - **Restent à côté de leur règle**, parce qu'ils ne servent qu'une fois et font la partie :
   les scripts de vagues (`waves.ts`, `missions.ts`), les poids de l'IA (`ai.ts`,
   `defenders.ts`), la géométrie des routes (`routes.ts`).
 
 Garde-fous : `tests/storage-keys.test.ts` retape chaque clé, chaque limite et le calcul du
 tirage sur mille pas ; `tests/game-constants.test.ts` retape chaque nombre du jeu et chaque
-repère, et vérifie qu'une partie neuve commence bien avec eux.
+repère, et vérifie qu'une partie neuve commence bien avec eux ;
+`tests/board-depth.test.ts` retape la table des couches et les couleurs partagées, et refuse
+une profondeur écrite en chiffres dans `src/render/`.

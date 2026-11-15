@@ -1,4 +1,5 @@
 import type Phaser from 'phaser';
+import * as BOARD_COLOR from './palette.ts';
 /** Visual geometry only: never writes an entity or its collision radius. */
 export function shellGeometry(size: number, shell: boolean) {
   const scale = shell ? 1.18 : 1;
@@ -6,7 +7,7 @@ export function shellGeometry(size: number, shell: boolean) {
 }
 export function drawCapriceShell(g: Phaser.GameObjects.Graphics, width: number, height: number) {
   // Same thin camp rim as the snake that carries it.
-  g.fillStyle(0xd2552d, 0.94);
+  g.fillStyle(BOARD_COLOR.serpentRim, 0.94);
   g.fillEllipse(0, 0, width + 3.4, height + 3.4);
   g.fillStyle(0x777c59, 1);
   g.fillEllipse(0, 0, width, height);

@@ -1,4 +1,6 @@
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+/** The arrow that shows where the serpents come from, on a mission's map and on the voyage's. */
+export const SERPENT_ARROW_COLOR = '#a1452c';
 
 /**
  * A new SVG element. Its attributes are written in the order given, so a drawing reads the

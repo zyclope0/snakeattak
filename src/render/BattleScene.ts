@@ -43,6 +43,7 @@ import { BattleJuice, drawCelebration } from './juice.ts';
 import { EffectTrails } from './effectTrails.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
+import * as DEPTH from './boardLayers.ts';
 /** Milliseconds between two refreshes of the HTML dashboard. */
 const HUD_PERIOD_MS = 180;
 export class BattleScene extends Phaser.Scene {
@@ -117,8 +118,8 @@ export class BattleScene extends Phaser.Scene {
     this.flightSignals = new FlightSignals(this);
     this.medicalSignals = new MedicalSignals(this);
     this.effectTrails = new EffectTrails(this);
-    this.ink = this.add.graphics().setDepth(15);
-    this.honeyInk = this.add.graphics().setDepth(7.5);
+    this.ink = this.add.graphics().setDepth(DEPTH.ink);
+    this.honeyInk = this.add.graphics().setDepth(DEPTH.honeyZone);
     this.feedback = new BattleFeedback(this);
     this.juice = new BattleJuice(this);
     this.feastLabel = addCanvasCopy(this.add, 420, 0, '', {
@@ -129,7 +130,7 @@ export class BattleScene extends Phaser.Scene {
       padding: { x: 7, y: 4 },
     })
       .setOrigin(0.5)
-      .setDepth(9.5)
+      .setDepth(DEPTH.feastLabel)
       .setVisible(false);
     this.createResultOverlay();
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => this.pressBoard(pointer));
@@ -188,7 +189,7 @@ export class BattleScene extends Phaser.Scene {
     this.celebration = this.add.graphics();
     this.overlay = this.add
       .container(0, 0, [shade, this.celebration, this.resultSubtitle, this.resultStats])
-      .setDepth(100)
+      .setDepth(DEPTH.resultOverlay)
       .setVisible(false);
   }
   /** A press on the board places what is selected, or says why it cannot. */

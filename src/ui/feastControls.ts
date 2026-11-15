@@ -7,7 +7,7 @@ import { LANE_NAMES } from '../ai.ts';
 import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import type { FeastFlavor } from '../tactics.ts';
-import { ART_SHEETS } from '../art.ts';
+import { SHEET, sheetUrl } from '../art.ts';
 import { byId, decoration, make, setPressed } from './dom.ts';
 import { battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/camp.ts';
@@ -28,7 +28,7 @@ export const FEAST_CHOICES: ReadonlyArray<FeastChoice> = [
   },
 ];
 /** The sheet that holds both honey pots. */
-export const honeySheetUrl = () => ART_SHEETS.find((s) => s.key === 'miels-parapluie')!.url;
+export const honeySheetUrl = () => sheetUrl(SHEET.honeyAndUmbrella);
 export function feastIconStyle(flavor: FeastFlavor) {
   return `background-image:url("${honeySheetUrl()}");background-position:${flavor === 'sticky' ? 100 : 0}% 100%`;
 }
