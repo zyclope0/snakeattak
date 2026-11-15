@@ -1,12 +1,13 @@
 # Plan actuel — 0.38.0, livraison Android build60
 
-## Confidentialité dans l'application et site sur Infomaniak — 14 novembre, pas encore publié
+## Confidentialité dans l'application et site sur Infomaniak — site en ligne le 15 novembre
 
 Demande du parent du 14 novembre : rendre la politique de confidentialité lisible hors ligne
 dans l'application, et préparer le transfert du site vers **https://snakeattacktd.com**
 (hébergement Web classique d'Infomaniak, publication lancée à la main depuis GitHub
-Actions). Le build Android reste fait par Codex. Rien n'est en ligne sur le nouveau domaine,
-et l'ancien site n'est pas touché. Marche à suivre complète : [SITE.md](SITE.md).
+Actions). Fusionné en PR53. **Le site est en ligne sur snakeattacktd.com depuis le 15
+novembre**, publié depuis `main` (`7d30a84`) ; l'ancien site n'est pas touché. La fenêtre de
+l'application attend le build 61, fait par Codex. Marche à suivre : [SITE.md](SITE.md).
 
 - **Texte** : repris mot pour mot de la page publiée (français et anglais), rangé dans une
   seule source dont sortent la page publique et la fenêtre de l'application. Trois ajouts
@@ -26,14 +27,18 @@ tailles dont 780×360 avec marges système, français et anglais, défilement au
 rien demandé hors du jeu) ; lecture hors ligne après démarrage à froid ; page publique
 ouverte sans JavaScript ; contrôle du site essayé sur une copie locale du build.
 
-Non vérifié : aucune publication réelle sur Infomaniak (`.htaccess`, rsync, certificat et
-redirections jamais essayés sur l'hébergement) ; rien sur le Galaxy S24 ni dans l'APK, en
-particulier l'ouverture des liens ; les liens de la fiche Play ne sont pas changés.
+Vérifié en ligne par le contrôle automatique de la publication : page et script servis,
+en-têtes, cache, redirections `http://` et `www.`, aucun cookie, politique identique à celle
+du dépôt.
 
-À faire par le parent : créer le site et le compte SSH chez Infomaniak, ranger les quatre
-secrets dans GitHub, lancer « Publier le site » ; relever dans `ik-logs` ce que les journaux
-contiennent vraiment ; prévenir les familles que les sauvegardes du site ne suivent pas le
-changement d'adresse.
+Non vérifié : le site n'a pas été ouvert ni joué par une personne sur le nouveau domaine ;
+rien sur le Galaxy S24 ni dans l'APK, en particulier l'ouverture des liens ; les liens de la
+fiche Play ne sont pas changés.
+
+À faire par le parent : mettre `https://snakeattacktd.com/confidentialite` dans la fiche
+Play ; relever dans `ik-logs` ce que les journaux contiennent vraiment ; prévenir les
+familles que les sauvegardes du site ne suivent pas le changement d'adresse ; décider quand
+l'ancien site s'arrête.
 
 À faire par Codex pour le build 61 : monter `versionCode`, puis relire la politique et
 mettre `POLICY_APP` à jour dans `src/i18n/privacyPolicy.ts` (un test le réclame). Notes de

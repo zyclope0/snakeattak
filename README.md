@@ -6,7 +6,7 @@ alliés combattre et se soigner de façon autonome.
 
 **Version publiée : 0.38.0 / Android60 · Français/anglais · Code propriétaire.**
 
-[Jouer sur le site familial](https://conquete-serpents-famille.zyclope.chatgpt.site/)
+[Jouer sur le site](https://snakeattacktd.com/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
 · [Guide Android](docs/ANDROID.md)
 
