@@ -1,11 +1,12 @@
 # Android — version0.38.0
 
-Dernière livraison préparée : **0.38.0 / build61**, politique de confidentialité FR/EN
-lisible hors ligne dans « Pour les parents ». Source et résultats : [Bilan](BILAN-0.38.0.md).
+Dernière livraison préparée : **0.38.0 / build62**, release optimisé, politique de
+confidentialité FR/EN lisible hors ligne dans « Pour les parents ».
+Source et résultats : [Bilan](BILAN-0.38.0.md).
 Même package **com.conqueteserpents.famille**, paysage, minSdk24 / targetSdk36 ;
 même clé d’envoi Play, aucun SDK commercial ni permission INTERNET ajouté.
 
-Importer `conquete-serpents-v0.38.0-build61-play.aab` dans une nouvelle version du canal
+Importer `conquete-serpents-v0.38.0-build62-play.aab` dans une nouvelle version du canal
 interne existant. L’APK debug a une signature distincte de Play ; il ne s’installe pas en
 mise à jour de l’application distribuée par Play. Pas d’upload Console par Codex.
 Le parent testera sur S24 le défilement et les liens externes depuis la fenêtre.
@@ -21,15 +22,44 @@ est réduit et optimisé, et l'AAB emporte son fichier de correspondance, que Pl
 Capacitor 8 fournit ses propres règles de conservation ; l'application n'a pas d'autre code
 natif que `MainActivity`. Les numéros de ligne sont gardés pour les rapports de plantage.
 
-**À vérifier avant tout envoi** (le candidat a depuis été construit par Codex, mais
-sa qualification native reste bloquée ; voir ci-dessous) : l'APK debug n'est pas réduit, il ne prouve donc plus
+**À vérifier avant tout envoi** (recette native du build62 transmise par le parent
+le15novembre, voir ci-dessous) : l'APK debug n'est pas réduit, il ne prouve donc plus
 rien sur le build release. Construire le release, l'installer (émulateur ou canal interne),
 puis contrôler au moins : démarrage à froid hors ligne, une vague jouée, une sauvegarde
 reprise après fermeture, le voyage ouvert, « Confidentialité » ouverte, les marges système
 en paysage. Si le release ne démarre pas, remettre `minifyEnabled false` : rien d'autre ne
 dépend de ce réglage.
 
-### Candidat62 construit le15novembre — qualification native bloquée
+### Build62 — recette native transmise le15novembre
+
+Le parent rapporte une recette réussie sur **Android15 x86_64 accéléré par WHPX**,
+avec l'APK release optimisé du kit : empreinte de l'APK installé identique à celle du
+ZIP, aucun crash ni ANR enregistré, aucun `SIGTRAP` WebView reproduit. Cette session
+cloud n'accède pas au rapport ni aux captures stockés sur son disque Windows ; les
+résultats natifs ci-dessous sont attribués à son compte rendu, pas à un nouvel essai cloud.
+
+| Contrôle natif                       | Résultat transmis                                                       |
+| ------------------------------------ | ----------------------------------------------------------------------- |
+| Démarrage à froid hors ligne         | Accueil utilisable en mode avion, sans réseau actif.                    |
+| Partie complète                      | Le refuge gagné : trois vagues, trois étoiles, cristal100%.             |
+| Mise à jour61→62 sans effacement     | Camp repris avec l'archer recruté,492pièces et la vague1 terminée.      |
+| Sauvegarde62, arrêt forcé et relance | Allié acheté et437pièces retrouvés.                                     |
+| Voyage hors ligne                    | Carte et plateau de la première étape ouverts.                          |
+| Confidentialité hors ligne           | Texte build62 FR/EN vérifié et défilé jusqu'au lien final.              |
+| Paysage                              | Commandes utilisables hors des barres système, gestes et trois boutons. |
+
+Réserve d'interface : bouton Réglages brièvement rogné derrière le sélecteur de profils
+au changement de navigation système, puis entièrement visible après sélection. Erreurs
+WebView de cache/rendu sans interruption observée ; à surveiller sur appareil physique.
+Le téléphone familial n'a pas été touché. L'essai61→62 utilise la clé d'envoi ; il ne
+remplace pas une mise à jour distribuée et signée par Google Play.
+
+La recette requise sur émulateur est donc rapportée comme passée ; le blocage cloud
+ci-dessous reste historique. R8 reste activé. PR58 ouverte, sans fusion, upload Play ou
+publication du site. Le rapport `RECETTE.md` et l'archive
+`Snake-Attack-TD-build62-preuves.zip` sont conservés dans la session Windows du parent.
+
+### Construction et échec initial de l'émulateur cloud — historique
 
 Source produit `4d9724d98f27e9df69289c3954163609e3c27898` : compteur et `POLICY_APP.build`62,
 version0.38.0, mêmes package et clé d’envoi ; aucun changement de texte juridique, règle
@@ -37,7 +67,7 @@ ou sauvegarde. Verify717tests, navigateur, hors ligne et sauvegarde familiale ve
 AAB release signé/validé, mapping R8 embarqué (5426936octets), DEX7111200→790240octets.
 L’APK de test est généré de cet AAB, non débogable ; DEX et132fichiers web correspondent.
 
-**Pas qualifié pour Play.** L’APK optimisé s’installe sur l’émulateur officiel Android35
+**Avant la recette locale**, l’APK optimisé s’installe sur l’émulateur officiel Android35
 (API35,37.2.13,x86_64) sans KVM, puis le rendu WebView s’arrête : `SIGTRAP` dans
 `CrRendererMain` / `libmonochrome_64.so`. Le seul réglage `minifyEnabled false` a été
 essayé dans une compilation de comparaison : même arrêt, APK installé relu depuis
@@ -47,15 +77,15 @@ fiable ; cela ne prouve pas qu’elle fonctionne sur S24.
 
 Les services Android de cet émulateur affichent aussi des ANR ; son délai watchdog système
 a été allongé pour l’émulation logicielle, sans changer l’APK ni ses protections.
-**La checklist ci-dessus reste entièrement à passer** : aucun camp jouable, vague, reprise,
-voyage, confidentialité ou confort de paysage validé nativement. Pas d’envoi Play, fusion
-ou publication de ce candidat. Vérifier sur émulateur accéléré ou appareil de test adapté.
+À cette étape initiale, aucun camp jouable, vague, reprise, voyage, confidentialité ou
+confort de paysage n'était validé nativement. Aucun envoi Play, fusion ou publication
+n'a été effectué. La recette accélérée transmise ensuite est décrite plus haut.
 L’APK signé avec la clé d’envoi peut être incompatible avec la signature de l’app Play :
 ne pas désinstaller la version familiale pour cet essai.
 
 Preuves hors Git : `artifacts/livraison-build62/` et
 `/workspace/serpents-build62-20261115/`. Un kit de validation Windows est préparé pour
-un émulateur local ; son script n’a pas été exécuté sous Windows ici.
+un émulateur local ; le parent confirme ensuite avoir exécuté son script sous Windows.
 
 « Taille de la page de mémoire : compatible avec les pages de 16 Ko » est un résultat
 favorable, pas une alerte : l'application n'embarque aucune bibliothèque native à elle.
