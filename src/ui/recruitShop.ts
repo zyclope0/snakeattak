@@ -137,6 +137,8 @@ function showCard(card: HTMLButtonElement, kind: Kind, session: Session, frozen:
   );
   const reason = cardNote(game, kind, cost, (missing) => fill(TEXT.ilManqueNPieces, missing));
   card.dataset.state = locked ? 'locked' : poor ? 'poor' : chosen ? 'selected' : 'ready';
+  // The coins are there but the caprice keeps them in the bank: the card must say why.
+  card.toggleAttribute('data-reserved', !locked && poor && !!game.caprice.reserve);
   setAttribute(
     card,
     'aria-label',

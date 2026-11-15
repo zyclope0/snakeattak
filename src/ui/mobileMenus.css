@@ -420,8 +420,8 @@
 }
 /* Le mot de spécialité (« Contact », « Soins ») reste dans les fiches : ici il laisse la
    place aux vingt cartes. Un allié trop cher garde son prix, grisé ; un allié à découvrir
-   dit à quelle vague il arrive. */
-#app #reinforcements .unit-card:not([data-state='locked']) .unit-info small {
+   dit à quelle vague il arrive ; un allié que la réserve du caprice retient le dit aussi. */
+#app #reinforcements .unit-card:not([data-state='locked'], [data-reserved]) .unit-info small {
   display: none;
 }
 #app #reinforcements #shop .unit-card .price {
