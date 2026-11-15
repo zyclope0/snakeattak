@@ -1,3 +1,10 @@
+import {
+  ENCOURAGEMENT_SECONDS,
+  HERO_TRAINING_COST,
+  REPAIR_AMOUNT,
+  REPAIR_COST,
+} from '../../gameConstants.ts';
+
 export const prochaineVague = 'Prochaine vague';
 export const vagueEnCours = 'Vague en cours';
 export const leCampEstTombe = 'Le camp est tombé';
@@ -34,17 +41,14 @@ export const courageLesAttaquesAccelerent = 'Courage ! Les attaques accélèrent
 export const nSRestantesLeBoutonRevientALa =
   '{0} s restantes. Le bouton revient à la prochaine vague.';
 export const tesAlliesFrappentPenseAEncourager = 'Tes alliés frappent : pense à Encourager';
-export const uneFoisParVagueLeursAttaques =
-  'Une fois par vague, leurs attaques accélèrent pendant 8 s. Choisis le moment !';
+export const uneFoisParVagueLeursAttaques = `Une fois par vague, leurs attaques accélèrent pendant ${ENCOURAGEMENT_SECONDS} s. Choisis le moment !`;
 export const lePiegeGourmand = 'Le piège gourmand';
 export const choisisAttirerPourDetournerLes =
   'Choisis Attirer pour détourner les gourmands, ou Ralentir pour freiner ceux qui traversent la flaque. Puis choisis une voie.';
 export const penseAReparerTonCristal = 'Pense à réparer ton cristal';
-export const dansActionsDuCamp80PiecesPour =
-  'Dans Actions du camp : 80 pièces pour regagner jusqu’à 25 points de vie.';
+export const dansActionsDuCamp80PiecesPour = `Dans Actions du camp : ${REPAIR_COST} pièces pour regagner jusqu’à ${REPAIR_AMOUNT} points de vie.`;
 export const tuPeuxEntrainerTonHeros = 'Tu peux entraîner ton héros';
-export const dansActionsDuCampChoisisFrappeOu =
-  'Dans Actions du camp : choisis Frappe ou Gardien pour 90 pièces.';
+export const dansActionsDuCampChoisisFrappeOu = `Dans Actions du camp : choisis Frappe ou Gardien pour ${HERO_TRAINING_COST} pièces.`;
 export const placeLeDerriereLesCombattantsLe =
   'Place-le derrière les combattants. Le cercle montre ses soins ; les bandages sont limités.';
 export const aLAbriDesCombattants = 'à l’abri des combattants';

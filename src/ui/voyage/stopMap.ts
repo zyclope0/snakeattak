@@ -4,7 +4,7 @@ import { LANES } from '../../ai.ts';
 import { missionLevel } from '../../levels.ts';
 import type { MissionRun } from '../../missions.ts';
 import { drawGround, drawRoads, drawRocks } from '../missionPreview.ts';
-import { svgNode } from '../svg.ts';
+import { SERPENT_ARROW_COLOR, svgNode } from '../svg.ts';
 
 /**
  * The small map of a stop: the real paths of its terrain, as the preparation of a mission
@@ -34,7 +34,7 @@ export function stopMap(run: MissionRun, lanes: readonly number[]): SVGSVGElemen
       svg.append(
         svgNode('path', {
           d: `M168 ${y - 6}h52m-22-22 22 22-22 22`,
-          stroke: '#a1452c',
+          stroke: SERPENT_ARROW_COLOR,
           'stroke-width': 15,
           fill: 'none',
           'stroke-linecap': 'round',

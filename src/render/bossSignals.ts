@@ -5,6 +5,8 @@ import type { Game } from '../game.ts';
 import { bossReadout } from './bossReadout.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
+import * as DEPTH from './boardLayers.ts';
+import * as BOARD_COLOR from './palette.ts';
 /** Finite graphics layers; no images, per-actor shader or independent simulation. */
 export class BossSignals {
   private ground: Phaser.GameObjects.Graphics;
@@ -12,8 +14,8 @@ export class BossSignals {
   private headLabels: Phaser.GameObjects.Text[];
   private courtLabels: Phaser.GameObjects.Text[];
   constructor(scene: Phaser.Scene) {
-    this.ground = scene.add.graphics().setDepth(9.7);
-    this.protection = scene.add.graphics().setDepth(16);
+    this.ground = scene.add.graphics().setDepth(DEPTH.groundMarks);
+    this.protection = scene.add.graphics().setDepth(DEPTH.warnings);
     const labels = () =>
       Array.from({ length: 3 }, () =>
         addCanvasCopy(scene.add, 0, 0, '', {
@@ -24,7 +26,7 @@ export class BossSignals {
           strokeThickness: 3,
         })
           .setOrigin(0.5, 1)
-          .setDepth(17)
+          .setDepth(DEPTH.signalLabels)
           .setVisible(false),
       );
     this.headLabels = labels();
@@ -61,7 +63,7 @@ export class BossSignals {
           ink.fillStyle(color, 1);
           ink.fillRoundedRect(x - 31, boss.y - 114, 62 * head.ratio, 4, 1);
           if (head.active) {
-            ink.lineStyle(2, 0xffd58b, 1);
+            ink.lineStyle(2, BOARD_COLOR.kingWarning, 1);
             ink.strokeRoundedRect(x - 34, boss.y - 117, 68, 10, 2);
           }
           setCanvasCopy(
@@ -93,13 +95,17 @@ export class BossSignals {
         const { x, y, radius, progress } = r.shot;
         ground.fillStyle(0xcf6545, 0.18);
         ground.fillCircle(x, y, radius);
-        ground.lineStyle(3, 0xffd58b, reduced ? 0.85 : 0.7 + Math.sin(game.time * 4) * 0.12);
+        ground.lineStyle(
+          3,
+          BOARD_COLOR.kingWarning,
+          reduced ? 0.85 : 0.7 + Math.sin(game.time * 4) * 0.12,
+        );
         ground.strokeCircle(x, y, radius);
         ground.lineStyle(4, 0xf17d4c, 0.95);
         ground.beginPath();
         ground.arc(x, y, radius, -Math.PI / 2, -Math.PI / 2 + progress * Math.PI * 2);
         ground.strokePath();
-        ground.lineStyle(2, 0xffd58b, 0.85);
+        ground.lineStyle(2, BOARD_COLOR.kingWarning, 0.85);
         ground.lineBetween(x - 7, y, x + 7, y);
         ground.lineBetween(x, y - 7, x, y + 7);
         ground.lineStyle(1, 0xfbd08c, 0.3);

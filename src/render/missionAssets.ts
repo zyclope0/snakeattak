@@ -13,6 +13,7 @@ import {
   GROUND_ART,
   SCENERY_ART,
   KING_ART,
+  SHEET,
 } from '../art.ts';
 import { stageTheme } from './stageLayout.ts';
 import { onSceneExit } from './sceneExit.ts';
@@ -23,12 +24,12 @@ import { TOTAL_WAVES } from '../gameConstants.ts';
 /** Select from the rules without advancing them or consuming their random stream. */
 function texturesForGame(game: Game): Set<string> {
   const textures = new Set([
-    'allies-front',
-    'strongholds',
-    'props-three-bridges',
-    'enemies-mechanical', // Eggs share this sheet.
-    'enemies-organic', // Eggs hatch ordinary snakes.
-    'miels-parapluie', // The two honey pots.
+    SHEET.alliesFront,
+    SHEET.strongholds,
+    SHEET.threeBridgesProps,
+    SHEET.enemiesMechanical, // Eggs share this sheet.
+    SHEET.enemiesOrganic, // Eggs hatch ordinary snakes.
+    SHEET.honeyAndUmbrella, // The two honey pots.
     stageTheme(game.level).ground,
   ]);
   const scenery = stageTheme(game.level).scenery;

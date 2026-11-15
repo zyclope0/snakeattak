@@ -1,13 +1,5 @@
 import { activeEnemyLanes } from './tutorial.ts';
-import {
-  CRYSTAL_WARD,
-  REWARD_COINS,
-  freshRewards,
-  rewardOffer,
-  REWARDS,
-  freeRecruit,
-  extraHoneySeconds,
-} from './rewards.ts';
+import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
 import type { RewardState, RewardId } from './rewards.ts';
 import { freshCampaign, chapterIndex, chapterStars } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
@@ -22,8 +14,14 @@ import { kinds, TOTAL_WAVES, waveStats, unlockWave } from './data.ts';
 import type { Kind } from './data.ts';
 import {
   CRYSTAL_MAX,
+  CRYSTAL_WARD,
   DEFAULT_SEED,
+  ENCOURAGEMENT_SECONDS,
   GOLD_LIMIT,
+  HERO_TRAINING_COST,
+  REPAIR_AMOUNT,
+  REPAIR_COST,
+  REWARD_COINS,
   START_GOLD,
   WAVES_PER_CHAPTER,
 } from './gameConstants.ts';
@@ -48,11 +46,6 @@ import * as TEXT from './texts/fr/battle.ts';
 import { fill } from './texts/fill.ts';
 export type { Entity, Egg, Effect } from './engine/state.ts';
 
-const HERO_TRAINING_COST = 90;
-const REPAIR_COST = 80;
-const REPAIR_AMOUNT = 25;
-/** How long « Courage ! » makes the allies strike faster. */
-const ENCOURAGEMENT_SECONDS = 8;
 /** Longest simulated step: a slow frame is cut short rather than leaping over a fight. */
 const MAX_STEP = 0.05;
 

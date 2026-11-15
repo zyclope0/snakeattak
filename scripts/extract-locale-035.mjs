@@ -2,6 +2,7 @@
 // page once its texts are written in. The English dictionary must have an entry for each.
 import { readIndexHtml } from '../deploy/assembleHtml.ts';
 import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { displayedTexts, literalTexts } from './displayed-text.ts';
 
 const records = new Map();
@@ -17,6 +18,12 @@ async function walk(dir) {
       // The English catalogue mirrors the French one: only the French texts are inventoried.
       if (entry.name !== 'i18n' && entry.name !== 'assets' && file !== 'src/texts/en')
         await walk(file);
+    } else if (dir === 'src/texts/fr') {
+      // The catalogue is read as the game reads it: a text that takes a number of the game
+      // from its constant is inventoried with that number written in.
+      for (const [name, value] of Object.entries(await import(pathToFileURL(file).href)))
+        if (typeof value === 'string')
+          for (const text of displayedTexts(value)) add(text, file, name);
     } else if (file.endsWith('.ts')) {
       for (const { text, line } of literalTexts(file, await readFile(file, 'utf8')))
         add(text, file, line);

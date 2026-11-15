@@ -1,3 +1,15 @@
+import {
+  ENCOURAGEMENT_SECONDS,
+  HERO_TRAINING_COST,
+  MISSION_COUNT,
+  REPAIR_AMOUNT,
+  REWARD_WAVES,
+  ROSTER_SIZE,
+  START_GOLD,
+  STAR_MAX,
+  TOTAL_WAVES,
+} from '../../gameConstants.ts';
+
 export const laConqueteDesSerpents = 'La Conquête des Serpents';
 export const tourneTonTelephone = 'Tourne ton téléphone';
 export const lesTroisCheminsOntBesoinDePlace = 'Les trois chemins ont besoin de place.';
@@ -89,15 +101,15 @@ export const n1PotVague = '1 pot / vague';
 export const attireLesGourmandsVersCetteVoie = 'Attire les gourmands vers cette voie.';
 export const choisirLaVoieDuGouter = 'Choisir la voie du goûter';
 export const encouragerNosAllies = 'Encourager nos alliés';
-export const n1FoisParVague8Secondes = '1 fois par vague · 8 secondes';
+export const n1FoisParVague8Secondes = `1 fois par vague · ${ENCOURAGEMENT_SECONDS} secondes`;
 export const unPotGratuitAChaqueVague = 'Un pot gratuit à chaque vague';
 export const reparerLeCristal = 'Réparer le cristal';
-export const n25PointsDeVie = '+25 points de vie';
+export const n25PointsDeVie = `+${REPAIR_AMOUNT} points de vie`;
 export const entrainerLeHeros = 'Entraîner le héros';
 export const frappeRenforcee = 'Frappe renforcée';
-export const n15DeDegats90Pieces = '+15 % de dégâts · 90 pièces';
+export const n15DeDegats90Pieces = `+15 % de dégâts · ${HERO_TRAINING_COST} pièces`;
 export const gardien = 'Gardien';
-export const n15SurLesCoupsRecus90Pieces = '−15 % sur les coups reçus · 90 pièces';
+export const n15SurLesCoupsRecus90Pieces = `−15 % sur les coups reçus · ${HERO_TRAINING_COST} pièces`;
 export const uneAventureEnDouzeVagues = 'Une aventure en douze vagues';
 export const details = 'Détails';
 export const prepareTonCamp2 = 'Prépare ton camp.';
@@ -111,8 +123,7 @@ export const sauvegardeLocaleEntreLesVagues = 'Sauvegarde locale entre les vague
 export const nouvellePartie = '↻ Nouvelle partie';
 export const prototypeV4 = 'Prototype V4';
 export const retrouverCetteAventureClassique = 'Retrouver cette aventure classique';
-export const douzeVaguesUnCristalEtUnNouveau =
-  'Douze vagues, un cristal et un nouveau camp de 300 pièces. Tes choix d’alliés restent libres.';
+export const douzeVaguesUnCristalEtUnNouveau = `Douze vagues, un cristal et un nouveau camp de ${START_GOLD} pièces. Tes choix d’alliés restent libres.`;
 export const siTuAsDejaUnCampEnCoursUne =
   'Si tu as déjà un camp en cours, une confirmation te permettra de le garder.';
 export const annuler2 = 'Annuler';
@@ -146,13 +157,12 @@ export const geste = 'Geste';
 export const resultat = 'Résultat';
 export const laValleeABesoinDeToi = 'La vallée a besoin de toi';
 export const repousse = 'Repousse';
-export const n12VaguesDeSerpents = '12 vagues de serpents';
+export const n12VaguesDeSerpents = `${TOTAL_WAVES} vagues de serpents`;
 export const etLe = 'et le';
 export const roiATroisTetes = 'Roi à trois têtes';
 export const pourGagnerTonCampDoitResterDebout =
   'pour gagner. Ton camp doit rester debout. Si le roi entre, la partie est perdue ! Il pond des œufs pendant la dernière vague. Sa tête gardienne protège son corps : les combattants au contact brisent plus vite ses protections. Sa tête cracheuse annonce au sol la zone de son prochain tir, qui frappe une seule fois. Des boucliers près de tes tireurs peuvent amortir ses tirs. Chaque nouvelle phase peut apporter une protection.';
-export const apresLesVagues4Et8ChoisisUnBonusUn =
-  'Après les vagues 4 et 8, choisis un bonus : un allié offert à placer, du miel plus durable, une réserve de pièces ou une protection du cristal. Un seul choix par étape, conservé si tu recharges la partie.';
+export const apresLesVagues4Et8ChoisisUnBonusUn = `Après les vagues ${REWARD_WAVES[0]} et ${REWARD_WAVES[1]}, choisis un bonus : un allié offert à placer, du miel plus durable, une réserve de pièces ou une protection du cristal. Un seul choix par étape, conservé si tu recharges la partie.`;
 export const prepare = 'Prépare.';
 export const choisisUnAlliePuisToucheLeCampA =
   'Choisis un allié puis touche le camp à droite pour le placer.';
@@ -225,7 +235,7 @@ export const cEstParti = "C'est parti !";
 export const aventureFamilialeSauvegardeLocale =
   'Aventure familiale · Sauvegarde locale entre les vagues';
 export const accueilDeLAventure = 'Accueil de l’aventure';
-export const n018Etoiles = '0 / 18 étoiles';
+export const n018Etoiles = `0 / ${MISSION_COUNT * STAR_MAX} étoiles`;
 export const accueil2 = '← Accueil';
 export const protege = 'Protège';
 export const leCristal = 'le cristal !';
@@ -256,7 +266,7 @@ export const retrouver = 'Retrouver';
 export const leCodeRetrouveLeTerrainEtLesVagues =
   'Le code retrouve le terrain et les vagues. Tu prépares de nouveaux alliés.';
 export const reprendre = 'Reprendre';
-export const laGrandeAventure12Vagues = 'La grande aventure · 12 vagues';
+export const laGrandeAventure12Vagues = `La grande aventure · ${TOTAL_WAVES} vagues`;
 export const choisirUnChapitre = 'Choisir un chapitre';
 export const taRouteDansLaVallee = 'Ta route dans la vallée';
 export const douzeVaguesJusquAuRoiATroisTetes = 'Douze vagues jusqu’au roi à trois têtes';
@@ -279,7 +289,7 @@ export const tesAlliesFavoris = 'Tes alliés favoris.';
 export const choisisHuitRaccourcisDeRecrutement =
   'Choisis huit raccourcis de recrutement. Tous les autres alliés restent dans le catalogue ; leurs prix et leurs vagues d’arrivée ne changent pas.';
 export const composition = 'Composition';
-export const n88AlliesFavoris = '8 / 8 alliés favoris';
+export const n88AlliesFavoris = `${ROSTER_SIZE} / ${ROSTER_SIZE} alliés favoris`;
 export const utiliserCesFavoris = 'Utiliser ces favoris';
 export const precedents = '← Précédents';
 export const suivants = 'Suivants →';

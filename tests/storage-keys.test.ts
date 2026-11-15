@@ -4,7 +4,7 @@ import * as KEYS from '../src/storageKeys.ts';
 import { PLAYER_KEYS } from '../src/players.ts';
 import { CAMP_CHARACTER_LIMIT } from '../src/checkpoints.ts';
 import { DEPARTURE_INPUT_LIMIT } from '../src/departures.ts';
-import { ROSTER_SIZE } from '../src/roster.ts';
+import { ROSTER_SIZE } from '../src/gameConstants.ts';
 import { VOYAGE_INPUT_LIMIT } from '../src/voyageCode.ts';
 import { nextSeed, seedShare, seededStream, SEED_RANGE } from '../src/seededRandom.ts';
 

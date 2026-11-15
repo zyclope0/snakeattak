@@ -1,6 +1,7 @@
 import type Phaser from 'phaser';
 import type { Effect } from '../game.ts';
 import { shakeBoard } from './boardResolution.ts';
+import * as BOARD_COLOR from './palette.ts';
 
 type Graphics = Phaser.GameObjects.Graphics;
 /** Seconds the rules give an effect to live, and a honey detour (see `engine/state.ts`). */
@@ -53,7 +54,7 @@ function drawHeal(g: Graphics, e: Effect, alpha: number) {
 }
 /** A coin that rises on the spot, for players who asked for less motion. */
 function drawStillCoin(g: Graphics, e: Effect, alpha: number) {
-  g.fillStyle(0xffd66a, alpha);
+  g.fillStyle(BOARD_COLOR.coin, alpha);
   g.fillCircle(e.x, e.y - 20 - (1 - alpha) * 25, 5);
 }
 function drawImpact(g: Graphics, e: Effect, alpha: number) {

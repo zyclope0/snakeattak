@@ -4,13 +4,13 @@ import { missionLevel } from '../levels.ts';
 import { activeEnemyLanes } from '../tutorial.ts';
 import { LANE_IDS, LANE_NAMES, LANES } from '../ai.ts';
 import { laneRoad, junctionRoad, routeJunctions } from '../routes.ts';
-import { ART_SHEETS, GROUND_ART } from '../art.ts';
+import { GROUND_ART, SHEET, sheetUrl } from '../art.ts';
 import type { Kind } from '../data.ts';
 import { missionScouting } from './missionScouting.ts';
 import { renderThreatCards, renderThreatAdvice } from './threatCards.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT } from '../render/boardResolution.ts';
 import { byId } from './dom.ts';
-import { svgNode } from './svg.ts';
+import { SERPENT_ARROW_COLOR, svgNode } from './svg.ts';
 import * as TEXT from '../texts/fr/missionScreens.ts';
 import { fill } from '../texts/fill.ts';
 import { LANE_COUNT } from '../gameConstants.ts';
@@ -112,7 +112,7 @@ function miniature(
     'svg',
     { x, y, width, height, viewBox },
     svgNode('image', {
-      href: ART_SHEETS.find((s) => s.key === 'strongholds')!.url,
+      href: sheetUrl(SHEET.strongholds),
       width: 1024,
       height: 1024,
       ...(flip ? { transform: MIRRORED } : {}),
@@ -137,7 +137,7 @@ function drawLairs(svg: SVGElement, lanes: readonly number[]) {
       svg.append(
         svgNode('path', {
           d: `M160 ${LANES[lane] - 8}h28m-10-10 10 10-10 10`,
-          stroke: '#a1452c',
+          stroke: SERPENT_ARROW_COLOR,
           'stroke-width': 6,
           fill: 'none',
           'stroke-linecap': 'round',

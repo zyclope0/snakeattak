@@ -1,3 +1,5 @@
+import { TOTAL_WAVES, WAVES_PER_CHAPTER } from '../../gameConstants.ts';
+
 export const refuge = 'REFUGE';
 export const ponts = 'PONTS';
 export const vifs = 'VIFS';
@@ -9,11 +11,11 @@ export const revisionInvalide = 'Invalid revision';
 export const aventure = 'AVENTURE';
 export const graineInvalide = 'Invalid seed';
 export const laClairiereDesFougeres = 'Fern Clearing';
-export const vagues1A4LesPremiersPassages = 'Waves 1 to 4 · The First Paths';
+export const vagues1A4LesPremiersPassages = `Waves 1 to ${WAVES_PER_CHAPTER} · The First Paths`;
 export const leBosquetAmbre = 'Amber Grove';
-export const vagues5A8LesRouagesSeReveillent = 'Waves 5 to 8 · The Gears Wake Up';
+export const vagues5A8LesRouagesSeReveillent = `Waves ${WAVES_PER_CHAPTER + 1} to ${2 * WAVES_PER_CHAPTER} · The Gears Wake Up`;
 export const leJardinDesVieillesPierres = 'Old Stone Garden';
-export const vagues9A12LeDernierRempart = 'Waves 9 to 12 · The Last Defense';
+export const vagues9A12LeDernierRempart = `Waves ${2 * WAVES_PER_CHAPTER + 1} to ${TOTAL_WAVES} · The Last Defense`;
 export const laClairiereDesDetours = 'Detour Clearing';
 export const expeditionLesDetoursDesFougeres = 'Mission · Fern Detours';
 export const laClairiereDesMeandres = 'Winding Clearing';

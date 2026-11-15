@@ -23,6 +23,9 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   diagnostic de performance chargé à la demande (paquet principal 189,6 Ko sur 200) ;
   scripts et recettes morts retirés, recettes vivantes mises dans la CI ; ce plan ramené à une
   page.
+- **Rien en dur (15 novembre)** : textes, clés de stockage, nombres du jeu, repères du
+  plateau, limites et couches du dessin ont chacun un nom et un seul lieu ; aucune valeur ni
+  aucun texte n'a changé ([bilan](BILAN-NETTOYAGE-2026-11.md), « Rien en dur »).
 
 ## Ce qui n'est pas vérifié
 

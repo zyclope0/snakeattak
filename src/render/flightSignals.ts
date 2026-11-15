@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import type { Game } from '../game.ts';
 import { flightLift, isFlying } from '../flying.ts';
+import * as DEPTH from './boardLayers.ts';
 
 /** Two shared layers; wings and a detached shadow remain visible with reduced motion. */
 export class FlightSignals {
@@ -8,8 +9,8 @@ export class FlightSignals {
   private wings: Phaser.GameObjects.Graphics;
 
   constructor(scene: Phaser.Scene) {
-    this.shadows = scene.add.graphics().setDepth(9.65);
-    this.wings = scene.add.graphics().setDepth(9.99);
+    this.shadows = scene.add.graphics().setDepth(DEPTH.flightShadows);
+    this.wings = scene.add.graphics().setDepth(DEPTH.wings);
   }
 
   draw(game: Game, reduced: boolean) {

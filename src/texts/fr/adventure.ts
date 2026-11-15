@@ -1,3 +1,5 @@
+import { TOTAL_WAVES, WAVES_PER_CHAPTER } from '../../gameConstants.ts';
+
 export const refuge = 'REFUGE';
 export const ponts = 'PONTS';
 export const vifs = 'VIFS';
@@ -9,11 +11,11 @@ export const revisionInvalide = 'Révision invalide';
 export const aventure = 'AVENTURE';
 export const graineInvalide = 'Graine invalide';
 export const laClairiereDesFougeres = 'La clairière des fougères';
-export const vagues1A4LesPremiersPassages = 'Vagues 1 à 4 · Les premiers passages';
+export const vagues1A4LesPremiersPassages = `Vagues 1 à ${WAVES_PER_CHAPTER} · Les premiers passages`;
 export const leBosquetAmbre = 'Le bosquet ambré';
-export const vagues5A8LesRouagesSeReveillent = 'Vagues 5 à 8 · Les rouages se réveillent';
+export const vagues5A8LesRouagesSeReveillent = `Vagues ${WAVES_PER_CHAPTER + 1} à ${2 * WAVES_PER_CHAPTER} · Les rouages se réveillent`;
 export const leJardinDesVieillesPierres = 'Le jardin des vieilles pierres';
-export const vagues9A12LeDernierRempart = 'Vagues 9 à 12 · Le dernier rempart';
+export const vagues9A12LeDernierRempart = `Vagues ${2 * WAVES_PER_CHAPTER + 1} à ${TOTAL_WAVES} · Le dernier rempart`;
 export const laClairiereDesDetours = 'La clairière des détours';
 export const expeditionLesDetoursDesFougeres = 'Expédition · Les détours des fougères';
 export const laClairiereDesMeandres = 'La clairière des méandres';
