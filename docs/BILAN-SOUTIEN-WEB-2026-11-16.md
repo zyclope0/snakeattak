@@ -49,7 +49,7 @@ inspectés sans URL de paiement.
 | Enfant6–8ans      | Action de jeu gratuit dominante, aucune sollicitation dans une partie                            |
 | Enfant9–12ans     | Soutien discret dans les informations publiques, sans récompense                                 |
 
-Aucun point critique ou important relevé. Deux détails mineurs corrigés avant fusion :
+Aucun point critique ou important relevé. Deux détails mineurs de revue corrigés avant fusion :
 contrôle de distribution compatible avec une désactivation du soutien ; documentation
 d'architecture actualisée. La revue n'est pas un test effectué par de vrais enfants.
 
@@ -67,3 +67,13 @@ sans bouton de paiement. La recette PayPal publique hors connexion a confirmé l
 la description et CHF ; elle peut afficher des commandes en allemand selon le contexte.
 L'identité visible sur un reçu réel et les frais débités restent non vérifiés. Aucun
 anonymat ou avantage fiscal promis.
+
+### Attente historique de la recette hors ligne
+
+La première CI a signalé un écart dans `test:offline` : son attente littérale était
+encore de5sections de confidentialité ; l'ajout approuvé en porte le nombre à6.
+Le test a été actualisé et renforcé pour vérifier le titre de cette nouvelle section
+hors ligne et l'absence de lien de paiement dans la fenêtre de l'application. Aucun
+changement de comportement produit pour cette correction de recette. La recette
+hors ligne corrigée passe localement :12parcours,110fichiers servis depuis le disque,
+aucune requête externe, aucun fichier manquant, aucune erreur JavaScript.
