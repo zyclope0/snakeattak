@@ -162,14 +162,14 @@ export function discoveryRobots(): string {
 /** Applied at build time on the website only. No storage, redirects or game rules. */
 export function augmentGamePage(html: string, supportUrl = SUPPORT_URL): string {
   const meta = `<meta name="description" content="Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés."><link rel="canonical" href="${SITE_ORIGIN}/">`;
-  const links =
-    '<nav data-copy-raw aria-label="À propos / About"><a href="/fr/" lang="fr">Français</a> · <a href="/en/" lang="en">English</a></nav>';
-  // The game footer is a deliberately tiny status line. Its generic anchor styles would
-  // enlarge it and shrink the hero. Keep public links in the scrollable parents area.
+  // Cancel the generic footer anchors' block/44px styling for these inline information
+  // links. Neither the status footer nor the tightly fitted parents screen gains a row.
+  const inline = 'style="display:inline;min-height:0;padding:0"';
+  const links = `<nav style="display:flex;gap:12px" data-copy-raw aria-label="À propos / About"><a ${inline} href="/fr/" lang="fr">À propos</a><a ${inline} href="/en/" lang="en">About</a></nav>`;
   let result = html
     .replace('</head>', meta + '</head>')
     .replace(
-      /(<details id="home-parent-options"[\s\S]*?)(<\/details>)/,
+      /(<footer class="home-footer">[\s\S]*?)(<\/footer>)/,
       (_, start, end) => start + links + end,
     );
   const support = supportLink('fr', supportUrl);

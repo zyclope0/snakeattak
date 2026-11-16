@@ -100,6 +100,24 @@ try {
     assert.equal(new URL(page.url()).pathname, '/');
     await context.close();
   }
+  // Web discovery must not steal space from the compact game menus.
+  for (const viewport of [
+    { width: 780, height: 360 },
+    { width: 1280, height: 800 },
+  ]) {
+    const context = await browser.newContext({ viewport, locale: 'fr-CH', hasTouch: true });
+    const page = await context.newPage();
+    await page.goto(origin);
+    await page.locator('#home-screen:not([hidden])').waitFor({ timeout: 30000 });
+    const footer = await page.locator('.home-footer').boundingBox();
+    assert.ok(footer && footer.height <= 20, 'discovery keeps the game footer on one line');
+    await page.locator('#home-parents').click();
+    const overflow = await page
+      .locator('#home-parent-options')
+      .evaluate((node) => node.scrollHeight - node.clientHeight);
+    assert.ok(overflow <= 1, 'discovery adds no row to the compact parents screen');
+    await context.close();
+  }
   assert.deepEqual(errors, []);
   assert.deepEqual(outside, []);
   assert.deepEqual(failed, []);

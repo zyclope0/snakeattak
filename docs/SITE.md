@@ -37,7 +37,7 @@ FR/EN de `deploy/discoveryCopy.ts` sont générées par `deploy/discovery.ts` : 
 un titre et une description propres, canonical, liens linguistiques réciproques, Open Graph,
 image de partage existante et données structurées WebPage factuelles, sans notes inventées.
 Elles réutilisent les polices et illustrations locales autorisées, sans nouvelle génération,
-script de suivi, cookie ni appel de régie. La rubrique parents du jeu permet de les trouver.
+script de suivi, cookie ni appel de régie. Le pied de l'accueil du jeu permet de les trouver, sur une seule ligne.
 La politique approuvée n'est pas modifiée. Aucune publicité dans ce lot.
 
 Les pages statiques peuvent être lues sans JavaScript, en portrait comme en paysage.
@@ -76,7 +76,7 @@ identifiants inclus dans une URL. Il prépare un lien explicite pour adultes, no
 `noopener noreferrer nofollow`, sans transmettre de profil ni de code de partie.
 Les emplacements sont la rubrique parents et le pied des pages publiques, jamais le plateau.
 Le bouton n'accorde aucun avantage ; aucune déductibilité fiscale n'est annoncée.
-Le HTML du jeu n'a plus que270octets de marge : avant activation, l'alléger et contrôler
+Le HTML du jeu n'a plus que154octets de marge : avant activation, l'alléger et contrôler
 le vrai lien avec le budget existant, sans augmenter silencieusement ce plafond.
 
 Android utilise `dist-android/`, excluant toutes ces pages et liens. Les paquets Play déjà

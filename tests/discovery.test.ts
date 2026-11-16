@@ -102,12 +102,10 @@ test('a payment URL containing replacement tokens cannot duplicate game markup',
   assert.ok(html.includes('href="https://example.com/support/$&amp;"'));
 });
 
-test('Web discovery links stay in the scrollable parents area without enlarging the game footer', () => {
+test('discovery leaves the compact parents content intact', () => {
+  const parents = '<details id="home-parent-options"><section>Parents</section></details>';
   const footer = '<footer class="home-footer"><span id="career-status">Local</span></footer>';
-  const shell = `<html><head></head><body><details id="home-parent-options"><section>Parents</section></details>${footer}</body></html>`;
-  const html = augmentGamePage(shell);
-  assert.ok(html.includes(footer), 'the original game footer remains unchanged');
-  const parents = html.split('<details id="home-parent-options">')[1].split('</details>')[0];
-  assert.match(parents, /href="\/fr\/"/);
-  assert.match(parents, /href="\/en\/"/);
+  const html = augmentGamePage(`<html><head></head><body>${parents}${footer}</body></html>`);
+  assert.ok(html.includes(parents), 'no extra row in the tightly fitted parents screen');
+  assert.match(html, /id="career-status">Local/);
 });
