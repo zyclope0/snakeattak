@@ -11,10 +11,19 @@ import {
 import { privacyPageHtml } from './deploy/privacyPage.ts';
 import { PRIVACY_FOLDER } from './src/site.ts';
 import { assembleHtml } from './deploy/assembleHtml.ts';
+import { DISCOVERY_PAGES } from './deploy/discoveryCopy.ts';
+import {
+  augmentGamePage,
+  discoveryPageHtml,
+  discoveryRobots,
+  discoverySitemap,
+} from './deploy/discovery.ts';
+import { writeDiscoveryAssets } from './deploy/discoveryAssets.ts';
 
 export default defineConfig(({ mode }) => {
   const portable = mode === 'portable';
-  const outDir = portable ? 'dist-portable' : 'dist';
+  const website = !portable && mode !== 'android';
+  const outDir = portable ? 'dist-portable' : mode === 'android' ? 'dist-android' : 'dist';
   const appVersion = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
     .version as string;
   return {
@@ -31,7 +40,8 @@ export default defineConfig(({ mode }) => {
         name: 'distribution-documents',
         transformIndexHtml(html) {
           // Keep the editable HTML readable without shipping its indentation.
-          return html.replaceAll('__APP_VERSION__', appVersion).replace(/^[ \t]+/gm, '');
+          const page = html.replaceAll('__APP_VERSION__', appVersion).replace(/^[ \t]+/gm, '');
+          return website ? augmentGamePage(page) : page;
         },
         configurePreviewServer(server) {
           server.middlewares.use((req, res, next) => {
@@ -54,6 +64,15 @@ export default defineConfig(({ mode }) => {
           // source as the window of the application.
           mkdirSync(`${outDir}/${PRIVACY_FOLDER}`, { recursive: true });
           writeFileSync(`${outDir}/${PRIVACY_FOLDER}/index.html`, privacyPageHtml());
+          if (website) {
+            const assets = writeDiscoveryAssets(outDir);
+            for (const page of DISCOVERY_PAGES) {
+              mkdirSync(`${outDir}${page.path}`, { recursive: true });
+              writeFileSync(`${outDir}${page.path}index.html`, discoveryPageHtml(page, assets));
+            }
+            writeFileSync(`${outDir}/sitemap.xml`, discoverySitemap());
+            writeFileSync(`${outDir}/robots.txt`, discoveryRobots());
+          }
         },
       },
     ],

@@ -30,6 +30,8 @@ jobs:
       # browser alone instead of failing before any test has run.
       - run: npx playwright install --with-deps chromium || npx playwright install chromium
       - run: npm run test:browser
+      - run: npm run test:discovery
+      - run: npm run build:android
       - run: npm run build:portable
       - run: npm run test:family
       - run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser

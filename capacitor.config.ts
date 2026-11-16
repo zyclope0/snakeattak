@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.conqueteserpents.famille',
   appName: 'La Conquête des Serpents',
-  webDir: 'dist',
+  webDir: 'dist-android',
   plugins: {
     SystemBars: { insetsHandling: 'css', initialViewportFitValueHint: 'cover' },
   },

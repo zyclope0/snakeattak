@@ -10,7 +10,7 @@ const run = (command, args, env = process.env, cwd = process.cwd()) => {
     throw new Error(`${command} failed (${r.status}): ${r.error ?? ''}`);
 };
 const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
-run(npm, ['run', 'build']);
+run(npm, ['run', 'build:android']);
 try {
   run(npx, ['cap', 'sync', 'android'], { ...process.env, SERPENTS_PERF: '1' });
   run(

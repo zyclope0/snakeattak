@@ -63,6 +63,19 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   images provisoires** : au fils de nommer, au parent de décider des dessins
   ([bilan](BILAN-REVISION-4.md)). **Pas encore joué par les enfants.**
 
+## Site : découverte FR/EN et soutien — lot du16novembre
+
+-10pages publiques : présentation, comment jouer, personnages, nouveautés et parents,
+chacune en FR/EN ; jeu et sauvegardes toujours à la même adresse. Sitemap, robots,
+canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
+
+- Soutien volontaire préparé mais **masqué**, sur décision du parent ; pas de destination
+  de paiement configurée. Publicité repoussée, politique approuvée conservée.
+- Build Android séparé dans `dist-android/` : aucun contenu Web ou soutien embarqué.
+  Les AAB/APK62 existants ne sont pas reconstruits par ce lot.
+- Vérification de propriété et soumission Search Console/Bing à faire dans les comptes
+  du propriétaire ; ne pas confondre fichiers publiés et indexation effective.
+
 ## Ce qui n'est pas vérifié
 
 - **Le voyage avec les enfants.** Réglé sur des joueurs automatiques, puis figé à la

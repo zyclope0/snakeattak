@@ -19,14 +19,69 @@ dans GitHub, comment publier et revenir en arrière, et ce qui reste à vérifie
 
 `npm run build` écrit dans `dist/` le site entier, sans serveur d'application :
 
-| Fichier                      | Rôle                                                                 |
-| ---------------------------- | -------------------------------------------------------------------- |
-| `index.html`, `assets/`      | le jeu ; les fichiers de `assets/` portent une empreinte de contenu  |
-| `confidentialite/index.html` | la politique de confidentialité, HTML simple, sans JavaScript, FR/EN |
-| `.htaccess`                  | adresse unique, en-têtes de sécurité, cache (`deploy/policy.ts`)     |
-| `_headers`                   | les mêmes en-têtes pour l'ancien hébergeur ; Apache l'ignore         |
+| Fichier                      | Rôle                                                                                     |
+| ---------------------------- | ---------------------------------------------------------------------------------------- |
+| `index.html`, `assets/`      | le jeu ; les fichiers de `assets/` portent une empreinte de contenu                      |
+| `confidentialite/index.html` | la politique de confidentialité, HTML simple, sans JavaScript, FR/EN                     |
+| `.htaccess`                  | adresse unique, en-têtes de sécurité, cache (`deploy/policy.ts`)                         |
+| `_headers`                   | les mêmes en-têtes pour l'ancien hébergeur ; Apache l'ignore                             |
+| `fr/`, `en/`                 | présentation, prise en main, personnages, nouveautés et parents, en HTML sans JavaScript |
+| `sitemap.xml`, `robots.txt`  | découverte des12URL publiques par les moteurs, prototype exclu de l'exploration          |
 
 L'adresse du site est écrite à un seul endroit, `src/site.ts`.
+
+## Découverte et soutien — 16 novembre 2026
+
+Le jeu reste à `/`, sur la même origine : aucun déplacement des sauvegardes. Les10pages
+FR/EN de `deploy/discoveryCopy.ts` sont générées par `deploy/discovery.ts` : contenu réel,
+un titre et une description propres, canonical, liens linguistiques réciproques, Open Graph,
+image de partage existante et données structurées WebPage factuelles, sans notes inventées.
+Elles réutilisent les polices et illustrations locales autorisées, sans nouvelle génération,
+script de suivi, cookie ni appel de régie. Le pied de l'accueil du jeu permet de les trouver, sur une seule ligne.
+La politique approuvée n'est pas modifiée. Aucune publicité dans ce lot.
+
+Les pages statiques peuvent être lues sans JavaScript, en portrait comme en paysage.
+Le bouton Jouer renvoie au jeu existant ; l'orientation paysage reste nécessaire pour le
+plateau sur téléphone. La langue déjà choisie dans le jeu reste prioritaire.
+
+### Indexation : opération propriétaire à terminer
+
+1. Dans [Google Search Console](https://search.google.com/search-console), ajouter la
+   propriété Domaine `snakeattacktd.com` au compte du propriétaire. Copier uniquement
+   l'enregistrement TXT de vérification dans la zone DNS Infomaniak, sans modifier les
+   enregistrements Web ou de messagerie ; attendre sa propagation puis vérifier.
+2. Envoyer `https://snakeattacktd.com/sitemap.xml`. Inspecter `/fr/`, `/en/` et `/` :
+   relire le rendu et la canonical, puis demander l'indexation si nécessaire. Le sitemap
+   contient12URL : jeu,10pages et confidentialité ; ni profils ni codes de départ.
+3. Dans [Bing Webmaster Tools](https://www.bing.com/webmasters/), importer la propriété
+   Search Console ou utiliser la vérification proposée, puis envoyer le même sitemap.
+4. Suivre les pages indexées, erreurs et impressions dans ces consoles ; aucun pixel de
+   mesure d'audience n'est nécessaire dans le jeu. Les publications suivantes mettent le
+   sitemap à jour. Aucune date de modification artificielle ou demande répétée automatisée.
+
+La génération du sitemap et sa publication ne prouvent ni la vérification de propriété,
+ni une soumission, ni une indexation ou un classement. Les accès Google/Bing du propriétaire
+restent nécessaires. [Guide Google](https://developers.google.com/search/docs/fundamentals/seo-starter-guide).
+
+### Soutien préparé, masqué
+
+Le parent a demandé de garder le bouton masqué tant qu'aucune destination n'est fournie.
+`SUPPORT_URL = null` dans `deploy/discovery.ts` : aucune ancre vide, page de paiement,
+récompense, abonnement ou requête externe. Aucune somme n'est encaissée par le site.
+
+Pour une activation ultérieure : faire choisir et approuver au parent un lien de paiement
+HTTPS, les frais et les conditions du prestataire ; relire les informations de confidentialité
+et le libellé de soutien avant de configurer ce lien. Le générateur refuse HTTP et les
+identifiants inclus dans une URL. Il prépare un lien explicite pour adultes, nouvel onglet,
+`noopener noreferrer nofollow`, sans transmettre de profil ni de code de partie.
+Les emplacements sont la rubrique parents et le pied des pages publiques, jamais le plateau.
+Le bouton n'accorde aucun avantage ; aucune déductibilité fiscale n'est annoncée.
+Le HTML du jeu n'a plus que132octets de marge : avant activation, l'alléger et contrôler
+le vrai lien avec le budget existant, sans augmenter silencieusement ce plafond.
+
+Android utilise `dist-android/`, excluant toutes ces pages et liens. Les paquets Play déjà
+construits restent intacts. Recette : `npm run test:discovery`, plus les contrôles des deux
+compilations et le workflow de publication qui relit chaque page et le sitemap en ligne.
 
 - **Adresse unique** : `http://` et `www.` sont renvoyés vers `https://snakeattacktd.com`.
   La règle HTTPS interroge `%{HTTPS}` et `X-Forwarded-Proto`, comme le
