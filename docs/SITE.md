@@ -38,7 +38,8 @@ un titre et une description propres, canonical, liens linguistiques réciproques
 image de partage existante et données structurées WebPage factuelles, sans notes inventées.
 Elles réutilisent les polices et illustrations locales autorisées, sans nouvelle génération,
 script de suivi, cookie ni appel de régie. Le pied de l'accueil du jeu permet de les trouver, sur une seule ligne.
-La politique approuvée n'est pas modifiée. Aucune publicité dans ce lot.
+Le lot de découverte a conservé la politique approuvée. L'ajout de soutien
+ultérieur a son accord distinct du16novembre2026, décrit ci-dessous. Aucune publicité.
 
 Les pages statiques peuvent être lues sans JavaScript, en portrait comme en paysage.
 Le bouton Jouer renvoie au jeu existant ; l'orientation paysage reste nécessaire pour le
@@ -63,21 +64,38 @@ La génération du sitemap et sa publication ne prouvent ni la vérification de 
 ni une soumission, ni une indexation ou un classement. Les accès Google/Bing du propriétaire
 restent nécessaires. [Guide Google](https://developers.google.com/search/docs/fundamentals/seo-starter-guide).
 
-### Soutien préparé, masqué
+### Soutien Web actif — accord du16novembre2026
 
-Le parent a demandé de garder le bouton masqué tant qu'aucune destination n'est fournie.
-`SUPPORT_URL = null` dans `deploy/discovery.ts` : aucune ancre vide, page de paiement,
-récompense, abonnement ou requête externe. Aucune somme n'est encaissée par le site.
+Le parent a créé et approuvé le lien public
+https://www.paypal.com/ncp/payment/XXQ7BEAZQ3QZL : montant libre en CHF, paiement
+ponctuel, sans adresse ou frais de livraison. L'outil ne propose pas de montants
+suggérés. `SUPPORT_URL` dans `deploy/discovery.ts` référence exactement cette URL.
+Un passage explicite de `null` à `discoveryPageHtml` permet encore de masquer le soutien.
 
-Pour une activation ultérieure : faire choisir et approuver au parent un lien de paiement
-HTTPS, les frais et les conditions du prestataire ; relire les informations de confidentialité
-et le libellé de soutien avant de configurer ce lien. Le générateur refuse HTTP et les
-identifiants inclus dans une URL. Il prépare un lien explicite pour adultes, nouvel onglet,
-`noopener noreferrer nofollow`, sans transmettre de profil ni de code de partie.
-Les emplacements sont la rubrique parents et le pied des pages publiques, jamais le plateau.
-Le bouton n'accorde aucun avantage ; aucune déductibilité fiscale n'est annoncée.
-Le HTML du jeu n'a plus que132octets de marge : avant activation, l'alléger et contrôler
-le vrai lien avec le budget existant, sans augmenter silencieusement ce plafond.
+« Soutenir le développement » / « Support development » apparaît discrètement dans
+le pied des10pages publiques et dans les pages parents FR/EN, avec la mention
+réservée aux adultes, facultative, en CHF et sans avantage dans le jeu. Aucun SDK,
+iframe, préchargement PayPal ou traitement de carte sur le site. Le lien ouvre un
+nouvel onglet avec `noopener noreferrer nofollow`, sans profil ni code de partie.
+
+Le panneau parents du jeu conserve sa taille : aucun lien de paiement ajouté dans
+la coquille HTML du jeu. Depuis l'accueil Web, « À propos » / « About » mène aux
+pages publiques puis à « Pour les parents » / « For parents ». Le bloc dormant
+qui aurait ajouté une ligne au panneau a été retiré ; le budget HTML reste32768octets.
+
+Le parent a approuvé les paragraphes de confidentialité FR/EN le16novembre2026,
+documentés dans [SOUTIEN-WEB-PAYPAL-PROPOSITION.md](publication/SOUTIEN-WEB-PAYPAL-PROPOSITION.md).
+La source unique et sa date sont actualisées ; les engagements précédents sont
+préservés et comparés à l'archive. Les informations PayPal éventuellement reçues
+par l'éditeur sont distinguées des données locales des enfants. Aucun anonymat
+sur le reçu ni déductibilité fiscale promis. Aucun paiement réel effectué.
+
+La recette vérifie30combinaisons page/taille, six ouvertures clavier interceptées
+localement sans paiement, absence de requête externe avant clic et d'URL de
+paiement dans les fichiers Android. L'identité sur un reçu réel et les frais débités
+restent non vérifiés. La page PayPal peut proposer une interface partiellement
+allemande malgré une préférence de navigateur fr-CH ; aucune langue imposée par
+un paramètre non documenté.
 
 Android utilise `dist-android/`, excluant toutes ces pages et liens. Les paquets Play déjà
 construits restent intacts. Recette : `npm run test:discovery`, plus les contrôles des deux
@@ -215,6 +233,14 @@ Cette section ne devient vraie qu'une fois le site en ligne sur Infomaniak. Tant
 l'ancien site sert sa propre page, celle-ci ne la contient pas.
 
 ## La politique de confidentialité : une seule source
+
+Ajout approuvé du16novembre2026 : section « Soutien facultatif sur le site Web » /
+« Optional support on the website » et date actualisée. La fixture
+`tests/fixtures/soutien-web-approuve-2026-11-16.json` fige ce texte ; la comparaison
+historique ci-dessous retire uniquement cette section approuvée et vérifie encore
+les anciens engagements. Le lien PayPal de paiement n'est pas dans cette politique.
+Le prochain APK construit depuis cette source affichera aussi cette explication
+sur le site ; aucun APK/AAB signé n'est livré pour ce lot Web.
 
 `src/i18n/privacyPolicy.ts` contient le texte approuvé, en français et en anglais, repris mot
 pour mot de la page publiée le 14 novembre 2026. La page publique

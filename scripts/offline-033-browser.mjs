@@ -188,9 +188,19 @@ try {
     [
       'fr',
       'Politique de confidentialité de La Conquête des Serpents / Snake Attack TD',
-      5,
+      6,
       'https://snakeattacktd.com/confidentialite',
     ],
+  );
+  assert.equal(
+    await page.locator('#privacy-body h4').nth(4).textContent(),
+    'Soutien facultatif sur le site Web',
+    'The newly approved Web support section is bundled and readable offline',
+  );
+  assert.equal(
+    await page.locator('#privacy-body a[href*="/ncp/payment/"]').count(),
+    0,
+    'The policy explains Web support without adding a payment link inside the app',
   );
   for (const file of [/privacyWindow-[\w-]+\.js$/, /privacyWindow-[\w-]+\.css$/])
     assert.ok(

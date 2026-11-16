@@ -1,0 +1,40 @@
+{
+  "fr": {
+    "heading": "Soutien facultatif sur le site Web",
+    "paragraphs": [
+      [
+        "Le site propose aux adultes un soutien ponctuel et facultatif via un lien vers PayPal. Ce soutien n'accorde aucun avantage dans le jeu. PayPal traite le paiement sur son propre site, selon sa ",
+        {
+          "a": "politique de confidentialité",
+          "href": "https://www.paypal.com/ch/legalhub/paypal/privacy-full"
+        },
+        ". Aucun numéro de carte ni identifiant de connexion PayPal n'est reçu par le site du jeu."
+      ],
+      [
+        "PayPal peut communiquer à zyclope le nom, l'adresse e-mail et les détails de la transaction, notamment son montant, sa date et sa référence. Ces informations servent uniquement au suivi du soutien, aux éventuelles réclamations et aux obligations comptables et fiscales applicables. Elles ne sont pas associées aux profils des enfants et ne sont pas utilisées pour envoyer de publicité."
+      ],
+      [
+        "Les copies détenues par zyclope sont conservées le temps nécessaire au traitement de la transaction et d'une éventuelle réclamation, puis supprimées, sauf les pièces qui doivent être conservées pour respecter une obligation légale. Pour les pièces comptables soumises à cette obligation en Suisse, la durée est de dix ans à compter de la fin de l'exercice concerné. PayPal applique ses propres durées de conservation aux données qu'il détient."
+      ]
+    ]
+  },
+  "en": {
+    "heading": "Optional support on the website",
+    "paragraphs": [
+      [
+        "The website offers adults an optional, one-off way to support the game through a link to PayPal. Contributions provide no in-game benefits. PayPal processes the payment on its own website under its ",
+        {
+          "a": "privacy policy",
+          "href": "https://www.paypal.com/ch/legalhub/paypal/privacy-full"
+        },
+        ". The game's website does not receive card numbers or PayPal login credentials."
+      ],
+      [
+        "PayPal may share the contributor's name, email address and transaction details, including the amount, date and reference, with zyclope. This information is used only to manage contributions, handle any claims and meet applicable accounting and tax obligations. It is not linked to children's profiles or used to send advertising."
+      ],
+      [
+        "Copies held by zyclope are kept for as long as needed to handle the transaction and any claim, then deleted, except for records that must be retained by law. Accounting records subject to this requirement in Switzerland are kept for ten years from the end of the relevant financial year. PayPal applies its own retention periods to the data it holds."
+      ]
+    ]
+  }
+}

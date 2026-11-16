@@ -70,7 +70,8 @@ chacune en FR/EN ; jeu et sauvegardes toujours à la même adresse. Sitemap, rob
 canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 
 - Soutien volontaire préparé mais **masqué**, sur décision du parent ; pas de destination
-  de paiement configurée. Publicité repoussée, politique approuvée conservée.
+  de paiement configurée dans ce premier lot. Le soutien a ensuite reçu un GO
+  distinct le16novembre2026 : voir la section suivante. Publicité repoussée.
 - Build Android séparé dans `dist-android/` : aucun contenu Web ou soutien embarqué.
   Les AAB/APK62 existants ne sont pas reconstruits par ce lot.
 - Vérification de propriété et soumission Search Console/Bing à faire dans les comptes
@@ -136,3 +137,16 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 [Architecture](ARCHITECTURE.md) · [Voyage](VOYAGE.md) · [Site](SITE.md) ·
 [Android](ANDROID.md) · [Caprices](CAPRICES.md) · [Bilan 0.38.0](BILAN-0.38.0.md) ·
 [Passation](PASSATION-CLAUDE-CODE.md) · règles du jeu : `GAME_DESIGN.md`, `AGENTS.md`.
+
+## Soutien Web PayPal — accord du16novembre2026
+
+- Lien public créé et approuvé par le parent : montant libre en CHF, ponctuel,
+  sans adresse ni livraison. Pas de paiement réel par Codex.
+- Activation dans les pages publiques FR/EN et leurs pieds de page ; menu du jeu
+  conservé, Android/portable sans lien de paiement ni SDK.
+- Section de confidentialité bilingue approuvée ajoutée à la source unique ;
+  anciens engagements préservés, date16novembre2026. Aucun nouveau build Android signé.
+- Plan : `docs/superpowers/plans/2026-11-16-web-paypal-support.md`.
+- Recette et livraison : `docs/BILAN-SOUTIEN-WEB-2026-11-16.md`.
+- Restent à constater par le titulaire lors d'une vraie contribution : identité
+  sur le reçu, frais réels. Aucun anonymat ou avantage fiscal annoncé.

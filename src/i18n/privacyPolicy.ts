@@ -8,7 +8,8 @@ import type { Language } from './language.ts';
  *
  * The words are legal commitments, taken as they were published on 14 November 2026
  * (tests/fixtures/confidentialite-publiee-2026-11-14.html, which a test compares them to),
- * with the section about the website the publisher added the same day.
+ * with the website section approved that day and the optional Web support section
+ * approved in both languages on 16 November 2026.
  * They are not rewritten, shortened or translated here: a change is a decision of the
  * publisher, made in both languages, with a new date. The policy speaks to parents and
  * says « vous »; the rest of the game says « tu ».
@@ -49,7 +50,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Éditeur ',
       { b: 'zyclope' },
     ],
-    updated: 'Mise à jour : 14 novembre 2026',
+    updated: 'Mise à jour : 16 novembre 2026',
     publicLink: `Lire cette politique sur ${SITE_HOST}`,
     sections: [
       {
@@ -96,6 +97,25 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
         ],
       },
       {
+        heading: 'Soutien facultatif sur le site Web',
+        paragraphs: [
+          [
+            "Le site propose aux adultes un soutien ponctuel et facultatif via un lien vers PayPal. Ce soutien n'accorde aucun avantage dans le jeu. PayPal traite le paiement sur son propre site, selon sa ",
+            {
+              a: 'politique de confidentialité',
+              href: 'https://www.paypal.com/ch/legalhub/paypal/privacy-full',
+            },
+            ". Aucun numéro de carte ni identifiant de connexion PayPal n'est reçu par le site du jeu.",
+          ],
+          [
+            "PayPal peut communiquer à zyclope le nom, l'adresse e-mail et les détails de la transaction, notamment son montant, sa date et sa référence. Ces informations servent uniquement au suivi du soutien, aux éventuelles réclamations et aux obligations comptables et fiscales applicables. Elles ne sont pas associées aux profils des enfants et ne sont pas utilisées pour envoyer de publicité.",
+          ],
+          [
+            "Les copies détenues par zyclope sont conservées le temps nécessaire au traitement de la transaction et d'une éventuelle réclamation, puis supprimées, sauf les pièces qui doivent être conservées pour respecter une obligation légale. Pour les pièces comptables soumises à cette obligation en Suisse, la durée est de dix ans à compter de la fin de l'exercice concerné. PayPal applique ses propres durées de conservation aux données qu'il détient.",
+          ],
+        ],
+      },
+      {
         heading: 'Responsable du traitement et contact',
         paragraphs: [
           [
@@ -124,7 +144,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Publisher ',
       { b: 'zyclope' },
     ],
-    updated: 'Last updated: November 14, 2026',
+    updated: 'Last updated: November 16, 2026',
     publicLink: `Read this policy on ${SITE_HOST}`,
     sections: [
       {
@@ -164,6 +184,25 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
         paragraphs: [
           [
             `The ${SITE_HOST} website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors, and the site sets no cookies.`,
+          ],
+        ],
+      },
+      {
+        heading: 'Optional support on the website',
+        paragraphs: [
+          [
+            'The website offers adults an optional, one-off way to support the game through a link to PayPal. Contributions provide no in-game benefits. PayPal processes the payment on its own website under its ',
+            {
+              a: 'privacy policy',
+              href: 'https://www.paypal.com/ch/legalhub/paypal/privacy-full',
+            },
+            ". The game's website does not receive card numbers or PayPal login credentials.",
+          ],
+          [
+            "PayPal may share the contributor's name, email address and transaction details, including the amount, date and reference, with zyclope. This information is used only to manage contributions, handle any claims and meet applicable accounting and tax obligations. It is not linked to children's profiles or used to send advertising.",
+          ],
+          [
+            'Copies held by zyclope are kept for as long as needed to handle the transaction and any claim, then deleted, except for records that must be retained by law. Accounting records subject to this requirement in Switzerland are kept for ten years from the end of the relevant financial year. PayPal applies its own retention periods to the data it holds.',
           ],
         ],
       },
