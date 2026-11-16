@@ -132,8 +132,8 @@ try {
     await onScreen(page.locator('#threat-all-snakes'), page, 'All the snakes');
     await page.locator('#threat-all-snakes').click();
     await page.locator('#snake-index-dialog').waitFor({ state: 'visible' });
-    assert.equal(await page.locator('.snake-entry').count(), 14, 'thirteen snakes and the egg');
-    assert.equal(await page.locator('.snake-entry .enemy-portrait').count(), 14);
+    assert.equal(await page.locator('.snake-entry').count(), 17, 'sixteen snakes and the egg');
+    assert.equal(await page.locator('.snake-entry .enemy-portrait').count(), 17);
     assert.equal(
       await page.locator('.snake-entry [data-threat="king"] strong').innerText(),
       'King Snake',
