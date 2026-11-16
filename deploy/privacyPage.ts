@@ -5,8 +5,8 @@ import { PUBLIC_PRIVACY_URL } from '../src/site.ts';
 /**
  * The public page of the privacy policy: plain HTML, readable without JavaScript, in French
  * then in English, as it was first published. Its words come from the same source as the
- * window of the application (src/i18n/privacyPolicy.ts); only the date of the last change
- * and the address of the page are added to what was published.
+ * window of the application (src/i18n/privacyPolicy.ts), including separately approved
+ * additions. Changes to the public wording must be approved in both languages.
  */
 
 const text = (value: string) =>

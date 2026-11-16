@@ -37,8 +37,11 @@ Les commandes modifient la session. Phaser demande à la session d'avancer puis 
 Les pages FR/EN du site sont générées par `deploy/discovery.ts`, depuis une copie
 éditoriale séparée dans `deploy/discoveryCopy.ts`, et des assets locaux déjà autorisés.
 Elles ne chargent pas Phaser. Le jeu reste à `/`, sur la même origine, sans déplacement
-de ses sauvegardes. Le soutien est désactivé (`SUPPORT_URL = null`) ; aucun service de
-paiement n'est chargé. Les contrôles de distribution refusent les pages Web dans Android.
+de ses sauvegardes. Depuis l'accord du16novembre2026, les pages publiques proposent
+un lien PayPal de soutien facultatif ; aucune requête vers ce prestataire avant clic,
+aucun service de paiement chargé dans le jeu. Passer explicitement `null` au générateur
+masque le soutien. Les contrôles de distribution refusent les pages Web et l'URL de
+paiement dans Android. La source de confidentialité commune explique ce seul soutien Web.
 
 Les maquettes et dessins de référence ne sont plus copiés dans le site de production. Le prototype V4 reste préservé, y compris dans les distributions. L'export portable et l'export web ne s'écrasent pas mutuellement.
 

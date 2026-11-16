@@ -5,6 +5,10 @@ import { privacyPageHtml } from '../deploy/privacyPage.ts';
 import { POLICY_APP, PRIVACY_POLICY, WEBSITE_HEADING } from '../src/i18n/privacyPolicy.ts';
 import { PUBLIC_PRIVACY_URL, SITE_HOST } from '../src/site.ts';
 
+const approvedSupport = JSON.parse(
+  readFileSync('tests/fixtures/soutien-web-approuve-2026-11-16.json', 'utf8'),
+);
+
 const published = readFileSync('tests/fixtures/confidentialite-publiee-2026-11-14.html', 'utf8');
 /** What a reader sees of a piece of page: its markup, without the spaces between its tags. */
 const tight = (html: string) => html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
@@ -12,12 +16,17 @@ const between = (html: string, open: string, close: string) =>
   html.slice(html.indexOf(open), html.indexOf(close) + close.length);
 /**
  * The page without what the publisher added to the words first published: the date of the
- * last change and the section about the website.
+ * last change, the website section, and the separately approved support section.
  */
 const asFirstPublished = (html: string) =>
   Object.values(WEBSITE_HEADING).reduce(
     (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
-    html.replace(/<p class="updated">[^<]*<\/p>/g, ''),
+    html
+      .replace(/<p class="updated">[^<]*<\/p>/g, '')
+      .replace(
+        /\s*<h[23]>(?:Soutien facultatif sur le site Web|Optional support on the website)<\/h[23]>(?:\s*<p>[\s\S]*?<\/p>){3}/g,
+        '',
+      ),
   );
 
 test('the policy is word for word the one its publisher approved, in both languages', () => {
@@ -51,23 +60,25 @@ test('the section about the website says what the publisher approved, in both la
       'The snakeattacktd.com website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors, and the site sets no cookies.',
     ],
   ]);
-  // It comes after Google Play and before the contact, in both languages.
+  // Hosting comes after Google Play; optional Web support precedes the contact.
   for (const language of ['fr', 'en'] as const) {
     const headings = PRIVACY_POLICY[language].sections.map((candidate) => candidate.heading);
     assert.equal(headings.indexOf(WEBSITE_HEADING[language]), 3, language);
-    assert.equal(headings.length, 5, language);
+    assert.equal(headings.length, 6, language);
   }
 });
 
 test('the public page stands alone: no script, no outside resource, its own address', () => {
   const page = privacyPageHtml();
   assert.doesNotMatch(page, /<script|<img|<iframe|<link rel="stylesheet"|@import|url\(/);
-  // Two links leave the site, both to the policy of Google, as approved.
+  // Provider privacy links leave the site, in the order approved for each language.
   const outside = [...page.matchAll(/href="(https?:[^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(outside, [
     `${PUBLIC_PRIVACY_URL}/`,
     'https://policies.google.com/privacy?hl=fr',
+    'https://www.paypal.com/ch/legalhub/paypal/privacy-full',
     'https://policies.google.com/privacy?hl=en',
+    'https://www.paypal.com/ch/legalhub/paypal/privacy-full',
   ]);
   assert.match(page, /<html lang="fr">/);
   assert.match(page, /<article id="en" lang="en"/);
@@ -75,8 +86,8 @@ test('the public page stands alone: no script, no outside resource, its own addr
 });
 
 test('each language tells when its words last changed and where the public page is', () => {
-  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 14 novembre 2026');
-  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 14, 2026');
+  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 16 novembre 2026');
+  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 16, 2026');
   assert.equal(PRIVACY_POLICY.fr.publicLink, `Lire cette politique sur ${SITE_HOST}`);
   assert.equal(PRIVACY_POLICY.en.publicLink, `Read this policy on ${SITE_HOST}`);
   const page = privacyPageHtml();
@@ -127,4 +138,11 @@ test('the Apache configuration sends every visitor to the one address and keeps 
     'prototype-v4.html',
   ])
     assert.doesNotMatch(name, hashed);
+});
+
+test('website support policy is exactly the bilingual text the publisher approved on November 16', () => {
+  for (const language of ['fr', 'en'] as const) {
+    assert.deepEqual(PRIVACY_POLICY[language].sections[4], approvedSupport[language]);
+    assert.equal(PRIVACY_POLICY[language].sections.length, 6);
+  }
 });

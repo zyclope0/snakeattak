@@ -4,6 +4,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
 import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
+import { SUPPORT_URL } from '../deploy/discovery.ts';
 
 const origin = 'http://127.0.0.1:4188';
 const folder = 'artifacts/web-discovery';
@@ -63,7 +64,17 @@ try {
       assert.equal(response.status(), 200);
       await page.locator('h1').waitFor();
       assert.equal(await page.locator('html').getAttribute('lang'), item.lang);
-      assert.equal(await page.locator('[data-support]').count(), 0);
+      const support = page.locator('[data-support]');
+      assert.equal(await support.count(), item.key === 'parents' ? 2 : 1);
+      for (const link of await support.all()) {
+        assert.equal(await link.getAttribute('href'), SUPPORT_URL);
+        assert.equal(await link.getAttribute('target'), '_blank');
+        assert.equal(await link.getAttribute('rel'), 'noopener noreferrer nofollow');
+        assert.equal(
+          await link.innerText(),
+          item.lang === 'fr' ? 'Soutenir le développement' : 'Support development',
+        );
+      }
       const width = await page.evaluate(() => ({
         client: document.documentElement.clientWidth,
         scroll: document.documentElement.scrollWidth,
@@ -93,6 +104,43 @@ try {
           fullPage: true,
         });
     }
+    // Verify the action with a local interception: no real PayPal request or payment.
+    await context.route(SUPPORT_URL, (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'text/html',
+        body: '<!doctype html><title>Payment destination intercepted</title><p>Local verification only</p>',
+      }),
+    );
+    for (const path of ['/fr/parents/', '/en/parents/']) {
+      await page.goto(origin + path, { waitUntil: 'networkidle' });
+      let reached = false;
+      for (let step = 0; step < 50; step++) {
+        await page.keyboard.press('Tab');
+        reached = await page
+          .locator('.support-note [data-support]')
+          .evaluate((link) => document.activeElement === link);
+        if (reached) break;
+      }
+      assert.ok(reached, `${path}: support is naturally reachable with the keyboard`);
+      const popupPromise = context.waitForEvent('page');
+      await page.keyboard.press('Enter');
+      const popup = await popupPromise;
+      await popup.waitForLoadState('domcontentloaded');
+      assert.equal(popup.url(), SUPPORT_URL);
+      assert.equal(await popup.title(), 'Payment destination intercepted');
+      assert.equal(await popup.evaluate(() => window.opener === null), true);
+      await popup.close();
+    }
+    await page.goto(origin + '/confidentialite/', { waitUntil: 'networkidle' });
+    for (const heading of [
+      'Soutien facultatif sur le site Web',
+      'Optional support on the website',
+    ]) {
+      await page.getByRole('heading', { name: heading, exact: true }).scrollIntoViewIfNeeded();
+      assert.ok(await page.getByRole('heading', { name: heading, exact: true }).isVisible());
+    }
+    assert.ok((await context.cookies()).length === 0);
     await page.goto(origin + '/fr/personnages/');
     await page.locator('.language').click();
     assert.equal(new URL(page.url()).pathname, '/en/characters/');
@@ -131,7 +179,7 @@ try {
     errors,
     outside,
     failed,
-    support: 'hidden',
+    support: 'active on static pages only; six keyboard actions locally intercepted, no payment',
   };
   await writeFile(`${folder}/browser-report.json`, JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report));

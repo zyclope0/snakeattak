@@ -1,6 +1,6 @@
 // Checks generated files, so missing links or Android leakage fail the actual build.
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
 import { SUPPORT_URL } from '../deploy/discovery.ts';
@@ -12,8 +12,20 @@ if (android) {
   for (const name of ['fr', 'en', 'sitemap.xml', 'robots.txt'])
     assert.ok(!existsSync(join(folder, name)), `Android must not include ${name}`);
   assert.doesNotMatch(game, /data-support|href="\/(?:fr|en)\/"|rel="canonical"/);
-  console.log('Android: no discovery pages, public metadata or support links');
+  if (SUPPORT_URL)
+    for (const name of [
+      'index.html',
+      ...readdirSync(join(folder, 'assets'))
+        .filter((n) => n.endsWith('.js'))
+        .map((n) => `assets/${n}`),
+    ])
+      assert.ok(
+        !readFileSync(join(folder, name), 'utf8').includes(SUPPORT_URL),
+        `${name}: Android must not contain the payment URL`,
+      );
+  console.log('Android: no discovery pages, public metadata or payment URL in shipped code');
 } else {
+  assert.doesNotMatch(game, /data-support|paypal\.com\/ncp\/payment/);
   assert.match(game, /href="\/fr\/"/);
   assert.match(game, /href="\/en\/"/);
   assert.ok(existsSync(join(folder, 'sitemap.xml')));
@@ -27,6 +39,24 @@ if (android) {
       /<script[^>]+src=|<iframe|https?:\/\/(?:fonts\.google|www\.googletag)/,
     );
     if (!SUPPORT_URL) assert.doesNotMatch(html, /data-support/);
+    else {
+      const support = [
+        ...html.matchAll(
+          /<a data-support href="([^"]+)" target="_blank" rel="noopener noreferrer nofollow">([^<]+)<\/a>/g,
+        ),
+      ];
+      assert.equal(
+        support.length,
+        page.key === 'parents' ? 2 : 1,
+        `${page.path}: support placements`,
+      );
+      for (const link of support) assert.equal(link[1], SUPPORT_URL);
+      assert.ok(
+        html.includes(
+          page.lang === 'fr' ? 'facultatif en CHF sur PayPal' : 'in CHF through PayPal',
+        ),
+      );
+    }
     for (const match of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
       const path = join(folder, decodeURI(match[1]));
       assert.ok(existsSync(path), `${page.path}: missing ${match[1]}`);

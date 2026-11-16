@@ -7,6 +7,7 @@ import {
   discoveryRobots,
   augmentGamePage,
   resolveSupportUrl,
+  SUPPORT_URL,
 } from '../deploy/discovery.ts';
 import { SITE_ORIGIN } from '../src/site.ts';
 
@@ -49,15 +50,26 @@ test('sitemap exposes actual public pages with language pairs, no player or seed
   assert.ok(discoveryRobots().includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`));
 });
 
-test('support is absent by default, allowed only for parents or public page footers', () => {
+test('approved support is active only in public footers and parents; null still disables it', () => {
+  assert.equal(SUPPORT_URL, 'https://www.paypal.com/ncp/payment/XXQ7BEAZQ3QZL');
   assert.equal(resolveSupportUrl(null), null);
   assert.equal(resolveSupportUrl(''), null);
   for (const page of DISCOVERY_PAGES) {
     assert.doesNotMatch(
-      discoveryPageHtml(page, assets),
-      /data-support|Soutenir le jeu|Support the game/,
+      discoveryPageHtml(page, assets, null),
+      /data-support|Soutenir le développement|Support development/,
     );
-    const enabled = discoveryPageHtml(page, assets, 'https://donate.stripe.com/example');
+    const enabled = discoveryPageHtml(page, assets);
+    assert.ok(enabled.includes(`href="${SUPPORT_URL}"`));
+    assert.ok(
+      enabled.includes(page.lang === 'fr' ? 'Soutenir le développement' : 'Support development'),
+    );
+    assert.ok(
+      enabled.includes(
+        page.lang === 'fr' ? 'facultatif en CHF sur PayPal' : 'in CHF through PayPal',
+      ),
+    );
+    assert.equal((enabled.match(/data-support/g) ?? []).length, page.key === 'parents' ? 2 : 1);
     assert.match(enabled, /rel="noopener noreferrer nofollow"/);
     assert.match(enabled, /data-support/);
     if (page.key !== 'parents') {
@@ -92,14 +104,6 @@ test('only the Web gets public metadata and links; game markup and saves remain 
   assert.match(html, /href="\/en\/"/);
   assert.match(html, /id="career-status">Local/);
   assert.doesNotMatch(html, /data-support|localStorage|<script/);
-});
-
-test('a payment URL containing replacement tokens cannot duplicate game markup', () => {
-  const shell =
-    '<html><head></head><body><details id="home-parent-options"><p id="camp-marker">Camp</p></details></body></html>';
-  const html = augmentGamePage(shell, 'https://example.com/support/$&');
-  assert.equal((html.match(/id="camp-marker"/g) ?? []).length, 1);
-  assert.ok(html.includes('href="https://example.com/support/$&amp;"'));
 });
 
 test('discovery leaves the compact parents content intact', () => {

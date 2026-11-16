@@ -1,8 +1,8 @@
 import { SITE_ORIGIN } from '../src/site.ts';
 import { DISCOVERY_PAGES, type DiscoveryPage } from './discoveryCopy.ts';
 
-/** Deliberately inactive until the parent supplies and approves a payment destination. */
-export const SUPPORT_URL: string | null = null;
+/** Public destination and bilingual privacy wording approved on 16 November 2026. */
+export const SUPPORT_URL: string | null = 'https://www.paypal.com/ncp/payment/XXQ7BEAZQ3QZL';
 export type DiscoveryAssets = {
   css: string;
   icon: string;
@@ -33,9 +33,9 @@ const labels = {
     updates: 'Nouveautés',
     parents: 'Pour les parents',
     privacy: 'Confidentialité',
-    support: 'Soutenir le jeu',
+    support: 'Soutenir le développement',
     external:
-      'Pour les adultes : soutien ponctuel sur un site de paiement externe, sans avantage dans le jeu. Aucun paiement sur ce site.',
+      'Pour les adultes : soutien ponctuel et facultatif en CHF sur PayPal. Aucun avantage dans le jeu.',
     skip: 'Aller au contenu',
     alt: 'Un héros et un serpent en pâte à modeler, près du cristal',
     title: 'La Conquête des Serpents',
@@ -50,9 +50,9 @@ const labels = {
     updates: 'Updates',
     parents: 'For parents',
     privacy: 'Privacy policy',
-    support: 'Support the game',
+    support: 'Support development',
     external:
-      'For adults: a one-off contribution on an external payment website, with no in-game advantage. No payment on this website.',
+      'For adults: an optional, one-off contribution in CHF through PayPal. No in-game benefits.',
     skip: 'Skip to content',
     alt: 'A clay hero and snake beside the crystal',
     title: 'Snake Attack TD',
@@ -160,24 +160,19 @@ export function discoveryRobots(): string {
 }
 
 /** Applied at build time on the website only. No storage, redirects or game rules. */
-export function augmentGamePage(html: string, supportUrl = SUPPORT_URL): string {
+export function augmentGamePage(html: string): string {
   const meta = `<meta name="description" content="Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés."><link rel="canonical" href="${SITE_ORIGIN}/">`;
   // Cancel the generic footer anchors' block/44px styling for these inline information
   // links. Neither the status footer nor the tightly fitted parents screen gains a row.
   const inline = 'style="display:inline;min-height:0;padding:0"';
   const links = `<nav data-home-page="home" style="display:flex;gap:12px" data-copy-raw aria-label="À propos / About"><a ${inline} href="/fr/" lang="fr">À propos</a><a ${inline} href="/en/" lang="en">About</a></nav>`;
-  let result = html
+  const result = html
     .replace('</head>', meta + '</head>')
     .replace(
       /(<footer class="home-footer">[\s\S]*?)(<\/footer>)/,
       (_, start, end) => start + links + end,
     );
-  const support = supportLink('fr', supportUrl);
-  if (support)
-    result = result.replace(
-      /(<details id="home-parent-options"[\s\S]*?)(<\/details>)/,
-      (_, start, end) =>
-        start + `<p data-copy-raw>${support}<br><small>${labels.fr.external}</small></p>` + end,
-    );
+  // Payments belong to the static public pages, reached from the existing about links.
+  // Never add a row to this compact game panel or ship a payment link into the game.
   return result;
 }
