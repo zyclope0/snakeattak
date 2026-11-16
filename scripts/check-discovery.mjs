@@ -4,28 +4,48 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
 import { SUPPORT_URL } from '../deploy/discovery.ts';
+import {
+  ADSENSE_PUBLISHER_ID,
+  adSenseAdsTxt,
+  adSenseVerificationMeta,
+} from '../deploy/adsenseVerification.ts';
 
 const folder = process.argv[2] ?? 'dist';
 const android = folder === 'dist-android';
 const game = readFileSync(join(folder, 'index.html'), 'utf8');
 if (android) {
-  for (const name of ['fr', 'en', 'sitemap.xml', 'robots.txt'])
+  for (const name of ['fr', 'en', 'sitemap.xml', 'robots.txt', 'ads.txt'])
     assert.ok(!existsSync(join(folder, name)), `Android must not include ${name}`);
-  assert.doesNotMatch(game, /data-support|href="\/(?:fr|en)\/"|rel="canonical"/);
-  if (SUPPORT_URL)
-    for (const name of [
-      'index.html',
-      ...readdirSync(join(folder, 'assets'))
-        .filter((n) => n.endsWith('.js'))
-        .map((n) => `assets/${n}`),
-    ])
+  assert.doesNotMatch(
+    game,
+    /data-support|google-adsense-account|href="\/(?:fr|en)\/"|rel="canonical"/,
+  );
+  for (const name of [
+    'index.html',
+    ...readdirSync(join(folder, 'assets'))
+      .filter((n) => n.endsWith('.js'))
+      .map((n) => `assets/${n}`),
+  ]) {
+    const content = readFileSync(join(folder, name), 'utf8');
+    if (SUPPORT_URL)
       assert.ok(
-        !readFileSync(join(folder, name), 'utf8').includes(SUPPORT_URL),
+        !content.includes(SUPPORT_URL),
         `${name}: Android must not contain the payment URL`,
       );
+    assert.ok(
+      !content.includes(ADSENSE_PUBLISHER_ID),
+      `${name}: Android must not contain the AdSense account`,
+    );
+  }
   console.log('Android: no discovery pages, public metadata or payment URL in shipped code');
 } else {
-  assert.doesNotMatch(game, /data-support|paypal\.com\/ncp\/payment/);
+  assert.doesNotMatch(game, /data-support|paypal\.com\/ncp\/payment|adsbygoogle|googlesyndication/);
+  assert.ok(game.includes(adSenseVerificationMeta()), 'Web: exact passive AdSense account meta');
+  assert.equal(
+    readFileSync(join(folder, 'ads.txt'), 'utf8'),
+    adSenseAdsTxt(),
+    'Web: exact publisher authorization',
+  );
   assert.match(game, /href="\/fr\/"/);
   assert.match(game, /href="\/en\/"/);
   assert.ok(existsSync(join(folder, 'sitemap.xml')));

@@ -113,3 +113,14 @@ test('discovery leaves the compact parents content intact', () => {
   assert.ok(html.includes(parents), 'no extra row in the tightly fitted parents screen');
   assert.match(html, /id="career-status">Local/);
 });
+
+test('Web verification identifies the approved AdSense account without ad delivery or layout changes', () => {
+  const body = '<body><main id="game">Game</main></body>';
+  const html = augmentGamePage('<html><head></head>' + body + '</html>');
+  assert.ok(
+    html.includes('<meta name="google-adsense-account" content="ca-pub-8498417364292905">'),
+  );
+  assert.equal((html.match(/google-adsense-account/g) ?? []).length, 1);
+  assert.ok(html.includes(body));
+  assert.doesNotMatch(html, /adsbygoogle|googlesyndication|<iframe|<ins/);
+});

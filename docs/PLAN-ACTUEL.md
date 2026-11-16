@@ -150,3 +150,16 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 - Recette et livraison : `docs/BILAN-SOUTIEN-WEB-2026-11-16.md`.
 - Restent à constater par le titulaire lors d'une vraie contribution : identité
   sur le reçu, frais réels. Aucun anonymat ou avantage fiscal annoncé.
+
+## AdSense Web — liaison avant examen Google
+
+- Parent : fournisseur AdSense automatique, pas encore de partenaire direct ;
+  ID public `pub-8498417364292905` ; site pas encore ajouté dans le compte au
+  dernier état communiqué.
+- Première livraison : meta de validation Web et ads.txt uniquement. Aucun script,
+  annonce, cookie publicitaire ou changement de confidentialité/CSP ; aucune modification Android.
+- Plan : `docs/superpowers/plans/2026-11-16-adsense-verification.md`.
+- Prochaines dépendances : ajout et approbation du site dans AdSense, bloc manuel,
+  cadrage enfant/consentement, confidentialité FR/EN approuvée et recette du placement.
+- « Automatique » désigne la fourniture des annonces : un seul emplacement maîtrisé
+  sur la page du jeu sera étudié, pas d’annonces automatiques intrusives ou en remerciements.

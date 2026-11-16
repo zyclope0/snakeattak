@@ -19,6 +19,7 @@ import {
   discoverySitemap,
 } from './deploy/discovery.ts';
 import { writeDiscoveryAssets } from './deploy/discoveryAssets.ts';
+import { adSenseAdsTxt } from './deploy/adsenseVerification.ts';
 
 export default defineConfig(({ mode }) => {
   const portable = mode === 'portable';
@@ -72,6 +73,7 @@ export default defineConfig(({ mode }) => {
             }
             writeFileSync(`${outDir}/sitemap.xml`, discoverySitemap());
             writeFileSync(`${outDir}/robots.txt`, discoveryRobots());
+            writeFileSync(`${outDir}/ads.txt`, adSenseAdsTxt());
           }
         },
       },
