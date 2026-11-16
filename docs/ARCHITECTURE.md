@@ -26,10 +26,19 @@ Le jeu reste une application statique : navigateur + fichiers sur un hébergemen
 
 Les commandes modifient la session. Phaser demande à la session d'avancer puis dessine son état. La logique du jeu peut être testée directement avec Node. Un callback actualise le tableau de bord ; le moteur ne dépend pas de l'interface. La session coupe les durées invalides et borne le rattrapage après une image lente. À graine identique, les décisions de jeu restent reproductibles.
 
-## Deux distributions
+## Distributions Web, Android et portable
 
 - `npm run build` : `dist/`, site normal. HTML d'environ 28 Ko en 0.21, code du jeu, moteur Phaser, CSS et image séparés. Les assets sont identifiés par leur contenu et peuvent être gardés un an en cache ; le HTML est revalidé pour découvrir les mises à jour.
 - `npm run build:portable` : `dist-portable/`, HTML autonome utilisable par double-clic. Ce fichier est volontairement plus gros. Il n'est pas la source du projet.
+- `npm run build:android` : `dist-android/`, jeu et confidentialité hors ligne, sans pages
+  de découverte, sitemap, liens de soutien ou métadonnées publiques. Capacitor lit ce
+  dossier ; `android:sync` et le script debug le reconstruisent avant synchronisation.
+
+Les pages FR/EN du site sont générées par `deploy/discovery.ts`, depuis une copie
+éditoriale séparée dans `deploy/discoveryCopy.ts`, et des assets locaux déjà autorisés.
+Elles ne chargent pas Phaser. Le jeu reste à `/`, sur la même origine, sans déplacement
+de ses sauvegardes. Le soutien est désactivé (`SUPPORT_URL = null`) ; aucun service de
+paiement n'est chargé. Les contrôles de distribution refusent les pages Web dans Android.
 
 Les maquettes et dessins de référence ne sont plus copiés dans le site de production. Le prototype V4 reste préservé, y compris dans les distributions. L'export portable et l'export web ne s'écrasent pas mutuellement.
 

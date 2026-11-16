@@ -5,6 +5,8 @@ import { readFile } from 'node:fs/promises';
 import { webHeaders, assetCache } from '../deploy/policy.ts';
 import { privacyPageHtml } from '../deploy/privacyPage.ts';
 import { PRIVACY_FOLDER, SITE_HOST, SITE_ORIGIN } from '../src/site.ts';
+import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
+import { discoveryRobots, discoverySitemap } from '../deploy/discovery.ts';
 
 const origin = (process.argv[2] ?? SITE_ORIGIN).replace(/\/$/, '');
 const commit = process.argv[3] ?? '';
@@ -69,6 +71,28 @@ if (origin === SITE_ORIGIN) {
 // The site sets no cookie of its own.
 for (const response of [home, policy])
   expect(!response.headers.get('set-cookie'), `no cookie set by ${new URL(response.url).pathname}`);
+
+// Public discovery pages are deployed with the game, never by another hosting system.
+for (const item of DISCOVERY_PAGES) {
+  const response = await get(origin + item.path);
+  const body = await response.text();
+  expect(response.status === 200, `${item.path} answers 200`);
+  expect(
+    body === (await readFile(`dist${item.path}index.html`, 'utf8')),
+    `${item.path} matches this build`,
+  );
+  expect(!response.headers.get('set-cookie'), `${item.path} sets no cookie`);
+}
+for (const [path, expected] of [
+  ['/sitemap.xml', discoverySitemap()],
+  ['/robots.txt', discoveryRobots()],
+]) {
+  const response = await get(origin + path);
+  expect(
+    response.status === 200 && (await response.text()) === expected,
+    `${path} matches this build`,
+  );
+}
 
 for (const note of notes) console.log(`note ${note}`);
 if (failures.length) {

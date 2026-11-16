@@ -1,0 +1,265 @@
+@font-face {
+  font-family: Fredoka;
+  src: url('__HEADING_FONT__') format('woff2');
+  font-display: swap;
+  font-weight: 300 700;
+}
+@font-face {
+  font-family: Nunito;
+  src: url('__BODY_FONT__') format('woff2');
+  font-display: swap;
+  font-weight: 200 900;
+}
+:root {
+  font-family: Nunito, system-ui, sans-serif;
+  color: #173e37;
+  background: #f7f2e5;
+  line-height: 1.6;
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: inherit;
+  text-underline-offset: 0.22em;
+}
+a:focus-visible {
+  outline: 3px solid #137967;
+  outline-offset: 5px;
+  border-radius: 5px;
+}
+.site-header,
+.site-nav,
+main,
+.site-footer {
+  max-width: 1180px;
+  margin: auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-block: 20px;
+}
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font:
+    500 clamp(1.1rem, 2.2vw, 1.6rem)/1.2 Fredoka,
+    sans-serif;
+  text-decoration: none;
+}
+.brand img {
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+.language {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.site-nav {
+  display: flex;
+  gap: 8px 24px;
+  flex-wrap: wrap;
+  padding-block: 12px 20px;
+  border-bottom: 1px solid #ccd2ba;
+}
+.site-nav a {
+  padding-block: 8px;
+  text-decoration: none;
+  font-weight: 800;
+}
+.site-nav a[aria-current] {
+  color: #126757;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -120px;
+  background: #fff;
+  padding: 12px;
+  z-index: 3;
+}
+.skip:focus {
+  top: 10px;
+}
+.intro {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 24px;
+  align-items: center;
+  padding-block: clamp(28px, 5vw, 64px);
+}
+.eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #50705b;
+}
+.intro h1 {
+  font:
+    500 clamp(2.2rem, 4.4vw, 3.8rem)/1.06 Fredoka,
+    sans-serif;
+  max-width: 15ch;
+  margin: 0.3em 0 0.45em;
+}
+.lead {
+  max-width: 50ch;
+  font-size: 1.15rem;
+}
+.hero {
+  width: 100%;
+  height: auto;
+  max-height: 410px;
+  object-fit: contain;
+  border-radius: 24px;
+  filter: drop-shadow(0 14px 7px #173e371c);
+}
+.play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 52px;
+  background: #efc359;
+  color: #173e37;
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-decoration: none;
+  padding: 14px 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 0 #c99e3e;
+  margin-block: 8px;
+}
+.play:hover {
+  background: #f6d27a;
+}
+.play.small {
+  font-size: 0.95rem;
+  min-height: 44px;
+  padding: 10px 18px;
+  margin: 0;
+  white-space: nowrap;
+}
+.stories {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  padding-bottom: 48px;
+}
+.story {
+  border-top: 2px solid #bfc8ad;
+  padding-top: 18px;
+}
+.story h2,
+.support-note h2 {
+  font:
+    500 1.6rem/1.15 Fredoka,
+    sans-serif;
+  margin: 0 0 14px;
+}
+.story p {
+  max-width: 60ch;
+  margin: 0;
+  font-size: 1.05rem;
+}
+.story:first-child {
+  border-color: #2e7b66;
+}
+.figures {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 38px;
+}
+.figures img {
+  object-fit: contain;
+  width: clamp(90px, 14vw, 150px);
+  height: auto;
+}
+.support-note {
+  border: 1px solid #ccd2ba;
+  padding: 24px;
+  border-radius: 20px;
+  margin-bottom: 36px;
+}
+.site-footer {
+  padding-block: 28px 40px;
+  border-top: 1px solid #ccd2ba;
+  display: flex;
+  gap: 16px 30px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.site-footer p {
+  margin: 0;
+}
+.site-footer nav {
+  display: flex;
+  gap: 12px 24px;
+  flex-wrap: wrap;
+}
+.site-footer small {
+  flex-basis: 100%;
+}
+@media (max-width: 700px) {
+  .site-header {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    flex: 1;
+  }
+  .brand img {
+    width: 40px;
+    height: 40px;
+  }
+  .site-header > .play {
+    display: none;
+  }
+  .intro {
+    grid-template-columns: 1fr;
+  }
+  .intro h1 {
+    max-width: 18ch;
+  }
+  .hero {
+    max-height: 250px;
+    grid-row: 2;
+  }
+  .stories {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .site-nav {
+    gap: 6px 20px;
+    font-size: 0.95rem;
+  }
+  .site-footer {
+    display: block;
+  }
+  .site-footer nav {
+    margin-top: 16px;
+  }
+}
+@media (max-height: 430px) and (min-width: 701px) {
+  .intro {
+    padding-block: 28px;
+  }
+  .hero {
+    max-height: 260px;
+  }
+  .intro h1 {
+    font-size: 2.4rem;
+  }
+}

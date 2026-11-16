@@ -152,12 +152,16 @@ npm ci
 npm run android:sync
 ```
 
-`android:sync` compile le site puis exécute `cap sync android`. Il faut le refaire
-après chaque modification web. Un simple `npx cap sync android` copie le dernier
-`dist/` existant sans le reconstruire : il peut donc embarquer une ancienne
+`android:sync` compile le jeu via `build:android` dans `dist-android/`, puis exécute
+`cap sync android`. Il faut le refaire après chaque modification du jeu. Un simple
+`npx cap sync android` copie le dernier `dist-android/` existant sans le reconstruire : il peut donc embarquer une ancienne
 version. Ne pas exécuter `cap add android` à nouveau : `android/` existe déjà.
 
-Configuration : `capacitor.config.ts`, `webDir: 'dist'`, identifiant **provisoire**
+Depuis le16novembre, `npm run build` garde les pages publiques et le soutien réservé au
+Web dans `dist/` ; elles ne sont jamais copiées par le flux Android officiel. Ce changement
+de compilation ne recompile pas les paquets62 déjà livrés et ne modifie pas leur compteur.
+
+Configuration : `capacitor.config.ts`, `webDir: 'dist-android'`, identifiant
 `com.conqueteserpents.famille`, nom `La Conquête des Serpents`. Pas de `server.url`
 ni d'adresse de site de production : le contenu provient des assets de l'app.
 L'origine locale virtuelle de Capacitor n'est pas un serveur distant de gameplay.
