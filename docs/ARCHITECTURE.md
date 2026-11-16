@@ -1315,3 +1315,13 @@ nouvelle : l'index réunit ce que le jeu savait déjà.
 Vérifié par `tests/snake-index.test.ts` (chaque serpent une fois, dans l'ordre de
 l'aventure, King Snake en dernier) et par la recette `test:threat-preparation` (quatorze
 fiches avec leur portrait, bouton de 48 px, la fenêtre « Dangers » reste ouverte dessous).
+
+### Préparation publicitaire Web désactivée
+
+`src/ui/webAds/layout.ts` est un calcul pur, sans dépendance vers les règles.
+`preview.ts` et son CSS ne sont importés que dans le mode Vite `ads-preview`,
+qui écrit `dist-ads-preview/`. Les sorties normales les éliminent et sont
+contrôlées par `scripts/check-web-ad-disabled.mjs`. Le contrat d'attributs est
+inerte ; il n'existe aucun chargeur publicitaire ni interrupteur URL/stockage.
+`bindBoardResize` retourne un invalidateur de bornes regroupé par animation frame,
+utilisable lors d'un déplacement de conteneur sans modifier le moteur de jeu.

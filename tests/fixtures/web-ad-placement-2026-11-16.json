@@ -1,0 +1,322 @@
+[
+  {
+    "name": "1280x800",
+    "measurement": {
+      "width": 1280,
+      "height": 800,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 800
+      },
+      "board": {
+        "x": 13,
+        "y": 117,
+        "width": 1065.984375,
+        "height": 600.8125
+      },
+      "battle": {
+        "x": 12,
+        "y": 88,
+        "width": 1068,
+        "height": 630.828125
+      },
+      "dock": {
+        "x": 1092,
+        "y": 88,
+        "width": 176,
+        "height": 460
+      },
+      "hud": {
+        "x": 12,
+        "y": 36,
+        "width": 1256,
+        "height": 52
+      }
+    },
+    "expected": null
+  },
+  {
+    "name": "1600x900",
+    "measurement": {
+      "width": 1600,
+      "height": 900,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "width": 1600,
+        "height": 900
+      },
+      "board": {
+        "x": 13,
+        "y": 117,
+        "width": 1385.96875,
+        "height": 781.171875
+      },
+      "battle": {
+        "x": 12,
+        "y": 88,
+        "width": 1388,
+        "height": 811.1875
+      },
+      "dock": {
+        "x": 1412,
+        "y": 88,
+        "width": 176,
+        "height": 460
+      },
+      "hud": {
+        "x": 12,
+        "y": 36,
+        "width": 1576,
+        "height": 52
+      }
+    },
+    "expected": null
+  },
+  {
+    "name": "1920x800",
+    "measurement": {
+      "width": 1920,
+      "height": 800,
+      "app": {
+        "x": 140,
+        "y": 0,
+        "width": 1640,
+        "height": 800
+      },
+      "board": {
+        "x": 153,
+        "y": 117,
+        "width": 1210,
+        "height": 682
+      },
+      "battle": {
+        "x": 152,
+        "y": 88,
+        "width": 1428,
+        "height": 712
+      },
+      "dock": {
+        "x": 1592,
+        "y": 88,
+        "width": 176,
+        "height": 460
+      },
+      "hud": {
+        "x": 152,
+        "y": 36,
+        "width": 1616,
+        "height": 52
+      }
+    },
+    "expected": {
+      "width": 234,
+      "height": 60,
+      "shiftX": -76
+    }
+  },
+  {
+    "name": "1920x900",
+    "measurement": {
+      "width": 1920,
+      "height": 900,
+      "app": {
+        "x": 140,
+        "y": 0,
+        "width": 1640,
+        "height": 900
+      },
+      "board": {
+        "x": 153,
+        "y": 117,
+        "width": 1387.40625,
+        "height": 781.984375
+      },
+      "battle": {
+        "x": 152,
+        "y": 88,
+        "width": 1428,
+        "height": 812
+      },
+      "dock": {
+        "x": 1592,
+        "y": 88,
+        "width": 176,
+        "height": 460
+      },
+      "hud": {
+        "x": 152,
+        "y": 36,
+        "width": 1616,
+        "height": 52
+      }
+    },
+    "expected": {
+      "width": 180,
+      "height": 150,
+      "shiftX": -22
+    }
+  },
+  {
+    "name": "1920x1080",
+    "measurement": {
+      "width": 1920,
+      "height": 1080,
+      "app": {
+        "x": 140,
+        "y": 0,
+        "width": 1640,
+        "height": 1080
+      },
+      "board": {
+        "x": 153,
+        "y": 117,
+        "width": 1425.96875,
+        "height": 803.71875
+      },
+      "battle": {
+        "x": 152,
+        "y": 88,
+        "width": 1428,
+        "height": 833.734375
+      },
+      "dock": {
+        "x": 1592,
+        "y": 88,
+        "width": 176,
+        "height": 460
+      },
+      "hud": {
+        "x": 152,
+        "y": 36,
+        "width": 1616,
+        "height": 52
+      }
+    },
+    "expected": {
+      "width": 200,
+      "height": 200,
+      "shiftX": -42
+    }
+  },
+  {
+    "name": "2560x1440",
+    "measurement": {
+      "width": 2560,
+      "height": 1440,
+      "app": {
+        "x": 460,
+        "y": 0,
+        "width": 1640,
+        "height": 1440
+      },
+      "board": {
+        "x": 473,
+        "y": 117,
+        "width": 1425.96875,
+        "height": 803.71875
+      },
+      "battle": {
+        "x": 472,
+        "y": 88,
+        "width": 1428,
+        "height": 833.734375
+      },
+      "dock": {
+        "x": 1912,
+        "y": 88,
+        "width": 176,
+        "height": 460
+      },
+      "hud": {
+        "x": 472,
+        "y": 36,
+        "width": 1616,
+        "height": 52
+      }
+    },
+    "expected": {
+      "width": 200,
+      "height": 200,
+      "shiftX": 0
+    }
+  },
+  {
+    "name": "780x360",
+    "measurement": {
+      "width": 780,
+      "height": 360,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "width": 780,
+        "height": 360
+      },
+      "board": {
+        "x": 0,
+        "y": 48,
+        "width": 553.546875,
+        "height": 311.984375
+      },
+      "battle": {
+        "x": 0,
+        "y": 48,
+        "width": 569.40625,
+        "height": 312
+      },
+      "dock": {
+        "x": 569.40625,
+        "y": 48,
+        "width": 210.59375,
+        "height": 312
+      },
+      "hud": {
+        "x": 0,
+        "y": 0,
+        "width": 780,
+        "height": 48
+      }
+    },
+    "expected": null
+  },
+  {
+    "name": "812x375",
+    "measurement": {
+      "width": 812,
+      "height": 375,
+      "app": {
+        "x": 0,
+        "y": 0,
+        "width": 812,
+        "height": 375
+      },
+      "board": {
+        "x": 0,
+        "y": 48,
+        "width": 580.15625,
+        "height": 326.984375
+      },
+      "battle": {
+        "x": 0,
+        "y": 48,
+        "width": 592.765625,
+        "height": 327
+      },
+      "dock": {
+        "x": 592.765625,
+        "y": 48,
+        "width": 219.234375,
+        "height": 327
+      },
+      "hud": {
+        "x": 0,
+        "y": 0,
+        "width": 812,
+        "height": 48
+      }
+    },
+    "expected": null
+  }
+]

@@ -16,3 +16,5 @@ docs/audit-source-2026-11/originaux/
 tests/fixtures/confidentialite-publiee-2026-11-14.html
 
 dist-android
+
+dist-ads-preview/

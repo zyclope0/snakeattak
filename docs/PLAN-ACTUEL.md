@@ -154,12 +154,27 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 ## AdSense Web — liaison avant examen Google
 
 - Parent : fournisseur AdSense automatique, pas encore de partenaire direct ;
-  ID public `pub-8498417364292905` ; site pas encore ajouté dans le compte au
-  dernier état communiqué.
+  ID public `pub-8498417364292905` ; domaine validé et examen demandé selon le retour du parent,
+  approbation de diffusion encore non constatée.
 - Première livraison : meta de validation Web et ads.txt uniquement. Aucun script,
   annonce, cookie publicitaire ou changement de confidentialité/CSP ; aucune modification Android.
 - Plan : `docs/superpowers/plans/2026-11-16-adsense-verification.md`.
-- Prochaines dépendances : ajout et approbation du site dans AdSense, bloc manuel,
+- Prochaines dépendances : approbation du site dans AdSense,
   cadrage enfant/consentement, confidentialité FR/EN approuvée et recette du placement.
 - « Automatique » désigne la fourniture des annonces : un seul emplacement maîtrisé
   sur la page du jeu sera étudié, pas d’annonces automatiques intrusives ou en remerciements.
+
+## Encart AdSense — conseil et préparation désactivée
+
+Consensus appliqué : calcul de placement indépendant, maquette locale compilée
+séparément, aucune réservation de place ou annonce sur le site public, Android
+ou portable. Le plateau garde ses dimensions ; ses bornes Phaser sont rafraîchies
+après déplacement, avec contrôle des coordonnées réellement recrutées.
+
+Le bloc manuel `7092707633` est préparé, mais aucun chargeur Google n'est livré.
+Restent avant activation : approbation du domaine, consentement et paramètres de
+compte, puis confidentialité FR/EN approuvée. Pas de modification des règles,
+sauvegardes, codes de départ ou du numéro de build Android.
+
+Détail : [bilan de préparation](BILAN-ADSENSE-PREPARATION-2026-11-16.md) et
+[plan](superpowers/plans/2026-11-16-web-ad-placement-disabled.md).

@@ -121,7 +121,18 @@ phaser = new Phaser.Game({
   scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
   audio: { noAudio: true },
 });
-bindBoardResize(phaser, byId('game'));
+const invalidateBoard = bindBoardResize(phaser, byId('game'));
+if (import.meta.env.MODE === 'ads-preview') {
+  let destroyed = false;
+  let release: (() => void) | undefined;
+  phaser.events.once('destroy', () => {
+    destroyed = true;
+    release?.();
+  });
+  void import('./ui/webAds/preview.ts').then(({ bindWebAdPreview }) => {
+    if (!destroyed) release = bindWebAdPreview({ onBoardMoved: invalidateBoard });
+  });
+}
 bindBoardResolution(phaser, () => visualSettings.light);
 menu = bindMenu(session, career, {
   hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : hasCamp),
