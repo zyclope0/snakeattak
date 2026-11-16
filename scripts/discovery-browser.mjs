@@ -112,6 +112,10 @@ try {
     const footer = await page.locator('.home-footer').boundingBox();
     assert.ok(footer && footer.height <= 20, 'discovery keeps the game footer on one line');
     await page.locator('#home-parents').click();
+    assert.ok(
+      await page.locator('.home-footer nav').isHidden(),
+      'discovery links are home-only and leave secondary footers alone',
+    );
     const overflow = await page
       .locator('#home-parent-options')
       .evaluate((node) => node.scrollHeight - node.clientHeight);

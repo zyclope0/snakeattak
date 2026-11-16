@@ -76,7 +76,7 @@ identifiants inclus dans une URL. Il prépare un lien explicite pour adultes, no
 `noopener noreferrer nofollow`, sans transmettre de profil ni de code de partie.
 Les emplacements sont la rubrique parents et le pied des pages publiques, jamais le plateau.
 Le bouton n'accorde aucun avantage ; aucune déductibilité fiscale n'est annoncée.
-Le HTML du jeu n'a plus que154octets de marge : avant activation, l'alléger et contrôler
+Le HTML du jeu n'a plus que132octets de marge : avant activation, l'alléger et contrôler
 le vrai lien avec le budget existant, sans augmenter silencieusement ce plafond.
 
 Android utilise `dist-android/`, excluant toutes ces pages et liens. Les paquets Play déjà

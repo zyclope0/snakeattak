@@ -165,7 +165,7 @@ export function augmentGamePage(html: string, supportUrl = SUPPORT_URL): string 
   // Cancel the generic footer anchors' block/44px styling for these inline information
   // links. Neither the status footer nor the tightly fitted parents screen gains a row.
   const inline = 'style="display:inline;min-height:0;padding:0"';
-  const links = `<nav style="display:flex;gap:12px" data-copy-raw aria-label="À propos / About"><a ${inline} href="/fr/" lang="fr">À propos</a><a ${inline} href="/en/" lang="en">About</a></nav>`;
+  const links = `<nav data-home-page="home" style="display:flex;gap:12px" data-copy-raw aria-label="À propos / About"><a ${inline} href="/fr/" lang="fr">À propos</a><a ${inline} href="/en/" lang="en">About</a></nav>`;
   let result = html
     .replace('</head>', meta + '</head>')
     .replace(
