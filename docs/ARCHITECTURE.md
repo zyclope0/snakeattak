@@ -450,7 +450,7 @@ récompense, son ou tirage aléatoire n'est ajouté.
 ## Équilibrage versionné — 0.36.2
 
 `balanceRevision.ts` résout des révisions immuables : 1 historique, 2 pour
-les nouveaux départs explicitement créés par la session (3 depuis le 15 novembre, plus bas). `data.ts` et les
+les nouveaux départs explicitement créés par la session (3 puis 4 depuis, plus bas). `data.ts` et les
 36 définitions historiques ne changent pas. Game expose sa révision readonly ;
 les prix et les définitions de caprices sont résolus sans mutation et avec cache.
 Les anciennes API gardent leur défaut historique. Les reprises, codes et réessais
@@ -481,6 +481,35 @@ chacun éclot en 8 s et donne deux serpents.
 - **Ce que voit l'enfant.** `Presentation` lit `game.lateEggsLaid` et montre un bandeau quand
   l'œuf apparaît (le message du moteur ne se voit que dans le panneau des alliés) ; une
   phrase dans « Dangers » et une dans l'aide. Aucun minuteur n'est affiché.
+
+### Révision 4 — 16 novembre 2026
+
+Trois serpents imaginés par le fils ([bilan](BILAN-REVISION-4.md)) : `fang` (« Grands
+crocs »), `rare` (« Serpent rare ») et `shadow` (« Serpent ninja »). La révision 4 garde tout
+de la révision 3 et ajoute ces trois espèces aux vagues de la grande aventure.
+
+- **Où ils entrent.** `variantFor(vague, place, révision)` (`waves.ts`) calcule d'abord la
+  vague d'avant (`historicVariant`), puis `NEWCOMERS` donne trois places : un nouveau ne
+  remplace qu'un serpent simple (ordinaire, vif ou carapace). Les spécialistes d'une vague et
+  son annonce ne bougent pas, et le nombre de serpents non plus. Sans révision, la fonction
+  rend exactement les vagues d'avant : missions, défis et voyage n'en reçoivent aucun.
+- **Ce qu'ils font.** Les valeurs sont dans `enemies.ts` ; les deux règles propres dans
+  `enemyAbilities.ts` : `biteDamage` (la morsure du serpent rare vaut au moins la vie d'une
+  Massue, `RARE_BITE = kinds.club.hp`) et `dodgesOf` (le ninja reçoit `dodges = 1` à son
+  arrivée ; `hitEnemy` décompte et ne fait rien d'autre de ce coup). `dodges` n'existe que
+  sur un serpent ninja : l'empreinte d'une partie des révisions 1 à 3 ne change pas.
+- **Ce qui porte la révision.** `isClassicRevision` (`balanceRevision.ts`) dit qu'une
+  révision n'existe que dans la grande aventure (3 et 4). Code de départ : règle 6. Camp :
+  version 11. La sauvegarde familiale reste en version 5. Pour une révision suivante de la
+  grande aventure : une ligne dans `CLASSIC_VERSION` (`checkpoints.ts`) et une dans
+  `CLASSIC_RULE` (`departures.ts`).
+- **Ce que voit l'enfant.** Les trois fiches dans « Dangers » et dans l'index
+  (`THREAT_DETAILS`), un conseil pour deux d'entre eux, et « Esquive ! » au-dessus du ninja
+  (`Presentation` voit `dodges` baisser). Les annonces de vague (`waves.ts`) ne les nomment
+  pas encore.
+- **Images provisoires.** Planche `serpents-nouveaux` : trois cases de `enemies-organic`
+  recolorées par `scripts/recolor-new-snakes.py`, sans générateur ni dépense
+  (`public/assets/illustrated/PROVENANCE-SERPENTS-PROVISOIRES-2026-11.md`).
 
 `ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
 et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la

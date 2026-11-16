@@ -84,6 +84,10 @@ export const faitHesiterLesAlliesProches = 'Makes nearby allies hesitate';
 export const cracheADistanceUnCoupParTir = 'Spits from a distance: one hit per shot';
 export const seulsArchersDragonsEtTanksLe = 'Only Archers, Dragons and Tanks can hit it';
 export const soigneLeRoiEtSesGardes = 'Heals the king and his guards';
+export const sesGrandsCrocsFontTresMal = 'Its big fangs hurt a lot';
+export const tresFragileMaisSaMorsureFaitTomber =
+  'Very fragile, but its bite knocks out a small ally in one hit';
+export const rapideIlEsquiveLePremierCoup = 'Fast: it dodges the first hit';
 export const kingSnake = 'King Snake';
 export const contactCrachatADistanceEtTeteMixte = 'Melee, ranged spit, and a mixed head';
 export const vagueDePrevisionInvalide = 'Invalid preview wave';
@@ -92,6 +96,8 @@ export const unNinjaRapidePeutRejoindreLes = 'A fast Ninja can reach the Spitter
 export const leBebeDragonSouffleSurLesGroupesDe =
   'The Baby Dragon breathes fire on groups of snakes.';
 export const unBouclierAideARetenirLesVifs = 'A Shield Guard helps hold back Swift Snakes.';
+export const unArcherPeutArreterLeSerpentRare = 'An archer can stop the rare snake from afar.';
+export const unBouclierEncaisseLesGrandsCrocs = 'A shield can take the big fangs.';
 export const gardeDesMassuesPresDesPassages = 'Keep Clubbers near the passages under attack.';
 export const vagueNNN = 'Wave {0}: {1}. {2}';
 export const lesAutresVoiesRestentPaisibles = 'The other lanes stay peaceful.';

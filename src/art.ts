@@ -25,6 +25,8 @@ import serpentsUrl from './assets/illustrated/serpents-family.webp';
 import serpentsAttackUrl from './assets/illustrated/serpents-family-attack.webp';
 import mutantsUrl from './assets/illustrated/allies-mutants.webp';
 import mutantsAttackUrl from './assets/illustrated/allies-mutants-attack.webp';
+import newSnakesUrl from './assets/illustrated/serpents-nouveaux.webp';
+import newSnakesAttackUrl from './assets/illustrated/serpents-nouveaux-attack.webp';
 import threeBridgesPropsUrl from './assets/illustrated/props-three-bridges.webp';
 import type { Kind } from './data.ts';
 import type { EnemyKind } from './enemies.ts';
@@ -103,6 +105,14 @@ export const ART_SHEETS = [
     attackUrl: mutantsAttackUrl,
   },
   { key: 'props-three-bridges', url: threeBridgesPropsUrl, frameWidth: 512, frameHeight: 512 },
+  // Three cells for now; the fourth is empty.
+  {
+    key: 'serpents-nouveaux',
+    url: newSnakesUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: newSnakesAttackUrl,
+  },
 ] as const;
 export type SheetKey = (typeof ART_SHEETS)[number]['key'];
 /**
@@ -191,6 +201,11 @@ export const ENEMY_ART: Record<EnemyKind, ArtFrame> = {
   rattlesnake: frame('serpents-family', 0),
   royal: frame('serpents-family', 1),
   mamba: frame('serpents-family', 2),
+  // Provisional pictures (16 November 2026): cells of `enemies-organic`, recoloured by
+  // `scripts/recolor-new-snakes.py`, until the child's three newcomers each have a drawing.
+  fang: frame('serpents-nouveaux', 0),
+  rare: frame('serpents-nouveaux', 1),
+  shadow: frame('serpents-nouveaux', 2),
 };
 export const KING_ART = frame('serpents-family', 3);
 export const EGG_ART = frame('enemies-mechanical', 3);

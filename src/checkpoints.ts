@@ -2,6 +2,8 @@ import { isMilestone, readRewards } from './rewards.ts';
 import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
 import { Game } from './game.ts';
+import { isClassicRevision } from './balanceRevision.ts';
+import type { ClassicRevision } from './balanceRevision.ts';
 import { CRYSTAL_MAX, GOLD_LIMIT, TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
 import type { Kind } from './data.ts';
 import { missionById, readMissionRun, isPersistableMissionRun } from './missions.ts';
@@ -35,6 +37,7 @@ export type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
  *   8  an expedition with a challenge
  *   9  the second balance revision
  *  10  the third balance revision, in the great adventure only
+ *  11  the fourth balance revision, in the great adventure only
  */
 const savesHomes = (version: number) => version !== 1;
 const savesRewards = (version: number) => version >= 3;
@@ -60,8 +63,15 @@ function hasKnownDeparture(game: Game): boolean {
   return !game.mission || (game.mission.balance === 2 && game.initialSeed === game.mission.seed);
 }
 
+/** The save version of each revision that exists in the great adventure only. */
+const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = { 3: 10, 4: 11 };
+const LATEST_VERSION = 11;
+/** The revision a version 10 or later was written for; null for an older version. */
+const classicRevisionOf = (version: number): ClassicRevision | null =>
+  version === 11 ? 4 : version === 10 ? 3 : null;
+
 function saveVersion(game: Game): number {
-  if (game.balanceRevision === 3) return 10;
+  if (isClassicRevision(game.balanceRevision)) return CLASSIC_VERSION[game.balanceRevision];
   if (game.balanceRevision === 2) return 9;
   if (game.mission?.caprice) return 8;
   if (game.mission?.rules === 2) return 7;
@@ -85,7 +95,11 @@ function savedRewards(game: Game) {
 function saveDocument(game: Game, version: number, units: unknown[]) {
   return {
     version,
-    ...(version === 10 ? { balance: 3 } : version === 9 ? { balance: 2 } : {}),
+    ...(classicRevisionOf(version)
+      ? { balance: classicRevisionOf(version) }
+      : version === 9
+        ? { balance: 2 }
+        : {}),
     ...(isModern(version) && game.initialSeed !== null ? { initialSeed: game.initialSeed } : {}),
     ...(game.mission
       ? { mission: game.mission, missionMinBase: Math.min(game.missionMinBase, game.base) }
@@ -117,8 +131,9 @@ export function encodeCheckpoint(game: Game): string | null {
   // Keep the frozen classic witness byte-compatible with the pre-tactical camp.
   if (needsTacticalRules(game) && !game.tuning.tacticalRulesEnabled) return null;
   if (game.balanceRevision >= 2 && !hasKnownDeparture(game)) return null;
-  // The third revision is a great adventure: what cannot be read back is not written.
-  if (game.balanceRevision === 3 && game.mission) return null;
+  // The third revision and the later ones are a great adventure: what cannot be read back
+  // is not written.
+  if (isClassicRevision(game.balanceRevision) && game.mission) return null;
   const version = saveVersion(game);
   const units = [];
   for (const unit of survivors) {
@@ -146,7 +161,7 @@ type Save = Record<string, unknown> & {
 function isSaveHeader(data: unknown): data is Save {
   return (
     isRecord(data) &&
-    isIntegerIn(data.version, 1, 10) &&
+    isIntegerIn(data.version, 1, LATEST_VERSION) &&
     isIntegerIn(data.wave, 0, TOTAL_WAVES - 1) &&
     isIntegerIn(data.gold, 0, GOLD_LIMIT) &&
     isNumberIn(data.base, 1, CRYSTAL_MAX) &&
@@ -159,15 +174,16 @@ function isSaveHeader(data: unknown): data is Save {
 }
 
 /**
- * Only versions 9 and 10 name a balance revision, and then everything in them does. The
- * third revision is a great adventure: a version 10 camp never holds an expedition.
+ * Only versions 9 and later name a balance revision, and then everything in them does. From
+ * the third revision on a camp is a great adventure: version 10 or 11 never holds an expedition.
  */
 function revisionMatchesVersion(
   save: Save,
   hasMission: boolean,
   mission: MissionRun | null,
 ): boolean {
-  if (save.version === 10) return save.balance === 3 && isUint32(save.initialSeed) && !hasMission;
+  const classic = classicRevisionOf(save.version);
+  if (classic) return save.balance === classic && isUint32(save.initialSeed) && !hasMission;
   if (save.version === 9)
     return (
       save.balance === 2 && isUint32(save.initialSeed) && (!hasMission || mission?.balance === 2)
@@ -180,7 +196,7 @@ function revisionMatchesVersion(
 
 /** Versions 7 and 8 each exist for one kind of expedition; the older ones know neither. */
 function missionMatchesVersion(version: number, mission: MissionRun | null): boolean {
-  if (version === 10) return mission === null;
+  if (classicRevisionOf(version)) return mission === null;
   if (version === 9) return true;
   if (version === 8) return !!mission?.caprice;
   if (version === 7) return mission?.rules === 2;
@@ -300,7 +316,7 @@ function readCheckpoint(data: unknown): Game | null {
   if (!revisionMatchesVersion(data, hasMission, mission)) return null;
   if (!missionMatchesVersion(data.version, mission)) return null;
   if (hasMission && !isMissionCamp(data, mission)) return null;
-  const revision = data.version === 10 ? 3 : data.version === 9 ? 2 : 1;
+  const revision = classicRevisionOf(data.version) ?? (data.version === 9 ? 2 : 1);
   const game = new Game(data.rng, undefined, mission ?? undefined, revision);
   const kindsSaved = savesCapriceKinds(data.version, mission);
   if (kindsSaved && !restoreCapriceKinds(game, data.capriceKindsChosen)) return null;

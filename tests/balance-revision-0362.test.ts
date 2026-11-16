@@ -82,8 +82,8 @@ test('prices opt in to revision 2, old defaults and free recruits survive', () =
   assert.equal(new Game(42, undefined, modern).balanceRevision, 2);
   assert.throws(() => new Game(42, undefined, modern, 1));
   assert.throws(() => new Game(42, undefined, basic, 2));
-  assert.throws(() => new Game(42, undefined, undefined, 4 as 2));
-  assert.throws(() => balanceRecruitPrice('tank', 4 as 2));
+  assert.throws(() => new Game(42, undefined, undefined, 5 as 2));
+  assert.throws(() => balanceRecruitPrice('tank', 5 as 2));
   assert.equal(readMissionRun({ ...modern, balance: 1 }), null);
   assert.equal(readMissionRun({ ...modern, balance: 3 }), null);
   assert.equal(readMissionRun(modern)?.balance, 2);

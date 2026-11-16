@@ -85,6 +85,10 @@ export const faitHesiterLesAlliesProches = 'Fait hésiter les alliés proches';
 export const cracheADistanceUnCoupParTir = 'Crache à distance : un coup par tir';
 export const seulsArchersDragonsEtTanksLe = 'Seuls archers, dragons et tanks le touchent';
 export const soigneLeRoiEtSesGardes = 'Soigne le roi et ses gardes';
+export const sesGrandsCrocsFontTresMal = 'Ses grands crocs font très mal';
+export const tresFragileMaisSaMorsureFaitTomber =
+  'Très fragile, mais sa morsure fait tomber un petit allié d’un coup';
+export const rapideIlEsquiveLePremierCoup = 'Rapide : il esquive le premier coup';
 export const kingSnake = 'King Snake';
 export const contactCrachatADistanceEtTeteMixte = 'Contact, crachat à distance et tête mixte';
 export const vagueDePrevisionInvalide = 'Vague de prévision invalide';
@@ -93,6 +97,8 @@ export const unNinjaRapidePeutRejoindreLes = 'Un ninja rapide peut rejoindre les
 export const leBebeDragonSouffleSurLesGroupesDe =
   'Le bébé dragon souffle sur les groupes de serpents.';
 export const unBouclierAideARetenirLesVifs = 'Un bouclier aide à retenir les vifs.';
+export const unArcherPeutArreterLeSerpentRare = 'Un archer peut arrêter le serpent rare de loin.';
+export const unBouclierEncaisseLesGrandsCrocs = 'Un bouclier encaisse les grands crocs.';
 export const gardeDesMassuesPresDesPassages = 'Garde des massues près des passages attaqués.';
 export const vagueNNN = 'Vague {0} : {1}. {2}';
 export const lesAutresVoiesRestentPaisibles = 'Les autres voies restent paisibles.';

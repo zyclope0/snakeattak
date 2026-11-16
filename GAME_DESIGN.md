@@ -185,6 +185,19 @@ Serpents :
 3. **Un serpent très rare, avec très peu de vie**, mais capable par exemple de tuer un
    Massue d'un seul coup.
 4. **Un serpent ninja.**
+
+   **Idées 2, 3 et 4 faites le 16 novembre 2026**, dans la grande aventure (révision
+   d'équilibrage 4 ; missions, défis et voyage ne changent pas) :
+   - « Grands crocs » : sa morsure fait deux fois plus mal. Un par vague dès la vague 8.
+   - « Serpent rare » : trois fois moins de vie qu'un serpent ordinaire, mais sa morsure
+     vaut toute la vie d'une Massue. Il vient deux fois : vagues 8 et 11.
+   - « Serpent ninja » : rapide, il esquive le premier coup (choix du parent). Un par vague
+     dès la vague 6.
+
+   Le parent a accepté qu'un joueur expert simulé gagne environ une partie sur deux.
+   **Reste à voir avec le fils** : les vrais noms (ceux-ci sont provisoires) et les dessins
+   (les images actuelles sont des serpents existants recolorés, sans dépense).
+
 5. **Des serpents « sauterelles »**, volants, qui sautent derrière nos lignes, dans le dos
    de certaines troupes.
 6. **Un plus beau dessin pour les serpents volants.**

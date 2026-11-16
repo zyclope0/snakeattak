@@ -8,6 +8,7 @@ import {
   RATTLE_COOLDOWN,
   CONFUSION_DURATION,
   CONFUSION_IMMUNITY,
+  biteDamage,
 } from '../enemyAbilities.ts';
 import { LANES } from '../ai.ts';
 import { waveStats } from '../data.ts';
@@ -125,7 +126,7 @@ function bite(game: Game, e: Entity, target: Entity, dt: number, stats: WaveNumb
       game,
       e,
       target,
-      stats.damage * (e.boss ? KING_BITE_FACTOR : enemyTypes[e.variant].damage),
+      e.boss ? stats.damage * KING_BITE_FACTOR : biteDamage(e.variant, stats.damage),
       spits,
     );
     e.cool = spits ? SPIT_INTERVAL : BITE_INTERVAL;

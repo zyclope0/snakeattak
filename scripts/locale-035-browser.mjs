@@ -811,8 +811,8 @@ try {
               .locator('#mission-threats [data-threat]')
               .evaluateAll((cards) => cards.map((card) => card.dataset.threat));
             check(
-              `${name}: all 13 threat identities rendered`,
-              threatKinds.length === 13 &&
+              `${name}: all 16 threat identities rendered`,
+              threatKinds.length === 16 &&
                 JSON.stringify(threatKinds) === JSON.stringify(renderedThreatKinds),
               renderedThreatKinds,
             );

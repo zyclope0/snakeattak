@@ -46,6 +46,7 @@ export const laVagueDureIlEclotBientot = 'This wave is taking long: it hatches s
 export const phaseNProtection = 'Phase {0}: shield up!';
 export const protectionBrisee = 'Shield broken!';
 export const clac = 'Clack!';
+export const esquive = 'Dodge!';
 export const aLaRescousse = 'Here to help!';
 export const tombe = 'Fallen';
 export const unAllieEstTombe = 'An ally has fallen';

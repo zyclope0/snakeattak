@@ -3,6 +3,7 @@ import { flyingVariant } from '../flying.ts';
 import { BOSS_COURT, COURT_HEAL } from '../bossCourt.ts';
 import { ensureBossState } from '../boss.ts';
 import type { EnemyKind } from '../enemies.ts';
+import { dodgesOf } from '../enemyAbilities.ts';
 import {
   variantFor,
   spawnDelay,
@@ -44,6 +45,8 @@ function spawnSnake(
 ) {
   const e = createEntity(game, 'snake', x, y, hp * (boss ? 1 : enemyTypes[variant].hp));
   e.variant = variant;
+  const dodges = boss ? 0 : dodgesOf(variant);
+  if (dodges) e.dodges = dodges;
   e.lane = lane;
   e.boss = boss;
   ensureBossState(e, game.tuning);
@@ -110,7 +113,7 @@ function slotVariant(
 ): EnemyKind {
   if (boss) return 'normal';
   if (plan) return plan.composition[index];
-  const base = variantFor(game.wave, game.remaining);
+  const base = variantFor(game.wave, game.remaining, game.balanceRevision);
   return game.tuning.tacticalRulesEnabled
     ? flyingVariant(base, game.difficultyWave, game.remaining)
     : base;

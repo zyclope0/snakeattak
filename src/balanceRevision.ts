@@ -7,12 +7,17 @@ import * as TEXT from './texts/fr/battle.ts';
  * and an old save replay exactly as they did.
  *   1  the first balance              2  three prices lowered (10 November 2026)
  *   3  an egg when a wave drags on, in the great adventure (15 November 2026)
+ *   4  three new snakes in the great adventure (16 November 2026)
  */
-export const BALANCE_REVISIONS = [1, 2, 3] as const;
+export const BALANCE_REVISIONS = [1, 2, 3, 4] as const;
 export type BalanceRevision = (typeof BALANCE_REVISIONS)[number];
-export const CURRENT_BALANCE_REVISION: BalanceRevision = 3;
+export const CURRENT_BALANCE_REVISION: BalanceRevision = 4;
 export const isBalanceRevision = (value: unknown): value is BalanceRevision =>
   (BALANCE_REVISIONS as readonly unknown[]).includes(value);
+/** From the third on, a revision exists in the great adventure only: no expedition has it. */
+export type ClassicRevision = Exclude<BalanceRevision, 1 | 2>;
+export const isClassicRevision = (value: unknown): value is ClassicRevision =>
+  isBalanceRevision(value) && value >= 3;
 /** Historical prices remain the default for callers replaying an old departure. */
 export function balanceRecruitPrice(kind: Kind, revision: BalanceRevision = 1): number {
   if (!isBalanceRevision(revision)) throw new RangeError(TEXT.revisionInvalide);

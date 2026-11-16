@@ -1,4 +1,5 @@
 import type { EnemyKind } from './enemies.ts';
+import type { BalanceRevision } from './balanceRevision.ts';
 import { chapterIndexForWave } from './levels.ts';
 import * as TEXT from './texts/fr/snakes.ts';
 import { LANE_COUNT, TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
@@ -68,7 +69,34 @@ export function entryLane(wave: number, index: number, picked: number): number {
 export function eggIncubation(wave: number, index: number, roll: number): number {
   return wavePattern(wave) === 'brood' ? 6 + index * 6 + roll * 3 : 7 + roll * 8;
 }
-export function variantFor(wave: number, index: number): EnemyKind {
+/**
+ * The newcomers of the fourth balance revision (ideas of the child; places and waves agreed
+ * with the parent in the night of 15 to 16 November 2026 after 4 800 simulated games). Each takes one place of
+ * a wave, counted as `variantFor` counts, and only from a plain snake: the specialists of a
+ * wave and its briefing stay as they were.
+ */
+export const NEWCOMERS = Object.freeze({
+  /** One ninja snake per wave from this wave on. */
+  ninja: { place: 10, fromWave: 6 },
+  /** One snake with big fangs per wave from this wave on. */
+  fang: { place: 13, fromWave: 8 },
+  /** The rare snake comes twice in an adventure. */
+  rare: { place: 14, waves: [8, 11] as readonly number[] },
+});
+const isPlain = (kind: EnemyKind) => kind === 'normal' || kind === 'runner' || kind === 'armored';
+function newcomer(wave: number, index: number): EnemyKind | null {
+  const { ninja, fang, rare } = NEWCOMERS;
+  if (index === rare.place && rare.waves.includes(wave)) return 'rare';
+  if (index === fang.place && wave >= fang.fromWave) return 'fang';
+  if (index === ninja.place && wave >= ninja.fromWave) return 'shadow';
+  return null;
+}
+/** The snake of one place of a wave; before the fourth revision, exactly `historicVariant`. */
+export function variantFor(wave: number, index: number, revision: BalanceRevision = 1): EnemyKind {
+  const base = historicVariant(wave, index);
+  return revision >= 4 && isPlain(base) ? (newcomer(wave, index) ?? base) : base;
+}
+function historicVariant(wave: number, index: number): EnemyKind {
   // Game passes the remaining count, so larger indices arrive first. Swapping
   // existing slots preserves specialist counts and each slot's x1.6 HP class.
   if (wave === 7) index = index === 8 ? 11 : index === 11 ? 8 : index;
