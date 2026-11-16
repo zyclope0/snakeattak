@@ -10,7 +10,8 @@ Conserver le jeu à `/` et son stockage existant. Ajouter des pages HTML statiqu
 lisibles sans JavaScript, liées entre elles et au jeu, et réutilisent les images et polices
 locales déjà autorisées. Aucune nouvelle génération, aucun traceur ni compte enfant.
 
-Le jeu reçoit des métadonnées et des liens discrets vers ces pages. La politique approuvée
+Le jeu reçoit des métadonnées et des liens discrets vers ces pages dans la rubrique
+parents, sans agrandir le pied de son accueil. La politique approuvée
 reste strictement intacte. Les liens de soutien, quand ils seront activés explicitement,
 seront réservés aux pages parents et au pied des pages publiques, avec avertissement de
 paiement externe et sans contrepartie de jeu. Aucun bouton vide, paiement intégré,

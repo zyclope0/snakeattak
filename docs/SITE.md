@@ -37,7 +37,7 @@ FR/EN de `deploy/discoveryCopy.ts` sont générées par `deploy/discovery.ts` : 
 un titre et une description propres, canonical, liens linguistiques réciproques, Open Graph,
 image de partage existante et données structurées WebPage factuelles, sans notes inventées.
 Elles réutilisent les polices et illustrations locales autorisées, sans nouvelle génération,
-script de suivi, cookie ni appel de régie. Le pied de l'accueil du jeu permet de les trouver.
+script de suivi, cookie ni appel de régie. La rubrique parents du jeu permet de les trouver.
 La politique approuvée n'est pas modifiée. Aucune publicité dans ce lot.
 
 Les pages statiques peuvent être lues sans JavaScript, en portrait comme en paysage.

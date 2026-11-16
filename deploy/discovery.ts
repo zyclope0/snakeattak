@@ -164,10 +164,12 @@ export function augmentGamePage(html: string, supportUrl = SUPPORT_URL): string 
   const meta = `<meta name="description" content="Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés."><link rel="canonical" href="${SITE_ORIGIN}/">`;
   const links =
     '<nav data-copy-raw aria-label="À propos / About"><a href="/fr/" lang="fr">Français</a> · <a href="/en/" lang="en">English</a></nav>';
+  // The game footer is a deliberately tiny status line. Its generic anchor styles would
+  // enlarge it and shrink the hero. Keep public links in the scrollable parents area.
   let result = html
     .replace('</head>', meta + '</head>')
     .replace(
-      /(<footer class="home-footer">[\s\S]*?)(<\/footer>)/,
+      /(<details id="home-parent-options"[\s\S]*?)(<\/details>)/,
       (_, start, end) => start + links + end,
     );
   const support = supportLink('fr', supportUrl);

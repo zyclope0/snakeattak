@@ -84,7 +84,7 @@ test('support rejects unsafe URLs, credentials, and unsafe HTML payloads', () =>
 
 test('only the Web gets public metadata and links; game markup and saves remain in place', () => {
   const shell =
-    '<html><head><title>Game</title></head><body><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
+    '<html><head><title>Game</title></head><body><details id="home-parent-options"></details><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
   const html = augmentGamePage(shell);
   assert.match(html, /name="description"/);
   assert.ok(html.includes(`rel="canonical" href="${SITE_ORIGIN}/"`));
@@ -100,4 +100,14 @@ test('a payment URL containing replacement tokens cannot duplicate game markup',
   const html = augmentGamePage(shell, 'https://example.com/support/$&');
   assert.equal((html.match(/id="camp-marker"/g) ?? []).length, 1);
   assert.ok(html.includes('href="https://example.com/support/$&amp;"'));
+});
+
+test('Web discovery links stay in the scrollable parents area without enlarging the game footer', () => {
+  const footer = '<footer class="home-footer"><span id="career-status">Local</span></footer>';
+  const shell = `<html><head></head><body><details id="home-parent-options"><section>Parents</section></details>${footer}</body></html>`;
+  const html = augmentGamePage(shell);
+  assert.ok(html.includes(footer), 'the original game footer remains unchanged');
+  const parents = html.split('<details id="home-parent-options">')[1].split('</details>')[0];
+  assert.match(parents, /href="\/fr\/"/);
+  assert.match(parents, /href="\/en\/"/);
 });
