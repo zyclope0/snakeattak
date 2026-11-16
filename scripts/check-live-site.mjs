@@ -7,6 +7,7 @@ import { privacyPageHtml } from '../deploy/privacyPage.ts';
 import { PRIVACY_FOLDER, SITE_HOST, SITE_ORIGIN } from '../src/site.ts';
 import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
 import { discoveryRobots, discoverySitemap } from '../deploy/discovery.ts';
+import { adSenseAdsTxt, adSenseVerificationMeta } from '../deploy/adsenseVerification.ts';
 
 const origin = (process.argv[2] ?? SITE_ORIGIN).replace(/\/$/, '');
 const commit = process.argv[3] ?? '';
@@ -26,6 +27,11 @@ const home = await get(`${origin}/`);
 const page = await home.text();
 expect(home.status === 200, `${origin}/ answers 200 (${home.status})`);
 expect(page.includes(`v${version}`), `the page is version ${version}`);
+expect(
+  page.includes(adSenseVerificationMeta()),
+  'the page verifies the owner-supplied AdSense account',
+);
+expect(!/adsbygoogle|googlesyndication/.test(page), 'verification loads no advertising script');
 for (const [name, value] of Object.entries(webHeaders))
   expect(home.headers.get(name) === value, `header ${name} on the page`);
 const script = /src="\.\/(assets\/[^"]+\.js)"/.exec(page)?.[1];
@@ -86,6 +92,7 @@ for (const item of DISCOVERY_PAGES) {
 for (const [path, expected] of [
   ['/sitemap.xml', discoverySitemap()],
   ['/robots.txt', discoveryRobots()],
+  ['/ads.txt', adSenseAdsTxt()],
 ]) {
   const response = await get(origin + path);
   expect(

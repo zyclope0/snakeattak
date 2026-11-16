@@ -101,6 +101,35 @@ Android utilise `dist-android/`, excluant toutes ces pages et liens. Les paquets
 construits restent intacts. Recette : `npm run test:discovery`, plus les contrôles des deux
 compilations et le workflow de publication qui relit chaque page et le sitemap en ligne.
 
+### Liaison AdSense — aucune diffusion à cette étape
+
+Le parent a choisi AdSense comme fournisseur automatique et a communiqué son ID
+public `pub-8498417364292905`. Au dernier état communiqué, snakeattacktd.com n’est
+pas encore ajouté dans son compte. Cette étape publie uniquement :
+
+- Dans le head de `/`, la meta `google-adsense-account` pour `ca-pub-8498417364292905`.
+- `/ads.txt` : `google.com, pub-8498417364292905, DIRECT, f08c47fec0942fa0`.
+
+La source est `deploy/adsenseVerification.ts` ; ces éléments sont injectés uniquement
+par le build Web. Aucun script publicitaire, slot, cookie, requête vers Google,
+assouplissement de CSP ou modification de la politique approuvée. Le jeu reste
+actuellement sans annonces et l’APK reste hors périmètre. Ne pas confondre liaison
+technique, approbation du site par Google et activation des annonces.
+
+Dans AdSense : Sites → Ajouter un site → `snakeattacktd.com` → validation par Meta
+(ou ads.txt si l’interface la propose) → Valider → Demander un examen. Le parent
+termine les informations du compte directement dans Google si nécessaire. Aucun
+mot de passe ou document personnel à transmettre à Codex. La publication du code
+ne prouve pas que ces actions ont été faites ou que Google a approuvé le site.
+
+La diffusion réelle sera un autre passage : emplacement manuel sur la page du jeu,
+traitement enfant, gestion des données/consentements, textes FR/EN de confidentialité
+et des pages parents revus et approuvés, recette avant activation. Les annonces qui
+choisissent automatiquement leurs emplacements restent désactivées. Les pubs ne
+seront pas ajoutées dans les remerciements. Sur S24, préserver l’espace de combat.
+
+[Choix et sources](superpowers/specs/2026-11-16-adsense-verification-design.md).
+
 - **Adresse unique** : `http://` et `www.` sont renvoyés vers `https://snakeattacktd.com`.
   La règle HTTPS interroge `%{HTTPS}` et `X-Forwarded-Proto`, comme le
   [guide d'Infomaniak](https://www.infomaniak.com/fr/support/faq/1961/forcer-le-https-ssl-de-lurl-affichee-par-le-navigateur-web)

@@ -1,4 +1,5 @@
 import { SITE_ORIGIN } from '../src/site.ts';
+import { adSenseVerificationMeta } from './adsenseVerification.ts';
 import { DISCOVERY_PAGES, type DiscoveryPage } from './discoveryCopy.ts';
 
 /** Public destination and bilingual privacy wording approved on 16 November 2026. */
@@ -167,7 +168,7 @@ export function augmentGamePage(html: string): string {
   const inline = 'style="display:inline;min-height:0;padding:0"';
   const links = `<nav data-home-page="home" style="display:flex;gap:12px" data-copy-raw aria-label="À propos / About"><a ${inline} href="/fr/" lang="fr">À propos</a><a ${inline} href="/en/" lang="en">About</a></nav>`;
   const result = html
-    .replace('</head>', meta + '</head>')
+    .replace('</head>', meta + adSenseVerificationMeta() + '</head>')
     .replace(
       /(<footer class="home-footer">[\s\S]*?)(<\/footer>)/,
       (_, start, end) => start + links + end,
