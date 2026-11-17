@@ -4,6 +4,7 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 import {
   webHeaders,
   legacyPolicy,
+  PROTOTYPE_ROBOTS,
   assetCache,
   hostHeadersFile,
   apacheConfig,
@@ -18,7 +19,7 @@ import {
   discoveryRobots,
   discoverySitemap,
 } from './deploy/discovery.ts';
-import { writeDiscoveryAssets } from './deploy/discoveryAssets.ts';
+import { gamePagePictures, writeDiscoveryAssets } from './deploy/discoveryAssets.ts';
 import { adSenseAdsTxt } from './deploy/adsenseVerification.ts';
 
 export default defineConfig(({ mode }) => {
@@ -48,16 +49,24 @@ export default defineConfig(({ mode }) => {
         name: 'distribution-documents',
         transformIndexHtml(html) {
           // Keep the editable HTML readable without shipping its indentation.
-          const page = html.replaceAll('__APP_VERSION__', appVersion).replace(/^[ \t]+/gm, '');
-          return website ? augmentGamePage(page) : page;
+          // A line break before the end of a tag and the slash of an empty element are
+          // formatting too: neither changes what the browser builds.
+          const page = html
+            .replaceAll('__APP_VERSION__', appVersion)
+            .replace(/^[ \t]+/gm, '')
+            .replace(/\n(\/?>)/g, '$1')
+            .replace(/<(img|input|br|meta|link|hr)\b([^>]*?)\s*\/>/g, '<$1$2>');
+          return website ? augmentGamePage(page, gamePagePictures()) : page;
         },
         configurePreviewServer(server) {
           server.middlewares.use((req, res, next) => {
             for (const [key, value] of Object.entries(webHeaders)) res.setHeader(key, value);
             const path = new URL(req.url ?? '/', 'http://localhost').pathname;
             if (path.startsWith('/assets/')) res.setHeader('Cache-Control', assetCache);
-            if (path.endsWith('/prototype-v4.html'))
+            if (path.endsWith('/prototype-v4.html')) {
               res.setHeader('Content-Security-Policy', legacyPolicy);
+              res.setHeader('X-Robots-Tag', PROTOTYPE_ROBOTS);
+            }
             next();
           });
         },

@@ -220,7 +220,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'New snakes in the classic adventure',
-        text: 'Grands crocs, serpent rare and serpent ninja join the classic adventure. Older saves and codes keep their own revision: an update does not rewrite a game already in progress.',
+        text: 'Big Fangs, the Rare Snake and the Ninja Snake join the classic adventure. Older saves and codes keep their own revision: an update does not rewrite a game already in progress.',
       },
       {
         heading: 'On the Web and Android',

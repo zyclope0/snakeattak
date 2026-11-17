@@ -42,6 +42,9 @@ try {
     { width: 1280, height: 800 },
     { width: 780, height: 360 },
     { width: 375, height: 812 },
+    // The two tightest phones: a small one upright, a small one on its side.
+    { width: 360, height: 640 },
+    { width: 667, height: 375 },
   ]) {
     const context = await browser.newContext({
       viewport,
@@ -83,6 +86,21 @@ try {
         width.scroll <= width.client + 1,
         `${item.path}: horizontal overflow at ${viewport.width}`,
       );
+      // The way to the game is on the first screen, and a finger finds every link.
+      const reach = await page.evaluate(() => {
+        const box = (n) => n.getBoundingClientRect();
+        const shown = (n) => box(n).width > 0 && box(n).height > 0;
+        const links = [...document.querySelectorAll('a:not(.skip)')].filter(shown);
+        return {
+          play: links.some((n) => n.classList.contains('play') && box(n).bottom <= innerHeight),
+          small: links
+            .filter((n) => box(n).height < 48)
+            .map((n) => `${n.textContent.trim()} ${Math.round(box(n).height)}`),
+        };
+      });
+      const where = `${item.path} at ${viewport.width}×${viewport.height}`;
+      assert.ok(reach.play, `${where}: the button to play is on the first screen`);
+      assert.deepEqual(reach.small, [], `${where}: every link is at least 48 px high`);
       for (const img of await page.locator('img').all()) {
         await img.scrollIntoViewIfNeeded();
         assert.ok(
@@ -159,6 +177,17 @@ try {
     await page.locator('#home-screen:not([hidden])').waitFor({ timeout: 30000 });
     const footer = await page.locator('.home-footer').boundingBox();
     assert.ok(footer && footer.height <= 20, 'discovery keeps the game footer on one line');
+    // One link, in the language of the game, as large as the corner under the menu allows.
+    const about = page.locator('.home-footer .about a:visible');
+    assert.equal(await about.count(), 1);
+    assert.equal(await about.getAttribute('href'), '/fr/');
+    const hit = await about.boundingBox();
+    const menu = await page.locator('#home-parents').boundingBox();
+    assert.ok(hit.width >= 96 && hit.height >= 27, `about link ${hit.width}×${hit.height}`);
+    assert.ok(hit.y >= menu.y + menu.height - 0.5, 'the about link does not cover the menu');
+    assert.ok(hit.y + hit.height <= viewport.height + 0.5);
+    // The title keeps both names, whatever language the game speaks.
+    assert.equal(await page.title(), 'La Conquête des Serpents · Snake Attack TD');
     await page.locator('#home-parents').click();
     assert.ok(
       await page.locator('.home-footer nav').isHidden(),

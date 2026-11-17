@@ -1,8 +1,20 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { WEB_HEAD_BUDGET, webHeadBytes } from '../deploy/discovery.ts';
+import { gamePagePictures } from '../deploy/discoveryAssets.ts';
+import { laConqueteDesSerpents } from '../src/texts/fr/page.ts';
+
 const root = process.argv[2] ?? 'dist';
 const html = await readFile(`${root}/index.html`, 'utf8');
-assert.ok(Buffer.byteLength(html) < 32768, 'HTML shell exceeds 32 KiB');
+// The website adds its own head to the page (names for search engines, icons, a link to
+// the public pages). It is counted apart: the page of the game keeps its 32 KiB.
+const webHead = existsSync(`${root}/sitemap.xml`)
+  ? webHeadBytes(laConqueteDesSerpents, gamePagePictures())
+  : 0;
+assert.ok(webHead <= WEB_HEAD_BUDGET, `Website head exceeds ${WEB_HEAD_BUDGET} bytes`);
+const shellBytes = Buffer.byteLength(html) - webHead;
+assert.ok(shellBytes < 32768, 'HTML shell exceeds 32 KiB');
 assert.match(html, /<script[^>]+src="\.\/assets\//);
 assert.doesNotMatch(html, /data:image\//, 'Images must be separately cached');
 const files = await readdir(`${root}/assets`);
@@ -39,4 +51,10 @@ assert.match(
   /RewriteEngine On/,
   'Apache configuration',
 );
-console.log(JSON.stringify({ htmlBytes: Buffer.byteLength(html), assets: report }, null, 2));
+console.log(
+  JSON.stringify(
+    { htmlBytes: Buffer.byteLength(html), shellBytes, webHead, assets: report },
+    null,
+    2,
+  ),
+);
