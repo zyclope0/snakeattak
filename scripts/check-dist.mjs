@@ -3,15 +3,12 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { WEB_HEAD_BUDGET, webHeadBytes } from '../deploy/discovery.ts';
 import { gamePagePictures } from '../deploy/discoveryAssets.ts';
-import { laConqueteDesSerpents } from '../src/texts/fr/page.ts';
 
 const root = process.argv[2] ?? 'dist';
 const html = await readFile(`${root}/index.html`, 'utf8');
 // The website adds its own head to the page (names for search engines, icons, a link to
 // the public pages). It is counted apart: the page of the game keeps its 32 KiB.
-const webHead = existsSync(`${root}/sitemap.xml`)
-  ? webHeadBytes(laConqueteDesSerpents, gamePagePictures())
-  : 0;
+const webHead = existsSync(`${root}/sitemap.xml`) ? webHeadBytes(gamePagePictures()) : 0;
 assert.ok(webHead <= WEB_HEAD_BUDGET, `Website head exceeds ${WEB_HEAD_BUDGET} bytes`);
 const shellBytes = Buffer.byteLength(html) - webHead;
 assert.ok(shellBytes < 32768, 'HTML shell exceeds 32 KiB');

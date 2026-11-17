@@ -126,9 +126,8 @@ test('only the Web gets public metadata and links; game markup and saves remain 
     '<html><head><title>Game</title></head><body><details id="home-parent-options"></details><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
   const html = augmentGamePage(shell, pictures);
   assert.match(html, /name="description"/);
-  // Both names and both languages, kept as written whatever language the game switches to.
-  assert.ok(html.includes(`<title data-copy-raw>${GAME_PAGE.title}</title>`));
-  assert.equal(GAME_PAGE.title, 'La Conquête des Serpents · Snake Attack TD');
+  // The title stays the game's own, in the player's language; the description holds both.
+  assert.match(html, /<title>Game<\/title>/);
   assert.match(GAME_PAGE.description, /^Jeu de défense gratuit .* Free defense game: /);
   assert.ok(html.includes(`<link rel="apple-touch-icon" href="${pictures.touch}">`));
   assert.ok(html.includes(`property="og:image" content="${SITE_ORIGIN}${pictures.share}"`));
@@ -144,12 +143,12 @@ test('only the Web gets public metadata and links; game markup and saves remain 
 });
 
 test('what the website adds to the game page is counted and bounded', () => {
-  const title = 'La Conquête des Serpents';
-  const added = webHeadBytes(title, pictures);
+  const added = webHeadBytes(pictures);
   assert.ok(added > 0 && added <= WEB_HEAD_BUDGET, `${added} octets`);
   assert.equal(WEB_HEAD_BUDGET, 1024);
   // The count is exact on a real page: the same bytes whatever the page holds.
-  const page = `<html><head><title>${title}</title></head><body><main>Jeu</main><footer class="home-footer"><span>Local</span></footer></body></html>`;
+  const page =
+    '<html><head><title>Jeu</title></head><body><main>Jeu</main><footer class="home-footer"><span>Local</span></footer></body></html>';
   assert.equal(Buffer.byteLength(augmentGamePage(page, pictures)) - Buffer.byteLength(page), added);
 });
 

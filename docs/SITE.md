@@ -80,12 +80,12 @@ approuvés (politique de confidentialité, soutien) :
   une zone de 96×27 px : c'est toute la place sous le menu sans ajouter de ligne. **Elle
   reste sous les 48 px de haut** ; l'atteindre demande de déplacer ce lien (décision du
   parent).
-- **Page du jeu (`/`).** Son titre porte les deux noms, « La Conquête des Serpents · Snake
-  Attack TD », et ne change plus avec la langue du jeu (`data-copy-raw`) : un moteur de
-  recherche, qui n'annonce pas de langue, lisait un titre anglais et une description
-  française. La description est dans les deux langues. La page nomme maintenant son image de
-  partage, le nom du site et une icône pour l'écran d'accueil d'un téléphone
-  (`GAME_PAGE`, `augmentGamePage`).
+- **Page du jeu (`/`).** Elle nomme maintenant son image de partage, le nom du site et une
+  icône pour l'écran d'accueil d'un téléphone (`GAME_PAGE`, `augmentGamePage`). Sa
+  description est dans les deux langues : le jeu écrit son titre dans la langue du joueur,
+  et un moteur de recherche, qui n'annonce pas de langue, lisait un titre anglais avec une
+  description française. Le titre lui-même ne change pas : la recette de langue tient à ce
+  qu'il suive la langue du jeu.
 - **Images légères.** `scripts/export-site-icons.py` tire de l'icône de 512 px (356 Ko) une
   image de page de 31 Ko, un logo de 18 Ko, une icône d'onglet de 6 Ko, une icône d'écran
   d'accueil et `favicon.ico`. L'icône de 512 px ne sert plus qu'à l'aperçu d'un lien partagé.
@@ -98,7 +98,7 @@ approuvés (politique de confidentialité, soutien) :
 - **Budget de la page du jeu.** Il restait 62 octets sur 32 768. Deux formats sans effet sur
   la page sont retirés au build (saut de ligne avant la fin d'une balise, barre des éléments
   vides) et ce que le site ajoute à la page est compté à part : `WEB_HEAD_BUDGET`, 1 024
-  octets, dont 734 utilisés. La page du jeu elle-même pèse 32 085 octets sur 32 768
+  octets, dont 701 utilisés. La page du jeu elle-même pèse 32 085 octets sur 32 768
   (`scripts/check-dist.mjs`).
 
 Non vérifié : le site en ligne n'était pas joignable depuis l'environnement de la revue ;

@@ -170,9 +170,12 @@ export function discoveryRobots(): string {
   return `User-agent: *\nAllow: /\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`;
 }
 
-/** The game page as search engines and shared links name it: both names, both languages. */
+/**
+ * The game page as search engines and shared links describe it. The game writes its title
+ * in the player's language (« La Conquête des Serpents », "Snake Attack TD"); a search
+ * engine states no language and may read either, so the description holds both.
+ */
 export const GAME_PAGE = {
-  title: 'La Conquête des Serpents · Snake Attack TD',
   description:
     'Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés. Free defense game: protect the crystal on three lanes with your allies.',
 } as const;
@@ -184,17 +187,14 @@ export const GAME_PAGE = {
  * grow by hiding in the other.
  */
 export const WEB_HEAD_BUDGET = 1024;
-/** The bytes `augmentGamePage` adds to a page whose title is `shellTitle`. */
-export function webHeadBytes(shellTitle: string, pictures: { share: string; touch: string }) {
-  const shell = `<head><title>${shellTitle}</title></head><footer class="home-footer"></footer>`;
+/** The bytes `augmentGamePage` adds to a page: the same whatever the page holds. */
+export function webHeadBytes(pictures: { share: string; touch: string }) {
+  const shell = '<head></head><footer class="home-footer"></footer>';
   return Buffer.byteLength(augmentGamePage(shell, pictures)) - Buffer.byteLength(shell);
 }
 
 /** Applied at build time on the website only. No storage, redirects or game rules. */
 export function augmentGamePage(html: string, pictures: { share: string; touch: string }): string {
-  // The game sets its title in the player's language; a search engine, which states no
-  // language, must find the same words at every visit: `data-copy-raw` keeps them as written.
-  const title = `<title data-copy-raw>${GAME_PAGE.title}</title>`;
   const meta =
     `<meta name="description" content="${GAME_PAGE.description}">` +
     `<link rel="canonical" href="${SITE_ORIGIN}/">` +
@@ -205,7 +205,6 @@ export function augmentGamePage(html: string, pictures: { share: string; touch: 
   // status footer gains no row.
   const links = `<nav class="about" data-home-page="home" data-copy-raw aria-label="À propos / About"><a href="/fr/" lang="fr">À propos</a><a href="/en/" lang="en">About</a></nav>`;
   const result = html
-    .replace(/<title>[^<]*<\/title>/, title)
     .replace('</head>', meta + adSenseVerificationMeta() + '</head>')
     .replace(
       /(<footer class="home-footer">[\s\S]*?)(<\/footer>)/,

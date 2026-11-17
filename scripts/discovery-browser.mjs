@@ -186,8 +186,8 @@ try {
     assert.ok(hit.width >= 96 && hit.height >= 27, `about link ${hit.width}×${hit.height}`);
     assert.ok(hit.y >= menu.y + menu.height - 0.5, 'the about link does not cover the menu');
     assert.ok(hit.y + hit.height <= viewport.height + 0.5);
-    // The title keeps both names, whatever language the game speaks.
-    assert.equal(await page.title(), 'La Conquête des Serpents · Snake Attack TD');
+    // The title stays the name of the game in the player's language.
+    assert.equal(await page.title(), 'La Conquête des Serpents');
     await page.locator('#home-parents').click();
     assert.ok(
       await page.locator('.home-footer nav').isHidden(),
