@@ -1,0 +1,35 @@
+/* Website only, and only when advertising is switched on (contract.ts). */
+.app.web-ad-shifted {
+  position: relative;
+  left: var(--web-ad-shift, 0px);
+}
+#web-ad {
+  position: fixed;
+  box-sizing: border-box;
+  padding: 11px;
+  border: 1px solid #bac2bc;
+  border-radius: 8px;
+  background: #fafbf9;
+  color: #46524b;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1;
+}
+#web-ad[hidden] {
+  display: none;
+}
+/* Named as what it is, in the letters of the game, large enough for a child to read. */
+.web-ad-label {
+  font:
+    600 14px/18px Fredoka,
+    'Segoe UI',
+    sans-serif;
+  height: 18px;
+  flex: 0 0 18px;
+  white-space: nowrap;
+}
+#web-ad ins {
+  display: inline-block;
+  flex: none;
+}

@@ -5,6 +5,8 @@ import {
   webHeaders,
   legacyPolicy,
   PROTOTYPE_ROBOTS,
+  adsGamePagePolicy,
+  isGamePage,
   assetCache,
   hostHeadersFile,
   apacheConfig,
@@ -21,23 +23,37 @@ import {
 } from './deploy/discovery.ts';
 import { gamePagePictures, writeDiscoveryAssets } from './deploy/discoveryAssets.ts';
 import { adSenseAdsTxt } from './deploy/adsenseVerification.ts';
+import { AD_SCRIPT_URL, WEB_AD_DELIVERY } from './src/ui/webAds/contract.ts';
+
+/** The stand-in the recipe answers itself: no request ever leaves the machine. */
+const AD_TEST_SCRIPT = './fake-ads.js';
 
 export default defineConfig(({ mode }) => {
   const portable = mode === 'portable';
   const adPreview = mode === 'ads-preview';
+  // A build for the recipe only: the ad box is on, and asks a stand-in script on this site.
+  const adTest = mode === 'ads-test';
   const website = !portable && mode !== 'android';
+  // The ad box exists in the published site only when advertising is switched on.
+  const webAds = adTest || (mode === 'production' && WEB_AD_DELIVERY === 'enabled');
   const outDir = portable
     ? 'dist-portable'
     : mode === 'android'
       ? 'dist-android'
       : adPreview
         ? 'dist-ads-preview'
-        : 'dist';
+        : adTest
+          ? 'dist-ads-test'
+          : 'dist';
   const appVersion = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
     .version as string;
   return {
     base: './',
     publicDir: false,
+    define: {
+      __WEB_ADS__: JSON.stringify(webAds),
+      __WEB_AD_SCRIPT__: JSON.stringify(adTest ? AD_TEST_SCRIPT : AD_SCRIPT_URL),
+    },
     plugins: [
       ...(portable ? [viteSingleFile()] : []),
       {
@@ -62,6 +78,8 @@ export default defineConfig(({ mode }) => {
           server.middlewares.use((req, res, next) => {
             for (const [key, value] of Object.entries(webHeaders)) res.setHeader(key, value);
             const path = new URL(req.url ?? '/', 'http://localhost').pathname;
+            if (webAds && isGamePage(path))
+              res.setHeader('Content-Security-Policy', adsGamePagePolicy);
             if (path.startsWith('/assets/')) res.setHeader('Cache-Control', assetCache);
             if (path.endsWith('/prototype-v4.html')) {
               res.setHeader('Content-Security-Policy', legacyPolicy);
@@ -76,7 +94,7 @@ export default defineConfig(({ mode }) => {
           copyFileSync('public/FONT-LICENCES.txt', `${outDir}/FONT-LICENCES.txt`);
           if (portable) return;
           writeFileSync(`${outDir}/_headers`, hostHeadersFile());
-          writeFileSync(`${outDir}/.htaccess`, apacheConfig());
+          writeFileSync(`${outDir}/.htaccess`, apacheConfig(webAds));
           // The public privacy policy: a page of plain HTML beside the game, from the same
           // source as the window of the application.
           mkdirSync(`${outDir}/${PRIVACY_FOLDER}`, { recursive: true });

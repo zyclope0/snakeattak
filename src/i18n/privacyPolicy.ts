@@ -41,6 +41,14 @@ export const POLICY_APP = { version: '0.38.0', build: 62 };
  * was not on the page first published.
  */
 export const WEBSITE_HEADING = { fr: 'Site web', en: 'Website' } as const;
+/**
+ * The section about advertising on the website, approved by the publisher on 17 November
+ * 2026 with two sentences reworded elsewhere (`tests/fixtures/publicite-web-approuvee-…`).
+ */
+export const WEB_ADS_HEADING = {
+  fr: 'Publicité sur le site Web',
+  en: 'Advertising on the website',
+} as const;
 
 export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
   fr: {
@@ -50,14 +58,14 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Éditeur ',
       { b: 'zyclope' },
     ],
-    updated: 'Mise à jour : 16 novembre 2026',
+    updated: 'Mise à jour : 17 novembre 2026',
     publicLink: `Lire cette politique sur ${SITE_HOST}`,
     sections: [
       {
         heading: 'Données de jeu sur votre appareil',
         paragraphs: [
           [
-            'Vous pouvez jouer sans créer de compte et sans connexion Internet pour les parties. Le jeu permet de créer jusqu’à quatre profils locaux sur le même appareil. Chaque profil peut avoir un personnage et un surnom facultatif. La progression, les parties sauvegardées, les autocollants, les favoris et les réglages restent sur l’appareil. zyclope ne reçoit pas ces données par l’application. Cette version ne contient ni publicité, ni achat intégré, ni outil de mesure d’audience ajouté par l’éditeur.',
+            'Vous pouvez jouer sans créer de compte et sans connexion Internet pour les parties. Le jeu permet de créer jusqu’à quatre profils locaux sur le même appareil. Chaque profil peut avoir un personnage et un surnom facultatif. La progression, les parties sauvegardées, les autocollants, les favoris et les réglages restent sur l’appareil. zyclope ne reçoit pas ces données par l’application. L’application Android ne contient ni publicité, ni achat intégré, ni outil de mesure d’audience ajouté par l’éditeur. Sur grand écran, le site Web peut afficher un encart publicitaire : voir « Publicité sur le site Web ».',
           ],
           [
             'Le jeu garde ces informations pour reprendre la partie et retrouver les réglages. Lorsqu’il existe plusieurs profils, vous pouvez supprimer un profil dans l’espace « Pour les parents ». Le dernier profil ne peut pas être supprimé depuis ce menu. Pour effacer toutes les données du jeu, utilisez les réglages Android. La désinstallation peut aussi supprimer les données locales. Ces actions ne suppriment pas les fichiers déjà exportés ni les copies conservées ailleurs.',
@@ -92,7 +100,29 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
         heading: WEBSITE_HEADING.fr,
         paragraphs: [
           [
-            `Le site ${SITE_HOST} est hébergé par Infomaniak, en Suisse. Comme tout serveur Web, l’hébergeur enregistre dans des journaux techniques l’adresse IP, la date, la page demandée et le navigateur des visiteurs, pour faire fonctionner et protéger le service. Ces journaux sont conservés quelques jours par l’hébergeur. zyclope ne les utilise pas pour suivre les visiteurs et le site ne dépose aucun cookie.`,
+            `Le site ${SITE_HOST} est hébergé par Infomaniak, en Suisse. Comme tout serveur Web, l’hébergeur enregistre dans des journaux techniques l’adresse IP, la date, la page demandée et le navigateur des visiteurs, pour faire fonctionner et protéger le service. Ces journaux sont conservés quelques jours par l’hébergeur. zyclope ne les utilise pas pour suivre les visiteurs et ne dépose aucun cookie. Lorsque l’encart publicitaire s’affiche, Google en dépose un : voir « Publicité sur le site Web ».`,
+          ],
+        ],
+      },
+      {
+        heading: WEB_ADS_HEADING.fr,
+        paragraphs: [
+          [
+            "Sur un grand écran d'ordinateur, la page du jeu du site peut afficher un seul encart publicitaire, à l'écart du plateau et des commandes. Il n'y a aucune publicité sur téléphone ni dans l'application Android. L'encart est fourni par Google AdSense.",
+          ],
+          [
+            "Le site est déclaré à Google comme destiné aux enfants : les annonces ne sont pas personnalisées et ne reposent ni sur un profil ni sur l'historique de navigation. Les catégories d'annonces sensibles sont bloquées dans le compte ; zyclope ne peut toutefois pas voir chaque annonce avant qu'elle s'affiche.",
+          ],
+          [
+            "Pour afficher une annonce, le navigateur contacte les serveurs de Google, qui reçoivent l'adresse IP, des informations techniques sur le navigateur et l'appareil, et l'adresse de la page. Google dépose aussi un cookie technique et utilise le stockage local du navigateur dans le seul but de détecter le trafic frauduleux. Ces traitements sont effectués par Google, selon ses propres règles : ",
+            {
+              a: "Comment Google utilise les informations provenant de sites ou d'applications qui utilisent ses services",
+              href: 'https://policies.google.com/technologies/partner-sites?hl=fr',
+            },
+            '.',
+          ],
+          [
+            "Vous pouvez couper la publicité sur cet appareil dans l'espace « Pour les parents » du jeu : le site ne contacte alors plus Google pour des annonces. Le jeu ne transmet à Google ni les profils, ni les surnoms, ni les sauvegardes.",
           ],
         ],
       },
@@ -144,14 +174,14 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Publisher ',
       { b: 'zyclope' },
     ],
-    updated: 'Last updated: November 16, 2026',
+    updated: 'Last updated: November 17, 2026',
     publicLink: `Read this policy on ${SITE_HOST}`,
     sections: [
       {
         heading: 'Game data on your device',
         paragraphs: [
           [
-            'You can play offline without creating a player account. The game supports up to four local player profiles on one device. Each profile can have a character and an optional nickname. Progress, saved games, stickers, favorites, and settings stay on the device. The app does not send this data to zyclope. This version contains no ads, in-app purchases, or publisher-added analytics.',
+            'You can play offline without creating a player account. The game supports up to four local player profiles on one device. Each profile can have a character and an optional nickname. Progress, saved games, stickers, favorites, and settings stay on the device. The app does not send this data to zyclope. The Android app contains no ads, in-app purchases, or publisher-added analytics. On a large screen, the website may show an ad box: see “Advertising on the website”.',
           ],
           [
             'The game keeps this information so you can resume playing and keep your settings. If there is more than one profile, you can delete a profile in the “For parents” area. The last profile cannot be deleted from that menu. To erase all game data, use Android settings. Uninstalling the app may also remove local data. These actions do not delete files you have already exported or copies kept elsewhere.',
@@ -183,7 +213,29 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
         heading: WEBSITE_HEADING.en,
         paragraphs: [
           [
-            `The ${SITE_HOST} website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors, and the site sets no cookies.`,
+            `The ${SITE_HOST} website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors and sets no cookies. When the ad box is shown, Google sets one: see “Advertising on the website”.`,
+          ],
+        ],
+      },
+      {
+        heading: WEB_ADS_HEADING.en,
+        paragraphs: [
+          [
+            'On a large computer screen, the game page of the website may show a single ad box, away from the board and the controls. There are no ads on phones or in the Android app. The ad box is provided by Google AdSense.',
+          ],
+          [
+            'The website is declared to Google as made for children: ads are not personalised and rely neither on a profile nor on browsing history. Sensitive ad categories are blocked in the account; zyclope cannot, however, see each ad before it is shown.',
+          ],
+          [
+            "To show an ad, the browser contacts Google's servers, which receive the IP address, technical information about the browser and device, and the address of the page. Google also sets one technical cookie and uses the browser's local storage for the sole purpose of detecting fraudulent traffic. Google carries out this processing under its own rules: ",
+            {
+              a: 'How Google uses information from sites or apps that use our services',
+              href: 'https://policies.google.com/technologies/partner-sites',
+            },
+            '.',
+          ],
+          [
+            'You can turn advertising off on this device in the “For parents” area of the game: the website then no longer contacts Google for ads. The game sends Google neither profiles, nicknames nor saves.',
           ],
         ],
       },

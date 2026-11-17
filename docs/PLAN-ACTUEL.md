@@ -71,8 +71,12 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   Fusionné le 17 novembre ; **pas encore publié** : à faire par « Publier le site ».
 - **Publicité sur le site** : la revue recommandait de ne pas l'activer ; le parent a décidé
   de poursuivre (tous les visiteurs sur grand écran, un seul cookie anti-fraude de Google,
-  un moyen de la couper). **Rien n'est activé.** Les textes FR/EN et l'ordre d'activation
-  attendent son accord : [proposition](publication/PUBLICITE-WEB-PROPOSITION.md).
+  un moyen de la couper ; pas de publicité sur téléphone). **Rien n'est activé.** Les textes
+  FR/EN, approuvés le 17 novembre, sont dans la politique de confidentialité et sur la page
+  parents. L'encart et le bouton « couper la publicité » sont codés et éteints : le site
+  publié n'en contient rien. Restent l'approbation du site par Google, le feu vert du
+  parent, puis une capture sur le site en ligne :
+  [proposition et ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md).
 - En attente du parent : place du lien de soutien, grande image de partage, mots des
   titres, page « Nouveautés ».
 

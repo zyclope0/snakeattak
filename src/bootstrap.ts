@@ -133,6 +133,11 @@ if (import.meta.env.MODE === 'ads-preview') {
     if (!destroyed) release = bindWebAdPreview({ onBoardMoved: invalidateBoard });
   });
 }
+// Advertising on the website: nothing of it is in the build while it is switched off.
+if (__WEB_ADS__)
+  void import('./ui/webAds/delivery.ts').then(({ bindWebAds }) =>
+    bindWebAds({ onBoardMoved: invalidateBoard, scriptUrl: __WEB_AD_SCRIPT__ }),
+  );
 bindBoardResolution(phaser, () => visualSettings.light);
 menu = bindMenu(session, career, {
   hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : hasCamp),

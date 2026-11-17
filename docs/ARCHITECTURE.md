@@ -1325,3 +1325,22 @@ contrôlées par `scripts/check-web-ad-disabled.mjs`. Le contrat d'attributs est
 inerte ; il n'existe aucun chargeur publicitaire ni interrupteur URL/stockage.
 `bindBoardResize` retourne un invalidateur de bornes regroupé par animation frame,
 utilisable lors d'un déplacement de conteneur sans modifier le moteur de jeu.
+
+## Publicité sur le site — 17 novembre 2026
+
+Décision du parent ; tout est décrit dans
+[PUBLICITE-WEB-PROPOSITION.md](publication/PUBLICITE-WEB-PROPOSITION.md). Dans le code :
+
+- **Un interrupteur**, `WEB_AD_DELIVERY` (`src/ui/webAds/contract.ts`), sur `disabled`. Le
+  build en tire `__WEB_ADS__` (`vite.config.ts`) : faux, la branche de `bootstrap.ts` qui
+  charge `ui/webAds/delivery.ts` disparaît du paquet avec tout ce qu'elle importe. Le site
+  publié ne contient donc aucun code publicitaire, et `scripts/check-web-ad-disabled.mjs`
+  échoue s'il en trouve. Android et la copie portable n'en reçoivent jamais.
+- **`layout.ts`** (Codex) calcule la place, sans navigateur ; **`measure.ts`** lit la page
+  pour lui ; **`choice.ts`** dit si un parent a coupé la publicité (`ADS_OFF_KEY`) ;
+  **`delivery.ts`** pose l'encart une fois et le bouton de « Pour les parents ». L'aperçu
+  local `preview.ts` reste la maquette de Codex.
+- **`deploy/policy.ts`** : `apacheConfig(webAds)` n'ouvre la protection qu'à la page du jeu
+  (`SetEnvIf … game_page`), et seulement interrupteur allumé.
+- **Recette** : le mode de build `ads-test` allume l'encart et lui fait demander
+  `./fake-ads.js`, que la recette sert elle-même (`scripts/web-ads-delivery-browser.mjs`).

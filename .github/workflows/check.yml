@@ -33,6 +33,8 @@ jobs:
       - run: npm run test:discovery
       - run: npm run build:ads-preview
       - run: npm run test:ads-preview
+      - run: npm run build:ads-test
+      - run: npm run test:ads-delivery
       - run: npm run build:android
       - run: npm run build:portable
       - run: npm run test:family
