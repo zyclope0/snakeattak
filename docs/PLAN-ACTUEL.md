@@ -68,9 +68,13 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
 - Corrigé : « Jouer » dans le premier écran sur téléphone, liens de 48 px, en-tête de la page
   du jeu (deux noms, image de partage, icône d'écran d'accueil), images légères, prototype
   hors des résultats de recherche, deux erreurs d'anglais ([détail](SITE.md)).
-  **Pas encore publié** : à faire par « Publier le site ».
-- En attente du parent : publicité (la revue recommande de ne pas l'activer), place du lien
-  de soutien, grande image de partage, mots des titres, page « Nouveautés ».
+  Fusionné le 17 novembre ; **pas encore publié** : à faire par « Publier le site ».
+- **Publicité sur le site** : la revue recommandait de ne pas l'activer ; le parent a décidé
+  de poursuivre (tous les visiteurs sur grand écran, un seul cookie anti-fraude de Google,
+  un moyen de la couper). **Rien n'est activé.** Les textes FR/EN et l'ordre d'activation
+  attendent son accord : [proposition](publication/PUBLICITE-WEB-PROPOSITION.md).
+- En attente du parent : place du lien de soutien, grande image de partage, mots des
+  titres, page « Nouveautés ».
 
 ## Site : découverte FR/EN et soutien — lot du16novembre
 
