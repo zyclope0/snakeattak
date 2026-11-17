@@ -18,3 +18,4 @@ __pycache__/
 dist-android/
 
 dist-ads-preview/
+dist-ads-test/

@@ -87,3 +87,54 @@ test('the prepared account contract is child-directed and cannot enable delivery
   });
   assert.ok(Object.isFrozen(PREPARED_DISPLAY_ATTRIBUTES));
 });
+
+test('advertising is off when a parent said so, and when the choice could not be kept', async () => {
+  const { adsSwitchedOff } = await import('../src/ui/webAds/choice.ts');
+  const holding = (value: string | null) => ({ getItem: () => value });
+  assert.equal(adsSwitchedOff(holding(null)), false, 'nothing said: advertising may show');
+  assert.equal(adsSwitchedOff(holding('1')), true);
+  assert.equal(adsSwitchedOff(holding('')), true, 'any trace of the choice counts');
+  assert.equal(adsSwitchedOff(null), true, 'no storage: the choice could not hold');
+  assert.equal(
+    adsSwitchedOff({
+      getItem: () => {
+        throw new Error('blocked');
+      },
+    }),
+    true,
+  );
+});
+
+test('only the game page opens to the ad hosts, and only when advertising is switched on', async () => {
+  const { apacheConfig, adsGamePagePolicy, isGamePage, webHeaders } =
+    await import('../deploy/policy.ts');
+  // Switched off, the site keeps one strict policy and names no ad host anywhere.
+  const off = apacheConfig();
+  assert.equal(off, apacheConfig(false));
+  assert.doesNotMatch(off, /game_page|googlesyndication|doubleclick|unsafe-eval/);
+  // Switched on, the strict policy still comes first; the game page alone gets the other.
+  const on = apacheConfig(true);
+  assert.match(on, /SetEnvIf Request_URI "\^\/\(index\\\.html\)\?\$" game_page/);
+  assert.ok(
+    on.includes(`Header always set Content-Security-Policy "${adsGamePagePolicy}" env=game_page`),
+  );
+  assert.ok(
+    on.indexOf(webHeaders['Content-Security-Policy']) < on.indexOf(adsGamePagePolicy),
+    'the page rule is written after the general one, which it replaces',
+  );
+  assert.equal(on.split(adsGamePagePolicy).length, 2);
+  for (const path of ['/', '/index.html']) assert.ok(isGamePage(path), path);
+  for (const path of ['/fr/', '/fr/index.html', '/confidentialite/', '/prototype-v4.html'])
+    assert.ok(!isGamePage(path), path);
+  // What stays closed even on the game page.
+  for (const kept of ["object-src 'none'", "base-uri 'none'", "frame-ancestors 'none'"])
+    assert.ok(adsGamePagePolicy.includes(kept), kept);
+});
+
+test('the script asked for is Google’s, named with the account', async () => {
+  const { AD_SCRIPT_URL } = await import('../src/ui/webAds/contract.ts');
+  assert.equal(
+    AD_SCRIPT_URL,
+    'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8498417364292905',
+  );
+});

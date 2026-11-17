@@ -122,33 +122,46 @@ Chemins de menu repris de l'aide de Google, lue par extraits : à confirmer dans
 6. Aucune plateforme de consentement (CMP) : voulu. Sans elle, les visiteurs d'Europe et de
    Suisse ne reçoivent que des annonces « limitées ».
 
-## Travail technique du lot suivant
+## Ce qui est codé, éteint
 
-Tout derrière l'interrupteur `WEB_AD_DELIVERY` (`src/ui/webAds/contract.ts`), qui reste sur
-`disabled` jusqu'au feu vert.
+Tout dépend d'un seul interrupteur, `WEB_AD_DELIVERY` dans `src/ui/webAds/contract.ts`. Il
+est sur `disabled` : le site publié ne contient alors aucun code publicitaire, pas même
+inactif (`scripts/check-web-ad-disabled.mjs` le vérifie à chaque build).
 
-- **Chargement.** Un seul encart, demandé une fois par chargement de page quand il y a la
-  place (fenêtre d'au moins 1920 px, souris), avec le traitement enfant
-  `data-tag-for-age-treatment="1"`. Une fois affiché, il ne bouge plus et n'est plus masqué :
-  masquer un encart ou le redemander compte comme une infraction ou un rafraîchissement
-  chez Google. L'aperçu local de Codex, lui, masque et déplace : il faudra le simplifier.
-- **Couper la publicité.** Un réglage dans « Pour les parents », gardé sur l'appareil, lu
-  avant tout appel à Google.
-- **Protection du site.** Google ne prend en charge qu'une protection à jeton unique par
-  page, qu'un hébergement statique ne sait pas fournir. Il faudra donc autoriser ses
-  domaines, sur la page du jeu seulement ; les pages publiques et la politique gardent la
-  protection actuelle.
-- **Contrôles.** Recette avec un faux serveur d'annonces (aucun appel réel dans la CI) ;
-  les contrôles « aucun cookie » de `scripts/check-live-site.mjs` et de
-  `scripts/discovery-browser.mjs` deviennent « aucun cookie tant que la publicité est
-  coupée ».
+- **Chargement** (`src/ui/webAds/delivery.ts`). Un seul encart, demandé une fois par
+  chargement de page, quand la fenêtre fait au moins 1920 px avec une souris et que le
+  calcul de Codex (`layout.ts`) trouve la place, à 150 px du plateau et des commandes. Il
+  porte le traitement enfant `data-tag-for-age-treatment="1"` et le mot « Publicité » en
+  14 px. Une fois posé, il ne bouge plus, n'est pas masqué par une pause ou une fenêtre, et
+  n'est jamais redemandé ; il ne s'efface que si la fenêtre devient trop étroite.
+- **Couper la publicité.** Dans « Pour les parents », un bouton « Publicité : affichée /
+  coupée », visible seulement là où un encart peut s'afficher. Le choix est gardé sur
+  l'appareil (`ADS_OFF_KEY`) et lu avant tout appel. Couper recharge la page : le script de
+  Google ne reste pas dans une page qui a déjà demandé une annonce. Un navigateur qui ne
+  peut pas garder ce choix ne reçoit aucune annonce.
+- **Protection du site** (`deploy/policy.ts`). Allumée, la page du jeu seule reçoit une
+  règle qui autorise les domaines de Google ; les pages publiques, la politique et le
+  prototype gardent la règle stricte. Google ne prend en charge qu'une règle à jeton unique
+  par page, qu'un hébergement statique ne sait pas fournir : la liste des domaines est donc
+  un essai, **à corriger d'après la capture de l'étape 5**. Sur cette page, la règle
+  n'empêche plus un script de s'exécuter.
+- **L'aperçu local de Codex** reste tel quel (`npm run build:ads-preview`) ; il partage
+  maintenant sa mesure de la page avec le vrai encart (`measure.ts`).
+- **Recette** : `npm run build:ads-test`, puis `npm run test:ads-delivery`. Un build réservé
+  à la recette allume l'encart et lui fait demander un faux script servi sur place : 34
+  contrôles, aucune requête ne quitte la machine. Les deux sont dans la CI.
+
+Pour allumer : passer `WEB_AD_DELIVERY` à `enabled`, rien d'autre. Le garde change alors de
+question : un seul fichier nomme le script de Google, un seul porte l'encart, la page
+elle-même ne demande rien, et l'application Android comme la copie portable restent sans
+publicité quoi que dise l'interrupteur.
 
 ## Ordre d'activation
 
 1. Accord du parent sur les textes ci-dessus : **donné le 17 novembre 2026.** Ils peuvent
    être publiés avant l'activation : ils disent ce que le site « peut » afficher.
-2. Lot technique, fusionné avec l'interrupteur sur `disabled`. Le bouton « couper la
-   publicité » arrive avec lui et n'apparaît que là où un encart peut s'afficher.
+2. Lot technique, fusionné avec l'interrupteur sur `disabled` : **fait.** Le bouton « couper
+   la publicité » n'apparaît que là où un encart peut s'afficher, donc pas avant l'étape 4.
 3. Approbation du site par Google et contrôle des six réglages.
 4. Publication des nouveaux textes, puis passage de l'interrupteur à `enabled` et
    publication.

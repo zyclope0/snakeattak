@@ -24,9 +24,10 @@ test('les clés de stockage gardent leur valeur, au caractère près', () => {
       LANGUAGE_KEY: 'conquete-serpents:language:v1',
       SOUND_SETTINGS_KEY: 'conquete-serpents:sound:v1',
       VISUAL_SETTINGS_KEY: 'conquete-serpents:visual:v1',
+      ADS_OFF_KEY: 'conquete-serpents:ads-off:v1',
     },
   );
-  assert.equal(new Set(Object.values(KEYS)).size, 10, 'deux clés ne se partagent pas une adresse');
+  assert.equal(new Set(Object.values(KEYS)).size, 11, 'deux clés ne se partagent pas une adresse');
 });
 
 test('effacer un joueur efface ses cinq clés, dont son rappel de recrutement', () => {

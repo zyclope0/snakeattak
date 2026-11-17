@@ -20,3 +20,5 @@ export const PLAYER_CHOSEN_KEY = key('player-chosen');
 export const LANGUAGE_KEY = key('language');
 export const SOUND_SETTINGS_KEY = key('sound');
 export const VISUAL_SETTINGS_KEY = key('visual');
+/** Present when a parent switched advertising off on the website (ui/webAds). */
+export const ADS_OFF_KEY = key('ads-off');

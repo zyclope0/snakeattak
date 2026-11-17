@@ -53,7 +53,9 @@
     "build:android": "npm run typecheck && vite build --mode android && node scripts/check-dist.mjs dist-android && node scripts/check-discovery.mjs dist-android && node scripts/check-web-ad-disabled.mjs dist-android",
     "test:discovery": "node scripts/discovery-browser.mjs",
     "build:ads-preview": "npm run typecheck && vite build --mode ads-preview && node scripts/check-dist.mjs dist-ads-preview && node scripts/check-web-ad-disabled.mjs dist-ads-preview",
-    "test:ads-preview": "node scripts/web-ad-preview-browser.mjs"
+    "test:ads-preview": "node scripts/web-ad-preview-browser.mjs",
+    "build:ads-test": "npm run typecheck && vite build --mode ads-test && node scripts/check-dist.mjs dist-ads-test && node scripts/check-web-ad-disabled.mjs dist-ads-test",
+    "test:ads-delivery": "node scripts/web-ads-delivery-browser.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",
