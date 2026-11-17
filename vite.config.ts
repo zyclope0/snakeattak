@@ -23,8 +23,15 @@ import { adSenseAdsTxt } from './deploy/adsenseVerification.ts';
 
 export default defineConfig(({ mode }) => {
   const portable = mode === 'portable';
+  const adPreview = mode === 'ads-preview';
   const website = !portable && mode !== 'android';
-  const outDir = portable ? 'dist-portable' : mode === 'android' ? 'dist-android' : 'dist';
+  const outDir = portable
+    ? 'dist-portable'
+    : mode === 'android'
+      ? 'dist-android'
+      : adPreview
+        ? 'dist-ads-preview'
+        : 'dist';
   const appVersion = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
     .version as string;
   return {

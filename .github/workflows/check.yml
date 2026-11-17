@@ -31,6 +31,8 @@ jobs:
       - run: npx playwright install --with-deps chromium || npx playwright install chromium
       - run: npm run test:browser
       - run: npm run test:discovery
+      - run: npm run build:ads-preview
+      - run: npm run test:ads-preview
       - run: npm run build:android
       - run: npm run build:portable
       - run: npm run test:family

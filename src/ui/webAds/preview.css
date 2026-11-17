@@ -1,0 +1,43 @@
+/* Local preview build only. This stylesheet must not be present in other distributions. */
+.app.web-ad-preview-shifted {
+  position: relative;
+  left: var(--web-ad-preview-shift, 0px);
+}
+#web-ad-preview {
+  position: fixed;
+  box-sizing: border-box;
+  padding: 11px;
+  border: 1px solid #bac2bc;
+  border-radius: 8px;
+  background: #fafbf9;
+  color: #46524b;
+  font-family: system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+#web-ad-preview[hidden] {
+  display: none;
+}
+.web-ad-preview-label {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 18px;
+  height: 18px;
+  white-space: nowrap;
+  flex: 0 0 18px;
+}
+#web-ad-preview-creative {
+  box-sizing: border-box;
+  border: 1px dashed #aeb8b0;
+  background: #edf0eb;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+  line-height: 1.4;
+  flex: none;
+}

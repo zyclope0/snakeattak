@@ -104,8 +104,8 @@ compilations et le workflow de publication qui relit chaque page et le sitemap e
 ### Liaison AdSense — aucune diffusion à cette étape
 
 Le parent a choisi AdSense comme fournisseur automatique et a communiqué son ID
-public `pub-8498417364292905`. Au dernier état communiqué, snakeattacktd.com n’est
-pas encore ajouté dans son compte. Cette étape publie uniquement :
+public `pub-8498417364292905`. D’après le retour du parent, le domaine est validé et son examen Google demandé ;
+ce retour ne constitue pas une approbation de diffusion. Cette étape publie uniquement :
 
 - Dans le head de `/`, la meta `google-adsense-account` pour `ca-pub-8498417364292905`.
 - `/ads.txt` : `google.com, pub-8498417364292905, DIRECT, f08c47fec0942fa0`.
@@ -344,3 +344,30 @@ au serveur Web. Le navigateur a parcouru accueil, confidentialité et camp FR/EN
 1280×800,780×360 et812×375, sans erreur ou ressource manquante. Aucun essai humain revendiqué.
 La CI complète de main43698515202 est encore en cours au dernier contrôle ; elle est
 distincte des717tests et du contrôle de publication déjà passés.
+
+## Encart manuel — préparation désactivée du 16 novembre 2026
+
+Le conseil (architecture, QA, confidentialité, parent et deux âges d'enfants simulés)
+retient un seul emplacement hors commandes, sans réduction du plateau. Ce conseil
+ne remplace ni des essais avec les enfants ni une validation juridique.
+
+- `npm run build:ads-preview`, puis `npm run preview -- --outDir dist-ads-preview` :
+  aperçu local FR/EN, sans publicité réelle, sans script, iframe ou requête Google.
+- `npm run test:ads-preview` : transitions, rotation tactile, langues et coordonnées
+  exactes de recrutement après déplacement du plateau.
+- Le calcul pur `src/ui/webAds/layout.ts` choisit un format 200×200, 180×150 ou
+  234×60, avec 150 px entre la création et le plateau/HUD/dock. Aucun encart si
+  la fenêtre est trop petite, tactile, agrandie, zoomée ou avec un dialogue ouvert.
+- Le mode local a sa sortie dédiée `dist-ads-preview/`, à ne jamais publier.
+  Les builds ordinaires Web, Android et portable n'embarquent ni cet aperçu ni
+  le slot. Le contrôle `scripts/check-web-ad-disabled.mjs` le vérifie après build.
+- Le contrat préparé dans `src/ui/webAds/contract.ts` conserve le client
+  `ca-pub-8498417364292905`, le slot `7092707633`, le traitement enfant `1` et
+  la pleine largeur `false`. Ce contrat n'effectue aucune demande d'annonce.
+
+Avant toute diffusion : approbation Google, réglages enfant et catégories relus,
+optimisation automatique revue, consentement applicable réellement testé et texte
+FR/EN de confidentialité approuvé. Une annonce non personnalisée n'est pas une
+preuve d'absence de cookies ; le signal enfant ne cloisonne pas un script tiers
+vis-à-vis du DOM ou du stockage. La CSP et le texte approuvé restent inchangés.
+Aucun SDK publicitaire Android, aucun formulaire fiscal ou paiement traité ici.
