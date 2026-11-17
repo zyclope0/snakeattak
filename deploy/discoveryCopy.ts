@@ -1,3 +1,5 @@
+import { CONTACT_EMAIL, PRIVACY_FOLDER } from '../src/site.ts';
+
 /** Public editorial copy, independent from the game and its translation catalogue. */
 export type DiscoveryKey = 'home' | 'guide' | 'characters' | 'updates' | 'parents';
 export type DiscoveryPage = {
@@ -8,7 +10,8 @@ export type DiscoveryPage = {
   description: string;
   heading: string;
   lead: string;
-  blocks: readonly { heading: string; text: string }[];
+  /** A block may end with one link to another page of the site. */
+  blocks: readonly { heading: string; text: string; link?: { href: string; label: string } }[];
 };
 
 export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
@@ -16,23 +19,23 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     key: 'home',
     lang: 'fr',
     path: '/fr/',
-    title: 'La Conquête des Serpents — jeu de défense gratuit en famille',
+    title: 'La Conquête des Serpents — tower defense gratuit pour enfants',
     description:
-      'Protège le cristal sur trois chemins avec des ninjas, des dinosaures et des bébés dragons. Un tower defense familial gratuit, jouable dans le navigateur.',
+      'Protège le cristal avec des ninjas, des dinosaures et des bébés dragons. Un jeu de tower defense gratuit pour enfants, à jouer en famille dans le navigateur.',
     heading: 'Un cristal. Trois chemins. Toute une bande de copains.',
     lead: 'Un petit jeu imaginé avec un enfant : prépare tes alliés, surveille les serpents et protège ton refuge dans un monde de pâte à modeler et de papier mâché.',
     blocks: [
       {
         heading: 'Tu prépares, tes alliés agissent',
-        text: 'Choisis tes renforts et place-les dans ta zone. Ils se déplacent et combattent seuls. Les trois voies se rejoignent : observe les passages fragiles, puis utilise le miel pour attirer ou ralentir les serpents.',
+        text: 'Choisis tes alliés et pose-les dans ton camp. Ils marchent et se battent tout seuls. Les trois chemins se rejoignent : regarde par où les serpents passent, puis pose du miel pour les attirer ou les ralentir.',
       },
       {
         heading: 'Une aventure à ton rythme',
-        text: 'Découvre six missions, rejoue-les avec les caprices, ou lance le Voyage pour enchaîner des étapes et choisir des bonus. La grande aventure propose aussi douze vagues jusqu’au roi à trois têtes.',
+        text: 'Six missions t’attendent. Rejoue-les avec un caprice : c’est un défi des serpents. Pars en Voyage : cinq étapes, et des bonus à choisir en chemin. Dans la grande aventure, douze vagues mènent au roi à trois têtes.',
       },
       {
         heading: 'Un jeu à partager en famille',
-        text: 'Les figurines ont une matière faite main ; les ninjas, les soigneurs et les petits dinosaures ont chacun leur rôle. Le jeu est disponible en français et en anglais, sans création de compte.',
+        text: 'Les figurines ont l’air faites à la main ; les ninjas, les soigneurs et les petits dinosaures ont chacun leur rôle. Le jeu se joue sans compte, en français ou en anglais : là, il s’appelle Snake Attack TD.',
       },
     ],
   },
@@ -40,9 +43,9 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     key: 'home',
     lang: 'en',
     path: '/en/',
-    title: 'Snake Attack TD — free family tower defense game',
+    title: 'Snake Attack TD — free tower defense game for kids',
     description:
-      'Defend a crystal across three paths with ninjas, dinosaurs and baby dragons. A free family tower defense game you can play in your browser.',
+      'Defend the crystal with ninjas, dinosaurs and baby dragons. A free tower defense game for kids and families, played in your browser.',
     heading: 'One crystal. Three paths. A whole team of friends.',
     lead: 'A small game imagined with a child: prepare your allies, watch the snakes and protect your refuge in a world of modelling clay and papier-mâché.',
     blocks: [
@@ -52,11 +55,11 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'An adventure at your pace',
-        text: 'Discover six missions, replay them with caprices, or start The Voyage to follow a series of stages and choose bonuses. The classic adventure also offers twelve waves leading to the three-headed king.',
+        text: 'Six missions are waiting. Replay them with a caprice: a challenge from the snakes. Set off on The Voyage: five stages, with bonuses to choose along the way. In the classic adventure, twelve waves lead to the three-headed king.',
       },
       {
         heading: 'Made to share with your family',
-        text: 'The figures have a handmade feel. Ninjas, healers and little dinosaurs each have a role. Play in French or English, without creating an account.',
+        text: 'The figures look handmade. Ninjas, healers and little dinosaurs each have a role. Play without an account, in English or in French, where the game is called La Conquête des Serpents.',
       },
     ],
   },
@@ -72,7 +75,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: '1. Regarde les dangers',
-        text: 'Avant la vague, consulte les serpents annoncés et les voies d’arrivée. Les ennemis n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.',
+        text: 'Avant la vague, regarde quels serpents arrivent, et par quel chemin. Ils n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.',
       },
       {
         heading: '2. Recrute et place tes alliés',
@@ -84,7 +87,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Reviens jouer autrement',
-        text: 'Une victoire ouvre la suite des missions. Les caprices changent les contraintes d’une mission ; le Voyage propose un autre enchaînement. Sur téléphone, tourne l’écran pour jouer à l’horizontale.',
+        text: 'Une victoire ouvre la mission suivante. Un caprice change les règles d’une mission ; le Voyage enchaîne cinq étapes. Sur téléphone, tourne l’écran pour jouer en largeur.',
       },
     ],
   },
@@ -112,7 +115,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Try a different adventure',
-        text: 'A victory opens the next mission. Caprices change a mission’s constraints; The Voyage offers another sequence. Turn your phone sideways to play.',
+        text: 'A victory opens the next mission. A caprice changes the rules of a mission; The Voyage strings five stages together. Turn your phone sideways to play.',
       },
     ],
   },
@@ -128,19 +131,19 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Massues et ninjas',
-        text: 'Les combattants à massue défendent au contact. Les ninjas se déplacent vite pour rejoindre leurs adversaires. Leur place dans le camp compte autant que leur nombre.',
+        text: 'Les combattants à massue défendent au contact. Les ninjas courent vite jusqu’aux serpents. L’endroit où tu les poses compte autant que leur nombre.',
       },
       {
         heading: 'Archers et soigneurs',
-        text: 'Les archers atteignent les ennemis à distance, y compris les volants. Les médecins et les infirmiers aident les alliés blessés ; leurs bandages ne sont pas illimités et doivent être rechargés à la base.',
+        text: 'Les archers atteignent les ennemis à distance, y compris les volants. Les médecins et les infirmiers soignent les alliés blessés. Ils n’ont pas des bandages à l’infini : ils retournent en chercher à la base.',
       },
       {
         heading: 'Dragons, dinosaures et gros renforts',
-        text: 'Bébés dragons, petits dinosaures, chevaliers et tanks complètent l’équipe au fil de la progression. Choisis un rôle utile au passage que tu veux protéger.',
+        text: 'Bébés dragons, petits dinosaures, chevaliers et tanks rejoignent ton équipe quand tu avances dans le jeu. Choisis celui qui aide le chemin que tu veux protéger.',
       },
       {
         heading: 'Sonnette, carapaces et trois têtes',
-        text: 'Le serpent à sonnette sème la confusion. Les carapaces résistent aux attaques ; les volants demandent de la portée. Le roi à trois têtes arrive avec une garde rapprochée, dont un soigneur.',
+        text: 'Le serpent à sonnette sème la confusion. Les carapaces encaissent les coups ; contre les serpents volants, il faut des alliés qui tirent loin. Le roi à trois têtes arrive avec ses gardes, dont un soigneur.',
       },
     ],
   },
@@ -178,25 +181,25 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/fr/nouveautes/',
     title: 'Nouveautés du jeu — La Conquête des Serpents',
     description:
-      'Les nouveautés de La Conquête des Serpents : le Voyage, les profils locaux, les caprices et les nouveaux serpents de la grande aventure.',
+      'Les nouveautés de La Conquête des Serpents : trois nouveaux serpents, des œufs en plus quand une vague dure, le Voyage et un joueur pour chacun.',
     heading: 'Le camp continue de grandir.',
-    lead: 'Les nouveautés naissent des idées de l’enfant qui a inventé le jeu, puis des essais en famille.',
+    lead: 'Chaque nouveauté part d’une idée de l’enfant qui a inventé le jeu. On l’essaie en famille, puis elle arrive ici.',
     blocks: [
       {
+        heading: 'Trois nouveaux serpents',
+        text: 'Ils arrivent dans la grande aventure. Le serpent ninja file vite et esquive ton premier coup. Les grands crocs mordent deux fois plus fort : pense au bouclier. Le serpent rare est très fragile, mais sa morsure est terrible : garde un archer pour lui.',
+      },
+      {
+        heading: 'Des œufs en plus',
+        text: 'Dans la grande aventure, quand une vague dure longtemps, un œuf de plus peut apparaître chez les serpents, puis un deuxième. De chaque œuf sortent deux serpents.',
+      },
+      {
         heading: 'Le Voyage',
-        text: 'Un parcours de cinq étapes avec une carte, des bonus à choisir et un code à partager pour retrouver le même voyage. Une étape quittée recommence à son début ; le camp d’une étape n’est pas enregistré.',
+        text: 'Cinq étapes sur une carte, et des bonus à choisir en chemin. Ton voyage a un code : donne-le à un copain, il fera le même voyage que toi. Si tu quittes une étape, tu la recommences au début.',
       },
       {
-        heading: 'Un espace pour chaque joueur',
-        text: 'Les profils locaux permettent à plusieurs joueurs de retrouver leur aventure sur le même appareil. Le carnet garde les autocollants gagnés dans les défis. Les noms et annonces des caprices choisis par l’enfant restent en français, même dans l’interface anglaise.',
-      },
-      {
-        heading: 'De nouveaux serpents dans la grande aventure',
-        text: 'Grands crocs, serpent rare et serpent ninja rejoignent la grande aventure. Les anciennes sauvegardes et les anciens codes gardent leur révision : une nouveauté ne réécrit pas une partie déjà commencée.',
-      },
-      {
-        heading: 'Sur le Web et sur Android',
-        text: 'Le site évolue avec les mises à jour publiées. L’application Android embarque ses fichiers pour jouer hors ligne ; elle reçoit ses nouveautés lors d’une mise à jour. Les sauvegardes du site et de l’application restent distinctes.',
+        heading: 'Un joueur pour chacun',
+        text: 'Sur le même appareil, jusqu’à quatre joueurs ont chacun leur aventure. Ton carnet garde les autocollants que tu gagnes en réussissant les caprices.',
       },
     ],
   },
@@ -206,25 +209,25 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/en/updates/',
     title: 'Game updates — Snake Attack TD',
     description:
-      'What is new in Snake Attack TD: The Voyage, local player profiles, caprices and new snakes in the classic adventure.',
+      'What is new in Snake Attack TD: three new snakes, extra eggs when a wave runs long, The Voyage and a player for everyone.',
     heading: 'The camp keeps growing.',
-    lead: 'New ideas come from the child who invented the game, followed by family play sessions.',
+    lead: 'Every update starts with an idea from the child who invented the game. The family tries it, then it lands here.',
     blocks: [
       {
+        heading: 'Three new snakes',
+        text: 'They show up in the classic adventure. The Ninja Snake is fast and dodges your first hit. Big Fangs bites twice as hard: think of the shield. The Rare Snake is very fragile, but its bite is terrible: keep an archer for it.',
+      },
+      {
+        heading: 'Extra eggs',
+        text: 'In the classic adventure, when a wave runs long, one more egg may appear on the snakes’ side, then a second one. Two snakes hatch from each egg.',
+      },
+      {
         heading: 'The Voyage',
-        text: 'A five-stage route with a map, bonus choices and a code to share the same voyage. Leaving a stage restarts it from the beginning; a stage’s camp is not saved.',
+        text: 'Five stages on a map, with bonuses to choose along the way. Your voyage has a code: give it to a friend and they play the same voyage as you. If you leave a stage, you start it again from the beginning.',
       },
       {
-        heading: 'A space for each player',
-        text: 'Local profiles let several players keep their own adventure on one device. The sticker album keeps rewards earned in challenges. The child’s chosen caprice names and announcements stay in French, even in the English interface.',
-      },
-      {
-        heading: 'New snakes in the classic adventure',
-        text: 'Big Fangs, the Rare Snake and the Ninja Snake join the classic adventure. Older saves and codes keep their own revision: an update does not rewrite a game already in progress.',
-      },
-      {
-        heading: 'On the Web and Android',
-        text: 'The website changes when an update is published. The Android app carries its files for offline play and receives new content through an app update. Website saves and app saves remain separate.',
+        heading: 'A player for everyone',
+        text: 'On one device, up to four players each have their own adventure. Your sticker album keeps the stickers you win by beating caprices. The child who invented the game chose the caprice names and announcements: they stay in French, even when you play in English.',
       },
     ],
   },
@@ -250,6 +253,15 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
         heading: 'Lire les informations utiles',
         text: 'La politique de confidentialité explique le stockage local, les journaux techniques de l’hébergeur et les contacts d’assistance. Elle est disponible en français et en anglais, sans compte, depuis le lien en bas de chaque page.',
       },
+      {
+        heading: 'Sur le Web et sur Android',
+        text: 'Le site reçoit les nouveautés dès leur publication. L’application Android embarque ses fichiers pour jouer hors ligne et reçoit les nouveautés lors d’une mise à jour. Une nouveauté ne change pas une partie déjà commencée : les anciennes sauvegardes et les anciens codes gardent leurs règles.',
+      },
+      {
+        heading: 'Qui a fait ce jeu ?',
+        text: `Un enfant a inventé ce jeu sur papier : ses règles, ses alliés et ses serpents. Son parent le réalise et le publie sous le nom zyclope. Pour toute question : ${CONTACT_EMAIL}.`,
+        link: { href: `/${PRIVACY_FOLDER}/`, label: 'Lire la politique de confidentialité' },
+      },
     ],
   },
   {
@@ -273,6 +285,15 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       {
         heading: 'Read the useful information',
         text: 'The privacy policy explains local storage, the host’s technical logs and support contacts. Read it in French or English without an account, using the link at the foot of every page.',
+      },
+      {
+        heading: 'On the Web and Android',
+        text: 'The website gets updates as soon as they are published. The Android app carries its files for offline play and gets updates through an app update. An update does not change a game already in progress: older saves and codes keep their own rules.',
+      },
+      {
+        heading: 'Who made this game?',
+        text: `A child invented this game on paper: its rules, its allies and its snakes. Their parent builds it and publishes it under the name zyclope. Any question: ${CONTACT_EMAIL}.`,
+        link: { href: `/${PRIVACY_FOLDER}/#en`, label: 'Read the privacy policy' },
       },
     ],
   },

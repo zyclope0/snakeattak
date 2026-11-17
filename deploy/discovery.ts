@@ -4,9 +4,18 @@ import { DISCOVERY_PAGES, type DiscoveryPage } from './discoveryCopy.ts';
 
 /** Public destination and bilingual privacy wording approved on 16 November 2026. */
 export const SUPPORT_URL: string | null = 'https://www.paypal.com/ncp/payment/XXQ7BEAZQ3QZL';
+/**
+ * The picture a shared link shows: a real battle under the icon and both names of the game,
+ * made by `scripts/export-share-image.mjs`. Wide, as social networks and messengers expect.
+ */
+export const SHARE_PICTURE = {
+  source: 'resources/site/share-1200x630.jpg',
+  width: 1200,
+  height: 630,
+} as const;
 export type DiscoveryAssets = {
   css: string;
-  /** The square picture shared on social networks, 512 px. */
+  /** The wide picture of a shared link (`SHARE_PICTURE`); no page shows it. */
   share: string;
   /** Browser tab, 48 px; a phone's home screen, 180 px; the logo beside the title. */
   tab: string;
@@ -40,6 +49,7 @@ const labels = {
     parents: 'Pour les parents',
     privacy: 'Confidentialité',
     support: 'Soutenir le développement',
+    supportAnchor: 'soutien',
     external:
       'Pour les adultes : soutien ponctuel et facultatif en CHF sur PayPal. Aucun avantage dans le jeu.',
     skip: 'Aller au contenu',
@@ -57,6 +67,7 @@ const labels = {
     parents: 'For parents',
     privacy: 'Privacy policy',
     support: 'Support development',
+    supportAnchor: 'support',
     external:
       'For adults: an optional, one-off contribution in CHF through PayPal. No in-game benefits.',
     skip: 'Skip to content',
@@ -85,6 +96,14 @@ export function discoveryPageHtml(
   const english = DISCOVERY_PAGES.find((p) => p.key === page.key && p.lang === 'en')!;
   const canonical = SITE_ORIGIN + page.path;
   const support = supportLink(page.lang, supportUrl);
+  // The payment link lives in one place, written for adults: the parents page. Every other
+  // footer leads there, never to the payment itself.
+  const parents = DISCOVERY_PAGES.find((p) => p.key === 'parents' && p.lang === page.lang)!;
+  const supportWay = support
+    ? `<a href="${parents.path}#${words.supportAnchor}">${words.support}</a>`
+    : '';
+  const story = (b: DiscoveryPage['blocks'][number]) =>
+    `<section class="story"><h2>${escape(b.heading)}</h2><p>${escape(b.text)}</p>${b.link ? `<a href="${escape(b.link.href)}">${escape(b.link.label)}</a>` : ''}</section>`;
   const navigation = DISCOVERY_PAGES.filter((p) => p.lang === page.lang)
     .map(
       (p) =>
@@ -127,10 +146,10 @@ export function discoveryPageHtml(
 <meta property="og:locale" content="${page.lang === 'fr' ? 'fr_FR' : 'en_US'}">
 <meta property="og:locale:alternate" content="${page.lang === 'fr' ? 'en_US' : 'fr_FR'}">
 <meta property="og:image" content="${SITE_ORIGIN}${assets.share}">
-<meta property="og:image:width" content="512">
-<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="${SHARE_PICTURE.width}">
+<meta property="og:image:height" content="${SHARE_PICTURE.height}">
 <meta property="og:image:alt" content="${escape(words.alt)}">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
 <body>
@@ -140,10 +159,10 @@ export function discoveryPageHtml(
 <main id="content">
 <section class="intro"><div><p class="eyebrow">${words.family}</p><h1>${escape(page.heading)}</h1><p class="lead">${escape(page.lead)}</p><a class="play" href="/">${words.play}<span aria-hidden="true"> →</span></a></div><img class="hero" src="${assets.hero}" width="512" height="512" alt="${escape(words.alt)}" fetchpriority="high"></section>
 ${cards}
-<div class="stories">${page.blocks.map((b) => `<section class="story"><h2>${escape(b.heading)}</h2><p>${escape(b.text)}</p></section>`).join('\n')}</div>
-${page.key === 'parents' && support ? `<section class="support-note"><h2>${words.support}</h2><p>${words.external}</p>${support}</section>` : ''}
+<div class="stories">${page.blocks.map(story).join('\n')}</div>
+${page.key === 'parents' && support ? `<section class="support-note" id="${words.supportAnchor}"><h2>${words.support}</h2><p>${words.external}</p>${support}</section>` : ''}
 </main>
-<footer class="site-footer"><p>© zyclope · ${words.title}</p><nav aria-label="${page.lang === 'fr' ? 'Informations' : 'Information'}"><a href="/">${words.back}</a><a href="/confidentialite/${page.lang === 'en' ? '#en' : ''}">${words.privacy}</a>${support}</nav>${support ? `<small>${words.external}</small>` : ''}</footer>
+<footer class="site-footer"><p>© zyclope · ${words.title}</p><nav aria-label="${page.lang === 'fr' ? 'Informations' : 'Information'}"><a href="/">${words.back}</a><a href="/confidentialite/${page.lang === 'en' ? '#en' : ''}">${words.privacy}</a>${supportWay}</nav></footer>
 </body>
 </html>\n`;
 }
@@ -189,7 +208,7 @@ export const GAME_PAGE = {
 export const WEB_HEAD_BUDGET = 1024;
 /** The bytes `augmentGamePage` adds to a page: the same whatever the page holds. */
 export function webHeadBytes(pictures: { share: string; touch: string }) {
-  const shell = '<head></head><footer class="home-footer"></footer>';
+  const shell = '<head></head><nav class="parent-actions"></nav>';
   return Buffer.byteLength(augmentGamePage(shell, pictures)) - Buffer.byteLength(shell);
 }
 
@@ -201,13 +220,13 @@ export function augmentGamePage(html: string, pictures: { share: string; touch: 
     `<link rel="apple-touch-icon" href="${pictures.touch}">` +
     `<meta property="og:site_name" content="Snake Attack TD">` +
     `<meta property="og:image" content="${SITE_ORIGIN}${pictures.share}">`;
-  // One link to the public pages, in the language of the game (`.about`, 08-home.css): the
-  // status footer gains no row.
-  const links = `<nav class="about" data-home-page="home" data-copy-raw aria-label="À propos / About"><a href="/fr/" lang="fr">À propos</a><a href="/en/" lang="en">About</a></nav>`;
+  // One link to the public pages, in the language of the game, among the buttons of « Pour
+  // les parents » and as tall as they are (`.about`, src/ui/homePages.css).
+  const links = `<a class="about" data-copy-raw href="/fr/" lang="fr">À propos du jeu</a><a class="about" data-copy-raw href="/en/" lang="en">About the game</a>`;
   const result = html
     .replace('</head>', meta + adSenseVerificationMeta() + '</head>')
     .replace(
-      /(<footer class="home-footer">[\s\S]*?)(<\/footer>)/,
+      /(<nav class="parent-actions"[\s\S]*?)(<\/nav>)/,
       (_, start, end) => start + links + end,
     );
   // Payments belong to the static public pages, reached from the existing about links.

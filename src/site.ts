@@ -7,3 +7,5 @@ export const SITE_ORIGIN = `https://${SITE_HOST}`;
 /** The folder of the public privacy policy, at the root of the site. */
 export const PRIVACY_FOLDER = 'confidentialite';
 export const PUBLIC_PRIVACY_URL = `${SITE_ORIGIN}/${PRIVACY_FOLDER}`;
+/** Where a parent writes to the publisher: in the privacy policy and on the parents page. */
+export const CONTACT_EMAIL = 'sulegnasdev@gmail.com';

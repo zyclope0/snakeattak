@@ -11,12 +11,14 @@ import {
   webHeadBytes,
   resolveSupportUrl,
   SUPPORT_URL,
+  SHARE_PICTURE,
 } from '../deploy/discovery.ts';
-import { SITE_ORIGIN } from '../src/site.ts';
+import { CONTACT_EMAIL, SITE_ORIGIN } from '../src/site.ts';
+import { PRIVACY_POLICY } from '../src/i18n/privacyPolicy.ts';
 
 const assets = {
   css: '/assets/discovery-12345678.css',
-  share: '/assets/site-icon-12345678.png',
+  share: '/assets/site-share-12345678.jpg',
   tab: '/assets/site-tab-12345678.png',
   touch: '/assets/site-touch-12345678.png',
   logo: '/assets/site-logo-12345678.png',
@@ -25,6 +27,7 @@ const assets = {
 };
 
 const pictures = { share: assets.share, touch: assets.touch };
+const policyText = (language: 'fr' | 'en') => JSON.stringify(PRIVACY_POLICY[language]);
 
 test('discovery has five genuine pages in both languages and reciprocal language links', () => {
   assert.equal(DISCOVERY_PAGES.length, 10);
@@ -45,8 +48,8 @@ test('discovery has five genuine pages in both languages and reciprocal language
     assert.doesNotMatch(html, /aggregateRating|reviewCount|adsbygoogle|googletagmanager/);
     // The policy is one page in both languages: an English page opens its English half.
     assert.ok(html.includes(`href="/confidentialite/${page.lang === 'en' ? '#en' : ''}"`));
-    // A small picture for the tab and the logo, a light one for the hero, the icon of
-    // 512 px for a shared link only.
+    // A small picture for the tab and the logo, a light one for the hero, a wide battle
+    // for a shared link only.
     assert.ok(
       html.includes(`<link rel="icon" type="image/png" sizes="48x48" href="${assets.tab}">`),
     );
@@ -54,14 +57,18 @@ test('discovery has five genuine pages in both languages and reciprocal language
     assert.ok(html.includes(`property="og:image" content="${SITE_ORIGIN}${assets.share}"`));
     assert.ok(html.includes(`<img src="${assets.logo}" alt="" width="48" height="48">`));
     assert.ok(html.includes(`<img class="hero" src="${assets.hero}"`));
-    assert.equal(html.split(assets.share).length, 2, 'the heavy icon is not shown on the page');
+    assert.equal(html.split(assets.share).length, 2, 'the shared picture is not on the page');
+    assert.ok(html.includes(`property="og:image:width" content="${SHARE_PICTURE.width}"`));
+    assert.ok(html.includes(`property="og:image:height" content="${SHARE_PICTURE.height}"`));
+    assert.ok(html.includes('name="twitter:card" content="summary_large_image"'));
   }
 });
 
 test('the new snakes carry their English names on the English pages', () => {
   const updates = DISCOVERY_PAGES.find((p) => p.lang === 'en' && p.key === 'updates')!;
   const html = discoveryPageHtml(updates, assets);
-  assert.match(html, /Big Fangs, the Rare Snake and the Ninja Snake/);
+  for (const name of ['Big Fangs', 'The Rare Snake', 'The Ninja Snake'])
+    assert.ok(html.includes(name), name);
   assert.doesNotMatch(html, /Grands crocs|serpent rare|serpent ninja/);
 });
 
@@ -77,33 +84,65 @@ test('sitemap exposes actual public pages with language pairs, no player or seed
   assert.ok(discoveryRobots().includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`));
 });
 
-test('approved support is active only in public footers and parents; null still disables it', () => {
+test('the payment link is on the parents page only; other footers lead there; null disables it', () => {
   assert.equal(SUPPORT_URL, 'https://www.paypal.com/ncp/payment/XXQ7BEAZQ3QZL');
   assert.equal(resolveSupportUrl(null), null);
   assert.equal(resolveSupportUrl(''), null);
   for (const page of DISCOVERY_PAGES) {
     assert.doesNotMatch(
       discoveryPageHtml(page, assets, null),
-      /data-support|Soutenir le développement|Support development/,
+      /data-support|Soutenir le développement|Support development|paypal/i,
     );
     const enabled = discoveryPageHtml(page, assets);
-    assert.ok(enabled.includes(`href="${SUPPORT_URL}"`));
+    const parents = page.key === 'parents';
+    const way = page.lang === 'fr' ? '/fr/parents/#soutien' : '/en/parents/#support';
+    const label = page.lang === 'fr' ? 'Soutenir le développement' : 'Support development';
+    // Every footer names the support and leads to the block written for adults.
+    const footer = enabled.split('<footer')[1];
+    assert.ok(footer.includes(`<a href="${way}">${label}</a>`));
+    assert.doesNotMatch(footer, /data-support|paypal/i);
+    // PayPal is named, and reached, in that block alone.
+    assert.equal((enabled.match(/data-support/g) ?? []).length, parents ? 1 : 0);
+    assert.equal(enabled.includes(`href="${SUPPORT_URL}"`), parents);
+    assert.equal(/paypal/i.test(enabled), parents);
+    if (!parents) continue;
+    const block = enabled.split('<section class="support-note"')[1].split('</section>')[0];
+    assert.ok(block.startsWith(` id="${way.split('#')[1]}">`));
+    assert.match(block, /data-support/);
+    assert.match(block, /rel="noopener noreferrer nofollow"/);
     assert.ok(
-      enabled.includes(page.lang === 'fr' ? 'Soutenir le développement' : 'Support development'),
+      block.includes(page.lang === 'fr' ? 'facultatif en CHF sur PayPal' : 'in CHF through PayPal'),
     );
-    assert.ok(
-      enabled.includes(
-        page.lang === 'fr' ? 'facultatif en CHF sur PayPal' : 'in CHF through PayPal',
-      ),
-    );
-    assert.equal((enabled.match(/data-support/g) ?? []).length, page.key === 'parents' ? 2 : 1);
-    assert.match(enabled, /rel="noopener noreferrer nofollow"/);
-    assert.match(enabled, /data-support/);
-    if (page.key !== 'parents') {
-      const main = enabled.split('<main')[1].split('</main>')[0];
-      assert.doesNotMatch(main, /data-support/);
-    }
   }
+});
+
+test('the parents page says who made the game, with the contact of the policy', () => {
+  for (const page of DISCOVERY_PAGES.filter((p) => p.key === 'parents')) {
+    const html = discoveryPageHtml(page, assets);
+    assert.ok(html.includes(page.lang === 'fr' ? 'Qui a fait ce jeu ?' : 'Who made this game?'));
+    assert.ok(html.includes('zyclope'));
+    assert.ok(html.includes(CONTACT_EMAIL));
+    assert.ok(policyText(page.lang).includes(CONTACT_EMAIL), 'the address the policy gives');
+    assert.match(
+      html,
+      page.lang === 'fr'
+        ? /<a href="\/confidentialite\/">Lire la politique de confidentialité<\/a><\/section>/
+        : /<a href="\/confidentialite\/#en">Read the privacy policy<\/a><\/section>/,
+    );
+  }
+  // Only a block that names a link gets one.
+  const home = discoveryPageHtml(DISCOVERY_PAGES[0], assets);
+  assert.doesNotMatch(home.split('<div class="stories">')[1].split('</main>')[0], /<a /);
+});
+
+test('each home page names the game in the other language once, and says who it is for', () => {
+  const fr = DISCOVERY_PAGES.find((p) => p.key === 'home' && p.lang === 'fr')!;
+  const en = DISCOVERY_PAGES.find((p) => p.key === 'home' && p.lang === 'en')!;
+  assert.match(fr.title, /tower defense gratuit pour enfants/);
+  assert.match(en.title, /free tower defense game for kids/);
+  const words = (page: typeof fr) => [page.lead, ...page.blocks.map((b) => b.text)].join(' ');
+  assert.equal(words(fr).split('Snake Attack TD').length, 2);
+  assert.equal(words(en).split('La Conquête des Serpents').length, 2);
 });
 
 test('support rejects unsafe URLs, credentials, and unsafe HTML payloads', () => {
@@ -123,7 +162,7 @@ test('support rejects unsafe URLs, credentials, and unsafe HTML payloads', () =>
 
 test('only the Web gets public metadata and links; game markup and saves remain in place', () => {
   const shell =
-    '<html><head><title>Game</title></head><body><details id="home-parent-options"></details><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
+    '<html><head><title>Game</title></head><body><nav class="parent-actions" aria-label="Aide"><button id="home-family">Sauvegarde</button></nav><details id="home-parent-options"></details><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
   const html = augmentGamePage(shell, pictures);
   assert.match(html, /name="description"/);
   // The title stays the game's own, in the player's language; the description holds both.
@@ -132,8 +171,16 @@ test('only the Web gets public metadata and links; game markup and saves remain 
   assert.ok(html.includes(`<link rel="apple-touch-icon" href="${pictures.touch}">`));
   assert.ok(html.includes(`property="og:image" content="${SITE_ORIGIN}${pictures.share}"`));
   assert.match(html, /property="og:site_name" content="Snake Attack TD"/);
-  // One link per language in a classed list: no inline style, no extra row.
-  assert.match(html, /<nav class="about" data-home-page="home" data-copy-raw aria-label=/);
+  // One link per language, after the buttons of the parents screen: no inline style, and
+  // nothing in the footer of the game.
+  assert.ok(
+    html.includes(
+      '<button id="home-family">Sauvegarde</button><a class="about" data-copy-raw href="/fr/" lang="fr">À propos du jeu</a><a class="about" data-copy-raw href="/en/" lang="en">About the game</a></nav>',
+    ),
+  );
+  assert.ok(
+    html.includes('<footer class="home-footer"><span id="career-status">Local</span></footer>'),
+  );
   assert.doesNotMatch(html, /style=/);
   assert.ok(html.includes(`rel="canonical" href="${SITE_ORIGIN}/"`));
   assert.match(html, /href="\/fr\/"/);
@@ -148,7 +195,7 @@ test('what the website adds to the game page is counted and bounded', () => {
   assert.equal(WEB_HEAD_BUDGET, 1024);
   // The count is exact on a real page: the same bytes whatever the page holds.
   const page =
-    '<html><head><title>Jeu</title></head><body><main>Jeu</main><footer class="home-footer"><span>Local</span></footer></body></html>';
+    '<html><head><title>Jeu</title></head><body><main>Jeu</main><nav class="parent-actions"><button>Aide</button></nav></body></html>';
   assert.equal(Buffer.byteLength(augmentGamePage(page, pictures)) - Buffer.byteLength(page), added);
 });
 

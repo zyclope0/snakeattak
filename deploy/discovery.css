@@ -68,6 +68,7 @@ main,
 .language,
 .site-nav a,
 .site-footer a,
+.story a,
 .support-note a {
   display: inline-flex;
   align-items: center;
@@ -184,6 +185,9 @@ main,
   margin: 0;
   font-size: 1.05rem;
 }
+.story a {
+  margin-top: 6px;
+}
 .story:first-child {
   border-color: #2e7b66;
 }
@@ -220,9 +224,6 @@ main,
   display: flex;
   gap: 12px 24px;
   flex-wrap: wrap;
-}
-.site-footer small {
-  flex-basis: 100%;
 }
 @media (max-width: 700px) {
   .site-header {

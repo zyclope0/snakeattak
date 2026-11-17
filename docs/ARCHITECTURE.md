@@ -37,8 +37,8 @@ Les commandes modifient la session. Phaser demande à la session d'avancer puis 
 Les pages FR/EN du site sont générées par `deploy/discovery.ts`, depuis une copie
 éditoriale séparée dans `deploy/discoveryCopy.ts`, et des assets locaux déjà autorisés.
 Elles ne chargent pas Phaser. Le jeu reste à `/`, sur la même origine, sans déplacement
-de ses sauvegardes. Depuis l'accord du16novembre2026, les pages publiques proposent
-un lien PayPal de soutien facultatif ; aucune requête vers ce prestataire avant clic,
+de ses sauvegardes. Depuis l'accord du16novembre2026, la page parents propose
+un lien PayPal de soutien facultatif (les autres pages y mènent, sans lien de paiement) ; aucune requête vers ce prestataire avant clic,
 aucun service de paiement chargé dans le jeu. Passer explicitement `null` au générateur
 masque le soutien. Les contrôles de distribution refusent les pages Web et l'URL de
 paiement dans Android. La source de confidentialité commune explique ce seul soutien Web.

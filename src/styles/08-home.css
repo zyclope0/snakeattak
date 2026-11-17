@@ -175,26 +175,6 @@
   color: #abc1ab;
   font-size: 11px;
 }
-/*
- * Website only: the way to the public pages, in the language of the game. Its hit area
- * fills the corner under the menu, down to the edge of the screen, without adding a row.
- */
-.home-footer .about {
-  display: flex;
-  margin-block: -6px;
-}
-.home-footer .about a {
-  justify-content: flex-end;
-  min-width: 96px;
-  min-height: 27px;
-  padding: 0;
-  font-size: 12px;
-  color: inherit;
-}
-:root[lang='en'] .about a[lang='fr'],
-:root:not([lang='en']) .about a[lang='en'] {
-  display: none;
-}
 .army-editor {
   background: #f3efdc;
   color: #254638;
