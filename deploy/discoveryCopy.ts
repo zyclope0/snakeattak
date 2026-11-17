@@ -1,4 +1,10 @@
 import { CONTACT_EMAIL, PRIVACY_FOLDER } from '../src/site.ts';
+// The words of the game's own buttons, so that a page never names a button that changed.
+import * as FR from '../src/texts/fr/page.ts';
+import * as EN from '../src/texts/en/page.ts';
+import * as ALLY_FR from '../src/texts/fr/allies.ts';
+import * as ALLY_EN from '../src/texts/en/allies.ts';
+import * as SNAKE_EN from '../src/texts/en/snakes.ts';
 
 /** Public editorial copy, independent from the game and its translation catalogue. */
 export type DiscoveryKey = 'home' | 'guide' | 'characters' | 'updates' | 'parents';
@@ -31,7 +37,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Une aventure à ton rythme',
-        text: 'Six missions t’attendent. Rejoue-les avec un caprice : c’est un défi des serpents. Pars en Voyage : cinq étapes, et des bonus à choisir en chemin. Dans la grande aventure, douze vagues mènent au roi à trois têtes.',
+        text: `Six missions t’attendent. Rejoue-les avec un caprice : c’est un défi des serpents. Pars en Voyage : cinq étapes, et des bonus à choisir en chemin. Dans l’« ${FR.aventureClassique} », douze vagues mènent à King Snake, le roi à trois têtes.`,
       },
       {
         heading: 'Un jeu à partager en famille',
@@ -55,7 +61,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'An adventure at your pace',
-        text: 'Six missions are waiting. Replay them with a caprice: a challenge from the snakes. Set off on The Voyage: five stages, with bonuses to choose along the way. In the classic adventure, twelve waves lead to the three-headed king.',
+        text: `Six missions are waiting. Replay them with a caprice: a challenge from the snakes. Set off on The Voyage: five stages, with bonuses to choose along the way. In the “${EN.aventureClassique}”, twelve waves lead to King Snake, the three-headed king.`,
       },
       {
         heading: 'Made to share with your family',
@@ -71,19 +77,19 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'Prépare ton camp, recrute des alliés, observe les trois voies et utilise le miel. Les premiers pas dans La Conquête des Serpents.',
     heading: 'Prépare ton camp, puis lance la vague.',
-    lead: 'Tu n’as pas besoin de diriger chaque soldat. Ton rôle est de composer ton équipe et de renforcer les bons passages.',
+    lead: 'Tes alliés se battent tout seuls. Toi, tu choisis qui poser, et où.',
     blocks: [
       {
         heading: '1. Regarde les dangers',
-        text: 'Avant la vague, regarde quels serpents arrivent, et par quel chemin. Ils n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.',
+        text: `Avant la vague, touche « ${FR.dangers} » : tu vois quels serpents arrivent, et par quel chemin. Ils n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.`,
       },
       {
         heading: '2. Recrute et place tes alliés',
-        text: 'Choisis un allié dans les favoris ou ouvre le catalogue complet. Place-le dans ta zone quand tu as assez de pièces. Mélange les rôles : combattants au contact, archers et soigneurs ne répondent pas aux mêmes dangers.',
+        text: `Touche un allié dans « ${FR.tesFavoris} », ou ouvre « ${FR.tousLesAllies} ». Pose-le dans ton camp quand tu as assez de pièces. Mélange-les : ceux qui tapent de près, les archers et les soigneurs n’arrêtent pas les mêmes serpents.`,
       },
       {
         heading: '3. Surveille les trois chemins',
-        text: 'Lance la vague, puis observe où ton camp tient et où les serpents passent. Tu peux acheter des renforts pendant le combat. Une pause te laisse le temps de regarder ; les alliés reprennent leur activité quand tu relances.',
+        text: 'Lance la vague, puis regarde où ton camp tient et où les serpents passent. Tu peux acheter des alliés pendant la bataille. La pause te laisse le temps de regarder ; tes alliés repartent quand tu relances.',
       },
       {
         heading: '4. Reviens jouer autrement',
@@ -99,19 +105,19 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'Prepare your camp, recruit allies, watch three lanes and use honey. Your first steps in the Snake Attack TD family defense game.',
     heading: 'Prepare your camp. Then start the wave.',
-    lead: 'You do not need to command every soldier. Your job is to build a team and reinforce the right passages.',
+    lead: 'Your allies fight on their own. You choose who to place, and where.',
     blocks: [
       {
         heading: '1. Check the dangers',
-        text: 'Before a wave, check the announced snakes and their arrival lanes. Enemies have different talents: some are fast, some attack from a distance, and others fly.',
+        text: `Before a wave, tap “${EN.dangers}”: you see which snakes are coming, and along which path. They have different talents: some are fast, some attack from a distance, and others fly.`,
       },
       {
         heading: '2. Recruit and place your allies',
-        text: 'Pick an ally from your favourites or open the full catalogue. Place them in your area when you have enough coins. Mix roles: close-range fighters, archers and healers answer different dangers.',
+        text: `Tap an ally in “${EN.tesFavoris}”, or open “${EN.tousLesAllies}”. Place it in your camp when you have enough coins. Mix them: close fighters, archers and healers do not stop the same snakes.`,
       },
       {
         heading: '3. Watch all three paths',
-        text: 'Start the wave and watch where your camp holds and where snakes get through. You can recruit during the fight. Pause to take a look; allies resume their actions when you continue.',
+        text: 'Start the wave, then watch where your camp holds and where snakes get through. You can buy allies during the battle. Pause to take a look; your allies carry on when you resume.',
       },
       {
         heading: '4. Try a different adventure',
@@ -143,7 +149,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Sonnette, carapaces et trois têtes',
-        text: 'Le serpent à sonnette sème la confusion. Les carapaces encaissent les coups ; contre les serpents volants, il faut des alliés qui tirent loin. Le roi à trois têtes arrive avec ses gardes, dont un soigneur.',
+        text: 'Le serpent à sonnette sème la confusion. Les carapaces encaissent les coups ; contre les serpents volants, il faut des alliés qui tirent loin. Dans l’aventure classique, King Snake, le roi à trois têtes, arrive avec ses gardes, dont un soigneur.',
       },
     ],
   },
@@ -152,26 +158,25 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     lang: 'en',
     path: '/en/characters/',
     title: 'Allies, dinosaurs and snakes — Snake Attack TD',
-    description:
-      'Meet club fighters, ninjas, archers, healers, dinosaurs and the three-headed snake king in a handmade family tower defense world.',
+    description: `Meet ${ALLY_EN.massue}s, ninjas, archers, healers, dinosaurs and King Snake, the three-headed king, in a handmade family tower defense world.`,
     heading: 'Very different friends. Snakes full of surprises.',
     lead: 'Baby dragons and little dinosaurs are on your side. Across the paths, every kind of snake brings a different surprise.',
     blocks: [
       {
-        heading: 'Club fighters and ninjas',
-        text: 'Club fighters defend at close range. Ninjas move quickly to reach their opponents. Where you place them matters as much as how many you recruit.',
+        heading: `${ALLY_EN.massue}s and ninjas`,
+        text: `${ALLY_EN.massue}s defend at close range. Ninjas run fast to reach the snakes. Where you place them matters as much as how many you have.`,
       },
       {
         heading: 'Archers and healers',
-        text: 'Archers reach enemies at a distance, including flying snakes. Doctors and nurses help injured allies; their bandages are limited and need refilling at the base.',
+        text: `Archers reach enemies at a distance, including flying snakes. ${ALLY_EN.medecin}s and ${ALLY_EN.infirmier}s heal injured allies. Their bandages run out: they go back to the base for more.`,
       },
       {
         heading: 'Dragons, dinosaurs and bigger allies',
-        text: 'Baby dragons, little dinosaurs, knights and tanks join the team as you progress. Choose a role that helps the passage you want to protect.',
+        text: 'Baby dragons, little dinosaurs, knights and tanks join your team as you progress. Choose the one that helps the path you want to protect.',
       },
       {
-        heading: 'Rattles, shells and three heads',
-        text: 'The rattlesnake causes confusion. Shells resist attacks; flying enemies call for range. The three-headed king arrives with a close guard, including a healer.',
+        heading: `Rattles, ${SNAKE_EN.carapace}s and three heads`,
+        text: `The ${SNAKE_EN.serpentASonnette} causes confusion. ${SNAKE_EN.carapace}s soak up hits; against flying snakes, you need allies that shoot far. In the classic adventure, King Snake, the three-headed king, arrives with his guards, including a healer.`,
       },
     ],
   },
@@ -183,15 +188,15 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'Les nouveautés de La Conquête des Serpents : trois nouveaux serpents, des œufs en plus quand une vague dure, le Voyage et un joueur pour chacun.',
     heading: 'Le camp continue de grandir.',
-    lead: 'Chaque nouveauté part d’une idée de l’enfant qui a inventé le jeu. On l’essaie en famille, puis elle arrive ici.',
+    lead: 'Voici ce qui vient d’arriver dans le jeu. Beaucoup d’idées viennent de l’enfant qui l’a inventé.',
     blocks: [
       {
         heading: 'Trois nouveaux serpents',
-        text: 'Ils arrivent dans la grande aventure. Le serpent ninja file vite et esquive ton premier coup. Les grands crocs mordent deux fois plus fort : pense au bouclier. Le serpent rare est très fragile, mais sa morsure est terrible : garde un archer pour lui.',
+        text: `Ils arrivent quand tu commences une nouvelle « ${FR.aventureClassique} ». Le serpent ninja court vite, et le premier coup le rate. Les grands crocs mordent deux fois plus fort : pose un ${ALLY_FR.bouclier} devant. Le serpent rare tombe vite, mais sa morsure fait tomber une ${ALLY_FR.massue} d’un coup : pose un ${ALLY_FR.archer}, il le touche de loin.`,
       },
       {
         heading: 'Des œufs en plus',
-        text: 'Dans la grande aventure, quand une vague dure longtemps, un œuf de plus peut apparaître chez les serpents, puis un deuxième. De chaque œuf sortent deux serpents.',
+        text: `Dans une nouvelle « ${FR.aventureClassique} », quand une vague dure longtemps, un œuf de plus apparaît chez les serpents. Puis un deuxième. Deux serpents sortent de chaque œuf.`,
       },
       {
         heading: 'Le Voyage',
@@ -211,15 +216,15 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'What is new in Snake Attack TD: three new snakes, extra eggs when a wave runs long, The Voyage and a player for everyone.',
     heading: 'The camp keeps growing.',
-    lead: 'Every update starts with an idea from the child who invented the game. The family tries it, then it lands here.',
+    lead: 'Here is what just arrived in the game. Many of the ideas come from the child who invented it.',
     blocks: [
       {
         heading: 'Three new snakes',
-        text: 'They show up in the classic adventure. The Ninja Snake is fast and dodges your first hit. Big Fangs bites twice as hard: think of the shield. The Rare Snake is very fragile, but its bite is terrible: keep an archer for it.',
+        text: `They show up when you start a new “${EN.aventureClassique}”. The Ninja Snake runs fast, and the first hit misses it. Big Fangs bites twice as hard: place a ${ALLY_EN.bouclier} in front. The Rare Snake falls fast, but its bite knocks out a ${ALLY_EN.massue} in one go: place an ${ALLY_EN.archer}, who hits it from afar.`,
       },
       {
         heading: 'Extra eggs',
-        text: 'In the classic adventure, when a wave runs long, one more egg may appear on the snakes’ side, then a second one. Two snakes hatch from each egg.',
+        text: `In a new “${EN.aventureClassique}”, when a wave runs long, one more egg appears on the snakes’ side. Then a second one. Two snakes hatch from each egg.`,
       },
       {
         heading: 'The Voyage',
@@ -227,7 +232,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'A player for everyone',
-        text: 'On one device, up to four players each have their own adventure. Your sticker album keeps the stickers you win by beating caprices. The child who invented the game chose the caprice names and announcements: they stay in French, even when you play in English.',
+        text: 'On one device, up to four players each have their own adventure. Your sticker book keeps the stickers you win by beating caprices. The child who invented the game chose the caprice names and announcements: they stay in French, even when you play in English.',
       },
     ],
   },
@@ -251,7 +256,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Lire les informations utiles',
-        text: 'La politique de confidentialité explique le stockage local, les journaux techniques de l’hébergeur et les contacts d’assistance. Elle est disponible en français et en anglais, sans compte, depuis le lien en bas de chaque page.',
+        text: 'La politique de confidentialité explique le stockage local, les journaux techniques de l’hébergeur, la publicité sur le site, le soutien facultatif et les contacts d’assistance. Elle est disponible en français et en anglais, sans compte, depuis le lien en bas de chaque page.',
       },
       {
         heading: 'Sur le Web et sur Android',
@@ -284,7 +289,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Read the useful information',
-        text: 'The privacy policy explains local storage, the host’s technical logs and support contacts. Read it in French or English without an account, using the link at the foot of every page.',
+        text: 'The privacy policy explains local storage, the host’s technical logs, advertising on the website, optional support and support contacts. Read it in French or English without an account, using the link at the foot of every page.',
       },
       {
         heading: 'On the Web and Android',

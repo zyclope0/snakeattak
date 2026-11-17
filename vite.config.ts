@@ -63,7 +63,7 @@ export default defineConfig(({ mode }) => {
       },
       {
         name: 'distribution-documents',
-        transformIndexHtml(html) {
+        transformIndexHtml(html, context) {
           // Keep the editable HTML readable without shipping its indentation.
           // A line break before the end of a tag and the slash of an empty element are
           // formatting too: neither changes what the browser builds.
@@ -72,7 +72,11 @@ export default defineConfig(({ mode }) => {
             .replace(/^[ \t]+/gm, '')
             .replace(/\n(\/?>)/g, '$1')
             .replace(/<(img|input|br|meta|link|hr)\b([^>]*?)\s*\/>/g, '<$1$2>');
-          return website ? augmentGamePage(page, gamePagePictures()) : page;
+          // The website dresses the page of the game, and only that one: the pages of the
+          // recipes go through here too.
+          return website && isGamePage(context.path)
+            ? augmentGamePage(page, gamePagePictures())
+            : page;
         },
         configurePreviewServer(server) {
           server.middlewares.use((req, res, next) => {

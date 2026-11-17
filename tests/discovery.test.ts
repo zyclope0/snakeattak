@@ -1,5 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { imageMetadata } from '../deploy/imageMetadata.ts';
+import { MISSIONS } from '../src/missions.ts';
+import { TOTAL_WAVES } from '../src/gameConstants.ts';
+import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS } from '../src/voyageTuning.ts';
+import { CURRENT_BALANCE_REVISION, lateEggRule } from '../src/balanceRevision.ts';
+import { NINJA_DODGES } from '../src/enemyAbilities.ts';
+import { PLAYER_IDS } from '../src/players.ts';
+import * as FR from '../src/texts/fr/page.ts';
+import * as EN from '../src/texts/en/page.ts';
 import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
 import {
   discoveryPageHtml,
@@ -97,9 +107,10 @@ test('the payment link is on the parents page only; other footers lead there; nu
     const parents = page.key === 'parents';
     const way = page.lang === 'fr' ? '/fr/parents/#soutien' : '/en/parents/#support';
     const label = page.lang === 'fr' ? 'Soutenir le développement' : 'Support development';
-    // Every footer names the support and leads to the block written for adults.
+    // Every other footer names the support and leads to the block written for adults; the
+    // parents page shows the block itself.
     const footer = enabled.split('<footer')[1];
-    assert.ok(footer.includes(`<a href="${way}">${label}</a>`));
+    assert.equal(footer.includes(`<a href="${way}">${label}</a>`), !parents);
     assert.doesNotMatch(footer, /data-support|paypal/i);
     // PayPal is named, and reached, in that block alone.
     assert.equal((enabled.match(/data-support/g) ?? []).length, parents ? 1 : 0);
@@ -109,6 +120,9 @@ test('the payment link is on the parents page only; other footers lead there; nu
     const block = enabled.split('<section class="support-note"')[1].split('</section>')[0];
     assert.ok(block.startsWith(` id="${way.split('#')[1]}">`));
     assert.match(block, /data-support/);
+    // A screen reader reads the sentence written for adults with the link.
+    const note = `${way.split('#')[1]}-note`;
+    assert.ok(block.includes(`<p id="${note}">`) && block.includes(`aria-describedby="${note}"`));
     assert.match(block, /rel="noopener noreferrer nofollow"/);
     assert.ok(
       block.includes(page.lang === 'fr' ? 'facultatif en CHF sur PayPal' : 'in CHF through PayPal'),
@@ -171,6 +185,13 @@ test('only the Web gets public metadata and links; game markup and saves remain 
   assert.ok(html.includes(`<link rel="apple-touch-icon" href="${pictures.touch}">`));
   assert.ok(html.includes(`property="og:image" content="${SITE_ORIGIN}${pictures.share}"`));
   assert.match(html, /property="og:site_name" content="Snake Attack TD"/);
+  // A shared link to the game shows the wide picture, named in both languages.
+  assert.ok(html.includes(`property="og:title" content="${GAME_PAGE.title}"`));
+  assert.match(GAME_PAGE.title, /Snake Attack TD/);
+  assert.match(GAME_PAGE.title, /La Conquête des Serpents/);
+  assert.ok(html.includes(`property="og:image:width" content="${SHARE_PICTURE.width}"`));
+  assert.ok(html.includes(`property="og:image:height" content="${SHARE_PICTURE.height}"`));
+  assert.ok(html.includes('name="twitter:card" content="summary_large_image"'));
   // One link per language, after the buttons of the parents screen: no inline style, and
   // nothing in the footer of the game.
   assert.ok(
@@ -199,24 +220,70 @@ test('what the website adds to the game page is counted and bounded', () => {
   assert.equal(Buffer.byteLength(augmentGamePage(page, pictures)) - Buffer.byteLength(page), added);
 });
 
-test('discovery leaves the compact parents content intact', () => {
-  const parents = '<details id="home-parent-options"><section>Parents</section></details>';
-  const footer = '<footer class="home-footer"><span id="career-status">Local</span></footer>';
-  const html = augmentGamePage(
-    `<html><head></head><body>${parents}${footer}</body></html>`,
-    pictures,
+test('the link to the public pages lands in the real parents screen, or the build stops', () => {
+  // The template the game is assembled from, not a shell written for the test.
+  const template = readFileSync('src/html/home.html', 'utf8');
+  const html = augmentGamePage(`<html><head></head><body>${template}</body></html>`, pictures);
+  const row = html.split('<nav class="parent-actions"')[1].split('</nav>')[0];
+  assert.match(
+    row,
+    /id="home-family">[^<]*<\/button>\s*<a class="about" data-copy-raw href="\/fr\/"/,
   );
-  assert.ok(html.includes(parents), 'no extra row in the tightly fitted parents screen');
-  assert.match(html, /id="career-status">Local/);
+  assert.equal(html.split('class="about"').length, 3, 'one link per language, nowhere else');
+  // A template that lost the row, or its head, is refused instead of shipping no link.
+  for (const broken of [
+    '<html><head></head><body><div class="parent-actions"></div></body></html>',
+    '<html><body><nav class="parent-actions"></nav></body></html>',
+  ])
+    assert.throws(() => augmentGamePage(broken, pictures), /parents screen/);
+});
+
+test('the shared picture is the size the pages announce, light enough for a messenger', () => {
+  const bytes = readFileSync(SHARE_PICTURE.source);
+  const info = imageMetadata(bytes);
+  assert.ok(info);
+  assert.equal(info.width, SHARE_PICTURE.width);
+  assert.equal(info.height, SHARE_PICTURE.height);
+  assert.ok(bytes.length <= 300_000, `${bytes.length} octets`);
+});
+
+test('the public pages tell the game as it is', () => {
+  const words = (key: string, lang: string) => {
+    const page = DISCOVERY_PAGES.find((p) => p.key === key && p.lang === lang)!;
+    return [page.lead, ...page.blocks.map((b) => b.text)].join(' ');
+  };
+  // The numbers written in words are those of the game.
+  assert.equal(MISSIONS.length, 6);
+  assert.match(words('home', 'fr'), /Six missions/);
+  assert.equal(TOTAL_WAVES, 12);
+  assert.match(words('home', 'fr'), /douze vagues/);
+  assert.match(words('home', 'en'), /twelve waves/);
+  assert.equal(VOYAGE_TUNINGS[CURRENT_VOYAGE_VERSION].stages.length, 5);
+  assert.match(words('updates', 'fr'), /Cinq étapes/);
+  assert.match(words('updates', 'en'), /Five stages/);
+  const late = lateEggRule(CURRENT_BALANCE_REVISION)!;
+  assert.deepEqual([late.most, late.count], [2, 2]);
+  assert.match(words('updates', 'fr'), /Puis un deuxième\. Deux serpents sortent de chaque œuf/);
+  assert.equal(NINJA_DODGES, 1);
+  assert.match(words('updates', 'fr'), /le premier coup le rate/);
+  assert.equal(PLAYER_IDS.length, 4);
+  assert.match(words('updates', 'fr'), /jusqu’à quatre joueurs/);
+  // The buttons a page names are the buttons of the game, in its own words.
+  assert.ok(words('guide', 'fr').includes(`« ${FR.dangers} »`));
+  assert.ok(words('guide', 'en').includes(`“${EN.dangers}”`));
+  assert.ok(words('updates', 'fr').includes(`« ${FR.aventureClassique} »`));
+  // Nothing says a novelty was tried with the family before it was.
+  for (const lang of ['fr', 'en'])
+    assert.doesNotMatch(words('updates', lang), /en famille|family tries/);
 });
 
 test('Web verification identifies the approved AdSense account without ad delivery or layout changes', () => {
-  const body = '<body><main id="game">Game</main></body>';
+  const body = '<body><main id="game">Game</main><nav class="parent-actions"></nav></body>';
   const html = augmentGamePage('<html><head></head>' + body + '</html>', pictures);
   assert.ok(
     html.includes('<meta name="google-adsense-account" content="ca-pub-8498417364292905">'),
   );
   assert.equal((html.match(/google-adsense-account/g) ?? []).length, 1);
-  assert.ok(html.includes(body));
+  assert.ok(html.includes('<main id="game">Game</main>'));
   assert.doesNotMatch(html, /adsbygoogle|googlesyndication|<iframe|<ins/);
 });

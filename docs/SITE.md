@@ -99,7 +99,7 @@ approuvés (politique de confidentialité, soutien) :
 - **Budget de la page du jeu.** Il restait 62 octets sur 32 768. Deux formats sans effet sur
   la page sont retirés au build (saut de ligne avant la fin d'une balise, barre des éléments
   vides) et ce que le site ajoute à la page est compté à part : `WEB_HEAD_BUDGET`, 1 024
-  octets, dont 701 utilisés. La page du jeu elle-même pèse 32 085 octets sur 32 768
+  octets, dont 701 utilisés alors (914 depuis la relecture à huit angles). La page du jeu elle-même pèse 32 085 octets sur 32 768
   (`scripts/check-dist.mjs`).
 
 Non vérifié : le site en ligne n'était pas joignable depuis l'environnement de la revue ;
@@ -142,7 +142,84 @@ Vérifié : `npm run verify`, `test:discovery` (50 pages et tailles, lien de pai
 intercepté, jamais de vrai paiement), `test:locale`, et les recettes de la CI. Non
 vérifié : l'aperçu réel d'un lien partagé dans une messagerie (il faut le site publié) ;
 rien n'est essayé sur un vrai téléphone ; l'anglais des nouvelles phrases n'est pas relu
-par une personne. L'image de partage montre la première vague : peu de serpents à l'écran.
+par une personne. L'image de partage montrait la première vague ; elle a été refaite dans
+le lot suivant.
+
+### Relecture à huit angles — 17 novembre 2026
+
+À la demande du parent, huit relecteurs indépendants ont relu le lot entre deux lots, chacun
+sous un angle : lecture d'un enfant de 6-7 ans, intérêt du jeu, confidentialité et argent,
+accessibilité, référencement et partage, code et tests, téléphone en paysage, fidélité aux
+règles du fils. **Ce ne sont pas des avis d'enfants ni de parents** : chacun a mesuré dans le
+build et cité sa preuve. Leurs fichiers de travail sont dans `artifacts/council/` (hors Git).
+
+Corrigé dans ce lot, sans décision à prendre :
+
+- **Une phrase fausse.** « On l'essaie en famille, puis elle arrive ici » : les œufs en plus
+  et les trois serpents n'ont pas encore été joués par les enfants. Remplacée par « Voici ce
+  qui vient d'arriver dans le jeu. Beaucoup d'idées viennent de l'enfant qui l'a inventé. »
+  Un test refuse le retour de cette promesse.
+- **Des phrases qui promettaient trop.** Les nouveaux serpents et les œufs en plus
+  n'arrivent que dans une _nouvelle_ « Aventure classique » (nom du bouton du jeu) ; la
+  garde du roi n'existe que dans l'aventure classique ; le roi est nommé King Snake.
+- **Les mots du jeu.** Les pages nomment les boutons par leurs textes du catalogue
+  (« Dangers », « Tes favoris », « Tous les alliés », « Aventure classique ») et, en
+  anglais, les alliés et serpents par leurs noms du jeu (Clubber, Medic, Shield Guard,
+  Shellback, sticker book). « Comment jouer » est réécrite pour l'enfant en entier. Un test
+  compare les nombres écrits en lettres à ceux du jeu (missions, vagues, étapes, joueurs,
+  œufs, esquive).
+- **L'œuf de l'index des serpents** disait « Un serpent en sort » ; il en sort deux, comme
+  le dit déjà la fiche « Dangers ». Seul texte du jeu changé.
+- **Page du jeu `/`.** Elle annonce maintenant le titre du lien partagé (les deux noms), la
+  taille de l'image et `summary_large_image`. Ce que le site ajoute à la page : 914 octets
+  sur 1 024.
+- **Image de partage refaite.** Vague 8 d'une aventure classique jouée selon les règles par
+  le script (alliés achetés avec les pièces gagnées, rien posé à la main), sans numéro de
+  version ; titre sur deux lignes dans le carré central, lisible quand une messagerie rogne
+  l'image ; texte alternatif propre à l'image ; cache long comme les autres fichiers. Un
+  test lit ses dimensions.
+- **Page parents.** Le lien du pied, qui menait au bloc déjà à l'écran, est retiré de cette
+  page ; le lien PayPal est relié à sa phrase pour un lecteur d'écran ; le dernier bloc
+  d'un nombre impair prend toute la largeur ; l'adresse de contact peut se couper ;
+  « Lire les informations utiles » cite aussi la publicité et le soutien.
+- **Page de confidentialité.** Les liens de son en-tête passent de 26 à 48 px de haut
+  (style seul, texte inchangé) ; la recette les contrôle.
+- **Garde-fous.** Le build s'arrête si le gabarit du jeu n'a plus la rangée qui reçoit le
+  lien « À propos » (il le perdait sans rien dire) ; le test porte sur le vrai gabarit ; la
+  recette contrôle aussi la largeur des liens (« Le jeu » faisait 45 px). Ce garde-fou a
+  montré que le build habillait aussi les pages des recettes : seule la page du jeu l'est
+  maintenant (`vite.config.ts`).
+- **Publicité allumée (plus tard).** Son bouton décalait le « ? » de la sauvegarde et le
+  lien « À propos » ; il prend maintenant sa propre ligne, et la recette publicitaire le
+  mesure.
+- **Divers.** Le lien « Aller au plateau » ne s'affiche plus à l'accueil du jeu, où il ne
+  menait nulle part. `.htaccess` demande la compression des textes si l'hébergeur ne la
+  fait pas déjà (deux modules exigés, sans effet s'ils manquent).
+
+À décider par le parent (rien n'est fait) :
+
+- Retirer « Soutenir le développement » du pied des pages écrites pour l'enfant (le menu
+  « Pour les parents » suffirait) et nommer le lien du bloc « Soutenir sur PayPal (nouvel
+  onglet) ».
+- Ajouter « du jeu » à la phrase approuvée « que l'on peut couper dans « Pour les
+  parents » », lue sur une page qui porte le même titre.
+- Avant d'allumer la publicité : interdire au navigateur les fonctions publicitaires de
+  profilage (`Permissions-Policy`), et adapter le contrôle du site en ligne, qui refuserait
+  aujourd'hui la règle de sécurité de la page du jeu avec publicité.
+- Textes du jeu trop petits ou trop techniques pour un enfant qui lit lentement (10 à
+  12 px en paysage téléphone, textes du plateau à 5-9 px, « 1 alliés survivants ») : lot
+  suivant, rendu seul.
+
+Questions pour le fils (ses règles) :
+
+- Le serpent ninja : il esquive le premier coup. Il le voulait « aussi rapide que le Ninja,
+  parfois il se téléporte dans le dos » (`GAME_DESIGN.md`). On garde l'esquive ou on essaie
+  son idée ?
+- Les noms de ses trois serpents ; les gardes du roi dans le voyage ; qui bat le
+  spinosaure ; combien de pommes.
+
+Non vérifié : aperçus réels dans les messageries ; compression et page 404 réelles de
+l'hébergeur ; aucun lecteur d'écran réel ; rien sur un vrai téléphone ni avec les enfants.
 
 ### Publicité — textes approuvés le 17 novembre 2026, rien d'activé
 

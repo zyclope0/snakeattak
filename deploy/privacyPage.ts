@@ -61,7 +61,12 @@ const STYLE = `
       column-gap: 1.5rem;
       padding-block: 0.75rem;
     }
-    nav a { color: inherit; }
+    nav a {
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      min-height: 48px;
+    }
     nav a:first-child { margin-inline-end: auto; }
     main { padding-block: 2.5rem 4rem; overflow-wrap: anywhere; }
     article + article {

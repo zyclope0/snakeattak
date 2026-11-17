@@ -145,6 +145,19 @@ try {
     check('the switch is pressed', (await door.getAttribute('aria-pressed')) === 'true');
     const size = await door.boundingBox();
     check('the switch is large enough for a finger', size.height >= 48 && size.width >= 48);
+    // The switch takes a row of its own: the family save keeps its "?" and, on the website,
+    // the link to the public pages beside it.
+    const rows = await page.evaluate(() => {
+      const top = (selector) =>
+        Math.round(document.querySelector(selector)?.getBoundingClientRect().top ?? -1);
+      return {
+        family: top('#home-family'),
+        help: top('.parent-actions .help-point'),
+        about: top('.parent-actions .about:not([hidden])'),
+      };
+    });
+    check('the "?" stays beside the family save', Math.abs(rows.help - rows.family) <= 1);
+    check('the switch sits below the family save', size.y > rows.family + 40);
     await Promise.all([page.waitForEvent('load'), door.click()]);
     await page.locator('#home-screen:not([hidden])').waitFor();
     check(

@@ -77,7 +77,7 @@ export function apacheConfig(webAds = false) {
     '<IfModule mod_headers.c>',
     ...headers,
     `  Header set Cache-Control "${webHeaders['Cache-Control']}"`,
-    '  <FilesMatch "-[A-Za-z0-9_-]{8,}\\.(js|css|webp|png|mp3|woff2)$">',
+    '  <FilesMatch "-[A-Za-z0-9_-]{8,}\\.(js|css|webp|png|jpg|mp3|woff2)$">',
     `    Header set Cache-Control "${assetCache}"`,
     '  </FilesMatch>',
     ...(webAds
@@ -87,6 +87,14 @@ export function apacheConfig(webAds = false) {
     `    Header always set Content-Security-Policy "${legacyPolicy}"`,
     `    Header always set X-Robots-Tag "${PROTOTYPE_ROBOTS}"`,
     '  </Files>',
+    '</IfModule>',
+    '',
+    // Text travels compressed where the host has not already seen to it. Both modules are
+    // asked for: a host without them serves the site all the same.
+    '<IfModule mod_deflate.c>',
+    '  <IfModule mod_filter.c>',
+    '    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript text/javascript application/json application/xml image/svg+xml',
+    '  </IfModule>',
     '</IfModule>',
     '',
   ].join('\n');

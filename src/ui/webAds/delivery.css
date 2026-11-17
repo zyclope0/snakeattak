@@ -16,6 +16,12 @@
   gap: 8px;
   z-index: 1;
 }
+/* The switch takes the row after the family save, its "?" and the link to the public
+   pages, whatever its place in the page. */
+#home-screen [data-home-page='parents'] .parent-actions #home-ads {
+  order: 1;
+  grid-column: 1 / -2;
+}
 #web-ad[hidden] {
   display: none;
 }

@@ -162,6 +162,10 @@ dialog > small {
 .skip-link:focus {
   transform: translateY(0);
 }
+/* On the home screen there is no board to skip to: the link would lead nowhere. */
+body:has(#home-screen:not([hidden])) .skip-link {
+  display: none;
+}
 [hidden] {
   display: none !important;
 }
