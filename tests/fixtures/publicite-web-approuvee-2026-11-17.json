@@ -1,0 +1,70 @@
+{
+  "fr": {
+    "section": {
+      "heading": "Publicité sur le site Web",
+      "paragraphs": [
+        [
+          "Sur un grand écran d'ordinateur, la page du jeu du site peut afficher un seul encart publicitaire, à l'écart du plateau et des commandes. Il n'y a aucune publicité sur téléphone ni dans l'application Android. L'encart est fourni par Google AdSense."
+        ],
+        [
+          "Le site est déclaré à Google comme destiné aux enfants : les annonces ne sont pas personnalisées et ne reposent ni sur un profil ni sur l'historique de navigation. Les catégories d'annonces sensibles sont bloquées dans le compte ; zyclope ne peut toutefois pas voir chaque annonce avant qu'elle s'affiche."
+        ],
+        [
+          "Pour afficher une annonce, le navigateur contacte les serveurs de Google, qui reçoivent l'adresse IP, des informations techniques sur le navigateur et l'appareil, et l'adresse de la page. Google dépose aussi un cookie technique et utilise le stockage local du navigateur dans le seul but de détecter le trafic frauduleux. Ces traitements sont effectués par Google, selon ses propres règles : ",
+          {
+            "a": "Comment Google utilise les informations provenant de sites ou d'applications qui utilisent ses services",
+            "href": "https://policies.google.com/technologies/partner-sites?hl=fr"
+          },
+          "."
+        ],
+        [
+          "Vous pouvez couper la publicité sur cet appareil dans l'espace « Pour les parents » du jeu : le site ne contacte alors plus Google pour des annonces. Le jeu ne transmet à Google ni les profils, ni les surnoms, ni les sauvegardes."
+        ]
+      ]
+    },
+    "replaced": [
+      [
+        "Cette version ne contient ni publicité, ni achat intégré, ni outil de mesure d’audience ajouté par l’éditeur.",
+        "L’application Android ne contient ni publicité, ni achat intégré, ni outil de mesure d’audience ajouté par l’éditeur. Sur grand écran, le site Web peut afficher un encart publicitaire : voir « Publicité sur le site Web »."
+      ],
+      [
+        "zyclope ne les utilise pas pour suivre les visiteurs et le site ne dépose aucun cookie.",
+        "zyclope ne les utilise pas pour suivre les visiteurs et ne dépose aucun cookie. Lorsque l’encart publicitaire s’affiche, Google en dépose un : voir « Publicité sur le site Web »."
+      ]
+    ]
+  },
+  "en": {
+    "section": {
+      "heading": "Advertising on the website",
+      "paragraphs": [
+        [
+          "On a large computer screen, the game page of the website may show a single ad box, away from the board and the controls. There are no ads on phones or in the Android app. The ad box is provided by Google AdSense."
+        ],
+        [
+          "The website is declared to Google as made for children: ads are not personalised and rely neither on a profile nor on browsing history. Sensitive ad categories are blocked in the account; zyclope cannot, however, see each ad before it is shown."
+        ],
+        [
+          "To show an ad, the browser contacts Google's servers, which receive the IP address, technical information about the browser and device, and the address of the page. Google also sets one technical cookie and uses the browser's local storage for the sole purpose of detecting fraudulent traffic. Google carries out this processing under its own rules: ",
+          {
+            "a": "How Google uses information from sites or apps that use our services",
+            "href": "https://policies.google.com/technologies/partner-sites"
+          },
+          "."
+        ],
+        [
+          "You can turn advertising off on this device in the “For parents” area of the game: the website then no longer contacts Google for ads. The game sends Google neither profiles, nicknames nor saves."
+        ]
+      ]
+    },
+    "replaced": [
+      [
+        "This version contains no ads, in-app purchases, or publisher-added analytics.",
+        "The Android app contains no ads, in-app purchases, or publisher-added analytics. On a large screen, the website may show an ad box: see “Advertising on the website”."
+      ],
+      [
+        "zyclope does not use them to track visitors, and the site sets no cookies.",
+        "zyclope does not use them to track visitors and sets no cookies. When the ad box is shown, Google sets one: see “Advertising on the website”."
+      ]
+    ]
+  }
+}

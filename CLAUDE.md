@@ -27,6 +27,9 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
   identifiant d'application, réécriture de l'historique Git, ajout d'un SDK ou d'un appel réseau.
 - Public de 6 à 10 ans : pas de prénom d'enfant imposé, aucune collecte, aucun serveur ; ni
   hasard payant, ni minuteur, ni récompense de retour, ni classement entre enfants.
+  Exception décidée par le parent le 17 novembre 2026 : un encart publicitaire Google sur le
+  site Web, grand écran seulement, non personnalisé, que l'on peut couper ; jamais dans
+  l'application (`docs/publication/PUBLICITE-WEB-PROPOSITION.md`).
 
 ## Interface
 

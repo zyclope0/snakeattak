@@ -234,13 +234,13 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/fr/parents/',
     title: 'Pour les parents — La Conquête des Serpents',
     description:
-      'Un jeu familial sans compte, publicité ni achat intégré dans cette version. Comprendre les sauvegardes locales et accompagner les premiers pas.',
+      'Un jeu familial sans compte ni achat intégré. Comprendre les sauvegardes locales et accompagner les premiers pas.',
     heading: 'Une petite aventure à découvrir ensemble.',
     lead: 'Le jeu vient d’une idée d’enfant. Une première partie à deux permet de découvrir les trois voies, les alliés et le rythme des vagues.',
     blocks: [
       {
         heading: 'Jouer sans compte',
-        text: 'Cette version du jeu est gratuite, sans publicité ni achat intégré. Aucun compte n’est demandé pour jouer. Les profils et les sauvegardes restent sur l’appareil ; le site utilise les fichiers du jeu, sans outil publicitaire ni mesure d’audience ajouté.',
+        text: 'Le jeu est gratuit, sans achat intégré. Aucun compte n’est demandé pour jouer. Les profils et les sauvegardes restent sur l’appareil. Sur grand écran, le site peut afficher un seul encart publicitaire non personnalisé, que l’on peut couper dans « Pour les parents ». Aucune mesure d’audience ajoutée.',
       },
       {
         heading: 'Conserver une aventure',
@@ -258,13 +258,13 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/en/parents/',
     title: 'For parents — Snake Attack TD',
     description:
-      'A family game without an account, ads or in-app purchases in this version. Understand local saves and help with the first steps.',
+      'A family game with no account and no in-app purchases. Understand local saves and help with the first steps.',
     heading: 'A little adventure to discover together.',
     lead: 'The game grew from a child’s idea. Playing the first session together helps introduce the three lanes, the allies and the rhythm of the waves.',
     blocks: [
       {
         heading: 'Play without an account',
-        text: 'This version is free, without ads or in-app purchases. No account is required to play. Profiles and saves stay on the device; the website uses the game files without added advertising or audience analytics tools.',
+        text: 'The game is free, with no in-app purchases. No account is required to play. Profiles and saves stay on the device. On a large screen, the website may show a single non-personalised ad box, which can be turned off in “For parents”. No audience analytics added.',
       },
       {
         heading: 'Keep an adventure',

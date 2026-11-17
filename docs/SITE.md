@@ -106,9 +106,20 @@ tout est mesuré sur le build. Rien n'est essayé sur un vrai téléphone. Aprè
 contrôler dans la Search Console la page explorée de `/` (titre, description) et l'en-tête
 du prototype.
 
-Restent des décisions du parent : la publicité (la revue recommande de ne pas l'activer),
-la place du lien de soutien, une grande image de partage, les mots des titres, la page
-« Nouveautés » et le bloc « qui a fait ce jeu ».
+Restent des décisions du parent : la place du lien de soutien, une grande image de partage,
+les mots des titres, la page « Nouveautés » et le bloc « qui a fait ce jeu ».
+
+### Publicité — textes approuvés le 17 novembre 2026, rien d'activé
+
+La revue recommandait de ne pas activer la publicité ; le parent a décidé de poursuivre.
+La politique de confidentialité a une section « Publicité sur le site Web » et deux phrases
+reformulées (« sans publicité », « aucun cookie ») ; la page parents ne dit plus « sans
+publicité ». Tout est décrit dans
+[PUBLICITE-WEB-PROPOSITION.md](publication/PUBLICITE-WEB-PROPOSITION.md), avec l'ordre
+d'activation. **Tant que `WEB_AD_DELIVERY` est sur `disabled`, le site ne charge aucun
+script de Google et ne pose aucun cookie** : les contrôles de publication le vérifient
+toujours. Les passages plus bas qui citent l'ancienne phrase de la politique décrivent le
+texte du 14 novembre.
 
 ### Soutien Web actif — accord du16novembre2026
 

@@ -1,8 +1,15 @@
 # Publicité sur le site Web — proposition à valider
 
-17 novembre 2026. **Rien n'est activé et aucun texte publié ne change dans ce lot.** Ce
-document rassemble les décisions du parent, les textes proposés en français et en anglais,
-et ce qu'il faudra faire avant d'afficher une première annonce.
+17 novembre 2026. **Textes approuvés par le parent le 17 novembre 2026 et intégrés ; la
+publicité, elle, n'est pas activée.** Ce document rassemble les décisions du parent, les
+textes en français et en anglais, et ce qu'il reste à faire avant d'afficher une première
+annonce.
+
+Le parent a aussi demandé d'étudier le téléphone : **pas de publicité sur téléphone.** Dans
+le jeu, le plateau et les commandes remplissent l'écran (360 px de haut en paysage) et Google
+demande environ 150 px entre une annonce et un jeu ; sur les pages publiques, cela
+amènerait le script de Google sur des pages courtes, aujourd'hui sans aucun script, que
+lisent les plus petits. Le texte « aucune publicité sur téléphone » reste donc vrai.
 
 ## Décisions du parent, 17 novembre 2026
 
@@ -29,9 +36,11 @@ dont une annonce arrive :
 
 ## Textes proposés
 
-À intégrer dans `src/i18n/privacyPolicy.ts` et `deploy/discoveryCopy.ts` **seulement après
-accord du parent**, en actualisant la date de la politique. Les autres engagements ne
-changent pas.
+Intégrés dans `src/i18n/privacyPolicy.ts` et `deploy/discoveryCopy.ts`, avec la date de la
+politique ; `tests/fixtures/publicite-web-approuvee-2026-11-17.json` les fige mot pour mot.
+Les autres engagements ne changent pas. Dans la politique, la phrase sur les cookies se lit
+« zyclope ne les utilise pas pour suivre les visiteurs et ne dépose aucun cookie », sans
+répéter le sujet.
 
 ### Nouvelle section — français : « Publicité sur le site Web »
 
@@ -136,8 +145,10 @@ Tout derrière l'interrupteur `WEB_AD_DELIVERY` (`src/ui/webAds/contract.ts`), q
 
 ## Ordre d'activation
 
-1. Accord du parent sur les textes ci-dessus.
-2. Lot technique, fusionné avec l'interrupteur sur `disabled`.
+1. Accord du parent sur les textes ci-dessus : **donné le 17 novembre 2026.** Ils peuvent
+   être publiés avant l'activation : ils disent ce que le site « peut » afficher.
+2. Lot technique, fusionné avec l'interrupteur sur `disabled`. Le bouton « couper la
+   publicité » arrive avec lui et n'apparaît que là où un encart peut s'afficher.
 3. Approbation du site par Google et contrôle des six réglages.
 4. Publication des nouveaux textes, puis passage de l'interrupteur à `enabled` et
    publication.

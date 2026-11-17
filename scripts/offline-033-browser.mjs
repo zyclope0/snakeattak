@@ -188,12 +188,12 @@ try {
     [
       'fr',
       'Politique de confidentialité de La Conquête des Serpents / Snake Attack TD',
-      6,
+      7,
       'https://snakeattacktd.com/confidentialite',
     ],
   );
   assert.equal(
-    await page.locator('#privacy-body h4').nth(4).textContent(),
+    await page.locator('#privacy-body h4').nth(5).textContent(),
     'Soutien facultatif sur le site Web',
     'The newly approved Web support section is bundled and readable offline',
   );

@@ -2,12 +2,22 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { privacyPageHtml } from '../deploy/privacyPage.ts';
-import { POLICY_APP, PRIVACY_POLICY, WEBSITE_HEADING } from '../src/i18n/privacyPolicy.ts';
+import {
+  POLICY_APP,
+  PRIVACY_POLICY,
+  WEB_ADS_HEADING,
+  WEBSITE_HEADING,
+} from '../src/i18n/privacyPolicy.ts';
 import { PUBLIC_PRIVACY_URL, SITE_HOST } from '../src/site.ts';
 
 const approvedSupport = JSON.parse(
   readFileSync('tests/fixtures/soutien-web-approuve-2026-11-16.json', 'utf8'),
 );
+/** Approved on 17 November 2026: a section about advertising, and two sentences reworded. */
+const approvedAds: Record<
+  'fr' | 'en',
+  { section: { heading: string; paragraphs: unknown[] }; replaced: [string, string][] }
+> = JSON.parse(readFileSync('tests/fixtures/publicite-web-approuvee-2026-11-17.json', 'utf8'));
 
 const published = readFileSync('tests/fixtures/confidentialite-publiee-2026-11-14.html', 'utf8');
 /** What a reader sees of a piece of page: its markup, without the spaces between its tags. */
@@ -16,15 +26,22 @@ const between = (html: string, open: string, close: string) =>
   html.slice(html.indexOf(open), html.indexOf(close) + close.length);
 /**
  * The page without what the publisher added to the words first published: the date of the
- * last change, the website section, and the separately approved support section.
+ * last change, the website section, the separately approved support section, then the
+ * advertising section and the two sentences it reworded.
  */
 const asFirstPublished = (html: string) =>
   Object.values(WEBSITE_HEADING).reduce(
     (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
-    html
+    Object.values(approvedAds)
+      .flatMap((approved) => approved.replaced)
+      .reduce((page, [first, now]) => page.replace(now, first), html)
       .replace(/<p class="updated">[^<]*<\/p>/g, '')
       .replace(
         /\s*<h[23]>(?:Soutien facultatif sur le site Web|Optional support on the website)<\/h[23]>(?:\s*<p>[\s\S]*?<\/p>){3}/g,
+        '',
+      )
+      .replace(
+        /\s*<h[23]>(?:Publicité sur le site Web|Advertising on the website)<\/h[23]>(?:\s*<p>[\s\S]*?<\/p>){4}/g,
         '',
       ),
   );
@@ -52,19 +69,21 @@ test('the section about the website says what the publisher approved, in both la
     )!;
   assert.deepEqual(section('fr').paragraphs, [
     [
-      'Le site snakeattacktd.com est hébergé par Infomaniak, en Suisse. Comme tout serveur Web, l’hébergeur enregistre dans des journaux techniques l’adresse IP, la date, la page demandée et le navigateur des visiteurs, pour faire fonctionner et protéger le service. Ces journaux sont conservés quelques jours par l’hébergeur. zyclope ne les utilise pas pour suivre les visiteurs et le site ne dépose aucun cookie.',
+      'Le site snakeattacktd.com est hébergé par Infomaniak, en Suisse. Comme tout serveur Web, l’hébergeur enregistre dans des journaux techniques l’adresse IP, la date, la page demandée et le navigateur des visiteurs, pour faire fonctionner et protéger le service. Ces journaux sont conservés quelques jours par l’hébergeur. zyclope ne les utilise pas pour suivre les visiteurs et ne dépose aucun cookie. Lorsque l’encart publicitaire s’affiche, Google en dépose un : voir « Publicité sur le site Web ».',
     ],
   ]);
   assert.deepEqual(section('en').paragraphs, [
     [
-      'The snakeattacktd.com website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors, and the site sets no cookies.',
+      'The snakeattacktd.com website is hosted by Infomaniak, in Switzerland. Like any web server, the host records visitors’ IP address, date, requested page, and browser in technical logs, to run and protect the service. The host keeps these logs for a few days. zyclope does not use them to track visitors and sets no cookies. When the ad box is shown, Google sets one: see “Advertising on the website”.',
     ],
   ]);
-  // Hosting comes after Google Play; optional Web support precedes the contact.
+  // Hosting comes after Google Play, then advertising; optional Web support precedes the
+  // contact.
   for (const language of ['fr', 'en'] as const) {
     const headings = PRIVACY_POLICY[language].sections.map((candidate) => candidate.heading);
     assert.equal(headings.indexOf(WEBSITE_HEADING[language]), 3, language);
-    assert.equal(headings.length, 6, language);
+    assert.equal(headings.indexOf(WEB_ADS_HEADING[language]), 4, language);
+    assert.equal(headings.length, 7, language);
   }
 });
 
@@ -76,8 +95,10 @@ test('the public page stands alone: no script, no outside resource, its own addr
   assert.deepEqual(outside, [
     `${PUBLIC_PRIVACY_URL}/`,
     'https://policies.google.com/privacy?hl=fr',
+    'https://policies.google.com/technologies/partner-sites?hl=fr',
     'https://www.paypal.com/ch/legalhub/paypal/privacy-full',
     'https://policies.google.com/privacy?hl=en',
+    'https://policies.google.com/technologies/partner-sites',
     'https://www.paypal.com/ch/legalhub/paypal/privacy-full',
   ]);
   assert.match(page, /<html lang="fr">/);
@@ -86,8 +107,8 @@ test('the public page stands alone: no script, no outside resource, its own addr
 });
 
 test('each language tells when its words last changed and where the public page is', () => {
-  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 16 novembre 2026');
-  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 16, 2026');
+  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 17 novembre 2026');
+  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 17, 2026');
   assert.equal(PRIVACY_POLICY.fr.publicLink, `Lire cette politique sur ${SITE_HOST}`);
   assert.equal(PRIVACY_POLICY.en.publicLink, `Read this policy on ${SITE_HOST}`);
   const page = privacyPageHtml();
@@ -142,7 +163,27 @@ test('the Apache configuration sends every visitor to the one address and keeps 
 
 test('website support policy is exactly the bilingual text the publisher approved on November 16', () => {
   for (const language of ['fr', 'en'] as const) {
-    assert.deepEqual(PRIVACY_POLICY[language].sections[4], approvedSupport[language]);
-    assert.equal(PRIVACY_POLICY[language].sections.length, 6);
+    assert.deepEqual(PRIVACY_POLICY[language].sections[5], approvedSupport[language]);
+    assert.equal(PRIVACY_POLICY[language].sections.length, 7);
   }
+});
+
+test('website advertising policy is exactly the bilingual text the publisher approved on November 17', () => {
+  const page = privacyPageHtml();
+  for (const language of ['fr', 'en'] as const) {
+    const { section, replaced } = approvedAds[language];
+    assert.deepEqual(PRIVACY_POLICY[language].sections[4], section);
+    assert.equal(section.heading, WEB_ADS_HEADING[language]);
+    // Each reworded sentence is on the page once, and the sentence it replaces is gone.
+    for (const [first, now] of replaced) {
+      assert.equal(page.split(now).length, 2, now);
+      assert.ok(!page.includes(first), first);
+    }
+  }
+  // Nothing on the page says any longer that the site is free of ads or of cookies.
+  assert.doesNotMatch(
+    page,
+    /ne contient ni publicité.*Cette version|le site ne dépose aucun cookie/,
+  );
+  assert.doesNotMatch(page, /the site sets no cookies|This version contains no ads/);
 });
