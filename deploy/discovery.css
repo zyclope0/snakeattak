@@ -50,6 +50,7 @@ main,
   display: flex;
   gap: 12px;
   align-items: center;
+  min-height: 48px;
   font:
     500 clamp(1.1rem, 2.2vw, 1.6rem)/1.2 Fredoka,
     sans-serif;
@@ -63,15 +64,23 @@ main,
   margin-left: auto;
   white-space: nowrap;
 }
+/* Every link a finger may press is at least 48 px high. */
+.language,
+.site-nav a,
+.site-footer a,
+.support-note a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+}
 .site-nav {
   display: flex;
-  gap: 8px 24px;
+  gap: 0 24px;
   flex-wrap: wrap;
-  padding-block: 12px 20px;
+  padding-block: 4px 12px;
   border-bottom: 1px solid #ccd2ba;
 }
 .site-nav a {
-  padding-block: 8px;
   text-decoration: none;
   font-weight: 800;
 }
@@ -116,13 +125,14 @@ main,
   max-width: 50ch;
   font-size: 1.15rem;
 }
+/* A square picture: its own corners are rounded, whatever room the column leaves. */
 .hero {
-  width: 100%;
+  width: min(100%, 410px);
   height: auto;
-  max-height: 410px;
-  object-fit: contain;
+  aspect-ratio: 1;
+  justify-self: center;
   border-radius: 24px;
-  filter: drop-shadow(0 14px 7px #173e371c);
+  box-shadow: 0 14px 14px #173e371c;
 }
 .play {
   display: inline-flex;
@@ -137,6 +147,8 @@ main,
   text-decoration: none;
   padding: 14px 25px;
   border-radius: 16px;
+  /* Still a button when a system replaces the colours of the page. */
+  border: 2px solid transparent;
   box-shadow: 0 4px 0 #c99e3e;
   margin-block: 8px;
 }
@@ -145,7 +157,7 @@ main,
 }
 .play.small {
   font-size: 0.95rem;
-  min-height: 44px;
+  min-height: 48px;
   padding: 10px 18px;
   margin: 0;
   white-space: nowrap;
@@ -229,12 +241,23 @@ main,
   }
   .intro {
     grid-template-columns: 1fr;
+    padding-block: 20px 28px;
+  }
+  /* On a phone the button to play comes right under the title, before the paragraph. */
+  .intro > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .intro .lead {
+    order: 1;
   }
   .intro h1 {
     max-width: 18ch;
+    font-size: clamp(1.8rem, 8.4vw, 2.2rem);
   }
   .hero {
-    max-height: 250px;
+    width: min(100%, 250px);
     grid-row: 2;
   }
   .stories {
@@ -242,8 +265,11 @@ main,
     gap: 30px;
   }
   .site-nav {
-    gap: 6px 20px;
+    gap: 0 20px;
     font-size: 0.95rem;
+  }
+  .site-header {
+    padding-block: 12px 4px;
   }
   .site-footer {
     display: block;
@@ -252,14 +278,27 @@ main,
     margin-top: 16px;
   }
 }
-@media (max-height: 430px) and (min-width: 701px) {
-  .intro {
-    padding-block: 28px;
+/* A phone held sideways: little height, so the top of the page is kept short. */
+@media (max-height: 430px) {
+  .site-header {
+    padding-block: 8px 0;
   }
-  .hero {
-    max-height: 260px;
+  .site-nav {
+    padding-block: 0 4px;
+  }
+  .intro {
+    padding-block: 14px 20px;
+  }
+  .eyebrow {
+    margin: 0;
   }
   .intro h1 {
-    font-size: 2.4rem;
+    font-size: 1.9rem;
+    max-width: none;
+  }
+}
+@media (max-height: 430px) and (min-width: 701px) {
+  .hero {
+    width: min(100%, 230px);
   }
 }

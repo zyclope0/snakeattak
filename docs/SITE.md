@@ -26,7 +26,8 @@ dans GitHub, comment publier et revenir en arrière, et ce qui reste à vérifie
 | `.htaccess`                  | adresse unique, en-têtes de sécurité, cache (`deploy/policy.ts`)                         |
 | `_headers`                   | les mêmes en-têtes pour l'ancien hébergeur ; Apache l'ignore                             |
 | `fr/`, `en/`                 | présentation, prise en main, personnages, nouveautés et parents, en HTML sans JavaScript |
-| `sitemap.xml`, `robots.txt`  | découverte des12URL publiques par les moteurs, prototype exclu de l'exploration          |
+| `sitemap.xml`, `robots.txt`  | découverte des12URL publiques par les moteurs ; le prototype porte un en-tête `noindex`  |
+| `favicon.ico`                | l'icône des pages qui n'en nomment pas (politique, prototype)                            |
 
 L'adresse du site est écrite à un seul endroit, `src/site.ts`.
 
@@ -64,6 +65,51 @@ La génération du sitemap et sa publication ne prouvent ni la vérification de 
 ni une soumission, ni une indexation ou un classement. Les accès Google/Bing du propriétaire
 restent nécessaires. [Guide Google](https://developers.google.com/search/docs/fundamentals/seo-starter-guide).
 
+### Revue du 17 novembre 2026 — ce qui a été corrigé
+
+Revue du site sur trois angles (indexation et icônes, publicité et confidentialité, mise en
+page), chaque constat vérifié dans le build. Corrigé dans ce lot, sans toucher aux textes
+approuvés (politique de confidentialité, soutien) :
+
+- **« Jouer » dans le premier écran.** Sur téléphone, le bouton vient juste sous le titre,
+  avant le paragraphe ; en paysage le haut de page est resserré. Mesuré de 320×568 à
+  1280×800 ; la recette `test:discovery` le contrôle sur cinq tailles, dont 360×640 et
+  667×375.
+- **Liens de 48 px au moins** sur les pages publiques (langue, navigation, pied de page,
+  soutien, logo). Dans le jeu, « À propos » n'apparaît plus que dans la langue du jeu, avec
+  une zone de 96×27 px : c'est toute la place sous le menu sans ajouter de ligne. **Elle
+  reste sous les 48 px de haut** ; l'atteindre demande de déplacer ce lien (décision du
+  parent).
+- **Page du jeu (`/`).** Elle nomme maintenant son image de partage, le nom du site et une
+  icône pour l'écran d'accueil d'un téléphone (`GAME_PAGE`, `augmentGamePage`). Sa
+  description est dans les deux langues : le jeu écrit son titre dans la langue du joueur,
+  et un moteur de recherche, qui n'annonce pas de langue, lisait un titre anglais avec une
+  description française. Le titre lui-même ne change pas : la recette de langue tient à ce
+  qu'il suive la langue du jeu.
+- **Images légères.** `scripts/export-site-icons.py` tire de l'icône de 512 px (356 Ko) une
+  image de page de 31 Ko, un logo de 18 Ko, une icône d'onglet de 6 Ko, une icône d'écran
+  d'accueil et `favicon.ico`. L'icône de 512 px ne sert plus qu'à l'aperçu d'un lien partagé.
+  Aucune image nouvelle, aucune dépense.
+- **Prototype hors des résultats de recherche.** `robots.txt` l'interdisait d'exploration,
+  ce qui n'empêche pas l'indexation ; il porte maintenant l'en-tête `X-Robots-Tag: noindex`
+  (`deploy/policy.ts`) et `robots.txt` laisse tout lire, pour que l'en-tête soit vu.
+- **Anglais.** Les trois nouveaux serpents portent leurs noms anglais ; le lien
+  « Privacy policy » des pages anglaises ouvre la moitié anglaise (`/confidentialite/#en`).
+- **Budget de la page du jeu.** Il restait 62 octets sur 32 768. Deux formats sans effet sur
+  la page sont retirés au build (saut de ligne avant la fin d'une balise, barre des éléments
+  vides) et ce que le site ajoute à la page est compté à part : `WEB_HEAD_BUDGET`, 1 024
+  octets, dont 701 utilisés. La page du jeu elle-même pèse 32 085 octets sur 32 768
+  (`scripts/check-dist.mjs`).
+
+Non vérifié : le site en ligne n'était pas joignable depuis l'environnement de la revue ;
+tout est mesuré sur le build. Rien n'est essayé sur un vrai téléphone. Après publication,
+contrôler dans la Search Console la page explorée de `/` (titre, description) et l'en-tête
+du prototype.
+
+Restent des décisions du parent : la publicité (la revue recommande de ne pas l'activer),
+la place du lien de soutien, une grande image de partage, les mots des titres, la page
+« Nouveautés » et le bloc « qui a fait ce jeu ».
+
 ### Soutien Web actif — accord du16novembre2026
 
 Le parent a créé et approuvé le lien public
@@ -81,7 +127,8 @@ nouvel onglet avec `noopener noreferrer nofollow`, sans profil ni code de partie
 Le panneau parents du jeu conserve sa taille : aucun lien de paiement ajouté dans
 la coquille HTML du jeu. Depuis l'accueil Web, « À propos » / « About » mène aux
 pages publiques puis à « Pour les parents » / « For parents ». Le bloc dormant
-qui aurait ajouté une ligne au panneau a été retiré ; le budget HTML reste32768octets.
+qui aurait ajouté une ligne au panneau a été retiré ; le budget HTML reste32768octets
+pour la page du jeu, et ce que le site y ajoute est compté à part (voir la revue du 17 novembre).
 
 Le parent a approuvé les paragraphes de confidentialité FR/EN le16novembre2026,
 documentés dans [SOUTIEN-WEB-PAYPAL-PROPOSITION.md](publication/SOUTIEN-WEB-PAYPAL-PROPOSITION.md).

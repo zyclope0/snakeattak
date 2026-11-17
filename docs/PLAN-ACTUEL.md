@@ -63,6 +63,15 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   images provisoires** : au fils de nommer, au parent de décider des dessins
   ([bilan](BILAN-REVISION-4.md)). **Pas encore joué par les enfants.**
 
+## Site : revue du 17 novembre
+
+- Corrigé : « Jouer » dans le premier écran sur téléphone, liens de 48 px, en-tête de la page
+  du jeu (deux noms, image de partage, icône d'écran d'accueil), images légères, prototype
+  hors des résultats de recherche, deux erreurs d'anglais ([détail](SITE.md)).
+  **Pas encore publié** : à faire par « Publier le site ».
+- En attente du parent : publicité (la revue recommande de ne pas l'activer), place du lien
+  de soutien, grande image de partage, mots des titres, page « Nouveautés ».
+
 ## Site : découverte FR/EN et soutien — lot du16novembre
 
 -10pages publiques : présentation, comment jouer, personnages, nouveautés et parents,

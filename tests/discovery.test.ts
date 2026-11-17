@@ -6,6 +6,9 @@ import {
   discoverySitemap,
   discoveryRobots,
   augmentGamePage,
+  GAME_PAGE,
+  WEB_HEAD_BUDGET,
+  webHeadBytes,
   resolveSupportUrl,
   SUPPORT_URL,
 } from '../deploy/discovery.ts';
@@ -13,10 +16,15 @@ import { SITE_ORIGIN } from '../src/site.ts';
 
 const assets = {
   css: '/assets/discovery-12345678.css',
-  icon: '/assets/site-icon-12345678.png',
+  share: '/assets/site-icon-12345678.png',
+  tab: '/assets/site-tab-12345678.png',
+  touch: '/assets/site-touch-12345678.png',
+  logo: '/assets/site-logo-12345678.png',
   hero: '/assets/site-hero-12345678.webp',
   characters: ['/assets/site-club-12345678.webp', '/assets/site-ninja-12345678.webp'],
 };
+
+const pictures = { share: assets.share, touch: assets.touch };
 
 test('discovery has five genuine pages in both languages and reciprocal language links', () => {
   assert.equal(DISCOVERY_PAGES.length, 10);
@@ -35,8 +43,26 @@ test('discovery has five genuine pages in both languages and reciprocal language
     assert.match(html, /href="\/"/);
     assert.doesNotMatch(html, /<iframe|<form|<script(?! type="application\/ld\+json")|\son\w+=/);
     assert.doesNotMatch(html, /aggregateRating|reviewCount|adsbygoogle|googletagmanager/);
-    assert.match(html, /href="\/confidentialite\/"/);
+    // The policy is one page in both languages: an English page opens its English half.
+    assert.ok(html.includes(`href="/confidentialite/${page.lang === 'en' ? '#en' : ''}"`));
+    // A small picture for the tab and the logo, a light one for the hero, the icon of
+    // 512 px for a shared link only.
+    assert.ok(
+      html.includes(`<link rel="icon" type="image/png" sizes="48x48" href="${assets.tab}">`),
+    );
+    assert.ok(html.includes(`<link rel="apple-touch-icon" href="${assets.touch}">`));
+    assert.ok(html.includes(`property="og:image" content="${SITE_ORIGIN}${assets.share}"`));
+    assert.ok(html.includes(`<img src="${assets.logo}" alt="" width="48" height="48">`));
+    assert.ok(html.includes(`<img class="hero" src="${assets.hero}"`));
+    assert.equal(html.split(assets.share).length, 2, 'the heavy icon is not shown on the page');
   }
+});
+
+test('the new snakes carry their English names on the English pages', () => {
+  const updates = DISCOVERY_PAGES.find((p) => p.lang === 'en' && p.key === 'updates')!;
+  const html = discoveryPageHtml(updates, assets);
+  assert.match(html, /Big Fangs, the Rare Snake and the Ninja Snake/);
+  assert.doesNotMatch(html, /Grands crocs|serpent rare|serpent ninja/);
 });
 
 test('sitemap exposes actual public pages with language pairs, no player or seed data', () => {
@@ -46,7 +72,8 @@ test('sitemap exposes actual public pages with language pairs, no player or seed
   assert.ok(xml.includes(`<loc>${SITE_ORIGIN}/</loc>`));
   assert.ok(xml.includes(`<loc>${SITE_ORIGIN}/confidentialite/</loc>`));
   assert.doesNotMatch(xml, /lastmod|departure|player|seed|prototype/);
-  assert.match(discoveryRobots(), /Disallow: \/prototype-v4.html/);
+  // A search engine must be able to read the prototype to see its « noindex » header.
+  assert.doesNotMatch(discoveryRobots(), /Disallow/);
   assert.ok(discoveryRobots().includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`));
 });
 
@@ -97,8 +124,17 @@ test('support rejects unsafe URLs, credentials, and unsafe HTML payloads', () =>
 test('only the Web gets public metadata and links; game markup and saves remain in place', () => {
   const shell =
     '<html><head><title>Game</title></head><body><details id="home-parent-options"></details><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
-  const html = augmentGamePage(shell);
+  const html = augmentGamePage(shell, pictures);
   assert.match(html, /name="description"/);
+  // The title stays the game's own, in the player's language; the description holds both.
+  assert.match(html, /<title>Game<\/title>/);
+  assert.match(GAME_PAGE.description, /^Jeu de défense gratuit .* Free defense game: /);
+  assert.ok(html.includes(`<link rel="apple-touch-icon" href="${pictures.touch}">`));
+  assert.ok(html.includes(`property="og:image" content="${SITE_ORIGIN}${pictures.share}"`));
+  assert.match(html, /property="og:site_name" content="Snake Attack TD"/);
+  // One link per language in a classed list: no inline style, no extra row.
+  assert.match(html, /<nav class="about" data-home-page="home" data-copy-raw aria-label=/);
+  assert.doesNotMatch(html, /style=/);
   assert.ok(html.includes(`rel="canonical" href="${SITE_ORIGIN}/"`));
   assert.match(html, /href="\/fr\/"/);
   assert.match(html, /href="\/en\/"/);
@@ -106,17 +142,30 @@ test('only the Web gets public metadata and links; game markup and saves remain 
   assert.doesNotMatch(html, /data-support|localStorage|<script/);
 });
 
+test('what the website adds to the game page is counted and bounded', () => {
+  const added = webHeadBytes(pictures);
+  assert.ok(added > 0 && added <= WEB_HEAD_BUDGET, `${added} octets`);
+  assert.equal(WEB_HEAD_BUDGET, 1024);
+  // The count is exact on a real page: the same bytes whatever the page holds.
+  const page =
+    '<html><head><title>Jeu</title></head><body><main>Jeu</main><footer class="home-footer"><span>Local</span></footer></body></html>';
+  assert.equal(Buffer.byteLength(augmentGamePage(page, pictures)) - Buffer.byteLength(page), added);
+});
+
 test('discovery leaves the compact parents content intact', () => {
   const parents = '<details id="home-parent-options"><section>Parents</section></details>';
   const footer = '<footer class="home-footer"><span id="career-status">Local</span></footer>';
-  const html = augmentGamePage(`<html><head></head><body>${parents}${footer}</body></html>`);
+  const html = augmentGamePage(
+    `<html><head></head><body>${parents}${footer}</body></html>`,
+    pictures,
+  );
   assert.ok(html.includes(parents), 'no extra row in the tightly fitted parents screen');
   assert.match(html, /id="career-status">Local/);
 });
 
 test('Web verification identifies the approved AdSense account without ad delivery or layout changes', () => {
   const body = '<body><main id="game">Game</main></body>';
-  const html = augmentGamePage('<html><head></head>' + body + '</html>');
+  const html = augmentGamePage('<html><head></head>' + body + '</html>', pictures);
   assert.ok(
     html.includes('<meta name="google-adsense-account" content="ca-pub-8498417364292905">'),
   );

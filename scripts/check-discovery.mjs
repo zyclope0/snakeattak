@@ -50,6 +50,9 @@ if (android) {
   assert.match(game, /href="\/en\/"/);
   assert.ok(existsSync(join(folder, 'sitemap.xml')));
   assert.ok(existsSync(join(folder, 'robots.txt')));
+  assert.ok(existsSync(join(folder, 'favicon.ico')), 'Web: an icon for pages that name none');
+  assert.match(game, /<link rel="apple-touch-icon" href="\/assets\/site-touch-/);
+  assert.match(game, /property="og:image" content="https:\/\/[^"]+\/assets\/site-icon-/);
   let links = 0;
   for (const page of DISCOVERY_PAGES) {
     const html = readFileSync(join(folder, page.path, 'index.html'), 'utf8');
@@ -77,6 +80,12 @@ if (android) {
         ),
       );
     }
+    // The pictures a page shows are light; the icon of 512 px is for shared links only.
+    for (const match of html.matchAll(/<img[^>]+src="(\/[^"]+)"/g))
+      assert.ok(
+        statSync(join(folder, match[1])).size <= 60_000,
+        `${page.path}: ${match[1]} is too heavy for a page`,
+      );
     for (const match of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
       const path = join(folder, decodeURI(match[1]));
       assert.ok(existsSync(path), `${page.path}: missing ${match[1]}`);

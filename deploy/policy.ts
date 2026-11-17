@@ -13,13 +13,15 @@ export const webHeaders: Record<string, string> = {
 export const legacyPolicy =
   "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
 export const assetCache = 'public, max-age=31536000, immutable';
+/** The first prototype stays playable from the help of the game, out of search results. */
+export const PROTOTYPE_ROBOTS = 'noindex';
 export function hostHeadersFile() {
   return (
     '/*\n' +
     Object.entries(webHeaders)
       .map(([k, v]) => `  ${k}: ${v}`)
       .join('\n') +
-    `\n\n/assets/*\n  Cache-Control: ${assetCache}\n\n/prototype-v4.html\n  Content-Security-Policy: ${legacyPolicy}\n`
+    `\n\n/assets/*\n  Cache-Control: ${assetCache}\n\n/prototype-v4.html\n  Content-Security-Policy: ${legacyPolicy}\n  X-Robots-Tag: ${PROTOTYPE_ROBOTS}\n`
   );
 }
 
@@ -60,6 +62,7 @@ export function apacheConfig() {
     '  </FilesMatch>',
     '  <Files "prototype-v4.html">',
     `    Header always set Content-Security-Policy "${legacyPolicy}"`,
+    `    Header always set X-Robots-Tag "${PROTOTYPE_ROBOTS}"`,
     '  </Files>',
     '</IfModule>',
     '',

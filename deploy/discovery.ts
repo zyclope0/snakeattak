@@ -6,7 +6,12 @@ import { DISCOVERY_PAGES, type DiscoveryPage } from './discoveryCopy.ts';
 export const SUPPORT_URL: string | null = 'https://www.paypal.com/ncp/payment/XXQ7BEAZQ3QZL';
 export type DiscoveryAssets = {
   css: string;
-  icon: string;
+  /** The square picture shared on social networks, 512 px. */
+  share: string;
+  /** Browser tab, 48 px; a phone's home screen, 180 px; the logo beside the title. */
+  tab: string;
+  touch: string;
+  logo: string;
   hero: string;
   characters: string[];
 };
@@ -111,7 +116,8 @@ export function discoveryPageHtml(
 <link rel="alternate" hreflang="fr" href="${SITE_ORIGIN}${french.path}">
 <link rel="alternate" hreflang="en" href="${SITE_ORIGIN}${english.path}">
 <link rel="alternate" hreflang="x-default" href="${SITE_ORIGIN}${english.path}">
-<link rel="icon" type="image/png" href="${assets.icon}">
+<link rel="icon" type="image/png" sizes="48x48" href="${assets.tab}">
+<link rel="apple-touch-icon" href="${assets.touch}">
 <link rel="stylesheet" href="${assets.css}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Snake Attack TD">
@@ -120,7 +126,7 @@ export function discoveryPageHtml(
 <meta property="og:url" content="${canonical}">
 <meta property="og:locale" content="${page.lang === 'fr' ? 'fr_FR' : 'en_US'}">
 <meta property="og:locale:alternate" content="${page.lang === 'fr' ? 'en_US' : 'fr_FR'}">
-<meta property="og:image" content="${SITE_ORIGIN}${assets.icon}">
+<meta property="og:image" content="${SITE_ORIGIN}${assets.share}">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
 <meta property="og:image:alt" content="${escape(words.alt)}">
@@ -129,7 +135,7 @@ export function discoveryPageHtml(
 </head>
 <body>
 <a class="skip" href="#content">${words.skip}</a>
-<header class="site-header"><a class="brand" href="/${page.lang}/"><img src="${assets.icon}" alt="" width="48" height="48">${words.title}</a><a class="language" lang="${equivalent.lang}" hreflang="${equivalent.lang}" href="${equivalent.path}">${equivalent.lang === 'en' ? 'English' : 'Français'}</a><a class="play small" href="/">${words.play}</a></header>
+<header class="site-header"><a class="brand" href="/${page.lang}/"><img src="${assets.logo}" alt="" width="48" height="48">${words.title}</a><a class="language" lang="${equivalent.lang}" hreflang="${equivalent.lang}" href="${equivalent.path}">${equivalent.lang === 'en' ? 'English' : 'Français'}</a><a class="play small" href="/">${words.play}</a></header>
 <nav class="site-nav" aria-label="${page.lang === 'fr' ? 'Découvrir le jeu' : 'Explore the game'}">${navigation}</nav>
 <main id="content">
 <section class="intro"><div><p class="eyebrow">${words.family}</p><h1>${escape(page.heading)}</h1><p class="lead">${escape(page.lead)}</p><a class="play" href="/">${words.play}<span aria-hidden="true"> →</span></a></div><img class="hero" src="${assets.hero}" width="512" height="512" alt="${escape(words.alt)}" fetchpriority="high"></section>
@@ -137,7 +143,7 @@ ${cards}
 <div class="stories">${page.blocks.map((b) => `<section class="story"><h2>${escape(b.heading)}</h2><p>${escape(b.text)}</p></section>`).join('\n')}</div>
 ${page.key === 'parents' && support ? `<section class="support-note"><h2>${words.support}</h2><p>${words.external}</p>${support}</section>` : ''}
 </main>
-<footer class="site-footer"><p>© zyclope · ${words.title}</p><nav aria-label="${page.lang === 'fr' ? 'Informations' : 'Information'}"><a href="/">${words.back}</a><a href="/confidentialite/">${words.privacy}</a>${support}</nav>${support ? `<small>${words.external}</small>` : ''}</footer>
+<footer class="site-footer"><p>© zyclope · ${words.title}</p><nav aria-label="${page.lang === 'fr' ? 'Informations' : 'Information'}"><a href="/">${words.back}</a><a href="/confidentialite/${page.lang === 'en' ? '#en' : ''}">${words.privacy}</a>${support}</nav>${support ? `<small>${words.external}</small>` : ''}</footer>
 </body>
 </html>\n`;
 }
@@ -156,17 +162,48 @@ export function discoverySitemap(): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${[root, ...pages, privacy].join('\n')}\n</urlset>\n`;
 }
 
+/**
+ * Everything may be read. The old prototype is kept out of search results by a header
+ * (`deploy/policy.ts`), which a search engine can only see on a page it is allowed to read.
+ */
 export function discoveryRobots(): string {
-  return `User-agent: *\nAllow: /\nDisallow: /prototype-v4.html\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`;
+  return `User-agent: *\nAllow: /\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`;
+}
+
+/**
+ * The game page as search engines and shared links describe it. The game writes its title
+ * in the player's language (« La Conquête des Serpents », "Snake Attack TD"); a search
+ * engine states no language and may read either, so the description holds both.
+ */
+export const GAME_PAGE = {
+  description:
+    'Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés. Free defense game: protect the crystal on three lanes with your allies.',
+} as const;
+
+/**
+ * What the website may add to the game page, in bytes: its names for search engines and
+ * shared links, its icons, the link to the public pages. The page of the game itself keeps
+ * its own limit (`scripts/check-dist.mjs`); this one is counted apart, so that neither can
+ * grow by hiding in the other.
+ */
+export const WEB_HEAD_BUDGET = 1024;
+/** The bytes `augmentGamePage` adds to a page: the same whatever the page holds. */
+export function webHeadBytes(pictures: { share: string; touch: string }) {
+  const shell = '<head></head><footer class="home-footer"></footer>';
+  return Buffer.byteLength(augmentGamePage(shell, pictures)) - Buffer.byteLength(shell);
 }
 
 /** Applied at build time on the website only. No storage, redirects or game rules. */
-export function augmentGamePage(html: string): string {
-  const meta = `<meta name="description" content="Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés."><link rel="canonical" href="${SITE_ORIGIN}/">`;
-  // Cancel the generic footer anchors' block/44px styling for these inline information
-  // links. Neither the status footer nor the tightly fitted parents screen gains a row.
-  const inline = 'style="display:inline;min-height:0;padding:0"';
-  const links = `<nav data-home-page="home" style="display:flex;gap:12px" data-copy-raw aria-label="À propos / About"><a ${inline} href="/fr/" lang="fr">À propos</a><a ${inline} href="/en/" lang="en">About</a></nav>`;
+export function augmentGamePage(html: string, pictures: { share: string; touch: string }): string {
+  const meta =
+    `<meta name="description" content="${GAME_PAGE.description}">` +
+    `<link rel="canonical" href="${SITE_ORIGIN}/">` +
+    `<link rel="apple-touch-icon" href="${pictures.touch}">` +
+    `<meta property="og:site_name" content="Snake Attack TD">` +
+    `<meta property="og:image" content="${SITE_ORIGIN}${pictures.share}">`;
+  // One link to the public pages, in the language of the game (`.about`, 08-home.css): the
+  // status footer gains no row.
+  const links = `<nav class="about" data-home-page="home" data-copy-raw aria-label="À propos / About"><a href="/fr/" lang="fr">À propos</a><a href="/en/" lang="en">About</a></nav>`;
   const result = html
     .replace('</head>', meta + adSenseVerificationMeta() + '</head>')
     .replace(
