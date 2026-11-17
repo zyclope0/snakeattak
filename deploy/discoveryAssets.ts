@@ -1,14 +1,15 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
-import type { DiscoveryAssets } from './discovery.ts';
+import { SHARE_PICTURE, type DiscoveryAssets } from './discovery.ts';
 
 /**
- * The pictures of the website, cut from the application icon by
+ * The pictures of the website. The one a shared link shows is a real battle
+ * (`SHARE_PICTURE`); the others are cut from the application icon by
  * `scripts/export-site-icons.py`: a few kilobytes for a browser tab, a phone's home screen
- * and the top of each page. The icon of 512 px stays the picture shared on social networks.
+ * and the top of each page.
  */
 const PICTURES = {
-  share: 'resources/android-icon/icon-512.png',
+  share: SHARE_PICTURE.source,
   tab: 'resources/site/icon-48.png',
   touch: 'resources/site/touch-180.png',
   logo: 'resources/site/logo-96.png',
@@ -18,7 +19,7 @@ const FAVICON = 'resources/site/favicon.ico';
 
 const hashed = (name: string, extension: string, bytes: Buffer): string =>
   `/assets/${name}-${createHash('sha256').update(bytes).digest('hex').slice(0, 12)}.${extension}`;
-const pictureName = (key: keyof typeof PICTURES) => (key === 'share' ? 'site-icon' : `site-${key}`);
+const pictureName = (key: keyof typeof PICTURES) => `site-${key}`;
 const picturePath = (key: keyof typeof PICTURES): string =>
   hashed(pictureName(key), PICTURES[key].split('.').at(-1)!, readFileSync(PICTURES[key]));
 

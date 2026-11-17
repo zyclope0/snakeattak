@@ -68,7 +68,7 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
 - Corrigé : « Jouer » dans le premier écran sur téléphone, liens de 48 px, en-tête de la page
   du jeu (deux noms, image de partage, icône d'écran d'accueil), images légères, prototype
   hors des résultats de recherche, deux erreurs d'anglais ([détail](SITE.md)).
-  Fusionné le 17 novembre ; **pas encore publié** : à faire par « Publier le site ».
+  Fusionné et publié le 17 novembre.
 - **Publicité sur le site** : la revue recommandait de ne pas l'activer ; le parent a décidé
   de poursuivre (tous les visiteurs sur grand écran, un seul cookie anti-fraude de Google,
   un moyen de la couper ; pas de publicité sur téléphone). **Rien n'est activé.** Les textes
@@ -77,8 +77,12 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   publié n'en contient rien. Restent l'approbation du site par Google, le feu vert du
   parent, puis une capture sur le site en ligne :
   [proposition et ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md).
-- En attente du parent : place du lien de soutien, grande image de partage, mots des
-  titres, page « Nouveautés ».
+- **Suite de la revue (17 novembre, accord du parent sur les six points)** : lien PayPal
+  sur la seule page parents (les autres pieds de page y mènent), image de partage large
+  faite d'une vraie bataille, titres « tower defense … pour enfants / for kids »,
+  « Nouveautés » écrite pour l'enfant, bloc « Qui a fait ce jeu ? », lien « À propos du
+  jeu » à 48 px dans « Pour les parents » ([détail](SITE.md)). **Pas encore publié** : à
+  faire par « Publier le site », sur accord du parent. Rien n'est essayé sur le téléphone.
 
 ## Site : découverte FR/EN et soutien — lot du16novembre
 

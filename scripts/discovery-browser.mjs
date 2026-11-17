@@ -68,7 +68,15 @@ try {
       await page.locator('h1').waitFor();
       assert.equal(await page.locator('html').getAttribute('lang'), item.lang);
       const support = page.locator('[data-support]');
-      assert.equal(await support.count(), item.key === 'parents' ? 2 : 1);
+      // The payment link is on the parents page alone; the other footers lead to its block.
+      assert.equal(await support.count(), item.key === 'parents' ? 1 : 0);
+      const way = page.locator('.site-footer a', {
+        hasText: item.lang === 'fr' ? 'Soutenir le développement' : 'Support development',
+      });
+      assert.equal(
+        await way.getAttribute('href'),
+        item.lang === 'fr' ? '/fr/parents/#soutien' : '/en/parents/#support',
+      );
       for (const link of await support.all()) {
         assert.equal(await link.getAttribute('href'), SUPPORT_URL);
         assert.equal(await link.getAttribute('target'), '_blank');
@@ -177,22 +185,21 @@ try {
     await page.locator('#home-screen:not([hidden])').waitFor({ timeout: 30000 });
     const footer = await page.locator('.home-footer').boundingBox();
     assert.ok(footer && footer.height <= 20, 'discovery keeps the game footer on one line');
-    // One link, in the language of the game, as large as the corner under the menu allows.
-    const about = page.locator('.home-footer .about a:visible');
-    assert.equal(await about.count(), 1);
-    assert.equal(await about.getAttribute('href'), '/fr/');
-    const hit = await about.boundingBox();
-    const menu = await page.locator('#home-parents').boundingBox();
-    assert.ok(hit.width >= 96 && hit.height >= 27, `about link ${hit.width}×${hit.height}`);
-    assert.ok(hit.y >= menu.y + menu.height - 0.5, 'the about link does not cover the menu');
-    assert.ok(hit.y + hit.height <= viewport.height + 0.5);
+    assert.equal(await page.locator('.home-footer a').count(), 0, 'no link in the footer');
     // The title stays the name of the game in the player's language.
     assert.equal(await page.title(), 'La Conquête des Serpents');
     await page.locator('#home-parents').click();
-    assert.ok(
-      await page.locator('.home-footer nav').isHidden(),
-      'discovery links are home-only and leave secondary footers alone',
-    );
+    // One link to the public pages, in the language of the game, as tall as a button and
+    // on the row of the family save: the screen gains no row.
+    const about = page.locator('.parent-actions .about:visible');
+    assert.equal(await about.count(), 1);
+    assert.equal(await about.getAttribute('href'), '/fr/');
+    assert.equal(await about.innerText(), 'À propos du jeu');
+    const hit = await about.boundingBox();
+    const family = await page.locator('#home-family').boundingBox();
+    assert.ok(hit.width >= 96 && hit.height >= 48, `about link ${hit.width}×${hit.height}`);
+    assert.ok(Math.abs(hit.y - family.y) <= 1, 'the about link shares the row of the family save');
+    assert.ok(hit.x + hit.width <= viewport.width);
     const overflow = await page
       .locator('#home-parent-options')
       .evaluate((node) => node.scrollHeight - node.clientHeight);

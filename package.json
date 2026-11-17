@@ -39,6 +39,7 @@
     "balance:tutorial": "node scripts/tutorial-balance-030.mjs",
     "store:check": "node scripts/play-preflight.mjs",
     "store:captures": "node scripts/play-captures.mjs",
+    "site:share": "node scripts/export-share-image.mjs",
     "store:dossier": "node scripts/store-dossier.mjs",
     "test:interruptions": "node scripts/interruptions-033-browser.mjs",
     "test:offline": "node scripts/offline-033-browser.mjs",

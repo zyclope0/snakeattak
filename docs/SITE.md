@@ -38,7 +38,8 @@ FR/EN de `deploy/discoveryCopy.ts` sont générées par `deploy/discovery.ts` : 
 un titre et une description propres, canonical, liens linguistiques réciproques, Open Graph,
 image de partage existante et données structurées WebPage factuelles, sans notes inventées.
 Elles réutilisent les polices et illustrations locales autorisées, sans nouvelle génération,
-script de suivi, cookie ni appel de régie. Le pied de l'accueil du jeu permet de les trouver, sur une seule ligne.
+script de suivi, cookie ni appel de régie. Dans le jeu, « À propos du jeu », parmi les
+boutons de « Pour les parents », permet de les trouver.
 Le lot de découverte a conservé la politique approuvée. L'ajout de soutien
 ultérieur a son accord distinct du16novembre2026, décrit ci-dessous. Aucune publicité.
 
@@ -76,10 +77,9 @@ approuvés (politique de confidentialité, soutien) :
   1280×800 ; la recette `test:discovery` le contrôle sur cinq tailles, dont 360×640 et
   667×375.
 - **Liens de 48 px au moins** sur les pages publiques (langue, navigation, pied de page,
-  soutien, logo). Dans le jeu, « À propos » n'apparaît plus que dans la langue du jeu, avec
-  une zone de 96×27 px : c'est toute la place sous le menu sans ajouter de ligne. **Elle
-  reste sous les 48 px de haut** ; l'atteindre demande de déplacer ce lien (décision du
-  parent).
+  soutien, logo). Dans le jeu, « À propos » n'apparaît plus que dans la langue du jeu ; il
+  restait à 27 px de haut dans le pied de l'accueil et a été déplacé dans la suite de la
+  revue (ci-dessous).
 - **Page du jeu (`/`).** Elle nomme maintenant son image de partage, le nom du site et une
   icône pour l'écran d'accueil d'un téléphone (`GAME_PAGE`, `augmentGamePage`). Sa
   description est dans les deux langues : le jeu écrit son titre dans la langue du joueur,
@@ -88,7 +88,8 @@ approuvés (politique de confidentialité, soutien) :
   qu'il suive la langue du jeu.
 - **Images légères.** `scripts/export-site-icons.py` tire de l'icône de 512 px (356 Ko) une
   image de page de 31 Ko, un logo de 18 Ko, une icône d'onglet de 6 Ko, une icône d'écran
-  d'accueil et `favicon.ico`. L'icône de 512 px ne sert plus qu'à l'aperçu d'un lien partagé.
+  d'accueil et `favicon.ico`. L'icône de 512 px ne sert plus aux pages ; l'aperçu d'un lien
+  partagé est devenu une image large (suite de la revue, ci-dessous).
   Aucune image nouvelle, aucune dépense.
 - **Prototype hors des résultats de recherche.** `robots.txt` l'interdisait d'exploration,
   ce qui n'empêche pas l'indexation ; il porte maintenant l'en-tête `X-Robots-Tag: noindex`
@@ -106,8 +107,42 @@ tout est mesuré sur le build. Rien n'est essayé sur un vrai téléphone. Aprè
 contrôler dans la Search Console la page explorée de `/` (titre, description) et l'en-tête
 du prototype.
 
-Restent des décisions du parent : la place du lien de soutien, une grande image de partage,
-les mots des titres, la page « Nouveautés » et le bloc « qui a fait ce jeu ».
+### Suite de la revue — 17 novembre 2026, accord du parent sur les six points
+
+- **Lien PayPal dans un seul endroit.** Il n'est plus dans le pied des dix pages, dont
+  celles écrites pour les enfants : il reste dans le bloc « Soutenir le développement » de
+  la page parents, avec sa mention approuvée. Dans chaque pied, « Soutenir le
+  développement » mène à ce bloc (`/fr/parents/#soutien`, `/en/parents/#support`), jamais
+  au paiement. Le mot « PayPal » n'apparaît plus que sur la page parents et dans la
+  politique, dont le texte reste exact (« un lien vers PayPal »).
+- **Image de partage large.** 1200×630, 141 Ko : une vraie bataille du jeu (mission « Le
+  refuge », vague 1), prise par l'interface publique du build, sous l'icône et les deux
+  noms du jeu dans la police du jeu. `scripts/export-share-image.mjs` la refait après
+  `npm run build` ; aucun générateur, aucune dépense. Les pages l'annoncent avec sa taille
+  et `summary_large_image` ; aucune page ne l'affiche. Limite contrôlée : 300 Ko.
+- **Titres.** Accueil français : « La Conquête des Serpents — tower defense gratuit pour
+  enfants » ; anglais : « Snake Attack TD — free tower defense game for kids ». Chaque
+  accueil nomme une fois le jeu dans l'autre langue.
+- **« Nouveautés » écrite pour l'enfant**, en « tu » : trois nouveaux serpents, des œufs en
+  plus, le Voyage, un joueur pour chacun. Ce qui s'adresse aux adultes (Web et Android, une
+  nouveauté ne change pas une partie commencée) est passé sur la page parents. Quelques
+  phrases abstraites des autres pages sont dites plus simplement.
+- **« Qui a fait ce jeu ? »** sur la page parents : un enfant l'a inventé sur papier, son
+  parent le réalise et le publie sous le nom zyclope ; l'adresse de contact est celle de la
+  politique (`CONTACT_EMAIL`, `src/site.ts`, un seul lieu), avec un lien vers la politique.
+  Rien d'autre n'est affirmé sur l'éditeur.
+- **« À propos du jeu » à 48 px.** Le lien quitte le pied de l'accueil (27 px de haut) pour
+  les boutons de « Pour les parents », sur la ligne de la sauvegarde familiale : 48 px de
+  haut, de 116 à 277 px de large selon l'écran, sans ligne en plus. Mesuré en 640×360,
+  780×360, 812×375 (anglais), 1280×800, avec et sans le bouton « Joueurs », et dans une
+  fenêtre en hauteur (600×900), où il prend sa propre ligne. L'application Android et la
+  copie portable n'ont pas ce lien.
+
+Vérifié : `npm run verify`, `test:discovery` (50 pages et tailles, lien de paiement
+intercepté, jamais de vrai paiement), `test:locale`, et les recettes de la CI. Non
+vérifié : l'aperçu réel d'un lien partagé dans une messagerie (il faut le site publié) ;
+rien n'est essayé sur un vrai téléphone ; l'anglais des nouvelles phrases n'est pas relu
+par une personne. L'image de partage montre la première vague : peu de serpents à l'écran.
 
 ### Publicité — textes approuvés le 17 novembre 2026, rien d'activé
 
@@ -129,15 +164,16 @@ ponctuel, sans adresse ou frais de livraison. L'outil ne propose pas de montants
 suggérés. `SUPPORT_URL` dans `deploy/discovery.ts` référence exactement cette URL.
 Un passage explicite de `null` à `discoveryPageHtml` permet encore de masquer le soutien.
 
-« Soutenir le développement » / « Support development » apparaît discrètement dans
-le pied des10pages publiques et dans les pages parents FR/EN, avec la mention
-réservée aux adultes, facultative, en CHF et sans avantage dans le jeu. Aucun SDK,
+Depuis le 17 novembre 2026, le lien de paiement « Soutenir le développement » /
+« Support development » n'est plus que dans le bloc des pages parents FR/EN, avec la
+mention réservée aux adultes, facultative, en CHF et sans avantage dans le jeu ; le pied
+des 10 pages publiques mène à ce bloc, pas à PayPal. Aucun SDK,
 iframe, préchargement PayPal ou traitement de carte sur le site. Le lien ouvre un
 nouvel onglet avec `noopener noreferrer nofollow`, sans profil ni code de partie.
 
 Le panneau parents du jeu conserve sa taille : aucun lien de paiement ajouté dans
-la coquille HTML du jeu. Depuis l'accueil Web, « À propos » / « About » mène aux
-pages publiques puis à « Pour les parents » / « For parents ». Le bloc dormant
+la coquille HTML du jeu. Depuis « Pour les parents » du jeu, « À propos du jeu » /
+« About the game » mène aux pages publiques puis à « Pour les parents » / « For parents ». Le bloc dormant
 qui aurait ajouté une ligne au panneau a été retiré ; le budget HTML reste32768octets
 pour la page du jeu, et ce que le site y ajoute est compté à part (voir la revue du 17 novembre).
 

@@ -1,4 +1,4 @@
-import { SITE_HOST } from '../site.ts';
+import { CONTACT_EMAIL, SITE_HOST } from '../site.ts';
 import type { Language } from './language.ts';
 
 /**
@@ -157,7 +157,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
           ],
           [
             'Les parents et les joueurs peuvent écrire à ',
-            { b: 'sulegnasdev@gmail.com' },
+            { b: CONTACT_EMAIL },
             ' pour toute question sur la confidentialité ou pour demander l’accès à leurs informations, leur rectification ou leur suppression. Si vous nous écrivez, zyclope utilise votre adresse et le contenu de votre message pour répondre et assurer le suivi de votre demande. Évitez d’inclure le nom de votre enfant ou de joindre une sauvegarde dans votre premier message.',
           ],
           [
@@ -270,7 +270,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
           ],
           [
             'Parents and players can email ',
-            { b: 'sulegnasdev@gmail.com' },
+            { b: CONTACT_EMAIL },
             ' with privacy questions or to request access to, correction of, or deletion of their information. If you email us, zyclope uses your address and the contents of your message to respond and follow up. Please leave your child’s name and save files out of your first message.',
           ],
           [

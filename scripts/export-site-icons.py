@@ -1,7 +1,7 @@
 """Small pictures of the website, cut from the application icon. No generator, no cost.
 
-The icon of 512 px stays the picture shared on social networks; a browser tab, an iPhone home
-screen and the top of each public page only need a few kilobytes.
+A browser tab, an iPhone home screen and the top of each public page only need a few
+kilobytes. The wide picture of a shared link is a real battle: scripts/export-share-image.mjs.
 
 Usage, from the root of the repository:
     python3 scripts/export-site-icons.py
