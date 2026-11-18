@@ -13,7 +13,7 @@ import * as TEXT from './texts/fr/battle.ts';
  */
 export const BALANCE_REVISIONS = [1, 2, 3, 4, 5, 6] as const;
 export type BalanceRevision = (typeof BALANCE_REVISIONS)[number];
-export const CURRENT_BALANCE_REVISION: BalanceRevision = 5;
+export const CURRENT_BALANCE_REVISION: BalanceRevision = 6;
 export const isBalanceRevision = (value: unknown): value is BalanceRevision =>
   (BALANCE_REVISIONS as readonly unknown[]).includes(value);
 /** From the third on, a revision exists in the great adventure only: no expedition has it. */

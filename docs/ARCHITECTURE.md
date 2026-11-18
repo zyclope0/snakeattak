@@ -543,6 +543,20 @@ serpent se lit selon la révision de la partie (`abilityOf(espèce, révision)`,
 « Dangers » et l'index ouvert depuis « Dangers » passent celle de la partie ; l'index ouvert
 hors partie (Favoris) prend la révision courante.
 
+### Révision 6 — 18 novembre 2026
+
+Le serpent sauterelle du fils saute la ligne ([bilan](BILAN-REVISION-6.md)). La révision 6
+garde tout de la révision 5 et ajoute une espèce, `grasshopper` : une par vague dès la vague 7,
+à la place 9 (`NEWCOMERS.grasshopper` dans `waves.ts`, qui remplace une Carapace). Elle naît
+avec un saut (`leaps`, `leapsOf`). À chaque tour, avant de chercher qui mordre,
+`leapOverLine` (`engine/leap.ts`) la fait sauter si un allié de sa route (`band: 60` en
+hauteur) est à moins de `reach: 110` devant elle : elle se pose `behind: 40` plus loin que
+l'allié de sa route le plus près du cristal, jamais à moins de 60 du cristal ni sur un
+rocher ou la rivière (places plus proches essayées, comme la téléportation du ninja). La
+pose et le recalage de l'étape du chemin sont partagés avec le ninja (`engine/landing.ts`).
+Ensuite elle marche comme les autres. L'effet `leap` donne l'arc en pointillés
+(`effectTrails.ts`) et son son. Code de départ : règle 8. Camp : version 13.
+
 ## Choix du moteur — réévalué le 11 novembre 2026
 
 Phaser 3 reste le bon choix, et la question ne se rouvre pas sans mesure sur le téléphone.

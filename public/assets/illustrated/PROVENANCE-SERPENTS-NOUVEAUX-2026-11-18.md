@@ -1,8 +1,9 @@
 # Trois nouveaux serpents — dessins du 18 novembre 2026
 
 Fichiers : `src/assets/illustrated/serpents-nouveaux.webp` (repos) et
-`serpents-nouveaux-attack.webp` (attaque), 1024×1024 px, quatre cases de 512 px, la
-quatrième vide, WebP sans perte, fond transparent. Ils remplacent les images provisoires du
+`serpents-nouveaux-attack.webp` (attaque), 1024×1024 px, quatre cases de 512 px (la
+quatrième, vide jusqu'au soir du 18 novembre, porte le serpent sauterelle), WebP sans perte,
+fond transparent. Ils remplacent les images provisoires du
 16 novembre (`PROVENANCE-SERPENTS-PROVISOIRES-2026-11.md`).
 
 Décision du parent le 18 novembre 2026 : budget libre pour dessiner les trois serpents du
@@ -64,3 +65,21 @@ langue ; aucune dent sauf les deux crocs arrondis des grands crocs (vérifié en
   ennemis, comme le serpent à sonnette.
 - Les droits d'utilisation suivent les conditions du compte Magnific ; aucune exclusivité ou
   protection juridique n'est garantie.
+
+## Quatrième case : le serpent sauterelle (révision 6)
+
+Accord du parent le 18 novembre 2026 pour un dessin d'environ 300 crédits ; nom du fils gardé :
+« Serpent sauterelle ». Serpent vert feuille au ventre citron, deux antennes, deux grandes
+pattes de sauterelle vert foncé, deux petites ailes translucides ; il regarde vers la droite.
+
+- Repos, dessiné seul : deux variantes, retenue
+  [gOmwBHaSXO](https://www.magnific.com/app/creation/gOmwBHaSXO) (détourage u5WHzxWQLD) ;
+  écartée O6E4hrDynm (presque la même, œil plus petit).
+- Attaque, un bond court : retenue
+  [BhNIyidoQR](https://www.magnific.com/app/creation/BhNIyidoQR) (pattes tendues, tête en
+  avant ; détourage cpSVsIs0eP) ; écartée ksexVB416B (ne bouge presque pas).
+- Assemblage : la figurine de repos est mise à 420 px de haut, centrée, posée sur la ligne de
+  base (bas à 491) ; l'attaque a autant de pâte que le repos (0,99). Les trois autres cases
+  sont identiques au pixel près.
+- **Dépense : 306 crédits** (4 images × 75 ; 2 détourages × 3). Solde vérifié :
+  8 797 → 8 491.

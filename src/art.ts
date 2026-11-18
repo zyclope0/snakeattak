@@ -105,7 +105,7 @@ export const ART_SHEETS = [
     attackUrl: mutantsAttackUrl,
   },
   { key: 'props-three-bridges', url: threeBridgesPropsUrl, frameWidth: 512, frameHeight: 512 },
-  // Three cells for now; the fourth is empty.
+  // The three newcomers of the fourth revision and the grasshopper snake of the sixth.
   {
     key: 'serpents-nouveaux',
     url: newSnakesUrl,
@@ -205,8 +205,7 @@ export const ENEMY_ART: Record<EnemyKind, ArtFrame> = {
   fang: frame('serpents-nouveaux', 0),
   rare: frame('serpents-nouveaux', 1),
   shadow: frame('serpents-nouveaux', 2),
-  // No drawing yet: the runner's picture until the parent agrees to the expense of one.
-  grasshopper: frame('enemies-organic', 1),
+  grasshopper: frame('serpents-nouveaux', 3),
 };
 export const KING_ART = frame('serpents-family', 3);
 export const EGG_ART = frame('enemies-mechanical', 3);
