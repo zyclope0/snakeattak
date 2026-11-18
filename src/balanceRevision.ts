@@ -68,11 +68,21 @@ export const ninjaTeleport = (revision: BalanceRevision): NinjaTeleport | null =
 /**
  * The grasshopper snake of the sixth revision (idea of the child, 18 November 2026): it walks
  * like the others until an ally stands within `reach` ahead of it on its road (`band` up or
- * down), then leaps once over the line, `behind` board units past the ally of that road
- * nearest the crystal. Then it walks on like any snake: to the crystal, biting the allies
- * between them.
+ * down), then leaps once over the line: the allies of its road within `depth` ahead of it. It
+ * lands `behind` board units past the one of them nearest the crystal, always past it. Then it
+ * walks on like any snake: to the crystal, biting the allies between them.
  */
-export type GrasshopperLeap = Readonly<{ reach: number; band: number; behind: number }>;
-const GRASSHOPPER_LEAP: GrasshopperLeap = Object.freeze({ reach: 110, band: 60, behind: 40 });
+export type GrasshopperLeap = Readonly<{
+  reach: number;
+  band: number;
+  depth: number;
+  behind: number;
+}>;
+const GRASSHOPPER_LEAP: GrasshopperLeap = Object.freeze({
+  reach: 110,
+  band: 60,
+  depth: 260,
+  behind: 40,
+});
 export const grasshopperLeap = (revision: BalanceRevision): GrasshopperLeap | null =>
   revision >= 6 ? GRASSHOPPER_LEAP : null;

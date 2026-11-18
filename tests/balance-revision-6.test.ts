@@ -17,6 +17,7 @@ import { enemies } from '../src/enemies.ts';
 import type { EnemyKind } from '../src/enemies.ts';
 import { GRASSHOPPER_LEAPS, leapsOf } from '../src/enemyAbilities.ts';
 import { leapOverLine } from '../src/engine/leap.ts';
+import { landAt } from '../src/engine/landing.ts';
 import { routeStages, standable } from '../src/engine/field.ts';
 import { CRYSTAL_X } from '../src/boardLandmarks.ts';
 import { Game } from '../src/game.ts';
@@ -73,7 +74,7 @@ test('la révision 6 est la révision courante, et ne change que la sauterelle',
     assert.equal(balanceRecruitPrice(kind, 6), balanceRecruitPrice(kind, 5), kind);
   assert.deepEqual(lateEggRule(6), lateEggRule(5));
   assert.deepEqual(ninjaTeleport(6), ninjaTeleport(5));
-  assert.deepEqual(grasshopperLeap(6), { reach: 110, band: 60, behind: 40 });
+  assert.deepEqual(grasshopperLeap(6), { reach: 110, band: 60, depth: 260, behind: 40 });
   for (const revision of [1, 2, 3, 4, 5] as const) assert.equal(grasshopperLeap(revision), null);
   assert.deepEqual(NEWCOMERS.grasshopper, { place: 9, fromWave: 7, revision: 6 });
   let changed = 0;
@@ -133,28 +134,59 @@ test('sans allié devant elle sur sa route, elle marche comme les autres', () =>
   }
 });
 
-test('elle ne se pose jamais sur le cristal, un rocher ni la rivière', () => {
-  // A line by the crystal: it lands short of it, not on it.
-  const near = stage([{ x: 980, y: 324 }], 900, 324);
-  assert.equal(leapOverLine(near.game, near.snake), true);
-  assert.ok(near.snake.x <= CRYSTAL_X - 60, `${near.snake.x}`);
-  // Already past that point: nothing to leap over, it walks on to the crystal.
-  const past = stage([{ x: 990, y: 324 }], 960, 324);
-  assert.equal(leapOverLine(past.game, past.snake), false);
+test('elle se pose toujours derrière la ligne, jamais sur le cristal, un rocher ni la rivière', () => {
+  // A line by the crystal leaves no place behind it: no leap, the leap is kept, and it walks
+  // into that line. It never lands in front of the ally it should pass.
+  for (const [allyX, from] of [
+    [980, 900],
+    [945, 850],
+    [990, 960],
+  ]) {
+    const near = stage([{ x: allyX, y: 324 }], from, 324);
+    assert.equal(leapOverLine(near.game, near.snake), false, `${allyX}`);
+    assert.equal(near.snake.x, from);
+    assert.equal(near.snake.leaps, 1);
+  }
+  const near = stage([{ x: 880, y: 324 }], 800, 324);
   // Wherever its line stands, the place it lands on is one a snake can stand on.
   const level = near.game.level;
   for (const y of [140, 200, 250, 324, 420, 500])
     for (const lineX of [520, 600, 700, 820]) {
       const { game, snake } = stage([{ x: lineX, y }], lineX - 80, y);
-      if (!leapOverLine(game, snake)) continue;
+      if (!leapOverLine(game, snake)) {
+        assert.equal(snake.leaps, 1, 'sans place libre, elle garde son saut');
+        continue;
+      }
       assert.ok(standable(snake.x, snake.y, level), `${lineX},${y} → ${snake.x},${snake.y}`);
-      assert.ok(snake.x > lineX - 80 && snake.x <= CRYSTAL_X - 60);
+      assert.ok(snake.x > lineX && snake.x <= CRYSTAL_X - 60, `${lineX} → ${snake.x}`);
     }
   for (const rock of level.rocks) {
     const { game, snake } = stage([{ x: rock.x - 40, y: rock.y }], rock.x - 120, rock.y);
     leapOverLine(game, snake);
     assert.ok(Math.hypot(snake.x - rock.x, snake.y - rock.y) >= rock.r, `rocher ${rock.x}`);
   }
+});
+
+test('sa ligne, ce sont les alliés vivants de sa route à portée devant elle', () => {
+  // An ally far ahead, past the depth of the line, is not part of it.
+  const far = stage([
+    { x: 480, y: 324 },
+    { x: 900, y: 324 },
+  ]);
+  assert.equal(leapOverLine(far.game, far.snake), true);
+  assert.equal(far.snake.x, 480 + 40);
+  // A fallen ally is no longer part of the line.
+  const fallen = stage([
+    { x: 480, y: 324 },
+    { x: 600, y: 324 },
+  ]);
+  fallen.game.units[1].hp = 0;
+  assert.equal(leapOverLine(fallen.game, fallen.snake), true);
+  assert.equal(fallen.snake.x, 480 + 40);
+  // A fallen ally alone does not make it leap.
+  const alone = stage([{ x: 460, y: 324 }]);
+  alone.game.units[0].hp = 0;
+  assert.equal(leapOverLine(alone.game, alone.snake), false);
 });
 
 test('King Snake et les autres serpents ne sautent jamais', () => {
@@ -173,11 +205,57 @@ test('King Snake et les autres serpents ne sautent jamais', () => {
   assert.equal(leapOverLine(before.game, before.snake), false);
 });
 
-test('dans une partie, la sauterelle arrive dès la vague 7 avec son saut', () => {
+test('dans une partie, une sauterelle par vague dès la vague 7, jamais changée en serpent volant', () => {
   const { game, snake } = meet(6, 'grasshopper', 7);
   assert.equal(snake.leaps, 1);
   assert.equal(game.balanceRevision, 6);
   assert.throws(() => meet(5, 'grasshopper', 7), /aucun grasshopper/);
+  // What really comes out of the den, wave by wave: one grasshopper in each of waves 7 to 12.
+  for (let wave = 1; wave <= 12; wave++) {
+    const played = classic(6, 31);
+    played.wave = wave - 1;
+    played.gold = 0;
+    played.units = [];
+    played.normalizeCamp();
+    assert.ok(played.startWave());
+    const seen = new Set<number>();
+    for (let step = 0; step < 30 * 90 && played.status === 'fighting'; step++) {
+      played.step(1 / 30);
+      for (const e of played.enemies) if (e.variant === 'grasshopper') seen.add(e.id);
+      if (played.remaining === 0 && step > 30) break;
+    }
+    assert.equal(seen.size, wave >= 7 ? 1 : 0, `vague ${wave}`);
+  }
+});
+
+test('dans une partie, elle franchit une vraie ligne d’alliés et marche ensuite vers le cristal', () => {
+  const { game, snake } = meet(6, 'grasshopper', 7);
+  // A line across its road, well before the crystal, and nothing else.
+  const model = game.units[0];
+  game.units = [0, 1, 2].map((i) => ({
+    ...model,
+    id: 91000 + i,
+    kind: 'wall' as const,
+    x: 600 + i * 30,
+    y: snake.y,
+    hp: 500,
+    maxHp: 500,
+  }));
+  for (const e of game.enemies) if (e !== snake) e.hp = 0;
+  // Put down ahead on its road, with the stage of that place, as the engine does.
+  landAt(game, snake, 480, snake.y);
+  let leapt = false;
+  for (let step = 0; step < 30 * 20 && snake.hp > 0 && snake.x < 600; step++) {
+    game.step(1 / 30);
+    leapt ||= game.effects.some((e) => e.kind === 'leap' && e.sourceId === snake.id);
+  }
+  assert.ok(leapt, 'elle a sauté');
+  assert.ok(snake.x > 660, `elle est passée derrière la ligne : ${snake.x}`);
+  assert.equal(snake.leaps, 0);
+  const after = snake.x;
+  for (let step = 0; step < 30 && snake.hp > 0 && game.enemies.includes(snake); step++)
+    game.step(1 / 30);
+  assert.ok(snake.x >= after, 'puis elle avance vers le cristal');
 });
 
 test('code de départ AVENTURE-8 et sauvegarde de version 13 pour la révision 6', () => {

@@ -19,7 +19,9 @@ export function flyingVariant(base: EnemyKind, rank: number, index: number): Ene
     base === 'royal' ||
     base === 'mamba' ||
     base === 'rattlesnake' ||
-    base === 'courtHealer'
+    base === 'courtHealer' ||
+    // The grasshopper snake walks and leaps: it never becomes a flying snake.
+    base === 'grasshopper'
   )
     return base;
   return index === 4 || (rank >= 9 && index === 9) ? 'flying' : base;
