@@ -193,7 +193,7 @@
   }
   #home-main .home-next-mission {
     margin: 4px 0 0;
-    font-size: 12px;
+    font-size: 13px;
   }
   #home-screen .home-header .crest {
     width: 30px;
@@ -530,7 +530,7 @@
   border-radius: 8px;
   background: #f6d788;
   color: #534111;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.25;
   font-variant-numeric: tabular-nums;
 }

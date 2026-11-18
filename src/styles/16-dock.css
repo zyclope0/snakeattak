@@ -78,7 +78,7 @@
   color: #65400b;
   border-radius: 5px;
   /* Une pastille posée sur le portrait : 12 px se lit sans cacher la tête de l'allié. */
-  font-size: 12px;
+  font-size: 13px;
   line-height: 14px;
   font-weight: 800;
 }
@@ -98,7 +98,7 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  font-size: 10px;
+  font-size: 13px;
 }
 .dock-honey .feast-pot {
   width: 26px;

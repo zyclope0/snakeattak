@@ -11,6 +11,7 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import * as DEPTH from './boardLayers.ts';
 import { SHEET } from '../art.ts';
+import { readableBoardSize } from './boardResolution.ts';
 /** Under these shares of its health, the refuge looks worn, then badly cracked. */
 const WORN_BASE = 50,
   CRACKED_BASE = 25;
@@ -30,6 +31,8 @@ function strokeCrack(g: Phaser.GameObjects.Graphics, points: readonly number[]) 
   for (let i = 2; i < points.length; i += 2) g.lineTo(points[i], points[i + 1]);
   g.strokePath();
 }
+/** The size the refuge's plate was drawn for, on a board shown at its own size. */
+const REFUGE_TEXT = 11;
 /** Live stage props observe presentation signals; never create or redirect monsters. */
 export class Strongholds {
   private dens: Phaser.GameObjects.Image[];
@@ -37,9 +40,12 @@ export class Strongholds {
   private effects: Phaser.GameObjects.Graphics;
   private details: Phaser.GameObjects.Graphics;
   private label: Phaser.GameObjects.Text;
+  private scene: Phaser.Scene;
+  private labelSize = REFUGE_TEXT;
   private shownBase = -1;
   private figurines: Figurines;
   constructor(scene: Phaser.Scene) {
+    this.scene = scene;
     this.figurines = Figurines.of(scene);
     this.effects = scene.add.graphics().setDepth(DEPTH.strongholdEffects);
     // The gauge, cracks and cross are drawn around the first refuge, at (1021, 354): the layer
@@ -62,7 +68,7 @@ export class Strongholds {
       .setDepth(DEPTH.refuge);
     this.label = addCanvasCopy(scene.add, 988, 412, '', {
       fontFamily: DISPLAY_FONT,
-      fontSize: '11px',
+      fontSize: `${REFUGE_TEXT}px`,
       color: '#f5edcd',
       backgroundColor: '#293f32',
       padding: { x: 7, y: 4 },
@@ -143,6 +149,9 @@ export class Strongholds {
               ? 0xd4c7ad
               : 0xffffff,
       );
+    // Read at the same size on a phone, where the board is drawn at about half size.
+    const size = readableBoardSize(this.scene, REFUGE_TEXT);
+    if (size !== this.labelSize) this.label.setFontSize((this.labelSize = size));
     if (this.shownBase === Math.ceil(game.base)) return;
     this.shownBase = Math.ceil(game.base);
     setCanvasCopy(this.label, fill(TEXT.refugeN, this.shownBase)).setColor(

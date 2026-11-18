@@ -122,12 +122,12 @@
 }
 #threat-lanes,
 #threat-route-note {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.45;
 }
 #wave-threats {
   min-height: 48px;
-  font-size: 12px;
+  font-size: 13px;
 }
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
   .dashboard #wave-threats {

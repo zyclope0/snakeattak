@@ -90,8 +90,16 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   (« deux petits serpents »), l'aperçu de partage de la page du jeu, l'image de partage
   (vague 8, titre lisible même rognée en carré), la grille de « Pour les parents » quand la
   publicité sera allumée, les liens de la page de confidentialité à 48 px
-  ([détail](SITE.md)). **Pas encore publié.** Restent des décisions du parent et des
-  questions pour le fils, listées dans SITE.md.
+  ([détail](SITE.md)). Publié le 18 novembre (publication n° 12). Restent des décisions du
+  parent et des questions pour le fils, listées dans SITE.md.
+- **Textes lisibles sur téléphone (18 novembre)** : les textes écrits sur le plateau se
+  lisaient à 5-9 px ; ils se lisent maintenant à 11 px au moins (compte à rebours d'un œuf,
+  dégâts, « Esquive ! », refuge, King Snake). Dans l'interface, ce que l'enfant lit pendant
+  la partie passe à 13 px. « Continuer sans bonus » ne sort plus de l'écran ; l'en-tête sur
+  ordinateur ne coupe plus ses boutons ; deux phrases ne font plus de faute d'accord
+  (« Alliés debout : 1 », « Il faut 1 ★ »). Rendu seul, aucune règle touchée
+  ([architecture](ARCHITECTURE.md), « Textes lisibles sur téléphone »). **À regarder sur le
+  vrai téléphone et avec les enfants** : c'est mesuré sur des captures, pas lu par un enfant.
 
 ## Site : découverte FR/EN et soutien — lot du16novembre
 

@@ -34,6 +34,22 @@ export function boardScale(scene: Phaser.Scene): number {
   return scene.scale.width / BOARD_WIDTH;
 }
 
+/** The smallest a text written on the board may show on screen, in CSS pixels. */
+export const BOARD_TEXT_MIN_PX = 11;
+/**
+ * A font size in board units that shows at least `cssPixels` on screen. The board is drawn
+ * at about half size on a phone: a text of 15 units would be read at 7 px. On a screen
+ * where the board keeps its size, the text keeps the size it was drawn for.
+ */
+export function readableBoardSize(
+  scene: Phaser.Scene,
+  boardSize: number,
+  cssPixels = BOARD_TEXT_MIN_PX,
+): number {
+  const needed = (cssPixels * scene.scale.displayScale.x) / boardScale(scene);
+  return Number.isFinite(needed) ? Math.ceil(Math.max(boardSize, needed)) : boardSize;
+}
+
 /** A pointer in board units, whatever the size of the canvas behind it. */
 export function boardPoint(scene: Phaser.Scene, pointer: { x: number; y: number }) {
   const scale = boardScale(scene);

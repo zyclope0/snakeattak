@@ -1344,3 +1344,29 @@ Décision du parent ; tout est décrit dans
   (`SetEnvIf … game_page`), et seulement interrupteur allumé.
 - **Recette** : le mode de build `ads-test` allume l'encart et lui fait demander
   `./fake-ads.js`, que la recette sert elle-même (`scripts/web-ads-delivery-browser.mjs`).
+
+## Textes lisibles sur téléphone — 18 novembre 2026
+
+Un téléphone en paysage dessine le plateau à environ la moitié de sa taille : un texte écrit
+à 15 unités du plateau s'y lisait à 7 px. Règle : **un texte écrit sur le plateau se lit à
+11 px au moins à l'écran** (`BOARD_TEXT_MIN_PX`), et `readableBoardSize(scene, taille)`
+(`src/render/boardResolution.ts`) donne la taille en unités du plateau qui le garantit. Là où
+le plateau garde sa taille (ordinateur, harnais des recettes), le texte garde la taille pour
+laquelle il a été dessiné : aucune image de référence ne change.
+
+- Concernés : compte à rebours d'un œuf, confusion, courage, tir du roi, mots flottants
+  (dégâts, « Esquive ! »), nom et vie de King Snake, plaque du refuge
+  (`battleFeedback.ts`, `strongholds.ts`). La phrase de fin de partie garde son plancher de
+  13,5 px, par la même fonction.
+- Les plaques grandissent avec leur texte et restent sur le plateau ; les plaques d'œufs
+  s'écartent d'autant (`eggLabelPositions(eggs, scale)`), et une rangée trop chargée se
+  partage la largeur au lieu de sortir du plateau.
+- Rendu seul : aucune règle, aucune partie de référence touchée.
+
+Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
+(« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », prix des favoris, total de
+vagues, onglets et bourse du catalogue, notes de « Dangers », prochaine mission). Les cartes
+du catalogue (vingt alliés en un écran) gardent leurs tailles : les agrandir demande de
+revoir cet écran. Sur ordinateur, l'en-tête de la bataille a la hauteur de ses boutons
+(48 px) : ils dépassaient de 6 px en haut de la fenêtre. Sur téléphone, « Continuer sans
+bonus » est à côté du titre des cadeaux : sous les cartes, il sortait de l'écran.

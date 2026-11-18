@@ -35,7 +35,7 @@ export const autocollantGagne2 = 'Sticker earned!';
 export const cetAutocollantEstDejaDansLeCarnet =
   'This sticker is already in this game’s sticker book.';
 export const ceCapriceAttendEncoreSon = 'This caprice is still waiting for its sticker.';
-export const nNecessaires = '🔒 {0} ★ required';
+export const nNecessaires = '🔒 Needs {0} ★';
 export const gagne = '✓ Earned';
 export const nChoisir = '{0} ★ · Choose';
 export const ecouter = 'Listen';
