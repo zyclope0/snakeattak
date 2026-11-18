@@ -176,7 +176,8 @@ function isSaveHeader(data: unknown): data is Save {
 
 /**
  * Only versions 9 and later name a balance revision, and then everything in them does. From
- * the third revision on a camp is a great adventure: version 10 or 11 never holds an expedition.
+ * the third revision on a camp is a great adventure: version 10, 11 or 12 never holds an
+ * expedition.
  */
 function revisionMatchesVersion(
   save: Save,

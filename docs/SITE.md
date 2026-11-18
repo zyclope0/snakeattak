@@ -212,13 +212,9 @@ Corrigé dans ce lot, sans décision à prendre :
   décision à prendre (`ARCHITECTURE.md`, « Textes lisibles sur téléphone »). Restent les
   reformulations de phrases trop techniques, qui attendent l'accord du parent.
 
-Questions pour le fils (ses règles) :
-
-- Le serpent ninja : il esquive le premier coup. Il le voulait « aussi rapide que le Ninja,
-  parfois il se téléporte dans le dos » (`GAME_DESIGN.md`). On garde l'esquive ou on essaie
-  son idée ?
-- Les noms de ses trois serpents ; les gardes du roi dans le voyage ; qui bat le
-  spinosaure ; combien de pommes.
+Questions pour le fils (ses règles) : posées le 18 novembre, réponses dans `PLAN-ACTUEL.md`
+(« Réponses du fils ») ; le serpent ninja se téléporte depuis la révision 5
+(`BILAN-REVISION-5.md`).
 
 Non vérifié : aperçus réels dans les messageries ; compression et page 404 réelles de
 l'hébergeur ; aucun lecteur d'écran réel ; rien sur un vrai téléphone ni avec les enfants.

@@ -462,7 +462,7 @@ récompense, son ou tirage aléatoire n'est ajouté.
 ## Équilibrage versionné — 0.36.2
 
 `balanceRevision.ts` résout des révisions immuables : 1 historique, 2 pour
-les nouveaux départs explicitement créés par la session (3 puis 4 depuis, plus bas). `data.ts` et les
+les nouveaux départs explicitement créés par la session (3, 4 et 5 depuis, plus bas). `data.ts` et les
 36 définitions historiques ne changent pas. Game expose sa révision readonly ;
 les prix et les définitions de caprices sont résolus sans mutation et avec cache.
 Les anciennes API gardent leur défaut historique. Les reprises, codes et réessais
@@ -511,7 +511,7 @@ de la révision 3 et ajoute ces trois espèces aux vagues de la grande aventure.
   arrivée ; `hitEnemy` décompte et ne fait rien d'autre de ce coup). `dodges` n'existe que
   sur un serpent ninja : l'empreinte d'une partie des révisions 1 à 3 ne change pas.
 - **Ce qui porte la révision.** `isClassicRevision` (`balanceRevision.ts`) dit qu'une
-  révision n'existe que dans la grande aventure (3 et 4). Code de départ : règle 6. Camp :
+  révision n'existe que dans la grande aventure (3 et suivantes). Code de départ : règle 6. Camp :
   version 11. La sauvegarde familiale reste en version 5. Pour une révision suivante de la
   grande aventure : une ligne dans `CLASSIC_VERSION` (`checkpoints.ts`) et une dans
   `CLASSIC_RULE` (`departures.ts`).
@@ -523,6 +523,11 @@ de la révision 3 et ajoute ces trois espèces aux vagues de la grande aventure.
   recolorées par `scripts/recolor-new-snakes.py`, sans générateur ni dépense
   (`public/assets/illustrated/PROVENANCE-SERPENTS-PROVISOIRES-2026-11.md`).
 
+`ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
+et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la
+ligne d’annonce existante et dans un cache UI de 64 codes maximum, avec repli
+mémoire si le stockage est refusé. Il ne modifie ni Game, ni RNG, ni sauvegarde.
+
 ### Révision 5 — 18 novembre 2026
 
 Le serpent ninja du fils se téléporte ([bilan](BILAN-REVISION-5.md)). La révision 5 garde tout
@@ -533,12 +538,8 @@ son premier coup, `teleportBehind` le pose dans le dos de l'allié qui a frappé
 (`forgetPath`). L'effet `blink` (de l'ancienne place à la nouvelle) donne l'anneau
 (`effectTrails.ts`) et le son. Code de départ : règle 7. Camp : version 12. Une fiche de
 serpent se lit selon la révision de la partie (`abilityOf(espèce, révision)`, `threatPreview.ts`) :
-« Dangers » passe celle de la partie, l'index prend la révision courante.
-
-`ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
-et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la
-ligne d’annonce existante et dans un cache UI de 64 codes maximum, avec repli
-mémoire si le stockage est refusé. Il ne modifie ni Game, ni RNG, ni sauvegarde.
+« Dangers » et l'index ouvert depuis « Dangers » passent celle de la partie ; l'index ouvert
+hors partie (Favoris) prend la révision courante.
 
 ## Choix du moteur — réévalué le 11 novembre 2026
 

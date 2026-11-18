@@ -20,7 +20,8 @@ export type Cue =
   | 'wave-end'
   | 'won'
   | 'lost'
-  | 'toggle';
+  | 'toggle'
+  | 'blink';
 export type Track = 'menu' | 'calm' | 'epic' | 'king';
 
 export type AudioCatalogue = {

@@ -36,6 +36,7 @@ export function bindThreatControls(session: Session, refresh: () => void) {
       'threat-all-snakes',
       TEXT.tousLesSerpents,
       TEXT.lesSerpentsNeSontPasArrivesReessaie,
+      () => session.game.balanceRevision,
     ),
   );
   return () => {
