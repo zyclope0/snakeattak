@@ -55,8 +55,8 @@ function playerScreens(
 
 /**
  * The views of the window of the players: « Qui joue ? », the choice of a character and the
- * parents' list. Loaded the first time the window opens: most families have one player and
- * never see it. The window itself (`playersDialog.ts`) is made at once, so that it covers
+ * parents' list. A file of its own, fetched as the game starts: most families have one player
+ * and never see these views. The window itself (`playersDialog.ts`) is made at once, so that it covers
  * the page from the first instant when someone must say who plays.
  */
 export function createPlayerWindow(
