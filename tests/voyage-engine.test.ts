@@ -19,10 +19,10 @@ import {
   stageCaprice,
   stageRulesFor,
 } from '../src/voyage.ts';
-import { VOYAGE_TUNINGS, freezeTuning } from '../src/voyageTuning.ts';
+import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS, freezeTuning } from '../src/voyageTuning.ts';
 import { fight } from './voyage-helpers.ts';
 
-const tuning = VOYAGE_TUNINGS[1];
+const tuning = VOYAGE_TUNINGS[CURRENT_VOYAGE_VERSION];
 const plan = planVoyage(2026)!;
 const bare: StageRules = { version: 1, king: false, coins: 0, ward: 0, bag: [] };
 
@@ -31,9 +31,11 @@ test('a stage is the expedition of the plan, in a new camp, with the stage rules
     const game = createStageGame(plan, index, [])!;
     assert.deepEqual(game.mission, stage.run);
     assert.equal(game.balanceRevision, 2);
+    // Version 2: the king of the last stage comes with his court.
     assert.deepEqual(game.stage, {
-      version: 1,
+      version: 2,
       king: index === 4,
+      court: index === 4,
       coins: stage.coins,
       ward: 0,
       bag: [],
@@ -44,6 +46,43 @@ test('a stage is the expedition of the plan, in a new camp, with the stage rules
     assert.equal(game.wave, 0);
     assert.equal(game.base, 100);
     assert.equal(game.rng, stage.run.seed);
+  }
+});
+
+test('a voyage of version 1 keeps its rules: no court, the same stages as version 2', () => {
+  const old = planVoyage(2026, 1)!;
+  assert.deepEqual(old.stages, plan.stages);
+  for (const index of old.stages.keys()) {
+    const rules = stageRulesFor(old, index, ['pieces'])!;
+    assert.equal(rules.version, 1);
+    assert.equal('court' in rules, false);
+    assert.equal(createStageGame(old, index, [])!.stage!.court, undefined);
+  }
+});
+
+test('in version 2 King Snake brings his two guards and his healer; in version 1 he comes alone', () => {
+  const met = (version: 1 | 2, index: number) => {
+    const seen = new Map<number, string>();
+    fight(createStageGame(planVoyage(2026, version)!, index, [])!, 'won', (game) => {
+      for (const e of game.enemies)
+        if (e.boss || e.court) seen.set(e.id, e.boss ? 'king' : e.court!.role);
+    });
+    return [...seen.values()].sort();
+  };
+  assert.deepEqual(met(2, 4), ['guard', 'guard', 'healer', 'king']);
+  assert.deepEqual(met(1, 4), ['king']);
+  // Before the last stage, no king and no court.
+  assert.deepEqual(met(2, 3), []);
+});
+
+test('the rules of a stage are already canonical, key for key, in both versions', () => {
+  // The voyage compares them as text with the rules of the game it records.
+  for (const version of [1, 2] as const) {
+    const drawn = planVoyage(2026, version)!;
+    for (const index of drawn.stages.keys()) {
+      const rules = stageRulesFor(drawn, index, ['cristal', 'pieces'])!;
+      assert.equal(JSON.stringify(readStageRules(rules)), JSON.stringify(rules));
+    }
   }
 });
 
@@ -70,8 +109,9 @@ test('the bag is unpacked at the start of the stage, every card counted', () => 
   assert.equal(game.rewards.choices.length, 4);
   assert.ok(game.rewards.choices.every((choice) => choice.used));
   assert.deepEqual(stageRulesFor(plan, 4, bag), {
-    version: 1,
+    version: 2,
     king: true,
+    court: true,
     coins: plan.stages[4].coins + 2 * tuning.bonusCoins,
     ward: tuning.bonusWard,
     bag: [...bag],
@@ -200,6 +240,9 @@ test('the engine refuses a stage that is not an expedition of the second revisio
   for (const broken of [
     null,
     [],
+    { ...bare, version: 3 },
+    // Version 1 has no court; version 2 must say whether it comes.
+    { ...bare, court: true },
     { ...bare, version: 2 },
     { ...bare, king: 1 },
     { ...bare, coins: -5001 },

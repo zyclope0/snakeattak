@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { REWARDS } from '../src/rewards.ts';
 import { planVoyage } from '../src/voyage.ts';
 import { decodeVoyage } from '../src/voyageCode.ts';
-import { VOYAGE_TUNINGS } from '../src/voyageTuning.ts';
+import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS } from '../src/voyageTuning.ts';
 import { PROFILES } from '../scripts/voyage-lab/players.ts';
 import { summarize } from '../scripts/voyage-lab/report.ts';
 import { RAW_TUNING, REASONABLE_ORDER } from '../scripts/voyage-lab/tables.ts';
@@ -11,13 +11,13 @@ import { POLICIES, playVoyage, seedAt } from '../scripts/voyage-lab/travel.ts';
 
 // Le laboratoire d'équilibrage du voyage (`npm run balance:voyage`) : ses comptes doivent
 // être reproductibles, sinon deux mesures ne se comparent pas.
-const tuning = VOYAGE_TUNINGS[1];
+const tuning = VOYAGE_TUNINGS[CURRENT_VOYAGE_VERSION];
 
 test('the lab plays the voyage of the game, the same way every time', () => {
   const seed = seedAt(0);
   const first = playVoyage(seed, 'moyen', 'raisonnable', tuning);
   assert.deepEqual(playVoyage(seed, 'moyen', 'raisonnable', tuning), first);
-  assert.deepEqual(decodeVoyage(first.code), { ok: true, seed, version: 1 });
+  assert.deepEqual(decodeVoyage(first.code), { ok: true, seed, version: CURRENT_VOYAGE_VERSION });
   const plan = planVoyage(seed)!;
   assert.equal(first.stages.length, 5);
   for (const [index, row] of first.stages.entries()) {

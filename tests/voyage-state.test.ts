@@ -16,6 +16,7 @@ import type { VoyageState } from '../src/voyageState.ts';
 import { decodeVoyage, encodeVoyage } from '../src/voyageCode.ts';
 import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
 import { VOYAGE_STORAGE_KEY } from '../src/storageKeys.ts';
+import { CURRENT_VOYAGE_VERSION } from '../src/voyageTuning.ts';
 import {
   createVoyageLog,
   loadVoyageLog,
@@ -36,7 +37,7 @@ const winStage = (state: VoyageState) => recordStage(state, fight(stageGame(stat
 function travelled(won: number, seed = SEED): VoyageState {
   const voyage = planVoyage(seed)!;
   return readVoyageState({
-    version: 1,
+    version: CURRENT_VOYAGE_VERSION,
     seed,
     won,
     bag: voyage.stages.slice(0, won).map((stage) => stage.offer[0]),
@@ -45,14 +46,20 @@ function travelled(won: number, seed = SEED): VoyageState {
 }
 
 test('a voyage starts at its first stage with an empty bag', () => {
-  assert.deepEqual(start, { version: 1, seed: SEED, won: 0, bag: [], status: 'travelling' });
+  assert.deepEqual(start, {
+    version: CURRENT_VOYAGE_VERSION,
+    seed: SEED,
+    won: 0,
+    bag: [],
+    status: 'travelling',
+  });
   assert.ok(Object.isFrozen(start) && Object.isFrozen(start.bag));
   assert.equal(voyagePhase(start), 'stage');
   assert.deepEqual(bonusOffer(start), []);
   assert.deepEqual(voyagePlanOf(start), plan);
   for (const seed of [-1, 1 << 20, 0.5, NaN, '3', null])
     assert.equal(startVoyage(seed as number), null);
-  assert.equal(startVoyage(SEED, 2 as 1), null);
+  assert.equal(startVoyage(SEED, 3 as 1), null);
 });
 
 test('a whole voyage: stage, card, stage, card… until the king', () => {
@@ -78,7 +85,7 @@ test('a whole voyage: stage, card, stage, card… until the king', () => {
     assert.equal(state.bag[index], card);
   }
   assert.deepEqual(state, {
-    version: 1,
+    version: CURRENT_VOYAGE_VERSION,
     seed: SEED,
     won: 5,
     bag: [0, 1, 2, 3].map((index) => plan.stages[index].offer[index % 3]),
@@ -169,7 +176,7 @@ test('every state a voyage goes through reads back the same, and nothing else do
     [],
     {},
     { ...good, version: 0 },
-    { ...good, version: 2 },
+    { ...good, version: 3 },
     { ...good, version: '1' },
     { ...good, seed: -1 },
     { ...good, seed: 1 << 20 },
@@ -201,16 +208,23 @@ test('every state a voyage goes through reads back the same, and nothing else do
 });
 
 test('a voyage code names the seed and reads back, however a child types it', () => {
-  const pattern = /^VOYAGE-1-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{2}$/;
-  for (let seed = 0; seed <= 0xfffff; seed += 997) {
-    const code = encodeVoyage(seed)!;
-    assert.match(code, pattern);
-    assert.deepEqual(decodeVoyage(code), { ok: true, seed, version: 1 });
+  for (const version of [1, 2] as const) {
+    const pattern = new RegExp(`^VOYAGE-${version}-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{2}$`);
+    for (let seed = 0; seed <= 0xfffff; seed += 997) {
+      const code = encodeVoyage(seed, version)!;
+      assert.match(code, pattern);
+      assert.deepEqual(decodeVoyage(code), { ok: true, seed, version });
+    }
   }
+  // A new voyage carries the version of the game.
+  assert.equal(encodeVoyage(SEED), encodeVoyage(SEED, CURRENT_VOYAGE_VERSION));
   // The writing is part of the format: these codes must keep their exact text.
-  assert.equal(encodeVoyage(0), 'VOYAGE-1-0000-ND');
-  assert.equal(encodeVoyage(SEED), 'VOYAGE-1-0YK9-AY');
-  assert.equal(encodeVoyage(0xfffff), 'VOYAGE-1-ZZZZ-5X');
+  assert.equal(encodeVoyage(0, 1), 'VOYAGE-1-0000-ND');
+  assert.equal(encodeVoyage(SEED, 1), 'VOYAGE-1-0YK9-AY');
+  assert.equal(encodeVoyage(0xfffff, 1), 'VOYAGE-1-ZZZZ-5X');
+  assert.equal(encodeVoyage(0, 2), 'VOYAGE-2-0000-76');
+  assert.equal(encodeVoyage(SEED, 2), 'VOYAGE-2-0YK9-05');
+  assert.equal(encodeVoyage(0xfffff, 2), 'VOYAGE-2-ZZZZ-MY');
   const code = encodeVoyage(SEED)!;
   for (const typed of [
     code.toLowerCase(),
@@ -225,21 +239,29 @@ test('a voyage code names the seed and reads back, however a child types it', ()
     code.replace(/-/g, '_'),
     code.replace('-', ''),
   ])
-    assert.deepEqual(decodeVoyage(typed), { ok: true, seed: SEED, version: 1 }, typed);
+    assert.deepEqual(
+      decodeVoyage(typed),
+      { ok: true, seed: SEED, version: CURRENT_VOYAGE_VERSION },
+      typed,
+    );
   // Seed 33 is written 0011: an l or an I typed for a 1 is read as the 1 it looks like.
   const [word, version, signs, check] = encodeVoyage(33)!.split('-');
   assert.equal(signs, '0011');
   const lookalike = `${word}-${version}-${signs.replace(/1/g, 'l')}-${check.replace(/1/g, 'I')}`;
-  assert.deepEqual(decodeVoyage(lookalike), { ok: true, seed: 33, version: 1 });
+  assert.deepEqual(decodeVoyage(lookalike), {
+    ok: true,
+    seed: 33,
+    version: CURRENT_VOYAGE_VERSION,
+  });
   for (const seed of [-1, 1 << 20, 1.5, NaN]) assert.equal(encodeVoyage(seed), null);
-  assert.equal(encodeVoyage(SEED, 2 as 1), null);
+  assert.equal(encodeVoyage(SEED, 3 as 1), null);
 });
 
 test('a damaged code is refused with a reason, never with an exception', () => {
   const code = encodeVoyage(SEED)!;
   const [word, version, signs, check] = code.split('-');
   const refusals: [unknown, string][] = [
-    [`${word}-2-${signs}-${check}`, 'version'],
+    [`${word}-3-${signs}-${check}`, 'version'],
     [`${word}-0-${signs}-${check}`, 'version'],
     [`${word}-9-${signs}-${check}`, 'version'],
     [`${word}-${version}-${signs}-00`, 'checksum'],
@@ -346,7 +368,7 @@ test('the log is saved and read back; damaged or refused storage is a fresh log'
     {},
     { ...log, best: 1 },
     { ...log, best: 6 },
-    { ...log, version: 2 },
+    { ...log, version: 3 },
   ])
     assert.equal(validateVoyageLog(invalid), null);
   assert.equal(saveVoyageLog(device, { ...log, best: 1 }), false);

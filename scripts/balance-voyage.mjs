@@ -7,7 +7,8 @@
 //   PROFILES=expert,moyen,apprenti,petit   joueurs : expert, moyen, apprenti, petit, massues, gros
 //   POLICIES=raisonnable,hasard,aucun,...  sacs : voir scripts/voyage-lab/travel.ts ; le
 //                    premier de la liste sert aux tableaux par étape et aux graines extrêmes
-//   TABLE=1          réglages : 1 (ceux du jeu), brut (missions et caprices tels quels),
+//   TABLE=2          réglages : une version du voyage (par défaut celle du jeu), brut
+//                    (missions et caprices tels quels),
 //                    ou le chemin d'un fichier JSON au format de src/voyageTuning.ts
 //   JOBS=4           processus en parallèle (défaut : tous les cœurs)
 //   OUT=artifacts/voyage/rapport.json      rapport complet (jamais dans Git)
@@ -19,7 +20,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { availableParallelism } from 'node:os';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { VOYAGE_TUNINGS, freezeTuning } from '../src/voyageTuning.ts';
+import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS, freezeTuning } from '../src/voyageTuning.ts';
 import { PROFILES } from './voyage-lab/players.ts';
 import { printReport, summarize } from './voyage-lab/report.ts';
 import { RAW_TUNING } from './voyage-lab/tables.ts';
@@ -30,7 +31,7 @@ const SEEDS = Number(env.SEEDS ?? 100);
 const FIRST = Number(env.FIRST ?? 0);
 const profiles = (env.PROFILES ?? 'expert,moyen,apprenti,petit').split(',');
 const policies = (env.POLICIES ?? POLICIES.join()).split(',');
-const TABLE = env.TABLE ?? '1';
+const TABLE = env.TABLE ?? String(CURRENT_VOYAGE_VERSION);
 const JOBS = Math.max(1, Number(env.JOBS ?? availableParallelism()));
 const OUT = env.OUT ?? 'artifacts/voyage/rapport.json';
 

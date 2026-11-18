@@ -14,6 +14,8 @@ export const BOSS_COURT = [
   { role: 'healer', variant: 'courtHealer', hpFactor: 0.65, offsetX: -42, offsetY: 0 },
 ] as const;
 
+/** The king and his court take the last four places of the wave that brings them. */
+export const COURT_SLOTS = 4;
 export const COURT_HEAL = Object.freeze({ charges: 6, amount: 35, interval: 3, range: 110 });
 
 export type CourtHealTarget = {

@@ -258,7 +258,8 @@ Précisions du fils, rapportées par le parent le 18 novembre 2026 :
 - **La sauterelle**, après son saut, marche normalement comme les autres serpents.
 - **Le spinosaure** doit être la meilleure unité du jeu ; il laisse l'équilibrage à faire.
 - **Le boss caché** : il laisse choisir le nombre de pommes, après mesure.
-- **Dans le voyage**, il veut que King Snake vienne avec ses gardes.
+- **Dans le voyage**, il veut que King Snake vienne avec ses gardes : fait dans la version 2
+  du voyage (accord du parent le 18 novembre ; les voyages de version 1 gardent le roi seul).
 - **« Cristal »** est le seul mot de la jauge que les serpents abîment (décision du parent,
   avec le mot du fils) : le jeu ne dit plus « Camp : 80 % » ni « REFUGE ». Le camp reste le
   lieu où l'on pose ses alliés.

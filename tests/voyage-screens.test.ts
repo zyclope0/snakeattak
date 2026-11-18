@@ -8,6 +8,7 @@ import { REWARDS, type RewardId } from '../src/rewards.ts';
 import { defeatCopy, earnedStars, victoryCopy } from '../src/render/resultCopy.ts';
 import { planVoyage, stageCaprice } from '../src/voyage.ts';
 import { decodeVoyage, encodeVoyage } from '../src/voyageCode.ts';
+import { CURRENT_VOYAGE_VERSION } from '../src/voyageTuning.ts';
 import {
   chooseBonus,
   readVoyageState,
@@ -155,7 +156,7 @@ test('only a voyage with a stage won and more to play asks before it is replaced
 
 test('a code that is not one gets a sentence for each reason; a good code is taken', () => {
   const code = encodeVoyage(SEED)!;
-  assert.deepEqual(decodeVoyage(code), { ok: true, seed: SEED, version: 1 });
+  assert.deepEqual(decodeVoyage(code), { ok: true, seed: SEED, version: CURRENT_VOYAGE_VERSION });
   const reason = (typed: string) => {
     const read = decodeVoyage(typed);
     assert.equal(read.ok, false, typed);
@@ -165,7 +166,7 @@ test('a code that is not one gets a sentence for each reason; a good code is tak
   assert.match(reason('PONTS-1-0000-7X8R-A1'), /pas un code de voyage/);
   const wrongCheck = code.slice(0, -1) + (code.endsWith('A') ? 'B' : 'A');
   assert.match(reason(wrongCheck), /une erreur dans ce code/);
-  assert.match(reason(code.replace('VOYAGE-1', 'VOYAGE-9')), /autre version du jeu/);
+  assert.match(reason(code.replace(/^VOYAGE-\d/, 'VOYAGE-9')), /autre version du jeu/);
 });
 
 test('the end of a stage offers one way on: the bonus, the end, or the fallen camp', () => {
@@ -220,6 +221,26 @@ test('the dangers of the last stage announce the king, whatever its caprice', ()
   // The same mission outside a voyage has no king to announce.
   const mission = new Game(last.mission!.seed, undefined, last.mission!, 2);
   assert.ok(!kinds(mission, mission.totalWaves).includes('king'));
+});
+
+test('in a voyage of version 2 the dangers of the last wave show the king with his court', () => {
+  const bag = plan.stages.slice(0, 4).map((stage) => stage.offer[0]);
+  const lastGame = (version: 1 | 2) =>
+    stageGame(readVoyageState({ version, seed: SEED, won: 4, bag, status: 'travelling' })!)!;
+  const entries = (game: Game) => waveThreats(game, game.totalWaves).entries;
+  const counted = (game: Game) => entries(game).reduce((sum, entry) => sum + entry.count, 0);
+  const kinds = (game: Game) => entries(game).map((entry) => entry.kind);
+  const withCourt = lastGame(2);
+  const alone = lastGame(1);
+  assert.equal(withCourt.stage?.court, true);
+  assert.ok(kinds(withCourt).includes('king'));
+  assert.ok(kinds(withCourt).includes('courtHealer'));
+  assert.ok(!kinds(alone).includes('courtHealer'));
+  // The court takes places of the wave: it never adds snakes to it.
+  assert.equal(counted(withCourt), counted(alone));
+  // The other waves of the stage do not change.
+  for (let wave = 1; wave < withCourt.totalWaves; wave++)
+    assert.deepEqual(waveThreats(withCourt, wave), waveThreats(alone, wave));
 });
 
 test('a bonus chosen through the model joins the bag the screens show', () => {

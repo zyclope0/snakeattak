@@ -30,7 +30,9 @@ test('the same seed always draws the same voyage', () => {
     const first = planVoyage(seed);
     assert.ok(first);
     assert.deepEqual(planVoyage(seed), first);
-    assert.deepEqual(planVoyage(seed, 1), first);
+    assert.deepEqual(planVoyage(seed, CURRENT_VOYAGE_VERSION), first);
+    // Version 2 only brings the court of the king: every stage is drawn as in version 1.
+    assert.deepEqual(planVoyage(seed, 1)!.stages, first.stages);
     assert.equal(JSON.stringify(planVoyage(seed)), JSON.stringify(first));
   }
   const drawn = new Set(plans.map((plan) => JSON.stringify(plan.stages)));
@@ -40,7 +42,7 @@ test('the same seed always draws the same voyage', () => {
 test('what is not a seed has no voyage, and never throws', () => {
   for (const seed of [-1, VOYAGE_SEED_LIMIT + 1, 1.5, NaN, Infinity, '7', null, undefined, {}])
     assert.equal(planVoyage(seed as number), null, String(seed));
-  assert.equal(planVoyage(7, 2 as 1), null);
+  assert.equal(planVoyage(7, 3 as 1), null);
   assert.equal(planVoyage(7, 0 as 1), null);
   assert.equal(isVoyageSeed(0), true);
   assert.equal(isVoyageSeed(VOYAGE_SEED_LIMIT), true);
