@@ -28,6 +28,8 @@ dans GitHub, comment publier et revenir en arrière, et ce qui reste à vérifie
 | `fr/`, `en/`                 | présentation, prise en main, personnages, nouveautés et parents, en HTML sans JavaScript |
 | `sitemap.xml`, `robots.txt`  | découverte des12URL publiques par les moteurs ; le prototype porte un en-tête `noindex`  |
 | `favicon.ico`                | l'icône des pages qui n'en nomment pas (politique, prototype)                            |
+| `404.html`                   | la page d'une adresse qui n'existe pas (`ErrorDocument`), FR/EN, hors recherche          |
+| `ads.txt`                    | l'autorisation du compte AdSense ; aucune annonce n'est diffusée                         |
 
 L'adresse du site est écrite à un seul endroit, `src/site.ts`.
 
@@ -286,6 +288,42 @@ l'écran des cadeaux, textes passés à 13 px) est dans `ARCHITECTURE.md`.
 
 Le compteur d'étoiles de l'en-tête de l'accueil reste à 11 px sur téléphone : à 13 px il
 prenait la place du nom du joueur, coupé quand quatre joueurs partagent l'appareil.
+
+### Quatrième relecture à huit angles — 18 novembre 2026
+
+Sur le lot précédent, en ligne, et sur le plan de celui-ci. Corrigé :
+
+- **Plaque du refuge.** Sur tablette, le retour à la ligne laissait « % » seul ; sur
+  téléphone, la deuxième ligne commençait par le point. Les deux lignes sont maintenant
+  écrites (« REFUGE » / « 100 % »), sur téléphone seulement, et la plaque grandit vers la
+  droite, où rien ne se pose ; ailleurs elle reste sur une ligne.
+- **Annonce sous le plateau.** Relevée au-dessus de « Courage ! », elle ne redescendait
+  plus : elle redescend une seule fois, une seconde après la fin de la plaque. La plaque
+  « Confusion », agrandie, est poussée contre le bord gauche du plateau : une annonce longue
+  la recouvrait de 15 à 37 px.
+- **Version anglaise** : « 2 alliés hésitent » restait en français sur le plateau (deux
+  textes collés) ; c'est une seule phrase à trou.
+- **« Nouveau » du Voyage sur ordinateur** : l'étiquette, à droite du bouton, passait sous
+  l'image des personnages ; elle est maintenant par-dessus.
+- **Anneau de focus du plateau** : un deuxième trait restait d'un seul côté.
+- **Accueil du jeu plus léger.** L'image des personnages est servie en WebP (30 Ko au lieu
+  de 356), et l'onglet reçoit une icône de 48 px au lieu du même fichier de 356 Ko :
+  premier chargement de 1 656 à 1 330 Ko, sans différence visible (mesure du relecteur).
+  L'application gagne 325 Ko. `icon-512.png` reste la source et l'icône de la boutique.
+- **Page du jeu** : sa description sert aussi aux liens partagés (une seule balise).
+- **Page 404** : le titre anglais était plus grand que le titre français sur téléphone.
+- **Ce que j'avais annoncé à tort** : sur téléphone, les étiquettes des chapitres de
+  l'accueil étaient restées à 11 px (une autre règle l'emportait). Leur plancher est
+  maintenant à 13 px.
+- **Documents** : toutes les décisions en attente et les questions pour le fils sont
+  rassemblées dans `PLAN-ACTUEL.md`, « Décisions qui attendent le parent » ; les listes des
+  sections ci-dessus restent comme historique.
+
+Reste à faire sans décision : poser un allié au clavier (le chemin est vérifié : les places
+proposées sont toutes acceptées par le jeu, 211 poses rejouées), un test qui impose la
+taille minimale à tous les textes du plateau, les annonces trop courtes pour être lues
+lentement (1,7 s pour cinq mots), « Tu as des pièces, recrute ! » qui clignote. Les
+symboles de menace des antres demandent des signes à choisir avec le fils.
 
 Reste à faire sans décision : les symboles de menace à 11 px, poser un allié au clavier (la
 conception est prête : flèches et Entrée sur le plateau, par le même chemin que le doigt),

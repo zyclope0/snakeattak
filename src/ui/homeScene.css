@@ -1,7 +1,8 @@
 /*
  * Accueil : les personnages de l'icône devant la forêt de l'illustration d'origine.
- * L'image reste icon-512.png, intacte ; un masque retire son fond uni, et le décor passe
- * derrière. Les images viennent de scripts/build-home-scene.py.
+ * L'image est celle de l'icône (icon-512.png), servie en WebP de 30 Ko au lieu de 356
+ * (resources/site/hero-512.webp, scripts/export-site-icons.py) ; un masque retire son fond
+ * uni, et le décor passe derrière. Les images viennent de scripts/build-home-scene.py.
  */
 #home-main {
   /* Sur une fenêtre très haute, la carte garde ses proportions au lieu de s'étirer. */
@@ -146,6 +147,8 @@
     top: 50%;
     right: -12px;
     translate: 100% -50%;
+    /* Beside the button, it lies over the edge of the characters' picture, not under it. */
+    z-index: 1;
     padding: 2px 10px;
     font-size: 13px;
   }

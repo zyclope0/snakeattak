@@ -115,8 +115,8 @@ npm run store:dossier
 
 Le contrôle strict `npm run store:check` reste bloquant tant que comptes,
 SDK, transactions de test, prix et validations de publication ne sont pas prêts.
-Les fiches du store ont des brouillons en quatre langues ; le jeu lui-même reste
-actuellement en français. [Bilan de préparation](docs/archive/BILAN-PREPARATION-STORE-2026-11.md).
+Les fiches du store ont des brouillons en quatre langues ; le jeu lui-même se joue en
+français et en anglais. [Bilan de préparation](docs/archive/BILAN-PREPARATION-STORE-2026-11.md).
 
 ## Architecture et règles de contribution
 

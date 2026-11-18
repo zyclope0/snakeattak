@@ -17,8 +17,10 @@ const BOSS_TEXT = 12,
   PLAQUE_TEXT = 15,
   WIDE_PLAQUE_TEXT = 17,
   FLOAT_TEXT = 17;
-/** The plaques that hold a whole sentence: confusion and courage. */
-const wide = (index: number) => index === 6 || index === 7;
+/** The plaques that hold a whole sentence, by their place in the list of plaques. */
+const CONFUSION_PLAQUE = 6,
+  COURAGE_PLAQUE = 7;
+const wide = (index: number) => index === CONFUSION_PLAQUE || index === COURAGE_PLAQUE;
 export class BattleFeedback {
   private scene: Phaser.Scene;
   /** The sizes the texts have now, to change them only when the screen does. */
@@ -175,7 +177,7 @@ export class BattleFeedback {
       const drawn = wide(index) ? WIDE_PLAQUE_TEXT : PLAQUE_TEXT;
       const grow = readableBoardSize(this.scene, drawn) / drawn;
       // Courage keeps room on its left for its arrow, which touched the first letter.
-      const arrow = index === 7 && grow !== 1 ? 16 : 0;
+      const arrow = index === COURAGE_PLAQUE && grow !== 1 ? 16 : 0;
       const w =
           grow === 1
             ? width
@@ -206,10 +208,28 @@ export class BattleFeedback {
     }
     if (r.confusion)
       // Actors already draws a question mark on every affected ally.
-      plaque(6, r.confusion.label, 278, 585, 246, 0xd8b8e9, cssColor(BOARD_COLOR.confusion));
+      plaque(
+        CONFUSION_PLAQUE,
+        r.confusion.label,
+        // Larger, it is pushed against the left edge of the board, clear of the line where
+        // the page announces events in the middle.
+        scale === 1 ? 278 : 0,
+        585,
+        246,
+        0xd8b8e9,
+        cssColor(BOARD_COLOR.confusion),
+      );
     if (r.encouragement) {
       // The arrow and the gauge are drawn from the plaque, wherever it had to go.
-      const at = plaque(7, r.encouragement.label, 842, 585, 420, BOARD_COLOR.parchment, '#ffe2a0');
+      const at = plaque(
+        COURAGE_PLAQUE,
+        r.encouragement.label,
+        842,
+        585,
+        420,
+        BOARD_COLOR.parchment,
+        '#ffe2a0',
+      );
       g.fillStyle(BOARD_COLOR.parchment, 1);
       g.fillTriangle(at.left + 10, at.y - 5, at.left + 18, at.y, at.left + 10, at.y + 5);
       g.fillRoundedRect(

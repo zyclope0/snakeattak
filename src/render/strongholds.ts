@@ -11,7 +11,7 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import * as DEPTH from './boardLayers.ts';
 import { SHEET } from '../art.ts';
-import { readableBoardSize } from './boardResolution.ts';
+import { BOARD_WIDTH, readableBoardSize } from './boardResolution.ts';
 /** Under these shares of its health, the refuge looks worn, then badly cracked. */
 const WORN_BASE = 50,
   CRACKED_BASE = 25;
@@ -34,10 +34,13 @@ function strokeCrack(g: Phaser.GameObjects.Graphics, points: readonly number[]) 
 /** The size the refuge's plate was drawn for, on a board shown at its own size. */
 const REFUGE_TEXT = 11;
 const REFUGE_PLATE = 0x293f32;
-/** Where the plate sits, and where its top edge stays when its words grow onto two lines. */
-const REFUGE_Y = 412,
+/** Where the plate sits, and where its top edge stays when its words are on two lines. */
+const REFUGE_X = 988,
+  REFUGE_Y = 412,
   REFUGE_TOP = 401,
-  REFUGE_WRAP = 100;
+  REFUGE_LEFT = 943;
+/** From this size on (a phone in landscape), the words are written on two lines. */
+const REFUGE_TWO_LINES = 18;
 /** Live stage props observe presentation signals; never create or redirect monsters. */
 export class Strongholds {
   private dens: Phaser.GameObjects.Image[];
@@ -75,7 +78,7 @@ export class Strongholds {
     // The plate is drawn, not left to the text: a text shown below its own size (a phone)
     // fills only a corner of its background, and the words were read on the bare path.
     this.plate = scene.add.graphics().setDepth(DEPTH.refugePlate);
-    this.label = addCanvasCopy(scene.add, 988, REFUGE_Y, '', {
+    this.label = addCanvasCopy(scene.add, REFUGE_X, REFUGE_Y, '', {
       fontFamily: DISPLAY_FONT,
       fontSize: `${REFUGE_TEXT}px`,
       color: '#f5edcd',
@@ -160,21 +163,28 @@ export class Strongholds {
     // Read at the same size on a phone, where the board is drawn at about half size.
     const size = readableBoardSize(this.scene, REFUGE_TEXT);
     const resized = size !== this.labelSize;
-    if (resized) {
-      // Larger, the words go on two lines and grow downwards: on one line the plate reached
-      // over the allies placed on its left.
-      const grown = size > REFUGE_TEXT;
+    // On a phone, where the words are twice as large, they are written on two lines and
+    // grow downwards: on one line the plate reached over the allies placed on its left. The
+    // lines are written, not wrapped: a wrap left « % » alone on a tablet.
+    const twoLines = size >= REFUGE_TWO_LINES;
+    if (resized)
       this.label
         .setFontSize((this.labelSize = size))
         .setAlign('center')
-        .setWordWrapWidth(grown ? REFUGE_WRAP : null)
-        .setOrigin(0.5, grown ? 0 : 0.5)
-        .setY(grown ? REFUGE_TOP : REFUGE_Y);
-    }
+        .setOrigin(0.5, twoLines ? 0 : 0.5)
+        .setY(twoLines ? REFUGE_TOP : REFUGE_Y);
     if (this.shownBase === Math.ceil(game.base) && !resized) return;
     this.shownBase = Math.ceil(game.base);
-    const label = setCanvasCopy(this.label, fill(TEXT.refugeN, this.shownBase)).setColor(
-      game.base <= CRACKED_BASE ? '#ffd19c' : '#f5edcd',
+    const label = setCanvasCopy(
+      this.label,
+      fill(twoLines ? TEXT.refugeSurDeuxLignesN : TEXT.refugeN, this.shownBase),
+    ).setColor(game.base <= CRACKED_BASE ? '#ffd19c' : '#f5edcd');
+    // On two lines the plate keeps its left edge where it is on one line, and grows to the
+    // right, where nothing is placed, instead of over the allies on its left.
+    label.setX(
+      twoLines
+        ? Math.min(REFUGE_LEFT + label.width / 2, BOARD_WIDTH - 4 - label.width / 2)
+        : REFUGE_X,
     );
     this.plate
       .clear()

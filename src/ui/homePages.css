@@ -335,7 +335,7 @@
   grid-column: 2;
 }
 #home-screen .chapter-card small {
-  font-size: max(11px, calc(var(--hu) * 1.1));
+  font-size: max(13px, calc(var(--hu) * 1.1));
 }
 #home-screen .chapter-card strong {
   font-size: max(14px, calc(var(--hu) * 1.5));

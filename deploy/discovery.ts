@@ -259,7 +259,8 @@ export function webHeadBytes(pictures: { share: string; touch: string }) {
 /** Applied at build time on the website only. No storage, redirects or game rules. */
 export function augmentGamePage(html: string, pictures: { share: string; touch: string }): string {
   const meta =
-    `<meta name="description" content="${GAME_PAGE.description}">` +
+    // One tag for search engines and for shared links: the page keeps its budget.
+    `<meta name="description" property="og:description" content="${GAME_PAGE.description}">` +
     `<link rel="canonical" href="${SITE_ORIGIN}/">` +
     `<link rel="apple-touch-icon" href="${pictures.touch}">` +
     `<meta property="og:type" content="website">` +

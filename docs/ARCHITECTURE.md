@@ -534,7 +534,8 @@ Phaser 3 reste le bon choix, et la question ne se rouvre pas sans mesure sur le 
 
 - Le jeu n'utilise qu'une petite partie de Phaser : scène, images, formes, textes, un cache de
   terrain. Ni physique, ni animations du moteur. Le rendu tient en 3 057 lignes (`src/render`).
-- Les règles n'en dépendent pas : TypeScript pur, 549 tests, parties rejouables à l'identique.
+- Les règles n'en dépendent pas : TypeScript pur, plus de 800 tests, parties rejouables à
+  l'identique.
   Changer de moteur ne toucherait donc que le rendu, mais obligerait à le réécrire en entier.
 - Godot, Unity ou Defold imposeraient de réécrire aussi les règles, les sauvegardes et
   l'interface HTML : plusieurs semaines pour un jeu 2D que la solution actuelle fait tourner.
@@ -1375,14 +1376,17 @@ laquelle il a été dessiné : aucune image de référence ne change.
 - En bas du plateau, la ligne d'annonce de la page et la plaque de courage occupaient la
   même bande : l'annonce cachait le début de « Courage ! ». La scène dit à la page quand
   elle écrit là (`onPresentation(…, plaques)`), et l'annonce se place juste au-dessus
-  (`.battle-announcement.above-plaques`). Elle ne bouge qu'à son apparition ou quand la
-  plaque arrive, jamais pendant qu'on la lit : la confusion, qui dure 0,8 s et reste à
+  (`.battle-announcement.above-plaques`, `placeAnnouncement`). Elle monte à son apparition
+  ou quand la plaque arrive, et redescend une seule fois, une seconde après la fin de la
+  plaque : la confusion, qui dure 0,8 s et reste à
   gauche de l'annonce, la faisait sauter. Relevée, elle couvre un instant le pont de la voie
   du bas sur téléphone : à regarder en jouant.
 - « Esquive ! » est écrit plus haut que les chiffres des coups, et plus longtemps (1,4 s) :
   dessous, il était recouvert au bout d'un tiers de seconde.
-- Agrandie, la plaque du refuge passe sur deux lignes et grandit vers le bas : sur une
-  ligne, elle couvrait les alliés posés à sa gauche.
+- Sur téléphone (18 unités et plus), la plaque du refuge est écrite sur deux lignes
+  (`refugeSurDeuxLignesN`) et grandit vers le bas : sur une ligne, elle couvrait les alliés
+  posés à sa gauche. Les lignes sont écrites, pas coupées par le moteur, qui laissait « % »
+  seul sur une tablette.
 - Sous l'écran des cadeaux, le plateau est rendu inerte par la page (`inert`), pas caché :
   il reste dessiné, et le clavier ne s'y perd plus. L'anneau de focus du plateau est posé
   par-dessus le canevas, qui le recouvrait.

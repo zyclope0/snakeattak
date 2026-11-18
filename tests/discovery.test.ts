@@ -179,7 +179,11 @@ test('only the Web gets public metadata and links; game markup and saves remain 
   const shell =
     '<html><head><title>Game</title></head><body><nav class="parent-actions" aria-label="Aide"><button id="home-family">Sauvegarde</button></nav><details id="home-parent-options"></details><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
   const html = augmentGamePage(shell, pictures);
-  assert.match(html, /name="description"/);
+  assert.ok(
+    html.includes(
+      `<meta name="description" property="og:description" content="${GAME_PAGE.description}">`,
+    ),
+  );
   // The title stays the game's own, in the player's language; the description holds both.
   assert.match(html, /<title>Game<\/title>/);
   assert.match(GAME_PAGE.description, /^Jeu de défense gratuit .* Free defense game: /);

@@ -112,7 +112,9 @@ remettra l'application au niveau du site.
   compression à la publication, aperçu de partage de la page du jeu complété, annonce qui
   ne saute plus, « Esquive ! » lisible, plaque du refuge sur deux lignes, clavier sur
   l'écran des cadeaux, quelques textes à 13 px ([SITE.md](SITE.md), « Troisième
-  relecture »). **Pas encore publié.**
+  relecture »). Publié le 18 novembre (publication n° 15) : le contrôle en ligne confirme
+  qu'une adresse inconnue répond 404 avec la page du build, et que le site est servi
+  compressé.
 
 ## Site : découverte FR/EN et soutien — lot du16novembre
 
@@ -122,7 +124,8 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 
 - Soutien volontaire préparé mais **masqué**, sur décision du parent ; pas de destination
   de paiement configurée dans ce premier lot. Le soutien a ensuite reçu un GO
-  distinct le16novembre2026 : voir la section suivante. Publicité repoussée.
+  distinct le16novembre2026 : voir la section suivante. La publicité, alors repoussée,
+  a été décidée pour le site le 17 novembre.
 - Build Android séparé dans `dist-android/` : aucun contenu Web ou soutien embarqué.
   Les AAB/APK62 existants ne sont pas reconstruits par ce lot.
 - Vérification de propriété et soumission Search Console/Bing à faire dans les comptes
@@ -164,16 +167,73 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 
 ## Décisions qui attendent le parent
 
-- Dire quand l'ancien site s'arrête ; il affiche déjà l'avis de migration.
-- La marche devant le roi dans le voyage : l'accepter ou demander une version 2.
-- À l'accueil, « Reprendre » s'affiche encore pour un joueur qui a tout fini : le corriger
-  demande d'enregistrer une donnée de plus.
-- Publicité : sur le site seulement, décidée par le parent le 17 novembre, pas encore
-  allumée ([proposition](publication/PUBLICITE-WEB-PROPOSITION.md)) ; jamais dans
-  l'application. Achats : repoussés ou abandonnés pour la première sortie.
-- Connexion Google ou sauvegarde en ligne : écartée tant que le jeu vise d'abord les enfants
-  (règles lues le 13 novembre, à relire avant toute décision).
-- Mission 1 gagnable sans recruter : mesure, puis accord du fils et du parent avant toute règle.
+La liste entière, en un seul endroit (18 novembre). `SITE.md` raconte d'où vient chacune.
+
+**Textes du site, en ligne aujourd'hui**
+
+1. « pose un Archer, il le touche de loin » (« Nouveautés ») promet trop : avec un Archer
+   par voie, le serpent rare mord quand même 28 fois sur 100 à la vague 8, 100 fois sur 100
+   à la vague 11 (vrai moteur, 100 départs). Proposé : « un Archer peut le toucher avant
+   qu'il morde ».
+2. « tu vois quels serpents arrivent, et par quel chemin » : « Dangers » ne montre que les
+   chemins ouverts. Proposé : « et quels chemins sont ouverts ».
+3. « quand tu commences une nouvelle Aventure classique » : aucun bouton ne dit
+   « nouvelle ». Proposé : « Touche "La grande aventure" pour en commencer une nouvelle ».
+4. La page parents parle de l'application Android au présent ; elle n'est pas encore
+   publique. Proposé : dire qu'elle est en préparation.
+5. Page 404 : relire « Cette page n'existe pas. L'adresse a peut-être changé. Le jeu, lui,
+   est toujours là. »
+6. Retirer « Soutenir le développement » du pied des pages écrites pour l'enfant, et nommer
+   le lien du bloc « Soutenir sur PayPal (nouvel onglet) ».
+7. Ajouter « du jeu » à la phrase approuvée « que l'on peut couper dans « Pour les
+   parents » », lue sur une page qui porte le même titre.
+
+**Jeu**
+
+8. Un seul mot pour la même jauge : « Camp », « cristal », « ♥ », « REFUGE ». « Cristal »
+   est le mot du fils (`GAME_DESIGN.md`).
+9. Sur téléphone, le miel (« ATTIRANT · 13 s »), « Réserve », les pastilles de soin et la
+   garde du roi se lisent entre 4 et 7 px et n'ont pas la place de grandir là où ils sont.
+   Proposé : les secondes seules pour le miel, une image pour les trois autres.
+10. Les phrases trop techniques : « 2 PV au tueur à sa mort », « Absorbe 18 dégâts au
+    cristal. Ne bloque pas le roi. », « Arrivées régulières », « Éclosions décalées »,
+    « Repérage », « Réessayer le même départ ».
+11. Lot « montrer ce qui existe » (aucune règle touchée) : « Encourager » accessible pendant
+    la vague (quatre appuis aujourd'hui), annonce à l'arrivée d'un nouveau serpent, annonce
+    d'un allié débloqué. Textes à valider avec le fils.
+12. Les dessins des trois nouveaux serpents (une dépense).
+13. La marche devant le roi dans le voyage : l'accepter ou demander une version 2.
+14. À l'accueil, « Reprendre » s'affiche encore pour un joueur qui a tout fini : le corriger
+    demande d'enregistrer une donnée de plus.
+15. Mission 1 gagnable sans recruter : mesure, puis accord du fils et du parent avant toute
+    règle.
+
+**Publication**
+
+16. Publicité : sur le site seulement, décidée le 17 novembre, pas encore allumée ; jamais
+    dans l'application. Reste le feu vert, après l'approbation du site par Google et les
+    six réglages du compte ; avant d'allumer, interdire au navigateur les fonctions
+    publicitaires de profilage et adapter le contrôle du site en ligne
+    ([proposition](publication/PUBLICITE-WEB-PROPOSITION.md)).
+17. `README.md` (racine) dit encore « publicité rare entre missions, suppression des pubs
+    et cosmétiques payants » : cela contredit « jamais dans l'application ». Achats :
+    repoussés ou abandonnés pour la première sortie.
+18. Dire quand l'ancien site s'arrête ; il affiche déjà l'avis de migration.
+19. Connexion Google ou sauvegarde en ligne : écartée tant que le jeu vise d'abord les
+    enfants (règles lues le 13 novembre, à relire avant toute décision).
+
+**Questions pour le fils** (cinq minutes, « Tous les serpents » ouvert, sans proposer la
+réponse)
+
+- « Regarde ton serpent ninja. Est-ce qu'il fait ce que tu avais imaginé ? » Il esquive le
+  premier coup ; il l'avait voulu « aussi rapide que le Ninja, parfois il se téléporte dans
+  le dos ». S'il parle de téléportation : « Combien de fois ? », « Dans le dos de qui ? »
+- « Ces trois serpents, comment ils s'appellent ? » Et quel mot quand le serpent rare mord ?
+- « Quand un serpent arrive au bout, qu'est-ce qu'il abîme ? Tu l'appelles comment ? »
+- « La sauterelle, après son saut, elle se déplace comment ? »
+- « Le spinosaure, qui peut le battre ? »
+- « Pour le boss caché, il faut toucher combien de pommes ? »
+- Dans le voyage, le roi vient sans ses gardes : les veut-il ?
 
 ## Dettes connues
 
