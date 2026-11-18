@@ -37,7 +37,7 @@ export const cristalN100ReparationPossible = `Crystal: {0} / ${CRYSTAL_MAX} · c
 export const encourager = 'Encourage';
 export const pendantLeCombatQuandTesAllies = 'During battle, when your allies can attack.';
 export const tousLesAlliesConseilsEtOutils3 =
-  'All allies → Tips and tools → Camp actions → Encourage our allies.';
+  'During a wave, tap “Encourage” at the top of the screen. Also in All allies → Tips and tools → Camp actions.';
 export const leursAttaquesAccelerentPendant8S = `Their attacks speed up for ${ENCOURAGEMENT_SECONDS} s. Once per wave.`;
 export const encouragesNS = 'Encouraged · {0} s';
 export const revientALaProchaineVague = 'Returns next wave';

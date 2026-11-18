@@ -23,6 +23,7 @@ export const courageAttaquesAccelereesNS = 'Encourage · Faster attacks · {0} s
 export const crachatIciNS = 'Spit here · {0} s';
 export const invalidInactivePoolCapacity = 'Invalid inactive pool capacity';
 export const reserveNNS = 'Restocking: {0} · {1} s';
+export const nS = '{0} s';
 export const reserve = 'Supplies';
 export const uneImageNAPasPuArriverReessaie =
   'An image could not load. Try again when your connection returns.';
@@ -48,6 +49,8 @@ export const phaseNProtection = 'Phase {0}: shield up!';
 export const protectionBrisee = 'Shield broken!';
 export const clac = 'Clack!';
 export const esquive = 'Dodge!';
+/** The child's own word for the rare snake's bite: kept as it is. */
+export const ksss = 'KSSS';
 export const aLaRescousse = 'Here to help!';
 export const tombe = 'Fallen';
 export const unAllieEstTombe = 'An ally has fallen';
@@ -77,3 +80,7 @@ export const cristalSurDeuxLignesN = 'CRYSTAL\n{0}%';
 export const invalidCapacity = 'Invalid capacity';
 export const fpsPerComplete1000msActiveWindow =
   'FPS per complete >=1000ms active window; median/min of last 3600 windows; longest frame and active duration over whole recording. Partial window excluded from FPS.';
+export const nouveauSerpentN = 'New snake: {0}!';
+export const nouvelAllieN = 'New ally: {0}!';
+export const nouveauxAlliesNEtN = 'New allies: {0} and {1}!';
+export const nouveauxAlliesNNEtN = 'New allies: {0}, {1} and {2}!';

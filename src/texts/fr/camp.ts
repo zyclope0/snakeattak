@@ -37,7 +37,7 @@ export const cristalN100ReparationPossible = `Cristal : {0} / ${CRYSTAL_MAX} · 
 export const encourager = 'Encourager';
 export const pendantLeCombatQuandTesAllies = 'Pendant le combat, quand tes alliés peuvent frapper.';
 export const tousLesAlliesConseilsEtOutils3 =
-  'Tous les alliés → Conseils et outils → Actions du camp → Encourager nos alliés.';
+  'Pendant la vague, touche « Encourager » en haut de l’écran. Aussi dans Tous les alliés → Conseils et outils → Actions du camp.';
 export const leursAttaquesAccelerentPendant8S = `Leurs attaques accélèrent pendant ${ENCOURAGEMENT_SECONDS} s. Une fois par vague.`;
 export const encouragesNS = 'Encouragés · {0} s';
 export const revientALaProchaineVague = 'Revient à la prochaine vague';

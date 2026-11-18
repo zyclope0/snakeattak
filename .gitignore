@@ -19,3 +19,6 @@ dist-android/
 
 dist-ads-preview/
 dist-ads-test/
+# Pages temporaires que deux recettes écrivent à la racine pendant qu'elles tournent.
+.locale-035-test.html
+child-mobile-035-fixture.html

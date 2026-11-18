@@ -1359,13 +1359,16 @@ laquelle il a été dessiné : aucune image de référence ne change.
   (dégâts, « Esquive ! »), nom et vie de King Snake, plaque du refuge
   (`battleFeedback.ts`, `strongholds.ts`). La phrase de fin de partie garde son plancher de
   13,5 px, par la même fonction.
-- **Pas encore concernés** (5 à 9 px sur téléphone) : le miel (« ATTIRANT · 13 s »,
-  `BattleScene.ts`), « Réserve » et les pastilles de soin (`medicalSignals.ts`), la garde du
-  roi (`bossSignals.ts`), les symboles de menace (`threatMarkers.ts`). Mesuré le 18
-  novembre : seuls les symboles de menace ont la place de grandir. Les quatre autres,
-  agrandis là où ils sont, couvriraient des alliés ou une voie : il faut d'abord les
-  raccourcir ou les déplacer, ce qui est une décision du parent. Aucun test n'impose encore
-  la règle à tout `src/render/`.
+- **Raccourcis sur un petit plateau** (décision du parent, 18 novembre) : là où le plateau est
+  dessiné petit (`boardShownSmall`, le même seuil que la plaque du cristal sur deux lignes),
+  le miel n'écrit que ses secondes (« 13 s »), un soigneur son stock seul (« +2 »), la réserve
+  son attente seule (« 4 s ») ou rien, la croix du fort disant déjà « Réserve » ; la garde du
+  roi est un bouclier dessiné, son soigneur une croix et le nombre de ses soins
+  (`BattleScene.ts`, `medicalSignals.ts`, `bossSignals.ts`). Une tablette et un ordinateur
+  gardent les mots entiers.
+- **Pas encore concernés** (5 à 9 px sur téléphone) : les symboles de menace des antres
+  (`threatMarkers.ts`), dont les signes sont à choisir avec le fils, et les noms des trois
+  têtes de King Snake. Aucun test n'impose encore la règle à tout `src/render/`.
 - Chaque texte a son propre besoin : sur un écran moyen, le nom de King Snake doit grandir
   alors que les plaques sont déjà assez grandes. Les plaques qui portent une phrase
   entière (confusion, courage) prennent la largeur de leur texte, pas le double de leur
@@ -1394,6 +1397,48 @@ laquelle il a été dessiné : aucune image de référence ne change.
   s'écartent d'autant (`eggLabelPositions(eggs, scale)`), et une rangée trop chargée se
   partage la largeur au lieu de sortir du plateau.
 - Rendu seul : aucune règle, aucune partie de référence touchée.
+
+### Montrer ce qui existe — 18 novembre 2026
+
+Trois choses existaient dans les règles sans que l'enfant les voie (décision 11 du parent) :
+
+- **« Encourager »** demandait quatre appuis. Pendant une vague, le bouton de lancement n'a
+  rien à faire : `#encourage-quick` prend sa place (`adventureControls.ts`,
+  `mainActions.css`). C'est la même commande que dans « Actions du camp » ; la règle (une
+  fois par vague, gratuit) ne change pas. Il reste à sa place toute la vague, grisé une fois
+  dépensé : parti au milieu du combat, il déplaçait pause et vitesse sous le doigt. Il est
+  retenu (`aria-disabled`), pas désactivé : un bouton désactivé perd le focus, et la barre
+  d'espace mettait alors le jeu en pause. Il ignore un appui pendant les 0,9 s qui suivent le
+  début de la vague : il apparaît là où était « Lancer la vague », et un double appui
+  dépensait l'encouragement avant le premier serpent.
+- **Un serpent rencontré pour la première fois** est annoncé par son nom, dans la vague où la
+  grande aventure l'envoie d'abord (`render/newcomers.ts`, d'après l'index des serpents) ;
+  jamais en mission, dont les vagues suivent un autre ordre.
+- **Un allié que le camp peut désormais recruter** est nommé après « Vague N repoussée ! ».
+- **Les annonces de nouveaux venus attendent leur tour** (`Presentation.waiting`,
+  `takeTurns`) : le plateau n'écrit que le titre d'une annonce, donc chacune est un titre à
+  elle ; aucune ne couvre le titre d'une vague ni l'entrée de King Snake (le soigneur du roi
+  est nommé après lui), aucune n'en couvre une autre avant qu'elle soit lue, et aucune ne
+  sort pendant le choix d'un bonus, dont l'écran couvre le plateau sur téléphone.
+- **« KSSS »** : le mot du fils quand le serpent rare mord, écrit là où il a mordu, même s'il
+  tombe dans la même image.
+
+Sur un petit plateau, un texte court n'a plus de fond mais un contour sombre
+(`plainCaptionWhenSmall`) : sous sa taille, le moteur ne remplit qu'un coin du fond d'un
+texte, et un fond agrandi couvrait les voisins. L'attente de la réserve s'écrit à côté de la
+croix du fort (sous le cristal, elle tombait sur sa plaque à deux lignes) ; les secondes du
+miel passent au-dessus des alliés ; le bouclier et la croix de la garde du roi sont dessinés
+aux pieds de chaque serpent, dans son anneau (au-dessus des têtes, ceux de gardes en colonne
+s'empilaient). « Garde du roi » et « Soigneur · N » en toutes lettres suivent aussi la taille
+lisible sur tablette.
+
+Les mots flottants et les plaques ne sont plus redessinés à chaque image : le moteur
+redessine un texte dès qu'on lui redonne sa couleur, même identique (une vingtaine de textes
+par image pendant la vague du roi).
+
+Les empreintes de la présentation changent avec ces annonces ; celles des parties rejouées
+(`engine-traces`) ne changent pas. Non couvert par une recette navigateur : le bouton, les
+annonces et les textes courts ne sont contrôlés que par des tests unitaires et des captures.
 
 Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
 (« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », ligne d'annonce, prix des favoris, total de

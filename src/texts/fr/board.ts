@@ -24,6 +24,7 @@ export const crachatIciNS = 'Crachat ici · {0} s';
 export const invalidInactivePoolCapacity = 'Invalid inactive pool capacity';
 export const reserveNNS = 'Réserve · {0} · {1} s';
 export const reserve = 'Réserve';
+export const nS = '{0} s';
 export const uneImageNAPasPuArriverReessaie =
   'Une image n’a pas pu arriver. Réessaie quand la connexion revient.';
 export const preparationDuTerrainN = 'Préparation du terrain… {0} %';
@@ -48,6 +49,8 @@ export const phaseNProtection = 'Phase {0} : protection !';
 export const protectionBrisee = 'Protection brisée !';
 export const clac = 'Clac !';
 export const esquive = 'Esquive !';
+/** Le mot du fils quand le serpent rare mord (18 novembre 2026) : tel quel, en majuscules. */
+export const ksss = 'KSSS';
 export const aLaRescousse = 'À la rescousse !';
 export const tombe = 'Tombé';
 export const unAllieEstTombe = 'Un allié est tombé';
@@ -78,3 +81,7 @@ export const cristalSurDeuxLignesN = 'CRISTAL\n{0} %';
 export const invalidCapacity = 'Invalid capacity';
 export const fpsPerComplete1000msActiveWindow =
   'FPS per complete >=1000ms active window; median/min of last 3600 windows; longest frame and active duration over whole recording. Partial window excluded from FPS.';
+export const nouveauSerpentN = 'Nouveau serpent : {0} !';
+export const nouvelAllieN = 'Nouvel allié : {0} !';
+export const nouveauxAlliesNEtN = 'Nouveaux alliés : {0} et {1} !';
+export const nouveauxAlliesNNEtN = 'Nouveaux alliés : {0}, {1} et {2} !';

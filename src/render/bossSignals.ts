@@ -7,20 +7,30 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import * as DEPTH from './boardLayers.ts';
 import * as BOARD_COLOR from './palette.ts';
+import { boardShownSmall, readableBoardSize } from './boardResolution.ts';
+
+/** Size the captions of the king and of his court are drawn at, in board units. */
+const COURT_TEXT = 10;
+/** The sign drawn over a guard or a healer of the king on a small board: its half width. */
+const COURT_SIGN = 11;
+/** How far under the snake's position its sign is centred: in the ring drawn at its feet. */
+const COURT_SIGN_DROP = 6;
 /** Finite graphics layers; no images, per-actor shader or independent simulation. */
 export class BossSignals {
   private ground: Phaser.GameObjects.Graphics;
   private protection: Phaser.GameObjects.Graphics;
   private headLabels: Phaser.GameObjects.Text[];
   private courtLabels: Phaser.GameObjects.Text[];
+  private scene: Phaser.Scene;
   constructor(scene: Phaser.Scene) {
+    this.scene = scene;
     this.ground = scene.add.graphics().setDepth(DEPTH.groundMarks);
     this.protection = scene.add.graphics().setDepth(DEPTH.warnings);
     const labels = () =>
       Array.from({ length: 3 }, () =>
         addCanvasCopy(scene.add, 0, 0, '', {
           fontFamily: BODY_FONT,
-          fontSize: '10px',
+          fontSize: `${COURT_TEXT}px`,
           color: '#fff4d1',
           stroke: '#172c2c',
           strokeThickness: 3,
@@ -38,6 +48,8 @@ export class BossSignals {
     ground.clear();
     ink.clear();
     for (const label of [...this.headLabels, ...this.courtLabels]) label.setVisible(false);
+    const small = boardShownSmall(this.scene),
+      courtSize = readableBoardSize(this.scene, COURT_TEXT);
     let courtIndex = 0;
     for (const boss of game.enemies) {
       if (boss.hp > 0 && boss.court && courtIndex < this.courtLabels.length) {
@@ -45,12 +57,28 @@ export class BossSignals {
         const color = healer ? 0xa5e6ab : 0xb5cadd;
         ink.lineStyle(2, color, 0.85);
         ink.strokeEllipse(boss.x, boss.y + 4, 34, 13);
-        setCanvasCopy(
-          this.courtLabels[courtIndex++],
-          healer ? fill(TEXT.soigneurN, boss.court.charges) : TEXT.gardeDuRoi,
-        )
-          .setPosition(boss.x, boss.y - 42)
-          .setVisible(true);
+        const label = this.courtLabels[courtIndex++];
+        if (small) {
+          // A sign instead of words read at 5 px: a shield for a guard, a cross and its
+          // remaining cares for the healer. Each is drawn at the feet of its snake, in its
+          // ring: above their heads, the signs of guards walking in a column piled up on
+          // one another and on the heads of the king.
+          const sign = boss.y + COURT_SIGN_DROP;
+          if (healer) {
+            drawCross(ink, boss.x - COURT_SIGN, sign, color);
+            setCanvasCopy(label.setFontSize(courtSize), String(boss.court.charges))
+              .setOrigin(0, 0.5)
+              .setPosition(boss.x + 2, sign)
+              .setVisible(true);
+          } else drawShield(ink, boss.x, sign, color);
+        } else
+          setCanvasCopy(
+            label.setFontSize(courtSize),
+            healer ? fill(TEXT.soigneurN, boss.court.charges) : TEXT.gardeDuRoi,
+          )
+            .setOrigin(0.5, 1)
+            .setPosition(boss.x, boss.y - 42)
+            .setVisible(true);
       }
       const r = bossReadout(boss, game.tuning);
       if (!r) continue;
@@ -113,4 +141,32 @@ export class BossSignals {
       }
     }
   }
+}
+
+/** A small shield, centred on (x, y): the guard of the king. */
+function drawShield(ink: Phaser.GameObjects.Graphics, x: number, y: number, color: number) {
+  const w = COURT_SIGN,
+    h = COURT_SIGN * 1.2;
+  ink.fillStyle(0x172c2c, 0.95);
+  ink.fillPoints(shield(x, y, w + 3, h + 3), true);
+  ink.fillStyle(color, 1);
+  ink.fillPoints(shield(x, y, w, h), true);
+}
+const shield = (x: number, y: number, w: number, h: number) => [
+  new Phaser.Math.Vector2(x - w, y - h),
+  new Phaser.Math.Vector2(x + w, y - h),
+  new Phaser.Math.Vector2(x + w, y),
+  new Phaser.Math.Vector2(x, y + h),
+  new Phaser.Math.Vector2(x - w, y),
+];
+/** A small cross, centred on (x, y): the healer of the king. */
+function drawCross(ink: Phaser.GameObjects.Graphics, x: number, y: number, color: number) {
+  const arm = COURT_SIGN,
+    bar = COURT_SIGN * 0.42;
+  ink.fillStyle(0x172c2c, 0.95);
+  ink.fillRect(x - arm - 2, y - bar - 2, arm * 2 + 4, bar * 2 + 4);
+  ink.fillRect(x - bar - 2, y - arm - 2, bar * 2 + 4, arm * 2 + 4);
+  ink.fillStyle(color, 1);
+  ink.fillRect(x - arm, y - bar, arm * 2, bar * 2);
+  ink.fillRect(x - bar, y - arm, bar * 2, arm * 2);
 }

@@ -6,6 +6,8 @@ import type { EncounterReadout } from './encounterReadout.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import { isMilestone } from '../rewards.ts';
+import type { Kind } from '../data.ts';
+import { newAlliesLine, newSnakeBanner, recruitableKinds } from './newcomers.ts';
 export type Notice = {
   kind: 'wave' | 'boss' | 'clear' | 'egg' | 'fallen';
   title: string;
@@ -45,7 +47,14 @@ export const PLACED_SECONDS = 0.35;
 export const ARRIVAL_SECONDS = 0.9;
 const BURST_SECONDS = 0.6;
 /** The queues are bounded: a crowded board never grows them without limit. */
-/** How long a floating word is read, and how high and how long the word of a dodge is. */
+/** How long the banner of a new snake or of a new ally is read. */
+const NEWCOMER_SECONDS = 3.4;
+/** Its rank among the banners: that of a wave title, which it lets finish before it shows. */
+const NEWCOMER_PRIORITY = 1;
+/**
+ * How long a floating word is read, and how high and how long the word of a dodge and of
+ * the rare snake's bite is.
+ */
 const FLOAT_SECONDS = 0.9,
   DODGE_WORD_HEIGHT = 100,
   DODGE_WORD_SECONDS = 1.4;
@@ -94,6 +103,17 @@ export class Presentation {
   private units = new Map<number, Snapshot>();
   /** Fighters met during the current update: whoever is missing from it has left the board. */
   private seen = new Set<number>();
+  /** Allies the camp could recruit at the last look, and snakes already announced as new. */
+  private recruitable = new Set<Kind>();
+  private debuted = new Set<string>();
+  /** The rare snakes met in this game: their bite is written even when they fall with it. */
+  private rares = new Set<number>();
+  /**
+   * The banners of newcomers wait here for their turn, in the order they came: none covers
+   * the title of a wave or the entrance of the king, and none covers another before it was
+   * read.
+   */
+  private waiting: Omit<Notice, 'remaining'>[] = [];
   private wave = 0;
   private status: Game['status'] = 'preparing';
   private hatched = 0;
@@ -103,6 +123,15 @@ export class Presentation {
   private base = 100;
   private bossArmor = new Map<number, { phase: number; broken: number }>();
   private roared = new Map<number, number>();
+  /**
+   * Lets the next banner of a newcomer on the board once nothing that matters is written
+   * there, and never while a bonus is being chosen: on a phone that panel covers the board.
+   */
+  private takeTurns(game: Game) {
+    if (!this.waiting.length || game.rewards.pending !== null) return;
+    if (this.notice && this.notice.priority >= NEWCOMER_PRIORITY) return;
+    this.announce(this.waiting.shift()!);
+  }
   private announce(notice: Omit<Notice, 'remaining'>) {
     if (this.notice && this.notice.priority > notice.priority) return;
     this.notice = { ...notice, remaining: notice.duration };
@@ -132,6 +161,7 @@ export class Presentation {
     for (const e of game.enemies) this.watchFighter(e, fresh, dt);
     this.forgetDeparted();
     this.hearEffects(game);
+    this.takeTurns(game);
     this.boundQueues();
     this.wave = game.wave;
     this.status = game.status;
@@ -145,6 +175,10 @@ export class Presentation {
     this.gaits.clear();
     this.victoryAge = Infinity;
     this.game = game;
+    this.recruitable = new Set(recruitableKinds(game));
+    this.debuted.clear();
+    this.rares.clear();
+    this.waiting = [];
     this.units.clear();
     this.floats = [];
     this.bursts = [];
@@ -231,7 +265,11 @@ export class Presentation {
         priority: 4,
       });
     }
-    if (!fresh && this.status === 'fighting' && game.status === 'preparing')
+    if (!fresh && this.status === 'fighting' && game.status === 'preparing') {
+      // An ally that the camp may recruit from now on is named: nothing else said so.
+      const allies = recruitableKinds(game);
+      const newAllies = newAlliesLine(allies.filter((kind) => !this.recruitable.has(kind)));
+      this.recruitable = new Set(allies);
       this.announce({
         kind: 'clear',
         title: fill(TEXT.vagueNRepoussee, game.wave),
@@ -242,6 +280,20 @@ export class Presentation {
         duration: 2.8,
         priority: 2,
       });
+      // The board writes the title of a banner only: the new allies have their own, after
+      // this one. The snakes of the wave that has just ended are no longer news.
+      this.waiting = newAllies
+        ? [
+            {
+              kind: 'clear',
+              title: newAllies,
+              subtitle: TEXT.prepareLesProchainsAllies,
+              duration: NEWCOMER_SECONDS,
+              priority: NEWCOMER_PRIORITY,
+            },
+          ]
+        : [];
+    }
     if (game.hatched > this.hatched) {
       this.announce({
         kind: 'egg',
@@ -344,6 +396,18 @@ export class Presentation {
       return;
     }
     if (e.x >= DEN_EDGE) this.sparks.push({ kind: 'egg', x: e.x, y: e.y });
+    if (e.variant === 'rare') this.rares.add(e.id);
+    // A snake met for the first time is named once, when its turn comes.
+    const banner = this.game && !e.boss ? newSnakeBanner(this.game, e.variant) : null;
+    if (banner && !this.debuted.has(e.variant)) {
+      this.debuted.add(e.variant);
+      this.waiting.push({
+        kind: 'wave',
+        ...banner,
+        duration: NEWCOMER_SECONDS,
+        priority: NEWCOMER_PRIORITY,
+      });
+    }
     this.arrivals.push({
       id: e.id,
       x: e.x,
@@ -404,6 +468,11 @@ export class Presentation {
       this.text(source.x, source.y - 66, TEXT.grrr, '#e4e6ae');
       this.roared.set(source.id, this.clock);
     }
+    // The bite of the rare snake is written with the word the child gave it. It fells a
+    // club fighter at once: the word is read as high and as long as that of a dodge.
+    // Written where it bit: a rare snake that falls in the same frame is no longer there.
+    if (e.kind === 'hit' && this.rares.has(sourceId))
+      this.text(e.x, e.y - DODGE_WORD_HEIGHT, TEXT.ksss, '#ffc2a8', DODGE_WORD_SECONDS);
   }
   /** The floating word and the burst of an effect. */
   private voice(game: Game, e: Effect) {

@@ -50,6 +50,32 @@ export function readableBoardSize(
   return Number.isFinite(needed) ? Math.ceil(Math.max(boardSize, needed)) : boardSize;
 }
 
+/**
+ * From this size on, a text drawn for 11 units is read on a small board, a phone held in
+ * landscape: there a caption is cut to its number or drawn as a sign, and the plate of the
+ * crystal is written on two lines. A tablet and a desktop keep the whole words.
+ */
+const SMALL_BOARD_TEXT = 18;
+export function boardShownSmall(scene: Phaser.Scene): boolean {
+  return readableBoardSize(scene, BOARD_TEXT_MIN_PX) >= SMALL_BOARD_TEXT;
+}
+
+/**
+ * A caption on a small board is written without its plate and with a dark outline: below
+ * its own size, the engine fills only a corner of the plate of a text, and a plate grown
+ * with its words covers the neighbours. Touches the text only when the board changes size.
+ */
+const CAPTION_OUTLINE = '#172c2c';
+export function plainCaptionWhenSmall(
+  label: Phaser.GameObjects.Text,
+  small: boolean,
+  plate: string,
+) {
+  const wanted = small ? '' : plate;
+  if ((label.style.backgroundColor ?? '') === wanted) return;
+  label.setBackgroundColor(wanted).setStroke(CAPTION_OUTLINE, small ? 5 : 0);
+}
+
 /** A pointer in board units, whatever the size of the canvas behind it. */
 export function boardPoint(scene: Phaser.Scene, pointer: { x: number; y: number }) {
   const scale = boardScale(scene);

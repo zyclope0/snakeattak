@@ -11,7 +11,7 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import * as DEPTH from './boardLayers.ts';
 import { SHEET } from '../art.ts';
-import { BOARD_WIDTH, readableBoardSize } from './boardResolution.ts';
+import { BOARD_WIDTH, boardShownSmall, readableBoardSize } from './boardResolution.ts';
 /** Under these shares of its health, the refuge looks worn, then badly cracked. */
 const WORN_BASE = 50,
   CRACKED_BASE = 25;
@@ -39,8 +39,6 @@ const REFUGE_X = 988,
   REFUGE_Y = 412,
   REFUGE_TOP = 401,
   REFUGE_LEFT = 943;
-/** From this size on (a phone in landscape), the words are written on two lines. */
-const REFUGE_TWO_LINES = 18;
 /** Live stage props observe presentation signals; never create or redirect monsters. */
 export class Strongholds {
   private dens: Phaser.GameObjects.Image[];
@@ -163,10 +161,10 @@ export class Strongholds {
     // Read at the same size on a phone, where the board is drawn at about half size.
     const size = readableBoardSize(this.scene, REFUGE_TEXT);
     const resized = size !== this.labelSize;
-    // On a phone, where the words are twice as large, they are written on two lines and
+    // On a small board, where the words are twice as large, they are written on two lines and
     // grow downwards: on one line the plate reached over the allies placed on its left. The
     // lines are written, not wrapped: a wrap left « % » alone on a tablet.
-    const twoLines = size >= REFUGE_TWO_LINES;
+    const twoLines = boardShownSmall(this.scene);
     if (resized)
       this.label
         .setFontSize((this.labelSize = size))
