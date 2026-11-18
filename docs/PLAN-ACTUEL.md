@@ -225,7 +225,8 @@ Le point 14 (« Reprendre ») attend un lot à lui : il touche la sauvegarde.
 - **12.** Dessins des trois nouveaux serpents : **budget libre accordé par le parent**.
 - **13.** La marche devant le roi dans le voyage est acceptée ; on regarde d'abord les enfants jouer.
 - **14.** « Reprendre » : corriger, avec une donnée de plus sur l'appareil ; les anciennes
-  sauvegardes restent lisibles.
+  sauvegardes restent lisibles. **Fait** (lot « Reprendre », 18 novembre) : une mission gagnée
+  ne dit plus « Reprendre » après la fermeture du jeu ([bilan](BILAN-REPRENDRE.md)).
 - **15.** Mission 1 gagnable sans recruter : **mesuré, et le parent décide de ne rien changer**
   (18 novembre). Sur 200 parties sans acheter un seul allié : mission 1 gagnée 200 fois (93
   avec 3 étoiles), mission 2 196 fois (4 avec 3 étoiles), mission 3 93 fois (aucune à 3

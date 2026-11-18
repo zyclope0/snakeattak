@@ -925,9 +925,16 @@ s'arrêter à 460 px. `npm run test:mobile-menus` (`scripts/mobile-replay-038-ch
 contrôle les cartes et l'accueil dans le vrai jeu, et le résultat sur une page de contrôle
 (`tests/replay-038-harness.ts`), en français et en anglais.
 
-Limite connue : après la fermeture du jeu, une mission terminée laisse son dernier camp dans
-la sauvegarde ; l'accueil dit alors « Reprendre », comme avant. Le distinguer d'une mission
-vraiment interrompue demanderait une donnée de plus dans la sauvegarde.
+Après la fermeture du jeu, une mission gagnée laisse son dernier camp dans la sauvegarde.
+Pour que l'accueil ne propose plus de la reprendre (décision 14 du parent, 18 novembre), le
+jeu garde sur l'appareil, à côté du fichier familial, la marque de ce camp
+(`conquete-serpents:mission-done:v1`, une clé par joueur dans `PLAYER_KEYS`) : sa longueur et
+une somme FNV-1a de 32 bits (`missionDone.ts`), pas une copie. Le fichier familial ne change
+pas ; une ancienne sauvegarde se lit comme avant. `missionWaits` (`bootstrap.ts`) ne dit
+« Reprendre » que si le camp en attente n'a pas cette marque. « Reprendre ma mission » reste
+sur la page Missions ; y rentrer efface la marque, et le camp redevient une mission en cours.
+Stockage refusé ou marque abîmée : l'accueil se comporte comme avant. Recette :
+`scripts/mobile-resume-checks.mjs`, dans `npm run test:mobile-menus`.
 
 ## Le voyage — 14 novembre 2026
 

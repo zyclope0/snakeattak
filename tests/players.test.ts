@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { createMissionDone } from '../src/missionDone.ts';
 import assert from 'node:assert/strict';
 import { PLAYERS_KEY } from '../src/storageKeys.ts';
 import {
@@ -194,6 +195,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     'conquete-serpents:progress:v1',
     'conquete-serpents:recruitment-reminder:v1',
     'conquete-serpents:voyage:v1',
+    'conquete-serpents:mission-done:v1',
   ]);
   for (const key of PLAYER_KEYS) {
     assert.equal(playerKey(key, 'p1'), key);
@@ -211,7 +213,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     for (const id of ['p1', 'p2', 'p3', 'p4'] as const) assert.equal(playerKey(key, id), key);
 });
 
-test('the persistence code only ever touches the five keys of its player', () => {
+test('the persistence code only ever touches the six keys of its player', () => {
   for (const id of ['p1', 'p2', 'p4'] as const) {
     const device = memory();
     const storage = playerStorage(device, id);
@@ -225,6 +227,7 @@ test('the persistence code only ever touches the five keys of its player', () =>
     assert.equal(persistence.sync(encodeCheckpoint(game), career.state), true);
     createReminderMarkers(storage, []).mark('PONTS-1-0000-7X8R-A1');
     assert.equal(saveVoyageLog(storage, logVoyage(loadVoyageLog(storage), startVoyage(7)!)!), true);
+    createMissionDone(storage).mark(encodeCheckpoint(game));
     const expected = PLAYER_KEYS.map((key) => (id === 'p1' ? key : `${key}:${id}`)).sort();
     assert.deepEqual([...device.touched].sort(), expected);
     assert.deepEqual([...device.values.keys()].sort(), expected);
