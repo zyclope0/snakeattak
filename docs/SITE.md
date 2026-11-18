@@ -284,6 +284,9 @@ Sur le lot précédent et sur le plan de celui-ci, avant qu'il soit écrit. Corr
 Le détail du jeu (annonce qui ne saute plus, « Esquive ! », plaque du refuge, clavier sur
 l'écran des cadeaux, textes passés à 13 px) est dans `ARCHITECTURE.md`.
 
+Le compteur d'étoiles de l'en-tête de l'accueil reste à 11 px sur téléphone : à 13 px il
+prenait la place du nom du joueur, coupé quand quatre joueurs partagent l'appareil.
+
 Reste à faire sans décision : les symboles de menace à 11 px, poser un allié au clavier (la
 conception est prête : flèches et Entrée sur le plateau, par le même chemin que le doigt),
 quelques textes d'interface qui ne passent pas à 13 px sans revoir leur carte (détail des
