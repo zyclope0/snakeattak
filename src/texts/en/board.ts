@@ -69,8 +69,7 @@ export const leVoyageSArreteIci = 'The voyage stops here';
 export const tuPeuxRefaireCeVoyageOuEnCommencer =
   'You can try this voyage again or start a new one.';
 export const onReessaie = 'Try again?';
-export const reessaieCeMemeDepartOuChoisisUne =
-  'Try the same setup again or choose another mission.';
+export const reessaieCeMemeDepartOuChoisisUne = 'Restart this game or choose another mission.';
 export const rejoueUneAventurePuisEssaieDAutres =
   'Start a new adventure, then try a different team.';
 export const cristalPlaqueN = 'CRYSTAL · {0}%';

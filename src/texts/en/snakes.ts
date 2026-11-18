@@ -44,7 +44,7 @@ export const unCracheurADistanceSuitUnParapluie =
   'A Spitter follows a moving Umbrella Snake. Mobile allies can chase it away.';
 export const laGrandeCouvee = 'The Great Hatching';
 export const troisEclosionsDecaleesSurTrois =
-  'Three eggs hatch at different times across three lanes. The King Cobra shows its hood: as it falls, it hurts the ally that beat it (−2).';
+  'Three eggs hatch at different times across three lanes. The King Cobra shows its hood: when it falls, it hurts the ally that beat it (−2).';
 export const laGrandeCavalcade = 'The Great Charge';
 export const deuxRessortsEncadrentLaPremiere =
   'Two Spring Snakes flank the first Shellback. The groups of three arrive farther apart: keep a mobile ally ready for their leaps.';

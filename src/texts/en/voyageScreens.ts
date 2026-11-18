@@ -55,7 +55,7 @@ export const unBouclierOffertAChaqueEtape = 'A free Shield Guard at every stage.
 export const unNinjaOffertAChaqueEtape = 'A free Ninja at every stage.';
 export const unVelociraptorOffertAChaqueEtape = 'A free Velociraptor at every stage.';
 export const tonMielDurePlusLongtempsAChaque = 'Your honey lasts longer at every stage.';
-export const uneProtectionPourTonCristalAChaque = 'A shield for your crystal at every stage.';
+export const uneProtectionPourTonCristalAChaque = 'A shield for your Crystal at every stage.';
 export const nPiecesAChaqueEtape = '+{0} coins at every stage.';
 export const tuAsReussiNEtapeNSurNTuPeux =
   'You completed {0} stage{1} out of {2}. You can set off again!';

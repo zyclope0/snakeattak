@@ -70,7 +70,7 @@ const labels = {
     parents: 'For parents',
     privacy: 'Privacy policy',
     support: 'Support development',
-    supportPay: 'Support on PayPal (new tab)',
+    supportPay: 'Support the game on PayPal (new tab)',
     supportAnchor: 'support',
     external:
       'For adults: an optional, one-off contribution in CHF through PayPal. No in-game benefits.',

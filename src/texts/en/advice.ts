@@ -43,7 +43,7 @@ export const uneFoisParVagueLeursAttaques = `Once per wave, their attacks speed 
 export const lePiegeGourmand = 'The tasty trap';
 export const choisisAttirerPourDetournerLes =
   'Choose Lure to turn hungry snakes, or Slow to slow snakes crossing the puddle. Then choose a lane.';
-export const penseAReparerTonCristal = 'Remember to repair your crystal';
+export const penseAReparerTonCristal = 'Remember to repair your Crystal';
 export const dansActionsDuCamp80PiecesPour = `In Camp actions: spend ${REPAIR_COST} coins to restore up to ${REPAIR_AMOUNT} health points.`;
 export const tuPeuxEntrainerTonHeros = 'You can train your Hero';
 export const dansActionsDuCampChoisisFrappeOu = `In Camp actions: choose Power Strike or Guardian for ${HERO_TRAINING_COST} coins.`;
@@ -72,7 +72,7 @@ export const voiesOuvertesN = 'Open lanes: {0}';
 export const nNEtAjouterDesSerpentsOrdinaires = '{0} {1} and add ordinary snakes.';
 export const oeufPeutEclore = 'egg may hatch';
 export const oeufsPeuventEclore = 'eggs may hatch';
-export const nPvAuTueurASaMort = 'As it falls, it hurts the ally that beat it (−{0})';
+export const nPvAuTueurASaMort = 'When it falls, it hurts the ally that beat it (−{0})';
 export const avanceVersTonCristal = 'Moves toward your Crystal';
 export const courtTresVite = 'Runs very fast';
 export const saCarapaceReduitLesDegats = 'Its shell reduces damage';

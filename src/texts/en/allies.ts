@@ -6,7 +6,7 @@ export const ninja = 'Ninja';
 export const tresRapideFonceSurLesSerpents = 'Very fast. Rushes at snakes.';
 export const medecin = 'Medic';
 export const soigneLesAlliesVivantsLesPlus =
-  'Uses 6 bandages to heal the most wounded living allies, then returns to the Refuge.';
+  'Uses 6 bandages to heal the most wounded living allies, then returns to the fort.';
 export const archer = 'Archer';
 export const tireADistanceMaisResteFragile = 'Shoots from a distance, but is fragile.';
 export const bebeDragon = 'Baby Dragon';
@@ -39,7 +39,7 @@ export const desCoupsPuissantsAuContactMaisPeu =
   'Powerful close-range hits, but little protection.';
 export const infirmier = 'Nurse';
 export const mobileEtMoinsCouteux4BandagesPuis =
-  'Mobile and cheaper: carries 4 bandages, then returns to the Refuge for more.';
+  'Mobile and cheaper: carries 4 bandages, then returns to the fort for more.';
 export const chevalier = 'Knight';
 export const combattantCuirasseEquilibreEntre =
   'An armored fighter with balanced attack and defense.';

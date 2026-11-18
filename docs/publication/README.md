@@ -1,5 +1,11 @@
 # Dossier Google Play — préparation, pas une publication
 
+> **18 novembre 2026 — ce dossier décrit un modèle abandonné.** Le parent a décidé qu'il n'y
+> aura ni publicité ni achat dans l'application (publicité sur le site seulement, voir
+> `docs/PLAN-ACTUEL.md`). Le texte ci-dessous et `npm run store:check`
+> (`deploy/playReadiness.ts`) parlent encore de publicité entre missions, de suppression
+> payante et de cosmétiques : à refaire avant de remplir la fiche Play.
+
 Jeu de référence actuel : **0.32.4**, étape 4 documentaire. Le parent confirme le modèle gratuit avec publicité
 rare, suppression des pubs payante et cosmétiques payants sans avantage de combat.
 L'APK reste sans publicité ni achat intégré. Le compte Play personnel est créé,

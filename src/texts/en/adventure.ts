@@ -39,9 +39,10 @@ export const expeditionInvalide = 'Invalid mission';
 export const petitsGroupesRapidesGardeDesAllies = 'Small, fast groups: keep mobile allies ready.';
 export const lesEscortesArriventEnsembleCombine =
   'Escorts arrive together: combine melee fighters and support.';
-export const lesArriveesSontRegulieresRepartis = 'Snakes arrive steadily: spread out your guards.';
+export const lesArriveesSontRegulieresRepartis =
+  'The snakes come one after another: spread out your guards.';
 export const laCouveeEstConcentreeSurUneVoie = 'The eggs are all on one lane.';
-export const lesEclosionsSontRepartiesEt = 'Eggs are spread out and hatch at different times.';
+export const lesEclosionsSontRepartiesEt = 'The eggs hatch one after another, on several lanes.';
 export const desSerpentsVolantsArriventArchers =
   'Flying Snakes are coming: Archers, Dragons and Tanks can hit them.';
 export const vagueDeMissionInvalide = 'Invalid mission wave';

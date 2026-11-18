@@ -70,7 +70,7 @@ export const tuPeuxRefaireCeVoyageOuEnCommencer =
   'Tu peux refaire ce voyage ou en commencer un nouveau.';
 export const onReessaie = 'On réessaie ?';
 export const reessaieCeMemeDepartOuChoisisUne =
-  'Réessaie ce même départ ou choisis une autre mission.';
+  'Recommence cette partie ou choisis une autre mission.';
 export const rejoueUneAventurePuisEssaieDAutres =
   'Rejoue une aventure, puis essaie d’autres alliés.';
 export const cristalPlaqueN = 'CRISTAL · {0} %';

@@ -80,7 +80,7 @@ export const recruterNosUnites = 'Recruit our units';
 export const conseils = 'Tips';
 export const monExpedition = 'My expedition';
 export const carteDesMissions = 'Mission map';
-export const reessayerLeMemeDepart = 'Start this game again';
+export const reessayerLeMemeDepart = 'Restart this game';
 export const missionSuivante = 'Next mission';
 export const prepareTonCamp = 'Prepare your camp';
 export const choisisUnAllieEtPlaceLeADroite = 'Choose an ally and place it on the right.';
@@ -101,7 +101,7 @@ export const choisirLaVoieDuGouter = 'Choose the Honey lane';
 export const encouragerNosAllies = 'Encourage our allies';
 export const n1FoisParVague8Secondes = `Once per wave · ${ENCOURAGEMENT_SECONDS} seconds`;
 export const unPotGratuitAChaqueVague = 'One free pot every wave';
-export const reparerLeCristal = 'Repair the crystal';
+export const reparerLeCristal = 'Repair the Crystal';
 export const n25PointsDeVie = `+${REPAIR_AMOUNT} health points`;
 export const entrainerLeHeros = 'Train the hero';
 export const frappeRenforcee = 'Power Strike';
@@ -173,7 +173,7 @@ export const lesSerpentsVaincusRapportentDes =
 export const lesPouvoirsEtLesReglesEnDetail = 'Powers and rules in detail';
 export const recruterEnBataille = 'Recruiting during battle.';
 export const tuPeuxAussiAcheterUnAllieOuReparer =
-  'You can also buy an ally or repair the crystal during battle. These actions are blocked while paused and when the game is over.';
+  'You can also buy an ally or repair the Crystal during battle. These actions are blocked while paused and when the game is over.';
 export const troisVoiesReliees = 'Three connected lanes.';
 export const lesSerpentsPeuventChangerDeChemin =
   'Snakes can change paths at junctions. As the waves progress, they look for lanes with fewer defenses. The bars show how well your defenses cover each lane compared with the others. They do not guarantee safety.';
@@ -236,12 +236,12 @@ export const accueilDeLAventure = 'Adventure home';
 export const n018Etoiles = `0 / ${MISSION_COUNT * STAR_MAX} stars`;
 export const accueil2 = '← Home';
 export const protege = 'Protect';
-export const leCristal = 'the crystal!';
-export const sixMissionsPourProtegerTonCristal = 'Six missions to protect your crystal.';
+export const leCristal = 'the Crystal!';
+export const sixMissionsPourProtegerTonCristal = 'Six missions to protect your Crystal.';
 export const jouer = 'Play';
 export const equipeEquilibree = 'Balanced Team';
 export const unHerosAuBouclierBleuProtegeLe =
-  'A clay Hero with a blue shield protects the crystal from a snake.';
+  'A clay Hero with a blue shield protects the Crystal from a snake.';
 export const preparerMonAventure = 'Prepare my adventure';
 export const missions = 'Missions';
 export const aventureClassique = 'Classic adventure';
@@ -272,7 +272,7 @@ export const n09Etoiles = '0 / 9 stars';
 export const uneEtoilePourFinirDeuxDes60Trois =
   'One star for finishing · two from 60% · three from 90%';
 export const leCristalDoitGarderCeMinimumDurant =
-  'The crystal must stay at or above this health throughout the chapter.';
+  'The Crystal must stay at or above this health throughout the chapter.';
 export const n01Vagues1A4 = '01 · Waves 1 to 4';
 export const laClairiereDesFougeres = 'Fern Clearing';
 export const commencerIci = 'Start here';

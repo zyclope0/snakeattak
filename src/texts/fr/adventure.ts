@@ -41,9 +41,10 @@ export const petitsGroupesRapidesGardeDesAllies =
 export const lesEscortesArriventEnsembleCombine =
   'Les escortes arrivent ensemble : combine contact et soutien.';
 export const lesArriveesSontRegulieresRepartis =
-  'Les arrivées sont régulières : répartis les gardiens.';
+  'Les serpents arrivent l’un après l’autre : répartis les gardiens.';
 export const laCouveeEstConcentreeSurUneVoie = 'La couvée est concentrée sur une voie.';
-export const lesEclosionsSontRepartiesEt = 'Les éclosions sont réparties et décalées.';
+export const lesEclosionsSontRepartiesEt =
+  'Les œufs éclosent l’un après l’autre, sur plusieurs voies.';
 export const desSerpentsVolantsArriventArchers =
   ' Des serpents volants arrivent : archers, dragons et tanks peuvent les toucher.';
 export const vagueDeMissionInvalide = 'Vague de mission invalide';

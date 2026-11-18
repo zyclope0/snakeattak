@@ -87,7 +87,7 @@ try {
           await link.innerText(),
           item.lang === 'fr'
             ? 'Soutenir sur PayPal (nouvel onglet)'
-            : 'Support on PayPal (new tab)',
+            : 'Support the game on PayPal (new tab)',
         );
       }
       const width = await page.evaluate(() => ({

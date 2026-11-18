@@ -26,7 +26,7 @@ export const lesMorsuresDesSerpentsACoquille = 'the bites of snakes with a shell
 export const ilYAPlusDOeufsDansLesVagues = 'there are more eggs in the waves';
 export const lesOeufsEclosentPlusVite = 'the eggs hatch sooner';
 export const lesSerpentsCherchentLesCheminsLes = 'the snakes look for the least guarded paths';
-export const prepareTesAlliesPourProtegerLe = 'Prepare your allies to protect the crystal.';
+export const prepareTesAlliesPourProtegerLe = 'Prepare your allies to protect the Crystal.';
 export const choisisTesSortesPrefereesOuLaisse =
   'Choose your favorite types or let your first recruits fill the free places.';
 export const voirMonCarnet = 'View my sticker book';

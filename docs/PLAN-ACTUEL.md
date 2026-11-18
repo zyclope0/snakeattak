@@ -161,8 +161,10 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
    depuis `main` pour les ajouts du fils, à essayer sur le téléphone avec les enfants.
 3. **Préparer le test fermé** : Google demande à un compte personnel 12 testeurs pendant 14
    jours avant la production. Il faut une fiche à jour (textes et captures du jeu actuel ; le
-   dossier [publication/](publication/) décrit encore la 0.32.4) et une décision du parent sur
-   une première sortie gratuite, sans publicité ni achat.
+   dossier [publication/](publication/) décrit encore la 0.32.4). **Le parent a décidé (17 et
+   18 novembre) : aucune publicité ni achat dans l'application.** Le dossier et
+   `npm run store:check` décrivent encore l'ancien modèle (publicité entre missions,
+   suppression payante, cosmétiques) : à refaire avant la fiche, avec Codex.
 4. **Du contenu, choisi d'après la séance** : voyage sans fin si les enfants finissent le
    voyage, version 2 du voyage s'ils tombent devant le roi, nouvelles missions dessinées par
    le fils s'ils réclament du neuf. Une quatrième sortie ou de nouveaux terrains demandent
@@ -175,50 +177,50 @@ répondu à ses questions le même jour. `SITE.md` raconte d'où vient chacune.
 
 **Fait dans le lot du 18 novembre (textes)**
 
-1. Serpent rare, « Nouveautés » : « Pose un Archer : il peut le toucher avant qu'il morde. »
-2. « Comment jouer » : « tu vois quels serpents arrivent, et quels chemins sont ouverts ».
-3. « Nouveautés » nomme les boutons : « Aventure classique », puis « La grande aventure · 12
-   vagues ».
-4. Page parents : « L'application Android est en préparation ; elle n'est pas encore
-   disponible. » Aucune date promise.
-5. Page 404 : le texte en ligne est gardé.
-6. Le lien de paiement s'appelle « Soutenir sur PayPal (nouvel onglet) ». Le pied des autres
-   pages garde « Soutenir le développement », qui mène à la page parents (choix du parent).
-7. Publicité : « … que l'on peut couper dans « Pour les parents » du jeu. »
-8. **« Cristal » partout** pour la jauge (mot du fils) : la plaque du plateau, le résultat
-   d'une vague, les mots qui s'envolent, « répare le cristal ». Le camp reste le lieu où l'on
-   pose ses alliés (« Prépare ton camp », « Le camp est tombé »). « Le refuge » reste le nom
-   de la première mission et le mot de ses codes de départ.
-9. Six phrases réécrites, vérifiées dans le moteur : « En tombant, il blesse celui qui l'a
-   battu (−2) » (la phrase d'abord proposée, « est soigné de 2 », était fausse : le cobra
-   royal enlève 2 points de vie à l'allié qui le bat) ; « Protège ton cristal de 18 dégâts.
-   Le roi, lui, passe quand même. » ; « Ils arrivent l'un après l'autre » ; « Les œufs
-   éclosent l'un après l'autre » ; l'onglet « Repérage » devient « Dangers », le mot du
-   bouton de la bataille (« Le terrain » aurait doublé la ligne « Terrain » du même écran) ;
-   « Recommencer cette partie ».
-10. `README.md` : aucune publicité ni achat dans l'application ; sur le site seulement,
-    l'encart que l'on peut couper et le lien PayPal.
+- **1.** Serpent rare, « Nouveautés » : « Pose un Archer : il peut le toucher avant qu'il morde. »
+- **2.** « Comment jouer » : « tu vois quels serpents arrivent, et quels chemins sont ouverts ».
+- **3.** « Nouveautés » nomme les boutons : « Aventure classique », puis « La grande aventure · 12
+  vagues ».
+- **4.** Page parents : « L'application Android est en préparation ; elle n'est pas encore
+  disponible. » Aucune date promise.
+- **5.** Page 404 : le texte en ligne est gardé.
+- **6.** Le lien de paiement s'appelle « Soutenir sur PayPal (nouvel onglet) ». Le pied des autres
+  pages garde « Soutenir le développement », qui mène à la page parents (choix du parent).
+- **7.** Publicité : « … que l'on peut couper dans « Pour les parents » du jeu. »
+- **8.** **« Cristal » partout** pour la jauge (mot du fils) : la plaque du plateau, le résultat
+  d'une vague, les mots qui s'envolent, « répare le cristal ». Le camp reste le lieu où l'on
+  pose ses alliés (« Prépare ton camp », « Le camp est tombé »). « Le refuge » reste le nom
+  de la première mission et le mot de ses codes de départ.
+- **10.** Six phrases réécrites, vérifiées dans le moteur : « En tombant, il blesse celui qui l'a
+  battu (−2) » (la phrase d'abord proposée, « est soigné de 2 », était fausse : le cobra
+  royal enlève 2 points de vie à l'allié qui le bat) ; « Protège ton cristal de 18 dégâts.
+  Le roi, lui, passe quand même. » ; « Les serpents arrivent l'un après l'autre » ; « Les œufs
+  éclosent l'un après l'autre » ; l'onglet « Repérage » devient « Dangers », le mot du
+  bouton de la bataille (« Le terrain » aurait doublé la ligne « Terrain » du même écran) ;
+  « Recommencer cette partie ».
+- **17.** `README.md` : aucune publicité ni achat dans l'application ; sur le site seulement,
+  l'encart que l'on peut couper et le lien PayPal.
 
 **Décidé, à faire dans les lots suivants**
 
-9. Sur téléphone : le miel n'affiche que ses secondes ; « Réserve », les pastilles de soin et
-   la garde du roi deviennent des signes dessinés dans le code, sans dépense. Captures à
-   montrer au parent avant fusion.
-10. « Montrer ce qui existe » : « Encourager » à un appui pendant la vague, annonce d'un
-    nouveau serpent, annonce d'un allié débloqué. Les phrases sont à montrer au fils avant
-    fusion.
-11. Dessins des trois nouveaux serpents : **budget libre accordé par le parent**.
-12. La marche devant le roi dans le voyage est acceptée ; on regarde d'abord les enfants jouer.
-13. « Reprendre » : corriger, avec une donnée de plus sur l'appareil ; les anciennes
-    sauvegardes restent lisibles.
-14. Mission 1 gagnable sans recruter : mesurer d'abord, ne rien changer sans accord.
-15. Publicité : rien ne s'allume sans le message du parent, après l'approbation du site par
-    Google et les six réglages du compte ; avant d'allumer, interdire au navigateur les
-    fonctions publicitaires de profilage et adapter le contrôle du site en ligne
-    ([proposition](publication/PUBLICITE-WEB-PROPOSITION.md)).
-16. L'ancien site : personne n'y joue (parole du parent), aucune date à annoncer ; il peut
-    être arrêté quand le parent le veut.
-17. Connexion Google ou sauvegarde en ligne : écartée.
+- **9.** Sur téléphone : le miel n'affiche que ses secondes ; « Réserve », les pastilles de soin et
+  la garde du roi deviennent des signes dessinés dans le code, sans dépense. Captures à
+  montrer au parent avant fusion.
+- **11.** « Montrer ce qui existe » : « Encourager » à un appui pendant la vague, annonce d'un
+  nouveau serpent, annonce d'un allié débloqué. Les phrases sont à montrer au fils avant
+  fusion.
+- **12.** Dessins des trois nouveaux serpents : **budget libre accordé par le parent**.
+- **13.** La marche devant le roi dans le voyage est acceptée ; on regarde d'abord les enfants jouer.
+- **14.** « Reprendre » : corriger, avec une donnée de plus sur l'appareil ; les anciennes
+  sauvegardes restent lisibles.
+- **15.** Mission 1 gagnable sans recruter : mesurer d'abord, ne rien changer sans accord.
+- **16.** Publicité : rien ne s'allume sans le message du parent, après l'approbation du site par
+  Google et les six réglages du compte ; avant d'allumer, interdire au navigateur les
+  fonctions publicitaires de profilage et adapter le contrôle du site en ligne
+  ([proposition](publication/PUBLICITE-WEB-PROPOSITION.md)).
+- **18.** L'ancien site : personne n'y joue (parole du parent), aucune date à annoncer ; il peut
+  être arrêté quand le parent le veut.
+- **19.** Connexion Google ou sauvegarde en ligne : écartée.
 
 **Nouvelles règles décidées, à mesurer avant fusion** (chacune dans une nouvelle révision ;
 les parties, codes et sauvegardes d'avant gardent leurs règles)

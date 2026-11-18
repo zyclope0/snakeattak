@@ -330,6 +330,16 @@ autres pages garde « Soutenir le développement » : le parent ne l'a pas retir
 la page 404 est gardé. Le site dit « cristal » et plus « refuge », comme le jeu. L'anglais
 suit ; il n'est toujours pas relu par une personne.
 
+Relecture à trois angles (exactitude, anglais, restes et mise en page), puis corrigé avant
+la PR : « une nouvelle partie commence » était faux pour qui a déjà un camp (le jeu demande
+d'abord « Remplacer le camp actuel ? ») et taisait que les serpents n'arrivent qu'à la vague
+6 — la phrase dit maintenant « commence une nouvelle partie » et « à partir de la vague 6 » ;
+la page parents parlait encore de l'application au présent après « pas encore disponible » —
+futur, et le bloc « Sur le Web et sur Android » passe avant « Conserver une aventure » ; en
+anglais, le titre « Check the dangers » nommait un bouton qui s'appelle « Threats ».
+Laissé : « chemins » sur le site et « Voies ouvertes » dans le jeu disent la même chose avec
+deux mots (le parent a validé « chemins »).
+
 Reste à faire sans décision : poser un allié au clavier (le chemin est vérifié : les places
 proposées sont toutes acceptées par le jeu, 211 poses rejouées), un test qui impose la
 taille minimale à tous les textes du plateau, les annonces trop courtes pour être lues
@@ -366,8 +376,8 @@ ponctuel, sans adresse ou frais de livraison. L'outil ne propose pas de montants
 suggérés. `SUPPORT_URL` dans `deploy/discovery.ts` référence exactement cette URL.
 Un passage explicite de `null` à `discoveryPageHtml` permet encore de masquer le soutien.
 
-Depuis le 17 novembre 2026, le lien de paiement « Soutenir le développement » /
-« Support development » n'est plus que dans le bloc des pages parents FR/EN, avec la
+Depuis le 17 novembre 2026, le lien de paiement (nommé depuis le 18 novembre « Soutenir sur
+PayPal (nouvel onglet) » / « Support the game on PayPal (new tab) ») n'est plus que dans le bloc des pages parents FR/EN, avec la
 mention réservée aux adultes, facultative, en CHF et sans avantage dans le jeu ; le pied
 des 8 autres pages publiques mène à ce bloc, pas à PayPal (les pages parents, qui le
 montrent, n'ont plus ce lien dans leur pied). Aucun SDK,

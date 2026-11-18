@@ -9,6 +9,6 @@ export const unVelociraptorOffertAPlacerDansTon = 'A free Velociraptor to place 
 export const laGrandeReserveDeMiel = 'The Big Honey Supply';
 export const n4SecondesPourChaquePotJusquALaFin = `+${HONEY_REWARD_SECONDS} seconds for every Honey pot until the end of the game.`;
 export const laGardeDuCristal = 'The Crystal Guard';
-export const absorbe18DegatsAuCristalNeBloque = `Shields your Crystal from ${CRYSTAL_WARD} damage. The King still gets through.`;
+export const absorbe18DegatsAuCristalNeBloque = `Blocks ${CRYSTAL_WARD} damage to your Crystal. The King still gets through.`;
 export const laBourseDesAventuriers = 'The Adventurers’ Coin Pouch';
 export const n100PiecesPourRecruterLesAlliesDe = `+${REWARD_COINS} coins to recruit your choice of allies.`;
