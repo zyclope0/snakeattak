@@ -3,7 +3,7 @@ import { flyingVariant } from '../flying.ts';
 import { BOSS_COURT, COURT_HEAL, COURT_SLOTS } from '../bossCourt.ts';
 import { ensureBossState } from '../boss.ts';
 import type { EnemyKind } from '../enemies.ts';
-import { dodgesOf } from '../enemyAbilities.ts';
+import { dodgesOf, leapsOf } from '../enemyAbilities.ts';
 import {
   variantFor,
   spawnDelay,
@@ -45,6 +45,8 @@ function spawnSnake(
   e.variant = variant;
   const dodges = boss ? 0 : dodgesOf(variant);
   if (dodges) e.dodges = dodges;
+  const leaps = boss ? 0 : leapsOf(variant);
+  if (leaps) e.leaps = leaps;
   e.lane = lane;
   e.boss = boss;
   ensureBossState(e, game.tuning);

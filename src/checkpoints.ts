@@ -65,11 +65,11 @@ function hasKnownDeparture(game: Game): boolean {
 }
 
 /** The save version of each revision that exists in the great adventure only. */
-const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = { 3: 10, 4: 11, 5: 12 };
-const LATEST_VERSION = 12;
+const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = { 3: 10, 4: 11, 5: 12, 6: 13 };
+const LATEST_VERSION = 13;
 /** The revision a version 10 or later was written for; null for an older version. */
 const classicRevisionOf = (version: number): ClassicRevision | null =>
-  version === 12 ? 5 : version === 11 ? 4 : version === 10 ? 3 : null;
+  version === 13 ? 6 : version === 12 ? 5 : version === 11 ? 4 : version === 10 ? 3 : null;
 
 function saveVersion(game: Game): number {
   if (isClassicRevision(game.balanceRevision)) return CLASSIC_VERSION[game.balanceRevision];

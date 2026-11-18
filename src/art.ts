@@ -205,6 +205,8 @@ export const ENEMY_ART: Record<EnemyKind, ArtFrame> = {
   fang: frame('serpents-nouveaux', 0),
   rare: frame('serpents-nouveaux', 1),
   shadow: frame('serpents-nouveaux', 2),
+  // No drawing yet: the runner's picture until the parent agrees to the expense of one.
+  grasshopper: frame('enemies-organic', 1),
 };
 export const KING_ART = frame('serpents-family', 3);
 export const EGG_ART = frame('enemies-mechanical', 3);

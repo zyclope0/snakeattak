@@ -12,9 +12,10 @@ import { enemyArmor, enemySpeed } from '../enemies.ts';
 import { deathRetaliation } from '../enemyAbilities.ts';
 import type { Kind } from '../data.ts';
 import type { Entity } from './state.ts';
-import { addEffect, forgetPath } from './state.ts';
+import { addEffect } from './state.ts';
+import { landAt } from './landing.ts';
 import { ninjaTeleport } from '../balanceRevision.ts';
-import { routeStages, standable } from './field.ts';
+import { standable } from './field.ts';
 import { CRYSTAL_X } from '../boardLandmarks.ts';
 import type { Game } from '../game.ts';
 
@@ -65,7 +66,7 @@ export function hitEnemy(game: Game, source: Entity, target: Entity, damage: num
   else if (target.hp <= 0) retaliate(game, source, target);
 }
 /** Short of the crystal: a snake that came back there would reach it in the same step. */
-const TELEPORT_CRYSTAL_GAP = 60;
+export const TELEPORT_CRYSTAL_GAP = 60;
 /**
  * The ninja snake reappears on the back of the ally that struck it: the side that ally
  * does not face. Nearer places are tried when that one is a rock, the river, off the board
@@ -83,14 +84,7 @@ function teleportBehind(game: Game, snake: Entity, ally: Entity) {
       // Never in front of an ally standing by the crystal: such a place is refused, not moved.
       if (x > CRYSTAL_X - TELEPORT_CRYSTAL_GAP || !standable(x, y, game.level)) continue;
       addEffect(game, snake, { x, y }, 'blink');
-      snake.x = x;
-      snake.y = y;
-      forgetPath(snake);
-      // Sent ahead, it must not walk back to the stage it had left behind.
-      const stages = routeStages(game.level);
-      const next = stages.findIndex((stage) => stage > x);
-      snake.stage = next === -1 ? stages.length - 1 : next;
-      snake.turnY = null;
+      landAt(game, snake, x, y);
       return;
     }
 }

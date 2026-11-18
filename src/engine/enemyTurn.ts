@@ -17,6 +17,7 @@ import type { Entity } from './state.ts';
 import { distance, closerTo, nextRandom, faceToward, forgetPath } from './state.ts';
 import { BRIDGE_END_X, CAMP_FRONT_X, CONTACT_RANGE, CRYSTAL_X } from './field.ts';
 import { followRoute } from './movement.ts';
+import { leapOverLine } from './leap.ts';
 import { enemyPace, damageAlly } from './damage.ts';
 import { updateCourt, updateBossShot, shootersFirst } from './court.ts';
 import type { Game } from '../game.ts';
@@ -77,6 +78,7 @@ export function updateEnemies(game: Game, dt: number, stats: WaveNumbers) {
     if (updateCourt(game, e, dt, stats.speed, stats.damage)) continue;
     updateBossShot(game, e, dt);
     if (e.boss && e.x >= BRIDGE_END_X) brood(game, e, dt);
+    leapOverLine(game, e);
     const target = biteTarget(game, e);
     if (target) bite(game, e, target, dt, stats);
     else march(game, e, dt, stats);

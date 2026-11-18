@@ -60,7 +60,8 @@ function meet(revision: 4 | 5, kind: EnemyKind, wave: number) {
 }
 
 test('la révision 5 est la révision courante, et ne change que le ninja', () => {
-  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4, 5]);
+  // The sixth (the grasshopper snake) exists but is not current until the parent agrees.
+  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4, 5, 6]);
   assert.equal(CURRENT_BALANCE_REVISION, 5);
   for (const kind of Object.keys(kinds) as Kind[])
     assert.equal(balanceRecruitPrice(kind, 5), balanceRecruitPrice(kind, 4), kind);

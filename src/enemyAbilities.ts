@@ -25,3 +25,7 @@ export function biteDamage(variant: EnemyKind, waveDamage: number): number {
 /** The ninja snake lets the first blow pass: how many blows a newly arrived snake dodges. */
 export const NINJA_DODGES = 1;
 export const dodgesOf = (variant: EnemyKind): number => (variant === 'shadow' ? NINJA_DODGES : 0);
+/** The grasshopper snake leaps over the line once: how many leaps a newly arrived snake has. */
+export const GRASSHOPPER_LEAPS = 1;
+export const leapsOf = (variant: EnemyKind): number =>
+  variant === 'grasshopper' ? GRASSHOPPER_LEAPS : 0;

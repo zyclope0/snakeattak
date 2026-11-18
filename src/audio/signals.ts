@@ -89,6 +89,15 @@ export const EFFECT_SIGNALS: Record<Exclude<Effect['kind'], 'hit'>, Signal> = {
       [900, 1900, 0.08, 'sine', 0.1],
     ],
   },
+  // The grasshopper snake leaps over the line: one note rising then falling, like a hop.
+  leap: {
+    cue: 'leap',
+    volume: 0.6,
+    notes: [
+      [300, 900, 0.12, 'triangle'],
+      [900, 420, 0.14, 'triangle', 0.12],
+    ],
+  },
 };
 
 /** The player changed a sound setting and effects are on. */

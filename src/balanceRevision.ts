@@ -9,8 +9,9 @@ import * as TEXT from './texts/fr/battle.ts';
  *   3  an egg when a wave drags on, in the great adventure (15 November 2026)
  *   4  three new snakes in the great adventure (16 November 2026)
  *   5  the ninja snake teleports behind the ally that strikes it first (18 November 2026)
+ *   6  the grasshopper snake leaps over the line of allies once (18 November 2026)
  */
-export const BALANCE_REVISIONS = [1, 2, 3, 4, 5] as const;
+export const BALANCE_REVISIONS = [1, 2, 3, 4, 5, 6] as const;
 export type BalanceRevision = (typeof BALANCE_REVISIONS)[number];
 export const CURRENT_BALANCE_REVISION: BalanceRevision = 5;
 export const isBalanceRevision = (value: unknown): value is BalanceRevision =>
@@ -63,3 +64,15 @@ export type NinjaTeleport = Readonly<{ behind: number }>;
 const NINJA_TELEPORT: NinjaTeleport = Object.freeze({ behind: 34 });
 export const ninjaTeleport = (revision: BalanceRevision): NinjaTeleport | null =>
   revision >= 5 ? NINJA_TELEPORT : null;
+
+/**
+ * The grasshopper snake of the sixth revision (idea of the child, 18 November 2026): it walks
+ * like the others until an ally stands within `reach` ahead of it on its road (`band` up or
+ * down), then leaps once over the line, `behind` board units past the ally of that road
+ * nearest the crystal. Then it walks on like any snake: to the crystal, biting the allies
+ * between them.
+ */
+export type GrasshopperLeap = Readonly<{ reach: number; band: number; behind: number }>;
+const GRASSHOPPER_LEAP: GrasshopperLeap = Object.freeze({ reach: 110, band: 60, behind: 40 });
+export const grasshopperLeap = (revision: BalanceRevision): GrasshopperLeap | null =>
+  revision >= 6 ? GRASSHOPPER_LEAP : null;
