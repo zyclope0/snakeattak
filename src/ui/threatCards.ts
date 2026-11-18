@@ -20,6 +20,8 @@ const paths: Record<string, string> = {
   wing: 'M12 15C10 5 4 3 2 3c0 7 4 13 10 13C18 16 22 10 22 3c-2 0-8 2-10 12ZM7 9l3 5m7-5-3 5',
   heal: 'm8 3-5 5 13 13 5-5ZM8 9l7 7m-4-5 2 2',
   crown: 'm3 5 5 5 4-7 4 7 5-5-2 14H5ZM5 16h14',
+  // A hop over a small wall: the arc, the landing arrow, the line it passes.
+  leap: 'M3 19C6 5 14 5 18 15m-3 1 3-1 1-3M10 21v-6',
 };
 function capabilityIcon(symbol: string) {
   return svgNode(
