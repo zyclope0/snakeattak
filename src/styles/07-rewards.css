@@ -5,12 +5,20 @@
   color: #193e35;
   border-block: 1px solid #a0af91;
 }
+/* On a phone the gifts cover the favourites too: they are out of reach of a keyboard,
+   instead of taking the focus where nothing shows it. The board under the gifts is made
+   inert by the page (rewardControls.ts), on every screen. */
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  .play-layout:has(#reward-panel:not([hidden])) #battle-dock {
+    visibility: hidden;
+  }
+}
 /* On paper the golden ring of the game is too pale to show where the focus is. */
 .reward-panel :focus-visible {
   outline-color: #196a5b;
 }
 .reward-eyebrow {
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #526f52;
@@ -62,7 +70,7 @@
   border-radius: 7px;
   background: #147c68;
   color: white;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 }
 .reward-portrait {

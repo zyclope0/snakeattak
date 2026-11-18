@@ -206,6 +206,8 @@
   #home-screen .home-links {
     gap: 6px;
   }
+  /* 11 px: at 13 px the counter takes the room of the player's name beside it, which is
+     cut when four players share the device (test:mobile-menus). */
   #home-screen .home-stars {
     padding: 6px;
     font-size: 11px;

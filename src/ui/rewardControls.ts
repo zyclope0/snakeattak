@@ -6,6 +6,7 @@ import { portraitStyle } from '../art.ts';
 import { kinds } from '../data.ts';
 import { honeySheetUrl } from './feastControls.ts';
 import { byId, decoration, dialogOpen, make, narrowScreen } from './dom.ts';
+import { focusBoard } from './battleDom.ts';
 import { revealBoard } from './battleDom.ts';
 import * as TEXT from '../texts/fr/camp.ts';
 import { fill } from '../texts/fill.ts';
@@ -43,6 +44,9 @@ export function bindRewardControls(session: Session, refresh: () => void) {
     }
     const offer = game.rewardOffer;
     panel.hidden = !offer.length || game.status !== 'preparing';
+    // The gifts cover the board: a keyboard does not reach under them. The board stays
+    // drawn; it only stops taking the focus where nothing would show it.
+    byId('game').inert = !panel.hidden;
     setDisplayText(title, fill(TEXT.vagueNRepousseeChoisisTonBonus, game.wave));
     skip.disabled = game.paused;
     for (const [i, card] of cards.entries()) if (offer[i]) showReward(card, offer[i], game.paused);
@@ -65,7 +69,10 @@ function rewardCard(session: Session, refresh: () => void) {
     if (kind) session.selectUnit(kind);
     refresh();
     if (kind) revealBoard();
-    byId(kind ? 'cancel' : 'start').focus({ preventScroll: true });
+    // A gift to place goes to the board, where it is placed: the « cancel » button is not
+    // shown on a phone, and the focus was lost there.
+    if (kind) focusBoard();
+    else byId('start').focus({ preventScroll: true });
   };
   return { button, icon, name, detail };
 }

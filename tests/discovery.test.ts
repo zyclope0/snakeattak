@@ -16,6 +16,7 @@ import {
   discoverySitemap,
   discoveryRobots,
   augmentGamePage,
+  notFoundPageHtml,
   GAME_PAGE,
   WEB_HEAD_BUDGET,
   webHeadBytes,
@@ -192,6 +193,9 @@ test('only the Web gets public metadata and links; game markup and saves remain 
   assert.ok(html.includes(`property="og:image:width" content="${SHARE_PICTURE.width}"`));
   assert.ok(html.includes(`property="og:image:height" content="${SHARE_PICTURE.height}"`));
   assert.ok(html.includes('name="twitter:card" content="summary_large_image"'));
+  assert.ok(html.includes(`property="og:url" content="${SITE_ORIGIN}/"`));
+  assert.ok(html.includes('property="og:type" content="website"'));
+  assert.ok(html.includes(`property="og:image:alt" content="${GAME_PAGE.shareAlt}"`));
   // One link per language, after the buttons of the parents screen: no inline style, and
   // nothing in the footer of the game.
   assert.ok(
@@ -213,7 +217,7 @@ test('only the Web gets public metadata and links; game markup and saves remain 
 test('what the website adds to the game page is counted and bounded', () => {
   const added = webHeadBytes(pictures);
   assert.ok(added > 0 && added <= WEB_HEAD_BUDGET, `${added} octets`);
-  assert.equal(WEB_HEAD_BUDGET, 1024);
+  assert.equal(WEB_HEAD_BUDGET, 1280);
   // The count is exact on a real page: the same bytes whatever the page holds.
   const page =
     '<html><head><title>Jeu</title></head><body><main>Jeu</main><nav class="parent-actions"><button>Aide</button></nav></body></html>';
@@ -236,6 +240,34 @@ test('the link to the public pages lands in the real parents screen, or the buil
     '<html><body><nav class="parent-actions"></nav></body></html>',
   ])
     assert.throws(() => augmentGamePage(broken, pictures), /parents screen/);
+});
+
+test('an address that leads nowhere gets a page of its own, and the server is told', async () => {
+  const html = notFoundPageHtml(assets);
+  assert.match(html, /<meta name="robots" content="noindex">/);
+  // No script and no redirection (the answer stays a 404), nothing read back from the
+  // address, no canonical; both languages; absolute paths, since it is served anywhere.
+  assert.doesNotMatch(html, /<script|http-equiv|rel="canonical"|og:url|google-adsense-account/);
+  assert.doesNotMatch(html, /(?:href|src)="(?!\/)[^"]/);
+  assert.ok(
+    html.includes('Cette page n’existe pas.') && html.includes('This page does not exist.'),
+  );
+  for (const way of ['href="/"', 'href="/fr/"', 'href="/en/"']) assert.ok(html.includes(way), way);
+  assert.doesNotMatch(discoverySitemap(), /404/);
+  const { apacheConfig, hostHeadersFile, NOT_FOUND_PAGE } = await import('../deploy/policy.ts');
+  const config = apacheConfig();
+  assert.match(config, new RegExp(`^ErrorDocument 404 /${NOT_FOUND_PAGE}$`, 'm'));
+  assert.ok(
+    config.includes(`<Files "${NOT_FOUND_PAGE}">\n    Header always set X-Robots-Tag "noindex"`),
+  );
+  assert.ok(hostHeadersFile().includes(`/${NOT_FOUND_PAGE}\n  X-Robots-Tag: noindex`));
+  // Texts travel compressed where the host has not seen to it, behind both modules.
+  assert.match(
+    config,
+    /<IfModule mod_deflate\.c>\n {2}<IfModule mod_filter\.c>\n {4}AddOutputFilterByType DEFLATE text\/html/,
+  );
+  // Every picture of the site is kept by the browser, the shared one too.
+  assert.match(config, /FilesMatch "[^"]*\(js\|css\|webp\|png\|jpg\|mp3\|woff2\)\$"/);
 });
 
 test('the shared picture is the size the pages announce, light enough for a messenger', () => {

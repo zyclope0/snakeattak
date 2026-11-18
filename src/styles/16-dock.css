@@ -135,8 +135,8 @@
   text-overflow: ellipsis;
   pointer-events: none;
 }
-/* Confusion and courage are written on the bottom edge of the board, 53 board units high
-   out of 620: the announcement goes just above them instead of over their words. */
+/* Courage is written on the bottom edge of the board, 53 board units high out of 620: the
+   announcement goes just above it instead of over its words. */
 .battle-announcement.above-plaques {
   bottom: calc(9% + 4px);
 }

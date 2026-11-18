@@ -173,6 +173,40 @@ ${page.key === 'parents' && support ? `<section class="support-note" id="${words
 </html>\n`;
 }
 
+/**
+ * The page of an address that does not exist: both languages, the way back to the game and
+ * to the public pages. No script and no redirection (the answer must stay a 404), no
+ * canonical and no address read back, absolute paths (it is served at any address), out of
+ * search results and out of the sitemap.
+ */
+export function notFoundPageHtml(assets: DiscoveryAssets): string {
+  const half = (lang: 'fr' | 'en', title: string, text: string) => {
+    const words = labels[lang];
+    // French opens the page with its only `h1`; English follows one level down.
+    const tag = lang === 'fr' ? 'h1' : 'h2';
+    return `<section class="intro" lang="${lang}"><div><${tag}>${title}</${tag}><p class="lead">${text}</p><a class="play" href="/">${words.play}<span aria-hidden="true"> →</span></a><p><a href="/${lang}/">${words.home}</a></p></div></section>`;
+  };
+  return `<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173e37">
+<meta name="robots" content="noindex">
+<title>Page introuvable / Page not found — Snake Attack TD</title>
+<link rel="icon" type="image/png" sizes="48x48" href="${assets.tab}">
+<link rel="stylesheet" href="${assets.css}">
+</head>
+<body data-not-found>
+<header class="site-header"><a class="brand" href="/"><img src="${assets.logo}" alt="" width="48" height="48">${labels.fr.title} · <span lang="en">${labels.en.title}</span></a></header>
+<main id="content">
+${half('fr', 'Cette page n’existe pas.', 'L’adresse a peut-être changé. Le jeu, lui, est toujours là.')}
+${half('en', 'This page does not exist.', 'The address may have changed. The game is still here.')}
+</main>
+</body>
+</html>\n`;
+}
+
 export function discoverySitemap(): string {
   const root = `<url><loc>${SITE_ORIGIN}/</loc></url>`;
   const privacy = `<url><loc>${SITE_ORIGIN}/confidentialite/</loc></url>`;
@@ -203,6 +237,8 @@ export function discoveryRobots(): string {
 export const GAME_PAGE = {
   /** A shared link names the game in both languages, as its picture does. */
   title: 'Snake Attack TD — La Conquête des Serpents',
+  /** What the shared picture shows, for who cannot see it: short, in both languages. */
+  shareAlt: 'Une bataille du jeu contre les serpents. A battle against the snakes.',
   description:
     'Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés. Free defense game: protect the crystal on three lanes with your allies.',
 } as const;
@@ -213,7 +249,7 @@ export const GAME_PAGE = {
  * its own limit (`scripts/check-dist.mjs`); this one is counted apart, so that neither can
  * grow by hiding in the other.
  */
-export const WEB_HEAD_BUDGET = 1024;
+export const WEB_HEAD_BUDGET = 1280;
 /** The bytes `augmentGamePage` adds to a page: the same whatever the page holds. */
 export function webHeadBytes(pictures: { share: string; touch: string }) {
   const shell = '<head></head><nav class="parent-actions"></nav>';
@@ -226,11 +262,14 @@ export function augmentGamePage(html: string, pictures: { share: string; touch: 
     `<meta name="description" content="${GAME_PAGE.description}">` +
     `<link rel="canonical" href="${SITE_ORIGIN}/">` +
     `<link rel="apple-touch-icon" href="${pictures.touch}">` +
+    `<meta property="og:type" content="website">` +
+    `<meta property="og:url" content="${SITE_ORIGIN}/">` +
     `<meta property="og:site_name" content="Snake Attack TD">` +
     `<meta property="og:title" content="${GAME_PAGE.title}">` +
     `<meta property="og:image" content="${SITE_ORIGIN}${pictures.share}">` +
     `<meta property="og:image:width" content="${SHARE_PICTURE.width}">` +
     `<meta property="og:image:height" content="${SHARE_PICTURE.height}">` +
+    `<meta property="og:image:alt" content="${GAME_PAGE.shareAlt}">` +
     `<meta name="twitter:card" content="summary_large_image">`;
   // One link to the public pages, in the language of the game, among the buttons of « Pour
   // les parents » and as tall as they are (`.about`, src/ui/homePages.css).

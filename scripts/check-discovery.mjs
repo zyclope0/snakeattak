@@ -4,6 +4,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
 import { SUPPORT_URL } from '../deploy/discovery.ts';
+import { NOT_FOUND_PAGE } from '../deploy/policy.ts';
 import {
   ADSENSE_PUBLISHER_ID,
   adSenseAdsTxt,
@@ -14,7 +15,7 @@ const folder = process.argv[2] ?? 'dist';
 const android = folder === 'dist-android';
 const game = readFileSync(join(folder, 'index.html'), 'utf8');
 if (android) {
-  for (const name of ['fr', 'en', 'sitemap.xml', 'robots.txt', 'ads.txt'])
+  for (const name of ['fr', 'en', 'sitemap.xml', 'robots.txt', 'ads.txt', NOT_FOUND_PAGE])
     assert.ok(!existsSync(join(folder, name)), `Android must not include ${name}`);
   assert.doesNotMatch(
     game,
@@ -51,6 +52,19 @@ if (android) {
   assert.ok(existsSync(join(folder, 'sitemap.xml')));
   assert.ok(existsSync(join(folder, 'robots.txt')));
   assert.ok(existsSync(join(folder, 'favicon.ico')), 'Web: an icon for pages that name none');
+  // An address that leads nowhere gets a page of its own: out of search results and of the
+  // sitemap, with no script, no canonical and no advertising account, and absolute paths.
+  const lost = readFileSync(join(folder, NOT_FOUND_PAGE), 'utf8');
+  assert.match(lost, /<meta name="robots" content="noindex">/);
+  assert.doesNotMatch(lost, /<script|rel="canonical"|google-adsense-account|data-support/);
+  assert.doesNotMatch(lost, /(?:href|src)="(?!\/)[^"]/, '404: absolute paths only');
+  for (const match of lost.matchAll(/(?:href|src)="(\/[^"#]*)"/g))
+    assert.ok(existsSync(join(folder, decodeURI(match[1]))), `404: missing ${match[1]}`);
+  assert.doesNotMatch(readFileSync(join(folder, 'sitemap.xml'), 'utf8'), /404/);
+  assert.match(
+    readFileSync(join(folder, '.htaccess'), 'utf8'),
+    new RegExp(`^ErrorDocument 404 /${NOT_FOUND_PAGE}$`, 'm'),
+  );
   assert.match(game, /<link rel="apple-touch-icon" href="\/assets\/site-touch-/);
   assert.match(game, /property="og:image" content="https:\/\/[^"]+\/assets\/site-share-/);
   // A shared link to the game shows the wide picture, as the public pages do.

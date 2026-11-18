@@ -34,6 +34,10 @@ function strokeCrack(g: Phaser.GameObjects.Graphics, points: readonly number[]) 
 /** The size the refuge's plate was drawn for, on a board shown at its own size. */
 const REFUGE_TEXT = 11;
 const REFUGE_PLATE = 0x293f32;
+/** Where the plate sits, and where its top edge stays when its words grow onto two lines. */
+const REFUGE_Y = 412,
+  REFUGE_TOP = 401,
+  REFUGE_WRAP = 100;
 /** Live stage props observe presentation signals; never create or redirect monsters. */
 export class Strongholds {
   private dens: Phaser.GameObjects.Image[];
@@ -71,7 +75,7 @@ export class Strongholds {
     // The plate is drawn, not left to the text: a text shown below its own size (a phone)
     // fills only a corner of its background, and the words were read on the bare path.
     this.plate = scene.add.graphics().setDepth(DEPTH.refugePlate);
-    this.label = addCanvasCopy(scene.add, 988, 412, '', {
+    this.label = addCanvasCopy(scene.add, 988, REFUGE_Y, '', {
       fontFamily: DISPLAY_FONT,
       fontSize: `${REFUGE_TEXT}px`,
       color: '#f5edcd',
@@ -156,7 +160,17 @@ export class Strongholds {
     // Read at the same size on a phone, where the board is drawn at about half size.
     const size = readableBoardSize(this.scene, REFUGE_TEXT);
     const resized = size !== this.labelSize;
-    if (resized) this.label.setFontSize((this.labelSize = size));
+    if (resized) {
+      // Larger, the words go on two lines and grow downwards: on one line the plate reached
+      // over the allies placed on its left.
+      const grown = size > REFUGE_TEXT;
+      this.label
+        .setFontSize((this.labelSize = size))
+        .setAlign('center')
+        .setWordWrapWidth(grown ? REFUGE_WRAP : null)
+        .setOrigin(0.5, grown ? 0 : 0.5)
+        .setY(grown ? REFUGE_TOP : REFUGE_Y);
+    }
     if (this.shownBase === Math.ceil(game.base) && !resized) return;
     this.shownBase = Math.ceil(game.base);
     const label = setCanvasCopy(this.label, fill(TEXT.refugeN, this.shownBase)).setColor(
@@ -165,7 +179,12 @@ export class Strongholds {
     this.plate
       .clear()
       .fillStyle(REFUGE_PLATE)
-      .fillRect(label.x - label.width / 2, label.y - label.height / 2, label.width, label.height);
+      .fillRect(
+        label.x - label.width / 2,
+        label.y - label.height * label.originY,
+        label.width,
+        label.height,
+      );
   }
   private drawGauge(game: Game) {
     const detail = this.details;

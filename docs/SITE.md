@@ -99,7 +99,7 @@ approuvés (politique de confidentialité, soutien) :
 - **Budget de la page du jeu.** Il restait 62 octets sur 32 768. Deux formats sans effet sur
   la page sont retirés au build (saut de ligne avant la fin d'une balise, barre des éléments
   vides) et ce que le site ajoute à la page est compté à part : `WEB_HEAD_BUDGET`, 1 024
-  octets, dont 701 utilisés alors (914 depuis la relecture à huit angles). La page du jeu elle-même pèse 32 085 octets sur 32 768
+  octets alors (1 280 depuis le 18 novembre), dont 701 utilisés alors (1 128 aujourd'hui). La page du jeu elle-même pèse 32 085 octets sur 32 768
   (`scripts/check-dist.mjs`).
 
 Non vérifié : le site en ligne n'était pas joignable depuis l'environnement de la revue ;
@@ -261,10 +261,41 @@ sur téléphone ».
 Questions de plus pour le fils : la sauterelle, une fois qu'elle a sauté, vole-t-elle
 encore ? Le serpent ninja qui se téléporte : une fois ou plusieurs, dans le dos de qui ?
 
-Reste à faire sans décision : les textes du plateau encore sous 11 px (miel, « Réserve »,
-garde du roi, symboles de menace), poser un allié au clavier, les textes d'interface encore
-sous 13 px (cadeaux, verrou des caprices, accueil), une page 404, le contrôle de la
-compression sur le site en ligne.
+### Troisième relecture à huit angles — 18 novembre 2026
+
+Sur le lot précédent et sur le plan de celui-ci, avant qu'il soit écrit. Corrigé :
+
+- **Page 404.** Une adresse qui ne mène nulle part reçoit une page dans les deux langues,
+  avec le chemin du jeu et des pages publiques (`notFoundPageHtml`, `ErrorDocument 404` en
+  chemin local pour garder le code 404). Sans script ni redirection, hors des résultats de
+  recherche et du sitemap, sans encart ni compte publicitaire. Textes : « Cette page
+  n'existe pas. L'adresse a peut-être changé. Le jeu, lui, est toujours là. » — à relire
+  par le parent.
+- **Contrôle du site en ligne.** « Publier le site » vérifie maintenant qu'une adresse
+  inconnue répond 404 sans cookie, et signale (sans arrêter la publication) si la page ou
+  le script ne sont pas servis compressés, ou si la page 404 n'est pas celle du build.
+- **Aperçu de partage de la page du jeu** : adresse, type et texte alternatif de l'image
+  ajoutés ; ce que le site ajoute à la page passe à 1 128 octets, pour un plafond relevé de
+  1 024 à 1 280. Le bandeau du titre de l'image est opaque : l'interface ne se voit plus
+  au travers.
+- **Documents** : quatre phrases encore fausses corrigées (source du build 62, compte des
+  documents, site publié avant le build 63, publicité décidée et non « repoussée »).
+
+Le détail du jeu (annonce qui ne saute plus, « Esquive ! », plaque du refuge, clavier sur
+l'écran des cadeaux, textes passés à 13 px) est dans `ARCHITECTURE.md`.
+
+Le compteur d'étoiles de l'en-tête de l'accueil reste à 11 px sur téléphone : à 13 px il
+prenait la place du nom du joueur, coupé quand quatre joueurs partagent l'appareil.
+
+Reste à faire sans décision : les symboles de menace à 11 px, poser un allié au clavier (la
+conception est prête : flèches et Entrée sur le plateau, par le même chemin que le doigt),
+quelques textes d'interface qui ne passent pas à 13 px sans revoir leur carte (détail des
+cadeaux en 640×360, notes de « Dangers », verrou des caprices), l'icône de l'accueil du jeu
+(356 Ko, 30 Ko en WebP).
+
+À décider par le parent : le miel, « Réserve », les pastilles de soin et la garde du roi
+n'ont pas la place de grandir là où ils sont ; il faut les raccourcir (par exemple garder
+les secondes seules) ou les remplacer par une image.
 
 ### Publicité — textes approuvés le 17 novembre 2026, rien d'activé
 

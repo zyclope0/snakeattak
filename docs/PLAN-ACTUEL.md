@@ -31,9 +31,11 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 ## Dans `main`, pas dans le build 62
 
 Le paquet 62 a été construit avant ces lots : ils attendent le **build 63**, à construire
-depuis `main`. Le site est publié depuis `main` : le publier en même temps que le build 63,
-parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans le build 62
-([bilan de la révision 3](BILAN-REVISION-3.md), « À savoir avant de publier »).
+depuis `main`. **Le site, lui, est déjà publié depuis `main`** (17 et 18 novembre, révisions
+3 et 4 comprises), sur décision du parent : il est donc en avance sur le build 62, et une
+grande aventure commencée sur le site ne se relit pas dans ce build
+([bilan de la révision 3](BILAN-REVISION-3.md), « À savoir avant de publier »). Le build 63
+remettra l'application au niveau du site.
 
 - **Rien en dur (15 novembre)** : textes, clés de stockage, nombres du jeu, repères du
   plateau, limites et couches du dessin ont chacun un nom et un seul lieu ; aucune valeur ni
@@ -105,7 +107,12 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   dans l'écran anglais, annonce et plaques « Courage ! » / « Confusion » qui se
   recouvraient en bas du plateau, clavier sur l'écran des cadeaux, documents périmés. Sept
   décisions du parent et deux questions pour le fils sont listées dans
-  [SITE.md](SITE.md), « Deuxième relecture ». **Pas encore publié.**
+  [SITE.md](SITE.md), « Deuxième relecture ». Publié le 18 novembre (publication n° 14).
+- **Troisième relecture à huit angles (18 novembre)** : page 404, contrôle de la
+  compression à la publication, aperçu de partage de la page du jeu complété, annonce qui
+  ne saute plus, « Esquive ! » lisible, plaque du refuge sur deux lignes, clavier sur
+  l'écran des cadeaux, quelques textes à 13 px ([SITE.md](SITE.md), « Troisième
+  relecture »). **Pas encore publié.**
 
 ## Site : découverte FR/EN et soutien — lot du16novembre
 
@@ -161,7 +168,9 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 - La marche devant le roi dans le voyage : l'accepter ou demander une version 2.
 - À l'accueil, « Reprendre » s'affiche encore pour un joueur qui a tout fini : le corriger
   demande d'enregistrer une donnée de plus.
-- Publicité et achats : repoussés ou abandonnés pour la première sortie.
+- Publicité : sur le site seulement, décidée par le parent le 17 novembre, pas encore
+  allumée ([proposition](publication/PUBLICITE-WEB-PROPOSITION.md)) ; jamais dans
+  l'application. Achats : repoussés ou abandonnés pour la première sortie.
 - Connexion Google ou sauvegarde en ligne : écartée tant que le jeu vise d'abord les enfants
   (règles lues le 13 novembre, à relire avant toute décision).
 - Mission 1 gagnable sans recruter : mesure, puis accord du fils et du parent avant toute règle.

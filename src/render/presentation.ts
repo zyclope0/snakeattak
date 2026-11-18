@@ -45,6 +45,10 @@ export const PLACED_SECONDS = 0.35;
 export const ARRIVAL_SECONDS = 0.9;
 const BURST_SECONDS = 0.6;
 /** The queues are bounded: a crowded board never grows them without limit. */
+/** How long a floating word is read, and how high and how long the word of a dodge is. */
+const FLOAT_SECONDS = 0.9,
+  DODGE_WORD_HEIGHT = 100,
+  DODGE_WORD_SECONDS = 1.4;
 const MAX_FLOATS = 40,
   MAX_BURSTS = 24,
   MAX_ARRIVALS = 24,
@@ -103,8 +107,8 @@ export class Presentation {
     if (this.notice && this.notice.priority > notice.priority) return;
     this.notice = { ...notice, remaining: notice.duration };
   }
-  private text(x: number, y: number, text: string, color: string) {
-    this.floats.push({ x, y, text, color, age: 0, duration: 0.9 });
+  private text(x: number, y: number, text: string, color: string, duration = FLOAT_SECONDS) {
+    this.floats.push({ x, y, text, color, age: 0, duration });
     if (this.floats.length > MAX_FLOATS) this.floats.shift();
   }
   /** Observes one frame of the game. The order of the steps is the order of the cues. */
@@ -271,7 +275,10 @@ export class Presentation {
     if (old.hp !== e.hp) this.watchHealth(e, old.hp);
     // A ninja snake that lets a blow pass says so: nothing else shows that the blow missed.
     const dodges = e.dodges ?? 0;
-    if (dodges < old.dodges) this.text(e.x, e.y - 62, TEXT.esquive, '#d9d4f2');
+    // Written above the figures of the blows, and for longer: under them it was covered
+    // after a third of a second.
+    if (dodges < old.dodges)
+      this.text(e.x, e.y - DODGE_WORD_HEIGHT, TEXT.esquive, '#d9d4f2', DODGE_WORD_SECONDS);
     old.dodges = dodges;
     old.x = e.x;
     old.y = e.y;

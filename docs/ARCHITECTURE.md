@@ -1358,10 +1358,13 @@ laquelle il a été dessiné : aucune image de référence ne change.
   (dégâts, « Esquive ! »), nom et vie de King Snake, plaque du refuge
   (`battleFeedback.ts`, `strongholds.ts`). La phrase de fin de partie garde son plancher de
   13,5 px, par la même fonction.
-- **Pas encore concernés** (relevés par la relecture du 18 novembre, 5 à 9 px sur
-  téléphone) : le miel (« ATTIRANT · 13 s », `BattleScene.ts`), « Réserve » et les pastilles
-  de soin (`medicalSignals.ts`), la garde du roi (`bossSignals.ts`), les symboles de menace
-  (`threatMarkers.ts`). Aucun test n'impose encore la règle à tout `src/render/`.
+- **Pas encore concernés** (5 à 9 px sur téléphone) : le miel (« ATTIRANT · 13 s »,
+  `BattleScene.ts`), « Réserve » et les pastilles de soin (`medicalSignals.ts`), la garde du
+  roi (`bossSignals.ts`), les symboles de menace (`threatMarkers.ts`). Mesuré le 18
+  novembre : seuls les symboles de menace ont la place de grandir. Les quatre autres,
+  agrandis là où ils sont, couvriraient des alliés ou une voie : il faut d'abord les
+  raccourcir ou les déplacer, ce qui est une décision du parent. Aucun test n'impose encore
+  la règle à tout `src/render/`.
 - Chaque texte a son propre besoin : sur un écran moyen, le nom de King Snake doit grandir
   alors que les plaques sont déjà assez grandes. Les plaques qui portent une phrase
   entière (confusion, courage) prennent la largeur de leur texte, pas le double de leur
@@ -1369,11 +1372,20 @@ laquelle il a été dessiné : aucune image de référence ne change.
 - La plaque du refuge est dessinée (`refugePlate`), pas laissée au fond du texte : Phaser
   ne remplit qu'un coin du fond d'un texte affiché sous sa taille, et « 100 % » se lisait
   sur le chemin nu.
-- En bas du plateau, la ligne d'annonce de la page et les plaques de confusion et de
-  courage occupaient la même bande : l'annonce cachait le début de « Courage ! ». La scène
-  dit maintenant à la page quand elle écrit là (`onPresentation(…, plaques)`), et l'annonce
-  se place juste au-dessus (`.battle-announcement.above-plaques`). Contrôlé en 640×360,
-  780×360 et 812×375.
+- En bas du plateau, la ligne d'annonce de la page et la plaque de courage occupaient la
+  même bande : l'annonce cachait le début de « Courage ! ». La scène dit à la page quand
+  elle écrit là (`onPresentation(…, plaques)`), et l'annonce se place juste au-dessus
+  (`.battle-announcement.above-plaques`). Elle ne bouge qu'à son apparition ou quand la
+  plaque arrive, jamais pendant qu'on la lit : la confusion, qui dure 0,8 s et reste à
+  gauche de l'annonce, la faisait sauter. Relevée, elle couvre un instant le pont de la voie
+  du bas sur téléphone : à regarder en jouant.
+- « Esquive ! » est écrit plus haut que les chiffres des coups, et plus longtemps (1,4 s) :
+  dessous, il était recouvert au bout d'un tiers de seconde.
+- Agrandie, la plaque du refuge passe sur deux lignes et grandit vers le bas : sur une
+  ligne, elle couvrait les alliés posés à sa gauche.
+- Sous l'écran des cadeaux, le plateau est rendu inerte par la page (`inert`), pas caché :
+  il reste dessiné, et le clavier ne s'y perd plus. L'anneau de focus du plateau est posé
+  par-dessus le canevas, qui le recouvrait.
 - Les plaques grandissent avec leur texte et restent sur le plateau ; les plaques d'œufs
   s'écartent d'autant (`eggLabelPositions(eggs, scale)`), et une rangée trop chargée se
   partage la largeur au lieu de sortir du plateau.
