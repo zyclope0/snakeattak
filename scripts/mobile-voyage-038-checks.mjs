@@ -7,6 +7,7 @@ import { missionById } from '../src/missions.ts';
 import { REWARDS } from '../src/rewards.ts';
 import { planVoyage, stageCaprice } from '../src/voyage.ts';
 import { encodeVoyage } from '../src/voyageCode.ts';
+import { CURRENT_VOYAGE_VERSION } from '../src/voyageTuning.ts';
 import { readVoyageState } from '../src/voyageState.ts';
 import { PLAYER_CHOSEN_KEY, PLAYERS_KEY, VOYAGE_STORAGE_KEY } from '../src/storageKeys.ts';
 import { validateVoyageLog } from '../src/voyageStorage.ts';
@@ -134,7 +135,7 @@ const TEXT = {
 function logOf(seed, won, { cards = won, status = 'travelling', best = won } = {}) {
   const plan = planVoyage(seed);
   const bag = Array.from({ length: cards }, (_, index) => plan.stages[index].offer[0]);
-  const current = readVoyageState({ version: 1, seed, won, bag, status });
+  const current = readVoyageState({ version: CURRENT_VOYAGE_VERSION, seed, won, bag, status });
   const log = validateVoyageLog({ version: 1, best, current });
   if (!log) throw new Error(`no such voyage: ${seed} ${won} ${cards} ${status}`);
   return JSON.stringify(log);
@@ -802,7 +803,7 @@ export async function checkVoyage({ browser, url, check, capture }) {
         'checksum',
         `${encodeVoyage(SEED).slice(0, -1)}${encodeVoyage(SEED).endsWith('A') ? 'B' : 'A'}`,
       ],
-      ['version', encodeVoyage(SEED).replace('VOYAGE-1', 'VOYAGE-9')],
+      ['version', encodeVoyage(SEED).replace(/^VOYAGE-\d/, 'VOYAGE-9')],
     ]) {
       await typeCode(page, typed);
       const refusal = await page.evaluate(() => ({
@@ -846,7 +847,13 @@ export async function checkVoyage({ browser, url, check, capture }) {
     );
     check(
       JSON.stringify((await log(page)).current) ===
-        JSON.stringify({ version: 1, seed: SEED, won: 0, bag: [], status: 'travelling' }),
+        JSON.stringify({
+          version: CURRENT_VOYAGE_VERSION,
+          seed: SEED,
+          won: 0,
+          bag: [],
+          status: 'travelling',
+        }),
       `voyage ${where}: the voyage received is saved`,
     );
 
@@ -891,7 +898,13 @@ export async function checkVoyage({ browser, url, check, capture }) {
         JSON.stringify({
           version: 1,
           best: 1,
-          current: { version: 1, seed: SEED, won: 1, bag: [], status: 'travelling' },
+          current: {
+            version: CURRENT_VOYAGE_VERSION,
+            seed: SEED,
+            won: 1,
+            bag: [],
+            status: 'travelling',
+          },
         }),
       `stage ${where}: the stage won is saved at once, with the record`,
     );
@@ -1027,7 +1040,13 @@ export async function checkVoyage({ browser, url, check, capture }) {
         JSON.stringify({
           version: 1,
           best: 1,
-          current: { version: 1, seed: SEED, won: 1, bag: [kept], status: 'travelling' },
+          current: {
+            version: CURRENT_VOYAGE_VERSION,
+            seed: SEED,
+            won: 1,
+            bag: [kept],
+            status: 'travelling',
+          },
         }),
       `voyage ${where}: a stage left or started again changes nothing in the voyage`,
     );
@@ -1099,7 +1118,13 @@ export async function checkVoyage({ browser, url, check, capture }) {
         JSON.stringify({
           version: 1,
           best: 3,
-          current: { version: 1, seed: SEED, won: 0, bag: [], status: 'travelling' },
+          current: {
+            version: CURRENT_VOYAGE_VERSION,
+            seed: SEED,
+            won: 0,
+            bag: [],
+            status: 'travelling',
+          },
         }),
       'fallen: the voyage done again is saved',
     );

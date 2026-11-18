@@ -5,7 +5,7 @@ import { waveStats } from '../data.ts';
 import type { EnemyKind } from '../enemies.ts';
 import { enemies } from '../enemies.ts';
 import { deathRetaliation } from '../enemyAbilities.ts';
-import { BOSS_COURT } from '../bossCourt.ts';
+import { BOSS_COURT, COURT_SLOTS } from '../bossCourt.ts';
 import { variantFor, waveEggCount, TOTAL_WAVES } from '../waves.ts';
 import { flyingVariant } from '../flying.ts';
 import { activeEnemyLanes } from '../tutorial.ts';
@@ -128,7 +128,8 @@ function orderedThreats(types: Iterable<ThreatKind>): ThreatKind[] {
 }
 /**
  * A mission wave as planned; a caprice with the king, or the last stage of a voyage, gives him
- * the last place of the last wave.
+ * the last place of the last wave. In a voyage of version 2 his court comes with him: the
+ * four of them take the last four places, as `spawnNext` lays them.
  */
 function missionWaveKinds(
   game: PreviewSource,
@@ -137,6 +138,10 @@ function missionWaveKinds(
 ): ThreatKind[] {
   const invited = capriceRules(game.mission).king || !!game.stage?.king;
   const crowned = invited && local === game.totalWaves;
+  if (crowned && game.stage?.court) {
+    const before = composition.slice(0, Math.max(0, composition.length - COURT_SLOTS));
+    return [...before, 'king', ...BOSS_COURT.map((member) => member.variant)];
+  }
   return composition.map((kind, index) =>
     crowned && index === composition.length - 1 ? 'king' : kind,
   );
@@ -150,7 +155,7 @@ function classicWaveKinds(game: PreviewSource, local: number): ThreatKind[] {
   const tactical = game.tuning.tacticalRulesEnabled;
   const kinds: ThreatKind[] = [];
   for (let remaining = waveStats(local).count; remaining > 0; remaining--) {
-    const court = tactical && local === TOTAL_WAVES && remaining <= 4;
+    const court = tactical && local === TOTAL_WAVES && remaining <= COURT_SLOTS;
     const royal = local === TOTAL_WAVES && (remaining === 1 || court);
     if (!royal) {
       const base = variantFor(local, remaining, game.balanceRevision);

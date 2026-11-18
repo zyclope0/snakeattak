@@ -9,12 +9,15 @@ import type { Game } from './game.ts';
  * voyage asks of the engine, and a game without them plays exactly as before.
  *
  * Versioned like a balance revision: version 1 never changes once children have played it.
- * A new way to open a stage is a new version next to this one.
+ * A new way to open a stage is a new version next to this one. Version 2 (voyage version 2,
+ * 18 November 2026) may bring the king's court.
  */
 export type StageRules = Readonly<{
-  version: 1;
+  version: 1 | 2;
   /** The three-headed king closes the last wave, whatever the caprice says. */
   king: boolean;
+  /** With the king come his two guards and his healer. Version 2 only: version 1 has none. */
+  court?: boolean;
   /** Coins added to the purse of the mission: the bag's coins and the stage's allowance,
    *  which may take coins away. The purse never goes below zero. */
   coins: number;
@@ -42,8 +45,12 @@ export const isBonusCard = (value: unknown): value is RewardId =>
 export function readStageRules(raw: unknown): StageRules | null {
   if (
     !isRecord(raw) ||
-    raw.version !== 1 ||
+    (raw.version !== 1 && raw.version !== 2) ||
     typeof raw.king !== 'boolean' ||
+    // Version 1 has no court; version 2 says whether the king brings it.
+    (raw.version === 1 ? raw.court !== undefined : typeof raw.court !== 'boolean') ||
+    // The court only ever comes with the king.
+    (raw.court === true && raw.king !== true) ||
     !isIntegerIn(raw.coins, -COINS_LIMIT, COINS_LIMIT) ||
     !isIntegerIn(raw.ward, 0, WARD_LIMIT) ||
     !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||
@@ -51,8 +58,9 @@ export function readStageRules(raw: unknown): StageRules | null {
   )
     return null;
   return Object.freeze({
-    version: 1,
+    version: raw.version,
     king: raw.king,
+    ...(raw.version === 2 ? { court: raw.court === true } : {}),
     coins: raw.coins,
     ward: raw.ward,
     bag: Object.freeze([...raw.bag]),

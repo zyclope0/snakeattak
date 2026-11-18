@@ -7,6 +7,12 @@ branchement sur le moteur sont décrits dans [ARCHITECTURE.md](ARCHITECTURE.md),
 « Le voyage ». **Première publication de la version1 le 14 novembre2026, build60 / Sites35.
 Ses réglages et tirages sont figés ; toute évolution sera une nouvelle version.**
 
+**Version 2 (18 novembre 2026)** : la même table, et King Snake vient avec ses deux gardes
+et son guérisseur à la dernière étape (souhait du fils, mesure acceptée par le parent). Tout
+nouveau voyage est de version 2 ; un voyage ou un code de version 1 garde le roi seul. Les
+chiffres de ce document sont ceux de la version 1 ; ceux de la version 2 sont dans
+[BILAN-VOYAGE-2.md](BILAN-VOYAGE-2.md).
+
 Deux passages d'équilibrage ont eu lieu le même jour. Après le premier, le parent a validé
 six choix (voir « Décisions prises ») et demandé : « Plus dur pour moyen en gérant l'impact
 sur expert ». Le second passage répond à cette demande par **un seul réglage : la bourse de
@@ -305,7 +311,8 @@ jour).
 ## Refaire les mesures
 
 ```sh
-npm run balance:voyage                                   # version 1, 100 graines, 9 sacs, 10 min
+npm run balance:voyage                                   # version du jeu, 100 graines, 9 sacs, 10 min
+TABLE=1 npm run balance:voyage                           # la version 1, roi seul
 TABLE=brut npm run balance:voyage                        # le voyage brut
 SEEDS=300 PROFILES=expert,moyen,apprenti,petit,massues POLICIES=raisonnable,hasard npm run balance:voyage
 TABLE=mes-reglages.json npm run balance:voyage           # une autre table, au format de voyageTuning.ts

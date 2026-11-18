@@ -3,7 +3,8 @@ import { REWARDS } from '../../src/rewards.ts';
 import type { RewardId } from '../../src/rewards.ts';
 import { createStageGame, drawVoyage, stageCaprice } from '../../src/voyage.ts';
 import { encodeVoyage } from '../../src/voyageCode.ts';
-import type { VoyageTuning } from '../../src/voyageTuning.ts';
+import { CURRENT_VOYAGE_VERSION } from '../../src/voyageTuning.ts';
+import type { VoyageTuning, VoyageVersion } from '../../src/voyageTuning.ts';
 import { playStage } from './players.ts';
 import type { Profile } from './players.ts';
 import type { VoyageRow } from './report.ts';
@@ -50,8 +51,9 @@ export function playVoyage(
   profile: Profile,
   policy: string,
   tuning: VoyageTuning,
+  version: VoyageVersion = CURRENT_VOYAGE_VERSION,
 ): VoyageRow {
-  const plan = drawVoyage(seed, tuning)!;
+  const plan = drawVoyage(seed, tuning, version)!;
   const bag: RewardId[] = [];
   const stages = plan.stages.map((stage, index) => {
     const result = playStage(createStageGame(plan, index, bag)!, profile);
@@ -69,7 +71,7 @@ export function playVoyage(
   const fell = stages.findIndex((stage) => stage.status !== 'won');
   return {
     seed,
-    code: encodeVoyage(seed)!,
+    code: encodeVoyage(seed, version)!,
     profile,
     policy,
     stages,

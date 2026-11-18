@@ -244,9 +244,9 @@ sauvegardes d'avant gardent leurs règles)
 
 - **Serpent ninja** : fait, révision 5 ([bilan](BILAN-REVISION-5.md)). Le fils ne veut aucun
   mot quand il se téléporte (18 novembre) : fait.
-- **Voyage** : le fils veut que King Snake vienne avec ses gardes à la dernière étape. Le roi
-  du voyage est déjà dur (54 victoires sur 100 pour le joueur moyen) : chiffres à montrer au
-  parent.
+- **Voyage** : King Snake vient avec ses gardes à la dernière étape. Mesure lue et acceptée
+  par le parent le 18 novembre ; fait en version 2 du voyage, les voyages de version 1 gardent
+  le roi seul ([bilan](BILAN-VOYAGE-2.md)).
 
 **Réponses du fils** (rapportées par le parent, 18 novembre)
 

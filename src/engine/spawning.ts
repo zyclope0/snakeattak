@@ -1,6 +1,6 @@
 import { enemies as enemyTypes } from '../enemies.ts';
 import { flyingVariant } from '../flying.ts';
-import { BOSS_COURT, COURT_HEAL } from '../bossCourt.ts';
+import { BOSS_COURT, COURT_HEAL, COURT_SLOTS } from '../bossCourt.ts';
 import { ensureBossState } from '../boss.ts';
 import type { EnemyKind } from '../enemies.ts';
 import { dodgesOf } from '../enemyAbilities.ts';
@@ -26,8 +26,6 @@ import type { Game } from '../game.ts';
 import type { LateEggRule } from '../balanceRevision.ts';
 import * as TEXT from '../texts/fr/battle.ts';
 
-/** The king arrives with its court in the last four slots of the last classic wave. */
-const COURT_SLOTS = 4;
 /** On even waves, one snake in three is a sturdier one. */
 const STURDY_HP_FACTOR = 1.6;
 /** Snakes hatched from an egg are smaller than those of the wave. */
@@ -78,7 +76,7 @@ export function spawnNext(game: Game, dt: number) {
   );
   if (!boss) hardenShell(game, entry, index);
   if (withCourt) {
-    spawnCourt(game, entry, stats.hp);
+    spawnCourt(game, entry, stats.hp * game.caprice.hp);
     game.remaining = 0;
     game.message = TEXT.leRoiArriveAvecSaGardeEtUnSoigneur;
   } else game.remaining--;
@@ -87,6 +85,8 @@ export function spawnNext(game: Game, dt: number) {
     : spawnDelay(game.wave, index);
 }
 function kingBringsCourt(game: Game): boolean {
+  // The king of a voyage of version 2 comes with his court too, at the end of its last stage.
+  if (game.stage?.court) return game.wave === game.totalWaves && game.remaining <= COURT_SLOTS;
   return (
     game.tuning.tacticalRulesEnabled &&
     !game.mission &&
@@ -101,7 +101,7 @@ function kingBringsCourt(game: Game): boolean {
 function isKingSlot(game: Game, withCourt: boolean): boolean {
   if (game.mission) {
     const invited = game.caprice.king || !!game.stage?.king;
-    return invited && game.wave === game.totalWaves && game.remaining === 1;
+    return invited && game.wave === game.totalWaves && (game.remaining === 1 || withCourt);
   }
   return game.wave === TOTAL_WAVES && (game.remaining === 1 || withCourt);
 }

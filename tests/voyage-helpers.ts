@@ -37,8 +37,11 @@ function fillCamp(game: Game) {
     for (let y = 132; y <= 516; y += 48) STRONGEST_FIRST.some((kind) => game.recruit(kind, x, y));
 }
 
-/** Plays a game to its end on the real engine: won behind a full camp, lost without one. */
-export function fight(game: Game, outcome: 'won' | 'lost'): Game {
+/**
+ * Plays a game to its end on the real engine: won behind a full camp, lost without one.
+ * `watch` looks at the game after every step.
+ */
+export function fight(game: Game, outcome: 'won' | 'lost', watch?: (game: Game) => void): Game {
   for (let steps = 0; steps < 30 * 60 * 30; steps++) {
     if (game.status === 'won' || game.status === 'lost') break;
     if (game.status === 'preparing') {
@@ -47,6 +50,7 @@ export function fight(game: Game, outcome: 'won' | 'lost'): Game {
       game.startWave();
     }
     game.step(1 / 30);
+    watch?.(game);
   }
   if (game.status !== outcome) throw Error(`expected a game ${outcome}, got ${game.status}`);
   return game;

@@ -198,9 +198,13 @@ export function stageRulesFor(
 ): StageRules | null {
   const stage = plan.stages[index];
   if (!stage || !Array.isArray(bag) || bag.length > STAGE_BAG_LIMIT) return null;
+  const court = plan.tuning.kingCourt === true;
+  // The same keys in the same order as `readStageRules`: the voyage compares them as text.
+  // A voyage of version 1 keeps the rules it was played with, byte for byte.
   return {
-    version: 1,
+    version: court ? 2 : 1,
     king: stage.king,
+    ...(court ? { court: stage.king } : {}),
     coins: stage.coins + count(bag, 'pieces') * plan.tuning.bonusCoins,
     ward: count(bag, 'cristal') * plan.tuning.bonusWard,
     bag: [...bag],

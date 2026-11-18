@@ -977,9 +977,13 @@ Tout est calculé depuis la graine, avant le premier combat, sans navigateur ni 
 ### Branchement sur le moteur
 
 `Game` reçoit un cinquième paramètre facultatif, `stage: StageRules` :
-`{ version: 1, king, coins, ward, bag }`. C'est la seule extension, et elle est versionnée
-comme une révision d'équilibrage : une nouvelle façon d'ouvrir une étape sera une version 2 à
-côté de la première. Sans ce paramètre, rien ne change.
+`{ version: 1, king, coins, ward, bag }`, ou `{ version: 2, king, court, coins, ward, bag }`
+depuis le voyage de version 2 (18 novembre 2026). C'est la seule extension, et elle est
+versionnée comme une révision d'équilibrage : une étape de version 1 n'a pas de champ `court`
+et garde ses règles, octet pour octet. `court` n'existe qu'avec le roi (`readStageRules`
+refuse une cour sans roi). `stageRulesFor` écrit les clés dans l'ordre du lecteur, car
+`voyageState` compare les règles de l'étape attendue et celles de la partie comme du texte.
+Sans ce paramètre, rien ne change.
 
 - `game.ts` : le constructeur valide l'étape (`readStageRules`, copie gelée), exige une
   expédition de la révision 2, puis appelle `openStage` : pièces ajoutées à la bourse de la
@@ -991,7 +995,10 @@ côté de la première. Sans ce paramètre, rien ne change.
   `game.stage`) : `JSON.stringify(game)` est le même qu'avant.
 - `engine/spawning.ts` : le roi ferme la dernière vague si le caprice l'invite **ou** si
   l'étape le demande (`isKingSlot`). Sa vie vient du réglage `bossHpMultiplier` déjà
-  existant, que `createStageGame` passe au constructeur.
+  existant, que `createStageGame` passe au constructeur. Si l'étape dit `court`
+  (`kingBringsCourt`), le roi prend les `COURT_SLOTS` dernières places de la vague avec ses
+  deux gardes et son guérisseur, comme dans l'aventure ; la cour reçoit la vie du caprice
+  comme tout serpent. `ui/threatPreview.ts` l'annonce dans l'aperçu de cette vague.
 - `checkpoints.ts` : `encodeCheckpoint` refuse une partie de voyage. Un camp n'a pas de place
   pour les règles d'une étape ; relu, ce serait une expédition ordinaire.
 - `missionProgress.ts`, `capriceAlbums.ts` : une étape gagnée ne donne ni étoile ni

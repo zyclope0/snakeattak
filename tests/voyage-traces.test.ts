@@ -6,6 +6,7 @@ import type { Game } from '../src/game.ts';
 import type { Kind } from '../src/data.ts';
 import { REWARDS } from '../src/rewards.ts';
 import { encodeVoyage } from '../src/voyageCode.ts';
+import type { VoyageVersion } from '../src/voyageTuning.ts';
 import {
   bonusOffer,
   chooseBonus,
@@ -79,9 +80,9 @@ function playStage(game: Game, salt: number, hash: Hash): string {
   return `${game.status} w${game.wave} b${game.base} g${game.gold} k${game.kills} s${steps}`;
 }
 
-function travel(seed: number, salt: number): string {
+function travel(seed: number, salt: number, version: VoyageVersion): string {
   const hash = createHash('sha256');
-  let state = startVoyage(seed)!;
+  let state = startVoyage(seed, version)!;
   hash.update(JSON.stringify(voyagePlanOf(state)));
   const stages: string[] = [];
   while (voyagePhase(state) === 'stage') {
@@ -92,7 +93,7 @@ function travel(seed: number, salt: number): string {
       state = chooseBonus(state, bonusOffer(state)[(salt + state.won) % 3])!;
     hash.update(JSON.stringify(state));
   }
-  return `${encodeVoyage(seed)} ${state.status} ${state.won}/5 [${state.bag.join(' ')}] ${stages.join(' | ')} ${hash.digest('hex').slice(0, 24)}`;
+  return `${encodeVoyage(seed, version)} ${state.status} ${state.won}/5 [${state.bag.join(' ')}] ${stages.join(' | ')} ${hash.digest('hex').slice(0, 24)}`;
 }
 
 function traces(): Record<string, string> {
@@ -104,8 +105,11 @@ function traces(): Record<string, string> {
     [123456, 4],
     [1048575, 2],
     [0, 5],
-  ])
-    out[`graine ${seed}, joueur ${salt}`] = travel(seed, salt);
+  ]) {
+    out[`graine ${seed}, joueur ${salt}`] = travel(seed, salt, 1);
+    // Version 2: King Snake comes with his court at the last stage.
+    out[`graine ${seed}, joueur ${salt}, version 2`] = travel(seed, salt, 2);
+  }
   return out;
 }
 
