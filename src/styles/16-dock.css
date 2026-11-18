@@ -98,12 +98,14 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
+  padding-inline: 1px;
   font-size: 13px;
 }
+/* The pot leaves the width to its word, read at 13 px: « Ralentir » fills the button. */
 .dock-honey .feast-pot {
-  width: 26px;
-  height: 26px;
-  flex: 0 0 26px;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
 }
 .dock-actions {
   display: grid;
