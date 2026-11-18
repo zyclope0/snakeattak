@@ -128,6 +128,18 @@ test('le ninja ne revient jamais sur un rocher, dans la rivière ni devant un al
     assert.ok((fresh.x - x) * facing <= 0, `devant l'allié : ${x} → ${fresh.x}`);
   }
   assert.ok(moved >= 3, `${moved} téléportations seulement`);
+  // Its back is the river: the first place is refused, a nearer one on the bank is taken.
+  assert.ok(!standable(600 - 34, 250, level), 'la première place est dans la rivière');
+  const fresh = { ...snake, dodges: 1, x: 300, y: 250, path: [] };
+  hitEnemy(game, { ...game.units[0], x: 600, y: 250, facing: 1 }, fresh, 5);
+  assert.ok(fresh.x !== 300, 'il saute quand même');
+  assert.ok(standable(fresh.x, fresh.y, level) && fresh.x >= 576, `${fresh.x},${fresh.y}`);
+  // Its back is a rock: never inside it.
+  for (const r of level.rocks) {
+    const near = { ...snake, dodges: 1, x: 300, y: r.y, path: [] };
+    hitEnemy(game, { ...game.units[0], x: r.x - 34, y: r.y, facing: -1 }, near, 5);
+    assert.ok(Math.hypot(near.x - r.x, near.y - r.y) >= r.r, `dans le rocher ${r.x},${r.y}`);
+  }
 });
 
 test('après son saut, le ninja ne revient pas en arrière vers l’antre', () => {
@@ -165,7 +177,7 @@ test('l’explosion reste où elle tombe, et ne téléporte que le serpent visé
   }
 });
 
-test('le roi ne se téléporte pas, ni aucun autre serpent', () => {
+test('aucun autre serpent ne se téléporte', () => {
   const { game } = meet(5, 'shadow', 6);
   const hero = game.units.find((u) => u.kind === 'hero')!;
   const other = game.enemies.find((e) => e.variant !== 'shadow' && e.hp > 0)!;
