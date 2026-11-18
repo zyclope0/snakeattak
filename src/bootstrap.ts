@@ -10,6 +10,7 @@ import { BOARD_WIDTH, BOARD_HEIGHT, bindBoardResolution } from './render/boardRe
 import { visualSettings } from './render/visualSettings.ts';
 import { Game } from './game.ts';
 import { createMissionProgress, createMissionProgressController } from './missionProgress.ts';
+import { createMissionDone } from './missionDone.ts';
 import type { MissionRun } from './missions.ts';
 import { bindExpeditions } from './ui/expeditions.ts';
 import { createCampMemory } from './campMemory.ts';
@@ -70,6 +71,7 @@ const stickerResults = new WeakMap<Game, boolean>();
 const session = new Session();
 session.screen = 'home';
 const career = createCareer(storage, familySaved?.career);
+const missionDone = createMissionDone(storage);
 const saved = familySaved
   ? familySaved.camp === null
     ? null
@@ -237,6 +239,7 @@ function liveOrStored(game: Game | undefined, camp: string | null): Game | null 
 function saveAndRedraw() {
   recordGame(true);
   family.sync(campMemory.raw(), career.state, missions.state, albums.state);
+  markMissionDone();
   albumUI?.refresh();
   menu?.refresh();
   report?.();
@@ -307,6 +310,9 @@ function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = fa
   if (!next) return false;
   setGameAside();
   if (!missions.started(run)) return false;
+  // A departure, even of the same mission and seed, is a mission under way: the same camps
+  // come back, and one of them must not pass for the mission won.
+  missionDone.clear();
   if (!retry) albums.beginRun();
   session.useGame(next);
   missionGame = next;
@@ -329,9 +335,23 @@ function playStage(game: Game) {
 function missionCanResume() {
   return !!missionGame || !!missions.state.retryCamp;
 }
-/** A mission waits to be continued, unless the one on record has just been won. */
+/**
+ * A mission waits to be continued, unless the one on record has been won: just now, or before
+ * the game was closed (its camp carries the mark of the mission won).
+ */
 function missionWaits() {
-  return missionCanResume() && missionGame?.status !== 'won';
+  return (
+    missionCanResume() &&
+    missionGame?.status !== 'won' &&
+    !missionDone.finished(missions.state.retryCamp)
+  );
+}
+/** A mission just won leaves its mark on the device, beside its last camp. */
+function markMissionDone() {
+  const game = session.game;
+  if (!game.mission || game.stage || game.status !== 'won') return;
+  const camp = missions.state.retryCamp;
+  if (!missionDone.finished(camp)) missionDone.mark(camp);
 }
 /** Back to the mission under way, the classic adventure being set aside first. */
 function resumeMission() {
@@ -341,6 +361,8 @@ function resumeMission() {
   }
   const game = liveOrStored(missionGame, missions.state.retryCamp);
   if (!game) return;
+  // Played again, the camp of a mission won waits again to be continued.
+  missionDone.clear();
   session.useGame(game);
   missionGame = game;
   missions.switchMode('missions');
@@ -395,6 +417,8 @@ function applyFamily(backup: FamilyBackup) {
   openAlbumForCaprice(game, 'missions' in canonical ? canonical.missions?.retryCamp : undefined);
   career.replaceState(canonical.career);
   missions.replaceState('missions' in canonical ? canonical.missions! : createMissionProgress());
+  // The file brings its own camps: the mark of a mission won here says nothing about them.
+  missionDone.clear();
   classicGame = game && !game.mission ? game : undefined;
   missionGame = game?.mission ? game : undefined;
   campMemory.replace(canonical.camp);

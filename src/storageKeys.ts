@@ -12,6 +12,8 @@ export const CAMP_STORAGE_KEY = key('camp');
 export const CAREER_STORAGE_KEY = key('progress');
 export const VOYAGE_STORAGE_KEY = key('voyage');
 export const REMINDER_STORAGE_KEY = key('recruitment-reminder');
+/** The mark of the mission camp the child has won: the home does not offer to resume it. */
+export const MISSION_DONE_KEY = key('mission-done');
 
 // The device: shared by every player.
 export const PLAYERS_KEY = key('players');

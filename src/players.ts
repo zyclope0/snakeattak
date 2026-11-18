@@ -4,6 +4,7 @@ import {
   CAMP_STORAGE_KEY,
   CAREER_STORAGE_KEY,
   FAMILY_STORAGE_KEY,
+  MISSION_DONE_KEY,
   PLAYERS_KEY,
   REMINDER_STORAGE_KEY,
   VOYAGE_STORAGE_KEY,
@@ -51,6 +52,7 @@ export const PLAYER_KEYS: readonly string[] = [
   CAREER_STORAGE_KEY,
   REMINDER_STORAGE_KEY,
   VOYAGE_STORAGE_KEY,
+  MISSION_DONE_KEY,
 ];
 type ReadPort = Pick<Storage, 'getItem'>;
 type StoragePort = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
