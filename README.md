@@ -101,9 +101,10 @@ Les anciens formats restent pris en charge.
 
 ## Préparation Google Play
 
-Modèle validé : jeu gratuit, publicité rare entre missions, suppression des pubs
-et cosmétiques payants sans avantage de combat. **La version actuelle ne contient
-pas de SDK publicitaire ou d'achat intégré.**
+Modèle décidé par le parent (17 et 18 novembre 2026) : jeu gratuit. **Aucune
+publicité ni achat dans l'application.** Sur le site seulement : un encart
+publicitaire non personnalisé, que l'on peut couper (prêt, pas encore allumé), et un lien de soutien PayPal
+pour les parents.
 
 Le [dossier de publication](docs/publication/README.md) contient les captures,
 les textes en brouillon et les vérifications restantes :

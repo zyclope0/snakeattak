@@ -9,6 +9,6 @@ export const unVelociraptorOffertAPlacerDansTon = 'Un Vélociraptor offert, à p
 export const laGrandeReserveDeMiel = 'La grande réserve de miel';
 export const n4SecondesPourChaquePotJusquALaFin = `+${HONEY_REWARD_SECONDS} secondes pour chaque pot, jusqu’à la fin de la partie.`;
 export const laGardeDuCristal = 'La garde du cristal';
-export const absorbe18DegatsAuCristalNeBloque = `Absorbe ${CRYSTAL_WARD} dégâts au cristal. Ne bloque pas le roi.`;
+export const absorbe18DegatsAuCristalNeBloque = `Protège ton cristal de ${CRYSTAL_WARD} dégâts. Le roi, lui, passe quand même.`;
 export const laBourseDesAventuriers = 'La bourse des aventuriers';
 export const n100PiecesPourRecruterLesAlliesDe = `+${REWARD_COINS} pièces pour recruter les alliés de ton choix.`;

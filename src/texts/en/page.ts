@@ -80,7 +80,7 @@ export const recruterNosUnites = 'Recruit our units';
 export const conseils = 'Tips';
 export const monExpedition = 'My expedition';
 export const carteDesMissions = 'Mission map';
-export const reessayerLeMemeDepart = 'Retry the same starting setup';
+export const reessayerLeMemeDepart = 'Start this game again';
 export const missionSuivante = 'Next mission';
 export const prepareTonCamp = 'Prepare your camp';
 export const choisisUnAllieEtPlaceLeADroite = 'Choose an ally and place it on the right.';
@@ -169,7 +169,7 @@ export const lanceLaVagueTesAlliesSeDeplacentEt =
   'Start the wave: your allies move and fight automatically.';
 export const renforce = 'Strengthen.';
 export const lesSerpentsVaincusRapportentDes =
-  'Defeated snakes give you coins. Buy allies or repair the camp.';
+  'Defeated snakes give you coins. Buy allies or repair the Crystal.';
 export const lesPouvoirsEtLesReglesEnDetail = 'Powers and rules in detail';
 export const recruterEnBataille = 'Recruiting during battle.';
 export const tuPeuxAussiAcheterUnAllieOuReparer =

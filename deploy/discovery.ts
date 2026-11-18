@@ -49,13 +49,14 @@ const labels = {
     parents: 'Pour les parents',
     privacy: 'Confidentialité',
     support: 'Soutenir le développement',
+    supportPay: 'Soutenir sur PayPal (nouvel onglet)',
     supportAnchor: 'soutien',
     external:
       'Pour les adultes : soutien ponctuel et facultatif en CHF sur PayPal. Aucun avantage dans le jeu.',
     skip: 'Aller au contenu',
     alt: 'Un héros et un serpent en pâte à modeler, près du cristal',
     shareAlt:
-      'Une bataille du jeu : des alliés défendent le refuge contre des serpents, sur trois chemins',
+      'Une bataille du jeu : des alliés défendent le cristal contre des serpents, sur trois chemins',
     title: 'La Conquête des Serpents',
     family: 'Imaginé par un enfant, partagé en famille.',
     back: 'Retour au jeu',
@@ -69,12 +70,13 @@ const labels = {
     parents: 'For parents',
     privacy: 'Privacy policy',
     support: 'Support development',
+    supportPay: 'Support on PayPal (new tab)',
     supportAnchor: 'support',
     external:
       'For adults: an optional, one-off contribution in CHF through PayPal. No in-game benefits.',
     skip: 'Skip to content',
     alt: 'A clay hero and snake beside the crystal',
-    shareAlt: 'A battle from the game: allies defend the refuge against snakes on three paths',
+    shareAlt: 'A battle from the game: allies defend the crystal against snakes on three paths',
     title: 'Snake Attack TD',
     family: 'Imagined by a child, shared with the family.',
     back: 'Back to the game',
@@ -86,7 +88,7 @@ const supportNote = (language: 'fr' | 'en') => `${labels[language].supportAnchor
 function supportLink(language: 'fr' | 'en', value: string | null) {
   const url = resolveSupportUrl(value);
   return url
-    ? `<a data-support aria-describedby="${supportNote(language)}" href="${escape(url)}" target="_blank" rel="noopener noreferrer nofollow">${labels[language].support}</a>`
+    ? `<a data-support aria-describedby="${supportNote(language)}" href="${escape(url)}" target="_blank" rel="noopener noreferrer nofollow">${labels[language].supportPay}</a>`
     : '';
 }
 

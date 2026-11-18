@@ -28,7 +28,7 @@ export const lesTroisPonts = 'The Three Bridges';
 export const gardeLesTroisPassagesOuvertsATes = 'Keep all three paths open for your defenders.';
 export const laCourseDesVifs = 'The Swift Run';
 export const intercepteLesRapidesAvantLeRefuge =
-  'Stop the fast snakes before they reach the Refuge.';
+  'Stop the fast snakes before they reach the Crystal.';
 export const lesPremieresCoquilles = 'The First Eggs';
 export const resisteAuxEclosionsEtAuxPremieres = 'Survive hatching eggs and the first escorts.';
 export const dragonEtSonnette = 'Dragon and Rattle';

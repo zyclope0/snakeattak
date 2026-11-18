@@ -10,10 +10,10 @@ export const unCapriceCEstUnDefiDesSerpentsTu =
   'A caprice is a challenge from the snakes. You replay the mission with one rule that changes. If you win, its sticker goes into your sticker book.';
 export const lePetitSOuvreQuandTuGagnesLa =
   'The small one opens when you win the mission. The medium one with 2 stars. The big one with 3 stars.';
-export const aideLeReperage = 'Help: scouting';
-export const aQuoiSertLeReperage = 'What is scouting for?';
+export const aideLeReperage = 'Help: Threats';
+export const aQuoiSertLeReperage = 'What is “Threats” for?';
 export const leReperageTeMontreLesSerpentsDe =
-  'Scouting shows you the snakes in this mission and which way they come. Look at it before you place your allies.';
+  '“Threats” shows you the snakes in this mission and which way they come. Look at it before you place your allies.';
 export const aideAutreDepart = 'Help: another setup';
 export const autreDepart = 'Another setup';
 export const chaqueDepartChangeUnPeuLaMissionLe =

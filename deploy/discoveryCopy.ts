@@ -29,7 +29,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'Protège le cristal avec des ninjas, des dinosaures et des bébés dragons. Un jeu de tower defense gratuit pour enfants, à jouer en famille dans le navigateur.',
     heading: 'Un cristal. Trois chemins. Toute une bande de copains.',
-    lead: 'Un petit jeu imaginé avec un enfant : prépare tes alliés, surveille les serpents et protège ton refuge dans un monde de pâte à modeler et de papier mâché.',
+    lead: 'Un petit jeu imaginé avec un enfant : prépare tes alliés, surveille les serpents et protège ton cristal dans un monde de pâte à modeler et de papier mâché.',
     blocks: [
       {
         heading: 'Tu prépares, tes alliés agissent',
@@ -53,7 +53,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'Defend the crystal with ninjas, dinosaurs and baby dragons. A free tower defense game for kids and families, played in your browser.',
     heading: 'One crystal. Three paths. A whole team of friends.',
-    lead: 'A small game imagined with a child: prepare your allies, watch the snakes and protect your refuge in a world of modelling clay and papier-mâché.',
+    lead: 'A small game imagined with a child: prepare your allies, watch the snakes and protect your crystal in a world of modelling clay and papier-mâché.',
     blocks: [
       {
         heading: 'You prepare. Your allies take action.',
@@ -81,7 +81,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: '1. Regarde les dangers',
-        text: `Avant la vague, touche « ${FR.dangers} » : tu vois quels serpents arrivent, et par quel chemin. Ils n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.`,
+        text: `Avant la vague, touche « ${FR.dangers} » : tu vois quels serpents arrivent, et quels chemins sont ouverts. Ils n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.`,
       },
       {
         heading: '2. Recrute et place tes alliés',
@@ -109,7 +109,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: '1. Check the dangers',
-        text: `Before a wave, tap “${EN.dangers}”: you see which snakes are coming, and along which path. They have different talents: some are fast, some attack from a distance, and others fly.`,
+        text: `Before a wave, tap “${EN.dangers}”: you see which snakes are coming, and which paths are open. They have different talents: some are fast, some attack from a distance, and others fly.`,
       },
       {
         heading: '2. Recruit and place your allies',
@@ -192,7 +192,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Trois nouveaux serpents',
-        text: `Ils arrivent quand tu commences une nouvelle « ${FR.aventureClassique} ». Le serpent ninja court vite, et le premier coup le rate. Les grands crocs mordent deux fois plus fort : pose un ${ALLY_FR.bouclier} devant. Le serpent rare tombe vite, mais sa morsure fait tomber une ${ALLY_FR.massue} d’un coup : pose un ${ALLY_FR.archer}, il le touche de loin.`,
+        text: `Pour les voir, touche « ${FR.aventureClassique} », puis « ${FR.laGrandeAventure12Vagues} » : une nouvelle partie commence. Le serpent ninja court vite, et le premier coup le rate. Les grands crocs mordent deux fois plus fort : pose un ${ALLY_FR.bouclier} devant. Le serpent rare tombe vite, mais sa morsure fait tomber une ${ALLY_FR.massue} d’un coup. Pose un ${ALLY_FR.archer} : il peut le toucher avant qu’il morde.`,
       },
       {
         heading: 'Des œufs en plus',
@@ -220,7 +220,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Three new snakes',
-        text: `They show up when you start a new “${EN.aventureClassique}”. The Ninja Snake runs fast, and the first hit misses it. Big Fangs bites twice as hard: place a ${ALLY_EN.bouclier} in front. The Rare Snake falls fast, but its bite knocks out a ${ALLY_EN.massue} in one go: place an ${ALLY_EN.archer}, who hits it from afar.`,
+        text: `To see them, tap “${EN.aventureClassique}”, then “${EN.laGrandeAventure12Vagues}”: a new game starts. The Ninja Snake runs fast, and the first hit misses it. Big Fangs bites twice as hard: place a ${ALLY_EN.bouclier} in front. The Rare Snake falls fast, but its bite knocks out a ${ALLY_EN.massue} in one go. Place an ${ALLY_EN.archer}: it can hit the snake before it bites.`,
       },
       {
         heading: 'Extra eggs',
@@ -248,7 +248,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Jouer sans compte',
-        text: 'Le jeu est gratuit, sans achat intégré. Aucun compte n’est demandé pour jouer. Les profils et les sauvegardes restent sur l’appareil. Sur grand écran, le site peut afficher un seul encart publicitaire non personnalisé, que l’on peut couper dans « Pour les parents ». Aucune mesure d’audience ajoutée.',
+        text: 'Le jeu est gratuit, sans achat intégré. Aucun compte n’est demandé pour jouer. Les profils et les sauvegardes restent sur l’appareil. Sur grand écran, le site peut afficher un seul encart publicitaire non personnalisé, que l’on peut couper dans « Pour les parents » du jeu. Aucune mesure d’audience ajoutée.',
       },
       {
         heading: 'Conserver une aventure',
@@ -260,7 +260,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Sur le Web et sur Android',
-        text: 'Le site reçoit les nouveautés dès leur publication. L’application Android embarque ses fichiers pour jouer hors ligne et reçoit les nouveautés lors d’une mise à jour. Une nouveauté ne change pas une partie déjà commencée : les anciennes sauvegardes et les anciens codes gardent leurs règles.',
+        text: 'L’application Android est en préparation ; elle n’est pas encore disponible. Le site reçoit les nouveautés dès leur publication. L’application Android embarque ses fichiers pour jouer hors ligne et reçoit les nouveautés lors d’une mise à jour. Une nouveauté ne change pas une partie déjà commencée : les anciennes sauvegardes et les anciens codes gardent leurs règles.',
       },
       {
         heading: 'Qui a fait ce jeu ?',
@@ -281,7 +281,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Play without an account',
-        text: 'The game is free, with no in-app purchases. No account is required to play. Profiles and saves stay on the device. On a large screen, the website may show a single non-personalised ad box, which can be turned off in “For parents”. No audience analytics added.',
+        text: 'The game is free, with no in-app purchases. No account is required to play. Profiles and saves stay on the device. On a large screen, the website may show a single non-personalised ad box, which can be turned off in “For parents” in the game. No audience analytics added.',
       },
       {
         heading: 'Keep an adventure',
@@ -293,7 +293,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'On the Web and Android',
-        text: 'The website gets updates as soon as they are published. The Android app carries its files for offline play and gets updates through an app update. An update does not change a game already in progress: older saves and codes keep their own rules.',
+        text: 'The Android app is being prepared; it is not available yet. The website gets updates as soon as they are published. The Android app carries its files for offline play and gets updates through an app update. An update does not change a game already in progress: older saves and codes keep their own rules.',
       },
       {
         heading: 'Who made this game?',

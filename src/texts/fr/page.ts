@@ -81,7 +81,7 @@ export const recruterNosUnites = 'Recruter nos unités';
 export const conseils = 'Conseils';
 export const monExpedition = 'Mon expédition';
 export const carteDesMissions = 'Carte des missions';
-export const reessayerLeMemeDepart = 'Réessayer le même départ';
+export const reessayerLeMemeDepart = 'Recommencer cette partie';
 export const missionSuivante = 'Mission suivante';
 export const prepareTonCamp = 'Prépare ton camp';
 export const choisisUnAllieEtPlaceLeADroite = 'Choisis un allié et place-le à droite.';
@@ -170,7 +170,7 @@ export const lanceLaVagueTesAlliesSeDeplacentEt =
   'Lance la vague : tes alliés se déplacent et combattent automatiquement.';
 export const renforce = 'Renforce.';
 export const lesSerpentsVaincusRapportentDes =
-  'Les serpents vaincus rapportent des pièces. Achète des alliés ou répare le camp.';
+  'Les serpents vaincus rapportent des pièces. Achète des alliés ou répare le cristal.';
 export const lesPouvoirsEtLesReglesEnDetail = 'Les pouvoirs et les règles en détail';
 export const recruterEnBataille = 'Recruter en bataille.';
 export const tuPeuxAussiAcheterUnAllieOuReparer =

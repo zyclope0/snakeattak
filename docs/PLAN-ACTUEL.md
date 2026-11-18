@@ -12,7 +12,8 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   [Bilan](BILAN-0.38.0.md), [Android](ANDROID.md), [Voyage](VOYAGE.md).
 - **Site** : https://snakeattacktd.com sur Infomaniak, publié à la main depuis `main` par
   « Publier le site ». Politique de confidentialité publique à `/confidentialite`. L'ancien
-  site `…chatgpt.site` reste en ligne et affiche l'avis de migration. [Site](SITE.md).
+  site `…chatgpt.site` reste en ligne et affiche l'avis de migration ; personne n'y joue
+  (parole du parent, 18 novembre), il peut être arrêté quand il le veut. [Site](SITE.md).
 
 ## Dans le build 62
 
@@ -61,9 +62,11 @@ remettra l'application au niveau du site.
 - **Trois nouveaux serpents** (idées du fils) : « Grands crocs » (morsure double, dès la
   vague 8), « Serpent rare » (très fragile, sa morsure fait tomber une Massue, vagues 8 et 11) et « Serpent ninja » (rapide, esquive le premier coup, dès la vague 6), dans la grande
   aventure seulement. C'est la **révision d'équilibrage 4**. Le parent a choisi ce que fait le
-  ninja et accepté qu'un expert simulé gagne une partie sur deux (62 % → 52 %). **Noms et
-  images provisoires** : au fils de nommer, au parent de décider des dessins
-  ([bilan](BILAN-REVISION-4.md)). **Pas encore joué par les enfants.**
+  ninja et accepté qu'un expert simulé gagne une partie sur deux (62 % → 52 %). **Les trois
+  noms sont confirmés par le fils (18 novembre) ; les images sont provisoires**, le parent a
+  accordé un budget libre pour les dessins ([bilan](BILAN-REVISION-4.md)). Le ninja changera :
+  il se téléportera une fois dans le dos de l'allié qui l'attaque, à la place de l'esquive
+  (décision du 18 novembre, nouvelle révision à mesurer). **Pas encore joué par les enfants.**
 
 ## Site : revue du 17 novembre
 
@@ -165,75 +168,78 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
    le fils s'ils réclament du neuf. Une quatrième sortie ou de nouveaux terrains demandent
    l'accord du fils et une nouvelle révision des règles.
 
-## Décisions qui attendent le parent
+## Décisions du parent — 18 novembre
 
-La liste entière, en un seul endroit (18 novembre). `SITE.md` raconte d'où vient chacune.
+Les dix-neuf décisions de la liste ont été prises une par une avec le parent ; le fils a
+répondu à ses questions le même jour. `SITE.md` raconte d'où vient chacune.
 
-**Textes du site, en ligne aujourd'hui**
+**Fait dans le lot du 18 novembre (textes)**
 
-1. « pose un Archer, il le touche de loin » (« Nouveautés ») promet trop : avec un Archer
-   par voie, le serpent rare mord quand même 28 fois sur 100 à la vague 8, 100 fois sur 100
-   à la vague 11 (vrai moteur, 100 départs). Proposé : « un Archer peut le toucher avant
-   qu'il morde ».
-2. « tu vois quels serpents arrivent, et par quel chemin » : « Dangers » ne montre que les
-   chemins ouverts. Proposé : « et quels chemins sont ouverts ».
-3. « quand tu commences une nouvelle Aventure classique » : aucun bouton ne dit
-   « nouvelle ». Proposé : « Touche "La grande aventure" pour en commencer une nouvelle ».
-4. La page parents parle de l'application Android au présent ; elle n'est pas encore
-   publique. Proposé : dire qu'elle est en préparation.
-5. Page 404 : relire « Cette page n'existe pas. L'adresse a peut-être changé. Le jeu, lui,
-   est toujours là. »
-6. Retirer « Soutenir le développement » du pied des pages écrites pour l'enfant, et nommer
-   le lien du bloc « Soutenir sur PayPal (nouvel onglet) ».
-7. Ajouter « du jeu » à la phrase approuvée « que l'on peut couper dans « Pour les
-   parents » », lue sur une page qui porte le même titre.
+1. Serpent rare, « Nouveautés » : « Pose un Archer : il peut le toucher avant qu'il morde. »
+2. « Comment jouer » : « tu vois quels serpents arrivent, et quels chemins sont ouverts ».
+3. « Nouveautés » nomme les boutons : « Aventure classique », puis « La grande aventure · 12
+   vagues ».
+4. Page parents : « L'application Android est en préparation ; elle n'est pas encore
+   disponible. » Aucune date promise.
+5. Page 404 : le texte en ligne est gardé.
+6. Le lien de paiement s'appelle « Soutenir sur PayPal (nouvel onglet) ». Le pied des autres
+   pages garde « Soutenir le développement », qui mène à la page parents (choix du parent).
+7. Publicité : « … que l'on peut couper dans « Pour les parents » du jeu. »
+8. **« Cristal » partout** pour la jauge (mot du fils) : la plaque du plateau, le résultat
+   d'une vague, les mots qui s'envolent, « répare le cristal ». Le camp reste le lieu où l'on
+   pose ses alliés (« Prépare ton camp », « Le camp est tombé »). « Le refuge » reste le nom
+   de la première mission et le mot de ses codes de départ.
+9. Six phrases réécrites, vérifiées dans le moteur : « En tombant, il blesse celui qui l'a
+   battu (−2) » (la phrase d'abord proposée, « est soigné de 2 », était fausse : le cobra
+   royal enlève 2 points de vie à l'allié qui le bat) ; « Protège ton cristal de 18 dégâts.
+   Le roi, lui, passe quand même. » ; « Ils arrivent l'un après l'autre » ; « Les œufs
+   éclosent l'un après l'autre » ; l'onglet « Repérage » devient « Dangers », le mot du
+   bouton de la bataille (« Le terrain » aurait doublé la ligne « Terrain » du même écran) ;
+   « Recommencer cette partie ».
+10. `README.md` : aucune publicité ni achat dans l'application ; sur le site seulement,
+    l'encart que l'on peut couper et le lien PayPal.
 
-**Jeu**
+**Décidé, à faire dans les lots suivants**
 
-8. Un seul mot pour la même jauge : « Camp », « cristal », « ♥ », « REFUGE ». « Cristal »
-   est le mot du fils (`GAME_DESIGN.md`).
-9. Sur téléphone, le miel (« ATTIRANT · 13 s »), « Réserve », les pastilles de soin et la
-   garde du roi se lisent entre 4 et 7 px et n'ont pas la place de grandir là où ils sont.
-   Proposé : les secondes seules pour le miel, une image pour les trois autres.
-10. Les phrases trop techniques : « 2 PV au tueur à sa mort », « Absorbe 18 dégâts au
-    cristal. Ne bloque pas le roi. », « Arrivées régulières », « Éclosions décalées »,
-    « Repérage », « Réessayer le même départ ».
-11. Lot « montrer ce qui existe » (aucune règle touchée) : « Encourager » accessible pendant
-    la vague (quatre appuis aujourd'hui), annonce à l'arrivée d'un nouveau serpent, annonce
-    d'un allié débloqué. Textes à valider avec le fils.
-12. Les dessins des trois nouveaux serpents (une dépense).
-13. La marche devant le roi dans le voyage : l'accepter ou demander une version 2.
-14. À l'accueil, « Reprendre » s'affiche encore pour un joueur qui a tout fini : le corriger
-    demande d'enregistrer une donnée de plus.
-15. Mission 1 gagnable sans recruter : mesure, puis accord du fils et du parent avant toute
-    règle.
-
-**Publication**
-
-16. Publicité : sur le site seulement, décidée le 17 novembre, pas encore allumée ; jamais
-    dans l'application. Reste le feu vert, après l'approbation du site par Google et les
-    six réglages du compte ; avant d'allumer, interdire au navigateur les fonctions
-    publicitaires de profilage et adapter le contrôle du site en ligne
+9. Sur téléphone : le miel n'affiche que ses secondes ; « Réserve », les pastilles de soin et
+   la garde du roi deviennent des signes dessinés dans le code, sans dépense. Captures à
+   montrer au parent avant fusion.
+10. « Montrer ce qui existe » : « Encourager » à un appui pendant la vague, annonce d'un
+    nouveau serpent, annonce d'un allié débloqué. Les phrases sont à montrer au fils avant
+    fusion.
+11. Dessins des trois nouveaux serpents : **budget libre accordé par le parent**.
+12. La marche devant le roi dans le voyage est acceptée ; on regarde d'abord les enfants jouer.
+13. « Reprendre » : corriger, avec une donnée de plus sur l'appareil ; les anciennes
+    sauvegardes restent lisibles.
+14. Mission 1 gagnable sans recruter : mesurer d'abord, ne rien changer sans accord.
+15. Publicité : rien ne s'allume sans le message du parent, après l'approbation du site par
+    Google et les six réglages du compte ; avant d'allumer, interdire au navigateur les
+    fonctions publicitaires de profilage et adapter le contrôle du site en ligne
     ([proposition](publication/PUBLICITE-WEB-PROPOSITION.md)).
-17. `README.md` (racine) dit encore « publicité rare entre missions, suppression des pubs
-    et cosmétiques payants » : cela contredit « jamais dans l'application ». Achats :
-    repoussés ou abandonnés pour la première sortie.
-18. Dire quand l'ancien site s'arrête ; il affiche déjà l'avis de migration.
-19. Connexion Google ou sauvegarde en ligne : écartée tant que le jeu vise d'abord les
-    enfants (règles lues le 13 novembre, à relire avant toute décision).
+16. L'ancien site : personne n'y joue (parole du parent), aucune date à annoncer ; il peut
+    être arrêté quand le parent le veut.
+17. Connexion Google ou sauvegarde en ligne : écartée.
 
-**Questions pour le fils** (cinq minutes, « Tous les serpents » ouvert, sans proposer la
-réponse)
+**Nouvelles règles décidées, à mesurer avant fusion** (chacune dans une nouvelle révision ;
+les parties, codes et sauvegardes d'avant gardent leurs règles)
 
-- « Regarde ton serpent ninja. Est-ce qu'il fait ce que tu avais imaginé ? » Il esquive le
-  premier coup ; il l'avait voulu « aussi rapide que le Ninja, parfois il se téléporte dans
-  le dos ». S'il parle de téléportation : « Combien de fois ? », « Dans le dos de qui ? »
-- « Ces trois serpents, comment ils s'appellent ? » Et quel mot quand le serpent rare mord ?
-- « Quand un serpent arrive au bout, qu'est-ce qu'il abîme ? Tu l'appelles comment ? »
-- « La sauterelle, après son saut, elle se déplace comment ? »
-- « Le spinosaure, qui peut le battre ? »
-- « Pour le boss caché, il faut toucher combien de pommes ? »
-- Dans le voyage, le roi vient sans ses gardes : les veut-il ?
+- **Serpent ninja** : il se téléporte une fois, à la place de l'esquive. Quand un allié
+  l'attaque pour la première fois, le coup le rate et il réapparaît dans le dos de cet allié.
+- **Voyage** : le fils veut que King Snake vienne avec ses gardes à la dernière étape. Le roi
+  du voyage est déjà dur (54 victoires sur 100 pour le joueur moyen) : chiffres à montrer au
+  parent.
+
+**Réponses du fils** (rapportées par le parent, 18 novembre)
+
+- Les trois noms sont les siens : « Serpent ninja », « Grands crocs », « Serpent rare ».
+- Quand le serpent rare mord, il s'écrit « KSSS », en majuscules.
+- La sauterelle, après son saut, marche normalement comme les autres.
+- Le spinosaure doit être la meilleure unité ; l'équilibrage est laissé à mesurer.
+- Le nombre de pommes du boss caché est laissé à proposer, après mesure.
+- Dans le voyage, il veut les gardes du roi.
+
+**Relectures** (choix du parent) : huit angles pour un lot qui change une règle ou un écran
+du jeu, trois pour un petit lot de textes ou de corrections.
 
 ## Dettes connues
 

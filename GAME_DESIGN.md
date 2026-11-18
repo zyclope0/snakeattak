@@ -195,8 +195,12 @@ Serpents :
      dès la vague 6.
 
    Le parent a accepté qu'un joueur expert simulé gagne environ une partie sur deux.
-   **Reste à voir avec le fils** : les vrais noms (ceux-ci sont provisoires) et les dessins
-   (les images actuelles sont des serpents existants recolorés, sans dépense).
+   **18 novembre 2026** : le fils confirme les trois noms. Quand le serpent rare mord, il
+   s'écrit « KSSS », en majuscules (son mot). Le parent décide que le serpent ninja se
+   téléporte une fois, à la place de l'esquive : quand un allié l'attaque pour la première
+   fois, le coup le rate et il réapparaît dans le dos de cet allié (nouvelle révision, à
+   mesurer). Les images actuelles sont des serpents existants recolorés ; le parent accorde
+   un budget libre pour de vrais dessins.
 
 5. **Des serpents « sauterelles »**, volants, qui sautent derrière nos lignes, dans le dos
    de certaines troupes.
@@ -247,6 +251,16 @@ Précisions du fils, le même jour :
 - **Le boss caché** se débloque en touchant des pommes qui apparaissent discrètement tout au
   long de l'aventure.
 - **L'index** montre tous les serpents, pas seulement ceux déjà rencontrés.
+
+Précisions du fils, rapportées par le parent le 18 novembre 2026 :
+
+- **La sauterelle**, après son saut, marche normalement comme les autres serpents.
+- **Le spinosaure** doit être la meilleure unité du jeu ; il laisse l'équilibrage à faire.
+- **Le boss caché** : il laisse choisir le nombre de pommes, après mesure.
+- **Dans le voyage**, il veut que King Snake vienne avec ses gardes.
+- **« Cristal »** est le seul mot de la jauge que les serpents abîment (décision du parent,
+  avec le mot du fils) : le jeu ne dit plus « Camp : 80 % » ni « REFUGE ». Le camp reste le
+  lieu où l'on pose ses alliés.
 
 À respecter en les instruisant : les soldats restent autonomes et aucun mort ne revient ; un
 serpent qui tue d'un coup doit rester rare, fragile et annoncé ; le boss caché se débloque

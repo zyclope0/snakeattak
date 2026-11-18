@@ -28,7 +28,7 @@ export const lesTroisPonts = 'Les trois ponts';
 export const gardeLesTroisPassagesOuvertsATes =
   'Garde les trois passages ouverts à tes défenseurs.';
 export const laCourseDesVifs = 'La course des vifs';
-export const intercepteLesRapidesAvantLeRefuge = 'Intercepte les rapides avant le refuge.';
+export const intercepteLesRapidesAvantLeRefuge = 'Intercepte les rapides avant le cristal.';
 export const lesPremieresCoquilles = 'Les premières coquilles';
 export const resisteAuxEclosionsEtAuxPremieres = 'Résiste aux éclosions et aux premières escortes.';
 export const dragonEtSonnette = 'Dragon et sonnette';

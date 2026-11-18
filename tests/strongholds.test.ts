@@ -44,12 +44,12 @@ test('le refuge réagit aux vrais dégâts et réparations sans faux impact au c
   g.base = 31;
   p.update(g, 16);
   assert.equal(p.fortDamage, 1);
-  assert.ok(p.floats.some((f) => f.text === 'Camp −9'));
+  assert.ok(p.floats.some((f) => f.text === 'Cristal −9'));
   g.gold = 1000;
   assert.equal(g.repair(), true);
   p.update(g, 16);
   assert.equal(p.fortRepair, 1);
-  assert.ok(p.floats.some((f) => f.text === 'Camp +25'));
+  assert.ok(p.floats.some((f) => f.text === 'Cristal +25'));
 });
 
 test('les arrivées et réactions du refuge se figent en pause et se nettoient au redémarrage', () => {

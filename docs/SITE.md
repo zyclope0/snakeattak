@@ -316,8 +316,19 @@ Sur le lot précédent, en ligne, et sur le plan de celui-ci. Corrigé :
   l'accueil étaient restées à 11 px (une autre règle l'emportait). Leur plancher est
   maintenant à 13 px.
 - **Documents** : toutes les décisions en attente et les questions pour le fils sont
-  rassemblées dans `PLAN-ACTUEL.md`, « Décisions qui attendent le parent » ; les listes des
-  sections ci-dessus restent comme historique.
+  rassemblées dans `PLAN-ACTUEL.md`, « Décisions du parent — 18 novembre » (elles ont été
+  prises ce jour-là) ; les listes des sections ci-dessus restent comme historique.
+
+### Décisions du 18 novembre : les textes du site
+
+Le parent a décidé les sept textes en attente, un par un (`PLAN-ACTUEL.md`, points 1 à 7).
+Sur le site : la phrase du serpent rare (« Pose un Archer : il peut le toucher avant qu'il
+morde. »), « quels chemins sont ouverts », les deux boutons à toucher pour voir les nouveaux
+serpents, l'application Android « en préparation », « du jeu » dans la phrase sur la
+publicité, et le lien de paiement nommé « Soutenir sur PayPal (nouvel onglet) ». Le pied des
+autres pages garde « Soutenir le développement » : le parent ne l'a pas retiré. Le texte de
+la page 404 est gardé. Le site dit « cristal » et plus « refuge », comme le jeu. L'anglais
+suit ; il n'est toujours pas relu par une personne.
 
 Reste à faire sans décision : poser un allié au clavier (le chemin est vérifié : les places
 proposées sont toutes acceptées par le jeu, 211 poses rejouées), un test qui impose la

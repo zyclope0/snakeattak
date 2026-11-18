@@ -3,7 +3,8 @@ export const choisisUnEspaceLibreDansLeCampLoin =
   'Choose a free space in the camp, away from rocks and allies.';
 export const collant = 'SLOW';
 export const attirant = 'LURE';
-export const nSerpentsRepoussesNAllies = 'Snakes defeated: {0} · Allies standing: {1} · Camp: {2}%';
+export const nSerpentsRepoussesNAllies =
+  'Snakes defeated: {0} · Allies standing: {1} · Crystal: {2}%';
 export const kingSnakeNNPvN = 'KING SNAKE · {0} / {1} HP{2}';
 export const phaseN3 = '· PHASE {0}/3';
 export const gardienne = 'Guardian';
@@ -31,7 +32,7 @@ export const tir2 = 'Shot';
 export const soin = 'Healing';
 export const defenseFixe = 'Fixed defense';
 export const contact = 'Melee';
-export const campNN = 'Camp {0}{1}';
+export const cristalNN = 'Crystal {0}{1}';
 export const vagueNN = 'Wave {0} · {1}';
 export const kingSnakeEntreDansLaVallee = 'KING SNAKE ENTERS THE VALLEY';
 export const sIlAtteintLeCristalLaPartieEst =
@@ -72,8 +73,8 @@ export const reessaieCeMemeDepartOuChoisisUne =
   'Try the same setup again or choose another mission.';
 export const rejoueUneAventurePuisEssaieDAutres =
   'Start a new adventure, then try a different team.';
-export const refugeN = 'REFUGE · {0}%';
-export const refugeSurDeuxLignesN = 'REFUGE\n{0}%';
+export const cristalPlaqueN = 'CRYSTAL · {0}%';
+export const cristalSurDeuxLignesN = 'CRYSTAL\n{0}%';
 export const invalidCapacity = 'Invalid capacity';
 export const fpsPerComplete1000msActiveWindow =
   'FPS per complete >=1000ms active window; median/min of last 3600 windows; longest frame and active duration over whole recording. Partial window excluded from FPS.';

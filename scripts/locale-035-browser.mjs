@@ -618,7 +618,7 @@ try {
             );
             check(
               `${name}: fixture includes cached fort/medical/three heads`,
-              frLabels.some((t) => /^REFUGE · 83/.test(t)) &&
+              frLabels.some((t) => /^CRISTAL · 83/.test(t)) &&
                 frLabels.some((t) => /Réserve/.test(t)) &&
                 ['Gardienne', 'Cracheuse', 'Mixte'].every((head) =>
                   frLabels.some((t) => t.startsWith(head)),
