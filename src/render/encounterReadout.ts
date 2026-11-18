@@ -81,8 +81,12 @@ export function eggLabelPositions(eggs: readonly { x: number; y: number }[], sca
     const step = Math.min(154 * scale, (right - half) / Math.max(1, indices.length - 1));
     for (let i = 1; i < indices.length; i++)
       labels[indices[i]].x = Math.max(labels[indices[i]].x, labels[indices[i - 1]].x + step);
-    const overflow = Math.max(0, labels[indices[indices.length - 1]].x - right);
-    for (const index of indices) labels[index].x -= overflow;
+    // Pushed past the right edge, the row comes back from that edge, plaque by plaque: one
+    // on the left is moved only as far as its neighbours need.
+    for (let i = indices.length - 1; i >= 0; i--) {
+      const limit = i === indices.length - 1 ? right : labels[indices[i + 1]].x - step;
+      labels[indices[i]].x = Math.min(labels[indices[i]].x, limit);
+    }
   }
   return labels;
 }

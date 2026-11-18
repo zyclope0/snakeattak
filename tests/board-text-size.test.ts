@@ -58,7 +58,7 @@ test('larger plaques stay apart and on the board', () => {
     }
   }
   // Six eggs on one row are too many for the larger plaques: they share the width of the
-  // board instead of leaving it.
+  // board, one over the edge of the next, instead of leaving it.
   const crowd = eggLabelPositions(
     Array.from({ length: 6 }, () => ({ x: 1000, y: 468 })),
     1.47,
@@ -66,6 +66,18 @@ test('larger plaques stay apart and on the board', () => {
   for (const label of crowd)
     assert.ok(label.x - 77 * 1.47 >= -0.01 && label.x + 77 * 1.47 <= BOARD_WIDTH + 0.01);
   assert.equal(new Set(crowd.map((label) => Math.round(label.x))).size, 6);
+  // One egg on the left, three on the right: the one on the left stays above its egg, and
+  // the three come back from the edge without leaving the board.
+  for (const scale of [1, 1.47]) {
+    const mixed = eggLabelPositions(
+      [{ x: 150, y: 468 }, ...Array.from({ length: 3 }, () => ({ x: 1000, y: 468 }))],
+      scale,
+    );
+    assert.equal(mixed[0].x, Math.max(150, 77 * scale));
+    for (const label of mixed)
+      assert.ok(label.x - 77 * scale >= -0.01 && label.x + 77 * scale <= BOARD_WIDTH + 0.01);
+    for (let i = 2; i < 4; i++) assert.ok(mixed[i].x - mixed[i - 1].x >= 146 * scale);
+  }
   // Drawn as before where nothing grows.
   assert.deepEqual(eggLabelPositions(eggs), eggLabelPositions(eggs, 1));
 });

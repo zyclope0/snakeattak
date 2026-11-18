@@ -74,8 +74,8 @@
   .game-expanded .app {
     padding: 0 12px;
   }
-  /* As tall as its buttons, which keep 48 px on every screen (dialogPages.css): a lower
-     header let them stick out of the top of the window. */
+  /* As tall as its buttons, which keep 48 px wherever a finger may come (dialogPages.css):
+     a lower header let them stick out of the top of the window. */
   .app-header {
     height: 48px;
     gap: 12px;
@@ -89,6 +89,10 @@
   }
   .app-header .quiet {
     padding: 4px 8px;
+  }
+  /* At the very top of the window, the focus ring is drawn inside the button. */
+  .app-header .quiet:focus-visible {
+    outline-offset: -3px;
   }
   .app-header .edition {
     display: none;
@@ -183,5 +187,15 @@
   }
   .game-expanded .camp-details .briefing:not([open]) {
     display: block;
+  }
+}
+/* A mouse alone needs less than a finger: the header and its buttons go back to 36 px, and
+   the board keeps the height it had. A screen that can be touched keeps 48 px. */
+@media (min-width: 921px) and (min-height: 521px) and (pointer: fine) and (not (any-pointer: coarse)) {
+  .app-header {
+    height: 36px;
+  }
+  #app .app-header .quiet {
+    min-height: 36px;
   }
 }

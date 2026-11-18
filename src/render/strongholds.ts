@@ -33,6 +33,7 @@ function strokeCrack(g: Phaser.GameObjects.Graphics, points: readonly number[]) 
 }
 /** The size the refuge's plate was drawn for, on a board shown at its own size. */
 const REFUGE_TEXT = 11;
+const REFUGE_PLATE = 0x293f32;
 /** Live stage props observe presentation signals; never create or redirect monsters. */
 export class Strongholds {
   private dens: Phaser.GameObjects.Image[];
@@ -40,6 +41,7 @@ export class Strongholds {
   private effects: Phaser.GameObjects.Graphics;
   private details: Phaser.GameObjects.Graphics;
   private label: Phaser.GameObjects.Text;
+  private plate: Phaser.GameObjects.Graphics;
   private scene: Phaser.Scene;
   private labelSize = REFUGE_TEXT;
   private shownBase = -1;
@@ -66,11 +68,13 @@ export class Strongholds {
       .setFlipX(true)
       // Every legal defender stays visible, including placements beside the gate.
       .setDepth(DEPTH.refuge);
+    // The plate is drawn, not left to the text: a text shown below its own size (a phone)
+    // fills only a corner of its background, and the words were read on the bare path.
+    this.plate = scene.add.graphics().setDepth(DEPTH.refugePlate);
     this.label = addCanvasCopy(scene.add, 988, 412, '', {
       fontFamily: DISPLAY_FONT,
       fontSize: `${REFUGE_TEXT}px`,
       color: '#f5edcd',
-      backgroundColor: '#293f32',
       padding: { x: 7, y: 4 },
     })
       .setOrigin(0.5)
@@ -151,12 +155,17 @@ export class Strongholds {
       );
     // Read at the same size on a phone, where the board is drawn at about half size.
     const size = readableBoardSize(this.scene, REFUGE_TEXT);
-    if (size !== this.labelSize) this.label.setFontSize((this.labelSize = size));
-    if (this.shownBase === Math.ceil(game.base)) return;
+    const resized = size !== this.labelSize;
+    if (resized) this.label.setFontSize((this.labelSize = size));
+    if (this.shownBase === Math.ceil(game.base) && !resized) return;
     this.shownBase = Math.ceil(game.base);
-    setCanvasCopy(this.label, fill(TEXT.refugeN, this.shownBase)).setColor(
+    const label = setCanvasCopy(this.label, fill(TEXT.refugeN, this.shownBase)).setColor(
       game.base <= CRACKED_BASE ? '#ffd19c' : '#f5edcd',
     );
+    this.plate
+      .clear()
+      .fillStyle(REFUGE_PLATE)
+      .fillRect(label.x - label.width / 2, label.y - label.height / 2, label.width, label.height);
   }
   private drawGauge(game: Game) {
     const detail = this.details;

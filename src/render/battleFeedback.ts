@@ -21,8 +21,8 @@ const BOSS_TEXT = 12,
 const wide = (index: number) => index === 6 || index === 7;
 export class BattleFeedback {
   private scene: Phaser.Scene;
-  /** How much larger than drawn the texts are, so that a phone can read them. */
-  private grown = 0;
+  /** The sizes the texts have now, to change them only when the screen does. */
+  private sizes = '';
   private graphics: Phaser.GameObjects.Graphics;
   private labels: Phaser.GameObjects.Text[] = [];
   private encounterLabels: Phaser.GameObjects.Text[] = [];
@@ -68,24 +68,30 @@ export class BattleFeedback {
   }
   /**
    * The board is drawn at about half size on a phone: its texts grow so that they are read
-   * at the same size everywhere. Returns how much the plaques grow with them.
+   * at the same size everywhere. Each text has its own need: one may have to grow on a
+   * screen where another is already large enough.
    */
-  private fit(): number {
-    const scale = readableBoardSize(this.scene, PLAQUE_TEXT) / PLAQUE_TEXT;
-    if (scale === this.grown) return scale;
-    this.grown = scale;
+  private fit() {
     const size = (drawn: number) => readableBoardSize(this.scene, drawn);
-    this.bossLabel.setFontSize(size(BOSS_TEXT));
+    const [boss, plaque, widePlaque, float] = [
+      BOSS_TEXT,
+      PLAQUE_TEXT,
+      WIDE_PLAQUE_TEXT,
+      FLOAT_TEXT,
+    ].map(size);
+    const sizes = `${boss} ${plaque} ${widePlaque} ${float}`;
+    if (sizes === this.sizes) return;
+    this.sizes = sizes;
+    this.bossLabel.setFontSize(boss);
     for (const [i, label] of this.encounterLabels.entries())
-      label.setFontSize(size(wide(i) ? WIDE_PLAQUE_TEXT : PLAQUE_TEXT));
-    for (const label of this.labels) label.setFontSize(size(FLOAT_TEXT));
-    return scale;
+      label.setFontSize(wide(i) ? widePlaque : plaque);
+    for (const label of this.labels) label.setFontSize(float);
   }
   draw(p: Presentation, game: Game, reduced: boolean) {
     const g = this.graphics;
     g.clear();
-    const scale = this.fit();
-    this.drawEncounter(p, scale);
+    this.fit();
+    this.drawEncounter(p);
     for (const [i, label] of this.labels.entries()) {
       const f = p.floats[i];
       label.setVisible(!!f);
@@ -147,9 +153,11 @@ export class BattleFeedback {
       g.strokeEllipse(boss.x, boss.y + 24, 90 + (reduced ? 0 : Math.sin(p.clock * 3) * 6), 28);
     }
   }
-  private drawEncounter(p: Presentation, scale: number) {
+  private drawEncounter(p: Presentation) {
     const g = this.graphics,
       r = p.encounter;
+    // How much larger than drawn the short plaques are (eggs, the king's shot).
+    const scale = readableBoardSize(this.scene, PLAQUE_TEXT) / PLAQUE_TEXT;
     for (const label of this.encounterLabels) label.setVisible(false);
     const plaque = (
       index: number,
@@ -161,20 +169,21 @@ export class BattleFeedback {
       textColor: string,
     ) => {
       // Fixed plaques remain legible without animation, including reduced motion. They grow
-      // with their text and stay on the board.
-      const w = width * scale,
-        half = 14 * scale;
+      // with their text and stay on the board. A plaque that holds a whole sentence takes
+      // the width its larger text needs, no more: twice as wide, it would cross the board.
+      const label = setCanvasCopy(this.encounterLabels[index], text).setColor(textColor);
+      const drawn = wide(index) ? WIDE_PLAQUE_TEXT : PLAQUE_TEXT;
+      const grow = readableBoardSize(this.scene, drawn) / drawn;
+      const w = grow === 1 ? width : wide(index) ? Math.max(width, label.width + 28) : width * grow,
+        half = 14 * grow;
       const px = Math.max(w / 2 + 4, Math.min(BOARD_WIDTH - 4 - w / 2, x)),
         py = Math.max(145, Math.min(Math.min(597, BOARD_HEIGHT - 3 - half), y));
       g.fillStyle(0x17382b, 0.96);
       g.fillRoundedRect(px - w / 2, py - half, w, half * 2, 6);
       g.lineStyle(1.5, color, 0.95);
       g.strokeRoundedRect(px - w / 2, py - half, w, half * 2, 6);
-      setCanvasCopy(this.encounterLabels[index], text)
-        .setColor(textColor)
-        .setPosition(px, py)
-        .setVisible(true);
-      return { left: px - w / 2, y: py };
+      label.setPosition(px, py).setVisible(true);
+      return { left: px - w / 2, y: py, width: w, half };
     };
     const eggLabels = eggLabelPositions(r.eggs, scale);
     for (const [i, egg] of r.eggs.entries()) {
@@ -197,9 +206,9 @@ export class BattleFeedback {
       g.fillStyle(BOARD_COLOR.parchment, 1);
       g.fillTriangle(at.left + 10, at.y - 5, at.left + 18, at.y, at.left + 10, at.y + 5);
       g.fillRoundedRect(
-        at.left + 28 * scale,
-        at.y + 17 * scale,
-        376 * scale * r.encouragement.ratio,
+        at.left + 28,
+        at.y + at.half + 3,
+        (at.width - 44) * r.encouragement.ratio,
         3,
         1,
       );

@@ -77,7 +77,7 @@
   background: #f7df9e;
   color: #65400b;
   border-radius: 5px;
-  /* Une pastille posée sur le portrait : 12 px se lit sans cacher la tête de l'allié. */
+  /* Une pastille posée sur le portrait : 13 px se lit sans cacher la tête de l'allié. */
   font-size: 13px;
   line-height: 14px;
   font-weight: 800;
@@ -125,7 +125,7 @@
   border-radius: 8px;
   background: #17382bf2;
   color: #ffe2a0;
-  font-size: clamp(11px, 1.2vw, 15px);
+  font-size: clamp(13px, 1.2vw, 15px);
   font-weight: 800;
   line-height: 18px;
   white-space: nowrap;

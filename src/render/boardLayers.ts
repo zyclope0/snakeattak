@@ -27,6 +27,8 @@ export const standing = 10;
 /** Lines drawn over the fighters: ranges, placement, trails. */
 export const ink = 15;
 export const refugeDetails = 15.1;
+/** The dark plate behind the words of the refuge, drawn under them. */
+export const refugePlate = 15.15;
 export const refugeLabel = 15.2;
 export const medicalStation = 15.4;
 /** Warnings above the fight: the next threats and the king's protection. */
