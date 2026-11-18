@@ -1403,20 +1403,42 @@ laquelle il a été dessiné : aucune image de référence ne change.
 Trois choses existaient dans les règles sans que l'enfant les voie (décision 11 du parent) :
 
 - **« Encourager »** demandait quatre appuis. Pendant une vague, le bouton de lancement n'a
-  rien à faire : `#encourage-quick` prend sa place tant que l'encouragement de la vague est
-  disponible, compte ses secondes pendant qu'il dure, puis laisse la place au bouton de
-  vitesse (`adventureControls.ts`, `mainActions.css`). C'est la même commande que dans
-  « Actions du camp » ; la règle (une fois par vague, gratuit) ne change pas.
+  rien à faire : `#encourage-quick` prend sa place (`adventureControls.ts`,
+  `mainActions.css`). C'est la même commande que dans « Actions du camp » ; la règle (une
+  fois par vague, gratuit) ne change pas. Il reste à sa place toute la vague, grisé une fois
+  dépensé : parti au milieu du combat, il déplaçait pause et vitesse sous le doigt. Il est
+  retenu (`aria-disabled`), pas désactivé : un bouton désactivé perd le focus, et la barre
+  d'espace mettait alors le jeu en pause. Il ignore un appui pendant les 0,9 s qui suivent le
+  début de la vague : il apparaît là où était « Lancer la vague », et un double appui
+  dépensait l'encouragement avant le premier serpent.
 - **Un serpent rencontré pour la première fois** est annoncé par son nom, dans la vague où la
   grande aventure l'envoie d'abord (`render/newcomers.ts`, d'après l'index des serpents) ;
-  jamais en mission, dont les vagues suivent un autre ordre. Deux nouveaux qui sortent
-  ensemble sont annoncés l'un après l'autre.
-- **Un allié que le camp peut désormais recruter** est nommé quand la vague est repoussée ;
-  après les vagues 4 et 8, la nouvelle clairière est nommée d'abord.
-- **« KSSS »** : le mot du fils quand le serpent rare mord, écrit comme « Esquive ! ».
+  jamais en mission, dont les vagues suivent un autre ordre.
+- **Un allié que le camp peut désormais recruter** est nommé après « Vague N repoussée ! ».
+- **Les annonces de nouveaux venus attendent leur tour** (`Presentation.waiting`,
+  `takeTurns`) : le plateau n'écrit que le titre d'une annonce, donc chacune est un titre à
+  elle ; aucune ne couvre le titre d'une vague ni l'entrée de King Snake (le soigneur du roi
+  est nommé après lui), aucune n'en couvre une autre avant qu'elle soit lue, et aucune ne
+  sort pendant le choix d'un bonus, dont l'écran couvre le plateau sur téléphone.
+- **« KSSS »** : le mot du fils quand le serpent rare mord, écrit là où il a mordu, même s'il
+  tombe dans la même image.
+
+Sur un petit plateau, un texte court n'a plus de fond mais un contour sombre
+(`plainCaptionWhenSmall`) : sous sa taille, le moteur ne remplit qu'un coin du fond d'un
+texte, et un fond agrandi couvrait les voisins. L'attente de la réserve s'écrit à côté de la
+croix du fort (sous le cristal, elle tombait sur sa plaque à deux lignes) ; les secondes du
+miel passent au-dessus des alliés ; le bouclier et la croix de la garde du roi sont dessinés
+aux pieds de chaque serpent, dans son anneau (au-dessus des têtes, ceux de gardes en colonne
+s'empilaient). « Garde du roi » et « Soigneur · N » en toutes lettres suivent aussi la taille
+lisible sur tablette.
+
+Les mots flottants et les plaques ne sont plus redessinés à chaque image : le moteur
+redessine un texte dès qu'on lui redonne sa couleur, même identique (une vingtaine de textes
+par image pendant la vague du roi).
 
 Les empreintes de la présentation changent avec ces annonces ; celles des parties rejouées
-(`engine-traces`) ne changent pas.
+(`engine-traces`) ne changent pas. Non couvert par une recette navigateur : le bouton, les
+annonces et les textes courts ne sont contrôlés que par des tests unitaires et des captures.
 
 Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
 (« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », ligne d'annonce, prix des favoris, total de

@@ -18,8 +18,9 @@ const debutWave = (variant: EnemyKind) =>
   (debuts ??= new Map(snakeEntries().map((entry) => [entry.kind, entry.firstWave]))).get(variant);
 
 /**
- * The banner of a snake that enters the great adventure for the first time: its name and
- * what it does, as the index of the snakes says them. Null for the ordinary snake, for a
+ * The banner of a snake that enters the great adventure for the first time: its name on the
+ * board, and what it does in the advice of the camp panel, as the index of the snakes says
+ * them (the board writes the title of a banner only). Null for the ordinary snake, for a
  * snake already met in an earlier wave, and in a mission, whose waves follow another order.
  */
 export function newSnakeBanner(game: Game, variant: EnemyKind) {

@@ -7,10 +7,15 @@ import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import * as DEPTH from './boardLayers.ts';
-import { boardShownSmall, readableBoardSize } from './boardResolution.ts';
+import { boardShownSmall, plainCaptionWhenSmall, readableBoardSize } from './boardResolution.ts';
 
 /** Size the stock labels are drawn at, in board units. */
 const STOCK_TEXT = 11;
+const STOCK_PLATE = '#285e4a',
+  STATION_PLATE = '#294b3b';
+/** Where the station writes: under the crystal, or beside its cross on a small board. */
+const STATION = { x: 988, y: 442 },
+  STATION_SMALL = { x: 1004, y: 326 };
 /** Stock labels read the simulation; rendering never advances a recharge. */
 export class MedicalSignals {
   private labels: FramePool<number, Phaser.GameObjects.Text>;
@@ -26,7 +31,7 @@ export class MedicalSignals {
           fontFamily: BODY_FONT,
           fontSize: `${STOCK_TEXT}px`,
           color: '#fff6dc',
-          backgroundColor: '#285e4a',
+          backgroundColor: STOCK_PLATE,
           padding: { x: 4, y: 2 },
         })
           .setOrigin(0.5, 0)
@@ -41,11 +46,11 @@ export class MedicalSignals {
     });
     onSceneExit(scene.events, () => this.labels.clear());
     this.station = scene.add.graphics().setDepth(DEPTH.medicalStation);
-    this.stationLabel = addCanvasCopy(scene.add, 988, 442, TEXT.reserve, {
+    this.stationLabel = addCanvasCopy(scene.add, STATION.x, STATION.y, TEXT.reserve, {
       fontFamily: BODY_FONT,
       fontSize: `${STOCK_TEXT}px`,
       color: '#f6f0d8',
-      backgroundColor: '#294b3b',
+      backgroundColor: STATION_PLATE,
       padding: { x: 4, y: 3 },
     })
       .setOrigin(0.5)
@@ -64,6 +69,7 @@ export class MedicalSignals {
       const label = this.labels.acquire(badge.id),
         text = small ? badge.short : badge.text;
       if (label.style.fontSize !== font) label.setFontSize(size);
+      plainCaptionWhenSmall(label, small, STOCK_PLATE);
       if (label.text !== text) setCanvasCopy(label, text);
       label.setPosition(badge.x, badge.y);
     }
@@ -71,6 +77,11 @@ export class MedicalSignals {
     const reserve = small ? readout.reserveShort : readout.reserveLabel;
     this.stationLabel.setVisible(readout.present > 0 && reserve !== '');
     if (this.stationLabel.style.fontSize !== font) this.stationLabel.setFontSize(size);
+    plainCaptionWhenSmall(this.stationLabel, small, STATION_PLATE);
+    // Under the crystal the wait would be written on the plate of the crystal, which is on
+    // two lines on a small board: it goes beside the cross of the station.
+    const at = small ? STATION_SMALL : STATION;
+    this.stationLabel.setOrigin(small ? 0 : 0.5, 0.5).setPosition(at.x, at.y);
     if (this.stationLabel.text !== reserve) setCanvasCopy(this.stationLabel, reserve);
     if (readout.present) {
       const g = this.station;

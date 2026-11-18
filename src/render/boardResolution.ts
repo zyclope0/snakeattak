@@ -60,6 +60,22 @@ export function boardShownSmall(scene: Phaser.Scene): boolean {
   return readableBoardSize(scene, BOARD_TEXT_MIN_PX) >= SMALL_BOARD_TEXT;
 }
 
+/**
+ * A caption on a small board is written without its plate and with a dark outline: below
+ * its own size, the engine fills only a corner of the plate of a text, and a plate grown
+ * with its words covers the neighbours. Touches the text only when the board changes size.
+ */
+const CAPTION_OUTLINE = '#172c2c';
+export function plainCaptionWhenSmall(
+  label: Phaser.GameObjects.Text,
+  small: boolean,
+  plate: string,
+) {
+  const wanted = small ? '' : plate;
+  if ((label.style.backgroundColor ?? '') === wanted) return;
+  label.setBackgroundColor(wanted).setStroke(CAPTION_OUTLINE, small ? 5 : 0);
+}
+
 /** A pointer in board units, whatever the size of the canvas behind it. */
 export function boardPoint(scene: Phaser.Scene, pointer: { x: number; y: number }) {
   const scale = boardScale(scene);

@@ -203,7 +203,10 @@ répondu à ses questions le même jour. `SITE.md` raconte d'où vient chacune.
 
 **Fait dans le lot « montrer ce qui existe » (18 novembre), à montrer au parent et au fils
 avant fusion** : points 9 et 11 ci-dessous et « KSSS ». Phrases nouvelles à valider par le
-fils : « Nouveau serpent : … ! », « Nouvel allié : … ! », « Nouveaux alliés : … et … ! ».
+fils : « Nouveau serpent : … ! », « Nouvel allié : … ! », « Nouveaux alliés : … et … ! »,
+« Nouveaux alliés : …, … et … ! ». Comme sept serpents sur quatorze s'appellent « Serpent
+… », l'annonce donne « Nouveau serpent : Serpent ninja ! » : à lui de dire s'il la veut plus
+courte. Relecture à huit angles faite ; ses corrections sont dans le lot.
 Le point 14 (« Reprendre ») attend un lot à lui : il touche la sauvegarde.
 
 **Décidé, à faire dans les lots suivants**
@@ -250,6 +253,8 @@ du jeu, trois pour un petit lot de textes ou de corrections.
 
 ## Dettes connues
 
+- **Le paquet principal est à 0,9 Ko de sa limite** (199 066 octets sur 200 000, 18 novembre). Le
+  prochain lot qui ajoute du code au jeu doit d'abord lui redonner de la place.
 - `reports/` : 845 fichiers de rapports encore suivis dans Git ; plusieurs scripts y écrivent.
 - Les pages de test (`tests/*-harness.ts`) ne chargent pas les feuilles de style comme le jeu.
 - `test:mobile-menus` est la plus longue tâche de la CI (10 à 17 minutes) ; à découper si

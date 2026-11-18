@@ -107,8 +107,8 @@ test('la présentation de parties entières garde ses empreintes', () => {
       ),
     },
     {
-      classique: 'fighting v8 6137 e16dbd461d58336243560def',
-      royale: 'lost v12 1295 49c86f11bbdb8f8dd1ea9f56',
+      classique: 'fighting v8 6137 569266d9c6706e3bf25c91f1',
+      royale: 'lost v12 1295 c5e1f62445e9799edd0c42dc',
       coquilles: 'won v3 3108 711786e958cce254bc0b6337',
     },
   );

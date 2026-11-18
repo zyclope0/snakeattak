@@ -16,6 +16,13 @@
   min-width: max(110px, calc(var(--hu) * 14));
   font-size: max(13px, calc(var(--hu) * 1.5));
 }
+/* Held, not disabled: it keeps the focus, and looks like a disabled button. */
+.controls #encourage-quick[aria-disabled='true'] {
+  background: #33584b;
+  box-shadow: none;
+  color: #c4d6c7;
+  cursor: not-allowed;
+}
 .controls #pause,
 .controls #speed {
   min-width: max(48px, calc(var(--hu) * 5.6));

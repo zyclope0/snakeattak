@@ -13,6 +13,8 @@ import { boardShownSmall, readableBoardSize } from './boardResolution.ts';
 const COURT_TEXT = 10;
 /** The sign drawn over a guard or a healer of the king on a small board: its half width. */
 const COURT_SIGN = 11;
+/** How far under the snake's position its sign is centred: in the ring drawn at its feet. */
+const COURT_SIGN_DROP = 6;
 /** Finite graphics layers; no images, per-actor shader or independent simulation. */
 export class BossSignals {
   private ground: Phaser.GameObjects.Graphics;
@@ -58,8 +60,10 @@ export class BossSignals {
         const label = this.courtLabels[courtIndex++];
         if (small) {
           // A sign instead of words read at 5 px: a shield for a guard, a cross and its
-          // remaining cares for the healer.
-          const sign = boss.y - 42 - COURT_SIGN;
+          // remaining cares for the healer. Each is drawn at the feet of its snake, in its
+          // ring: above their heads, the signs of guards walking in a column piled up on
+          // one another and on the heads of the king.
+          const sign = boss.y + COURT_SIGN_DROP;
           if (healer) {
             drawCross(ink, boss.x - COURT_SIGN, sign, color);
             setCanvasCopy(label.setFontSize(courtSize), String(boss.court.charges))
@@ -69,7 +73,7 @@ export class BossSignals {
           } else drawShield(ink, boss.x, sign, color);
         } else
           setCanvasCopy(
-            label.setFontSize(COURT_TEXT),
+            label.setFontSize(courtSize),
             healer ? fill(TEXT.soigneurN, boss.court.charges) : TEXT.gardeDuRoi,
           )
             .setOrigin(0.5, 1)

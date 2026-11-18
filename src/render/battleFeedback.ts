@@ -99,8 +99,10 @@ export class BattleFeedback {
       label.setVisible(!!f);
       if (!f) continue;
       const progress = f.age / f.duration;
+      // The engine draws a text again each time its colour is set, even to the same one:
+      // twenty floating words were redrawn at every frame of a crowded wave.
+      if (label.style.color !== f.color) label.setColor(f.color);
       setCanvasCopy(label, f.text)
-        .setColor(f.color)
         .setPosition(f.x, f.y - (reduced ? 0 : progress * 26))
         .setAlpha(Math.min(1, (1 - progress) * 3));
     }
@@ -173,7 +175,8 @@ export class BattleFeedback {
       // Fixed plaques remain legible without animation, including reduced motion. They grow
       // with their text and stay on the board. A plaque that holds a whole sentence takes
       // the width its larger text needs, no more: twice as wide, it would cross the board.
-      const label = setCanvasCopy(this.encounterLabels[index], text).setColor(textColor);
+      const label = setCanvasCopy(this.encounterLabels[index], text);
+      if (label.style.color !== textColor) label.setColor(textColor);
       const drawn = wide(index) ? WIDE_PLAQUE_TEXT : PLAQUE_TEXT;
       const grow = readableBoardSize(this.scene, drawn) / drawn;
       // Courage keeps room on its left for its arrow, which touched the first letter.
