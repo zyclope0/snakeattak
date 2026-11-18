@@ -87,7 +87,7 @@ test('la révision 6 existe sans être courante, et ne change que la sauterelle'
     }
   assert.equal(changed, 6, 'une sauterelle par vague, des vagues 7 à 12');
   const { hp, speed, damage } = enemies.grasshopper;
-  assert.deepEqual([hp, speed, damage], [0.9, 1, 1]);
+  assert.deepEqual([hp, speed, damage], [1.9, 1, 1]);
   assert.equal(GRASSHOPPER_LEAPS, 1);
   assert.equal(leapsOf('grasshopper'), 1);
   assert.equal(leapsOf('shadow'), 0);

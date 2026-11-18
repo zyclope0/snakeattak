@@ -154,7 +154,8 @@ export const enemies = {
   // The newcomer of the sixth balance revision (idea of the child): leaps over the line once.
   grasshopper: {
     name: TEXT.serpentSauterelle,
-    hp: 0.9,
+    // It takes the place of a shelled snake in its wave, and keeps that snake's health.
+    hp: 1.9,
     speed: 1,
     damage: 1,
     range: 44,

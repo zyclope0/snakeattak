@@ -14,7 +14,7 @@ export const expectedTraces: Readonly<Record<string, string>> = Object.freeze({
   // newcomers in the waves, this player falls before the king.
   'classique r4': 'lost w12 b0 g91 k164 s15221 77b7d6fecda87bab798652cd',
   'classique r5': 'lost w12 b0 g54 k158 s13535 c9fddf06f42f2d9db877e231',
-  'classique r6': 'lost w12 b0 g67 k172 s13815 cbaddd082ea0d0d44a9a9b6f',
+  'classique r6': 'won w12 b42 g437 k175 s15068 c8bb5244ec50865732c5d66d',
   'classique sans règles tactiques': 'won w12 b100 g567 k200 s13873 3eeda8696186b90a12ead3ce',
   'mission refuge': 'won w3 b100 g323 k25 s1838 ba997879695c6fcf0aa1a91d',
   'défi refuge-moyen r2': 'won w3 b100 g401 k44 s2568 bc0c8fb2412a1402f1b8aae1',
