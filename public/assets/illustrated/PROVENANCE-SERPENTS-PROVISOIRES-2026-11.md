@@ -1,5 +1,9 @@
 # Trois nouveaux serpents — images provisoires
 
+> **Remplacées le 18 novembre 2026** par les dessins décrits dans
+> `PROVENANCE-SERPENTS-NOUVEAUX-2026-11-18.md`. Le script `scripts/recolor-new-snakes.py` a été
+> retiré du dépôt ; il reste dans l'historique Git. Ce qui suit décrit les images du 16 novembre.
+
 Fichiers : `src/assets/illustrated/serpents-nouveaux.webp` et `serpents-nouveaux-attack.webp`
 (1024×1024 px, quatre cases de 512 px, la quatrième vide).
 
