@@ -519,9 +519,11 @@ de la révision 3 et ajoute ces trois espèces aux vagues de la grande aventure.
   (`THREAT_DETAILS`), un conseil pour deux d'entre eux, et « Esquive ! » au-dessus du ninja
   (`Presentation` voit `dodges` baisser). Les annonces de vague (`waves.ts`) ne les nomment
   pas encore.
-- **Images provisoires.** Planche `serpents-nouveaux` : trois cases de `enemies-organic`
-  recolorées par `scripts/recolor-new-snakes.py`, sans générateur ni dépense
-  (`public/assets/illustrated/PROVENANCE-SERPENTS-PROVISOIRES-2026-11.md`).
+- **Dessins.** Planche `serpents-nouveaux` et sa planche d'attaque : les trois serpents du
+  fils dessinés le 18 novembre 2026 (Magnific, assemblées par `scripts/assemble-new-snakes.py`,
+  `public/assets/illustrated/PROVENANCE-SERPENTS-NOUVEAUX-2026-11-18.md`). Ils regardent vers
+  la droite. Les images provisoires du 16 novembre restent décrites dans
+  `PROVENANCE-SERPENTS-PROVISOIRES-2026-11.md`.
 
 `ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
 et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la

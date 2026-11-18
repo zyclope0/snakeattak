@@ -201,8 +201,7 @@ export const ENEMY_ART: Record<EnemyKind, ArtFrame> = {
   rattlesnake: frame('serpents-family', 0),
   royal: frame('serpents-family', 1),
   mamba: frame('serpents-family', 2),
-  // Provisional pictures (16 November 2026): cells of `enemies-organic`, recoloured by
-  // `scripts/recolor-new-snakes.py`, until the child's three newcomers each have a drawing.
+  // The child's three newcomers, drawn on 18 November 2026 (PROVENANCE-SERPENTS-NOUVEAUX).
   fang: frame('serpents-nouveaux', 0),
   rare: frame('serpents-nouveaux', 1),
   shadow: frame('serpents-nouveaux', 2),
