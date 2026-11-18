@@ -62,6 +62,13 @@ function drawImpact(g: Graphics, e: Effect, alpha: number) {
   g.strokeCircle(e.tx, e.ty - 4, 9 + (1 - alpha) * 13);
 }
 
+/** The ninja snake vanishes and comes back: a ring closes where it was, one opens where it is. */
+function drawBlink(g: Graphics, e: Effect, alpha: number) {
+  g.lineStyle(3, 0xd9d4f2, alpha);
+  g.strokeCircle(e.x, e.y - 6, 4 + alpha * 14);
+  g.strokeCircle(e.tx, e.ty - 6, 4 + (1 - alpha) * 14);
+}
+
 /**
  * The effects of the rules, drawn for their short life: trails, impacts, crosses. Display
  * only: an effect is read, never changed.
@@ -100,6 +107,9 @@ export class EffectTrails {
         break;
       case 'heal':
         drawHeal(g, e, alpha);
+        break;
+      case 'blink':
+        drawBlink(g, e, alpha);
         break;
       case 'gold':
         // With motion, BattleJuice flies a coin to the counter instead.

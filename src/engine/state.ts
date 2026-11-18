@@ -54,7 +54,8 @@ export type Effect = Point & {
   targetId?: number;
   tx: number;
   ty: number;
-  kind: 'hit' | 'heal' | 'arrow' | 'gold' | 'fire' | 'poison' | 'shell' | 'honey' | 'block';
+  kind:
+    'hit' | 'heal' | 'arrow' | 'gold' | 'fire' | 'poison' | 'shell' | 'honey' | 'block' | 'blink';
   life: number;
 };
 export const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);

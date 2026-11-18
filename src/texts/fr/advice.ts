@@ -89,6 +89,8 @@ export const sesGrandsCrocsFontTresMal = 'Ses grands crocs font très mal';
 export const tresFragileMaisSaMorsureFaitTomber =
   'Très fragile, mais sa morsure fait tomber un petit allié d’un coup';
 export const rapideIlEsquiveLePremierCoup = 'Rapide : il esquive le premier coup';
+export const rapideAuPremierCoupIlReapparait =
+  'Rapide : au premier coup, il disparaît et revient derrière celui qui l’a frappé';
 export const kingSnake = 'King Snake';
 export const contactCrachatADistanceEtTeteMixte = 'Contact, crachat à distance et tête mixte';
 export const vagueDePrevisionInvalide = 'Vague de prévision invalide';

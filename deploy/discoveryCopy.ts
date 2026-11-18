@@ -193,7 +193,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Trois nouveaux serpents',
-        text: `Pour les voir, commence une nouvelle partie : touche « ${FR.aventureClassique} », puis « ${FR.laGrandeAventure12Vagues} ». Ils arrivent à partir de la vague ${NEWCOMERS.ninja.fromWave}. Le serpent ninja court vite, et le premier coup le rate. Les grands crocs mordent deux fois plus fort : pose un ${ALLY_FR.bouclier} devant. Le serpent rare tombe vite, mais sa morsure fait tomber une ${ALLY_FR.massue} d’un coup. Pose un ${ALLY_FR.archer} : il peut le toucher avant qu’il morde.`,
+        text: `Pour les voir, commence une nouvelle partie : touche « ${FR.aventureClassique} », puis « ${FR.laGrandeAventure12Vagues} ». Ils arrivent à partir de la vague ${NEWCOMERS.ninja.fromWave}. Le serpent ninja court vite : au premier coup, il disparaît et revient derrière celui qui l’a frappé. Les grands crocs mordent deux fois plus fort : pose un ${ALLY_FR.bouclier} devant. Le serpent rare tombe vite, mais sa morsure fait tomber une ${ALLY_FR.massue} d’un coup. Pose un ${ALLY_FR.archer} : il peut le toucher avant qu’il morde.`,
       },
       {
         heading: 'Des œufs en plus',
@@ -221,7 +221,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Three new snakes',
-        text: `To see them, start a new game: tap “${EN.aventureClassique}”, then “${EN.laGrandeAventure12Vagues}”. They show up from wave ${NEWCOMERS.ninja.fromWave} on. The Ninja Snake runs fast, and the first hit misses it. Big Fangs bites twice as hard: place a ${ALLY_EN.bouclier} in front. The Rare Snake falls fast, but its bite knocks out a ${ALLY_EN.massue} in one go. Place an ${ALLY_EN.archer}: it can hit the snake before it bites.`,
+        text: `To see them, start a new game: tap “${EN.aventureClassique}”, then “${EN.laGrandeAventure12Vagues}”. They show up from wave ${NEWCOMERS.ninja.fromWave} on. The Ninja Snake runs fast: at the first hit, it vanishes and comes back behind whoever struck it. Big Fangs bites twice as hard: place a ${ALLY_EN.bouclier} in front. The Rare Snake falls fast, but its bite knocks out a ${ALLY_EN.massue} in one go. Place an ${ALLY_EN.archer}: it can hit the snake before it bites.`,
       },
       {
         heading: 'Extra eggs',

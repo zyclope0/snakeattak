@@ -12,7 +12,10 @@ import { enemyArmor, enemySpeed } from '../enemies.ts';
 import { deathRetaliation } from '../enemyAbilities.ts';
 import type { Kind } from '../data.ts';
 import type { Entity } from './state.ts';
-import { addEffect } from './state.ts';
+import { addEffect, forgetPath } from './state.ts';
+import { ninjaTeleport } from '../balanceRevision.ts';
+import { blocked } from '../navigation.ts';
+import { CRYSTAL_X } from '../boardLandmarks.ts';
 import type { Game } from '../game.ts';
 
 /** The king walks slower than its wave. */
@@ -30,9 +33,11 @@ export function enemyPace(game: Game, e: Entity) {
 /** Tous les coups alliés passent ici : attribution du tueur, zone et seconde tête comprises. */
 export function hitEnemy(game: Game, source: Entity, target: Entity, damage: number) {
   if (target.hp <= 0) return;
-  // A ninja snake lets its first blow pass: nothing else happens to it.
+  // A ninja snake lets its first blow pass; from the fifth revision on, it also comes back
+  // behind the ally that struck it.
   if (target.dodges) {
     target.dodges--;
+    teleportBehind(game, target, source);
     return;
   }
   const ranged = defenseRole(source.kind as Kind) === 'ranged';
@@ -53,6 +58,29 @@ export function hitEnemy(game: Game, source: Entity, target: Entity, damage: num
   // A survivor may have crossed a health threshold: the king then raises a new shield.
   if (target.hp > 0) ensureBossState(target, game.tuning);
   else if (target.hp <= 0) retaliate(game, source, target);
+}
+/** Short of the crystal: a snake that came back there would reach it in the same step. */
+const TELEPORT_CRYSTAL_GAP = 60;
+/**
+ * The ninja snake reappears on the back of the ally that struck it: the side that ally
+ * does not face. Nearer places are tried when that one is a rock, the river or off the
+ * board; when none is free, the snake stays where it is, as it did before.
+ */
+function teleportBehind(game: Game, snake: Entity, ally: Entity) {
+  const rule = ninjaTeleport(game.balanceRevision);
+  if (!rule || snake.boss) return;
+  const back = -(ally.facing || 1);
+  for (const share of [1, 0.75, 0.5])
+    for (const lift of [0, -12, 12]) {
+      const x = Math.min(ally.x + back * rule.behind * share, CRYSTAL_X - TELEPORT_CRYSTAL_GAP);
+      const y = ally.y + lift;
+      if (blocked(x, y, game.level)) continue;
+      addEffect(game, snake, { x, y }, 'blink');
+      snake.x = x;
+      snake.y = y;
+      forgetPath(snake);
+      return;
+    }
 }
 /** A snake that dies may strike back at the ally that killed it, and only at that one. */
 function retaliate(game: Game, killer: Entity, fallen: Entity) {

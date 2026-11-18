@@ -523,6 +523,18 @@ de la révision 3 et ajoute ces trois espèces aux vagues de la grande aventure.
   recolorées par `scripts/recolor-new-snakes.py`, sans générateur ni dépense
   (`public/assets/illustrated/PROVENANCE-SERPENTS-PROVISOIRES-2026-11.md`).
 
+### Révision 5 — 18 novembre 2026
+
+Le serpent ninja du fils se téléporte ([bilan](BILAN-REVISION-5.md)). La révision 5 garde tout
+de la révision 4 ; seul `hitEnemy` (`engine/damage.ts`) change : quand le ninja laisse passer
+son premier coup, `teleportBehind` le pose dans le dos de l'allié qui a frappé
+(`ninjaTeleport(révision)` dans `balanceRevision.ts`, `behind: 34`), sur un sol libre
+(`blocked`), jamais à moins de 60 unités du cristal, et lui fait refaire son chemin
+(`forgetPath`). L'effet `blink` (de l'ancienne place à la nouvelle) donne l'anneau
+(`effectTrails.ts`) et le son. Code de départ : règle 7. Camp : version 12. Une fiche de
+serpent se lit selon la révision de la partie (`abilityOf(espèce, révision)`, `threatPreview.ts`) :
+« Dangers » passe celle de la partie, l'index prend la révision courante.
+
 `ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
 et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la
 ligne d’annonce existante et dans un cache UI de 64 codes maximum, avec repli

@@ -13,6 +13,8 @@ import { missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 import { fill } from '../texts/fill.ts';
+import { CURRENT_BALANCE_REVISION, ninjaTeleport } from '../balanceRevision.ts';
+import type { BalanceRevision } from '../balanceRevision.ts';
 
 export type ThreatKind = EnemyKind | 'king';
 /** What a preview reads of a game. A mission looked at before its departure has no stage. */
@@ -110,6 +112,15 @@ export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
     priority: 100,
   },
 };
+/**
+ * What a snake does, as the game it is met in plays it: the ninja snake of the fifth
+ * revision comes back behind the ally that struck it, the one of the fourth only dodges.
+ */
+export function abilityOf(kind: ThreatKind, revision: BalanceRevision = CURRENT_BALANCE_REVISION) {
+  return kind === 'shadow' && ninjaTeleport(revision)
+    ? TEXT.rapideAuPremierCoupIlReapparait
+    : THREAT_DETAILS[kind].ability;
+}
 function orderedThreats(types: Iterable<ThreatKind>): ThreatKind[] {
   return [...new Set(types)].sort(
     (a, b) => THREAT_DETAILS[b].priority - THREAT_DETAILS[a].priority,

@@ -38,6 +38,7 @@ export type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
  *   9  the second balance revision
  *  10  the third balance revision, in the great adventure only
  *  11  the fourth balance revision, in the great adventure only
+ *  12  the fifth balance revision, in the great adventure only
  */
 const savesHomes = (version: number) => version !== 1;
 const savesRewards = (version: number) => version >= 3;
@@ -64,11 +65,11 @@ function hasKnownDeparture(game: Game): boolean {
 }
 
 /** The save version of each revision that exists in the great adventure only. */
-const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = { 3: 10, 4: 11 };
-const LATEST_VERSION = 11;
+const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = { 3: 10, 4: 11, 5: 12 };
+const LATEST_VERSION = 12;
 /** The revision a version 10 or later was written for; null for an older version. */
 const classicRevisionOf = (version: number): ClassicRevision | null =>
-  version === 11 ? 4 : version === 10 ? 3 : null;
+  version === 12 ? 5 : version === 11 ? 4 : version === 10 ? 3 : null;
 
 function saveVersion(game: Game): number {
   if (isClassicRevision(game.balanceRevision)) return CLASSIC_VERSION[game.balanceRevision];

@@ -4,7 +4,7 @@ import type { Kind } from '../data.ts';
 import { enemies } from '../enemies.ts';
 import type { EnemyKind } from '../enemies.ts';
 import { snakeEntries } from '../ui/snakeIndex/snakeEntries.ts';
-import { THREAT_DETAILS } from '../ui/threatPreview.ts';
+import { abilityOf } from '../ui/threatPreview.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 
@@ -27,7 +27,7 @@ export function newSnakeBanner(game: Game, variant: EnemyKind) {
   if (game.mission || variant === 'normal' || debutWave(variant) !== game.wave) return null;
   return {
     title: fill(TEXT.nouveauSerpentN, enemies[variant].name),
-    subtitle: THREAT_DETAILS[variant].ability,
+    subtitle: abilityOf(variant, game.balanceRevision),
   };
 }
 

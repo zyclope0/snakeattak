@@ -79,6 +79,8 @@ export const EFFECT_SIGNALS: Record<Exclude<Effect['kind'], 'hit'>, Signal> = {
   arrow: { cue: 'arrow', volume: 0.6, notes: [[440, 180, 0.08, 'triangle']] },
   gold: { cue: 'gold', volume: 0.7, notes: [[980, 1180, 0.08]] },
   poison: { cue: 'poison', volume: 0.6, notes: [THUD] },
+  // The ninja snake vanishes and comes back behind an ally: the whoosh of an arrow, rising.
+  blink: { cue: 'arrow', volume: 0.5, notes: [[420, 1300, 0.12]] },
 };
 
 /** The player changed a sound setting and effects are on. */

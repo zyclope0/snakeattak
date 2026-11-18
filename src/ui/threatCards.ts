@@ -3,7 +3,8 @@ import { kinds, type Kind } from '../data.ts';
 import { enemyPortraitStyle, portraitStyle } from '../art.ts';
 import { make } from './dom.ts';
 import { svgNode } from './svg.ts';
-import { THREAT_DETAILS, type ThreatKind } from './threatPreview.ts';
+import { abilityOf, THREAT_DETAILS, type ThreatKind } from './threatPreview.ts';
+import type { BalanceRevision } from '../balanceRevision.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 
 /** The line drawing of an ability, by the `symbol` of a threat. */
@@ -35,7 +36,7 @@ function portrait(className: string, style: string) {
   return node;
 }
 /** A snake to expect: its portrait with the badge of its ability, its name, what it does. */
-function threatCard(kind: ThreatKind) {
+function threatCard(kind: ThreatKind, revision?: BalanceRevision) {
   const detail = THREAT_DETAILS[kind];
   const card = make('div', { className: 'threat-card' });
   card.dataset.threat = kind;
@@ -45,13 +46,18 @@ function threatCard(kind: ThreatKind) {
     'div',
     {},
     make('strong', { text: detail.name }),
-    make('small', { text: detail.ability }),
+    make('small', { text: abilityOf(kind, revision) }),
   );
   card.append(picture, copy);
   return card;
 }
-export function renderThreatCards(host: HTMLElement, types: readonly ThreatKind[]) {
-  host.replaceChildren(...types.map(threatCard));
+/** `revision`: the game the snakes are met in; the current one for the index of the snakes. */
+export function renderThreatCards(
+  host: HTMLElement,
+  types: readonly ThreatKind[],
+  revision?: BalanceRevision,
+) {
+  host.replaceChildren(...types.map((kind) => threatCard(kind, revision)));
 }
 export function renderThreatAdvice(
   host: HTMLElement,

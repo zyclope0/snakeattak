@@ -17,6 +17,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste                             |
 | [BILAN-REVISION-3.md](BILAN-REVISION-3.md)                             | Révision d'équilibrage 3 (un œuf de plus quand une vague dure) : mesures et preuves     |
 | [BILAN-REVISION-4.md](BILAN-REVISION-4.md)                             | Révision d'équilibrage 4 (trois nouveaux serpents) : décisions, mesures, ce qui reste   |
+| [BILAN-REVISION-5.md](BILAN-REVISION-5.md)                             | Révision d'équilibrage 5 (le serpent ninja se téléporte) : décision, mesures            |
 | [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique                                           |
 | [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour                             |
 | [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver                                         |

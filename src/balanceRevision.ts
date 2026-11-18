@@ -8,10 +8,11 @@ import * as TEXT from './texts/fr/battle.ts';
  *   1  the first balance              2  three prices lowered (10 November 2026)
  *   3  an egg when a wave drags on, in the great adventure (15 November 2026)
  *   4  three new snakes in the great adventure (16 November 2026)
+ *   5  the ninja snake teleports behind the ally that strikes it first (18 November 2026)
  */
-export const BALANCE_REVISIONS = [1, 2, 3, 4] as const;
+export const BALANCE_REVISIONS = [1, 2, 3, 4, 5] as const;
 export type BalanceRevision = (typeof BALANCE_REVISIONS)[number];
-export const CURRENT_BALANCE_REVISION: BalanceRevision = 4;
+export const CURRENT_BALANCE_REVISION: BalanceRevision = 5;
 export const isBalanceRevision = (value: unknown): value is BalanceRevision =>
   (BALANCE_REVISIONS as readonly unknown[]).includes(value);
 /** From the third on, a revision exists in the great adventure only: no expedition has it. */
@@ -52,3 +53,13 @@ const LATE_EGGS: LateEggRule = Object.freeze({
 /** Null before the third revision: older games never see such an egg. */
 export const lateEggRule = (revision: BalanceRevision): LateEggRule | null =>
   revision >= 3 ? LATE_EGGS : null;
+
+/**
+ * The ninja snake of the fifth revision (idea of the child, rule chosen by the parent on
+ * 18 November 2026): the first blow still misses it, and it comes back behind the ally that
+ * struck, `behind` board units on that ally's back. Before, it only dodged.
+ */
+export type NinjaTeleport = Readonly<{ behind: number }>;
+const NINJA_TELEPORT: NinjaTeleport = Object.freeze({ behind: 34 });
+export const ninjaTeleport = (revision: BalanceRevision): NinjaTeleport | null =>
+  revision >= 5 ? NINJA_TELEPORT : null;
