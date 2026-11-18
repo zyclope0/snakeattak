@@ -32,7 +32,9 @@ export function encounterReadout(game: Readonly<Game>): EncounterReadout {
   if (confused)
     result.confusion = {
       count: confused,
-      label: `? ${confused} ${confused === 1 ? TEXT.allieHesite : TEXT.alliesHesitent}`,
+      // One sentence with its place for the number: glued from two texts, the English
+      // catalogue did not know it and it stayed in French.
+      label: fill(confused === 1 ? TEXT.nAllieHesite : TEXT.nAlliesHesitent, confused),
     };
   if (game.encouragementRemaining > 0)
     result.encouragement = {

@@ -70,6 +70,9 @@ summary:focus-visible,
 }
 /* The board is clipped at its edges and its canvas covers it (03-board.css): its ring is
    laid over the canvas, inside, gold on a dark line so that it shows on sand and on leaves. */
+#game:focus-visible {
+  outline: none;
+}
 #game:focus-visible::after {
   content: '';
   position: absolute;

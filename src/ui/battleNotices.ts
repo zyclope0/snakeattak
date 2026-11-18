@@ -16,6 +16,24 @@ export function chooseBattleMessage(notice: Notice | null, guide: BattleGuide, p
     tone: placing ? 'place' : (visible?.kind ?? ((guide.priority ?? 0) > 0 ? 'signal' : 'idle')),
   };
 }
+/** How long after the plaque of courage left the announcement stays above its place. */
+export const ANNOUNCEMENT_SETTLE_MS = 1000;
+export type AnnouncementPlace = { raised: boolean; clear: number };
+/**
+ * Where the announcement sits: above the plaque the board writes at its bottom edge, or at
+ * that edge. It moves when it appears and when a plaque comes under it; it comes back down
+ * once, a second after the plaque left. It never follows a plaque that blinks.
+ */
+export function placeAnnouncement(
+  place: AnnouncementPlace,
+  now: { changed: boolean; plaques: boolean; deltaMs: number },
+): AnnouncementPlace {
+  if (now.plaques) return { raised: true, clear: 0 };
+  const clear = place.clear + now.deltaMs;
+  if (place.raised && (now.changed || clear >= ANNOUNCEMENT_SETTLE_MS))
+    return { raised: false, clear };
+  return { raised: place.raised, clear };
+}
 export function bindBattleNotices(
   getGuide: () => BattleGuide = () => ({
     title: TEXT.tesAlliesDeGrandsCourageux,
@@ -30,7 +48,7 @@ export function bindBattleNotices(
   const announcement = byId('battle-announcement');
   let previous = '';
   let previousAnnouncement = '';
-  let raised = false;
+  let place: AnnouncementPlace = { raised: false, clear: 0 };
   /** `plaques`: the board is writing at its bottom edge, under the announcement. */
   return (notice: Notice | null, deltaMs = 0, plaques = false) => {
     const guide = getGuide(),
@@ -45,12 +63,13 @@ export function bindBattleNotices(
     });
     const title = notice?.title ?? (placing ? (guide.compact ?? guide.title) : (hint ?? ''));
     announcement.classList.toggle('placement-instruction', placing && !notice);
-    // An announcement moves when it appears or when a plaque comes under it, never back
-    // down while it is being read: a line that jumps twice a second cannot be read.
-    if (title !== previousAnnouncement || (plaques && !raised)) {
-      raised = plaques;
-      announcement.classList.toggle('above-plaques', raised);
-    }
+    const next = placeAnnouncement(place, {
+      changed: title !== previousAnnouncement,
+      plaques,
+      deltaMs,
+    });
+    if (next.raised !== place.raised) announcement.classList.toggle('above-plaques', next.raised);
+    place = next;
     if (title !== previousAnnouncement) {
       previousAnnouncement = title;
       setDisplayText(announcement, title);

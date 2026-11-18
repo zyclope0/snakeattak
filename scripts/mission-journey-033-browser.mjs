@@ -128,7 +128,7 @@ try {
             .update(Buffer.from(await (await page.request.get(attrs.src)).body()))
             .digest('hex'),
           createHash('sha256')
-            .update(await readFile('resources/android-icon/icon-512.png'))
+            .update(await readFile('resources/site/hero-512.webp'))
             .digest('hex'),
         );
         assert.equal(
