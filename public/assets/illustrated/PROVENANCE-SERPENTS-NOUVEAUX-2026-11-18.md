@@ -29,27 +29,38 @@ pâte à modeler) et la planche provisoire (place et couleurs), lues depuis le d
 - Attaque, planche entière : deux essais de deux variantes (cpgW5t70eP, Lwoj06yswO,
   SymgpJBUb8, p8ODLotehw) ÉCARTÉS : le ninja ne bougeait pas, et dans le meilleur la tête des
   grands crocs sortait de sa case.
-- Attaque, un serpent par image (« la case agrandie ») : retenues
-  [jUBxTufLD0](https://www.magnific.com/app/creation/jUBxTufLD0) (grands crocs, détourage
-  s78LpUol8e), [6AqNaOeiJO](https://www.magnific.com/app/creation/6AqNaOeiJO) (serpent rare,
-  détourage w4vUoPr7EI), [aFAv9VefSh](https://www.magnific.com/app/creation/aFAv9VefSh)
-  (ninja, détourage O6CJtiQynm). Écartées : s78LMFnl8e, DoJML3Fpcl, iGb6fyJ3uK (ce dernier
-  ajoutait deux autres serpents).
+- Attaque, un serpent par image (« la case agrandie ») : retenue pour le serpent rare
+  [6AqNaOeiJO](https://www.magnific.com/app/creation/6AqNaOeiJO) (détourage w4vUoPr7EI).
+  Premières attaques des grands crocs (jUBxTufLD0, détourage s78LpUol8e) et du ninja
+  (aFAv9VefSh, détourage O6CJtiQynm) remplacées : leur élan était si long que, rentrés dans
+  leur case, ils rapetissaient de 40 % (relecture). Écartées aussi : s78LMFnl8e, DoJML3Fpcl,
+  iGb6fyJ3uK (ce dernier ajoutait deux autres serpents).
+- Attaque courte (« la tête avance d'une longueur de tête »), retenues
+  [rgd1fboxtc](https://www.magnific.com/app/creation/rgd1fboxtc) (grands crocs, détourage
+  5jMbhH4Kxe) et [P3uyxyI42C](https://www.magnific.com/app/creation/P3uyxyI42C) (ninja,
+  détourage jUBxur0LD0). Écartées : eIypATFdqL (planche entière au lieu d'un serpent),
+  UPhSbgKwny (le ninja ne bouge pas).
 - Assemblage : `scripts/assemble-new-snakes.py`. Repos : chaque figurine descend de 6 à 8 px
-  pour poser sur la ligne de base de la planche provisoire. Attaque : chaque figurine est
-  agrandie autant que sa case le permet sans dépasser la hauteur du repos, posée sur la même
-  ligne de base.
+  pour poser sur la ligne de base de la planche provisoire. Attaque : chaque figurine reçoit
+  autant de pâte que le repos (même nombre de pixels opaques), sans sortir de sa case, et pose
+  sur la même ligne de base. Rapport attaque/repos : grands crocs 1,00 ; serpent rare 0,99 ;
+  ninja 0,78 (sa case limite sa largeur). Planche de la famille des serpents : 0,85 à 0,98.
 
-**Dépense : 912 crédits** (12 images × 75 = 900 ; 4 détourages × 3 = 12). Solde vérifié :
-10 015 → 9 103.
+**Dépense : 1 218 crédits** (16 images × 75 = 1 200 ; 6 détourages × 3 = 18). Solde vérifié :
+10 015 → 8 797.
 
 Consignes données au générateur : jouet pour jeunes enfants, jamais effrayant ; ni sang, ni
 langue ; aucune dent sauf les deux crocs arrondis des grands crocs (vérifié en grand).
 
 ## Réserves
 
-- En attaque, les grands crocs et le ninja sont un peu plus petits qu'au repos : leur élan
-  est long et la case limite leur largeur.
-- En attaque, le serpent rare paraît plus épais qu'au repos.
+- En attaque, le ninja garde 78 % de sa pâte : sa tête avance et la case limite sa largeur.
+- En attaque, le serpent rare paraît plus épais qu'au repos (même quantité de pâte, corps
+  plus ramassé).
+- Petit, le ninja ressemble au mamba noir (même couleur sombre, mêmes anneaux) : son bandeau
+  rouge est ce qui le distingue. À regarder avec les enfants.
+- Les grands crocs ont l'air le plus « méchant » de la famille (sourcils froncés, crocs
+  pointus mais arrondis au bout), et leur rouge est proche du contour rouge-orangé des
+  ennemis, comme le serpent à sonnette.
 - Les droits d'utilisation suivent les conditions du compte Magnific ; aucune exclusivité ou
   protection juridique n'est garantie.

@@ -6,9 +6,9 @@ ninja-cut.png (one attacking figure each, background removed). See
 public/assets/illustrated/PROVENANCE-SERPENTS-NOUVEAUX-2026-11-18.md.
 
 Idle: the three cells of the cut sheet, each moved down so that its bottom matches the
-provisional sheet (in-game anchor unchanged). Attack: each single-figure cut-out is made as large
-as its 512 cell allows without being taller than the figure at rest, then placed with the coil
-left edge and the bottom of the figure at rest, inside its cell.
+provisional sheet (in-game anchor unchanged). Attack: each single-figure cut-out is scaled to the
+same amount of clay as the figure at rest (count of opaque pixels), never beyond its 512 cell,
+then placed with the coil left edge and the bottom of the figure at rest, inside its cell.
 """
 import sys
 from PIL import Image
@@ -50,9 +50,11 @@ for index, ((ox, oy), bottom, name) in enumerate(zip(ORIGINS, BOTTOMS, ATTACKS))
     figure = figure.crop((fx0, fy0, fx1, fy1))
     fleft, fwidth = coil(np.array(figure)[:, :, 3])
     w, h = figure.size
-    # As large as the cell allows, never taller than the figure at rest: the lunge is long,
-    # so the width of the cell is what limits most figures.
-    scale = min((CELL - 2 * MARGIN) / w, (y1 + dy - (y0 + dy)) / h, (bottom - MARGIN) / h)
+    # As much clay as the figure at rest (same count of opaque pixels), so that the snake
+    # neither shrinks nor swells for the instant of the blow; never beyond its cell.
+    rest_area = int((a > TH).sum())
+    shot_area = int((np.array(figure)[:, :, 3] > TH).sum())
+    scale = min((rest_area / shot_area) ** 0.5, (CELL - 2 * MARGIN) / w, (bottom - MARGIN) / h)
     figure = figure.resize((round(w * scale), round(h * scale)), Image.LANCZOS)
     w, h = figure.size
     x = left - round(fleft * scale)
@@ -61,7 +63,9 @@ for index, ((ox, oy), bottom, name) in enumerate(zip(ORIGINS, BOTTOMS, ATTACKS))
     shot = Image.new('RGBA', (CELL, CELL), (0, 0, 0, 0))
     shot.paste(figure, (x, y), figure)
     attack.paste(shot, (ox, oy))
-    print(f'cell {index}: idle dy={dy:+d} bottom={bottom}; attack scale={scale:.3f} at x={x} y={y} size={w}x{h}')
+    ratio = int((np.array(shot)[:, :, 3] > TH).sum()) / rest_area
+    print(f'cell {index}: idle dy={dy:+d} bottom={bottom}; attack scale={scale:.3f} '
+          f'at x={x} y={y} size={w}x{h}; clay attack/rest={ratio:.2f}')
 
 rest.save(f'{out}/serpents-nouveaux.webp', lossless=True, quality=100, method=6)
 attack.save(f'{out}/serpents-nouveaux-attack.webp', lossless=True, quality=100, method=6)

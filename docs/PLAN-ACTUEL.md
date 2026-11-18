@@ -223,7 +223,7 @@ Le point 14 (« Reprendre ») attend un lot à lui : il touche la sauvegarde.
   nouveau serpent, annonce d'un allié débloqué. Les phrases sont à montrer au fils avant
   fusion.
 - **12.** Dessins des trois nouveaux serpents : **budget libre accordé par le parent**. **Fait**
-  le 18 novembre, dessins acceptés par le parent (912 crédits Magnific,
+  le 18 novembre, dessins acceptés par le parent (1 218 crédits Magnific,
   `public/assets/illustrated/PROVENANCE-SERPENTS-NOUVEAUX-2026-11-18.md`).
 - **13.** La marche devant le roi dans le voyage est acceptée ; on regarde d'abord les enfants jouer.
 - **14.** « Reprendre » : corriger, avec une donnée de plus sur l'appareil ; les anciennes
