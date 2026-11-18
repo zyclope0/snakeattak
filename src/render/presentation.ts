@@ -186,7 +186,7 @@ export class Presentation {
       this.text(
         1002,
         232,
-        fill(TEXT.campNN, change > 0 ? '+' : '−', Math.round(Math.abs(change))),
+        fill(TEXT.cristalNN, change > 0 ? '+' : '−', Math.round(Math.abs(change))),
         change > 0 ? '#c2f4a8' : '#ffd49d',
       );
     }

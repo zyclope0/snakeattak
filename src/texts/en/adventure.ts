@@ -28,7 +28,7 @@ export const lesTroisPonts = 'The Three Bridges';
 export const gardeLesTroisPassagesOuvertsATes = 'Keep all three paths open for your defenders.';
 export const laCourseDesVifs = 'The Swift Run';
 export const intercepteLesRapidesAvantLeRefuge =
-  'Stop the fast snakes before they reach the Refuge.';
+  'Stop the fast snakes before they reach the Crystal.';
 export const lesPremieresCoquilles = 'The First Eggs';
 export const resisteAuxEclosionsEtAuxPremieres = 'Survive hatching eggs and the first escorts.';
 export const dragonEtSonnette = 'Dragon and Rattle';
@@ -39,9 +39,10 @@ export const expeditionInvalide = 'Invalid mission';
 export const petitsGroupesRapidesGardeDesAllies = 'Small, fast groups: keep mobile allies ready.';
 export const lesEscortesArriventEnsembleCombine =
   'Escorts arrive together: combine melee fighters and support.';
-export const lesArriveesSontRegulieresRepartis = 'Snakes arrive steadily: spread out your guards.';
+export const lesArriveesSontRegulieresRepartis =
+  'The snakes come one after another: spread out your guards.';
 export const laCouveeEstConcentreeSurUneVoie = 'The eggs are all on one lane.';
-export const lesEclosionsSontRepartiesEt = 'Eggs are spread out and hatch at different times.';
+export const lesEclosionsSontRepartiesEt = 'The eggs hatch one after another, on several lanes.';
 export const desSerpentsVolantsArriventArchers =
   'Flying Snakes are coming: Archers, Dragons and Tanks can hit them.';
 export const vagueDeMissionInvalide = 'Invalid mission wave';

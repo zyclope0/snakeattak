@@ -71,7 +71,7 @@ test('result readout uses earned mission minimum and completed classic chapter s
   assert.deepEqual(earnedStars(g), { count: g.missionStars, maximum: 3 });
   g.status = 'lost';
   assert.equal(earnedStars(g), null);
-  assert.match(defeatCopy(g).subtitle, /même départ/);
+  assert.match(defeatCopy(g).subtitle, /Recommence cette partie/);
   const classic = new Game(35);
   classic.status = 'won';
   classic.campaign.chapterStars = [3, 2, 1];

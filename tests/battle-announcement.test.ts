@@ -54,16 +54,16 @@ test('without a plaque the announcement stays at the bottom edge', () => {
   assert.equal(next.at(-1), false);
 });
 
-test('the words of the refuge on two lines never leave a sign alone on a line', () => {
-  for (const [text, percent] of [
-    [FR.refugeSurDeuxLignesN, ' %'],
-    [EN.refugeSurDeuxLignesN, '%'],
+test('the words of the crystal plate on two lines never leave a sign alone on a line', () => {
+  for (const [text, word, percent] of [
+    [FR.cristalSurDeuxLignesN, 'CRISTAL', ' %'],
+    [EN.cristalSurDeuxLignesN, 'CRYSTAL', '%'],
   ] as const) {
     for (const base of [0, 7, 82, 100]) {
       const lines = fill(text, base).split('\n');
-      assert.deepEqual(lines, ['REFUGE', `${base}${percent}`]);
+      assert.deepEqual(lines, [word, `${base}${percent}`]);
     }
   }
   // On one line, as on a screen where the board keeps its size.
-  assert.equal(fill(FR.refugeN, 100), 'REFUGE · 100 %');
+  assert.equal(fill(FR.cristalPlaqueN, 100), 'CRISTAL · 100 %');
 });

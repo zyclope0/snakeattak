@@ -177,7 +177,7 @@ export class Strongholds {
     this.shownBase = Math.ceil(game.base);
     const label = setCanvasCopy(
       this.label,
-      fill(twoLines ? TEXT.refugeSurDeuxLignesN : TEXT.refugeN, this.shownBase),
+      fill(twoLines ? TEXT.cristalSurDeuxLignesN : TEXT.cristalPlaqueN, this.shownBase),
     ).setColor(game.base <= CRACKED_BASE ? '#ffd19c' : '#f5edcd');
     // On two lines the plate keeps its left edge where it is on one line, and grows to the
     // right, where nothing is placed, instead of over the allies on its left.

@@ -1384,7 +1384,7 @@ laquelle il a été dessiné : aucune image de référence ne change.
 - « Esquive ! » est écrit plus haut que les chiffres des coups, et plus longtemps (1,4 s) :
   dessous, il était recouvert au bout d'un tiers de seconde.
 - Sur téléphone (18 unités et plus), la plaque du refuge est écrite sur deux lignes
-  (`refugeSurDeuxLignesN`) et grandit vers le bas : sur une ligne, elle couvrait les alliés
+  (`cristalSurDeuxLignesN`) et grandit vers le bas : sur une ligne, elle couvrait les alliés
   posés à sa gauche. Les lignes sont écrites, pas coupées par le moteur, qui laissait « % »
   seul sur une tablette.
 - Sous l'écran des cadeaux, le plateau est rendu inerte par la page (`inert`), pas caché :

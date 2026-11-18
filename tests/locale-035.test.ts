@@ -38,7 +38,7 @@ test('English changes displayed copy, preserving canonical states and departure 
   assert.equal(copy('La Conquête des Serpents'), 'Snake Attack TD');
   assert.equal(copy('Massue'), 'Clubber');
   assert.match(copy('Vague 3 : défends le camp !'), /Wave 3/);
-  assert.match(copy('REFUGE · 82 %'), /REFUGE.*82/);
+  assert.match(copy('CRISTAL · 82 %'), /CRYSTAL.*82/);
   assert.equal(copy(code), code);
   assert.deepEqual(decodeDeparture(code), { ok: true, departure: { kind: 'mission', run } });
   assert.equal(JSON.stringify(game), before);
@@ -121,9 +121,12 @@ test('counted army names use the same English identity as the unit guide', async
 test('English Cobra warning describes retaliation damage, never a health reward', async () => {
   await setLanguage('en');
   const warning = copy(waveBriefing(8).tip);
-  assert.match(warning, /loses 2 HP/);
+  assert.match(warning, /hurts the ally that beat it \(−2\)/);
   assert.doesNotMatch(warning, /gains|heals|restores/i);
   await setLanguage('fr');
+  // The French says the same: the ally is hurt, never healed.
+  assert.match(waveBriefing(8).tip, /il blesse celui qui l’a battu \(−2\)/);
+  assert.doesNotMatch(waveBriefing(8).tip, /soign|regagne/i);
 });
 
 test('mixed-markup help fragments and all ranged allies keep their English meaning', async () => {

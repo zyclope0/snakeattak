@@ -2,7 +2,7 @@ export const placementAnnuleChoisisUnAllieOu =
   'Placement canceled. Choose an ally or start the wave.';
 export const reprendre = 'Resume';
 export const mettreEnPause = 'Pause';
-export const partieTerminee = 'Game over';
+export const partieTerminee = 'Game finished';
 export const choisirUnBonus = 'Choose a bonus';
 export const vagueEnCours = 'Wave in progress…';
 export const vagueSuivante = 'Next wave';

@@ -28,7 +28,7 @@ export const lesTroisPonts = 'Les trois ponts';
 export const gardeLesTroisPassagesOuvertsATes =
   'Garde les trois passages ouverts à tes défenseurs.';
 export const laCourseDesVifs = 'La course des vifs';
-export const intercepteLesRapidesAvantLeRefuge = 'Intercepte les rapides avant le refuge.';
+export const intercepteLesRapidesAvantLeRefuge = 'Intercepte les rapides avant le cristal.';
 export const lesPremieresCoquilles = 'Les premières coquilles';
 export const resisteAuxEclosionsEtAuxPremieres = 'Résiste aux éclosions et aux premières escortes.';
 export const dragonEtSonnette = 'Dragon et sonnette';
@@ -41,9 +41,10 @@ export const petitsGroupesRapidesGardeDesAllies =
 export const lesEscortesArriventEnsembleCombine =
   'Les escortes arrivent ensemble : combine contact et soutien.';
 export const lesArriveesSontRegulieresRepartis =
-  'Les arrivées sont régulières : répartis les gardiens.';
+  'Les serpents arrivent l’un après l’autre : répartis les gardiens.';
 export const laCouveeEstConcentreeSurUneVoie = 'La couvée est concentrée sur une voie.';
-export const lesEclosionsSontRepartiesEt = 'Les éclosions sont réparties et décalées.';
+export const lesEclosionsSontRepartiesEt =
+  'Les œufs éclosent l’un après l’autre, sur plusieurs voies.';
 export const desSerpentsVolantsArriventArchers =
   ' Des serpents volants arrivent : archers, dragons et tanks peuvent les toucher.';
 export const vagueDeMissionInvalide = 'Vague de mission invalide';

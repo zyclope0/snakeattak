@@ -65,7 +65,7 @@ test('aucune aide ne reprend ni ne traduit un nom ou une annonce de caprice', ()
 
 test('chaque texte d’aide a son anglais, sans reste de français', async () => {
   const french =
-    /[éèêëàâùûçœ«»]|\b(?:aide|caprices? des|repérage|départ|sauvegarde|alliés|étoiles?|carnet|autocollant|vagues?|chemin|serpents?|œufs)\b/i;
+    /[éèêëàâùûçœ«»]|\b(?:aide|caprices? des|repérage|dangers|départ|sauvegarde|alliés|étoiles?|carnet|autocollant|vagues?|chemin|serpents?|œufs)\b/i;
   await setLanguage('en');
   try {
     for (const phrase of phrases) {

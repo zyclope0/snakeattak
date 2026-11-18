@@ -65,7 +65,7 @@ export const recomposedEnglish: Readonly<Record<string, string>> = {
   Placement: 'Placement',
   Rejouer: 'Replay',
   'Rejouer : {0}': 'Replay: {0}',
-  'Retour au fort': 'Returning to Refuge',
+  'Retour au fort': 'Returning to the fort',
   'Serpents × {0}': 'Snakes × {0}',
   'Touche une place libre dans ton camp, à droite.':
     'Tap an empty spot in your camp, on the right.',

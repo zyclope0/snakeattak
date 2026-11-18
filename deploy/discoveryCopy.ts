@@ -5,6 +5,7 @@ import * as EN from '../src/texts/en/page.ts';
 import * as ALLY_FR from '../src/texts/fr/allies.ts';
 import * as ALLY_EN from '../src/texts/en/allies.ts';
 import * as SNAKE_EN from '../src/texts/en/snakes.ts';
+import { NEWCOMERS } from '../src/waves.ts';
 
 /** Public editorial copy, independent from the game and its translation catalogue. */
 export type DiscoveryKey = 'home' | 'guide' | 'characters' | 'updates' | 'parents';
@@ -29,7 +30,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'Protège le cristal avec des ninjas, des dinosaures et des bébés dragons. Un jeu de tower defense gratuit pour enfants, à jouer en famille dans le navigateur.',
     heading: 'Un cristal. Trois chemins. Toute une bande de copains.',
-    lead: 'Un petit jeu imaginé avec un enfant : prépare tes alliés, surveille les serpents et protège ton refuge dans un monde de pâte à modeler et de papier mâché.',
+    lead: 'Un petit jeu imaginé avec un enfant : prépare tes alliés, surveille les serpents et protège ton cristal dans un monde de pâte à modeler et de papier mâché.',
     blocks: [
       {
         heading: 'Tu prépares, tes alliés agissent',
@@ -53,7 +54,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     description:
       'Defend the crystal with ninjas, dinosaurs and baby dragons. A free tower defense game for kids and families, played in your browser.',
     heading: 'One crystal. Three paths. A whole team of friends.',
-    lead: 'A small game imagined with a child: prepare your allies, watch the snakes and protect your refuge in a world of modelling clay and papier-mâché.',
+    lead: 'A small game imagined with a child: prepare your allies, watch the snakes and protect your crystal in a world of modelling clay and papier-mâché.',
     blocks: [
       {
         heading: 'You prepare. Your allies take action.',
@@ -81,7 +82,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: '1. Regarde les dangers',
-        text: `Avant la vague, touche « ${FR.dangers} » : tu vois quels serpents arrivent, et par quel chemin. Ils n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.`,
+        text: `Avant la vague, touche « ${FR.dangers} » : tu vois quels serpents arrivent, et quels chemins sont ouverts. Ils n’ont pas tous les mêmes talents : certains sont rapides, certains attaquent de loin, d’autres volent.`,
       },
       {
         heading: '2. Recrute et place tes alliés',
@@ -108,8 +109,8 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     lead: 'Your allies fight on their own. You choose who to place, and where.',
     blocks: [
       {
-        heading: '1. Check the dangers',
-        text: `Before a wave, tap “${EN.dangers}”: you see which snakes are coming, and along which path. They have different talents: some are fast, some attack from a distance, and others fly.`,
+        heading: '1. Check the threats',
+        text: `Before a wave, tap “${EN.dangers}”: you see which snakes are coming, and which lanes are open. They have different talents: some are fast, some attack from a distance, and others fly.`,
       },
       {
         heading: '2. Recruit and place your allies',
@@ -192,7 +193,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Trois nouveaux serpents',
-        text: `Ils arrivent quand tu commences une nouvelle « ${FR.aventureClassique} ». Le serpent ninja court vite, et le premier coup le rate. Les grands crocs mordent deux fois plus fort : pose un ${ALLY_FR.bouclier} devant. Le serpent rare tombe vite, mais sa morsure fait tomber une ${ALLY_FR.massue} d’un coup : pose un ${ALLY_FR.archer}, il le touche de loin.`,
+        text: `Pour les voir, commence une nouvelle partie : touche « ${FR.aventureClassique} », puis « ${FR.laGrandeAventure12Vagues} ». Ils arrivent à partir de la vague ${NEWCOMERS.ninja.fromWave}. Le serpent ninja court vite, et le premier coup le rate. Les grands crocs mordent deux fois plus fort : pose un ${ALLY_FR.bouclier} devant. Le serpent rare tombe vite, mais sa morsure fait tomber une ${ALLY_FR.massue} d’un coup. Pose un ${ALLY_FR.archer} : il peut le toucher avant qu’il morde.`,
       },
       {
         heading: 'Des œufs en plus',
@@ -220,7 +221,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Three new snakes',
-        text: `They show up when you start a new “${EN.aventureClassique}”. The Ninja Snake runs fast, and the first hit misses it. Big Fangs bites twice as hard: place a ${ALLY_EN.bouclier} in front. The Rare Snake falls fast, but its bite knocks out a ${ALLY_EN.massue} in one go: place an ${ALLY_EN.archer}, who hits it from afar.`,
+        text: `To see them, start a new game: tap “${EN.aventureClassique}”, then “${EN.laGrandeAventure12Vagues}”. They show up from wave ${NEWCOMERS.ninja.fromWave} on. The Ninja Snake runs fast, and the first hit misses it. Big Fangs bites twice as hard: place a ${ALLY_EN.bouclier} in front. The Rare Snake falls fast, but its bite knocks out a ${ALLY_EN.massue} in one go. Place an ${ALLY_EN.archer}: it can hit the snake before it bites.`,
       },
       {
         heading: 'Extra eggs',
@@ -248,19 +249,19 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Jouer sans compte',
-        text: 'Le jeu est gratuit, sans achat intégré. Aucun compte n’est demandé pour jouer. Les profils et les sauvegardes restent sur l’appareil. Sur grand écran, le site peut afficher un seul encart publicitaire non personnalisé, que l’on peut couper dans « Pour les parents ». Aucune mesure d’audience ajoutée.',
+        text: 'Le jeu est gratuit, sans achat intégré. Aucun compte n’est demandé pour jouer. Les profils et les sauvegardes restent sur l’appareil. Sur grand écran, le site peut afficher un seul encart publicitaire non personnalisé, que l’on peut couper dans « Pour les parents » du jeu. Aucune mesure d’audience ajoutée.',
+      },
+      {
+        heading: 'Sur le Web et sur Android',
+        text: 'L’application Android est en préparation ; elle n’est pas encore disponible. Le site reçoit les nouveautés dès leur publication. L’application embarquera ses fichiers pour jouer hors ligne et recevra les nouveautés lors d’une mise à jour. Une nouveauté ne change pas une partie déjà commencée : les anciennes sauvegardes et les anciens codes gardent leurs règles.',
       },
       {
         heading: 'Conserver une aventure',
-        text: 'Le navigateur et l’application Android ont des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle n’exporte pas tout, notamment pas le Voyage ni les profils.',
+        text: 'Le navigateur et l’application Android auront des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle n’exporte pas tout, notamment pas le Voyage ni les profils.',
       },
       {
         heading: 'Lire les informations utiles',
         text: 'La politique de confidentialité explique le stockage local, les journaux techniques de l’hébergeur, la publicité sur le site, le soutien facultatif et les contacts d’assistance. Elle est disponible en français et en anglais, sans compte, depuis le lien en bas de chaque page.',
-      },
-      {
-        heading: 'Sur le Web et sur Android',
-        text: 'Le site reçoit les nouveautés dès leur publication. L’application Android embarque ses fichiers pour jouer hors ligne et reçoit les nouveautés lors d’une mise à jour. Une nouveauté ne change pas une partie déjà commencée : les anciennes sauvegardes et les anciens codes gardent leurs règles.',
       },
       {
         heading: 'Qui a fait ce jeu ?',
@@ -281,19 +282,19 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: 'Play without an account',
-        text: 'The game is free, with no in-app purchases. No account is required to play. Profiles and saves stay on the device. On a large screen, the website may show a single non-personalised ad box, which can be turned off in “For parents”. No audience analytics added.',
+        text: 'The game is free, with no in-app purchases. No account is required to play. Profiles and saves stay on the device. On a large screen, the website may show a single non-personalised ad box, which can be turned off in “For parents” in the game. No audience analytics added.',
+      },
+      {
+        heading: 'On the Web and Android',
+        text: 'The Android app is being prepared; it is not available yet. The website gets updates as soon as they are published. The app will carry its files for offline play and will get updates through an app update. An update does not change a game already in progress: older saves and codes keep their own rules.',
       },
       {
         heading: 'Keep an adventure',
-        text: 'The browser and the Android app use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it does not export everything, including The Voyage and profiles.',
+        text: 'The browser and the Android app will use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it does not export everything, including The Voyage and profiles.',
       },
       {
         heading: 'Read the useful information',
         text: 'The privacy policy explains local storage, the host’s technical logs, advertising on the website, optional support and support contacts. Read it in French or English without an account, using the link at the foot of every page.',
-      },
-      {
-        heading: 'On the Web and Android',
-        text: 'The website gets updates as soon as they are published. The Android app carries its files for offline play and gets updates through an app update. An update does not change a game already in progress: older saves and codes keep their own rules.',
       },
       {
         heading: 'Who made this game?',

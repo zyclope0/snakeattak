@@ -23,15 +23,15 @@ export const tousLesAlliesConseilsEtOutils =
   'All allies → Tips and tools → Camp actions → Train the Hero. Choose Power Strike or Guardian.';
 export const frappe15DeDegatsGardien15SurLes =
   'Power Strike: +15% damage. Guardian: −15% damage taken. One choice for these allies.';
-export const reparerLeCristal = 'Repair the crystal';
+export const reparerLeCristal = 'Repair the Crystal';
 export const siLeCristalAPerduDeLaVieAvantOu =
-  'If the crystal has lost health, before or during a wave.';
+  'If the Crystal has lost health, before or during a wave.';
 export const tousLesAlliesConseilsEtOutils2 =
-  'All allies → Tips and tools → Camp actions → Repair the crystal.';
-export const leCristalRegagneJusquA25PointsDe = `The crystal regains up to ${REPAIR_AMOUNT} health points, up to a maximum of ${CRYSTAL_MAX}.`;
+  'All allies → Tips and tools → Camp actions → Repair the Crystal.';
+export const leCristalRegagneJusquA25PointsDe = `The Crystal regains up to ${REPAIR_AMOUNT} health points, up to a maximum of ${CRYSTAL_MAX}.`;
 export const lesDegatsSubisRestentComptesPour = 'Damage taken still counts toward your stars.';
 export const laPartieEstTerminee = 'The game is over';
-export const tonCristalEstIntact = 'Your crystal is at full health';
+export const tonCristalEstIntact = 'Your Crystal is at full health';
 export const ilManqueNPiecesPourReparer = 'You need {0} more coins to repair';
 export const cristalN100ReparationPossible = `Crystal: {0} / ${CRYSTAL_MAX} · can be repaired`;
 export const encourager = 'Encourage';

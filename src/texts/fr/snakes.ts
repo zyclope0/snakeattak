@@ -44,7 +44,7 @@ export const unCracheurADistanceSuitUnParapluie =
   'Un cracheur à distance suit un parapluie en marche. Les alliés mobiles peuvent le déloger.';
 export const laGrandeCouvee = 'La grande couvée';
 export const troisEclosionsDecaleesSurTrois =
-  'Trois éclosions décalées sur trois voies. Le cobra royal montre sa collerette : 2 PV au tueur à sa mort.';
+  'Trois éclosions décalées sur trois voies. Le cobra royal montre sa collerette : en tombant, il blesse celui qui l’a battu (−2).';
 export const laGrandeCavalcade = 'La grande cavalcade';
 export const deuxRessortsEncadrentLaPremiere =
   'Deux ressorts encadrent la première carapace. Les trios arrivent moins serrés : garde un renfort mobile pour leurs impulsions.';

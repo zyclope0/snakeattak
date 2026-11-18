@@ -85,7 +85,9 @@ try {
         assert.equal(await link.getAttribute('rel'), 'noopener noreferrer nofollow');
         assert.equal(
           await link.innerText(),
-          item.lang === 'fr' ? 'Soutenir le développement' : 'Support development',
+          item.lang === 'fr'
+            ? 'Soutenir sur PayPal (nouvel onglet)'
+            : 'Support the game on PayPal (new tab)',
         );
       }
       const width = await page.evaluate(() => ({

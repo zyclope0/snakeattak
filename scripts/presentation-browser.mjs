@@ -137,7 +137,7 @@ try {
             flip: scene.strongholds.fort.flipX,
           };
         });
-        if (initial.damage !== 0 || initial.label !== 'REFUGE · 28 %' || !initial.flip)
+        if (initial.damage !== 0 || initial.label !== 'CRISTAL · 28 %' || !initial.flip)
           throw Error('Refuge restore state/orientation wrong');
         await page.evaluate(() => {
           window.strongholdFixture.session.game.base = 19;
@@ -145,7 +145,7 @@ try {
         await page.waitForFunction(
           () =>
             window.strongholdFixture.phaser.scene.getScene('Battle').strongholds.label.text ===
-            'REFUGE · 19 %',
+            'CRISTAL · 19 %',
         );
         await revealControl(page, '[data-kind="club"]');
         await page.locator('[data-kind="club"]').click();
@@ -345,7 +345,7 @@ try {
       await page.waitForFunction(
         () =>
           window.strongholdFixture.phaser.scene.getScene('Battle').strongholds.label.text ===
-          'REFUGE · 44 %',
+          'CRISTAL · 44 %',
       );
       await page.screenshot({ path: 'artifacts/personnalite-refuge-repare.png', fullPage: true });
     }

@@ -21,10 +21,10 @@ export const n18Etoiles = `{0} / ${MISSION_COUNT * STAR_MAX} stars`;
 export const detours = 'Detours';
 export const meandres = 'Winding Paths';
 export const carrefour = 'Crossroads';
-export const arriveesRegulieres = 'Steady arrivals';
+export const arriveesRegulieres = 'The snakes come one after another';
 export const petitsGroupesRapides = 'Small, fast groups';
 export const avanceesGroupees = 'Grouped advances';
-export const eclosionsDecalees = 'Staggered hatchings';
+export const eclosionsDecalees = 'The eggs hatch one after another';
 export const couveeGroupee = 'Clustered eggs';
 export const nPiecesNVaguesNouveauxAllies = '{0} coins · {1} waves · new allies';
 export const verrouilleeTermineLaPrecedente = 'Locked · finish the previous mission';
@@ -42,11 +42,11 @@ export const tesAllies = 'Your allies';
 export const resume = 'Summary';
 export const caprices = 'Caprices';
 export const copains = 'Friends';
-export const reperage = 'Scouting';
+export const reperage = 'Threats';
 export const options = 'Options';
 export const carnetDeCetteNouvellePartie = 'Sticker book for this new game';
 export const troisVoiesVisiblesPremiereVagueN =
-  'Three visible lanes. First wave: {0}. Dens on the left, crystal on the right.';
+  'Three visible lanes. First wave: {0}. Dens on the left, Crystal on the right.';
 export const nAutresN = '{0} more {1}';
 export const desVolantsArriverontDansCette =
   'Flying snakes will appear in this mission: bring Archers, a Baby Dragon, or a tank.';
