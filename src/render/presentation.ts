@@ -332,9 +332,12 @@ export class Presentation {
     // Written above the figures of the blows, and for longer: under them it was covered
     // after a third of a second.
     // A ninja snake that vanished and came back says nothing: its rings show it (the child's
-    // choice, 18 November 2026). One that only dodged, where it stands, says so.
-    const leapt = Math.hypot(e.x - old.x, e.y - old.y) >= LEAP;
-    if (dodges < old.dodges && !leapt)
+    // choice, 18 November 2026). One that only dodged, where it stands, says so. The rings
+    // tell it, not the distance: a leap can be short.
+    const vanished = this.game?.effects.some(
+      (effect) => effect.kind === 'blink' && effect.sourceId === e.id && !this.heard.has(effect),
+    );
+    if (dodges < old.dodges && !vanished)
       this.text(e.x, e.y - DODGE_WORD_HEIGHT, TEXT.esquive, '#d9d4f2', DODGE_WORD_SECONDS);
     old.dodges = dodges;
     old.x = e.x;

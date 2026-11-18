@@ -26,8 +26,9 @@ Ninja, et parfois il se téléporte dans le dos d'un personnage ». Dans aucun b
   retourne pas) ; un grand anneau sombre et clair se ferme où il était, un autre s'ouvre où il
   revient, pendant 0,8 s ; deux notes montantes, son propre son, entendu avant les coups de la
   même image. **Aucun mot** quand il se téléporte (choix du fils, 18 novembre, après
-  la relecture) ; « Esquive ! » reste écrit quand il esquive sur place (aucune place libre,
-  ou partie de la révision 4). Sa fiche dans « Dangers » et dans « Tous les
+  la relecture), même quand le saut est court ; « Esquive ! » reste écrit quand il esquive
+  sur place (aucune place libre, simplement effleuré par une explosion, ou partie de la
+  révision 4). Sa fiche dans « Dangers » et dans « Tous les
   serpents » dit « Rapide : au premier coup, il disparaît et revient derrière celui qui l'a
   frappé » ; une partie de la révision 4 garde « il esquive le premier coup », index compris.
   La page « Nouveautés » du site dit la nouvelle règle.
