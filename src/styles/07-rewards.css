@@ -5,6 +5,10 @@
   color: #193e35;
   border-block: 1px solid #a0af91;
 }
+/* On paper the golden ring of the game is too pale to show where the focus is. */
+.reward-panel :focus-visible {
+  outline-color: #196a5b;
+}
 .reward-eyebrow {
   font-size: 11px;
   letter-spacing: 0.08em;

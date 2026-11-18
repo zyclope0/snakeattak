@@ -296,6 +296,12 @@
     background: var(--paper);
     color: var(--ink);
   }
+  /* The gifts cover the board and the favourites: what is under them is out of reach of a
+     keyboard too, instead of taking the focus where nothing shows it. */
+  #reward-panel:not([hidden]) ~ #game,
+  .play-layout:has(#reward-panel:not([hidden])) #battle-dock {
+    visibility: hidden;
+  }
   /* The way out without a gift sits beside the title, as tall as a finger: a row under the
      gifts would fall off a screen this low. */
   #reward-panel > * {

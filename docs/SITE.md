@@ -206,9 +206,9 @@ Corrigé dans ce lot, sans décision à prendre :
 - Avant d'allumer la publicité : interdire au navigateur les fonctions publicitaires de
   profilage (`Permissions-Policy`), et adapter le contrôle du site en ligne, qui refuserait
   aujourd'hui la règle de sécurité de la page du jeu avec publicité.
-- Textes du jeu trop petits ou trop techniques pour un enfant qui lit lentement (10 à
-  12 px en paysage téléphone, textes du plateau à 5-9 px, « 1 alliés survivants ») : lot
-  suivant, rendu seul.
+- Textes du jeu trop petits pour un enfant qui lit lentement : traité le 18 novembre, sans
+  décision à prendre (`ARCHITECTURE.md`, « Textes lisibles sur téléphone »). Restent les
+  reformulations de phrases trop techniques, qui attendent l'accord du parent.
 
 Questions pour le fils (ses règles) :
 
@@ -220,6 +220,51 @@ Questions pour le fils (ses règles) :
 
 Non vérifié : aperçus réels dans les messageries ; compression et page 404 réelles de
 l'hébergeur ; aucun lecteur d'écran réel ; rien sur un vrai téléphone ni avec les enfants.
+
+### Deuxième relecture à huit angles — 18 novembre 2026
+
+Mêmes huit angles, sur les deux lots suivants (corrections du site, textes lisibles sur
+téléphone). Corrigé sans décision :
+
+- **Image de partage** : le bandeau du titre cachait les serpents de la voie du bas. Le
+  titre est maintenant posé en haut, sur l'en-tête de la page : tout le plateau reste
+  visible, et l'interface française de l'en-tête n'apparaît plus sur les pages anglaises.
+- **Écran anglais « Threats »** : « Voies ouvertes » restait en français, parce que deux
+  textes étaient collés bout à bout ; c'est maintenant une seule phrase à trou.
+- **Écran des cadeaux sur téléphone** : le clavier ne passe plus sur le plateau et les
+  favoris cachés derrière le panneau ; l'anneau de focus est plus foncé sur le papier.
+- **Documents** : phrases devenues fausses corrigées (pied de page de 8 pages et non 10,
+  dates, index des documents, numéro de build dans le README).
+
+Le détail du jeu (plaques du plateau, annonce) est dans `ARCHITECTURE.md`, « Textes lisibles
+sur téléphone ».
+
+À décider par le parent (rien n'est fait) :
+
+- « pose un Archer, il le touche de loin » promet trop : mesuré sur le vrai moteur, 100
+  départs, un Archer par voie — le serpent rare mord quand même 28 fois sur 100 à la vague
+  8 et 100 fois sur 100 à la vague 11. Proposé : « un Archer peut le toucher avant qu'il
+  morde ».
+- « tu vois quels serpents arrivent, et par quel chemin » : « Dangers » ne dit que quels
+  chemins sont ouverts.
+- « quand tu commences une nouvelle Aventure classique » : aucun bouton ne dit
+  « nouvelle » ; proposé : « Touche "La grande aventure" pour en commencer une nouvelle ».
+- La page parents parle de l'application Android au présent, alors qu'elle n'est pas
+  encore publique.
+- `README.md` (racine) : « publicité rare entre missions » contredit la règle « jamais dans
+  l'application ».
+- Un seul mot pour la même jauge : « Camp », « cristal », « ♥ », « REFUGE ».
+- Lot « montrer ce qui existe » (aucune règle touchée) : « Encourager » accessible pendant
+  la vague, annonce à l'arrivée d'un nouveau serpent, annonce d'un allié débloqué ; textes à
+  valider avec le fils.
+
+Questions de plus pour le fils : la sauterelle, une fois qu'elle a sauté, vole-t-elle
+encore ? Le serpent ninja qui se téléporte : une fois ou plusieurs, dans le dos de qui ?
+
+Reste à faire sans décision : les textes du plateau encore sous 11 px (miel, « Réserve »,
+garde du roi, symboles de menace), poser un allié au clavier, les textes d'interface encore
+sous 13 px (cadeaux, verrou des caprices, accueil), une page 404, le contrôle de la
+compression sur le site en ligne.
 
 ### Publicité — textes approuvés le 17 novembre 2026, rien d'activé
 
@@ -244,7 +289,8 @@ Un passage explicite de `null` à `discoveryPageHtml` permet encore de masquer l
 Depuis le 17 novembre 2026, le lien de paiement « Soutenir le développement » /
 « Support development » n'est plus que dans le bloc des pages parents FR/EN, avec la
 mention réservée aux adultes, facultative, en CHF et sans avantage dans le jeu ; le pied
-des 10 pages publiques mène à ce bloc, pas à PayPal. Aucun SDK,
+des 8 autres pages publiques mène à ce bloc, pas à PayPal (les pages parents, qui le
+montrent, n'ont plus ce lien dans leur pied). Aucun SDK,
 iframe, préchargement PayPal ou traitement de carte sur le site. Le lien ouvre un
 nouvel onglet avec `noopener noreferrer nofollow`, sans profil ni code de partie.
 

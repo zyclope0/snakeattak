@@ -1,6 +1,6 @@
 # Documents du projet
 
-Quatorze documents vivants. Tout le reste est de l'historique, rangé dans [archive/](archive/).
+Treize documents vivants, puis les comptes rendus de lots. Tout le reste est de l'historique, rangé dans [archive/](archive/).
 
 ## À lire pour travailler
 
@@ -13,7 +13,6 @@ Quatorze documents vivants. Tout le reste est de l'historique, rangé dans [arch
 | [VOYAGE.md](VOYAGE.md)                                                 | Le voyage : réglages proposés, mesures, décisions à prendre                             |
 | [SITE.md](SITE.md)                                                     | Hébergement Infomaniak, publication manuelle, confidentialité et migration des familles |
 | [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone                                |
-| [SITE.md](SITE.md)                                                     | Le site sur Infomaniak : publier, revenir en arrière                                    |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version publiée                                             |
 | [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste                             |
 | [BILAN-REVISION-3.md](BILAN-REVISION-3.md)                             | Révision d'équilibrage 3 (un œuf de plus quand une vague dure) : mesures et preuves     |
@@ -21,6 +20,20 @@ Quatorze documents vivants. Tout le reste est de l'historique, rangé dans [arch
 | [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique                                           |
 | [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour                             |
 | [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver                                         |
+
+## Comptes rendus de lots
+
+| Document                                                                             | Lot                                                             |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| [BILAN-0.37.0.md](BILAN-0.37.0.md)                                                   | Version 0.37.0                                                  |
+| [BILAN-WEB-2026-11-16.md](BILAN-WEB-2026-11-16.md)                                   | Pages publiques du site (Codex)                                 |
+| [BILAN-SOUTIEN-WEB-2026-11-16.md](BILAN-SOUTIEN-WEB-2026-11-16.md)                   | Lien de soutien PayPal (Codex)                                  |
+| [BILAN-ADSENSE-LIAISON-2026-11-16.md](BILAN-ADSENSE-LIAISON-2026-11-16.md)           | Liaison du compte AdSense (Codex)                               |
+| [BILAN-ADSENSE-PREPARATION-2026-11-16.md](BILAN-ADSENSE-PREPARATION-2026-11-16.md)   | Maquette de l'encart publicitaire (Codex)                       |
+| [publication/PUBLICITE-WEB-PROPOSITION.md](publication/PUBLICITE-WEB-PROPOSITION.md) | Publicité sur le site : décisions, textes approuvés, activation |
+
+Ces comptes rendus de Codex s'appuient sur un « conseil » de points de vue simulés : ce ne
+sont pas des essais avec des personnes (`CLAUDE.md`).
 
 Les règles du jeu sont à la racine : `GAME_DESIGN.md`, `AGENTS.md`, `CLAUDE.md`.
 

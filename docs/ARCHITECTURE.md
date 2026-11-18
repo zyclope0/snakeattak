@@ -1369,9 +1369,11 @@ laquelle il a été dessiné : aucune image de référence ne change.
 - La plaque du refuge est dessinée (`refugePlate`), pas laissée au fond du texte : Phaser
   ne remplit qu'un coin du fond d'un texte affiché sous sa taille, et « 100 % » se lisait
   sur le chemin nu.
-- Reste à régler : en bas du plateau, la ligne d'annonce (HTML) et les plaques de confusion
-  et de courage se partagent la même bande ; l'annonce cache le début de « Courage ! »,
-  avant comme après ce lot.
+- En bas du plateau, la ligne d'annonce de la page et les plaques de confusion et de
+  courage occupaient la même bande : l'annonce cachait le début de « Courage ! ». La scène
+  dit maintenant à la page quand elle écrit là (`onPresentation(…, plaques)`), et l'annonce
+  se place juste au-dessus (`.battle-announcement.above-plaques`). Contrôlé en 640×360,
+  780×360 et 812×375.
 - Les plaques grandissent avec leur texte et restent sur le plateau ; les plaques d'œufs
   s'écartent d'autant (`eggLabelPositions(eggs, scale)`), et une rangée trop chargée se
   partage la largeur au lieu de sortir du plateau.
