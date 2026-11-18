@@ -252,10 +252,16 @@ test('dans une partie, elle franchit une vraie ligne d’alliés et marche ensui
   assert.ok(leapt, 'elle a sauté');
   assert.ok(snake.x > 660, `elle est passée derrière la ligne : ${snake.x}`);
   assert.equal(snake.leaps, 0);
+  // Then it walks on toward the crystal: it does not turn back to bite the line it passed.
   const after = snake.x;
-  for (let step = 0; step < 30 && snake.hp > 0 && game.enemies.includes(snake); step++)
+  for (let step = 0; step < 30 && snake.hp > 0 && game.enemies.includes(snake); step++) {
     game.step(1 / 30);
-  assert.ok(snake.x >= after, 'puis elle avance vers le cristal');
+    assert.ok(
+      game.units.every((u) => u.hp === 500),
+      'elle ne mord pas la ligne derrière elle',
+    );
+  }
+  assert.ok(snake.x > after + 10, `puis elle avance vers le cristal : ${after} → ${snake.x}`);
 });
 
 test('code de départ AVENTURE-8 et sauvegarde de version 13 pour la révision 6', () => {
