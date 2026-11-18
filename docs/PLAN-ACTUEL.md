@@ -242,7 +242,8 @@ Le point 14 (« Reprendre ») attend un lot à lui : il touche la sauvegarde.
 **Nouvelles règles décidées** (chacune dans une nouvelle révision ; les parties, codes et
 sauvegardes d'avant gardent leurs règles)
 
-- **Serpent ninja** : fait, révision 5 ([bilan](BILAN-REVISION-5.md)).
+- **Serpent ninja** : fait, révision 5 ([bilan](BILAN-REVISION-5.md)). Le fils ne veut aucun
+  mot quand il se téléporte (18 novembre) : fait.
 - **Voyage** : le fils veut que King Snake vienne avec ses gardes à la dernière étape. Le roi
   du voyage est déjà dur (54 victoires sur 100 pour le joueur moyen) : chiffres à montrer au
   parent.
