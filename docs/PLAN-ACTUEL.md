@@ -221,7 +221,11 @@ Le point 14 (« Reprendre ») attend un lot à lui : il touche la sauvegarde.
 - **13.** La marche devant le roi dans le voyage est acceptée ; on regarde d'abord les enfants jouer.
 - **14.** « Reprendre » : corriger, avec une donnée de plus sur l'appareil ; les anciennes
   sauvegardes restent lisibles.
-- **15.** Mission 1 gagnable sans recruter : mesurer d'abord, ne rien changer sans accord.
+- **15.** Mission 1 gagnable sans recruter : **mesuré, et le parent décide de ne rien changer**
+  (18 novembre). Sur 200 parties sans acheter un seul allié : mission 1 gagnée 200 fois (93
+  avec 3 étoiles), mission 2 196 fois (4 avec 3 étoiles), mission 3 93 fois (aucune à 3
+  étoiles), missions 4 à 6 jamais. Il faut recruter dès la mission 3
+  (`artifacts/lot86/mission1.mjs`, hors Git).
 - **16.** Publicité : rien ne s'allume sans le message du parent, après l'approbation du site par
   Google et les six réglages du compte ; avant d'allumer, interdire au navigateur les
   fonctions publicitaires de profilage et adapter le contrôle du site en ligne
@@ -253,14 +257,13 @@ du jeu, trois pour un petit lot de textes ou de corrections.
 
 ## Dettes connues
 
-- **Le paquet principal est à 0,9 Ko de sa limite** (199 066 octets sur 200 000, 18 novembre). Le
-  prochain lot qui ajoute du code au jeu doit d'abord lui redonner de la place.
 - `reports/` : 845 fichiers de rapports encore suivis dans Git ; plusieurs scripts y écrivent.
 - Les pages de test (`tests/*-harness.ts`) ne chargent pas les feuilles de style comme le jeu.
 - `test:mobile-menus` est la plus longue tâche de la CI (10 à 17 minutes) ; à découper si
   elle grossit encore.
-- Pour redonner de la place au paquet principal, la suite est de charger à la demande les
-  fenêtres ouvertes rarement (joueurs, sauvegarde familiale, carnet de caprices).
+- Paquet principal : 195,9 Ko sur 200 depuis que la fenêtre des joueurs se charge à la
+  demande (18 novembre). Si la marge redevient courte, la suite est la sauvegarde familiale
+  et le carnet de caprices, ouverts rarement eux aussi.
 - Détail des dettes de code : [bilan du nettoyage](BILAN-NETTOYAGE-2026-11.md).
 
 ## Où lire le détail

@@ -1440,6 +1440,18 @@ Les empreintes de la présentation changent avec ces annonces ; celles des parti
 (`engine-traces`) ne changent pas. Non couvert par une recette navigateur : le bouton, les
 annonces et les textes courts ne sont contrôlés que par des tests unitaires et des captures.
 
+### Vues des joueurs hors du paquet principal — 18 novembre 2026
+
+Le paquet principal était à 0,9 Ko de sa limite (`scripts/check-dist.mjs`, 200 000 octets).
+La fenêtre des joueurs (`ui/playersDialog.ts`), la pastille de l'accueil et la liste restent
+dans le paquet ; ses vues (« Qui joue ? », le choix d'un personnage, la liste des parents)
+sont dans `ui/playerWindow.ts`, un fichier à part que le jeu demande dès son lancement, à côté
+du reste. Au premier toucher, elles sont là : chargées seulement à l'ouverture, elles
+arrivaient un instant après le doigt, et `test:mobile-menus` touchait une carte entre deux
+dessins de la fenêtre. Quand plusieurs joueurs partagent l'appareil, la fenêtre couvre la
+page dès le lancement, comme avant. Paquet principal : 199 066 → 195 910 octets. Aucun
+comportement ne change.
+
 Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
 (« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », ligne d'annonce, prix des favoris, total de
 vagues, onglets et bourse du catalogue, notes de « Dangers », prochaine mission). Les cartes

@@ -1,127 +1,67 @@
-import { nicknameFromInput, suggestedCharacter } from '../players.ts';
 import { PLAYERS_KEY } from '../storageKeys.ts';
-import type { Player, PlayerCharacter, PlayerId } from '../players.ts';
 import './players.css';
 import { createPlayerList, type PlayerListOptions } from './playerList.ts';
 import { placePlayerMarks } from './playerMarks.ts';
 import { createPlayersDialog } from './playersDialog.ts';
-import { confirmView, manageView, pickView, whoView } from './playerViews.ts';
+import type { PlayerWindow } from './playerWindow.ts';
 import * as TEXT from '../texts/fr/players.ts';
 
-type Gestures = {
-  play: (id: PlayerId) => void;
-  savePick: (player: Player | undefined, kind: PlayerCharacter, nickname: string) => void;
-  erase: (id: PlayerId) => void;
-};
-const faceOf = (id: PlayerId) => `[data-player="${id}"] .player-face`;
-const toolOf = (id: PlayerId) => `[data-player="${id}"] .player-tool`;
-
-/** The views of the window: what each one shows, where the focus goes, where it leads. */
-function playerScreens(
-  list: ReturnType<typeof createPlayerList>,
-  dialog: ReturnType<typeof createPlayersDialog>,
-  on: Gestures,
-) {
-  function who(focus = faceOf(list.state.activeId)) {
-    const { cards, note } = whoView(list.state, list.stars, on.play, pick, () => pick(null));
-    const target = cards.querySelector<HTMLElement>(focus);
-    const first = cards.querySelector<HTMLElement>('.player-face')!;
-    dialog.show('who', TEXT.quiJoue, [cards, note], target ?? first);
-  }
-  function pick(editing: PlayerId | null) {
-    const player = list.find(editing);
-    const view = pickView(
-      player,
-      player?.character ?? suggestedCharacter(list.state),
-      (kind, nickname) => on.savePick(player, kind, nickname),
-      () => who(player ? toolOf(player.id) : '#player-new'),
-    );
-    dialog.show('pick', TEXT.choisisTonPersonnage, view.content, view.focus);
-  }
-  function manage(focus?: PlayerId) {
-    const cards = manageView(list.state, list.stars, confirm);
-    const tool = focus && cards.querySelector<HTMLElement>(toolOf(focus));
-    dialog.show('manage', TEXT.joueurs, [cards], tool || dialog.close);
-  }
-  function confirm(id: PlayerId) {
-    const player = list.find(id);
-    if (!player || !list.several()) return;
-    const view = confirmView(
-      player,
-      () => on.erase(id),
-      () => manage(id),
-    );
-    dialog.show('confirm', TEXT.supprimerCeJoueur, view.content, view.focus);
-  }
-  return { who, manage };
-}
-
 /**
- * The players of this device: the chip of the home header, « Qui joue ? », the choice of a
- * character, and the parents' list. Everything is built here, so the page of the first
- * launch is not made heavier. `playerList.ts` holds the list and writes it; this function
- * says what follows each gesture.
+ * The players of this device: the chip of the home header, the window, and its views
+ * (« Qui joue ? », the choice of a character, the parents' list: `playerWindow.ts`), a file
+ * of its own fetched as the game starts. `playerList.ts` holds the list and writes it.
  */
 export function bindPlayers(options: PlayerListOptions) {
   const list = createPlayerList(options);
   const marks = placePlayerMarks();
-  const dialog = createPlayersDialog(() => screens.who(), marks.chip);
-  const screens = playerScreens(list, dialog, { play, savePick, erase });
   const drawOutside = () => marks.draw(list.me(), list.several());
+  let loading: Promise<PlayerWindow> | undefined;
+  const fetchViews = () =>
+    (loading ??= import('./playerWindow.ts').then((module) =>
+      module.createPlayerWindow(list, dialog, drawOutside),
+    ));
+  /**
+   * Draws a view once the views are there. When their file cannot be read, the window
+   * closes and the game stays as it is, a question left unanswered included: an empty
+   * window that cannot be left would hold the child. The next tap tries again.
+   */
+  const withViews = (draw: (shown: PlayerWindow) => void) =>
+    fetchViews().then(draw, () => {
+      loading = undefined;
+      dialog.require(false);
+      dialog.shut();
+    });
+  const dialog = createPlayersDialog(() => void withViews((shown) => shown.who()), marks.chip);
 
-  function savePick(player: Player | undefined, kind: PlayerCharacter, nickname: string) {
-    if (!list.sync()) return;
-    const name = nicknameFromInput(nickname);
-    const saved = player ? list.edit(player.id, kind, name) : list.join(kind, name);
-    if (!saved) return dialog.fail();
-    // A new player: the page is reloading on that player's keys.
-    if (!player) return;
-    drawOutside();
-    screens.who(toolOf(player.id));
-  }
-  function play(id: PlayerId) {
-    if (!list.sync()) return;
-    if (id !== list.state.activeId) {
-      if (!list.switchTo(id)) dialog.fail();
-      return;
-    }
-    list.stay();
-    dialog.require(false);
-    dialog.shut();
-  }
-  function erase(id: PlayerId) {
-    if (!list.sync()) return;
-    const outcome = list.remove(id);
-    if (outcome === 'failed') return dialog.fail();
-    if (outcome === 'leaving') return;
-    drawOutside();
-    if (list.several()) screens.manage();
-    else dialog.shut();
-  }
-
-  function openFrom(opener: HTMLElement, draw: () => void) {
+  function openFrom(opener: HTMLElement, view: 'who' | 'manage') {
     if (!list.sync()) return;
     dialog.openedBy(opener);
     drawOutside();
-    draw();
+    void withViews((shown) => shown[view]());
   }
-  /** The list changed in another tab: follow it, and redraw the list this page is showing. */
+  /** The list changed in another tab: follow it, and redraw the window if it is open. */
   function followOtherTab(event: StorageEvent) {
     if (event.key !== null && event.key !== PLAYERS_KEY) return;
     if (!list.sync()) return;
     drawOutside();
-    const view = dialog.shown();
-    if (view === 'who') screens.who();
-    else if (view === 'manage' && list.several()) screens.manage();
-    else if (view === 'manage') dialog.shut();
+    void loading?.then(
+      (shown) => shown.follow(),
+      () => undefined,
+    );
   }
 
-  marks.chip.onclick = () => openFrom(marks.chip, screens.who);
-  marks.manage.onclick = () => openFrom(marks.manage, screens.manage);
+  // Fetched at once, beside the rest of the page: by the first tap the views are there, and
+  // a window drawn a moment late let a finger fall between two of its drawings.
+  void fetchViews().catch(() => (loading = undefined));
+  marks.chip.onclick = () => openFrom(marks.chip, 'who');
+  marks.manage.onclick = () => openFrom(marks.manage, 'manage');
   window.addEventListener('storage', followOtherTab);
   drawOutside();
   if (list.several() && !list.chosenThisSession()) {
+    // Someone must say who plays before anything else: the window covers the page at once,
+    // and its cards come with the views.
     dialog.require(true);
-    screens.who();
+    dialog.show('who', TEXT.quiJoue, [], dialog.close);
+    void withViews((shown) => shown.who());
   }
 }
