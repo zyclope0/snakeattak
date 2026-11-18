@@ -81,8 +81,17 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   sur la seule page parents (les autres pieds de page y mènent), image de partage large
   faite d'une vraie bataille, titres « tower defense … pour enfants / for kids »,
   « Nouveautés » écrite pour l'enfant, bloc « Qui a fait ce jeu ? », lien « À propos du
-  jeu » à 48 px dans « Pour les parents » ([détail](SITE.md)). **Pas encore publié** : à
-  faire par « Publier le site », sur accord du parent. Rien n'est essayé sur le téléphone.
+  jeu » à 48 px dans « Pour les parents » ([détail](SITE.md)). Publié le 17 novembre
+  (publication n° 11). Rien n'est essayé sur le téléphone.
+- **Relecture à huit angles et corrections (17 novembre)** : à la demande du parent, huit
+  relecteurs indépendants ont vérifié le lot dans le build, chacun sous un angle (ce ne sont
+  pas des avis d'enfants ni de parents). Corrigé : une phrase fausse de « Nouveautés »,
+  les mots des boutons du jeu repris tels quels, les noms anglais du jeu, l'œuf de l'index
+  (« deux petits serpents »), l'aperçu de partage de la page du jeu, l'image de partage
+  (vague 8, titre lisible même rognée en carré), la grille de « Pour les parents » quand la
+  publicité sera allumée, les liens de la page de confidentialité à 48 px
+  ([détail](SITE.md)). **Pas encore publié.** Restent des décisions du parent et des
+  questions pour le fils, listées dans SITE.md.
 
 ## Site : découverte FR/EN et soutien — lot du16novembre
 
@@ -163,7 +172,8 @@ canonicals et partage préparés. [Détail et procédure Google/Bing](SITE.md).
 
 - Lien public créé et approuvé par le parent : montant libre en CHF, ponctuel,
   sans adresse ni livraison. Pas de paiement réel par Codex.
-- Activation dans les pages publiques FR/EN et leurs pieds de page ; menu du jeu
+- Activation dans les pages publiques FR/EN ; depuis le 17 novembre le lien de paiement
+  n'est plus que sur les pages parents, les autres pieds de page y mènent. Menu du jeu
   conservé, Android/portable sans lien de paiement ni SDK.
 - Section de confidentialité bilingue approuvée ajoutée à la source unique ;
   anciens engagements préservés, date16novembre2026. Aucun nouveau build Android signé.

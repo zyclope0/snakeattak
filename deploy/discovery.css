@@ -64,7 +64,7 @@ main,
   margin-left: auto;
   white-space: nowrap;
 }
-/* Every link a finger may press is at least 48 px high. */
+/* Every link a finger may press is at least 48 px high, and as wide. */
 .language,
 .site-nav a,
 .site-footer a,
@@ -73,6 +73,7 @@ main,
   display: inline-flex;
   align-items: center;
   min-height: 48px;
+  min-width: 48px;
 }
 .site-nav {
   display: flex;
@@ -187,6 +188,13 @@ main,
 }
 .story a {
   margin-top: 6px;
+}
+.story p {
+  overflow-wrap: anywhere;
+}
+/* An odd number of blocks: the last one takes the whole row instead of leaving a hole. */
+.story:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 .story:first-child {
   border-color: #2e7b66;

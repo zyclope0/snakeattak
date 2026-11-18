@@ -31,7 +31,7 @@ function eggCard(): HTMLElement {
     'div',
     {},
     make('strong', { text: TEXT.oeufDeSerpent }),
-    make('small', { text: TEXT.unSerpentSortDeLOeufPendantLaBataille }),
+    make('small', { text: TEXT.deuxSerpentsSortentDeLOeufPendantLaBataille }),
     make('em', { text: TEXT.dansToutesLesVagues }),
   );
   return make(

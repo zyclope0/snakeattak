@@ -73,10 +73,12 @@ try {
       const way = page.locator('.site-footer a', {
         hasText: item.lang === 'fr' ? 'Soutenir le développement' : 'Support development',
       });
-      assert.equal(
-        await way.getAttribute('href'),
-        item.lang === 'fr' ? '/fr/parents/#soutien' : '/en/parents/#support',
-      );
+      if (item.key === 'parents') assert.equal(await way.count(), 0);
+      else
+        assert.equal(
+          await way.getAttribute('href'),
+          item.lang === 'fr' ? '/fr/parents/#soutien' : '/en/parents/#support',
+        );
       for (const link of await support.all()) {
         assert.equal(await link.getAttribute('href'), SUPPORT_URL);
         assert.equal(await link.getAttribute('target'), '_blank');
@@ -102,13 +104,16 @@ try {
         return {
           play: links.some((n) => n.classList.contains('play') && box(n).bottom <= innerHeight),
           small: links
-            .filter((n) => box(n).height < 48)
-            .map((n) => `${n.textContent.trim()} ${Math.round(box(n).height)}`),
+            .filter((n) => box(n).height < 48 || box(n).width < 48)
+            .map(
+              (n) =>
+                `${n.textContent.trim()} ${Math.round(box(n).width)}×${Math.round(box(n).height)}`,
+            ),
         };
       });
       const where = `${item.path} at ${viewport.width}×${viewport.height}`;
       assert.ok(reach.play, `${where}: the button to play is on the first screen`);
-      assert.deepEqual(reach.small, [], `${where}: every link is at least 48 px high`);
+      assert.deepEqual(reach.small, [], `${where}: every link is at least 48 px each way`);
       for (const img of await page.locator('img').all()) {
         await img.scrollIntoViewIfNeeded();
         assert.ok(
@@ -159,6 +164,12 @@ try {
       await popup.close();
     }
     await page.goto(origin + '/confidentialite/', { waitUntil: 'networkidle' });
+    // The parents page sends here: the links of its header are as tall as the others.
+    for (const link of await page.locator('header nav a').all())
+      assert.ok(
+        (await link.boundingBox()).height >= 48,
+        `policy header link « ${await link.innerText()} » is at least 48 px high`,
+      );
     for (const heading of [
       'Soutien facultatif sur le site Web',
       'Optional support on the website',

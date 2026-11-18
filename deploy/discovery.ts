@@ -54,6 +54,8 @@ const labels = {
       'Pour les adultes : soutien ponctuel et facultatif en CHF sur PayPal. Aucun avantage dans le jeu.',
     skip: 'Aller au contenu',
     alt: 'Un héros et un serpent en pâte à modeler, près du cristal',
+    shareAlt:
+      'Une bataille du jeu : des alliés défendent le refuge contre des serpents, sur trois chemins',
     title: 'La Conquête des Serpents',
     family: 'Imaginé par un enfant, partagé en famille.',
     back: 'Retour au jeu',
@@ -72,16 +74,19 @@ const labels = {
       'For adults: an optional, one-off contribution in CHF through PayPal. No in-game benefits.',
     skip: 'Skip to content',
     alt: 'A clay hero and snake beside the crystal',
+    shareAlt: 'A battle from the game: allies defend the refuge against snakes on three paths',
     title: 'Snake Attack TD',
     family: 'Imagined by a child, shared with the family.',
     back: 'Back to the game',
   },
 } as const;
 
+/** The sentence written for adults beside the payment link, which a screen reader reads with it. */
+const supportNote = (language: 'fr' | 'en') => `${labels[language].supportAnchor}-note`;
 function supportLink(language: 'fr' | 'en', value: string | null) {
   const url = resolveSupportUrl(value);
   return url
-    ? `<a data-support href="${escape(url)}" target="_blank" rel="noopener noreferrer nofollow">${labels[language].support}</a>`
+    ? `<a data-support aria-describedby="${supportNote(language)}" href="${escape(url)}" target="_blank" rel="noopener noreferrer nofollow">${labels[language].support}</a>`
     : '';
 }
 
@@ -97,11 +102,12 @@ export function discoveryPageHtml(
   const canonical = SITE_ORIGIN + page.path;
   const support = supportLink(page.lang, supportUrl);
   // The payment link lives in one place, written for adults: the parents page. Every other
-  // footer leads there, never to the payment itself.
+  // footer leads there, never to the payment itself; the parents page already shows it.
   const parents = DISCOVERY_PAGES.find((p) => p.key === 'parents' && p.lang === page.lang)!;
-  const supportWay = support
-    ? `<a href="${parents.path}#${words.supportAnchor}">${words.support}</a>`
-    : '';
+  const supportWay =
+    support && page.key !== 'parents'
+      ? `<a href="${parents.path}#${words.supportAnchor}">${words.support}</a>`
+      : '';
   const story = (b: DiscoveryPage['blocks'][number]) =>
     `<section class="story"><h2>${escape(b.heading)}</h2><p>${escape(b.text)}</p>${b.link ? `<a href="${escape(b.link.href)}">${escape(b.link.label)}</a>` : ''}</section>`;
   const navigation = DISCOVERY_PAGES.filter((p) => p.lang === page.lang)
@@ -148,7 +154,7 @@ export function discoveryPageHtml(
 <meta property="og:image" content="${SITE_ORIGIN}${assets.share}">
 <meta property="og:image:width" content="${SHARE_PICTURE.width}">
 <meta property="og:image:height" content="${SHARE_PICTURE.height}">
-<meta property="og:image:alt" content="${escape(words.alt)}">
+<meta property="og:image:alt" content="${escape(words.shareAlt)}">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
 </head>
@@ -160,7 +166,7 @@ export function discoveryPageHtml(
 <section class="intro"><div><p class="eyebrow">${words.family}</p><h1>${escape(page.heading)}</h1><p class="lead">${escape(page.lead)}</p><a class="play" href="/">${words.play}<span aria-hidden="true"> →</span></a></div><img class="hero" src="${assets.hero}" width="512" height="512" alt="${escape(words.alt)}" fetchpriority="high"></section>
 ${cards}
 <div class="stories">${page.blocks.map(story).join('\n')}</div>
-${page.key === 'parents' && support ? `<section class="support-note" id="${words.supportAnchor}"><h2>${words.support}</h2><p>${words.external}</p>${support}</section>` : ''}
+${page.key === 'parents' && support ? `<section class="support-note" id="${words.supportAnchor}"><h2>${words.support}</h2><p id="${supportNote(page.lang)}">${words.external}</p>${support}</section>` : ''}
 </main>
 <footer class="site-footer"><p>© zyclope · ${words.title}</p><nav aria-label="${page.lang === 'fr' ? 'Informations' : 'Information'}"><a href="/">${words.back}</a><a href="/confidentialite/${page.lang === 'en' ? '#en' : ''}">${words.privacy}</a>${supportWay}</nav></footer>
 </body>
@@ -195,6 +201,8 @@ export function discoveryRobots(): string {
  * engine states no language and may read either, so the description holds both.
  */
 export const GAME_PAGE = {
+  /** A shared link names the game in both languages, as its picture does. */
+  title: 'Snake Attack TD — La Conquête des Serpents',
   description:
     'Jeu de défense gratuit : protège le cristal sur trois voies avec tes alliés. Free defense game: protect the crystal on three lanes with your allies.',
 } as const;
@@ -219,17 +227,21 @@ export function augmentGamePage(html: string, pictures: { share: string; touch: 
     `<link rel="canonical" href="${SITE_ORIGIN}/">` +
     `<link rel="apple-touch-icon" href="${pictures.touch}">` +
     `<meta property="og:site_name" content="Snake Attack TD">` +
-    `<meta property="og:image" content="${SITE_ORIGIN}${pictures.share}">`;
+    `<meta property="og:title" content="${GAME_PAGE.title}">` +
+    `<meta property="og:image" content="${SITE_ORIGIN}${pictures.share}">` +
+    `<meta property="og:image:width" content="${SHARE_PICTURE.width}">` +
+    `<meta property="og:image:height" content="${SHARE_PICTURE.height}">` +
+    `<meta name="twitter:card" content="summary_large_image">`;
   // One link to the public pages, in the language of the game, among the buttons of « Pour
   // les parents » and as tall as they are (`.about`, src/ui/homePages.css).
   const links = `<a class="about" data-copy-raw href="/fr/" lang="fr">À propos du jeu</a><a class="about" data-copy-raw href="/en/" lang="en">About the game</a>`;
-  const result = html
+  // The page of the game must hold the buttons of the parents screen: a template that
+  // changed would otherwise lose the link without a word.
+  const anchor = /(<nav class="parent-actions"[\s\S]*?)(<\/nav>)/;
+  if (!anchor.test(html) || !html.includes('</head>'))
+    throw new Error('The game page has no parents screen to hold the link to the public pages');
+  // Payments belong to the static public pages. Never ship a payment link into the game.
+  return html
     .replace('</head>', meta + adSenseVerificationMeta() + '</head>')
-    .replace(
-      /(<nav class="parent-actions"[\s\S]*?)(<\/nav>)/,
-      (_, start, end) => start + links + end,
-    );
-  // Payments belong to the static public pages, reached from the existing about links.
-  // Never add a row to this compact game panel or ship a payment link into the game.
-  return result;
+    .replace(anchor, (_, start, end) => start + links + end);
 }

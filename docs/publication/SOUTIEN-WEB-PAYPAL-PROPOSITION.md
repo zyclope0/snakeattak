@@ -21,7 +21,9 @@ Cela ne constitue aucune garantie sur le reçu ou les écrans ultérieurs.
 ## Intégration proposée
 
 - Un lien discret « Soutenir le développement » / « Support development » dans
-  le pied des pages publiques et sur les pages parents FR/EN.
+  le pied des pages publiques et sur les pages parents FR/EN. **Depuis le 17 novembre
+  2026**, le lien de paiement n'est plus que dans le bloc des pages parents ; le pied
+  des autres pages mène à ce bloc (`docs/SITE.md`, suite de la revue).
 - Page parents : « Pour les adultes : soutien ponctuel et facultatif en CHF sur
   PayPal. Aucun avantage dans le jeu. » Traduction : « For adults: an optional,
   one-off contribution in CHF through PayPal. No in-game benefits. »

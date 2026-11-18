@@ -53,6 +53,10 @@ if (android) {
   assert.ok(existsSync(join(folder, 'favicon.ico')), 'Web: an icon for pages that name none');
   assert.match(game, /<link rel="apple-touch-icon" href="\/assets\/site-touch-/);
   assert.match(game, /property="og:image" content="https:\/\/[^"]+\/assets\/site-share-/);
+  // A shared link to the game shows the wide picture, as the public pages do.
+  assert.match(game, /property="og:title" content="[^"]+"/);
+  assert.match(game, /property="og:image:width" content="1200"/);
+  assert.match(game, /name="twitter:card" content="summary_large_image"/);
   // The link to the public pages sits among the buttons of the parents screen.
   assert.match(game, /<a class="about" data-copy-raw href="\/fr\/" lang="fr">[^<]+<\/a>/);
   assert.doesNotMatch(game, /<footer class="home-footer">[\s\S]*?class="about"[\s\S]*?<\/footer>/);
@@ -70,14 +74,19 @@ if (android) {
       const parents = page.key === 'parents';
       const support = [
         ...html.matchAll(
-          /<a data-support href="([^"]+)" target="_blank" rel="noopener noreferrer nofollow">([^<]+)<\/a>/g,
+          /<a data-support aria-describedby="[a-z]+-note" href="([^"]+)" target="_blank" rel="noopener noreferrer nofollow">([^<]+)<\/a>/g,
         ),
       ];
       assert.equal(support.length, parents ? 1 : 0, `${page.path}: support placements`);
       for (const link of support) assert.equal(link[1], SUPPORT_URL);
       assert.equal(/paypal/i.test(html), parents, `${page.path}: PayPal named for adults only`);
+      // The parents page shows the block itself: its footer needs no way to it.
       const way = page.lang === 'fr' ? '/fr/parents/#soutien' : '/en/parents/#support';
-      assert.ok(html.split('<footer')[1].includes(`<a href="${way}">`), `${page.path}: ${way}`);
+      assert.equal(
+        html.split('<footer')[1].includes(`<a href="${way}">`),
+        !parents,
+        `${page.path}: ${way}`,
+      );
       if (parents) {
         assert.ok(html.includes(`<section class="support-note" id="${way.split('#')[1]}">`));
         assert.ok(
