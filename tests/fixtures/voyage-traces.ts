@@ -23,7 +23,7 @@ export const expectedVoyageTraces: Readonly<Record<string, string>> = Object.fre
   'graine 2026, joueur 0, version 2':
     'VOYAGE-2-01ZA-QR fallen 4/5 [renfort-raptor cristal cristal miel] won w3 b100 g313 k25 s2137 | won w3 b100 g364 k31 s2102 | won w3 b100 g1045 k37 s2313 | won w3 b100 g603 k74 s3506 | lost w4 b0 g84 k55 s5308 b4188319cda747922c28e9c3',
   'graine 31337, joueur 1, version 2':
-    'VOYAGE-2-0YK9-05 fallen 4/5 [renfort-bouclier pieces miel renfort-ninja] won w3 b100 g323 k25 s1889 | won w3 b100 g754 k31 s2937 | won w3 b100 g650 k37 s2456 | won w3 b91 g586 k73 s4728 | lost w3 b0 g472 k27 s3571 c8ddd4b3deb5be2ac91cfab2',
+    'VOYAGE-2-0YK9-05 fallen 4/5 [renfort-bouclier pieces miel renfort-ninja] won w3 b100 g323 k25 s1889 | won w3 b100 g754 k31 s2937 | won w3 b100 g650 k37 s2456 | won w3 b91 g586 k73 s4728 | lost w3 b0 g472 k27 s3571 c4bd8afa515ef042487f21e1',
   'graine 777, joueur 3, version 2':
     'VOYAGE-2-00R9-PF fallen 4/5 [miel cristal renfort-raptor miel] won w3 b100 g328 k25 s2116 | won w3 b100 g359 k31 s2293 | won w3 b100 g1035 k37 s3260 | won w3 b73 g523 k69 s4576 | lost w3 b0 g65 k31 s3422 f02dcf9ea159e2aa0669a07e',
   'graine 123456, joueur 4, version 2':

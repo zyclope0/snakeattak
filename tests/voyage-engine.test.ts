@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { Game } from '../src/game.ts';
 import { kinds, waveStats } from '../src/data.ts';
 import { LANES } from '../src/ai.ts';
-import { missionById } from '../src/missions.ts';
+import { missionById, missionWave } from '../src/missions.ts';
 import { capriceBudget, capriceRules } from '../src/caprices.ts';
 import { balanceRecruitPrice } from '../src/balanceRevision.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
@@ -11,6 +11,8 @@ import { createMissionProgressController, createMissionProgress } from '../src/m
 import { createCapriceAlbumsController } from '../src/capriceAlbums.ts';
 import { FEAST_DURATION } from '../src/tactics.ts';
 import { readStageRules } from '../src/voyageRules.ts';
+import { BOSS_COURT } from '../src/bossCourt.ts';
+import { enemies as enemyTypes } from '../src/enemies.ts';
 import type { StageRules } from '../src/voyageRules.ts';
 import {
   createStageGame,
@@ -73,6 +75,30 @@ test('in version 2 King Snake brings his two guards and his healer; in version 1
   assert.deepEqual(met(1, 4), ['king']);
   // Before the last stage, no king and no court.
   assert.deepEqual(met(2, 3), []);
+});
+
+test('the court is as sturdy as the caprice of its stage makes every snake', () => {
+  // A last stage whose caprice makes the snakes sturdier, and one whose caprice does not.
+  const lastOf = (seed: number) => createStageGame(planVoyage(seed)!, 4, [])!;
+  const seeds = Array.from({ length: 200 }, (_, seed) => seed);
+  const sturdy = seeds.find((seed) => lastOf(seed).caprice.hp > 1)!;
+  const plain = seeds.find((seed) => lastOf(seed).caprice.hp === 1)!;
+  for (const seed of [sturdy, plain]) {
+    const game = lastOf(seed);
+    const { hp } = missionWave(
+      game.mission!,
+      game.totalWaves,
+      game.tuning.tacticalRulesEnabled,
+    ).stats;
+    const guards: number[] = [];
+    fight(game, 'won', (playing) => {
+      for (const e of playing.enemies)
+        if (e.court?.role === 'guard' && !guards.includes(e.maxHp)) guards.push(e.maxHp);
+    });
+    const guard = BOSS_COURT.find((member) => member.role === 'guard')!;
+    const expected = hp * game.caprice.hp * guard.hpFactor * enemyTypes[guard.variant].hp;
+    assert.deepEqual(guards, [expected], String(seed));
+  }
 });
 
 test('the rules of a stage are already canonical, key for key, in both versions', () => {
@@ -244,6 +270,8 @@ test('the engine refuses a stage that is not an expedition of the second revisio
     // Version 1 has no court; version 2 must say whether it comes.
     { ...bare, court: true },
     { ...bare, version: 2 },
+    // The court never comes without its king.
+    { ...bare, version: 2, court: true },
     { ...bare, king: 1 },
     { ...bare, coins: -5001 },
     { ...bare, coins: 1.5 },

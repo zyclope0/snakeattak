@@ -76,7 +76,7 @@ export function spawnNext(game: Game, dt: number) {
   );
   if (!boss) hardenShell(game, entry, index);
   if (withCourt) {
-    spawnCourt(game, entry, stats.hp);
+    spawnCourt(game, entry, stats.hp * game.caprice.hp);
     game.remaining = 0;
     game.message = TEXT.leRoiArriveAvecSaGardeEtUnSoigneur;
   } else game.remaining--;

@@ -46,6 +46,8 @@ async function loadTable() {
   return freezeTuning(JSON.parse(await readFile(TABLE, 'utf8')));
 }
 const tuning = await loadTable();
+// Les codes du rapport sont ceux de la version mesurée ; une autre table s'écrit comme le jeu.
+const version = Object.hasOwn(VOYAGE_TUNINGS, TABLE) ? Number(TABLE) : CURRENT_VOYAGE_VERSION;
 
 const jobs = [];
 for (let index = 0; index < SEEDS; index++)
@@ -57,7 +59,7 @@ if (env.VOYAGE_SHARD !== undefined) {
   const shard = Number(env.VOYAGE_SHARD);
   const mine = jobs.filter((_, index) => index % JOBS === shard);
   process.send(
-    mine.map((job) => playVoyage(job.seed, job.profile, job.policy, tuning)),
+    mine.map((job) => playVoyage(job.seed, job.profile, job.policy, tuning, version)),
     () => process.exit(0),
   );
 } else {

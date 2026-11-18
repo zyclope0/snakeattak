@@ -49,6 +49,8 @@ export function readStageRules(raw: unknown): StageRules | null {
     typeof raw.king !== 'boolean' ||
     // Version 1 has no court; version 2 says whether the king brings it.
     (raw.version === 1 ? raw.court !== undefined : typeof raw.court !== 'boolean') ||
+    // The court only ever comes with the king.
+    (raw.court === true && raw.king !== true) ||
     !isIntegerIn(raw.coins, -COINS_LIMIT, COINS_LIMIT) ||
     !isIntegerIn(raw.ward, 0, WARD_LIMIT) ||
     !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||

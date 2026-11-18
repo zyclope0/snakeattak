@@ -368,6 +368,7 @@ test('the log is saved and read back; damaged or refused storage is a fresh log'
     {},
     { ...log, best: 1 },
     { ...log, best: 6 },
+    { ...log, version: 2 },
     { ...log, version: 3 },
   ])
     assert.equal(validateVoyageLog(invalid), null);
