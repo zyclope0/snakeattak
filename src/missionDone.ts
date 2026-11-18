@@ -2,6 +2,9 @@ import { MISSION_DONE_KEY } from './storageKeys.ts';
 
 type StoragePort = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
+/** A mark is far shorter: a longer value on the device is not one. */
+export const MARK_LENGTH_LIMIT = 32;
+
 /**
  * A short mark of a camp: its length and a 32-bit FNV-1a sum of its text. Two camps a
  * child plays never share it in practice, and the device keeps a few characters instead
@@ -27,7 +30,7 @@ export function createMissionDone(storage?: StoragePort) {
   const read = (): string | null => {
     try {
       const raw = storage?.getItem(MISSION_DONE_KEY);
-      return typeof raw === 'string' && raw.length <= 32 ? raw : null;
+      return typeof raw === 'string' && raw.length <= MARK_LENGTH_LIMIT ? raw : null;
     } catch {
       return null;
     }

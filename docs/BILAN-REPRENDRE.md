@@ -20,18 +20,25 @@ proposait « Reprendre ma mission » pour une mission déjà gagnée.
   marque. Il propose alors la mission suivante, comme juste après la victoire.
 - « Reprendre ma mission » reste sur la page Missions, comme avant ; y rentrer efface la
   marque, et l'accueil redit « Reprendre ».
+- Un nouveau départ, même de la même mission avec le même tirage, efface la marque : le jeu
+  rejoue les mêmes camps, et l'un d'eux ne doit pas passer pour la mission gagnée. Importer
+  un fichier familial l'efface aussi.
 - Le fichier familial ne change pas. Stockage refusé ou marque abîmée : l'accueil se comporte
   comme avant, sans erreur. Une mission perdue ou laissée en cours dit toujours « Reprendre ».
 - Rien ne change dans les règles, les parties, les codes ni les textes.
 
 ## Vérifié
 
+- Relecture indépendante (huit angles) : elle a trouvé les deux cas ci-dessus (même mission
+  rejouée, fichier importé), corrigés.
+
 - Tests unitaires (`tests/mission-done.test.ts`, clés de stockage, clés des joueurs).
 - Recette dans le vrai jeu (`scripts/mobile-resume-checks.mjs`, dans
   `npm run test:mobile-menus`), à 780×360 : mission laissée en cours, puis jeu rouvert →
   « Reprendre » ; mission 1 gagnée, puis jeu rouvert → « Jouer » ; « Reprendre ma mission »
-  sur la page Missions, et après y être rentré → « Reprendre ». Sans la correction, la
-  recette retrouve bien l'ancien défaut.
+  sur la page Missions, et après y être rentré → « Reprendre » ; mission rejouée depuis le
+  résultat → la marque disparaît et l'accueil dit « Reprendre ». Sans chaque correction, la
+  recette échoue.
 
 ## Pas vérifié
 

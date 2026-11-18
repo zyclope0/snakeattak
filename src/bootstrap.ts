@@ -310,6 +310,9 @@ function launchMission(run: MissionRun, chosen: readonly Kind[] = [], retry = fa
   if (!next) return false;
   setGameAside();
   if (!missions.started(run)) return false;
+  // A departure, even of the same mission and seed, is a mission under way: the same camps
+  // come back, and one of them must not pass for the mission won.
+  missionDone.clear();
   if (!retry) albums.beginRun();
   session.useGame(next);
   missionGame = next;
@@ -414,6 +417,8 @@ function applyFamily(backup: FamilyBackup) {
   openAlbumForCaprice(game, 'missions' in canonical ? canonical.missions?.retryCamp : undefined);
   career.replaceState(canonical.career);
   missions.replaceState('missions' in canonical ? canonical.missions! : createMissionProgress());
+  // The file brings its own camps: the mark of a mission won here says nothing about them.
+  missionDone.clear();
   classicGame = game && !game.mission ? game : undefined;
   missionGame = game?.mission ? game : undefined;
   campMemory.replace(canonical.camp);
