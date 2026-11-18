@@ -14,7 +14,7 @@ import type { Kind } from '../data.ts';
 import type { Entity } from './state.ts';
 import { addEffect, forgetPath } from './state.ts';
 import { ninjaTeleport } from '../balanceRevision.ts';
-import { blocked } from '../navigation.ts';
+import { routeStages, standable } from './field.ts';
 import { CRYSTAL_X } from '../boardLandmarks.ts';
 import type { Game } from '../game.ts';
 
@@ -31,13 +31,18 @@ export function enemyPace(game: Game, e: Entity) {
   );
 }
 /** Tous les coups alliés passent ici : attribution du tueur, zone et seconde tête comprises. */
-export function hitEnemy(game: Game, source: Entity, target: Entity, damage: number) {
+/**
+ * `aimed`: the snake was the one aimed at, not only caught by the edge of a blast. A ninja
+ * snake comes back behind the ally that aimed at it, never behind one whose fire only
+ * grazed it.
+ */
+export function hitEnemy(game: Game, source: Entity, target: Entity, damage: number, aimed = true) {
   if (target.hp <= 0) return;
   // A ninja snake lets its first blow pass; from the fifth revision on, it also comes back
   // behind the ally that struck it.
   if (target.dodges) {
     target.dodges--;
-    teleportBehind(game, target, source);
+    if (aimed) teleportBehind(game, target, source);
     return;
   }
   const ranged = defenseRole(source.kind as Kind) === 'ranged';
@@ -63,8 +68,9 @@ export function hitEnemy(game: Game, source: Entity, target: Entity, damage: num
 const TELEPORT_CRYSTAL_GAP = 60;
 /**
  * The ninja snake reappears on the back of the ally that struck it: the side that ally
- * does not face. Nearer places are tried when that one is a rock, the river or off the
- * board; when none is free, the snake stays where it is, as it did before.
+ * does not face. Nearer places are tried when that one is a rock, the river, off the board
+ * or too near the crystal; when none is free, the snake stays where it is, as it did before.
+ * It then walks on from there: its next stage is the first one ahead of it.
  */
 function teleportBehind(game: Game, snake: Entity, ally: Entity) {
   const rule = ninjaTeleport(game.balanceRevision);
@@ -72,13 +78,19 @@ function teleportBehind(game: Game, snake: Entity, ally: Entity) {
   const back = -(ally.facing || 1);
   for (const share of [1, 0.75, 0.5])
     for (const lift of [0, -12, 12]) {
-      const x = Math.min(ally.x + back * rule.behind * share, CRYSTAL_X - TELEPORT_CRYSTAL_GAP);
+      const x = ally.x + back * rule.behind * share;
       const y = ally.y + lift;
-      if (blocked(x, y, game.level)) continue;
+      // Never in front of an ally standing by the crystal: such a place is refused, not moved.
+      if (x > CRYSTAL_X - TELEPORT_CRYSTAL_GAP || !standable(x, y, game.level)) continue;
       addEffect(game, snake, { x, y }, 'blink');
       snake.x = x;
       snake.y = y;
       forgetPath(snake);
+      // Sent ahead, it must not walk back to the stage it had left behind.
+      const stages = routeStages(game.level);
+      const next = stages.findIndex((stage) => stage > x);
+      snake.stage = next === -1 ? stages.length - 1 : next;
+      snake.turnY = null;
       return;
     }
 }

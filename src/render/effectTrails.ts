@@ -1,5 +1,6 @@
 import type Phaser from 'phaser';
 import type { Effect } from '../game.ts';
+import { BLINK_SECONDS } from '../engine/state.ts';
 import { shakeBoard } from './boardResolution.ts';
 import * as BOARD_COLOR from './palette.ts';
 
@@ -62,11 +63,21 @@ function drawImpact(g: Graphics, e: Effect, alpha: number) {
   g.strokeCircle(e.tx, e.ty - 4, 9 + (1 - alpha) * 13);
 }
 
-/** The ninja snake vanishes and comes back: a ring closes where it was, one opens where it is. */
-function drawBlink(g: Graphics, e: Effect, alpha: number) {
-  g.lineStyle(3, 0xd9d4f2, alpha);
-  g.strokeCircle(e.x, e.y - 6, 4 + alpha * 14);
-  g.strokeCircle(e.tx, e.ty - 6, 4 + (1 - alpha) * 14);
+/**
+ * The ninja snake vanishes and comes back: a ring closes where it was, one opens where it
+ * is. Dark under light, large and slow enough to be seen on the pale road of a phone.
+ */
+function drawBlink(g: Graphics, e: Effect) {
+  const left = Math.max(0, Math.min(1, e.life / BLINK_SECONDS));
+  const alpha = Math.min(1, left * 1.6);
+  for (const [width, color] of [
+    [8, 0x2b2140],
+    [4, 0xf1ecff],
+  ] as const) {
+    g.lineStyle(width, color, alpha);
+    g.strokeCircle(e.x, e.y - 6, 6 + left * 22);
+    g.strokeCircle(e.tx, e.ty - 6, 6 + (1 - left) * 22);
+  }
 }
 
 /**
@@ -109,7 +120,7 @@ export class EffectTrails {
         drawHeal(g, e, alpha);
         break;
       case 'blink':
-        drawBlink(g, e, alpha);
+        drawBlink(g, e);
         break;
       case 'gold':
         // With motion, BattleJuice flies a coin to the counter instead.

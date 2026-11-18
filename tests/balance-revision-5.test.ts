@@ -14,11 +14,13 @@ import type { Kind } from '../src/data.ts';
 import { decodeDeparture, departureForGame, encodeDeparture } from '../src/departures.ts';
 import type { EnemyKind } from '../src/enemies.ts';
 import { hitEnemy } from '../src/engine/damage.ts';
+import { blast } from '../src/engine/allies.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { Game } from '../src/game.ts';
 import { createMissionProgress } from '../src/missionProgress.ts';
 import { createMissionRun } from '../src/missions.ts';
-import { blocked } from '../src/navigation.ts';
+import { routeStages, standable } from '../src/engine/field.ts';
+import { CRYSTAL_X } from '../src/boardLandmarks.ts';
 import { createCareer } from '../src/progression.ts';
 import { createCapriceAlbumsController } from '../src/capriceAlbums.ts';
 import { variantFor } from '../src/waves.ts';
@@ -82,7 +84,7 @@ test('révision 5 : le premier coup rate le ninja, qui revient dans le dos de ce
   // Behind: on the side the hero does not face, at most 34 units away, on open ground.
   assert.ok(snake.x > hero.x && snake.x - hero.x <= 34, `${snake.x} / ${hero.x}`);
   assert.ok(Math.abs(snake.y - hero.y) <= 12);
-  assert.ok(!blocked(snake.x, snake.y, game.level));
+  assert.ok(standable(snake.x, snake.y, game.level));
   assert.deepEqual(snake.path, []);
   assert.ok(game.effects.some((e) => e.kind === 'blink'));
   const x = snake.x;
@@ -100,20 +102,66 @@ test('révision 4 : le ninja esquive sans bouger, comme avant', () => {
   assert.ok(!game.effects.some((e) => e.kind === 'blink'));
 });
 
-test('le ninja ne revient jamais sur un rocher, dans la rivière ni sur le cristal', () => {
+test('le ninja ne revient jamais sur un rocher, dans la rivière ni devant un allié près du cristal', () => {
   const { game, snake } = meet(5, 'shadow', 6);
+  const level = game.level;
+  const rock = level.rocks[0];
+  let moved = 0;
   for (const [x, y, facing] of [
-    [960, 324, -1],
-    [520, 200, -1],
-    [700, 324, 1],
-    [1070, 140, -1],
+    [rock.x - 30, rock.y, -1],
+    [470, 200, 1],
+    [470, 324, 1],
+    [700, 324, -1],
+    [800, 156, -1],
+    [930, 324, -1],
+    [984, 324, -1],
+    [1060, 140, -1],
   ] as const) {
     const fresh = { ...snake, dodges: 1, x: 300, y: 324, path: [] };
     const ally = { ...game.units[0], x, y, facing };
     hitEnemy(game, ally, fresh, 5);
-    const moved = fresh.x !== 300 || fresh.y !== 324;
-    if (moved) assert.ok(!blocked(fresh.x, fresh.y, game.level), `${x},${y}`);
-    assert.ok(fresh.x <= 940, `trop près du cristal : ${fresh.x}`);
+    if (fresh.x === 300 && fresh.y === 324) continue;
+    moved++;
+    assert.ok(standable(fresh.x, fresh.y, level), `${x},${y} → ${fresh.x},${fresh.y}`);
+    assert.ok(fresh.x <= CRYSTAL_X - 60, `trop près du cristal : ${fresh.x}`);
+    // Behind, never in front: on the side the ally does not face.
+    assert.ok((fresh.x - x) * facing <= 0, `devant l'allié : ${x} → ${fresh.x}`);
+  }
+  assert.ok(moved >= 3, `${moved} téléportations seulement`);
+});
+
+test('après son saut, le ninja ne revient pas en arrière vers l’antre', () => {
+  const { game, snake } = meet(5, 'shadow', 6);
+  const hero = { ...game.units[0], x: 860, y: 324, facing: -1 };
+  hitEnemy(game, hero, snake, 5);
+  assert.ok(snake.x > 860);
+  const stages = routeStages(game.level);
+  assert.ok(stages[snake.stage] > snake.x || snake.stage === stages.length - 1);
+  assert.equal(snake.turnY, null);
+  const start = snake.x;
+  let least = start;
+  for (let i = 0; i < 60 && snake.hp > 0 && game.enemies.includes(snake); i++) {
+    game.step(1 / 30);
+    least = Math.min(least, snake.x);
+  }
+  assert.ok(least >= start - 30, `recule de ${start - least}`);
+});
+
+test('l’explosion reste où elle tombe, et ne téléporte que le serpent visé', () => {
+  for (const revision of [4, 5] as const) {
+    const { game, snake } = meet(revision, 'shadow', 6);
+    snake.x = 700;
+    snake.y = 324;
+    const tank = { ...game.units[0], kind: 'tank' as const, x: 850, y: 324, facing: -1 };
+    // A plain snake beside the ninja, met by the loop after it; a second ninja on the edge.
+    const near = { ...snake, id: 99001, variant: 'normal' as const, dodges: undefined, x: 680 };
+    const grazed = { ...snake, id: 99002, dodges: 1, x: 725 };
+    game.enemies.splice(0, game.enemies.length, snake, near, grazed);
+    const nearHp = near.hp;
+    blast(game, tank, snake, 70);
+    assert.ok(near.hp < nearHp, `révision ${revision} : le voisin est touché`);
+    assert.deepEqual([grazed.x, grazed.y], [725, 324], 'effleuré, il ne saute pas');
+    assert.equal(grazed.dodges, 0, 'mais son premier coup est passé');
   }
 });
 

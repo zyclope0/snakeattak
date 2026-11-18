@@ -76,6 +76,8 @@ export function nextRandom(game: Game) {
   game.rng = nextSeed(game.rng);
   return seedShare(game.rng);
 }
+/** How long the rings of a ninja snake that vanishes and comes back stay on the board. */
+export const BLINK_SECONDS = 0.8;
 export function addEffect(game: Game, a: Point, b: Point, kind: Effect['kind']) {
   game.effects.push({
     sourceId: 'id' in a && typeof a.id === 'number' ? a.id : undefined,
@@ -85,7 +87,7 @@ export function addEffect(game: Game, a: Point, b: Point, kind: Effect['kind']) 
     tx: b.x,
     ty: b.y,
     kind,
-    life: kind === 'honey' ? 0.9 : 0.3,
+    life: kind === 'honey' ? 0.9 : kind === 'blink' ? BLINK_SECONDS : 0.3,
   });
 }
 export function createEntity(
