@@ -223,3 +223,17 @@ test('révision 5 : code AVENTURE-7, camp en version 12, sauvegarde familiale', 
   assert.ok(backup);
   assert.ok(readFamilyBackup(backup!));
 });
+
+test('aucun mot quand le ninja se téléporte ; « Esquive ! » quand il esquive sur place', async () => {
+  const { Presentation } = await import('../src/render/presentation.ts');
+  for (const revision of [4, 5] as const) {
+    const { game, snake } = meet(revision, 'shadow', 6);
+    const p = new Presentation();
+    p.update(game, 16);
+    hitEnemy(game, { ...game.units[0], x: 700, y: 324, facing: -1 }, snake, 5);
+    p.update(game, 16);
+    const said = p.floats.some((f) => f.text === 'Esquive !');
+    // The child chose no word for the teleport; the dodge of an older game keeps its word.
+    assert.equal(said, revision === 4, `révision ${revision}`);
+  }
+});

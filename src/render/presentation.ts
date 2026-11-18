@@ -46,6 +46,8 @@ export const PLACED_SECONDS = 0.35;
 /** Visual seconds a den or an egg keeps telling that a snake came out of it. */
 export const ARRIVAL_SECONDS = 0.9;
 const BURST_SECONDS = 0.6;
+/** Board units covered in one look that are no walk: a leap, a camp put back, a teleport. */
+const LEAP = 40;
 /** The queues are bounded: a crowded board never grows them without limit. */
 /** How long the banner of a new snake or of a new ally is read. */
 const NEWCOMER_SECONDS = 3.4;
@@ -329,7 +331,10 @@ export class Presentation {
     const dodges = e.dodges ?? 0;
     // Written above the figures of the blows, and for longer: under them it was covered
     // after a third of a second.
-    if (dodges < old.dodges)
+    // A ninja snake that vanished and came back says nothing: its rings show it (the child's
+    // choice, 18 November 2026). One that only dodged, where it stands, says so.
+    const leapt = Math.hypot(e.x - old.x, e.y - old.y) >= LEAP;
+    if (dodges < old.dodges && !leapt)
       this.text(e.x, e.y - DODGE_WORD_HEIGHT, TEXT.esquive, '#d9d4f2', DODGE_WORD_SECONDS);
     old.dodges = dodges;
     old.x = e.x;
@@ -353,7 +358,7 @@ export class Presentation {
     if (!gait) this.gaits.set(e.id, (gait = { travel: (e.id * 7.3) % 40, rest: 1 }));
     const moved = Math.hypot(e.x - old.x, e.y - old.y);
     // A leap across the board is not a walk (a camp put back in place, a new map).
-    if (!(moved > 0.01 && moved < 40)) {
+    if (!(moved > 0.01 && moved < LEAP)) {
       gait.rest += dt;
       return;
     }
