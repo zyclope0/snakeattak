@@ -4,7 +4,7 @@ export const choisisUnEspaceLibreDansLeCampLoin =
 export const collant = 'COLLANT';
 export const attirant = 'ATTIRANT';
 export const nSerpentsRepoussesNAllies =
-  '{0} serpents repoussés · {1} alliés survivants · camp {2} %';
+  'Serpents repoussés : {0} · Alliés debout : {1} · Camp : {2} %';
 export const kingSnakeNNPvN = 'KING SNAKE · {0} / {1} PV{2}';
 export const phaseN3 = ' · PHASE {0}/3';
 export const gardienne = 'Gardienne';

@@ -1344,3 +1344,45 @@ Décision du parent ; tout est décrit dans
   (`SetEnvIf … game_page`), et seulement interrupteur allumé.
 - **Recette** : le mode de build `ads-test` allume l'encart et lui fait demander
   `./fake-ads.js`, que la recette sert elle-même (`scripts/web-ads-delivery-browser.mjs`).
+
+## Textes lisibles sur téléphone — 18 novembre 2026
+
+Un téléphone en paysage dessine le plateau à environ la moitié de sa taille : un texte écrit
+à 15 unités du plateau s'y lisait à 7 px. Règle : **un texte écrit sur le plateau se lit à
+11 px au moins à l'écran** (`BOARD_TEXT_MIN_PX`), et `readableBoardSize(scene, taille)`
+(`src/render/boardResolution.ts`) donne la taille en unités du plateau qui le garantit. Là où
+le plateau garde sa taille (ordinateur, harnais des recettes), le texte garde la taille pour
+laquelle il a été dessiné : aucune image de référence ne change.
+
+- Concernés : compte à rebours d'un œuf, confusion, courage, tir du roi, mots flottants
+  (dégâts, « Esquive ! »), nom et vie de King Snake, plaque du refuge
+  (`battleFeedback.ts`, `strongholds.ts`). La phrase de fin de partie garde son plancher de
+  13,5 px, par la même fonction.
+- **Pas encore concernés** (relevés par la relecture du 18 novembre, 5 à 9 px sur
+  téléphone) : le miel (« ATTIRANT · 13 s », `BattleScene.ts`), « Réserve » et les pastilles
+  de soin (`medicalSignals.ts`), la garde du roi (`bossSignals.ts`), les symboles de menace
+  (`threatMarkers.ts`). Aucun test n'impose encore la règle à tout `src/render/`.
+- Chaque texte a son propre besoin : sur un écran moyen, le nom de King Snake doit grandir
+  alors que les plaques sont déjà assez grandes. Les plaques qui portent une phrase
+  entière (confusion, courage) prennent la largeur de leur texte, pas le double de leur
+  largeur dessinée.
+- La plaque du refuge est dessinée (`refugePlate`), pas laissée au fond du texte : Phaser
+  ne remplit qu'un coin du fond d'un texte affiché sous sa taille, et « 100 % » se lisait
+  sur le chemin nu.
+- Reste à régler : en bas du plateau, la ligne d'annonce (HTML) et les plaques de confusion
+  et de courage se partagent la même bande ; l'annonce cache le début de « Courage ! »,
+  avant comme après ce lot.
+- Les plaques grandissent avec leur texte et restent sur le plateau ; les plaques d'œufs
+  s'écartent d'autant (`eggLabelPositions(eggs, scale)`), et une rangée trop chargée se
+  partage la largeur au lieu de sortir du plateau.
+- Rendu seul : aucune règle, aucune partie de référence touchée.
+
+Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
+(« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », ligne d'annonce, prix des favoris, total de
+vagues, onglets et bourse du catalogue, notes de « Dangers », prochaine mission). Les cartes
+du catalogue (vingt alliés en un écran) gardent leurs tailles : les agrandir demande de
+revoir cet écran. L'en-tête de la bataille sur grand écran a la hauteur de ses boutons, qui
+dépassaient de 6 px en haut de la fenêtre : 48 px là où un doigt peut toucher l'écran,
+36 px (boutons compris) pour une souris seule, où la hauteur du plateau ne change donc pas —
+12 px de moins suffisaient à ne plus laisser de place à l'encart publicitaire en 1920×800. Sur téléphone, « Continuer sans
+bonus » est à côté du titre des cadeaux : sous les cartes, il sortait de l'écran.

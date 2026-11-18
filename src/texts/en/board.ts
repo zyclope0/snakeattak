@@ -3,7 +3,7 @@ export const choisisUnEspaceLibreDansLeCampLoin =
   'Choose a free space in the camp, away from rocks and allies.';
 export const collant = 'SLOW';
 export const attirant = 'LURE';
-export const nSerpentsRepoussesNAllies = '{0} snakes defeated · {1} allies left · camp {2}%';
+export const nSerpentsRepoussesNAllies = 'Snakes defeated: {0} · Allies standing: {1} · Camp: {2}%';
 export const kingSnakeNNPvN = 'KING SNAKE · {0} / {1} HP{2}';
 export const phaseN3 = '· PHASE {0}/3';
 export const gardienne = 'Guardian';

@@ -801,6 +801,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Serpent à sonnette": "Rattlesnake",
   "Serpents costauds": "Serpents costauds",
   "Serpents pressés": "Serpents pressés",
+  "Serpents repoussés : {0} · Alliés debout : {1} · Camp : {2} %": "Snakes defeated: {0} · Allies standing: {1} · Camp: {2}%",
   "Serpents volants dès le rang 6.": "Flying snakes from rank 6.",
   "Serpents × {0}": "Snakes × {0}",
   "Ses deux têtes surveillent et frappent deux ennemis voisins.": "Its two heads watch for and strike two nearby enemies.",
@@ -1076,7 +1077,6 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "{0} s restantes. Le bouton revient à la prochaine vague.": "{0} s left. The button returns next wave.",
   "{0} serpents": "{0} snakes",
   "{0} serpents repoussés · cristal {1} %": "{0} snakes defeated · Crystal {1}%",
-  "{0} serpents repoussés · {1} alliés survivants · camp {2} %": "{0} snakes defeated · {1} allies left · camp {2}%",
   "{0} soignants refont leur stock": "Healers restocking: {0}",
   "{0} utilisé{1} · revient à la prochaine vague": "{0} used · back next wave",
   "{0} {1} et ajouter des serpents ordinaires.": "{0} {1} and add ordinary snakes.",
@@ -1142,5 +1142,5 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "♪ Sons coupés": "♪ Sound off",
   "✓ Autocollant gagné": "✓ Sticker earned",
   "✓ Gagné": "✓ Earned",
-  "🔒 {0} ★ nécessaires": "🔒 {0} ★ required",
+  "🔒 Il faut {0} ★": "🔒 Needs {0} ★",
 });

@@ -23,6 +23,7 @@ test('les couches du plateau gardent leur profondeur', () => {
       standing: 10,
       ink: 15,
       refugeDetails: 15.1,
+      refugePlate: 15.15,
       refugeLabel: 15.2,
       medicalStation: 15.4,
       warnings: 16,

@@ -77,8 +77,8 @@
   background: #f7df9e;
   color: #65400b;
   border-radius: 5px;
-  /* Une pastille posée sur le portrait : 12 px se lit sans cacher la tête de l'allié. */
-  font-size: 12px;
+  /* Une pastille posée sur le portrait : 13 px se lit sans cacher la tête de l'allié. */
+  font-size: 13px;
   line-height: 14px;
   font-weight: 800;
 }
@@ -98,12 +98,14 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  font-size: 10px;
+  padding-inline: 1px;
+  font-size: 13px;
 }
+/* The pot leaves the width to its word, read at 13 px: « Ralentir » fills the button. */
 .dock-honey .feast-pot {
-  width: 26px;
-  height: 26px;
-  flex: 0 0 26px;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
 }
 .dock-actions {
   display: grid;
@@ -125,7 +127,7 @@
   border-radius: 8px;
   background: #17382bf2;
   color: #ffe2a0;
-  font-size: clamp(11px, 1.2vw, 15px);
+  font-size: clamp(13px, 1.2vw, 15px);
   font-weight: 800;
   line-height: 18px;
   white-space: nowrap;

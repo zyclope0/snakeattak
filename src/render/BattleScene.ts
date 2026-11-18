@@ -28,6 +28,7 @@ import {
   BOARD_HEIGHT,
   boardPoint,
   boardScale,
+  readableBoardSize,
   terrainScale,
 } from './boardResolution.ts';
 import { Strongholds } from './strongholds.ts';
@@ -311,7 +312,7 @@ export class BattleScene extends Phaser.Scene {
   }
   private writeResult(game: Game) {
     // The board is drawn at about half size on a phone: keep 13 CSS px at least.
-    const size = Math.ceil(Math.max(18, (13.5 * this.scale.displayScale.x) / boardScale(this)));
+    const size = readableBoardSize(this, 18, 13.5);
     if (size !== this.resultSize) {
       this.resultSize = size;
       this.resultSubtitle.setFontSize(Math.max(21, size));

@@ -10,16 +10,29 @@ import { fill } from '../texts/fill.ts';
 import * as DEPTH from './boardLayers.ts';
 import * as BOARD_COLOR from './palette.ts';
 import { cssColor } from './cssColor.ts';
+import { BOARD_HEIGHT, BOARD_WIDTH, readableBoardSize } from './boardResolution.ts';
+
+/** The sizes these texts were drawn for, on a board shown at its own size. */
+const BOSS_TEXT = 12,
+  PLAQUE_TEXT = 15,
+  WIDE_PLAQUE_TEXT = 17,
+  FLOAT_TEXT = 17;
+/** The plaques that hold a whole sentence: confusion and courage. */
+const wide = (index: number) => index === 6 || index === 7;
 export class BattleFeedback {
+  private scene: Phaser.Scene;
+  /** The sizes the texts have now, to change them only when the screen does. */
+  private sizes = '';
   private graphics: Phaser.GameObjects.Graphics;
   private labels: Phaser.GameObjects.Text[] = [];
   private encounterLabels: Phaser.GameObjects.Text[] = [];
   private bossLabel: Phaser.GameObjects.Text;
   constructor(scene: Phaser.Scene) {
+    this.scene = scene;
     this.graphics = scene.add.graphics().setDepth(DEPTH.feedback);
     this.bossLabel = addCanvasCopy(scene.add, 550, 13, '', {
       fontFamily: BODY_FONT,
-      fontSize: '12px',
+      fontSize: `${BOSS_TEXT}px`,
       color: '#ffe2a0',
     })
       .setOrigin(0.5)
@@ -29,7 +42,7 @@ export class BattleFeedback {
       this.encounterLabels.push(
         addCanvasCopy(scene.add, 0, 0, '', {
           fontFamily: BODY_FONT,
-          fontSize: i < 6 || i === 8 ? '15px' : '17px',
+          fontSize: `${wide(i) ? WIDE_PLAQUE_TEXT : PLAQUE_TEXT}px`,
           fontStyle: 'bold',
           color: '#ffe2a0',
           stroke: '#17382b',
@@ -43,7 +56,7 @@ export class BattleFeedback {
       this.labels.push(
         addCanvasCopy(scene.add, 0, 0, '', {
           fontFamily: BODY_FONT,
-          fontSize: '17px',
+          fontSize: `${FLOAT_TEXT}px`,
           fontStyle: 'bold',
           stroke: '#233e2d',
           strokeThickness: 3,
@@ -53,9 +66,31 @@ export class BattleFeedback {
           .setVisible(false),
       );
   }
+  /**
+   * The board is drawn at about half size on a phone: its texts grow so that they are read
+   * at the same size everywhere. Each text has its own need: one may have to grow on a
+   * screen where another is already large enough.
+   */
+  private fit() {
+    const size = (drawn: number) => readableBoardSize(this.scene, drawn);
+    const [boss, plaque, widePlaque, float] = [
+      BOSS_TEXT,
+      PLAQUE_TEXT,
+      WIDE_PLAQUE_TEXT,
+      FLOAT_TEXT,
+    ].map(size);
+    const sizes = `${boss} ${plaque} ${widePlaque} ${float}`;
+    if (sizes === this.sizes) return;
+    this.sizes = sizes;
+    this.bossLabel.setFontSize(boss);
+    for (const [i, label] of this.encounterLabels.entries())
+      label.setFontSize(wide(i) ? widePlaque : plaque);
+    for (const label of this.labels) label.setFontSize(float);
+  }
   draw(p: Presentation, game: Game, reduced: boolean) {
     const g = this.graphics;
     g.clear();
+    this.fit();
     this.drawEncounter(p);
     for (const [i, label] of this.labels.entries()) {
       const f = p.floats[i];
@@ -96,6 +131,9 @@ export class BattleFeedback {
     const boss = game.enemies.find((e) => e.boss && e.hp > 0);
     this.bossLabel.setVisible(!!boss);
     if (boss) {
+      // The name keeps its top edge; the gauge goes down by what the name grew.
+      const grown = readableBoardSize(this.scene, BOSS_TEXT) - BOSS_TEXT;
+      this.bossLabel.setY(13 + grown / 2);
       g.fillStyle(0xf3ac79, 0.95);
       g.fillTriangle(boss.x - 6, boss.y + 39, boss.x + 6, boss.y + 39, boss.x, boss.y + 31);
       setCanvasCopy(
@@ -108,9 +146,9 @@ export class BattleFeedback {
         ),
       );
       g.fillStyle(0x183829);
-      g.fillRoundedRect(410, 24, 280, 9, 4);
+      g.fillRoundedRect(410, 24 + grown, 280, 9, 4);
       g.fillStyle(0xe7ad6c);
-      g.fillRoundedRect(412, 26, 276 * Math.max(0, boss.hp / boss.maxHp), 5, 2);
+      g.fillRoundedRect(412, 26 + grown, 276 * Math.max(0, boss.hp / boss.maxHp), 5, 2);
       g.lineStyle(2, 0xeac26c, 0.6);
       g.strokeEllipse(boss.x, boss.y + 24, 90 + (reduced ? 0 : Math.sin(p.clock * 3) * 6), 28);
     }
@@ -118,6 +156,8 @@ export class BattleFeedback {
   private drawEncounter(p: Presentation) {
     const g = this.graphics,
       r = p.encounter;
+    // How much larger than drawn the short plaques are (eggs, the king's shot).
+    const scale = readableBoardSize(this.scene, PLAQUE_TEXT) / PLAQUE_TEXT;
     for (const label of this.encounterLabels) label.setVisible(false);
     const plaque = (
       index: number,
@@ -128,23 +168,28 @@ export class BattleFeedback {
       color: number,
       textColor: string,
     ) => {
-      // Fixed plaques remain legible without animation, including reduced motion.
-      const px = Math.max(width / 2 + 4, Math.min(1096 - width / 2, x)),
-        py = Math.max(145, Math.min(597, y));
+      // Fixed plaques remain legible without animation, including reduced motion. They grow
+      // with their text and stay on the board. A plaque that holds a whole sentence takes
+      // the width its larger text needs, no more: twice as wide, it would cross the board.
+      const label = setCanvasCopy(this.encounterLabels[index], text).setColor(textColor);
+      const drawn = wide(index) ? WIDE_PLAQUE_TEXT : PLAQUE_TEXT;
+      const grow = readableBoardSize(this.scene, drawn) / drawn;
+      const w = grow === 1 ? width : wide(index) ? Math.max(width, label.width + 28) : width * grow,
+        half = 14 * grow;
+      const px = Math.max(w / 2 + 4, Math.min(BOARD_WIDTH - 4 - w / 2, x)),
+        py = Math.max(145, Math.min(Math.min(597, BOARD_HEIGHT - 3 - half), y));
       g.fillStyle(0x17382b, 0.96);
-      g.fillRoundedRect(px - width / 2, py - 14, width, 28, 6);
+      g.fillRoundedRect(px - w / 2, py - half, w, half * 2, 6);
       g.lineStyle(1.5, color, 0.95);
-      g.strokeRoundedRect(px - width / 2, py - 14, width, 28, 6);
-      setCanvasCopy(this.encounterLabels[index], text)
-        .setColor(textColor)
-        .setPosition(px, py)
-        .setVisible(true);
+      g.strokeRoundedRect(px - w / 2, py - half, w, half * 2, 6);
+      label.setPosition(px, py).setVisible(true);
+      return { left: px - w / 2, y: py, width: w, half };
     };
-    const eggLabels = eggLabelPositions(r.eggs);
+    const eggLabels = eggLabelPositions(r.eggs, scale);
     for (const [i, egg] of r.eggs.entries()) {
       const label = eggLabels[i];
       g.lineStyle(1.5, BOARD_COLOR.parchment, 0.85);
-      g.lineBetween(label.x, label.y + 14, egg.x, egg.y - 30);
+      g.lineBetween(label.x, label.y + 14 * scale, egg.x, egg.y - 30);
       plaque(i, egg.label, label.x, label.y, 146, BOARD_COLOR.parchment, '#ffe2a0');
       // A shell crack supplements the existing egg progress arc and wobble.
       g.lineStyle(3, 0xffe2a0, 1);
@@ -156,10 +201,17 @@ export class BattleFeedback {
       // Actors already draws a question mark on every affected ally.
       plaque(6, r.confusion.label, 278, 585, 246, 0xd8b8e9, cssColor(BOARD_COLOR.confusion));
     if (r.encouragement) {
-      plaque(7, r.encouragement.label, 842, 585, 420, BOARD_COLOR.parchment, '#ffe2a0');
+      // The arrow and the gauge are drawn from the plaque, wherever it had to go.
+      const at = plaque(7, r.encouragement.label, 842, 585, 420, BOARD_COLOR.parchment, '#ffe2a0');
       g.fillStyle(BOARD_COLOR.parchment, 1);
-      g.fillTriangle(642, 580, 650, 585, 642, 590);
-      g.fillRoundedRect(660, 602, 376 * r.encouragement.ratio, 3, 1);
+      g.fillTriangle(at.left + 10, at.y - 5, at.left + 18, at.y, at.left + 10, at.y + 5);
+      g.fillRoundedRect(
+        at.left + 28,
+        at.y + at.half + 3,
+        (at.width - 44) * r.encouragement.ratio,
+        3,
+        1,
+      );
     }
     if (r.shot)
       // The only target shape remains in BossSignals, using the same readout.
@@ -167,7 +219,7 @@ export class BattleFeedback {
         8,
         r.shot.label,
         r.shot.x,
-        r.shot.y - r.shot.radius - 23,
+        r.shot.y - r.shot.radius - 9 - 14 * scale,
         168,
         0xf3ac79,
         cssColor(BOARD_COLOR.kingWarning),

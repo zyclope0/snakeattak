@@ -65,7 +65,7 @@
     border: 0;
   }
   .wave-stat em {
-    font-size: 11px;
+    font-size: 13px;
   }
   .controls {
     width: auto;
@@ -213,8 +213,8 @@
   #reinforcements .shop-tabs button {
     min-height: 48px;
     padding: 3px;
-    font-size: 11px;
-    line-height: 14px;
+    font-size: 13px;
+    line-height: 15px;
   }
   #reinforcements #shop .unit-card {
     min-height: 76px;
@@ -283,24 +283,42 @@
 
 @media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
   #reward-panel:not([hidden]) {
-    display: block;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    align-content: start;
     position: fixed;
     inset: calc(var(--app-safe-top) + var(--mobile-hud-height)) var(--app-safe-right)
       var(--app-safe-bottom) var(--app-safe-left);
     z-index: 18;
     overflow: auto;
-    padding: 12px 20px;
+    padding: 8px 20px;
     background: var(--paper);
     color: var(--ink);
+  }
+  /* The way out without a gift sits beside the title, as tall as a finger: a row under the
+     gifts would fall off a screen this low. */
+  #reward-panel > * {
+    grid-column: 1;
+  }
+  #reward-panel #reward-cards {
+    grid-column: 1 / -1;
+  }
+  #reward-panel #skip-reward {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+    min-height: 48px;
   }
   #reward-panel .reward-portrait {
     width: 40px;
     height: 40px;
   }
   #reward-cards {
-    margin-block: 8px;
+    margin-block: 6px;
   }
   #reward-panel .reward-card {
+    gap: 6px;
     padding: 8px;
     min-height: 110px;
   }

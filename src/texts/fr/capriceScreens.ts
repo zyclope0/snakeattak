@@ -37,7 +37,7 @@ export const autocollantGagne2 = 'Autocollant gagné !';
 export const cetAutocollantEstDejaDansLeCarnet =
   'Cet autocollant est déjà dans le carnet de cette partie.';
 export const ceCapriceAttendEncoreSon = 'Ce caprice attend encore son autocollant.';
-export const nNecessaires = '🔒 {0} ★ nécessaires';
+export const nNecessaires = '🔒 Il faut {0} ★';
 export const gagne = '✓ Gagné';
 export const nChoisir = '{0} ★ · Choisir';
 export const ecouter = 'Écouter';
