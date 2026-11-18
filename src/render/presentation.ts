@@ -6,6 +6,8 @@ import type { EncounterReadout } from './encounterReadout.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import { isMilestone } from '../rewards.ts';
+import type { Kind } from '../data.ts';
+import { newAlliesLine, newSnakeBanner, recruitableKinds } from './newcomers.ts';
 export type Notice = {
   kind: 'wave' | 'boss' | 'clear' | 'egg' | 'fallen';
   title: string;
@@ -45,7 +47,12 @@ export const PLACED_SECONDS = 0.35;
 export const ARRIVAL_SECONDS = 0.9;
 const BURST_SECONDS = 0.6;
 /** The queues are bounded: a crowded board never grows them without limit. */
-/** How long a floating word is read, and how high and how long the word of a dodge is. */
+/** How long the banner of a new snake or of a new ally is read. */
+const NEWCOMER_SECONDS = 3.4;
+/**
+ * How long a floating word is read, and how high and how long the word of a dodge and of
+ * the rare snake's bite is.
+ */
 const FLOAT_SECONDS = 0.9,
   DODGE_WORD_HEIGHT = 100,
   DODGE_WORD_SECONDS = 1.4;
@@ -94,6 +101,13 @@ export class Presentation {
   private units = new Map<number, Snapshot>();
   /** Fighters met during the current update: whoever is missing from it has left the board. */
   private seen = new Set<number>();
+  /** Allies the camp could recruit at the last look, and snakes already announced as new. */
+  private recruitable = new Set<Kind>();
+  private debuted = new Set<string>();
+  /** Visual clock of the last banner of a new snake, to let it be read. */
+  private introduced = -Infinity;
+  /** Banners that wait for the one on screen to end, in the order they came. */
+  private waiting: Omit<Notice, 'remaining'>[] = [];
   private wave = 0;
   private status: Game['status'] = 'preparing';
   private hatched = 0;
@@ -103,6 +117,10 @@ export class Presentation {
   private base = 100;
   private bossArmor = new Map<number, { phase: number; broken: number }>();
   private roared = new Map<number, number>();
+  /** True while the banner of a new snake is still being read, or others wait behind it. */
+  private introducing() {
+    return this.waiting.length > 0 || this.clock - this.introduced < NEWCOMER_SECONDS;
+  }
   private announce(notice: Omit<Notice, 'remaining'>) {
     if (this.notice && this.notice.priority > notice.priority) return;
     this.notice = { ...notice, remaining: notice.duration };
@@ -145,6 +163,10 @@ export class Presentation {
     this.gaits.clear();
     this.victoryAge = Infinity;
     this.game = game;
+    this.recruitable = new Set(recruitableKinds(game));
+    this.debuted.clear();
+    this.introduced = -Infinity;
+    this.waiting = [];
     this.units.clear();
     this.floats = [];
     this.bursts = [];
@@ -206,6 +228,8 @@ export class Presentation {
       this.notice.remaining -= dt;
       if (this.notice.remaining <= 0) this.notice = null;
     }
+    // The banner that waited behind another takes its turn.
+    if (!this.notice && this.waiting.length) this.announce(this.waiting.shift()!);
   }
   /** Banners for what just changed: a new wave, the king, a wave repelled, eggs hatching or appearing. */
   private announceTurns(game: Game, fresh: boolean) {
@@ -231,17 +255,35 @@ export class Presentation {
         priority: 4,
       });
     }
-    if (!fresh && this.status === 'fighting' && game.status === 'preparing')
+    if (!fresh && this.status === 'fighting' && game.status === 'preparing') {
+      // An ally that the camp may recruit from now on is named: nothing else said so.
+      const allies = recruitableKinds(game);
+      const newAllies = newAlliesLine(allies.filter((kind) => !this.recruitable.has(kind)));
+      this.recruitable = new Set(allies);
+      const clearing = !game.mission && isMilestone(game.wave);
       this.announce({
         kind: 'clear',
         title: fill(TEXT.vagueNRepoussee, game.wave),
-        subtitle:
-          !game.mission && isMilestone(game.wave)
-            ? fill(TEXT.nouvelleClairiereN, game.level.name)
-            : TEXT.prepareLesProchainsAllies,
-        duration: 2.8,
+        subtitle: clearing
+          ? fill(TEXT.nouvelleClairiereN, game.level.name)
+          : (newAllies ?? TEXT.prepareLesProchainsAllies),
+        duration: newAllies && !clearing ? NEWCOMER_SECONDS : 2.8,
         priority: 2,
       });
+      // A new clearing is named first; the new allies wait for their own banner.
+      this.waiting =
+        clearing && newAllies
+          ? [
+              {
+                kind: 'clear',
+                title: newAllies,
+                subtitle: TEXT.prepareLesProchainsAllies,
+                duration: NEWCOMER_SECONDS,
+                priority: 2,
+              },
+            ]
+          : [];
+    }
     if (game.hatched > this.hatched) {
       this.announce({
         kind: 'egg',
@@ -344,6 +386,17 @@ export class Presentation {
       return;
     }
     if (e.x >= DEN_EDGE) this.sparks.push({ kind: 'egg', x: e.x, y: e.y });
+    // A snake met for the first time is named once, with what it does.
+    const banner = this.game && !e.boss ? newSnakeBanner(this.game, e.variant) : null;
+    if (banner && !this.debuted.has(e.variant)) {
+      this.debuted.add(e.variant);
+      const notice = { kind: 'wave' as const, ...banner, duration: NEWCOMER_SECONDS, priority: 2 };
+      // Two new snakes may come out one behind the other: the second waits for its turn
+      // instead of covering the first before it was read.
+      if (this.introducing()) this.waiting.push(notice);
+      else this.announce(notice);
+      this.introduced = this.clock;
+    }
     this.arrivals.push({
       id: e.id,
       x: e.x,
@@ -404,6 +457,11 @@ export class Presentation {
       this.text(source.x, source.y - 66, TEXT.grrr, '#e4e6ae');
       this.roared.set(source.id, this.clock);
     }
+    // The bite of the rare snake is written with the word the child gave it. It fells a
+    // club fighter at once: the word is read as high and as long as that of a dodge.
+    const biter = e.kind === 'hit' ? game.enemies.find((s) => s.id === sourceId) : undefined;
+    if (biter?.variant === 'rare')
+      this.text(biter.x, biter.y - DODGE_WORD_HEIGHT, TEXT.ksss, '#ffc2a8', DODGE_WORD_SECONDS);
   }
   /** The floating word and the burst of an effect. */
   private voice(game: Game, e: Effect) {

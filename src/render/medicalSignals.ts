@@ -7,18 +7,24 @@ import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import * as DEPTH from './boardLayers.ts';
+import { boardShownSmall, readableBoardSize } from './boardResolution.ts';
+
+/** Size the stock labels are drawn at, in board units. */
+const STOCK_TEXT = 11;
 /** Stock labels read the simulation; rendering never advances a recharge. */
 export class MedicalSignals {
   private labels: FramePool<number, Phaser.GameObjects.Text>;
   private station: Phaser.GameObjects.Graphics;
   private stationLabel: Phaser.GameObjects.Text;
+  private scene: Phaser.Scene;
   constructor(scene: Phaser.Scene) {
+    this.scene = scene;
     this.labels = new FramePool({
       maxIdle: 16,
       create: () =>
         addCanvasCopy(scene.add, 0, 0, '', {
           fontFamily: BODY_FONT,
-          fontSize: '11px',
+          fontSize: `${STOCK_TEXT}px`,
           color: '#fff6dc',
           backgroundColor: '#285e4a',
           padding: { x: 4, y: 2 },
@@ -37,7 +43,7 @@ export class MedicalSignals {
     this.station = scene.add.graphics().setDepth(DEPTH.medicalStation);
     this.stationLabel = addCanvasCopy(scene.add, 988, 442, TEXT.reserve, {
       fontFamily: BODY_FONT,
-      fontSize: '11px',
+      fontSize: `${STOCK_TEXT}px`,
       color: '#f6f0d8',
       backgroundColor: '#294b3b',
       padding: { x: 4, y: 3 },
@@ -49,17 +55,23 @@ export class MedicalSignals {
   draw(game: Game) {
     this.labels.beginFrame();
     const readout = medicalReadout(game.units);
+    // On a small board: the stock alone under a medic, the wait alone under the station.
+    const small = boardShownSmall(this.scene),
+      size = readableBoardSize(this.scene, STOCK_TEXT),
+      font = `${size}px`;
     this.station.clear();
     for (const badge of readout.badges) {
       const label = this.labels.acquire(badge.id),
-        text = badge.text;
+        text = small ? badge.short : badge.text;
+      if (label.style.fontSize !== font) label.setFontSize(size);
       if (label.text !== text) setCanvasCopy(label, text);
       label.setPosition(badge.x, badge.y);
     }
     this.labels.endFrame();
-    this.stationLabel.setVisible(readout.present > 0);
-    if (this.stationLabel.text !== readout.reserveLabel)
-      setCanvasCopy(this.stationLabel, readout.reserveLabel);
+    const reserve = small ? readout.reserveShort : readout.reserveLabel;
+    this.stationLabel.setVisible(readout.present > 0 && reserve !== '');
+    if (this.stationLabel.style.fontSize !== font) this.stationLabel.setFontSize(size);
+    if (this.stationLabel.text !== reserve) setCanvasCopy(this.stationLabel, reserve);
     if (readout.present) {
       const g = this.station;
       g.fillStyle(0x2c604b, 0.95);

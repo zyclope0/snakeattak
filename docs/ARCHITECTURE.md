@@ -1359,13 +1359,16 @@ laquelle il a été dessiné : aucune image de référence ne change.
   (dégâts, « Esquive ! »), nom et vie de King Snake, plaque du refuge
   (`battleFeedback.ts`, `strongholds.ts`). La phrase de fin de partie garde son plancher de
   13,5 px, par la même fonction.
-- **Pas encore concernés** (5 à 9 px sur téléphone) : le miel (« ATTIRANT · 13 s »,
-  `BattleScene.ts`), « Réserve » et les pastilles de soin (`medicalSignals.ts`), la garde du
-  roi (`bossSignals.ts`), les symboles de menace (`threatMarkers.ts`). Mesuré le 18
-  novembre : seuls les symboles de menace ont la place de grandir. Les quatre autres,
-  agrandis là où ils sont, couvriraient des alliés ou une voie : il faut d'abord les
-  raccourcir ou les déplacer, ce qui est une décision du parent. Aucun test n'impose encore
-  la règle à tout `src/render/`.
+- **Raccourcis sur un petit plateau** (décision du parent, 18 novembre) : là où le plateau est
+  dessiné petit (`boardShownSmall`, le même seuil que la plaque du cristal sur deux lignes),
+  le miel n'écrit que ses secondes (« 13 s »), un soigneur son stock seul (« +2 »), la réserve
+  son attente seule (« 4 s ») ou rien, la croix du fort disant déjà « Réserve » ; la garde du
+  roi est un bouclier dessiné, son soigneur une croix et le nombre de ses soins
+  (`BattleScene.ts`, `medicalSignals.ts`, `bossSignals.ts`). Une tablette et un ordinateur
+  gardent les mots entiers.
+- **Pas encore concernés** (5 à 9 px sur téléphone) : les symboles de menace des antres
+  (`threatMarkers.ts`), dont les signes sont à choisir avec le fils, et les noms des trois
+  têtes de King Snake. Aucun test n'impose encore la règle à tout `src/render/`.
 - Chaque texte a son propre besoin : sur un écran moyen, le nom de King Snake doit grandir
   alors que les plaques sont déjà assez grandes. Les plaques qui portent une phrase
   entière (confusion, courage) prennent la largeur de leur texte, pas le double de leur
@@ -1394,6 +1397,26 @@ laquelle il a été dessiné : aucune image de référence ne change.
   s'écartent d'autant (`eggLabelPositions(eggs, scale)`), et une rangée trop chargée se
   partage la largeur au lieu de sortir du plateau.
 - Rendu seul : aucune règle, aucune partie de référence touchée.
+
+### Montrer ce qui existe — 18 novembre 2026
+
+Trois choses existaient dans les règles sans que l'enfant les voie (décision 11 du parent) :
+
+- **« Encourager »** demandait quatre appuis. Pendant une vague, le bouton de lancement n'a
+  rien à faire : `#encourage-quick` prend sa place tant que l'encouragement de la vague est
+  disponible, compte ses secondes pendant qu'il dure, puis laisse la place au bouton de
+  vitesse (`adventureControls.ts`, `mainActions.css`). C'est la même commande que dans
+  « Actions du camp » ; la règle (une fois par vague, gratuit) ne change pas.
+- **Un serpent rencontré pour la première fois** est annoncé par son nom, dans la vague où la
+  grande aventure l'envoie d'abord (`render/newcomers.ts`, d'après l'index des serpents) ;
+  jamais en mission, dont les vagues suivent un autre ordre. Deux nouveaux qui sortent
+  ensemble sont annoncés l'un après l'autre.
+- **Un allié que le camp peut désormais recruter** est nommé quand la vague est repoussée ;
+  après les vagues 4 et 8, la nouvelle clairière est nommée d'abord.
+- **« KSSS »** : le mot du fils quand le serpent rare mord, écrit comme « Esquive ! ».
+
+Les empreintes de la présentation changent avec ces annonces ; celles des parties rejouées
+(`engine-traces`) ne changent pas.
 
 Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
 (« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », ligne d'annonce, prix des favoris, total de

@@ -11,7 +11,8 @@
   min-height: max(48px, calc(var(--hu) * 5.6));
   font-size: max(15px, calc(var(--hu) * 1.8));
 }
-.controls #start {
+.controls #start,
+.controls #encourage-quick {
   min-width: max(110px, calc(var(--hu) * 14));
   font-size: max(13px, calc(var(--hu) * 1.5));
 }
@@ -19,11 +20,12 @@
 .controls #speed {
   min-width: max(48px, calc(var(--hu) * 5.6));
 }
-/* During a wave the launch button has nothing to do: the speed button takes its place. */
+/* During a wave the launch button has nothing to do: « Encourager » takes its place while it
+   can be used, and the speed button once it is spent. */
 .controls #start[data-state='fighting'] {
   display: none;
 }
-.controls:has(#start[data-state='fighting']) #speed {
+.controls:has(#start[data-state='fighting']):not(:has(#encourage-quick:not([hidden]))) #speed {
   min-width: max(110px, calc(var(--hu) * 14));
   font-size: max(17px, calc(var(--hu) * 2));
   font-weight: 800;

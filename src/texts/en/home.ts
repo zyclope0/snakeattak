@@ -7,6 +7,7 @@ export const fichierInvalideRienNAEteModifie = 'Invalid file: nothing has change
 export const impossibleDeConserverCeFichierSur =
   'This browser could not save the file. Your current adventure is still safe.';
 export const aventureFamilialeRetrouvee = 'Family adventure restored.';
+export const encourager = 'Encourage';
 export const encouragesNS = 'Encouraged · {0} s';
 export const revientALaProchaineVague = 'Returns next wave';
 export const n1FoisParVagueAttaquesPlusRapides = `Once per wave · faster attacks for ${ENCOURAGEMENT_SECONDS} s`;

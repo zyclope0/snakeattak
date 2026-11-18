@@ -29,6 +29,7 @@ import {
   boardPoint,
   boardScale,
   readableBoardSize,
+  boardShownSmall,
   terrainScale,
 } from './boardResolution.ts';
 import { Strongholds } from './strongholds.ts';
@@ -47,6 +48,8 @@ import { fill } from '../texts/fill.ts';
 import * as DEPTH from './boardLayers.ts';
 /** Milliseconds between two refreshes of the HTML dashboard. */
 const HUD_PERIOD_MS = 180;
+/** Size the label of the honey is drawn at, in board units. */
+const FEAST_TEXT = 13;
 export class BattleScene extends Phaser.Scene {
   private assets!: MissionAssets;
   private initialized = false;
@@ -125,7 +128,7 @@ export class BattleScene extends Phaser.Scene {
     this.juice = new BattleJuice(this);
     this.feastLabel = addCanvasCopy(this.add, 420, 0, '', {
       fontFamily: BODY_FONT,
-      fontSize: '13px',
+      fontSize: `${FEAST_TEXT}px`,
       color: '#ffe5a1',
       backgroundColor: '#324832',
       padding: { x: 7, y: 4 },
@@ -292,9 +295,16 @@ export class BattleScene extends Phaser.Scene {
     this.feastLabel.setVisible(!!feast);
     if (!feast) return;
     const pot = drawHoneyZone(this.honeyInk, game, this.presentation.clock, reduced);
+    const size = readableBoardSize(this, FEAST_TEXT);
+    if (this.feastLabel.style.fontSize !== `${size}px`) this.feastLabel.setFontSize(size);
+    // On a small board the zone on the ground says which honey it is: only its seconds are
+    // written, large enough to be read.
+    const seconds = fill(TEXT.nS, Math.ceil(feast.remaining));
     setCanvasCopy(
       this.feastLabel.setPosition(pot.x, pot.y + 43),
-      `${feast.flavor === 'sticky' ? TEXT.collant : TEXT.attirant} · ${Math.ceil(feast.remaining)} s`,
+      boardShownSmall(this)
+        ? seconds
+        : `${feast.flavor === 'sticky' ? TEXT.collant : TEXT.attirant} · ${seconds}`,
     );
   }
   private drawPlacement(game: Game, kind: Kind) {

@@ -7,6 +7,7 @@ export const fichierInvalideRienNAEteModifie = 'Fichier invalide : rien n’a é
 export const impossibleDeConserverCeFichierSur =
   'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.';
 export const aventureFamilialeRetrouvee = 'Aventure familiale retrouvée.';
+export const encourager = 'Encourager';
 export const encouragesNS = 'Encouragés · {0} s';
 export const revientALaProchaineVague = 'Revient à la prochaine vague';
 export const n1FoisParVagueAttaquesPlusRapides = `1 fois par vague · attaques plus rapides pendant ${ENCOURAGEMENT_SECONDS} s`;

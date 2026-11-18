@@ -12,7 +12,10 @@ export function bindAdventureControls(
 ) {
   const encourage = byId<HTMLButtonElement>('encourage');
   const status = byId('encourage-status');
-  encourage.onclick = () => {
+  // The same action within reach during the wave, where the launch button was: in the camp
+  // actions alone it took four taps, and a child never found it.
+  const quick = byId<HTMLButtonElement>('encourage-quick');
+  encourage.onclick = quick.onclick = () => {
     session.game.encourage();
     refresh();
   };
@@ -24,10 +27,19 @@ export function bindAdventureControls(
     };
   return () => {
     const g = session.game;
-    encourage.disabled = isPaused() || !campToolModel(g, 'encourage').ready;
+    const ready = campToolModel(g, 'encourage').ready,
+      encouraged = g.encouragementRemaining > 0;
+    encourage.disabled = isPaused() || !ready;
+    // Shown while it can be used in this wave, then while it lasts; gone once it is spent.
+    quick.hidden = g.status !== 'fighting' || !(ready || encouraged);
+    quick.disabled = isPaused() || !ready;
+    setDisplayText(
+      quick,
+      encouraged ? fill(TEXT.encouragesNS, Math.ceil(g.encouragementRemaining)) : TEXT.encourager,
+    );
     setDisplayText(
       status,
-      g.encouragementRemaining > 0
+      encouraged
         ? fill(TEXT.encouragesNS, Math.ceil(g.encouragementRemaining))
         : g.encouragementUsed
           ? TEXT.revientALaProchaineVague

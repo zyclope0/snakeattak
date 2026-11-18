@@ -201,6 +201,11 @@ répondu à ses questions le même jour. `SITE.md` raconte d'où vient chacune.
 - **17.** `README.md` : aucune publicité ni achat dans l'application ; sur le site seulement,
   l'encart que l'on peut couper et le lien PayPal.
 
+**Fait dans le lot « montrer ce qui existe » (18 novembre), à montrer au parent et au fils
+avant fusion** : points 9 et 11 ci-dessous et « KSSS ». Phrases nouvelles à valider par le
+fils : « Nouveau serpent : … ! », « Nouvel allié : … ! », « Nouveaux alliés : … et … ! ».
+Le point 14 (« Reprendre ») attend un lot à lui : il touche la sauvegarde.
+
 **Décidé, à faire dans les lots suivants**
 
 - **9.** Sur téléphone : le miel n'affiche que ses secondes ; « Réserve », les pastilles de soin et
