@@ -198,8 +198,8 @@ Serpents :
    **18 novembre 2026** : le fils confirme les trois noms. Quand le serpent rare mord, il
    s'écrit « KSSS », en majuscules (son mot). Le parent décide que le serpent ninja se
    téléporte une fois, à la place de l'esquive : quand un allié l'attaque pour la première
-   fois, le coup le rate et il réapparaît dans le dos de cet allié (nouvelle révision, à
-   mesurer). Les images actuelles sont des serpents existants recolorés ; le parent accorde
+   fois, le coup le rate et il réapparaît dans le dos de cet allié. **Fait** : révision 5,
+   acceptée après mesure, la difficulté ne change pas (`docs/BILAN-REVISION-5.md`). Les images actuelles sont des serpents existants recolorés ; le parent accorde
    un budget libre pour de vrais dessins.
 
 5. **Des serpents « sauterelles »**, volants, qui sautent derrière nos lignes, dans le dos

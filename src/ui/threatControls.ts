@@ -36,6 +36,7 @@ export function bindThreatControls(session: Session, refresh: () => void) {
       'threat-all-snakes',
       TEXT.tousLesSerpents,
       TEXT.lesSerpentsNeSontPasArrivesReessaie,
+      () => session.game.balanceRevision,
     ),
   );
   return () => {
@@ -59,7 +60,7 @@ function showThreats(game: Game, preview: WaveThreats) {
     fill(TEXT.voiesOuvertesN, preview.lanes.map((l) => LANE_NAMES[l]).join(' · ')),
   );
   const types = preview.entries.map((e) => e.kind);
-  renderThreatCards(byId('wave-threat-list'), types);
+  renderThreatCards(byId('wave-threat-list'), types, game.balanceRevision);
   renderThreatAdvice(
     byId('wave-threat-advice'),
     threatAdvice(types, (k) => game.isUnlocked(k) && game.capriceAllows(k)),

@@ -722,6 +722,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Ralentir": "Slow",
   "Ralentir les serpents sur le passage": "Slow snakes on the path",
   "Rapide": "Fast",
+  "Rapide : au premier coup, il disparaît et revient derrière celui qui l’a frappé": "Fast: on the first hit, it vanishes and comes back behind whoever struck it",
   "Rapide : il esquive le premier coup": "Fast: it dodges the first hit",
   "Rapide et léger. Renforce les trois voies au contact.": "Fast and light. Joins close-range fights on all three lanes.",
   "Rapport à copier": "Report to copy",

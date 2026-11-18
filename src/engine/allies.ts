@@ -189,6 +189,9 @@ function strike(game: Game, u: Entity, target: Entity) {
   const damage =
     attackDamage(u.kind as Kind, u.charge, game.tuning.mutantDamageFactor) *
     (u.kind === 'hero' && game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1);
+  // Where the blow is aimed, kept before it lands: a ninja snake that lets it pass leaves
+  // from there, and the blow is drawn where it missed, not where the snake came back.
+  const aimed = { id: target.id, x: target.x, y: target.y };
   if (u.kind === 'dragon' || u.kind === 'tank') blast(game, u, target, damage);
   else {
     strikeOne(game, u, target, damage);
@@ -198,14 +201,22 @@ function strike(game: Game, u: Entity, target: Entity) {
   u.cool =
     kinds[u.kind as Kind].rate * (game.encouragementRemaining > 0 ? ENCOURAGED_RATE_FACTOR : 1);
   u.state = 'attack';
-  addEffect(game, u, target, attackEffect(u.kind));
+  addEffect(game, u, aimed, attackEffect(u.kind));
 }
 /** Dragon fire and tank shells hit every snake around the target. */
-function blast(game: Game, u: Entity, target: Entity, damage: number) {
+export function blast(game: Game, u: Entity, target: Entity, damage: number) {
   const radius = u.kind === 'tank' ? TANK_BLAST_RADIUS : DRAGON_FIRE_RADIUS;
+  // The blast stays where it fell, even when the snake it was aimed at comes back elsewhere.
+  const centre = { x: target.x, y: target.y };
   for (const enemy of game.enemies)
-    if (enemy.hp > 0 && distance(enemy, target) < radius)
-      hitEnemy(game, u, enemy, damage * (enemy === target ? 1 : game.tuning.splashSecondaryFactor));
+    if (enemy.hp > 0 && distance(enemy, centre) < radius)
+      hitEnemy(
+        game,
+        u,
+        enemy,
+        damage * (enemy === target ? 1 : game.tuning.splashSecondaryFactor),
+        enemy === target,
+      );
 }
 function strikeOne(game: Game, u: Entity, target: Entity, damage: number) {
   const covered = umbrellaCover(u, target);

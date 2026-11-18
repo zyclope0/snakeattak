@@ -3,6 +3,9 @@ import { enemyPortraitStyle } from '../../art.ts';
 import { TOTAL_WAVES } from '../../gameConstants.ts';
 import { make } from '../dom.ts';
 import { renderThreatCards } from '../threatCards.ts';
+import { abilityOf, type ThreatKind } from '../threatPreview.ts';
+import { setText } from '../../i18n/dom.ts';
+import type { BalanceRevision } from '../../balanceRevision.ts';
 import { snakeEntries } from './snakeEntries.ts';
 import type { SnakeEntry } from './snakeEntries.ts';
 import * as TEXT from '../../texts/fr/snakeIndex.ts';
@@ -46,7 +49,7 @@ function eggCard(): HTMLElement {
  * it arrives. Its title and its button stay in place while the cards scroll under them.
  * Returns the function that opens it at the first snake.
  */
-export function snakeIndexWindow(): () => void {
+export function snakeIndexWindow(): (revision?: BalanceRevision) => void {
   const heading = make('h2', { id: 'snake-index-title', text: TEXT.tousLesSerpents });
   const close = make('button', {
     id: 'snake-index-close',
@@ -69,7 +72,15 @@ export function snakeIndexWindow(): () => void {
   dialog.setAttribute('aria-labelledby', heading.id);
   document.body.append(dialog);
   close.onclick = () => dialog.close();
-  return () => {
+  return (revision?: BalanceRevision) => {
+    // The cards say what each snake does in the game the index is opened from: the ninja
+    // snake of an older game only dodges.
+    for (const card of Array.from(
+      list.querySelectorAll<HTMLElement>('.threat-card[data-threat]'),
+    )) {
+      const kind = card.dataset.threat as ThreatKind;
+      setText(card.querySelector('small')!, abilityOf(kind, revision));
+    }
     dialog.showModal();
     body.scrollTop = 0;
   };

@@ -139,7 +139,11 @@ function freshEffectSignal(
   if (!context) return undefined;
   const now = context.currentTime;
   if (now - last.effectAt <= EFFECT_GAP) return undefined;
-  const fresh = game.effects.find((effect) => !heard.has(effect));
+  // A ninja snake that vanishes is heard first: it shares its frame with the blow it let
+  // pass, which would otherwise take the only sound of that moment.
+  const fresh =
+    game.effects.find((effect) => effect.kind === 'blink' && !heard.has(effect)) ??
+    game.effects.find((effect) => !heard.has(effect));
   if (!fresh) return undefined;
   last.effectAt = now;
   if (fresh.kind !== 'heal') return effectSignal(game, fresh);

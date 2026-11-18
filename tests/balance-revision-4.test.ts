@@ -50,9 +50,10 @@ const NEW: readonly EnemyKind[] = ['fang', 'rare', 'shadow'];
 const classic = (revision: 1 | 2 | 3 | 4, seed = 7) =>
   new Game(seed, undefined, undefined, revision);
 
-test('la révision 4 est la révision courante, avec les prix et l’œuf de la révision 3', () => {
-  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4]);
-  assert.equal(CURRENT_BALANCE_REVISION, 4);
+test('la révision 4 garde les prix et l’œuf de la révision 3', () => {
+  assert.ok(BALANCE_REVISIONS.includes(4));
+  // The fifth revision (18 November) follows it: tests/balance-revision-5.test.ts.
+  assert.ok(CURRENT_BALANCE_REVISION >= 4);
   for (const kind of Object.keys(kinds) as Kind[])
     assert.equal(balanceRecruitPrice(kind, 4), balanceRecruitPrice(kind, 3), kind);
   assert.deepEqual(lateEggRule(4), lateEggRule(3));
@@ -247,7 +248,7 @@ test('le code de départ de la révision 4 porte la règle 6, pour la grande ave
   const [word, , a, b] = mission.split('-');
   const forged = `${word}-6-${a}-${b}-${checkDigits(`${word}-6-${a}${b}`)}`;
   assert.deepEqual(decodeDeparture(forged), { ok: false, reason: 'setup' });
-  assert.deepEqual(decodeDeparture(code.replace('-6-', '-7-')), { ok: false, reason: 'version' });
+  assert.deepEqual(decodeDeparture(code.replace('-6-', '-8-')), { ok: false, reason: 'version' });
 });
 
 test('la sauvegarde familiale emporte un camp de la révision 4', () => {

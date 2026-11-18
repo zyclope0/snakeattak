@@ -64,9 +64,14 @@ remettra l'application au niveau du site.
   aventure seulement. C'est la **révision d'équilibrage 4**. Le parent a choisi ce que fait le
   ninja et accepté qu'un expert simulé gagne une partie sur deux (62 % → 52 %). **Les trois
   noms sont confirmés par le fils (18 novembre) ; les images sont provisoires**, le parent a
-  accordé un budget libre pour les dessins ([bilan](BILAN-REVISION-4.md)). Le ninja changera :
-  il se téléportera une fois dans le dos de l'allié qui l'attaque, à la place de l'esquive
-  (décision du 18 novembre, nouvelle révision à mesurer). **Pas encore joué par les enfants.**
+  accordé un budget libre pour les dessins ([bilan](BILAN-REVISION-4.md)). **Pas encore joué
+  par les enfants.**
+- **Le serpent ninja se téléporte** (idée du fils, règle choisie par le parent le 18
+  novembre) : au premier coup, il disparaît et revient dans le dos de l'allié qui l'a frappé,
+  à la place de l'esquive. C'est la **révision d'équilibrage 5**, acceptée par le parent
+  après mesure : la difficulté ne bouge pas (expert 52 % → 52 %). Les parties, codes et
+  sauvegardes d'avant gardent l'esquive ([bilan](BILAN-REVISION-5.md)). **Pas encore joué par
+  les enfants.**
 
 ## Site : revue du 17 novembre
 
@@ -234,11 +239,10 @@ Le point 14 (« Reprendre ») attend un lot à lui : il touche la sauvegarde.
   être arrêté quand le parent le veut.
 - **19.** Connexion Google ou sauvegarde en ligne : écartée.
 
-**Nouvelles règles décidées, à mesurer avant fusion** (chacune dans une nouvelle révision ;
-les parties, codes et sauvegardes d'avant gardent leurs règles)
+**Nouvelles règles décidées** (chacune dans une nouvelle révision ; les parties, codes et
+sauvegardes d'avant gardent leurs règles)
 
-- **Serpent ninja** : il se téléporte une fois, à la place de l'esquive. Quand un allié
-  l'attaque pour la première fois, le coup le rate et il réapparaît dans le dos de cet allié.
+- **Serpent ninja** : fait, révision 5 ([bilan](BILAN-REVISION-5.md)).
 - **Voyage** : le fils veut que King Snake vienne avec ses gardes à la dernière étape. Le roi
   du voyage est déjà dur (54 victoires sur 100 pour le joueur moyen) : chiffres à montrer au
   parent.

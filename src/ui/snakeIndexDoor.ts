@@ -1,17 +1,25 @@
 import { setText } from '../i18n/dom.ts';
 import { make } from './dom.ts';
+import type { BalanceRevision } from '../balanceRevision.ts';
 
 /**
  * The way into the index of the snakes. Only this is loaded with the game: the index and its
  * window come in a package of their own the first time a door is touched.
  */
-let opening: Promise<() => void> | undefined;
+let opening: Promise<(revision?: BalanceRevision) => void> | undefined;
 
 /**
  * A button that opens the index. `name` is what it says; `unavailable` is what it says when
  * the package did not arrive (a web page without network nor cache), until the next touch.
+ * `revision`: the game the index is opened from, whose snakes it describes; the current
+ * revision when it is opened outside a game.
  */
-export function snakeIndexDoor(id: string, name: string, unavailable: string): HTMLButtonElement {
+export function snakeIndexDoor(
+  id: string,
+  name: string,
+  unavailable: string,
+  revision?: () => BalanceRevision,
+): HTMLButtonElement {
   const door = make('button', { id, className: 'secondary', text: name });
   door.type = 'button';
   door.setAttribute('aria-haspopup', 'dialog');
@@ -20,7 +28,7 @@ export function snakeIndexDoor(id: string, name: string, unavailable: string): H
     opening.then(
       (open) => {
         setText(door, name);
-        open();
+        open(revision?.());
       },
       () => {
         opening = undefined;

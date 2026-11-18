@@ -5,7 +5,7 @@ import { imageMetadata } from '../deploy/imageMetadata.ts';
 import { MISSIONS } from '../src/missions.ts';
 import { TOTAL_WAVES } from '../src/gameConstants.ts';
 import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS } from '../src/voyageTuning.ts';
-import { CURRENT_BALANCE_REVISION, lateEggRule } from '../src/balanceRevision.ts';
+import { CURRENT_BALANCE_REVISION, lateEggRule, ninjaTeleport } from '../src/balanceRevision.ts';
 import { NINJA_DODGES } from '../src/enemyAbilities.ts';
 import { PLAYER_IDS } from '../src/players.ts';
 import * as FR from '../src/texts/fr/page.ts';
@@ -301,7 +301,8 @@ test('the public pages tell the game as it is', () => {
   assert.deepEqual([late.most, late.count], [2, 2]);
   assert.match(words('updates', 'fr'), /Puis un deuxième\. Deux serpents sortent de chaque œuf/);
   assert.equal(NINJA_DODGES, 1);
-  assert.match(words('updates', 'fr'), /le premier coup le rate/);
+  assert.ok(ninjaTeleport(CURRENT_BALANCE_REVISION));
+  assert.match(words('updates', 'fr'), /au premier coup, il disparaît et revient derrière/);
   assert.equal(PLAYER_IDS.length, 4);
   assert.match(words('updates', 'fr'), /jusqu’à quatre joueurs/);
   // The buttons a page names are the buttons of the game, in its own words.
