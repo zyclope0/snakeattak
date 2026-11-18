@@ -250,13 +250,13 @@ export class BattleScene extends Phaser.Scene {
     }
     const game = this.session.game;
     this.presentation.update(game, delta);
-    // The plaques of confusion and courage are written at the bottom of the board, where
-    // the line of the page announces events: the page is told, and steps aside.
-    const encounter = this.presentation.encounter;
+    // The plaque of courage is written at the bottom of the board, under the line where the
+    // page announces events: the page is told, and steps aside. The plaque of confusion
+    // stays clear of that line, on the left.
     this.onPresentation(
       this.presentation.notice,
       delta,
-      !!(encounter.confusion || encounter.encouragement),
+      !!this.presentation.encounter.encouragement,
     );
     this.onFrame(game);
     this.ink.clear();

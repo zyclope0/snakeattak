@@ -121,7 +121,7 @@ body{width:${width}px;height:${height}px;position:relative;overflow:hidden;font-
 .battle{position:absolute;inset:0;width:100%;height:100%}
 .band{position:absolute;left:0;right:0;top:0;height:215px;display:flex;align-items:flex-start;
 justify-content:center;gap:24px;padding:16px 0 0;box-sizing:border-box;
-background:linear-gradient(#173e37,#173e37f5 66%,#173e3700)}
+background:linear-gradient(#173e37 60%,#173e3700)}
 .band img{width:132px;height:132px;border-radius:28px;box-shadow:0 5px 0 #0c2823}
 h1{margin:2px 0 0;color:#fff8df;font-size:54px;line-height:.98;font-weight:700;text-shadow:0 3px 0 #0c2823}
 p{margin:8px 0 0;color:#ffd866;font-size:28px;line-height:1;font-weight:600;text-shadow:0 2px 0 #0c2823}

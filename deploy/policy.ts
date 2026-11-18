@@ -1,5 +1,8 @@
 import { SITE_HOST } from '../src/site.ts';
 
+/** The file an address that leads nowhere is answered with. */
+export const NOT_FOUND_PAGE = '404.html';
+
 /** HTTP policy for a static host. The portable file:// export has no HTTP headers. */
 export const webHeaders: Record<string, string> = {
   'X-Content-Type-Options': 'nosniff',
@@ -33,7 +36,7 @@ export function hostHeadersFile() {
     Object.entries(webHeaders)
       .map(([k, v]) => `  ${k}: ${v}`)
       .join('\n') +
-    `\n\n/assets/*\n  Cache-Control: ${assetCache}\n\n/prototype-v4.html\n  Content-Security-Policy: ${legacyPolicy}\n  X-Robots-Tag: ${PROTOTYPE_ROBOTS}\n`
+    `\n\n/assets/*\n  Cache-Control: ${assetCache}\n\n/${NOT_FOUND_PAGE}\n  X-Robots-Tag: ${PROTOTYPE_ROBOTS}\n\n/prototype-v4.html\n  Content-Security-Policy: ${legacyPolicy}\n  X-Robots-Tag: ${PROTOTYPE_ROBOTS}\n`
   );
 }
 
@@ -56,6 +59,8 @@ export function apacheConfig(webAds = false) {
   return [
     '# Written by the build (deploy/policy.ts). Change it there, not on the server.',
     'DirectoryIndex index.html',
+    // A local path, never an address: an address would answer 302 and lose the 404.
+    `ErrorDocument 404 /${NOT_FOUND_PAGE}`,
     '',
     '<IfModule mod_rewrite.c>',
     '  RewriteEngine On',
@@ -83,6 +88,9 @@ export function apacheConfig(webAds = false) {
     ...(webAds
       ? [`  Header always set Content-Security-Policy "${adsGamePagePolicy}" env=game_page`]
       : []),
+    `  <Files "${NOT_FOUND_PAGE}">`,
+    `    Header always set X-Robots-Tag "${PROTOTYPE_ROBOTS}"`,
+    '  </Files>',
     '  <Files "prototype-v4.html">',
     `    Header always set Content-Security-Policy "${legacyPolicy}"`,
     `    Header always set X-Robots-Tag "${PROTOTYPE_ROBOTS}"`,

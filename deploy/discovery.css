@@ -69,6 +69,7 @@ main,
 .site-nav a,
 .site-footer a,
 .story a,
+.intro p a,
 .support-note a {
   display: inline-flex;
   align-items: center;
@@ -116,7 +117,8 @@ main,
   font-weight: 800;
   color: #50705b;
 }
-.intro h1 {
+.intro h1,
+.intro h2 {
   font:
     500 clamp(2.2rem, 4.4vw, 3.8rem)/1.06 Fredoka,
     sans-serif;

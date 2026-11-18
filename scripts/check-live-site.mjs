@@ -2,7 +2,7 @@
 // policy asks. Only reads: nothing is sent but ordinary page requests.
 //   node scripts/check-live-site.mjs [origin] [commit]
 import { readFile } from 'node:fs/promises';
-import { webHeaders, assetCache } from '../deploy/policy.ts';
+import { webHeaders, assetCache, NOT_FOUND_PAGE } from '../deploy/policy.ts';
 import { privacyPageHtml } from '../deploy/privacyPage.ts';
 import { PRIVACY_FOLDER, SITE_HOST, SITE_ORIGIN } from '../src/site.ts';
 import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
@@ -39,6 +39,14 @@ if (script) {
   const asset = await get(`${origin}/${script}`);
   expect(asset.status === 200, `${script} answers 200 (${asset.status})`);
   expect(asset.headers.get('cache-control') === assetCache, `${script} is kept by the browser`);
+  // Read on the answers already asked for: nothing more is sent. A host that does not
+  // compress serves four times the weight; it is said, and does not stop the publication.
+  for (const [label, response] of [
+    ['the page', home],
+    [script, asset],
+  ])
+    if (!response.headers.get('content-encoding'))
+      notes.push(`${label} is not served compressed (no content-encoding).`);
 } else expect(false, 'the page names its script');
 
 // The build that is online is the one that was meant.
@@ -89,6 +97,15 @@ for (const item of DISCOVERY_PAGES) {
   );
   expect(!response.headers.get('set-cookie'), `${item.path} sets no cookie`);
 }
+// An address that leads nowhere: a real 404, with the page of this build, out of search
+// results. The address asked is always the same one.
+const lost = await get(`${origin}/page-introuvable`);
+expect(lost.status === 404, `an unknown address answers 404 (${lost.status})`);
+expect(!lost.headers.get('set-cookie'), 'an unknown address sets no cookie');
+if ((await lost.text()) !== (await readFile(`dist/${NOT_FOUND_PAGE}`, 'utf8')))
+  notes.push('An unknown address does not show the 404 page of this build (ErrorDocument).');
+else if (!/noindex/.test(lost.headers.get('x-robots-tag') ?? ''))
+  notes.push('The 404 page is served without its « noindex » header.');
 for (const [path, expected] of [
   ['/sitemap.xml', discoverySitemap()],
   ['/robots.txt', discoveryRobots()],

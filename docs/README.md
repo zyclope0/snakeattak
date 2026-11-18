@@ -1,6 +1,6 @@
 # Documents du projet
 
-Treize documents vivants, puis les comptes rendus de lots. Tout le reste est de l'historique, rangé dans [archive/](archive/).
+Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est de l'historique, rangé dans [archive/](archive/).
 
 ## À lire pour travailler
 

@@ -68,9 +68,16 @@ summary:focus-visible,
   outline: 3px solid #dd9b25;
   outline-offset: 3px;
 }
-/* The board is clipped at its edges (03-board.css): its ring is drawn inside, whole. */
-#game:focus-visible {
-  outline-offset: -3px;
+/* The board is clipped at its edges and its canvas covers it (03-board.css): its ring is
+   laid over the canvas, inside, gold on a dark line so that it shows on sand and on leaves. */
+#game:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 3px solid #dd9b25;
+  box-shadow: inset 0 0 0 2px #193e35;
+  pointer-events: none;
 }
 a {
   color: inherit;

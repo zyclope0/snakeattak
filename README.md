@@ -14,7 +14,8 @@ Dernière livraison : **Confidentialité** dans « Pour les parents », lisible 
 FR/EN. Site et politique publics sur [snakeattacktd.com](https://snakeattacktd.com/).
 Le voyage et tous les anciens modes, codes et sauvegardes sont conservés.
 Version affichée **0.38.0**, Android **build62**, même package et clé d’envoi Play.
-Source des paquets : `b6919be4164813df84977b670a07f95cbf397173`.
+Source du build 62 : `4d9724d98f27e9df69289c3954163609e3c27898` (le build 61 venait de
+`b6919be4164813df84977b670a07f95cbf397173`).
 [Bilan et vérifications](docs/BILAN-0.38.0.md) · [Licences audio](docs/AUDIO-LICENCES.md).
 Le son est activé au départ et se règle dans « Réglages ». Reçus et captures dans `artifacts/`, hors Git.
 

@@ -30,7 +30,8 @@ export function bindBattleNotices(
   const announcement = byId('battle-announcement');
   let previous = '';
   let previousAnnouncement = '';
-  /** `plaques`: the board is writing at its bottom edge, where the announcement sits. */
+  let raised = false;
+  /** `plaques`: the board is writing at its bottom edge, under the announcement. */
   return (notice: Notice | null, deltaMs = 0, plaques = false) => {
     const guide = getGuide(),
       placing = forceGuide();
@@ -44,7 +45,12 @@ export function bindBattleNotices(
     });
     const title = notice?.title ?? (placing ? (guide.compact ?? guide.title) : (hint ?? ''));
     announcement.classList.toggle('placement-instruction', placing && !notice);
-    announcement.classList.toggle('above-plaques', plaques);
+    // An announcement moves when it appears or when a plaque comes under it, never back
+    // down while it is being read: a line that jumps twice a second cannot be read.
+    if (title !== previousAnnouncement || (plaques && !raised)) {
+      raised = plaques;
+      announcement.classList.toggle('above-plaques', raised);
+    }
     if (title !== previousAnnouncement) {
       previousAnnouncement = title;
       setDisplayText(announcement, title);

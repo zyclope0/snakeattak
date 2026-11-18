@@ -10,6 +10,7 @@ import {
   assetCache,
   hostHeadersFile,
   apacheConfig,
+  NOT_FOUND_PAGE,
 } from './deploy/policy.ts';
 import { privacyPageHtml } from './deploy/privacyPage.ts';
 import { PRIVACY_FOLDER } from './src/site.ts';
@@ -20,6 +21,7 @@ import {
   discoveryPageHtml,
   discoveryRobots,
   discoverySitemap,
+  notFoundPageHtml,
 } from './deploy/discovery.ts';
 import { gamePagePictures, writeDiscoveryAssets } from './deploy/discoveryAssets.ts';
 import { adSenseAdsTxt } from './deploy/adsenseVerification.ts';
@@ -109,6 +111,7 @@ export default defineConfig(({ mode }) => {
               mkdirSync(`${outDir}${page.path}`, { recursive: true });
               writeFileSync(`${outDir}${page.path}index.html`, discoveryPageHtml(page, assets));
             }
+            writeFileSync(`${outDir}/${NOT_FOUND_PAGE}`, notFoundPageHtml(assets));
             writeFileSync(`${outDir}/sitemap.xml`, discoverySitemap());
             writeFileSync(`${outDir}/robots.txt`, discoveryRobots());
             writeFileSync(`${outDir}/ads.txt`, adSenseAdsTxt());

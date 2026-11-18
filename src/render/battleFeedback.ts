@@ -174,7 +174,14 @@ export class BattleFeedback {
       const label = setCanvasCopy(this.encounterLabels[index], text).setColor(textColor);
       const drawn = wide(index) ? WIDE_PLAQUE_TEXT : PLAQUE_TEXT;
       const grow = readableBoardSize(this.scene, drawn) / drawn;
-      const w = grow === 1 ? width : wide(index) ? Math.max(width, label.width + 28) : width * grow,
+      // Courage keeps room on its left for its arrow, which touched the first letter.
+      const arrow = index === 7 && grow !== 1 ? 16 : 0;
+      const w =
+          grow === 1
+            ? width
+            : wide(index)
+              ? Math.max(width, label.width + 28 + arrow)
+              : width * grow,
         half = 14 * grow;
       const px = Math.max(w / 2 + 4, Math.min(BOARD_WIDTH - 4 - w / 2, x)),
         py = Math.max(145, Math.min(Math.min(597, BOARD_HEIGHT - 3 - half), y));
@@ -182,7 +189,7 @@ export class BattleFeedback {
       g.fillRoundedRect(px - w / 2, py - half, w, half * 2, 6);
       g.lineStyle(1.5, color, 0.95);
       g.strokeRoundedRect(px - w / 2, py - half, w, half * 2, 6);
-      label.setPosition(px, py).setVisible(true);
+      label.setPosition(px + arrow / 2, py).setVisible(true);
       return { left: px - w / 2, y: py, width: w, half };
     };
     const eggLabels = eggLabelPositions(r.eggs, scale);
