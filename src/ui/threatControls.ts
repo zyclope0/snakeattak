@@ -54,7 +54,9 @@ function showThreats(game: Game, preview: WaveThreats) {
   setDisplayText(byId('threat-title'), fill(TEXT.vagueNLesSerpentsAnnonces, preview.local));
   setDisplayText(
     byId('threat-lanes'),
-    TEXT.voiesOuvertes + preview.lanes.map((l) => LANE_NAMES[l]).join(' · '),
+    // One sentence with its place for the names: two texts stuck together are a sentence
+    // the English catalogue does not know, and half of it stayed in French.
+    fill(TEXT.voiesOuvertesN, preview.lanes.map((l) => LANE_NAMES[l]).join(' · ')),
   );
   const types = preview.entries.map((e) => e.kind);
   renderThreatCards(byId('wave-threat-list'), types);

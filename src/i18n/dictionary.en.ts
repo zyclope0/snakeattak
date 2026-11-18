@@ -994,7 +994,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Vive": "Speedy",
   "Voici les prochains alliés. Le guide explique leurs rôles avant leur arrivée.": "Here are the next allies. The guide explains their roles before they arrive.",
   "Voie paisible.": "Peaceful lane.",
-  "Voies ouvertes :": "Open lanes:",
+  "Voies ouvertes : {0}": "Open lanes: {0}",
   "Voie{0} attaquée{1} : {2}. « — » : paisible.": "Lanes under attack: {2}. “—”: peaceful.",
   "Voir mes alliés": "See my allies",
   "Voir mon carnet": "View my sticker book",

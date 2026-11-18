@@ -68,6 +68,10 @@ summary:focus-visible,
   outline: 3px solid #dd9b25;
   outline-offset: 3px;
 }
+/* The board is clipped at its edges (03-board.css): its ring is drawn inside, whole. */
+#game:focus-visible {
+  outline-offset: -3px;
+}
 a {
   color: inherit;
   text-decoration: none;

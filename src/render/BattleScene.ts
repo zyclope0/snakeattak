@@ -57,7 +57,7 @@ export class BattleScene extends Phaser.Scene {
   /** Canvas width the camera, the labels and the terrain cache were last fitted to. */
   private fittedWidth = 0;
   private motionQuery = window.matchMedia('(prefers-reduced-motion:reduce)');
-  private onPresentation: (notice: Notice | null, deltaMs: number) => void;
+  private onPresentation: (notice: Notice | null, deltaMs: number, plaques: boolean) => void;
   private resultStats!: Phaser.GameObjects.Text;
   private resultSubtitle!: Phaser.GameObjects.Text;
   private celebration!: Phaser.GameObjects.Graphics;
@@ -82,7 +82,7 @@ export class BattleScene extends Phaser.Scene {
     session: Session,
     onChange: () => void,
     onFrame: (game: Game) => void = () => {},
-    onPresentation: (notice: Notice | null, deltaMs: number) => void = () => {},
+    onPresentation: (notice: Notice | null, deltaMs: number, plaques: boolean) => void = () => {},
   ) {
     super('Battle');
     this.session = session;
@@ -250,7 +250,14 @@ export class BattleScene extends Phaser.Scene {
     }
     const game = this.session.game;
     this.presentation.update(game, delta);
-    this.onPresentation(this.presentation.notice, delta);
+    // The plaques of confusion and courage are written at the bottom of the board, where
+    // the line of the page announces events: the page is told, and steps aside.
+    const encounter = this.presentation.encounter;
+    this.onPresentation(
+      this.presentation.notice,
+      delta,
+      !!(encounter.confusion || encounter.encouragement),
+    );
     this.onFrame(game);
     this.ink.clear();
     this.honeyInk.clear();

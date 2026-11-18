@@ -30,7 +30,8 @@ export function bindBattleNotices(
   const announcement = byId('battle-announcement');
   let previous = '';
   let previousAnnouncement = '';
-  return (notice: Notice | null, deltaMs = 0) => {
+  /** `plaques`: the board is writing at its bottom edge, where the announcement sits. */
+  return (notice: Notice | null, deltaMs = 0, plaques = false) => {
     const guide = getGuide(),
       placing = forceGuide();
     const { content, tone } = chooseBattleMessage(notice, guide, placing);
@@ -43,6 +44,7 @@ export function bindBattleNotices(
     });
     const title = notice?.title ?? (placing ? (guide.compact ?? guide.title) : (hint ?? ''));
     announcement.classList.toggle('placement-instruction', placing && !notice);
+    announcement.classList.toggle('above-plaques', plaques);
     if (title !== previousAnnouncement) {
       previousAnnouncement = title;
       setDisplayText(announcement, title);

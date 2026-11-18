@@ -1,4 +1,4 @@
-# Plan actuel — 15 novembre 2026
+# Plan actuel — 18 novembre 2026
 
 Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
@@ -100,6 +100,12 @@ parce qu'une grande aventure commencée sur le nouveau site ne se relit pas dans
   (« Alliés debout : 1 », « Il faut 1 ★ »). Rendu seul, aucune règle touchée
   ([architecture](ARCHITECTURE.md), « Textes lisibles sur téléphone »). **À regarder sur le
   vrai téléphone et avec les enfants** : c'est mesuré sur des captures, pas lu par un enfant.
+- **Deuxième relecture à huit angles (18 novembre)** : corrigé sans décision — image de
+  partage (titre en haut, plateau entier visible), « Voies ouvertes » resté en français
+  dans l'écran anglais, annonce et plaques « Courage ! » / « Confusion » qui se
+  recouvraient en bas du plateau, clavier sur l'écran des cadeaux, documents périmés. Sept
+  décisions du parent et deux questions pour le fils sont listées dans
+  [SITE.md](SITE.md), « Deuxième relecture ». **Pas encore publié.**
 
 ## Site : découverte FR/EN et soutien — lot du16novembre
 
