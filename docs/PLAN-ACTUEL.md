@@ -69,7 +69,7 @@ remettra l'application au niveau du site.
 - **Le serpent ninja se téléporte** (idée du fils, règle choisie par le parent le 18
   novembre) : au premier coup, il disparaît et revient dans le dos de l'allié qui l'a frappé,
   à la place de l'esquive. C'est la **révision d'équilibrage 5**, acceptée par le parent
-  après mesure : la difficulté ne bouge pas (expert 52 % → 51 %). Les parties, codes et
+  après mesure : la difficulté ne bouge pas (expert 52 % → 52 %). Les parties, codes et
   sauvegardes d'avant gardent l'esquive ([bilan](BILAN-REVISION-5.md)). **Pas encore joué par
   les enfants.**
 

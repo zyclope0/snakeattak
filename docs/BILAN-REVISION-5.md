@@ -38,13 +38,15 @@ Ninja, et parfois il se téléporte dans le dos d'un personnage ». Dans aucun b
 ## Les mesures
 
 Joueurs automatiques sur le vrai moteur (`npm run balance:modes`, `REVISION=4` puis `5`),
-grande aventure, 200 parties par joueur, mêmes départs.
+grande aventure, 200 parties par joueur, mêmes départs. Révision 5 mesurée sur le code livré,
+après les corrections de la relecture (le parent avait lu, avant elles : expert 51 %, moyen
+vague 9,47, petit 7,34).
 
 | Joueur | Révision 4 (esquive)           | Révision 5 (téléportation)     |
 | ------ | ------------------------------ | ------------------------------ |
-| Expert | 52 % de victoires, vague 11,84 | 51 % de victoires, vague 11,88 |
-| Moyen  | 0 % de victoires, vague 9,50   | 1 % de victoires, vague 9,47   |
-| Petit  | 0 % de victoires, vague 7,40   | 0 % de victoires, vague 7,34   |
+| Expert | 52 % de victoires, vague 11,84 | 52 % de victoires, vague 11,88 |
+| Moyen  | 0 % de victoires, vague 9,50   | 1 % de victoires, vague 9,48   |
+| Petit  | 0 % de victoires, vague 7,40   | 0 % de victoires, vague 7,33   |
 
 - Aucune différence au-delà du hasard de 200 parties : la téléportation change ce que voit
   l'enfant, pas la difficulté. La mesure ne voit pas un écart de moins de 10 points environ :
