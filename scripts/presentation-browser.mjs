@@ -254,7 +254,8 @@ try {
       if (state.status !== 'fighting' || state.edge > 0)
         throw Error('Defenders collapsed into the bridge');
     }
-    if (scenario === 'allies' && (await page.locator('#army-count').innerText()) !== '21')
+    // The hero and every ally of a great adventure of the seventh revision, spinosaurus included.
+    if (scenario === 'allies' && (await page.locator('#army-count').innerText()) !== '22')
       throw Error(`Missing illustrated ally: HUD=${await page.locator('#army-count').innerText()}`);
     if (scenario === 'bestiaire') {
       await page.waitForFunction(() =>
