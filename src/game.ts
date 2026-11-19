@@ -28,7 +28,12 @@ import {
 import { levelForWave, missionLevel } from './levels.ts';
 import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
-import { balanceRecruitPrice, isBalanceRevision, lateEggRule } from './balanceRevision.ts';
+import {
+  allyExists,
+  balanceRecruitPrice,
+  isBalanceRevision,
+  lateEggRule,
+} from './balanceRevision.ts';
 import type { BalanceRevision, LateEggRule } from './balanceRevision.ts';
 import { capriceBudget, capriceRules } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
@@ -285,10 +290,14 @@ export class Game {
         : TEXT.leGouterEstServiLesSerpents;
     return true;
   }
+  /** False for an ally of a later revision: this game has never heard of it. */
+  knowsAlly(kind: Kind): boolean {
+    return Object.hasOwn(kinds, kind) && allyExists(kind, this.balanceRevision);
+  }
   isUnlocked(kind: Kind) {
     return (
       typeof kind === 'string' &&
-      Object.hasOwn(kinds, kind) &&
+      this.knowsAlly(kind) &&
       (this.mission ? missionById(this.mission.missionId)!.unlockRank : facedWave(this)) >=
         (unlockWave[kind] ?? 1)
     );

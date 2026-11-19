@@ -8,7 +8,9 @@
 //                  missions et les défis se jouent alors en révision 2.
 //   SETS=12        lots de 18 départs par mission (12 = 216 parties par mode et par joueur)
 //   CLASSIC=200    parties de grande aventure par joueur
-//   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros
+//   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros, dino
+//   DINO=spinosaurus  le grand dinosaure du joueur « dino » (un expert qui en recrute deux dès
+//                  qu'il arrive) : spinosaurus (révision 7) ou trex, pour comparer les deux
 // Sans modes.json : tous les modes. Avec : liste { id, missionId, rules?, classic?, profiles?, sets? }.
 // Avec un seul shard, affiche un résumé par mode et par joueur.
 import { readFile, writeFile } from 'node:fs/promises';
@@ -34,6 +36,7 @@ const { CURRENT_BALANCE_REVISION } = await import(R + 'balanceRevision.ts');
 const REVISION = Number(process.env.REVISION ?? CURRENT_BALANCE_REVISION);
 const MISSION_REVISION = Math.min(REVISION, 2);
 const CLASSIC = Number(process.env.CLASSIC ?? 200);
+const DINO = process.env.DINO ?? 'spinosaurus';
 
 function play(g, profile) {
   const r = { status: null, deaths: 0, seconds: 0, spent: 0 };
@@ -73,6 +76,8 @@ function play(g, profile) {
     return false;
   }
   const order = ['club', 'shield', 'archer'];
+  // The « dino » player plays as the expert does, with its two big dinosaurs on top.
+  const skilled = profile === 'expert' || profile === 'dino';
   const step = () => {
     const count = g.units.length;
     g.step(dt);
@@ -84,7 +89,9 @@ function play(g, profile) {
       for (let i = 0; i < 60; i++) if (!buyExpert('club')) break;
     } else if (profile === 'gros') {
       for (let i = 0; i < 40; i++) if (!BIG.some(buyRotating)) break;
-    } else if (profile === 'expert') {
+    } else if (profile === 'expert' || profile === 'dino') {
+      if (profile === 'dino')
+        while (g.units.filter((u) => u.kind === DINO).length < 2 && buyExpert(DINO));
       const healer = g.isUnlocked('medic') ? 'medic' : 'nurse';
       if (
         !g.caprice?.kinds &&
@@ -115,7 +122,7 @@ function play(g, profile) {
     if (g.rewards?.pending != null) {
       const offer = g.rewardOffer ?? [];
       // Expert : pièces ; autres : première carte proposée.
-      if (!g.chooseReward(profile === 'expert' && offer.includes('pieces') ? 'pieces' : offer[0]))
+      if (!g.chooseReward(skilled && offer.includes('pieces') ? 'pieces' : offer[0]))
         g.skipReward?.();
     }
     if (!g.startWave()) {
@@ -126,7 +133,7 @@ function play(g, profile) {
     while (g.status === 'fighting' && g.time - t < 300) {
       step();
       minBase = Math.min(minBase, g.base);
-      if (profile === 'expert') {
+      if (skilled) {
         if (!g.feastUsed && g.enemies.some((e) => e.x > 570))
           g.offerFeast(g.enemies.find((e) => e.x > 570).lane, 'sticky');
         if (

@@ -1,3 +1,4 @@
+import { diving } from './swim.ts';
 import { grasshopperLeap } from '../balanceRevision.ts';
 import { CRYSTAL_X } from '../boardLandmarks.ts';
 import type { Game } from '../game.ts';
@@ -17,9 +18,11 @@ import { TELEPORT_CRYSTAL_GAP } from './damage.ts';
 export function leapOverLine(game: Game, snake: Entity): boolean {
   const rule = grasshopperLeap(game.balanceRevision);
   if (!rule || !snake.leaps || snake.boss) return false;
+  // A spinosaurus away in the river is not part of the line (seventh revision).
   const road = game.units.filter(
     (u) =>
       u.hp > 0 &&
+      !diving(u) &&
       u.x >= snake.x &&
       u.x - snake.x <= rule.depth &&
       Math.abs(u.y - snake.y) <= rule.band,

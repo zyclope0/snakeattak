@@ -27,6 +27,9 @@ export const sesPlaquesReduisentLesDegatsRecus =
 export const tyrannosaure = 'Tyrannosaure';
 export const uneMorsureTresPuissanteMaisPlus =
   'Une morsure très puissante, mais plus lente à préparer.';
+export const spinosaure = 'Spinosaure';
+export const saMorsureEtSaVoileSontTresDangereuses =
+  'Sa morsure et sa voile sont très dangereuses. Il nage parfois jusqu’aux ponts.';
 export const mutantRoc = 'Mutant roc';
 export const unAllieDePierreCourageuxSaPeau =
   'Un allié de pierre courageux. Sa peau réduit les dégâts reçus de 20 %.';
@@ -69,6 +72,8 @@ export const chargeApresEnviron14SecondeDe =
   'Charge : après environ 1,4 seconde de course, le premier coup inflige 80 % de dégâts supplémentaires.';
 export const plaquesReduitDe25LesDegatsRecus =
   'Plaques : réduit de 25 % les dégâts reçus. Garde son secteur.';
+export const voileEtNageToucheLesSerpentsAutour =
+  'Voile : chaque morsure touche aussi les serpents autour de lui ({0} %). Nage : pas plus d’une fois toutes les {1} secondes, il plonge dans la rivière pour mordre un serpent sur un pont, puis revient.';
 export const peauDePierreReduitDe20LesDegats =
   'Peau de pierre : réduit de 20 % les dégâts reçus. Garde son secteur.';
 export const brasElastiquesFrappeA90PasDePortee =

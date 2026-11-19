@@ -60,10 +60,12 @@ l'application ; aucune permission ni SDK ajouté ; aucun appel réseau pendant l
 
 ## Pas vérifié
 
-- La recette native du release63 reste à effectuer sur un émulateur accéléré ou
-  appareil de test ; les vérifications navigateur et de signature ne la remplacent pas.
-- Rien n'a été joué par les enfants ; la mise à jour 62 → 63 par Google Play n'est pas
-  essayée.
+- 19 novembre, d'après le parent : le build 63 est arrivé sur le téléphone par Google Play,
+  et le fils a joué 2 ou 3 parties sur le site, content, sans remarque précise.
+- La recette native du release 63 (cases de [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)) n'est
+  pas dans cette session ; les vérifications navigateur et de signature ne la remplacent pas.
+- Rien n'a encore été joué par les enfants dans l'application elle-même, à notre
+  connaissance.
 
 ## Notes de version proposées pour Google Play
 

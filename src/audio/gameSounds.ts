@@ -129,6 +129,7 @@ function momentSignal(game: Game, before: Memory, kingWithoutFiles: boolean): Si
   return undefined;
 }
 
+const HEARD_FIRST = new Set<Effect['kind']>(['blink', 'leap', 'splash']);
 /** The first effect not listened to yet. The others of the same frame stay silent for good. */
 function freshEffectSignal(
   game: Game,
@@ -139,12 +140,11 @@ function freshEffectSignal(
   if (!context) return undefined;
   const now = context.currentTime;
   if (now - last.effectAt <= EFFECT_GAP) return undefined;
-  // A ninja snake that vanishes, or a grasshopper snake that leaps, is heard first: it shares
-  // its frame with blows that would otherwise take the only sound of that moment.
+  // A ninja snake that vanishes, a grasshopper snake that leaps or a spinosaurus that dives is
+  // heard first: it shares its frame with blows that would otherwise take the only sound.
   const fresh =
-    game.effects.find(
-      (effect) => (effect.kind === 'blink' || effect.kind === 'leap') && !heard.has(effect),
-    ) ?? game.effects.find((effect) => !heard.has(effect));
+    game.effects.find((effect) => HEARD_FIRST.has(effect.kind) && !heard.has(effect)) ??
+    game.effects.find((effect) => !heard.has(effect));
   if (!fresh) return undefined;
   last.effectAt = now;
   if (fresh.kind !== 'heal') return effectSignal(game, fresh);

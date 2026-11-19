@@ -78,6 +78,7 @@ test("une planche d'attaque a les cases de sa planche de repos", () => {
       ['enemies-organic-attack', 'enemies-organic'],
       ['enemies-mechanical-attack', 'enemies-mechanical'],
       ['allies-dinosaurs-attack', 'allies-dinosaurs'],
+      ['allies-spinosaure-attack', 'allies-spinosaure'],
       ['serpents-family-attack', 'serpents-family'],
       ['allies-mutants-attack', 'allies-mutants'],
       ['serpents-nouveaux-attack', 'serpents-nouveaux'],

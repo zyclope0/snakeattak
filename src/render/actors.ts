@@ -25,6 +25,7 @@ import type { Arrival, Presentation } from './presentation.ts';
 import { ACTION_SECONDS, PLACED_SECONDS, visualPose } from './presentation.ts';
 import { FramePool } from './framePool.ts';
 import { onSceneExit } from './sceneExit.ts';
+import { inRiver } from '../navigation.ts';
 import { eggDepth, standingDepth } from './boardDepth.ts';
 import * as DEPTH from './boardLayers.ts';
 import * as BOARD_COLOR from './palette.ts';
@@ -62,6 +63,8 @@ const ENEMY_CAMP: Camp = {
     ringAlpha: 0.5,
   };
 /** Where a figure stands in its frame: between its feet. */
+/** How far a swimming spinosaurus sinks into the river. */
+const SWIM_SINK = 12;
 const FOOT_X = 0.5,
   FOOT_Y = 0.82;
 /** Visual seconds a snake takes to come out of its den or its egg. */
@@ -267,7 +270,10 @@ export class Actors {
       FOOT_Y,
     );
     const stance = this.stanceOf(unit, size, action, game, presentation, reduced);
-    if (!stance.flying) this.drawShadow(unit, camp, size, stance.hop);
+    // Only a spinosaurus goes into the river: it sinks to the belly, without a shadow.
+    const swimming = !enemy && inRiver(unit.x, unit.y);
+    if (swimming) stance.y += SWIM_SINK;
+    else if (!stance.flying) this.drawShadow(unit, camp, size, stance.hop);
     // One pale flash per blow, 100 ms, never restarted within 0.3 s: no strobe.
     const flash = !reduced && (presentation.flashes.get(unit.id) ?? 1) < 0.1;
     this.drawRim(unit.id, figurine.rim, camp.rim, stance);
@@ -279,6 +285,7 @@ export class Actors {
     if (flash) body.setTintFill(FLASH);
     else body.setTint(bodyTint(unit, game, stance.hurt));
     if (unit.shell) this.drawShell(unit.id, stance);
+    if (swimming) this.drawWater(unit.id, stance, game.time, reduced);
     this.health(
       unit,
       ink,
@@ -382,6 +389,29 @@ export class Actors {
     shell.translateCanvas(0, -stance.height * 0.38);
     drawCapriceShell(shell, stance.width * 0.53, stance.height * 0.37);
     shell.restore();
+  }
+  /**
+   * The river in front of a swimming spinosaurus: a band of water over its legs, with two
+   * ripples. It uses the pool of the shells (one drawing per fighter): an ally has no shell.
+   */
+  private drawWater(id: number, stance: Stance, time: number, reduced: boolean) {
+    const water = this.shells.acquire(id);
+    const ripple = reduced ? 0 : Math.sin(time * 5 + id) * 3;
+    water
+      .clear()
+      .setPosition(stance.x, stance.y)
+      .setRotation(0)
+      .setScale(1, 1)
+      .setAlpha(stance.alpha)
+      .setDepth(stance.depth + 0.00001);
+    // Over the legs, from the feet to the belly.
+    const width = stance.width * 0.95,
+      surface = -stance.height * 0.06;
+    water.fillStyle(BOARD_COLOR.river, 0.95);
+    water.fillEllipse(0, surface, width, stance.height * 0.4);
+    water.lineStyle(3, BOARD_COLOR.ripple, 0.9);
+    water.strokeEllipse(0, surface - 4, width * 0.75 + ripple, stance.height * 0.14);
+    water.strokeEllipse(0, surface, width + ripple, stance.height * 0.3);
   }
   /** An egg, with the ring that closes as it gets ready to hatch; it wobbles near the end. */
   private drawEgg(egg: Egg, time: number, ink: Graphics, reduced: boolean) {

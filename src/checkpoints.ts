@@ -2,7 +2,7 @@ import { isMilestone, readRewards } from './rewards.ts';
 import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
 import { Game } from './game.ts';
-import { isClassicRevision } from './balanceRevision.ts';
+import { allyExists, isClassicRevision } from './balanceRevision.ts';
 import type { ClassicRevision } from './balanceRevision.ts';
 import { CRYSTAL_MAX, GOLD_LIMIT, TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
 import type { Kind } from './data.ts';
@@ -39,6 +39,8 @@ export type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
  *  10  the third balance revision, in the great adventure only
  *  11  the fourth balance revision, in the great adventure only
  *  12  the fifth balance revision, in the great adventure only
+ *  13  the sixth balance revision, in the great adventure only
+ *  14  the seventh balance revision, in the great adventure only: the spinosaurus
  */
 const savesHomes = (version: number) => version !== 1;
 const savesRewards = (version: number) => version >= 3;
@@ -65,11 +67,19 @@ function hasKnownDeparture(game: Game): boolean {
 }
 
 /** The save version of each revision that exists in the great adventure only. */
-const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = { 3: 10, 4: 11, 5: 12, 6: 13 };
-const LATEST_VERSION = 13;
+const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = {
+  3: 10,
+  4: 11,
+  5: 12,
+  6: 13,
+  7: 14,
+};
+const LATEST_VERSION = 14;
 /** The revision a version 10 or later was written for; null for an older version. */
-const classicRevisionOf = (version: number): ClassicRevision | null =>
-  version === 13 ? 6 : version === 12 ? 5 : version === 11 ? 4 : version === 10 ? 3 : null;
+const classicRevisionOf = (version: number): ClassicRevision | null => {
+  const found = Object.entries(CLASSIC_VERSION).find(([, written]) => written === version);
+  return found ? (Number(found[0]) as ClassicRevision) : null;
+};
 
 function saveVersion(game: Game): number {
   if (isClassicRevision(game.balanceRevision)) return CLASSIC_VERSION[game.balanceRevision];
@@ -243,6 +253,8 @@ function restoreUnits(game: Game, save: Save): boolean {
   for (const saved of save.units) {
     const unit = readUnit(saved, format, ids);
     if (!unit || (unit.kind === 'hero' && ++heroes > 1)) return false;
+    // An ally of a later revision was never written by a game of this one.
+    if (!allyExists(unit.kind as Kind, game.balanceRevision)) return false;
     ids.add(unit.id);
     game.units.push(unit);
   }

@@ -260,6 +260,13 @@ Précisions du fils, rapportées par le parent le 18 novembre 2026 :
   sauterelle », un par vague dès la vague 7 ; il saute une fois par-dessus la ligne des
   alliés de sa route, puis marche normalement.
 - **Le spinosaure** doit être la meilleure unité du jeu ; il laisse l'équilibrage à faire.
+  **Fait le 19 novembre 2026** (révision 7, mesure et valeurs choisies par le parent) : le
+  « Spinosaure », dans la grande aventure dès la vague 8. Ses mots : « Sa morsure et sa voile
+  sont très dangereux et il nage mais pas tous le temps pour pas trop déséquilibrer le
+  jeux ». Chaque morsure touche aussi les serpents autour de lui (sa voile, un quart de la
+  morsure) ; au plus toutes les 20 secondes, il plonge dans la rivière pour mordre un serpent
+  sur un pont, puis revient. Le pierre-feuille-ciseaux entre dinosaures attend d'autres
+  dinosaures (« Il faut plus de dinosaures pour le faire »).
 - **Le boss caché** : il laisse choisir le nombre de pommes, après mesure.
 - **Dans le voyage**, il veut que King Snake vienne avec ses gardes : fait dans la version 2
   du voyage (accord du parent le 18 novembre ; les voyages de version 1 gardent le roi seul).

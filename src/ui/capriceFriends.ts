@@ -1,6 +1,7 @@
 import { capriceDefinitionForRun } from '../caprices.ts';
 import { kinds, unlockWave, type Kind } from '../data.ts';
 import { missionById, type MissionRun } from '../missions.ts';
+import { allyExists } from '../balanceRevision.ts';
 import { setText } from '../i18n/dom.ts';
 import { make } from './dom.ts';
 import * as TEXT from '../texts/fr/capriceScreens.ts';
@@ -15,6 +16,7 @@ export function friendChoices(run: MissionRun): Kind[] {
   return (Object.keys(kinds) as Kind[]).filter(
     (k) =>
       k !== 'hero' &&
+      allyExists(k, run.balance ?? 1) &&
       (unlockWave[k] ?? 1) <= rank &&
       !(rules?.noHealers && (k === 'nurse' || k === 'medic')),
   );

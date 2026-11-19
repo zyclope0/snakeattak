@@ -36,7 +36,8 @@ if (gameUrl.startsWith('http')) {
 await page.locator('canvas').waitFor();
 await page.waitForTimeout(1500);
 await page.screenshot({ path: 'artifacts/pilote-desktop.png', fullPage: true });
-if ((await page.locator('[data-kind]').count()) !== 20) throw Error('Catalogue incomplet');
+// A new great adventure (seventh revision): twenty allies and the spinosaurus.
+if ((await page.locator('[data-kind]').count()) !== 21) throw Error('Catalogue incomplet');
 if (await page.locator('[data-kind="dragon"]').isVisible())
   throw Error('Unité future affichée dans les disponibles');
 await revealControl(page, '#shop-future');
@@ -65,10 +66,10 @@ if (futureKinds.length !== futureView.future || futureView.cards.some((c) => c.s
 if (futureView.cards.some((card) => !card.inBody || card.height < 48 || card.width < 48))
   throw Error('Carte d’allié à découvrir hors du catalogue ou trop petite');
 if (
-  new Set([...readyKinds, ...futureKinds]).size !== 20 ||
-  readyView.ready + readyView.future !== 20
+  new Set([...readyKinds, ...futureKinds]).size !== 21 ||
+  readyView.ready + readyView.future !== 21
 )
-  throw Error('Les deux onglets ne montrent pas les vingt alliés');
+  throw Error('Les deux onglets ne montrent pas les vingt et un alliés');
 for (const kind of ['mutantRock', 'mutantStretch'])
   if (!(await page.locator(`#shop [data-kind="${kind}"]`).isVisible()))
     throw Error(`Mutant à découvrir absent : ${kind}`);
@@ -84,8 +85,8 @@ if (await page.locator('#shop .unit-card:visible small:visible').count())
   throw Error('Texte en trop sur une carte disponible');
 await revealControl(page, '#unit-guide');
 await page.locator('#unit-guide').click();
-if ((await page.locator('#guide-select option').count()) !== 21)
-  throw Error('Guide de nos 21 unités incomplet');
+if ((await page.locator('#guide-select option').count()) !== 22)
+  throw Error('Guide de nos 22 unités incomplet');
 await page.locator('#guide-select').selectOption('ninja');
 if (!(await page.locator('#guide-stats').innerText()).includes('Très rapide'))
   throw Error('Vitesse du ninja absente');

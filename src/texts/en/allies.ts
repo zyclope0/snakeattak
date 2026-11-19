@@ -26,6 +26,9 @@ export const sesPlaquesReduisentLesDegatsRecus =
   'Its plates reduce damage taken by 25%. Guards its area.';
 export const tyrannosaure = 'T. rex';
 export const uneMorsureTresPuissanteMaisPlus = 'A very powerful bite that takes longer to prepare.';
+export const spinosaure = 'Spinosaurus';
+export const saMorsureEtSaVoileSontTresDangereuses =
+  'Its bite and its sail are very dangerous. Sometimes it swims to the bridges.';
 export const mutantRoc = 'Rock Mutant';
 export const unAllieDePierreCourageuxSaPeau =
   'A brave stone ally. Its skin reduces damage taken by 20%.';
@@ -66,6 +69,8 @@ export const soigneNPvParInterventionToutesLesN =
 export const chargeApresEnviron14SecondeDe =
   'Charge: after about 1.4 seconds of running, the first hit deals 80% more damage.';
 export const plaquesReduitDe25LesDegatsRecus = 'Plates: takes 25% less damage. Guards its area.';
+export const voileEtNageToucheLesSerpentsAutour =
+  'Sail: each bite also hits the snakes around it ({0}%). Swim: at most once every {1} seconds, it dives into the river to bite a snake on a bridge, then comes back.';
 export const peauDePierreReduitDe20LesDegats =
   'Stone skin: takes 20% less damage. Guards its area.';
 export const brasElastiquesFrappeA90PasDePortee =

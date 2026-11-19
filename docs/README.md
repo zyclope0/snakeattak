@@ -21,6 +21,8 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-REVISION-4.md](BILAN-REVISION-4.md)                             | Révision d'équilibrage 4 (trois nouveaux serpents) : décisions, mesures, ce qui reste   |
 | [BILAN-REVISION-5.md](BILAN-REVISION-5.md)                             | Révision d'équilibrage 5 (le serpent ninja se téléporte) : décision, mesures            |
 | [BILAN-REVISION-6.md](BILAN-REVISION-6.md)                             | Révision d'équilibrage 6 (le serpent sauterelle saute la ligne) : décision, mesures     |
+| [BILAN-REVISION-7.md](BILAN-REVISION-7.md)                             | Révision d'équilibrage 7 (le spinosaure, nouvel allié) : décision, mesures              |
+| [TESTEURS-ET-JOUEURS.md](TESTEURS-ET-JOUEURS.md)                       | Trouver des joueurs pour le site et des testeurs Android : analyse, recommandation      |
 | [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique                                           |
 | [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour                             |
 | [ARCHIVES.md](ARCHIVES.md)                                             | Ce qui est sorti de Git et comment le retrouver                                         |

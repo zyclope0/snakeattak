@@ -381,11 +381,6 @@
 #app #reinforcements .army-title {
   grid-column: 1 / -1;
 }
-#app #reinforcements .shop-toolbar {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  min-width: 0;
-}
 #app #reinforcements .catalog-body {
   grid-column: 1 / -1;
   grid-row: 3;

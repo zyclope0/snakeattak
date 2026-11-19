@@ -6,6 +6,7 @@ import type { Milestone } from '../rewards.ts';
 import { WAVES_PER_CHAPTER } from '../gameConstants.ts';
 import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
+import { climbOut } from './swim.ts';
 import type { WaveNumbers } from './enemyTurn.ts';
 import type { Game } from '../game.ts';
 import * as TEXT from '../texts/fr/battle.ts';
@@ -51,6 +52,7 @@ function waveCleared(game: Game): boolean {
   );
 }
 function closeWave(game: Game, reward: number) {
+  climbOut(game);
   game.feast = null;
   game.encouragementRemaining = 0;
   if (!game.mission && game.wave % WAVES_PER_CHAPTER === 0) {

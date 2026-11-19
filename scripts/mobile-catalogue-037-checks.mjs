@@ -180,10 +180,8 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       const initial = await Promise.all(
         selectors.map((selector) => p.locator('#reinforcements ' + selector).boundingBox()),
       );
-      check(
-        await body.evaluate((element) => element.scrollHeight > element.clientHeight),
-        'catalogue has a real body scroll range',
-      );
+      // Since the tabs share the title row (19 November 2026), twenty allies fit without a
+      // scroll; the tools, once open, give the body its scroll range.
       for (const expanded of [false, true]) {
         if (expanded) {
           for (const id of ['catalog-tools', 'camp-tools'])
@@ -194,6 +192,10 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
               .locator('#camp-tools')
               .evaluate((element) => element.open && element.closest('#catalog-tools').open),
             'both catalogue tool disclosures are expanded',
+          );
+          check(
+            await body.evaluate((element) => element.scrollHeight > element.clientHeight),
+            'catalogue has a real body scroll range',
           );
         }
         await body.evaluate((element) => {

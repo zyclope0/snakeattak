@@ -21,6 +21,8 @@ import strongholdsUrl from './assets/illustrated/strongholds.webp';
 import tacticsUrl from './assets/illustrated/miels-parapluie.webp';
 import dinosaursUrl from './assets/illustrated/allies-dinosaurs.webp';
 import dinosaursAttackUrl from './assets/illustrated/allies-dinosaurs-attack.webp';
+import spinosaurusUrl from './assets/illustrated/allies-spinosaure.webp';
+import spinosaurusAttackUrl from './assets/illustrated/allies-spinosaure-attack.webp';
 import serpentsUrl from './assets/illustrated/serpents-family.webp';
 import serpentsAttackUrl from './assets/illustrated/serpents-family-attack.webp';
 import mutantsUrl from './assets/illustrated/allies-mutants.webp';
@@ -88,6 +90,14 @@ export const ART_SHEETS = [
     frameWidth: 512,
     frameHeight: 512,
     attackUrl: dinosaursAttackUrl,
+  },
+  // The spinosaurus of the seventh revision in the first cell; the three others are empty.
+  {
+    key: 'allies-spinosaure',
+    url: spinosaurusUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: spinosaurusAttackUrl,
   },
   {
     key: 'serpents-family',
@@ -185,6 +195,7 @@ export const ALLY_ART: Record<Kind, ArtFrame> = {
   triceratops: frame('allies-dinosaurs', 1),
   stegosaurus: frame('allies-dinosaurs', 2),
   trex: frame('allies-dinosaurs', 3),
+  spinosaurus: frame('allies-spinosaure', 0),
   mutantRock: frame('allies-mutants', 0),
   mutantStretch: frame('allies-mutants', 1),
 };

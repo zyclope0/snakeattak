@@ -15,3 +15,7 @@ export const placement = 0xb2eaf4;
 export const coin = 0xffd66a;
 /** The thin rim of a serpent, shared by the shell it may carry. */
 export const serpentRim = 0xd2552d;
+/** The middle of the river, and the water in front of a swimming spinosaurus. */
+export const river = 0x518f98;
+/** The ripples of the river, and those around a swimming spinosaurus. */
+export const ripple = 0xc5e5dc;

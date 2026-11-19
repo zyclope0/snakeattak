@@ -3,15 +3,21 @@
 Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
 
-## Livraison Android — 0.39.0, build 63, procédure reproductible
+## Livraison actuelle — 0.39.0, Android build 63 (procédure reproductible), site snakeattacktd.com
 
-- Version montée dans `main` le 19 novembre ; le paquet reste à construire depuis `main`
-  avec `npm run android:sync`, qui écarte tout ce qui est réservé au site (publicité,
-  PayPal, pages publiques) et le vérifie. Passation : [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md) ;
-  contenu depuis le build 62 : [BILAN-0.39.0.md](BILAN-0.39.0.md). Aucun envoi à Google Play
-  sans l'accord du parent.
-- Le site est publié depuis `main` jusqu'à la révision 6 (serpent sauterelle) : il est en
-  avance sur le build 62 ; le build 63 remet l'application à son niveau.
+- **Application** : 0.39.0 / build 63, construit par Codex depuis `main` avec
+  `npm run android:sync` (sans rien de ce qui est réservé au site), **arrivé sur le téléphone
+  par Google Play** (parole du parent, 19 novembre). Passation :
+  [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md) ; contenu depuis le build 62 :
+  [BILAN-0.39.0.md](BILAN-0.39.0.md).
+- **Site** : publié depuis `main` jusqu'à la révision 6 (serpent sauterelle) et la page
+  « Nouveautés » à jour ; vérifié par le parent le 19 novembre.
+- **Les enfants** : le fils a joué 2 ou 3 parties sur le site le 19 novembre ; il est
+  content, sans remarque précise (parole du parent).
+- **Spinosaure** (19 novembre) : révision 7, nouvel allié de la grande aventure dès la vague
+  8, inventé par le fils ; dessin accepté, valeurs choisies par le parent après mesure
+  ([bilan](BILAN-REVISION-7.md)). Le catalogue des alliés passe les onglets dans la ligne du
+  titre pour garder tous les alliés sur un écran de téléphone.
 
 ## Livraison préparée — 0.38.0, Android build62, site snakeattacktd.com
 

@@ -1,3 +1,4 @@
+import { BRIDGE_END_X, BRIDGE_HALF_WIDTH, RIVER_LEFT_X } from '../boardLandmarks.ts';
 import type { Level } from '../levels.ts';
 import { laneRoad, junctionRoad, routeJunctions } from '../routes.ts';
 import { LANE_IDS, LANES } from '../ai.ts';
@@ -87,10 +88,10 @@ export function stageComposition(level: Level, seed: number) {
       foreground: y > 540,
     });
   }
-  const edges = [96, ...LANES.flatMap((y) => [y - 36, y + 36]), 552];
+  const edges = [96, ...LANES.flatMap((y) => [y - BRIDGE_HALF_WIDTH, y + BRIDGE_HALF_WIDTH]), 552];
   const banks = [0, 2, 4, 6].map((i) => ({
-    left: 480,
-    right: 576,
+    left: RIVER_LEFT_X,
+    right: BRIDGE_END_X,
     top: edges[i],
     bottom: edges[i + 1],
   }));

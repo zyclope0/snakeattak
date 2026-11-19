@@ -103,6 +103,8 @@ test('les repères du plateau gardent leur place', async () => {
     { ...landmarks },
     {
       DEN_EXIT_X: 108,
+      RIVER_LEFT_X: 480,
+      BRIDGE_HALF_WIDTH: 36,
       BRIDGE_END_X: 576,
       CAMP_LEFT: 600,
       CAMP_RIGHT: 984,

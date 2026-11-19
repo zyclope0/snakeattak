@@ -17,6 +17,7 @@ export const souffle = 'Souffle';
 export const robuste = 'Robuste';
 export const protection = 'Protection';
 export const puissance = 'Puissance';
+export const voile = 'Voile';
 export const armure = 'Armure';
 export const charge = 'Charge';
 export const double = 'Double';

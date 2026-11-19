@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { Game } from '../src/game.ts';
 import type { Entity } from '../src/game.ts';
 import { kinds } from '../src/data.ts';
+import { allyExists } from '../src/balanceRevision.ts';
 import type { Kind } from '../src/data.ts';
 import { createMissionRun } from '../src/missions.ts';
 import { Presentation } from '../src/render/presentation.ts';
@@ -123,7 +124,10 @@ test('les poses de chaque combattant gardent leur empreinte', () => {
     return seed / 4294967296;
   };
   const blows = ['hit', 'arrow', 'fire', 'shell', 'block'] as const;
-  for (const kind of [...(Object.keys(kinds) as Kind[]), 'snake'] as const)
+  // The allies of the sixth revision, whose poses this print has kept since 13 November; the
+  // spinosaurus of the seventh is checked below.
+  const older = (Object.keys(kinds) as Kind[]).filter((kind) => allyExists(kind, 6));
+  for (const kind of [...older, 'snake'] as const)
     for (const boss of [false, true])
       for (const state of ['idle', 'move', 'attack'] as const)
         for (const facing of [1, -1])
@@ -150,4 +154,29 @@ test('les poses de chaque combattant gardent leur empreinte', () => {
               poses += 2;
             }
   assert.equal(`${poses} ${hash.digest('hex').slice(0, 24)}`, '25344 5a5119a78c3ec2d864c4d68e');
+});
+
+test('le spinosaure bouge comme le tyrannosaure : pas lourd, coup de pied', () => {
+  const blows = ['hit', 'arrow', 'fire', 'shell', 'block'] as const;
+  for (const state of ['idle', 'move', 'attack'] as const)
+    for (const facing of [1, -1] as const)
+      for (const kind of blows)
+        for (const clock of [0, 0.37, 2.5]) {
+          const action: CharacterAction = { age: clock % 0.6, kind, facing };
+          const gait: Gait = { travel: clock * 90, rest: 0 };
+          const pose = (who: Kind) =>
+            characterMotion(
+              { id: 7, kind: who, boss: false, state, facing } as Entity,
+              clock,
+              action,
+              false,
+              gait,
+              false,
+            );
+          assert.deepEqual(
+            pose('spinosaurus'),
+            pose('trex'),
+            `${state} ${facing} ${kind} ${clock}`,
+          );
+        }
 });

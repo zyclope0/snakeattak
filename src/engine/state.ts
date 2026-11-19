@@ -30,6 +30,11 @@ export type Entity = Point & {
   dodges?: number;
   /** Leaps a grasshopper snake still has. Absent on every other fighter. */
   leaps?: number;
+  /**
+   * A spinosaurus's swims (seventh revision): seconds before it may dive again, the snake it
+   * swims to bite, and whether it swims back to the camp. Absent on every other fighter.
+   */
+  swim?: SwimState;
   /** Carapace d'un caprice : plus lente, plus solide, blindée. Absente sinon. */
   shell?: true;
   medical?: MedicalState;
@@ -44,6 +49,7 @@ export type Entity = Point & {
   turnY: number | null;
   targetId: number | null;
 };
+export type SwimState = { wait: number; prey: number | null; back: boolean };
 export type Egg = Point & {
   id: number;
   lane: number;
@@ -67,7 +73,9 @@ export type Effect = Point & {
     | 'honey'
     | 'block'
     | 'blink'
-    | 'leap';
+    | 'leap'
+    | 'splash'
+    | 'sail';
   life: number;
 };
 export const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -92,6 +100,17 @@ export function nextRandom(game: Game) {
 export const BLINK_SECONDS = 0.8;
 /** How long the arc of a grasshopper snake's leap stays on the board. */
 export const LEAP_SECONDS = 0.7;
+/** How long the rings of a spinosaurus diving into the river, or out of it, stay. */
+export const SPLASH_SECONDS = 0.8;
+/** How long the sweep of a spinosaurus's sail stays on the board. */
+export const SAIL_SECONDS = 0.45;
+const EFFECT_LIFE: Partial<Record<Effect['kind'], number>> = {
+  honey: 0.9,
+  blink: BLINK_SECONDS,
+  leap: LEAP_SECONDS,
+  splash: SPLASH_SECONDS,
+  sail: SAIL_SECONDS,
+};
 export function addEffect(game: Game, a: Point, b: Point, kind: Effect['kind']) {
   game.effects.push({
     sourceId: 'id' in a && typeof a.id === 'number' ? a.id : undefined,
@@ -101,14 +120,7 @@ export function addEffect(game: Game, a: Point, b: Point, kind: Effect['kind']) 
     tx: b.x,
     ty: b.y,
     kind,
-    life:
-      kind === 'honey'
-        ? 0.9
-        : kind === 'blink'
-          ? BLINK_SECONDS
-          : kind === 'leap'
-            ? LEAP_SECONDS
-            : 0.3,
+    life: EFFECT_LIFE[kind] ?? 0.3,
   });
 }
 export function createEntity(

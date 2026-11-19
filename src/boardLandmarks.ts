@@ -6,6 +6,10 @@
 
 /** Snakes leave their den here. */
 export const DEN_EXIT_X = 108;
+/** The river between the den and the camp runs from here to the far end of the bridges. */
+export const RIVER_LEFT_X = 480;
+/** Half the width of a bridge: closer than this to its lane, one walks on the bridge. */
+export const BRIDGE_HALF_WIDTH = 36;
 /** Far end of the three bridges: from here the king lays eggs and spits. */
 export const BRIDGE_END_X = 576;
 /** The camp, where allies may stand. */

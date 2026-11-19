@@ -87,7 +87,8 @@ try {
   assert.equal(await p.locator(REMOVED_CATALOGUE_CONTROLS).count(), 0);
   const view = await catalogueView(p);
   assert.deepEqual(view.tab, ['shop-ready']);
-  assert.equal(view.ready + view.future, 20);
+  // A new great adventure (seventh revision): twenty allies and the spinosaurus.
+  assert.equal(view.ready + view.future, 21);
   assert.equal(view.cards.length, view.ready, 'Every available ally is shown at once');
   assert.equal(await p.locator('#shop .unit-card:visible').count(), view.ready);
   assert.ok(
@@ -97,7 +98,7 @@ try {
   const catalogueKinds = await p
     .locator('#shop .unit-card')
     .evaluateAll((cards) => cards.map((c) => c.dataset.kind));
-  assert.equal(catalogueKinds.length, 20);
+  assert.equal(catalogueKinds.length, 21);
   assert.ok(career.rosters[1].every((kind) => catalogueKinds.includes(kind)));
   assert.equal((await camp(p)).gold, 300);
   assert.equal((await camp(p)).units.length, 3);

@@ -48,7 +48,8 @@ test('three valid independent presets preserve the full catalogue and unlock rul
     second = freshRosters();
   first[0][0] = 'tank';
   assert.notDeepEqual(first, second);
-  assert.equal(Object.keys(kinds).length, 21);
+  // 22 since the spinosaurus of the seventh revision.
+  assert.equal(Object.keys(kinds).length, 22);
   assert.equal(new Game(1).recruit('tank', 900, 300), false);
 });
 

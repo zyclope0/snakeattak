@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { Game } from '../src/game.ts';
 import { kinds } from '../src/data.ts';
+import { allyExists } from '../src/balanceRevision.ts';
+import type { BalanceRevision } from '../src/balanceRevision.ts';
 import type { Kind } from '../src/data.ts';
 import { MISSIONS, createMissionRun } from '../src/missions.ts';
 import { capricesForMission } from '../src/caprices.ts';
@@ -12,12 +14,21 @@ import { expectedTraces } from './fixtures/engine-traces.ts';
 // Parties entières jouées par un joueur automatique fixe. L'empreinte couvre tout l'état du
 // jeu, pas après pas : déplacer du code dans `src/engine/` ne doit en changer aucune.
 // Une empreinte qui change veut dire qu'une ancienne partie ne se rejoue plus pareil.
-const order = (Object.keys(kinds) as Kind[]).filter((kind) => kind !== 'hero');
+// The automatic player tries the allies in catalogue order. An ally of a later revision is
+// left out of the older games' list: a longer list would change what they buy.
+const allies = (revision: BalanceRevision) =>
+  (Object.keys(kinds) as Kind[]).filter(
+    (kind) => kind !== 'hero' && (revision >= 7 || allyExists(kind, 6)),
+  );
 const spots: [number, number][] = [];
 for (let x = 624; x <= 972; x += 36) for (let y = 120; y <= 528; y += 36) spots.push([x, y]);
 
-function play(start: Game, salt: number): string {
+function play(start: Game, salt: number, first?: Kind, seen?: Set<string>): string {
   let game = start;
+  // `first`: the ally this player tries before the others, every time it buys.
+  const order = allies(start.balanceRevision).sort(
+    (a, b) => Number(b === first) - Number(a === first),
+  );
   const hash = createHash('sha256');
   let steps = 0,
     buy = salt,
@@ -34,8 +45,11 @@ function play(start: Game, salt: number): string {
       if (game.base < 70) game.repair();
       let tries = 0,
         bought = 0;
+      // Until it has its `first` ally, this player saves its coins for it.
+      const saving = () =>
+        !!first && game.isUnlocked(first) && !game.units.some((u) => u.kind === first);
       while (tries < order.length * 2 && bought < 2 + (salt % 4)) {
-        const kind = order[buy++ % order.length];
+        const kind = saving() ? first! : order[buy++ % order.length];
         tries++;
         for (let i = 0; i < spots.length; i++) {
           const [x, y] = spots[(spot + i * 5) % spots.length];
@@ -46,7 +60,7 @@ function play(start: Game, salt: number): string {
           }
         }
       }
-      if (salt % 5 === 0 && game.wave === 2) {
+      if ((salt % 5 === 0 && game.wave === 2) || (first && game.wave === 9)) {
         // Aller-retour par la sauvegarde : le camp restauré doit rejouer pareil.
         const raw = encodeCheckpoint(game);
         const back = raw ? decodeCheckpoint(raw) : null;
@@ -57,6 +71,7 @@ function play(start: Game, salt: number): string {
     }
     game.step(1 / 30);
     steps++;
+    if (seen) for (const effect of game.effects) seen.add(effect.kind);
     if (steps % 90 === 30)
       game.offerFeast(Math.floor(steps / 90 + salt) % 3, salt % 2 ? 'lure' : 'sticky');
     if (steps % 400 === 200) game.encourage();
@@ -83,6 +98,10 @@ function traces(): Record<string, string> {
   out['classique r5'] = play(new Game(16838, undefined, undefined, 5), 5);
   // And under the sixth: the grasshopper snake leaps over the line once.
   out['classique r6'] = play(new Game(16838, undefined, undefined, 6), 5);
+  // And under the seventh: the spinosaurus can be recruited from wave 8.
+  out['classique r7'] = play(new Game(16838, undefined, undefined, 7), 5);
+  // A player who recruits the spinosaurus first: its bite, its sail and its swims.
+  out['classique r7 spinosaure'] = play(new Game(16838, undefined, undefined, 7), 5, 'spinosaurus');
   out['classique sans règles tactiques'] = play(new Game(57, { tacticalRulesEnabled: false }), 2);
   let n = 0;
   for (const mission of MISSIONS) {
@@ -107,6 +126,12 @@ function traces(): Record<string, string> {
   }
   return out;
 }
+
+test('la partie de référence du spinosaure le voit mordre, balayer et nager', () => {
+  const seen = new Set<string>();
+  play(new Game(16838, undefined, undefined, 7), 5, 'spinosaurus', seen);
+  for (const kind of ['sail', 'splash']) assert.ok(seen.has(kind), kind);
+});
 
 test('les parties de référence se rejouent à l’identique', () => {
   assert.deepEqual(traces(), expectedTraces);

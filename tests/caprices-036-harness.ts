@@ -32,8 +32,14 @@ const caprice =
 const missionId =
   mode === 'bank' || mode === 'honey' ? 'carrefour' : mode === 'shell' ? 'refuge' : 'sonnette';
 const run = { ...createMissionRun(missionId, 42), caprice };
-const game = new Game(42, undefined, run);
+// A late camp of the great adventure, seventh revision: every ally, the spinosaurus included.
+const game =
+  mode === 'classic7' ? new Game(42, undefined, undefined, 7) : new Game(42, undefined, run);
 session.useGame(game);
+if (mode === 'classic7') {
+  game.gold = 10000;
+  game.wave = 9;
+}
 if (mode === 'bank') {
   game.gold = 500;
   game.base = 60;

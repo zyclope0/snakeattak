@@ -13,6 +13,8 @@ import { distance, closerTo, addEffect, faceToward, forgetPath } from './state.t
 import { CAMP_FRONT_X, CAMP_LEFT, CAMP_RIGHT, CRYSTAL_ALERT_X, standable } from './field.ts';
 import { moveUnit, returnHome } from './movement.ts';
 import { hitEnemy } from './damage.ts';
+import { swimTurn } from './swim.ts';
+import { spinosaurusRule } from '../balanceRevision.ts';
 import type { Game } from '../game.ts';
 
 /** Helpers sent to each blocked snake this step, by snake id (see `reliefTeams`). */
@@ -121,6 +123,7 @@ function mostWounded(game: Game, healer: Entity): Entity | undefined {
 
 /** A fighter's turn: choose a snake, then walk towards it or strike it. */
 function fight(game: Game, u: Entity, dt: number, relief: Relief, assignments: Assignments) {
+  if (swimTurn(game, u, dt, (prey) => strike(game, u, prey))) return;
   const d = kinds[u.kind as Kind];
   const target = chooseTarget(game, u, relief, assignments);
   if (!target) {
@@ -196,6 +199,7 @@ function strike(game: Game, u: Entity, target: Entity) {
   else {
     strikeOne(game, u, target, damage);
     if (u.kind === 'twohead') strikeWithSecondHead(game, u, target, damage);
+    if (u.kind === 'spinosaurus') sweepSail(game, u, target, damage);
   }
   u.charge = 0;
   u.cool =
@@ -222,6 +226,23 @@ function strikeOne(game: Game, u: Entity, target: Entity, damage: number) {
   const covered = umbrellaCover(u, target);
   hitEnemy(game, u, target, damage * (covered ? UMBRELLA_DAMAGE_FACTOR : 1));
   if (covered) addEffect(game, u, target, 'block');
+}
+/**
+ * The spinosaurus's sail (seventh revision): every other snake on the ground around it takes
+ * a share of the bite. The sweep is drawn even when no other snake is there.
+ */
+function sweepSail(game: Game, u: Entity, target: Entity, damage: number) {
+  const rule = spinosaurusRule(game.balanceRevision);
+  if (!rule) return;
+  for (const enemy of game.enemies)
+    if (
+      enemy !== target &&
+      enemy.hp > 0 &&
+      !isFlying(enemy) &&
+      distance(enemy, u) <= rule.sailRadius
+    )
+      hitEnemy(game, u, enemy, damage * rule.sailShare, false);
+  addEffect(game, u, target, 'sail');
 }
 /** The two-headed knight also bites the nearest other snake on the ground. */
 function strikeWithSecondHead(game: Game, u: Entity, target: Entity, damage: number) {

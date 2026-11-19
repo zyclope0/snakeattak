@@ -1,4 +1,5 @@
 import { kinds } from './data.ts';
+import { diving } from './engine/swim.ts';
 import { enemies } from './enemies.ts';
 import type { Kind } from './data.ts';
 import type { Entity } from './game.ts';
@@ -88,7 +89,8 @@ const nearestFirst = (target: Point) => (a: Entity, b: Entity) =>
 export function reliefTeams(units: Entity[], enemies: Entity[]): Map<number, Set<number>> {
   const teams = new Map<number, Set<number>>();
   const bridgeTeams = new Map<number, Set<number>>();
-  const fighters = units.filter((u) => u.hp > 0 && kinds[u.kind as Kind]?.damage > 0);
+  // A spinosaurus away in the river (seventh revision) is sent nowhere else.
+  const fighters = units.filter((u) => u.hp > 0 && kinds[u.kind as Kind]?.damage > 0 && !diving(u));
   for (const e of enemies)
     if (e.hp > 0 && e.state === 'attack') {
       const engaged = fighters.filter(

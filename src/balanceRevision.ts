@@ -10,10 +10,11 @@ import * as TEXT from './texts/fr/battle.ts';
  *   4  three new snakes in the great adventure (16 November 2026)
  *   5  the ninja snake teleports behind the ally that strikes it first (18 November 2026)
  *   6  the grasshopper snake leaps over the line of allies once (18 November 2026)
+ *   7  the spinosaurus, a new ally of the great adventure (19 November 2026)
  */
-export const BALANCE_REVISIONS = [1, 2, 3, 4, 5, 6] as const;
+export const BALANCE_REVISIONS = [1, 2, 3, 4, 5, 6, 7] as const;
 export type BalanceRevision = (typeof BALANCE_REVISIONS)[number];
-export const CURRENT_BALANCE_REVISION: BalanceRevision = 6;
+export const CURRENT_BALANCE_REVISION: BalanceRevision = 7;
 export const isBalanceRevision = (value: unknown): value is BalanceRevision =>
   (BALANCE_REVISIONS as readonly unknown[]).includes(value);
 /** From the third on, a revision exists in the great adventure only: no expedition has it. */
@@ -86,3 +87,36 @@ const GRASSHOPPER_LEAP: GrasshopperLeap = Object.freeze({
 });
 export const grasshopperLeap = (revision: BalanceRevision): GrasshopperLeap | null =>
   revision >= 6 ? GRASSHOPPER_LEAP : null;
+
+/**
+ * Allies that exist from a revision on. Before it, and in every expedition, the game has never
+ * heard of them: no shop, no save and no starting code offers them.
+ */
+const ALLY_FROM: Partial<Record<Kind, ClassicRevision>> = { spinosaurus: 7 };
+export const allyExists = (kind: Kind, revision: BalanceRevision): boolean =>
+  revision >= (ALLY_FROM[kind] ?? 1);
+
+/**
+ * The spinosaurus of the seventh revision (idea of the child, 19 November 2026: « Sa morsure
+ * et sa voile sont très dangereux et il nage mais pas tous le temps »). Each blow is a bite on
+ * its snake and a sweep of its sail: every other snake on the ground within `sailRadius` of it
+ * takes `sailShare` of the bite. It swims now and then: at most every `swimEvery` seconds, when
+ * a snake walks on a bridge within `swimReach` of it, it dives into the river at `swimSpeed`,
+ * bites that snake once from the water beside the bridge, then swims back to the camp.
+ */
+export type SpinosaurusRule = Readonly<{
+  sailRadius: number;
+  sailShare: number;
+  swimEvery: number;
+  swimReach: number;
+  swimSpeed: number;
+}>;
+export const SPINOSAURUS: SpinosaurusRule = Object.freeze({
+  sailRadius: 72,
+  sailShare: 0.25,
+  swimEvery: 20,
+  swimReach: 240,
+  swimSpeed: 120,
+});
+export const spinosaurusRule = (revision: BalanceRevision): SpinosaurusRule | null =>
+  revision >= 7 ? SPINOSAURUS : null;

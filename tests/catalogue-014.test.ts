@@ -17,7 +17,8 @@ const additions = [
 
 test('quatre espèces de dinosaures et deux mutants rejoignent nos alliés existants', () => {
   for (const kind of additions) assert.ok(Object.hasOwn(kinds, kind), kind);
-  assert.equal(Object.keys(kinds).length, 21);
+  // 22 since the spinosaurus of the seventh revision.
+  assert.equal(Object.keys(kinds).length, 22);
   assert.equal(kinds.dragon.name, 'Bébé dragon');
   assert.equal(kinds.dino.name, 'Petit dinosaure');
 });
