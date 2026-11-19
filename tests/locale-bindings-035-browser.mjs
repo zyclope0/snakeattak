@@ -7,7 +7,8 @@ let browser;
 const server = spawn(
   process.execPath,
   ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', '4461', '--strictPort'],
-  { stdio: 'pipe' },
+  // Nobody reads its output: a full pipe would stall the server.
+  { stdio: 'ignore' },
 );
 try {
   for (let attempt = 0; ; attempt++) {
@@ -215,6 +216,9 @@ try {
     ),
   );
 } finally {
-  await browser?.close();
+  // On the CI runner, closing the browser once hung until the job's 30-minute limit, after
+  // every check had passed (19 November 2026): the server goes first, and the browser gets
+  // ten seconds.
   server.kill();
+  await Promise.race([browser?.close(), delay(10_000)]);
 }
