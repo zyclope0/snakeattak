@@ -24,6 +24,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm run test:android-signatures
       - run: npm audit --omit=dev --audit-level=high
       # System packages come from Ubuntu's mirrors, which are sometimes unreachable from the
       # runner. The runner image already carries Chromium's libraries, so fall back to the
@@ -36,6 +41,7 @@ jobs:
       - run: npm run build:ads-test
       - run: npm run test:ads-delivery
       - run: npm run build:android
+      - run: npm run test:android-web
       - run: npm run build:portable
       - run: npm run test:family
       - run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser

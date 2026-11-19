@@ -26,6 +26,23 @@ La politique de confidentialité embarquée (`confidentialite/` et fenêtre « P
 parents ») reste : elle décrit aussi le site et y nomme PayPal en texte, sans lien. C'est le
 texte approuvé par le parent ; ne pas le modifier.
 
+## Fiabilisation de la livraison — Codex, 19 novembre
+
+Les cibles de compilation sont centralisées dans `deploy/buildTargets.ts` :
+activer un jour la pub du site ne peut l'activer dans Android. `build-info.json`
+nomme la cible, le commit, la version et les capacités de chaque distribution.
+Le site peut être publié sur un autre commit que la dernière app sans les confondre.
+
+Android exclut aussi le prototype historique (préservé dans les sources), `.htaccess`
+et `_headers`. La confidentialité hors ligne et les crédits restent embarqués.
+Les gardes contrôlent le contenu, pas seulement le nom `dist-android` : une copie
+Web renommée, une copie ancienne ou un fichier ajouté est refusé. Les deux seuls
+ajouts Capacitor autorisés sont ses fichiers Cordova vides, aux empreintes exactes.
+
+`npm run android:package` enchaîne les contrôles et produit le candidat signé, l'APK
+issu du même AAB, le mapping R8, les empreintes et un rapport. Voir [ANDROID.md](ANDROID.md)
+pour les variables privées de signature. Aucun téléchargement du site dans l'app.
+
 ## Construire
 
 Depuis la racine, Node 24 :
@@ -39,9 +56,9 @@ npm run android:sync
 
 `android:sync` reconstruit `dist-android/` (avec ses trois contrôles ci-dessus), puis fait
 `cap sync android`. Ne lancez pas `npx cap sync android` seul : il copierait un ancien
-`dist-android/`. Ensuite, comme pour le build 62 : AAB release signé avec la clé d'envoi
-d'origine (sur le poste du parent, jamais dans le dépôt ni dans une conversation), R8 et
-fichier de désobscurcissement, APK de test.
+`dist-android/`. La commande complète est maintenant `npm run android:package`, après configuration
+privée de la clé d'envoi d'origine. Elle refuse les sources non committées et un
+dossier de livraison déjà utilisé, puis vérifie le vrai AAB/APK par empreintes.
 
 ## Recette sur le téléphone (à cocher)
 

@@ -1,17 +1,55 @@
-# Android — version0.38.0
+# Android — version 0.39.0 / build 63
 
-Dernière livraison préparée : **0.38.0 / build62**, release optimisé, politique de
-confidentialité FR/EN lisible hors ligne dans « Pour les parents ».
-Source et résultats : [Bilan](BILAN-0.38.0.md).
-Même package **com.conqueteserpents.famille**, paysage, minSdk24 / targetSdk36 ;
-même clé d’envoi Play, aucun SDK commercial ni permission INTERNET ajouté.
+Le code de la **0.39.0 / build 63** est prêt depuis `main` ; la commande de
+packaging ci-dessous produit le candidat signé, son APK issu du bundle et son rapport.
+Le résultat d'une construction et ses empreintes sont dans `release-report.json`,
+pas déduits du seul numéro de version. Le dernier release nativement qualifié dans
+l'historique reste le build 62 ; le build 63 doit passer sa propre recette.
 
-Importer `conquete-serpents-v0.38.0-build62-play.aab` dans une nouvelle version du canal
-interne existant. L’APK debug a une signature distincte de Play ; il ne s’installe pas en
-mise à jour de l’application distribuée par Play. Pas d’upload Console par Codex.
-Le parent testera sur S24 le défilement et les liens externes depuis la fenêtre.
+Même package **com.conqueteserpents.famille**, même clé d'envoi, paysage, SDK24/36,
+R8 actif, aucune permission INTERNET ou SDK commercial. Le contenu depuis62 et les
+notes FR/EN sont dans [BILAN-0.39.0.md](BILAN-0.39.0.md).
 
-Les sections plus bas sont historiques ; l’état et les numéros en tête font foi.
+### Livraison reproductible
+
+Depuis un commit propre, avec Node24, JDK21 et le SDK Android36 :
+
+```sh
+npm ci
+npm run android:package
+```
+
+Renseigner en privé `JAVA_HOME`, `ANDROID_HOME`, `SERPENTS_UPLOAD_KEYSTORE`,
+`SERPENTS_UPLOAD_KEY_ALIAS`, `SERPENTS_UPLOAD_STORE_PASSWORD` et, si différent,
+`SERPENTS_UPLOAD_KEY_PASSWORD`. Ne jamais les mettre dans Git, un ZIP, une discussion
+ou un fichier suivi. Le certificat doit correspondre à la clé d'envoi d'origine ;
+la commande refuse une autre clé. Les mots de passe ne passent pas en arguments. JDK les lit via l’environnement ;
+bundletool les lit dans des fichiers temporaires privés supprimés en fin de commande.
+
+La commande vérifie le jeu et son navigateur, reconstruit Android, synchronise et
+compare les fichiers, lance la recette hors ligne sur **dist-android**, construit
+le release R8, signe l'AAB et génère l'APK universel avec bundletool fourni par AGP.
+Elle vérifie chaque entrée signée et le certificat du vrai AAB, les permissions
+exactes et versions des deux paquets, le certificat de l’APK, le mapping et
+les empreintes de **tous** les fichiers web extraits de l'AAB et de l'APK.
+La configuration Capacitor extraite est comparée elle aussi. Le dossier de livraison
+est réservé de façon exclusive et n’est jamais écrasé. Les commandes Java/Node
+sont invoquées sans shell pour préserver les chemins Windows contenant des espaces.
+
+Sortie : `artifacts/android/conquete-serpents-v0.39.0-build63/`, avec AAB, APK,
+mapping, `SHA256SUMS.txt`, manifeste Android et `release-report.json`. Le rapport
+signale explicitement la qualification native encore attendue. Dossier alternatif :
+`SERPENTS_RELEASE_DIR` ; compilation Gradle hors réseau si les dépendances sont déjà
+en cache : `SERPENTS_GRADLE_OFFLINE=1`.
+
+**Avant Google Play :** installer et lancer cet APK release sur un émulateur accéléré
+ou un appareil de test, suivre [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md), notamment
+la reprise62→63. Ne pas désinstaller la version familiale pour contourner une
+signature incompatible : Google signe la version Play avec sa propre clé.
+Aucun envoi Play ou déploiement du site n'est fait par cette commande.
+
+Les sections suivantes décrivent le release62 et l'historique ; leurs succès natifs
+ne constituent pas un essai du63.
 
 ## Build release optimisé — à partir du build 62
 

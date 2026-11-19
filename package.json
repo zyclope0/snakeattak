@@ -27,7 +27,7 @@
     "test:rewards": "node scripts/rewards-browser.mjs",
     "test:journey": "node scripts/journey-browser.mjs",
     "test:family": "node scripts/family-browser.mjs",
-    "android:sync": "npm run build:android && cap sync android",
+    "android:sync": "npm run build:android && cap sync android && node scripts/check-android-sync.mjs",
     "android:open": "cap open android",
     "test:missions:regressions": "node scripts/missions-browser.mjs --regressions",
     "test:tactical": "node scripts/tactical-022-browser.mjs",
@@ -51,12 +51,15 @@
     "test:locale": "node scripts/extract-locale-035.mjs && node --experimental-strip-types scripts/check-locales-035.mjs && node tests/locale-bindings-035-browser.mjs && node scripts/locale-035-browser.mjs",
     "test:mobile-menus": "node scripts/mobile-menus-037-browser.mjs",
     "test:caprices": "node scripts/caprices-036-browser.mjs",
-    "build:android": "npm run typecheck && vite build --mode android && node scripts/check-dist.mjs dist-android && node scripts/check-discovery.mjs dist-android && node scripts/check-web-ad-disabled.mjs dist-android",
+    "build:android": "npm run typecheck && vite build --mode android && node scripts/check-dist.mjs dist-android && node scripts/check-discovery.mjs dist-android && node scripts/check-web-ad-disabled.mjs dist-android && node scripts/check-android-distribution.mjs",
     "test:discovery": "node scripts/discovery-browser.mjs",
     "build:ads-preview": "npm run typecheck && vite build --mode ads-preview && node scripts/check-dist.mjs dist-ads-preview && node scripts/check-web-ad-disabled.mjs dist-ads-preview",
     "test:ads-preview": "node scripts/web-ad-preview-browser.mjs",
     "build:ads-test": "npm run typecheck && vite build --mode ads-test && node scripts/check-dist.mjs dist-ads-test && node scripts/check-web-ad-disabled.mjs dist-ads-test",
-    "test:ads-delivery": "node scripts/web-ads-delivery-browser.mjs"
+    "test:ads-delivery": "node scripts/web-ads-delivery-browser.mjs",
+    "test:android-web": "node scripts/offline-033-browser.mjs --android",
+    "android:package": "node scripts/android-package.mjs",
+    "test:android-signatures": "node scripts/test-android-signatures.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.6.0",

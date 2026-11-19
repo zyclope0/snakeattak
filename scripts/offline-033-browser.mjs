@@ -9,7 +9,9 @@ import { createMissionRun } from '../src/missions.ts';
 // Supply only on-disk packaged files with the browser's network explicitly off.
 // This models Capacitor's bundled transport, not a PWA/service-worker cache.
 const origin = 'http://serpents-embedded.test';
-const root = resolve('dist');
+const android = process.argv.includes('--android');
+const root = resolve(android ? 'dist-android' : 'dist');
+const build = JSON.parse(await readFile(resolve(root, 'build-info.json'), 'utf8'));
 const mime = {
   '.html': 'text/html',
   '.js': 'text/javascript',
@@ -214,10 +216,12 @@ try {
   assert.deepEqual(errors, []);
   await mkdir('artifacts/reports', { recursive: true });
   await writeFile(
-    `artifacts/reports/offline-${pkg.version}.json`,
+    `artifacts/reports/offline-${pkg.version}${android ? '-android' : ''}.json`,
     JSON.stringify(
       {
         version: pkg.version,
+        target: build.target,
+        sourceCommit: build.source.commit,
         source:
           'Chromium offline, disk-only route transport simulating bundled Capacitor files; not a physical device or web offline cache',
         checks,
