@@ -96,12 +96,14 @@ function closeBeforeActions(panel: HTMLDialogElement, hideToBoard: () => void) {
 }
 
 /**
- * The page lists the catalogue flat. Put the coins beside its title, fold advice and camp
+ * The page lists the catalogue flat. Put the coins and the tabs beside its title, fold advice and camp
  * tools under one heading, and give the allies and that fold a body that scrolls.
  */
 function arrangeCatalogue(panel: HTMLDialogElement) {
   const budget = make('span', { id: 'catalog-budget' });
-  panel.querySelector('.army-title h2')!.after(budget);
+  // The two tabs join the title row: on a phone held sideways, the rows they leave hold
+  // every ally of the great adventure, the spinosaurus included.
+  panel.querySelector('.army-title h2')!.after(budget, panel.querySelector('.shop-toolbar')!);
   const content = make('div', { className: 'catalog-tools-body' });
   const tools = make(
     'details',

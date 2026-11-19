@@ -66,10 +66,10 @@ function stage(allies: readonly { x: number; y: number }[], x = 400, y = 324) {
   return { game, snake };
 }
 
-test('la révision 6 est la révision courante, et ne change que la sauterelle', () => {
-  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4, 5, 6]);
-  // Accepted by the parent on 18 November 2026 after 600 simulated games.
-  assert.equal(CURRENT_BALANCE_REVISION, 6);
+test('la révision 6 ne change que la sauterelle', () => {
+  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4, 5, 6, 7]);
+  // Current from 18 November 2026 (600 simulated games) until the seventh, the next day.
+  assert.equal(CURRENT_BALANCE_REVISION, 7);
   for (const kind of Object.keys(kinds) as Kind[])
     assert.equal(balanceRecruitPrice(kind, 6), balanceRecruitPrice(kind, 5), kind);
   assert.deepEqual(lateEggRule(6), lateEggRule(5));

@@ -13,7 +13,7 @@ export function spriteFlip(kind: Kind | 'snake', variant: EnemyKind, facing: num
 export function actorSize(kind: Kind | 'snake', variant: EnemyKind, boss: boolean): number {
   if (boss) return 132;
   if (kind === 'tank' || kind === 'cavalry') return 88;
-  if (kind === 'trex') return 92;
+  if (kind === 'trex' || kind === 'spinosaurus') return 92;
   if (kind === 'triceratops' || kind === 'stegosaurus' || kind === 'mutantRock') return 87;
   if (kind === 'dragon' || kind === 'dino' || kind === 'mutantStretch') return 81;
   if (kind === 'wall') return 74;

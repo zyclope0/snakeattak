@@ -6,6 +6,8 @@ import { createPersistence } from '../src/checkpoints.ts';
 // Local browser fixture only. Never referenced by the production entry point.
 import Phaser from 'phaser';
 import { Session } from '../src/session.ts';
+import { Game } from '../src/game.ts';
+import { addEffect } from '../src/engine/state.ts';
 import { BattleScene } from '../src/render/BattleScene.ts';
 import { bindControls } from '../src/ui/controls.ts';
 import { bindBattleNotices } from '../src/ui/battleNotices.ts';
@@ -185,6 +187,32 @@ if (scenario === 'royal-guard') {
   game.base = scenario === 'refuge' ? 28 : 100;
   game.normalizeCamp();
   session.advance = () => {};
+} else if (scenario === 'spinosaure') {
+  // The spinosaurus of the seventh revision: one in the river beside the middle bridge, one
+  // on the bank sweeping its sail. The engine is frozen on that moment.
+  session.useGame(new Game(2026, undefined, undefined, 7));
+  const seventh = session.game;
+  seventh.wave = 11;
+  seventh.gold = 5000;
+  seventh.units = [];
+  seventh.recruit('spinosaurus', 660, 228);
+  seventh.recruit('spinosaurus', 900, 420);
+  seventh.startWave();
+  seventh.step(1 / 30);
+  const template = seventh.enemies[0];
+  seventh.remaining = 0;
+  seventh.eggs = [];
+  seventh.enemies = [
+    { ...template, id: 8001, variant: 'normal', x: 520, y: 335, lane: 1, path: [], nav: 9 },
+    { ...template, id: 8002, variant: 'normal', x: 700, y: 232, lane: 0, path: [], nav: 9 },
+    { ...template, id: 8003, variant: 'fang', x: 640, y: 196, lane: 0, path: [], nav: 9 },
+  ];
+  const [bank, swimmer] = seventh.units;
+  Object.assign(swimmer, { x: 528, y: 376, facing: -1 });
+  swimmer.swim = { wait: 0, prey: 8001, back: false };
+  addEffect(seventh, swimmer, swimmer, 'splash');
+  addEffect(seventh, bank, seventh.enemies[1], 'sail');
+  session.advance = () => {};
 } else if (scenario === 'allies') {
   game.wave = 11;
   game.gold = 20000;
@@ -356,6 +384,7 @@ if (
   scenario === 'spawn' ||
   scenario === 'tactics' ||
   scenario === 'bestiaire' ||
+  scenario === 'spinosaure' ||
   scenario === 'royal-guard'
 )
   (

@@ -91,8 +91,8 @@ test('0.20 : les alliés présents sont regroupés par vrais types du catalogue,
   game.units.push({ ...template, id: 201, kind: 'dragon', hp: 0 });
   const before = JSON.stringify(game);
   const report = chapterReportFor(game)!;
-  assert.equal(report.alliesPresent, 22);
-  assert.equal(report.army.length, 21, 'la liste est bornée par les 21 types réels');
+  assert.equal(report.alliesPresent, 23);
+  assert.equal(report.army.length, 22, 'la liste est bornée par les 22 types réels');
   assert.deepEqual(
     report.army.find((unit) => unit.kind === 'ninja'),
     {
@@ -111,7 +111,7 @@ test('0.20 : les alliés présents sont regroupés par vrais types du catalogue,
   );
   assert.equal(JSON.stringify(game), before);
   game.units = [];
-  assert.equal(report.alliesPresent, 22, 'le bilan ne partage pas un tableau mutable du moteur');
+  assert.equal(report.alliesPresent, 23, 'le bilan ne partage pas un tableau mutable du moteur');
   assert.equal(chapterReportFor(game)!.alliesPresent, 0);
 });
 

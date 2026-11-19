@@ -78,6 +78,8 @@ test('les couleurs partagées du plateau gardent leur teinte', async () => {
       placement: 0xb2eaf4,
       coin: 0xffd66a,
       serpentRim: 0xd2552d,
+      river: 0x518f98,
+      ripple: 0xc5e5dc,
     },
   );
   assert.equal(cssColor(BOARD_COLOR.confusion), '#f4dcff');

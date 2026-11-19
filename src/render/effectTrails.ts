@@ -1,7 +1,8 @@
 import type Phaser from 'phaser';
 import type { Effect } from '../game.ts';
-import { BLINK_SECONDS, LEAP_SECONDS } from '../engine/state.ts';
+import { BLINK_SECONDS, LEAP_SECONDS, SAIL_SECONDS, SPLASH_SECONDS } from '../engine/state.ts';
 import { shakeBoard } from './boardResolution.ts';
+import { SPINOSAURUS } from '../balanceRevision.ts';
 import * as BOARD_COLOR from './palette.ts';
 
 type Graphics = Phaser.GameObjects.Graphics;
@@ -103,6 +104,40 @@ function drawLeap(g: Graphics, e: Effect) {
 }
 
 /**
+ * The spinosaurus dives into the river or climbs out: water rings that open where it is.
+ * Dark under light, like the rings of the ninja.
+ */
+function drawSplash(g: Graphics, e: Effect) {
+  const left = Math.max(0, Math.min(1, e.life / SPLASH_SECONDS));
+  const alpha = Math.min(1, left * 1.6);
+  for (const [width, color] of [
+    [7, 0x1d4660],
+    [3.5, 0xd8f1ff],
+  ] as const) {
+    g.lineStyle(width, color, alpha);
+    g.strokeEllipse(e.x, e.y + 4, 20 + (1 - left) * 44, 8 + (1 - left) * 16);
+    g.strokeEllipse(e.x, e.y + 4, 8 + (1 - left) * 24, 4 + (1 - left) * 8);
+  }
+}
+
+/**
+ * The spinosaurus sweeps its sail: an orange fan that opens all around it, the colour of
+ * its sail, as wide as the snakes it reaches.
+ */
+function drawSail(g: Graphics, e: Effect, radius: number) {
+  const left = Math.max(0, Math.min(1, e.life / SAIL_SECONDS));
+  const alpha = Math.min(1, left * 1.6);
+  const reach = radius * (0.55 + (1 - left) * 0.45);
+  for (const [width, color] of [
+    [8, 0x6b2a12],
+    [4, 0xffb067],
+  ] as const) {
+    g.lineStyle(width, color, alpha);
+    g.strokeEllipse(e.x, e.y - 6, reach * 2, reach * 1.1);
+  }
+}
+
+/**
  * The effects of the rules, drawn for their short life: trails, impacts, crosses. Display
  * only: an effect is read, never changed.
  */
@@ -146,6 +181,12 @@ export class EffectTrails {
         break;
       case 'leap':
         drawLeap(g, e);
+        break;
+      case 'splash':
+        drawSplash(g, e);
+        break;
+      case 'sail':
+        drawSail(g, e, SPINOSAURUS.sailRadius);
         break;
       case 'gold':
         // With motion, BattleJuice flies a coin to the counter instead.

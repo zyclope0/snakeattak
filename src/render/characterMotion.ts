@@ -24,7 +24,14 @@ export type Gait = {
 };
 /** A body holds each pose for a quarter of a step: stop-motion, not a smooth slide. */
 const POSES = 4;
-const HEAVY = new Set<Entity['kind']>(['trex', 'triceratops', 'stegosaurus', 'mutantRock', 'dino']);
+const HEAVY = new Set<Entity['kind']>([
+  'trex',
+  'spinosaurus',
+  'triceratops',
+  'stegosaurus',
+  'mutantRock',
+  'dino',
+]);
 /** Bodies that walk with a heavy step: the dust raisers, and the knight with two heads. */
 const treadsHeavily = (kind: Entity['kind']) => HEAVY.has(kind) || kind === 'twohead';
 const isQuick = (kind: Entity['kind']) => kind === 'ninja' || kind === 'raptor';
@@ -135,6 +142,7 @@ const BLOWS: Partial<Record<Entity['kind'], Blow>> = {
   dragon: { reach: 0, lean: 0, rise: 2, sx: 0.09, sy: -0.05 },
   dino: STOMP,
   trex: STOMP,
+  spinosaurus: STOMP,
   triceratops: { reach: 5, lean: 0.045, rise: 0, sx: 0, sy: 0 },
   stegosaurus: { reach: -3, lean: 0.07, rise: 0, sx: 0, sy: 0 },
   mutantStretch: { reach: 3, lean: 0, rise: 0, sx: 0.14, sy: -0.08 },

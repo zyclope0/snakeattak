@@ -98,6 +98,18 @@ export const EFFECT_SIGNALS: Record<Exclude<Effect['kind'], 'hit'>, Signal> = {
       [900, 420, 0.14, 'triangle', 0.12],
     ],
   },
+  // The spinosaurus dives into the river or climbs out of it: a falling « plouf ». No file
+  // carries this cue either.
+  splash: {
+    cue: 'splash',
+    volume: 0.7,
+    notes: [
+      [620, 140, 0.14, 'sine'],
+      [320, 90, 0.18, 'triangle', 0.08],
+    ],
+  },
+  // The spinosaurus bites and sweeps its sail: the bite of the snakes, a little louder.
+  sail: { cue: 'bite', volume: 0.8, notes: [[200, 70, 0.18, 'triangle']] },
 };
 
 /** The player changed a sound setting and effects are on. */

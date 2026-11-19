@@ -14,7 +14,10 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   « Nouveautés » à jour ; vérifié par le parent le 19 novembre.
 - **Les enfants** : le fils a joué 2 ou 3 parties sur le site le 19 novembre ; il est
   content, sans remarque précise (parole du parent).
-- **Suite choisie par le parent (19 novembre)** : le spinosaure.
+- **Spinosaure** (19 novembre) : révision 7, nouvel allié de la grande aventure dès la vague
+  8, inventé par le fils ; dessin accepté, valeurs choisies par le parent après mesure
+  ([bilan](BILAN-REVISION-7.md)). Le catalogue des alliés passe les onglets dans la ligne du
+  titre pour garder tous les alliés sur un écran de téléphone.
 
 ## Livraison préparée — 0.38.0, Android build62, site snakeattacktd.com
 

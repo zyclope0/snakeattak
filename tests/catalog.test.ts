@@ -21,7 +21,8 @@ test('les quatorze alliés du ZIP restent au catalogue, avec la palissade et six
     'tank',
   ])
     assert.ok(Object.hasOwn(kinds, kind), kind);
-  assert.equal(Object.keys(kinds).length, 21);
+  // 22 since the spinosaurus of the seventh revision.
+  assert.equal(Object.keys(kinds).length, 22);
 });
 test('infirmier et médecin soignent différemment ; le bouclier réduit les dégâts', () => {
   assert.ok(healAmount('nurse') > 0 && healAmount('medic') > healAmount('nurse'));

@@ -37,6 +37,7 @@ const expectedNames = {
   triceratops: 'Triceratops',
   stegosaurus: 'Stegosaurus',
   trex: 'T. rex',
+  spinosaurus: 'Spinosaurus',
   mutantRock: 'Rock Mutant',
   mutantStretch: 'Stretch Mutant',
   shield: 'Shield Guard',
@@ -306,7 +307,7 @@ try {
       const values = await page
         .locator('#guide-select option')
         .evaluateAll((options) => options.map((o) => o.value));
-      check('guide has all 21 canonical unit choices', values.length === 21, values);
+      check('guide has all 22 canonical unit choices', values.length === 22, values);
       for (const value of values) {
         await page.locator('#guide-select').selectOption(value);
         const name = await page.locator('#guide-name').innerText();

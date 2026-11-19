@@ -1,3 +1,4 @@
+import * as BOARD_COLOR from './palette.ts';
 import { addSceneryFrame } from './sceneryFrame.ts';
 import { drawCraftPaths } from './craftPaths.ts';
 import Phaser from 'phaser';
@@ -29,7 +30,7 @@ const WATER = [
   [54, 0x759478, 0.45],
   [48, 0x91aa88, 0.8],
   [43, 0x315d63, 1],
-  [35, 0x518f98, 1],
+  [35, BOARD_COLOR.river, 1],
   [25, 0x85b8bc, 0.7],
 ] as const;
 const LANE_MARKS = [0x6da6b8, 0x9b97b8, 0xb8a269];
@@ -40,9 +41,9 @@ function drawStream(ground: Graphics) {
     for (const p of STREAM) ground.fillCircle(p.x, p.y, radius);
   }
   for (let y = 8; y < BOARD_HEIGHT; y += 23) {
-    ground.lineStyle(1.4, 0xc5e5dc, 0.45);
+    ground.lineStyle(1.4, BOARD_COLOR.ripple, 0.45);
     ground.lineBetween(513 + Math.sin(y) * 5, y, 530 + Math.sin(y) * 5, y + 2);
-    ground.lineStyle(1, 0xc5e5dc, 0.25);
+    ground.lineStyle(1, BOARD_COLOR.ripple, 0.25);
     ground.lineBetween(536, y + 8, 546, y + 9);
   }
 }

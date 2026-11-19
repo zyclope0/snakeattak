@@ -22,7 +22,8 @@ export type Cue =
   | 'lost'
   | 'toggle'
   | 'blink'
-  | 'leap';
+  | 'leap'
+  | 'splash';
 export type Track = 'menu' | 'calm' | 'epic' | 'king';
 
 export type AudioCatalogue = {

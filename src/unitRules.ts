@@ -2,6 +2,7 @@ import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 import { DEFAULT_BALANCE } from './balanceTuning.ts';
 import { medicalRules } from './healing.ts';
+import { SPINOSAURUS } from './balanceRevision.ts';
 import * as TEXT from './texts/fr/allies.ts';
 import { fill } from './texts/fill.ts';
 export function healAmount(kind: Kind) {
@@ -48,6 +49,13 @@ export function specialAbility(
   }
   if (kind === 'cavalry' || kind === 'triceratops') return TEXT.chargeApresEnviron14SecondeDe;
   if (kind === 'stegosaurus') return TEXT.plaquesReduitDe25LesDegatsRecus;
+  if (kind === 'spinosaurus') {
+    return fill(
+      TEXT.voileEtNageToucheLesSerpentsAutour,
+      Math.round(SPINOSAURUS.sailShare * 100),
+      SPINOSAURUS.swimEvery,
+    );
+  }
   if (kind === 'mutantRock') return TEXT.peauDePierreReduitDe20LesDegats;
   if (kind === 'mutantStretch') return TEXT.brasElastiquesFrappeA90PasDePortee;
   if (kind === 'twohead') return TEXT.deuxTetesFrappeJusquADeuxSerpents;

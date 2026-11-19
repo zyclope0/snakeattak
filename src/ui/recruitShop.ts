@@ -32,6 +32,7 @@ const SPECIALITIES: Partial<Record<Kind, string>> = {
   triceratops: TEXT.charge,
   stegosaurus: TEXT.protection,
   trex: TEXT.puissance,
+  spinosaurus: TEXT.voile,
   mutantRock: TEXT.robuste,
   mutantStretch: TEXT.allonge,
 };
@@ -60,7 +61,7 @@ export function bindRecruitShop(session: Session, refresh: () => void) {
     byId('shop').append(card);
     cards.set(kind, card);
   }
-  const listed = (kind: Kind) => session.game.capriceAllows(kind);
+  const listed = (kind: Kind) => session.game.knowsAlly(kind) && session.game.capriceAllows(kind);
   return {
     /** A new battle starts on the allies that are ready. */
     showEverything() {

@@ -378,8 +378,9 @@
   overflow: auto;
   overscroll-behavior: contain;
 }
-/* Tous les alliés sur un seul écran : cinq colonnes de petites cartes, sans pages à tourner.
-   Une carte dit le nom et le prix ; ce qui manque pour la prendre s'ajoute dessous. */
+/* Tous les alliés sur un seul écran : cinq colonnes de petites cartes, sans pages à tourner
+   (CATALOGUE_COLUMNS de unitCatalog.ts). Une carte dit le nom et le prix ; ce qui manque pour
+   la prendre s'ajoute dessous. */
 #app #reinforcements #shop {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));

@@ -60,9 +60,9 @@ function meet(revision: 4 | 5, kind: EnemyKind, wave: number) {
 }
 
 test('la révision 5 ne change que le ninja', () => {
-  // The sixth (the grasshopper snake) is the current one since 18 November 2026.
-  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4, 5, 6]);
-  assert.equal(CURRENT_BALANCE_REVISION, 6);
+  // The seventh (the spinosaurus) is the current one since 19 November 2026.
+  assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4, 5, 6, 7]);
+  assert.equal(CURRENT_BALANCE_REVISION, 7);
   for (const kind of Object.keys(kinds) as Kind[])
     assert.equal(balanceRecruitPrice(kind, 5), balanceRecruitPrice(kind, 4), kind);
   assert.deepEqual(lateEggRule(5), lateEggRule(4));

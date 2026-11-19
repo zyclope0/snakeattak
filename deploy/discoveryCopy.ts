@@ -6,6 +6,7 @@ import * as ALLY_FR from '../src/texts/fr/allies.ts';
 import * as ALLY_EN from '../src/texts/en/allies.ts';
 import * as SNAKE_EN from '../src/texts/en/snakes.ts';
 import { NEWCOMERS } from '../src/waves.ts';
+import { unlockWave } from '../src/data.ts';
 
 /** Public editorial copy, independent from the game and its translation catalogue. */
 export type DiscoveryKey = 'home' | 'guide' | 'characters' | 'updates' | 'parents';
@@ -187,10 +188,14 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/fr/nouveautes/',
     title: 'Nouveautés du jeu — La Conquête des Serpents',
     description:
-      'Les nouveautés de La Conquête des Serpents : quatre nouveaux serpents, des œufs en plus quand une vague dure, King Snake et ses gardes dans le Voyage, un joueur pour chacun.',
+      'Les nouveautés de La Conquête des Serpents : le spinosaure, quatre nouveaux serpents, des œufs en plus quand une vague dure, King Snake et ses gardes dans le Voyage, un joueur pour chacun.',
     heading: 'Le camp continue de grandir.',
     lead: 'Voici ce qui vient d’arriver dans le jeu. Beaucoup d’idées viennent de l’enfant qui l’a inventé.',
     blocks: [
+      {
+        heading: `Le ${ALLY_FR.spinosaure.toLowerCase()}`,
+        text: `Un nouvel allié inventé par l’enfant ! Dans une nouvelle « ${FR.aventureClassique} », le ${ALLY_FR.spinosaure.toLowerCase()} arrive à la vague ${unlockWave.spinosaurus}. Sa morsure est très forte, et sa voile touche aussi les serpents autour de lui. De temps en temps, il plonge dans la rivière pour mordre un serpent sur un pont, puis il revient.`,
+      },
       {
         heading: 'Le serpent sauterelle',
         text: `Dans une nouvelle « ${FR.aventureClassique} », à partir de la vague ${NEWCOMERS.grasshopper.fromWave}, un serpent sauterelle saute une fois par-dessus tes alliés et retombe derrière eux. Ensuite, il marche vers le cristal. Garde un allié près du cristal pour l’attendre.`,
@@ -219,10 +224,14 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/en/updates/',
     title: 'Game updates — Snake Attack TD',
     description:
-      'What is new in Snake Attack TD: four new snakes, extra eggs when a wave runs long, King Snake and his guards in The Voyage, a player for everyone.',
+      'What is new in Snake Attack TD: the Spinosaurus, four new snakes, extra eggs when a wave runs long, King Snake and his guards in The Voyage, a player for everyone.',
     heading: 'The camp keeps growing.',
     lead: 'Here is what just arrived in the game. Many of the ideas come from the child who invented it.',
     blocks: [
+      {
+        heading: `The ${ALLY_EN.spinosaure}`,
+        text: `A new ally invented by the child! In a new “${EN.aventureClassique}”, the ${ALLY_EN.spinosaure} arrives at wave ${unlockWave.spinosaurus}. Its bite is very strong, and its sail also hits the snakes around it. Now and then, it dives into the river to bite a snake on a bridge, then comes back.`,
+      },
       {
         heading: 'The Grasshopper Snake',
         text: `In a new “${EN.aventureClassique}”, from wave ${NEWCOMERS.grasshopper.fromWave} on, a Grasshopper Snake leaps once over your allies and lands behind them. Then it walks on to the crystal. Keep an ally near the crystal to wait for it.`,

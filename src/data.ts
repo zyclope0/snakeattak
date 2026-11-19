@@ -132,6 +132,19 @@ export const kinds = {
     icon: '🦖',
     description: TEXT.uneMorsureTresPuissanteMaisPlus,
   },
+  // The seventh revision only (balanceRevision.ts, `allyExists`): no older game offers it.
+  spinosaurus: {
+    name: TEXT.spinosaure,
+    cost: 420,
+    hp: 400,
+    damage: 84,
+    range: 60,
+    speed: 66,
+    rate: 1.3,
+    color: 0x4f86a6,
+    icon: '🦕',
+    description: TEXT.saMorsureEtSaVoileSontTresDangereuses,
+  },
   mutantRock: {
     name: TEXT.mutantRoc,
     cost: 190,
@@ -271,6 +284,7 @@ export const unlockWave: Partial<Record<Kind, number>> = {
   triceratops: 5,
   stegosaurus: 6,
   trex: 8,
+  spinosaurus: 8,
 };
 export function waveStats(wave: number) {
   return {

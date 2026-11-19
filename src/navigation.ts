@@ -2,11 +2,24 @@ import { LANES } from './ai.ts';
 import { levelForWave } from './levels.ts';
 import type { Level } from './levels.ts';
 import * as TEXT from './texts/fr/battle.ts';
-import { CAMP_BOTTOM, CAMP_LEFT, CAMP_RIGHT, CAMP_TOP } from './boardLandmarks.ts';
+import {
+  BRIDGE_END_X,
+  BRIDGE_HALF_WIDTH,
+  CAMP_BOTTOM,
+  CAMP_LEFT,
+  CAMP_RIGHT,
+  CAMP_TOP,
+  RIVER_LEFT_X,
+} from './boardLandmarks.ts';
 export type Point = { x: number; y: number };
 export const CELL = 24,
   COLS = 46,
   ROWS = 26;
+/** In the river, beside the bridges: only a swimmer goes there. */
+export const inRiver = (x: number, y: number): boolean =>
+  x > RIVER_LEFT_X &&
+  x < BRIDGE_END_X &&
+  !LANES.some((lane) => Math.abs(y - lane) <= BRIDGE_HALF_WIDTH);
 /** Compatibility export: the original terrain, never a mutable active map. */
 export function blocked(x: number, y: number, level: Level = levelForWave(1)): boolean {
   return (
@@ -16,7 +29,7 @@ export function blocked(x: number, y: number, level: Level = levelForWave(1)): b
     x > 1080 ||
     y < 96 ||
     y > 552 ||
-    (x > 480 && x < 576 && !LANES.some((lane) => Math.abs(y - lane) <= 36)) ||
+    inRiver(x, y) ||
     level.rocks.some((r) => Math.hypot(x - r.x, y - r.y) < r.r)
   );
 }

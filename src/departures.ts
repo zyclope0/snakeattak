@@ -36,19 +36,23 @@ const refused = (reason: Refusal['reason']): Refusal => ({ ok: false, reason });
  *   6  the fourth balance revision: the same
  *   7  the fifth balance revision: the same
  *   8  the sixth balance revision: the same
+ *   9  the seventh balance revision: the same
  * Setup 0 is the great adventure; 1 to 108 are the eighteen setups of each of the six
  * missions. Versions 3 and 4 keep one more bit for the tutorial rules of the refuge.
  */
-const RULES = ['1', '2', '3', '4', '5', '6', '7', '8'] as const;
+const RULES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const;
 /** The rule of each revision that exists in the great adventure only. */
 const CLASSIC_RULE: Readonly<Record<ClassicRevision, Rule>> = {
   3: '5',
   4: '6',
   5: '7',
   6: '8',
+  7: '9',
 };
-const classicRevisionOf = (rule: string): ClassicRevision | null =>
-  rule === '8' ? 6 : rule === '7' ? 5 : rule === '6' ? 4 : rule === '5' ? 3 : null;
+const classicRevisionOf = (rule: string): ClassicRevision | null => {
+  const found = Object.entries(CLASSIC_RULE).find(([, written]) => written === rule);
+  return found ? (Number(found[0]) as ClassicRevision) : null;
+};
 type Rule = (typeof RULES)[number];
 const hasTutorialBit = (rule: string) => rule === '3' || rule === '4';
 // The setup takes the low seven bits of the payload; the tutorial bit, when there is one,
