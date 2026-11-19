@@ -1,6 +1,6 @@
 import type Phaser from 'phaser';
 import type { Effect } from '../game.ts';
-import { BLINK_SECONDS } from '../engine/state.ts';
+import { BLINK_SECONDS, LEAP_SECONDS } from '../engine/state.ts';
 import { shakeBoard } from './boardResolution.ts';
 import * as BOARD_COLOR from './palette.ts';
 
@@ -81,6 +81,28 @@ function drawBlink(g: Graphics, e: Effect) {
 }
 
 /**
+ * The grasshopper snake leaps over the line: a dotted arc from where it took off to where it
+ * lands, fading as it goes. Dark under light, like the rings of the ninja.
+ */
+function drawLeap(g: Graphics, e: Effect) {
+  const left = Math.max(0, Math.min(1, e.life / LEAP_SECONDS));
+  const alpha = Math.min(1, left * 1.6);
+  const height = Math.min(90, 30 + Math.abs(e.tx - e.x) * 0.35);
+  for (const [size, color] of [
+    [6, 0x24361a],
+    [3.5, 0xeaf7d6],
+  ] as const) {
+    g.fillStyle(color, alpha);
+    for (let step = 0; step <= 12; step++) {
+      const t = step / 12;
+      const x = e.x + (e.tx - e.x) * t;
+      const y = e.y + (e.ty - e.y) * t - 4 * height * t * (1 - t) - 6;
+      g.fillCircle(x, y, size);
+    }
+  }
+}
+
+/**
  * The effects of the rules, drawn for their short life: trails, impacts, crosses. Display
  * only: an effect is read, never changed.
  */
@@ -121,6 +143,9 @@ export class EffectTrails {
         break;
       case 'blink':
         drawBlink(g, e);
+        break;
+      case 'leap':
+        drawLeap(g, e);
         break;
       case 'gold':
         // With motion, BattleJuice flies a coin to the counter instead.

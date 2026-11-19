@@ -256,6 +256,9 @@ Précisions du fils, le même jour :
 Précisions du fils, rapportées par le parent le 18 novembre 2026 :
 
 - **La sauterelle**, après son saut, marche normalement comme les autres serpents.
+  **Fait le 18 novembre 2026** (révision 6, mesure acceptée par le parent) : « Serpent
+  sauterelle », un par vague dès la vague 7 ; il saute une fois par-dessus la ligne des
+  alliés de sa route, puis marche normalement.
 - **Le spinosaure** doit être la meilleure unité du jeu ; il laisse l'équilibrage à faire.
 - **Le boss caché** : il laisse choisir le nombre de pommes, après mesure.
 - **Dans le voyage**, il veut que King Snake vienne avec ses gardes : fait dans la version 2

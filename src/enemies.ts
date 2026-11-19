@@ -151,6 +151,17 @@ export const enemies = {
     tint: 0x8a84b8,
     scale: 0.95,
   },
+  // The newcomer of the sixth balance revision (idea of the child): leaps over the line once.
+  grasshopper: {
+    name: TEXT.serpentSauterelle,
+    hp: 0.9,
+    speed: 1,
+    damage: 1,
+    range: 44,
+    armor: 0,
+    tint: 0x9ccf6a,
+    scale: 1,
+  },
 } as const;
 export type EnemyKind = keyof typeof enemies;
 

@@ -13,6 +13,7 @@ export const mambaNoir = 'Black Mamba';
 export const grandsCrocs = 'Big Fangs';
 export const serpentRare = 'Rare Snake';
 export const serpentNinja = 'Ninja Snake';
+export const serpentSauterelle = 'Grasshopper Snake';
 export const decouvrirLesTroisVoies = 'Discover the Three Lanes';
 export const repartisTesGardiensRetiensLesVifs =
   'Spread out your guards, hold back groups of Swift Snakes and watch for the first eggs to hatch.';

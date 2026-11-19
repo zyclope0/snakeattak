@@ -53,8 +53,8 @@ test('la variante au casque regarde dans le sens inverse de son image source', a
   assert.equal(spriteFlip('snake', 'normal', 1), false);
   assert.equal(spriteFlip('snake', 'normal', -1), true);
   assert.equal(spriteFlip('snake', 'spitter', 1), true);
-  // The three newcomers are drawn facing right, like the snake family (18 November 2026).
-  for (const variant of ['fang', 'rare', 'shadow'] as const) {
+  // The newcomers are drawn facing right, like the snake family (18 November 2026).
+  for (const variant of ['fang', 'rare', 'shadow', 'grasshopper'] as const) {
     assert.equal(spriteFlip('snake', variant, 1), false, variant);
     assert.equal(spriteFlip('snake', variant, -1), true, variant);
   }

@@ -1,8 +1,9 @@
 """Assemble serpents-nouveaux (idle) and serpents-nouveaux-attack from the Magnific cut-outs.
 
 Usage: python3 scripts/assemble-new-snakes.py <folder of cut-outs> <output folder>
-Inputs: idle-cut.png (the idle sheet, background removed), fang-cut.png, rare-cut.png and
-ninja-cut.png (one attacking figure each, background removed). See
+Inputs: idle-cut.png (the idle sheet, background removed), fang-cut.png, rare-cut.png,
+ninja-cut.png and grasshopper-cut.png (one attacking figure each, background removed), and
+grasshopper-idle-cut.png (the grasshopper snake at rest, drawn alone). See
 public/assets/illustrated/PROVENANCE-SERPENTS-NOUVEAUX-2026-11-18.md.
 
 Idle: the three cells of the cut sheet, each moved down so that its bottom matches the
@@ -16,9 +17,12 @@ import numpy as np
 
 work, out = sys.argv[1], sys.argv[2]
 TH, CELL, MARGIN = 60, 512, 6
-BOTTOMS = [491, 491, 488]  # bottoms of the provisional cells: fang, rare, ninja
-ORIGINS = [(0, 0), (512, 0), (0, 512)]
-ATTACKS = ['fang-cut', 'rare-cut', 'ninja-cut']
+BOTTOMS = [491, 491, 488, 491]  # fang, rare, ninja as the provisional cells; grasshopper
+ORIGINS = [(0, 0), (512, 0), (0, 512), (512, 512)]
+ATTACKS = ['fang-cut', 'rare-cut', 'ninja-cut', 'grasshopper-cut']
+# The grasshopper snake (sixth revision) was drawn alone, not on the sheet: its picture at rest
+# is scaled to this height, about that of the other snakes with its antennae.
+GRASSHOPPER_HEIGHT = 420
 
 def bbox(a):
     ys, xs = np.where(a > TH)
@@ -34,8 +38,23 @@ def coil(alpha):
 idle = Image.open(f'{work}/idle-cut.png').convert('RGBA')
 rest = Image.new('RGBA', (1024, 1024), (0, 0, 0, 0))
 attack = Image.new('RGBA', (1024, 1024), (0, 0, 0, 0))
+def alone(path):
+    """A figure drawn alone, in a cell of its own, centred, at GRASSHOPPER_HEIGHT."""
+    figure = Image.open(path).convert('RGBA')
+    figure = figure.crop(bbox(np.array(figure)[:, :, 3]))
+    w, h = figure.size
+    scale = min(GRASSHOPPER_HEIGHT / h, (CELL - 2 * MARGIN) / w)
+    figure = figure.resize((round(w * scale), round(h * scale)), Image.LANCZOS)
+    cell = Image.new('RGBA', (CELL, CELL), (0, 0, 0, 0))
+    cell.paste(figure, ((CELL - figure.width) // 2, CELL - figure.height), figure)
+    return cell
+
 for index, ((ox, oy), bottom, name) in enumerate(zip(ORIGINS, BOTTOMS, ATTACKS)):
-    cell = idle.crop((ox, oy, ox + CELL, oy + CELL))
+    cell = (
+        alone(f'{work}/grasshopper-idle-cut.png')
+        if index == 3
+        else idle.crop((ox, oy, ox + CELL, oy + CELL))
+    )
     a = np.array(cell)[:, :, 3]
     x0, y0, x1, y1 = bbox(a)
     dy = bottom - y1

@@ -81,6 +81,8 @@ function traces(): Record<string, string> {
   out['classique r4'] = play(new Game(16838, undefined, undefined, 4), 5);
   // And under the fifth: the ninja snake comes back behind the ally that strikes it.
   out['classique r5'] = play(new Game(16838, undefined, undefined, 5), 5);
+  // And under the sixth: the grasshopper snake leaps over the line once.
+  out['classique r6'] = play(new Game(16838, undefined, undefined, 6), 5);
   out['classique sans règles tactiques'] = play(new Game(57, { tacticalRulesEnabled: false }), 2);
   let n = 0;
   for (const mission of MISSIONS) {

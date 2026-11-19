@@ -251,6 +251,9 @@ sauvegardes d'avant gardent leurs règles)
   par le parent le 18 novembre ; fait en version 2 du voyage, les voyages de version 1 gardent
   le roi seul ([bilan](BILAN-VOYAGE-2.md)).
 
+- **Serpent sauterelle** : fait, révision 6, mesure acceptée par le parent le 18 novembre
+  (vie 0,9), nom et dessin acceptés ([bilan](BILAN-REVISION-6.md)).
+
 **Réponses du fils** (rapportées par le parent, 18 novembre)
 
 - Les trois noms sont les siens : « Serpent ninja », « Grands crocs », « Serpent rare ».

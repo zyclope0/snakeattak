@@ -17,6 +17,7 @@ import type { Entity } from './state.ts';
 import { distance, closerTo, nextRandom, faceToward, forgetPath } from './state.ts';
 import { BRIDGE_END_X, CAMP_FRONT_X, CONTACT_RANGE, CRYSTAL_X } from './field.ts';
 import { followRoute } from './movement.ts';
+import { leapOverLine } from './leap.ts';
 import { enemyPace, damageAlly } from './damage.ts';
 import { updateCourt, updateBossShot, shootersFirst } from './court.ts';
 import type { Game } from '../game.ts';
@@ -77,6 +78,7 @@ export function updateEnemies(game: Game, dt: number, stats: WaveNumbers) {
     if (updateCourt(game, e, dt, stats.speed, stats.damage)) continue;
     updateBossShot(game, e, dt);
     if (e.boss && e.x >= BRIDGE_END_X) brood(game, e, dt);
+    leapOverLine(game, e);
     const target = biteTarget(game, e);
     if (target) bite(game, e, target, dt, stats);
     else march(game, e, dt, stats);
@@ -108,8 +110,11 @@ function biteTarget(game: Game, e: Entity): Entity | undefined {
   if (e.variant === 'courtHealer') return undefined;
   // Snakes only use a long reach once inside the camp.
   const reach = e.x >= CAMP_FRONT_X ? enemyTypes[e.variant].range : CONTACT_RANGE;
+  // After its leap, a grasshopper snake bites only the allies between it and the crystal:
+  // the line it passed stays behind it (the child's rule).
+  const onlyAhead = e.leaps === 0;
   return game.units
-    .filter((u) => u.hp > 0 && distance(u, e) < reach)
+    .filter((u) => u.hp > 0 && distance(u, e) < reach && (!onlyAhead || u.x >= e.x))
     .sort((a, b) => (e.variant === 'spitter' ? shootersFirst(a, b) : 0) || closerTo(e, a, b))[0];
 }
 function bite(game: Game, e: Entity, target: Entity, dt: number, stats: WaveNumbers) {

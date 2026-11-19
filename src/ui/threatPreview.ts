@@ -81,6 +81,12 @@ export const THREAT_DETAILS: Record<ThreatKind, ThreatDetail> = {
     symbol: 'fast',
     priority: 62,
   },
+  grasshopper: {
+    name: enemies.grasshopper.name,
+    ability: TEXT.ilSauteParDessusTesAllies,
+    symbol: 'leap',
+    priority: 64,
+  },
   fang: {
     name: enemies.fang.name,
     ability: TEXT.sesGrandsCrocsFontTresMal,

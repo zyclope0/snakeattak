@@ -89,6 +89,7 @@ export const sesGrandsCrocsFontTresMal = 'Ses grands crocs font très mal';
 export const tresFragileMaisSaMorsureFaitTomber =
   'Très fragile, mais sa morsure fait tomber un petit allié d’un coup';
 export const rapideIlEsquiveLePremierCoup = 'Rapide : il esquive le premier coup';
+export const ilSauteParDessusTesAllies = 'Il saute une fois par-dessus tes alliés';
 export const rapideAuPremierCoupIlReapparait =
   'Rapide : au premier coup, il disparaît et revient derrière celui qui l’a frappé';
 export const kingSnake = 'King Snake';

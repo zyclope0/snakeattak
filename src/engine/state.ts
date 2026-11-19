@@ -28,6 +28,8 @@ export type Entity = Point & {
   bossState?: BossState;
   /** Blows a ninja snake still dodges. Absent on every other fighter. */
   dodges?: number;
+  /** Leaps a grasshopper snake still has. Absent on every other fighter. */
+  leaps?: number;
   /** Carapace d'un caprice : plus lente, plus solide, blindée. Absente sinon. */
   shell?: true;
   medical?: MedicalState;
@@ -55,7 +57,17 @@ export type Effect = Point & {
   tx: number;
   ty: number;
   kind:
-    'hit' | 'heal' | 'arrow' | 'gold' | 'fire' | 'poison' | 'shell' | 'honey' | 'block' | 'blink';
+    | 'hit'
+    | 'heal'
+    | 'arrow'
+    | 'gold'
+    | 'fire'
+    | 'poison'
+    | 'shell'
+    | 'honey'
+    | 'block'
+    | 'blink'
+    | 'leap';
   life: number;
 };
 export const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -78,6 +90,8 @@ export function nextRandom(game: Game) {
 }
 /** How long the rings of a ninja snake that vanishes and comes back stay on the board. */
 export const BLINK_SECONDS = 0.8;
+/** How long the arc of a grasshopper snake's leap stays on the board. */
+export const LEAP_SECONDS = 0.7;
 export function addEffect(game: Game, a: Point, b: Point, kind: Effect['kind']) {
   game.effects.push({
     sourceId: 'id' in a && typeof a.id === 'number' ? a.id : undefined,
@@ -87,7 +101,14 @@ export function addEffect(game: Game, a: Point, b: Point, kind: Effect['kind']) 
     tx: b.x,
     ty: b.y,
     kind,
-    life: kind === 'honey' ? 0.9 : kind === 'blink' ? BLINK_SECONDS : 0.3,
+    life:
+      kind === 'honey'
+        ? 0.9
+        : kind === 'blink'
+          ? BLINK_SECONDS
+          : kind === 'leap'
+            ? LEAP_SECONDS
+            : 0.3,
   });
 }
 export function createEntity(

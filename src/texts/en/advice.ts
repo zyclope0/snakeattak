@@ -88,6 +88,7 @@ export const sesGrandsCrocsFontTresMal = 'Its big fangs hurt a lot';
 export const tresFragileMaisSaMorsureFaitTomber =
   'Very fragile, but its bite knocks out a small ally in one hit';
 export const rapideIlEsquiveLePremierCoup = 'Fast: it dodges the first hit';
+export const ilSauteParDessusTesAllies = 'It leaps over your allies once';
 export const rapideAuPremierCoupIlReapparait =
   'Fast: on the first hit, it vanishes and comes back behind whoever struck it';
 export const kingSnake = 'King Snake';

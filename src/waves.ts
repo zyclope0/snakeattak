@@ -82,11 +82,19 @@ export const NEWCOMERS = Object.freeze({
   fang: { place: 13, fromWave: 8 },
   /** The rare snake comes twice in an adventure. */
   rare: { place: 14, waves: [8, 11] as readonly number[] },
+  /** One grasshopper snake per wave from this wave on, from the sixth revision. */
+  grasshopper: { place: 9, fromWave: 7, revision: 6 },
 });
 const isPlain = (kind: EnemyKind) => kind === 'normal' || kind === 'runner' || kind === 'armored';
-function newcomer(wave: number, index: number): EnemyKind | null {
-  const { ninja, fang, rare } = NEWCOMERS;
+function newcomer(wave: number, index: number, revision: BalanceRevision): EnemyKind | null {
+  const { ninja, fang, rare, grasshopper } = NEWCOMERS;
   if (index === rare.place && rare.waves.includes(wave)) return 'rare';
+  if (
+    revision >= grasshopper.revision &&
+    index === grasshopper.place &&
+    wave >= grasshopper.fromWave
+  )
+    return 'grasshopper';
   if (index === fang.place && wave >= fang.fromWave) return 'fang';
   if (index === ninja.place && wave >= ninja.fromWave) return 'shadow';
   return null;
@@ -94,7 +102,7 @@ function newcomer(wave: number, index: number): EnemyKind | null {
 /** The snake of one place of a wave; before the fourth revision, exactly `historicVariant`. */
 export function variantFor(wave: number, index: number, revision: BalanceRevision = 1): EnemyKind {
   const base = historicVariant(wave, index);
-  return revision >= 4 && isPlain(base) ? (newcomer(wave, index) ?? base) : base;
+  return revision >= 4 && isPlain(base) ? (newcomer(wave, index, revision) ?? base) : base;
 }
 function historicVariant(wave: number, index: number): EnemyKind {
   // Game passes the remaining count, so larger indices arrive first. Swapping
