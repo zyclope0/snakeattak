@@ -1504,3 +1504,23 @@ dépassaient de 6 px en haut de la fenêtre : 48 px là où un doigt peut touche
 36 px (boutons compris) pour une souris seule, où la hauteur du plateau ne change donc pas —
 12 px de moins suffisaient à ne plus laisser de place à l'encart publicitaire en 1920×800. Sur téléphone, « Continuer sans
 bonus » est à côté du titre des cadeaux : sous les cartes, il sortait de l'écran.
+
+## Livraisons Web et Android indépendantes — 19 novembre 2026
+
+`deploy/buildTargets.ts` est le contrat des cibles : Web, Android, portable,
+maquette locale et recette publicitaire locale. Les conditions Vite n'ont plus à
+être recopiées lors d'un nouveau mode. Seule la production Web peut recevoir le
+chargeur Google ; Android reste sans les pages publiques et services Web.
+
+Chaque build écrit `build-info.json` : version de jeu commune, cible, commit,
+état des sources et capacités. Les deux plateformes peuvent être livrées à des
+commits différents. Il n'est pas nécessaire de créer deux moteurs, deux dépôts ou
+de dupliquer les règles. Le code Android augmente lorsqu'un nouveau package est
+livré ; une publication du site seule ne nécessite aucun AAB.
+
+`assertAndroidDistribution` contrôle le contenu et l'identité. Après `android:sync`,
+la copie Capacitor doit correspondre exactement à `dist-android` par SHA256, avec
+les deux seuls stubs Cordova vides ajoutés par Capacitor. `android:package` reproduit
+la vérification après extraction de l'AAB signé et de l'APK universel. Le mapping
+R8 et la signature sont contrôlés séparément. Les identifiants de build restent
+des données de provenance, sans aucun suivi des joueurs.

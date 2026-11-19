@@ -1,5 +1,8 @@
 import { copyFileSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
+import { execFileSync } from 'node:child_process';
+import { buildTarget } from './deploy/buildTargets.ts';
+import { makeBuildInfo, readAndroidRelease } from './deploy/buildInfo.ts';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 import {
   webHeaders,
@@ -31,24 +34,27 @@ import { AD_SCRIPT_URL, WEB_AD_DELIVERY } from './src/ui/webAds/contract.ts';
 const AD_TEST_SCRIPT = './fake-ads.js';
 
 export default defineConfig(({ mode }) => {
-  const portable = mode === 'portable';
-  const adPreview = mode === 'ads-preview';
-  // A build for the recipe only: the ad box is on, and asks a stand-in script on this site.
-  const adTest = mode === 'ads-test';
-  const website = !portable && mode !== 'android';
-  // The ad box exists in the published site only when advertising is switched on.
-  const webAds = adTest || (mode === 'production' && WEB_AD_DELIVERY === 'enabled');
-  const outDir = portable
-    ? 'dist-portable'
-    : mode === 'android'
-      ? 'dist-android'
-      : adPreview
-        ? 'dist-ads-preview'
-        : adTest
-          ? 'dist-ads-test'
-          : 'dist';
+  const target = buildTarget(mode, WEB_AD_DELIVERY === 'enabled');
+  const { portable, website, outDir } = target;
+  const adTest = target.standInAdvertising;
+  const webAds = adTest || target.googleAdvertising;
   const appVersion = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
     .version as string;
+  const androidRelease = readAndroidRelease(readFileSync('android/app/build.gradle', 'utf8'));
+  let commit: string | null = null;
+  let dirty = true;
+  try {
+    commit = execFileSync('git', ['rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    dirty = !!execFileSync('git', ['status', '--porcelain', '--untracked-files=no'], {
+      encoding: 'utf8',
+    }).trim();
+  } catch {
+    /* A source ZIP can build locally, but cannot be packaged as a clean release. */
+  }
+  const info = makeBuildInfo(target, appVersion, commit, dirty, androidRelease);
   return {
     base: './',
     publicDir: false,
@@ -95,12 +101,16 @@ export default defineConfig(({ mode }) => {
           });
         },
         closeBundle() {
-          copyFileSync('public/prototype-v4.html', `${outDir}/prototype-v4.html`);
+          if (target.name !== 'android')
+            copyFileSync('public/prototype-v4.html', `${outDir}/prototype-v4.html`);
+          writeFileSync(`${outDir}/build-info.json`, JSON.stringify(info, null, 2) + '\n');
           copyFileSync('public/assets/illustrated/PROVENANCE.md', `${outDir}/asset-provenance.md`);
           copyFileSync('public/FONT-LICENCES.txt', `${outDir}/FONT-LICENCES.txt`);
           if (portable) return;
-          writeFileSync(`${outDir}/_headers`, hostHeadersFile());
-          writeFileSync(`${outDir}/.htaccess`, apacheConfig(webAds));
+          if (target.name !== 'android') {
+            writeFileSync(`${outDir}/_headers`, hostHeadersFile());
+            writeFileSync(`${outDir}/.htaccess`, apacheConfig(webAds));
+          }
           // The public privacy policy: a page of plain HTML beside the game, from the same
           // source as the window of the application.
           mkdirSync(`${outDir}/${PRIVACY_FOLDER}`, { recursive: true });

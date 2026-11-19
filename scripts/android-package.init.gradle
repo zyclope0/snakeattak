@@ -1,0 +1,32 @@
+// Bundletool comes with AGP. Password files are private temporary files, never CLI values.
+gradle.projectsEvaluated {
+    def app = gradle.rootProject.project(':app')
+    def out = System.getenv('SERPENTS_RELEASE_DIR')
+    if (!out) throw new GradleException('SERPENTS_RELEASE_DIR is required')
+    def bundle = new File(out, 'play.aab').absolutePath
+    def signing = [
+        '--ks=' + System.getenv('SERPENTS_UPLOAD_KEYSTORE'),
+        '--ks-key-alias=' + System.getenv('SERPENTS_UPLOAD_KEY_ALIAS'),
+        '--ks-pass=file:' + System.getenv('SERPENTS_UPLOAD_STORE_PASSWORD_FILE'),
+        '--key-pass=file:' + System.getenv('SERPENTS_UPLOAD_KEY_PASSWORD_FILE')
+    ]
+    def commands = [
+        validatePlayBundle: ['validate', '--bundle=' + bundle],
+        dumpPlayManifest: ['dump', 'manifest', '--bundle=' + bundle, '--module=base'],
+        buildUniversal: ['build-apks', '--bundle=' + bundle,
+            '--output=' + new File(out, 'release.apks').absolutePath, '--mode=universal',
+            '--aapt2=' + System.getenv('SERPENTS_AAPT2')] + signing
+    ]
+    commands.each { name, command ->
+        app.tasks.register(name, JavaExec) {
+            classpath = gradle.rootProject.buildscript.configurations.classpath
+            mainClass = 'com.android.tools.build.bundletool.BundleToolMain'
+            args command
+            if (name == 'dumpPlayManifest') {
+                def output = new FileOutputStream(new File(out, 'android-manifest.xml'))
+                standardOutput = output
+                doLast { output.close() }
+            }
+        }
+    }
+}

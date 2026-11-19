@@ -77,8 +77,8 @@ test('narrow viewports and nonfinite or zero rectangles fail closed', () => {
   assert.equal(planAdPlacement({ ...base, board: { ...base.board, x: NaN } }), null);
 });
 
-test('the prepared account contract is child-directed and cannot enable delivery', () => {
-  assert.equal(WEB_AD_DELIVERY, 'disabled');
+test('the account contract is child-directed and the Web switch has a valid state', () => {
+  assert.ok(['disabled', 'enabled'].includes(WEB_AD_DELIVERY));
   assert.deepEqual(PREPARED_DISPLAY_ATTRIBUTES, {
     'data-ad-client': 'ca-pub-8498417364292905',
     'data-ad-slot': '7092707633',

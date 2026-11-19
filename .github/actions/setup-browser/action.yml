@@ -1,0 +1,15 @@
+name: Chromium ready for game recipes
+description: Install the browser and install system packages only if a launch proves they are missing.
+runs:
+  using: composite
+  steps:
+    - name: Install Chromium
+      shell: bash
+      run: npx playwright install chromium
+    - name: Check runtime and install missing system dependencies if required
+      shell: bash
+      run: |
+        if ! node scripts/check-browser-runtime.mjs; then
+          npx playwright install-deps chromium
+          node scripts/check-browser-runtime.mjs
+        fi

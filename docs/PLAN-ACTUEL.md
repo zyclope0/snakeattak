@@ -3,7 +3,7 @@
 Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
 
-## Prochaine livraison — 0.39.0, Android build 63 (à construire par Codex)
+## Livraison Android — 0.39.0, build 63, procédure reproductible
 
 - Version montée dans `main` le 19 novembre ; le paquet reste à construire depuis `main`
   avec `npm run android:sync`, qui écarte tout ce qui est réservé au site (publicité,
@@ -334,3 +334,17 @@ sauvegardes, codes de départ ou du numéro de build Android.
 
 Détail : [bilan de préparation](BILAN-ADSENSE-PREPARATION-2026-11-16.md) et
 [plan](superpowers/plans/2026-11-16-web-ad-placement-disabled.md).
+
+## Fiabilisation Android — Codex, 19 novembre 2026
+
+La construction du63 se fait via `npm run android:package` : verify, navigateur,
+build Android, copie contrôlée, recette hors ligne, signature avec la clé d'origine,
+APK issu du même AAB, mapping et empreintes. Les preuves de chaque construction
+sont dans son `release-report.json`. La recette native de ce nouveau release reste
+à constater avant tout envoi Play ; celle du62 ne la remplace pas.
+
+Les profils sont centralisés, avec un `build-info.json` par cible pour distinguer
+les commits Web/Android. Pas de publicité, soutien, pages du site, prototype ou
+configuration d'hébergement dans Android. Jeu, confidentialité approuvée et crédits
+conservés. Aucun changement des règles ou formats dans ce lot de livraison.
+Aucun upload Play ni nouveau déploiement du site par ce travail.
