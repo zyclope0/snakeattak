@@ -19,7 +19,8 @@ mesure refaite après la relecture (voir plus bas). Nom gardé :
   devant lui) et se pose 40 plus loin que celui qui est le plus près du cristal : toujours
   derrière lui, jamais sur le cristal, un rocher ni la rivière. Sans place libre derrière la
   ligne (une ligne collée au cristal), il garde son saut et marche. Ensuite il marche
-  normalement : il mord les alliés qu'il croise, ou entre dans le cristal.
+  normalement vers le cristal : il ne mord plus que les alliés devant lui, entre lui et le
+  cristal, ou entre dans le cristal.
 - À l'écran : un arc en pointillés de son départ à son arrivée, et un petit son de bond.
   Le son du bond passe avant les coups du même instant. Fiche « Il saute une fois
   par-dessus tes alliés », avec une icône de saut, dans « Dangers » et « Tous les
@@ -32,11 +33,11 @@ mesure refaite après la relecture (voir plus bas). Nom gardé :
 
 ## Mesure (200 grandes aventures par joueur automatique, mêmes départs)
 
-| Joueur                 | Révision 5 | Révision 6 retenue | Première mesure | Essai vie 1,9 |
-| ---------------------- | ---------- | ------------------ | --------------- | ------------- |
-| expert : victoires     | 52 %       | 60 %               | 60,5 %          | 70 %          |
-| moyen : vague atteinte | 9,48       | 10,06              | 9,89            | 9,87          |
-| petit : vague atteinte | 7,33       | 7,42               | 7,42            | 7,38          |
+| Joueur                 | Révision 5 | Révision 6 retenue | Avant la correction de Codex | Première mesure | Essai vie 1,9 |
+| ---------------------- | ---------- | ------------------ | ---------------------------- | --------------- | ------------- |
+| expert : victoires     | 52 %       | 67,5 %             | 60 %                         | 60,5 %          | 70 %          |
+| moyen : vague atteinte | 9,48       | 10,01              | 10,06                        | 9,89            | 9,87          |
+| petit : vague atteinte | 7,33       | 7,43               | 7,42                         | 7,42            | 7,38          |
 
 **Première mesure, acceptée puis refaite** : la relecture a trouvé qu'à partir de la vague 9
 la place de la sauterelle devenait un serpent volant. La première mesure ne voyait donc que
@@ -44,10 +45,17 @@ la place de la sauterelle devenait un serpent volant. La première mesure ne voy
 la profondeur de la ligne), puis mesuré de nouveau : presque les mêmes chiffres. Le parent a
 accepté cette mesure refaite le 18 novembre.
 
-Le jeu devient un peu plus facile : la sauterelle remplace une Carapace (vie 1,9 et armure),
-et, seule dans le camp après son saut, elle se fait battre vite. Sur 200 parties, le hasard
-fait varier les victoires d'environ 7 points ; l'écart de l'expert est à cette limite. Lui
-donner la vie de la Carapace rendait le jeu encore plus facile (70 %). Commande :
+**Correction de Codex, mesurée puis acceptée** : après son saut, la sauterelle se retournait
+pour mordre l'allié qu'elle venait de passer (posée à 40, sa morsure porte à 44). Elle ne mord
+plus que les alliés entre elle et le cristal, comme le fils l'a dit. L'expert gagne plus
+souvent (60 → 67,5 %), les joueurs moyen et petit ne bougent pas. Le parent a accepté cette
+version le 19 novembre.
+
+Le jeu devient plus facile pour l'expert : la sauterelle remplace une Carapace (vie 1,9 et
+armure), et, seule dans le camp après son saut, elle se fait battre vite. Sur 200 parties,
+le hasard fait varier les victoires d'environ 7 points : l'écart de l'expert (+15,5 points)
+le dépasse nettement ; ceux des joueurs moyen et petit restent faibles. Lui donner la vie de
+la Carapace rendait le jeu encore plus facile (70 %, mesuré avant la correction de Codex). Commande :
 `REVISION=5|6 CLASSIC=200 PROFILES=expert,moyen,petit node --experimental-strip-types
 scripts/balance-modes.mjs <sortie.json> 0 1 <grande-aventure.json>` (rapports dans
 `artifacts/sauterelle/`, hors de Git).
