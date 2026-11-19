@@ -187,7 +187,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/fr/nouveautes/',
     title: 'Nouveautés du jeu — La Conquête des Serpents',
     description:
-      'Les nouveautés de La Conquête des Serpents : trois nouveaux serpents, des œufs en plus quand une vague dure, le Voyage et un joueur pour chacun.',
+      'Les nouveautés de La Conquête des Serpents : quatre nouveaux serpents, des œufs en plus quand une vague dure, King Snake et ses gardes dans le Voyage, un joueur pour chacun.',
     heading: 'Le camp continue de grandir.',
     lead: 'Voici ce qui vient d’arriver dans le jeu. Beaucoup d’idées viennent de l’enfant qui l’a inventé.',
     blocks: [
@@ -205,7 +205,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Le Voyage',
-        text: 'Cinq étapes sur une carte, et des bonus à choisir en chemin. Ton voyage a un code : donne-le à un copain, il fera le même voyage que toi. Si tu quittes une étape, tu la recommences au début.',
+        text: 'Cinq étapes sur une carte, et des bonus à choisir en chemin. À la dernière étape, King Snake arrive avec ses deux gardes et son guérisseur. Ton voyage a un code : donne-le à un copain, il fera le même voyage que toi. Si tu quittes une étape, tu la recommences au début.',
       },
       {
         heading: 'Un joueur pour chacun',
@@ -219,7 +219,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     path: '/en/updates/',
     title: 'Game updates — Snake Attack TD',
     description:
-      'What is new in Snake Attack TD: three new snakes, extra eggs when a wave runs long, The Voyage and a player for everyone.',
+      'What is new in Snake Attack TD: four new snakes, extra eggs when a wave runs long, King Snake and his guards in The Voyage, a player for everyone.',
     heading: 'The camp keeps growing.',
     lead: 'Here is what just arrived in the game. Many of the ideas come from the child who invented it.',
     blocks: [
@@ -237,7 +237,7 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'The Voyage',
-        text: 'Five stages on a map, with bonuses to choose along the way. Your voyage has a code: give it to a friend and they play the same voyage as you. If you leave a stage, you start it again from the beginning.',
+        text: 'Five stages on a map, with bonuses to choose along the way. At the last stage, King Snake arrives with his two guards and his healer. Your voyage has a code: give it to a friend and they play the same voyage as you. If you leave a stage, you start it again from the beginning.',
       },
       {
         heading: 'A player for everyone',
