@@ -52,7 +52,27 @@ const expectedNames = {
 const french =
   /[éèêëàâùûçœ]|\b(?:et le|le mamba noir retire|Massue|Héros|Médecin|Infirmier|Batteur|Bouclier|Palissade|Chevalier|Cavalier|Vélociraptor|Tyrannosaure|Gardienne|Cracheuse|Mixte|alliés|cristal|vagues?|pièces|soigne|soins|portée|rapide|réserve|réparation|attirer|ralentir|départ|sauvegarde|rejouer|reprendre|choisis|gagnées|vaincus)\b/i;
 let browser, server;
+/**
+ * The recipe sometimes stalled on the CI runner, silently, until the job's 30-minute limit
+ * (19 November 2026). With no new check for this long, it stops and says where it was.
+ */
+const STALL_MS = 4 * 60 * 1000;
+let lastProgress = 'start';
+let stall;
+function progress(label) {
+  lastProgress = label;
+  clearTimeout(stall);
+  stall = setTimeout(() => {
+    console.error(
+      `locale-035: no progress for ${STALL_MS / 60000} min after « ${lastProgress} » (${checks.length} checks)`,
+    );
+    process.exit(1);
+  }, STALL_MS);
+  stall.unref();
+}
+progress('start');
 function check(name, pass, detail) {
+  progress(name);
   checks.push({ name, pass: !!pass, ...(detail === undefined ? {} : { detail }) });
   if (!pass) console.error('FINDING ' + JSON.stringify({ name, detail }));
 }
@@ -170,7 +190,9 @@ try {
   );
   server = await createServer({ server: { host: '127.0.0.1', port: 4417, strictPort: true } });
   await server.listen();
+  progress('server listening');
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  progress('browser launched');
 
   // Real entrypoint: fresh system-detected FR/EN, all requested viewports.
   for (const [width, height, safe] of sizes)
@@ -855,6 +877,7 @@ try {
     ) + '\n',
   );
 }
+clearTimeout(stall);
 console.log(
   JSON.stringify(
     {
