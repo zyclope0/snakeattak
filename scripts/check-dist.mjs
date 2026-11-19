@@ -6,6 +6,7 @@ import { gamePagePictures } from '../deploy/discoveryAssets.ts';
 
 const root = process.argv[2] ?? 'dist';
 const html = await readFile(`${root}/index.html`, 'utf8');
+const target = JSON.parse(await readFile(`${root}/build-info.json`, 'utf8')).target;
 // The website adds its own head to the page (names for search engines, icons, a link to
 // the public pages). It is counted apart: the page of the game keeps its 32 KiB.
 const webHead = existsSync(`${root}/sitemap.xml`) ? webHeadBytes(gamePagePictures()) : 0;
@@ -43,11 +44,16 @@ assert.match(
   'Policy in both languages',
 );
 assert.doesNotMatch(policy, /<script|<link rel="stylesheet"/, 'The policy page stands alone');
-assert.match(
-  await readFile(`${root}/.htaccess`, 'utf8'),
-  /RewriteEngine On/,
-  'Apache configuration',
-);
+if (target !== 'android') {
+  assert.match(
+    await readFile(`${root}/.htaccess`, 'utf8'),
+    /RewriteEngine On/,
+    'Apache configuration',
+  );
+} else {
+  assert.ok(!existsSync(`${root}/.htaccess`), 'Android has no server configuration');
+}
+
 console.log(
   JSON.stringify(
     { htmlBytes: Buffer.byteLength(html), shellBytes, webHead, assets: report },

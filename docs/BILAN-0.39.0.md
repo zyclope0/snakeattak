@@ -1,10 +1,10 @@
-# Bilan 0.39.0 — l'application au niveau du site (build 63, à construire)
+# Bilan 0.39.0 — l’application au niveau du site (build 63)
 
 Version préparée le 19 novembre 2026 : **0.39.0 / Android 63** (`package.json`,
-`android/app/build.gradle` et `POLICY_APP` de la politique de confidentialité). Le paquet
-n'est pas encore construit : Codex le construit depuis `main` en suivant
-[ANDROID-BUILD-63.md](ANDROID-BUILD-63.md). Rien n'est envoyé à Google Play sans l'accord du
-parent.
+`android/app/build.gradle` et `POLICY_APP` de la politique de confidentialité). La construction signée est prise en charge par Codex via `npm run android:package`,
+selon [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md). Les livrables et leur statut exact
+sont identifiés dans `release-report.json` : la construction ne vaut pas qualification
+native. Rien n’est envoyé à Google Play dans ce lot.
 
 Le build 62 (0.38.0, 15 novembre) a été construit avant tous les lots ci-dessous. Le site,
 lui, les a reçus au fil des publications : le build 63 remet l'application au niveau du
@@ -61,9 +61,9 @@ l'application ; aucune permission ni SDK ajouté ; aucun appel réseau pendant l
 ## Pas vérifié
 
 - 19 novembre, d'après le parent : le build 63 est arrivé sur le téléphone par Google Play,
-  et le fils a joué 2 ou 3 parties sur le site, content, sans remarque précise. Les preuves
-  de la construction et de la recette de Codex (empreintes de l'AAB, cases cochées de
-  [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)) ne sont pas dans cette session.
+  et le fils a joué 2 ou 3 parties sur le site, content, sans remarque précise.
+- La recette native du release 63 (cases de [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)) n'est
+  pas dans cette session ; les vérifications navigateur et de signature ne la remplacent pas.
 - Rien n'a encore été joué par les enfants dans l'application elle-même, à notre
   connaissance.
 
@@ -77,3 +77,21 @@ Quatre nouveaux serpents inventés par un enfant : Grands crocs, Serpent rare, S
 Four new snakes invented by a child: Big Fangs, Rare Snake, a Ninja Snake that teleports and a Grasshopper Snake that leaps over your allies. King Snake brings his guards at the end of the voyage. New "All the snakes" page. Easier to read on phones. Your saves are kept.
 </en-US>
 ```
+
+## Procédure de construction ajoutée par Codex
+
+Les profils Web/Android sont centralisés. Chaque distribution conserve sa version
+commune de jeu, son propre commit et ses capacités dans `build-info.json`. Un site
+plus récent que l'application n'oblige pas à dupliquer les règles ou à embarquer les
+pages publiques dans Android.
+
+Le flux refuse sources non committées, mauvaise cible, copie ancienne, dossier de
+livraison déjà occupé et certificat d'envoi différent. Les fichiers embarqués et la
+configuration Capacitor sont comparés dans le vrai AAB/APK. R8, permissions exactes,
+SDK24/36, paysage et versions sont contrôlés. Les archives non signées, partiellement
+signées, altérées ou signées par une autre clé sont refusées par une recette dédiée.
+La preuve hors ligne Android est conservée séparément de celle du site.
+
+Le prototype historique et les fichiers Apache sont exclus d'Android mais restent
+préservés dans le projet et les distributions Web. La politique approuvée et les
+crédits restent embarqués. Aucun changement des règles ou formats par ce lot.
