@@ -1,7 +1,17 @@
-# Plan actuel — 18 novembre 2026
+# Plan actuel — 19 novembre 2026
 
 Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
+
+## Prochaine livraison — 0.39.0, Android build 63 (à construire par Codex)
+
+- Version montée dans `main` le 19 novembre ; le paquet reste à construire depuis `main`
+  avec `npm run android:sync`, qui écarte tout ce qui est réservé au site (publicité,
+  PayPal, pages publiques) et le vérifie. Passation : [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md) ;
+  contenu depuis le build 62 : [BILAN-0.39.0.md](BILAN-0.39.0.md). Aucun envoi à Google Play
+  sans l'accord du parent.
+- Le site est publié depuis `main` jusqu'à la révision 6 (serpent sauterelle) : il est en
+  avance sur le build 62 ; le build 63 remet l'application à son niveau.
 
 ## Livraison préparée — 0.38.0, Android build62, site snakeattacktd.com
 
