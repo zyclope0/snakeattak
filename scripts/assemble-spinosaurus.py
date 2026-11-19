@@ -4,7 +4,8 @@ Usage: python3 scripts/assemble-spinosaurus.py <folder of cut-outs> <output fold
 Inputs: idle-cut.png and atk-cut.png (one figure each, background removed). See
 public/assets/illustrated/PROVENANCE-SPINOSAURE-2026-11-19.md.
 
-One 512 cell, like the cells of allies-dinosaurs. At rest, the figure fills the cell width
+A 1024 sheet like allies-dinosaurs, the spinosaurus in its first 512 cell (the portraits of
+the interface read every sheet as 2 × 2; the three other cells wait for other dinosaurs). At rest, the figure fills the cell width
 (margin kept) with its feet on BOTTOM, the line of the tyrannosaurus. Attack: scaled to the same
 amount of clay as the figure at rest (count of opaque pixels), never beyond the cell, with the
 feet (lowest 30 %) centred where the feet at rest are, on the same bottom.
@@ -51,8 +52,10 @@ x = max(MARGIN, min(x, CELL - MARGIN - shot.width))
 attack = Image.new('RGBA', (CELL, CELL), (0, 0, 0, 0))
 attack.paste(shot, (x, BOTTOM - shot.height), shot)
 
-idle.save(f'{out}/allies-spinosaure.webp', 'WEBP', quality=88, method=6)
-attack.save(f'{out}/allies-spinosaure-attack.webp', 'WEBP', quality=88, method=6)
+for name, cell in (('allies-spinosaure', idle), ('allies-spinosaure-attack', attack)):
+    sheet = Image.new('RGBA', (2 * CELL, 2 * CELL), (0, 0, 0, 0))
+    sheet.paste(cell, (0, 0))
+    sheet.save(f'{out}/{name}.webp', 'WEBP', quality=88, method=6)
 for name, im in (('rest', idle), ('attack', attack)):
     a = np.array(im)[:, :, 3]
     print(name, bbox(a), 'clay', int((a > TH).sum()))

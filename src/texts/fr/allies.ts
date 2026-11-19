@@ -29,7 +29,7 @@ export const uneMorsureTresPuissanteMaisPlus =
   'Une morsure très puissante, mais plus lente à préparer.';
 export const spinosaure = 'Spinosaure';
 export const saMorsureEtSaVoileSontTresDangereuses =
-  'Débloqué à la vague 8 de la grande aventure. Sa morsure et sa voile sont très dangereuses. Il nage parfois jusqu’aux ponts.';
+  'Sa morsure et sa voile sont très dangereuses. Il nage parfois jusqu’aux ponts.';
 export const mutantRoc = 'Mutant roc';
 export const unAllieDePierreCourageuxSaPeau =
   'Un allié de pierre courageux. Sa peau réduit les dégâts reçus de 20 %.';
@@ -73,7 +73,7 @@ export const chargeApresEnviron14SecondeDe =
 export const plaquesReduitDe25LesDegatsRecus =
   'Plaques : réduit de 25 % les dégâts reçus. Garde son secteur.';
 export const voileEtNageToucheLesSerpentsAutour =
-  'Voile : chaque morsure touche aussi les serpents autour de lui ({0} %). Nage : toutes les {1} secondes au plus, il plonge dans la rivière pour mordre un serpent sur un pont, puis revient.';
+  'Voile : chaque morsure touche aussi les serpents autour de lui ({0} %). Nage : pas plus d’une fois toutes les {1} secondes, il plonge dans la rivière pour mordre un serpent sur un pont, puis revient.';
 export const peauDePierreReduitDe20LesDegats =
   'Peau de pierre : réduit de 20 % les dégâts reçus. Garde son secteur.';
 export const brasElastiquesFrappeA90PasDePortee =

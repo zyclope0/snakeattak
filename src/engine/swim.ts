@@ -44,8 +44,15 @@ function besideBridge(prey: Entity, from: Point): Point {
   };
 }
 /** The point of the bank in front of the swimmer, inside the camp. */
-const bankOf = (game: Game, u: Point): Point =>
-  nearestCampPoint({ x: CAMP_LEFT, y: u.y }, game.level);
+const bankOf = (game: Game, u: Point, others: readonly Point[] = []): Point =>
+  nearestCampPoint({ x: CAMP_LEFT, y: u.y }, game.level, others);
+
+/** The point `step` board units from `from` towards `goal`, or `goal` itself if nearer. */
+function stepToward(from: Point, goal: Point, step: number): Point {
+  const d = distance(from, goal);
+  if (d <= step) return goal;
+  return { x: from.x + ((goal.x - from.x) / d) * step, y: from.y + ((goal.y - from.y) / d) * step };
+}
 
 /** Moves `u` straight towards `goal` at `speed`; true once there. */
 function swimTo(u: Entity, goal: Point, speed: number, dt: number): boolean {
@@ -60,12 +67,26 @@ function swimTo(u: Entity, goal: Point, speed: number, dt: number): boolean {
   return step === d;
 }
 
-/** The snake on a bridge the spinosaurus dives for, if one is in reach and the water clear. */
+/** From the water beside its bridge, the spinosaurus's bite reaches this snake. */
+const biteable = (prey: Entity, from: Point) =>
+  distance(besideBridge(prey, from), prey) <= kinds.spinosaurus.range;
+/**
+ * The snake on a bridge the spinosaurus dives for: in reach, that its bite reaches from the
+ * water beside the bridge, and with clear water on the way.
+ */
 function preyFor(game: Game, u: Entity, rule: SpinosaurusRule): Entity | undefined {
   return game.enemies
-    .filter((e) => onBridge(e) && distance(u, e) <= rule.swimReach)
+    .filter((e) => onBridge(e) && distance(u, e) <= rule.swimReach && biteable(e, u))
     .sort((a, b) => closerTo(u, a, b))
     .find((e) => clearLine(game, u, besideBridge(e, u)));
+}
+/** True while a spinosaurus is on its way to a bridge or back: it fights nowhere else. */
+export const diving = (u: Entity): boolean => !!u.swim && (u.swim.prey !== null || u.swim.back);
+/** The dive ends: it fights on land again, and the next one waits `wait` seconds. */
+function landAgain(u: Entity, wait: number) {
+  u.swim = { wait, prey: null, back: false };
+  u.targetId = null;
+  forgetPath(u);
 }
 
 /**
@@ -94,11 +115,23 @@ export function swimTurn(
   }
   if (!swim.back) {
     const prey = game.enemies.find((e) => e.id === swim.prey);
-    if (!prey || !onBridge(prey)) swim.back = true;
-    else {
+    if (!prey || !onBridge(prey) || !biteable(prey, u)) {
+      // Its snake is gone before it reached the water: it stays on land, where it walks
+      // around the rocks like any ally, and may dive again at once.
+      if (!inRiver(u.x, u.y) && u.x >= CAMP_LEFT) {
+        landAgain(u, 0);
+        return false;
+      }
+      swim.back = true;
+    } else {
       faceToward(u, prey);
       if (distance(u, prey) > kinds.spinosaurus.range) {
-        swimTo(u, besideBridge(prey, u), rule.swimSpeed, dt);
+        const spot = besideBridge(prey, u);
+        // Only through water or open ground: a rock on the way calls the dive off.
+        if (!swimmable(game, stepToward(u, spot, rule.swimSpeed * dt))) swim.back = true;
+        else if (swimTo(u, spot, rule.swimSpeed, dt) && distance(u, prey) > kinds.spinosaurus.range)
+          // There, and its snake still out of reach: it gives up and swims back.
+          swim.back = true;
         return true;
       }
       if (u.cool > 0) return true;
@@ -109,12 +142,14 @@ export function swimTurn(
   }
   // Back to the bank, straight across the water; once on it, the next dive waits.
   const bank = bankOf(game, u);
-  if (distance(u, bank) > BANK_REACH && !swimTo(u, bank, rule.swimSpeed, dt)) return true;
+  if (distance(u, bank) > BANK_REACH) {
+    // A rock between it and the bank (never seen on the three maps): it climbs out at once.
+    if (!swimmable(game, stepToward(u, bank, rule.swimSpeed * dt))) Object.assign(u, bank);
+    else if (!swimTo(u, bank, rule.swimSpeed, dt)) return true;
+  }
   if (inRiver(u.x, u.y)) return true;
   addEffect(game, u, u, 'splash');
-  u.swim = { wait: rule.swimEvery, prey: null, back: false };
-  u.targetId = null;
-  forgetPath(u);
+  landAgain(u, rule.swimEvery);
   return true;
 }
 
@@ -126,7 +161,15 @@ export function climbOut(game: Game) {
   for (const u of game.units) {
     if (!u.swim) continue;
     if (u.x < CAMP_LEFT || inRiver(u.x, u.y)) {
-      const bank = bankOf(game, u);
+      // Not on another ally's place: a camp read back from a save would not allow it.
+      const others = game.units.filter((v) => v !== u && v.hp > 0);
+      let bank: Point;
+      try {
+        bank = bankOf(game, u, others);
+      } catch {
+        // A camp with no free place left: the bank in front of it all the same.
+        bank = bankOf(game, u);
+      }
       u.x = bank.x;
       u.y = bank.y;
     }

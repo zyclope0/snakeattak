@@ -406,9 +406,9 @@ export class Actors {
       .setDepth(stance.depth + 0.00001);
     // Over the legs, from the feet to the belly.
     const width = stance.width * 0.95,
-      surface = -stance.height * 0.12;
+      surface = -stance.height * 0.06;
     water.fillStyle(BOARD_COLOR.river, 0.95);
-    water.fillEllipse(0, surface, width, stance.height * 0.34);
+    water.fillEllipse(0, surface, width, stance.height * 0.4);
     water.lineStyle(3, BOARD_COLOR.ripple, 0.9);
     water.strokeEllipse(0, surface - 4, width * 0.75 + ripple, stance.height * 0.14);
     water.strokeEllipse(0, surface, width + ripple, stance.height * 0.3);

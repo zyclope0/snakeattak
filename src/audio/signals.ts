@@ -108,8 +108,8 @@ export const EFFECT_SIGNALS: Record<Exclude<Effect['kind'], 'hit'>, Signal> = {
       [320, 90, 0.18, 'triangle', 0.08],
     ],
   },
-  // The spinosaurus bites and sweeps its sail: the bite of the snakes, a little louder.
-  sail: { cue: 'bite', volume: 0.8, notes: [[200, 70, 0.18, 'triangle']] },
+  // The spinosaurus bites and sweeps its sail: the heavy blow of the dinosaurs.
+  sail: { cue: 'stomp', volume: 0.8, notes: [[120, 55, 0.22, 'triangle']] },
 };
 
 /** The player changed a sound setting and effects are on. */

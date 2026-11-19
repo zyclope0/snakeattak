@@ -422,7 +422,7 @@
   line-height: 1.15;
 }
 /* Le mot de spécialité (« Contact », « Soins ») reste dans les fiches : ici il laisse la
-   place aux vingt cartes. Un allié trop cher garde son prix, grisé ; un allié à découvrir
+   place aux cartes. Un allié trop cher garde son prix, grisé ; un allié à découvrir
    dit à quelle vague il arrive ; un allié que la réserve du caprice retient le dit aussi. */
 #app #reinforcements .unit-card:not([data-state='locked'], [data-reserved]) .unit-info small {
   display: none;
@@ -465,8 +465,8 @@
   #app #reinforcements .army-title h2 {
     font-size: 18px;
   }
-  /* Quatre rangées de 48 px, même avec un nom sur deux lignes : les vingt alliés tiennent
-     sous le titre et les onglets d'un téléphone de 360 px de haut. */
+  /* Cinq rangées de 48 px, même avec un nom sur deux lignes : les vingt et un alliés tiennent
+     sous la ligne du titre et des onglets d'un téléphone de 360 px de haut. */
   #app #reinforcements #shop {
     gap: 4px;
   }
@@ -574,4 +574,16 @@
   border-radius: 10px;
   font: inherit;
   font-weight: 700;
+}
+
+/* Une fenêtre étroite d'ordinateur : les onglets passent sous le titre, sur leur propre ligne,
+   pour que les pièces, « Fiches » et « Fermer » gardent leur place. */
+@media (max-width: 560px) and (pointer: fine) {
+  #app #reinforcements .army-title {
+    flex-wrap: wrap;
+  }
+  #app #reinforcements .army-title .shop-toolbar {
+    order: 1;
+    flex-basis: 100%;
+  }
 }

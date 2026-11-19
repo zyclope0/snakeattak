@@ -23,7 +23,7 @@ const allies = (revision: BalanceRevision) =>
 const spots: [number, number][] = [];
 for (let x = 624; x <= 972; x += 36) for (let y = 120; y <= 528; y += 36) spots.push([x, y]);
 
-function play(start: Game, salt: number, first?: Kind): string {
+function play(start: Game, salt: number, first?: Kind, seen?: Set<string>): string {
   let game = start;
   // `first`: the ally this player tries before the others, every time it buys.
   const order = allies(start.balanceRevision).sort(
@@ -45,8 +45,11 @@ function play(start: Game, salt: number, first?: Kind): string {
       if (game.base < 70) game.repair();
       let tries = 0,
         bought = 0;
+      // Until it has its `first` ally, this player saves its coins for it.
+      const saving = () =>
+        !!first && game.isUnlocked(first) && !game.units.some((u) => u.kind === first);
       while (tries < order.length * 2 && bought < 2 + (salt % 4)) {
-        const kind = order[buy++ % order.length];
+        const kind = saving() ? first! : order[buy++ % order.length];
         tries++;
         for (let i = 0; i < spots.length; i++) {
           const [x, y] = spots[(spot + i * 5) % spots.length];
@@ -57,7 +60,7 @@ function play(start: Game, salt: number, first?: Kind): string {
           }
         }
       }
-      if (salt % 5 === 0 && game.wave === 2) {
+      if ((salt % 5 === 0 && game.wave === 2) || (first && game.wave === 9)) {
         // Aller-retour par la sauvegarde : le camp restauré doit rejouer pareil.
         const raw = encodeCheckpoint(game);
         const back = raw ? decodeCheckpoint(raw) : null;
@@ -68,6 +71,7 @@ function play(start: Game, salt: number, first?: Kind): string {
     }
     game.step(1 / 30);
     steps++;
+    if (seen) for (const effect of game.effects) seen.add(effect.kind);
     if (steps % 90 === 30)
       game.offerFeast(Math.floor(steps / 90 + salt) % 3, salt % 2 ? 'lure' : 'sticky');
     if (steps % 400 === 200) game.encourage();
@@ -122,6 +126,12 @@ function traces(): Record<string, string> {
   }
   return out;
 }
+
+test('la partie de référence du spinosaure le voit mordre, balayer et nager', () => {
+  const seen = new Set<string>();
+  play(new Game(16838, undefined, undefined, 7), 5, 'spinosaurus', seen);
+  for (const kind of ['sail', 'splash']) assert.ok(seen.has(kind), kind);
+});
 
 test('les parties de référence se rejouent à l’identique', () => {
   assert.deepEqual(traces(), expectedTraces);

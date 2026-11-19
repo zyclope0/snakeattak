@@ -107,9 +107,11 @@ function drawLeap(g: Graphics, e: Effect) {
  * The spinosaurus dives into the river or climbs out: water rings that open where it is.
  * Dark under light, like the rings of the ninja.
  */
-function drawSplash(g: Graphics, e: Effect) {
-  const left = Math.max(0, Math.min(1, e.life / SPLASH_SECONDS));
-  const alpha = Math.min(1, left * 1.6);
+function drawSplash(g: Graphics, e: Effect, reduced: boolean) {
+  // With less motion, the rings keep one size and only fade.
+  const fade = Math.max(0, Math.min(1, e.life / SPLASH_SECONDS));
+  const left = reduced ? 0.5 : fade;
+  const alpha = Math.min(1, fade * 1.6);
   for (const [width, color] of [
     [7, 0x1d4660],
     [3.5, 0xd8f1ff],
@@ -124,9 +126,11 @@ function drawSplash(g: Graphics, e: Effect) {
  * The spinosaurus sweeps its sail: an orange fan that opens all around it, the colour of
  * its sail, as wide as the snakes it reaches.
  */
-function drawSail(g: Graphics, e: Effect, radius: number) {
-  const left = Math.max(0, Math.min(1, e.life / SAIL_SECONDS));
-  const alpha = Math.min(1, left * 1.6);
+function drawSail(g: Graphics, e: Effect, radius: number, reduced: boolean) {
+  const fade = Math.max(0, Math.min(1, e.life / SAIL_SECONDS));
+  // With less motion, the fan keeps its full size and only fades.
+  const left = reduced ? 0 : fade;
+  const alpha = Math.min(1, fade * 1.6);
   const reach = radius * (0.55 + (1 - left) * 0.45);
   for (const [width, color] of [
     [8, 0x6b2a12],
@@ -183,10 +187,10 @@ export class EffectTrails {
         drawLeap(g, e);
         break;
       case 'splash':
-        drawSplash(g, e);
+        drawSplash(g, e, reduced);
         break;
       case 'sail':
-        drawSail(g, e, SPINOSAURUS.sailRadius);
+        drawSail(g, e, SPINOSAURUS.sailRadius, reduced);
         break;
       case 'gold':
         // With motion, BattleJuice flies a coin to the counter instead.

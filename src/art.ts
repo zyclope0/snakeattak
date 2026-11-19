@@ -91,7 +91,7 @@ export const ART_SHEETS = [
     frameHeight: 512,
     attackUrl: dinosaursAttackUrl,
   },
-  // The spinosaurus of the seventh revision: one cell, the size of a cell of the dinosaurs.
+  // The spinosaurus of the seventh revision in the first cell; the three others are empty.
   {
     key: 'allies-spinosaure',
     url: spinosaurusUrl,

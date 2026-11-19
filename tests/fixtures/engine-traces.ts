@@ -16,7 +16,7 @@ export const expectedTraces: Readonly<Record<string, string>> = Object.freeze({
   'classique r5': 'lost w12 b0 g54 k158 s13535 c9fddf06f42f2d9db877e231',
   'classique r6': 'won w12 b55 g427 k190 s16337 e98658da611e0a45c19ce252',
   'classique r7': 'won w12 b100 g374 k186 s13301 168d4dbb07a00f7c5c821c25',
-  'classique r7 spinosaure': 'won w12 b91 g434 k191 s16271 360b0d8b8992ed8c991b27a8',
+  'classique r7 spinosaure': 'lost w12 b0 g78 k165 s15996 f6cf23e0cc93e24fb9827f39',
   'classique sans règles tactiques': 'won w12 b100 g567 k200 s13873 3eeda8696186b90a12ead3ce',
   'mission refuge': 'won w3 b100 g323 k25 s1838 ba997879695c6fcf0aa1a91d',
   'défi refuge-moyen r2': 'won w3 b100 g401 k44 s2568 bc0c8fb2412a1402f1b8aae1',

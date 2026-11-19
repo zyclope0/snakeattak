@@ -21,6 +21,8 @@ import { inRiver } from '../src/navigation.ts';
 import { addAlly } from '../src/engine/state.ts';
 import type { Entity } from '../src/engine/state.ts';
 import { climbOut } from '../src/engine/swim.ts';
+import { leapOverLine } from '../src/engine/leap.ts';
+import { reliefTeams } from '../src/defenders.ts';
 import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
 import { friendChoices } from '../src/ui/capriceFriends.ts';
@@ -76,7 +78,7 @@ function pond(x: number, y: number, sx: number, sy = LANES[1] + 11) {
 
 test('la révision 7 est la révision courante et n’ajoute que le spinosaure', () => {
   assert.deepEqual([...BALANCE_REVISIONS], [1, 2, 3, 4, 5, 6, 7]);
-  // Accepted by the parent on 19 November 2026 after 1 200 simulated games.
+  // Accepted by the parent on 19 November 2026 after 2 800 simulated games.
   assert.equal(CURRENT_BALANCE_REVISION, 7);
   assert.deepEqual(spinosaurusRule(7), {
     sailRadius: 72,
@@ -233,4 +235,60 @@ test('une sauvegarde ou un code de la révision 6 ne contient jamais de spinosau
   assert.ok(decoded.ok);
   assert.deepEqual({ ...decoded.departure }, { kind: 'classic', seed: 2026, balance: 7 });
   assert.match(encodeDeparture({ kind: 'classic', seed: 2026, balance: 6 }), /^AVENTURE-8-/);
+});
+
+test('sa proie disparaît avant l’eau : il reste au camp, sans glisser vers la rive', () => {
+  const { game, spino, snake } = pond(700, 372, 492);
+  // Another snake, far from the camp, so that the wave goes on.
+  game.enemies.push({ ...snake, id: 99010, x: 200, y: LANES[0], lane: 0, stage: 0 });
+  for (let step = 0; step < 5; step++) game.step(1 / 30);
+  assert.equal(spino.swim!.prey, snake.id, 'la plongée a commencé');
+  assert.ok(!inRiver(spino.x, spino.y));
+  snake.hp = 0;
+  game.step(1 / 30);
+  assert.deepEqual(spino.swim, { wait: 0, prey: null, back: false });
+  const x = spino.x;
+  for (let step = 0; step < 30; step++) game.step(1 / 30);
+  // On land it walks back home at its own pace, around the rocks, not at the swim speed.
+  assert.ok(spino.x >= x, `${spino.x} / ${x}`);
+});
+
+test('il ne plonge pas vers un serpent que sa morsure n’atteint pas depuis l’eau', () => {
+  const { game, spino, snake } = pond(624, 250, 575, LANES[1] + 20);
+  for (let step = 0; step < 60; step++) {
+    Object.assign(snake, { x: 575, y: LANES[1] + 20, path: [], nav: 1 });
+    game.step(1 / 30);
+    assert.ok(!inRiver(spino.x, spino.y), `pas 30-${step}`);
+  }
+  assert.equal(spino.swim?.prey ?? null, null);
+});
+
+test('son serpent s’éloigne du bord pendant qu’il nage : il abandonne et revient', () => {
+  const { game, spino, snake } = pond(624, 372, 492);
+  for (let step = 0; step < 10; step++) game.step(1 / 30);
+  assert.equal(spino.swim!.prey, snake.id);
+  const full = snake.hp;
+  for (let step = 0; step < 30 * 6 && !spino.swim!.wait; step++) {
+    // Far side of the bridge, out of reach of the water where it swims.
+    Object.assign(snake, { x: 492, y: LANES[1] - 30, path: [], nav: 1 });
+    game.step(1 / 30);
+  }
+  assert.equal(snake.hp, full, 'pas de morsure');
+  assert.equal(spino.swim!.wait, 20);
+  assert.ok(spino.x >= CAMP_LEFT && !inRiver(spino.x, spino.y));
+});
+
+test('pendant qu’il nage, il ne compte ni dans la ligne de la sauterelle ni dans les renforts', () => {
+  const { game, spino, snake } = pond(530, 372, 430, LANES[1]);
+  spino.swim = { wait: 0, prey: 999, back: false };
+  Object.assign(snake, { variant: 'grasshopper', leaps: 1, state: 'attack' });
+  assert.equal(leapOverLine(game, snake), false, 'pas de saut par-dessus un nageur');
+  assert.equal(snake.leaps, 1);
+  assert.ok(
+    ![...reliefTeams(game.units, game.enemies).values()].some((team) => team.has(spino.id)),
+  );
+  // The same spinosaurus on land is part of both.
+  spino.swim = { wait: 0, prey: null, back: false };
+  Object.assign(spino, { x: 520, y: LANES[1] });
+  assert.equal(leapOverLine(game, snake), true);
 });
