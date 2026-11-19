@@ -33,7 +33,7 @@ export type PolicyText = {
  * The application the policy describes. A test holds these to package.json and to the
  * Android build: a new build is a moment to read the policy again.
  */
-export const POLICY_APP = { version: '0.38.0', build: 62 };
+export const POLICY_APP = { version: '0.39.0', build: 63 };
 
 /**
  * The section about the website, added by the publisher on 14 November 2026 when the site
