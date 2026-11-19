@@ -30,10 +30,10 @@ jobs:
           java-version: '21'
       - run: npm run test:android-signatures
       - run: npm audit --omit=dev --audit-level=high
-      # System packages come from Ubuntu's mirrors, which are sometimes unreachable from the
-      # runner. The runner image already carries Chromium's libraries, so fall back to the
-      # browser alone instead of failing before any test has run.
-      - run: npx playwright install --with-deps chromium || npx playwright install chromium
+      # Ubuntu already carries Chromium's system libraries. Probe first instead of
+      # blocking every release on an unnecessary package-mirror update.
+      - uses: ./.github/actions/setup-browser
+        timeout-minutes: 5
       - run: npm run test:browser
       - run: npm run test:discovery
       - run: npm run build:ads-preview
@@ -77,7 +77,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium || npx playwright install chromium
+      - uses: ./.github/actions/setup-browser
+        timeout-minutes: 5
       # Plusieurs recettes lisent le site construit.
       - run: npm run build
       - name: Recettes
