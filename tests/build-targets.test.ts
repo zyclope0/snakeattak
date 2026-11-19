@@ -10,6 +10,7 @@ import {
   fileInventory,
   assertSameFiles,
   embeddedInventory,
+  assertAndroidManifest,
 } from '../deploy/androidDistribution.ts';
 
 const sha = 'a'.repeat(40);
@@ -110,4 +111,23 @@ test('Capacitor permits only its two empty Cordova compatibility files', () => {
     /files differ/,
   );
   assert.deepEqual(source, { 'index.html': 'abc' });
+});
+
+test('compiled Android enums preserve landscape and release identity without accepting new permissions', () => {
+  const xml = `<manifest package="com.conqueteserpents.famille" android:versionCode="63" android:versionName="0.39.0"><uses-sdk android:minSdkVersion="24" android:targetSdkVersion="36"/><uses-permission android:name="com.conqueteserpents.famille.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/><application><activity android:screenOrientation="6"/></application></manifest>`;
+  assertAndroidManifest(xml, release);
+  assertAndroidManifest(
+    xml.replace('screenOrientation="6"', 'screenOrientation="sensorLandscape"'),
+    release,
+  );
+  for (const changed of [
+    xml.replace('screenOrientation="6"', 'screenOrientation="1"'),
+    xml.replace('targetSdkVersion="36"', 'targetSdkVersion="35"'),
+    xml.replace('versionName="0.39.0"', 'versionName="0.38.0"'),
+    xml.replace(
+      '<application>',
+      '<uses-permission android:name="com.google.android.gms.permission.AD_ID"/><application>',
+    ),
+  ])
+    assert.throws(() => assertAndroidManifest(changed, release));
 });

@@ -19,6 +19,7 @@ import {
   assertSameFiles,
   fileInventory,
   embeddedInventory,
+  assertAndroidManifest,
 } from '../deploy/androidDistribution.ts';
 import { readAndroidRelease } from '../deploy/buildInfo.ts';
 
@@ -176,28 +177,8 @@ try {
     resolve('android'),
   );
   const manifest = readFileSync(join(out, 'android-manifest.xml'), 'utf8');
-  assert.match(manifest, new RegExp(`package="${identity.applicationId.replaceAll('.', '\\.')}"`));
-  assert.match(manifest, new RegExp(`android:versionCode="${identity.versionCode}"`));
-  assert.match(
-    manifest,
-    new RegExp(`android:versionName="${identity.versionName.replaceAll('.', '\\.')}"`),
-  );
-  const expectedPermissions = [
-    `${identity.applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`,
-  ];
-  const permissions = [...manifest.matchAll(/<uses-permission\b[^>]*android:name="([^"]+)"/g)]
-    .map((m) => m[1])
-    .sort();
-  assert.deepEqual(
-    permissions,
-    expectedPermissions,
-    'Release permissions must stay exactly as in build62',
-  );
-  assert.match(manifest, /android:screenOrientation="sensorLandscape"/);
-  assert.doesNotMatch(
-    manifest,
-    /android\.permission\.(?:INTERNET|CAMERA|RECORD_AUDIO|ACCESS_FINE_LOCATION)|android:debuggable="true"/,
-  );
+  const permissions = assertAndroidManifest(manifest, identity);
+  const expectedPermissions = permissions;
   const extracted = {};
   for (const [name, archive] of [
     ['bundle', bundle],

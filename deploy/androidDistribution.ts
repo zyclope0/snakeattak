@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, existsSync, lstatSync } from 'node:fs';
 import { join } from 'node:path';
+import type { AndroidRelease } from './buildInfo.ts';
 
 export function fileInventory(root: string): Record<string, string> {
   const result: Record<string, string> = {};
@@ -66,4 +67,24 @@ export function assertAndroidDistribution(root: string) {
     );
   }
   return { info, files };
+}
+
+/** bundletool writes compiled enums as numbers; 6 is Android's sensorLandscape. */
+export function assertAndroidManifest(manifest: string, identity: AndroidRelease): string[] {
+  const escaped = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  assert.match(manifest, new RegExp(`package="${escaped(identity.applicationId)}"`));
+  assert.match(manifest, new RegExp(`android:versionCode="${identity.versionCode}"`));
+  assert.match(manifest, new RegExp(`android:versionName="${escaped(identity.versionName)}"`));
+  assert.match(manifest, /android:screenOrientation="(?:sensorLandscape|6)"/);
+  assert.match(manifest, /android:minSdkVersion="24"/);
+  assert.match(manifest, /android:targetSdkVersion="36"/);
+  assert.doesNotMatch(manifest, /android:debuggable="(?:true|1)"/);
+  const expected = [`${identity.applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`];
+  const actual = [
+    ...manifest.matchAll(/<uses-permission(?:-sdk-\d+)?\b[^>]*android:name="([^"]+)"/g),
+  ]
+    .map((m) => m[1])
+    .sort();
+  assert.deepEqual(actual, expected, 'Release permissions must stay exactly as in build62');
+  return actual;
 }
