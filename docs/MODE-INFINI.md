@@ -79,9 +79,25 @@ parties qui battent au moins N rois.
   le mode ne leur est pas ouvert.
 - Avec le réglage choisi, une partie dure 16 à 21 minutes en moyenne (temps de jeu simulé).
 
+### Avec les cadeaux à niveaux (choix du parent : « on garde », 20 novembre)
+
+Réglage « ferme », 60 parties par joueur, jusqu'au 10e roi au plus.
+
+| Joueur | 1 roi | 2 rois | 3 rois | 4 rois | 5 rois | 6 rois | 7 rois | 8 rois | 9 rois | Durée médiane* |
+| ------ | ----: | -----: | -----: | -----: | -----: | -----: | -----: | -----: | -----: | -------------: |
+| expert |  85 % |   75 % |   67 % |   37 % |    2 % |    0 % |    0 % |    0 % |    0 % |         33 min |
+| dino   |  77 % |   72 % |   55 % |   30 % |    2 % |    0 % |    0 % |    0 % |    0 % |         33 min |
+| gros   |  80 % |   75 % |   75 % |   75 % |   75 % |   75 % |   60 % |   27 % |    3 % |         53 min |
+
+\* temps de jeu simulé des parties qui battent au moins un roi. Les joueurs reprennent d'abord
+un cadeau qu'ils ont, puis préfèrent la forge, l'armure, la rente, le marché.
+
+Les cadeaux des vagues 4 et 8 aident aussi le premier tour : le premier roi tombe plus souvent
+que dans la grande aventure (expert 70 % → 85 %). Aucune partie ne dépasse le 9e roi.
+
 ## Pas vérifié
 
-- Les joueurs simulés prennent toujours la même sorte de cadeau ; les nouveaux cadeaux à niveaux
-  ne sont ni décidés ni mesurés.
+- Les joueurs simulés choisissent leurs cadeaux toujours dans le même ordre ; un enfant
+  choisira autrement.
 - Aucun écran : on ne peut pas encore y jouer. Rien n'a été essayé par un enfant ni sur un
   vrai téléphone.
