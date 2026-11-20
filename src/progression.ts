@@ -37,7 +37,7 @@ function readCamp(raw: unknown, slot: number): Game | null {
   if (typeof raw !== 'string' || raw.length > CAMP_CHARACTER_LIMIT) return null;
   const game = decodeCheckpoint(raw);
   const wave = REWARD_WAVES[slot === 0 ? 0 : 1];
-  return game?.wave === wave && game.rewards.pending === wave ? game : null;
+  return game?.wave === wave && game.rewards.pending === wave && !game.endless ? game : null;
 }
 // The copy turns an empty slot of a live array into `undefined`, which `every` then sees.
 const areStars = (value: unknown): value is unknown[] =>
@@ -184,6 +184,9 @@ export function createCareer(storage?: StoragePort, initialState?: CareerState) 
       return true;
     },
     sync(game: Game) {
+      // The endless adventure keeps its own records: it never writes the great adventure's
+      // stars, nor one of its camps in place of a chapter camp.
+      if (game.endless) return;
       recordChapterStars(state, game);
       rememberChapterCamp(state, game);
       persist();
