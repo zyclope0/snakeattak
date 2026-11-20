@@ -1,3 +1,4 @@
+import { PRIVACY_POLICY } from '../src/i18n/privacyPolicy.ts';
 import { showHomePage } from '../tests/browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
@@ -190,12 +191,15 @@ try {
     [
       'fr',
       'Politique de confidentialité de La Conquête des Serpents / Snake Attack TD',
-      7,
+      PRIVACY_POLICY.fr.sections.length,
       'https://snakeattacktd.com/confidentialite',
     ],
   );
   assert.equal(
-    await page.locator('#privacy-body h4').nth(5).textContent(),
+    await page
+      .locator('#privacy-body h4')
+      .nth(PRIVACY_POLICY.fr.sections.findIndex((s) => s.heading.startsWith('Soutien')))
+      .textContent(),
     'Soutien facultatif sur le site Web',
     'The newly approved Web support section is bundled and readable offline',
   );
