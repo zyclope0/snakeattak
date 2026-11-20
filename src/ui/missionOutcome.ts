@@ -7,7 +7,7 @@ import type { Session } from '../session.ts';
 import { MISSIONS } from '../missions.ts';
 import type { MissionId, MissionRun } from '../missions.ts';
 import { byId, make } from './dom.ts';
-import { assaults, nests } from './missionDraft.ts';
+import { assaults, nests } from './missionWords.ts';
 import { replayOffer } from './stickerGoals.ts';
 import type { StickerTally } from './stickerGoals.ts';
 import { stickerRow } from './stickerRow.ts';

@@ -6,7 +6,10 @@ import type { Session } from '../session.ts';
 import { MISSIONS, createMissionRun } from '../missions.ts';
 import type { MissionId, MissionRun } from '../missions.ts';
 import type { createMissionProgressController } from '../missionProgress.ts';
-import { bindMissionDraft, freshSeed } from './missionDraft.ts';
+import type { bindMissionDraft } from './missionDraft.ts';
+import { freshSeed } from './missionWords.ts';
+import { canLaunchCaprice } from './capriceGate.ts';
+import { bindDepartureControls } from './departures.ts';
 import { bindMissionOutcome } from './missionOutcome.ts';
 import { missionJourney } from './missionJourney.ts';
 import { missionCard, showJourney } from './missionJourneyView.ts';
@@ -33,11 +36,46 @@ export function bindExpeditions(
   },
   albums?: AlbumsController,
 ) {
-  const draft = bindMissionDraft(session, progress, actions, albums);
+  const allowed = (run: MissionRun) =>
+    canLaunchCaprice(
+      run,
+      progress.unlocked(run.missionId),
+      progress.state.bestStars[run.missionId] ?? 0,
+    );
+  /**
+   * The form of a departure code, on the parents' page, works before the preparation window
+   * has arrived: a mission code waits for the window, a classic code never needs it.
+   */
+  const departures = bindDepartureControls(session, {
+    unlocked: allowed,
+    previewMission: (run) => void withDraft((ready) => ready.show(run), 'departure-message'),
+    launchClassic: actions.launchClassic,
+  });
+  /**
+   * The preparation window comes in a package of its own, asked for as soon as the home is
+   * drawn: the first screen does not wait for it, and it is there by the first tap. If it
+   * did not arrive, the next tap asks again.
+   */
+  let drafting: Promise<ReturnType<typeof bindMissionDraft>> | undefined;
+  const loadDraft = () =>
+    (drafting ??= import('./missionDraft.ts').then(
+      (module) => module.bindMissionDraft(progress, actions, departures.preview, albums),
+      (error: unknown) => {
+        drafting = undefined;
+        throw error;
+      },
+    ));
+  /** `where`: the line that says it when the window did not arrive. */
+  const withDraft = (
+    use: (ready: ReturnType<typeof bindMissionDraft>) => void,
+    where = 'home-next-mission',
+  ) => loadDraft().then(use, () => setDisplayText(byId(where), TEXT.missionsIndisponibles));
   /** A new draw of a mission; its last departure tells which draw not to repeat. */
   const freshRun = (id: MissionId) => createMissionRun(id, freshSeed(), progress.lastRun(id), 2);
-  const prepare = (id: MissionId) => draft.show(freshRun(id));
-  const prepareCaprices = (id: MissionId) => draft.showCaprices(freshRun(id));
+  const prepare = (id: MissionId) => void withDraft((ready) => ready.show(freshRun(id)));
+  const prepareCaprices = (id: MissionId) =>
+    void withDraft((ready) => ready.showCaprices(freshRun(id)));
+
   // Stickers are read from the book a new game would fill and, after a game, from the book
   // that game fills. Both are the same book unless an old save holds several.
   const inNextBook: StickerEarned = (id) => albums?.has(id) ?? false;
@@ -63,7 +101,7 @@ export function bindExpeditions(
     const caprice = nextCaprice();
     if (caprice) return prepareCaprices(caprice.missionId);
     const run = freshRun(nextMission().id);
-    if (draft.allowed(run)) actions.launch(run, []);
+    if (allowed(run)) actions.launch(run, []);
   };
   const playLabel = () => (nextCaprice() ? TEXT.jouerUnCaprice : TEXT.jouer);
   byId('home-play').onclick = play;
@@ -77,7 +115,7 @@ export function bindExpeditions(
   });
 
   const refresh = () => {
-    draft.refreshCodes();
+    departures.refresh();
     const journey = missionJourney(progress.state.bestStars, progress.unlocked);
     const next = journey.find((step) => step.status === 'next');
     setDisplayText(
@@ -95,5 +133,7 @@ export function bindExpeditions(
     byId('mission-continue').hidden = !actions.canResume();
     refreshOutcome();
   };
+  // Asked for once the home is drawn, not before: the first screen never waits for it.
+  setTimeout(() => void loadDraft().catch(() => undefined), 0);
   return Object.assign(refresh, { play, playNow, playLabel, resume: actions.resume });
 }

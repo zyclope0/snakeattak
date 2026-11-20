@@ -54,3 +54,5 @@ export const desVolantsArriverontDansCette2 = 'Flying snakes will appear in this
 export const desVolantsArriverontDansCette3 =
   'Flying snakes will appear in this mission: possible allies, {0}.';
 export const invalidPreparationFriendChoice = 'Invalid preparation friend choice';
+/** The preparation of a mission could not load (a web page that lost its network). */
+export const missionsIndisponibles = 'Missions unavailable. Try again.';

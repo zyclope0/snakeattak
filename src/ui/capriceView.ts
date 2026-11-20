@@ -1,5 +1,4 @@
 import {
-  capriceById,
   capriceDefinitionForRun,
   capricesForMission,
   capriceUnlocked,
@@ -21,6 +20,7 @@ import type { StickerEarned } from './stickerGoals.ts';
 import * as TEXT from '../texts/fr/capriceScreens.ts';
 import { fill } from '../texts/fill.ts';
 export { friendChoices } from './capriceFriends.ts';
+export { canLaunchCaprice } from './capriceGate.ts';
 
 export function capriceRows(run: MissionRun, stars: number) {
   return (['serpents', 'createur'] as CapriceSet[]).map((set) => ({
@@ -34,15 +34,6 @@ export function capriceRows(run: MissionRun, stars: number) {
 }
 type CapriceRow = ReturnType<typeof capriceRows>[number];
 type CapriceCard = CapriceRow['cards'][number];
-
-export function canLaunchCaprice(run: MissionRun, missionOpen: boolean, stars: number) {
-  const caprice = run.caprice ? capriceById(run.caprice) : null;
-  return (
-    missionOpen &&
-    (!run.caprice ||
-      (!!caprice && caprice.missionId === run.missionId && capriceUnlocked(caprice.tier, stars)))
-  );
-}
 
 /** The friends view exists only when it offers a choice: ally kinds, or several sticker books. */
 export function friendsViewHasContent(run: MissionRun, albumCount: number) {
