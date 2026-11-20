@@ -220,7 +220,8 @@ Corrigé dans ce lot, sans décision à prendre :
   décision à prendre (`ARCHITECTURE.md`, « Textes lisibles sur téléphone »). Restent les
   reformulations de phrases trop techniques, qui attendent l'accord du parent.
 
-Questions pour le fils (ses règles) : posées le 18 novembre, réponses dans `PLAN-ACTUEL.md`
+Questions pour le fils (ses règles) : posées le 18 novembre, réponses dans
+`archive/PLAN-ACTUEL-2026-11-15-au-20.md`
 (« Réponses du fils ») ; le serpent ninja se téléporte depuis la révision 5
 (`BILAN-REVISION-5.md`).
 
@@ -320,12 +321,12 @@ Sur le lot précédent, en ligne, et sur le plan de celui-ci. Corrigé :
   l'accueil étaient restées à 11 px (une autre règle l'emportait). Leur plancher est
   maintenant à 13 px.
 - **Documents** : toutes les décisions en attente et les questions pour le fils sont
-  rassemblées dans `PLAN-ACTUEL.md`, « Décisions du parent — 18 novembre » (elles ont été
+  rassemblées dans `archive/PLAN-ACTUEL-2026-11-15-au-20.md`, « Décisions du parent — 18 novembre » (elles ont été
   prises ce jour-là) ; les listes des sections ci-dessus restent comme historique.
 
 ### Décisions du 18 novembre : les textes du site
 
-Le parent a décidé les sept textes en attente, un par un (`PLAN-ACTUEL.md`, points 1 à 7).
+Le parent a décidé les sept textes en attente, un par un (`archive/PLAN-ACTUEL-2026-11-15-au-20.md`, points 1 à 7).
 Sur le site : la phrase du serpent rare (« Pose un Archer : il peut le toucher avant qu'il
 morde. »), « quels chemins sont ouverts », les deux boutons à toucher pour voir les nouveaux
 serpents, l'application Android « en préparation », « du jeu » dans la phrase sur la

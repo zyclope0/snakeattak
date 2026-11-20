@@ -21,7 +21,7 @@ Remplacé le 20 novembre 2026 par [../PLAN-ACTUEL.md](../PLAN-ACTUEL.md). Le pla
 - **Testeurs et joueurs** (20 novembre) : analyse faite et décisions du parent prises
   ([TESTEURS-ET-JOUEURS.md](../TESTEURS-ET-JOUEURS.md)). Pages « Tester sur Android » et
   « L'histoire » prêtes. Le test fermé « Alpha » existe (créé par le parent le 20 novembre,
-  groupe `snakeattack-testeurs`, trois modifications envoyées à l'examen de Google) : la page
+  groupe `snakeattack-testeurs`, trois modifications à envoyer à l'examen de Google, à confirmer) : la page
   « Tester sur Android » et son bouton sont allumés. « L'histoire » est allumée avec la
   photo du dessin déjà dans le dépôt, recadrée (en attendant une photo prise d'en haut).
   La politique de confidentialité a sa section « Test de l'application Android » (acceptée et
