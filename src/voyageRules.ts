@@ -10,10 +10,11 @@ import type { Game } from './game.ts';
  *
  * Versioned like a balance revision: version 1 never changes once children have played it.
  * A new way to open a stage is a new version next to this one. Version 2 (voyage version 2,
- * 18 November 2026) may bring the king's court.
+ * 18 November 2026) may bring the king's court. Version 3 (« La Grande Expédition », 20
+ * November 2026) is version 2 whose camp arrives already built: `Game.receiveCamp`.
  */
 export type StageRules = Readonly<{
-  version: 1 | 2;
+  version: 1 | 2 | 3;
   /** The three-headed king closes the last wave, whatever the caprice says. */
   king: boolean;
   /** With the king come his two guards and his healer. Version 2 only: version 1 has none. */
@@ -45,7 +46,7 @@ export const isBonusCard = (value: unknown): value is RewardId =>
 export function readStageRules(raw: unknown): StageRules | null {
   if (
     !isRecord(raw) ||
-    (raw.version !== 1 && raw.version !== 2) ||
+    (raw.version !== 1 && raw.version !== 2 && raw.version !== 3) ||
     typeof raw.king !== 'boolean' ||
     // Version 1 has no court; version 2 says whether the king brings it.
     (raw.version === 1 ? raw.court !== undefined : typeof raw.court !== 'boolean') ||
@@ -60,7 +61,7 @@ export function readStageRules(raw: unknown): StageRules | null {
   return Object.freeze({
     version: raw.version,
     king: raw.king,
-    ...(raw.version === 2 ? { court: raw.court === true } : {}),
+    ...(raw.version !== 1 ? { court: raw.court === true } : {}),
     coins: raw.coins,
     ward: raw.ward,
     bag: Object.freeze([...raw.bag]),
