@@ -17,6 +17,8 @@ export type DiscoveryAssets = {
   css: string;
   /** The wide picture of a shared link (`SHARE_PICTURE`); no page shows it. */
   share: string;
+  /** The child's drawing, on the page of the story once the parent has given it. */
+  drawing?: string;
   /** Browser tab, 48 px; a phone's home screen, 180 px; the logo beside the title. */
   tab: string;
   touch: string;
@@ -47,6 +49,8 @@ const labels = {
     characters: 'Les personnages',
     updates: 'Nouveautés',
     parents: 'Pour les parents',
+    story: 'L’histoire',
+    test: 'Tester sur Android',
     privacy: 'Confidentialité',
     support: 'Soutenir le développement',
     supportPay: 'Soutenir sur PayPal (nouvel onglet)',
@@ -68,6 +72,8 @@ const labels = {
     characters: 'Characters',
     updates: 'Updates',
     parents: 'For parents',
+    story: 'The story',
+    test: 'Test on Android',
     privacy: 'Privacy policy',
     support: 'Support development',
     supportPay: 'Support the game on PayPal (new tab)',
@@ -96,28 +102,39 @@ export function discoveryPageHtml(
   page: DiscoveryPage,
   assets: DiscoveryAssets,
   supportUrl = SUPPORT_URL,
+  pages: readonly DiscoveryPage[] = DISCOVERY_PAGES,
 ): string {
   const words = labels[page.lang];
-  const equivalent = DISCOVERY_PAGES.find((p) => p.key === page.key && p.lang !== page.lang)!;
-  const french = DISCOVERY_PAGES.find((p) => p.key === page.key && p.lang === 'fr')!;
-  const english = DISCOVERY_PAGES.find((p) => p.key === page.key && p.lang === 'en')!;
+  const equivalent = pages.find((p) => p.key === page.key && p.lang !== page.lang)!;
+  const french = pages.find((p) => p.key === page.key && p.lang === 'fr')!;
+  const english = pages.find((p) => p.key === page.key && p.lang === 'en')!;
   const canonical = SITE_ORIGIN + page.path;
   const support = supportLink(page.lang, supportUrl);
   // The payment link lives in one place, written for adults: the parents page. Every other
   // footer leads there, never to the payment itself; the parents page already shows it.
-  const parents = DISCOVERY_PAGES.find((p) => p.key === 'parents' && p.lang === page.lang)!;
+  const parents = pages.find((p) => p.key === 'parents' && p.lang === page.lang)!;
   const supportWay =
     support && page.key !== 'parents'
       ? `<a href="${parents.path}#${words.supportAnchor}">${words.support}</a>`
       : '';
   const story = (b: DiscoveryPage['blocks'][number]) =>
     `<section class="story"><h2>${escape(b.heading)}</h2><p>${escape(b.text)}</p>${b.link ? `<a href="${escape(b.link.href)}">${escape(b.link.label)}</a>` : ''}</section>`;
-  const navigation = DISCOVERY_PAGES.filter((p) => p.lang === page.lang)
+  // The Android test has its own button at the top of every page, not a place in this list.
+  const navigation = pages
+    .filter((p) => p.lang === page.lang && p.key !== 'test')
     .map(
       (p) =>
         `<a href="${p.path}"${p.key === page.key ? ' aria-current="page"' : ''}>${words[p.key]}</a>`,
     )
     .join('');
+  const test = pages.find((p) => p.key === 'test' && p.lang === page.lang);
+  const testButton = test
+    ? `<a class="test-android" href="${test.path}"${page.key === 'test' ? ' aria-current="page"' : ''}>${words.test}</a>`
+    : '';
+  const drawing =
+    page.figure && assets.drawing
+      ? `<figure class="drawing"><img src="${assets.drawing}" width="${page.figure.width}" height="${page.figure.height}" alt="${escape(page.figure.alt)}" loading="lazy"><figcaption>${escape(page.figure.caption)}</figcaption></figure>`
+      : '';
   const cards =
     page.key === 'characters'
       ? `<div class="figures" aria-hidden="true">${assets.characters.map((src) => `<img src="${src}" alt="" width="160" height="160" loading="lazy">`).join('')}</div>`
@@ -162,11 +179,11 @@ export function discoveryPageHtml(
 </head>
 <body>
 <a class="skip" href="#content">${words.skip}</a>
-<header class="site-header"><a class="brand" href="/${page.lang}/"><img src="${assets.logo}" alt="" width="48" height="48">${words.title}</a><a class="language" lang="${equivalent.lang}" hreflang="${equivalent.lang}" href="${equivalent.path}">${equivalent.lang === 'en' ? 'English' : 'Français'}</a><a class="play small" href="/">${words.play}</a></header>
+<header class="site-header"><a class="brand" href="/${page.lang}/"><img src="${assets.logo}" alt="" width="48" height="48">${words.title}</a><a class="language" lang="${equivalent.lang}" hreflang="${equivalent.lang}" href="${equivalent.path}">${equivalent.lang === 'en' ? 'English' : 'Français'}</a>${testButton}<a class="play small" href="/">${words.play}</a></header>
 <nav class="site-nav" aria-label="${page.lang === 'fr' ? 'Découvrir le jeu' : 'Explore the game'}">${navigation}</nav>
 <main id="content">
 <section class="intro"><div><p class="eyebrow">${words.family}</p><h1>${escape(page.heading)}</h1><p class="lead">${escape(page.lead)}</p><a class="play" href="/">${words.play}<span aria-hidden="true"> →</span></a></div><img class="hero" src="${assets.hero}" width="512" height="512" alt="${escape(words.alt)}" fetchpriority="high"></section>
-${cards}
+${cards}${drawing}
 <div class="stories">${page.blocks.map(story).join('\n')}</div>
 ${page.key === 'parents' && support ? `<section class="support-note" id="${words.supportAnchor}"><h2>${words.support}</h2><p id="${supportNote(page.lang)}">${words.external}</p>${support}</section>` : ''}
 </main>
@@ -209,11 +226,12 @@ ${half('en', 'This page does not exist.', 'The address may have changed. The gam
 </html>\n`;
 }
 
-export function discoverySitemap(): string {
+export function discoverySitemap(published: readonly DiscoveryPage[] = DISCOVERY_PAGES): string {
   const root = `<url><loc>${SITE_ORIGIN}/</loc></url>`;
   const privacy = `<url><loc>${SITE_ORIGIN}/confidentialite/</loc></url>`;
-  const pages = DISCOVERY_PAGES.map((page) => {
-    const alternatives = DISCOVERY_PAGES.filter((p) => p.key === page.key)
+  const pages = published.map((page) => {
+    const alternatives = published
+      .filter((p) => p.key === page.key)
       .map(
         (p) => `<xhtml:link rel="alternate" hreflang="${p.lang}" href="${SITE_ORIGIN}${p.path}"/>`,
       )
@@ -247,19 +265,27 @@ export const GAME_PAGE = {
 
 /**
  * What the website may add to the game page, in bytes: its names for search engines and
- * shared links, its icons, the link to the public pages. The page of the game itself keeps
- * its own limit (`scripts/check-dist.mjs`); this one is counted apart, so that neither can
- * grow by hiding in the other.
+ * shared links, its icons, the link to the public pages and, once open, to the Android test
+ * (1 280 until 20 November 2026). The page of the game itself keeps its own limit
+ * (`scripts/check-dist.mjs`); this one is counted apart, so that neither can grow by hiding
+ * in the other.
  */
-export const WEB_HEAD_BUDGET = 1280;
+export const WEB_HEAD_BUDGET = 1440;
 /** The bytes `augmentGamePage` adds to a page: the same whatever the page holds. */
-export function webHeadBytes(pictures: { share: string; touch: string }) {
+export function webHeadBytes(
+  pictures: { share: string; touch: string },
+  pages: readonly DiscoveryPage[] = DISCOVERY_PAGES,
+) {
   const shell = '<head></head><nav class="parent-actions"></nav>';
-  return Buffer.byteLength(augmentGamePage(shell, pictures)) - Buffer.byteLength(shell);
+  return Buffer.byteLength(augmentGamePage(shell, pictures, pages)) - Buffer.byteLength(shell);
 }
 
 /** Applied at build time on the website only. No storage, redirects or game rules. */
-export function augmentGamePage(html: string, pictures: { share: string; touch: string }): string {
+export function augmentGamePage(
+  html: string,
+  pictures: { share: string; touch: string },
+  pages: readonly DiscoveryPage[] = DISCOVERY_PAGES,
+): string {
   const meta =
     // One tag for search engines and for shared links: the page keeps its budget.
     `<meta name="description" property="og:description" content="${GAME_PAGE.description}">` +
@@ -276,7 +302,14 @@ export function augmentGamePage(html: string, pictures: { share: string; touch: 
     `<meta name="twitter:card" content="summary_large_image">`;
   // One link to the public pages, in the language of the game, among the buttons of « Pour
   // les parents » and as tall as they are (`.about`, src/ui/homePages.css).
-  const links = `<a class="about" data-copy-raw href="/fr/" lang="fr">À propos du jeu</a><a class="about" data-copy-raw href="/en/" lang="en">About the game</a>`;
+  // Once the Android test is open, the parents also find its page here (« bouton partout »).
+  const test = (lang: 'fr' | 'en') => {
+    const page = pages.find((p) => p.key === 'test' && p.lang === lang);
+    return page
+      ? `<a class="about" data-copy-raw href="${page.path}" lang="${lang}">${labels[lang].test}</a>`
+      : '';
+  };
+  const links = `<a class="about" data-copy-raw href="/fr/" lang="fr">À propos du jeu</a><a class="about" data-copy-raw href="/en/" lang="en">About the game</a>${test('fr')}${test('en')}`;
   // The page of the game must hold the buttons of the parents screen: a template that
   // changed would otherwise lose the link without a word.
   const anchor = /(<nav class="parent-actions"[\s\S]*?)(<\/nav>)/;

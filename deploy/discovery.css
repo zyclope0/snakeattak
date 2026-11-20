@@ -159,6 +159,38 @@ main,
 .play:hover {
   background: #f6d27a;
 }
+/* The Android test, at the top of every page while it is open: a second, quieter button. */
+.test-android {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 2px solid #137967;
+  border-radius: 14px;
+  color: #0f5f51;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.test-android:hover,
+.test-android[aria-current='page'] {
+  background: #e3f1ec;
+}
+/* The child's drawing, on the page of the story. */
+.drawing {
+  margin: 0 0 32px;
+}
+.drawing img {
+  display: block;
+  width: min(100%, 720px);
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 14px 14px #173e371c;
+}
+.drawing figcaption {
+  margin-top: 8px;
+  font-style: italic;
+}
 .play.small {
   font-size: 0.95rem;
   min-height: 48px;

@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
 import { SHARE_PICTURE, type DiscoveryAssets } from './discovery.ts';
+import { SITE_FEATURES } from './discoveryCopy.ts';
 
 /**
  * The pictures of the website. The one a shared link shows is a real battle
@@ -54,6 +55,7 @@ export function writeDiscoveryAssets(outDir: string): DiscoveryAssets {
     touch: picture('touch'),
     logo: picture('logo'),
     hero: picture('hero'),
+    ...(SITE_FEATURES.story ? { drawing: file('site-drawing', SITE_FEATURES.story.drawing) } : {}),
     characters: ['club', 'ninja', 'archer', 'dragon', 'triceratops', 'dino'].map((name) =>
       file(`site-${name}`, `src/assets/home/joueur-${name}.webp`),
     ),
