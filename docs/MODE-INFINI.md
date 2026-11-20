@@ -15,11 +15,32 @@ douzième vague, aucune résurrection.
 | Le record               | La vague atteinte, avec les rois battus à côté                                            |
 | Les records             | Chaque joueur voit le sien ; aucun classement entre les joueurs de l'appareil             |
 | Le réglage              | « Ferme » : vie ×1,45, morsure ×1,2, pièces ×0,9 à chaque roi                             |
-| Les cadeaux             | À revoir : plus de cadeaux, et un cadeau repris monte de niveau (double, triple…)         |
+| Les cadeaux             | Douze cadeaux ; un cadeau repris monte de niveau, trois au plus ; cinq places             |
 
 Le parent a ajouté le 20 novembre, en choisissant le réglage : il faut de « petits avantages »
 qui montent pour le joueur ; avec seulement trois cadeaux, l'enfant serait vite bloqué. Les
 cadeaux pris de nouveau doivent pouvoir doubler, tripler ; il en faut beaucoup plus.
+
+## Les cadeaux (décidés le 20 novembre, valeurs à mesurer)
+
+Après les vagues 4 et 8 de chaque tour, et après chaque roi, on choisit un cadeau parmi trois
+(`src/boons.ts`). Les cadeaux qui durent montent d'un niveau quand on les reprend, jusqu'au
+niveau 3, et un cadeau au niveau 3 n'est plus proposé. Ils occupent cinq places ; quand elles
+sont pleines, un nouveau prend la place que l'enfant lui donne. Les cartes « une fois » ne
+prennent pas de place.
+
+| Cadeau                          | Dure ?   | Par niveau                                           |
+| ------------------------------- | -------- | ---------------------------------------------------- |
+| La forge                        | oui      | les coups de tous les alliés +15 %                   |
+| L'armure                        | oui      | la vie de tous les alliés +15 % (ceux du camp aussi) |
+| Le marché                       | oui      | recruter coûte 10 % de moins                         |
+| La rente                        | oui      | +40 pièces à la fin de chaque vague                  |
+| Le cristal solide               | oui      | le cristal se répare de 5 après chaque vague         |
+| La longue-vue                   | oui      | les alliés qui tirent de loin voient 10 % plus loin  |
+| La réserve de miel              | oui      | +4 secondes pour chaque pot de miel                  |
+| Gardien, ninja ou raptor offert | une fois | un allié à placer                                    |
+| La garde du cristal             | une fois | absorbe 18 dégâts                                    |
+| La bourse                       | une fois | 100 pièces                                           |
 
 ## Comment ça marche dans le moteur
 
