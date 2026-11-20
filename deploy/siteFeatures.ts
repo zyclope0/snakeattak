@@ -30,8 +30,8 @@ export const PLAY_TEST_DAYS = 14;
  * dessin et l'âge »). The drawing is a JPEG or PNG at `drawing`, provided by the parent.
  */
 export const STORY = {
-  /** The age of the child when he invented the game, in years; null until the parent says. */
-  age: null as number | null,
+  /** The age of the child when he invented the game, in years (the parent, 20 November 2026). */
+  age: 8 as number | null,
   drawing: 'resources/site/dessin-du-jeu.jpg',
 };
 

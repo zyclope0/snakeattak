@@ -42,6 +42,15 @@ export const POLICY_APP = { version: '0.39.0', build: 63 };
  */
 export const WEBSITE_HEADING = { fr: 'Site web', en: 'Website' } as const;
 /**
+ * The test of the Android application before its release, through a Google Group: approved by
+ * the publisher in both languages on 20 November 2026
+ * (tests/fixtures/test-android-approuve-2026-11-20.json).
+ */
+export const ANDROID_TEST_HEADING = {
+  fr: 'Test de l’application Android',
+  en: 'Testing the Android app',
+} as const;
+/**
  * The section about advertising on the website, approved by the publisher on 17 November
  * 2026 with two sentences reworded elsewhere (`tests/fixtures/publicite-web-approuvee-…`).
  */
@@ -58,7 +67,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Éditeur ',
       { b: 'zyclope' },
     ],
-    updated: 'Mise à jour : 17 novembre 2026',
+    updated: 'Mise à jour : 20 novembre 2026',
     publicLink: `Lire cette politique sur ${SITE_HOST}`,
     sections: [
       {
@@ -93,6 +102,14 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
               href: 'https://policies.google.com/privacy?hl=fr',
             },
             '.',
+          ],
+        ],
+      },
+      {
+        heading: ANDROID_TEST_HEADING.fr,
+        paragraphs: [
+          [
+            'Pour essayer l’application avant sa sortie, un adulte peut rejoindre un groupe Google Groups ouvert à tous, puis le test de Google Play. Le groupe est géré par Google, selon ses propres règles. zyclope voit l’adresse e-mail des membres du groupe ; elle sert uniquement à ouvrir le test et à répondre aux retours. Le groupe est supprimé après la sortie de l’application. Le site lui-même ne recueille aucune adresse.',
           ],
         ],
       },
@@ -174,7 +191,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Publisher ',
       { b: 'zyclope' },
     ],
-    updated: 'Last updated: November 17, 2026',
+    updated: 'Last updated: November 20, 2026',
     publicLink: `Read this policy on ${SITE_HOST}`,
     sections: [
       {
@@ -206,6 +223,14 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
             "Google Play handles downloads and updates. Google Play also checks where the app was installed from. This check may occasionally require a connection if the Play Store has been offline for a long time. Google's handling of information through its services is described in the ",
             { a: 'Google Privacy Policy', href: 'https://policies.google.com/privacy?hl=en' },
             '.',
+          ],
+        ],
+      },
+      {
+        heading: ANDROID_TEST_HEADING.en,
+        paragraphs: [
+          [
+            'To try the app before its release, an adult may join a Google Group open to everyone, then the Google Play test. The group is run by Google, under its own terms. zyclope can see the email address of the group’s members; it is used only to open the test and answer feedback. The group is deleted once the app is out. The website itself collects no address.',
           ],
         ],
       },

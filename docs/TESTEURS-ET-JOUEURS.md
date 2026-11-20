@@ -139,8 +139,8 @@ aucun lien n'y mène ; le site publié ne change pas.
 
 ## Ce qu'il faut du parent pour allumer
 
-1. **Accord sur la phrase de la politique de confidentialité** (texte approuvé : rien ne change
-   sans lui). Proposition, à ajouter avant d'allumer la page de test :
+1. **Phrase de la politique de confidentialité** : **acceptée le 20 novembre** et ajoutée
+   (section « Test de l'application Android », mise à jour du 20 novembre 2026) :
    - FR : « Test de l'application Android. Pour essayer l'application avant sa sortie, un adulte
      peut rejoindre un groupe Google Groups ouvert à tous, puis le test de Google Play. Le groupe
      est géré par Google, selon ses propres règles. zyclope voit l'adresse e-mail des membres du
@@ -155,7 +155,8 @@ aucun lien n'y mène ; le site publié ne change pas.
    liste des membres visible par le propriétaire seulement, personne ne peut écrire), ajouté
    comme liste de testeurs d'une piste de **test fermé** où le build 63 est promu ; puis les
    deux adresses : celle du groupe et celle du lien d'inscription au test.
-3. **L'âge du fils** au moment où il a inventé le jeu, et **le dessin**.
+3. **L'âge du fils** : **8 ans** (20 novembre). **Le dessin** : attendu, à déposer à
+   `resources/site/dessin-du-jeu.jpg`.
 
 ## Pas vérifié
 

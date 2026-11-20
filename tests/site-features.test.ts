@@ -43,7 +43,8 @@ const open = siteFeatures(links, told, () => png);
 
 test('aujourd’hui, rien n’est publié : ni page de test, ni bouton, ni histoire', () => {
   assert.deepEqual(ANDROID_TEST, { group: '', optIn: '' });
-  assert.equal(STORY.age, null);
+  // The age is known; the drawing is still to come, so the story waits for it.
+  assert.equal(STORY.age, 8);
   assert.deepEqual(SITE_FEATURES, { androidTest: null, story: null });
   assert.equal(DISCOVERY_PAGES.length, 10);
   for (const page of DISCOVERY_PAGES) {
