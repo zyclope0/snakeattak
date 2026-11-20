@@ -15,7 +15,7 @@ import type { VoyagePhase, VoyageState } from '../../voyageState.ts';
 import { loadVoyageLog, logVoyage, saveVoyageLog } from '../../voyageStorage.ts';
 import type { VoyageLog } from '../../voyageStorage.ts';
 import { battleOver } from '../battleState.ts';
-import { freshSeed } from '../missionDraft.ts';
+import { freshSeed } from '../missionWords.ts';
 import type { VoyagePorts } from '../voyageDoor.ts';
 import { capriceBubble } from './capriceBubble.ts';
 import { voyageBattle } from './voyageBattle.ts';

@@ -586,6 +586,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Mission suivante": "Next mission",
   "Missions": "Missions",
   "Missions du carnet": "Sticker book missions",
+  "Missions indisponibles. Réessaie.": "Missions unavailable. Try again.",
   "Mixte": "Hybrid",
   "Mobile et moins coûteux : 4 bandages, puis retour au fort pour en reprendre.": "Mobile and cheaper: carries 4 bandages, then returns to the fort for more.",
   "Mobilité": "Mobility",

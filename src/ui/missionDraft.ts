@@ -18,6 +18,7 @@ import { byId } from './dom.ts';
 import { originalRulesLabel, portrait } from './gameParts.ts';
 import * as TEXT from '../texts/fr/missionScreens.ts';
 import { fill } from '../texts/fill.ts';
+import { assaults, freshSeed, lands, nests } from './missionWords.ts';
 
 type Progress = ReturnType<typeof createMissionProgressController>;
 type Actions = {
@@ -26,16 +27,6 @@ type Actions = {
   profileChanged?: () => void;
   launchClassic: (seed: number, balanceRevision: BalanceRevision) => void;
 };
-
-export const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
-/** The three terrains of a mission, as the preparation and the voyage map name them. */
-export const lands = [TEXT.detours, TEXT.meandres, TEXT.carrefour];
-export const assaults = {
-  balanced: TEXT.arriveesRegulieres,
-  rush: TEXT.petitsGroupesRapides,
-  escort: TEXT.avanceesGroupees,
-};
-export const nests = { spread: TEXT.eclosionsDecalees, clustered: TEXT.couveeGroupee };
 
 /** Another draw of the same mission: its rules and its caprice stay. */
 function drawAgain(run: MissionRun): MissionRun {

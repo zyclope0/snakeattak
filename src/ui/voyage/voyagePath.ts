@@ -10,7 +10,7 @@ import type { VoyageState } from '../../voyageState.ts';
 import { frenchLeaf } from '../capriceCopy.ts';
 import { stickerGraphic } from '../capriceIcons.ts';
 import { decoration, make } from '../dom.ts';
-import { lands } from '../missionDraft.ts';
+import { lands } from '../missionWords.ts';
 import { svgNode } from '../svg.ts';
 import { stopMap } from './stopMap.ts';
 import {
