@@ -353,6 +353,17 @@ export class Game {
     this.normalizeCamp();
     return true;
   }
+  /**
+   * The numbers of a wave as this game meets them: stronger for each king beaten in the
+   * endless adventure, and as « La Grande Expédition » goes on (`StageRules.strength`). Every
+   * other game gets them exactly as they are.
+   */
+  strengthen<T extends { hp: number; damage: number; reward: number }>(stats: T): T {
+    if (this.#endless) return endlessStats(stats, this.#endless, this.kings);
+    const strength = this.#stage?.strength;
+    if (!strength) return stats;
+    return { ...stats, hp: stats.hp * strength.hp, damage: stats.damage * strength.bite };
+  }
   /** Whether the card of this camp was already answered, in this round. */
   offerAnswered(milestone: Milestone): boolean {
     if (this.#endless) return this.#answered.has(`${this.kings}:${milestone}`);
@@ -646,10 +657,8 @@ export class Game {
     tickBosses(this, dt);
     updateConfusion(this, dt);
     updateAllies(this, dt);
-    const rankStats = endlessStats(
+    const rankStats = this.strengthen(
       waveStats(this.mission ? this.difficultyWave : this.wave || 1),
-      this.#endless,
-      this.kings,
     );
     const stats = {
       ...rankStats,

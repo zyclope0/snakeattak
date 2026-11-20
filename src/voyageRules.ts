@@ -1,6 +1,6 @@
 import { REWARDS } from './rewards.ts';
 import type { RewardId } from './rewards.ts';
-import { isArrayOfLength, isIntegerIn, isRecord } from './plainData.ts';
+import { isArrayOfLength, isIntegerIn, isNumberIn, isRecord } from './plainData.ts';
 import type { Game } from './game.ts';
 
 /**
@@ -24,6 +24,8 @@ export type StageRules = Readonly<{
   coins: number;
   /** Damage the crystal ward absorbs from the first wave on. */
   ward: number;
+  /** Version 3 only: how much stronger the snakes are at this point of the expedition. */
+  strength?: Readonly<{ hp: number; bite: number }>;
   /** The bonus cards kept from the earlier stages: free allies to place, longer honey. */
   bag: readonly RewardId[];
 }>;
@@ -55,7 +57,8 @@ export function readStageRules(raw: unknown): StageRules | null {
     !isIntegerIn(raw.coins, -COINS_LIMIT, COINS_LIMIT) ||
     !isIntegerIn(raw.ward, 0, WARD_LIMIT) ||
     !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||
-    !raw.bag.every(isBonusCard)
+    !raw.bag.every(isBonusCard) ||
+    (raw.strength !== undefined && (raw.version !== 3 || !isStrength(raw.strength)))
   )
     return null;
   return Object.freeze({
@@ -65,7 +68,19 @@ export function readStageRules(raw: unknown): StageRules | null {
     coins: raw.coins,
     ward: raw.ward,
     bag: Object.freeze([...raw.bag]),
+    ...(isStrength(raw.strength) ? { strength: Object.freeze({ ...raw.strength }) } : {}),
   });
+}
+
+/** Snakes made stronger, never weaker, never beyond what a typo would give. */
+const STRENGTH_LIMIT = 20;
+function isStrength(raw: unknown): raw is { hp: number; bite: number } {
+  return (
+    isRecord(raw) &&
+    Object.keys(raw).length === 2 &&
+    isNumberIn(raw.hp, 1, STRENGTH_LIMIT) &&
+    isNumberIn(raw.bite, 1, STRENGTH_LIMIT)
+  );
 }
 
 /**

@@ -28,6 +28,14 @@ const SEEDS = Number(process.env.SEEDS ?? 40);
 const PROFILES = (process.env.PROFILES ?? 'expert,moyen,apprenti').split(',');
 const PATHS = (process.env.PATHS ?? 'calme,brave,mixte').split(',');
 const TRIES = Number(process.env.TRIES ?? 3);
+// Settings to try instead of version 1's: HP=0.1 BITE=0.05 STIPEND=120.
+const T = X.EXPEDITION_TUNINGS[1];
+if (process.env.HP || process.env.BITE)
+  T.strength = {
+    hpStep: Number(process.env.HP ?? T.strength.hpStep),
+    biteStep: Number(process.env.BITE ?? T.strength.biteStep),
+  };
+if (process.env.STIPEND) T.stipend = Number(process.env.STIPEND);
 const TASTE = ['forge', 'armure', 'rente', 'marche', 'solide', 'vue', 'miel', 'pieces'];
 const seedAt = (i) => Math.imul(i + 1, 0x9e3779b1) >>> 12;
 

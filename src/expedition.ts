@@ -45,6 +45,12 @@ export type ExpeditionTuning = Readonly<{
   tableaux: readonly TableauTuning[];
   /** Coins added to the camp's purse before every mission but the first of a tableau. */
   stipend: number;
+  /**
+   * The snakes grow stronger battle after battle, all expedition long: their life and their
+   * bite are multiplied by 1 + this step at each battle won before (as in the endless
+   * adventure, where it is at each king).
+   */
+  strength: Readonly<{ hpStep: number; biteStep: number }>;
   /** « Le Feu de Camp » : crystal mended, and the share of their lost life the allies get back. */
   campfire: Readonly<{ crystal: number; heal: number }>;
   /** « La Roulotte de Mamie Pistache » : what a gift costs, and what a level up costs. */
@@ -81,6 +87,7 @@ const VERSION_1: ExpeditionTuning = {
     },
   ],
   stipend: 120,
+  strength: { hpStep: 0.1, biteStep: 0.05 },
   campfire: { crystal: 40, heal: 0.5 },
   roulotte: { gift: 200, levelUp: 150 },
   eggCoins: 150,
@@ -263,10 +270,13 @@ export function createExpeditionGame(
   const battle = nextBattle(plan, state, path);
   if (!battle) return null;
   const count = (id: RewardId) => state.bag.filter((card) => card === id).length;
+  const before = battlesBefore(state);
+  const { hpStep, biteStep } = tuningOf(state).strength;
   const rules: StageRules = {
     version: 3,
     king: battle.king,
     court: battle.court,
+    ...(before ? { strength: { hp: (1 + hpStep) ** before, bite: (1 + biteStep) ** before } } : {}),
     coins: 0,
     ward: count('cristal') * CRYSTAL_WARD,
     bag: state.bag.filter((card) => card !== 'cristal'),
@@ -295,6 +305,13 @@ export function createExpeditionGame(
     return null;
   }
 }
+
+/** The battles won before the one that waits: five a tableau. */
+export function battlesBefore(state: ExpeditionState): number {
+  const inTableau = SHAPE.slice(0, state.step).filter((shape) => shape !== 'halt').length;
+  return state.tableau * BATTLES_PER_TABLEAU + inTableau;
+}
+const BATTLES_PER_TABLEAU = SHAPE.filter((shape) => shape !== 'halt').length;
 
 /** The camp a battle won leaves: the allies standing, the coins, the crystal. */
 function campAfter(game: Game): Camp | null {
