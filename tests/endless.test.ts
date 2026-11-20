@@ -100,8 +100,8 @@ test('les serpents d’un tour sont plus forts, jamais plus nombreux', () => {
   assert.deepEqual(endlessStats(base, null, 3), base);
   const strong = endlessStats(base, RULES, 2);
   assert.equal(strong.count, base.count);
-  assert.equal(strong.hp, base.hp * (1 + 2 * RULES.hpStep));
-  assert.equal(strong.damage, base.damage * (1 + 2 * RULES.biteStep));
+  assert.equal(strong.hp, base.hp * (1 + RULES.hpStep) ** 2);
+  assert.equal(strong.damage, base.damage * (1 + RULES.biteStep) ** 2);
   // In the game: the first snake of round two is as much stronger.
   const game = endless();
   clearWave(game, TOTAL_WAVES);

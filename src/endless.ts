@@ -12,11 +12,14 @@ import { TOTAL_WAVES } from './gameConstants.ts';
  */
 export type EndlessRules = Readonly<{
   version: 1;
-  /** Each king beaten adds this share of their life to the snakes (0.25: +25 % a round). */
+  /**
+   * Each king beaten multiplies the life of the snakes by 1 + this share (0.25: ×1.25, then
+   * ×1.56…): the growth speeds up, so even a full camp falls one day.
+   */
   hpStep: number;
-  /** Each king beaten adds this share to the bite of the snakes. */
+  /** Each king beaten multiplies their bite by 1 + this share. */
   biteStep: number;
-  /** Each king beaten adds this share to the coins a wave brings (may be negative). */
+  /** Each king beaten multiplies the coins of a wave by 1 + this share (may be negative). */
   coinStep: number;
 }>;
 
@@ -58,9 +61,9 @@ export function endlessStats<T extends { hp: number; damage: number; reward: num
   if (!rules || kings <= 0) return stats;
   return {
     ...stats,
-    hp: stats.hp * (1 + rules.hpStep * kings),
-    damage: stats.damage * (1 + rules.biteStep * kings),
-    reward: Math.round(stats.reward * Math.max(0.1, 1 + rules.coinStep * kings)),
+    hp: stats.hp * (1 + rules.hpStep) ** kings,
+    damage: stats.damage * (1 + rules.biteStep) ** kings,
+    reward: Math.round(stats.reward * Math.max(0.1, (1 + rules.coinStep) ** kings)),
   };
 }
 
