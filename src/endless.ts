@@ -39,6 +39,9 @@ export const CURRENT_ENDLESS_VERSION: EndlessRules['version'] = 1;
 
 /** Steps beyond these are typos, never values to measure. */
 const STEP_LIMIT = 10;
+const COIN_STEP_MIN = -0.9;
+/** However many kings, a wave never brings less than this share of its coins. */
+const COIN_FLOOR = 0.1;
 
 /** Canonical frozen copy, or null: the engine never trusts the object it was handed. */
 export function readEndlessRules(raw: unknown): EndlessRules | null {
@@ -48,7 +51,7 @@ export function readEndlessRules(raw: unknown): EndlessRules | null {
     raw.balance !== ENDLESS_RULES[1].balance ||
     !isNumberIn(raw.hpStep, 0, STEP_LIMIT) ||
     !isNumberIn(raw.biteStep, 0, STEP_LIMIT) ||
-    !isNumberIn(raw.coinStep, -0.9, STEP_LIMIT)
+    !isNumberIn(raw.coinStep, COIN_STEP_MIN, STEP_LIMIT)
   )
     return null;
   return Object.freeze({
@@ -71,7 +74,7 @@ export function endlessStats<T extends { hp: number; damage: number; reward: num
     ...stats,
     hp: stats.hp * (1 + rules.hpStep) ** kings,
     damage: stats.damage * (1 + rules.biteStep) ** kings,
-    reward: Math.round(stats.reward * Math.max(0.1, (1 + rules.coinStep) ** kings)),
+    reward: Math.round(stats.reward * Math.max(COIN_FLOOR, (1 + rules.coinStep) ** kings)),
   };
 }
 
@@ -80,3 +83,35 @@ export const endlessWave = (kings: number, wave: number) => kings * TOTAL_WAVES 
 
 /** More kings than this were never beaten: a save that says so was not written by the game. */
 export const KINGS_LIMIT = 1000;
+
+/**
+ * The endless adventure opens once King Snake is beaten in the great adventure (decision of
+ * the parent, 20 November 2026): the last chapter of the career has a star.
+ */
+export const endlessUnlocked = (bestStars: readonly number[]) => (bestStars.at(-1) ?? 0) > 0;
+
+/**
+ * The wave an endless game has reached, for its record: the wave it fell at, or, in the camp
+ * after a king, the wave of that king. Zero while nothing is reached yet.
+ */
+export function endlessReached(game: { kings: number; wave: number; status: string }): number {
+  if (game.status === 'lost') return endlessWave(game.kings, game.wave);
+  return game.status === 'preparing' && game.wave === 0 ? game.kings * TOTAL_WAVES : 0;
+}
+
+/**
+ * The camp right after a king of the endless adventure, its gift chosen: the child goes on, or
+ * goes home with the record (the game stays saved, and may be taken up again).
+ */
+export const atKingCamp = (game: {
+  endless: unknown;
+  status: string;
+  wave: number;
+  kings: number;
+  rewards: { pending: unknown };
+}) =>
+  !!game.endless &&
+  game.status === 'preparing' &&
+  game.wave === 0 &&
+  game.kings > 0 &&
+  game.rewards.pending === null;

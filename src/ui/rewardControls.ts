@@ -31,7 +31,7 @@ export function bindRewardControls(session: Session, refresh: () => void) {
   let replacing: LastingBoon | null = null;
   const choose = (id: string) => {
     const game = session.game;
-    if (!replacing && needsPlace(game, id)) {
+    if (!replacing && game.boonNeedsPlace(id)) {
       replacing = id as LastingBoon;
       refresh();
       title.focus({ preventScroll: true });
@@ -105,12 +105,8 @@ export function bindRewardControls(session: Session, refresh: () => void) {
 }
 
 const isRewardId = (id: string): id is RewardId => Object.hasOwn(REWARDS, id);
-/** A new lasting gift of the endless adventure, while the five places are taken. */
-const needsPlace = (game: Game, id: string) =>
-  !!game.endless && isLastingBoon(id) && !game.boonLevel(id) && game.boons.length >= BOON_PLACES;
-
 function panelTitle(game: Game, replacing: LastingBoon | null): string {
-  if (replacing) return fill(TEXT.tesNPlacesSontPrises, BOON_PLACES);
+  if (replacing) return fill(TEXT.tesNPlacesSontPrises, game.boonRules.places);
   if (game.endless && game.rewards.pending === TOTAL_WAVES)
     return TEXT.kingSnakeEstVaincuChoisisTonCadeau;
   const wave = game.endless ? endlessWave(game.kings, game.wave) : game.wave;
@@ -135,9 +131,8 @@ function rewardCard(choose: (id: string) => void) {
 function showReward(card: RewardCard, game: Game, id: string, paused: boolean, place: boolean) {
   card.button.disabled = paused;
   const copy = giftCopy(game, id);
-  const level = isLastingBoon(id) ? game.boonLevel(id) : 0;
   // A gift held is shown as it stands when the child picks one to replace.
-  const detail = place && isLastingBoon(id) ? boonNow(id, level) : copy.detail;
+  const detail = place && isLastingBoon(id) ? boonNow(game, id) : copy.detail;
   const action = place ? TEXT.remplacer : copy.action;
   const key = `${id}:${detail}:${action}`;
   if (card.button.dataset.shown === key) return;
@@ -157,7 +152,7 @@ function paintRewardIcon(icon: HTMLElement, id: string) {
   icon.style.cssText = '';
   setDisplayText(icon, '');
   if (isLastingBoon(id) && id !== 'miel') {
-    icon.classList.add('reward-crystal', 'reward-boon');
+    icon.classList.add('reward-crystal');
     setDisplayText(icon, BOON_SIGNS[id]);
   } else if (kind) icon.style.cssText = portraitStyle(kind);
   else if (id === 'miel') {

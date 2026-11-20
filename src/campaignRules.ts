@@ -34,12 +34,17 @@ export const chapterStars = (minBase: number): 1 | 2 | 3 =>
 const TRAININGS = ['none', 'force', 'guard'] as const;
 
 /** Read a prepared camp without granting future scores or an early training. */
-export function readCampaign(raw: unknown, wave: number): CampaignState | null {
+export function readCampaign(
+  raw: unknown,
+  wave: number,
+  /** A later round of the endless adventure: the hero may have trained in an earlier one. */
+  laterRound = false,
+): CampaignState | null {
   if (!isRecord(raw) || !isIntegerIn(wave, 0, TOTAL_WAVES)) return null;
   if (
     !isOneOf(raw.training, TRAININGS) ||
     // The hero trains at the first chapter camp at the earliest.
-    (raw.training !== 'none' && wave < WAVES_PER_CHAPTER) ||
+    (raw.training !== 'none' && wave < WAVES_PER_CHAPTER && !laterRound) ||
     !isArrayOfLength(raw.chapterMin, CHAPTER_COUNT, CHAPTER_COUNT) ||
     !raw.chapterMin.every((hp) => isNumberIn(hp, 0, CRYSTAL_MAX)) ||
     !isArrayOfLength(raw.chapterStars, CHAPTER_COUNT, CHAPTER_COUNT) ||

@@ -107,7 +107,7 @@ function showWave(game: Game) {
   showText('wave-total', String(game.totalWaves));
   byId('wave-of').hidden = endless;
   byId('wave-kings').hidden = !endless;
-  if (endless) showText('wave-kings', fill(TEXT.nRois, game.kings, game.kings > 1 ? 's' : ''));
+  if (endless) showText('wave-kings', fill(TEXT.nRois, game.kings));
 }
 
 function showWaveDots(game: Game, dots: HTMLElement[]) {

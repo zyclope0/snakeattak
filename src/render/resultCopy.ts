@@ -10,19 +10,16 @@ const missionVictoryTitle = (game: Pick<Game, 'mission' | 'stage'>) =>
 
 type EndlessGame = Pick<Game, 'endless' | 'kings' | 'wave' | 'status'>;
 /**
- * The end of an endless adventure, won (home with the record) or lost: how far it went, never
- * « try again », since there is no end to reach.
+ * The end of an endless adventure, when the camp falls: how far it went, never « try again »,
+ * since there is no end to reach. (Going home after a king is no end: the game waits.)
  */
 export function endlessCopy(game: EndlessGame) {
-  const home = game.status === 'won';
-  const wave = endlessWave(game.kings, home ? 0 : game.wave);
   return {
-    title: home ? TEXT.bienJoue : TEXT.quelleAventure,
+    title: TEXT.quelleAventure,
     subtitle: fill(
       TEXT.tuAsTenuJusquALaVagueNAvecNRois,
-      Math.max(1, wave),
+      Math.max(1, endlessWave(game.kings, game.wave)),
       game.kings,
-      game.kings > 1 ? 's' : '',
     ),
   };
 }

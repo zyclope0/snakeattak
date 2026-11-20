@@ -591,3 +591,9 @@
     grid-column: 1;
   }
 }
+/* The endless adventure: the player's own record, or how to open it, under the buttons. */
+#home-screen .endless-record {
+  margin: 4px 0 0;
+  color: #d7e6dc;
+  font-size: 15px;
+}

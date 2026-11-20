@@ -1,6 +1,6 @@
 import { isMilestone, readEndlessRewards, readRewards } from './rewards.ts';
 import { ENDLESS_RULES, KINGS_LIMIT } from './endless.ts';
-import { BOON_STEPS, boonLevel, readBoons } from './boons.ts';
+import { BOON_RULES, boonLevel, readBoons } from './boons.ts';
 import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
 import { Game } from './game.ts';
@@ -263,13 +263,20 @@ function restoreDepartureSeed(game: Game, save: Save, mission: MissionRun | null
   return true;
 }
 
+/** The life of the allies of an endless camp: its armour, by its own gift table. */
+function armourOf(save: Save): number {
+  if (save.version !== ENDLESS_VERSION) return 1;
+  const rules = BOON_RULES[save.endless as 1];
+  return 1 + boonLevel(readBoons(save.boons, rules) ?? [], 'armure') * rules.steps.armure;
+}
+
 /** The living allies, each with its own identifier, and at most one hero. */
 function restoreUnits(game: Game, save: Save): boolean {
   const format = {
     homes: savesHomes(save.version),
     supplies: isModern(save.version),
     nextId: save.nextId,
-    lifeFactor: 1 + boonLevel(readBoons(save.boons) ?? [], 'armure') * BOON_STEPS.armure,
+    lifeFactor: armourOf(save),
   };
   const ids = new Set<number>();
   let heroes = 0;
@@ -327,7 +334,7 @@ function restoreCampaign(game: Game, save: Save, mission: MissionRun | null): bo
     Object.assign(game.campaign, legacyCampaign(save.wave, save.base));
     return true;
   }
-  const campaign = readCampaign(save.campaign, mission ? TOTAL_WAVES : save.wave);
+  const campaign = readCampaign(save.campaign, mission ? TOTAL_WAVES : save.wave, game.kings > 0);
   if (!campaign || (mission && exceedsMission(campaign, mission))) return false;
   Object.assign(game.campaign, campaign);
   return true;

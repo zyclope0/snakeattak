@@ -73,7 +73,8 @@ function outcomeGuide(game: Game): BattleGuide | null {
 
 /** Before the very first wave: choose, place, launch. */
 function firstStepsGuide(session: Session): BattleGuide | null {
-  if (session.game.wave !== 0) return null;
+  // The camp after a king of the endless adventure is no first step.
+  if (session.game.wave !== 0 || session.game.kings > 0) return null;
   if (!session.hasPlaced)
     return {
       title: TEXT.n1ChoisisTonPremierAllie,

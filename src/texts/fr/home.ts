@@ -35,4 +35,6 @@ export const leVoyageNAPasPuSOuvrirReessaie = 'Le voyage n’a pas pu s’ouvrir
 export const confidentialite = 'Confidentialité';
 export const confidentialiteIndisponible = 'Confidentialité indisponible. Réessaie.';
 /** The best endless adventure of the active player: the wave, the kings beaten. */
-export const tonRecordVagueNNRois = 'Ton record : vague {0}, {1} roi{2} battu{2}';
+export const tonRecordVagueNNRois = 'Ton record : vague {0} · rois battus : {1}';
+/** Under a mission, when the camp waiting is an endless adventure. */
+export const reprendreMonAventureSansFin = 'Reprendre mon aventure sans fin';

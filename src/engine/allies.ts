@@ -15,10 +15,9 @@ import { moveUnit, returnHome } from './movement.ts';
 import { hitEnemy } from './damage.ts';
 import { swimTurn } from './swim.ts';
 import { spinosaurusRule } from '../balanceRevision.ts';
-import { BOON_STEPS } from '../boons.ts';
+import type { Game } from '../game.ts';
 /** Allies with this reach or more shoot from afar. */
 const FAR_SHOT = 100;
-import type { Game } from '../game.ts';
 
 /** Helpers sent to each blocked snake this step, by snake id (see `reliefTeams`). */
 type Relief = Map<number, Set<number>>;
@@ -150,7 +149,7 @@ function fight(game: Game, u: Entity, dt: number, relief: Relief, assignments: A
 function allyReach(game: Game, u: Entity): number {
   const range = kinds[u.kind as Kind].range;
   const sight = game.boonLevel('vue');
-  return sight && range >= FAR_SHOT ? range * (1 + sight * BOON_STEPS.vue) : range;
+  return sight && range >= FAR_SHOT ? range * (1 + game.boonGain('vue')) : range;
 }
 function chooseTarget(
   game: Game,
@@ -204,7 +203,7 @@ function strike(game: Game, u: Entity, target: Entity) {
   const damage =
     attackDamage(u.kind as Kind, u.charge, game.tuning.mutantDamageFactor) *
     (u.kind === 'hero' && game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1) *
-    (1 + game.boonLevel('forge') * BOON_STEPS.forge);
+    (1 + game.boonGain('forge'));
   // Where the blow is aimed, kept before it lands: a ninja snake that lets it pass leaves
   // from there, and the blow is drawn where it missed, not where the snake came back.
   const aimed = { id: target.id, x: target.x, y: target.y };

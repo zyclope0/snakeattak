@@ -4,11 +4,18 @@ import { registerHooks } from 'node:module';
 import { CURRENT_BALANCE_REVISION } from '../src/balanceRevision.ts';
 import { decodeCheckpoint, encodeCheckpoint } from '../src/checkpoints.ts';
 import { waveStats } from '../src/data.ts';
-import { ENDLESS_RULES, endlessStats, endlessWave, readEndlessRules } from '../src/endless.ts';
+import {
+  ENDLESS_RULES,
+  atKingCamp,
+  endlessReached,
+  endlessStats,
+  endlessWave,
+  readEndlessRules,
+} from '../src/endless.ts';
 import { TOTAL_WAVES } from '../src/gameConstants.ts';
 import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
-import { BOON_MAX_LEVEL, BOON_PLACES, BOON_STEPS, boonOffer, takeBoon } from '../src/boons.ts';
+import { BOON_MAX_LEVEL, BOON_PLACES, BOON_RULES, boonOffer, takeBoon } from '../src/boons.ts';
 import type { Boons, LastingBoon } from '../src/boons.ts';
 
 registerHooks({
@@ -24,6 +31,7 @@ registerHooks({
 });
 
 const RULES = ENDLESS_RULES[1];
+const BOON_STEPS = BOON_RULES[1].steps;
 const endless = (seed = 7) =>
   new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION, undefined, RULES);
 
@@ -231,14 +239,67 @@ test('un camp de l’aventure sans fin se sauvegarde et se relit tel quel', () =
   assert.equal(decodeCheckpoint(encodeCheckpoint(classic)!)!.endless, null);
 });
 
-test('« Rentrer avec mon record » : seulement dans le camp d’après un roi, cadeau choisi', () => {
+test('le camp d’après un roi : cadeau choisi, on continue ou on rentre ; le record retenu', () => {
   const game = endless();
-  assert.equal(game.retire(), false, 'not before a king');
+  assert.equal(atKingCamp(game), false, 'not before a king');
+  assert.equal(endlessReached(game), 0);
   clearWave(game, TOTAL_WAVES);
-  assert.equal(game.retire(), false, 'not before the gift is chosen');
+  assert.equal(atKingCamp(game), false, 'not before the gift is chosen');
+  assert.equal(endlessReached(game), TOTAL_WAVES, 'the king is already a record');
   assert.ok(game.skipReward());
-  assert.ok(game.retire());
-  assert.equal(game.status, 'won');
-  assert.equal(game.startWave(), false, 'the game is over');
-  assert.equal(new Game(7).retire(), false, 'never in another game');
+  assert.ok(atKingCamp(game));
+  assert.ok(game.startWave(), 'the game goes on');
+  game.base = 0;
+  game.step(1 / 30);
+  assert.equal(game.status, 'lost');
+  assert.equal(endlessReached(game), TOTAL_WAVES + 1, 'fallen at wave 13');
+});
+
+test('un héros entraîné : le camp d’après le roi se relit', () => {
+  const game = endless();
+  clearWave(game, 4);
+  game.skipReward();
+  game.campaign.training = 'guard';
+  clearWave(game, TOTAL_WAVES);
+  game.skipReward();
+  const back = decodeCheckpoint(encodeCheckpoint(game)!);
+  assert.ok(back, 'read back at wave 0 of the second round');
+  assert.equal(back.campaign.training, 'guard');
+});
+
+test('après un roi, tous les alliés restent ouverts ; un renfort offert se place', () => {
+  const game = endless();
+  assert.equal(game.isUnlocked('trex'), false);
+  clearWave(game, TOTAL_WAVES);
+  for (const kind of ['raptor', 'shield', 'trex', 'spinosaurus', 'tank'] as const)
+    assert.ok(game.isUnlocked(kind), kind);
+  game.skipReward();
+  game.gold = 10_000;
+  assert.ok(game.recruit('raptor', 756, 324));
+});
+
+test('la forge frappe plus fort, la longue-vue porte plus loin', () => {
+  const game = endless();
+  const plain = endless();
+  for (const g of [game, plain]) {
+    g.rewards.pending = 4;
+  }
+  assert.ok(takeInGame(game, 'forge'));
+  assert.ok(takeInGame(game, 'vue'));
+  game.kings = 0;
+  assert.equal(game.boonGain('forge'), BOON_STEPS.forge);
+  assert.equal(game.boonGain('vue'), BOON_STEPS.vue);
+  // A blow of the hero on the same snake, with and without the forge.
+  const blow = (g: Game) => {
+    g.wave = 0;
+    g.status = 'preparing';
+    g.rewards.pending = null;
+    assert.ok(g.startWave());
+    for (let i = 0; i < 4000 && !g.enemies.some((e) => e.hp < e.maxHp); i++) g.step(1 / 30);
+    const hurt = g.enemies.find((e) => e.hp < e.maxHp)!;
+    return hurt.maxHp - hurt.hp;
+  };
+  const strong = blow(game),
+    weak = blow(plain);
+  assert.ok(strong > weak, `forge ${strong} > ${weak}`);
 });

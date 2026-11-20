@@ -10,14 +10,8 @@ import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
 import { GROUND_ART } from '../art.ts';
 import { chapterIdentityForWave } from '../waves.ts';
-import {
-  CHAPTER_COUNT,
-  START_GOLD,
-  START_TEAM_SIZE,
-  TOTAL_WAVES,
-  WAVES_PER_CHAPTER,
-} from '../gameConstants.ts';
-import { endlessWave } from '../endless.ts';
+import { START_GOLD, START_TEAM_SIZE, TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
+import { endlessUnlocked, endlessWave } from '../endless.ts';
 import type { EndlessRecords } from '../endlessRecords.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { byId } from './dom.ts';
@@ -36,6 +30,8 @@ type Actions = {
   refresh: () => void;
   progressStatus?: () => string;
   navigate?: (page: HomePage) => void;
+  /** Whether the stored classic camp, waiting under a mission, is an endless adventure. */
+  campIsEndless?: () => boolean;
   /** The best endless adventures of the active player, best first. */
   records?: () => EndlessRecords;
 };
@@ -55,8 +51,9 @@ const begun = (session: Session) => {
   );
 };
 
-function continueLabel(g: Game) {
-  if (g.mission) return TEXT.reprendreMonAventureClassique;
+function continueLabel(g: Game, campIsEndless: boolean) {
+  if (g.mission)
+    return campIsEndless ? TEXT.reprendreMonAventureSansFin : TEXT.reprendreMonAventureClassique;
   if (g.status === 'lost') return TEXT.reessayerLaVague;
   // The endless adventure counts its waves from the very first one.
   const shown = (wave: number) => (g.endless ? endlessWave(g.kings, wave) : wave);
@@ -114,7 +111,7 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
   setDisplayText(byId('career-status'), actions.progressStatus?.() ?? career.status);
   byId<HTMLButtonElement>('home-continue').hidden =
     !actions.hasCamp() || (!g.mission && g.status === 'won');
-  setDisplayText(byId('home-continue'), continueLabel(g));
+  setDisplayText(byId('home-continue'), continueLabel(g, !!actions.campIsEndless?.()));
   byId<HTMLButtonElement>('home-army').disabled = g.status === 'fighting';
   setDisplayTitle(
     byId('home-army'),
@@ -133,16 +130,13 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
  * stands under its button; nobody else's.
  */
 function refreshEndless(bestStars: readonly number[], records: EndlessRecords) {
-  const open = bestStars[CHAPTER_COUNT - 1] > 0;
+  const open = endlessUnlocked(bestStars);
   byId('home-endless').hidden = !open;
   byId('endless-locked').hidden = open;
   const best = records[0];
   byId('endless-record').hidden = !open || !best;
   if (best)
-    setDisplayText(
-      byId('endless-record'),
-      fill(TEXT.tonRecordVagueNNRois, best.wave, best.kings, best.kings > 1 ? 's' : ''),
-    );
+    setDisplayText(byId('endless-record'), fill(TEXT.tonRecordVagueNNRois, best.wave, best.kings));
 }
 
 /** The home screen and the classic adventure: where a game starts, resumes or is replaced. */

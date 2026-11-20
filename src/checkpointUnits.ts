@@ -71,8 +71,7 @@ export type UnitFormat = Readonly<{
 
 type Supplies = {
   medical: MedicalState | null;
-  cool: number; /** The life of every ally, as a multiple of its kind's: more than one with the armour. */
-  lifeFactor?: number;
+  cool: number;
 };
 
 /** A healer's supplies and delay before its next care; the other allies must carry none. */

@@ -1,38 +1,42 @@
 import { REWARDS, type RewardId } from '../rewards.ts';
-import { BOON_MAX_LEVEL, BOON_STEPS, isLastingBoon, type LastingBoon } from '../boons.ts';
+import { isLastingBoon, type BoonRules, type LastingBoon } from '../boons.ts';
 import type { Game } from '../game.ts';
 import * as TEXT from '../texts/fr/camp.ts';
 import { fill } from '../texts/fill.ts';
 
 /** The name of a lasting gift, and what it gives at a level, counted from nothing. */
-const LASTING: Record<LastingBoon, { title: string; detail: (level: number) => string }> = {
+type Steps = BoonRules['steps'];
+const LASTING: Record<
+  LastingBoon,
+  { title: string; detail: (level: number, steps: Steps) => string }
+> = {
   forge: {
     title: TEXT.laForge,
-    detail: (level) => fill(TEXT.tesAlliesFrappentPlusFortN, percent(BOON_STEPS.forge * level)),
+    detail: (level, steps) => fill(TEXT.tesAlliesFrappentPlusFortN, percent(steps.forge * level)),
   },
   armure: {
     title: TEXT.lArmure,
-    detail: (level) => fill(TEXT.tesAlliesOntPlusDeVieN, percent(BOON_STEPS.armure * level)),
+    detail: (level, steps) => fill(TEXT.tesAlliesOntPlusDeVieN, percent(steps.armure * level)),
   },
   marche: {
     title: TEXT.leMarche,
-    detail: (level) => fill(TEXT.recruterCouteNMoins, percent(BOON_STEPS.marche * level)),
+    detail: (level, steps) => fill(TEXT.recruterCouteNMoins, percent(steps.marche * level)),
   },
   rente: {
     title: TEXT.laRente,
-    detail: (level) => fill(TEXT.nPiecesAChaqueVague, BOON_STEPS.rente * level),
+    detail: (level, steps) => fill(TEXT.nPiecesAChaqueVague, steps.rente * level),
   },
   solide: {
     title: TEXT.leCristalSolide,
-    detail: (level) => fill(TEXT.leCristalSeRepareDeN, BOON_STEPS.solide * level),
+    detail: (level, steps) => fill(TEXT.leCristalSeRepareDeN, steps.solide * level),
   },
   vue: {
     title: TEXT.laLongueVue,
-    detail: (level) => fill(TEXT.tesTireursVoientNPlusLoin, percent(BOON_STEPS.vue * level)),
+    detail: (level, steps) => fill(TEXT.tesTireursVoientNPlusLoin, percent(steps.vue * level)),
   },
   miel: {
     title: REWARDS.miel.title,
-    detail: (level) => fill(TEXT.nSecondesPourChaquePotDeMiel, BOON_STEPS.miel * level),
+    detail: (level, steps) => fill(TEXT.nSecondesPourChaquePotDeMiel, steps.miel * level),
   },
 };
 const percent = (share: number) => Math.round(share * 100);
@@ -47,10 +51,10 @@ export type GiftCopy = { title: string; detail: string; action: string };
 export function giftCopy(game: Game, id: string): GiftCopy {
   if (game.endless && isLastingBoon(id)) {
     const owned = game.boonLevel(id);
-    const next = Math.min(BOON_MAX_LEVEL, owned + 1);
+    const next = Math.min(game.boonRules.maxLevel, owned + 1);
     return {
       title: LASTING[id].title,
-      detail: LASTING[id].detail(next),
+      detail: LASTING[id].detail(next, game.boonRules.steps),
       action: owned ? fill(TEXT.monterAuNiveauN, next) : TEXT.choisirCeBonus,
     };
   }
@@ -59,8 +63,14 @@ export function giftCopy(game: Game, id: string): GiftCopy {
 }
 
 /** A lasting gift the child holds, on the card that may give its place: stars, then what it gives. */
-export const boonNow = (id: LastingBoon, level: number) =>
-  fill(TEXT.nNiveauEtoiles, '★'.repeat(level), LASTING[id].detail(level));
+export const boonNow = (game: Game, id: LastingBoon) => {
+  const level = game.boonLevel(id);
+  return fill(
+    TEXT.nNiveauEtoiles,
+    '★'.repeat(level),
+    LASTING[id].detail(level, game.boonRules.steps),
+  );
+};
 
 /** A lasting gift under the camp: its name and one star a level. */
 export const boonBadge = (id: LastingBoon, level: number) =>

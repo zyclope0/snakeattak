@@ -1,4 +1,4 @@
-import { isArrayOfLength, isIntegerIn, isRecord, readBoundedJson } from './plainData.ts';
+import { isArrayOfLength, isIntegerIn, isRecord, isUint32, readBoundedJson } from './plainData.ts';
 import { ENDLESS_RULES, KINGS_LIMIT } from './endless.ts';
 import type { EndlessRules } from './endless.ts';
 import { TOTAL_WAVES } from './gameConstants.ts';
@@ -13,28 +13,35 @@ export const RECORDS_KEPT = 5;
 /** A stored list is never longer: anything beyond was not written by the game. */
 const RECORDS_CHARACTER_LIMIT = 2000;
 
-/** One game: the wave reached, counted from the first one, and the rules it was played by. */
+/**
+ * One game: the wave reached, counted from the first one, the kings beaten, the rules it was
+ * played by, and its departure seed. A game is written again each time it goes further (after
+ * each king, when it falls), and a wave tried again stays the same game: one line a game.
+ */
 export type EndlessRecord = Readonly<{
   wave: number;
   kings: number;
   rules: EndlessRules['version'];
+  run: number;
 }>;
 export type EndlessRecords = readonly EndlessRecord[];
 
-/** The best first: more waves; for as many waves, the newer game stays behind. */
-const better = (a: EndlessRecord, b: EndlessRecord) => b.wave - a.wave;
+/** The best first: more waves, then more kings; for a tie, the earlier game stays first. */
+const better = (a: EndlessRecord, b: EndlessRecord) => b.wave - a.wave || b.kings - a.kings;
+const beats = (a: EndlessRecord, b: EndlessRecord | undefined) => !b || better(a, b) < 0;
 
 function readRecord(raw: unknown): EndlessRecord | null {
   if (
     !isRecord(raw) ||
     !isIntegerIn(raw.rules, 1, 1) ||
     !Object.hasOwn(ENDLESS_RULES, raw.rules) ||
+    !isUint32(raw.run) ||
     !isIntegerIn(raw.kings, 0, KINGS_LIMIT) ||
-    // A child who stops after a king keeps the wave of that king; one who falls, the wave lost.
+    // A game stopped after a king keeps the wave of that king; one that falls, the wave lost.
     !isIntegerIn(raw.wave, Math.max(1, raw.kings * TOTAL_WAVES), (raw.kings + 1) * TOTAL_WAVES)
   )
     return null;
-  return Object.freeze({ wave: raw.wave, kings: raw.kings, rules: raw.rules as 1 });
+  return Object.freeze({ wave: raw.wave, kings: raw.kings, rules: raw.rules as 1, run: raw.run });
 }
 
 /** The stored records, best first; an empty list for nothing stored or anything doubtful. */
@@ -45,7 +52,9 @@ export function readRecords(raw: string | null): EndlessRecords {
       if (!isRecord(data) || data.version !== 1 || !isArrayOfLength(data.best, 0, RECORDS_KEPT))
         return null;
       const best = data.best.map(readRecord);
-      return best.every((r) => r !== null) ? [...(best as EndlessRecord[])].sort(better) : null;
+      if (best.some((r) => r === null)) return null;
+      const runs = new Set(best.map((r) => r!.run));
+      return runs.size === best.length ? [...(best as EndlessRecord[])].sort(better) : null;
     }) ?? []
   );
 }
@@ -54,12 +63,16 @@ export const writeRecords = (records: EndlessRecords): string =>
   JSON.stringify({ version: 1, best: records });
 
 /**
- * Adds a finished game: the list keeps the five best. `best` tells whether it beats every
- * earlier game of this player (the first game is a record too).
+ * Writes how far a game went: its line climbs, or a new line comes; the list keeps the five
+ * best. `best` tells whether it now beats every other game of this player, and its own line
+ * as it stood (the first game is a record too).
  */
 export function addRecord(records: EndlessRecords, game: EndlessRecord) {
-  const best = !records.length || game.wave > records[0].wave;
-  return { records: [...records, game].sort(better).slice(0, RECORDS_KEPT), best };
+  const own = records.find((r) => r.run === game.run);
+  if (own && !beats(game, own)) return { records, best: false };
+  const others = records.filter((r) => r.run !== game.run);
+  const best = beats(game, records[0]);
+  return { records: [...others, game].sort(better).slice(0, RECORDS_KEPT), best };
 }
 
 /** The endless adventures, over, that set their player's new record: the result says so. */
@@ -78,9 +91,11 @@ export function createRecordBook(storage?: StoragePort) {
   };
   return {
     read,
-    /** Writes a finished game; returns whether it is the player's new record. */
+    /** Writes how far a game went; returns whether it is now the player's record. */
     add(game: EndlessRecord): boolean {
-      const { records, best } = addRecord(read(), game);
+      const before = read();
+      const { records, best } = addRecord(before, game);
+      if (records === before) return false;
       try {
         storage?.setItem(ENDLESS_RECORDS_KEY, writeRecords(records));
       } catch {

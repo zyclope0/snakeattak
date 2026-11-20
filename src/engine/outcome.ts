@@ -4,7 +4,6 @@ import { missionById } from '../missions.ts';
 import { isMilestone } from '../rewards.ts';
 import type { Milestone } from '../rewards.ts';
 import { CRYSTAL_MAX, TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
-import { BOON_STEPS } from '../boons.ts';
 import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
 import { climbOut } from './swim.ts';
@@ -60,9 +59,9 @@ function closeWave(game: Game, reward: number) {
     const chapter = chapterIndex(game.wave);
     game.campaign.chapterStars[chapter] = chapterStars(game.campaign.chapterMin[chapter]);
   }
-  game.gold += reward + game.boonLevel('rente') * BOON_STEPS.rente;
+  game.gold += reward + game.boonGain('rente');
   // « Le cristal solide » mends the crystal a little after every wave.
-  game.base = Math.min(CRYSTAL_MAX, game.base + game.boonLevel('solide') * BOON_STEPS.solide);
+  game.base = Math.min(CRYSTAL_MAX, game.base + game.boonGain('solide'));
   if (game.endless && game.wave === game.totalWaves) return nextRound(game);
   game.status = game.wave === game.totalWaves ? 'won' : 'preparing';
   if (game.status === 'won') {

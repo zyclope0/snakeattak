@@ -85,10 +85,8 @@ export const nouveauSerpentN = 'Nouveau serpent : {0} !';
 export const nouvelAllieN = 'Nouvel allié : {0} !';
 export const nouveauxAlliesNEtN = 'Nouveaux alliés : {0} et {1} !';
 export const nouveauxAlliesNNEtN = 'Nouveaux alliés : {0}, {1} et {2} !';
-/** End of an endless adventure: home with the record. */
-export const bienJoue = 'Bien joué !';
 /** End of an endless adventure: the camp fell. */
 export const quelleAventure = 'Quelle aventure !';
 /** End of an endless adventure: how far it went. */
 export const tuAsTenuJusquALaVagueNAvecNRois =
-  'Tu as tenu jusqu’à la vague {0}, avec {1} roi{2} battu{2}.';
+  'Tu as tenu jusqu’à la vague {0}. Rois battus : {1}.';

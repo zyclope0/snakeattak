@@ -111,6 +111,5 @@ export const garderMesCadeaux = 'Garder mes cadeaux';
 export const kingSnakeEstVaincuChoisisTonCadeau = 'King Snake est vaincu ! Choisis ton cadeau';
 /** A gift and its level, under the camp: « La forge ★★ ». */
 export const nNiveauEtoiles = '{0} {1}';
-/** The start button after a king, and the other way: home with the record. */
+/** The start button after a king. */
 export const continuer = 'Continuer';
-export const rentrerAvecMonRecord = 'Rentrer avec mon record';

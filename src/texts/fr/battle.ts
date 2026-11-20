@@ -48,5 +48,3 @@ export const kingSnakeEstVaincuIlRevientPlusFort =
   'King Snake est vaincu ! Il reviendra plus fort. Choisis un cadeau.';
 /** The endless adventure: the king of a later round arrives. */
 export const kingSnakeRevient = 'King Snake revient, plus fort !';
-/** The endless adventure: the child stops after a king and keeps the record. */
-export const tuRentresAvecTonRecord = 'Tu rentres au château avec ton record.';

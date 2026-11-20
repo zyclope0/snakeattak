@@ -36,6 +36,6 @@ export const soignantRefaitSonStock = 'soignant refait son stock';
 export const soignantsRefontLeurStock = 'soignants refont leur stock';
 export const crachatAnnonceAuSol = ' · Crachat annoncé au sol';
 /** The endless adventure: kings beaten, beside the wave. */
-export const nRois = '· {0} roi{1}';
+export const nRois = '· rois : {0}';
 /** The endless adventure beat the player's own best. */
 export const nouveauRecord = 'Nouveau record !';

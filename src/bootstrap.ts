@@ -46,7 +46,7 @@ import './ui/mainActions.css';
 import { byId } from './ui/dom.ts';
 import * as TEXT from './texts/fr/home.ts';
 import { createRecordBook, newRecords } from './endlessRecords.ts';
-import { endlessWave } from './endless.ts';
+import { endlessReached } from './endless.ts';
 import { START_TEAM_SIZE } from './gameConstants.ts';
 
 // The page is assembled here, top to bottom: what is stored, the game on screen, then every
@@ -69,8 +69,10 @@ const albums = createCapriceAlbumsController(
 );
 const stickerResults = new WeakMap<Game, boolean>();
 const records = createRecordBook(storage);
-/** An endless adventure over: whether it set the player's new record, written once. */
-const endlessResults = new WeakMap<Game, boolean>();
+/** The wave last written in the records for an endless game: each step is written once. */
+const endlessWritten = new WeakMap<Game, number>();
+/** The classic camp waiting under a mission, and whether it is an endless one. */
+let endlessCamp: { raw: string | null; endless: boolean } = { raw: null, endless: false };
 
 // --- The game on screen, and where the classic adventure and the mission wait meanwhile.
 const session = new Session();
@@ -84,7 +86,7 @@ const saved = familySaved
   : persistence.load();
 if (saved) {
   session.game = saved;
-  session.hasPlaced = saved.wave > 0 || saved.units.length > START_TEAM_SIZE;
+  session.hasPlaced = saved.wave > 0 || saved.kings > 0 || saved.units.length > START_TEAM_SIZE;
 }
 openAlbumForCaprice(saved, missions.state.retryCamp);
 const campMemory = createCampMemory(saved ?? undefined);
@@ -154,6 +156,7 @@ menu = bindMenu(session, career, {
   navigate: (page) => navigation.show(page),
   refresh,
   progressStatus: () => family.status,
+  campIsEndless,
   records: records.read,
 });
 albumUI = bindCapriceAlbums(
@@ -236,21 +239,24 @@ function recordGame(writeCamp: boolean) {
   recordAlbum(session.game);
   recordEndless(session.game);
 }
+/** Whether the classic camp waiting under a mission is an endless one (read once per camp). */
+function campIsEndless(): boolean {
+  const raw = missions.state.classicCamp ?? null;
+  if (raw !== endlessCamp.raw)
+    endlessCamp = { raw, endless: !!(raw && decodeCheckpoint(raw)?.endless) };
+  return endlessCamp.endless;
+}
 /**
- * An endless adventure over goes into the player's records once: the wave lost, or the
- * wave of the last king for a child who went home with the record.
+ * How far an endless adventure went goes into the player's records: after each king and when
+ * it falls. A wave tried again is the same game, written on the same line.
  */
 function recordEndless(game: Game) {
-  if (!game.endless || endlessResults.has(game)) return;
-  if (game.status !== 'lost' && game.status !== 'won') return;
-  const wave = endlessWave(game.kings, game.status === 'lost' ? game.wave : 0);
-  const best = records.add({
-    wave: Math.max(1, wave),
-    kings: game.kings,
-    rules: game.endless.version,
-  });
-  endlessResults.set(game, best);
-  if (best) newRecords.add(game);
+  const wave = game.endless ? endlessReached(game) : 0;
+  if (!game.endless || !wave || endlessWritten.get(game) === wave) return;
+  endlessWritten.set(game, wave);
+  const run = game.initialSeed ?? 0;
+  if (records.add({ wave, kings: game.kings, rules: game.endless.version, run }))
+    newRecords.add(game);
 }
 /** A game still being played goes on as it is; otherwise its stored camp is read again. */
 function liveOrStored(game: Game | undefined, camp: string | null): Game | null {
@@ -407,7 +413,11 @@ function refreshHomePrimary() {
   if (resume)
     setDisplayText(
       byId('home-next-mission'),
-      inMissions ? TEXT.reprendreMaMission : TEXT.reprendreMonAventureClassique,
+      inMissions
+        ? TEXT.reprendreMaMission
+        : session.game.endless
+          ? TEXT.reprendreMonAventureSansFin
+          : TEXT.reprendreMonAventureClassique,
     );
   primary.onclick = () => {
     if (!resume) expeditions!.playNow();

@@ -141,14 +141,16 @@ function play(g, profile) {
     if (g.endless && g.rewards.pending != null) {
       // The endless gifts: climb a gift already taken, else the first one of BOON_TASTE that
       // is offered; with the five places full, the lowest gift gives its place.
+      // With the five places full, a new lasting gift would push out one the player built
+      // up: the player climbs a gift it has, or takes a card « once », or passes.
       const offer = g.boonOffer;
       const owned = g.boons.map((b) => b.id);
+      const full = g.boons.length >= g.boonRules.places;
       const pick =
         offer.find((id) => owned.includes(id)) ??
-        BOON_TASTE.find((id) => offer.includes(id)) ??
-        offer[0];
-      const lowest = [...g.boons].sort((a, b) => a.level - b.level)[0]?.id;
-      if (!g.chooseReward(pick) && !g.chooseReward(pick, lowest)) g.skipReward();
+        BOON_TASTE.find((id) => offer.includes(id) && !(full && g.boonNeedsPlace(id))) ??
+        offer.find((id) => !g.boonNeedsPlace(id));
+      if (!pick || !g.chooseReward(pick)) g.skipReward();
     }
     if (g.rewards?.pending != null) {
       const offer = g.rewardOffer ?? [];
@@ -297,7 +299,7 @@ if (shards === 1) {
     if (ENDLESS) {
       const reached = list.map((r) => r.wave ?? 0).sort((a, b) => a - b);
       const at = (q) => reached[Math.min(reached.length - 1, Math.floor(q * reached.length))];
-      const kings = [1, 2, 3, 4, 5, 6].map(
+      const kings = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(
         (k) =>
           `${k}:${Math.round((100 * list.filter((r) => (r.kings ?? 0) >= k).length) / list.length)}%`,
       );

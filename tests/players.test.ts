@@ -230,7 +230,7 @@ test('the persistence code only ever touches the seven keys of its player', () =
     createReminderMarkers(storage, []).mark('PONTS-1-0000-7X8R-A1');
     assert.equal(saveVoyageLog(storage, logVoyage(loadVoyageLog(storage), startVoyage(7)!)!), true);
     createMissionDone(storage).mark(encodeCheckpoint(game));
-    createRecordBook(storage).add({ wave: 9, kings: 0, rules: 1 });
+    createRecordBook(storage).add({ wave: 9, kings: 0, rules: 1, run: 7 });
     const expected = PLAYER_KEYS.map((key) => (id === 'p1' ? key : `${key}:${id}`)).sort();
     assert.deepEqual([...device.touched].sort(), expected);
     assert.deepEqual([...device.values.keys()].sort(), expected);

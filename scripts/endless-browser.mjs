@@ -105,8 +105,10 @@ try {
     const errors = [];
     page.on('pageerror', (error) => errors.push(String(error)));
     await page.goto(origin);
-    await page.locator('#home-primary').waitFor();
-    await page.evaluate(() => document.querySelector('[data-home-target="classic"]').click());
+    // A camp under way opens on its board; otherwise the home shows, and its classic page.
+    await page.locator('#home-primary:visible, #start:visible').first().waitFor();
+    if (await page.locator('#home-primary').isVisible())
+      await page.evaluate(() => document.querySelector('[data-home-target="classic"]').click());
     return { page, errors };
   }
   const text = (page, id) => page.locator(`#${id}`).textContent();
@@ -148,15 +150,15 @@ try {
         [KEYS.CAREER_STORAGE_KEY]: career(true),
         [KEYS.ENDLESS_RECORDS_KEY]: JSON.stringify({
           version: 1,
-          best: [{ wave: 31, kings: 2, rules: 1 }],
+          best: [{ wave: 31, kings: 2, rules: 1, run: 1 }],
         }),
       });
       assert.equal(await shown(page, 'home-endless'), true, `${name}: open`);
-      assert.equal(await text(page, 'endless-record'), 'Ton record : vague 31, 2 rois battus');
+      assert.equal(await text(page, 'endless-record'), 'Ton record : vague 31 · rois battus : 2');
       await page.screenshot({ path: `${folder}/${name}-porte.png` });
       await page.click('#home-endless');
       await page.locator('#start').waitFor();
-      assert.equal(await text(page, 'wave-kings'), '· 0 roi');
+      assert.equal(await text(page, 'wave-kings'), '· rois : 0');
       assert.equal(await shown(page, 'wave-of'), false, `${name}: no « / 12 »`);
       assert.deepEqual(errors, []);
       await page.close();
@@ -168,8 +170,10 @@ try {
         [KEYS.CAREER_STORAGE_KEY]: career(true),
         [KEYS.CAMP_STORAGE_KEY]: afterKing(),
       });
-      assert.equal(await text(page, 'home-continue'), 'Continuer · vague 13');
-      await page.click('#home-continue');
+      if (await page.locator('#home-continue').isVisible()) {
+        assert.equal(await text(page, 'home-continue'), 'Continuer · vague 13');
+        await page.click('#home-continue');
+      }
       await page.locator('#reward-panel').waitFor();
       assert.equal(await text(page, 'reward-title'), 'King Snake est vaincu ! Choisis ton cadeau');
       assert.equal(await page.locator('#reward-cards button:visible').count(), 3);
@@ -182,17 +186,18 @@ try {
       await tall(page, '#endless-home', name);
       await fits(page, `${name} camp`);
       await page.screenshot({ path: `${folder}/${name}-continuer.png` });
+      // Home with the record: the record is written since the king fell; the game waits.
       await page.click('#endless-home');
-      await page.locator('#battle-result-title').waitFor();
-      assert.equal(await text(page, 'battle-result-title'), 'Bien joué !');
-      assert.match(await text(page, 'battle-result-summary'), /^Nouveau record !/);
-      assert.equal(await text(page, 'end-restart'), 'L’aventure sans fin');
+      await page.locator('#home-screen').waitFor();
+      await page.evaluate(() => document.querySelector('[data-home-target="classic"]').click());
+      assert.equal(await text(page, 'endless-record'), 'Ton record : vague 12 · rois battus : 1');
+      assert.equal(await text(page, 'home-continue'), 'Continuer · vague 13');
       const records = await page.evaluate(
         (key) => JSON.parse(localStorage.getItem(key)),
         KEYS.ENDLESS_RECORDS_KEY,
       );
-      assert.deepEqual(records.best, [{ wave: 12, kings: 1, rules: 1 }]);
-      await page.screenshot({ path: `${folder}/${name}-fin.png` });
+      assert.deepEqual(records.best, [{ wave: 12, kings: 1, rules: 1, run: 4242 }]);
+      await page.screenshot({ path: `${folder}/${name}-rentre.png` });
       assert.deepEqual(errors, []);
       await page.close();
     }
@@ -203,7 +208,7 @@ try {
         [KEYS.CAREER_STORAGE_KEY]: career(true),
         [KEYS.CAMP_STORAGE_KEY]: placesFull(),
       });
-      await page.click('#home-continue');
+      if (await page.locator('#home-continue').isVisible()) await page.click('#home-continue');
       await page.locator('#reward-panel').waitFor();
       await page.click('#reward-cards button[data-reward="vue"]');
       assert.equal(await text(page, 'reward-title'), 'Tes 5 places sont prises');
