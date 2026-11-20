@@ -66,7 +66,32 @@ et garder **la quatrième voie** pour plus tard, quand le reste plaît aux enfan
 2. **Lot B — un défi par tableau**, l'un après l'autre, chacun montré au fils avant.
 3. **Lot C — la quatrième voie**, si le parent et le fils la veulent après avoir joué.
 
-## Questions pour le parent et le fils
+## Décisions du parent (20 novembre)
+
+- **La forme** : trois tableaux de 5 missions, avec des chemins à choisir (calme ou risqué) et
+  des haltes (feu de camp, roulotte, œuf mystère).
+- **Le camp suit l'enfant dans un tableau** : les alliés vivants passent d'une mission à la
+  suivante, ceux qui tombent ne reviennent pas ; nouveau camp à chaque tableau.
+- **Les cadeaux** : ceux de l'aventure sans fin, avec relance, rareté et roulotte.
+- **Les défis à préparer d'abord** : la crue, les deux rois, et quatre idées du parent :
+  - **les serpents boostés** (plus forts pour une mission) ;
+  - **les alliés qui commencent avec la moitié de leur vie** ;
+  - **des alliés au comportement bizarre** (à préciser avec le fils : ils se trompent de voie,
+    ils dansent un moment, ils changent de cible…) ;
+  - **des pouvoirs spéciaux pour les serpents** (à préciser avec le fils).
+    Chacun est montré au fils avant d'être fait, mesuré, puis accepté par le parent.
+- **La quatrième voie** : pas maintenant.
+
+## Ordre de travail
+
+1. Le moteur du long voyage : un camp qui passe d'une mission à la suivante, les cadeaux sans
+   fin dans les missions du voyage, la carte à trois tableaux et ses chemins (tirée d'une
+   graine, partageable par un code).
+2. La mesure sur le vrai moteur : combien de joueurs simulés finissent chaque tableau.
+3. Les écrans : la carte, les haltes, la roulotte, les cadeaux avec relance.
+4. Les défis, un par un, avec le fils.
+
+## Questions encore ouvertes
 
 - La forme : trois tableaux de cinq, chemins à choisir, haltes ?
 - Le camp qui suit l'enfant dans un tableau ?
