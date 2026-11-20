@@ -62,8 +62,9 @@ export type ExpeditionTuning = Readonly<{
 }>;
 
 /**
- * Version 1: values to measure (`npm run balance:expedition`), then to agree with the parent.
- * The missions climb in the order of the game; the brave path meets a stronger caprice.
+ * Version 1. The missions climb in the order of the game; the brave path meets a stronger
+ * caprice. The parent chose the snakes' strength on 20 November 2026 (« moyen ») after the
+ * measures of docs/VOYAGE-LONG-PROPOSITION.md: life ×1.06 and bite ×1.03 a battle.
  */
 const VERSION_1: ExpeditionTuning = {
   tableaux: [
@@ -87,7 +88,7 @@ const VERSION_1: ExpeditionTuning = {
     },
   ],
   stipend: 120,
-  strength: { hpStep: 0.1, biteStep: 0.05 },
+  strength: { hpStep: 0.06, biteStep: 0.03 },
   campfire: { crystal: 40, heal: 0.5 },
   roulotte: { gift: 200, levelUp: 150 },
   eggCoins: 150,

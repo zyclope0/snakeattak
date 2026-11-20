@@ -128,6 +128,26 @@ règle du fils « pas de résurrection » ne change pas, et l'enfant ne perd pas
 payé) ; il se réveille au bout de quelques secondes. Le chiffre « un sur cinq » et les durées
 seront mesurés, puis proposés au parent.
 
+## Mesure du moteur (20 novembre)
+
+Expéditions entières sur le vrai moteur (`scripts/balance-expedition.mjs`), 20 graines par
+joueur, chemin calme et brave en alternance ; une bataille perdue se rejoue, le joueur simulé
+abandonne après trois essais de la même bataille.
+
+| Force des serpents par bataille           | Expert arrivé | Moyen arrivé | Apprenti arrivé | Apprenti au 3e tableau |
+| ----------------------------------------- | ------------: | -----------: | --------------: | ---------------------: |
+| aucune (premier essai)                    |         100 % |        100 % |       78 à 88 % |             90 à 100 % |
+| vie ×1,04, morsure ×1,02                  |         100 % |        100 % |            25 % |                   70 % |
+| **vie ×1,06, morsure ×1,03 (choisi)**     |      **95 %** |     **70 %** |         **0 %** |               **35 %** |
+| vie ×1,10, morsure ×1,05                  |     10 à 25 % |          0 % |             0 % |               0 à 15 % |
+| vie ×1,15, morsure ×1,08, moins de pièces |           0 % |          0 % |             0 % |                    0 % |
+
+Sans force qui monte, le camp qui suit et un cadeau après chaque bataille rendaient tout trop
+facile. Le parent a choisi le réglage moyen le 20 novembre : environ 30 minutes de batailles
+(temps de jeu simulé), l'apprenti bloque au 2e ou au 3e tableau. Les cinq places de cadeaux
+sont presque pleines au niveau 3 à la fin (14,8 niveaux sur 15 pour l'expert) : la gestion
+des cadeaux se joue surtout au début ; à revoir avec les enfants.
+
 ## Ordre de travail
 
 1. Le moteur du long voyage : un camp qui passe d'une mission à la suivante, les cadeaux sans
