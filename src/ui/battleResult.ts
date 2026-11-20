@@ -1,6 +1,6 @@
 import { setText as setDisplayText, setAttribute as setDisplayAttribute } from '../i18n/dom.ts';
 import './battleResult.css';
-import { defeatCopy, earnedStars, victoryCopy } from '../render/resultCopy.ts';
+import { defeatCopy, earnedStars, endlessCopy, victoryCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
 import { visualSettings } from '../render/visualSettings.ts';
@@ -9,6 +9,7 @@ import { starRow } from './gameParts.ts';
 import { battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/battleScreens.ts';
 import { newRecords } from '../endlessRecords.ts';
+import * as PAGE from '../texts/fr/page.ts';
 import { fill } from '../texts/fill.ts';
 
 /** Reuse the existing actions: only their presentation moves after a match. */
@@ -42,6 +43,8 @@ export function bindBattleResult(session: Session) {
     restore(mission);
     buttons.restore();
     if (classic.parentNode !== content) content.append(classic);
+    // The same button plays the same kind of adventure again: it says which.
+    setDisplayText(classic, game.endless ? PAGE.laventureSansFin : PAGE.rejouerUneAventure);
     const summary = fill(TEXT.nSerpentsRepoussesCristalN, game.kills, Math.ceil(game.base));
     // An endless adventure that beat the player's own best says so; nobody else's counts.
     setDisplayText(
@@ -90,7 +93,11 @@ function victoryTitle(game: Game) {
 function showOutcomeTitle(game: Game) {
   setDisplayText(
     byId('battle-result-title'),
-    game.status === 'won' ? victoryTitle(game) : defeatCopy(game).title,
+    game.endless
+      ? endlessCopy(game).title
+      : game.status === 'won'
+        ? victoryTitle(game)
+        : defeatCopy(game).title,
   );
   // The caprice summary repeats this heading verbatim. Keep its sticker and
   // actions, and keep the original French announcement on defeat.

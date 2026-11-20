@@ -58,7 +58,7 @@ jobs:
             recettes: >-
               test:audit test:threat-preparation test:reinforcements-scroll test:child-mobile
               test:interruptions test:offline test:presentation test:tactical-clarity
-              test:mission-journey
+              test:mission-journey test:endless
           - groupe: langue et caprices
             recettes: test:locale test:caprices
           - groupe: menus

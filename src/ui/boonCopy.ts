@@ -58,6 +58,10 @@ export function giftCopy(game: Game, id: string): GiftCopy {
   return { title: reward.title, detail: reward.detail, action: TEXT.choisirCeBonus };
 }
 
+/** A lasting gift the child holds, on the card that may give its place: stars, then what it gives. */
+export const boonNow = (id: LastingBoon, level: number) =>
+  fill(TEXT.nNiveauEtoiles, '★'.repeat(level), LASTING[id].detail(level));
+
 /** A lasting gift under the camp: its name and one star a level. */
 export const boonBadge = (id: LastingBoon, level: number) =>
   fill(TEXT.nNiveauEtoiles, LASTING[id].title, '★'.repeat(level));

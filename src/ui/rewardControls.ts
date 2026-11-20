@@ -13,7 +13,7 @@ import * as PAGE from '../texts/fr/page.ts';
 import { BOON_PLACES, isLastingBoon, type LastingBoon } from '../boons.ts';
 import { endlessWave } from '../endless.ts';
 import { TOTAL_WAVES } from '../gameConstants.ts';
-import { BOON_SIGNS, boonBadge, giftCopy } from './boonCopy.ts';
+import { BOON_SIGNS, boonBadge, boonNow, giftCopy } from './boonCopy.ts';
 import { fill } from '../texts/fill.ts';
 
 type RewardCard = ReturnType<typeof rewardCard>;
@@ -137,7 +137,7 @@ function showReward(card: RewardCard, game: Game, id: string, paused: boolean, p
   const copy = giftCopy(game, id);
   const level = isLastingBoon(id) ? game.boonLevel(id) : 0;
   // A gift held is shown as it stands when the child picks one to replace.
-  const detail = place && isLastingBoon(id) ? boonBadge(id, level) : copy.detail;
+  const detail = place && isLastingBoon(id) ? boonNow(id, level) : copy.detail;
   const action = place ? TEXT.remplacer : copy.action;
   const key = `${id}:${detail}:${action}`;
   if (card.button.dataset.shown === key) return;
@@ -146,7 +146,7 @@ function showReward(card: RewardCard, game: Game, id: string, paused: boolean, p
   setDisplayText(card.name, copy.title);
   setDisplayText(card.detail, detail);
   setDisplayText(card.action, action);
-  setDisplayAttribute(card.button, 'aria-label', `${copy.title}. ${detail}. ${action}`);
+  setDisplayAttribute(card.button, 'aria-label', `${copy.title}. ${detail}`);
   paintRewardIcon(card.icon, id);
 }
 
