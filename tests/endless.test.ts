@@ -7,7 +7,8 @@ import { ENDLESS_RULES, endlessStats, endlessWave, readEndlessRules } from '../s
 import { TOTAL_WAVES } from '../src/gameConstants.ts';
 import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
-import { rewardOffer } from '../src/rewards.ts';
+import { BOON_MAX_LEVEL, BOON_PLACES, BOON_STEPS, boonOffer, takeBoon } from '../src/boons.ts';
+import type { Boons, LastingBoon } from '../src/boons.ts';
 
 registerHooks({
   load(url, context, nextLoad) {
@@ -38,9 +39,7 @@ function clearWave(game: Game, wave: number) {
 }
 
 test('l’aventure sans fin ne se joue qu’avec la révision courante, sans mission', () => {
-  assert.throws(
-    () => new Game(7, undefined, undefined, CURRENT_BALANCE_REVISION - 1, undefined, RULES),
-  );
+  assert.throws(() => new Game(7, undefined, undefined, 6, undefined, RULES));
   assert.throws(
     () => new Game(7, undefined, createMissionRun('refuge', 7, null, 2), 2, undefined, RULES),
   );
@@ -73,26 +72,83 @@ test('après King Snake, le même camp repart à la vague 1 avec un roi de plus 
   assert.equal(game.campaign.training, 'force', 'the hero keeps his training');
   assert.deepEqual(game.campaign.chapterStars, [0, 0, 0]);
   assert.equal(game.rewards.pending, TOTAL_WAVES);
-  assert.deepEqual(game.rewardOffer, rewardOffer(game.rewards.seed, TOTAL_WAVES, 1));
-  assert.ok(game.chooseReward(game.rewardOffer[0]));
-  assert.equal(game.rewards.choices.at(-1)!.round, 1);
+  assert.deepEqual(game.rewardOffer, [], 'the endless adventure offers gifts, not cards');
+  assert.deepEqual(game.boonOffer, boonOffer(game.rewards.seed, 1, TOTAL_WAVES, []));
+  assert.ok(game.chooseReward(game.boonOffer[0]));
+  assert.equal(game.rewards.pending, null);
   assert.equal(endlessWave(game.kings, game.wave + 1), TOTAL_WAVES + 1);
 });
 
-test('chaque tour offre de nouveau les cadeaux des vagues 4 et 8, tirés à part', () => {
+test('chaque tour offre de nouveau un cadeau après les vagues 4 et 8, tiré à part', () => {
   const game = endless();
   clearWave(game, 4);
-  const first = game.rewardOffer;
-  assert.ok(game.chooseReward(first[0]));
-  assert.equal(game.rewards.choices[0].round, undefined, 'round zero writes nothing');
+  const first = game.boonOffer;
+  assert.equal(first.length, 3);
+  assert.ok(game.skipReward());
+  clearWave(game, 4);
+  assert.equal(game.rewards.pending, null, 'one gift per camp and round');
   clearWave(game, TOTAL_WAVES);
   game.skipReward();
   clearWave(game, 4);
   assert.equal(game.rewards.pending, 4, 'the second round offers wave 4 again');
-  assert.deepEqual(game.rewardOffer, rewardOffer(game.rewards.seed, 4, 1));
-  // Round zero draws exactly as before the endless adventure existed.
-  assert.deepEqual(first, rewardOffer(game.rewards.seed, 4));
+  assert.deepEqual(game.boonOffer, boonOffer(game.rewards.seed, 1, 4, []));
+  assert.notDeepEqual(game.boonOffer, first);
 });
+
+test('un cadeau repris monte de niveau, trois au plus ; cinq places', () => {
+  let boons: Boons = [];
+  for (const id of ['forge', 'forge', 'forge'] as const) boons = takeBoon(boons, id)!;
+  assert.deepEqual(boons, [{ id: 'forge', level: BOON_MAX_LEVEL }]);
+  assert.equal(takeBoon(boons, 'forge'), null, 'never above the top level');
+  assert.ok(!boonOffer(1, 0, 4, boons).includes('forge'), 'a full gift is not offered');
+  for (const id of ['armure', 'marche', 'rente', 'solide'] as const) boons = takeBoon(boons, id)!;
+  assert.equal(boons.length, BOON_PLACES);
+  assert.equal(takeBoon(boons, 'vue'), null, 'five places: a sixth needs a place');
+  assert.deepEqual(
+    takeBoon(boons, 'vue', 'rente')!.map((b) => b.id),
+    ['forge', 'armure', 'marche', 'vue', 'solide'],
+  );
+  assert.equal(takeBoon(boons, 'armure')![1].level, 2, 'climbing a level needs no place');
+});
+
+test('les cadeaux changent le camp : forge, armure, marché, rente, cristal, longue-vue, miel', () => {
+  const game = endless();
+  // Hands a gift as if it had been offered; the round goes back to the first one.
+  const give = (id: LastingBoon) => {
+    const taken = takeInGame(game, id);
+    game.kings = 0;
+    return taken;
+  };
+  const hero = game.units.find((u) => u.kind === 'hero')!;
+  const life = hero.maxHp;
+  assert.ok(give('armure'));
+  assert.equal(hero.maxHp, life * (1 + BOON_STEPS.armure), 'allies in the camp grow');
+  const price = game.recruitCost('archer');
+  assert.ok(give('marche'));
+  assert.equal(game.recruitCost('archer'), Math.round(price * (1 - BOON_STEPS.marche)));
+  const honey = game.feastDuration;
+  assert.ok(give('miel'));
+  assert.equal(game.feastDuration, honey + BOON_STEPS.miel);
+  assert.ok(give('rente'));
+  assert.ok(give('solide'));
+  game.base = 50;
+  const gold = game.gold;
+  clearWave(game, 1);
+  assert.equal(game.gold, gold + waveStats(1).reward + BOON_STEPS.rente);
+  assert.equal(game.base, 50 + BOON_STEPS.solide);
+  // A classic game has no gift: level zero everywhere.
+  assert.equal(new Game(7).boonLevel('forge'), 0);
+});
+
+/** Takes a gift through the game, drawing offers until it comes. */
+function takeInGame(game: Game, id: LastingBoon): boolean {
+  for (let round = 0; round < 400; round++) {
+    game.rewards.pending = 4;
+    if (game.boonOffer.includes(id)) return game.chooseReward(id);
+    game.kings++;
+  }
+  return false;
+}
 
 test('les serpents d’un tour sont plus forts, jamais plus nombreux', () => {
   const base = waveStats(5);

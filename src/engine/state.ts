@@ -7,6 +7,7 @@ import { kinds } from '../data.ts';
 import type { Kind } from '../data.ts';
 import type { Point } from '../navigation.ts';
 import type { Game } from '../game.ts';
+import { BOON_STEPS } from '../boons.ts';
 import { nextSeed, seedShare } from '../seededRandom.ts';
 
 export type Entity = Point & {
@@ -161,7 +162,9 @@ export function createEntity(
   return entity;
 }
 export function addAlly(game: Game, kind: Kind, x: number, y: number) {
-  const e = createEntity(game, kind, x, y, kinds[kind].hp);
+  // « L'armure » of the endless adventure: every ally comes with more life.
+  const armour = 1 + game.boonLevel('armure') * BOON_STEPS.armure;
+  const e = createEntity(game, kind, x, y, kinds[kind].hp * armour);
   game.units.push(e);
   return e;
 }

@@ -3,7 +3,8 @@ import { cancelBossShot } from '../boss.ts';
 import { missionById } from '../missions.ts';
 import { isMilestone } from '../rewards.ts';
 import type { Milestone } from '../rewards.ts';
-import { TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
+import { CRYSTAL_MAX, TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
+import { BOON_STEPS } from '../boons.ts';
 import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
 import { climbOut } from './swim.ts';
@@ -59,7 +60,9 @@ function closeWave(game: Game, reward: number) {
     const chapter = chapterIndex(game.wave);
     game.campaign.chapterStars[chapter] = chapterStars(game.campaign.chapterMin[chapter]);
   }
-  game.gold += reward;
+  game.gold += reward + game.boonLevel('rente') * BOON_STEPS.rente;
+  // « Le cristal solide » mends the crystal a little after every wave.
+  game.base = Math.min(CRYSTAL_MAX, game.base + game.boonLevel('solide') * BOON_STEPS.solide);
   if (game.endless && game.wave === game.totalWaves) return nextRound(game);
   game.status = game.wave === game.totalWaves ? 'won' : 'preparing';
   if (game.status === 'won') {
@@ -72,9 +75,7 @@ function closeWave(game: Game, reward: number) {
 /** After waves 4 and 8 the map changes and a reward card is offered, once per milestone. */
 function openChapter(game: Game, milestone: Milestone) {
   normalizeCamp(game);
-  const round = game.kings;
-  if (!game.rewards.choices.some((c) => c.milestone === milestone && (c.round ?? 0) === round))
-    game.rewards.pending = milestone;
+  if (!game.offerAnswered(milestone)) game.rewards.pending = milestone;
 }
 /**
  * The king of the endless adventure has fallen: the same camp goes back to the first wave,

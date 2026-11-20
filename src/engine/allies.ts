@@ -15,6 +15,9 @@ import { moveUnit, returnHome } from './movement.ts';
 import { hitEnemy } from './damage.ts';
 import { swimTurn } from './swim.ts';
 import { spinosaurusRule } from '../balanceRevision.ts';
+import { BOON_STEPS } from '../boons.ts';
+/** Allies with this reach or more shoot from afar. */
+const FAR_SHOT = 100;
 import type { Game } from '../game.ts';
 
 /** Helpers sent to each blocked snake this step, by snake id (see `reliefTeams`). */
@@ -136,9 +139,18 @@ function fight(game: Game, u: Entity, dt: number, relief: Relief, assignments: A
   }
   assignments.set(target.id, (assignments.get(target.id) ?? 0) + 1);
   faceToward(u, target);
-  if (distance(u, target) > d.range)
+  if (distance(u, target) > allyReach(game, u))
     moveUnit(game, u, approachGoal(game, u, target, relief), d.speed, dt);
   else if (u.cool <= 0) strike(game, u, target);
+}
+/**
+ * How far an ally strikes from. « La longue-vue » of the endless adventure lets the allies
+ * that shoot from afar (a reach of 100 or more) see further.
+ */
+function allyReach(game: Game, u: Entity): number {
+  const range = kinds[u.kind as Kind].range;
+  const sight = game.boonLevel('vue');
+  return sight && range >= FAR_SHOT ? range * (1 + sight * BOON_STEPS.vue) : range;
 }
 function chooseTarget(
   game: Game,
@@ -191,7 +203,8 @@ function approachGoal(game: Game, u: Entity, target: Entity, relief: Relief): Po
 function strike(game: Game, u: Entity, target: Entity) {
   const damage =
     attackDamage(u.kind as Kind, u.charge, game.tuning.mutantDamageFactor) *
-    (u.kind === 'hero' && game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1);
+    (u.kind === 'hero' && game.campaign.training === 'force' ? HERO_FORCE_FACTOR : 1) *
+    (1 + game.boonLevel('forge') * BOON_STEPS.forge);
   // Where the blow is aimed, kept before it lands: a ninja snake that lets it pass leaves
   // from there, and the blow is drawn where it missed, not where the snake came back.
   const aimed = { id: target.id, x: target.x, y: target.y };

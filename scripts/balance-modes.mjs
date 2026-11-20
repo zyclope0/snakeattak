@@ -13,7 +13,8 @@
 //                  qu'il arrive) : spinosaurus (révision 7) ou trex, pour comparer les deux
 //   ENDLESS=1      l'aventure sans fin seule (à la place des modes), jusqu'à la défaite ou
 //                  ENDLESS_ROUNDS rois (défaut 6) ; ENDLESS_HP, ENDLESS_BITE, ENDLESS_COIN :
-//                  les pas d'un roi à l'autre à essayer (défaut : src/endless.ts, version 1)
+//                  les pas d'un roi à l'autre à essayer (défaut : src/endless.ts, version 1) ;
+//                  BOONS : les cadeaux préférés des joueurs, dans l'ordre
 // Sans modes.json : tous les modes. Avec : liste { id, missionId, rules?, classic?, profiles?, sets? }.
 // Avec un seul shard, affiche un résumé par mode et par joueur.
 import { readFile, writeFile } from 'node:fs/promises';
@@ -42,6 +43,10 @@ const CLASSIC = Number(process.env.CLASSIC ?? 200);
 const DINO = process.env.DINO ?? 'spinosaurus';
 const { ENDLESS_RULES } = await import(R + 'endless.ts');
 const ENDLESS = process.env.ENDLESS === '1';
+// The gifts the automatic players prefer, best first (BOONS=… to try another taste).
+const BOON_TASTE = (process.env.BOONS ?? 'forge,armure,rente,marche,solide,vue,miel,pieces').split(
+  ',',
+);
 const ENDLESS_ROUNDS = Number(process.env.ENDLESS_ROUNDS ?? 6);
 const endlessRules = {
   ...ENDLESS_RULES[1],
@@ -133,6 +138,18 @@ function play(g, profile) {
       }
     }
     for (let i = 0; i < 90; i++) step();
+    if (g.endless && g.rewards.pending != null) {
+      // The endless gifts: climb a gift already taken, else the first one of BOON_TASTE that
+      // is offered; with the five places full, the lowest gift gives its place.
+      const offer = g.boonOffer;
+      const owned = g.boons.map((b) => b.id);
+      const pick =
+        offer.find((id) => owned.includes(id)) ??
+        BOON_TASTE.find((id) => offer.includes(id)) ??
+        offer[0];
+      const lowest = [...g.boons].sort((a, b) => a.level - b.level)[0]?.id;
+      if (!g.chooseReward(pick) && !g.chooseReward(pick, lowest)) g.skipReward();
+    }
     if (g.rewards?.pending != null) {
       const offer = g.rewardOffer ?? [];
       // Expert : pièces ; autres : première carte proposée.
