@@ -593,7 +593,9 @@
 }
 /* The endless adventure: the player's own record, or how to open it, under the buttons. */
 #home-screen .endless-record {
-  margin: 4px 0 0;
+  align-self: center;
+  max-width: 22em;
   color: #d7e6dc;
-  font-size: 15px;
+  font-size: 14px;
+  line-height: 1.25;
 }
