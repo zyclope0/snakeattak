@@ -9,6 +9,9 @@
 #home-screen[data-page='expedition'] [data-home-page='expedition'] {
   display: contents;
 }
+/* La porte de « La Grande Expédition » tient la place du record dans la rangée du haut ; le
+   record se lit à la fin du voyage. */
+#home-screen[data-page='voyage'] #voyage-record,
 #home-screen:not([data-page='voyage']) :is(#voyage-record, #voyage-note, #expedition-door),
 #home-screen:not([data-page='expedition']) :is(#expedition-record, #expedition-note),
 #home-screen:is([data-page='voyage'], [data-page='expedition'])

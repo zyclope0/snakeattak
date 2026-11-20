@@ -22,15 +22,17 @@ export const nouveau = 'Nouveau';
 export const missionNSurN = 'Mission {0} sur {1}';
 export const tableauNSurN = 'Tableau {0} sur {1}';
 export const missionGagnee = 'Mission gagnée !';
-export const nEstVaincu = '{0} est vaincu !';
+export const capitaineZigzagEstVaincu = 'Capitaine Zigzag est vaincu !';
+export const madameGloupsEstVaincue = 'Madame Gloups est vaincue !';
 export const ouTArretesTu = 'Où t’arrêtes-tu ?';
-export const bravoTuAsFiniLaGrandeExpedition = 'Bravo ! Tu as fini La Grande Expédition';
+export const bravoTuAsFiniN = 'Bravo ! Tu as fini {0}';
 
 // --- Le chemin des sept pas d'un tableau.
 export const missionN = 'Mission {0}';
 export const uneHalte = 'Une halte';
 export const leGardienN = 'Le gardien : {0}';
 export const gagnee = 'gagnée';
+export const passee = 'passée';
 export const aJouer = 'à jouer';
 export const aVenir = 'à venir';
 
@@ -39,7 +41,6 @@ export const choisisTonChemin = 'Choisis ton chemin';
 export const unCadeauApresLaMission = 'Un cadeau après la mission';
 export const unCadeauRareApresLaMission = 'Un cadeau rare après la mission';
 export const cEstParti = 'C’est parti !';
-export const capriceSurprise = 'Caprice surprise :';
 export const capriceSurpriseN = 'Caprice surprise : {0}';
 export const lesSerpentsGrandissentAChaqueMission = 'Les serpents grandissent à chaque mission.';
 export const unNouveauCampTAttend = 'Un nouveau camp t’attend : recrute tes alliés.';
@@ -51,16 +52,17 @@ export const tonCristalSeRepareDeNEtTesAllies =
 export const acheteUnCadeauAvecTesPieces = 'Achète un cadeau avec tes pièces.';
 export const uneSurpriseToujoursGentille = 'Une surprise, toujours gentille.';
 export const sArreterIci = 'M’arrêter ici';
-export const tonCristalEstRepareTesAlliesSeSont =
-  'Ton cristal est réparé, tes alliés se sont reposés.';
+export const tonCristalSEstRepareTesAllies =
+  'Ton cristal s’est réparé, tes alliés se sont reposés.';
 export const lOeufMystereTOffreNPieces = 'L’Œuf Mystère t’offre {0} pièces !';
 export const lOeufMystereFaitMonterNAuNiveauN = 'L’Œuf Mystère fait monter {0} au niveau {1} !';
 
 // --- Les cadeaux.
 export const choisisTonCadeau = 'Choisis ton cadeau';
-export const cadeauRareIlArriveAuNiveau2 = 'Cadeau rare ! Il arrive au niveau 2.';
-export const cadeauRareDeuxFoisPlus = 'Cadeau rare : deux fois plus.';
+export const cadeauRare = 'Cadeau rare !';
 export const choisirCeCadeau = 'Choisir ce cadeau';
+export const choisirNiveauN = 'Choisir · niveau {0}';
+export const nPiecesPourRecruterTesAllies = '{0} pièces pour recruter tes alliés.';
 export const monterAuNiveauN = 'Monter au niveau {0}';
 export const pourLaProchaineMission = 'Pour la prochaine mission.';
 export const troisAutresCadeaux = 'Trois autres cadeaux';
@@ -82,7 +84,7 @@ export const repartir = 'Repartir';
 // --- Le camp qui suit l'enfant.
 export const alliesN = 'Alliés : {0}';
 export const piecesN = 'Pièces : {0}';
-export const cristalN = 'Cristal : {0}';
+export const tonCristalNPourcent = 'Ton cristal : {0} %';
 export const uneAutreExpedition = 'Une autre expédition';
 export const changerDExpedition = 'Changer d’expédition ?';
 export const tuAsDejaGagneNMissionNSiTuChanges =
@@ -105,11 +107,16 @@ export const tuAsGagneLesNMissions = 'Tu as gagné les {0} missions !';
 // --- Sur le plateau.
 export const expeditionMissionNSurN = 'Expédition · mission {0} sur {1}';
 export const lExpeditionEstGardeeEntreDeuxMissions = 'L’expédition est gardée entre deux missions.';
-export const missionGagneeTonCampTeSuit = 'Mission gagnée ! Ton camp te suit.';
-export const nEstVaincuUnNouveauTableauTAttend = '{0} est vaincu ! Un nouveau tableau t’attend.';
-export const kingSnakeEstVaincuTuAsFiniLaGrande =
-  'King Snake est vaincu ! Tu as fini La Grande Expédition.';
+export const tonCampTeSuitALaProchaineMission = 'Ton camp te suit à la prochaine mission.';
+export const capitaineZigzagEstVaincuUnNouveauTableau =
+  'Capitaine Zigzag est vaincu ! Un nouveau tableau t’attend.';
+export const madameGloupsEstVaincueUnNouveauTableau =
+  'Madame Gloups est vaincue ! Un nouveau tableau t’attend.';
+export const cetAppareilNeGardePasLExpedition = 'Cet appareil ne garde pas l’expédition.';
+export const taVictoireNAPasPuEtreGardee = 'Ta victoire n’a pas pu être gardée sur cet appareil.';
+export const nEstVaincuTuAsFiniLaGrandeExpedition =
+  '{0} est vaincu ! Tu as fini La Grande Expédition.';
 export const continuerLExpedition = 'Continuer l’expédition';
-export const lesSerpentsOntGagneCetteFoisTonCamp =
-  'Les serpents ont gagné cette fois. Ton camp revient comme avant : réessaie !';
+export const rienNEstPerduRejoueCetteMission =
+  'Rien n’est perdu : rejoue cette mission depuis l’expédition.';
 export const revenirALExpedition = 'Revenir à l’expédition';

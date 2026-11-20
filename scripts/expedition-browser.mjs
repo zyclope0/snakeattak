@@ -248,6 +248,23 @@ try {
       await page.close();
     }
 
+    // A full roulotte: four gifts to climb and the stock to buy; « Repartir » stays in reach.
+    {
+      const { state, choice } = atRoulotte();
+      const four = ['forge', 'armure', 'marche', 'rente'].map((id) => ({ id, level: 1 }));
+      const open_ = X.chooseHalt(plan, { ...state, boons: four }, choice);
+      const { page, errors } = await open(size, { [KEYS.EXPEDITION_STORAGE_KEY]: log(open_) });
+      await page.click('#expedition-door');
+      await page.locator('.exp-shop').waitFor();
+      assert.ok((await page.locator('.exp-shop .bonus-card').count()) >= 4);
+      await fits(page, `${name} full roulotte`);
+      const leave = await page.locator('#expedition-leave').boundingBox();
+      assert.ok(leave && leave.y + leave.height <= height, `${name}: « Repartir » on screen`);
+      await page.screenshot({ path: `${folder}/${name}-roulotte-pleine.png` });
+      assert.deepEqual(errors, []);
+      await page.close();
+    }
+
     // Five places full: a new gift asks which one gives its place, or keeps them all.
     {
       const state = placesFull();
@@ -261,7 +278,7 @@ try {
       assert.equal(await page.locator('[data-replace]').count(), 5);
       await fits(page, `${name} replace`);
       await page.screenshot({ path: `${folder}/${name}-remplacer.png` });
-      await page.click('#expedition-keep');
+      await page.click('#expedition-keep-gifts');
       await page.locator(`.exp-gift[data-gift="${id}"]`).click();
       await page.click('[data-replace="rente"]');
       const boons = (await stored(page)).current.boons.map((b) => b.id);
@@ -308,7 +325,7 @@ try {
     await page.click('#expedition-other');
     await page.locator('#expedition-replace').waitFor();
     assert.equal(await text(page, '#expedition-replace h2'), EN.changerDExpedition);
-    await page.click('#expedition-keep-mine');
+    await page.click('#expedition-keep');
     assert.equal(await page.locator('#expedition-replace').isVisible(), false);
     assert.deepEqual(errors, []);
     await page.close();

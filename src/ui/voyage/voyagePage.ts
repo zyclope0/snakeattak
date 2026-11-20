@@ -1,6 +1,9 @@
 import { setText } from '../../i18n/dom.ts';
 import { byId, make } from '../dom.ts';
 
+/** Long enough for a double tap, too short for a child to notice. */
+const HOLD_MS = 300;
+
 export type VoyageView = 'map' | 'bonus' | 'arrived' | 'fallen' | 'gift' | 'roulotte';
 
 /**
@@ -24,6 +27,7 @@ export function voyagePage(name: 'voyage' | 'expedition' = 'voyage') {
   byId('home-screen').querySelector('.home-footer')!.before(page);
   byId('mission-total').after(record);
   byId('career-status').after(note);
+  let held = 0;
   return {
     /** Draws one view: its name, the record, the note under the panel, then its content. */
     show(
@@ -40,6 +44,15 @@ export function voyagePage(name: 'voyage' | 'expedition' = 'voyage') {
       setText(note, words.note);
       view.replaceChildren(...content);
       panel.scrollTop = 0;
+    },
+    /**
+     * The view drawn under the child's finger takes no touch for a short while: a second tap
+     * meant for the old button never lands on the new one in its place.
+     */
+    hold(ms = HOLD_MS) {
+      view.inert = true;
+      window.clearTimeout(held);
+      held = window.setTimeout(() => (view.inert = false), ms);
     },
     /** The name of the screen takes the focus when the view changes under the child's finger. */
     focus: () => heading.focus({ preventScroll: true }),

@@ -18,17 +18,14 @@ import {
 import type { ExpeditionState, Path } from '../../../expedition.ts';
 import { loadExpeditionLog, logExpedition, saveExpeditionLog } from '../../../expeditionStorage.ts';
 import type { Game } from '../../../game.ts';
-import { setText } from '../../../i18n/dom.ts';
 import { voyageSeedFrom } from '../../../voyage.ts';
 import { battleOver } from '../../battleState.ts';
-import { make } from '../../dom.ts';
 import { freshSeed } from '../../missionWords.ts';
-import { bindPendingConfirm } from '../../pendingConfirm.ts';
 import type { VoyagePorts } from '../../voyageDoor.ts';
 import type { StageOnBoard } from '../voyageBattle.ts';
 import { voyagePage } from '../voyagePage.ts';
 import type { VoyageView } from '../voyagePage.ts';
-import { voyageWindow } from '../voyageWindow.ts';
+import { replaceWindow } from '../voyageReplace.ts';
 import { arrivedView, giftView, mapView, roulotteView } from './expeditionViews.ts';
 import type { ExpeditionActions } from './expeditionViews.ts';
 import {
@@ -37,6 +34,7 @@ import {
   expeditionHeading,
   haltNotice,
   keepingNote,
+  keptLine,
   replaceSentence,
   underWay,
 } from './expeditionWords.ts';
@@ -49,32 +47,6 @@ type Playing = {
   state: ExpeditionState;
   outcome: StageOnBoard['outcome'];
 };
-
-/**
- * Asked before an expedition under way gives its place to a new one: what would stop, and
- * two answers. Returns the function that asks.
- */
-function replaceWindow(accept: (next: ExpeditionState) => void) {
-  const { dialog } = voyageWindow('expedition-replace', TEXT.changerDExpedition);
-  const sentence = make('p', { id: 'expedition-replace-text' });
-  const keep = make('button', {
-    id: 'expedition-keep-mine',
-    className: 'secondary',
-    text: TEXT.garderMonExpedition,
-  });
-  const change = make('button', {
-    id: 'expedition-change',
-    className: 'primary',
-    text: TEXT.uneNouvelleExpedition,
-  });
-  keep.type = change.type = 'button';
-  dialog.append(sentence, make('div', { className: 'dialog-actions' }, keep, change));
-  const ask = bindPendingConfirm<ExpeditionState>(dialog, keep, change, accept);
-  return (current: ExpeditionState, next: ExpeditionState) => {
-    setText(sentence, replaceSentence(current));
-    ask(next);
-  };
-}
 
 /**
  * The screens of « La Grande Expédition », loaded with those of the voyage. This function
@@ -97,7 +69,13 @@ export function bindExpeditionScreens(
   let replacing: LastingBoon | null = null;
 
   const page = voyagePage('expedition');
-  const askReplace = replaceWindow(begin);
+  const askReplace = replaceWindow<ExpeditionState>(begin, {
+    id: 'expedition',
+    title: TEXT.changerDExpedition,
+    keep: TEXT.garderMonExpedition,
+    change: TEXT.uneNouvelleExpedition,
+    sentence: replaceSentence,
+  });
   const actions: ExpeditionActions = {
     play,
     explain,
@@ -141,9 +119,14 @@ export function bindExpeditionScreens(
   }
   /** A transition from a button of the page: the page follows, its heading takes the focus. */
   function move(next: ExpeditionState | null) {
-    if (!commit(next)) return;
+    if (!commit(next)) {
+      // Refused: the page shows the expedition as it still is.
+      show();
+      return;
+    }
     notice = '';
     show();
+    page.hold();
     page.focus();
   }
   /** A new camp for the battle that waits; a battle left halfway starts again from here. */
@@ -153,6 +136,7 @@ export function bindExpeditionScreens(
     if (!state || !game) {
       notice = TEXT.cetteMissionNeSOuvrePas;
       show();
+      focusQuestion();
       return;
     }
     notice = '';
@@ -167,6 +151,7 @@ export function bindExpeditionScreens(
     if (step.kind !== 'halt' || !after || !commit(after)) return;
     notice = haltNotice(state, after, step.halts[choice]);
     show();
+    page.hold();
     page.focus();
   }
   /** A new lasting gift asks first for a place when the five are taken. */
@@ -177,7 +162,8 @@ export function bindExpeditionScreens(
     if (isLastingBoon(id) && full && !boonLevel(state.boons, id)) {
       replacing = id;
       show();
-      page.focus();
+      page.hold();
+      focusQuestion();
       return;
     }
     move(from === 'gift' ? chooseGift(state, id) : buyAtRoulotte(state, id));
@@ -200,8 +186,17 @@ export function bindExpeditionScreens(
     const after = won
       ? winBattle(expeditionPlanOf(live.state), live.state, live.game, live.path)
       : null;
-    if (won && !commit(after)) return null;
+    if (won && !commit(after)) return battleOutcome('unsaved');
     return battleOutcome(after);
+  }
+  /** The sentence that asks something of the child takes the focus, not the page's name. */
+  function focusQuestion() {
+    const asked = document.querySelector<HTMLElement>(
+      '.expedition-page :is(.exp-notice, .exp-swap)',
+    );
+    if (!asked) return page.focus();
+    asked.tabIndex = -1;
+    asked.focus({ preventScroll: true });
   }
   function content(state: ExpeditionState): { view: VoyageView; nodes: Node[] } {
     const phase = expeditionPhase(state);
@@ -210,7 +205,7 @@ export function bindExpeditionScreens(
     if (phase === 'gift') return { view: 'gift', nodes: giftView(state, replacing, actions) };
     if (phase === 'roulotte')
       return { view: 'roulotte', nodes: roulotteView(state, replacing, actions) };
-    return { view: 'map', nodes: mapView(state, notice, actions) };
+    return { view: 'map', nodes: mapView(state, notice, log.best, actions) };
   }
   function show() {
     const state = log.current;
@@ -235,9 +230,10 @@ export function bindExpeditionScreens(
     /** From the voyage page: a first visit draws an expedition, then the page shows it. */
     open() {
       if (!log.current && !commit(fresh())) return;
-      ports.navigate('expedition');
       notice = '';
+      // Drawn first: the heading that takes the focus already says where the child is.
       show();
+      ports.navigate('expedition');
     },
     /**
      * With every redraw of the page: the battle on the board and its end, recorded once. Null
@@ -251,7 +247,7 @@ export function bindExpeditionScreens(
         ? {
             mark: battleMark(live.state),
             outcome: live.outcome,
-            kept: TEXT.lExpeditionEstGardeeEntreDeuxMissions,
+            kept: keptLine(saved),
           }
         : null;
     },
@@ -259,8 +255,8 @@ export function bindExpeditionScreens(
     onward() {
       playing = null;
       ports.home();
-      ports.navigate('expedition');
       show();
+      ports.navigate('expedition');
     },
     /** True when the game on the board is a battle of the expedition. */
     owns: () => playing?.game === session.game,

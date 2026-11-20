@@ -1,13 +1,16 @@
 import { BOON_RULES, boonLevel, isLastingBoon } from '../../../boons.ts';
 import type { BoonId, LastingBoon } from '../../../boons.ts';
 import {
+  BATTLES_PER_TABLEAU,
   battlesBefore,
   battlesWon,
   EXPEDITION_BATTLES,
-  EXPEDITION_TUNINGS,
   expeditionPhase,
   expeditionPlanOf,
+  giftCoins,
+  levelAfterGift,
   STEPS_PER_TABLEAU,
+  tuningOf,
 } from '../../../expedition.ts';
 import type { ExpeditionState, HaltKind, Path } from '../../../expedition.ts';
 import { REWARDS } from '../../../rewards.ts';
@@ -24,8 +27,6 @@ import { fill } from '../../../texts/fill.ts';
 
 const plural = (count: number) => (count > 1 ? 's' : '');
 const RULES = BOON_RULES[1];
-/** Five battles a tableau: the guardian is the fifth. */
-export const BATTLES_PER_TABLEAU = EXPEDITION_BATTLES / EXPEDITION_TUNINGS[1].tableaux.length;
 
 export const TABLEAU_NAMES = [
   TEXT.laValleeDesSifflements,
@@ -33,6 +34,12 @@ export const TABLEAU_NAMES = [
   TEXT.lesPicsAuxMilleCrocs,
 ] as const;
 export const GUARDIAN_NAMES = [TEXT.capitaineZigzag, TEXT.madameGloups, TEXT.kingSnake] as const;
+/** Each guardian beaten, in its own words: « vaincu » or « vaincue ». King Snake ends it all. */
+const GUARDIAN_BEATEN = [TEXT.capitaineZigzagEstVaincu, TEXT.madameGloupsEstVaincue] as const;
+const GUARDIAN_BEATEN_ONWARD = [
+  TEXT.capitaineZigzagEstVaincuUnNouveauTableau,
+  TEXT.madameGloupsEstVaincueUnNouveauTableau,
+] as const;
 export const PATH_NAMES: Record<Path, string> = {
   calm: TEXT.leCheminTranquille,
   brave: TEXT.leCheminDesBraves,
@@ -43,8 +50,8 @@ export const HALT_NAMES: Record<HaltKind, string> = {
   oeuf: TEXT.lOeufMystere,
 };
 /** What a halt promises, before the child stops there. */
-export function haltPromise(halt: HaltKind): string {
-  const tuning = EXPEDITION_TUNINGS[1];
+export function haltPromise(state: ExpeditionState, halt: HaltKind): string {
+  const tuning = tuningOf(state);
   if (halt === 'feu') return fill(TEXT.tonCristalSeRepareDeNEtTesAllies, tuning.campfire.crystal);
   return halt === 'roulotte' ? TEXT.acheteUnCadeauAvecTesPieces : TEXT.uneSurpriseToujoursGentille;
 }
@@ -60,14 +67,12 @@ export const underWay = (state: ExpeditionState | null): state is ExpeditionStat
 /** The name of the screen, and the mission it is about when there is one to play. */
 export function expeditionHeading(state: ExpeditionState): { title: string; step: string } {
   const phase = expeditionPhase(state);
-  if (phase === 'arrived') return { title: TEXT.bravoTuAsFiniLaGrandeExpedition, step: '' };
+  if (phase === 'arrived')
+    return { title: fill(TEXT.bravoTuAsFiniN, TEXT.laGrandeExpedition), step: '' };
   if (phase === 'roulotte') return { title: TEXT.laRoulotteDeMamiePistache, step: '' };
   if (phase === 'gift') {
     // A guardian has just fallen when the gift opens a new tableau.
-    const title =
-      state.step === 0
-        ? fill(TEXT.nEstVaincu, GUARDIAN_NAMES[state.tableau - 1])
-        : TEXT.missionGagnee;
+    const title = state.step === 0 ? GUARDIAN_BEATEN[state.tableau - 1] : TEXT.missionGagnee;
     return { title, step: '' };
   }
   const step =
@@ -114,7 +119,9 @@ export function stepWords(
       : step.kind === 'battle' && step.battle.king
         ? fill(TEXT.leGardienN, GUARDIAN_NAMES[state.tableau])
         : fill(TEXT.missionN, battles);
-  return { name, state: STEP_STATES[stepState] };
+  // A halt is passed, never won.
+  const said = step.kind === 'halt' && stepState === 'done' ? TEXT.passee : STEP_STATES[stepState];
+  return { name, state: said };
 }
 
 /** A gift on a card: its name, what it gives once taken, and the words of its button. */
@@ -125,16 +132,19 @@ export function giftWords(
 ): { title: string; detail: string; action: string } {
   if (isLastingBoon(id)) {
     const owned = boonLevel(state.boons, id);
-    const next = Math.min(RULES.maxLevel, owned + (rare ? 2 : 1));
-    return {
-      title: boonTitle(id),
-      detail: boonDetail(id, next, RULES.steps),
-      action: owned ? fill(TEXT.monterAuNiveauN, next) : TEXT.choisirCeCadeau,
-    };
+    const next = levelAfterGift(state, id, rare);
+    const action = owned
+      ? fill(TEXT.monterAuNiveauN, next)
+      : next > 1
+        ? fill(TEXT.choisirNiveauN, next)
+        : TEXT.choisirCeCadeau;
+    return { title: boonTitle(id), detail: boonDetail(id, next, RULES.steps), action };
   }
   const reward = REWARDS[id as RewardId];
   const detail =
-    id === 'pieces' ? reward.detail : `${reward.detail} ${TEXT.pourLaProchaineMission}`;
+    id === 'pieces'
+      ? fill(TEXT.nPiecesPourRecruterTesAllies, giftCoins(rare))
+      : `${reward.detail} ${TEXT.pourLaProchaineMission}`;
   return { title: reward.title, detail, action: TEXT.choisirCeCadeau };
 }
 
@@ -152,18 +162,18 @@ export function campWords(state: ExpeditionState): string[] {
   return [
     fill(TEXT.alliesN, camp.units.length),
     fill(TEXT.piecesN, camp.gold),
-    fill(TEXT.cristalN, Math.round(camp.base)),
+    fill(TEXT.tonCristalNPourcent, Math.round(camp.base)),
   ];
 }
 
 /** What a halt did, said once on the map after it. */
 export function haltNotice(before: ExpeditionState, after: ExpeditionState, halt: HaltKind) {
-  if (halt === 'feu') return TEXT.tonCristalEstRepareTesAlliesSeSont;
+  if (halt === 'feu') return TEXT.tonCristalSEstRepareTesAllies;
   if (halt !== 'oeuf') return '';
   const climbed = after.boons.find((b) => boonLevel(before.boons, b.id) < b.level);
   if (climbed)
     return fill(TEXT.lOeufMystereFaitMonterNAuNiveauN, boonTitle(climbed.id), climbed.level);
-  return fill(TEXT.lOeufMystereTOffreNPieces, EXPEDITION_TUNINGS[1].eggCoins);
+  return fill(TEXT.lOeufMystereTOffreNPieces, tuningOf(before).eggCoins);
 }
 
 /** Before an expedition under way is replaced: what would stop. */
@@ -180,17 +190,29 @@ export const battleMark = (state: ExpeditionState): string =>
  * The end of a battle, on the board. `after` is the expedition once the battle is recorded,
  * null when the snakes won: the camp comes back as it was. One way on, whatever happened.
  */
-export function battleOutcome(after: ExpeditionState | null): { note: string; button: string } {
+export function battleOutcome(after: ExpeditionState | null | 'unsaved'): {
+  note: string;
+  button: string;
+} {
+  // A victory the device refused to keep: said plainly, and the way back is still there.
+  if (after === 'unsaved')
+    return { note: TEXT.taVictoireNAPasPuEtreGardee, button: TEXT.revenirALExpedition };
   if (!after)
-    return { note: TEXT.lesSerpentsOntGagneCetteFoisTonCamp, button: TEXT.revenirALExpedition };
+    return { note: TEXT.rienNEstPerduRejoueCetteMission, button: TEXT.revenirALExpedition };
   if (after.status === 'arrived')
-    return { note: TEXT.kingSnakeEstVaincuTuAsFiniLaGrande, button: TEXT.continuerLExpedition };
+    return {
+      note: fill(TEXT.nEstVaincuTuAsFiniLaGrandeExpedition, GUARDIAN_NAMES.at(-1)!),
+      button: TEXT.continuerLExpedition,
+    };
   const note =
     after.step === 0
-      ? fill(TEXT.nEstVaincuUnNouveauTableauTAttend, GUARDIAN_NAMES[after.tableau - 1])
-      : TEXT.missionGagneeTonCampTeSuit;
+      ? GUARDIAN_BEATEN_ONWARD[after.tableau - 1]
+      : TEXT.tonCampTeSuitALaProchaineMission;
   return { note, button: TEXT.continuerLExpedition };
 }
+/** What the board's status line says is kept, true to what the device did. */
+export const keptLine = (saved: boolean) =>
+  saved ? TEXT.lExpeditionEstGardeeEntreDeuxMissions : TEXT.cetAppareilNeGardePasLExpedition;
 
 export const arrivedLine = () => fill(TEXT.tuAsGagneLesNMissions, EXPEDITION_BATTLES);
 export const coinsLine = (coins: number) => fill(TEXT.tuAsNPieces, coins);

@@ -3,9 +3,9 @@ import { BOON_RULES, isLastingBoon } from '../../../boons.ts';
 import type { BoonId, LastingBoon } from '../../../boons.ts';
 import { capriceDefinitionForRun } from '../../../caprices.ts';
 import type { CapriceDefinition } from '../../../caprices.ts';
-import { expeditionPlanOf, giftOffer, roulotteOffer } from '../../../expedition.ts';
+import { coinsOf, expeditionPlanOf, giftOffer, roulotteOffer } from '../../../expedition.ts';
 import type { Battle, ExpeditionState, HaltKind, Path } from '../../../expedition.ts';
-import { setAttribute, setText } from '../../../i18n/dom.ts';
+import { setAttribute } from '../../../i18n/dom.ts';
 import { missionById } from '../../../missions.ts';
 import { activeEnemyLanes } from '../../../tutorial.ts';
 import { BOON_SIGNS } from '../../boonCopy.ts';
@@ -30,7 +30,6 @@ import {
   recordLine,
   stepStates,
   stepWords,
-  TABLEAU_NAMES,
 } from './expeditionWords.ts';
 import type { StepState } from './expeditionWords.ts';
 import * as TEXT from '../../../texts/fr/expedition.ts';
@@ -113,7 +112,7 @@ function trail(state: ExpeditionState) {
   }
   const where = make('span', {
     className: 'exp-where',
-    text: fill(TEXT.tableauNSurN, state.tableau + 1, TABLEAU_NAMES.length),
+    text: fill(TEXT.tableauNSurN, state.tableau + 1, expeditionPlanOf(state).tableaux.length),
   });
   return make('div', { className: 'exp-road' }, where, list);
 }
@@ -149,20 +148,12 @@ function battleCard(
   const lanes = activeEnemyLanes(battle.run, 1);
   const card = make('article', { className: 'exp-card' });
   card.dataset.path = battle.path;
-  const head = make('h3', { text: title });
+  const head = make('h3', { id: `exp-head-${battle.path}`, text: title });
   const map = make('span', { className: 'stop-map' }, stopMap(battle.run, lanes));
   const facts = make('div', { className: 'exp-facts' });
   facts.append(make('strong', { text: missionById(battle.run.missionId)!.name }));
-  if (battle.king) {
-    facts.append(
-      make(
-        'span',
-        { className: 'exp-guardian' },
-        king(),
-        make('span', { text: GUARDIAN_NAMES[state.tableau] }),
-      ),
-    );
-  }
+  // The guardian's name is the card's title: its picture stands beside the map.
+  if (battle.king) facts.append(make('span', { className: 'exp-guardian' }, king()));
   const caprice = capriceDefinitionForRun(battle.run);
   if (caprice)
     facts.append(
@@ -173,20 +164,26 @@ function battleCard(
         frenchLeaf('span', caprice.name),
       ),
     );
-  const reward = make('span', {
-    className: 'exp-reward',
-    text: battle.path === 'brave' ? TEXT.unCadeauRareApresLaMission : TEXT.unCadeauApresLaMission,
-  });
-  if (battle.path === 'brave') reward.dataset.rare = '';
-  facts.append(reward);
+  // King Snake ends the expedition: no gift waits after him.
+  const last = battle.king && state.tableau === expeditionPlanOf(state).tableaux.length - 1;
+  if (!last) {
+    const reward = make('span', {
+      className: 'exp-reward',
+      text: battle.path === 'brave' ? TEXT.unCadeauRareApresLaMission : TEXT.unCadeauApresLaMission,
+    });
+    if (battle.path === 'brave') reward.dataset.rare = '';
+    facts.append(reward);
+  }
   const play = button(undefined, ['primary', 'exp-go'], TEXT.cEstParti, go);
   play.dataset.path = battle.path;
+  // Two « C'est parti ! » side by side: each one is told by the name of its path.
+  if (title) play.setAttribute('aria-describedby', head.id);
   card.append(head, make('div', { className: 'exp-body' }, map, facts), play);
   return card;
 }
 
 /** A halt to choose: its picture, its name, what it promises, and its button. */
-function haltCard(halt: HaltKind, choose: () => void) {
+function haltCard(state: ExpeditionState, halt: HaltKind, choose: () => void) {
   const picture = decoration('span', 'exp-halt-picture');
   picture.dataset.halt = halt;
   if (halt === 'roulotte') picture.append(make('i'), make('i'), make('i'));
@@ -194,20 +191,21 @@ function haltCard(halt: HaltKind, choose: () => void) {
     'article',
     { className: 'exp-card' },
     picture,
-    make('h3', { text: HALT_NAMES[halt] }),
-    make('p', { text: haltPromise(halt) }),
+    make('h3', { id: `exp-head-${halt}`, text: HALT_NAMES[halt] }),
+    make('p', { text: haltPromise(state, halt) }),
   );
   card.classList.add('exp-halt');
   card.dataset.halt = halt;
   const stop = button(undefined, ['primary', 'exp-go'], TEXT.sArreterIci, choose);
   stop.dataset.halt = halt;
+  stop.setAttribute('aria-describedby', `exp-head-${halt}`);
   card.append(stop);
   return card;
 }
 
-/** The sign of a lasting gift in its clay disc; the once cards keep their picture. */
+/** The sign of a lasting gift in its clay disc; the honey pot and the once cards keep their picture. */
 function giftPicture(id: BoonId) {
-  if (!isLastingBoon(id)) return bonusPicture(id);
+  if (!isLastingBoon(id) || id === 'miel') return bonusPicture(id);
   const sign = decoration('span', 'exp-sign');
   sign.dataset.boon = id;
   sign.textContent = BOON_SIGNS[id];
@@ -216,10 +214,12 @@ function giftPicture(id: BoonId) {
 
 /** « Tes cadeaux » : the five places, a sign and its stars in each one taken. */
 function giftsRow(state: ExpeditionState) {
-  const row = make('div', { className: 'exp-gifts' });
-  row.setAttribute('role', 'list');
-  setAttribute(row, 'aria-label', giftsLabel(state.boons.length));
-  row.append(make('span', { className: 'bag-title', text: TEXT.tesCadeaux }));
+  const list = make('span', { className: 'exp-places' });
+  list.setAttribute('role', 'list');
+  setAttribute(list, 'aria-label', giftsLabel(state.boons.length));
+  const title = make('span', { className: 'bag-title', text: TEXT.tesCadeaux });
+  title.setAttribute('aria-hidden', 'true');
+  const row = make('div', { className: 'exp-gifts' }, title, list);
   for (let place = 0; place < BOON_RULES[1].places; place++) {
     const held = state.boons[place];
     const slot = make('span', { className: held ? 'exp-held' : 'bag-empty' });
@@ -227,11 +227,11 @@ function giftsRow(state: ExpeditionState) {
     if (held) {
       const words = heldWords(held.id, held.level);
       setAttribute(slot, 'aria-label', words.label);
-      slot.title = words.detail;
+      setAttribute(slot, 'title', words.detail);
       slot.append(giftPicture(held.id), decoration('small', 'exp-stars'));
       slot.lastElementChild!.textContent = '★'.repeat(held.level);
     } else setAttribute(slot, 'aria-label', TEXT.placeLibre);
-    row.append(slot);
+    list.append(slot);
   }
   return row;
 }
@@ -256,6 +256,7 @@ function foot(state: ExpeditionState, actions: ExpeditionActions, other = true) 
 export function mapView(
   state: ExpeditionState,
   notice: string,
+  best: number,
   actions: ExpeditionActions,
 ): Node[] {
   const step = expeditionPlanOf(state).tableaux[state.tableau][state.step];
@@ -280,12 +281,18 @@ export function mapView(
   } else {
     ask = TEXT.choisisTaHalte;
     for (const [index, halt] of step.halts.entries())
-      choices.append(haltCard(halt, () => actions.halt(index as 0 | 1)));
+      choices.append(haltCard(state, halt, () => actions.halt(index as 0 | 1)));
   }
   choices.dataset.count = String(choices.childElementCount);
   const lines = make('div', { className: 'exp-lines' });
-  if (notice) lines.append(make('p', { className: 'exp-notice', text: notice }));
+  if (notice) {
+    const said = make('p', { className: 'exp-notice', text: notice });
+    said.setAttribute('role', 'status');
+    lines.append(said);
+  }
   if (ask) lines.append(make('h2', { text: ask }));
+  const record = recordLine(best);
+  if (record) lines.append(make('p', { className: 'exp-record', text: record }));
   if (step.kind !== 'halt' && (state.tableau > 0 || state.step > 0))
     lines.append(
       make('p', { className: 'exp-grow', text: TEXT.lesSerpentsGrandissentAChaqueMission }),
@@ -295,8 +302,14 @@ export function mapView(
 }
 
 /** One card to choose: the whole card is the button. */
-function giftCard(state: ExpeditionState, id: BoonId, rare: boolean, choose: () => void) {
-  const words = giftWords(state, id, rare);
+function giftCard(
+  state: ExpeditionState,
+  id: BoonId,
+  rare: boolean,
+  choose: () => void,
+  action?: string,
+) {
+  const words = { ...giftWords(state, id, rare), ...(action ? { action } : {}) };
   const card = make(
     'button',
     { className: 'bonus-card' },
@@ -305,10 +318,12 @@ function giftCard(state: ExpeditionState, id: BoonId, rare: boolean, choose: () 
     make('span', { className: 'bonus-detail', text: words.detail }),
     make('small', { text: words.action }),
   );
+  // A plain « Choisir » can hide on a low screen; a level or a price always shows.
+  if (words.action === TEXT.choisirCeCadeau) card.dataset.plain = '';
   card.type = 'button';
   card.classList.add('exp-gift');
   card.dataset.gift = id;
-  setAttribute(card, 'aria-label', `${words.title}. ${words.detail}`);
+  setAttribute(card, 'aria-label', `${words.title}. ${words.detail} ${words.action}`);
   card.onclick = choose;
   return card;
 }
@@ -334,7 +349,7 @@ function replaceChoice(
     card.onclick = () => actions.replace(held.id);
     return card;
   });
-  const keep = button('expedition-keep', ['secondary'], TEXT.garderMesCadeaux, () =>
+  const keep = button('expedition-keep-gifts', ['secondary'], TEXT.garderMesCadeaux, () =>
     actions.replace(null),
   );
   return [
@@ -363,14 +378,16 @@ export function giftView(
   const pending = state.pending?.kind === 'gift' ? state.pending : null;
   const rare = !!pending?.rare;
   const ask = make('div', { className: 'exp-ask' }, make('h2', { text: TEXT.choisisTonCadeau }));
-  if (rare)
-    ask.append(make('p', { className: 'exp-rare', text: TEXT.cadeauRareIlArriveAuNiveau2 }));
+  const offer = giftOffer(state);
+  // Only a lasting gift or the purse counts twice when rare: say it only then.
+  const twice = offer.some((id) => isLastingBoon(id) || id === 'pieces');
+  if (rare && twice) ask.append(make('p', { className: 'exp-rare', text: TEXT.cadeauRare }));
   const row = make('div', { className: 'exp-ask-actions' });
   if (pending && !pending.rerolled)
     row.append(button('expedition-reroll', ['secondary'], TEXT.troisAutresCadeaux, actions.reroll));
   row.append(button('expedition-skip', ['secondary'], TEXT.neRienPrendre, actions.skip));
   ask.append(row);
-  const cards = giftOffer(state).map((id) => giftCard(state, id, rare, () => actions.gift(id)));
+  const cards = offer.map((id) => giftCard(state, id, rare, () => actions.gift(id)));
   return [
     ask,
     withClasses(make('div', { className: 'bonus-cards' }, ...cards), 'exp-gift-cards'),
@@ -386,7 +403,7 @@ export function roulotteView(
 ): Node[] {
   // The five gifts are the cards themselves: no row of places under them.
   if (replacing) return replaceChoice(state, replacing, actions);
-  const coins = state.camp?.gold ?? state.purse;
+  const coins = coinsOf(state);
   const offer = roulotteOffer(state);
   const items = [
     ...offer.buy.map((item) => ({ ...item, label: fill(TEXT.acheterNPieces, item.price) })),
@@ -396,8 +413,7 @@ export function roulotteView(
     }),
   ];
   const cards = items.map((item) => {
-    const card = giftCard(state, item.id, false, () => actions.buy(item.id));
-    setText(card.querySelector('small')!, item.label);
+    const card = giftCard(state, item.id, false, () => actions.buy(item.id), item.label);
     card.disabled = coins < item.price;
     return card;
   });

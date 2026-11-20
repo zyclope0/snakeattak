@@ -551,7 +551,6 @@ export async function checkVoyage({ browser, url, check, capture }) {
     for (const [w, h] of grid) {
       const t = TEXT[language];
       const where = `${w}×${h} ${language}`;
-      const wide = w > 700;
       // The map at the third stage: two stops done, the third to play, its caprice in view.
       let page = await open(w, h, {
         language,
@@ -570,8 +569,10 @@ export async function checkVoyage({ browser, url, check, capture }) {
       );
       check(state.step === t.step(3), `map says « ${t.step(3)} », ${report}`);
       check(
-        state.record === (wide ? t.record(3) : null) && state.note === t.note,
-        `map shows the record and what is kept, ${report}`,
+        // The door of « La Grande Expédition » holds the record's place in the top row: the
+        // record shows once the voyage is over.
+        state.record === null && state.note === t.note,
+        `map shows what is kept, the record waits for the end, ${report}`,
       );
       check(state.strangers.length === 0, `map hides the stars and the brand, ${report}`);
       check(

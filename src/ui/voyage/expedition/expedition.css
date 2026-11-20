@@ -7,7 +7,7 @@
 #home-screen #expedition-door {
   position: relative;
   min-height: 48px;
-  padding: 4px max(12px, calc(var(--hu) * 1.2));
+  padding: calc(var(--hu) * 0.4) max(12px, calc(var(--hu) * 1.2));
   font-size: max(14px, calc(var(--hu) * 1.5));
   border-radius: 10px;
   white-space: nowrap;
@@ -123,7 +123,7 @@
 .voyage-view .exp-notice {
   width: 100%;
   font-weight: 800;
-  color: #147c68;
+  color: #0f5f50;
 }
 .voyage-view .exp-grow {
   font-size: max(12px, calc(var(--hu) * 1.2));
@@ -140,7 +140,7 @@
   min-height: 0;
 }
 .exp-choices[data-count='1'] {
-  grid-template-columns: minmax(0, 32rem);
+  grid-template-columns: minmax(0, calc(var(--hu) * 36));
   justify-content: center;
 }
 .exp-card {
@@ -232,7 +232,7 @@
 }
 .exp-go {
   min-height: max(48px, calc(var(--hu) * 4.6));
-  padding: 4px 10px;
+  padding: calc(var(--hu) * 0.4) calc(var(--hu) * 1);
   font-size: max(17px, calc(var(--hu) * 1.8));
   border-radius: calc(var(--hu) * 1.1);
   box-shadow: 0 4px 0 #a37524;
@@ -332,7 +332,13 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, max(150px, calc(var(--hu) * 15))), 1fr));
 }
 .exp-shop .bonus-card:disabled {
-  opacity: 0.55;
+  border-color: #c9bda0;
+  background: #e6dcc6;
+  box-shadow: none;
+  color: #3c4a40;
+}
+.exp-shop .bonus-card:disabled small {
+  background: #6d7f74;
 }
 .voyage-view .exp-coins {
   display: flex;
@@ -359,6 +365,11 @@
   align-items: center;
   gap: calc(var(--hu) * 0.5);
   min-width: 0;
+}
+.exp-places {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hu) * 0.5);
 }
 .exp-held {
   position: relative;
@@ -429,9 +440,14 @@
   .exp-body .stop-map svg {
     max-height: calc(var(--hu) * 6);
   }
-  /* Le choix d'un cadeau : la consigne est dans le titre, chaque carte entière se touche. */
+  /* Le choix d'un cadeau : chaque carte entière se touche ; un « Choisir » tout simple laisse
+     sa place, un niveau à monter reste écrit. */
   [data-view='gift'] .exp-ask h2,
-  .exp-gift-cards .bonus-card small {
+  .exp-gift-cards .bonus-card[data-plain] small {
+    display: none;
+  }
+  /* À la roulotte, les cartes défilent seules : « Repartir » reste en haut, sans le pied. */
+  [data-view='roulotte'] .exp-foot {
     display: none;
   }
 }
@@ -540,12 +556,6 @@
     min-height: 0;
   }
 }
-@media (max-width: 999px) {
-  /* La porte de l'expédition prend la place du record dans la rangée du haut. */
-  #voyage-record {
-    display: none;
-  }
-}
 
 /* ---- L'arrivée : King Snake en trophée, au milieu du panneau ---- */
 [data-view='arrived'] .voyage-view {
@@ -561,6 +571,10 @@
 [data-view='arrived'] .exp-foot {
   border-top: 0;
 }
+[data-view='arrived'] .voyage-actions {
+  grid-template-columns: auto;
+  justify-content: center;
+}
 @media (max-height: 520px) {
   .exp-trophy {
     width: calc(var(--hu) * 6);
@@ -572,4 +586,11 @@
     min-height: calc(var(--hu) * 7);
     max-height: calc(var(--hu) * 10);
   }
+}
+
+/* La roulotte : la vue tient dans le panneau, et sa boutique défile seule quand elle a beaucoup
+   de cadeaux (jusqu'à huit). */
+[data-view='roulotte'] .voyage-view {
+  flex: 1 1 auto;
+  min-height: 0;
 }

@@ -51,7 +51,14 @@ export function logExpedition(log: ExpeditionLog, state: ExpeditionState): Exped
 export function loadExpeditionLog(storage?: ReadPort): ExpeditionLog {
   try {
     const raw = storage?.getItem(EXPEDITION_STORAGE_KEY);
-    return readBoundedJson(raw, LOG_LIMIT, validateExpeditionLog) ?? createExpeditionLog();
+    return (
+      readBoundedJson(raw, LOG_LIMIT, validateExpeditionLog) ??
+      // An expedition that cannot be read is lost, its record is not.
+      readBoundedJson(raw, LOG_LIMIT, (value) =>
+        isRecord(value) ? validateExpeditionLog({ ...value, current: null }) : null,
+      ) ??
+      createExpeditionLog()
+    );
   } catch {
     return createExpeditionLog();
   }

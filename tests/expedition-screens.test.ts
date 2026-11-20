@@ -39,6 +39,14 @@ while (walk.tableau === 0) {
   else walk = win(walk, 'calm').next;
 }
 const guardianBeaten = walk;
+while (walk.status === 'travelling') {
+  const phase = X.expeditionPhase(walk);
+  if (phase === 'gift') walk = X.skipGift(walk)!;
+  else if (phase === 'roulotte') walk = X.leaveRoulotte(walk)!;
+  else if (phase === 'halt') walk = X.chooseHalt(plan, walk, 0)!;
+  else walk = win(walk, 'calm').next;
+}
+const arrivedState = walk;
 
 test('le titre, le chemin des sept pas et ce que dit le plateau suivent l’expédition', () => {
   assert.deepEqual(W.expeditionHeading(start), {
@@ -66,7 +74,7 @@ test('le titre, le chemin des sept pas et ce que dit le plateau suivent l’exp�
   assert.equal(W.stepWords(fork, 3, 'ahead').name, 'Mission 3');
   assert.equal(W.stepWords(fork, 2, 'ahead').name, 'Une halte');
   assert.equal(W.battleMark(fork), 'Expédition · mission 2 sur 5');
-  assert.equal(W.battleOutcome(gift).note, 'Mission gagnée ! Ton camp te suit.');
+  assert.equal(W.battleOutcome(gift).note, 'Ton camp te suit à la prochaine mission.');
   assert.equal(
     W.battleOutcome(guardianBeaten).note,
     'Capitaine Zigzag est vaincu ! Un nouveau tableau t’attend.',
@@ -88,7 +96,11 @@ test('les cadeaux disent ce qu’ils donneront ; un rare arrive au niveau 2', ()
     action: 'Monter au niveau 2',
   });
   assert.equal(W.giftWords(gift, 'forge', true).detail, 'Tes alliés frappent plus fort : +30 %');
-  assert.equal(W.giftWords(gift, 'forge', true).action, 'Choisir ce cadeau');
+  assert.equal(W.giftWords(gift, 'forge', true).action, 'Choisir · niveau 2');
+  assert.equal(W.giftWords(gift, 'pieces', true).detail, '200 pièces pour recruter tes alliés.');
+  assert.equal(W.giftWords(gift, 'pieces', false).detail, '100 pièces pour recruter tes alliés.');
+  assert.equal(W.stepWords(halt, 2, 'done').state, 'passée');
+  assert.equal(W.campWords(fork)[2], `Ton cristal : ${Math.round(fork.camp!.base)} %`);
   assert.match(W.giftWords(gift, 'renfort-ninja', false).detail, /Pour la prochaine mission\.$/);
   const egg = X.chooseHalt(plan, { ...halt, boons: [] }, 0)!;
   const step = plan.tableaux[0][halt.step];
@@ -121,6 +133,12 @@ test('le carnet de l’expédition : gardé par joueur, record qui suit, rien de
   assert.equal(S.validateExpeditionLog({ version: 1, best: 0, current: fork }), null);
   assert.equal(S.validateExpeditionLog({ version: 1, best: 99, current: null }), null);
   stored.set('conquete-serpents:expedition:v1', '{"version":1,"best":2,"current":{"seed":1}}');
+  assert.deepEqual(
+    S.loadExpeditionLog(port),
+    { version: 1, best: 2, current: null },
+    'the record stays',
+  );
+  stored.set('conquete-serpents:expedition:v1', '{"version":1,"best":"x","current":null}');
   assert.deepEqual(S.loadExpeditionLog(port), S.createExpeditionLog());
 });
 
@@ -137,11 +155,13 @@ test('every sentence of the expedition reads in English', async () => {
         W.replaceSentence(fork),
         'You have already won 1 mission. If you change, you start again from the beginning.',
       ],
-      [W.giftsLabel(2), 'Your gifts: 2 of 5 places'],
+      [W.giftsLabel(2), 'Your gifts: 2 of 5 spots'],
       [W.arrivedLine(), 'You won all 15 missions!'],
       [W.coinsLine(420), 'You have 420 coins'],
-      [W.haltPromise('feu'), 'Your crystal mends by 40 and your allies get some rest.'],
+      [W.haltPromise(start, 'feu'), 'Your crystal mends by 40 and your allies get some rest.'],
       [victoryCopy(firstGame).title, 'Mission won!'],
+      [W.campWords(fork)[2], `Your crystal: ${Math.round(fork.camp!.base)}%`],
+      [W.expeditionHeading(arrivedState).title, 'Well done! You finished The Great Expedition'],
     ];
     for (const [french, expected] of english) assert.equal(copy(french), expected, french);
   } finally {
