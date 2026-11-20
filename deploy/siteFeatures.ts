@@ -7,15 +7,15 @@ import { imageMetadata } from './imageMetadata.ts';
  * in here: an empty value never publishes half a page.
  *
  * The test of the Android application: a public Google Group anyone may join (« lien
- * public »), then the page where Google Play lets a member join the closed test. Both come
- * from the parent once he has created them. A button leads to the page from every page of
+ * public »), then the page where Google Play lets a member join the closed test (track
+ * « Alpha », created by the parent on 20 November 2026). A button leads to the page from every page of
  * the website (« bouton partout »), never from the game or the application.
  */
 export const ANDROID_TEST = {
   /** The Google Group of the testers, e.g. https://groups.google.com/g/<name>. */
-  group: '',
+  group: 'https://groups.google.com/g/snakeattack-testeurs',
   /** Google Play's own page to join the test, e.g. https://play.google.com/apps/testing/<id>. */
-  optIn: '',
+  optIn: 'https://play.google.com/apps/testing/com.conqueteserpents.famille',
 };
 /**
  * Google's rule for a new personal developer account before it may publish (read on
