@@ -1,4 +1,4 @@
-# Plan actuel — 19 novembre 2026
+# Plan actuel — 20 novembre 2026
 
 Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
 [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
@@ -22,7 +22,8 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   ([TESTEURS-ET-JOUEURS.md](TESTEURS-ET-JOUEURS.md)). Pages « Tester sur Android » et
   « L'histoire » prêtes. Le test fermé « Alpha » existe (créé par le parent le 20 novembre,
   groupe `snakeattack-testeurs`, trois modifications envoyées à l'examen de Google) : la page
-  « Tester sur Android » et son bouton sont allumés. « L'histoire » attend le dessin.
+  « Tester sur Android » et son bouton sont allumés. « L'histoire » est allumée avec la
+  photo du dessin déjà dans le dépôt, recadrée (en attendant une photo prise d'en haut).
   La politique de confidentialité a sa section « Test de l'application Android » (acceptée et
   datée du 20 novembre) ; l'âge du fils (8 ans) est réglé. Le prochain build Android
   emportera la politique datée du 20 novembre.
