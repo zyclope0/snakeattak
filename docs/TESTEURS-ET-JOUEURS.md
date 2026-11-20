@@ -117,10 +117,10 @@ dans le jeu ni dans l'application ».
 - **Le fils** : seulement son dessin et son âge.
 - **Publicité** : éteinte (AdSense n'a pas encore validé le site).
 
-## Ce qui est prêt (éteint)
+## Les deux pages (allumées le 20 novembre)
 
 Tout est dans `deploy/siteFeatures.ts`. Tant qu'une valeur est vide, sa page n'existe pas et
-aucun lien n'y mène ; le site publié ne change pas.
+aucun lien n'y mène. Les deux pages sont allumées depuis le 20 novembre.
 
 - **« Tester sur Android »** (`/fr/tester-android/`, `/en/test-android/`) : qui peut tester,
   rejoindre le groupe, rejoindre le test sur Google Play, garder l'application 14 jours, écrire
@@ -130,11 +130,13 @@ aucun lien n'y mène ; le site publié ne change pas.
 - **« L'histoire »** (`/fr/histoire/`, `/en/story/`), juste après l'accueil dans le menu : le
   dessin, l'âge, les règles du fils, ses idées depuis, ce que le jeu ne fait pas. S'allume quand
   `STORY.age` est rempli et que le dessin est à `resources/site/dessin-du-jeu.jpg` (JPEG ou PNG).
-  Une photo du dessin existe déjà dans le dépôt (`public/references/dessin-original.jpg`), mais
-  on y voit la table et un billet de train ; une photo prise d'en haut, sur fond uni, serait
-  mieux.
-- Vérifié par `tests/site-features.test.ts` (éteint aujourd'hui ; réglages faux refusés ; une
-  fois allumé, 14 pages, le bouton sur chacune, les deux liens vers Google, le plan du site) et
+  **Allumée le 20 novembre** avec la photo déjà dans le dépôt
+  (`public/references/dessin-original.jpg`), à la demande du parent (« prend celui que tu as
+  pour le moment ») : coupée au-dessus de la feuille pour enlever le billet de train, 720 px
+  de large (la largeur affichée), moins de 60 Ko, sans métadonnées. Une photo prise d'en haut,
+  sur fond uni, peut la remplacer à tout moment au même endroit.
+- Vérifié par `tests/site-features.test.ts` (les deux pages allumées ; réglages faux refusés ;
+  14 pages, le bouton sur chacune, les deux liens vers Google, le plan du site) et
   par des captures, pages allumées avec de faux liens, à 1280×800 et 390×844.
 
 ## Ce qu'il faut du parent pour allumer
@@ -157,8 +159,7 @@ aucun lien n'y mène ; le site publié ne change pas.
    liste des membres visible par le propriétaire seulement, personne ne peut écrire), ajouté
    comme liste de testeurs d'une piste de **test fermé** où le build 63 est promu ; puis les
    deux adresses : celle du groupe et celle du lien d'inscription au test.
-3. **L'âge du fils** : **8 ans** (20 novembre). **Le dessin** : attendu, à déposer à
-   `resources/site/dessin-du-jeu.jpg`.
+3. **L'âge du fils** : **8 ans** (20 novembre). **Le dessin** : la photo du dépôt, recadrée, en attendant une meilleure (20 novembre).
 
 ## Pas vérifié
 
