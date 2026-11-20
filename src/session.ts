@@ -3,6 +3,7 @@ import type { Kind } from './data.ts';
 import type { FeastFlavor } from './tactics.ts';
 import { CURRENT_BALANCE_REVISION, type BalanceRevision } from './balanceRevision.ts';
 import { START_TEAM_SIZE } from './gameConstants.ts';
+import { CURRENT_ENDLESS_VERSION, ENDLESS_RULES } from './endless.ts';
 
 const STEP = 1 / 30;
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
@@ -22,7 +23,19 @@ export class Session {
     this.game = new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION);
   }
   restart(seed = freshSeed(), balanceRevision: BalanceRevision = CURRENT_BALANCE_REVISION) {
-    this.game = new Game(seed, undefined, undefined, balanceRevision);
+    this.useGame(new Game(seed, undefined, undefined, balanceRevision));
+  }
+  /** A new endless adventure, by the latest rules of the endless adventure. */
+  restartEndless(seed = freshSeed()) {
+    const rules = ENDLESS_RULES[CURRENT_ENDLESS_VERSION];
+    this.useGame(new Game(seed, undefined, undefined, rules.balance, undefined, rules));
+  }
+  /** Starts again a game of the same kind as the current one: endless stays endless. */
+  restartSame() {
+    if (this.game.endless) this.restartEndless();
+    else this.restart();
+  }
+  #reset() {
     this.selectUnit(null);
     this.hasPlaced = false;
     this.speed = 1;
@@ -30,10 +43,8 @@ export class Session {
   }
   useGame(game: Game) {
     this.game = game;
-    this.selectUnit(null);
-    this.hasPlaced = game.wave > 0 || game.units.length > START_TEAM_SIZE;
-    this.speed = 1;
-    this.accumulator = 0;
+    this.#reset();
+    this.hasPlaced = game.wave > 0 || game.kings > 0 || game.units.length > START_TEAM_SIZE;
   }
   placeSelected(x: number, y: number): boolean {
     if (!this.selected || !this.game.recruit(this.selected, x, y)) return false;

@@ -84,3 +84,10 @@ export const nouveauSerpentN = 'New snake: {0}!';
 export const nouvelAllieN = 'New ally: {0}!';
 export const nouveauxAlliesNEtN = 'New allies: {0} and {1}!';
 export const nouveauxAlliesNNEtN = 'New allies: {0}, {1} and {2}!';
+/** End of an endless adventure: home with the record. */
+export const bienJoue = 'Well played!';
+/** End of an endless adventure: the camp fell. */
+export const quelleAventure = 'What an adventure!';
+/** End of an endless adventure: how far it went. */
+export const tuAsTenuJusquALaVagueNAvecNRois =
+  'You held on until wave {0}, with {1} king{2} beaten.';

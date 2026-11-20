@@ -1,6 +1,6 @@
 import { activeEnemyLanes } from './tutorial.ts';
 import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
-import { endlessStats, readEndlessRules } from './endless.ts';
+import { endlessStats, endlessWave, readEndlessRules } from './endless.ts';
 import { BOON_STEPS, boonLevel, boonOffer, isLastingBoon, readBoons, takeBoon } from './boons.ts';
 import type { BoonId, Boons, LastingBoon } from './boons.ts';
 import type { EndlessRules } from './endless.ts';
@@ -516,8 +516,32 @@ export class Game {
     this.eggs = layWaveEggs(this, plan);
     this.message =
       !this.mission && this.wave === TOTAL_WAVES
-        ? TEXT.laDerniereVagueKingSnakeApproche
-        : fill(TEXT.vagueNDefendsLeCamp, this.wave);
+        ? this.#endless
+          ? TEXT.kingSnakeRevient
+          : TEXT.laDerniereVagueKingSnakeApproche
+        : fill(
+            TEXT.vagueNDefendsLeCamp,
+            this.#endless ? endlessWave(this.kings, this.wave) : this.wave,
+          );
+    return true;
+  }
+  /**
+   * « Rentrer avec mon record » (decision of the parent, 20 November 2026): in the camp that
+   * follows a king, once the gift is chosen, the endless adventure may end there. The game is
+   * then over, as a won game is; the record is the wave of that king.
+   */
+  retire(): boolean {
+    if (
+      !this.#endless ||
+      this.paused ||
+      this.status !== 'preparing' ||
+      this.wave !== 0 ||
+      this.kings === 0 ||
+      this.rewards.pending !== null
+    )
+      return false;
+    this.status = 'won';
+    this.message = TEXT.tuRentresAvecTonRecord;
     return true;
   }
   repair() {

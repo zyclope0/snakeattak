@@ -7,6 +7,7 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import { isMilestone } from '../rewards.ts';
 import type { Kind } from '../data.ts';
+import { endlessWave } from '../endless.ts';
 import { newAlliesLine, newSnakeBanner, recruitableKinds } from './newcomers.ts';
 export type Notice = {
   kind: 'wave' | 'boss' | 'clear' | 'egg' | 'fallen';
@@ -245,11 +246,15 @@ export class Presentation {
   }
   /** Banners for what just changed: a new wave, the king, a wave repelled, eggs hatching or appearing. */
   private announceTurns(game: Game, fresh: boolean) {
-    if (!fresh && game.wave !== this.wave) {
+    // The endless adventure counts its waves from the very first one; its king comes back
+    // every round, and is announced every round.
+    const shown = game.endless ? endlessWave(game.kings, game.wave) : game.wave;
+    if (game.wave !== this.wave) this.bossSeen = false;
+    if (!fresh && game.wave !== this.wave && game.wave > 0) {
       const chapter = game.briefing;
       this.announce({
         kind: 'wave',
-        title: fill(TEXT.vagueNN, game.wave, chapter.title),
+        title: fill(TEXT.vagueNN, shown, chapter.title),
         subtitle: chapter.tip,
         duration: 2.6,
         priority: 1,
@@ -274,7 +279,7 @@ export class Presentation {
       this.recruitable = new Set(allies);
       this.announce({
         kind: 'clear',
-        title: fill(TEXT.vagueNRepoussee, game.wave),
+        title: fill(TEXT.vagueNRepoussee, shown),
         subtitle:
           !game.mission && isMilestone(game.wave)
             ? fill(TEXT.nouvelleClairiereN, game.level.name)

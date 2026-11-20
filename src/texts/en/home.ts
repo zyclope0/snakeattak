@@ -34,3 +34,5 @@ export const nouveau = 'New';
 export const leVoyageNAPasPuSOuvrirReessaie = 'The voyage could not open. Try again.';
 export const confidentialite = 'Privacy policy';
 export const confidentialiteIndisponible = 'Privacy policy unavailable. Try again.';
+/** The best endless adventure of the active player: the wave, the kings beaten. */
+export const tonRecordVagueNNRois = 'Your record: wave {0}, {1} king{2} beaten';

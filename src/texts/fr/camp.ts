@@ -85,3 +85,32 @@ export const nProtection = '+{0} protection';
 export const mielNS = 'Miel : {0} s';
 export const cristalNPointsDeProtection = 'Cristal : {0} points de protection';
 export const nOffertAPlacer = '{0} offert à placer';
+
+// --- The endless adventure: lasting gifts, their levels, the five places.
+export const laForge = 'La forge';
+export const tesAlliesFrappentPlusFortN = 'Tes alliés frappent plus fort : +{0} %';
+export const lArmure = 'L’armure';
+export const tesAlliesOntPlusDeVieN = 'Tes alliés ont plus de vie : +{0} %';
+export const leMarche = 'Le marché';
+export const recruterCouteNMoins = 'Recruter coûte {0} % de moins';
+export const laRente = 'La rente';
+export const nPiecesAChaqueVague = '+{0} pièces à chaque vague';
+export const leCristalSolide = 'Le cristal solide';
+export const leCristalSeRepareDeN = 'Le cristal se répare de {0} à chaque vague';
+export const laLongueVue = 'La longue-vue';
+export const tesTireursVoientNPlusLoin = 'Tes tireurs voient {0} % plus loin';
+export const nSecondesPourChaquePotDeMiel = '+{0} secondes pour chaque pot de miel';
+/** On a gift already taken: taking it again climbs this level. */
+export const monterAuNiveauN = 'Monter au niveau {0}';
+/** The five places are full: the child picks the gift that gives its place. */
+export const tesNPlacesSontPrises = 'Tes {0} places sont prises';
+export const choisisLeCadeauARemplacerParN = 'Choisis le cadeau à remplacer par {0}.';
+export const remplacer = 'Remplacer';
+export const garderMesCadeaux = 'Garder mes cadeaux';
+/** The gift after a king. */
+export const kingSnakeEstVaincuChoisisTonCadeau = 'King Snake est vaincu ! Choisis ton cadeau';
+/** A gift and its level, under the camp: « La forge ★★ ». */
+export const nNiveauEtoiles = '{0} {1}';
+/** The start button after a king, and the other way: home with the record. */
+export const continuer = 'Continuer';
+export const rentrerAvecMonRecord = 'Rentrer avec mon record';

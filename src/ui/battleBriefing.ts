@@ -3,13 +3,14 @@ import { portraitStyle } from '../art.ts';
 import { kinds } from '../data.ts';
 import type { Game } from '../game.ts';
 import { missionById } from '../missions.ts';
-import { defeatCopy } from '../render/resultCopy.ts';
+import { defeatCopy, endlessCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import { feastIconStyle, feastName } from './feastControls.ts';
 import { placementAdvice } from './placementAdvice.ts';
 import { byId } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/advice.ts';
+import { endlessWave } from '../endless.ts';
 
 /** The name of the place: the mission first when there is one, then its map. */
 export function showLevel(game: Game) {
@@ -30,12 +31,22 @@ export function showBriefing(game: Game) {
 function waveBriefing(game: Game) {
   const briefing = game.briefing;
   return {
-    title: `${game.status === 'preparing' ? TEXT.prochaineVague : TEXT.vagueEnCours} · ${Math.max(1, announcedWave(game))} / ${game.totalWaves} · ${briefing.title}`,
+    title: `${game.status === 'preparing' ? TEXT.prochaineVague : TEXT.vagueEnCours} · ${waveNumber(game)} · ${briefing.title}`,
     tip: briefing.tip,
   };
 }
 
+/** « 4 / 12 »; the endless adventure counts from its very first wave, with no end. */
+function waveNumber(game: Game): string {
+  const wave = Math.max(1, announcedWave(game));
+  return game.endless ? String(endlessWave(game.kings, wave)) : `${wave} / ${game.totalWaves}`;
+}
+
 function outcomeBriefing(game: Game) {
+  if (game.endless) {
+    const copy = endlessCopy(game);
+    return { title: copy.title, tip: copy.subtitle };
+  }
   if (game.status !== 'won') return { title: TEXT.leCampEstTombe, tip: defeatCopy(game).subtitle };
   return game.mission
     ? {

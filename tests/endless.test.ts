@@ -230,3 +230,15 @@ test('un camp de l’aventure sans fin se sauvegarde et se relit tel quel', () =
   classic.skipReward();
   assert.equal(decodeCheckpoint(encodeCheckpoint(classic)!)!.endless, null);
 });
+
+test('« Rentrer avec mon record » : seulement dans le camp d’après un roi, cadeau choisi', () => {
+  const game = endless();
+  assert.equal(game.retire(), false, 'not before a king');
+  clearWave(game, TOTAL_WAVES);
+  assert.equal(game.retire(), false, 'not before the gift is chosen');
+  assert.ok(game.skipReward());
+  assert.ok(game.retire());
+  assert.equal(game.status, 'won');
+  assert.equal(game.startWave(), false, 'the game is over');
+  assert.equal(new Game(7).retire(), false, 'never in another game');
+});

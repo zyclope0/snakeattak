@@ -6,6 +6,7 @@ import { pauseStateFor } from './pauseState.ts';
 import { byId, dialogOpen } from './dom.ts';
 import { battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/battleScreens.ts';
+import * as CAMP from '../texts/fr/camp.ts';
 
 type Ports = {
   /** Runs just before a wave starts: the camp is saved as the player prepared it. */
@@ -20,6 +21,10 @@ export function bindBattleCommands(session: Session, refresh: () => void, ports:
     ports.beforeWave();
     session.game.startWave();
     refresh();
+  };
+  // « Rentrer avec mon record », in the camp after a king of the endless adventure.
+  byId('endless-home').onclick = () => {
+    if (session.game.retire()) refresh();
   };
   byId('pause').onclick = () => {
     if (!battleOver(session.game)) togglePause(session, refresh);
@@ -85,7 +90,18 @@ function togglePause(session: Session, refresh: () => void) {
   refresh();
 }
 
+/** The camp just after a king of the endless adventure, its gift chosen: go on or go home. */
+const afterKing = (game: Game) =>
+  !!game.endless &&
+  game.status === 'preparing' &&
+  game.wave === 0 &&
+  game.kings > 0 &&
+  game.rewards.pending === null;
+
 function showStart(game: Game) {
+  const home = byId<HTMLButtonElement>('endless-home');
+  home.hidden = !afterKing(game);
+  home.disabled = game.paused;
   const start = byId<HTMLButtonElement>('start');
   const choosingBonus = game.rewards.pending !== null;
   start.disabled = game.status !== 'preparing' || game.paused || choosingBonus;
@@ -98,5 +114,6 @@ function startLabel(game: Game): string {
   if (battleOver(game)) return TEXT.partieTerminee;
   if (game.rewards.pending !== null) return TEXT.choisirUnBonus;
   if (game.status === 'fighting') return TEXT.vagueEnCours;
+  if (afterKing(game)) return CAMP.continuer;
   return game.wave ? TEXT.vagueSuivante : TEXT.lancerLaVague;
 }

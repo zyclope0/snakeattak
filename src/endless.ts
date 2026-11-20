@@ -34,6 +34,9 @@ export const ENDLESS_RULES: Readonly<Record<EndlessRules['version'], EndlessRule
   1: Object.freeze({ version: 1, balance: 7, hpStep: 0.45, biteStep: 0.2, coinStep: -0.1 }),
 };
 
+/** The rules a new endless adventure is played by. */
+export const CURRENT_ENDLESS_VERSION: EndlessRules['version'] = 1;
+
 /** Steps beyond these are typos, never values to measure. */
 const STEP_LIMIT = 10;
 

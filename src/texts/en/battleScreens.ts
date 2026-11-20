@@ -35,3 +35,7 @@ export const bandagesNEnReserve = 'Bandages in stock: {0}';
 export const soignantRefaitSonStock = 'healer is restocking';
 export const soignantsRefontLeurStock = 'healers are restocking';
 export const crachatAnnonceAuSol = '· Spit warning shown on the ground';
+/** The endless adventure: kings beaten, beside the wave. */
+export const nRois = '· {0} king{1}';
+/** The endless adventure beat the player's own best. */
+export const nouveauRecord = 'New record!';

@@ -8,6 +8,7 @@ import { byId, dialogOpen, forwardClick, make } from './dom.ts';
 import { starRow } from './gameParts.ts';
 import { battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/battleScreens.ts';
+import { newRecords } from '../endlessRecords.ts';
 import { fill } from '../texts/fill.ts';
 
 /** Reuse the existing actions: only their presentation moves after a match. */
@@ -41,9 +42,11 @@ export function bindBattleResult(session: Session) {
     restore(mission);
     buttons.restore();
     if (classic.parentNode !== content) content.append(classic);
+    const summary = fill(TEXT.nSerpentsRepoussesCristalN, game.kills, Math.ceil(game.base));
+    // An endless adventure that beat the player's own best says so; nobody else's counts.
     setDisplayText(
       byId('battle-result-summary'),
-      fill(TEXT.nSerpentsRepoussesCristalN, game.kills, Math.ceil(game.base)),
+      game.endless && newRecords.has(game) ? `${TEXT.nouveauRecord} ${summary}` : summary,
     );
   };
   /** Once per finished battle: back to the top, focus on what comes next. */

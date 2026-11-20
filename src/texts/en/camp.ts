@@ -84,3 +84,32 @@ export const nProtection = '+{0} protection';
 export const mielNS = 'Honey: {0} s';
 export const cristalNPointsDeProtection = 'Crystal: {0} protection points';
 export const nOffertAPlacer = 'Free {0} to place';
+
+// --- The endless adventure: lasting gifts, their levels, the five places.
+export const laForge = 'The forge';
+export const tesAlliesFrappentPlusFortN = 'Your allies hit harder: +{0}%';
+export const lArmure = 'The armour';
+export const tesAlliesOntPlusDeVieN = 'Your allies have more life: +{0}%';
+export const leMarche = 'The market';
+export const recruterCouteNMoins = 'Recruiting costs {0}% less';
+export const laRente = 'The income';
+export const nPiecesAChaqueVague = '+{0} coins every wave';
+export const leCristalSolide = 'The solid crystal';
+export const leCristalSeRepareDeN = 'The crystal mends {0} every wave';
+export const laLongueVue = 'The spyglass';
+export const tesTireursVoientNPlusLoin = 'Your shooters see {0}% further';
+export const nSecondesPourChaquePotDeMiel = '+{0} seconds for every honey pot';
+/** On a gift already taken: taking it again climbs this level. */
+export const monterAuNiveauN = 'Up to level {0}';
+/** The five places are full: the child picks the gift that gives its place. */
+export const tesNPlacesSontPrises = 'Your {0} places are full';
+export const choisisLeCadeauARemplacerParN = 'Choose the gift to swap for {0}.';
+export const remplacer = 'Swap';
+export const garderMesCadeaux = 'Keep my gifts';
+/** The gift after a king. */
+export const kingSnakeEstVaincuChoisisTonCadeau = 'King Snake is beaten! Choose your gift';
+/** A gift and its level, under the camp: « The forge ★★ ». */
+export const nNiveauEtoiles = '{0} {1}';
+/** The start button after a king, and the other way: home with the record. */
+export const continuer = 'Keep going';
+export const rentrerAvecMonRecord = 'Go home with my record';
