@@ -42,3 +42,6 @@ export const vagueNDefendsLeCamp = 'Wave {0}: defend the camp!';
 export const coordonneesDeCampInvalides = 'Invalid camp coordinates';
 export const aucunePlaceLibreDansLeCamp = 'No free space in the camp';
 export const laVagueDureUnNouvelOeufEstApparu = 'This wave is taking long… A new egg has appeared!';
+/** The endless adventure: a king has fallen, the next round begins. */
+export const kingSnakeEstVaincuIlRevientPlusFort =
+  'King Snake is beaten! He will come back stronger. Choose a gift.';

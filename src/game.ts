@@ -1,5 +1,7 @@
 import { activeEnemyLanes } from './tutorial.ts';
 import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
+import { endlessStats, readEndlessRules } from './endless.ts';
+import type { EndlessRules } from './endless.ts';
 import type { RewardState, RewardId } from './rewards.ts';
 import { freshCampaign, chapterIndex, chapterStars } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
@@ -30,6 +32,7 @@ import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
 import {
   allyExists,
+  CURRENT_BALANCE_REVISION,
   balanceRecruitPrice,
   isBalanceRevision,
   lateEggRule,
@@ -137,12 +140,30 @@ export class Game {
   get stage(): StageRules | null {
     return this.#stage;
   }
+  /** Rules of the endless adventure, or null for every other game. */
+  readonly #endless: EndlessRules | null;
+  get endless(): EndlessRules | null {
+    return this.#endless;
+  }
+  /**
+   * Kings beaten in the endless adventure: the rounds already played. Zero elsewhere. Private
+   * behind accessors, so that it is not part of the state other games are fingerprinted by.
+   */
+  #kings = 0;
+  get kings(): number {
+    return this.#kings;
+  }
+  set kings(count: number) {
+    if (!this.#endless && count !== 0) throw new RangeError(TEXT.revisionInvalide);
+    this.#kings = count;
+  }
   constructor(
     seed = DEFAULT_SEED,
     tuning?: Partial<BalanceTuning>,
     mission?: MissionRun,
     balance?: BalanceRevision,
     stage?: StageRules,
+    endless?: EndlessRules,
   ) {
     this.mission = mission === undefined ? null : readMissionRun(mission);
     if (mission !== undefined && !this.mission) throw new RangeError(TEXT.expeditionInvalide);
@@ -159,6 +180,13 @@ export class Game {
       throw new RangeError(TEXT.revisionInvalide);
     this.#balanceRevision = balance ?? revision;
     this.#lateEggs = this.mission ? null : lateEggRule(this.#balanceRevision);
+    // The endless adventure is the great adventure of the current revision, played on.
+    this.#endless = endless === undefined ? null : readEndlessRules(endless);
+    if (
+      endless !== undefined &&
+      (!this.#endless || this.mission || this.#balanceRevision !== CURRENT_BALANCE_REVISION)
+    )
+      throw new RangeError(TEXT.revisionInvalide);
     if (this.mission) {
       seed = this.mission.seed;
       this.gold = capriceBudget(
@@ -208,7 +236,7 @@ export class Game {
   get rewardOffer(): RewardId[] {
     return this.rewards.pending === null
       ? []
-      : rewardOffer(this.rewards.seed, this.rewards.pending);
+      : rewardOffer(this.rewards.seed, this.rewards.pending, this.kings);
   }
   get feastDuration() {
     return FEAST_DURATION + extraHoneySeconds(this.rewards);
@@ -255,17 +283,21 @@ export class Game {
     )
       return false;
     const key = id as RewardId;
-    this.rewards.choices.push({ milestone, id: key, used: !REWARDS[key].kind });
+    this.rewards.choices.push({ milestone, id: key, used: !REWARDS[key].kind, ...this.#round() });
     this.rewards.pending = null;
     if (key === 'pieces') this.gold = Math.min(GOLD_LIMIT, this.gold + REWARD_COINS);
     if (key === 'cristal') this.rewards.ward += CRYSTAL_WARD;
     this.message = REWARDS[key].title + ' ! ' + REWARDS[key].detail;
     return true;
   }
+  /** The round a choice belongs to: only the endless adventure has more than one. */
+  #round(): { round?: number } {
+    return this.kings > 0 ? { round: this.kings } : {};
+  }
   skipReward(): boolean {
     const milestone = this.rewards.pending;
     if (this.paused || this.status !== 'preparing' || milestone === null) return false;
-    this.rewards.choices.push({ milestone, id: 'skip', used: true });
+    this.rewards.choices.push({ milestone, id: 'skip', used: true, ...this.#round() });
     this.rewards.pending = null;
     return true;
   }
@@ -431,7 +463,11 @@ export class Game {
     tickBosses(this, dt);
     updateConfusion(this, dt);
     updateAllies(this, dt);
-    const rankStats = waveStats(this.mission ? this.difficultyWave : this.wave || 1);
+    const rankStats = endlessStats(
+      waveStats(this.mission ? this.difficultyWave : this.wave || 1),
+      this.#endless,
+      this.kings,
+    );
     const stats = {
       ...rankStats,
       speed: rankStats.speed * this.caprice.speed,

@@ -2,8 +2,12 @@ import type { Kind } from './data.ts';
 import { isArrayOfLength, isNumberIn, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/rewards.ts';
 import { seededStream } from './seededRandom.ts';
-import { CRYSTAL_WARD, HONEY_REWARD_SECONDS, REWARD_WAVES } from './gameConstants.ts';
-export type Milestone = (typeof REWARD_WAVES)[number];
+import { CRYSTAL_WARD, HONEY_REWARD_SECONDS, REWARD_WAVES, TOTAL_WAVES } from './gameConstants.ts';
+/**
+ * The camps where a card is offered: after waves 4 and 8, and in the endless adventure after
+ * each king too (wave 12).
+ */
+export type Milestone = (typeof REWARD_WAVES)[number] | typeof TOTAL_WAVES;
 export const REWARDS = {
   'renfort-bouclier': {
     title: TEXT.unGardienArrive,
@@ -37,7 +41,16 @@ export const REWARDS = {
   },
 } as const;
 export type RewardId = keyof typeof REWARDS;
-export type RewardChoice = { milestone: Milestone; id: RewardId | 'skip'; used: boolean };
+/**
+ * `round`: in the endless adventure, the kings beaten before the choice; absent in every other
+ * game, which has a single round.
+ */
+export type RewardChoice = {
+  milestone: Milestone;
+  id: RewardId | 'skip';
+  used: boolean;
+  round?: number;
+};
 export type RewardState = {
   seed: number;
   pending: Milestone | null;
@@ -50,9 +63,13 @@ export const freshRewards = (seed: number): RewardState => ({
   choices: [],
   ward: 0,
 });
-/** Independent draw: opening an offer never consumes combat randomness. */
-export function rewardOffer(seed: number, milestone: Milestone): RewardId[] {
-  const random = seededStream((seed ^ Math.imul(milestone, 0x9e3779b9)) >>> 0);
+/**
+ * Independent draw: opening an offer never consumes combat randomness. Each round of the
+ * endless adventure draws its own cards; round zero draws exactly as it always has.
+ */
+export function rewardOffer(seed: number, milestone: Milestone, round = 0): RewardId[] {
+  const mixed = round > 0 ? seed ^ Math.imul(round, 0x85ebca6b) : seed;
+  const random = seededStream((mixed ^ Math.imul(milestone, 0x9e3779b9)) >>> 0);
   const shuffle = <T>(values: T[]) => {
     for (let i = values.length - 1; i > 0; i--) {
       const j = Math.floor(random() * (i + 1));
@@ -68,8 +85,8 @@ export function freeRecruit(state: RewardState, kind: Kind) {
 }
 export const extraHoneySeconds = (state: RewardState) =>
   state.choices.filter((c) => c.id === 'miel').length * HONEY_REWARD_SECONDS;
-/** The camps that follow waves 4 and 8, where a reward is offered. */
-export const isMilestone = (value: unknown): value is Milestone =>
+/** The camps that follow waves 4 and 8, where a reward is offered in every game. */
+export const isMilestone = (value: unknown): value is (typeof REWARD_WAVES)[number] =>
   (REWARD_WAVES as readonly unknown[]).includes(value);
 
 type SavedRewards = Record<string, unknown> & { seed: number; choices: unknown[]; ward: number };

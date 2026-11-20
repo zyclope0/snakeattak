@@ -422,6 +422,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "King Snake": "King Snake",
   "King Snake a pondu un nouvel œuf !": "King Snake has laid another egg!",
   "King Snake est battu. Tu as fini le voyage !": "King Snake is beaten. You finished the voyage!",
+  "King Snake est vaincu ! Il reviendra plus fort. Choisis un cadeau.": "King Snake is beaten! He will come back stronger. Choose a gift.",
   "La Conquête": "Snake Attack",
   "La Conquête des Serpents": "Snake Attack TD",
   "La Conquête des Serpents, accueil": "Snake Attack TD, home",

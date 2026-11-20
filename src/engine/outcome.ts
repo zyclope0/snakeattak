@@ -1,9 +1,9 @@
-import { chapterIndex, chapterStars } from '../campaignRules.ts';
+import { chapterIndex, chapterStars, freshCampaign } from '../campaignRules.ts';
 import { cancelBossShot } from '../boss.ts';
 import { missionById } from '../missions.ts';
 import { isMilestone } from '../rewards.ts';
 import type { Milestone } from '../rewards.ts';
-import { WAVES_PER_CHAPTER } from '../gameConstants.ts';
+import { TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
 import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
 import { climbOut } from './swim.ts';
@@ -60,6 +60,7 @@ function closeWave(game: Game, reward: number) {
     game.campaign.chapterStars[chapter] = chapterStars(game.campaign.chapterMin[chapter]);
   }
   game.gold += reward;
+  if (game.endless && game.wave === game.totalWaves) return nextRound(game);
   game.status = game.wave === game.totalWaves ? 'won' : 'preparing';
   if (game.status === 'won') {
     game.message = victoryMessage(game);
@@ -71,8 +72,23 @@ function closeWave(game: Game, reward: number) {
 /** After waves 4 and 8 the map changes and a reward card is offered, once per milestone. */
 function openChapter(game: Game, milestone: Milestone) {
   normalizeCamp(game);
-  if (!game.rewards.choices.some((c) => c.milestone === milestone))
+  const round = game.kings;
+  if (!game.rewards.choices.some((c) => c.milestone === milestone && (c.round ?? 0) === round))
     game.rewards.pending = milestone;
+}
+/**
+ * The king of the endless adventure has fallen: the same camp goes back to the first wave,
+ * one king more, and a card is offered. The hero keeps his training; the chapter stars of
+ * the round start again.
+ */
+function nextRound(game: Game) {
+  const { training } = game.campaign;
+  Object.assign(game.campaign, freshCampaign(), { training });
+  game.kings++;
+  game.wave = 0;
+  game.status = 'preparing';
+  openChapter(game, TOTAL_WAVES);
+  game.message = TEXT.kingSnakeEstVaincuIlRevientPlusFort;
 }
 function victoryMessage(game: Game): string {
   return game.mission
