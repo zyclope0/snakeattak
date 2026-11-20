@@ -3,7 +3,7 @@ import { setTimeout } from 'node:timers/promises';
 import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
-import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
+import { DISCOVERY_PAGES, SITE_FEATURES } from '../deploy/discoveryCopy.ts';
 import { SUPPORT_URL } from '../deploy/discovery.ts';
 
 const origin = 'http://127.0.0.1:4188';
@@ -204,8 +204,20 @@ try {
     await page.locator('#home-parents').click();
     // One link to the public pages, in the language of the game, as tall as a button and
     // on the row of the family save: the screen gains no row.
-    const about = page.locator('.parent-actions .about:visible');
+    const about = page.locator('.parent-actions .about[href="/fr/"]:visible');
     assert.equal(await about.count(), 1);
+    // While the Android test is open, its page has a link in the free cell of the same row
+    // (20 November 2026).
+    const test = page.locator('.parent-actions .about:visible:not([href="/fr/"])');
+    const tested = SITE_FEATURES.androidTest ? 1 : 0;
+    assert.equal(await test.count(), tested);
+    if (tested) {
+      assert.equal(await test.getAttribute('href'), '/fr/tester-android/');
+      const box = await test.boundingBox();
+      assert.ok(box.height >= 48 && box.width >= 96, `test link ${box.width}×${box.height}`);
+      const family = await page.locator('#home-family').boundingBox();
+      assert.ok(Math.abs(box.y - family.y) <= 1, 'the test link shares the row of the family save');
+    }
     assert.equal(await about.getAttribute('href'), '/fr/');
     assert.equal(await about.innerText(), 'À propos du jeu');
     const hit = await about.boundingBox();

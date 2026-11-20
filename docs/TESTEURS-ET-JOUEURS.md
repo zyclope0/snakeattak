@@ -151,7 +151,9 @@ aucun lien n'y mène ; le site publié ne change pas.
      under its own terms. zyclope can see the email address of the group's members; it is used
      only to open the test and answer feedback. The group is deleted once the app is out. The
      website itself collects no address."
-2. **Le groupe Google** créé depuis `sulegnasdev@gmail.com` (« tout le monde peut rejoindre »,
+2. **Fait le 20 novembre** : groupe https://groups.google.com/g/snakeattack-testeurs, piste
+   « Alpha » ; lien d'inscription https://play.google.com/apps/testing/com.conqueteserpents.famille.
+   Ce qui était demandé : **le groupe Google** créé depuis `sulegnasdev@gmail.com` (« tout le monde peut rejoindre »,
    liste des membres visible par le propriétaire seulement, personne ne peut écrire), ajouté
    comme liste de testeurs d'une piste de **test fermé** où le build 63 est promu ; puis les
    deux adresses : celle du groupe et celle du lien d'inscription au test.

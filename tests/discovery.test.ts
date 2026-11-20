@@ -10,7 +10,7 @@ import { NINJA_DODGES } from '../src/enemyAbilities.ts';
 import { PLAYER_IDS } from '../src/players.ts';
 import * as FR from '../src/texts/fr/page.ts';
 import * as EN from '../src/texts/en/page.ts';
-import { DISCOVERY_PAGES } from '../deploy/discoveryCopy.ts';
+import { DISCOVERY_PAGES, SITE_FEATURES, discoveryPages } from '../deploy/discoveryCopy.ts';
 import {
   discoveryPageHtml,
   discoverySitemap,
@@ -38,11 +38,15 @@ const assets = {
 };
 
 const pictures = { share: assets.share, touch: assets.touch };
+/** The five pages of each language, without the Android test or the story. */
+const BASE = discoveryPages({ androidTest: null, story: null });
 const policyText = (language: 'fr' | 'en') => JSON.stringify(PRIVACY_POLICY[language]);
 
 test('discovery has five genuine pages in both languages and reciprocal language links', () => {
-  assert.equal(DISCOVERY_PAGES.length, 10);
-  assert.equal(new Set(DISCOVERY_PAGES.map((p) => p.path)).size, 10);
+  // Five pages in each language, plus the Android test and the story once they are open.
+  const pages = 10 + (SITE_FEATURES.androidTest ? 2 : 0) + (SITE_FEATURES.story ? 2 : 0);
+  assert.equal(DISCOVERY_PAGES.length, pages);
+  assert.equal(new Set(DISCOVERY_PAGES.map((p) => p.path)).size, pages);
   for (const page of DISCOVERY_PAGES) {
     const html = discoveryPageHtml(page, assets);
     const other = DISCOVERY_PAGES.find((p) => p.key === page.key && p.lang !== page.lang)!;
@@ -178,7 +182,8 @@ test('support rejects unsafe URLs, credentials, and unsafe HTML payloads', () =>
 test('only the Web gets public metadata and links; game markup and saves remain in place', () => {
   const shell =
     '<html><head><title>Game</title></head><body><nav class="parent-actions" aria-label="Aide"><button id="home-family">Sauvegarde</button></nav><details id="home-parent-options"></details><footer class="home-footer"><span id="career-status">Local</span></footer></body></html>';
-  const html = augmentGamePage(shell, pictures);
+  // The five pages of each language; the Android test adds its own links (site-features).
+  const html = augmentGamePage(shell, pictures, BASE);
   assert.ok(
     html.includes(
       `<meta name="description" property="og:description" content="${GAME_PAGE.description}">`,
@@ -232,7 +237,11 @@ test('what the website adds to the game page is counted and bounded', () => {
 test('the link to the public pages lands in the real parents screen, or the build stops', () => {
   // The template the game is assembled from, not a shell written for the test.
   const template = readFileSync('src/html/home.html', 'utf8');
-  const html = augmentGamePage(`<html><head></head><body>${template}</body></html>`, pictures);
+  const html = augmentGamePage(
+    `<html><head></head><body>${template}</body></html>`,
+    pictures,
+    BASE,
+  );
   const row = html.split('<nav class="parent-actions"')[1].split('</nav>')[0];
   assert.match(
     row,

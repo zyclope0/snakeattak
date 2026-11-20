@@ -41,19 +41,25 @@ const png = readFileSync('resources/site/icon-48.png');
 const told = { age: 8, drawing: 'dessin.png' };
 const open = siteFeatures(links, told, () => png);
 
-test('aujourd’hui, rien n’est publié : ni page de test, ni bouton, ni histoire', () => {
-  assert.deepEqual(ANDROID_TEST, { group: '', optIn: '' });
+test('aujourd’hui, le test Android est ouvert ; l’histoire attend le dessin', () => {
+  // The closed test « Alpha » created by the parent on 20 November 2026.
+  assert.deepEqual(ANDROID_TEST, {
+    group: 'https://groups.google.com/g/snakeattack-testeurs',
+    optIn: 'https://play.google.com/apps/testing/com.conqueteserpents.famille',
+  });
+  assert.deepEqual(SITE_FEATURES.androidTest, ANDROID_TEST);
   // The age is known; the drawing is still to come, so the story waits for it.
   assert.equal(STORY.age, 8);
-  assert.deepEqual(SITE_FEATURES, { androidTest: null, story: null });
-  assert.equal(DISCOVERY_PAGES.length, 10);
+  assert.equal(SITE_FEATURES.story, null);
+  assert.equal(DISCOVERY_PAGES.length, 12);
   for (const page of DISCOVERY_PAGES) {
     const html = discoveryPageHtml(page, assets);
-    assert.doesNotMatch(html, /test-android|groups\.google|play\.google|class="drawing"/);
+    assert.match(html, /class="test-android"/, page.path);
+    assert.doesNotMatch(html, /class="drawing"/, page.path);
   }
-  assert.doesNotMatch(
+  assert.match(
     augmentGamePage('<head></head><nav class="parent-actions"></nav>', pictures),
-    /android/,
+    /href="\/fr\/tester-android\/"/,
   );
 });
 

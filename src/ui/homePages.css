@@ -435,6 +435,26 @@
 #home-screen [data-home-page='parents'] .parent-actions:has(.about) .help-point {
   grid-column: -3 / -2;
 }
+/* Website only, while the Android test is open: its link takes the cell between the "?" and
+   the way to the public pages, and the screen gains no row (20 November 2026). */
+@media (orientation: landscape) {
+  /* The link comes last in the page: « dense » puts it back in the free cell of its row. */
+  #home-screen [data-home-page='parents'] .parent-actions:has(.about[href*='android']) {
+    grid-auto-flow: row dense;
+  }
+  #home-screen
+    [data-home-page='parents']
+    .parent-actions:has(.about[href*='android'])
+    #home-family {
+    grid-column: 1 / -4;
+  }
+  #home-screen [data-home-page='parents'] .parent-actions:has(.about[href*='android']) .help-point {
+    grid-column: -4 / -3;
+  }
+  #home-screen [data-home-page='parents'] .parent-actions .about[href*='android'] {
+    grid-column: -3 / -2;
+  }
+}
 #home-screen #departure-form,
 #home-screen #departure-form + small {
   margin: 0;
