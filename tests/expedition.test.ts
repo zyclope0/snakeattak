@@ -171,3 +171,32 @@ test('relecture Codex : armure remplacée, roulotte, camp vide qui gagne', () =>
   assert.ok(empty, 'the next mission opens');
   assert.equal(empty.units.length, 0);
 });
+
+test('une expédition gardée se relit telle quelle, à chaque pas ; une fausse est refusée', () => {
+  let state = X.startExpedition(SEED)!;
+  const seen: (typeof state)[] = [state];
+  for (let guard = 0; guard < 100 && state.status === 'travelling'; guard++) {
+    const phase = X.expeditionPhase(state);
+    if (phase === 'gift') {
+      const offer = X.giftOffer(state);
+      state = X.chooseGift(state, offer[0]) ?? X.skipGift(state)!;
+    } else if (phase === 'roulotte') state = X.leaveRoulotte(state)!;
+    else if (phase === 'halt') state = X.chooseHalt(plan, state, (guard % 2) as 0 | 1)!;
+    else state = win(state, guard % 2 ? 'brave' : 'calm').next!;
+    seen.push(state);
+  }
+  assert.equal(state.status, 'arrived');
+  assert.equal(X.battlesWon(state), X.EXPEDITION_BATTLES);
+  for (const one of seen) {
+    const back = X.readExpeditionState(JSON.parse(JSON.stringify(one)));
+    assert.deepEqual(back, JSON.parse(JSON.stringify(one)), `step ${one.tableau}:${one.step}`);
+  }
+  const middle = JSON.parse(JSON.stringify(seen[4]));
+  assert.equal(X.readExpeditionState({ ...middle, picks: [] }), null, 'picks must match');
+  assert.equal(X.readExpeditionState({ ...middle, camp: null }), null, 'a camp after step 0');
+  assert.equal(X.readExpeditionState({ ...middle, seed: -1 }), null);
+  assert.equal(
+    X.readExpeditionState({ ...middle, pending: { kind: 'gift', rare: true, rerolled: false } }),
+    null,
+  );
+});

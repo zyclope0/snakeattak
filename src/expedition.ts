@@ -11,8 +11,10 @@ import { BOON_RULES, boonLevel, boonOffer, isLastingBoon, takeBoon } from './boo
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 import type { BoonId, Boons, LastingBoon } from './boons.ts';
-import { saveUnit } from './checkpointUnits.ts';
-import { STAGE_BAG_LIMIT } from './voyageRules.ts';
+import { readUnit, saveUnit, UNIT_LIMIT } from './checkpointUnits.ts';
+import { isArrayOfLength, isIntegerIn, isNumberIn, isOneOf, isRecord } from './plainData.ts';
+import { readBoons } from './boons.ts';
+import { isBonusCard, STAGE_BAG_LIMIT } from './voyageRules.ts';
 import { isVoyageSeed } from './voyage.ts';
 import type { StageRules } from './voyageRules.ts';
 import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConstants.ts';
@@ -542,3 +544,125 @@ export const isAllyCard = (id: string) =>
   Object.hasOwn(REWARDS, id) && !!REWARDS[id as RewardId].kind;
 /** The missions of the game, in order: the map draws one sign per mission. */
 export const missionNumber = (id: MissionId) => MISSIONS.findIndex((m) => m.id === id) + 1;
+
+/** The battles of a whole expedition: five a tableau. */
+export const EXPEDITION_BATTLES = EXPEDITION_TUNINGS[1].tableaux.length * BATTLES_PER_TABLEAU;
+/** The battles won so far: the record of a player counts them. */
+export const battlesWon = (state: ExpeditionState): number =>
+  state.status === 'arrived' ? EXPEDITION_BATTLES : battlesBefore(state);
+
+/** The plan of a state; a valid state always has one. */
+export const expeditionPlanOf = (state: ExpeditionState): ExpeditionPlan =>
+  planExpedition(state.seed, state.version)!;
+
+/** What the child is asked now: a gift, the roulotte, a halt, a battle, a path, or nothing. */
+export type ExpeditionPhase = 'gift' | 'roulotte' | 'halt' | 'battle' | 'fork' | 'arrived';
+export function expeditionPhase(state: ExpeditionState): ExpeditionPhase {
+  if (state.status === 'arrived') return 'arrived';
+  if (state.pending) return state.pending.kind;
+  return stepOf(expeditionPlanOf(state), state)!.kind;
+}
+
+/** The forks and halts of a tableau before a step: one pick each. */
+const choicesBefore = (step: number) =>
+  SHAPE.slice(0, step).filter((shape) => shape === 'fork' || shape === 'halt').length;
+const CHOICES_PER_TABLEAU = choicesBefore(STEPS_PER_TABLEAU);
+
+/** A carried camp read back: its allies as the next camp will receive them, its coins, its crystal. */
+function readCamp(raw: unknown, boons: Boons): Camp | null {
+  if (
+    !isRecord(raw) ||
+    !isIntegerIn(raw.gold, 0, GOLD_LIMIT) ||
+    !isNumberIn(raw.base, 1, CRYSTAL_MAX) ||
+    !isArrayOfLength(raw.units, 0, UNIT_LIMIT)
+  )
+    return null;
+  const lifeFactor = 1 + boonLevel(boons, 'armure') * BOON_RULES[1].steps.armure;
+  const ids = (raw.units as unknown[]).map((u) =>
+    isRecord(u) && isIntegerIn(u.id, 1, 1e7) ? u.id : 0,
+  );
+  const nextId = Math.max(0, ...ids);
+  const taken = new Set<number>();
+  const units: CarriedUnit[] = [];
+  for (const saved of raw.units) {
+    const unit = readUnit(saved, { homes: true, supplies: true, nextId, lifeFactor }, taken);
+    const copy = unit && saveUnit(unit, true);
+    if (!copy) return null;
+    taken.add(copy.id);
+    units.push(copy);
+  }
+  if (units.filter((u) => u.kind === 'hero').length > 1) return null;
+  return Object.freeze({ units: Object.freeze(units), gold: raw.gold, base: raw.base });
+}
+
+function readPending(raw: unknown): Pending | null | undefined {
+  if (raw === null) return null;
+  if (!isRecord(raw)) return undefined;
+  if (raw.kind === 'roulotte') return Object.freeze({ kind: 'roulotte' });
+  if (raw.kind === 'gift' && typeof raw.rare === 'boolean' && typeof raw.rerolled === 'boolean')
+    return Object.freeze({ kind: 'gift', rare: raw.rare, rerolled: raw.rerolled });
+  return undefined;
+}
+
+/**
+ * Canonical frozen copy of a state that a real expedition can reach; null for anything else.
+ * The plan is never stored: it is drawn again from the seed.
+ */
+export function readExpeditionState(raw: unknown): ExpeditionState | null {
+  try {
+    if (!isRecord(raw) || raw.version !== 1 || !isVoyageSeed(raw.seed)) return null;
+    const plan = planExpedition(raw.seed, raw.version);
+    if (
+      !plan ||
+      !isIntegerIn(raw.tableau, 0, plan.tableaux.length - 1) ||
+      !isIntegerIn(raw.step, 0, STEPS_PER_TABLEAU - 1) ||
+      !isOneOf(raw.status, ['travelling', 'arrived'] as const) ||
+      !isIntegerIn(raw.purse, 0, GOLD_LIMIT) ||
+      !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||
+      !raw.bag.every(isBonusCard)
+    )
+      return null;
+    const { tableau, step, status } = raw;
+    const passed = tableau * CHOICES_PER_TABLEAU + choicesBefore(step);
+    if (!isArrayOfLength(raw.picks, passed, passed) || !raw.picks.every((p) => p === 0 || p === 1))
+      return null;
+    const picks = raw.picks as (0 | 1)[];
+    const boons = readBoons(raw.boons, BOON_RULES[1]);
+    const pending = readPending(raw.pending);
+    if (!boons || pending === undefined) return null;
+    const camp = raw.camp === null ? null : readCamp(raw.camp, boons);
+    if (raw.camp !== null && !camp) return null;
+    const before = SHAPE[step - 1];
+    if (status === 'arrived') {
+      const last = tableau === plan.tableaux.length - 1 && step === STEPS_PER_TABLEAU - 1;
+      if (!last || pending || camp) return null;
+    } else {
+      // The camp travels within a tableau: none at its first step, always one after.
+      if ((step === 0) !== (camp === null)) return null;
+      if (pending?.kind === 'gift') {
+        const afterBattle = step === 0 ? tableau > 0 : before !== 'halt';
+        const brave = before === 'fork' && picks.at(-1) === 1;
+        if (!afterBattle || (pending.rare && !brave)) return null;
+      }
+      if (pending?.kind === 'roulotte') {
+        const halt = plan.tableaux[tableau][step - 1];
+        if (halt?.kind !== 'halt' || halt.halts[picks.at(-1)!] !== 'roulotte') return null;
+      }
+    }
+    return Object.freeze({
+      version: 1,
+      seed: raw.seed,
+      tableau,
+      step,
+      picks: Object.freeze([...picks]),
+      camp,
+      boons,
+      bag: Object.freeze([...(raw.bag as RewardId[])]),
+      purse: raw.purse,
+      pending,
+      status,
+    });
+  } catch {
+    return null;
+  }
+}

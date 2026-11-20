@@ -24,6 +24,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-REVISION-7.md](BILAN-REVISION-7.md)                             | Révision d'équilibrage 7 (le spinosaure, nouvel allié) : décision, mesures              |
 | [MODE-INFINI.md](MODE-INFINI.md)                                       | L'aventure sans fin : décisions du parent, cadeaux, mesures                             |
 | [BILAN-MODE-INFINI.md](BILAN-MODE-INFINI.md)                           | L'aventure sans fin : fait, vérifié, pas vérifié                                        |
+| [BILAN-GRANDE-EXPEDITION.md](BILAN-GRANDE-EXPEDITION.md)               | La Grande Expédition : écrans, fait, vérifié, pas vérifié                               |
 | [TESTEURS-ET-JOUEURS.md](TESTEURS-ET-JOUEURS.md)                       | Trouver des joueurs pour le site et des testeurs Android : analyse, recommandation      |
 | [AUDIT-VISUEL-MOBILE-2026-11-10.md](AUDIT-VISUEL-MOBILE-2026-11-10.md) | Audit des menus et de la direction artistique                                           |
 | [IDENTIFIANTS-APPLICATION.md](IDENTIFIANTS-APPLICATION.md)             | Paquet Android accepté sur Play, signatures et mises à jour                             |

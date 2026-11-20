@@ -1,14 +1,14 @@
 import { setText } from '../../i18n/dom.ts';
 import { byId, make } from '../dom.ts';
 
-export type VoyageView = 'map' | 'bonus' | 'arrived' | 'fallen';
+export type VoyageView = 'map' | 'bonus' | 'arrived' | 'fallen' | 'gift' | 'roulotte';
 
 /**
- * The page of the voyage among the pages of the home: a title in the top row, one panel, and
+ * The page of the voyage (or of « La Grande Expédition », `name`) among the pages of the home: a title in the top row, one panel, and
  * its own record and note in the header and the footer. Built here, on first use, so that
  * the start page stays light; what the panel shows is drawn by each view.
  */
-export function voyagePage() {
+export function voyagePage(name: 'voyage' | 'expedition' = 'voyage') {
   const title = make('span');
   const step = make('em');
   const heading = make('h1', { className: 'voyage-title' }, title, step);
@@ -16,11 +16,11 @@ export function voyagePage() {
   const view = make('section', { className: 'voyage-view' });
   const panel = make('div', { className: 'voyage-panel' }, view);
   const page = make('section', { className: 'home-page' }, heading, panel);
-  page.classList.add('voyage-page');
-  page.dataset.homePage = 'voyage';
+  page.classList.add('voyage-page', `${name}-page`);
+  page.dataset.homePage = name;
   page.hidden = true;
-  const record = make('strong', { id: 'voyage-record', className: 'home-stars' });
-  const note = make('span', { id: 'voyage-note' });
+  const record = make('strong', { id: `${name}-record`, className: 'home-stars' });
+  const note = make('span', { id: `${name}-note` });
   byId('home-screen').querySelector('.home-footer')!.before(page);
   byId('mission-total').after(record);
   byId('career-status').after(note);

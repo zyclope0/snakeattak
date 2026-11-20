@@ -41,6 +41,11 @@ const LASTING: Record<
 };
 const percent = (share: number) => Math.round(share * 100);
 
+/** The name of a lasting gift, and what it gives at a level: for screens without a game. */
+export const boonTitle = (id: LastingBoon): string => LASTING[id].title;
+export const boonDetail = (id: LastingBoon, level: number, steps: Steps): string =>
+  LASTING[id].detail(level, steps);
+
 export type GiftCopy = { title: string; detail: string; action: string };
 
 /**

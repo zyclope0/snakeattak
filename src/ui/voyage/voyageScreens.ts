@@ -18,6 +18,8 @@ import { battleOver } from '../battleState.ts';
 import { freshSeed } from '../missionWords.ts';
 import type { VoyagePorts } from '../voyageDoor.ts';
 import { capriceBubble } from './capriceBubble.ts';
+import { expeditionDoor } from './expedition/expeditionDoor.ts';
+import { bindExpeditionScreens } from './expedition/expeditionScreens.ts';
 import { voyageBattle } from './voyageBattle.ts';
 import type { StageOnBoard } from './voyageBattle.ts';
 import { giftWindow, otherVoyageWindow } from './voyageCodeWindows.ts';
@@ -65,10 +67,15 @@ export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log: VoyageLo
     take: (seed, version) => request(startVoyage(seed, version)),
   });
   const askReplace = replaceWindow(begin);
-  const drawBattle = voyageBattle(onward);
+  const explain = capriceBubble();
+  // « La Grande Expédition » shares the page's windows and the board's result panel.
+  const door = expeditionDoor(() => expedition.open());
+  const expedition = bindExpeditionScreens(ports, explain, door.started);
+  door.started(expedition.started());
+  const drawBattle = voyageBattle(() => (expedition.owns() ? expedition.onward() : onward()));
   const actions: ViewActions = {
     start: startStage,
-    explain: capriceBubble(),
+    explain,
     choose,
     give: () => log.current && showCode(encodeVoyage(log.current.seed, log.current.version)!),
     other: askOther,
@@ -176,6 +183,10 @@ export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log: VoyageLo
     },
     /** With every redraw of the page: the stage on the board, and its end once only. */
     refresh() {
+      if (expedition.owns()) {
+        drawBattle(expedition.battle());
+        return;
+      }
       const live = playing?.game === session.game ? playing : null;
       if (live && !live.outcome && battleOver(live.game)) live.outcome = recordOutcome(live);
       drawBattle(
@@ -186,7 +197,8 @@ export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log: VoyageLo
     },
     /** « Recommencer » on the board: the stage under way starts again from its beginning. */
     restartStage() {
-      if (playing?.game === session.game && !playing.outcome) startStage();
+      if (expedition.owns()) expedition.restartStage();
+      else if (playing?.game === session.game && !playing.outcome) startStage();
     },
   };
 }

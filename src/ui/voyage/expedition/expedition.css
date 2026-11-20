@@ -1,0 +1,575 @@
+/* « La Grande Expédition » : sa porte sur la page du voyage, sa carte, ses haltes, ses cadeaux.
+
+   Même méthode que voyage.css, dont elle reprend la page, les cartes et le pied : tailles
+   dans l'unité --hu, pas de px sauf un plancher dans max() ou une cible tactile. */
+
+/* ---- La porte, dans la rangée du haut de la page du voyage ---- */
+#home-screen #expedition-door {
+  position: relative;
+  min-height: 48px;
+  padding: 4px max(12px, calc(var(--hu) * 1.2));
+  font-size: max(14px, calc(var(--hu) * 1.5));
+  border-radius: 10px;
+  white-space: nowrap;
+}
+#expedition-door .voyage-new {
+  position: absolute;
+  top: -8px;
+  right: 6px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--honey);
+  color: #3f330f;
+  box-shadow: 0 2px 0 #a37524;
+  font:
+    800 12px/1.4 'Nunito Sans',
+    sans-serif;
+}
+#expedition-door .voyage-new[hidden] {
+  display: none;
+}
+
+/* ---- Les sept pas du tableau ---- */
+.exp-road {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hu) * 1.2);
+}
+.exp-where {
+  flex: 0 0 auto;
+  font-size: max(12px, calc(var(--hu) * 1.25));
+  font-weight: 800;
+  color: #4f6650;
+  white-space: nowrap;
+}
+.exp-trail {
+  flex: 1 1 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.exp-trail::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: max(3px, calc(var(--hu) * 0.35)) dashed #bca675;
+}
+.exp-step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+}
+.exp-mark {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: max(28px, calc(var(--hu) * 3));
+  height: max(28px, calc(var(--hu) * 3));
+  border: 2px solid #a8946a;
+  border-radius: 50%;
+  background: #f7f1dc;
+  color: #4f6650;
+  font:
+    500 max(14px, calc(var(--hu) * 1.5)) / 1 Fredoka,
+    sans-serif;
+}
+.exp-mark svg {
+  width: 62%;
+  height: 62%;
+}
+.exp-step[data-kind='halt'] .exp-mark {
+  width: max(18px, calc(var(--hu) * 1.8));
+  height: max(18px, calc(var(--hu) * 1.8));
+  border-style: dashed;
+}
+.exp-step[data-kind='halt'][data-state='done'] .exp-mark svg {
+  width: 80%;
+  height: 80%;
+}
+.exp-step[data-kind='guardian'] .exp-mark {
+  border-color: #6f5cb8;
+  background: #e7e1f6;
+  color: #3d2f7a;
+}
+.exp-step[data-state='done'] .exp-mark {
+  border-color: #48754a;
+  background: #48754a;
+  color: #fff;
+}
+.exp-step[data-state='next'] .exp-mark {
+  scale: 1.25;
+  border: 3px solid #a37524;
+  background: var(--honey);
+  color: #3f330f;
+}
+
+/* ---- Ce que dit la carte : la halte passée, la question, les serpents qui grandissent ---- */
+.exp-lines {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 calc(var(--hu) * 1.2);
+}
+.voyage-view .exp-notice {
+  width: 100%;
+  font-weight: 800;
+  color: #147c68;
+}
+.voyage-view .exp-grow {
+  font-size: max(12px, calc(var(--hu) * 1.2));
+  font-weight: 700;
+  color: #7a4b2a;
+}
+
+/* ---- Une ou deux cartes : une mission, deux chemins, deux haltes ---- */
+.exp-choices {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--hu) * 1.2);
+  min-height: 0;
+}
+.exp-choices[data-count='1'] {
+  grid-template-columns: minmax(0, 32rem);
+  justify-content: center;
+}
+.exp-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: calc(var(--hu) * 0.4);
+  min-height: 0;
+  padding: calc(var(--hu) * 0.7) calc(var(--hu) * 1);
+  border: max(2px, calc(var(--hu) * 0.3)) solid #baa578;
+  border-radius: calc(var(--hu) * 1.6);
+  background: linear-gradient(145deg, #fff6db, #e8d9b6);
+  box-shadow:
+    inset 0 3px 0 #fff9e9,
+    0 4px 0 #b7a27a;
+}
+.exp-card[data-path='brave'] {
+  border-color: #b8862e;
+  background: linear-gradient(145deg, #fff0c9, #f0d8a0);
+}
+.exp-card[data-path='guardian'] {
+  border-color: #6f5cb8;
+}
+.exp-card h3 {
+  margin: 0;
+  font:
+    500 max(15px, calc(var(--hu) * 1.7)) / 1.1 Fredoka,
+    sans-serif;
+  color: #263e34;
+}
+.exp-card h3:empty {
+  display: none;
+}
+.exp-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: calc(var(--hu) * 0.8);
+  align-items: center;
+  min-height: 0;
+}
+.exp-body .stop-map {
+  display: block;
+  min-height: 0;
+}
+.exp-body .stop-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(var(--hu) * 9);
+  border-radius: calc(var(--hu) * 0.8);
+}
+.exp-facts {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--hu) * 0.4);
+  min-width: 0;
+  font-size: max(12px, calc(var(--hu) * 1.25));
+  font-weight: 700;
+  color: #4f6650;
+}
+.exp-facts strong {
+  color: #263e34;
+  font-size: max(13px, calc(var(--hu) * 1.35));
+}
+.exp-guardian,
+.exp-caprice {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hu) * 0.5);
+  min-width: 0;
+}
+.exp-king {
+  flex: 0 0 auto;
+  height: max(26px, calc(var(--hu) * 3));
+  width: auto;
+}
+.exp-caprice .stop-caprice {
+  position: static;
+  flex: 0 0 auto;
+}
+.voyage-view .exp-reward {
+  font-size: max(12px, calc(var(--hu) * 1.2));
+  font-weight: 800;
+  color: #4f6650;
+}
+.exp-reward[data-rare]::before,
+.voyage-view .exp-rare::before {
+  content: '★ ';
+  color: #c98f1d;
+}
+.exp-go {
+  min-height: max(48px, calc(var(--hu) * 4.6));
+  padding: 4px 10px;
+  font-size: max(17px, calc(var(--hu) * 1.8));
+  border-radius: calc(var(--hu) * 1.1);
+  box-shadow: 0 4px 0 #a37524;
+}
+
+/* ---- Les haltes : le feu (le refuge), la roulotte (trois pièces), l'œuf (le panier) ---- */
+.exp-halt {
+  grid-template-rows: minmax(0, 1fr) auto auto auto;
+  justify-items: center;
+  text-align: center;
+}
+.exp-halt p {
+  font-size: max(12px, calc(var(--hu) * 1.25));
+  font-weight: 700;
+  color: #4f6650;
+}
+.exp-halt .exp-go {
+  width: 100%;
+}
+.exp-halt-picture {
+  position: relative;
+  display: block;
+  height: 100%;
+  min-height: calc(var(--hu) * 3.5);
+  max-height: calc(var(--hu) * 7);
+  aspect-ratio: 1;
+  background: center / contain no-repeat;
+}
+.exp-halt-picture[data-halt='feu'] {
+  box-sizing: border-box;
+  border: max(2px, calc(var(--hu) * 0.25)) solid #d0874a;
+  border-radius: 50%;
+  background: #fbe2c4 url('../../../assets/home/mission-refuge.webp') center 46% / 86% no-repeat;
+}
+.exp-halt-picture[data-halt='oeuf'] {
+  background-image: url('../../../assets/caprices/pique-nique-oeufs.webp');
+}
+.exp-halt-picture[data-halt='roulotte'] i,
+.exp-coins::before {
+  box-sizing: border-box;
+  border: 2px solid #b89a4b;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #fff0b8 0 18%, #f8d87f 19% 100%);
+  box-shadow: 0 2px 0 #9c7f37;
+}
+.exp-halt-picture[data-halt='roulotte'] i {
+  position: absolute;
+  width: 56%;
+  height: 56%;
+}
+.exp-halt-picture[data-halt='roulotte'] i:nth-child(1) {
+  left: 2%;
+  top: 30%;
+}
+.exp-halt-picture[data-halt='roulotte'] i:nth-child(2) {
+  left: 42%;
+  top: 36%;
+}
+.exp-halt-picture[data-halt='roulotte'] i:nth-child(3) {
+  left: 21%;
+  top: 6%;
+}
+
+/* ---- Les cadeaux : le signe en pâte d'un cadeau qui dure, ses étoiles ---- */
+.exp-sign {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: max(2px, calc(var(--hu) * 0.25)) solid #b89a4b;
+  border-radius: 50%;
+  background: #f3d283;
+  box-shadow: inset 0 3px 0 #fff4cc;
+  color: #6a4a12;
+  font:
+    700 1em / 1 Fredoka,
+    sans-serif;
+}
+.exp-sign[data-boon='armure'],
+.exp-sign[data-boon='solide'] {
+  border-color: #71a9ad;
+  background: #bfe0e2;
+  box-shadow: inset 0 3px 0 #f1fbfb;
+  color: #23585c;
+}
+.bonus-card .exp-sign {
+  height: 100%;
+  min-height: calc(var(--hu) * 4.5);
+  max-height: calc(var(--hu) * 8);
+  font-size: max(22px, calc(var(--hu) * 3.4));
+}
+.voyage-view .exp-rare {
+  font-weight: 800;
+  color: #7a4b2a;
+}
+.exp-gift-cards {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(150px, calc(var(--hu) * 15))), 1fr));
+}
+.exp-shop .bonus-card:disabled {
+  opacity: 0.55;
+}
+.voyage-view .exp-coins {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hu) * 0.6);
+  font:
+    500 max(16px, calc(var(--hu) * 1.8)) / 1.1 Fredoka,
+    sans-serif;
+}
+.exp-coins::before {
+  content: '';
+  width: max(20px, calc(var(--hu) * 2.2));
+  height: max(20px, calc(var(--hu) * 2.2));
+}
+
+/* ---- En bas : les cinq places, le camp, une autre expédition ---- */
+.exp-foot {
+  flex-wrap: wrap;
+  row-gap: calc(var(--hu) * 0.4);
+}
+.exp-gifts {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--hu) * 0.5);
+  min-width: 0;
+}
+.exp-held {
+  position: relative;
+  flex: 0 0 auto;
+  width: max(34px, calc(var(--hu) * 3.6));
+  height: max(34px, calc(var(--hu) * 3.6));
+}
+.exp-held .exp-sign {
+  width: 100%;
+  height: 100%;
+  font-size: max(15px, calc(var(--hu) * 1.7));
+}
+.exp-held .bonus-picture {
+  width: 100%;
+  height: 100%;
+}
+.exp-stars {
+  position: absolute;
+  left: 50%;
+  bottom: -0.55em;
+  translate: -50% 0;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: #fffaf0;
+  color: #c98f1d;
+  font-size: max(10px, calc(var(--hu) * 1));
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.voyage-view .exp-camp {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 calc(var(--hu) * 1.2);
+  font-size: max(12px, calc(var(--hu) * 1.25));
+  font-weight: 800;
+  color: #4f6650;
+}
+.exp-foot #expedition-other {
+  margin-left: auto;
+}
+
+/* ---- Téléphone couché : le pied se resserre, la question laisse la place aux cartes ---- */
+@media (max-height: 520px) {
+  /* Les cartes disent déjà tout : la question, le nom de la mission (sa petite carte le
+     montre) et l'image du gardien (son nom reste) laissent la place au camp, en bas. */
+  .exp-lines:not(:has(.exp-notice)),
+  .exp-lines h2,
+  .voyage-view .exp-grow,
+  .exp-facts > strong,
+  .exp-guardian .exp-king {
+    display: none;
+  }
+  .exp-card {
+    padding: calc(var(--hu) * 0.5) calc(var(--hu) * 0.8);
+  }
+  .expedition-page .voyage-view {
+    gap: calc(var(--hu) * 0.4);
+    padding-block: calc(var(--hu) * 0.5);
+  }
+  .expedition-page .voyage-foot {
+    padding-top: calc(var(--hu) * 0.3);
+  }
+  .exp-mark {
+    width: max(24px, calc(var(--hu) * 2.6));
+    height: max(24px, calc(var(--hu) * 2.6));
+  }
+  .exp-body .stop-map svg {
+    max-height: calc(var(--hu) * 6);
+  }
+  /* Le choix d'un cadeau : la consigne est dans le titre, chaque carte entière se touche. */
+  [data-view='gift'] .exp-ask h2,
+  .exp-gift-cards .bonus-card small {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .exp-where,
+  .exp-foot .bag-title {
+    display: none;
+  }
+}
+
+/* ---- Avec de la place : la question et les cartes respirent ---- */
+@media (min-width: 1000px) and (min-height: 680px) {
+  .exp-body .stop-map svg {
+    max-height: calc(var(--hu) * 13);
+  }
+  .exp-card {
+    padding: calc(var(--hu) * 1.2) calc(var(--hu) * 1.4);
+    gap: calc(var(--hu) * 0.7);
+  }
+  .exp-choices {
+    align-content: center;
+  }
+}
+
+/* ---- Une rangée en tête : la question (ou les pièces) à gauche, les boutons à droite ---- */
+.exp-ask {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: calc(var(--hu) * 0.4) calc(var(--hu) * 1.2);
+}
+.exp-ask-actions {
+  display: flex;
+  gap: calc(var(--hu) * 0.8);
+  margin-left: auto;
+}
+.exp-ask-actions button {
+  min-height: 48px;
+  padding: 4px max(12px, calc(var(--hu) * 1.4));
+  font-size: max(14px, calc(var(--hu) * 1.5));
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.exp-ask-actions .primary {
+  min-width: max(140px, calc(var(--hu) * 16));
+  font-size: max(17px, calc(var(--hu) * 1.9));
+  box-shadow: 0 4px 0 #a37524;
+}
+.voyage-view .exp-swap {
+  font-weight: 700;
+  color: #4f6650;
+}
+.voyage-view .exp-gift-cards {
+  min-height: 0;
+}
+
+/* ---- La roulotte et le choix d'une place : des rangées serrées, sur deux colonnes ---- */
+.exp-shop {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: calc(var(--hu) * 0.8);
+  min-height: 0;
+  overflow: auto;
+  padding-bottom: 6px;
+}
+.exp-shop .bonus-card {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  justify-items: start;
+  text-align: left;
+  column-gap: calc(var(--hu) * 0.8);
+  row-gap: 2px;
+  min-height: 48px;
+  padding: calc(var(--hu) * 0.5) calc(var(--hu) * 0.8);
+  border-radius: calc(var(--hu) * 1.2);
+}
+.exp-shop .bonus-card .exp-sign {
+  grid-row: 1 / 3;
+  width: max(34px, calc(var(--hu) * 3.8));
+  height: max(34px, calc(var(--hu) * 3.8));
+  min-height: 0;
+  font-size: max(16px, calc(var(--hu) * 1.9));
+}
+.exp-shop .bonus-card strong {
+  grid-column: 2;
+  font-size: max(14px, calc(var(--hu) * 1.5));
+}
+.exp-shop .bonus-card .bonus-detail {
+  grid-column: 2;
+  font-size: max(12px, calc(var(--hu) * 1.15));
+}
+.exp-shop .bonus-card small {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  align-self: center;
+  white-space: nowrap;
+}
+@media (max-height: 520px) {
+  .exp-gift-cards .bonus-card .exp-sign {
+    grid-row: 1 / 4;
+    width: calc(var(--hu) * 6);
+    height: calc(var(--hu) * 6);
+    min-height: 0;
+  }
+}
+@media (max-width: 999px) {
+  /* La porte de l'expédition prend la place du record dans la rangée du haut. */
+  #voyage-record {
+    display: none;
+  }
+}
+
+/* ---- L'arrivée : King Snake en trophée, au milieu du panneau ---- */
+[data-view='arrived'] .voyage-view {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.exp-trophy {
+  width: calc(var(--hu) * 9);
+  height: calc(var(--hu) * 9);
+  background: url('../../../assets/home/menu-classique.webp') center / contain no-repeat;
+}
+[data-view='arrived'] .exp-foot {
+  border-top: 0;
+}
+@media (max-height: 520px) {
+  .exp-trophy {
+    width: calc(var(--hu) * 6);
+    height: calc(var(--hu) * 6);
+  }
+}
+@media (min-width: 1000px) and (min-height: 680px) {
+  .exp-halt-picture {
+    min-height: calc(var(--hu) * 7);
+    max-height: calc(var(--hu) * 10);
+  }
+}

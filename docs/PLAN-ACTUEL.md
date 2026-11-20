@@ -15,12 +15,15 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 | **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                             |
 | **Les enfants**           | Le fils a joué 2 ou 3 parties sur le site le 19 novembre, content, sans remarque précise. Aucune séance notée depuis.                                                                                                                                                                                                                                                                                      |
 
-## En cours (20 novembre) : l'aventure sans fin
+## En cours (20 novembre) : La Grande Expédition
 
-Idée du parent, ses choix pris un par un : [MODE-INFINI.md](MODE-INFINI.md),
-[compte rendu](BILAN-MODE-INFINI.md). Moteur, cadeaux à niveaux, records par joueur, écrans
-et recette faits ; relecture à huit angles corrigée. Le paquet principal a été allégé avant
-(199,3 → 188,5 Ko). Ensuite : le voyage plus long avec des cadeaux remplaçables.
+Le long voyage demandé par le parent : trois tableaux de cinq missions, des chemins, des
+haltes, le camp qui suit l'enfant, les cadeaux de l'aventure sans fin
+([proposition et décisions](VOYAGE-LONG-PROPOSITION.md), [compte rendu](BILAN-GRANDE-EXPEDITION.md)).
+Moteur mesuré et publié (PR 103) ; écrans et recette faits dans le lot suivant. Ensuite : les
+défis originaux, un par un, montrés au fils avant.
+
+L'aventure sans fin est finie et publiée ([compte rendu](BILAN-MODE-INFINI.md)).
 
 ## Dans `main` et sur le site, pas encore dans l'application
 
