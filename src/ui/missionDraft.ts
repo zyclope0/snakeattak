@@ -1,19 +1,16 @@
 import { bindMissionPreparation } from './missionPreparation.ts';
 import { helpPoint } from './helpBubble.ts';
-import type { BalanceRevision } from '../balanceRevision.ts';
 import { bindCapricePreparation, canLaunchCaprice, friendsViewHasContent } from './capriceView.ts';
 import { capriceBudget, capriceRules } from '../caprices.ts';
 import type { Kind } from '../data.ts';
 import type { AlbumsController } from './capriceAlbums.ts';
 import { setText as setDisplayText, setTitle as setDisplayTitle } from '../i18n/dom.ts';
 import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
-import type { Session } from '../session.ts';
 import { createMissionRun, missionById } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
 import type { createMissionProgressController } from '../missionProgress.ts';
 import { kinds } from '../data.ts';
 import { portraitStyle } from '../art.ts';
-import { bindDepartureControls } from './departures.ts';
 import { byId } from './dom.ts';
 import { originalRulesLabel, portrait } from './gameParts.ts';
 import * as TEXT from '../texts/fr/missionScreens.ts';
@@ -25,7 +22,6 @@ type Actions = {
   launch: (run: MissionRun, kinds?: readonly Kind[], retry?: boolean) => void | boolean;
   canResume: () => boolean;
   profileChanged?: () => void;
-  launchClassic: (seed: number, balanceRevision: BalanceRevision) => void;
 };
 
 /** Another draw of the same mission: its rules and its caprice stay. */
@@ -71,9 +67,10 @@ function drawStartingParty() {
  * and the buttons that draw another one or start it. It never writes simulation rules.
  */
 export function bindMissionDraft(
-  session: Session,
   progress: Progress,
   actions: Actions,
+  /** Writes the code of the departure being looked at; the code form lives outside. */
+  showCode: (run: MissionRun) => void,
   albums?: AlbumsController,
 ) {
   const dialog = byId<HTMLDialogElement>('mission-dialog');
@@ -103,11 +100,6 @@ export function bindMissionDraft(
     chooseFriends,
   );
   const views = bindMissionPreparation(dialog, helpPoint);
-  const departures = bindDepartureControls(session, {
-    unlocked: allowed,
-    previewMission: show,
-    launchClassic: actions.launchClassic,
-  });
 
   /** Opens the preparation on this departure, or refreshes it in place. */
   function show(run: MissionRun, resetScroll = true) {
@@ -116,7 +108,7 @@ export function bindMissionDraft(
     legacyLabel.hidden = run.balance === 2;
     preparation.update(run, stars(run));
     views.offerFriends(friendsViewHasContent(run, albums?.state.children.length ?? 0));
-    departures.preview(run);
+    showCode(run);
     describeRun(run, actions.canResume(), !!progress.lastRun(run.missionId));
     drawMissionPreview(byId('mission-map') as unknown as SVGElement, run);
     showMissionScouting(run, preparation.chosen());
@@ -151,5 +143,5 @@ export function bindMissionDraft(
     if (!draft || !allowed(draft)) return;
     if (actions.launch(draft, preparation.chosen()) !== false) dialog.close();
   };
-  return { show, showCaprices, allowed, refreshCodes: departures.refresh };
+  return { show, showCaprices, allowed };
 }
