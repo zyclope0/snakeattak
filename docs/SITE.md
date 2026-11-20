@@ -35,8 +35,8 @@ L'adresse du site est écrite à un seul endroit, `src/site.ts`.
 
 ## Découverte et soutien — 16 novembre 2026
 
-Le jeu reste à `/`, sur la même origine : aucun déplacement des sauvegardes. Les10pages
-FR/EN de `deploy/discoveryCopy.ts` sont générées par `deploy/discovery.ts` : contenu réel,
+Le jeu reste à `/`, sur la même origine : aucun déplacement des sauvegardes. Les pages
+FR/EN de `deploy/discoveryCopy.ts` (10 le 16 novembre, 14 depuis le 20 novembre, voir plus bas) sont générées par `deploy/discovery.ts` : contenu réel,
 un titre et une description propres, canonical, liens linguistiques réciproques, Open Graph,
 image de partage existante et données structurées WebPage factuelles, sans notes inventées.
 Elles réutilisent les polices et illustrations locales autorisées, sans nouvelle génération,
@@ -49,6 +49,13 @@ Les pages statiques peuvent être lues sans JavaScript, en portrait comme en pay
 Le bouton Jouer renvoie au jeu existant ; l'orientation paysage reste nécessaire pour le
 plateau sur téléphone. La langue déjà choisie dans le jeu reste prioritaire.
 
+### Pages ajoutées le 20 novembre 2026
+
+« L'histoire » (`/fr/histoire/`, `/en/story/`) et « Tester sur Android »
+(`/fr/tester-android/`, `/en/test-android/`), avec un bouton « Tester sur Android » en haut de
+chaque page et dans l'écran « Pour les parents » de la page du jeu sur le site. Réglages,
+décisions et vérifications : [TESTEURS-ET-JOUEURS.md](TESTEURS-ET-JOUEURS.md).
+
 ### Indexation : opération propriétaire à terminer
 
 1. Dans [Google Search Console](https://search.google.com/search-console), ajouter la
@@ -57,7 +64,8 @@ plateau sur téléphone. La langue déjà choisie dans le jeu reste prioritaire.
    enregistrements Web ou de messagerie ; attendre sa propagation puis vérifier.
 2. Envoyer `https://snakeattacktd.com/sitemap.xml`. Inspecter `/fr/`, `/en/` et `/` :
    relire le rendu et la canonical, puis demander l'indexation si nécessaire. Le sitemap
-   contient12URL : jeu,10pages et confidentialité ; ni profils ni codes de départ.
+   contient 16 URL depuis le 20 novembre : jeu, 14 pages et confidentialité ; ni profils
+   ni codes de départ.
 3. Dans [Bing Webmaster Tools](https://www.bing.com/webmasters/), importer la propriété
    Search Console ou utiliser la vérification proposée, puis envoyer le même sitemap.
 4. Suivre les pages indexées, erreurs et impressions dans ces consoles ; aucun pixel de
