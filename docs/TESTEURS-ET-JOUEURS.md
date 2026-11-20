@@ -98,6 +98,8 @@ dans le jeu ni dans l'application ».
 
 ## Recommandation
 
+État au 20 novembre : les points 1 et 2 sont faits ; les points 3 et 4 attendent le parent.
+
 1. **Cette semaine, sans rien publier** : je prépare dans le dépôt la page « Tester
    l'application Android » et le bouton (éteints, comme l'encart), le paragraphe à ajouter à la
    politique, et la page « L'histoire du jeu ». Le parent relit les mots.
