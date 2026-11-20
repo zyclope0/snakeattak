@@ -76,11 +76,57 @@ et garder **la quatrième voie** pour plus tard, quand le reste plaît aux enfan
 - **Les défis à préparer d'abord** : la crue, les deux rois, et quatre idées du parent :
   - **les serpents boostés** (plus forts pour une mission) ;
   - **les alliés qui commencent avec la moitié de leur vie** ;
-  - **des alliés au comportement bizarre** (à préciser avec le fils : ils se trompent de voie,
-    ils dansent un moment, ils changent de cible…) ;
-  - **des pouvoirs spéciaux pour les serpents** (à préciser avec le fils).
+  - **des alliés au comportement bizarre** : de temps en temps, un allié sur cinq tape ses amis
+    (il est ensorcelé), ou s'enfuit un petit moment ;
+  - **des pouvoirs spéciaux pour les serpents** : se téléporter près du cristal, ne prendre
+    aucun dégât pendant quelques secondes, passer à travers les alliés.
     Chacun est montré au fils avant d'être fait, mesuré, puis accepté par le parent.
 - **La quatrième voie** : pas maintenant.
+
+## Les noms (choisis par Claude le 20 novembre, provisoires)
+
+Le parent n'a pas encore de noms ; il demande des noms originaux, qui plaisent aux enfants, et
+qui se changent facilement (ils seront des textes de `src/texts/`, jamais écrits dans le code).
+Ce qui guide le choix :
+
+- **une image concrète** que l'enfant voit tout de suite (un marais, des pics, un tunnel) ;
+- **un son qui chante** : allitérations et onomatopées (« Glouglou », « Sifflements »), faciles
+  à répéter et à retenir ;
+- **une peur qu'on peut porter** : du danger avec un clin d'œil, jamais de l'horreur ;
+- **un personnage** quand c'est possible (« Mamie Pistache »), parce qu'un nom de personne
+  donne envie de le retrouver ;
+- **court** : deux ou trois mots, lisibles sur un téléphone.
+
+| Quoi                       | Nom proposé                                         |
+| -------------------------- | --------------------------------------------------- |
+| Le long voyage             | **La Grande Expédition**                            |
+| Tableau 1                  | **La Vallée des Sifflements**                       |
+| Tableau 2                  | **Le Marais Glouglou**                              |
+| Tableau 3                  | **Les Pics aux Mille Crocs**                        |
+| Gardien du tableau 1       | **Capitaine Zigzag**                                |
+| Gardien du tableau 2       | **Madame Gloups**                                   |
+| Gardien du tableau 3       | **King Snake** (le roi du fils, tel quel)           |
+| Chemin calme / risqué      | **Le Chemin Tranquille** / **Le Chemin des Braves** |
+| Halte : réparer le cristal | **Le Feu de Camp**                                  |
+| Halte : acheter un cadeau  | **La Roulotte de Mamie Pistache**                   |
+| Halte : surprise           | **L'Œuf Mystère**                                   |
+
+| Défi                            | Nom proposé            | Ce qui se passe                                                                                          |
+| ------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------- |
+| La crue                         | **Les Ponts Mouillés** | un pont sous l'eau pendant quelques vagues                                                               |
+| Les deux rois                   | **Double Couronne**    | le gardien vient avec son jumeau                                                                         |
+| Serpents boostés                | **Serpents Vitaminés** | plus forts et plus rapides pour une mission                                                              |
+| Alliés à mi-vie                 | **Réveil Difficile**   | les alliés commencent la mission avec la moitié de leur vie                                              |
+| Comportement bizarre : retourné | **Les Ensorcelés**     | de temps en temps, un allié sur cinq est ensorcelé : il tape ses amis un moment, puis redevient lui-même |
+| Comportement bizarre : peur     | **La Grande Frousse**  | de temps en temps, un allié sur cinq a peur et court se cacher quelques secondes                         |
+| Pouvoir : téléportation         | **Le Tunnel Secret**   | certains serpents disparaissent et ressortent tout près du cristal                                       |
+| Pouvoir : invincible            | **Écailles d'Acier**   | certains serpents ne prennent aucun dégât pendant quelques secondes                                      |
+| Pouvoir : fantôme               | **Serpents Fantômes**  | certains serpents passent à travers les alliés sans s'arrêter                                            |
+
+Pour « Les Ensorcelés » : un allié ensorcelé ne passe pas pour de bon chez les serpents (la
+règle du fils « pas de résurrection » ne change pas, et l'enfant ne perd pas un allié qu'il a
+payé) ; il se réveille au bout de quelques secondes. Le chiffre « un sur cinq » et les durées
+seront mesurés, puis proposés au parent.
 
 ## Ordre de travail
 
