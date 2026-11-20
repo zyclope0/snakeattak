@@ -5,6 +5,7 @@ import { privacyPageHtml } from '../deploy/privacyPage.ts';
 import {
   POLICY_APP,
   PRIVACY_POLICY,
+  ANDROID_TEST_HEADING,
   WEB_ADS_HEADING,
   WEBSITE_HEADING,
 } from '../src/i18n/privacyPolicy.ts';
@@ -19,6 +20,10 @@ const approvedAds: Record<
   { section: { heading: string; paragraphs: unknown[] }; replaced: [string, string][] }
 > = JSON.parse(readFileSync('tests/fixtures/publicite-web-approuvee-2026-11-17.json', 'utf8'));
 
+/** Approved on 20 November 2026: a section about testing the Android app through a Google Group. */
+const approvedTest: Record<'fr' | 'en', { heading: string; paragraphs: string[][] }> = JSON.parse(
+  readFileSync('tests/fixtures/test-android-approuve-2026-11-20.json', 'utf8'),
+);
 const published = readFileSync('tests/fixtures/confidentialite-publiee-2026-11-14.html', 'utf8');
 /** What a reader sees of a piece of page: its markup, without the spaces between its tags. */
 const tight = (html: string) => html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
@@ -26,11 +31,12 @@ const between = (html: string, open: string, close: string) =>
   html.slice(html.indexOf(open), html.indexOf(close) + close.length);
 /**
  * The page without what the publisher added to the words first published: the date of the
- * last change, the website section, the separately approved support section, then the
- * advertising section and the two sentences it reworded.
+ * last change, the website section, the separately approved support section, the
+ * advertising section and the two sentences it reworded, then the section about the Android
+ * test.
  */
 const asFirstPublished = (html: string) =>
-  Object.values(WEBSITE_HEADING).reduce(
+  [...Object.values(WEBSITE_HEADING), ...Object.values(ANDROID_TEST_HEADING)].reduce(
     (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
     Object.values(approvedAds)
       .flatMap((approved) => approved.replaced)
@@ -81,9 +87,10 @@ test('the section about the website says what the publisher approved, in both la
   // contact.
   for (const language of ['fr', 'en'] as const) {
     const headings = PRIVACY_POLICY[language].sections.map((candidate) => candidate.heading);
-    assert.equal(headings.indexOf(WEBSITE_HEADING[language]), 3, language);
-    assert.equal(headings.indexOf(WEB_ADS_HEADING[language]), 4, language);
-    assert.equal(headings.length, 7, language);
+    assert.equal(headings.indexOf(ANDROID_TEST_HEADING[language]), 3, language);
+    assert.equal(headings.indexOf(WEBSITE_HEADING[language]), 4, language);
+    assert.equal(headings.indexOf(WEB_ADS_HEADING[language]), 5, language);
+    assert.equal(headings.length, 8, language);
   }
 });
 
@@ -107,8 +114,8 @@ test('the public page stands alone: no script, no outside resource, its own addr
 });
 
 test('each language tells when its words last changed and where the public page is', () => {
-  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 17 novembre 2026');
-  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 17, 2026');
+  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 20 novembre 2026');
+  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 20, 2026');
   assert.equal(PRIVACY_POLICY.fr.publicLink, `Lire cette politique sur ${SITE_HOST}`);
   assert.equal(PRIVACY_POLICY.en.publicLink, `Read this policy on ${SITE_HOST}`);
   const page = privacyPageHtml();
@@ -163,8 +170,8 @@ test('the Apache configuration sends every visitor to the one address and keeps 
 
 test('website support policy is exactly the bilingual text the publisher approved on November 16', () => {
   for (const language of ['fr', 'en'] as const) {
-    assert.deepEqual(PRIVACY_POLICY[language].sections[5], approvedSupport[language]);
-    assert.equal(PRIVACY_POLICY[language].sections.length, 7);
+    assert.deepEqual(PRIVACY_POLICY[language].sections[6], approvedSupport[language]);
+    assert.equal(PRIVACY_POLICY[language].sections.length, 8);
   }
 });
 
@@ -172,7 +179,7 @@ test('website advertising policy is exactly the bilingual text the publisher app
   const page = privacyPageHtml();
   for (const language of ['fr', 'en'] as const) {
     const { section, replaced } = approvedAds[language];
-    assert.deepEqual(PRIVACY_POLICY[language].sections[4], section);
+    assert.deepEqual(PRIVACY_POLICY[language].sections[5], section);
     assert.equal(section.heading, WEB_ADS_HEADING[language]);
     // Each reworded sentence is on the page once, and the sentence it replaces is gone.
     for (const [first, now] of replaced) {
@@ -186,4 +193,11 @@ test('website advertising policy is exactly the bilingual text the publisher app
     /ne contient ni publicité.*Cette version|le site ne dépose aucun cookie/,
   );
   assert.doesNotMatch(page, /the site sets no cookies|This version contains no ads/);
+});
+
+test('the Android test section is exactly the bilingual text the publisher approved on November 20', () => {
+  for (const language of ['fr', 'en'] as const) {
+    assert.deepEqual(PRIVACY_POLICY[language].sections[3], approvedTest[language]);
+    assert.equal(approvedTest[language].heading, ANDROID_TEST_HEADING[language]);
+  }
 });

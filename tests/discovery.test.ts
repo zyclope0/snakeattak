@@ -221,7 +221,8 @@ test('only the Web gets public metadata and links; game markup and saves remain 
 test('what the website adds to the game page is counted and bounded', () => {
   const added = webHeadBytes(pictures);
   assert.ok(added > 0 && added <= WEB_HEAD_BUDGET, `${added} octets`);
-  assert.equal(WEB_HEAD_BUDGET, 1280);
+  // 1 280 until the Android test button (20 November 2026).
+  assert.equal(WEB_HEAD_BUDGET, 1440);
   // The count is exact on a real page: the same bytes whatever the page holds.
   const page =
     '<html><head><title>Jeu</title></head><body><main>Jeu</main><nav class="parent-actions"><button>Aide</button></nav></body></html>';

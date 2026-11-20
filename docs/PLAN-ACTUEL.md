@@ -18,6 +18,12 @@ Une page. L'historique des livraisons et des lots jusqu'au 15 novembre est dans
   8, inventé par le fils ; dessin accepté, valeurs choisies par le parent après mesure
   ([bilan](BILAN-REVISION-7.md)). Le catalogue des alliés passe les onglets dans la ligne du
   titre pour garder tous les alliés sur un écran de téléphone.
+- **Testeurs et joueurs** (20 novembre) : analyse faite et décisions du parent prises
+  ([TESTEURS-ET-JOUEURS.md](TESTEURS-ET-JOUEURS.md)). Pages « Tester sur Android » et
+  « L'histoire » prêtes, éteintes : elles attendent les deux liens du test fermé et le dessin.
+  La politique de confidentialité a sa section « Test de l'application Android » (acceptée et
+  datée du 20 novembre) ; l'âge du fils (8 ans) est réglé. Le prochain build Android
+  emportera la politique datée du 20 novembre.
 
 ## Livraison préparée — 0.38.0, Android build62, site snakeattacktd.com
 

@@ -109,15 +109,54 @@ dans le jeu ni dans l'application ».
 4. **En parallèle, pour le site** : Search Console et Bing, puis Outils Tice et le CNLJ, puis le
    journal local quand la page « L'histoire du jeu » existe.
 
-## Décisions pour le parent
+## Décisions du parent (20 novembre 2026)
 
-- Groupe Google avec lien public, ou seulement des invitations par e-mail à des gens qu'il
-  connaît ?
-- Le bouton « Tester Android » : sur toutes les pages du site, ou seulement sur l'accueil et
-  « Pour les parents » ?
-- Ce qu'on montre du fils (dessin, âge, rien d'autre ?) pour la page « L'histoire du jeu » et la
-  presse.
-- L'encart publicitaire : rester éteint pendant cette campagne ?
+- **Lien public** : un groupe Google ouvert à tous.
+- **Bouton partout** : en haut de chaque page du site, et dans l'écran « Pour les parents » de la
+  page du jeu sur le site. Jamais dans l'application.
+- **Le fils** : seulement son dessin et son âge.
+- **Publicité** : éteinte (AdSense n'a pas encore validé le site).
+
+## Ce qui est prêt (éteint)
+
+Tout est dans `deploy/siteFeatures.ts`. Tant qu'une valeur est vide, sa page n'existe pas et
+aucun lien n'y mène ; le site publié ne change pas.
+
+- **« Tester sur Android »** (`/fr/tester-android/`, `/en/test-android/`) : qui peut tester,
+  rejoindre le groupe, rejoindre le test sur Google Play, garder l'application 14 jours, écrire
+  son avis, ses données. Aucun formulaire. S'allume quand `ANDROID_TEST.group` (adresse
+  `https://groups.google.com/…`) et `ANDROID_TEST.optIn` (adresse `https://play.google.com/…`)
+  sont remplis tous les deux ; une adresse sur un autre site est refusée à la construction.
+- **« L'histoire »** (`/fr/histoire/`, `/en/story/`), juste après l'accueil dans le menu : le
+  dessin, l'âge, les règles du fils, ses idées depuis, ce que le jeu ne fait pas. S'allume quand
+  `STORY.age` est rempli et que le dessin est à `resources/site/dessin-du-jeu.jpg` (JPEG ou PNG).
+  Une photo du dessin existe déjà dans le dépôt (`public/references/dessin-original.jpg`), mais
+  on y voit la table et un billet de train ; une photo prise d'en haut, sur fond uni, serait
+  mieux.
+- Vérifié par `tests/site-features.test.ts` (éteint aujourd'hui ; réglages faux refusés ; une
+  fois allumé, 14 pages, le bouton sur chacune, les deux liens vers Google, le plan du site) et
+  par des captures, pages allumées avec de faux liens, à 1280×800 et 390×844.
+
+## Ce qu'il faut du parent pour allumer
+
+1. **Phrase de la politique de confidentialité** : **acceptée le 20 novembre** et ajoutée
+   (section « Test de l'application Android », mise à jour du 20 novembre 2026) :
+   - FR : « Test de l'application Android. Pour essayer l'application avant sa sortie, un adulte
+     peut rejoindre un groupe Google Groups ouvert à tous, puis le test de Google Play. Le groupe
+     est géré par Google, selon ses propres règles. zyclope voit l'adresse e-mail des membres du
+     groupe ; elle sert uniquement à ouvrir le test et à répondre aux retours. Le groupe est
+     supprimé après la sortie de l'application. Le site lui-même ne recueille aucune adresse. »
+   - EN : "Testing the Android app. To try the app before its release, an adult may join a
+     Google Group open to everyone, then the Google Play test. The group is run by Google,
+     under its own terms. zyclope can see the email address of the group's members; it is used
+     only to open the test and answer feedback. The group is deleted once the app is out. The
+     website itself collects no address."
+2. **Le groupe Google** créé depuis `sulegnasdev@gmail.com` (« tout le monde peut rejoindre »,
+   liste des membres visible par le propriétaire seulement, personne ne peut écrire), ajouté
+   comme liste de testeurs d'une piste de **test fermé** où le build 63 est promu ; puis les
+   deux adresses : celle du groupe et celle du lien d'inscription au test.
+3. **L'âge du fils** : **8 ans** (20 novembre). **Le dessin** : attendu, à déposer à
+   `resources/site/dessin-du-jeu.jpg`.
 
 ## Pas vérifié
 

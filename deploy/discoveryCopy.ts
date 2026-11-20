@@ -6,10 +6,19 @@ import * as ALLY_FR from '../src/texts/fr/allies.ts';
 import * as ALLY_EN from '../src/texts/en/allies.ts';
 import * as SNAKE_EN from '../src/texts/en/snakes.ts';
 import { NEWCOMERS } from '../src/waves.ts';
+import {
+  PLAY_TEST_DAYS,
+  PLAY_TESTERS,
+  siteFeatures,
+  type AndroidTest,
+  type SiteFeatures,
+  type Story,
+} from './siteFeatures.ts';
 import { unlockWave } from '../src/data.ts';
 
 /** Public editorial copy, independent from the game and its translation catalogue. */
-export type DiscoveryKey = 'home' | 'guide' | 'characters' | 'updates' | 'parents';
+export type DiscoveryKey =
+  'home' | 'story' | 'guide' | 'characters' | 'updates' | 'parents' | 'test';
 export type DiscoveryPage = {
   key: DiscoveryKey;
   lang: 'fr' | 'en';
@@ -18,11 +27,13 @@ export type DiscoveryPage = {
   description: string;
   heading: string;
   lead: string;
-  /** A block may end with one link to another page of the site. */
+  /** A block may end with one link: to another page of the site, or to Google for the test. */
   blocks: readonly { heading: string; text: string; link?: { href: string; label: string } }[];
+  /** The child's drawing, on the page of the story only. */
+  figure?: { src: string; width: number; height: number; alt: string; caption: string };
 };
 
-export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
+const BASE_PAGES: readonly DiscoveryPage[] = [
   {
     key: 'home',
     lang: 'fr',
@@ -321,3 +332,179 @@ export const DISCOVERY_PAGES: readonly DiscoveryPage[] = [
     ],
   },
 ];
+
+/** The page of the story: the child's drawing and his age, nothing else about him. */
+function storyPages(story: Story): DiscoveryPage[] {
+  const figure = { src: story.drawing, width: story.width, height: story.height };
+  return [
+    {
+      key: 'story',
+      lang: 'fr',
+      path: '/fr/histoire/',
+      title: 'L’histoire du jeu — La Conquête des Serpents',
+      description: `Un enfant de ${story.age} ans a dessiné ce jeu sur papier. Ses règles, ses alliés et ses serpents sont devenus un jeu gratuit, construit en famille.`,
+      heading: 'Un jeu né sur une feuille de papier.',
+      lead: `Un enfant de ${story.age} ans a dessiné ce jeu au feutre : l’antre des serpents, les chemins et le camp à défendre. On l’a construit en famille, en gardant ses règles.`,
+      figure: {
+        ...figure,
+        alt: 'Le dessin d’origine du jeu, au feutre, sur une grande feuille.',
+        caption: 'Le dessin d’origine.',
+      },
+      blocks: [
+        {
+          heading: 'Ses règles',
+          text: 'Les serpents arrivent par vagues depuis leur antre, à gauche. Tes alliés défendent le camp, à droite, tout seuls : tu ne les déplaces pas. Tu les achètes avec les pièces gagnées en combattant. Des œufs éclosent parfois, un roi à trois têtes vient à la fin, et un allié tombé ne revient pas.',
+        },
+        {
+          heading: 'Ses idées depuis',
+          text: 'Il continue d’inventer : King Snake, le serpent ninja qui se téléporte, le serpent sauterelle qui saute par-dessus les alliés, le spinosaure qui nage. Chaque idée est essayée, puis ajoutée quand elle rend le jeu plus amusant.',
+          link: { href: '/fr/nouveautes/', label: 'Voir les nouveautés' },
+        },
+        {
+          heading: 'Ce que le jeu ne fait pas',
+          text: 'Pas de compte, rien à acheter, pas de minuteur qui oblige à revenir. Les parties restent sur l’appareil.',
+          link: { href: '/fr/parents/', label: 'Lire la page pour les parents' },
+        },
+        {
+          heading: 'Nous écrire',
+          text: `Une question, une idée ? ${CONTACT_EMAIL}. N’écris pas le prénom de ton enfant dans ton premier message.`,
+        },
+      ],
+    },
+    {
+      key: 'story',
+      lang: 'en',
+      path: '/en/story/',
+      title: 'The story of the game — Snake Attack TD',
+      description: `A ${story.age}-year-old child drew this game on paper. His rules, allies and snakes became a free game, built as a family.`,
+      heading: 'A game born on a sheet of paper.',
+      lead: `A ${story.age}-year-old child drew this game in felt pen: the snakes’ den, the paths and the camp to defend. We built it as a family, keeping his rules.`,
+      figure: {
+        ...figure,
+        alt: 'The original drawing of the game, in felt pen, on a large sheet.',
+        caption: 'The original drawing.',
+      },
+      blocks: [
+        {
+          heading: 'His rules',
+          text: 'Snakes come in waves from their den, on the left. Your allies defend the camp, on the right, on their own: you do not move them. You buy them with the coins won in battle. Eggs sometimes hatch, a three-headed king comes at the end, and a fallen ally does not come back.',
+        },
+        {
+          heading: 'His ideas since',
+          text: 'He keeps inventing: King Snake, the Ninja Snake that teleports, the Grasshopper Snake that leaps over your allies, the Spinosaurus that swims. Each idea is tried, then added when it makes the game more fun.',
+          link: { href: '/en/updates/', label: 'See the updates' },
+        },
+        {
+          heading: 'What the game does not do',
+          text: 'No account, nothing to buy, no timer that makes you come back. Games stay on the device.',
+          link: { href: '/en/parents/', label: 'Read the page for parents' },
+        },
+        {
+          heading: 'Write to us',
+          text: `A question, an idea? ${CONTACT_EMAIL}. Please leave your child’s name out of your first message.`,
+        },
+      ],
+    },
+  ];
+}
+
+/** The page of the Android test: two links to Google, no form, nothing collected here. */
+function testPages(test: AndroidTest): DiscoveryPage[] {
+  return [
+    {
+      key: 'test',
+      lang: 'fr',
+      path: '/fr/tester-android/',
+      title: 'Tester l’application Android — La Conquête des Serpents',
+      description: `Aide-nous à tester l’application Android avant sa sortie sur Google Play : il faut au moins ${PLAY_TESTERS} familles pendant ${PLAY_TEST_DAYS} jours.`,
+      heading: 'Teste l’application Android avant tout le monde.',
+      lead: `Avant de sortir sur Google Play, l’application doit être essayée par au moins ${PLAY_TESTERS} familles pendant ${PLAY_TEST_DAYS} jours de suite. C’est gratuit, et ça nous aide beaucoup.`,
+      blocks: [
+        {
+          heading: 'Qui peut tester ?',
+          text: 'Un adulte avec un compte Google et un téléphone ou une tablette Android. Ton enfant joue sur ton appareil : il n’a pas besoin de compte.',
+        },
+        {
+          heading: '1. Rejoins le groupe des testeurs',
+          text: 'Ouvre le groupe sur Google Groups et rejoins-le. Il sert seulement à t’ouvrir le test.',
+          link: { href: test.group, label: 'Rejoindre le groupe (Google Groups)' },
+        },
+        {
+          heading: '2. Rejoins le test sur Google Play',
+          text: 'Ensuite, ouvre la page du test et deviens testeur. Installe le jeu depuis le Play Store, avec le même compte Google.',
+          link: { href: test.optIn, label: 'Rejoindre le test (Google Play)' },
+        },
+        {
+          heading: `Pendant ${PLAY_TEST_DAYS} jours`,
+          text: 'Garde l’application installée et joue quelques fois par semaine. Si tu quittes le test avant la fin, tu ne comptes plus pour Google.',
+        },
+        {
+          heading: 'Ton avis',
+          text: `Ce qui plaît, ce qui coince : écris-nous à ${CONTACT_EMAIL}. N’écris pas le prénom de ton enfant.`,
+        },
+        {
+          heading: 'Tes données',
+          text: 'Le groupe est géré par Google. Seul l’auteur du jeu voit les adresses des membres. Elles servent uniquement à ce test, et le groupe sera supprimé après la sortie de l’application.',
+          link: { href: `/${PRIVACY_FOLDER}/`, label: 'Lire la politique de confidentialité' },
+        },
+      ],
+    },
+    {
+      key: 'test',
+      lang: 'en',
+      path: '/en/test-android/',
+      title: 'Test the Android app — Snake Attack TD',
+      description: `Help us test the Android app before it comes out on Google Play: it needs at least ${PLAY_TESTERS} families for ${PLAY_TEST_DAYS} days.`,
+      heading: 'Try the Android app before everyone else.',
+      lead: `Before it comes out on Google Play, the app must be tried by at least ${PLAY_TESTERS} families for ${PLAY_TEST_DAYS} days in a row. It is free, and it helps us a lot.`,
+      blocks: [
+        {
+          heading: 'Who can test?',
+          text: 'An adult with a Google account and an Android phone or tablet. Your child plays on your device: they do not need an account.',
+        },
+        {
+          heading: '1. Join the testers’ group',
+          text: 'Open the group on Google Groups and join it. It is only there to let you into the test.',
+          link: { href: test.group, label: 'Join the group (Google Groups)' },
+        },
+        {
+          heading: '2. Join the test on Google Play',
+          text: 'Then open the test page and become a tester. Install the game from the Play Store, with the same Google account.',
+          link: { href: test.optIn, label: 'Join the test (Google Play)' },
+        },
+        {
+          heading: `For ${PLAY_TEST_DAYS} days`,
+          text: 'Keep the app installed and play a few times a week. If you leave the test before the end, you no longer count for Google.',
+        },
+        {
+          heading: 'Your feedback',
+          text: `What works, what gets stuck: write to us at ${CONTACT_EMAIL}. Please leave your child’s name out.`,
+        },
+        {
+          heading: 'Your data',
+          text: 'The group is run by Google. Only the author of the game sees the members’ addresses. They are used for this test only, and the group will be deleted once the app is out.',
+          link: { href: `/${PRIVACY_FOLDER}/#en`, label: 'Read the privacy policy' },
+        },
+      ],
+    },
+  ];
+}
+
+/**
+ * The public pages for these features: the five of each language, the story after the home
+ * page once the parent has given the drawing and the age, the Android test last once its two
+ * links exist.
+ */
+export function discoveryPages(features: SiteFeatures): readonly DiscoveryPage[] {
+  const story = features.story ? storyPages(features.story) : [];
+  const test = features.androidTest ? testPages(features.androidTest) : [];
+  return [
+    ...BASE_PAGES.filter((p) => p.key === 'home'),
+    ...story,
+    ...BASE_PAGES.filter((p) => p.key !== 'home'),
+    ...test,
+  ];
+}
+/** What the website publishes today: the values of `deploy/siteFeatures.ts`. */
+export const SITE_FEATURES = siteFeatures();
+export const DISCOVERY_PAGES = discoveryPages(SITE_FEATURES);
