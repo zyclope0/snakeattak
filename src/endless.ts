@@ -24,11 +24,12 @@ export type EndlessRules = Readonly<{
 }>;
 
 /**
- * Values to measure, not yet chosen by the parent: `npm run balance:endless` plays them and
- * the parent decides. Until then the endless adventure is not offered to children.
+ * Version 1, chosen by the parent on 20 November 2026 (« la version ferme ») after 60 games
+ * per automatic player (docs/MODE-INFINI.md): life ×1.45, bite ×1.2 and coins ×0.9 at each
+ * king. The expert beats one or two kings; the player who buys big allies, four or five.
  */
 export const ENDLESS_RULES: Readonly<Record<EndlessRules['version'], EndlessRules>> = {
-  1: Object.freeze({ version: 1, hpStep: 0.35, biteStep: 0.15, coinStep: 0 }),
+  1: Object.freeze({ version: 1, hpStep: 0.45, biteStep: 0.2, coinStep: -0.1 }),
 };
 
 /** Steps beyond these are typos, never values to measure. */

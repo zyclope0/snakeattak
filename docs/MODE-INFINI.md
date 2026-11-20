@@ -1,0 +1,66 @@
+# L'aventure sans fin — décisions et mesures (20 novembre 2026)
+
+Idée du parent, 20 novembre 2026 : « un mode infini », où un boss revient toutes les 12 vagues
+et où la partie continue, avec un record de chaque joueur gardé sur l'appareil. Les règles du
+fils ne changent pas : alliés autonomes, achats avec les pièces gagnées, œufs, King Snake à la
+douzième vague, aucune résurrection.
+
+## Décisions du parent (20 novembre)
+
+| Question                | Choix                                                                                     |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| Qui peut y jouer        | Ouverte quand on a battu King Snake une fois dans la grande aventure                      |
+| Après chaque King Snake | Un cadeau à choisir, puis « Continuer » ou « Rentrer avec mon record » ; reprise possible |
+| La difficulté           | Les serpents sont plus forts à chaque roi, jamais plus nombreux                           |
+| Le record               | La vague atteinte, avec les rois battus à côté                                            |
+| Les records             | Chaque joueur voit le sien ; aucun classement entre les joueurs de l'appareil             |
+| Le réglage              | « Ferme » : vie ×1,45, morsure ×1,2, pièces ×0,9 à chaque roi                             |
+| Les cadeaux             | À revoir : plus de cadeaux, et un cadeau repris monte de niveau (double, triple…)         |
+
+Le parent a ajouté le 20 novembre, en choisissant le réglage : il faut de « petits avantages »
+qui montent pour le joueur ; avec seulement trois cadeaux, l'enfant serait vite bloqué. Les
+cadeaux pris de nouveau doivent pouvoir doubler, tripler ; il en faut beaucoup plus.
+
+## Comment ça marche dans le moteur
+
+- C'est la grande aventure de la révision courante (7), jouée en boucle : après King Snake, le
+  même camp repart à la vague 1, avec un roi de plus. Le héros garde son entraînement.
+- Chaque tour offre de nouveau les cadeaux des vagues 4 et 8, tirés à part, et un cadeau après
+  le roi. Le premier tour tire exactement comme la grande aventure.
+- Les serpents ne sont pas plus nombreux. Leur vie, leur morsure et les pièces d'une vague
+  sont multipliées à chaque roi (`src/endless.ts`, version 1).
+- Une hausse fixe à chaque roi (essais A, B, C) ne suffisait pas : un camp rempli de grands
+  alliés tenait presque sans fin. La hausse multipliée finit toujours par l'emporter.
+
+## Mesures
+
+60 à 100 parties par joueur simulé, jusqu'au 10e roi au plus (`ENDLESS=1` dans
+`scripts/balance-modes.mjs`, fichiers dans `artifacts/infini/`, hors Git). Pourcentage des
+parties qui battent au moins N rois.
+
+| Réglage                                                | Joueur | 1 roi | 2 rois | 3 rois | 4 rois | 5 rois | 6 rois |
+| ------------------------------------------------------ | ------ | ----: | -----: | -----: | -----: | -----: | -----: |
+| Hausse fixe : vie +35 %, morsure +15 %                 | expert |  63 % |   52 % |   31 % |    6 % |    0 % |    0 % |
+|                                                        | gros   |  53 % |   50 % |   47 % |   47 % |   47 % |   47 % |
+| Fixe, pièces −15 % (A)                                 | gros   |  53 % |   50 % |   48 % |   48 % |   43 % |   38 % |
+| Fixe : vie +60 %, morsure +25 % (B)                    | gros   |  53 % |   45 % |   35 % |   30 % |   28 % |   27 % |
+| Fixe : vie +50 %, morsure +25 %, −15 % (C)             | gros   |  53 % |   42 % |   40 % |   37 % |   23 % |   12 % |
+| Multipliée : ×1,35, ×1,15 (« doux »)                   | expert |  70 % |   58 % |   23 % |    0 % |    0 % |    0 % |
+|                                                        | gros   |  53 % |   50 % |   45 % |   45 % |   45 % |   43 % |
+| **Multipliée : ×1,45, ×1,2, ×0,9 (« ferme », choisi)** | expert |  70 % |   43 % |    2 % |    0 % |    0 % |    0 % |
+|                                                        | dino   |  65 % |   33 % |    3 % |    0 % |    0 % |    0 % |
+|                                                        | gros   |  53 % |   45 % |   45 % |   42 % |   22 % |    3 % |
+
+- « expert » achète surtout des archers, des boucliers et des massues ; « dino » fait pareil
+  avec deux grands dinosaures ; « gros » achète toujours les alliés les plus chers et les
+  remplace quand ils tombent (47 000 pièces dépensées dans une longue partie, quatre fois plus
+  que l'expert). Les joueurs « moyen » et « petit » ne battent presque jamais le premier roi :
+  le mode ne leur est pas ouvert.
+- Avec le réglage choisi, une partie dure 16 à 21 minutes en moyenne (temps de jeu simulé).
+
+## Pas vérifié
+
+- Les joueurs simulés prennent toujours la même sorte de cadeau ; les nouveaux cadeaux à niveaux
+  ne sont ni décidés ni mesurés.
+- Aucun écran : on ne peut pas encore y jouer. Rien n'a été essayé par un enfant ni sur un
+  vrai téléphone.
