@@ -105,6 +105,7 @@ function playExpedition(seed, profile, policy) {
     }
     if (!won) {
       r.status = 'abandoned';
+      r.stuck = `${state.tableau + 1}:${X.battlesBefore(state) - state.tableau * 5 + 1}`;
       break;
     }
     state = won;
