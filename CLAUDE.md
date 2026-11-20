@@ -58,6 +58,8 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
 
 ## Méthode
 
+- Réponds toujours au parent en français, à chaque message (demande du parent, 20 novembre 2026).
+
 - Une branche par lot (`claude/<sujet>`), une PR vers `main`, jamais de fusion sans accord.
 - Une valeur qui a un sens dans le jeu (clé de stockage, limite, nombre de voies, de vagues, de
   pièces) a un nom et un seul lieu ; on importe ce nom, on ne retape pas la valeur. Lui donner

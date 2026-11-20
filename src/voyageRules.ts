@@ -1,6 +1,6 @@
 import { REWARDS } from './rewards.ts';
 import type { RewardId } from './rewards.ts';
-import { isArrayOfLength, isIntegerIn, isRecord } from './plainData.ts';
+import { isArrayOfLength, isIntegerIn, isNumberIn, isRecord } from './plainData.ts';
 import type { Game } from './game.ts';
 
 /**
@@ -10,10 +10,11 @@ import type { Game } from './game.ts';
  *
  * Versioned like a balance revision: version 1 never changes once children have played it.
  * A new way to open a stage is a new version next to this one. Version 2 (voyage version 2,
- * 18 November 2026) may bring the king's court.
+ * 18 November 2026) may bring the king's court. Version 3 (« La Grande Expédition », 20
+ * November 2026) is version 2 whose camp arrives already built: `Game.receiveCamp`.
  */
 export type StageRules = Readonly<{
-  version: 1 | 2;
+  version: 1 | 2 | 3;
   /** The three-headed king closes the last wave, whatever the caprice says. */
   king: boolean;
   /** With the king come his two guards and his healer. Version 2 only: version 1 has none. */
@@ -23,6 +24,8 @@ export type StageRules = Readonly<{
   coins: number;
   /** Damage the crystal ward absorbs from the first wave on. */
   ward: number;
+  /** Version 3 only: how much stronger the snakes are at this point of the expedition. */
+  strength?: Readonly<{ hp: number; bite: number }>;
   /** The bonus cards kept from the earlier stages: free allies to place, longer honey. */
   bag: readonly RewardId[];
 }>;
@@ -45,7 +48,7 @@ export const isBonusCard = (value: unknown): value is RewardId =>
 export function readStageRules(raw: unknown): StageRules | null {
   if (
     !isRecord(raw) ||
-    (raw.version !== 1 && raw.version !== 2) ||
+    (raw.version !== 1 && raw.version !== 2 && raw.version !== 3) ||
     typeof raw.king !== 'boolean' ||
     // Version 1 has no court; version 2 says whether the king brings it.
     (raw.version === 1 ? raw.court !== undefined : typeof raw.court !== 'boolean') ||
@@ -54,17 +57,30 @@ export function readStageRules(raw: unknown): StageRules | null {
     !isIntegerIn(raw.coins, -COINS_LIMIT, COINS_LIMIT) ||
     !isIntegerIn(raw.ward, 0, WARD_LIMIT) ||
     !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||
-    !raw.bag.every(isBonusCard)
+    !raw.bag.every(isBonusCard) ||
+    (raw.strength !== undefined && (raw.version !== 3 || !isStrength(raw.strength)))
   )
     return null;
   return Object.freeze({
     version: raw.version,
     king: raw.king,
-    ...(raw.version === 2 ? { court: raw.court === true } : {}),
+    ...(raw.version !== 1 ? { court: raw.court === true } : {}),
     coins: raw.coins,
     ward: raw.ward,
     bag: Object.freeze([...raw.bag]),
+    ...(isStrength(raw.strength) ? { strength: Object.freeze({ ...raw.strength }) } : {}),
   });
+}
+
+/** Snakes made stronger, never weaker, never beyond what a typo would give. */
+const STRENGTH_LIMIT = 20;
+function isStrength(raw: unknown): raw is { hp: number; bite: number } {
+  return (
+    isRecord(raw) &&
+    Object.keys(raw).length === 2 &&
+    isNumberIn(raw.hp, 1, STRENGTH_LIMIT) &&
+    isNumberIn(raw.bite, 1, STRENGTH_LIMIT)
+  );
 }
 
 /**

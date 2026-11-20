@@ -53,6 +53,8 @@ import { updateAllies, separateAllies } from './engine/allies.ts';
 import { updateConfusion, updateEnemies } from './engine/enemyTurn.ts';
 import { collectFallen, resolveWave } from './engine/outcome.ts';
 import * as TEXT from './texts/fr/battle.ts';
+import { UNIT_LIMIT, readUnit } from './checkpointUnits.ts';
+import { isArrayOfLength, isIntegerIn, isNumberIn, isRecord } from './plainData.ts';
 import { fill } from './texts/fill.ts';
 export type { Entity, Egg, Effect } from './engine/state.ts';
 
@@ -299,6 +301,68 @@ export class Game {
       !this.boonLevel(id) &&
       this.#boons.length >= this.boonRules.places
     );
+  }
+  /**
+   * « La Grande Expédition » (stage rules version 3): the camp of the previous mission comes
+   * along — the allies still standing, the coins, the crystal and the lasting gifts. Called
+   * once, before the first wave, on a game built for such a stage; false on any doubt, and
+   * the game is then left as it was built.
+   */
+  receiveCamp(camp: { units: unknown; gold: unknown; base: unknown; boons: unknown }): boolean {
+    if (this.#stage?.version !== 3 || this.wave !== 0 || this.status !== 'preparing') return false;
+    const boons = readBoons(camp.boons, this.boonRules);
+    if (!boons) return false;
+    // The first mission of a tableau starts from a new camp: only the gifts come along.
+    if (camp.units === null) {
+      this.#boons = boons;
+      const armour = 1 + boonLevel(boons, 'armure') * this.boonRules.steps.armure;
+      for (const u of this.units) u.maxHp = u.hp = kinds[u.kind as Kind].hp * armour;
+      return true;
+    }
+    if (
+      !isIntegerIn(camp.gold, 0, GOLD_LIMIT) ||
+      !isNumberIn(camp.base, 1, CRYSTAL_MAX) ||
+      !isArrayOfLength(camp.units, 0, UNIT_LIMIT)
+    )
+      return false;
+    const armour = 1 + boonLevel(boons, 'armure') * this.boonRules.steps.armure;
+    const ids = new Set<number>();
+    const units: Entity[] = [];
+    let nextId = 0;
+    for (const saved of camp.units) {
+      const id = isRecord(saved) && isIntegerIn(saved.id, 1, 10_000_000) ? saved.id : 0;
+      nextId = Math.max(nextId, id);
+    }
+    for (const saved of camp.units) {
+      const unit = readUnit(
+        saved,
+        { homes: true, supplies: true, nextId, lifeFactor: armour },
+        ids,
+      );
+      if (!unit || !this.knowsAlly(unit.kind as Kind)) return false;
+      ids.add(unit.id);
+      units.push(unit);
+    }
+    if (units.filter((u) => u.kind === 'hero').length > 1) return false;
+    this.units = units;
+    this.nextId = Math.max(this.nextId, nextId + 1);
+    this.gold = camp.gold;
+    this.base = camp.base;
+    this.#boons = boons;
+    // The new map may have a rock where an ally lived: every one gets a home of this map.
+    this.normalizeCamp();
+    return true;
+  }
+  /**
+   * The numbers of a wave as this game meets them: stronger for each king beaten in the
+   * endless adventure, and as « La Grande Expédition » goes on (`StageRules.strength`). Every
+   * other game gets them exactly as they are.
+   */
+  strengthen<T extends { hp: number; damage: number; reward: number }>(stats: T): T {
+    if (this.#endless) return endlessStats(stats, this.#endless, this.kings);
+    const strength = this.#stage?.strength;
+    if (!strength) return stats;
+    return { ...stats, hp: stats.hp * strength.hp, damage: stats.damage * strength.bite };
   }
   /** Whether the card of this camp was already answered, in this round. */
   offerAnswered(milestone: Milestone): boolean {
@@ -593,10 +657,8 @@ export class Game {
     tickBosses(this, dt);
     updateConfusion(this, dt);
     updateAllies(this, dt);
-    const rankStats = endlessStats(
+    const rankStats = this.strengthen(
       waveStats(this.mission ? this.difficultyWave : this.wave || 1),
-      this.#endless,
-      this.kings,
     );
     const stats = {
       ...rankStats,
