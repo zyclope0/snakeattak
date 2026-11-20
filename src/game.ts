@@ -241,7 +241,7 @@ export class Game {
   get rewardOffer(): RewardId[] {
     return this.rewards.pending === null || this.#endless
       ? []
-      : rewardOffer(this.rewards.seed, this.rewards.pending, this.kings);
+      : rewardOffer(this.rewards.seed, this.rewards.pending);
   }
   /** The three gifts of the endless adventure offered now; empty in every other game. */
   get boonOffer(): BoonId[] {

@@ -64,12 +64,11 @@ export const freshRewards = (seed: number): RewardState => ({
   ward: 0,
 });
 /**
- * Independent draw: opening an offer never consumes combat randomness. Each round of the
- * endless adventure draws its own cards; round zero draws exactly as it always has.
+ * Independent draw: opening an offer never consumes combat randomness. (The endless
+ * adventure draws its gifts apart, in boons.ts.)
  */
-export function rewardOffer(seed: number, milestone: Milestone, round = 0): RewardId[] {
-  const mixed = round > 0 ? seed ^ Math.imul(round, 0x85ebca6b) : seed;
-  const random = seededStream((mixed ^ Math.imul(milestone, 0x9e3779b9)) >>> 0);
+export function rewardOffer(seed: number, milestone: Milestone): RewardId[] {
+  const random = seededStream((seed ^ Math.imul(milestone, 0x9e3779b9)) >>> 0);
   const shuffle = <T>(values: T[]) => {
     for (let i = values.length - 1; i > 0; i--) {
       const j = Math.floor(random() * (i + 1));

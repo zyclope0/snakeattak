@@ -21,7 +21,7 @@ Le parent a ajouté le 20 novembre, en choisissant le réglage : il faut de « p
 qui montent pour le joueur ; avec seulement trois cadeaux, l'enfant serait vite bloqué. Les
 cadeaux pris de nouveau doivent pouvoir doubler, tripler ; il en faut beaucoup plus.
 
-## Les cadeaux (décidés le 20 novembre, valeurs à mesurer)
+## Les cadeaux (décidés le 20 novembre)
 
 Après les vagues 4 et 8 de chaque tour, et après chaque roi, on choisit un cadeau parmi trois
 (`src/boons.ts`). Les cadeaux qui durent montent d'un niveau quand on les reprend, jusqu'au
@@ -42,16 +42,33 @@ prennent pas de place.
 | La garde du cristal             | une fois | absorbe 18 dégâts                                    |
 | La bourse                       | une fois | 100 pièces                                           |
 
-## Comment ça marche dans le moteur
+## Comment ça marche
 
-- C'est la grande aventure de la révision courante (7), jouée en boucle : après King Snake, le
-  même camp repart à la vague 1, avec un roi de plus. Le héros garde son entraînement.
-- Chaque tour offre de nouveau les cadeaux des vagues 4 et 8, tirés à part, et un cadeau après
-  le roi. Le premier tour tire exactement comme la grande aventure.
-- Les serpents ne sont pas plus nombreux. Leur vie, leur morsure et les pièces d'une vague
-  sont multipliées à chaque roi (`src/endless.ts`, version 1).
+- C'est la grande aventure de la révision 7, jouée en boucle : après King Snake, le même camp
+  repart à la vague 1, avec un roi de plus. Le héros garde son entraînement. Après le premier
+  roi, tous les alliés restent ouverts (relecture du 20 novembre : sinon ils se refermaient à
+  chaque tour, et un renfort offert ne pouvait pas se poser).
+- Après les vagues 4 et 8 de chaque tour, et après chaque roi, un cadeau parmi trois, tiré à
+  part (`src/boons.ts`) : ce ne sont pas les cartes de la grande aventure.
+- Les serpents ne sont pas plus nombreux. Leur vie, leur morsure et la prime de fin de vague
+  sont multipliées à chaque roi (`src/endless.ts`, version 1). Les pièces gagnées pour chaque
+  serpent battu (12, et 90 pour le roi) ne baissent pas : sur un tour, la prime de fin de
+  vague fait environ 2 800 pièces et les serpents battus au moins 1 800.
 - Une hausse fixe à chaque roi (essais A, B, C) ne suffisait pas : un camp rempli de grands
   alliés tenait presque sans fin. La hausse multipliée finit toujours par l'emporter.
+- **Sauvegarde** : le camp version 15 (révision, version des règles sans fin, rois, cadeaux).
+  Les cadeaux sont rangés par version (`BOON_RULES`) : une partie garde ses valeurs.
+- **Records** (`src/endlessRecords.ts`, clé `conquete-serpents:endless-records:v1` par joueur) :
+  une ligne par partie, qui monte après chaque roi et à la chute ; une vague réessayée ou une
+  page rechargée ne fait pas de nouvelle ligne ; les cinq meilleures parties du joueur, sans
+  comparaison avec les autres joueurs. La sauvegarde familiale ne les contient pas, comme le
+  voyage.
+- **Écrans** : bouton « L'aventure sans fin » sur la page « Aventure classique », ouvert quand
+  King Snake a été battu une fois (sinon une phrase dit comment l'ouvrir) ; le record du joueur
+  dessous ; dans la bataille, la vague depuis la première et les rois ; après un roi,
+  « Continuer » ou « Rentrer avec mon record » : on rentre à l'accueil, le record est écrit,
+  la partie reste enregistrée et se reprend. À la chute : « Quelle aventure ! », la vague, les
+  rois, « Nouveau record ! » s'il y a lieu. Recette : `npm run test:endless`.
 
 ## Mesures
 
@@ -99,5 +116,5 @@ que dans la grande aventure (expert 70 % → 85 %). Aucune partie ne dépasse le
 
 - Les joueurs simulés choisissent leurs cadeaux toujours dans le même ordre ; un enfant
   choisira autrement.
-- Aucun écran : on ne peut pas encore y jouer. Rien n'a été essayé par un enfant ni sur un
-  vrai téléphone.
+- Rien n'a été essayé par un enfant ni sur un vrai téléphone.
+- Les mots des cadeaux (« +15 % », « la rente ») sont à relire avec le parent et le fils.
