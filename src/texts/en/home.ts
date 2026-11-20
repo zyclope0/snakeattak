@@ -35,6 +35,8 @@ export const leVoyageNAPasPuSOuvrirReessaie = 'The voyage could not open. Try ag
 export const confidentialite = 'Privacy policy';
 export const confidentialiteIndisponible = 'Privacy policy unavailable. Try again.';
 /** The best endless adventure of the active player: the wave, the kings beaten. */
-export const tonRecordVagueNNRois = 'Your record: wave {0} · kings beaten: {1}';
+export const tonRecordVagueNNRois = 'Your record: wave {0}';
 /** Under a mission, when the camp waiting is an endless adventure. */
 export const reprendreMonAventureSansFin = 'Resume my endless adventure';
+/** The endless adventure open, no game of this player yet. */
+export const pasEncoreDeRecord = 'No record yet';

@@ -324,7 +324,6 @@ export const retourAuCamp = 'Retour au camp';
 /** The endless adventure: its button on the page of the classic adventure. */
 export const laventureSansFin = 'L’aventure sans fin';
 /** Shown until King Snake is beaten once. */
-export const batsKingSnakePourOuvrirLAventureSansFin =
-  'Bats King Snake une fois pour ouvrir l’aventure sans fin.';
+export const batsKingSnakePourOuvrirLAventureSansFin = 'Bats King Snake d’abord';
 /** The endless adventure, in the camp after a king: stop there and keep the record. */
 export const rentrerAvecMonRecord = 'Rentrer avec mon record';

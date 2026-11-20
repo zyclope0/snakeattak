@@ -98,11 +98,10 @@
     <div class="page-actions">
       <button id="home-continue" class="primary" hidden>{{reprendre}}</button>
       <button id="home-new" class="secondary">{{laGrandeAventure12Vagues}}</button>
-      <button id="home-endless" class="secondary" hidden>{{laventureSansFin}}</button>
-      <small id="endless-record" class="endless-record" hidden></small>
-      <small id="endless-locked" class="endless-record"
-        >{{batsKingSnakePourOuvrirLAventureSansFin}}</small
-      >
+      <button id="home-endless" class="secondary endless-door" disabled>
+        <span>{{laventureSansFin}}</span
+        ><small id="endless-note">{{batsKingSnakePourOuvrirLAventureSansFin}}</small>
+      </button>
     </div>
     <details id="classic-options" class="home-disclosure" open>
       <summary>{{choisirUnChapitre}}</summary>

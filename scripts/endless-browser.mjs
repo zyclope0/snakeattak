@@ -138,8 +138,8 @@ try {
     // Before King Snake is beaten: the door is closed and says how to open it.
     {
       const { page, errors } = await open(size, { [KEYS.CAREER_STORAGE_KEY]: career(false) });
-      assert.equal(await shown(page, 'home-endless'), false, `${name}: closed`);
-      assert.equal(await shown(page, 'endless-locked'), true, `${name}: says how to open it`);
+      assert.equal(await page.locator('#home-endless').isDisabled(), true, `${name}: closed`);
+      assert.equal(await text(page, 'endless-note'), 'Bats King Snake d’abord');
       assert.deepEqual(errors, []);
       await page.close();
     }
@@ -153,8 +153,8 @@ try {
           best: [{ wave: 31, kings: 2, rules: 1, run: 1 }],
         }),
       });
-      assert.equal(await shown(page, 'home-endless'), true, `${name}: open`);
-      assert.equal(await text(page, 'endless-record'), 'Ton record : vague 31 · rois battus : 2');
+      assert.equal(await page.locator('#home-endless').isEnabled(), true, `${name}: open`);
+      assert.equal(await text(page, 'endless-note'), 'Ton record : vague 31');
       await page.screenshot({ path: `${folder}/${name}-porte.png` });
       await page.click('#home-endless');
       await page.locator('#start').waitFor();
@@ -190,7 +190,7 @@ try {
       await page.click('#endless-home');
       await page.locator('#home-screen').waitFor();
       await page.evaluate(() => document.querySelector('[data-home-target="classic"]').click());
-      assert.equal(await text(page, 'endless-record'), 'Ton record : vague 12 · rois battus : 1');
+      assert.equal(await text(page, 'endless-note'), 'Ton record : vague 12');
       assert.equal(await text(page, 'home-continue'), 'Continuer · vague 13');
       const records = await page.evaluate(
         (key) => JSON.parse(localStorage.getItem(key)),

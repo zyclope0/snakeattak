@@ -19,6 +19,7 @@ import { starRow } from './gameParts.ts';
 import { bindPendingConfirm } from './pendingConfirm.ts';
 import { bindRosterEditor } from './rosterEditor.ts';
 import * as TEXT from '../texts/fr/home.ts';
+import * as PAGE from '../texts/fr/page.ts';
 import { fill } from '../texts/fill.ts';
 
 type Career = ReturnType<typeof createCareer>;
@@ -131,12 +132,17 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
  */
 function refreshEndless(bestStars: readonly number[], records: EndlessRecords) {
   const open = endlessUnlocked(bestStars);
-  byId('home-endless').hidden = !open;
-  byId('endless-locked').hidden = open;
+  const door = byId<HTMLButtonElement>('home-endless');
+  door.disabled = !open;
   const best = records[0];
-  byId('endless-record').hidden = !open || !best;
-  if (best)
-    setDisplayText(byId('endless-record'), fill(TEXT.tonRecordVagueNNRois, best.wave, best.kings));
+  setDisplayText(
+    byId('endless-note'),
+    !open
+      ? PAGE.batsKingSnakePourOuvrirLAventureSansFin
+      : best
+        ? fill(TEXT.tonRecordVagueNNRois, best.wave)
+        : TEXT.pasEncoreDeRecord,
+  );
 }
 
 /** The home screen and the classic adventure: where a game starts, resumes or is replaced. */
