@@ -20,6 +20,7 @@ test('les clés de stockage gardent leur valeur, au caractère près', () => {
       VOYAGE_STORAGE_KEY: 'conquete-serpents:voyage:v1',
       REMINDER_STORAGE_KEY: 'conquete-serpents:recruitment-reminder:v1',
       MISSION_DONE_KEY: 'conquete-serpents:mission-done:v1',
+      ENDLESS_RECORDS_KEY: 'conquete-serpents:endless-records:v1',
       PLAYERS_KEY: 'conquete-serpents:players:v1',
       PLAYER_CHOSEN_KEY: 'conquete-serpents:player-chosen:v1',
       LANGUAGE_KEY: 'conquete-serpents:language:v1',
@@ -28,10 +29,10 @@ test('les clés de stockage gardent leur valeur, au caractère près', () => {
       ADS_OFF_KEY: 'conquete-serpents:ads-off:v1',
     },
   );
-  assert.equal(new Set(Object.values(KEYS)).size, 12, 'deux clés ne se partagent pas une adresse');
+  assert.equal(new Set(Object.values(KEYS)).size, 13, 'deux clés ne se partagent pas une adresse');
 });
 
-test('effacer un joueur efface ses six clés, dont son rappel et sa mission gagnée', () => {
+test('effacer un joueur efface ses sept clés, dont son rappel, sa mission gagnée et ses records', () => {
   assert.deepEqual(
     [...PLAYER_KEYS],
     [
@@ -41,6 +42,7 @@ test('effacer un joueur efface ses six clés, dont son rappel et sa mission gagn
       'conquete-serpents:recruitment-reminder:v1',
       'conquete-serpents:voyage:v1',
       'conquete-serpents:mission-done:v1',
+      'conquete-serpents:endless-records:v1',
     ],
   );
 });
