@@ -112,6 +112,20 @@ un cadeau qu'ils ont, puis préfèrent la forge, l'armure, la rente, le marché.
 Les cadeaux des vagues 4 et 8 aident aussi le premier tour : le premier roi tombe plus souvent
 que dans la grande aventure (expert 70 % → 85 %). Aucune partie ne dépasse le 9e roi.
 
+### Après la relecture : alliés ouverts après un roi (« on garde », 20 novembre)
+
+Mêmes réglages ; les alliés ne se referment plus à chaque tour, et le joueur simulé ne
+remplace plus un cadeau monté au niveau 3. 60 parties par joueur, jusqu'au 10e roi au plus.
+
+| Joueur | 1 roi | 2 rois | 3 rois | 4 rois | 5 rois | 6 rois | 7 rois | 8 rois | 9 rois | 10 rois | Durée médiane* |
+| ------ | ----: | -----: | -----: | -----: | -----: | -----: | -----: | -----: | -----: | ------: | -------------: |
+| expert |  85 % |   80 % |   63 % |   32 % |    3 % |    0 % |    0 % |    0 % |    0 % |     0 % |         33 min |
+| dino   |  77 % |   70 % |   58 % |   28 % |    0 % |    0 % |    0 % |    0 % |    0 % |     0 % |         33 min |
+| gros   |  80 % |   80 % |   80 % |   80 % |   80 % |   80 % |   80 % |   77 % |   47 % |     2 % |         61 min |
+
+Le joueur qui achète les plus grands alliés va maintenant jusqu'au 8e ou 9e roi, en une heure
+environ ; le parent garde ces valeurs : une longue partie se coupe après un roi et se reprend.
+
 ## Pas vérifié
 
 - Les joueurs simulés choisissent leurs cadeaux toujours dans le même ordre ; un enfant

@@ -15,6 +15,13 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 | **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                             |
 | **Les enfants**           | Le fils a joué 2 ou 3 parties sur le site le 19 novembre, content, sans remarque précise. Aucune séance notée depuis.                                                                                                                                                                                                                                                                                      |
 
+## En cours (20 novembre) : l'aventure sans fin
+
+Idée du parent, ses choix pris un par un : [MODE-INFINI.md](MODE-INFINI.md),
+[compte rendu](BILAN-MODE-INFINI.md). Moteur, cadeaux à niveaux, records par joueur, écrans
+et recette faits ; relecture à huit angles corrigée. Le paquet principal a été allégé avant
+(199,3 → 188,5 Ko). Ensuite : le voyage plus long avec des cadeaux remplaçables.
+
 ## Dans `main` et sur le site, pas encore dans l'application
 
 - **Le spinosaure** (révision 7, 19 novembre) : allié du fils dans la grande aventure dès la
