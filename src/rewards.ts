@@ -1,5 +1,5 @@
 import type { Kind } from './data.ts';
-import { isArrayOfLength, isNumberIn, isRecord, isUint32 } from './plainData.ts';
+import { isArrayOfLength, isIntegerIn, isNumberIn, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/rewards.ts';
 import { seededStream } from './seededRandom.ts';
 import { CRYSTAL_WARD, HONEY_REWARD_SECONDS, REWARD_WAVES, TOTAL_WAVES } from './gameConstants.ts';
@@ -145,6 +145,52 @@ export function readRewards(raw: unknown, wave: number): RewardState | null {
   // At a milestone the offer is either still pending or already answered.
   if (isMilestone(wave) && raw.pending !== wave && !answered(wave)) return null;
   state.pending = raw.pending as Milestone | null;
+  state.ward = raw.ward;
+  return state;
+}
+
+/**
+ * The rewards of a saved endless camp: only the cards taken once are kept there (the lasting
+ * gifts are saved apart), each in a round already played, at a camp of that round. An offer
+ * pending is the one due now. The ward cannot exceed what the « cristal » cards gave.
+ */
+export function readEndlessRewards(raw: unknown, kings: number, wave: number): RewardState | null {
+  if (
+    !isRecord(raw) ||
+    !isUint32(raw.seed) ||
+    !isArrayOfLength(raw.choices, 0, (kings + 1) * (REWARD_WAVES.length + 1)) ||
+    !isNumberIn(raw.ward, 0, Number.MAX_VALUE)
+  )
+    return null;
+  const pending = raw.pending;
+  const due =
+    pending === null ||
+    (isMilestone(pending) && pending === wave) ||
+    (pending === TOTAL_WAVES && wave === 0 && kings > 0);
+  if (!due) return null;
+  const state = freshRewards(raw.seed);
+  state.pending = pending as Milestone | null;
+  for (const saved of raw.choices) {
+    if (
+      !isRecord(saved) ||
+      !(isMilestone(saved.milestone) || saved.milestone === TOTAL_WAVES) ||
+      typeof saved.id !== 'string' ||
+      saved.id === 'miel' ||
+      !Object.hasOwn(REWARDS, saved.id) ||
+      typeof saved.used !== 'boolean' ||
+      (!REWARDS[saved.id as RewardId].kind && !saved.used) ||
+      (Object.hasOwn(saved, 'round') && !isIntegerIn(saved.round, 1, kings))
+    )
+      return null;
+    state.choices.push({
+      milestone: saved.milestone as Milestone,
+      id: saved.id as RewardId,
+      used: saved.used,
+      ...(Object.hasOwn(saved, 'round') ? { round: saved.round as number } : {}),
+    });
+  }
+  const crystals = state.choices.filter((c) => c.id === 'cristal').length;
+  if (raw.ward > crystals * CRYSTAL_WARD) return null;
   state.ward = raw.ward;
   return state;
 }

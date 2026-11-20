@@ -1,7 +1,7 @@
 import { activeEnemyLanes } from './tutorial.ts';
 import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
 import { endlessStats, readEndlessRules } from './endless.ts';
-import { BOON_STEPS, boonLevel, boonOffer, isLastingBoon, takeBoon } from './boons.ts';
+import { BOON_STEPS, boonLevel, boonOffer, isLastingBoon, readBoons, takeBoon } from './boons.ts';
 import type { BoonId, Boons, LastingBoon } from './boons.ts';
 import type { EndlessRules } from './endless.ts';
 import type { Milestone, RewardState, RewardId } from './rewards.ts';
@@ -28,13 +28,13 @@ import {
   REWARD_COINS,
   START_GOLD,
   WAVES_PER_CHAPTER,
+  REWARD_WAVES,
 } from './gameConstants.ts';
 import { levelForWave, missionLevel } from './levels.ts';
 import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
 import {
   allyExists,
-  CURRENT_BALANCE_REVISION,
   balanceRecruitPrice,
   isBalanceRevision,
   lateEggRule,
@@ -185,11 +185,11 @@ export class Game {
       throw new RangeError(TEXT.revisionInvalide);
     this.#balanceRevision = balance ?? revision;
     this.#lateEggs = this.mission ? null : lateEggRule(this.#balanceRevision);
-    // The endless adventure is the great adventure of the current revision, played on.
+    // The endless adventure is the great adventure of its own revision, played on.
     this.#endless = endless === undefined ? null : readEndlessRules(endless);
     if (
       endless !== undefined &&
-      (!this.#endless || this.mission || this.#balanceRevision !== CURRENT_BALANCE_REVISION)
+      (!this.#endless || this.mission || this.#balanceRevision !== this.#endless.balance)
     )
       throw new RangeError(TEXT.revisionInvalide);
     if (this.mission) {
@@ -256,6 +256,29 @@ export class Game {
   /** Level of a lasting gift: zero when it is not taken, and in every other game. */
   boonLevel(id: LastingBoon): number {
     return boonLevel(this.#boons, id);
+  }
+  /**
+   * Puts back the gifts of a saved endless camp, once its wave, kings and pending offer are
+   * back, and rebuilds which camps were answered: every camp of the earlier rounds, and of
+   * this one up to the wave, but the one still pending. False on any doubt.
+   */
+  restoreEndless(raw: unknown): boolean {
+    const boons = readBoons(raw);
+    if (!this.#endless || !boons) return false;
+    const answered = new Set<string>();
+    for (let round = 0; round <= this.kings; round++)
+      for (const milestone of [...REWARD_WAVES, TOTAL_WAVES]) {
+        const reached =
+          milestone === TOTAL_WAVES ? round > 0 : round < this.kings || milestone <= this.wave;
+        const key = `${round}:${milestone}`;
+        if (reached && key !== `${this.kings}:${this.rewards.pending}`) answered.add(key);
+      }
+    // One level a gift, one gift an answered camp: more levels were never offered.
+    if (boons.reduce((sum, b) => sum + b.level, 0) > answered.size) return false;
+    this.#boons = boons;
+    this.#answered.clear();
+    for (const key of answered) this.#answered.add(key);
+    return true;
   }
   /** Whether the card of this camp was already answered, in this round. */
   offerAnswered(milestone: Milestone): boolean {
@@ -343,8 +366,9 @@ export class Game {
       // The armour takes the allies already in the camp, wounds kept in proportion.
       if (after !== before)
         for (const u of this.units) {
-          u.maxHp *= after / before;
-          u.hp *= after / before;
+          // Written as a save reads it back: the kind's life times the armour.
+          u.maxHp = kinds[u.kind as Kind].hp * after;
+          u.hp = Math.min(u.maxHp, (u.hp * after) / before);
         }
     } else {
       const card = id as RewardId;

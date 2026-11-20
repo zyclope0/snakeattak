@@ -12,6 +12,8 @@ import { TOTAL_WAVES } from './gameConstants.ts';
  */
 export type EndlessRules = Readonly<{
   version: 1;
+  /** The balance revision of the great adventure that is played on. */
+  balance: 7;
   /**
    * Each king beaten multiplies the life of the snakes by 1 + this share (0.25: ×1.25, then
    * ×1.56…): the growth speeds up, so even a full camp falls one day.
@@ -29,7 +31,7 @@ export type EndlessRules = Readonly<{
  * king. The expert beats one or two kings; the player who buys big allies, four or five.
  */
 export const ENDLESS_RULES: Readonly<Record<EndlessRules['version'], EndlessRules>> = {
-  1: Object.freeze({ version: 1, hpStep: 0.45, biteStep: 0.2, coinStep: -0.1 }),
+  1: Object.freeze({ version: 1, balance: 7, hpStep: 0.45, biteStep: 0.2, coinStep: -0.1 }),
 };
 
 /** Steps beyond these are typos, never values to measure. */
@@ -40,6 +42,7 @@ export function readEndlessRules(raw: unknown): EndlessRules | null {
   if (
     !isRecord(raw) ||
     !isIntegerIn(raw.version, 1, 1) ||
+    raw.balance !== ENDLESS_RULES[1].balance ||
     !isNumberIn(raw.hpStep, 0, STEP_LIMIT) ||
     !isNumberIn(raw.biteStep, 0, STEP_LIMIT) ||
     !isNumberIn(raw.coinStep, -0.9, STEP_LIMIT)
@@ -47,6 +50,7 @@ export function readEndlessRules(raw: unknown): EndlessRules | null {
     return null;
   return Object.freeze({
     version: 1,
+    balance: ENDLESS_RULES[1].balance,
     hpStep: raw.hpStep,
     biteStep: raw.biteStep,
     coinStep: raw.coinStep,
@@ -70,3 +74,6 @@ export function endlessStats<T extends { hp: number; damage: number; reward: num
 
 /** The wave reached, counted from the very first one: the record of an endless game. */
 export const endlessWave = (kings: number, wave: number) => kings * TOTAL_WAVES + wave;
+
+/** More kings than this were never beaten: a save that says so was not written by the game. */
+export const KINGS_LIMIT = 1000;

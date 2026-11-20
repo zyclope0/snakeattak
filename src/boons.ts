@@ -1,5 +1,6 @@
 import type { RewardId } from './rewards.ts';
 import { seededStream } from './seededRandom.ts';
+import { isArrayOfLength, isIntegerIn, isRecord } from './plainData.ts';
 import { HONEY_REWARD_SECONDS } from './gameConstants.ts';
 
 /**
@@ -82,4 +83,21 @@ export function takeBoon(boons: Boons, id: LastingBoon, replace?: LastingBoon): 
   if (boons.length < BOON_PLACES) return [...boons, { id, level: 1 }];
   if (!replace || !boons.some((b) => b.id === replace)) return null;
   return boons.map((b) => (b.id === replace ? { id, level: 1 } : b));
+}
+
+/** Gifts read from a save: five places, known gifts, each once, levels one to three. */
+export function readBoons(raw: unknown): Boons | null {
+  if (!isArrayOfLength(raw, 0, BOON_PLACES)) return null;
+  const boons: Boons = [];
+  for (const saved of raw) {
+    if (
+      !isRecord(saved) ||
+      !isLastingBoon(saved.id) ||
+      !isIntegerIn(saved.level, 1, BOON_MAX_LEVEL) ||
+      boons.some((b) => b.id === saved.id)
+    )
+      return null;
+    boons.push({ id: saved.id, level: saved.level });
+  }
+  return boons;
 }

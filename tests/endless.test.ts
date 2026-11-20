@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { registerHooks } from 'node:module';
 import { CURRENT_BALANCE_REVISION } from '../src/balanceRevision.ts';
+import { decodeCheckpoint, encodeCheckpoint } from '../src/checkpoints.ts';
 import { waveStats } from '../src/data.ts';
 import { ENDLESS_RULES, endlessStats, endlessWave, readEndlessRules } from '../src/endless.ts';
 import { TOTAL_WAVES } from '../src/gameConstants.ts';
@@ -174,4 +175,58 @@ test('les serpents d’un tour sont plus forts, jamais plus nombreux', () => {
     Math.abs(snake.maxHp / plain.enemies[0].maxHp - (1 + RULES.hpStep)) < 1e-9,
     'life grows by one step',
   );
+});
+
+test('un camp de l’aventure sans fin se sauvegarde et se relit tel quel', () => {
+  const game = endless();
+  clearWave(game, 4);
+  assert.ok(game.chooseReward(game.boonOffer[0]));
+  clearWave(game, TOTAL_WAVES);
+  assert.ok(game.chooseReward(game.boonOffer[0]));
+  clearWave(game, 4);
+  const raw = encodeCheckpoint(game)!;
+  assert.ok(raw, 'an endless camp is saved');
+  const saved = JSON.parse(raw);
+  assert.equal(saved.version, 15);
+  assert.equal(saved.kings, 1);
+  const back = decodeCheckpoint(raw)!;
+  assert.ok(back, 'and read back');
+  assert.equal(back.kings, 1);
+  assert.deepEqual(back.boons, game.boons);
+  assert.equal(back.rewards.pending, 4);
+  assert.deepEqual(back.boonOffer, game.boonOffer);
+  assert.equal(encodeCheckpoint(back), raw, 'the same camp, written the same way');
+  // A save that claims more gifts than camps answered, or a level too high, is refused.
+  const tamper = (change: (save: Record<string, unknown>) => void) => {
+    const copy = JSON.parse(raw);
+    change(copy);
+    return decodeCheckpoint(JSON.stringify(copy));
+  };
+  assert.equal(
+    tamper(
+      (s) =>
+        (s.boons = [
+          { id: 'forge', level: 3 },
+          { id: 'armure', level: 3 },
+        ]),
+    ),
+    null,
+  );
+  assert.equal(
+    tamper((s) => (s.boons = [{ id: 'forge', level: 4 }])),
+    null,
+  );
+  assert.equal(
+    tamper((s) => (s.kings = -1)),
+    null,
+  );
+  assert.equal(
+    tamper((s) => (s.endless = 2)),
+    null,
+  );
+  // A camp of a classic game is never read as an endless one.
+  const classic = new Game(7);
+  clearWave(classic, 4);
+  classic.skipReward();
+  assert.equal(decodeCheckpoint(encodeCheckpoint(classic)!)!.endless, null);
 });

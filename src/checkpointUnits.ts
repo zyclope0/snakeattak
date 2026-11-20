@@ -65,9 +65,15 @@ export type UnitFormat = Readonly<{
   supplies: boolean;
   /** The save's identifier counter: no ally can have a greater identifier. */
   nextId: number;
+  /** The life of every ally, as a multiple of its kind's: more than one with the armour. */
+  lifeFactor?: number;
 }>;
 
-type Supplies = { medical: MedicalState | null; cool: number };
+type Supplies = {
+  medical: MedicalState | null;
+  cool: number; /** The life of every ally, as a multiple of its kind's: more than one with the armour. */
+  lifeFactor?: number;
+};
 
 /** A healer's supplies and delay before its next care; the other allies must carry none. */
 function readSupplies(
@@ -109,7 +115,8 @@ export function readUnit(
   )
     return null;
   const kind = saved.kind;
-  const maxHp = kinds[kind].hp;
+  // The armour of the endless adventure gives every ally more life.
+  const maxHp = kinds[kind].hp * (format.lifeFactor ?? 1);
   const supplies = readSupplies(saved, kind, format.supplies);
   if (!supplies) return null;
   if (!isNumberIn(saved.hp, 0, maxHp) || saved.hp <= 0) return null;
