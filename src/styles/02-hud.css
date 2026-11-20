@@ -149,3 +149,7 @@
 .play-layout {
   align-items: start;
 }
+/* The endless adventure: the kings beaten, a little apart from the wave. */
+#wave-kings {
+  margin-left: 0.3em;
+}

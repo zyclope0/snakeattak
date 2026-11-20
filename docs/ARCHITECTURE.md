@@ -557,6 +557,30 @@ pose et le recalage de l'étape du chemin sont partagés avec le ninja (`engine/
 Ensuite elle marche comme les autres. L'effet `leap` donne l'arc en pointillés
 (`effectTrails.ts`) et son son. Code de départ : règle 8. Camp : version 13.
 
+## L'aventure sans fin — 20 novembre 2026
+
+Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFINI.md).
+
+- **Moteur.** `new Game(seed, undefined, undefined, 7, undefined, ENDLESS_RULES[1])`. Après la
+  vague 12, `nextRound` (`engine/outcome.ts`) remet la vague à 0, ajoute un roi
+  (`game.kings`, derrière des accesseurs : l'empreinte des autres parties ne change pas) et
+  ouvre un cadeau. `endlessStats` (`endless.ts`) multiplie vie, morsure et prime de vague à
+  chaque roi. Les règles sans fin nomment leur révision et leur table de cadeaux.
+- **Cadeaux.** `boons.ts` : `BOON_RULES` par version (places, niveau maximal, pas par
+  niveau), `boonOffer`, `takeBoon`, `readBoons`. `Game` : `boonOffer`, `boons`, `boonGain`,
+  `boonNeedsPlace`, `chooseReward(id, place)`. Effets : coups (`allies.ts`), vie des alliés
+  (`state.ts`, et ceux du camp au moment du cadeau), prix, pièces et cristal en fin de
+  vague, portée des tireurs, miel.
+- **Sauvegarde.** Camp version 15 : `balance`, `endless`, `kings`, `boons` ; cartes « une
+  fois » relues par `readEndlessRewards` ; `game.restoreEndless` rebâtit les camps déjà
+  servis. Les camps 1 à 14 ne changent pas. La carrière et les camps de chapitre ignorent
+  l'aventure sans fin.
+- **Records.** `endlessRecords.ts`, clé par joueur dans `PLAYER_KEYS`. Écrits par
+  `recordEndless` (`bootstrap.ts`) à chaque pas qui compte, une ligne par graine de départ.
+- **Écrans.** `menu.ts` (porte, record), `hud.ts`, `battleBriefing.ts`, `presentation.ts`
+  (vague depuis la première), `rewardControls.ts` et `boonCopy.ts` (cadeaux, places),
+  `battleCommands.ts` (« Continuer », « Rentrer avec mon record »), `resultCopy.ts`.
+
 ## Choix du moteur — réévalué le 11 novembre 2026
 
 Phaser 3 reste le bon choix, et la question ne se rouvre pas sans mesure sur le téléphone.

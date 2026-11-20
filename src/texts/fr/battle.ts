@@ -43,3 +43,8 @@ export const vagueNDefendsLeCamp = 'Vague {0} : défends le camp !';
 export const coordonneesDeCampInvalides = 'Coordonnées de camp invalides';
 export const aucunePlaceLibreDansLeCamp = 'Aucune place libre dans le camp';
 export const laVagueDureUnNouvelOeufEstApparu = 'La vague dure… Un nouvel œuf est apparu !';
+/** The endless adventure: a king has fallen, the next round begins. */
+export const kingSnakeEstVaincuIlRevientPlusFort =
+  'King Snake est vaincu ! Il reviendra plus fort. Choisis un cadeau.';
+/** The endless adventure: the king of a later round arrives. */
+export const kingSnakeRevient = 'King Snake revient, plus fort !';

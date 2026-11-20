@@ -16,6 +16,7 @@ import {
 import { LANE_COUNT } from '../gameConstants.ts';
 import { LANES } from '../ai.ts';
 import { TOTAL_WAVES, waveStats } from '../data.ts';
+import { endlessStats } from '../endless.ts';
 import { missionWave } from '../missions.ts';
 import type { MissionWave } from '../missions.ts';
 import type { Entity, Egg } from './state.ts';
@@ -61,7 +62,7 @@ export function spawnNext(game: Game, dt: number) {
   const plan = game.mission
     ? missionWave(game.mission, game.wave, game.tuning.tacticalRulesEnabled)
     : null;
-  const stats = plan?.stats ?? waveStats(game.wave);
+  const stats = plan?.stats ?? endlessStats(waveStats(game.wave), game.endless, game.kings);
   const withCourt = kingBringsCourt(game);
   const boss = isKingSlot(game, withCourt);
   const index = Math.max(0, stats.count - game.remaining);
@@ -220,7 +221,9 @@ function hatch(game: Game, egg: Egg) {
       egg.x + i * HATCHLING_SPACING,
       egg.y,
       egg.lane,
-      waveStats(game.difficultyWave).hp * HATCHLING_HP_FACTOR * game.caprice.hp,
+      endlessStats(waveStats(game.difficultyWave), game.endless, game.kings).hp *
+        HATCHLING_HP_FACTOR *
+        game.caprice.hp,
       false,
     );
   game.hatched += egg.count;

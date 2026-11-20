@@ -1,4 +1,6 @@
-import { isMilestone, readRewards } from './rewards.ts';
+import { isMilestone, readEndlessRewards, readRewards } from './rewards.ts';
+import { ENDLESS_RULES, KINGS_LIMIT } from './endless.ts';
+import { BOON_RULES, boonLevel, readBoons } from './boons.ts';
 import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
 import { Game } from './game.ts';
@@ -41,6 +43,7 @@ export type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
  *  12  the fifth balance revision, in the great adventure only
  *  13  the sixth balance revision, in the great adventure only
  *  14  the seventh balance revision, in the great adventure only: the spinosaurus
+ *  15  the endless adventure: its rules, the kings beaten, the gifts
  */
 const savesHomes = (version: number) => version !== 1;
 const savesRewards = (version: number) => version >= 3;
@@ -74,7 +77,9 @@ const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = {
   6: 13,
   7: 14,
 };
-const LATEST_VERSION = 14;
+/** The endless adventure, whatever revision its rules name. */
+const ENDLESS_VERSION = 15;
+const LATEST_VERSION = 15;
 /** The revision a version 10 or later was written for; null for an older version. */
 const classicRevisionOf = (version: number): ClassicRevision | null => {
   const found = Object.entries(CLASSIC_VERSION).find(([, written]) => written === version);
@@ -82,6 +87,7 @@ const classicRevisionOf = (version: number): ClassicRevision | null => {
 };
 
 function saveVersion(game: Game): number {
+  if (game.endless) return ENDLESS_VERSION;
   if (isClassicRevision(game.balanceRevision)) return CLASSIC_VERSION[game.balanceRevision];
   if (game.balanceRevision === 2) return 9;
   if (game.mission?.caprice) return 8;
@@ -95,6 +101,8 @@ function saveVersion(game: Game): number {
  * written with its offer pending, so that the reader opens it.
  */
 function savedRewards(game: Game) {
+  // The endless adventure opens its offers itself, in every round: it is saved as it stands.
+  if (game.endless) return game.rewards;
   const due =
     !game.mission &&
     isMilestone(game.wave) &&
@@ -106,11 +114,18 @@ function savedRewards(game: Game) {
 function saveDocument(game: Game, version: number, units: unknown[]) {
   return {
     version,
-    ...(classicRevisionOf(version)
-      ? { balance: classicRevisionOf(version) }
-      : version === 9
-        ? { balance: 2 }
-        : {}),
+    ...(game.endless
+      ? {
+          balance: game.endless.balance,
+          endless: game.endless.version,
+          kings: game.kings,
+          boons: game.boons,
+        }
+      : classicRevisionOf(version)
+        ? { balance: classicRevisionOf(version) }
+        : version === 9
+          ? { balance: 2 }
+          : {}),
     ...(isModern(version) && game.initialSeed !== null ? { initialSeed: game.initialSeed } : {}),
     ...(game.mission
       ? { mission: game.mission, missionMinBase: Math.min(game.missionMinBase, game.base) }
@@ -194,6 +209,14 @@ function revisionMatchesVersion(
   hasMission: boolean,
   mission: MissionRun | null,
 ): boolean {
+  if (save.version === ENDLESS_VERSION)
+    return (
+      !hasMission &&
+      isUint32(save.initialSeed) &&
+      isIntegerIn(save.endless, 1, 1) &&
+      save.balance === ENDLESS_RULES[save.endless as 1].balance &&
+      isIntegerIn(save.kings, 0, KINGS_LIMIT)
+    );
   const classic = classicRevisionOf(save.version);
   if (classic) return save.balance === classic && isUint32(save.initialSeed) && !hasMission;
   if (save.version === 9)
@@ -208,7 +231,7 @@ function revisionMatchesVersion(
 
 /** Versions 7 and 8 each exist for one kind of expedition; the older ones know neither. */
 function missionMatchesVersion(version: number, mission: MissionRun | null): boolean {
-  if (classicRevisionOf(version)) return mission === null;
+  if (classicRevisionOf(version) || version === ENDLESS_VERSION) return mission === null;
   if (version === 9) return true;
   if (version === 8) return !!mission?.caprice;
   if (version === 7) return mission?.rules === 2;
@@ -240,12 +263,20 @@ function restoreDepartureSeed(game: Game, save: Save, mission: MissionRun | null
   return true;
 }
 
+/** The life of the allies of an endless camp: its armour, by its own gift table. */
+function armourOf(save: Save): number {
+  if (save.version !== ENDLESS_VERSION) return 1;
+  const rules = BOON_RULES[save.endless as 1];
+  return 1 + boonLevel(readBoons(save.boons, rules) ?? [], 'armure') * rules.steps.armure;
+}
+
 /** The living allies, each with its own identifier, and at most one hero. */
 function restoreUnits(game: Game, save: Save): boolean {
   const format = {
     homes: savesHomes(save.version),
     supplies: isModern(save.version),
     nextId: save.nextId,
+    lifeFactor: armourOf(save),
   };
   const ids = new Set<number>();
   let heroes = 0;
@@ -263,6 +294,12 @@ function restoreUnits(game: Game, save: Save): boolean {
 
 /** Rewards belong to the great adventure: an expedition camp must carry none. */
 function restoreRewards(game: Game, save: Save, mission: MissionRun | null): boolean {
+  if (game.endless) {
+    const rewards = readEndlessRewards(save.rewards, game.kings, save.wave);
+    if (!rewards) return false;
+    Object.assign(game.rewards, rewards);
+    return true;
+  }
   if (!savesRewards(save.version)) {
     // A camp older than the rewards gets its offer at the exact milestone, never afterwards.
     if (isMilestone(save.wave)) game.rewards.pending = save.wave;
@@ -297,7 +334,7 @@ function restoreCampaign(game: Game, save: Save, mission: MissionRun | null): bo
     Object.assign(game.campaign, legacyCampaign(save.wave, save.base));
     return true;
   }
-  const campaign = readCampaign(save.campaign, mission ? TOTAL_WAVES : save.wave);
+  const campaign = readCampaign(save.campaign, mission ? TOTAL_WAVES : save.wave, game.kings > 0);
   if (!campaign || (mission && exceedsMission(campaign, mission))) return false;
   Object.assign(game.campaign, campaign);
   return true;
@@ -330,8 +367,11 @@ function readCheckpoint(data: unknown): Game | null {
   if (!revisionMatchesVersion(data, hasMission, mission)) return null;
   if (!missionMatchesVersion(data.version, mission)) return null;
   if (hasMission && !isMissionCamp(data, mission)) return null;
-  const revision = classicRevisionOf(data.version) ?? (data.version === 9 ? 2 : 1);
-  const game = new Game(data.rng, undefined, mission ?? undefined, revision);
+  const endless = data.version === ENDLESS_VERSION ? ENDLESS_RULES[data.endless as 1] : undefined;
+  const revision =
+    endless?.balance ?? classicRevisionOf(data.version) ?? (data.version === 9 ? 2 : 1);
+  const game = new Game(data.rng, undefined, mission ?? undefined, revision, undefined, endless);
+  if (endless) game.kings = data.kings as number;
   const kindsSaved = savesCapriceKinds(data.version, mission);
   if (kindsSaved && !restoreCapriceKinds(game, data.capriceKindsChosen)) return null;
   if (!restoreDepartureSeed(game, data, mission)) return null;
@@ -339,6 +379,7 @@ function readCheckpoint(data: unknown): Game | null {
   if (!restoreRewards(game, data, mission)) return null;
   if (!restoreCampaign(game, data, mission)) return null;
   restoreCounters(game, data, mission);
+  if (endless && !game.restoreEndless(data.boons)) return null;
   return game;
 }
 

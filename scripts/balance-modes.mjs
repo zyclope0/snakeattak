@@ -11,6 +11,10 @@
 //   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros, dino
 //   DINO=spinosaurus  le grand dinosaure du joueur « dino » (un expert qui en recrute deux dès
 //                  qu'il arrive) : spinosaurus (révision 7) ou trex, pour comparer les deux
+//   ENDLESS=1      l'aventure sans fin seule (à la place des modes), jusqu'à la défaite ou
+//                  ENDLESS_ROUNDS rois (défaut 6) ; ENDLESS_HP, ENDLESS_BITE, ENDLESS_COIN :
+//                  les pas d'un roi à l'autre à essayer (défaut : src/endless.ts, version 1) ;
+//                  BOONS : les cadeaux préférés des joueurs, dans l'ordre
 // Sans modes.json : tous les modes. Avec : liste { id, missionId, rules?, classic?, profiles?, sets? }.
 // Avec un seul shard, affiche un résumé par mode et par joueur.
 import { readFile, writeFile } from 'node:fs/promises';
@@ -37,6 +41,19 @@ const REVISION = Number(process.env.REVISION ?? CURRENT_BALANCE_REVISION);
 const MISSION_REVISION = Math.min(REVISION, 2);
 const CLASSIC = Number(process.env.CLASSIC ?? 200);
 const DINO = process.env.DINO ?? 'spinosaurus';
+const { ENDLESS_RULES } = await import(R + 'endless.ts');
+const ENDLESS = process.env.ENDLESS === '1';
+// The gifts the automatic players prefer, best first (BOONS=… to try another taste).
+const BOON_TASTE = (process.env.BOONS ?? 'forge,armure,rente,marche,solide,vue,miel,pieces').split(
+  ',',
+);
+const ENDLESS_ROUNDS = Number(process.env.ENDLESS_ROUNDS ?? 6);
+const endlessRules = {
+  ...ENDLESS_RULES[1],
+  ...(process.env.ENDLESS_HP ? { hpStep: Number(process.env.ENDLESS_HP) } : {}),
+  ...(process.env.ENDLESS_BITE ? { biteStep: Number(process.env.ENDLESS_BITE) } : {}),
+  ...(process.env.ENDLESS_COIN ? { coinStep: Number(process.env.ENDLESS_COIN) } : {}),
+};
 
 function play(g, profile) {
   const r = { status: null, deaths: 0, seconds: 0, spent: 0 };
@@ -84,7 +101,9 @@ function play(g, profile) {
     r.deaths += Math.max(0, count - g.units.length);
   };
   let minBase = 100;
-  for (let wave = 1; wave <= g.totalWaves; wave++) {
+  // In the endless adventure, `wave` counts from the very first wave, rounds included.
+  const lastWave = g.endless ? ENDLESS_ROUNDS * g.totalWaves : g.totalWaves;
+  for (let wave = 1; wave <= lastWave; wave++) {
     if (profile === 'massues') {
       for (let i = 0; i < 60; i++) if (!buyExpert('club')) break;
     } else if (profile === 'gros') {
@@ -119,6 +138,20 @@ function play(g, profile) {
       }
     }
     for (let i = 0; i < 90; i++) step();
+    if (g.endless && g.rewards.pending != null) {
+      // The endless gifts: climb a gift already taken, else the first one of BOON_TASTE that
+      // is offered; with the five places full, the lowest gift gives its place.
+      // With the five places full, a new lasting gift would push out one the player built
+      // up: the player climbs a gift it has, or takes a card « once », or passes.
+      const offer = g.boonOffer;
+      const owned = g.boons.map((b) => b.id);
+      const full = g.boons.length >= g.boonRules.places;
+      const pick =
+        offer.find((id) => owned.includes(id)) ??
+        BOON_TASTE.find((id) => offer.includes(id) && !(full && g.boonNeedsPlace(id))) ??
+        offer.find((id) => !g.boonNeedsPlace(id));
+      if (!pick || !g.chooseReward(pick)) g.skipReward();
+    }
     if (g.rewards?.pending != null) {
       const offer = g.rewardOffer ?? [];
       // Expert : pièces ; autres : première carte proposée.
@@ -157,6 +190,7 @@ function play(g, profile) {
     }
   }
   r.status ??= g.status;
+  r.kings = g.kings ?? 0;
   r.minBase = Math.round(minBase);
   r.base = Math.round(g.base);
   r.gold = Math.round(g.gold);
@@ -196,6 +230,9 @@ if (extraPath) {
       sets: c.sets,
     });
   }
+} else if (ENDLESS) {
+  modes.length = 0;
+  modes.push({ mode: 'sans-fin', classic: true, endless: true });
 } else modes.push({ mode: 'grande-aventure', classic: true });
 for (const m of modes) {
   if (m.classic) {
@@ -228,16 +265,24 @@ const mine = jobs.filter((_, i) => i % shards === shard);
 const started = performance.now();
 const results = [];
 for (const j of mine) {
-  const g = j.classic
-    ? new Game(j.seed, undefined, undefined, REVISION)
-    : new Game(j.run.seed, undefined, j.run, MISSION_REVISION);
+  const g = j.endless
+    ? new Game(j.seed, undefined, undefined, REVISION, undefined, endlessRules)
+    : j.classic
+      ? new Game(j.seed, undefined, undefined, REVISION)
+      : new Game(j.run.seed, undefined, j.run, MISSION_REVISION);
   let out;
   try {
     out = play(g, j.profile);
   } catch (e) {
     out = { status: 'error:' + String(e).slice(0, 80) };
   }
-  results.push({ mode: j.mode, mission: j.missionId ?? 'classique', profile: j.profile, ...out });
+  results.push({
+    endless: ENDLESS ? endlessRules : undefined,
+    mode: j.mode,
+    mission: j.missionId ?? 'classique',
+    profile: j.profile,
+    ...out,
+  });
 }
 if (outPath)
   await writeFile(
@@ -251,6 +296,18 @@ if (shards === 1) {
     groups.set(key, [...(groups.get(key) ?? []), r]);
   }
   for (const [key, list] of groups) {
+    if (ENDLESS) {
+      const reached = list.map((r) => r.wave ?? 0).sort((a, b) => a - b);
+      const at = (q) => reached[Math.min(reached.length - 1, Math.floor(q * reached.length))];
+      const kings = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+        (k) =>
+          `${k}:${Math.round((100 * list.filter((r) => (r.kings ?? 0) >= k).length) / list.length)}%`,
+      );
+      console.log(
+        `${key.padEnd(38)} vague atteinte médiane ${at(0.5)} (q1 ${at(0.25)}, q3 ${at(0.75)}, max ${reached.at(-1)}), rois battus ${kings.join(' ')} (${list.length} parties)`,
+      );
+      continue;
+    }
     const wins = list.filter((r) => r.status === 'won').length;
     const base = list.reduce((n, r) => n + (r.minBase ?? 0), 0) / list.length;
     console.log(

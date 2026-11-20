@@ -161,7 +161,9 @@ export function createEntity(
   return entity;
 }
 export function addAlly(game: Game, kind: Kind, x: number, y: number) {
-  const e = createEntity(game, kind, x, y, kinds[kind].hp);
+  // « L'armure » of the endless adventure: every ally comes with more life.
+  const armour = 1 + game.boonGain('armure');
+  const e = createEntity(game, kind, x, y, kinds[kind].hp * armour);
   game.units.push(e);
   return e;
 }

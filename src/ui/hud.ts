@@ -12,6 +12,7 @@ import { bossReadout } from '../render/bossReadout.ts';
 import { byId, dialogOpen, make, refreshText } from './dom.ts';
 import { bankSummary, battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/battleScreens.ts';
+import { endlessWave } from '../endless.ts';
 import { fill } from '../texts/fill.ts';
 
 type LaneRow = ReturnType<typeof laneRow>;
@@ -27,8 +28,7 @@ export function bindHud() {
     tutorial(game);
     showGold(game, bank);
     showCrystal(game);
-    showText('wave', String(game.wave));
-    showText('wave-total', String(game.totalWaves));
+    showWave(game);
     showText('army-count', String(game.units.length));
     showText('phase', phaseLabel(game));
     showText('message', game.message);
@@ -95,6 +95,19 @@ function showLanes(game: Game, rows: LaneRow[]) {
     refreshText(row.count, `${counts[i]} ▲`);
     setDisplayAttribute(row.count, 'aria-label', fill(TEXT.nSerpents, counts[i]));
   }
+}
+
+/**
+ * The wave: « 4 / 12 » in every game; in the endless adventure, the wave counted from the
+ * very first one and the kings beaten, the dots still telling the place in the round.
+ */
+function showWave(game: Game) {
+  const endless = !!game.endless;
+  showText('wave', String(endless ? endlessWave(game.kings, game.wave) : game.wave));
+  showText('wave-total', String(game.totalWaves));
+  byId('wave-of').hidden = endless;
+  byId('wave-kings').hidden = !endless;
+  if (endless) showText('wave-kings', fill(TEXT.nRois, game.kings));
 }
 
 function showWaveDots(game: Game, dots: HTMLElement[]) {

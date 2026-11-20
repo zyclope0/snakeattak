@@ -11,12 +11,15 @@ import { ROSTER_NAMES } from '../roster.ts';
 import { GROUND_ART } from '../art.ts';
 import { chapterIdentityForWave } from '../waves.ts';
 import { START_GOLD, START_TEAM_SIZE, TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
+import { endlessUnlocked, endlessWave } from '../endless.ts';
+import type { EndlessRecords } from '../endlessRecords.ts';
 import type { BalanceRevision } from '../balanceRevision.ts';
 import { byId } from './dom.ts';
 import { starRow } from './gameParts.ts';
 import { bindPendingConfirm } from './pendingConfirm.ts';
 import { bindRosterEditor } from './rosterEditor.ts';
 import * as TEXT from '../texts/fr/home.ts';
+import * as PAGE from '../texts/fr/page.ts';
 import { fill } from '../texts/fill.ts';
 
 type Career = ReturnType<typeof createCareer>;
@@ -28,6 +31,10 @@ type Actions = {
   refresh: () => void;
   progressStatus?: () => string;
   navigate?: (page: HomePage) => void;
+  /** Whether the stored classic camp, waiting under a mission, is an endless adventure. */
+  campIsEndless?: () => boolean;
+  /** The best endless adventures of the active player, best first. */
+  records?: () => EndlessRecords;
 };
 const CHAPTERS = [0, 1, 2] as const;
 /** What a chapter card shows until its real background is asked for. */
@@ -45,11 +52,14 @@ const begun = (session: Session) => {
   );
 };
 
-function continueLabel(g: Game) {
-  if (g.mission) return TEXT.reprendreMonAventureClassique;
+function continueLabel(g: Game, campIsEndless: boolean) {
+  if (g.mission)
+    return campIsEndless ? TEXT.reprendreMonAventureSansFin : TEXT.reprendreMonAventureClassique;
   if (g.status === 'lost') return TEXT.reessayerLaVague;
-  if (g.status === 'fighting') return fill(TEXT.continuerLaBatailleVagueN, g.wave);
-  return fill(TEXT.continuerVagueN, Math.min(TOTAL_WAVES, g.wave + 1));
+  // The endless adventure counts its waves from the very first one.
+  const shown = (wave: number) => (g.endless ? endlessWave(g.kings, wave) : wave);
+  if (g.status === 'fighting') return fill(TEXT.continuerLaBatailleVagueN, shown(g.wave));
+  return fill(TEXT.continuerVagueN, shown(Math.min(TOTAL_WAVES, g.wave + 1)));
 }
 function chapterActionLabel(chapter: number, available: boolean) {
   if (chapter === 0) return TEXT.commencerIci;
@@ -102,7 +112,7 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
   setDisplayText(byId('career-status'), actions.progressStatus?.() ?? career.status);
   byId<HTMLButtonElement>('home-continue').hidden =
     !actions.hasCamp() || (!g.mission && g.status === 'won');
-  setDisplayText(byId('home-continue'), continueLabel(g));
+  setDisplayText(byId('home-continue'), continueLabel(g, !!actions.campIsEndless?.()));
   byId<HTMLButtonElement>('home-army').disabled = g.status === 'fighting';
   setDisplayTitle(
     byId('home-army'),
@@ -112,6 +122,27 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
   );
   setDisplayText(byId('home-active-team'), fill(TEXT.favorisN, ROSTER_NAMES[state.activeRoster]));
   refreshChapters(state);
+  refreshEndless(state.bestStars, actions.records?.() ?? []);
+}
+
+/**
+ * The endless adventure opens once King Snake is beaten (decision of the parent, 20 November
+ * 2026): the third chapter of the great adventure has a star. The active player's record
+ * stands under its button; nobody else's.
+ */
+function refreshEndless(bestStars: readonly number[], records: EndlessRecords) {
+  const open = endlessUnlocked(bestStars);
+  const door = byId<HTMLButtonElement>('home-endless');
+  door.disabled = !open;
+  const best = records[0];
+  setDisplayText(
+    byId('endless-note'),
+    !open
+      ? PAGE.batsKingSnakePourOuvrirLAventureSansFin
+      : best
+        ? fill(TEXT.tonRecordVagueNNRois, best.wave)
+        : TEXT.pasEncoreDeRecord,
+  );
 }
 
 /** The home screen and the classic adventure: where a game starts, resumes or is replaced. */
@@ -162,6 +193,11 @@ export function bindMenu(session: Session, career: Career, actions: Actions) {
   byId('home-new').onclick = () =>
     replace(() => {
       session.restart();
+      enter();
+    });
+  byId('home-endless').onclick = () =>
+    replace(() => {
+      session.restartEndless();
       enter();
     });
   byId('home-continue').onclick = resumeClassic;

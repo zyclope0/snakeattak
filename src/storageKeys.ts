@@ -14,6 +14,8 @@ export const VOYAGE_STORAGE_KEY = key('voyage');
 export const REMINDER_STORAGE_KEY = key('recruitment-reminder');
 /** The mark of the mission camp the child has won: the home does not offer to resume it. */
 export const MISSION_DONE_KEY = key('mission-done');
+/** The best endless adventures of a player: its own records, never compared with another's. */
+export const ENDLESS_RECORDS_KEY = key('endless-records');
 
 // The device: shared by every player.
 export const PLAYERS_KEY = key('players');

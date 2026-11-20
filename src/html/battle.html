@@ -41,8 +41,10 @@
       <div class="wave-stat">
         <small id="phase">{{preparation}}</small
         ><strong
-          >{{vague}} <span id="wave">0</span><em> / <span id="wave-total">12</span></em></strong
-        >
+          >{{vague}} <span id="wave">0</span
+          ><em id="wave-of"> / <span id="wave-total">12</span></em
+          ><em id="wave-kings" hidden></em
+        ></strong>
         <div id="wave-dots" aria-hidden="true"></div>
       </div>
       <div class="controls">
@@ -91,6 +93,7 @@
           {{dangers}}
         </button>
         <button id="start" class="primary">{{lancerLaVague}}</button>
+        <button id="endless-home" class="secondary" hidden>{{rentrerAvecMonRecord}}</button>
         <button id="encourage-quick" class="primary" hidden></button>
       </div>
     </section>
