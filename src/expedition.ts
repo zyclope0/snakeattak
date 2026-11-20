@@ -322,9 +322,8 @@ function campAfter(game: Game): Camp | null {
     if (!saved) return null;
     units.push(saved);
   }
-  return units.length
-    ? Object.freeze({ units, gold: Math.floor(game.gold), base: Math.max(1, game.base) })
-    : null;
+  // A camp may win with no ally left standing: the next mission starts by recruiting.
+  return Object.freeze({ units, gold: Math.floor(game.gold), base: Math.max(1, game.base) });
 }
 
 /**
@@ -388,7 +387,7 @@ function gain(
     let boons = takeBoon(state.boons, id, replace, BOON_RULES[1]);
     if (!boons) return null;
     if (rare) boons = takeBoon(boons, id, undefined, BOON_RULES[1]) ?? boons;
-    return { boons };
+    return withBoons(state, boons);
   }
   if (id === 'pieces') {
     const coins = REWARD_COINS * (rare ? 2 : 1);
@@ -453,7 +452,7 @@ export function chooseHalt(
   const climbable = state.boons.filter((b) => b.level < BOON_RULES[1].maxLevel);
   if (climbable.length && random() < 0.5) {
     const boons = takeBoon(state.boons, pick(random, climbable).id, undefined, BOON_RULES[1])!;
-    return Object.freeze({ ...state, ...moved, boons });
+    return Object.freeze({ ...state, ...moved, ...withBoons(state, boons) });
   }
   const coins = tuning.eggCoins;
   return Object.freeze({
@@ -470,6 +469,21 @@ export function chooseHalt(
   });
 }
 
+/**
+ * New gifts for the expedition. When the armour changes (taken, climbed or replaced), the
+ * allies of the carried camp keep the same share of their life, under their new maximum.
+ */
+function withBoons(state: ExpeditionState, boons: Boons): Partial<ExpeditionState> {
+  const armour = (list: Boons) => 1 + boonLevel(list, 'armure') * BOON_RULES[1].steps.armure;
+  const ratio = armour(boons) / armour(state.boons);
+  if (!state.camp || ratio === 1) return { boons };
+  const units = state.camp.units.map((u) => ({
+    ...u,
+    hp: Math.min(fullLife(u, boons), u.hp * ratio),
+  }));
+  return { boons, camp: Object.freeze({ ...state.camp, units }) };
+}
+
 /** An ally's full life, armour included, as the next camp will rebuild it. */
 function fullLife(unit: CarriedUnit, boons: Boons): number {
   const armour = 1 + boonLevel(boons, 'armure') * BOON_RULES[1].steps.armure;
@@ -482,7 +496,10 @@ export function roulotteOffer(state: ExpeditionState) {
   const random = stream(state.seed, 8000 + state.tableau * 10 + state.step);
   const fresh = boonOffer(Math.floor(random() * SEED_RANGE), 0, 0, state.boons, BOON_RULES[1]);
   return {
-    buy: fresh.filter(isLastingBoon).map((id) => ({ id, price: tuning.roulotte.gift })),
+    // A gift already held is only offered to climb, at the price of a level.
+    buy: fresh
+      .filter((id): id is LastingBoon => isLastingBoon(id) && !boonLevel(state.boons, id))
+      .map((id) => ({ id, price: tuning.roulotte.gift })),
     climb: state.boons
       .filter((b) => b.level < BOON_RULES[1].maxLevel)
       .map((b) => ({ id: b.id, price: tuning.roulotte.levelUp })),
@@ -512,7 +529,8 @@ export function buyAtRoulotte(
     BOON_RULES[1],
   );
   if (!boons) return null;
-  return Object.freeze({ ...state, ...pay(state, item.price), boons });
+  const paid = { ...state, ...pay(state, item.price) };
+  return Object.freeze({ ...paid, ...withBoons(paid, boons) });
 }
 
 export function leaveRoulotte(state: ExpeditionState): ExpeditionState | null {

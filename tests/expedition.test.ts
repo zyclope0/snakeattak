@@ -126,3 +126,48 @@ test('une expédition entière gagnée arrive', () => {
   }
   assert.equal(state.status, 'arrived');
 });
+
+test('relecture Codex : armure remplacée, roulotte, camp vide qui gagne', () => {
+  // Armour taken then given away: the carried allies keep their share of life and the next
+  // mission still opens.
+  let state = X.skipGift(win(X.startExpedition(SEED)!).next!)!;
+  const five = ['armure', 'forge', 'marche', 'rente', 'solide'].map((id) => ({
+    id: id as 'armure',
+    level: id === 'armure' ? 3 : 1,
+  }));
+  const armoured = { ...state, boons: five };
+  const strong = X.createExpeditionGame(plan, armoured, 'calm')!;
+  strong.status = 'won';
+  let next = X.winBattle(plan, armoured, strong, 'calm')!;
+  const offer = X.giftOffer(next);
+  const fresh = offer.find((id) => ['vue', 'miel'].includes(id));
+  if (fresh) {
+    const swapped = X.chooseGift(next, fresh, 'armure')!;
+    assert.ok(swapped, 'the armour gives its place');
+    for (const u of swapped.camp!.units)
+      assert.ok(u.hp <= kinds[u.kind as keyof typeof kinds].hp, 'life back to a plain ally');
+    next = swapped;
+  }
+  assert.ok(next.camp);
+  // The roulotte offers a gift already held only to climb, at the price of a level.
+  const rich = {
+    ...state,
+    boons: [{ id: 'forge' as const, level: 1 }],
+    camp: { ...state.camp!, gold: 1000 },
+    pending: { kind: 'roulotte' as const },
+  };
+  const shop = X.roulotteOffer(rich);
+  assert.ok(!shop.buy.some((item) => item.id === 'forge'));
+  assert.ok(shop.climb.some((item) => item.id === 'forge'));
+  // A camp that wins with no ally standing goes on, and recruits.
+  const game = X.createExpeditionGame(plan, state, 'calm')!;
+  game.units = [];
+  game.status = 'won';
+  state = X.skipGift(X.winBattle(plan, state, game, 'calm')!)!;
+  assert.deepEqual(state.camp!.units, []);
+  while (plan.tableaux[0][state.step].kind === 'halt') state = X.chooseHalt(plan, state, 0)!;
+  if (state.pending?.kind === 'roulotte') state = X.leaveRoulotte(state)!;
+  const empty = X.createExpeditionGame(plan, state, 'calm')!;
+  assert.ok(empty, 'the next mission opens');
+  assert.equal(empty.units.length, 0);
+});

@@ -322,7 +322,7 @@ export class Game {
     if (
       !isIntegerIn(camp.gold, 0, GOLD_LIMIT) ||
       !isNumberIn(camp.base, 1, CRYSTAL_MAX) ||
-      !isArrayOfLength(camp.units, 1, UNIT_LIMIT)
+      !isArrayOfLength(camp.units, 0, UNIT_LIMIT)
     )
       return false;
     const armour = 1 + boonLevel(boons, 'armure') * this.boonRules.steps.armure;
