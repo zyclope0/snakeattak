@@ -178,7 +178,7 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
 - **Tests** : `tests/path-rules.test.ts` ; `tests/expedition.test.ts` (version 3) ; douze
   nouvelles parties de référence dans `tests/fixtures/engine-traces.ts`, les anciennes
   inchangées (missions, défis, voyage, rendu).
-- **À décider avant de publier** : l'accord du parent sur cette mesure.
+- **Accord du parent** sur cette mesure le 21 novembre ; publié le même jour.
 
 ### C. Non corrigé, cas théorique
 
@@ -188,19 +188,19 @@ protégés dans ce cas.
 
 ## Ce qui est sain
 
-| Contrôle                       | Preuve                                                                                                                                                                                                                                                                       |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mise à jour depuis le build 63 | Navigateur : mission gagnée, aventure et voyage en cours, deuxième joueur, tout se relit et continue. Modèle : 26 scénarios, 232 contrôles, 26 400 sauvegardes abîmées, 0 écart                                                                                              |
-| Isolation des profils          | 28 contrôles : chaque joueur n'écrit que ses clés ; supprimer un joueur efface ses clés et rien d'autre                                                                                                                                                                      |
-| Fermeture forcée               | 4 cas en navigateur ; 458 redémarrages simulés, 0 recul. Rien n'attend un clic « Continuer »                                                                                                                                                                                 |
-| Import invalide                | 11 fichiers en navigateur, 33 au modèle : refusés, l'appareil ne change pas d'un octet                                                                                                                                                                                       |
-| Anciens codes Voyage           | 800 plans sur 800 identiques à ceux du build 63 (versions 1 et 2)                                                                                                                                                                                                            |
-| Fin de partie, blocages        | 1 560 parties simulées (grande aventure, sans fin, missions, 36 défis, voyage, expédition) : aucun blocage, aucune exception, aucun nombre invalide                                                                                                                          |
-| Retour d'arrière-plan          | 10 minutes d'absence en une image : +0,1 s de jeu. La pause n'est rendue qu'à la dernière fenêtre fermée                                                                                                                                                                     |
-| Placement et achats            | 86 contrôles et 20 000 points au hasard : refus propre partout                                                                                                                                                                                                               |
-| Même graine, même partie       | 20 parties rejouées deux fois, deux processus : identiques. « Le refuge » en navigateur : passages identiques                                                                                                                                                                |
-| Première partie, profil neuf   | 780×360 : le grand bouton suffit pour gagner, aucune cible de moins de 48 px, pas de défilement de côté                                                                                                                                                                      |
-| Recettes existantes            | `npm run verify` (904 tests), expédition, aventure sans fin, navigateur, hors-ligne, paquet Android, menus (5 764 contrôles), interruptions, langue FR/EN, audit d'interface (0 écart), petit écran enfant (6 tailles), parcours des missions (16 cas), sauvegarde familiale |
+| Contrôle                       | Preuve                                                                                                                                                                                                                                                                                               |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mise à jour depuis le build 63 | Navigateur : mission gagnée, aventure et voyage en cours, deuxième joueur, tout se relit et continue. Modèle : 26 scénarios, 232 contrôles, 26 400 sauvegardes abîmées, 0 écart                                                                                                                      |
+| Isolation des profils          | 28 contrôles : chaque joueur n'écrit que ses clés ; supprimer un joueur efface ses clés et rien d'autre                                                                                                                                                                                              |
+| Fermeture forcée               | 4 cas en navigateur ; 458 redémarrages simulés, 0 recul. Rien n'attend un clic « Continuer »                                                                                                                                                                                                         |
+| Import invalide                | 11 fichiers en navigateur, 33 au modèle : refusés, l'appareil ne change pas d'un octet                                                                                                                                                                                                               |
+| Anciens codes Voyage           | 800 plans sur 800 identiques à ceux du build 63 (versions 1 et 2)                                                                                                                                                                                                                                    |
+| Fin de partie, blocages        | 1 560 parties simulées (grande aventure, sans fin, missions, 36 défis, voyage, expédition) : aucun blocage, aucune exception, aucun nombre invalide                                                                                                                                                  |
+| Retour d'arrière-plan          | 10 minutes d'absence en une image : +0,1 s de jeu. La pause n'est rendue qu'à la dernière fenêtre fermée                                                                                                                                                                                             |
+| Placement et achats            | 86 contrôles et 20 000 points au hasard : refus propre partout                                                                                                                                                                                                                                       |
+| Même graine, même partie       | 20 parties rejouées deux fois, deux processus : identiques. « Le refuge » en navigateur : passages identiques                                                                                                                                                                                        |
+| Première partie, profil neuf   | 780×360 : le grand bouton suffit pour gagner, aucune cible de moins de 48 px, pas de défilement de côté                                                                                                                                                                                              |
+| Recettes existantes            | `npm run verify` (914 tests à la fin des trois lots), expédition, aventure sans fin, navigateur, hors-ligne, paquet Android, menus (5 764 contrôles), interruptions, langue FR/EN, audit d'interface (0 écart), petit écran enfant (6 tailles), parcours des missions (16 cas), sauvegarde familiale |
 
 À savoir : les anciens codes Voyage ne peuvent plus être tapés (décision du 21 novembre :
 l'expédition remplace le voyage). Leurs plans restent lisibles par le code.
@@ -235,6 +235,12 @@ Mémoire, huit parties du « refuge » dans la même page, tas JavaScript après
 Pas de fuite visible : le tas ne monte pas de partie en partie, les écouteurs et les éléments
 de la page ne bougent pas. Le navigateur compte 4 nœuds détachés de plus par partie (4 090 à
 4 118) : négligeable, non cherché plus loin.
+
+## Publication
+
+Les trois lots (étape d'hygiène, sauvegarde familiale version 6, secondes règles de chemin)
+sont dans `main` (PR 107, 108, 109) et sur le site depuis le 21 novembre : publication n° 39,
+contrôle du site en ligne vert. L'application Android n'en a rien : build 64 à faire.
 
 ## Contrôles bloqués
 

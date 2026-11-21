@@ -1,4 +1,4 @@
-# Plan actuel — 20 novembre 2026
+# Plan actuel — 21 novembre 2026
 
 Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions du parent du
 18 novembre, révisions 3 à 6, soutien, AdSense) est dans
@@ -9,7 +9,7 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 
 | Quoi                      | État                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Site**                  | https://snakeattacktd.com, publié depuis `main` le 20 novembre (publication n° 32, contrôle en ligne vert). 14 pages FR/EN, dont « L'histoire » et « Tester sur Android ». Révision 7 (spinosaure) jouable.                                                                                                                                                                                                |
+| **Site**                  | https://snakeattacktd.com, publié depuis `main` le 21 novembre (publication n° 39, contrôle en ligne vert) : La Grande Expédition version 3, l'étape d'hygiène, la sauvegarde familiale complète. 14 pages FR/EN, dont « L'histoire » et « Tester sur Android ». Révision 7 (spinosaure) jouable.                                                                                                          |
 | **Application**           | 0.39.0 / build 63 (révisions 3 à 6, sans le spinosaure). Arrivée sur le téléphone du parent par Google Play (19 novembre). Promue dans le test fermé « Alpha » le 20 novembre, en attente de l'examen de Google ([passation](ANDROID-BUILD-63.md), [bilan](BILAN-0.39.0.md)).                                                                                                                              |
 | **Test fermé Android**    | Créé par le parent le 20 novembre : groupe public `snakeattack-testeurs`, piste « Alpha ». Trois modifications (pays, liste de testeurs, adresse de retours) restaient à envoyer à l'examen de Google d'après le compte rendu du parent du 20 novembre : à confirmer. Le lien d'inscription marche quand Google les a acceptées. Google demande 12 testeurs pendant 14 jours de suite avant la production. |
 | **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                             |
@@ -25,8 +25,8 @@ Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape 
 - ~~Sauvegarde familiale version 6~~ : fait (l'expédition, les records de l'aventure sans fin
   et le voyage à finir sont dans le fichier ; les anciens fichiers restent lisibles).
 - ~~Allié collé à un rocher~~ : fait, pour les nouvelles parties (secondes règles de chemin,
-  expédition version 3). Mesuré : la difficulté ne change pas. **Accord du parent à obtenir
-  avant de publier.**
+  expédition version 3). Mesuré : la difficulté ne change pas. Accord du parent le 21
+  novembre ; publié avec les deux autres lots (publication n° 39).
 - Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).
 
 **À reprendre après l'hygiène**, dans cet ordre :
