@@ -116,13 +116,21 @@ test('une mission garde ses règles de chemin : tirage, code de départ, sauvega
   const oldCode = encodeDeparture({ kind: 'mission', run: old });
   const code = encodeDeparture({ kind: 'mission', run: fresh });
   assert.match(oldCode, /^VIFS-4-/);
-  assert.match(code, /^VIFS-A-/);
+  assert.match(code, /^VIFS-0-/);
   assert.deepEqual(decodeDeparture(oldCode), {
     ok: true,
     departure: { kind: 'mission', run: old },
   });
   assert.deepEqual(decodeDeparture(code), { ok: true, departure: { kind: 'mission', run: fresh } });
   assert.deepEqual(decodeDeparture(code.toLowerCase()), decodeDeparture(code));
+  // The letter O typed for the digit is read as the digit, as everywhere in a code.
+  assert.deepEqual(decodeDeparture(code.replace('VIFS-0-', 'VIFS-O-')), decodeDeparture(code));
+  // A rule this version does not know is « another version », never a code badly typed.
+  for (const rule of ['A', 'B', 'Z'])
+    assert.deepEqual(decodeDeparture(code.replace('VIFS-0-', `VIFS-${rule}-`)), {
+      ok: false,
+      reason: 'version',
+    });
   const challenge = { ...fresh, caprice: 'course-moyen' };
   assert.deepEqual(decodeDeparture(encodeDeparture({ kind: 'mission', run: challenge })), {
     ok: true,
@@ -130,7 +138,7 @@ test('une mission garde ses règles de chemin : tirage, code de départ, sauvega
   });
   // The great adventure has no such rule: a code that says so was not written by the game.
   const classic = encodeDeparture({ kind: 'classic', seed: 5, balance: 2 });
-  assert.equal(decodeDeparture(classic.replace('-4-', '-A-')).ok, false);
+  assert.equal(decodeDeparture(classic.replace('-4-', '-0-')).ok, false);
 
   // The saved camp: a version of its own, which holds these rules and only these.
   const saved = encodeCheckpoint(new Game(1, undefined, fresh))!;

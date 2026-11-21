@@ -275,6 +275,7 @@ try {
                 decoded.departure.kind === 'mission' &&
                 decoded.departure.run.missionId === 'refuge' &&
                 decoded.departure.run.balance === 2 &&
+                decoded.departure.run.paths === 2 &&
                 decoded.departure.run.rules === 2 &&
                 !decoded.departure.run.caprice &&
                 encodeDeparture(decoded.departure) === code,

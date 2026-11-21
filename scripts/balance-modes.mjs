@@ -20,7 +20,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 const R = new URL('../src/', import.meta.url).href;
 const { Game } = await import(R + 'game.ts');
-const { MISSIONS, createMissionRun } = await import(R + 'missions.ts');
+const { CURRENT_MISSION_PATHS, MISSIONS, createMissionRun } = await import(R + 'missions.ts');
 const { LANES, laneDefense } = await import(R + 'ai.ts');
 const { kinds } = await import(R + 'data.ts');
 const BIG = Object.keys(kinds)
@@ -39,6 +39,8 @@ const SETS = Number(process.env.SETS ?? 12);
 const { CURRENT_BALANCE_REVISION } = await import(R + 'balanceRevision.ts');
 const REVISION = Number(process.env.REVISION ?? CURRENT_BALANCE_REVISION);
 const MISSION_REVISION = Math.min(REVISION, 2);
+// The path rules of the new departures; PATHS=1 plays again those of before 21 November 2026.
+const MISSION_PATHS = process.env.PATHS === '1' ? undefined : CURRENT_MISSION_PATHS;
 const CLASSIC = Number(process.env.CLASSIC ?? 200);
 const DINO = process.env.DINO ?? 'spinosaurus';
 const { ENDLESS_RULES } = await import(R + 'endless.ts');
@@ -249,7 +251,7 @@ for (const m of modes) {
           const seed = (20261109 + mi * 104729 + layout * 997 + set * 7919) >>> 0;
           const base =
             MISSION_REVISION === 2
-              ? createMissionRun(m.missionId, seed, null, 2)
+              ? createMissionRun(m.missionId, seed, null, 2, MISSION_PATHS)
               : createMissionRun(m.missionId, seed);
           const run = {
             ...base,

@@ -262,9 +262,10 @@ try {
     await showHomePage(p, 'missions');
     await p.locator('#home-play').click();
     check(await p.locator('#mission-dialog').isVisible(), 'Missions page opens preparation');
+    const prepared = JSON.parse(await p.locator('#mission-dialog').getAttribute('data-run'));
     check(
-      JSON.parse(await p.locator('#mission-dialog').getAttribute('data-run')).balance === 2,
-      'preparation keeps current balance revision',
+      prepared.balance === 2 && prepared.paths === 2,
+      'preparation keeps current balance revision and the path rules of a new departure',
     );
     check(
       (await p.locator('#mission-dialog').getAttribute('data-preparation-view')) === 'summary',

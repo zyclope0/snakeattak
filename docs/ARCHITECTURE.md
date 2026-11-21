@@ -321,7 +321,8 @@ entrer, redemandait le même chemin, et restait collé. Les secondes règles
 - **Les nouveaux départs.** `CURRENT_MISSION_PATHS` : un nouveau tirage de mission ou de défi
   (`ui/expeditions.ts`, `ui/missionDraft.ts`) et les batailles de l'expédition version 3
   (`ExpeditionTuning.paths`). Le voyage à finir ne change pas.
-- **Ce qui les garde.** Le code de départ : règle `A`, écrite comme la règle 4
+- **Ce qui les garde.** Le code de départ : règle `0`, écrite comme la règle 4 (un chiffre, pour que les
+  applications déjà distribuées répondent « une autre version des règles »)
   (`departures.ts`) ; un code `…-4-…` rejoue l'ancienne partie. La sauvegarde du camp :
   version 16, qui ne tient que ces règles (la version 9 ne les tient pas). Le fichier familial
   reste dans sa version : c'est le camp qu'une application plus ancienne refuse.

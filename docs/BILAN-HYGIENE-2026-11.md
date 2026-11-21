@@ -137,7 +137,7 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
   - « Secondes règles de chemin » : le trait entre deux cases doit être libre. Une mission
     les porte (`paths: 2`) ; une partie sans elles garde les premières.
   - Les nouveaux départs de mission et de défi les prennent. Leur code de départ commence par
-    une nouvelle version (`VIFS-A-…` au lieu de `VIFS-4-…`) ; un ancien code rejoue l'ancienne
+    une nouvelle version (`VIFS-0-…` au lieu de `VIFS-4-…`) ; un ancien code rejoue l'ancienne
     partie, à l'identique.
   - La Grande Expédition passe en version 3 : la version 2, avec ces règles et rien d'autre
     (mêmes défis, même force). Une expédition commencée en version 2 se finit en version 2.
@@ -156,10 +156,11 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
   | Moyen         |            88 % |            88 % | 65 % → 65 %                   |
   | Petit         |            38 % |            38 % | 26 % → 26 %                   |
 
-  918 parties sur 6 804 changent (42 perdues deviennent gagnées, 21 gagnées deviennent
-  perdues). Sur la carte du carrefour : expert 90 → 92 %, moyen 88 → 89 %, petit 40 → 41 %.
-  Par défi et par joueur, l'écart le plus grand est de 5 points sur 54 parties, dans les deux
-  sens : du bruit. **La difficulté ne change pas ; l'allié ne reste plus collé.**
+  1 072 parties sur 6 804 se jouent autrement (1 008 sur la carte du carrefour, 64 sur la carte
+  des méandres, aucune sur la troisième) : 42 perdues deviennent gagnées, 21 gagnées deviennent
+  perdues. Sur la carte du carrefour : expert 90 → 92 %, moyen 88 → 89 %, petit 40 → 41 %. Par
+  défi et par joueur, l'écart le plus grand est de 3 parties sur 54, dans les deux sens : du
+  bruit. **La difficulté ne change pas ; l'allié ne reste plus collé.**
 
 - **Mesure de l'expédition** (20 expéditions entières par joueur simulé, chemins alternés) :
 
