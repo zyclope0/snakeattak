@@ -118,7 +118,18 @@ Mesure (20 expéditions entières par joueur simulé, chemins alternés) :
 
 Le parent, après ses propres essais : les joueurs simulés sont plus faibles que de vrais
 enfants (« un joueur qui joue au hasard arrive souvent au niveau expert ») ; la difficulté
-peut monter un peu. La force des serpents est remesurée plus bas.
+peut monter un peu. Force des serpents par étape, avec le tableau ajusté :
+
+| Force par étape                        | Expert arrivé | Moyen arrivé | Apprenti au tableau 3 |
+| -------------------------------------- | ------------: | -----------: | --------------------: |
+| vie ×1,06, morsure ×1,03 (version 1)   |          80 % |         60 % |                  45 % |
+| **vie ×1,07, morsure ×1,035 (choisi)** |      **45 %** |     **15 %** |              **40 %** |
+| vie ×1,08, morsure ×1,04               |          40 % |          5 % |                  20 % |
+| vie ×1,10, morsure ×1,05               |           0 % |          0 % |                   0 % |
+
+Le joueur simulé abandonne après trois essais de la même étape ; un enfant peut réessayer
+autant qu'il veut. Le plus dur reste le début des Pics (« La tempête ») et, pour l'apprenti,
+l'étape 4 du Marais.
 
 Plus tard, les règles nouvelles prendront certaines places (Les Ponts Mouillés, Double
 Couronne pour un gardien, Le Tunnel Secret…), chacune montrée au fils, mesurée, acceptée.

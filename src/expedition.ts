@@ -106,12 +106,16 @@ const VERSION_1: ExpeditionTuning = {
 };
 /**
  * Version 2 (decision of the parent, 21 November 2026): one fixed challenge a step, the
- * same in every expedition, from the son's caprices; the brave path has the harder one.
+ * same in every expedition, from the son's caprices; the brave path has the harder one. The
+ * table was adjusted after measure and accepted by the parent the same day.
  * The table is docs/VOYAGE-LONG-PROPOSITION.md, « Les défis fixes ». New rules (Les Ponts
  * Mouillés, Double Couronne…) will take some places, one by one, in later versions.
  */
 const VERSION_2: ExpeditionTuning = {
   ...VERSION_1,
+  // A little stronger than version 1 (decision of the parent, 21 November 2026: the simulated
+  // players are weaker than real children, « n'hésite pas à augmenter un petit peu »).
+  strength: { hpStep: 0.07, biteStep: 0.035 },
   tableaux: [
     {
       first: { defi: 'refuge-petit' },
@@ -134,11 +138,7 @@ const VERSION_2: ExpeditionTuning = {
         { defi: 'coquilles-moyen' },
         { defi: 'coquilles-createur-moyen' },
       ],
-      brave: [
-        { defi: 'trois-ponts-moyen' },
-        { defi: 'course-moyen' },
-        { defi: 'sonnette-grand' },
-      ],
+      brave: [{ defi: 'trois-ponts-moyen' }, { defi: 'course-moyen' }, { defi: 'sonnette-grand' }],
       guardian: { defi: 'course-createur-petit', kingHp: 6, court: false },
     },
     {
@@ -148,11 +148,7 @@ const VERSION_2: ExpeditionTuning = {
         { defi: 'coquilles-createur-grand' },
         { defi: 'coquilles-grand' },
       ],
-      brave: [
-        { defi: 'trois-ponts-grand' },
-        { defi: 'course-grand' },
-        { defi: 'carrefour-grand' },
-      ],
+      brave: [{ defi: 'trois-ponts-grand' }, { defi: 'course-grand' }, { defi: 'carrefour-grand' }],
       guardian: { defi: 'carrefour-petit', kingHp: 6.5, court: true },
     },
   ],

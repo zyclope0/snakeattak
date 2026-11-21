@@ -217,14 +217,18 @@ test('version 2 : un défi fixe par étape, le même à chaque expédition ; la 
   assert.deepEqual(defis(SEED), defis(SEED + 7));
   assert.deepEqual(defis(SEED)[0], [
     'refuge-petit',
-    'course-petit',
+    'refuge-createur-petit',
     'refuge-moyen',
-    'trois-ponts-createur-petit',
+    'course-petit',
     'sonnette-moyen',
     'coquilles-petit',
     'refuge-createur-moyen',
-    'carrefour-petit',
+    'trois-ponts-petit',
   ]);
+  // King Snake waits at the end with « Plus de miel ! »; the snakes grow a little faster.
+  assert.equal(defis(SEED)[2].at(-1), 'carrefour-petit');
+  assert.deepEqual(X.EXPEDITION_TUNINGS[2].strength, { hpStep: 0.07, biteStep: 0.035 });
+  assert.deepEqual(X.EXPEDITION_TUNINGS[1].strength, { hpStep: 0.06, biteStep: 0.03 });
   const setups = new Set(
     [SEED, SEED + 1, SEED + 2, SEED + 3].map((seed) => {
       const first = X.planExpedition(seed)!.tableaux[0][0];

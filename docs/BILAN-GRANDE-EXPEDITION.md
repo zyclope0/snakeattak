@@ -4,6 +4,23 @@ Demande du parent : un voyage plus long, plus profond, avec une vraie gestion de
 Décisions, noms et mesures : [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PROPOSITION.md).
 Architecture : [ARCHITECTURE.md](ARCHITECTURE.md), « La Grande Expédition ».
 
+## Le 21 novembre (suite) : un défi fixe par étape
+
+Le parent : les défis doivent être une spécificité fixe de chaque étape de l'aventure, pas un
+tirage ni un choix ; les six missions sont autre chose. Expédition version 2 :
+
+- **Chaque étape a son défi fixe**, toujours le même : un caprice du fils, avec son nom et ses
+  chiffres. Sur un embranchement, chaque chemin a le sien (plus dur sur le Chemin des Braves).
+  Tableau ajusté après mesure et accepté par le parent : `docs/VOYAGE-LONG-PROPOSITION.md`,
+  « Les défis fixes ».
+- **Le reste change** d'une expédition à l'autre : le terrain, l'attaque, les nids, le combat.
+  La mission pour laquelle le fils a réglé le défi donne ses vagues, sans jamais être nommée.
+- **« Étape »** remplace « mission » partout dans l'expédition ; une carte porte le nom de son
+  défi, plus celui d'une mission.
+- **Un peu plus dur** (demande du parent après ses essais) : les serpents grandissent de vie
+  ×1,07 et morsure ×1,035 à chaque étape (×1,06 et ×1,03 en version 1).
+- Une expédition commencée en version 1 se relit et se finit avec ses propres tirages.
+
 ## Le 21 novembre : l'expédition remplace le voyage
 
 Remarque du parent : « l'expédition doit remplacer le voyage, ça fait des doublons ; garde
