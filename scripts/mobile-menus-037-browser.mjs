@@ -191,9 +191,24 @@ try {
     await delay(100);
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-  // MOBILE_MENUS_ONLY=voyage (for instance) runs one group while it is being worked on.
-  const only = process.env.MOBILE_MENUS_ONLY;
-  const run = (name) => !only || only === name;
+  // MOBILE_MENUS_ONLY=voyage (for instance) runs one group while it is being worked on;
+  // several names, with commas between them, are what one task of the CI runs.
+  const GROUPS = ['catalogue', 'help', 'players', 'replay', 'voyage', 'resume', 'privacy'];
+  const only = process.env.MOBILE_MENUS_ONLY?.split(',').filter(Boolean) ?? [];
+  for (const name of only) assert.ok(GROUPS.includes(name), `unknown group: ${name}`);
+  // How long each group took, on the error stream: what the CI tasks are balanced with.
+  let since = Date.now();
+  let running = 'start';
+  const lap = (next) => {
+    console.error(`${running}: ${Math.round((Date.now() - since) / 1000)} s`);
+    since = Date.now();
+    running = next;
+  };
+  const run = (name) => {
+    const wanted = !only.length || only.includes(name);
+    if (wanted) lap(name);
+    return wanted;
+  };
   if (run('catalogue')) await checkCatalogue({ browser, url, check, reachable, capture, portrait });
   if (run('help')) await checkHelpPoints({ pageAt, check, capture, portrait });
   if (run('players')) await checkPlayers({ browser, url, check, capture, portrait });
@@ -201,6 +216,7 @@ try {
   if (run('voyage')) await checkVoyage({ browser, url, check, capture });
   if (run('resume')) await checkResume({ browser, url, check, capture });
   if (run('privacy')) await checkPrivacy({ pageAt, check, capture, url });
+  lap('the home, at every size');
   if (process.env.MOBILE_MENUS_BEFORE) {
     for (const [w, h] of [
       [780, 360],
@@ -765,6 +781,7 @@ try {
   }
   await writeFile(`${folder}/after-measurements.json`, JSON.stringify(measurements, null, 2));
   await writeFile(`${folder}/report.json`, JSON.stringify({ checks, errors }, null, 2));
+  lap('end');
   console.log(JSON.stringify({ checks, errors }));
 } finally {
   await browser?.close();

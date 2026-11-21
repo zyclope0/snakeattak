@@ -442,6 +442,7 @@ try {
   }
   console.log(JSON.stringify({ expedition: checks, screenshots: folder }));
 } finally {
-  await Promise.race([browser?.close(), setTimeout(10_000)]);
+  // The timer must not hold the process once the browser is closed.
+  await Promise.race([browser?.close(), setTimeout(10_000, null, { ref: false })]);
   server.kill();
 }

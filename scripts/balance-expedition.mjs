@@ -1,7 +1,7 @@
 // Laboratoire de « La Grande Expédition » (20 novembre 2026) : joue des expéditions entières
 // sur le vrai moteur, avec les joueurs automatiques du laboratoire du voyage.
 //
-// Usage : node --experimental-strip-types scripts/balance-expedition.mjs [sortie.json] [shard] [shards]
+// Usage : npm run balance:expedition -- [sortie.json] [shard] [shards]
 //   SEEDS=40       expéditions par joueur et par façon de choisir le chemin
 //   PROFILES=expert,moyen,apprenti
 //   PATHS=calme,brave,mixte   chemin calme partout, brave partout, ou brave une fois sur deux
