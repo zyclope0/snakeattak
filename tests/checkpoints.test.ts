@@ -56,6 +56,26 @@ test('formats incompatibles, valeurs corrompues, doublons et fichiers trop gros 
     null,
   );
 });
+test('stockage plein un instant : l’écriture suivante est réessayée', () => {
+  const values = new Map<string, string>();
+  let full = true;
+  const p = createPersistence({
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      if (full) throw Error('quota');
+      values.set(key, value);
+    },
+  });
+  const game = new Game(7);
+  p.sync(game);
+  assert.equal(values.size, 0);
+  assert.match(p.status, /indisponible/i);
+  full = false;
+  game.gold += 10;
+  p.sync(game);
+  assert.equal(values.size, 1, 'the camp is written as soon as the storage takes it');
+  assert.equal(decodeCheckpoint([...values.values()][0])?.gold, game.gold);
+});
 test('stockage bloqué ou saturé : le jeu continue sans exception', () => {
   const p = createPersistence({
     getItem: () => {

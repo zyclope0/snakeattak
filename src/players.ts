@@ -3,6 +3,7 @@ import { readFamilyBackup } from './familyBackup.ts';
 import {
   CAMP_STORAGE_KEY,
   CAREER_STORAGE_KEY,
+  FAMILY_REFUSED_KEY,
   FAMILY_STORAGE_KEY,
   MISSION_DONE_KEY,
   ENDLESS_RECORDS_KEY,
@@ -50,6 +51,7 @@ const PLAYERS_LIMIT = 2000;
  */
 export const PLAYER_KEYS: readonly string[] = [
   FAMILY_STORAGE_KEY,
+  FAMILY_REFUSED_KEY,
   CAMP_STORAGE_KEY,
   CAREER_STORAGE_KEY,
   REMINDER_STORAGE_KEY,

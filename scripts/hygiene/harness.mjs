@@ -103,6 +103,12 @@ export async function start(page, search = '') {
   await page.goto(`${ORIGIN}/${search}`);
   await page.locator('#home-screen').waitFor({ state: 'visible' });
   await page.locator('#home-primary').waitFor({ state: 'visible' });
+  // A device with several players asks who plays: the first one, unless told otherwise.
+  if (await page.locator('#players-dialog[open]').count()) {
+    await page.locator('#players-dialog [data-player] button').first().click();
+    await page.locator('#players-dialog').waitFor({ state: 'hidden' });
+    await page.locator('#home-primary').waitFor({ state: 'visible' });
+  }
 }
 
 export const status = (page) => page.locator('#app').getAttribute('data-status');

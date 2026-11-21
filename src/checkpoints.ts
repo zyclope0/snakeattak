@@ -422,7 +422,8 @@ export function createPersistence(storage?: StoragePort) {
         last = raw;
         status = TEXT.campSauvegardeSurCetAppareil;
       } catch {
-        disabled = true;
+        // A refused write is tried again at the next change: only a storage that could not
+        // be read stays untouched for the session.
         status = TEXT.sauvegardeLocaleIndisponible;
       }
     },

@@ -6,6 +6,7 @@ import { Game } from '../src/game.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { createFamilyPersistence } from '../src/familyPersistence.ts';
 const KEY = 'conquete-serpents:family:v1';
+const REFUSED = 'conquete-serpents:family-refused:v1';
 function memory() {
   const values = new Map<string, string>();
   const writes: string[] = [];
@@ -76,14 +77,68 @@ test('quota failures retain every old key and explicit import can retry after re
   assert.equal(createFamilyPersistence(storage).load()!.camp, null);
 });
 
+test('a storage that refused one write is tried again: the games that follow are kept', () => {
+  const storage = memory();
+  const persistence = createFamilyPersistence(storage);
+  const career = createCareer().state;
+  assert.equal(persistence.sync(encodeCheckpoint(new Game(1)), career), true);
+  const kept = storage.values.get(KEY);
+  // Full for a moment: the write is refused, what was stored stays as it was.
+  storage.blocked = true;
+  const later = new Game(1);
+  later.gold = 123;
+  assert.equal(persistence.sync(encodeCheckpoint(later), career), false);
+  assert.equal(storage.values.get(KEY), kept);
+  assert.match(persistence.status, /indisponible/i);
+  // Room again: the very next change is written, with no import and no restart.
+  storage.blocked = false;
+  career.bestStars = [3, 2, 0];
+  assert.equal(persistence.sync(encodeCheckpoint(later), career), true);
+  const reloaded = createFamilyPersistence(storage).load()!;
+  assert.deepEqual(reloaded.career.bestStars, [3, 2, 0]);
+  assert.match(persistence.status, /enregistr|sauvegard/i);
+});
+
+test('a family save this version cannot read is put aside before a new game replaces it', () => {
+  const storage = memory();
+  const unreadable = JSON.stringify({
+    format: 'conquete-serpents-family',
+    version: 99,
+    camp: null,
+  });
+  storage.values.set(KEY, unreadable);
+  const persistence = createFamilyPersistence(storage);
+  assert.equal(persistence.load(), null);
+  assert.match(persistence.status, /incompatible|invalide/i);
+  assert.equal(storage.values.get(KEY), unreadable, 'reading replaces nothing');
+  assert.equal(storage.values.get(REFUSED), unreadable, 'the refused text is put aside');
+  // The new game is then saved over the file: the copy still holds the old adventure.
+  assert.equal(persistence.sync(null, createCareer().state), true);
+  assert.notEqual(storage.values.get(KEY), unreadable);
+  assert.equal(storage.values.get(REFUSED), unreadable);
+  // A readable save is never copied, and a full storage does not stop the game.
+  const fine = memory();
+  fine.values.set(KEY, writeFamilyBackup(null, createCareer().state)!);
+  assert.ok(createFamilyPersistence(fine).load());
+  assert.equal(fine.values.has(REFUSED), false);
+  const full = memory();
+  full.values.set(KEY, unreadable);
+  full.blocked = true;
+  assert.equal(createFamilyPersistence(full).load(), null);
+  assert.equal(full.values.get(KEY), unreadable);
+});
+
 test('absent, invalid and blocked storage expose honest status without writes', () => {
   const storage = memory();
   const empty = createFamilyPersistence(storage);
   assert.equal(empty.load(), null);
+  assert.equal(storage.writes.length, 0);
   storage.values.set(KEY, '{');
   assert.equal(empty.load(), null);
   assert.match(empty.status, /incompatible|invalide/i);
-  assert.equal(storage.writes.length, 0);
+  // The only write is the copy of the refused text: the file itself is untouched.
+  assert.deepEqual(storage.writes, [REFUSED]);
+  assert.equal(storage.values.get(KEY), '{');
   const blocked = createFamilyPersistence({
     getItem() {
       throw Error('blocked');

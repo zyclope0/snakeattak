@@ -7,14 +7,18 @@ import { validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
 import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
-import { FAMILY_STORAGE_KEY } from './storageKeys.ts';
+import { FAMILY_REFUSED_KEY, FAMILY_STORAGE_KEY } from './storageKeys.ts';
 import * as TEXT from './texts/fr/family.ts';
 
 /** What one session remembers about the family file between two calls. */
 type Session = {
   /** The text last read or written: an identical sync writes nothing. */
   last: string;
-  /** True once the storage has failed; only an explicit import tries it again. */
+  /**
+   * True once the storage could not be READ: what it holds is unknown, so nothing is written
+   * over it; only an explicit import tries. A refused WRITE never sets it: the next change
+   * is tried again, so that a storage that was full for a moment keeps the games that follow.
+   */
   disabled: boolean;
   status: string;
   /** Expeditions and albums of the last file, handed back to callers that omit them. */
@@ -47,7 +51,6 @@ function save(
     session.status = TEXT.aventureFamilialeEnregistreeSurCet;
     return true;
   } catch {
-    session.disabled = true;
     session.status = TEXT.sauvegardeFamilialeIndisponible;
     return false;
   }
@@ -63,6 +66,13 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
     }
     const backup = readFamilyBackup(raw);
     if (!backup) {
+      // The game starts anew and its first save takes the place of this file: its text is
+      // put aside first, so that an adventure this version cannot read is never destroyed.
+      try {
+        storage.setItem(FAMILY_REFUSED_KEY, raw);
+      } catch {
+        /* No room for the copy: the game is played all the same. */
+      }
       session.status = TEXT.sauvegardeFamilialeIncompatible;
       return null;
     }

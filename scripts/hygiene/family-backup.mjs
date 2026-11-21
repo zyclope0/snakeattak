@@ -48,7 +48,10 @@ let exported;
       'not JSON': 'bonjour',
       'another game': JSON.stringify({ format: 'autre-jeu', version: 1, save: {} }),
       'future version': JSON.stringify({ ...valid, version: 99 }),
-      'career out of range': JSON.stringify({ ...valid, career: { ...valid.career, coins: -5 } }),
+      'career out of range': JSON.stringify({
+        ...valid,
+        career: { ...valid.career, bestStars: [9, 0, 0] },
+      }),
       'camp is not a save': JSON.stringify({ ...valid, camp: '{"version":7,"gold":1e99}' }),
       array: '[]',
       null: 'null',

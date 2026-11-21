@@ -8,6 +8,11 @@ const key = <Name extends string>(name: Name) => `conquete-serpents:${name}:v1` 
 
 // One adventure: kept per player (`PLAYER_KEYS` in players.ts).
 export const FAMILY_STORAGE_KEY = key('family');
+/**
+ * The text of a family save this version could not read, put aside before the new game
+ * takes its place: never read by the game, kept so that nothing is destroyed.
+ */
+export const FAMILY_REFUSED_KEY = key('family-refused');
 export const CAMP_STORAGE_KEY = key('camp');
 export const CAREER_STORAGE_KEY = key('progress');
 export const VOYAGE_STORAGE_KEY = key('voyage');

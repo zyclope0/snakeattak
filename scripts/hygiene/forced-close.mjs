@@ -82,12 +82,9 @@ async function refuge(page) {
     const stars = await text(page, '#mission-total');
     await page.screenshot({ path: 'artifacts/hygiene/kill-mission-gagnee-apres.png' });
     assert.match(stars, /^[1-3] /, `the stars of the mission won are kept: « ${stars} »`);
-    await showHomePage(page, 'missions');
-    assert.equal(
-      await page.locator('#mission-continue').isVisible(),
-      false,
-      'a mission won is not offered to resume',
-    );
+    // « Reprendre ma mission » stays on the missions page (decision of 18 November): the
+    // home is what must not offer to resume a mission already won.
+    assert.doesNotMatch(await text(page, '#home-primary'), /Reprendre/, 'the home says « Jouer »');
     assert.deepEqual(report.errors, []);
     checks.push(
       `mission won then killed: stars kept (« ${stars} »), nothing to resume; ${told.result}`,
