@@ -29,6 +29,11 @@ Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape 
   novembre ; publié avec les deux autres lots (publication n° 39).
 - Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).
 
+**Revue du code** (21 novembre, [REVUE-CODE-2026-11-21.md](REVUE-CODE-2026-11-21.md)) :
+accord du parent pour la performance (points 1 et 4) et le nettoyage (points 5, 7, 8, 10, avec
+le retrait des restes du voyage). Gardés pour après : les images à ré-encoder (−6,7 Mo) et
+Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
+
 **À reprendre après l'hygiène**, dans cet ordre :
 
 1. Expédition : les règles nouvelles, une par une, chacune montrée au fils, mesurée, acceptée
