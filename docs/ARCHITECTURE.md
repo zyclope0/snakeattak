@@ -340,6 +340,12 @@ sont lus. Les anciennes clés restent des miroirs de compatibilité ; les écrit
 ordinaires synchronisent l'enveloppe après camp et carrière. `campMemory.raw` est
 la source de l'export vivant. Un import de profil seul efface sa reprise.
 
+Le plateau demande une sauvegarde plusieurs fois par seconde, combat compris. `family.sync`
+garde le texte de sa dernière demande aboutie : la même demande ne refait pas le fichier
+(validation, écriture, relecture). Un import, une lecture ou une écriture effacent ce
+souvenir ; une écriture refusée n'en laisse pas et sera retentée
+(`tests/family-sync-settled.test.ts`).
+
 Le dialogue n'exécute aucun contenu de fichier : décodage borné, textContent et
 aperçu numérique. Un jeton de lecture ignore les fichiers asynchrones devenus
 anciens après annulation ou nouvelle sélection. Le serveur HTTPS et son certificat

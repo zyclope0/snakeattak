@@ -22,10 +22,10 @@ garde **tous** les points, faits ou non.
 
 | #   | Constat                                                           | État                     |
 | --- | ----------------------------------------------------------------- | ------------------------ |
-| 1   | Sauvegarde recalculée 5,5 fois par seconde pendant un combat      | À faire, lot 1           |
+| 1   | Sauvegarde recalculée 5,5 fois par seconde pendant un combat      | Fait, lot 1              |
 | 2   | 26 planches d'images en WebP sans perte (9,4 Mo)                  | Gardé pour après         |
 | 3   | Phaser livré plus gros que son fichier officiel, avec la physique | Gardé pour après         |
-| 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | À faire, lot 1           |
+| 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | Fait, lot 1              |
 | 5   | La CI attend trop ; une PR de documents coûte autant que du code  | À faire, lot 2           |
 | 6   | Barres de vie et petits ronds chers à dessiner                    | À mesurer sur l'appareil |
 | 7   | Des règles écrites plusieurs fois                                 | À faire, lot 2           |
@@ -49,6 +49,25 @@ combat) et rien n'est écrit.
   demandent (camp à 80 alliés : 5,7 → 1,9 ms).
 - Les écrans cachés de l'accueil sont aussi rafraîchis pendant le combat ; le menu relit et
   redécode les records à chaque fois (`src/endlessRecords.ts`).
+
+**Fait (lot 1).** `family.sync` (`src/familyPersistence.ts`) garde le texte de ce qu'on lui a
+demandé la dernière fois qu'il n'est rien resté à faire. La même demande ne refait plus le
+fichier. Une écriture, un import ou une lecture effacent ce souvenir ; une écriture refusée
+n'en laisse pas : elle est donc retentée comme avant. Cette piste a été préférée à « ne rien
+faire tant que le combat dure » : elle ne suppose rien sur ce qui peut changer pendant un
+combat.
+
+- Relevé de la relecture rejoué (`family.sync` fait 98 % du coût) : pendant le combat, 2,45 →
+  0,10 ms par appel à 40 alliés, 5,4 → 0,2 ms à 80. Mêmes écritures (93 et 93, 88 et 88),
+  mêmes octets gardés, sur six parties.
+- Dans le navigateur, vague 11 à 48 alliés, processeur ralenti quatre fois
+  (`scripts/hygiene/profile-charge.mjs`, deux passages par version) : `saveAndRedraw` passe
+  de 51–55 à 12–13 ms par seconde de combat ; la fabrication du fichier de 40–43 à 0.
+- Garde-fou : `tests/family-sync-settled.test.ts`, dont 600 demandes tirées d'une graine
+  comparées à un fichier refait à chaque fois (réponse, écritures, texte gardé, message).
+- **Laissé** : il reste environ 8 ms par seconde (0,8 % du processeur ralenti) dans le
+  rafraîchissement d'un écran de l'accueil pendant le combat. Trop peu pour toucher à l'ordre
+  des rafraîchissements.
 
 ### 2. Les images (gardé pour après)
 
@@ -78,6 +97,14 @@ les trie. `defenseGoal` (`src/defenders.ts`) l'appelle à chaque pas pour chaque
 concerné. Dans l'aventure sans fin il fait 74 % du temps du pas : 95e centile 5,25 ms, pire
 pas 10 à 18 ms. Avec les points de camp gardés par carte et un minimum au lieu du tri : 95e
 0,75 ms, pire pas 3 ms, parties identiques (empreintes).
+
+**Fait (lot 1).** Les points de camp d'une carte sont cherchés une fois ; le plus proche est
+pris sans tri, dans l'ordre que le tri donnait (distance, puis y, puis x). Remesuré sur la
+branche, 3 600 pas, médiane de cinq passages : aventure sans fin, pas moyen 1,25 → 0,28 ms,
+95e centile 5,38 → 0,67 ms, 99e 6,89 → 1,02 ms ; mission et grande aventure inchangées (le
+but n'y tombe presque jamais dans un rocher). Mêmes empreintes de partie avant et après, les
+traces de référence passent sans changement. Garde-fou : `tests/camp-points.test.ts` compare
+9 000 buts, sur les six cartes, à l'ancienne recherche recopiée dans le test.
 
 Autres pistes du moteur, mesurées, **non retenues pour l'instant** :
 
@@ -191,7 +218,7 @@ Depuis le nettoyage du 13 novembre : `game.ts` 387 → 688 lignes, `bootstrap.ts
 `docs/ARCHITECTURE.md` : le tableau des responsabilités dit que `main.ts` assemble tout
 (c'est `bootstrap.ts`) ; `voyageCode.ts` et `VOYAGE_INPUT_LIMIT` « lus par l'interface » ; « le
 fichier familial n'exporte pas le voyage » ; `startVoyage`, `encodeVoyage`, « une première
-visite tire un voyage » ; « les dix clés » (il y en a 16).
+visite tire un voyage » ; « les dix clés » (il y en a 15).
 
 ## À connaître avant tout ajout
 
