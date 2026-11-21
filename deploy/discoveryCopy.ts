@@ -221,6 +221,10 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
         text: `${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} étapes sur une route qui se sépare en deux : « ${EXP_FR.leCheminTranquille} » ou « ${EXP_FR.leCheminDesBraves} », avec un cadeau rare au bout. En chemin, des haltes : ${EXP_FR.leFeuDeCamp}, ${EXP_FR.laRoulotteDeMamiePistache}, ${EXP_FR.lOeufMystere}. Tes alliés encore debout te suivent d’une étape à l’autre, et tu gardes tes cadeaux jusqu’au bout. King Snake attend à la fin. Chaque étape a son défi, toujours le même : à toi de le connaître. Si tu perds une étape, tu la rejoues depuis le même camp.`,
       },
       {
+        heading: 'Un camp plus solide',
+        text: 'Dans une nouvelle mission ou une nouvelle expédition, tes alliés font le tour des rochers au lieu de rester collés devant. Si ton doigt touche deux fois le même bouton, tu ne prends plus un cadeau sans l’avoir choisi. Et la sauvegarde familiale garde aussi ton expédition et tes records.',
+      },
+      {
         heading: FR.laventureSansFin,
         text: `Une fois King Snake battu dans la « ${FR.aventureClassique} », une nouvelle porte s’ouvre : « ${FR.laventureSansFin} ». Toutes les ${TOTAL_WAVES} vagues, King Snake revient, un peu plus fort, et la partie continue. Après chaque roi, tu choisis un cadeau qui dure : ${BOON_PLACES} places, et chaque cadeau monte jusqu’au niveau ${BOON_MAX_LEVEL}. Chaque joueur garde son record, rien que pour lui.`,
       },
@@ -259,6 +263,10 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       {
         heading: EXP_EN.laGrandeExpedition,
         text: `${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} stages on a road that splits in two: “${EXP_EN.leCheminTranquille}” or “${EXP_EN.leCheminDesBraves}”, with a rare gift at the end. Along the way, stops: ${EXP_EN.leFeuDeCamp}, ${EXP_EN.laRoulotteDeMamiePistache}, ${EXP_EN.lOeufMystere}. Your allies still standing follow you from one stage to the next, and you keep your gifts to the very end. King Snake waits at the finish. Each stage has its own challenge, always the same: learn it. If you lose a stage, you play it again from the same camp.`,
+      },
+      {
+        heading: 'A sturdier camp',
+        text: 'In a new mission or a new expedition, your allies walk around rocks instead of standing stuck in front of them. If your finger taps the same button twice, you no longer take a gift without choosing it. And the family save now keeps your expedition and your records too.',
       },
       {
         heading: EN.laventureSansFin,

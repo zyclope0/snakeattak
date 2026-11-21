@@ -307,6 +307,9 @@ test('the public pages tell the game as it is', () => {
   // « La Grande Expédition » took the voyage's place: its numbers come from its rules.
   assert.equal(EXPEDITION_BATTLES, 15);
   assert.match(words('updates', 'fr'), /3 tableaux de 5 étapes/);
+  // The stabilisation of 21 November 2026, said in a child's words.
+  assert.match(words('updates', 'fr'), /font le tour des rochers/);
+  assert.match(words('updates', 'en'), /walk around rocks/);
   assert.match(words('updates', 'en'), /3 lands of 5 stages/);
   for (const lang of ['fr', 'en'] as const)
     assert.doesNotMatch(words('updates', lang), /[Vv]oyage/, 'no voyage left to start');
