@@ -6,7 +6,6 @@ import type { CapriceDefinition } from '../../../caprices.ts';
 import { coinsOf, expeditionPlanOf, giftOffer, roulotteOffer } from '../../../expedition.ts';
 import type { Battle, ExpeditionState, HaltKind, Path } from '../../../expedition.ts';
 import { setAttribute } from '../../../i18n/dom.ts';
-import { missionById } from '../../../missions.ts';
 import { activeEnemyLanes } from '../../../tutorial.ts';
 import { BOON_SIGNS } from '../../boonCopy.ts';
 import { frenchLeaf } from '../../capriceCopy.ts';
@@ -233,7 +232,7 @@ function battleCard(
   const head = make('h3', { id: `exp-head-${battle.path}`, text: title });
   const map = make('span', { className: 'stop-map' }, stopMap(battle.run, lanes));
   const facts = make('div', { className: 'exp-facts' });
-  facts.append(make('strong', { text: missionById(battle.run.missionId)!.name }));
+  // An étape is named by its fixed challenge, never by the mission whose waves it borrows.
   // The guardian's name is the card's title: its picture stands beside the map.
   if (battle.king) facts.append(make('span', { className: 'exp-guardian' }, king()));
   const caprice = capriceDefinitionForRun(battle.run);
@@ -378,7 +377,7 @@ export function mapView(
   if (record) lines.append(make('p', { className: 'exp-record', text: record }));
   if (step.kind !== 'halt' && (state.tableau > 0 || state.step > 0))
     lines.append(
-      make('p', { className: 'exp-grow', text: TEXT.lesSerpentsGrandissentAChaqueMission }),
+      make('p', { className: 'exp-grow', text: TEXT.lesSerpentsGrandissentAChaqueEtape }),
     );
   const said = lines.childElementCount ? [lines] : [];
   return [road(state), ...said, choices, foot(state, actions, true, notice)];

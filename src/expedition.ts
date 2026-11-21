@@ -2,7 +2,7 @@ import { Game } from './game.ts';
 import type { Entity } from './engine/state.ts';
 import { MISSIONS, missionSetup, MISSION_SETUPS, readMissionRun } from './missions.ts';
 import type { MissionId, MissionRun } from './missions.ts';
-import { capricesForMission } from './caprices.ts';
+import { capriceById, capricesForMission } from './caprices.ts';
 import type { CapriceTier } from './caprices.ts';
 import { REWARDS } from './rewards.ts';
 import type { RewardId } from './rewards.ts';
@@ -29,17 +29,25 @@ import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConst
  * Everything is drawn from the seed, apart from the fights: the map can be shown whole, and a
  * code shares it. The rules of a version never change once played: new values, new version.
  */
-export type ExpeditionVersion = 1;
-export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 1;
+export type ExpeditionVersion = 1 | 2;
+export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 2;
 
-type Draw = Readonly<{ missions: readonly MissionId[]; tiers: readonly CapriceTier[] }>;
+/**
+ * What a battle is drawn from. Version 1 draws a mission and a caprice of these tiers;
+ * version 2 gives every step its fixed challenge (« défi »), a caprice of the son named
+ * by its id: the mission it was tuned for brings the waves, unnamed, and only the terrain,
+ * the attack, the nests and the fight change from one expedition to the next.
+ */
+type Draw =
+  | Readonly<{ missions: readonly MissionId[]; tiers: readonly CapriceTier[] }>
+  | Readonly<{ defi: string }>;
 export type TableauTuning = Readonly<{
   /** The first mission of the tableau, with a new camp. */
   first: Draw;
-  /** The calm path: an easier draw, an ordinary gift after it. */
-  calm: Draw;
-  /** The brave path: a harder draw, a rare gift after it (it comes at level 2). */
-  brave: Draw;
+  /** The calm path: an easier draw, an ordinary gift after it; one a fork in version 2. */
+  calm: Draw | readonly Draw[];
+  /** The brave path: a harder draw, a rare gift after it; one a fork in version 2. */
+  brave: Draw | readonly Draw[];
   /** The guardian's mission; the king closes it with this much life (6 to 10, as in a mission). */
   guardian: Draw & { kingHp: number; court: boolean };
 }>;
@@ -96,8 +104,54 @@ const VERSION_1: ExpeditionTuning = {
   eggCoins: 150,
   excluded: ['sonnette-petit', 'carrefour-moyen'],
 };
+/**
+ * Version 2 (decision of the parent, 21 November 2026): one fixed challenge a step, the
+ * same in every expedition, from the son's caprices; the brave path has the harder one.
+ * The table is docs/VOYAGE-LONG-PROPOSITION.md, « Les défis fixes ». New rules (Les Ponts
+ * Mouillés, Double Couronne…) will take some places, one by one, in later versions.
+ */
+const VERSION_2: ExpeditionTuning = {
+  ...VERSION_1,
+  tableaux: [
+    {
+      first: { defi: 'refuge-petit' },
+      calm: [
+        { defi: 'course-petit' },
+        { defi: 'trois-ponts-createur-petit' },
+        { defi: 'coquilles-petit' },
+      ],
+      brave: [
+        { defi: 'refuge-moyen' },
+        { defi: 'sonnette-moyen' },
+        { defi: 'refuge-createur-moyen' },
+      ],
+      guardian: { defi: 'carrefour-petit', kingHp: 6, court: false },
+    },
+    {
+      first: { defi: 'trois-ponts-petit' },
+      calm: [{ defi: 'sonnette-petit' }, { defi: 'coquilles-moyen' }, { defi: 'sonnette-grand' }],
+      brave: [
+        { defi: 'trois-ponts-moyen' },
+        { defi: 'course-moyen' },
+        { defi: 'course-createur-grand' },
+      ],
+      guardian: { defi: 'sonnette-moyen', kingHp: 6, court: false },
+    },
+    {
+      first: { defi: 'carrefour-moyen' },
+      calm: [
+        { defi: 'coquilles-grand' },
+        { defi: 'sonnette-createur-moyen' },
+        { defi: 'coquilles-createur-grand' },
+      ],
+      brave: [{ defi: 'trois-ponts-grand' }, { defi: 'course-grand' }, { defi: 'carrefour-grand' }],
+      guardian: { defi: 'refuge-grand', kingHp: 6.5, court: true },
+    },
+  ],
+};
 export const EXPEDITION_TUNINGS: Readonly<Record<ExpeditionVersion, ExpeditionTuning>> = {
   1: VERSION_1,
+  2: VERSION_2,
 };
 
 export type Path = 'calm' | 'brave';
@@ -142,13 +196,18 @@ function drawBattle(
   tuning: ExpeditionTuning,
   guardian?: TableauTuning['guardian'],
 ): Battle {
-  const missionId = pick(random, draw.missions);
+  // A fixed challenge brings the mission it was tuned for; only the setup and the fight vary.
+  const fixed = 'defi' in draw ? capriceById(draw.defi) : null;
+  const drawn = 'defi' in draw ? null : draw;
+  const missionId = fixed ? fixed.missionId : pick(random, drawn!.missions);
   const setup = missionSetup(Math.floor(random() * MISSION_SETUPS));
   const fightSeed = Math.floor(random() * SEED_RANGE);
-  const caprices = capricesForMission(missionId).filter(
-    (c) => draw.tiers.includes(c.tier) && !tuning.excluded.includes(c.id) && !c.rules.king,
-  );
-  const caprice = caprices.length ? pick(random, caprices) : null;
+  const caprices = fixed
+    ? [fixed]
+    : capricesForMission(missionId).filter(
+        (c) => drawn!.tiers.includes(c.tier) && !tuning.excluded.includes(c.id) && !c.rules.king,
+      );
+  const caprice = fixed ?? (caprices.length ? pick(random, caprices) : null);
   const run = readMissionRun({
     missionId,
     balance: 2,
@@ -174,8 +233,12 @@ export function planExpedition(
 ): ExpeditionPlan | null {
   // The seeds of the voyage: twenty bits, a code short enough for a child to copy.
   if (!isVoyageSeed(seed) || !tuning) return null;
-  const tableaux = tuning.tableaux.map((table, t) =>
-    Object.freeze(
+  const tableaux = tuning.tableaux.map((table, t) => {
+    let fork = 0;
+    /** A path's draw: the same for every fork, or the one of this fork. */
+    const at = (draw: Draw | readonly Draw[], index: number): Draw =>
+      Array.isArray(draw) ? (draw as readonly Draw[])[index] : (draw as Draw);
+    return Object.freeze(
       SHAPE.map((shape, s): Step => {
         const random = stream(seed, 100 * (t + 1) + s);
         if (shape === 'halt') {
@@ -186,20 +249,22 @@ export function planExpedition(
           );
           return Object.freeze({ kind: 'halt', halts: Object.freeze([first, second]) as never });
         }
-        if (shape === 'fork')
+        if (shape === 'fork') {
+          const index = fork++;
           return Object.freeze({
             kind: 'fork',
-            calm: drawBattle(random, table.calm, 'calm', tuning),
-            brave: drawBattle(random, table.brave, 'brave', tuning),
+            calm: drawBattle(random, at(table.calm, index), 'calm', tuning),
+            brave: drawBattle(random, at(table.brave, index), 'brave', tuning),
           });
+        }
         const battle =
           shape === 'first'
             ? drawBattle(random, table.first, 'first', tuning)
             : drawBattle(random, table.guardian, 'guardian', tuning, table.guardian);
         return Object.freeze({ kind: 'battle', battle });
       }),
-    ),
-  );
+    );
+  });
   return Object.freeze({ version, seed, tableaux: Object.freeze(tableaux) });
 }
 
@@ -630,7 +695,8 @@ function readPending(raw: unknown): Pending | null | undefined {
  */
 export function readExpeditionState(raw: unknown): ExpeditionState | null {
   try {
-    if (!isRecord(raw) || raw.version !== 1 || !isVoyageSeed(raw.seed)) return null;
+    if (!isRecord(raw) || (raw.version !== 1 && raw.version !== 2) || !isVoyageSeed(raw.seed))
+      return null;
     const plan = planExpedition(raw.seed, raw.version);
     if (
       !plan ||
@@ -682,7 +748,7 @@ export function readExpeditionState(raw: unknown): ExpeditionState | null {
       }
     }
     return Object.freeze({
-      version: 1,
+      version: raw.version,
       seed: raw.seed,
       tableau,
       step,

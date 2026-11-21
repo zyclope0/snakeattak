@@ -306,8 +306,8 @@ test('the public pages tell the game as it is', () => {
   assert.match(words('home', 'en'), /twelve waves/);
   // « La Grande Expédition » took the voyage's place: its numbers come from its rules.
   assert.equal(EXPEDITION_TUNINGS[1].tableaux.length * BATTLES_PER_TABLEAU, 15);
-  assert.match(words('updates', 'fr'), /3 tableaux de 5 missions/);
-  assert.match(words('updates', 'en'), /3 lands of 5 missions/);
+  assert.match(words('updates', 'fr'), /3 tableaux de 5 étapes/);
+  assert.match(words('updates', 'en'), /3 lands of 5 stages/);
   for (const lang of ['fr', 'en'] as const)
     assert.doesNotMatch(words('updates', lang), /[Vv]oyage/, 'no voyage left to start');
   const late = lateEggRule(CURRENT_BALANCE_REVISION)!;

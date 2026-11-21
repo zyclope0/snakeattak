@@ -15,16 +15,16 @@ export const laRoulotteDeMamiePistache = 'Granny Pistachio’s Caravan';
 export const lOeufMystere = 'The Mystery Egg';
 
 // --- The page title.
-export const missionNSurN = 'Mission {0} of {1}';
+export const etapeNSurN = 'Stage {0} of {1}';
 export const tableauNSurN = 'Land {0} of {1}';
-export const missionGagnee = 'Mission won!';
+export const etapeGagnee = 'Stage won!';
 export const capitaineZigzagEstVaincu = 'Captain Zigzag is beaten!';
 export const madameGloupsEstVaincue = 'Madam Gulp is beaten!';
 export const ouTArretesTu = 'Where will you stop?';
 export const bravoTuAsFiniN = 'Well done! You finished {0}';
 
 // --- The seven steps of a land.
-export const missionN = 'Mission {0}';
+export const etapeN = 'Stage {0}';
 export const halteN = 'Stop: {0}';
 export const laRouteDuTableau = 'The road of this land';
 export const leGardienN = 'The guardian: {0}';
@@ -36,13 +36,13 @@ export const aChoisir = 'to choose';
 export const pasChoisi = 'not chosen';
 export const pasChoisie = 'not chosen';
 
-// --- The missions to choose.
+// --- The stages to choose.
 export const choisisTonChemin = 'Choose your path';
 export const unCadeauAGagner = 'A gift to win';
 export const unCadeauRareAGagner = 'A rare gift to win';
 export const cEstParti = "Let's go!";
 export const capriceSurpriseN = 'Surprise caprice: {0}';
-export const lesSerpentsGrandissentAChaqueMission = 'The snakes get stronger with every mission.';
+export const lesSerpentsGrandissentAChaqueEtape = 'The snakes get stronger with every stage.';
 export const unNouveauCampTAttend = 'A new camp is waiting: recruit your allies.';
 
 // --- The halts.
@@ -63,7 +63,7 @@ export const choisirCeCadeau = 'Choose this gift';
 export const choisirNiveauN = 'Choose · level {0}';
 export const nPiecesPourRecruterTesAllies = '{0} coins to recruit your allies.';
 export const monterAuNiveauN = 'Up to level {0}';
-export const pourLaProchaineMission = 'For the next mission.';
+export const pourLaProchaineEtape = 'For the next stage.';
 export const troisAutresCadeaux = 'Three other gifts';
 export const neRienPrendre = 'Take nothing';
 export const tesNPlacesSontPrises = 'Your {0} places are full';
@@ -86,26 +86,26 @@ export const piecesN = 'Coins: {0}';
 export const tonCristalNPourcent = 'Your crystal: {0}%';
 export const uneAutreExpedition = 'Another expedition';
 export const changerDExpedition = 'Change expedition?';
-export const tuAsDejaGagneNMissionNSiTuChanges =
-  'You have already won {0} mission{1}. If you change, you start again from the beginning.';
+export const tuAsDejaGagneNEtapeNSiTuChanges =
+  'You have already won {0} stage{1}. If you change, you start again from the beginning.';
 export const garderMonExpedition = 'Keep my expedition';
 export const uneNouvelleExpedition = 'A new expedition';
 
 // --- The record and what is kept.
-export const taPlusLongueExpeditionNMissionN = 'Your longest expedition: {0} mission{1}';
+export const taPlusLongueExpeditionNEtapeN = 'Your longest expedition: {0} stage{1}';
 export const tonExpeditionEstGardeeSurCetAppareil =
-  'Your expedition is saved on this device between missions. A mission you leave starts again from the beginning.';
+  'Your expedition is saved on this device between stages. A stage you leave starts again from the beginning.';
 export const cetAppareilNeGardePasTonExpedition =
   'This device does not keep your expedition: it stops if you close the game.';
-export const cetteMissionNeSOuvrePas = 'This mission won’t open. Start a new expedition.';
+export const cetteEtapeNeSOuvrePas = 'This stage won’t open. Start a new expedition.';
 
 // --- The arrival.
-export const tuAsGagneLesNMissions = 'You won all {0} missions!';
+export const tuAsGagneLesNEtapes = 'You won all {0} stages!';
 
 // --- On the board.
-export const expeditionMissionNSurN = 'Expedition · mission {0} of {1}';
-export const lExpeditionEstGardeeEntreDeuxMissions = 'The expedition is saved between missions.';
-export const tonCampTeSuitALaProchaineMission = 'Your camp comes with you to the next mission.';
+export const expeditionEtapeNSurN = 'Expedition · stage {0} of {1}';
+export const lExpeditionEstGardeeEntreDeuxEtapes = 'The expedition is saved between stages.';
+export const tonCampTeSuitALEtapeSuivante = 'Your camp comes with you to the next stage.';
 export const capitaineZigzagEstVaincuUnNouveauTableau =
   'Captain Zigzag is beaten! A new land is waiting.';
 export const madameGloupsEstVaincueUnNouveauTableau =
@@ -115,6 +115,6 @@ export const taVictoireNAPasPuEtreGardee = 'Your victory could not be saved on t
 export const nEstVaincuTuAsFiniLaGrandeExpedition =
   '{0} is beaten! You finished the Great Expedition.';
 export const continuerLExpedition = 'Continue the expedition';
-export const rienNEstPerduRejoueCetteMission =
-  'Nothing is lost: play this mission again from the expedition.';
+export const rienNEstPerduRejoueCetteEtape =
+  'Nothing is lost: play this stage again from the expedition.';
 export const revenirALExpedition = 'Back to the expedition';

@@ -200,3 +200,40 @@ test('une expédition gardée se relit telle quelle, à chaque pas ; une fausse 
     null,
   );
 });
+
+test('version 2 : un défi fixe par étape, le même à chaque expédition ; la version 1 se relit', () => {
+  const defis = (seed: number) =>
+    X.planExpedition(seed)!.tableaux.map((tableau) =>
+      tableau.flatMap((step) =>
+        step.kind === 'halt'
+          ? []
+          : step.kind === 'battle'
+            ? [step.battle.run.caprice]
+            : [step.calm.run.caprice, step.brave.run.caprice],
+      ),
+    );
+  assert.equal(X.CURRENT_EXPEDITION_VERSION, 2);
+  // The challenges never change with the seed; the setup and the fight do.
+  assert.deepEqual(defis(SEED), defis(SEED + 7));
+  assert.deepEqual(defis(SEED)[0], [
+    'refuge-petit',
+    'course-petit',
+    'refuge-moyen',
+    'trois-ponts-createur-petit',
+    'sonnette-moyen',
+    'coquilles-petit',
+    'refuge-createur-moyen',
+    'carrefour-petit',
+  ]);
+  const setups = new Set(
+    [SEED, SEED + 1, SEED + 2, SEED + 3].map((seed) => {
+      const first = X.planExpedition(seed)!.tableaux[0][0];
+      return first.kind === 'battle' ? `${first.battle.run.layout}-${first.battle.run.seed}` : '';
+    }),
+  );
+  assert.ok(setups.size > 1, 'the terrain and the fight change');
+  // An expedition begun in version 1 reads back and keeps its own draws.
+  const old = { ...X.startExpedition(SEED)!, version: 1 };
+  assert.equal(X.readExpeditionState(old)?.version, 1);
+  assert.notDeepEqual(X.planExpedition(SEED, 1), X.planExpedition(SEED, 2));
+});

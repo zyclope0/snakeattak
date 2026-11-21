@@ -177,7 +177,7 @@ try {
         await text(page, '.expedition-page .voyage-title span'),
         FR.laValleeDesSifflements,
       );
-      assert.equal(await text(page, '.expedition-page .voyage-title em'), 'Mission 1 sur 5');
+      assert.equal(await text(page, '.expedition-page .voyage-title em'), 'Étape 1 sur 5');
       // The road: the first mission, two stops at each of the five splits, the guardian.
       assert.equal(await page.locator('.exp-stop').count(), 12);
       assert.equal(await page.locator('.exp-stop[aria-current]').count(), 1);
@@ -188,10 +188,10 @@ try {
       await page.screenshot({ path: `${folder}/${name}-premiere.png` });
       await page.click('.exp-go');
       await page.locator('#start').waitFor({ state: 'visible' });
-      assert.equal(await text(page, '#voyage-mark'), 'Expédition · mission 1 sur 5');
+      assert.equal(await text(page, '#voyage-mark'), 'Expédition · étape 1 sur 5');
       assert.equal(await playOut(page), 'won', `${name}: mission 1 is won on the board`);
-      assert.equal(await text(page, '#battle-result-title'), FR.missionGagnee);
-      assert.equal(await text(page, '#voyage-result-note'), FR.tonCampTeSuitALaProchaineMission);
+      assert.equal(await text(page, '#battle-result-title'), FR.etapeGagnee);
+      assert.equal(await text(page, '#voyage-result-note'), FR.tonCampTeSuitALEtapeSuivante);
       assert.equal(
         await page.evaluate(() => document.activeElement?.id),
         'voyage-continue',
@@ -344,9 +344,9 @@ try {
       await page.locator('#expedition-new').waitFor();
       assert.equal(
         await text(page, '.expedition-page .voyage-view h2'),
-        'Tu as gagné les 15 missions !',
+        'Tu as gagné les 15 étapes !',
       );
-      assert.equal(await text(page, '.voyage-best'), 'Ta plus longue expédition : 15 missions');
+      assert.equal(await text(page, '.voyage-best'), 'Ta plus longue expédition : 15 étapes');
       await fits(page, `${name} arrived`);
       await page.screenshot({ path: `${folder}/${name}-arrivee.png` });
       await page.click('#expedition-new');

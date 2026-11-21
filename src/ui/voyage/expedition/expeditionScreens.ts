@@ -136,7 +136,7 @@ export function bindExpeditionScreens(
     const state = log.current;
     const game = state && createExpeditionGame(expeditionPlanOf(state), state, path);
     if (!state || !game) {
-      notice = TEXT.cetteMissionNeSOuvrePas;
+      notice = TEXT.cetteEtapeNeSOuvrePas;
       show();
       focusQuestion();
       return;
