@@ -6,7 +6,6 @@ import { english } from '../src/i18n/english.ts';
 import { missionById } from '../src/missions.ts';
 import { REWARDS } from '../src/rewards.ts';
 import { planVoyage, stageCaprice } from '../src/voyage.ts';
-import { encodeVoyage } from '../src/voyageCode.ts';
 import { CURRENT_VOYAGE_VERSION } from '../src/voyageTuning.ts';
 import { readVoyageState } from '../src/voyageState.ts';
 import { PLAYER_CHOSEN_KEY, PLAYERS_KEY, VOYAGE_STORAGE_KEY } from '../src/storageKeys.ts';
@@ -14,8 +13,9 @@ import { validateVoyageLog } from '../src/voyageStorage.ts';
 
 const LANGUAGE = 'conquete-serpents:language:v1';
 const FIXTURE = '.voyage-038-fixture.html';
-// The first stage of this voyage is the refuge, which the three allies of the start win on
-// their own; the fourth falls when nobody is placed (`scripts/balance-voyage.mjs` engine).
+// The first two stages of this voyage (the refuge, then the three bridges) are won by the
+// allies of the start on their own; the third and the fourth fall when nobody is placed
+// (real engine, with the bag of `logOf`).
 const SEED = 2;
 // A voyage whose third stage has a caprice, and whose last caprice also brings the king.
 const MAP_SEED = 12345;
@@ -28,7 +28,7 @@ const grid = [
 
 const TEXT = {
   fr: {
-    door: 'Le voyage',
+    door: 'La Grande Expédition',
     resume: 'Reprendre le voyage',
     fresh: 'Nouveau',
     title: 'Le voyage',
@@ -49,36 +49,19 @@ const TEXT = {
     kingNote: 'King Snake est battu. Tu as fini le voyage !',
     onward: 'Continuer le voyage',
     lostTitle: 'Le voyage s’arrête ici',
-    lostNote: (n) => `Le camp est tombé à l’étape ${n}. Tu pourras refaire ce voyage.`,
+    lostNote: (n) => `Le camp est tombé à l’étape ${n}. La Grande Expédition t’attend.`,
     see: 'Voir mon voyage',
     choose: 'Choisis un bonus pour la suite du voyage',
     rule: 'Tu le gardes dans ton sac jusqu’à la fin du voyage.',
     arrived: 'Bravo, tu as fini le voyage !',
     fallen: (n) => `Ton voyage s’arrête à l’étape ${n}`,
     fallenNote: (n) => `Tu as réussi ${n} étapes sur 5. Tu peux repartir !`,
-    fallenFirst: 'Le camp est tombé à la première étape. Tu peux repartir !',
-    actions: {
-      arrived: ['Un nouveau voyage', 'Donner mon voyage', 'J’ai un code'],
-      fallen: ['Refaire ce voyage', 'Un nouveau voyage', 'J’ai un code'],
-    },
-    gift: 'Donne ton voyage',
-    giftText: 'Donne ce code à ton frère ou à ta sœur. Il ou elle fera le même voyage que toi.',
-    copied: ['Code copié.', 'Code sélectionné : copie-le avec le menu de ton appareil.'],
-    other: 'Un autre voyage',
-    haveCode: 'Tu as un code ?',
-    refused: {
-      format: 'Ce n’est pas un code de voyage. Un code s’écrit comme VOYAGE-1-0YK9-AY.',
-      checksum: 'Il y a une erreur dans ce code. Vérifie les lettres et les chiffres.',
-      version:
-        'Ce code vient d’une autre version du jeu. Demande à un parent de mettre le jeu à jour.',
-    },
-    replace: 'Changer de voyage ?',
-    replaceText: (n) =>
-      `Tu as déjà réussi ${n} étape${n > 1 ? 's' : ''} de ton voyage. Si tu en commences un autre, il s’arrête là.`,
+    // The one way on once a voyage is over.
+    expedition: 'La Grande Expédition',
     stars: '0 / 18 étoiles',
   },
   en: {
-    door: 'The Voyage',
+    door: 'The Great Expedition',
     resume: 'Resume the voyage',
     fresh: 'New',
     title: 'The Voyage',
@@ -99,34 +82,14 @@ const TEXT = {
     kingNote: 'King Snake is beaten. You finished the voyage!',
     onward: 'Continue the voyage',
     lostTitle: 'The voyage stops here',
-    lostNote: (n) => `The camp fell at stage ${n}. You can try this voyage again.`,
+    lostNote: (n) => `The camp fell at stage ${n}. The Great Expedition is waiting for you.`,
     see: 'See my voyage',
     choose: 'Choose a bonus for the rest of the voyage',
     rule: 'You keep it in your bag until the end of the voyage.',
     arrived: 'Well done, you finished the voyage!',
     fallen: (n) => `Your voyage stops at stage ${n}`,
     fallenNote: (n) => `You completed ${n} stages out of 5. You can set off again!`,
-    fallenFirst: 'The camp fell at the first stage. You can set off again!',
-    actions: {
-      arrived: ['A new voyage', 'Share my voyage', 'I have a code'],
-      fallen: ['Try this voyage again', 'A new voyage', 'I have a code'],
-    },
-    gift: 'Share your voyage',
-    giftText: 'Give this code to your brother or sister. They will play the same voyage as you.',
-    copied: [
-      english['Code copié.'],
-      english['Code sélectionné : copie-le avec le menu de ton appareil.'],
-    ],
-    other: 'Another voyage',
-    haveCode: 'Do you have a code?',
-    refused: {
-      format: 'That is not a voyage code. A code looks like VOYAGE-1-0YK9-AY.',
-      checksum: 'There is a mistake in this code. Check the letters and numbers.',
-      version: 'This code comes from another version of the game. Ask a parent to update the game.',
-    },
-    replace: 'Change voyage?',
-    replaceText: (n) =>
-      `You have already completed ${n} stage${n > 1 ? 's' : ''} of your voyage. If you start another one, it stops there.`,
+    expedition: 'The Great Expedition',
     stars: '0 / 18 stars',
   },
 };
@@ -147,6 +110,19 @@ const expectedStops = (seed) =>
     caprice: stageCaprice(stage)?.name ?? null,
     king: stage.king,
   }));
+
+/** The stops of the map are those of this seed: the same voyage, read from the model. */
+function sameVoyage(state, seed, t, language) {
+  const expected = expectedStops(seed);
+  return (
+    state.stops.length === expected.length &&
+    state.stops.every(
+      (stop, index) =>
+        stop.spoken[0] === copyName(t, index, expected, language) &&
+        stop.caprice === (expected[index].caprice ? t.surprise(expected[index].caprice) : null),
+    )
+  );
+}
 
 const settle = (page) =>
   page.evaluate(
@@ -247,7 +223,16 @@ const voyageState = (page) =>
         (node) => node.dataset.bonus,
       ),
       places: panel.querySelectorAll('.voyage-bag > .bag-card, .voyage-bag > .bag-empty').length,
-      code: words('#voyage-code .departure-value'),
+      // What « La Grande Expédition » took away: « Autre voyage », the code, their windows.
+      gone: [
+        '#voyage-other-open',
+        '#voyage-code',
+        '#voyage-gift',
+        '#voyage-other',
+        '#voyage-code-input',
+        '#voyage-code-form',
+        '#voyage-replace',
+      ].filter((selector) => document.querySelector(selector)),
       best: words('.voyage-best'),
       fallen: words('.voyage-fallen'),
       actions: [...panel.querySelectorAll('.voyage-actions button')].map((b) => b.innerText.trim()),
@@ -393,10 +378,12 @@ const markState = (page) =>
   });
 
 /**
- * « Le voyage » in the real game and, for the ends of stage a real game takes too long to
- * reach, on a controlled page: the door of the home, the map, a stage played and won, the
- * bonus, the bag, a reload, a stage left, the fallen camp, the end and the record, the code
- * given and received, a second player; in French and in English, on the screens of the grid.
+ * « Le voyage » begun before « La Grande Expédition » took its place (decision of the parent,
+ * 21 November 2026), in the real game and, for the ends of stage a real game takes too long
+ * to reach, on a controlled page: the door of the home, the map, a stage played and won, the
+ * bonus, the bag, a reload, a stage left, the fallen camp, the end and the record, the one
+ * way on to the expedition, a second player; in French and in English, on the screens of
+ * the grid. A voyage with nothing left to finish leads to the expedition.
  */
 export async function checkVoyage({ browser, url, check, capture }) {
   const errors = [];
@@ -406,7 +393,6 @@ export async function checkVoyage({ browser, url, check, capture }) {
       viewport: { width: w, height: h },
       locale: 'fr-CH',
       hasTouch: true,
-      permissions: ['clipboard-read', 'clipboard-write'],
     });
     const page = await context.newPage();
     page.on('pageerror', (error) => errors.push(error.message));
@@ -434,13 +420,19 @@ export async function checkVoyage({ browser, url, check, capture }) {
     await page.waitForLoadState('networkidle');
     await settle(page);
   }
-  /** Types a code in « Un autre voyage », opened from the map. */
-  async function typeCode(page, code) {
-    if (!(await page.locator('#voyage-other').evaluate((dialog) => dialog.open)))
-      await page.locator('#voyage-other-open, #voyage-have-code').first().click();
-    await page.locator('#voyage-code-input').fill(code);
-    await page.locator('#voyage-code-form button[type="submit"]').click();
+  /** The page of « La Grande Expédition » is the one shown, and the voyage's is not. */
+  async function expeditionShown(page) {
+    await page.locator('#home-screen[data-page="expedition"]').waitFor();
+    await page.locator('.expedition-page .voyage-title').waitFor({ state: 'visible' });
     await settle(page);
+    return page.evaluate(() => {
+      const shown = (node) => !!node && node.getClientRects().length > 0;
+      return (
+        document.querySelector('#home-screen').dataset.page === 'expedition' &&
+        shown(document.querySelector('.expedition-page .voyage-panel')) &&
+        !shown(document.querySelector('.voyage-page:not(.expedition-page) .voyage-panel'))
+      );
+    });
   }
   const status = (page) => page.locator('#app').getAttribute('data-status');
   /** Plays the stage on the board to its end without placing anyone, on the real clock. */
@@ -544,7 +536,8 @@ export async function checkVoyage({ browser, url, check, capture }) {
       await back.close();
     }
 
-  // 2. The map, the choice of a bonus, the end and the fallen camp on every screen.
+  // 2. The map and the choice of a bonus of a voyage begun, on every screen; a voyage with
+  // nothing left to finish leads to « La Grande Expédition ».
   const stops = expectedStops(MAP_SEED);
   const mapPlan = planVoyage(MAP_SEED);
   for (const language of ['fr', 'en'])
@@ -569,10 +562,8 @@ export async function checkVoyage({ browser, url, check, capture }) {
       );
       check(state.step === t.step(3), `map says « ${t.step(3)} », ${report}`);
       check(
-        // The door of « La Grande Expédition » holds the record's place in the top row: the
-        // record shows once the voyage is over.
-        state.record === null && state.note === t.note,
-        `map shows what is kept, the record waits for the end, ${report}`,
+        state.record === (w > 700 ? t.record(3) : null) && state.note === t.note,
+        `map shows the record and what is kept, ${report}`,
       );
       check(state.strangers.length === 0, `map hides the stars and the brand, ${report}`);
       check(
@@ -618,7 +609,10 @@ export async function checkVoyage({ browser, url, check, capture }) {
               .join(),
         `the bag shows its two cards and two free places, ${report}`,
       );
-      check(state.code === encodeVoyage(MAP_SEED), `the code of the voyage is shown, ${report}`);
+      check(
+        state.gone.length === 0 && !state.actions.length,
+        `no other voyage and no code under the map, ${report}`,
+      );
       check(fits(state), `map fits with 48 px targets, ${report}`);
       check(
         state.purse === null,
@@ -658,16 +652,6 @@ export async function checkVoyage({ browser, url, check, capture }) {
         `caprice window ${where} is whole: ${JSON.stringify(bubbleWindow)}`,
       );
       await page.locator('#voyage-caprice > button').click();
-      // The code of the voyage and « Autre voyage », opened from the map.
-      for (const [opener, selector] of [
-        ['#voyage-code', '#voyage-gift'],
-        ['#voyage-other-open', '#voyage-other'],
-      ]) {
-        await page.locator(opener).click();
-        const shown = await windowState(page, selector);
-        check(windowWhole(shown), `${selector} ${where} is whole: ${JSON.stringify(shown)}`);
-        await page.locator(`${selector} > button:last-child`).click();
-      }
       await page.close();
 
       // The last stage to play: the king and the sticker stay inside the largest stop.
@@ -724,56 +708,37 @@ export async function checkVoyage({ browser, url, check, capture }) {
       await capture(page, `voyage-bonus-${w}x${h}-${language}`);
       await page.close();
 
-      // The voyage finished, then the fallen camp.
-      for (const [name, raw, expected] of [
-        [
-          'arrived',
-          logOf(MAP_SEED, 5, { cards: 4, status: 'arrived' }),
-          { title: t.arrived, states: 'done,done,done,done,done', best: t.record(5), cards: 4 },
-        ],
-        [
-          'fallen',
-          logOf(MAP_SEED, 2, { status: 'fallen', best: 3 }),
-          {
-            title: t.fallen(3),
-            states: 'done,done,fallen,ahead,ahead',
-            best: t.record(3),
-            cards: 2,
-            sentence: t.fallenNote(2),
-          },
-        ],
+      // Nothing left to finish (a voyage finished, a fallen camp, a voyage drawn but never
+      // played): the door is « La Grande Expédition » and leads there, the voyage untouched.
+      for (const [name, raw] of [
+        ['arrived', logOf(MAP_SEED, 5, { cards: 4, status: 'arrived' })],
+        ['fallen', logOf(MAP_SEED, 2, { status: 'fallen', best: 3 })],
+        ['drawn', logOf(MAP_SEED, 0)],
       ]) {
         page = await open(w, h, { language, seed: { [VOYAGE_STORAGE_KEY]: raw } });
-        await enter(page);
-        state = await voyageState(page);
-        report = `${where}: ${JSON.stringify(state)}`;
+        const door = await page.evaluate(() => {
+          const tag = document.querySelector('#home-voyage .voyage-new');
+          return {
+            label: document.querySelector('#home-voyage span').innerText.trim(),
+            tag: tag.getClientRects().length ? tag.innerText.trim() : null,
+          };
+        });
         check(
-          state.view === name && state.title === expected.title && state.step === null,
-          `${name} says « ${expected.title} », ${report}`,
+          door.label === t.door && door.tag === t.fresh,
+          `${name} ${where}: the door says « ${t.door} » and « ${t.fresh} »: ${JSON.stringify(door)}`,
         );
+        await page.locator('#home-voyage').click();
+        check(await expeditionShown(page), `${name} ${where}: the door opens « ${t.door} »`);
         check(
-          state.stops.map((stop) => stop.state).join() === expected.states && !state.go,
-          `${name} shows the path travelled and no stage to start, ${report}`,
+          (await page.evaluate((key) => localStorage.getItem(key), VOYAGE_STORAGE_KEY)) === raw,
+          `${name} ${where}: the voyage is kept as it was`,
         );
-        check(
-          state.best === expected.best &&
-            state.record === null &&
-            state.cards.length === expected.cards,
-          `${name} shows the record and the bag, ${report}`,
-        );
-        check(state.fallen === (expected.sentence ?? null), `${name} says how far, ${report}`);
-        check(
-          state.actions.join('|') === t.actions[name].join('|'),
-          `${name} offers its three ways on, ${report}`,
-        );
-        check(fits(state), `${name} fits with 48 px targets, ${report}`);
-        await capture(page, `voyage-${name}-${w}x${h}-${language}`);
         await page.close();
       }
     }
 
-  // 3. A whole stretch of voyage in the real game: a code received, a stage played and won,
-  // the bonus, the bag, a reload, a stage left and started again. Nothing else is written.
+  // 3. A whole stretch of a voyage begun, in the real game: a stage played and won, the
+  // bonus, the bag, a reload, a stage left and started again. Nothing else is written.
   for (const [w, h, language] of [
     [812, 375, 'fr'],
     [1280, 800, 'en'],
@@ -781,91 +746,42 @@ export async function checkVoyage({ browser, url, check, capture }) {
     const t = TEXT[language];
     const where = `${w}×${h} ${language}`;
     const plan = planVoyage(SEED);
-    const page = await open(w, h, { language });
+    // The first stage won, its first card in the bag: the second stage to play.
+    const first = plan.stages[0].offer[0];
+    const page = await open(w, h, { language, seed: { [VOYAGE_STORAGE_KEY]: logOf(SEED, 1) } });
     // A first reload lets the game rewrite its own saves in their settled order: from there
     // on, nothing but the voyage may change.
     await page.reload();
     await page.locator('#home-voyage').waitFor({ state: 'visible' });
     const before = await otherSaves(page);
+    check(
+      (await text(page, '#home-voyage span')) === t.resume &&
+        !(await page.locator('#home-voyage .voyage-new').isVisible()),
+      `voyage ${where}: a voyage begun reads « ${t.resume} »`,
+    );
     await enter(page);
     let state = await voyageState(page);
-    const drawn = (await log(page)).current;
     check(
-      state.view === 'map' && state.step === t.step(1) && state.code === encodeVoyage(drawn.seed),
-      `voyage ${where}: a first visit draws a voyage and saves it: ${JSON.stringify(state)}`,
-    );
-    check(state.record === null, `voyage ${where}: no record before a stage is won`);
-
-    // Wrong codes are refused in words; the voyage does not change.
-    for (const [reason, typed] of [
-      ['format', 'bonjour'],
-      ['format', 'PONTS-1-0000-7X8R-A1'],
-      [
-        'checksum',
-        `${encodeVoyage(SEED).slice(0, -1)}${encodeVoyage(SEED).endsWith('A') ? 'B' : 'A'}`,
-      ],
-      ['version', encodeVoyage(SEED).replace(/^VOYAGE-\d/, 'VOYAGE-9')],
-    ]) {
-      await typeCode(page, typed);
-      const refusal = await page.evaluate(() => ({
-        open: document.querySelector('#voyage-other').open,
-        heading: document.querySelector('#voyage-other-title').innerText.trim(),
-        message: document.querySelector('#voyage-code-message').innerText.trim(),
-        invalid: document.querySelector('#voyage-code-input').getAttribute('aria-invalid'),
-        fits:
-          document.querySelector('#voyage-other').scrollHeight <=
-          document.querySelector('#voyage-other').clientHeight + 1,
-      }));
-      check(
-        refusal.open &&
-          refusal.heading === t.other &&
-          refusal.message === t.refused[reason] &&
-          refusal.invalid === 'true' &&
-          refusal.fits,
-        `voyage ${where}: « ${typed} » is refused in words: ${JSON.stringify(refusal)}`,
-      );
-      check(
-        (await log(page)).current.seed === drawn.seed,
-        `voyage ${where}: a refused code leaves the voyage as it was`,
-      );
-    }
-    await capture(page, `voyage-code-refused-${w}x${h}-${language}`);
-    // The code of a brother or a sister, typed as a child types, in small letters and
-    // without its dashes: the same voyage, at once.
-    await typeCode(page, ` ${encodeVoyage(SEED).toLowerCase().replace(/-/g, ' ')} `);
-    state = await voyageState(page);
-    check(
-      state.code === encodeVoyage(SEED) &&
-        state.stops.every(
-          (stop, index) =>
-            stop.spoken[0] === copyName(t, index, expectedStops(SEED), language) &&
-            stop.caprice ===
-              (expectedStops(SEED)[index].caprice
-                ? t.surprise(expectedStops(SEED)[index].caprice)
-                : null),
-        ),
-      `voyage ${where}: a code received gives the very same voyage: ${JSON.stringify(state)}`,
+      state.view === 'map' &&
+        state.step === t.step(2) &&
+        sameVoyage(state, SEED, t, language) &&
+        state.cards.join() === first &&
+        state.go === t.go,
+      `voyage ${where}: the voyage begun waits at its second stage: ${JSON.stringify(state)}`,
     );
     check(
-      JSON.stringify((await log(page)).current) ===
-        JSON.stringify({
-          version: CURRENT_VOYAGE_VERSION,
-          seed: SEED,
-          won: 0,
-          bag: [],
-          status: 'travelling',
-        }),
-      `voyage ${where}: the voyage received is saved`,
+      state.record === (w > 700 ? t.record(1) : null),
+      `voyage ${where}: the record of one stage: ${JSON.stringify(state)}`,
     );
 
-    // The first stage, on the board.
+    // The second stage, on the board.
     await page.locator('#voyage-go').click();
     await page.locator('#start').waitFor({ state: 'visible' });
     await settle(page);
     let mark = await markState(page);
     check(
-      mark?.text === t.mark(1) && mark.inside && mark.fontSize >= 12 && mark.passive,
-      `stage ${where}: the mark says « ${t.mark(1)} » on the board: ${JSON.stringify(mark)}`,
+      mark?.text === t.mark(2) && mark.inside && mark.fontSize >= 12 && mark.passive,
+      `stage ${where}: the mark says « ${t.mark(2)} » on the board: ${JSON.stringify(mark)}`,
     );
     check(
       await page.evaluate(
@@ -877,11 +793,11 @@ export async function checkVoyage({ browser, url, check, capture }) {
       `stage ${where}: no mission panel and no departure code during a stage`,
     );
     await capture(page, `voyage-stage-${w}x${h}-${language}`);
-    check((await playOut(page)) === 'won', `stage ${where}: the first stage is really won`);
+    check((await playOut(page)) === 'won', `stage ${where}: the second stage is really won`);
     let result = await resultState(page);
     let report = `${where}: ${JSON.stringify(result)}`;
     check(
-      result.title === t.stageWon && result.note === t.wonNote(1) && result.onward === t.onward,
+      result.title === t.stageWon && result.note === t.wonNote(2) && result.onward === t.onward,
       `stage won says what comes next, ${report}`,
     );
     check(
@@ -893,17 +809,17 @@ export async function checkVoyage({ browser, url, check, capture }) {
       `stage won fits with a 48 px target, ${report}`,
     );
     check(result.focus === 'voyage-continue', `stage won gives the focus to its way on, ${report}`);
-    check((await markState(page))?.text === t.mark(1), `stage ${where}: the mark stays at the end`);
+    check((await markState(page))?.text === t.mark(2), `stage ${where}: the mark stays at the end`);
     check(
       JSON.stringify(await log(page)) ===
         JSON.stringify({
           version: 1,
-          best: 1,
+          best: 2,
           current: {
             version: CURRENT_VOYAGE_VERSION,
             seed: SEED,
-            won: 1,
-            bag: [],
+            won: 2,
+            bag: [first],
             status: 'travelling',
           },
         }),
@@ -917,29 +833,29 @@ export async function checkVoyage({ browser, url, check, capture }) {
     state = await voyageState(page);
     check(
       state.view === 'bonus' &&
-        state.title === t.won(1) &&
-        state.bonuses.map((card) => card.id).join() === plan.stages[0].offer.join(),
+        state.title === t.won(2) &&
+        state.bonuses.map((card) => card.id).join() === plan.stages[1].offer.join(),
       `voyage ${where}: the way on leads to the three cards of the stage: ${JSON.stringify(state)}`,
     );
     check(
       (await page.evaluate(() => document.activeElement?.className)) === 'voyage-title',
       `voyage ${where}: the choice of a bonus announces itself`,
     );
-    const kept = plan.stages[0].offer[0];
+    const kept = plan.stages[1].offer[0];
+    const bag = [first, kept];
     await page.locator(`.bonus-card[data-bonus="${kept}"]`).click();
     await page.clock.runFor(300);
     state = await voyageState(page);
     check(
       state.view === 'map' &&
-        state.step === t.step(2) &&
-        state.bag === t.bag(1) &&
-        state.cards.join() === kept &&
-        // The top row holds the door of « La Grande Expédition », not the record.
-        state.record === null,
-      `voyage ${where}: the card kept is in the bag, the second stage waits: ${JSON.stringify(state)}`,
+        state.step === t.step(3) &&
+        state.bag === t.bag(2) &&
+        state.cards.join() === bag.join() &&
+        state.record === (w > 700 ? t.record(2) : null),
+      `voyage ${where}: the card kept is in the bag, the third stage waits: ${JSON.stringify(state)}`,
     );
     check(
-      JSON.stringify((await log(page)).current.bag) === JSON.stringify([kept]),
+      JSON.stringify((await log(page)).current.bag) === JSON.stringify(bag),
       `voyage ${where}: the bag is saved`,
     );
 
@@ -954,24 +870,24 @@ export async function checkVoyage({ browser, url, check, capture }) {
     await enter(page);
     state = await voyageState(page);
     check(
-      state.step === t.step(2) &&
-        state.code === encodeVoyage(SEED) &&
-        state.cards.join() === kept &&
+      state.step === t.step(3) &&
+        sameVoyage(state, SEED, t, language) &&
+        state.cards.join() === bag.join() &&
         state.go === t.go,
-      `voyage ${where}: resumed at the second stage with its bag: ${JSON.stringify(state)}`,
+      `voyage ${where}: resumed at the third stage with its bag: ${JSON.stringify(state)}`,
     );
     await capture(page, `voyage-resumed-${w}x${h}-${language}`);
 
     // A stage left halfway starts again from its beginning, and the map says so.
     const purse = String(
-      missionById(plan.stages[1].run.missionId).budget +
-        (kept === 'pieces' ? plan.tuning.bonusCoins : 0),
+      missionById(plan.stages[2].run.missionId).budget +
+        bag.filter((card) => card === 'pieces').length * plan.tuning.bonusCoins,
     );
     await page.locator('#voyage-go').click();
     await page.locator('#start').waitFor({ state: 'visible' });
     check(
-      (await text(page, '#gold')) === purse && (await markState(page))?.text === t.mark(2),
-      `stage ${where}: the second stage opens with the bag unpacked (${purse} coins)`,
+      (await text(page, '#gold')) === purse && (await markState(page))?.text === t.mark(3),
+      `stage ${where}: the third stage opens with the bag unpacked (${purse} coins)`,
     );
     await page.clock.install();
     await page.locator('#start').click();
@@ -987,7 +903,7 @@ export async function checkVoyage({ browser, url, check, capture }) {
     await page.clock.runFor(300);
     state = await voyageState(page);
     check(
-      state.go === t.again && state.step === t.step(2) && state.note === t.note && fits(state),
+      state.go === t.again && state.step === t.step(3) && state.note === t.note && fits(state),
       `voyage ${where}: the stage left says « ${t.again} » where the child comes back: ${JSON.stringify(state)}`,
     );
     await capture(page, `voyage-stage-left-${w}x${h}-${language}`);
@@ -1015,8 +931,8 @@ export async function checkVoyage({ browser, url, check, capture }) {
     if (await page.locator('#reinforcements[open]').count())
       await page.locator('#reinforcements-close').click();
     check(
-      (await markState(page))?.text === t.mark(2),
-      `stage ${where}: the stage started again is still the second of the voyage`,
+      (await markState(page))?.text === t.mark(3),
+      `stage ${where}: the stage started again is still the third of the voyage`,
     );
 
     // Back home: no star, no sticker, and not a byte of the other saves has changed.
@@ -1041,12 +957,12 @@ export async function checkVoyage({ browser, url, check, capture }) {
       JSON.stringify(await log(page)) ===
         JSON.stringify({
           version: 1,
-          best: 1,
+          best: 2,
           current: {
             version: CURRENT_VOYAGE_VERSION,
             seed: SEED,
-            won: 1,
-            bag: [kept],
+            won: 2,
+            bag,
             status: 'travelling',
           },
         }),
@@ -1055,7 +971,8 @@ export async function checkVoyage({ browser, url, check, capture }) {
     await page.close();
   }
 
-  // 4. The camp falls in the real game: the voyage stops there, kindly, and can be done again.
+  // 4. The camp falls in the real game: the voyage stops there, kindly, and its one way on is
+  // « La Grande Expédition ».
   {
     const t = TEXT.fr;
     const page = await open(780, 360, { seed: { [VOYAGE_STORAGE_KEY]: logOf(SEED, 3) } });
@@ -1071,7 +988,7 @@ export async function checkVoyage({ browser, url, check, capture }) {
     const report = JSON.stringify(result);
     check(
       result.title === t.lostTitle && result.note === t.lostNote(4) && result.onward === t.see,
-      `fallen: the board says where the voyage stops, ${report}`,
+      `fallen: the board says where the voyage stops and what waits, ${report}`,
     );
     check(
       result.buttons.join() === 'voyage-continue' && !result.mission.length && !result.stars,
@@ -1081,281 +998,195 @@ export async function checkVoyage({ browser, url, check, capture }) {
       result.overflow <= 1 && result.onScreen && !result.small.length,
       `fallen fits, ${report}`,
     );
+    const fallenLog = await log(page);
     check(
-      (await log(page)).current.status === 'fallen' && (await log(page)).best === 3,
+      fallenLog.current.status === 'fallen' && fallenLog.best === 3,
       'fallen: the end of the voyage is saved at once',
     );
     await capture(page, 'voyage-stage-lost-780x360-fr');
     await page.locator('#voyage-continue').click();
     await page.clock.runFor(300);
-    let state = await voyageState(page);
+    const state = await voyageState(page);
     check(
       state.view === 'fallen' &&
         state.title === t.fallen(4) &&
-        state.fallen === 'Tu as réussi 3 étapes sur 5. Tu peux repartir !' &&
+        state.fallen === t.fallenNote(3) &&
         state.stops.map((stop) => stop.state).join() === 'done,done,done,fallen,ahead' &&
         state.best === t.record(3) &&
+        state.record === null &&
         fits(state),
       `fallen: the screen says how far the voyage went: ${JSON.stringify(state)}`,
+    );
+    check(
+      state.actions.join('|') === t.expedition &&
+        (await page.locator('#voyage-expedition').count()) === 1 &&
+        state.gone.length === 0,
+      `fallen: one way on, « ${t.expedition} »: ${JSON.stringify(state)}`,
     );
     check(
       (await text(page, '#home-back')).length > 0 &&
         (await page.locator('#home-voyage').count()) === 1,
       'fallen: the way home stays',
     );
-    // « Refaire ce voyage » : the same voyage from its first stage; the record stays.
-    await page.locator('#voyage-again').click();
-    await page.clock.runFor(300);
-    state = await voyageState(page);
-    check(
-      state.view === 'map' &&
-        state.step === t.step(1) &&
-        state.code === encodeVoyage(SEED) &&
-        state.cards.length === 0 &&
-        state.record === null,
-      `fallen: the same voyage starts again, the record stays: ${JSON.stringify(state)}`,
-    );
-    check(
-      JSON.stringify(await log(page)) ===
-        JSON.stringify({
-          version: 1,
-          best: 3,
-          current: {
-            version: CURRENT_VOYAGE_VERSION,
-            seed: SEED,
-            won: 0,
-            bag: [],
-            status: 'travelling',
-          },
-        }),
-      'fallen: the voyage done again is saved',
-    );
     check((await otherSaves(page)) === before, 'fallen: the other saves are the same to the byte');
+    await capture(page, 'voyage-fallen-real-780x360-fr');
+    await page.locator('#voyage-expedition').click();
+    check(await expeditionShown(page), `fallen: « ${t.expedition} » opens its page`);
+    check(
+      JSON.stringify(await log(page)) === JSON.stringify(fallenLog),
+      'fallen: the voyage that fell stays as it ended',
+    );
+    // Back home, the door leads to the expedition, now opened once.
+    await page.locator('#home-back').click();
+    await page.locator('#home-screen[data-page="home"]').waitFor();
+    check(
+      (await text(page, '#home-voyage span')) === t.door &&
+        !(await page.locator('#home-voyage .voyage-new').isVisible()),
+      `fallen: back home, the door says « ${t.door} », no longer « ${t.fresh} »`,
+    );
     await page.close();
   }
 
-  // 5. The end of the voyage on the controlled page: the fifth stage won, the record, the
-  // code given; then a stage lost at once, and a voyage replaced only after a question.
+  // 5. The ends of a voyage on the controlled page, on every screen: the fifth stage won, the
+  // end and the record; a later stage lost and the fallen camp; each time one way on, to
+  // « La Grande Expédition ».
   await writeFile(
     FIXTURE,
     (await readFile('index.html', 'utf8')).replace('/src/main.ts', '/tests/voyage-038-harness.ts'),
   );
   try {
-    for (const [w, h, language] of [
-      [812, 375, 'fr'],
-      [568, 320, 'fr'],
-      [780, 360, 'en'],
-      [1280, 800, 'en'],
-    ]) {
-      const t = TEXT[language];
-      const where = `${w}×${h} ${language}`;
-      const page = await open(w, h, {
-        language,
-        target: `${url}/${FIXTURE}`,
-        seed: { [VOYAGE_STORAGE_KEY]: logOf(SEED, 4) },
-      });
-      await page.waitForFunction(() => !!window.voyageFixture);
-      await enter(page);
-      await page.locator('#voyage-go').click();
-      await settle(page);
-      check((await markState(page))?.text === t.mark(5), `end ${where}: the fifth stage is played`);
-      await page.evaluate(() => window.voyageFixture.end('won'));
-      await settle(page);
-      const result = await resultState(page);
-      check(
-        result.title === t.stageWon &&
-          result.note === t.kingNote &&
-          result.onward === t.onward &&
-          result.buttons.join() === 'voyage-continue' &&
-          !result.mission.length &&
-          !result.stars &&
-          result.overflow <= 1 &&
-          !result.small.length,
-        `end ${where}: the last stage won leads on, one way: ${JSON.stringify(result)}`,
-      );
-      check(
-        JSON.stringify(await log(page)) ===
-          JSON.stringify(JSON.parse(logOf(SEED, 5, { cards: 4, status: 'arrived' }))),
-        `end ${where}: the voyage finished is saved with its record of five stages`,
-      );
-      await capture(page, `voyage-last-won-${w}x${h}-${language}`);
-      await page.locator('#voyage-continue').click();
-      await settle(page);
-      let state = await voyageState(page);
-      check(
-        state.view === 'arrived' &&
-          state.title === t.arrived &&
-          state.best === t.record(5) &&
-          fits(state),
-        `end ${where}: « ${t.arrived} » and the record: ${JSON.stringify(state)}`,
-      );
-      // « Donner mon voyage » : the code, « Copier », « Fermer ».
-      await page.locator('#voyage-give').click();
-      await page.locator('#voyage-gift-copy').click();
-      await settle(page);
-      const gift = await page.evaluate(async () => {
-        const dialog = document.querySelector('#voyage-gift');
-        return {
-          open: dialog.open,
-          heading: dialog.querySelector('h2').innerText.trim(),
-          text: dialog.querySelector('p').innerText.trim(),
-          code: dialog.querySelector('#voyage-gift-code').value,
-          message: dialog.querySelector('#voyage-gift-message').innerText.trim(),
-          clipboard: await navigator.clipboard.readText().catch(() => null),
-          fits: dialog.scrollHeight <= dialog.clientHeight + 1,
-          small: [...dialog.querySelectorAll('button, input')].filter(
-            (node) => node.getBoundingClientRect().height < 47.5,
-          ).length,
-        };
-      });
-      check(
-        gift.open &&
-          gift.heading === t.gift &&
-          gift.text === t.giftText &&
-          gift.code === encodeVoyage(SEED) &&
-          gift.fits &&
-          !gift.small,
-        `end ${where}: the window gives the code of the voyage: ${JSON.stringify(gift)}`,
-      );
-      check(
-        gift.message === t.copied[0]
-          ? gift.clipboard === encodeVoyage(SEED)
-          : gift.message === t.copied[1],
-        `end ${where}: « Copier » copies the code, or selects it: ${JSON.stringify(gift)}`,
-      );
-      await capture(page, `voyage-gift-${w}x${h}-${language}`);
-      await page.locator('#voyage-gift > button').click();
-      // « J’ai un code » keeps only the field; the code just given leads back to this voyage.
-      await page.locator('#voyage-have-code').click();
-      const have = await page.evaluate(() => ({
-        heading: document.querySelector('#voyage-other-title').innerText.trim(),
-        fresh: document.querySelector('#voyage-other-new').getClientRects().length,
-        fits:
-          document.querySelector('#voyage-other').scrollHeight <=
-          document.querySelector('#voyage-other').clientHeight + 1,
-        small: [...document.querySelectorAll('#voyage-other button, #voyage-other input')].filter(
-          (node) => node.getClientRects().length && node.getBoundingClientRect().height < 47.5,
-        ).length,
-      }));
-      check(
-        have.heading === t.haveCode && have.fresh === 0 && have.fits && !have.small,
-        `end ${where}: « J’ai un code » asks for the code only: ${JSON.stringify(have)}`,
-      );
-      const receive = await windowState(page, '#voyage-other');
-      check(
-        windowWhole(receive),
-        `end ${where}: the window of a code received is whole: ${JSON.stringify(receive)}`,
-      );
-      await capture(page, `voyage-receive-${w}x${h}-${language}`);
-      await typeCode(page, gift.code);
-      state = await voyageState(page);
-      check(
-        state.view === 'map' &&
-          state.step === t.step(1) &&
-          state.code === encodeVoyage(SEED) &&
-          state.record === null,
-        `end ${where}: the code given then received starts the same voyage, the record stays: ${JSON.stringify(state)}`,
-      );
-      // Lost at the very first stage: the screen stays kind, and nothing is counted.
-      await page.locator('#voyage-go').click();
-      await settle(page);
-      await page.evaluate(() => window.voyageFixture.end('lost'));
-      await settle(page);
-      const lost = await resultState(page);
-      check(
-        lost.title === t.lostTitle &&
-          lost.note === t.lostNote(1) &&
-          lost.onward === t.see &&
-          lost.buttons.join() === 'voyage-continue' &&
-          !lost.mission.length,
-        `end ${where}: a stage lost at once says so and leads on: ${JSON.stringify(lost)}`,
-      );
-      await page.locator('#voyage-continue').click();
-      await settle(page);
-      state = await voyageState(page);
-      check(
-        state.view === 'fallen' &&
-          state.title === t.fallen(1) &&
-          state.fallen === t.fallenFirst &&
-          state.best === t.record(5) &&
-          fits(state),
-        `end ${where}: fallen at the first stage, the record of five stays: ${JSON.stringify(state)}`,
-      );
-      await capture(page, `voyage-fallen-first-${w}x${h}-${language}`);
-      // « Un nouveau voyage » after an end asks nothing: there is nothing to lose.
-      await page.locator('#voyage-new').click();
-      await settle(page);
-      state = await voyageState(page);
-      check(
-        state.view === 'map' &&
-          state.step === t.step(1) &&
-          !(await page.locator('#voyage-replace').evaluate((dialog) => dialog.open)),
-        `end ${where}: a new voyage starts at once after an end: ${JSON.stringify(state)}`,
-      );
-      await page.close();
+    for (const language of ['fr', 'en'])
+      for (const [w, h] of grid) {
+        const t = TEXT[language];
+        const where = `${w}×${h} ${language}`;
+        let page = await open(w, h, {
+          language,
+          target: `${url}/${FIXTURE}`,
+          seed: { [VOYAGE_STORAGE_KEY]: logOf(SEED, 4) },
+        });
+        await page.waitForFunction(() => !!window.voyageFixture);
+        await enter(page);
+        await page.locator('#voyage-go').click();
+        await settle(page);
+        check(
+          (await markState(page))?.text === t.mark(5),
+          `end ${where}: the fifth stage is played`,
+        );
+        await page.evaluate(() => window.voyageFixture.end('won'));
+        await settle(page);
+        const result = await resultState(page);
+        check(
+          result.title === t.stageWon &&
+            result.note === t.kingNote &&
+            result.onward === t.onward &&
+            result.buttons.join() === 'voyage-continue' &&
+            !result.mission.length &&
+            !result.stars &&
+            result.overflow <= 1 &&
+            !result.small.length,
+          `end ${where}: the last stage won leads on, one way: ${JSON.stringify(result)}`,
+        );
+        const arrivedLog = logOf(SEED, 5, { cards: 4, status: 'arrived' });
+        check(
+          JSON.stringify(await log(page)) === JSON.stringify(JSON.parse(arrivedLog)),
+          `end ${where}: the voyage finished is saved with its record of five stages`,
+        );
+        await capture(page, `voyage-last-won-${w}x${h}-${language}`);
+        await page.locator('#voyage-continue').click();
+        await settle(page);
+        let state = await voyageState(page);
+        let report = `${where}: ${JSON.stringify(state)}`;
+        check(
+          state.view === 'arrived' && state.title === t.arrived && state.step === null,
+          `end says « ${t.arrived} », ${report}`,
+        );
+        check(
+          state.stops.map((stop) => stop.state).join() === 'done,done,done,done,done' &&
+            !state.go &&
+            state.fallen === null,
+          `end shows the path travelled and no stage to start, ${report}`,
+        );
+        check(
+          state.best === t.record(5) && state.record === null && state.cards.length === 4,
+          `end shows the record and the bag, ${report}`,
+        );
+        check(
+          state.actions.join('|') === t.expedition && state.gone.length === 0,
+          `end offers one way on, « ${t.expedition} », ${report}`,
+        );
+        check(fits(state), `end fits with 48 px targets, ${report}`);
+        await capture(page, `voyage-arrived-${w}x${h}-${language}`);
+        await page.locator('#voyage-expedition').click();
+        check(await expeditionShown(page), `end ${where}: « ${t.expedition} » opens its page`);
+        check(
+          (await page.evaluate((key) => localStorage.getItem(key), VOYAGE_STORAGE_KEY)) ===
+            arrivedLog,
+          `end ${where}: the voyage finished stays as it ended`,
+        );
+        await page.close();
 
-      // A voyage under way is replaced only after a question, and « Garder » keeps it.
-      const under = await open(w, h, {
-        language,
-        target: `${url}/${FIXTURE}`,
-        seed: { [VOYAGE_STORAGE_KEY]: logOf(SEED, 2) },
-      });
-      await enter(under);
-      const kept = JSON.stringify(await log(under));
-      await under.locator('#voyage-other-open').click();
-      check(
-        (await text(under, '#voyage-other-title')) === t.other &&
-          (await under.locator('#voyage-other-new').isVisible()),
-        `replace ${where}: « ${t.other} » offers a new voyage and a code`,
-      );
-      await under.locator('#voyage-other-new').click();
-      await settle(under);
-      const question = await under.evaluate(() => {
-        const dialog = document.querySelector('#voyage-replace');
-        return {
-          open: dialog.open,
-          heading: dialog.querySelector('h2').innerText.trim(),
-          text: dialog.querySelector('#voyage-replace-text').innerText.trim(),
-          fits: dialog.scrollHeight <= dialog.clientHeight + 1,
-          small: [...dialog.querySelectorAll('button')].filter(
-            (b) => b.getBoundingClientRect().height < 47.5,
-          ).length,
-        };
-      });
-      check(
-        question.open &&
-          question.heading === t.replace &&
-          question.text === t.replaceText(2) &&
-          question.fits &&
-          !question.small,
-        `replace ${where}: the question says what would stop: ${JSON.stringify(question)}`,
-      );
-      const asked = await windowState(under, '#voyage-replace');
-      check(
-        windowWhole(asked),
-        `replace ${where}: the question is whole: ${JSON.stringify(asked)}`,
-      );
-      await capture(under, `voyage-replace-${w}x${h}-${language}`);
-      await under.locator('#voyage-keep').click();
-      check(
-        JSON.stringify(await log(under)) === kept,
-        `replace ${where}: « Garder mon voyage » changes nothing`,
-      );
-      await typeCode(under, encodeVoyage(MAP_SEED));
-      check(
-        (await under.locator('#voyage-replace').evaluate((dialog) => dialog.open)) &&
-          JSON.stringify(await log(under)) === kept,
-        `replace ${where}: a code received asks the same question first`,
-      );
-      await under.locator('#voyage-change').click();
-      await settle(under);
-      const next = await log(under);
-      check(
-        next.current.seed === MAP_SEED && next.current.won === 0 && next.best === 2,
-        `replace ${where}: the answer « Changer » starts the other voyage, the record stays: ${JSON.stringify(next)}`,
-      );
-      await under.close();
-    }
+        // A later stage lost: the screen stays kind, and the record of three stays.
+        page = await open(w, h, {
+          language,
+          target: `${url}/${FIXTURE}`,
+          seed: { [VOYAGE_STORAGE_KEY]: logOf(SEED, 2, { best: 3 }) },
+        });
+        await page.waitForFunction(() => !!window.voyageFixture);
+        await enter(page);
+        await page.locator('#voyage-go').click();
+        await settle(page);
+        check(
+          (await markState(page))?.text === t.mark(3),
+          `lost ${where}: the third stage is played`,
+        );
+        await page.evaluate(() => window.voyageFixture.end('lost'));
+        await settle(page);
+        const lost = await resultState(page);
+        check(
+          lost.title === t.lostTitle &&
+            lost.note === t.lostNote(3) &&
+            lost.onward === t.see &&
+            lost.buttons.join() === 'voyage-continue' &&
+            !lost.mission.length &&
+            !lost.stars &&
+            lost.overflow <= 1 &&
+            !lost.small.length,
+          `lost ${where}: a stage lost says so and leads on: ${JSON.stringify(lost)}`,
+        );
+        const fallenLog = logOf(SEED, 2, { status: 'fallen', best: 3 });
+        check(
+          JSON.stringify(await log(page)) === JSON.stringify(JSON.parse(fallenLog)),
+          `lost ${where}: the fallen camp is saved, the record stays`,
+        );
+        await capture(page, `voyage-lost-${w}x${h}-${language}`);
+        await page.locator('#voyage-continue').click();
+        await settle(page);
+        state = await voyageState(page);
+        report = `${where}: ${JSON.stringify(state)}`;
+        check(
+          state.view === 'fallen' && state.title === t.fallen(3) && state.step === null,
+          `fallen says « ${t.fallen(3)} », ${report}`,
+        );
+        check(
+          state.stops.map((stop) => stop.state).join() === 'done,done,fallen,ahead,ahead' &&
+            !state.go,
+          `fallen shows the path travelled and no stage to start, ${report}`,
+        );
+        check(
+          state.best === t.record(3) && state.record === null && state.cards.length === 2,
+          `fallen shows the record and the bag, ${report}`,
+        );
+        check(state.fallen === t.fallenNote(2), `fallen says how far, ${report}`);
+        check(
+          state.actions.join('|') === t.expedition && state.gone.length === 0,
+          `fallen offers one way on, « ${t.expedition} », ${report}`,
+        );
+        check(fits(state), `fallen fits with 48 px targets, ${report}`);
+        await capture(page, `voyage-fallen-${w}x${h}-${language}`);
+        await page.locator('#voyage-expedition').click();
+        check(await expeditionShown(page), `fallen ${where}: « ${t.expedition} » opens its page`);
+        await page.close();
+      }
 
     // Once the voyage has been opened, the result of an ordinary mission stays a mission's:
     // nothing of the voyage in it or in focus, no stray text among its buttons.
@@ -1396,7 +1227,7 @@ export async function checkVoyage({ browser, url, check, capture }) {
     await rm(FIXTURE, { force: true });
   }
 
-  // 6. Two players on one device: each has a voyage of their own.
+  // 6. Two players on one device: each keeps the voyage they began.
   {
     const t = TEXT.fr;
     const second = `${VOYAGE_STORAGE_KEY}:p2`;
@@ -1410,6 +1241,9 @@ export async function checkVoyage({ browser, url, check, capture }) {
         ],
       });
     const firstLog = logOf(MAP_SEED, 2);
+    const secondLog = logOf(SEED, 1);
+    const stored = (page, key) => page.evaluate((k) => localStorage.getItem(k), key);
+    // Without a voyage of their own, the second player does not resume the first one's.
     let page = await open(812, 375, {
       chosen: true,
       seed: { [PLAYERS_KEY]: players('p2'), [VOYAGE_STORAGE_KEY]: firstLog },
@@ -1419,44 +1253,47 @@ export async function checkVoyage({ browser, url, check, capture }) {
         (await page.locator('#home-voyage .voyage-new').isVisible()),
       'players: the second player does not see the voyage of the first',
     );
-    await enter(page);
-    await typeCode(page, encodeVoyage(SEED));
-    const state = await voyageState(page);
+    await page.locator('#home-voyage').click();
     check(
-      state.step === t.step(1) && state.code === encodeVoyage(SEED) && state.record === null,
-      `players: the second player starts a voyage of their own: ${JSON.stringify(state)}`,
+      await expeditionShown(page),
+      'players: without a voyage of their own, the second player opens the expedition',
     );
     check(
-      (await page.evaluate((key) => localStorage.getItem(key), VOYAGE_STORAGE_KEY)) === firstLog &&
-        (await log(page, second)).current.seed === SEED,
+      (await stored(page, VOYAGE_STORAGE_KEY)) === firstLog &&
+        (await stored(page, second)) === null,
       'players: the voyage of the first player is the same to the byte',
     );
-    const secondLog = await page.evaluate((key) => localStorage.getItem(key), second);
     await page.close();
-    // The first player comes back: their voyage, where they left it.
-    page = await open(812, 375, {
-      chosen: true,
-      seed: {
-        [PLAYERS_KEY]: players('p1'),
-        [VOYAGE_STORAGE_KEY]: firstLog,
-        [second]: secondLog,
-      },
-    });
-    check(
-      (await text(page, '#home-voyage span')) === t.resume,
-      'players: the first player finds their voyage under way',
-    );
-    await enter(page);
-    const mine = await voyageState(page);
-    check(
-      mine.step === t.step(3) && mine.code === encodeVoyage(MAP_SEED),
-      `players: the first player resumes their own voyage: ${JSON.stringify(mine)}`,
-    );
-    check(
-      (await page.evaluate((key) => localStorage.getItem(key), second)) === secondLog,
-      'players: the voyage of the second player is the same to the byte',
-    );
-    await page.close();
+    // Each player resumes the voyage they began, and leaves the other's as it was.
+    for (const [active, seed, step] of [
+      ['p2', SEED, 2],
+      ['p1', MAP_SEED, 3],
+    ]) {
+      page = await open(812, 375, {
+        chosen: true,
+        seed: {
+          [PLAYERS_KEY]: players(active),
+          [VOYAGE_STORAGE_KEY]: firstLog,
+          [second]: secondLog,
+        },
+      });
+      check(
+        (await text(page, '#home-voyage span')) === t.resume,
+        `players: ${active} finds their voyage under way`,
+      );
+      await enter(page);
+      const mine = await voyageState(page);
+      check(
+        mine.step === t.step(step) && sameVoyage(mine, seed, t, 'fr'),
+        `players: ${active} resumes their own voyage: ${JSON.stringify(mine)}`,
+      );
+      check(
+        (await stored(page, VOYAGE_STORAGE_KEY)) === firstLog &&
+          (await stored(page, second)) === secondLog,
+        `players: ${active} leaves both voyages the same to the byte`,
+      );
+      await page.close();
+    }
   }
   check(errors.length === 0, JSON.stringify(errors));
 }
