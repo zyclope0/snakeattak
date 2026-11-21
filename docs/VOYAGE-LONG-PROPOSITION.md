@@ -102,11 +102,11 @@ réglé donne ses vagues, sans son nom ; le terrain, l'attaque, les nids et le c
 d'une expédition à l'autre (`EXPEDITION_TUNINGS[2]`, `src/expedition.ts`). Tableau ajusté
 après mesure, accepté par le parent le 21 novembre :
 
-| Tableau                   | Étape 1          | Étape 2 (tranquille / braves)                | Étape 3                             | Étape 4                                   | Gardien                                 |
-| ------------------------- | ---------------- | -------------------------------------------- | ----------------------------------- | ----------------------------------------- | --------------------------------------- |
-| La Vallée des Sifflements | Serpents pressés | La tirelire / Méga serpent                   | Rafales de serpents / Crocs pointus | Pique-nique d'œufs / Les carapaces        | Capitaine Zigzag : Bourse trouée        |
-| Le Marais Glouglou        | La tirelire      | Deux copains seulement / Blindcrocs          | Grosse fringale / La petite tempête | Les carapaces / Serpents costauds         | Madame Gloups : La tirelire             |
-| Les Pics aux Mille Crocs  | La tempête       | Un seul copain / Grandes rafales de serpents | La grande charge / Le roi s'invite  | La tempête / Le roi et sa grande fringale | King Snake et sa garde : Plus de miel ! |
+| Tableau                   | Étape 1          | Étape 2 (tranquille / braves)             | Étape 3                             | Étape 4                                   | Gardien                                 |
+| ------------------------- | ---------------- | ----------------------------------------- | ----------------------------------- | ----------------------------------------- | --------------------------------------- |
+| La Vallée des Sifflements | Serpents pressés | La tirelire / Méga serpent                | Rafales de serpents / Crocs pointus | Pique-nique d'œufs / Les carapaces        | Capitaine Zigzag : Les carapaces        |
+| Le Marais Glouglou        | La tirelire      | Les carapaces / Blindcrocs                | Grosse fringale / La petite tempête | Les carapaces / Serpents costauds         | Madame Gloups : La tirelire             |
+| Les Pics aux Mille Crocs  | La tempête       | La tirelire / Grandes rafales de serpents | La grande charge / Le roi s'invite  | La tempête / Le roi et sa grande fringale | King Snake et sa garde : Plus de miel ! |
 
 Mesure (20 expéditions entières par joueur simulé, chemins alternés) :
 
@@ -130,6 +130,19 @@ peut monter un peu. Force des serpents par étape, avec le tableau ajusté :
 Le joueur simulé abandonne après trois essais de la même étape ; un enfant peut réessayer
 autant qu'il veut. Le plus dur reste le début des Pics (« La tempête ») et, pour l'apprenti,
 l'étape 4 du Marais.
+
+Correction du 21 novembre, après relecture. Trois défis ne jouaient pas là où ils étaient :
+le camp qui suit l'enfant apporte ses pièces (« Bourse trouée », gardien de la Vallée) et
+plusieurs sortes d'alliés (« Deux copains seulement » au Marais, « Un seul copain » aux Pics).
+Le parent a accepté trois défis du créateur à leur place (déjà dans le tableau ci-dessus) :
+« Les carapaces », « Les carapaces » et « La tirelire ». Un test refuse désormais un défi qui
+ne joue pas à sa place (`tests/expedition.test.ts`). Même mesure, avec la force choisie :
+
+| Joueur simulé         | Avant la correction | Après |
+| --------------------- | ------------------: | ----: |
+| Expert arrivé         |                45 % |  50 % |
+| Moyen arrivé          |                15 % |  15 % |
+| Apprenti au tableau 3 |                40 % |  40 % |
 
 Plus tard, les règles nouvelles prendront certaines places (Les Ponts Mouillés, Double
 Couronne pour un gardien, Le Tunnel Secret…), chacune montrée au fils, mesurée, acceptée.

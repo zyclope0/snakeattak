@@ -41,13 +41,15 @@ export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 2;
 type Draw =
   | Readonly<{ missions: readonly MissionId[]; tiers: readonly CapriceTier[] }>
   | Readonly<{ defi: string }>;
+/** One draw for each of the three forks of a tableau, in order. */
+type ForkDraws = readonly [Draw, Draw, Draw];
 export type TableauTuning = Readonly<{
   /** The first mission of the tableau, with a new camp. */
   first: Draw;
   /** The calm path: an easier draw, an ordinary gift after it; one a fork in version 2. */
-  calm: Draw | readonly Draw[];
+  calm: Draw | ForkDraws;
   /** The brave path: a harder draw, a rare gift after it; one a fork in version 2. */
-  brave: Draw | readonly Draw[];
+  brave: Draw | ForkDraws;
   /** The guardian's mission; the king closes it with this much life (6 to 10, as in a mission). */
   guardian: Draw & { kingHp: number; court: boolean };
 }>;
@@ -107,7 +109,9 @@ const VERSION_1: ExpeditionTuning = {
 /**
  * Version 2 (decision of the parent, 21 November 2026): one fixed challenge a step, the
  * same in every expedition, from the son's caprices; the brave path has the harder one. The
- * table was adjusted after measure and accepted by the parent the same day.
+ * table was adjusted after measure and accepted by the parent the same day. Three challenges
+ * that a carried camp made void (« Bourse trouée », « Deux copains seulement », « Un seul
+ * copain ») gave their places to the creator's, measured and accepted the same day.
  * The table is docs/VOYAGE-LONG-PROPOSITION.md, « Les défis fixes ». New rules (Les Ponts
  * Mouillés, Double Couronne…) will take some places, one by one, in later versions.
  */
@@ -129,12 +133,12 @@ const VERSION_2: ExpeditionTuning = {
         { defi: 'sonnette-moyen' },
         { defi: 'refuge-createur-moyen' },
       ],
-      guardian: { defi: 'trois-ponts-petit', kingHp: 6, court: false },
+      guardian: { defi: 'trois-ponts-createur-moyen', kingHp: 6, court: false },
     },
     {
       first: { defi: 'trois-ponts-createur-petit' },
       calm: [
-        { defi: 'sonnette-petit' },
+        { defi: 'sonnette-createur-moyen' },
         { defi: 'coquilles-moyen' },
         { defi: 'coquilles-createur-moyen' },
       ],
@@ -144,7 +148,7 @@ const VERSION_2: ExpeditionTuning = {
     {
       first: { defi: 'refuge-grand' },
       calm: [
-        { defi: 'carrefour-moyen' },
+        { defi: 'coquilles-createur-petit' },
         { defi: 'coquilles-createur-grand' },
         { defi: 'coquilles-grand' },
       ],
@@ -202,6 +206,7 @@ function drawBattle(
 ): Battle {
   // A fixed challenge brings the mission it was tuned for; only the setup and the fight vary.
   const fixed = 'defi' in draw ? capriceById(draw.defi) : null;
+  if ('defi' in draw && !fixed) throw new RangeError(draw.defi);
   const drawn = 'defi' in draw ? null : draw;
   const missionId = fixed ? fixed.missionId : pick(random, drawn!.missions);
   const setup = missionSetup(Math.floor(random() * MISSION_SETUPS));
@@ -240,8 +245,8 @@ export function planExpedition(
   const tableaux = tuning.tableaux.map((table, t) => {
     let fork = 0;
     /** A path's draw: the same for every fork, or the one of this fork. */
-    const at = (draw: Draw | readonly Draw[], index: number): Draw =>
-      Array.isArray(draw) ? (draw as readonly Draw[])[index] : (draw as Draw);
+    const at = (draw: Draw | ForkDraws, index: number): Draw =>
+      Array.isArray(draw) ? (draw as ForkDraws)[index] : (draw as Draw);
     return Object.freeze(
       SHAPE.map((shape, s): Step => {
         const random = stream(seed, 100 * (t + 1) + s);
@@ -629,7 +634,8 @@ export const isAllyCard = (id: string) =>
 export const missionNumber = (id: MissionId) => MISSIONS.findIndex((m) => m.id === id) + 1;
 
 /** The battles of a whole expedition: five a tableau. */
-export const EXPEDITION_BATTLES = EXPEDITION_TUNINGS[1].tableaux.length * BATTLES_PER_TABLEAU;
+export const EXPEDITION_BATTLES =
+  EXPEDITION_TUNINGS[CURRENT_EXPEDITION_VERSION].tableaux.length * BATTLES_PER_TABLEAU;
 /** The battles won so far: the record of a player counts them. */
 export const battlesWon = (state: ExpeditionState): number =>
   state.status === 'arrived' ? EXPEDITION_BATTLES : battlesBefore(state);
@@ -699,9 +705,15 @@ function readPending(raw: unknown): Pending | null | undefined {
  */
 export function readExpeditionState(raw: unknown): ExpeditionState | null {
   try {
-    if (!isRecord(raw) || (raw.version !== 1 && raw.version !== 2) || !isVoyageSeed(raw.seed))
+    if (
+      !isRecord(raw) ||
+      typeof raw.version !== 'number' ||
+      !Object.hasOwn(EXPEDITION_TUNINGS, raw.version) ||
+      !isVoyageSeed(raw.seed)
+    )
       return null;
-    const plan = planExpedition(raw.seed, raw.version);
+    const version = raw.version as ExpeditionVersion;
+    const plan = planExpedition(raw.seed, version);
     if (
       !plan ||
       !isIntegerIn(raw.tableau, 0, plan.tableaux.length - 1) ||
@@ -752,7 +764,7 @@ export function readExpeditionState(raw: unknown): ExpeditionState | null {
       }
     }
     return Object.freeze({
-      version: raw.version,
+      version,
       seed: raw.seed,
       tableau,
       step,

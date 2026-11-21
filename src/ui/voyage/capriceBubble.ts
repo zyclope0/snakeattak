@@ -10,9 +10,10 @@ import * as TEXT from '../../texts/fr/voyageScreens.ts';
  * What a sticker of the path stands for: the caprice that will surprise that stage. Its
  * name and its announcement are the child's own words, in French in every language; the
  * sentence under them reads the rules the caprice really changes. Returns the function
- * that shows a caprice.
+ * that shows a caprice, under the title its page gives it (the expedition calls it the
+ * challenge of the step).
  */
-export function capriceBubble(): (caprice: CapriceDefinition) => void {
+export function capriceBubble(): (caprice: CapriceDefinition, title?: string) => void {
   const { dialog, heading } = voyageWindow('voyage-caprice', TEXT.capriceSurprise);
   const graphic = stickerGraphic();
   const name = frenchLeaf('strong', '');
@@ -24,7 +25,8 @@ export function capriceBubble(): (caprice: CapriceDefinition) => void {
     rules,
     closeButton(dialog, 'primary'),
   );
-  return (caprice) => {
+  return (caprice, title = TEXT.capriceSurprise) => {
+    setText(heading, title);
     paintSticker(graphic, caprice);
     name.textContent = caprice.name;
     announce.textContent = caprice.announce;

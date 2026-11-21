@@ -24,6 +24,7 @@ import type { VoyageView } from './voyagePage.ts';
 import { arrivedView, bonusView, fallenView, mapView } from './voyageViews.ts';
 import type { ViewActions } from './voyageViews.ts';
 import { battleMark, keepingNote, recordLine, stageOutcome, voyageHeading } from './voyageWords.ts';
+import * as EXPEDITION_TEXT from '../../texts/fr/expedition.ts';
 
 /** A stage put on the board: which one it is and, once it is recorded, how it ended. */
 type Playing = { game: Game; stage: number; stages: number; outcome: StageOnBoard['outcome'] };
@@ -56,7 +57,11 @@ export function bindVoyageScreens(
   // « La Grande Expédition » took the voyage's place (decision of the parent, 21 November
   // 2026): a voyage begun is finished here, then the door leads to the expedition. They share
   // the window of a caprice and the board's result panel.
-  const expedition = bindExpeditionScreens(ports, explain, (state) => logChanged(log, state));
+  const expedition = bindExpeditionScreens(
+    ports,
+    (caprice) => explain(caprice, EXPEDITION_TEXT.leDefiDeLEtape),
+    (state) => logChanged(log, state),
+  );
   const drawBattle = voyageBattle(() => (expedition.owns() ? expedition.onward() : onward()));
   const actions: ViewActions = {
     start: startStage,

@@ -41,7 +41,8 @@ export const choisisTonChemin = 'Choose your path';
 export const unCadeauAGagner = 'A gift to win';
 export const unCadeauRareAGagner = 'A rare gift to win';
 export const cEstParti = "Let's go!";
-export const capriceSurpriseN = 'Surprise caprice: {0}';
+export const leDefiDeLEtape = 'The stage’s challenge';
+export const leDefiDeLEtapeN = 'The stage’s challenge: {0}';
 export const lesSerpentsGrandissentAChaqueEtape = 'The snakes get stronger with every stage.';
 export const unNouveauCampTAttend = 'A new camp is waiting: recruit your allies.';
 

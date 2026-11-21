@@ -3,7 +3,8 @@ import { portraitStyle } from '../art.ts';
 import { kinds } from '../data.ts';
 import type { Game } from '../game.ts';
 import { missionById } from '../missions.ts';
-import { defeatCopy, endlessCopy } from '../render/resultCopy.ts';
+import { capriceById } from '../caprices.ts';
+import { defeatCopy, endlessCopy, victoryCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import { feastIconStyle, feastName } from './feastControls.ts';
 import { placementAdvice } from './placementAdvice.ts';
@@ -12,13 +13,33 @@ import { announcedWave, battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 import { endlessWave } from '../endless.ts';
 
-/** The name of the place: the mission first when there is one, then its map. */
+/**
+ * The name of the place: the mission first when there is one, then its map. A stage of a
+ * voyage never names the mission whose waves it borrows: its challenge, or else its map.
+ */
 export function showLevel(game: Game) {
-  setText(
-    byId('level-name'),
-    game.mission ? missionById(game.mission.missionId)!.name : game.level.name,
-  );
+  const name = byId('level-name');
+  if (game.stage) {
+    const caprice = capriceById(game.mission?.caprice);
+    frenchName(name, !!caprice);
+    setText(name, caprice?.name ?? game.level.name);
+    setText(byId('level-subtitle'), caprice ? game.level.name : game.level.subtitle);
+    return;
+  }
+  frenchName(name, false);
+  setText(name, game.mission ? missionById(game.mission.missionId)!.name : game.level.name);
   setText(byId('level-subtitle'), game.mission ? game.level.name : game.level.subtitle);
+}
+
+/** The son's names stay in French in every language: the node is never translated. */
+function frenchName(node: HTMLElement, french: boolean) {
+  if (french) {
+    node.dataset.copyRaw = '';
+    node.lang = 'fr';
+  } else {
+    delete node.dataset.copyRaw;
+    node.removeAttribute('lang');
+  }
 }
 
 /** The wave that comes, or how the battle ended. */
@@ -50,7 +71,7 @@ function outcomeBriefing(game: Game) {
   if (game.status !== 'won') return { title: TEXT.leCampEstTombe, tip: defeatCopy(game).subtitle };
   return game.mission
     ? {
-        title: TEXT.missionReussie2,
+        title: game.stage ? victoryCopy(game).title : TEXT.missionReussie2,
         tip: TEXT.tesAlliesOntTenuRetrouveLaCarte,
       }
     : {

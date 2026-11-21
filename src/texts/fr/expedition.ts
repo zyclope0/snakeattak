@@ -42,7 +42,8 @@ export const choisisTonChemin = 'Choisis ton chemin';
 export const unCadeauAGagner = 'Un cadeau à gagner';
 export const unCadeauRareAGagner = 'Un cadeau rare à gagner';
 export const cEstParti = 'C’est parti !';
-export const capriceSurpriseN = 'Caprice surprise : {0}';
+export const leDefiDeLEtape = 'Le défi de l’étape';
+export const leDefiDeLEtapeN = 'Le défi de l’étape : {0}';
 export const lesSerpentsGrandissentAChaqueEtape = 'Les serpents grandissent à chaque étape.';
 export const unNouveauCampTAttend = 'Un nouveau camp t’attend : recrute tes alliés.';
 

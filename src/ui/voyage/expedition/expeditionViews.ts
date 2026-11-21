@@ -6,6 +6,7 @@ import type { CapriceDefinition } from '../../../caprices.ts';
 import { coinsOf, expeditionPlanOf, giftOffer, roulotteOffer } from '../../../expedition.ts';
 import type { Battle, ExpeditionState, HaltKind, Path } from '../../../expedition.ts';
 import { setAttribute } from '../../../i18n/dom.ts';
+import { missionById } from '../../../missions.ts';
 import { activeEnemyLanes } from '../../../tutorial.ts';
 import { BOON_SIGNS } from '../../boonCopy.ts';
 import { frenchLeaf } from '../../capriceCopy.ts';
@@ -233,9 +234,11 @@ function battleCard(
   const map = make('span', { className: 'stop-map' }, stopMap(battle.run, lanes));
   const facts = make('div', { className: 'exp-facts' });
   // An étape is named by its fixed challenge, never by the mission whose waves it borrows.
+  // A battle of version 1 may have none: the mission names it, as it did then.
+  const caprice = capriceDefinitionForRun(battle.run);
+  if (!caprice) facts.append(make('strong', { text: missionById(battle.run.missionId)!.name }));
   // The guardian's name is the card's title: its picture stands beside the map.
   if (battle.king) facts.append(make('span', { className: 'exp-guardian' }, king()));
-  const caprice = capriceDefinitionForRun(battle.run);
   if (caprice)
     facts.append(
       make(

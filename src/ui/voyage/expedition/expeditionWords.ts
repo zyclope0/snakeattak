@@ -270,4 +270,4 @@ export const keptLine = (saved: boolean) =>
 
 export const arrivedLine = () => fill(TEXT.tuAsGagneLesNEtapes, EXPEDITION_BATTLES);
 export const coinsLine = (coins: number) => fill(TEXT.tuAsNPieces, coins);
-export const capriceLabel = (name: string) => fill(TEXT.capriceSurpriseN, name);
+export const capriceLabel = (name: string) => fill(TEXT.leDefiDeLEtapeN, name);

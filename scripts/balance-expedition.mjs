@@ -6,6 +6,9 @@
 //   PROFILES=expert,moyen,apprenti
 //   PATHS=calme,brave,mixte   chemin calme partout, brave partout, ou brave une fois sur deux
 //   TRIES=3        essais d'une même bataille avant d'abandonner l'expédition
+//   VERSION=2      version de l'expédition mesurée (par défaut, celle des nouvelles expéditions)
+//   DEFIS=0.guardian=trois-ponts-createur-moyen,1.calm.0=sonnette-createur-petit
+//                  défis essayés à la place de ceux du tableau (version 2 et suivantes)
 // Une bataille perdue se rejoue depuis le camp d'avant (règle proposée au parent).
 import { writeFile } from 'node:fs/promises';
 import { registerHooks } from 'node:module';
@@ -28,9 +31,19 @@ const SEEDS = Number(process.env.SEEDS ?? 40);
 const PROFILES = (process.env.PROFILES ?? 'expert,moyen,apprenti').split(',');
 const PATHS = (process.env.PATHS ?? 'calme,brave,mixte').split(',');
 const TRIES = Number(process.env.TRIES ?? 3);
-// Settings to try instead of version 1's: HP=0.1 BITE=0.05 STIPEND=120.
-// The version every new expedition is played with.
-const T = X.EXPEDITION_TUNINGS[X.CURRENT_EXPEDITION_VERSION];
+// Settings to try instead of those of the version measured: HP=0.1 BITE=0.05 STIPEND=120.
+const VERSION = Number(process.env.VERSION ?? X.CURRENT_EXPEDITION_VERSION);
+const T = X.EXPEDITION_TUNINGS[VERSION];
+if (!T) throw new RangeError(`VERSION=${VERSION}`);
+// Every new expedition of this process is played with the version measured.
+X.EXPEDITION_TUNINGS[X.CURRENT_EXPEDITION_VERSION] = T;
+for (const swap of (process.env.DEFIS ?? '').split(',').filter(Boolean)) {
+  const [where, defi] = swap.split('=');
+  const [tableau, slot, index] = where.split('.');
+  const draw = T.tableaux[Number(tableau)][slot];
+  if (index === undefined) draw.defi = defi;
+  else draw[Number(index)] = { defi };
+}
 if (process.env.HP || process.env.BITE)
   T.strength = {
     hpStep: Number(process.env.HP ?? T.strength.hpStep),

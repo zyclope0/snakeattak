@@ -20,6 +20,19 @@ tirage ni un choix ; les six missions sont autre chose. Expédition version 2 :
 - **Un peu plus dur** (demande du parent après ses essais) : les serpents grandissent de vie
   ×1,07 et morsure ×1,035 à chaque étape (×1,06 et ×1,03 en version 1).
 - Une expédition commencée en version 1 se relit et se finit avec ses propres tirages.
+- **Relecture (8 angles)**. Trois défis ne jouaient pas avec le camp qui suit : « Bourse
+  trouée », « Deux copains seulement », « Un seul copain ». Le parent a accepté à leur place
+  « Les carapaces », « Les carapaces » et « La tirelire » (même difficulté mesurée). Un test
+  refuse maintenant un défi qui ne joue pas à sa place. Autres corrections :
+  - Le plateau nomme l'étape par son défi, jamais par la mission ; à la victoire, il dit
+    « Étape gagnée ! ».
+  - La fenêtre d'un défi s'appelle « Le défi de l'étape » (et plus « Caprice surprise »).
+  - Une carte de la version 1 sans défi garde le nom de sa mission.
+  - Le laboratoire mesure la version voulue (`VERSION=`) et essaie d'autres défis (`DEFIS=`).
+
+Vérifié : `npm run verify` ; recettes expédition, navigateur, hors-ligne et menus du voyage
+(780×360, 812×375, 1280×800). Pas essayé : le vrai téléphone et les enfants ; la difficulté
+réelle des nouveaux défis avec un enfant.
 
 ## Le 21 novembre : l'expédition remplace le voyage
 
