@@ -214,5 +214,5 @@ try {
   // every check had passed (19 November 2026): the server goes first, and the browser gets
   // ten seconds.
   server.kill();
-  await Promise.race([browser?.close(), delay(10_000)]);
+  await Promise.race([browser?.close(), delay(10_000, null, { ref: false })]);
 }

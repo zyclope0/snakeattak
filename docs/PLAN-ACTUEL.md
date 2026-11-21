@@ -38,7 +38,10 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   un combat : 5,4 → 0,2 ms par appel à 80 alliés) ; les places du camp sont cherchées une
   fois par carte (aventure sans fin : pas moyen 1,25 → 0,28 ms). Mêmes parties, mêmes
   sauvegardes. Non mesuré sur le téléphone.
-- Lot 2, nettoyage : à faire.
+- Lot 2, restes du voyage, code mort, documentation d'architecture : fait.
+- Lot 3, CI plus courte : fait. La fusion attend maintenant six tâches vertes (« verify » et
+  cinq « recettes ») ; pour une PR de documents seuls, « verify » suffit.
+- Lot 4, règles écrites une seule fois (point 7) : à faire.
 
 **À reprendre après l'hygiène**, dans cet ordre :
 
@@ -146,8 +149,9 @@ Ils attendent le **build 64**, construit par Codex depuis `main` comme le 63
 ## Règles de travail en vigueur
 
 - Une branche, une PR par lot. Le parent a autorisé, dans les sessions de travail de
-  novembre 2026, la fusion des PR de Claude quand les cinq tâches de la CI sont vertes, sans
-  conflit ni fil de revue ouvert, puis la publication du site. Tout le reste de `CLAUDE.md`
+  novembre 2026, la fusion des PR de Claude quand toutes les tâches de la CI sont vertes
+  (cinq jusqu'au 21 novembre 2026, six depuis ; « verify » seule pour une PR de documents),
+  sans conflit ni fil de revue ouvert, puis la publication du site. Tout le reste de `CLAUDE.md`
   tient : il demande avant une dépense, une publication sur Google Play ou un changement de
   règle.
 - Relectures : huit angles pour un lot qui change une règle ou un écran du jeu, trois pour un

@@ -1,5 +1,5 @@
 name: Verify game
-# Une fois par commit : à chaque PR, et sur main après une fusion. Cinq tâches en
+# Une fois par commit : à chaque PR, et sur main après une fusion. Six tâches en
 # parallèle au lieu d'une file de 17 étapes : la plus longue fixe la durée de l'ensemble.
 on:
   push:
@@ -12,10 +12,41 @@ concurrency:
   # Un nouveau commit sur une PR remplace la vérification du précédent.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
+  portee:
+    # Une PR qui ne touche que des documents (`*.md` à la racine ou sous `docs/`, hors
+    # `docs/publication/` que le site lit) ne lance que `npm run verify` : format, tests
+    # unitaires, build. Tout le reste, et toute fusion dans main, lance tout.
+    name: portée
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      complet: ${{ steps.fichiers.outputs.complet }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Le commit de fusion d'une PR et ses deux parents : le premier est la base.
+          fetch-depth: 2
+      - id: fichiers
+        env:
+          EVENEMENT: ${{ github.event_name }}
+        run: |
+          complet=true
+          if [ "$EVENEMENT" = pull_request ]; then
+            fichiers=$(git diff --name-only HEAD^1 HEAD)
+            echo "$fichiers"
+            if [ -n "$fichiers" ] && ! echo "$fichiers" | grep -qvE '^([^/]+|docs/.+)\.md$' \
+              && ! echo "$fichiers" | grep -q '^docs/publication/'; then
+              complet=false
+            fi
+          fi
+          echo "complet=$complet" | tee -a "$GITHUB_OUTPUT"
   verify:
     # Format, tests unitaires, build, puis le jeu dans le navigateur sous ses deux formes.
+    needs: portee
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      COMPLET: ${{ needs.portee.outputs.complet }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,51 +55,80 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
-      - uses: actions/setup-java@v4
+      - if: env.COMPLET == 'true'
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
-      - run: npm run test:android-signatures
-      - run: npm audit --omit=dev --audit-level=high
+      - if: env.COMPLET == 'true'
+        run: npm run test:android-signatures
+      - if: env.COMPLET == 'true'
+        run: npm audit --omit=dev --audit-level=high
       # Ubuntu already carries Chromium's system libraries. Probe first instead of
       # blocking every release on an unnecessary package-mirror update.
-      - uses: ./.github/actions/setup-browser
+      - if: env.COMPLET == 'true'
+        uses: ./.github/actions/setup-browser
         timeout-minutes: 5
-      - run: npm run test:browser
-      - run: npm run test:discovery
-      - run: npm run build:ads-preview
-      - run: npm run test:ads-preview
-      - run: npm run build:ads-test
-      - run: npm run test:ads-delivery
-      - run: npm run build:android
-      - run: npm run test:android-web
-      - run: npm run build:portable
-      - run: npm run test:family
-      - run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser
+      - if: env.COMPLET == 'true'
+        run: npm run test:browser
+      - if: env.COMPLET == 'true'
+        run: npm run test:discovery
+      - if: env.COMPLET == 'true'
+        run: npm run build:ads-preview
+      - if: env.COMPLET == 'true'
+        run: npm run test:ads-preview
+      - if: env.COMPLET == 'true'
+        run: npm run build:ads-test
+      - if: env.COMPLET == 'true'
+        run: npm run test:ads-delivery
+      - if: env.COMPLET == 'true'
+        run: npm run build:android
+      - if: env.COMPLET == 'true'
+        run: npm run test:android-web
+      - if: env.COMPLET == 'true'
+        run: npm run build:portable
+      - if: env.COMPLET == 'true'
+        run: npm run test:family
+      - if: env.COMPLET == 'true'
+        run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser
   recettes:
     # Les recettes navigateur, réparties en groupes. `test:render` reste un outil à lancer à
     # la main : il mesure une vitesse, qui dépend de la machine.
+    needs: portee
+    if: needs.portee.outputs.complet == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
+        # `site` : le groupe lit le site construit (`vite preview`). Les autres servent les
+        # sources, ou construisent eux-mêmes (`test:caprices`).
         include:
           - groupe: écrans
+            site: true
             recettes: >-
               test:audit test:threat-preparation test:reinforcements-scroll test:child-mobile
               test:interruptions test:offline test:presentation test:tactical-clarity
-              test:mission-journey test:endless test:expedition
+              test:mission-journey test:endless
           - groupe: langue et caprices
             recettes: test:locale test:caprices
-          - groupe: menus
+          # La recette des menus est la plus longue : ses sept parties vont sur deux tâches
+          # de même durée (la partie « voyage » pèse autant que les six autres ; la recette
+          # écrit la durée de chacune).
+          - groupe: menus 1
             recettes: test:mobile-menus
+            menus: voyage
+          - groupe: menus 2
+            recettes: test:mobile-menus
+            menus: catalogue,help,players,replay,resume,privacy
           # Les recettes des premières versions qui passent encore : hors de la CI, quatorze
-          # autres avaient pourri sans que personne le voie.
+          # autres avaient pourri sans que personne le voie. L'expédition les rejoint : ce
+          # groupe était le plus court.
           - groupe: règles et rendu
+            site: true
             recettes: >-
               test:rewards test:journey test:missions:regressions test:medical-persistence
-              test:stage test:render-settings test:tactical
+              test:stage test:render-settings test:tactical test:expedition
     name: recettes (${{ matrix.groupe }})
     steps:
       - uses: actions/checkout@v4
@@ -79,9 +139,11 @@ jobs:
       - run: npm ci
       - uses: ./.github/actions/setup-browser
         timeout-minutes: 5
-      # Plusieurs recettes lisent le site construit.
-      - run: npm run build
+      - if: matrix.site
+        run: npm run build
       - name: Recettes
+        env:
+          MOBILE_MENUS_ONLY: ${{ matrix.menus }}
         run: |
           for recette in ${{ matrix.recettes }}; do
             echo "::group::$recette"

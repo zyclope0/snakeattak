@@ -26,7 +26,7 @@ garde **tous** les points, faits ou non.
 | 2   | 26 planches d'images en WebP sans perte (9,4 Mo)                  | Gardé pour après         |
 | 3   | Phaser livré plus gros que son fichier officiel, avec la physique | Gardé pour après         |
 | 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | Fait, lot 1              |
-| 5   | La CI attend trop ; une PR de documents coûte autant que du code  | À faire, lot 2           |
+| 5   | La CI attend trop ; une PR de documents coûte autant que du code  | Fait, lot 3              |
 | 6   | Barres de vie et petits ronds chers à dessiner                    | À mesurer sur l'appareil |
 | 7   | Des règles écrites plusieurs fois                                 | À faire, lot 2           |
 | 8   | Code mort et restes du voyage                                     | Fait, lot 2              |
@@ -137,6 +137,20 @@ setTimeout(10_000)])` laisse le minuteur vivant (`scripts/endless-browser.mjs`,
   depuis le stockage figé du build 63) : +10 à 12 minutes de calcul. Décision à prendre.
 - `playwright-core` est importé par 19 fichiers sans être déclaré dans `package.json`.
 - `scripts/balance-expedition.mjs` n'a pas de commande `npm run`.
+
+**Fait (lot 3)**, sauf la décision sur les recettes d'hygiène :
+
+- Les trois minuteurs de 10 secondes ne retiennent plus le processus (`ref: false`).
+- `test:expedition` est dans « règles et rendu ». `test:mobile-menus` tourne sur deux tâches,
+  « menus 1 » (`voyage`, qui pèse autant que les six autres parties) et « menus 2 » :
+  `MOBILE_MENUS_ONLY` accepte plusieurs noms. **Six tâches de recettes et de vérification au
+  lieu de cinq**, plus « portée ».
+- `npm run build` ne tourne plus que dans les groupes qui lisent le site construit (`site:
+true` : « écrans » et « règles et rendu »).
+- Tâche « portée » : une PR qui ne touche que des `*.md` (à la racine ou sous `docs/`, hors
+  `docs/publication/` que le site lit) ne lance que `npm run verify`. Les recettes et le
+  reste de `verify` sont sautés. Une fusion dans `main` lance toujours tout.
+- `playwright-core` est déclaré ; `npm run balance:expedition` existe.
 
 ### 6. Le dessin des barres de vie et des ronds
 
