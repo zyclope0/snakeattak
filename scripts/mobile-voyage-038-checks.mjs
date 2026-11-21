@@ -934,7 +934,8 @@ export async function checkVoyage({ browser, url, check, capture }) {
         state.step === t.step(2) &&
         state.bag === t.bag(1) &&
         state.cards.join() === kept &&
-        state.record === (w > 700 ? t.record(1) : null),
+        // The top row holds the door of « La Grande Expédition », not the record.
+        state.record === null,
       `voyage ${where}: the card kept is in the bag, the second stage waits: ${JSON.stringify(state)}`,
     );
     check(
@@ -1111,7 +1112,7 @@ export async function checkVoyage({ browser, url, check, capture }) {
         state.step === t.step(1) &&
         state.code === encodeVoyage(SEED) &&
         state.cards.length === 0 &&
-        state.record === t.record(3),
+        state.record === null,
       `fallen: the same voyage starts again, the record stays: ${JSON.stringify(state)}`,
     );
     check(
@@ -1252,7 +1253,7 @@ export async function checkVoyage({ browser, url, check, capture }) {
         state.view === 'map' &&
           state.step === t.step(1) &&
           state.code === encodeVoyage(SEED) &&
-          state.record === (w > 700 ? t.record(5) : null),
+          state.record === null,
         `end ${where}: the code given then received starts the same voyage, the record stays: ${JSON.stringify(state)}`,
       );
       // Lost at the very first stage: the screen stays kind, and nothing is counted.
