@@ -161,6 +161,16 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
   Par défi et par joueur, l'écart le plus grand est de 5 points sur 54 parties, dans les deux
   sens : du bruit. **La difficulté ne change pas ; l'allié ne reste plus collé.**
 
+- **Mesure de l'expédition** (20 expéditions entières par joueur simulé, chemins alternés) :
+
+  | Joueur simulé         | Version 2 (premières règles) | Version 3 (secondes règles) |
+  | --------------------- | ---------------------------: | --------------------------: |
+  | Expert arrivé         |                         50 % |                        55 % |
+  | Moyen arrivé          |                         15 % |                        20 % |
+  | Apprenti au tableau 3 |                         40 % |                        35 % |
+
+  Une expédition sur vingt vaut 5 points : ces écarts sont du bruit, dans les deux sens.
+
 - **Fichiers** : `src/navigation.ts`, `src/routes.ts`, `src/engine/movement.ts`, `src/game.ts`,
   `src/missions.ts`, `src/departures.ts`, `src/checkpoints.ts`, `src/missionProgress.ts`,
   `src/expedition.ts`, `src/ui/expeditions.ts`, `src/ui/missionDraft.ts`.
