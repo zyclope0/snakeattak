@@ -61,9 +61,10 @@ try {
   assert.equal(backup.version, 5);
   assert.equal(backup.missions.version, 2);
   assert.equal(second.balance, 2);
+  assert.equal(second.paths, 2);
   assert.ok(backup.albums.children.length >= 1);
   assert.equal(backup.albums.version, 1);
-  assert.equal(JSON.parse(backup.camp).version, 9);
+  assert.equal(JSON.parse(backup.camp).version, 16);
   assert.equal(JSON.parse(backup.camp).balance, 2);
   assert.deepEqual(JSON.parse(backup.camp).mission, second);
   await revealControl(page, '[data-kind="ninja"]');

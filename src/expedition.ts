@@ -29,8 +29,8 @@ import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConst
  * Everything is drawn from the seed, apart from the fights: the map can be shown whole, and a
  * code shares it. The rules of a version never change once played: new values, new version.
  */
-export type ExpeditionVersion = 1 | 2;
-export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 2;
+export type ExpeditionVersion = 1 | 2 | 3;
+export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 3;
 
 /**
  * What a battle is drawn from. Version 1 draws a mission and a caprice of these tiers;
@@ -71,6 +71,8 @@ export type ExpeditionTuning = Readonly<{
   eggCoins: number;
   /** Caprices never drawn here: those that limit the kinds of allies (the camp is built). */
   excluded: readonly string[];
+  /** The path rules of its battles (`navigation.ts`); absent, the first ones. */
+  paths?: 2;
 }>;
 
 /**
@@ -157,9 +159,16 @@ const VERSION_2: ExpeditionTuning = {
     },
   ],
 };
+/**
+ * Version 3 (decision of the parent, 21 November 2026): version 2 with the second path
+ * rules, so that an ally no longer stands against a rock. Nothing else changes: the same
+ * challenges at the same steps, the same strength.
+ */
+const VERSION_3: ExpeditionTuning = { ...VERSION_2, paths: 2 };
 export const EXPEDITION_TUNINGS: Readonly<Record<ExpeditionVersion, ExpeditionTuning>> = {
   1: VERSION_1,
   2: VERSION_2,
+  3: VERSION_3,
 };
 
 export type Path = 'calm' | 'brave';
@@ -221,6 +230,7 @@ function drawBattle(
     missionId,
     balance: 2,
     ...(missionId === 'refuge' ? { rules: 2 } : {}),
+    ...(tuning.paths === 2 ? { paths: 2 } : {}),
     seed: fightSeed,
     ...setup,
     ...(caprice ? { caprice: caprice.id } : {}),

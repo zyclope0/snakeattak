@@ -22,6 +22,12 @@ export type MissionRun = Readonly<{
   missionId: MissionId;
   rules?: 2;
   balance?: 2;
+  /**
+   * The second path rules (`navigation.ts`): a walker never plans across a rock. Only with the
+   * second balance revision; a run without it keeps the first rules, so that its departure
+   * code plays the game it always played.
+   */
+  paths?: 2;
   seed: number;
   layout: 0 | 1 | 2;
   assault: 'balanced' | 'rush' | 'escort';
@@ -97,6 +103,8 @@ export function missionById(id: unknown): MissionDefinition | null {
  * eggs. Their order is written in the departure codes: never reorder them.
  */
 export const MISSION_SETUPS = 18;
+/** The path rules of every new departure: a game begun before keeps its own. */
+export const CURRENT_MISSION_PATHS = 2;
 const layouts = [0, 1, 2] as const;
 const assaults = ['balanced', 'rush', 'escort'] as const;
 const nests = ['spread', 'clustered'] as const;
@@ -125,12 +133,14 @@ export function readMissionRun(raw: unknown): MissionRun | null {
   // The three optional fields are either absent or exactly what their rule allows.
   if (Object.hasOwn(raw, 'balance') && raw.balance !== 2) return null;
   if (Object.hasOwn(raw, 'rules') && (raw.rules !== 2 || raw.missionId !== 'refuge')) return null;
+  if (Object.hasOwn(raw, 'paths') && (raw.paths !== 2 || raw.balance !== 2)) return null;
   if (Object.hasOwn(raw, 'caprice') && capriceById(raw.caprice)?.missionId !== raw.missionId)
     return null;
   return Object.freeze({
     missionId: raw.missionId as MissionId,
     ...(raw.balance === 2 ? { balance: 2 as const } : {}),
     ...(raw.rules === 2 ? { rules: 2 as const } : {}),
+    ...(raw.paths === 2 ? { paths: 2 as const } : {}),
     seed: raw.seed,
     layout: raw.layout,
     assault: raw.assault,
@@ -152,8 +162,12 @@ export function createMissionRun(
   seed: number,
   previous?: MissionRun | null,
   balance?: 2,
+  paths?: 2,
 ): MissionRun {
   if (balance !== undefined && balance !== 2) throw new RangeError(TEXT.revisionInvalide);
+  // The second path rules came after the second balance revision, and only with it.
+  if (paths !== undefined && (paths !== 2 || balance !== 2))
+    throw new RangeError(TEXT.revisionInvalide);
   if (!missionById(id) || !isUint32(seed)) throw new RangeError(TEXT.expeditionInvalide);
   // Eighteen bounded configurations. Incrementing the slot does not change the retry seed.
   let slot = nextSeed(seed);
@@ -163,6 +177,7 @@ export function createMissionRun(
     missionId: id,
     ...(balance === 2 ? { balance: 2 as const } : {}),
     ...(id === 'refuge' ? { rules: 2 as const } : {}),
+    ...(paths === 2 ? { paths: 2 as const } : {}),
     seed,
     ...missionSetup(index),
   });

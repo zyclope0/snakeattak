@@ -3,7 +3,7 @@ import type { Kind } from '../data.ts';
 import type { AlbumsController } from './capriceAlbums.ts';
 import { setText as setDisplayText } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
-import { MISSIONS, createMissionRun } from '../missions.ts';
+import { CURRENT_MISSION_PATHS, MISSIONS, createMissionRun } from '../missions.ts';
 import type { MissionId, MissionRun } from '../missions.ts';
 import type { createMissionProgressController } from '../missionProgress.ts';
 import type { bindMissionDraft } from './missionDraft.ts';
@@ -71,7 +71,8 @@ export function bindExpeditions(
     where = 'home-next-mission',
   ) => loadDraft().then(use, () => setDisplayText(byId(where), TEXT.missionsIndisponibles));
   /** A new draw of a mission; its last departure tells which draw not to repeat. */
-  const freshRun = (id: MissionId) => createMissionRun(id, freshSeed(), progress.lastRun(id), 2);
+  const freshRun = (id: MissionId) =>
+    createMissionRun(id, freshSeed(), progress.lastRun(id), 2, CURRENT_MISSION_PATHS);
   const prepare = (id: MissionId) => void withDraft((ready) => ready.show(freshRun(id)));
   const prepareCaprices = (id: MissionId) =>
     void withDraft((ready) => ready.showCaprices(freshRun(id)));

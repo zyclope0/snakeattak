@@ -31,6 +31,7 @@ import {
   REWARD_WAVES,
 } from './gameConstants.ts';
 import { levelForWave, missionLevel } from './levels.ts';
+import type { PathRules } from './navigation.ts';
 import { missionById, missionWave, readMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
 import {
@@ -231,6 +232,14 @@ export class Game {
   }
   get missionStars(): number {
     return this.mission && this.status === 'won' ? chapterStars(this.missionMinBase) : 0;
+  }
+  /**
+   * The rules the walkers plan their paths with: the second ones for a mission begun with
+   * them. The maps of the great adventure have no rock between two neighbouring cells: it
+   * keeps the first ones, and every game of it stays the game it was.
+   */
+  get pathRules(): PathRules {
+    return this.mission?.paths === 2 ? 2 : 1;
   }
   get level() {
     if (this.mission) return missionLevel(this.mission.layout);

@@ -18,7 +18,7 @@ import {
   capriceRules,
   defineCaprice,
 } from '../src/caprices.ts';
-import { createMissionRun, readMissionRun } from '../src/missions.ts';
+import { CURRENT_MISSION_PATHS, createMissionRun, readMissionRun } from '../src/missions.ts';
 import { encodeCheckpoint, decodeCheckpoint } from '../src/checkpoints.ts';
 import { encodeDeparture, decodeDeparture, departureForGame } from '../src/departures.ts';
 import {
@@ -308,7 +308,14 @@ test('lab defaults revision2, records run and rejects invalid revision without s
       const row = report.results[0];
       assert.equal(row.revision, report.revision);
       assert.deepEqual(row.run, {
-        ...createMissionRun('refuge', 20261109, undefined, report.revision === 2 ? 2 : undefined),
+        // The lab plays the path rules of the new departures, with the second revision only.
+        ...createMissionRun(
+          'refuge',
+          20261109,
+          undefined,
+          report.revision === 2 ? 2 : undefined,
+          report.revision === 2 ? CURRENT_MISSION_PATHS : undefined,
+        ),
         layout: 0,
         assault: 'balanced',
         nest: 'spread',

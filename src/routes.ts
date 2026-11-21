@@ -2,6 +2,7 @@ import { LANES } from './ai.ts';
 import type { Level } from './levels.ts';
 import type { Point } from './navigation.ts';
 import { blocked, findPath } from './navigation.ts';
+import type { PathRules } from './navigation.ts';
 
 const CLASSIC_JUNCTIONS = Object.freeze([372, 684] as const);
 export function routeJunctions(level: Level): readonly [number, number] {
@@ -81,6 +82,7 @@ export function roadLeg(
   lane: number,
   level: Level,
   track: number,
+  rules: PathRules = 1,
 ): Point[] {
   const points: Point[] = [];
   const direction = toX >= from.x ? 1 : -1;
@@ -98,7 +100,7 @@ export function roadLeg(
         return false;
     return true;
   });
-  return join >= 0 ? points.slice(join) : findPath(from, points.at(-1)!, level);
+  return join >= 0 ? points.slice(join) : findPath(from, points.at(-1)!, level, rules);
 }
 export function junctionLeg(from: Point, toY: number, x: number, level?: Level): Point[] {
   const points: Point[] = [];

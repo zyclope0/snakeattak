@@ -6,7 +6,7 @@ import type { Kind } from '../data.ts';
 import type { AlbumsController } from './capriceAlbums.ts';
 import { setText as setDisplayText, setTitle as setDisplayTitle } from '../i18n/dom.ts';
 import { drawMissionPreview, showMissionScouting } from './missionPreview.ts';
-import { createMissionRun, missionById } from '../missions.ts';
+import { CURRENT_MISSION_PATHS, createMissionRun, missionById } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
 import type { createMissionProgressController } from '../missionProgress.ts';
 import { kinds } from '../data.ts';
@@ -24,9 +24,18 @@ type Actions = {
   profileChanged?: () => void;
 };
 
-/** Another draw of the same mission: its rules and its caprice stay. */
+/**
+ * Another draw of the same mission: its rules and its caprice stay. A new departure of the
+ * second balance revision walks with the path rules of today.
+ */
 function drawAgain(run: MissionRun): MissionRun {
-  const { rules: _, ...draw } = createMissionRun(run.missionId, freshSeed(), run, run.balance);
+  const { rules: _, ...draw } = createMissionRun(
+    run.missionId,
+    freshSeed(),
+    run,
+    run.balance,
+    run.balance === 2 ? CURRENT_MISSION_PATHS : undefined,
+  );
   const next = run.rules === 2 ? { ...draw, rules: 2 as const } : draw;
   return run.caprice ? { ...next, caprice: run.caprice } : next;
 }

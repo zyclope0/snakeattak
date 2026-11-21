@@ -60,7 +60,7 @@ export function moveUnit(
     const goal = campGoal
       ? nearestCampPoint(target, game.level)
       : (nearestFreeCell(game, target) ?? e);
-    e.path = findPath(e, goal, game.level);
+    e.path = findPath(e, goal, game.level, game.pathRules);
     e.nav = REPLAN_INTERVAL;
   }
   const p = e.path[0];
@@ -118,7 +118,7 @@ function walkRoad(
   if (e.nav <= 0 || !e.path.length) {
     e.path =
       junctionX === undefined
-        ? roadLeg(e, goal.x, e.lane, game.level, trailOffset(e))
+        ? roadLeg(e, goal.x, e.lane, game.level, trailOffset(e), game.pathRules)
         : junctionLeg(e, goal.y, junctionX, game.level);
     e.nav = REPLAN_INTERVAL;
   }
@@ -135,7 +135,7 @@ function walkRoad(
       y = e.y + ((p.y - e.y) / d) * step;
     if (blocked(x, y, game.level)) {
       // Recovery from an old/off-trail position still respects real obstacles.
-      e.path = findPath(e, goal, game.level);
+      e.path = findPath(e, goal, game.level, game.pathRules);
       e.nav = REPLAN_INTERVAL;
       return;
     }

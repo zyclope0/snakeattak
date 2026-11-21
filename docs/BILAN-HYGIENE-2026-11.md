@@ -94,7 +94,7 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
 - **Fichier** : `src/game.ts` (`canRecruit`). Aucune partie de référence ne change.
 - **Test** : `tests/expedition.test.ts`, qui échoue sans la correction.
 
-## Défauts confirmés, décidés par le parent le 21 novembre, à faire en lots séparés
+## Défauts confirmés, décidés par le parent le 21 novembre, faits en lots séparés
 
 ### A. La sauvegarde familiale ne contenait ni l'expédition, ni les records, ni le voyage — corrigé
 
@@ -122,16 +122,63 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
 - **Limites** : le fichier ne garde toujours que le joueur en cours (c'est annoncé dans la
   fenêtre). Une application plus ancienne refuse un fichier version 6.
 
-### B. Un allié peut rester collé à un rocher sur deux cartes de mission
+### B. Un allié pouvait rester collé à un rocher sur les cartes de mission — corrigé pour les nouvelles parties
 
 - **Impact** : gêne, peut coûter une bataille. Sur « Le carrefour des fougères » (un tiers
-  des missions et des étapes d'expédition), 9 trajets d'allié sur 100 s'arrêtent contre un
+  des missions et des étapes d'expédition), 9 trajets d'allié sur 100 s'arrêtaient contre un
   rocher, jusqu'à 20 secondes. Les cartes de la grande aventure ne sont pas touchées.
-- **Cause** : le chemin relie deux cases voisines sans regarder le trait entre elles
-  (`src/navigation.ts`).
-- **Décision** : lot séparé, mesuré. La correction change 5 parties de référence sur 18 en
-  mission : elle vient comme une nouvelle version de règles pour les nouvelles parties, avec
-  la mesure de son effet sur la difficulté, puis l'accord du parent avant de publier.
+- **Cause** : le chemin reliait deux cases voisines sans regarder le trait entre elles
+  (`src/navigation.ts`). Le marcheur refusait d'entrer dans le rocher, redemandait le même
+  chemin, et restait là.
+- **Décision** : lot séparé, mesuré (parent, 21 novembre). La correction change des parties
+  de référence : elle vient donc comme de nouvelles règles de chemin, pour les nouvelles
+  parties seulement.
+- **Ce qui change** :
+  - « Secondes règles de chemin » : le trait entre deux cases doit être libre. Une mission
+    les porte (`paths: 2`) ; une partie sans elles garde les premières.
+  - Les nouveaux départs de mission et de défi les prennent. Leur code de départ commence par
+    une nouvelle version (`VIFS-0-…` au lieu de `VIFS-4-…`) ; un ancien code rejoue l'ancienne
+    partie, à l'identique.
+  - La Grande Expédition passe en version 3 : la version 2, avec ces règles et rien d'autre
+    (mêmes défis, même force). Une expédition commencée en version 2 se finit en version 2.
+  - Un camp de mission sauvé avec ces règles a sa version de sauvegarde (16). Le voyage à
+    finir et la grande aventure ne changent pas.
+- **Reproduction** (`tests/path-rules.test.ts`) : mission sur la carte du carrefour, une massue
+  posée juste au-dessus ou juste au-dessous du rocher de droite. Premières règles : immobile
+  5 s et 20 s d'affilée. Secondes règles : moins d'une seconde (la pause ordinaire entre deux
+  pas d'un combat).
+- **Mesure** (laboratoire des caprices, 6 804 parties par règle : 6 missions et 36 défis,
+  3 joueurs simulés, 54 départs chacun) :
+
+  | Joueur simulé | Victoires avant | Victoires après | Cristal minimal avant → après |
+  | ------------- | --------------: | --------------: | ----------------------------- |
+  | Expert        |            90 % |            90 % | 77 % → 77 %                   |
+  | Moyen         |            88 % |            88 % | 65 % → 65 %                   |
+  | Petit         |            38 % |            38 % | 26 % → 26 %                   |
+
+  1 072 parties sur 6 804 se jouent autrement (1 008 sur la carte du carrefour, 64 sur la carte
+  des méandres, aucune sur la troisième) : 42 perdues deviennent gagnées, 21 gagnées deviennent
+  perdues. Sur la carte du carrefour : expert 90 → 92 %, moyen 88 → 89 %, petit 40 → 41 %. Par
+  défi et par joueur, l'écart le plus grand est de 3 parties sur 54, dans les deux sens : du
+  bruit. **La difficulté ne change pas ; l'allié ne reste plus collé.**
+
+- **Mesure de l'expédition** (20 expéditions entières par joueur simulé, chemins alternés) :
+
+  | Joueur simulé         | Version 2 (premières règles) | Version 3 (secondes règles) |
+  | --------------------- | ---------------------------: | --------------------------: |
+  | Expert arrivé         |                         50 % |                        55 % |
+  | Moyen arrivé          |                         15 % |                        20 % |
+  | Apprenti au tableau 3 |                         40 % |                        35 % |
+
+  Une expédition sur vingt vaut 5 points : ces écarts sont du bruit, dans les deux sens.
+
+- **Fichiers** : `src/navigation.ts`, `src/routes.ts`, `src/engine/movement.ts`, `src/game.ts`,
+  `src/missions.ts`, `src/departures.ts`, `src/checkpoints.ts`, `src/missionProgress.ts`,
+  `src/expedition.ts`, `src/ui/expeditions.ts`, `src/ui/missionDraft.ts`.
+- **Tests** : `tests/path-rules.test.ts` ; `tests/expedition.test.ts` (version 3) ; douze
+  nouvelles parties de référence dans `tests/fixtures/engine-traces.ts`, les anciennes
+  inchangées (missions, défis, voyage, rendu).
+- **À décider avant de publier** : l'accord du parent sur cette mesure.
 
 ### C. Non corrigé, cas théorique
 
