@@ -4,6 +4,7 @@ import { missionById } from '../missions.ts';
 import { isMilestone } from '../rewards.ts';
 import type { Milestone } from '../rewards.ts';
 import { CRYSTAL_MAX, TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
+import { EXPEDITION_STAGE_VERSION } from '../voyageRules.ts';
 import { addEffect } from './state.ts';
 import { normalizeCamp } from './camp.ts';
 import { climbOut } from './swim.ts';
@@ -91,6 +92,9 @@ function nextRound(game: Game) {
   game.message = TEXT.kingSnakeEstVaincuIlRevientPlusFort;
 }
 function victoryMessage(game: Game): string {
+  // A step of « La Grande Expédition » earns no star for the mission it borrows, and never
+  // names it. (A voyage still under way keeps its words: its reference games stay the same.)
+  if (game.stage?.version === EXPEDITION_STAGE_VERSION) return TEXT.victoireEtapeGagnee;
   return game.mission
     ? fill(TEXT.victoireNNEtoiles, missionById(game.mission.missionId)!.name, game.missionStars)
     : TEXT.victoireKingSnakeEstVaincu;

@@ -233,19 +233,17 @@ function battleCard(
   const head = make('h3', { id: `exp-head-${battle.path}`, text: title });
   const map = make('span', { className: 'stop-map' }, stopMap(battle.run, lanes));
   const facts = make('div', { className: 'exp-facts' });
-  facts.append(make('strong', { text: missionById(battle.run.missionId)!.name }));
+  // An étape is named by its fixed challenge, never by the mission whose waves it borrows.
+  // A battle of version 1 may have none: the mission names it, as it did then.
+  const caprice = capriceDefinitionForRun(battle.run);
+  if (!caprice) facts.append(make('strong', { text: missionById(battle.run.missionId)!.name }));
   // The guardian's name is the card's title: its picture stands beside the map.
   if (battle.king) facts.append(make('span', { className: 'exp-guardian' }, king()));
-  const caprice = capriceDefinitionForRun(battle.run);
-  if (caprice)
-    facts.append(
-      make(
-        'span',
-        { className: 'exp-caprice' },
-        sticker(caprice, explain),
-        frenchLeaf('span', caprice.name),
-      ),
-    );
+  const named = caprice && frenchLeaf('strong', caprice.name);
+  if (caprice && named) {
+    named.id = `exp-defi-${battle.path}`;
+    facts.append(make('span', { className: 'exp-caprice' }, sticker(caprice, explain), named));
+  }
   // King Snake ends the expedition: no gift waits after him.
   const last = battle.king && state.tableau === expeditionPlanOf(state).tableaux.length - 1;
   // The gift it promises shares the row of the path's name.
@@ -260,8 +258,9 @@ function battleCard(
   }
   const play = button(undefined, ['primary', 'exp-go'], TEXT.cEstParti, go);
   play.dataset.path = battle.path;
-  // Two « C'est parti ! » side by side: each one is told by the name of its path.
-  if (title) play.setAttribute('aria-describedby', head.id);
+  // Two « C'est parti ! » side by side: each one is told by its path and its challenge.
+  const told = [title ? head.id : '', named ? named.id : ''].filter(Boolean).join(' ');
+  if (told) play.setAttribute('aria-describedby', told);
   card.append(top, make('div', { className: 'exp-body' }, map, facts), play);
   return card;
 }
@@ -378,7 +377,7 @@ export function mapView(
   if (record) lines.append(make('p', { className: 'exp-record', text: record }));
   if (step.kind !== 'halt' && (state.tableau > 0 || state.step > 0))
     lines.append(
-      make('p', { className: 'exp-grow', text: TEXT.lesSerpentsGrandissentAChaqueMission }),
+      make('p', { className: 'exp-grow', text: TEXT.lesSerpentsGrandissentAChaqueEtape }),
     );
   const said = lines.childElementCount ? [lines] : [];
   return [road(state), ...said, choices, foot(state, actions, true, notice)];

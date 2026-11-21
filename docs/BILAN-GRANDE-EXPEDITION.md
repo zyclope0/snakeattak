@@ -4,6 +4,44 @@ Demande du parent : un voyage plus long, plus profond, avec une vraie gestion de
 Décisions, noms et mesures : [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PROPOSITION.md).
 Architecture : [ARCHITECTURE.md](ARCHITECTURE.md), « La Grande Expédition ».
 
+## Le 21 novembre (suite) : un défi fixe par étape
+
+Le parent : les défis doivent être une spécificité fixe de chaque étape de l'aventure, pas un
+tirage ni un choix ; les six missions sont autre chose. Expédition version 2 :
+
+- **Chaque étape a son défi fixe**, toujours le même : un caprice du fils, avec son nom et ses
+  chiffres. Sur un embranchement, chaque chemin a le sien (plus dur sur le Chemin des Braves).
+  Tableau ajusté après mesure et accepté par le parent : `docs/VOYAGE-LONG-PROPOSITION.md`,
+  « Les défis fixes ».
+- **Le reste change** d'une expédition à l'autre : le terrain, l'attaque, les nids, le combat.
+  La mission pour laquelle le fils a réglé le défi donne ses vagues, sans jamais être nommée.
+- **« Étape »** remplace « mission » partout dans l'expédition ; une carte porte le nom de son
+  défi, plus celui d'une mission.
+- **Un peu plus dur** (demande du parent après ses essais) : les serpents grandissent de vie
+  ×1,07 et morsure ×1,035 à chaque étape (×1,06 et ×1,03 en version 1).
+- Une expédition commencée en version 1 se relit et se finit avec ses propres tirages.
+- **Relecture (8 angles)**. Trois défis ne jouaient pas avec le camp qui suit : « Bourse
+  trouée », « Deux copains seulement », « Un seul copain ». Le parent a accepté à leur place
+  « Les carapaces », « Les carapaces » et « La tirelire » (même difficulté mesurée). Un test
+  refuse maintenant un défi qui ne joue pas à sa place. Autres corrections :
+  - Le plateau nomme l'étape par son défi, jamais par la mission ; à la victoire, il dit
+    « Étape gagnée ! ».
+  - La fenêtre d'un défi s'appelle « Le défi de l'étape » (et plus « Caprice surprise »).
+  - Une carte de la version 1 sans défi garde le nom de sa mission.
+  - Le laboratoire mesure la version voulue (`VERSION=`) et essaie d'autres défis (`DEFIS=`).
+  - Sur téléphone, le titre du plateau est caché : le repère dit aussi le défi
+    (« Expédition · étape 1 sur 5 · Serpents pressés »).
+  - L'autocollant du défi n'a plus le fond gris du navigateur ; le nom du défi se lit comme le
+    nom de la carte, et « C'est parti ! » l'annonce aux lecteurs d'écran.
+  - La recette de l'expédition vérifie le défi de la carte, le titre de sa fenêtre, le repère
+    et le titre du plateau.
+- Pour plus tard (au parent) : « Les carapaces » et « La tirelire » reviennent quatre fois
+  chacune ; une étape ne se distingue pas toujours d'une autre par le nom de son défi.
+
+Vérifié : `npm run verify` ; recettes expédition, navigateur, hors-ligne et menus du voyage
+(780×360, 812×375, 1280×800). Pas essayé : le vrai téléphone et les enfants ; la difficulté
+réelle des nouveaux défis avec un enfant.
+
 ## Le 21 novembre : l'expédition remplace le voyage
 
 Remarque du parent : « l'expédition doit remplacer le voyage, ça fait des doublons ; garde

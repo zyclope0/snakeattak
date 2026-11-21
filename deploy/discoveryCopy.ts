@@ -63,7 +63,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Une aventure à ton rythme',
-        text: `Six missions t’attendent. Rejoue-les avec un caprice : c’est un défi des serpents. Pars pour « ${EXP_FR.laGrandeExpedition} » : ${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} missions, et des cadeaux à choisir en chemin. Dans l’« ${FR.aventureClassique} », douze vagues mènent à King Snake, le roi à trois têtes.`,
+        text: `Six missions t’attendent. Rejoue-les avec un caprice : c’est un défi des serpents. Pars pour « ${EXP_FR.laGrandeExpedition} » : ${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} étapes, et des cadeaux à choisir en chemin. Dans l’« ${FR.aventureClassique} », douze vagues mènent à King Snake, le roi à trois têtes.`,
       },
       {
         heading: 'Un jeu à partager en famille',
@@ -87,7 +87,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'An adventure at your pace',
-        text: `Six missions are waiting. Replay them with a caprice: a challenge from the snakes. Set off on “${EXP_EN.laGrandeExpedition}”: ${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} missions, with gifts to choose along the way. In the “${EN.aventureClassique}”, twelve waves lead to King Snake, the three-headed king.`,
+        text: `Six missions are waiting. Replay them with a caprice: a challenge from the snakes. Set off on “${EXP_EN.laGrandeExpedition}”: ${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} stages, with gifts to choose along the way. In the “${EN.aventureClassique}”, twelve waves lead to King Snake, the three-headed king.`,
       },
       {
         heading: 'Made to share with your family',
@@ -119,7 +119,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Reviens jouer autrement',
-        text: `Une victoire ouvre la mission suivante. Un caprice change les règles d’une mission ; « ${EXP_FR.laGrandeExpedition} » enchaîne ${EXPEDITION_BATTLES} missions. Sur téléphone, tourne l’écran pour jouer en largeur.`,
+        text: `Une victoire ouvre la mission suivante. Un caprice change les règles d’une mission ; « ${EXP_FR.laGrandeExpedition} » enchaîne ${EXPEDITION_BATTLES} étapes. Sur téléphone, tourne l’écran pour jouer en largeur.`,
       },
     ],
   },
@@ -147,7 +147,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Try a different adventure',
-        text: `A victory opens the next mission. A caprice changes the rules of a mission; “${EXP_EN.laGrandeExpedition}” strings ${EXPEDITION_BATTLES} missions together. Turn your phone sideways to play.`,
+        text: `A victory opens the next mission. A caprice changes the rules of a mission; “${EXP_EN.laGrandeExpedition}” strings ${EXPEDITION_BATTLES} stages together. Turn your phone sideways to play.`,
       },
     ],
   },
@@ -218,7 +218,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: EXP_FR.laGrandeExpedition,
-        text: `${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} missions sur une route qui se sépare en deux : « ${EXP_FR.leCheminTranquille} » ou « ${EXP_FR.leCheminDesBraves} », avec un cadeau rare au bout. En chemin, des haltes : ${EXP_FR.leFeuDeCamp}, ${EXP_FR.laRoulotteDeMamiePistache}, ${EXP_FR.lOeufMystere}. Tes alliés encore debout te suivent d’une mission à l’autre, et tu gardes tes cadeaux jusqu’au bout. King Snake attend à la fin. Si tu perds une mission, tu la rejoues depuis le même camp.`,
+        text: `${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} étapes sur une route qui se sépare en deux : « ${EXP_FR.leCheminTranquille} » ou « ${EXP_FR.leCheminDesBraves} », avec un cadeau rare au bout. En chemin, des haltes : ${EXP_FR.leFeuDeCamp}, ${EXP_FR.laRoulotteDeMamiePistache}, ${EXP_FR.lOeufMystere}. Tes alliés encore debout te suivent d’une étape à l’autre, et tu gardes tes cadeaux jusqu’au bout. King Snake attend à la fin. Chaque étape a son défi, toujours le même : à toi de le connaître. Si tu perds une étape, tu la rejoues depuis le même camp.`,
       },
       {
         heading: FR.laventureSansFin,
@@ -258,7 +258,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
     blocks: [
       {
         heading: EXP_EN.laGrandeExpedition,
-        text: `${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} missions on a road that splits in two: “${EXP_EN.leCheminTranquille}” or “${EXP_EN.leCheminDesBraves}”, with a rare gift at the end. Along the way, stops: ${EXP_EN.leFeuDeCamp}, ${EXP_EN.laRoulotteDeMamiePistache}, ${EXP_EN.lOeufMystere}. Your allies still standing follow you from one mission to the next, and you keep your gifts to the very end. King Snake waits at the finish. If you lose a mission, you play it again from the same camp.`,
+        text: `${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} stages on a road that splits in two: “${EXP_EN.leCheminTranquille}” or “${EXP_EN.leCheminDesBraves}”, with a rare gift at the end. Along the way, stops: ${EXP_EN.leFeuDeCamp}, ${EXP_EN.laRoulotteDeMamiePistache}, ${EXP_EN.lOeufMystere}. Your allies still standing follow you from one stage to the next, and you keep your gifts to the very end. King Snake waits at the finish. Each stage has its own challenge, always the same: learn it. If you lose a stage, you play it again from the same camp.`,
       },
       {
         heading: EN.laventureSansFin,

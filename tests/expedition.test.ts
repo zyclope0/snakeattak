@@ -56,7 +56,7 @@ test('le camp suit l’enfant dans un tableau : alliés debout, pièces, cristal
     game.units.map((u) => u.kind).sort(),
     'the same allies',
   );
-  assert.equal(second.gold, next.camp!.gold + X.EXPEDITION_TUNINGS[1].stipend);
+  assert.equal(second.gold, next.camp!.gold + X.tuningOf(after).stipend);
   // A battle lost changes nothing: it is tried again from the same camp.
   const lost = X.createExpeditionGame(plan, after, 'calm')!;
   lost.status = 'lost';
@@ -99,7 +99,7 @@ test('les haltes : feu de camp, roulotte, œuf', () => {
   const feu = halts.indexOf('feu');
   if (feu >= 0) {
     const rested = X.chooseHalt(plan, hurt, feu as 0 | 1)!;
-    assert.equal(rested.camp!.base, 30 + X.EXPEDITION_TUNINGS[1].campfire.crystal);
+    assert.equal(rested.camp!.base, 30 + X.tuningOf(hurt).campfire.crystal);
     for (const u of rested.camp!.units) assert.ok(u.hp <= kinds[u.kind as keyof typeof kinds].hp);
   }
   const roulotte = halts.indexOf('roulotte');
@@ -199,4 +199,77 @@ test('une expédition gardée se relit telle quelle, à chaque pas ; une fausse 
     X.readExpeditionState({ ...middle, pending: { kind: 'gift', rare: true, rerolled: false } }),
     null,
   );
+});
+
+test('version 2 : un défi fixe par étape, le même à chaque expédition ; la version 1 se relit', () => {
+  const defis = (seed: number) =>
+    X.planExpedition(seed)!.tableaux.map((tableau) =>
+      tableau.flatMap((step) =>
+        step.kind === 'halt'
+          ? []
+          : step.kind === 'battle'
+            ? [step.battle.run.caprice]
+            : [step.calm.run.caprice, step.brave.run.caprice],
+      ),
+    );
+  assert.equal(X.CURRENT_EXPEDITION_VERSION, 2);
+  // The challenges never change with the seed; the setup and the fight do.
+  assert.deepEqual(defis(SEED), defis(SEED + 7));
+  assert.deepEqual(defis(SEED)[0], [
+    'refuge-petit',
+    'refuge-createur-petit',
+    'refuge-moyen',
+    'course-petit',
+    'sonnette-moyen',
+    'coquilles-petit',
+    'refuge-createur-moyen',
+    'trois-ponts-createur-moyen',
+  ]);
+  // King Snake waits at the end with « Plus de miel ! »; the snakes grow a little faster.
+  assert.equal(defis(SEED)[2].at(-1), 'carrefour-petit');
+  assert.deepEqual(X.EXPEDITION_TUNINGS[2].strength, { hpStep: 0.07, biteStep: 0.035 });
+  assert.deepEqual(X.EXPEDITION_TUNINGS[1].strength, { hpStep: 0.06, biteStep: 0.03 });
+  const setups = new Set(
+    [SEED, SEED + 1, SEED + 2, SEED + 3].map((seed) => {
+      const first = X.planExpedition(seed)!.tableaux[0][0];
+      return first.kind === 'battle' ? `${first.battle.run.layout}-${first.battle.run.seed}` : '';
+    }),
+  );
+  assert.ok(setups.size > 1, 'the terrain and the fight change');
+  // An expedition begun in version 1 reads back and keeps its own draws.
+  const old = { ...X.startExpedition(SEED)!, version: 1 };
+  assert.equal(X.readExpeditionState(old)?.version, 1);
+  assert.notDeepEqual(X.planExpedition(SEED, 1), X.planExpedition(SEED, 2));
+  assert.equal(X.readExpeditionState({ ...old, version: '1' }), null);
+  assert.equal(X.readExpeditionState({ ...old, version: 3 }), null);
+});
+
+test('chaque défi fixe joue vraiment là où il est placé', async () => {
+  const { capriceById } = await import('../src/caprices.ts');
+  for (const version of [2] as const) {
+    const tuning = X.EXPEDITION_TUNINGS[version];
+    tuning.tableaux.forEach((table, t) => {
+      const places = [
+        ['first', [table.first]],
+        ['calm', table.calm],
+        ['brave', table.brave],
+        ['guardian', [table.guardian]],
+      ] as const;
+      for (const [where, draws] of places) {
+        const list = (Array.isArray(draws) ? draws : [draws]) as readonly object[];
+        if (where === 'calm' || where === 'brave') assert.equal(list.length, 3, `${t} ${where}`);
+        for (const draw of list) {
+          const id = (draw as { defi?: string }).defi;
+          const caprice = capriceById(id);
+          assert.ok(caprice, `${version}:${t} ${where} ${id}`);
+          // The allies of the camp carried along take the places a limit of kinds counts.
+          assert.ok(!tuning.excluded.includes(caprice.id), `${t} ${where} ${id}: kinds`);
+          assert.equal(caprice.rules.kinds, 0, `${t} ${where} ${id}: kinds`);
+          // A camp carried along brings its own purse: a smaller purse only plays at a first.
+          if (where !== 'first')
+            assert.equal(caprice.rules.budget, 1, `${t} ${where} ${id}: purse`);
+        }
+      }
+    });
+  }
 });

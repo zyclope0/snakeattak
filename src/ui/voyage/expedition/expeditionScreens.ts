@@ -1,6 +1,7 @@
 import './expedition.css';
 import { BOON_RULES, boonLevel, isLastingBoon } from '../../../boons.ts';
 import type { BoonId, LastingBoon } from '../../../boons.ts';
+import { capriceById } from '../../../caprices.ts';
 import type { CapriceDefinition } from '../../../caprices.ts';
 import {
   buyAtRoulotte,
@@ -136,7 +137,7 @@ export function bindExpeditionScreens(
     const state = log.current;
     const game = state && createExpeditionGame(expeditionPlanOf(state), state, path);
     if (!state || !game) {
-      notice = TEXT.cetteMissionNeSOuvrePas;
+      notice = TEXT.cetteEtapeNeSOuvrePas;
       show();
       focusQuestion();
       return;
@@ -246,6 +247,7 @@ export function bindExpeditionScreens(
       return session.screen === 'battle'
         ? {
             mark: battleMark(live.state),
+            defi: capriceById(live.game.mission?.caprice)?.name,
             outcome: live.outcome,
             kept: keptLine(saved),
           }

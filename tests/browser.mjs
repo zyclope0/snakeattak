@@ -297,7 +297,7 @@ if ((await voyage.locator('.exp-stop').count()) !== 12)
   throw Error('Route de l’expédition incomplète');
 await voyage.locator('.exp-go').first().click();
 await voyage.locator('#start').waitFor({ state: 'visible' });
-if ((await voyage.locator('#voyage-mark').innerText()) !== 'Expédition · mission 1 sur 5')
+if ((await voyage.locator('#voyage-mark-step').innerText()) !== 'Expédition · étape 1 sur 5')
   throw Error('Repère de l’expédition absent');
 console.log(
   JSON.stringify({

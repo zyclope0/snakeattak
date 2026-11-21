@@ -52,10 +52,10 @@ const arrivedState = walk;
 test('le titre, le chemin des sept pas et ce que dit le plateau suivent l’expédition', () => {
   assert.deepEqual(W.expeditionHeading(start), {
     title: 'La Vallée des Sifflements',
-    step: 'Mission 1 sur 5',
+    step: 'Étape 1 sur 5',
   });
-  assert.deepEqual(W.expeditionHeading(gift), { title: 'Mission gagnée !', step: '' });
-  assert.deepEqual(W.expeditionHeading(fork).step, 'Mission 2 sur 5');
+  assert.deepEqual(W.expeditionHeading(gift), { title: 'Étape gagnée !', step: '' });
+  assert.deepEqual(W.expeditionHeading(fork).step, 'Étape 2 sur 5');
   assert.deepEqual(W.expeditionHeading(halt).step, 'Où t’arrêtes-tu ?');
   assert.deepEqual(W.expeditionHeading(guardianBeaten), {
     title: 'Capitaine Zigzag est vaincu !',
@@ -79,22 +79,22 @@ test('le titre, le chemin des sept pas et ce que dit le plateau suivent l’exp�
   assert.deepEqual(
     road[1].map((s) => [s.name, s.detail, s.said]),
     [
-      ['Le Chemin Tranquille', 'Mission 2', 'à jouer'],
-      ['Le Chemin des Braves', 'Mission 2', 'à jouer'],
+      ['Le Chemin Tranquille', 'Étape 2', 'à jouer'],
+      ['Le Chemin des Braves', 'Étape 2', 'à jouer'],
     ],
   );
   assert.equal(W.roadColumns(halt)[2][0].said, 'à choisir', 'a halt is chosen');
   assert.equal(road[2][0].said, 'à venir');
   assert.equal(road[3][0].mission, 3);
-  assert.equal(W.battleMark(fork), 'Expédition · mission 2 sur 5');
-  assert.equal(W.battleOutcome(gift).note, 'Ton camp te suit à la prochaine mission.');
+  assert.equal(W.battleMark(fork), 'Expédition · étape 2 sur 5');
+  assert.equal(W.battleOutcome(gift).note, 'Ton camp te suit à l’étape suivante.');
   assert.equal(
     W.battleOutcome(guardianBeaten).note,
     'Capitaine Zigzag est vaincu ! Un nouveau tableau t’attend.',
   );
   assert.equal(W.battleOutcome(null).button, 'Revenir à l’expédition');
   assert.equal(W.recordLine(0), '');
-  assert.equal(W.recordLine(2), 'Ta plus longue expédition : 2 missions');
+  assert.equal(W.recordLine(2), 'Ta plus longue expédition : 2 étapes');
   assert.equal(W.underWay(start), false);
   assert.equal(W.underWay(fork), true);
   assert.deepEqual(W.campWords(start), ['Un nouveau camp t’attend : recrute tes alliés.']);
@@ -113,7 +113,7 @@ test('les cadeaux disent ce qu’ils donneront ; un rare arrive au niveau 2', ()
   assert.equal(W.giftWords(gift, 'pieces', true).detail, '200 pièces pour recruter tes alliés.');
   assert.equal(W.giftWords(gift, 'pieces', false).detail, '100 pièces pour recruter tes alliés.');
   assert.equal(W.campWords(fork)[2], `Ton cristal : ${Math.round(fork.camp!.base)} %`);
-  assert.match(W.giftWords(gift, 'renfort-ninja', false).detail, /Pour la prochaine mission\.$/);
+  assert.match(W.giftWords(gift, 'renfort-ninja', false).detail, /Pour la prochaine étape\.$/);
   const egg = X.chooseHalt(plan, { ...halt, boons: [] }, 0)!;
   const step = plan.tableaux[0][halt.step];
   const said = W.haltNotice(halt, egg, step.kind === 'halt' ? step.halts[0] : 'feu');
@@ -121,11 +121,11 @@ test('les cadeaux disent ce qu’ils donneront ; un rare arrive au niveau 2', ()
 });
 
 test('une bataille de l’expédition se nomme sur le plateau ; perdue, on réessaie', () => {
-  assert.equal(victoryCopy(firstGame).title, 'Mission gagnée !');
+  assert.equal(victoryCopy(firstGame).title, 'Étape gagnée !');
   const lost = X.createExpeditionGame(plan, start)!;
   assert.deepEqual(defeatCopy(lost), {
     title: 'On réessaie ?',
-    subtitle: 'Ton camp revient comme avant la mission.',
+    subtitle: 'Ton camp revient comme avant l’étape.',
   });
 });
 
@@ -159,19 +159,19 @@ test('every sentence of the expedition reads in English', async () => {
   try {
     const english: [string, string][] = [
       [W.expeditionHeading(start).title, 'The Valley of Hisses'],
-      [W.expeditionHeading(start).step, 'Mission 1 of 5'],
+      [W.expeditionHeading(start).step, 'Stage 1 of 5'],
       [W.expeditionHeading(guardianBeaten).title, 'Captain Zigzag is beaten!'],
-      [W.battleMark(fork), 'Expedition · mission 2 of 5'],
-      [W.recordLine(2), 'Your longest expedition: 2 missions'],
+      [W.battleMark(fork), 'Expedition · stage 2 of 5'],
+      [W.recordLine(2), 'Your longest expedition: 2 stages'],
       [
         W.replaceSentence(fork),
-        'You have already won 1 mission. If you change, you start again from the beginning.',
+        'You have already won 1 stage. If you change, you start again from the beginning.',
       ],
       [W.giftsLabel(2), 'Your gifts: 2 of 5 spots'],
-      [W.arrivedLine(), 'You won all 15 missions!'],
+      [W.arrivedLine(), 'You won all 15 stages!'],
       [W.coinsLine(420), 'You have 420 coins'],
       [W.haltPromise(start, 'feu'), 'Your crystal mends by 40 and your allies get some rest.'],
-      [victoryCopy(firstGame).title, 'Mission won!'],
+      [victoryCopy(firstGame).title, 'Stage won!'],
       [W.campWords(fork)[2], `Your crystal: ${Math.round(fork.camp!.base)}%`],
       [W.expeditionHeading(arrivedState).title, 'Well done! You finished The Great Expedition'],
     ];

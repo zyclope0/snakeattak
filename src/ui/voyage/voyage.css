@@ -639,6 +639,13 @@
   line-height: 1.4;
   pointer-events: none;
 }
+/* Le défi de l'étape suit le repère, en français : sur téléphone, le titre du plateau se cache. */
+#voyage-mark-defi::before {
+  content: ' · ';
+}
+#voyage-mark-defi[hidden] {
+  display: none;
+}
 #voyage-result[hidden] {
   display: none;
 }

@@ -24,6 +24,7 @@ export const unSerpentAAtteintLeCamp = 'A snake reached the camp!';
 export const leCampEstTombeUneAutreStrategie = 'The camp has fallen… Try another plan?';
 export const vagueRepousseeNPiecesPrepareLa = 'Wave cleared! +{0} coins. Prepare for the next one.';
 export const victoireNNEtoiles = 'Victory! {0}: {1} stars!';
+export const victoireEtapeGagnee = 'Victory! Stage won!';
 export const victoireKingSnakeEstVaincu = 'Victory! King Snake is defeated!';
 export const leRoiArriveAvecSaGardeEtUnSoigneur =
   'The King arrives with his guards and a healer! Each head has its own role.';

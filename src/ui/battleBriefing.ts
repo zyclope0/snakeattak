@@ -3,7 +3,8 @@ import { portraitStyle } from '../art.ts';
 import { kinds } from '../data.ts';
 import type { Game } from '../game.ts';
 import { missionById } from '../missions.ts';
-import { defeatCopy, endlessCopy } from '../render/resultCopy.ts';
+import { capriceById } from '../caprices.ts';
+import { defeatCopy, endlessCopy, victoryCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
 import { feastIconStyle, feastName } from './feastControls.ts';
 import { placementAdvice } from './placementAdvice.ts';
@@ -11,14 +12,33 @@ import { byId } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 import { endlessWave } from '../endless.ts';
+import { EXPEDITION_STAGE_VERSION } from '../voyageRules.ts';
 
-/** The name of the place: the mission first when there is one, then its map. */
+/**
+ * The name of the place: the mission first when there is one, then its map. A step of « La
+ * Grande Expédition » with a challenge is named by it, never by the mission it borrows.
+ */
 export function showLevel(game: Game) {
+  const name = byId('level-name');
+  const defi =
+    game.stage?.version === EXPEDITION_STAGE_VERSION ? capriceById(game.mission?.caprice) : null;
+  frenchName(name, !!defi);
   setText(
-    byId('level-name'),
-    game.mission ? missionById(game.mission.missionId)!.name : game.level.name,
+    name,
+    defi?.name ?? (game.mission ? missionById(game.mission.missionId)!.name : game.level.name),
   );
   setText(byId('level-subtitle'), game.mission ? game.level.name : game.level.subtitle);
+}
+
+/** The son's names stay in French in every language: the node is never translated. */
+function frenchName(node: HTMLElement, french: boolean) {
+  if (french) {
+    node.dataset.copyRaw = '';
+    node.lang = 'fr';
+  } else {
+    delete node.dataset.copyRaw;
+    node.removeAttribute('lang');
+  }
 }
 
 /** The wave that comes, or how the battle ended. */
@@ -50,7 +70,7 @@ function outcomeBriefing(game: Game) {
   if (game.status !== 'won') return { title: TEXT.leCampEstTombe, tip: defeatCopy(game).subtitle };
   return game.mission
     ? {
-        title: TEXT.missionReussie2,
+        title: game.stage ? victoryCopy(game).title : TEXT.missionReussie2,
         tip: TEXT.tesAlliesOntTenuRetrouveLaCarte,
       }
     : {

@@ -73,19 +73,19 @@ export function expeditionHeading(state: ExpeditionState): { title: string; step
   if (phase === 'roulotte') return { title: TEXT.laRoulotteDeMamiePistache, step: '' };
   if (phase === 'gift') {
     // A guardian has just fallen when the gift opens a new tableau.
-    const title = state.step === 0 ? GUARDIAN_BEATEN[state.tableau - 1] : TEXT.missionGagnee;
+    const title = state.step === 0 ? GUARDIAN_BEATEN[state.tableau - 1] : TEXT.etapeGagnee;
     return { title, step: '' };
   }
   const step =
     phase === 'halt'
       ? TEXT.ouTArretesTu
-      : fill(TEXT.missionNSurN, missionInTableau(state), BATTLES_PER_TABLEAU);
+      : fill(TEXT.etapeNSurN, missionInTableau(state), BATTLES_PER_TABLEAU);
   return { title: TABLEAU_NAMES[state.tableau], step };
 }
 
 /** « Ta plus longue expédition » : a personal record, never a ranking. Nothing before a win. */
 export const recordLine = (best: number): string =>
-  best > 0 ? fill(TEXT.taPlusLongueExpeditionNMissionN, best, plural(best)) : '';
+  best > 0 ? fill(TEXT.taPlusLongueExpeditionNEtapeN, best, plural(best)) : '';
 
 /** Under the panel: what is kept and what is not, or that this device keeps nothing. */
 export const keepingNote = (saved: boolean): string =>
@@ -137,7 +137,7 @@ export function roadColumns(state: ExpeditionState): RoadStop[][] {
         };
       });
     mission++;
-    const number = fill(TEXT.missionN, mission);
+    const number = fill(TEXT.etapeN, mission);
     if (step.kind === 'fork')
       return (['calm', 'brave'] as const).map((path, choice) => {
         const stop = stateOf(choice);
@@ -199,7 +199,7 @@ export function giftWords(
   const detail =
     id === 'pieces'
       ? fill(TEXT.nPiecesPourRecruterTesAllies, giftCoins(rare))
-      : `${reward.detail} ${TEXT.pourLaProchaineMission}`;
+      : `${reward.detail} ${TEXT.pourLaProchaineEtape}`;
   return { title: reward.title, detail, action: TEXT.choisirCeCadeau };
 }
 
@@ -234,12 +234,12 @@ export function haltNotice(before: ExpeditionState, after: ExpeditionState, halt
 /** Before an expedition under way is replaced: what would stop. */
 export const replaceSentence = (state: ExpeditionState): string => {
   const won = battlesWon(state);
-  return fill(TEXT.tuAsDejaGagneNMissionNSiTuChanges, won, plural(won));
+  return fill(TEXT.tuAsDejaGagneNEtapeNSiTuChanges, won, plural(won));
 };
 
 /** The small mark on the board: the child is on the expedition, at this mission. */
 export const battleMark = (state: ExpeditionState): string =>
-  fill(TEXT.expeditionMissionNSurN, missionInTableau(state), BATTLES_PER_TABLEAU);
+  fill(TEXT.expeditionEtapeNSurN, missionInTableau(state), BATTLES_PER_TABLEAU);
 
 /**
  * The end of a battle, on the board. `after` is the expedition once the battle is recorded,
@@ -252,8 +252,7 @@ export function battleOutcome(after: ExpeditionState | null | 'unsaved'): {
   // A victory the device refused to keep: said plainly, and the way back is still there.
   if (after === 'unsaved')
     return { note: TEXT.taVictoireNAPasPuEtreGardee, button: TEXT.revenirALExpedition };
-  if (!after)
-    return { note: TEXT.rienNEstPerduRejoueCetteMission, button: TEXT.revenirALExpedition };
+  if (!after) return { note: TEXT.rienNEstPerduRejoueCetteEtape, button: TEXT.revenirALExpedition };
   if (after.status === 'arrived')
     return {
       note: fill(TEXT.nEstVaincuTuAsFiniLaGrandeExpedition, GUARDIAN_NAMES.at(-1)!),
@@ -262,13 +261,13 @@ export function battleOutcome(after: ExpeditionState | null | 'unsaved'): {
   const note =
     after.step === 0
       ? GUARDIAN_BEATEN_ONWARD[after.tableau - 1]
-      : TEXT.tonCampTeSuitALaProchaineMission;
+      : TEXT.tonCampTeSuitALEtapeSuivante;
   return { note, button: TEXT.continuerLExpedition };
 }
 /** What the board's status line says is kept, true to what the device did. */
 export const keptLine = (saved: boolean) =>
-  saved ? TEXT.lExpeditionEstGardeeEntreDeuxMissions : TEXT.cetAppareilNeGardePasLExpedition;
+  saved ? TEXT.lExpeditionEstGardeeEntreDeuxEtapes : TEXT.cetAppareilNeGardePasLExpedition;
 
-export const arrivedLine = () => fill(TEXT.tuAsGagneLesNMissions, EXPEDITION_BATTLES);
+export const arrivedLine = () => fill(TEXT.tuAsGagneLesNEtapes, EXPEDITION_BATTLES);
 export const coinsLine = (coins: number) => fill(TEXT.tuAsNPieces, coins);
-export const capriceLabel = (name: string) => fill(TEXT.capriceSurpriseN, name);
+export const capriceLabel = (name: string) => fill(TEXT.leDefiDeLEtapeN, name);

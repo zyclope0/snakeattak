@@ -90,6 +90,63 @@ et garder **la quatrième voie** pour plus tard, quand le reste plaît aux enfan
   anciens codes restent lisibles mais ne sont plus proposés.
 - **La carte garde l'allure du voyage** : une route qu'on voit, avec ses embranchements.
 
+## Les défis fixes (décision du parent, 21 novembre)
+
+Le parent : « les défis, une spécificité de chaque mission de l'aventure, pas un choix, fixe
+dans l'aventure, ce qui la rend originale ; les missions, c'est autre chose ». Ses choix :
+défis fixes, le reste varié ; chemins et haltes gardés, un défi fixe sur chaque chemin ;
+d'abord les caprices du fils, puis les règles nouvelles une à une ; le mot « étape ».
+
+Chaque étape porte un caprice du fils, toujours le même. La mission pour laquelle il l'a
+réglé donne ses vagues, sans son nom ; le terrain, l'attaque, les nids et le combat changent
+d'une expédition à l'autre (`EXPEDITION_TUNINGS[2]`, `src/expedition.ts`). Tableau ajusté
+après mesure, accepté par le parent le 21 novembre :
+
+| Tableau                   | Étape 1          | Étape 2 (tranquille / braves)             | Étape 3                             | Étape 4                                   | Gardien                                 |
+| ------------------------- | ---------------- | ----------------------------------------- | ----------------------------------- | ----------------------------------------- | --------------------------------------- |
+| La Vallée des Sifflements | Serpents pressés | La tirelire / Méga serpent                | Rafales de serpents / Crocs pointus | Pique-nique d'œufs / Les carapaces        | Capitaine Zigzag : Les carapaces        |
+| Le Marais Glouglou        | La tirelire      | Les carapaces / Blindcrocs                | Grosse fringale / La petite tempête | Les carapaces / Serpents costauds         | Madame Gloups : La tirelire             |
+| Les Pics aux Mille Crocs  | La tempête       | La tirelire / Grandes rafales de serpents | La grande charge / Le roi s'invite  | La tempête / Le roi et sa grande fringale | King Snake et sa garde : Plus de miel ! |
+
+Mesure (20 expéditions entières par joueur simulé, chemins alternés) :
+
+| Joueur simulé         | Version 1 (tirages) | Tableau du parent | Tableau ajusté |
+| --------------------- | ------------------: | ----------------: | -------------: |
+| Expert arrivé         |                95 % |              80 % |           80 % |
+| Moyen arrivé          |                70 % |              55 % |           60 % |
+| Apprenti au tableau 3 |                35 % |              30 % |           45 % |
+
+Le parent, après ses propres essais : les joueurs simulés sont plus faibles que de vrais
+enfants (« un joueur qui joue au hasard arrive souvent au niveau expert ») ; la difficulté
+peut monter un peu. Force des serpents par étape, avec le tableau ajusté :
+
+| Force par étape                        | Expert arrivé | Moyen arrivé | Apprenti au tableau 3 |
+| -------------------------------------- | ------------: | -----------: | --------------------: |
+| vie ×1,06, morsure ×1,03 (version 1)   |          80 % |         60 % |                  45 % |
+| **vie ×1,07, morsure ×1,035 (choisi)** |      **45 %** |     **15 %** |              **40 %** |
+| vie ×1,08, morsure ×1,04               |          40 % |          5 % |                  20 % |
+| vie ×1,10, morsure ×1,05               |           0 % |          0 % |                   0 % |
+
+Le joueur simulé abandonne après trois essais de la même étape ; un enfant peut réessayer
+autant qu'il veut. Le plus dur reste le début des Pics (« La tempête ») et, pour l'apprenti,
+l'étape 4 du Marais.
+
+Correction du 21 novembre, après relecture. Trois défis ne jouaient pas là où ils étaient :
+le camp qui suit l'enfant apporte ses pièces (« Bourse trouée », gardien de la Vallée) et
+plusieurs sortes d'alliés (« Deux copains seulement » au Marais, « Un seul copain » aux Pics).
+Le parent a accepté trois défis du créateur à leur place (déjà dans le tableau ci-dessus) :
+« Les carapaces », « Les carapaces » et « La tirelire ». Un test refuse désormais un défi qui
+ne joue pas à sa place (`tests/expedition.test.ts`). Même mesure, avec la force choisie :
+
+| Joueur simulé         | Avant la correction | Après |
+| --------------------- | ------------------: | ----: |
+| Expert arrivé         |                45 % |  50 % |
+| Moyen arrivé          |                15 % |  15 % |
+| Apprenti au tableau 3 |                40 % |  40 % |
+
+Plus tard, les règles nouvelles prendront certaines places (Les Ponts Mouillés, Double
+Couronne pour un gardien, Le Tunnel Secret…), chacune montrée au fils, mesurée, acceptée.
+
 ## Les noms (choisis par Claude le 20 novembre, provisoires)
 
 Le parent n'a pas encore de noms ; il demande des noms originaux, qui plaisent aux enfants, et

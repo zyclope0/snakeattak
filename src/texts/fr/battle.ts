@@ -23,6 +23,7 @@ export const unSerpentAAtteintLeCamp = 'Un serpent a atteint le camp !';
 export const leCampEstTombeUneAutreStrategie = 'Le camp est tombé… Une autre stratégie ?';
 export const vagueRepousseeNPiecesPrepareLa = 'Vague repoussée ! +{0} pièces. Prépare la suite.';
 export const victoireNNEtoiles = 'Victoire ! {0} : {1} étoiles !';
+export const victoireEtapeGagnee = 'Victoire ! Étape gagnée !';
 export const victoireKingSnakeEstVaincu = 'Victoire ! King Snake est vaincu !';
 export const leRoiArriveAvecSaGardeEtUnSoigneur =
   'Le roi arrive avec sa garde et un soigneur ! Chaque tête a son rôle.';
