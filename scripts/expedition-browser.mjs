@@ -182,7 +182,7 @@ try {
       assert.equal(await text(page, '#voyage-mark'), 'Expédition · mission 1 sur 5');
       assert.equal(await playOut(page), 'won', `${name}: mission 1 is won on the board`);
       assert.equal(await text(page, '#battle-result-title'), FR.missionGagnee);
-      assert.equal(await text(page, '#voyage-result-note'), FR.missionGagneeTonCampTeSuit);
+      assert.equal(await text(page, '#voyage-result-note'), FR.tonCampTeSuitALaProchaineMission);
       assert.equal(
         await page.evaluate(() => document.activeElement?.id),
         'voyage-continue',

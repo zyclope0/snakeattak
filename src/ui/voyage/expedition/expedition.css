@@ -442,12 +442,12 @@
   }
   /* Le choix d'un cadeau : chaque carte entière se touche ; un « Choisir » tout simple laisse
      sa place, un niveau à monter reste écrit. */
-  [data-view='gift'] .exp-ask h2,
+  .expedition-page[data-view='gift'] .exp-ask h2,
   .exp-gift-cards .bonus-card[data-plain] small {
     display: none;
   }
   /* À la roulotte, les cartes défilent seules : « Repartir » reste en haut, sans le pied. */
-  [data-view='roulotte'] .exp-foot {
+  .expedition-page[data-view='roulotte'] .exp-foot {
     display: none;
   }
 }
@@ -558,7 +558,7 @@
 }
 
 /* ---- L'arrivée : King Snake en trophée, au milieu du panneau ---- */
-[data-view='arrived'] .voyage-view {
+.expedition-page[data-view='arrived'] .voyage-view {
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -568,10 +568,10 @@
   height: calc(var(--hu) * 9);
   background: url('../../../assets/home/menu-classique.webp') center / contain no-repeat;
 }
-[data-view='arrived'] .exp-foot {
+.expedition-page[data-view='arrived'] .exp-foot {
   border-top: 0;
 }
-[data-view='arrived'] .voyage-actions {
+.expedition-page[data-view='arrived'] .voyage-actions {
   grid-template-columns: auto;
   justify-content: center;
 }
@@ -590,7 +590,7 @@
 
 /* La roulotte : la vue tient dans le panneau, et sa boutique défile seule quand elle a beaucoup
    de cadeaux (jusqu'à huit). */
-[data-view='roulotte'] .voyage-view {
+.expedition-page[data-view='roulotte'] .voyage-view {
   flex: 1 1 auto;
   min-height: 0;
 }
