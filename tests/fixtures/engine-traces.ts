@@ -36,4 +36,19 @@ export const expectedTraces: Readonly<Record<string, string>> = Object.freeze({
   'mission carrefour': 'won w4 b55 g359 k58 s5192 9ba78a2231c41bee638ef70e',
   'défi carrefour-petit r1': 'won w4 b100 g372 k62 s5114 eed991e24b2d009f9126136c',
   'défi carrefour-createur-petit r2': 'won w4 b100 g801 k64 s4553 9565c5d568586826fc40990f',
+  // Second path rules (21 November 2026): the same departures of the second balance revision,
+  // played by the same player. A walker no longer plans across a rock, so an ally no longer
+  // stands against one. Produced when these rules were written; the lines above did not move.
+  'mission refuge chemins 2': 'won w3 b100 g323 k25 s1838 3eb8d8979f0f21699a32a26c',
+  'défi refuge-moyen chemins 2': 'won w3 b100 g401 k44 s2568 50c329052c9645a1f883ec7f',
+  'mission trois-ponts chemins 2': 'won w3 b100 g349 k31 s2595 92b1ac76b97fdc7b4b8512e5',
+  'défi trois-ponts-createur-grand chemins 2': 'lost w2 b0 g6 k5 s1545 1210f806ae7781d42cc38123',
+  'mission course chemins 2': 'won w3 b100 g280 k37 s2478 237966852449908d3b611f38',
+  'défi course-petit chemins 2': 'won w3 b100 g370 k37 s2032 c5ad58c37fc785e5f37fd334',
+  'mission coquilles chemins 2': 'won w3 b100 g421 k43 s3290 655a64d76c5cde4ad28a50ff',
+  'défi coquilles-createur-moyen chemins 2': 'won w3 b100 g284 k42 s4170 76bf9e76eeb2a8529b3ea2e4',
+  'mission sonnette chemins 2': 'won w3 b78 g347 k39 s3422 02b510e0c73c0934f4c12925',
+  'défi sonnette-grand chemins 2': 'won w3 b55 g311 k36 s3445 3ddf2745c50f799092f4d046',
+  'mission carrefour chemins 2': 'won w4 b28 g330 k56 s4764 8be0e24b9664619a8982eff5',
+  'défi carrefour-createur-petit chemins 2': 'won w4 b100 g801 k64 s4553 87c70698126e5029acfcd37e',
 });

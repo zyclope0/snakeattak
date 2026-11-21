@@ -37,10 +37,13 @@ const refused = (reason: Refusal['reason']): Refusal => ({ ok: false, reason });
  *   7  the fifth balance revision: the same
  *   8  the sixth balance revision: the same
  *   9  the seventh balance revision: the same
+ *   A  an expedition of the second balance revision with the second path rules
  * Setup 0 is the great adventure; 1 to 108 are the eighteen setups of each of the six
- * missions. Versions 3 and 4 keep one more bit for the tutorial rules of the refuge.
+ * missions. Versions 3, 4 and A keep one more bit for the tutorial rules of the refuge.
  */
-const RULES = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] as const;
+const RULES = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A'] as const;
+/** The rule of an expedition begun with the second path rules: written like rule 4. */
+const PATHS_RULE = 'A';
 /** The rule of each revision that exists in the great adventure only. */
 const CLASSIC_RULE: Readonly<Record<ClassicRevision, Rule>> = {
   3: '5',
@@ -54,7 +57,7 @@ const classicRevisionOf = (rule: string): ClassicRevision | null => {
   return found ? (Number(found[0]) as ClassicRevision) : null;
 };
 type Rule = (typeof RULES)[number];
-const hasTutorialBit = (rule: string) => rule === '3' || rule === '4';
+const hasTutorialBit = (rule: string) => rule === '3' || rule === '4' || rule === PATHS_RULE;
 // The setup takes the low seven bits of the payload; the tutorial bit, when there is one,
 // comes next; the seed takes the rest.
 const SETUP_RANGE = 128;
@@ -87,7 +90,16 @@ function missionParts(raw: MissionRun): CodeParts {
   const run = readMissionRun(raw);
   if (!run || !isPersistableMissionRun(run)) throw new RangeError(TEXT.departInvalide);
   // The newest rule in use names the version: older codes keep their exact text.
-  const rule = run.balance === 2 ? '4' : run.caprice ? '3' : run.rules === 2 ? '2' : '1';
+  const rule =
+    run.paths === 2
+      ? PATHS_RULE
+      : run.balance === 2
+        ? '4'
+        : run.caprice
+          ? '3'
+          : run.rules === 2
+            ? '2'
+            : '1';
   const index = MISSIONS.findIndex((m) => m.id === run.missionId);
   const tutorial = hasTutorialBit(rule) && run.rules === 2 ? TUTORIAL_BIT : 0;
   return {
@@ -128,7 +140,8 @@ export function encodeDeparture(departure: Departure): string {
 
 /** Far longer than any code, even typed with stray spaces: the rest is not read at all. */
 export const DEPARTURE_INPUT_LIMIT = 96;
-const WRITTEN_CODE = /^([A-Z]+)-(\d)-([A-Z0-9]{4})-([A-Z0-9]{4})-(?:([A-Z0-9]{2})-)?([A-Z0-9]{2})$/;
+const WRITTEN_CODE =
+  /^([A-Z]+)-([0-9A])-([A-Z0-9]{4})-([A-Z0-9]{4})-(?:([A-Z0-9]{2})-)?([A-Z0-9]{2})$/;
 const CHALLENGE_SUFFIX = /^[SC][123]$/;
 /** A code that is written correctly: its fields, with the payload as a number. */
 type WrittenCode = { ok: true; word: string; rule: Rule; suffix: string; value: number };
@@ -167,10 +180,12 @@ export function decodeDeparture(raw: unknown): Result {
   // The tutorial rules only exist in the refuge, the first eighteen setups.
   const inRefuge = config >= 1 && config <= MISSION_SETUPS;
   if (rules2 && !inRefuge) return refused(rule === '2' ? 'version' : 'setup');
-  const hasChallenge = rule === '3' || (rule === '4' && suffix !== NO_CHALLENGE);
+  const second = rule === '4' || rule === PATHS_RULE;
+  const hasChallenge = rule === '3' || (second && suffix !== NO_CHALLENGE);
   if (hasChallenge && (config === 0 || !CHALLENGE_SUFFIX.test(suffix))) return refused('setup');
   if (config === 0) {
-    if (word !== TEXT.aventure) return refused('setup');
+    // The second path rules only exist in an expedition.
+    if (word !== TEXT.aventure || rule === PATHS_RULE) return refused('setup');
     const classic = classicRevisionOf(rule);
     const balance = classic ? { balance: classic } : rule === '4' ? { balance: 2 as const } : {};
     return { ok: true, departure: Object.freeze({ kind: 'classic', seed, ...balance }) };
@@ -185,7 +200,8 @@ export function decodeDeparture(raw: unknown): Result {
   if (hasChallenge && !caprice) return refused('setup');
   const run = readMissionRun({
     missionId: MISSIONS[index].id,
-    ...(rule === '4' ? { balance: 2 } : {}),
+    ...(second ? { balance: 2 } : {}),
+    ...(rule === PATHS_RULE ? { paths: 2 } : {}),
     ...(rules2 ? { rules: 2 } : {}),
     ...(caprice ? { caprice: caprice.id } : {}),
     seed,

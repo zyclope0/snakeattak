@@ -307,6 +307,27 @@ repartent sous leurs clés (avec retour arrière si l'appareil refuse), puis l'a
 écrite seule, comme avant.
 Un fichier sans extras reste écrit dans sa version d'avant, à l'octet près.
 
+### Secondes règles de chemin (21 novembre 2026)
+
+`findPath` reliait deux cases voisines dès que leurs deux centres étaient libres. Sur deux
+cartes de mission, un rocher coupe le trait entre deux centres : le marcheur refusait d'y
+entrer, redemandait le même chemin, et restait collé. Les secondes règles
+(`PathRules = 2`, `clearEdge` dans `navigation.ts`) demandent aussi le trait libre.
+
+- **Qui les joue.** Une mission les porte dans son tirage (`MissionRun.paths === 2`, avec la
+  révision 2 seulement) ; `Game.pathRules` les lit, `movement.ts` et `routes.ts` les passent
+  à `findPath`, dont le cache a une clé par règle. Sans ce champ, tout se joue comme avant :
+  les cartes de la grande aventure n'ont aucun trait coupé, elle garde les premières règles.
+- **Les nouveaux départs.** `CURRENT_MISSION_PATHS` : un nouveau tirage de mission ou de défi
+  (`ui/expeditions.ts`, `ui/missionDraft.ts`) et les batailles de l'expédition version 3
+  (`ExpeditionTuning.paths`). Le voyage à finir ne change pas.
+- **Ce qui les garde.** Le code de départ : règle `A`, écrite comme la règle 4
+  (`departures.ts`) ; un code `…-4-…` rejoue l'ancienne partie. La sauvegarde du camp :
+  version 16, qui ne tient que ces règles (la version 9 ne les tient pas). Le fichier familial
+  reste dans sa version : c'est le camp qu'une application plus ancienne refuse.
+- **Mesure.** `scripts/caprices-lab.mjs … 2 1` (premières règles) et `… 2 2` (secondes) :
+  `docs/BILAN-HYGIENE-2026-11.md`.
+
 L'enveloppe `conquete-serpents:family:v1` prime sur les deux clés historiques au
 démarrage, même si son camp vaut null. En son absence, les anciens camps et profils
 sont lus. Les anciennes clés restent des miroirs de compatibilité ; les écritures

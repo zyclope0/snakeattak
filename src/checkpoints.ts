@@ -44,14 +44,19 @@ export type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
  *  13  the sixth balance revision, in the great adventure only
  *  14  the seventh balance revision, in the great adventure only: the spinosaurus
  *  15  the endless adventure: its rules, the kings beaten, the gifts
+ *  16  an expedition with the second path rules (second balance revision)
  */
 const savesHomes = (version: number) => version !== 1;
 const savesRewards = (version: number) => version >= 3;
 const savesCampaign = (version: number) => version >= 4;
 const isModern = (version: number) => version >= 6;
+/** An expedition begun with the second path rules: version 9 could not say it. */
+const PATHS_VERSION = 16;
+/** The second balance revision, with the first path rules or the second ones. */
+const isSecondRevision = (version: number) => version === 9 || version === PATHS_VERSION;
 /** The allies chosen for a « copains » challenge are saved with the challenge only. */
 const savesCapriceKinds = (version: number, mission: MissionRun | null) =>
-  version === 8 || (version === 9 && !!mission?.caprice);
+  version === 8 || (isSecondRevision(version) && !!mission?.caprice);
 
 /** Nothing is saved during a fight, nor once the last wave is over. */
 const isFightingOrOver = (game: Game) =>
@@ -79,7 +84,7 @@ const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = {
 };
 /** The endless adventure, whatever revision its rules name. */
 const ENDLESS_VERSION = 15;
-const LATEST_VERSION = 15;
+const LATEST_VERSION = 16;
 /** The revision a version 10 or later was written for; null for an older version. */
 const classicRevisionOf = (version: number): ClassicRevision | null => {
   const found = Object.entries(CLASSIC_VERSION).find(([, written]) => written === version);
@@ -89,6 +94,7 @@ const classicRevisionOf = (version: number): ClassicRevision | null => {
 function saveVersion(game: Game): number {
   if (game.endless) return ENDLESS_VERSION;
   if (isClassicRevision(game.balanceRevision)) return CLASSIC_VERSION[game.balanceRevision];
+  if (game.mission?.paths === 2) return PATHS_VERSION;
   if (game.balanceRevision === 2) return 9;
   if (game.mission?.caprice) return 8;
   if (game.mission?.rules === 2) return 7;
@@ -123,7 +129,7 @@ function saveDocument(game: Game, version: number, units: unknown[]) {
         }
       : classicRevisionOf(version)
         ? { balance: classicRevisionOf(version) }
-        : version === 9
+        : isSecondRevision(version)
           ? { balance: 2 }
           : {}),
     ...(isModern(version) && game.initialSeed !== null ? { initialSeed: game.initialSeed } : {}),
@@ -219,9 +225,14 @@ function revisionMatchesVersion(
     );
   const classic = classicRevisionOf(save.version);
   if (classic) return save.balance === classic && isUint32(save.initialSeed) && !hasMission;
+  // Each of the two versions holds the path rules it was made for, and only those.
+  if (save.version === PATHS_VERSION)
+    return save.balance === 2 && isUint32(save.initialSeed) && mission?.paths === 2;
   if (save.version === 9)
     return (
-      save.balance === 2 && isUint32(save.initialSeed) && (!hasMission || mission?.balance === 2)
+      save.balance === 2 &&
+      isUint32(save.initialSeed) &&
+      (!hasMission || (mission?.balance === 2 && mission.paths === undefined))
     );
   return (
     !Object.hasOwn(save, 'balance') &&
@@ -232,6 +243,7 @@ function revisionMatchesVersion(
 /** Versions 7 and 8 each exist for one kind of expedition; the older ones know neither. */
 function missionMatchesVersion(version: number, mission: MissionRun | null): boolean {
   if (classicRevisionOf(version) || version === ENDLESS_VERSION) return mission === null;
+  if (version === PATHS_VERSION) return mission?.paths === 2;
   if (version === 9) return true;
   if (version === 8) return !!mission?.caprice;
   if (version === 7) return mission?.rules === 2;
@@ -369,7 +381,7 @@ function readCheckpoint(data: unknown): Game | null {
   if (hasMission && !isMissionCamp(data, mission)) return null;
   const endless = data.version === ENDLESS_VERSION ? ENDLESS_RULES[data.endless as 1] : undefined;
   const revision =
-    endless?.balance ?? classicRevisionOf(data.version) ?? (data.version === 9 ? 2 : 1);
+    endless?.balance ?? classicRevisionOf(data.version) ?? (isSecondRevision(data.version) ? 2 : 1);
   const game = new Game(data.rng, undefined, mission ?? undefined, revision, undefined, endless);
   if (endless) game.kings = data.kings as number;
   const kindsSaved = savesCapriceKinds(data.version, mission);

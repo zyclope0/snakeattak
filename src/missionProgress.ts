@@ -24,7 +24,8 @@ const sameRun = (a: MissionRun | null | undefined, b: MissionRun | null | undefi
   a.nest === b.nest &&
   a.rules === b.rules &&
   a.caprice === b.caprice &&
-  a.balance === b.balance;
+  a.balance === b.balance &&
+  a.paths === b.paths;
 
 export function createMissionProgress(): MissionProgress {
   return {

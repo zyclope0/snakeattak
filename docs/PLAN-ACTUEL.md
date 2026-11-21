@@ -24,8 +24,9 @@ Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape 
 
 - ~~Sauvegarde familiale version 6~~ : fait (l'expédition, les records de l'aventure sans fin
   et le voyage à finir sont dans le fichier ; les anciens fichiers restent lisibles).
-- Allié collé à un rocher sur deux cartes de mission : nouvelle version de règles pour les
-  nouvelles parties, mesurée, accord du parent avant de publier.
+- ~~Allié collé à un rocher~~ : fait, pour les nouvelles parties (secondes règles de chemin,
+  expédition version 3). Mesuré : la difficulté ne change pas. **Accord du parent à obtenir
+  avant de publier.**
 - Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).
 
 **À reprendre après l'hygiène**, dans cet ordre :

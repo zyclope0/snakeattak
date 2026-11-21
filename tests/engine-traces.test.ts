@@ -124,6 +124,22 @@ function traces(): Record<string, string> {
       out[`défi ${caprice.id} r${balance ?? 1}`] = play(new Game(1, undefined, run), n + 3);
     }
   }
+  // The second path rules (21 November 2026): the same departures of the second balance
+  // revision, where an ally no longer stands against a rock.
+  n = 0;
+  for (const mission of MISSIONS) {
+    n++;
+    const run = createMissionRun(mission.id, 4242 + n * 101, null, 2, 2);
+    out[`mission ${mission.id} chemins 2`] = play(new Game(1, undefined, run), n);
+    const caprice = capricesForMission(mission.id, n % 2 ? 'serpents' : 'createur')[n % 3];
+    out[`défi ${caprice.id} chemins 2`] = play(
+      new Game(1, undefined, {
+        ...createMissionRun(mission.id, 9000 + n * 37, null, 2, 2),
+        caprice: caprice.id,
+      }),
+      n + 3,
+    );
+  }
   return out;
 }
 

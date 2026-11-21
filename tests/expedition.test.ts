@@ -212,7 +212,7 @@ test('version 2 : un défi fixe par étape, le même à chaque expédition ; la 
             : [step.calm.run.caprice, step.brave.run.caprice],
       ),
     );
-  assert.equal(X.CURRENT_EXPEDITION_VERSION, 2);
+  assert.equal(X.CURRENT_EXPEDITION_VERSION, 3);
   // The challenges never change with the seed; the setup and the fight do.
   assert.deepEqual(defis(SEED), defis(SEED + 7));
   assert.deepEqual(defis(SEED)[0], [
@@ -241,12 +241,46 @@ test('version 2 : un défi fixe par étape, le même à chaque expédition ; la 
   assert.equal(X.readExpeditionState(old)?.version, 1);
   assert.notDeepEqual(X.planExpedition(SEED, 1), X.planExpedition(SEED, 2));
   assert.equal(X.readExpeditionState({ ...old, version: '1' }), null);
-  assert.equal(X.readExpeditionState({ ...old, version: 3 }), null);
+  assert.equal(X.readExpeditionState({ ...old, version: 4 }), null);
+});
+
+test('version 3 : la version 2, avec les secondes règles de chemin et rien d’autre', () => {
+  const runs = (version: 2 | 3) =>
+    X.planExpedition(SEED, version)!.tableaux.flatMap((tableau) =>
+      tableau.flatMap((step) =>
+        step.kind === 'halt'
+          ? []
+          : step.kind === 'battle'
+            ? [step.battle.run]
+            : [step.calm.run, step.brave.run],
+      ),
+    );
+  const [second, third] = [runs(2), runs(3)];
+  assert.equal(third.length, second.length);
+  third.forEach((run, n) => {
+    assert.equal(run.paths, 2, 'every battle walks with the second rules');
+    assert.equal(Object.hasOwn(second[n], 'paths'), false, 'version 2 keeps the first ones');
+    assert.deepEqual({ ...run, paths: undefined }, { ...second[n], paths: undefined });
+  });
+  // The same halts, the same guardians, the same strength: only the paths differ.
+  const strip = (plan: unknown) => JSON.parse(JSON.stringify(plan).replaceAll(',"paths":2', ''));
+  assert.deepEqual(
+    { ...strip(X.planExpedition(SEED, 3)), version: 2 },
+    strip(X.planExpedition(SEED, 2)),
+  );
+  const { paths: _, ...rest } = X.EXPEDITION_TUNINGS[3];
+  assert.deepEqual(rest, X.EXPEDITION_TUNINGS[2]);
+  // A new expedition is a version 3; one begun in version 2 reads back and stays one.
+  assert.equal(X.startExpedition(SEED)!.version, 3);
+  const begun = { ...X.startExpedition(SEED)!, version: 2 };
+  assert.equal(X.readExpeditionState(begun)?.version, 2);
+  assert.equal(X.createExpeditionGame(X.planExpedition(SEED, 2)!, begun as never)!.pathRules, 1);
+  assert.equal(X.createExpeditionGame(plan, X.startExpedition(SEED)!)!.pathRules, 2);
 });
 
 test('chaque défi fixe joue vraiment là où il est placé', async () => {
   const { capriceById } = await import('../src/caprices.ts');
-  for (const version of [2] as const) {
+  for (const version of [2, 3] as const) {
     const tuning = X.EXPEDITION_TUNINGS[version];
     tuning.tableaux.forEach((table, t) => {
       const places = [

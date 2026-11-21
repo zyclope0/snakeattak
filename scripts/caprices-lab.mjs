@@ -1,5 +1,7 @@
 // Laboratoire des caprices : vrai moteur à 30 Hz, sans navigateur ni enfant.
-// Usage : node scripts/caprices-lab.mjs [catalogue|candidats.json] [sortie.json] [shard] [shards] [graines] [révision=2]
+// Usage : node scripts/caprices-lab.mjs [catalogue|candidats.json] [sortie.json] [shard] [shards] [graines] [révision=2] [chemins=2]
+// « chemins » : 2 (défaut) pour les règles de chemin des nouveaux départs, 1 pour celles
+// d'avant le 21 novembre 2026 (un allié pouvait rester contre un rocher) ; révision 2 seulement.
 // « catalogue » (défaut) joue les 18 caprices validés et chaque mission normale ; un fichier
 // de candidats permet d'essayer d'autres réglages ({ id, missionId, rules, profiles? }).
 // Avec un seul shard, affiche le taux de victoire et le cristal minimal moyen par joueur.
@@ -18,11 +20,16 @@ const [
   shardsArg = '1',
   seedSetsArg = '3',
   revisionArg = '2',
+  pathsArg = '2',
 ] = process.argv.slice(2);
 const shard = Number(shardArg),
   shards = Number(shardsArg),
   seedSets = Number(seedSetsArg);
 const revision = Number(revisionArg);
+if (pathsArg !== '1' && pathsArg !== '2')
+  throw new RangeError('Chemins invalides : 1 ou 2 attendu');
+// The second path rules only exist with the second balance revision.
+const paths = revision === 2 && pathsArg === '2' ? 2 : undefined;
 if (revisionArg !== '1' && revisionArg !== '2')
   throw new RangeError('Révision invalide : 1 ou 2 attendu');
 const candidates =
@@ -144,7 +151,13 @@ for (const c of candidates) {
         for (const nest of ['spread', 'clustered']) {
           const seed = (20261109 + mi * 104729 + layout * 997 + set * 7919) >>> 0;
           const run = {
-            ...createMissionRun(c.missionId, seed, undefined, revision === 2 ? 2 : undefined),
+            ...createMissionRun(
+              c.missionId,
+              seed,
+              undefined,
+              revision === 2 ? 2 : undefined,
+              paths,
+            ),
             layout,
             assault,
             nest,

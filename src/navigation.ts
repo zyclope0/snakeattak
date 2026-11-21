@@ -35,6 +35,23 @@ export function blocked(x: number, y: number, level: Level = levelForWave(1)): b
 }
 const center = (n: number) => n * CELL + CELL / 2;
 const cache = new Map<string, Point[]>();
+/**
+ * The rules of a path. The first ones join two neighbouring cells as soon as both centres are
+ * free; a rock between them stopped the walker, who asked for the same path again and stood
+ * there. The second ones (21 November 2026) also want the segment between the two centres
+ * free. A game keeps the rules it started with: its departure code plays the same game.
+ */
+export type PathRules = 1 | 2;
+/** The segment between two neighbouring cell centres is free: a walker can follow it. */
+function clearEdge(x: number, y: number, dx: number, dy: number, level: Level): boolean {
+  // Leaving a cell whose own centre is blocked stays allowed, as it always was.
+  if (blocked(center(x), center(y), level)) return true;
+  for (let i = 2; i < CELL; i += 2)
+    for (const side of [-1, 0, 1])
+      if (blocked(center(x) + dx * i + dy * side, center(y) + dy * i + dx * side, level))
+        return false;
+  return true;
+}
 function fromStart(from: Point, path: Point[], level: Level): Point[] {
   const copy = path.map((p) => ({ ...p })),
     next = copy[0];
@@ -54,13 +71,19 @@ function fromStart(from: Point, path: Point[], level: Level): Point[] {
     }
   return copy;
 }
-export function findPath(from: Point, to: Point, level: Level = levelForWave(1)): Point[] {
+export function findPath(
+  from: Point,
+  to: Point,
+  level: Level = levelForWave(1),
+  rules: PathRules = 1,
+): Point[] {
   if (![from.x, from.y, to.x, to.y].every(Number.isFinite)) return [];
   const sx = Math.floor(from.x / CELL),
     sy = Math.floor(from.y / CELL),
     tx = Math.floor(to.x / CELL),
     ty = Math.floor(to.y / CELL);
-  const key = `${level.id}:${sx},${sy}:${tx},${ty}`;
+  // The first rules keep the key they always had.
+  const key = `${rules === 1 ? '' : `r${rules}:`}${level.id}:${sx},${sy}:${tx},${ty}`;
   const cached = cache.get(key);
   if (cached) return fromStart(from, cached, level);
   if (blocked(center(tx), center(ty), level)) return [];
@@ -95,6 +118,7 @@ export function findPath(from: Point, to: Point, level: Level = levelForWave(1))
         ny = y + dy;
       if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || blocked(center(nx), center(ny), level))
         continue;
+      if (rules === 2 && !clearEdge(x, y, dx, dy, level)) continue;
       const id = ny * COLS + nx,
         g = n.g + 1;
       if (g >= (cost.get(id) ?? Infinity)) continue;
