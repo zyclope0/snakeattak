@@ -107,6 +107,8 @@ export function bindVoyageScreens(
     ports.home();
     ports.navigate('voyage');
     show();
+    // The bonus cards are drawn where « Continuer » was: a second tap must not choose one.
+    page.hold();
   }
   /** The stage on the board was begun and left: the map says that it starts again. */
   function leftHalfway() {

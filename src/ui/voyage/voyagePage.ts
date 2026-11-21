@@ -1,8 +1,6 @@
 import { setText } from '../../i18n/dom.ts';
 import { byId, make } from '../dom.ts';
-
-/** Long enough for a double tap, too short for a child to notice. */
-const HOLD_MS = 300;
+import { TAP_HOLD_MS } from '../tapHold.ts';
 
 export type VoyageView = 'map' | 'bonus' | 'arrived' | 'fallen' | 'gift' | 'roulotte';
 
@@ -49,7 +47,7 @@ export function voyagePage(name: 'voyage' | 'expedition' = 'voyage') {
      * The view drawn under the child's finger takes no touch for a short while: a second tap
      * meant for the old button never lands on the new one in its place.
      */
-    hold(ms = HOLD_MS) {
+    hold(ms = TAP_HOLD_MS) {
       view.inert = true;
       window.clearTimeout(held);
       held = window.setTimeout(() => (view.inert = false), ms);

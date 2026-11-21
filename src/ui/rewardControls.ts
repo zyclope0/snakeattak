@@ -15,6 +15,7 @@ import { endlessWave } from '../endless.ts';
 import { TOTAL_WAVES } from '../gameConstants.ts';
 import { BOON_SIGNS, boonBadge, boonNow, giftCopy } from './boonCopy.ts';
 import { fill } from '../texts/fill.ts';
+import { TAP_HOLD_MS } from './tapHold.ts';
 
 type RewardCard = ReturnType<typeof rewardCard>;
 
@@ -29,10 +30,20 @@ export function bindRewardControls(session: Session, refresh: () => void) {
    * gives its place: the cards then show the five gifts the child holds.
    */
   let replacing: LastingBoon | null = null;
+  /**
+   * Entering or leaving that question redraws the same cards and the same button with
+   * another meaning: they take no touch for a short while, so that the second tap of a double
+   * tap neither replaces a gift the child did not choose nor skips the whole offer.
+   */
+  let heldUntil = 0;
+  const held = () => performance.now() < heldUntil;
+  const hold = () => (heldUntil = performance.now() + TAP_HOLD_MS);
   const choose = (id: string) => {
+    if (held()) return;
     const game = session.game;
     if (!replacing && game.boonNeedsPlace(id)) {
       replacing = id as LastingBoon;
+      hold();
       refresh();
       title.focus({ preventScroll: true });
       return;
@@ -51,8 +62,10 @@ export function bindRewardControls(session: Session, refresh: () => void) {
   };
   const cards = Array.from({ length: BOON_PLACES }, () => rewardCard(choose));
   skip.onclick = () => {
+    if (held()) return;
     if (replacing) {
       replacing = null;
+      hold();
       refresh();
       return title.focus({ preventScroll: true });
     }
