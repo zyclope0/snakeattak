@@ -29,7 +29,8 @@ const PROFILES = (process.env.PROFILES ?? 'expert,moyen,apprenti').split(',');
 const PATHS = (process.env.PATHS ?? 'calme,brave,mixte').split(',');
 const TRIES = Number(process.env.TRIES ?? 3);
 // Settings to try instead of version 1's: HP=0.1 BITE=0.05 STIPEND=120.
-const T = X.EXPEDITION_TUNINGS[1];
+// The version every new expedition is played with.
+const T = X.EXPEDITION_TUNINGS[X.CURRENT_EXPEDITION_VERSION];
 if (process.env.HP || process.env.BITE)
   T.strength = {
     hpStep: Number(process.env.HP ?? T.strength.hpStep),

@@ -90,6 +90,39 @@ et garder **la quatrième voie** pour plus tard, quand le reste plaît aux enfan
   anciens codes restent lisibles mais ne sont plus proposés.
 - **La carte garde l'allure du voyage** : une route qu'on voit, avec ses embranchements.
 
+## Les défis fixes (décision du parent, 21 novembre)
+
+Le parent : « les défis, une spécificité de chaque mission de l'aventure, pas un choix, fixe
+dans l'aventure, ce qui la rend originale ; les missions, c'est autre chose ». Ses choix :
+défis fixes, le reste varié ; chemins et haltes gardés, un défi fixe sur chaque chemin ;
+d'abord les caprices du fils, puis les règles nouvelles une à une ; le mot « étape ».
+
+Chaque étape porte un caprice du fils, toujours le même. La mission pour laquelle il l'a
+réglé donne ses vagues, sans son nom ; le terrain, l'attaque, les nids et le combat changent
+d'une expédition à l'autre (`EXPEDITION_TUNINGS[2]`, `src/expedition.ts`). Tableau ajusté
+après mesure, accepté par le parent le 21 novembre :
+
+| Tableau                   | Étape 1          | Étape 2 (tranquille / braves)                | Étape 3                             | Étape 4                                   | Gardien                                 |
+| ------------------------- | ---------------- | -------------------------------------------- | ----------------------------------- | ----------------------------------------- | --------------------------------------- |
+| La Vallée des Sifflements | Serpents pressés | La tirelire / Méga serpent                   | Rafales de serpents / Crocs pointus | Pique-nique d'œufs / Les carapaces        | Capitaine Zigzag : Bourse trouée        |
+| Le Marais Glouglou        | La tirelire      | Deux copains seulement / Blindcrocs          | Grosse fringale / La petite tempête | Les carapaces / Serpents costauds         | Madame Gloups : La tirelire             |
+| Les Pics aux Mille Crocs  | La tempête       | Un seul copain / Grandes rafales de serpents | La grande charge / Le roi s'invite  | La tempête / Le roi et sa grande fringale | King Snake et sa garde : Plus de miel ! |
+
+Mesure (20 expéditions entières par joueur simulé, chemins alternés) :
+
+| Joueur simulé         | Version 1 (tirages) | Tableau du parent | Tableau ajusté |
+| --------------------- | ------------------: | ----------------: | -------------: |
+| Expert arrivé         |                95 % |              80 % |           80 % |
+| Moyen arrivé          |                70 % |              55 % |           60 % |
+| Apprenti au tableau 3 |                35 % |              30 % |           45 % |
+
+Le parent, après ses propres essais : les joueurs simulés sont plus faibles que de vrais
+enfants (« un joueur qui joue au hasard arrive souvent au niveau expert ») ; la difficulté
+peut monter un peu. La force des serpents est remesurée plus bas.
+
+Plus tard, les règles nouvelles prendront certaines places (Les Ponts Mouillés, Double
+Couronne pour un gardien, Le Tunnel Secret…), chacune montrée au fils, mesurée, acceptée.
+
 ## Les noms (choisis par Claude le 20 novembre, provisoires)
 
 Le parent n'a pas encore de noms ; il demande des noms originaux, qui plaisent aux enfants, et
