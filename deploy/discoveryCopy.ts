@@ -15,6 +15,8 @@ import {
   type Story,
 } from './siteFeatures.ts';
 import { unlockWave } from '../src/data.ts';
+import { TOTAL_WAVES } from '../src/gameConstants.ts';
+import { BOON_MAX_LEVEL, BOON_PLACES } from '../src/boons.ts';
 import * as EXP_FR from '../src/texts/fr/expedition.ts';
 import * as EXP_EN from '../src/texts/en/expedition.ts';
 import {
@@ -210,10 +212,18 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
     path: '/fr/nouveautes/',
     title: 'Nouveautés du jeu — La Conquête des Serpents',
     description:
-      'Les nouveautés de La Conquête des Serpents : le spinosaure, quatre nouveaux serpents, des œufs en plus quand une vague dure, La Grande Expédition, un joueur pour chacun.',
+      'Les nouveautés de La Conquête des Serpents : La Grande Expédition, l’aventure sans fin, le spinosaure, quatre nouveaux serpents, des œufs en plus quand une vague dure, un joueur pour chacun.',
     heading: 'Le camp continue de grandir.',
     lead: 'Voici ce qui vient d’arriver dans le jeu. Beaucoup d’idées viennent de l’enfant qui l’a inventé.',
     blocks: [
+      {
+        heading: EXP_FR.laGrandeExpedition,
+        text: `${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} missions sur une route qui se sépare en deux : « ${EXP_FR.leCheminTranquille} » ou « ${EXP_FR.leCheminDesBraves} », avec un cadeau rare au bout. En chemin, des haltes : ${EXP_FR.leFeuDeCamp}, ${EXP_FR.laRoulotteDeMamiePistache}, ${EXP_FR.lOeufMystere}. Tes alliés encore debout te suivent d’une mission à l’autre, et tu gardes tes cadeaux jusqu’au bout. King Snake attend à la fin. Si tu perds une mission, tu la rejoues depuis le même camp.`,
+      },
+      {
+        heading: FR.laventureSansFin,
+        text: `Une fois King Snake battu dans la « ${FR.aventureClassique} », une nouvelle porte s’ouvre : « ${FR.laventureSansFin} ». Toutes les ${TOTAL_WAVES} vagues, King Snake revient, un peu plus fort, et la partie continue. Après chaque roi, tu choisis un cadeau qui dure : ${BOON_PLACES} places, et chaque cadeau monte jusqu’au niveau ${BOON_MAX_LEVEL}. Chaque joueur garde son record, rien que pour lui.`,
+      },
       {
         heading: `Le ${ALLY_FR.spinosaure.toLowerCase()}`,
         text: `Un nouvel allié inventé par l’enfant ! Dans une nouvelle « ${FR.aventureClassique} », le ${ALLY_FR.spinosaure.toLowerCase()} arrive à la vague ${unlockWave.spinosaurus}. Sa morsure est très forte, et sa voile touche aussi les serpents autour de lui. De temps en temps, il plonge dans la rivière pour mordre un serpent sur un pont, puis il revient.`,
@@ -231,10 +241,6 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
         text: `Dans une nouvelle « ${FR.aventureClassique} », quand une vague dure longtemps, un œuf de plus apparaît chez les serpents. Puis un deuxième. Deux serpents sortent de chaque œuf.`,
       },
       {
-        heading: EXP_FR.laGrandeExpedition,
-        text: `${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} missions sur une route qui se sépare en deux : « ${EXP_FR.leCheminTranquille} » ou « ${EXP_FR.leCheminDesBraves} », avec un cadeau rare au bout. En chemin, des haltes : ${EXP_FR.leFeuDeCamp}, ${EXP_FR.laRoulotteDeMamiePistache}, ${EXP_FR.lOeufMystere}. Tes alliés encore debout te suivent d’une mission à l’autre, et tu gardes tes cadeaux jusqu’au bout. King Snake attend à la fin. Si tu perds une mission, tu la rejoues depuis le même camp.`,
-      },
-      {
         heading: 'Un joueur pour chacun',
         text: 'Sur le même appareil, jusqu’à quatre joueurs ont chacun leur aventure. Ton carnet garde les autocollants que tu gagnes en réussissant les caprices.',
       },
@@ -246,10 +252,18 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
     path: '/en/updates/',
     title: 'Game updates — Snake Attack TD',
     description:
-      'What is new in Snake Attack TD: the Spinosaurus, four new snakes, extra eggs when a wave runs long, The Great Expedition, a player for everyone.',
+      'What is new in Snake Attack TD: The Great Expedition, the endless adventure, the Spinosaurus, four new snakes, extra eggs when a wave runs long, a player for everyone.',
     heading: 'The camp keeps growing.',
     lead: 'Here is what just arrived in the game. Many of the ideas come from the child who invented it.',
     blocks: [
+      {
+        heading: EXP_EN.laGrandeExpedition,
+        text: `${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} missions on a road that splits in two: “${EXP_EN.leCheminTranquille}” or “${EXP_EN.leCheminDesBraves}”, with a rare gift at the end. Along the way, stops: ${EXP_EN.leFeuDeCamp}, ${EXP_EN.laRoulotteDeMamiePistache}, ${EXP_EN.lOeufMystere}. Your allies still standing follow you from one mission to the next, and you keep your gifts to the very end. King Snake waits at the finish. If you lose a mission, you play it again from the same camp.`,
+      },
+      {
+        heading: EN.laventureSansFin,
+        text: `Once King Snake is beaten in the “${EN.aventureClassique}”, a new door opens: “${EN.laventureSansFin}”. Every ${TOTAL_WAVES} waves, King Snake comes back a little stronger, and the game goes on. After each king, you choose a gift that lasts: ${BOON_PLACES} spots, and each gift goes up to level ${BOON_MAX_LEVEL}. Each player keeps their own record, just for them.`,
+      },
       {
         heading: `The ${ALLY_EN.spinosaure}`,
         text: `A new ally invented by the child! In a new “${EN.aventureClassique}”, the ${ALLY_EN.spinosaure} arrives at wave ${unlockWave.spinosaurus}. Its bite is very strong, and its sail also hits the snakes around it. Now and then, it dives into the river to bite a snake on a bridge, then comes back.`,
@@ -265,10 +279,6 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       {
         heading: 'Extra eggs',
         text: `In a new “${EN.aventureClassique}”, when a wave runs long, one more egg appears on the snakes’ side. Then a second one. Two snakes hatch from each egg.`,
-      },
-      {
-        heading: EXP_EN.laGrandeExpedition,
-        text: `${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} missions on a road that splits in two: “${EXP_EN.leCheminTranquille}” or “${EXP_EN.leCheminDesBraves}”, with a rare gift at the end. Along the way, stops: ${EXP_EN.leFeuDeCamp}, ${EXP_EN.laRoulotteDeMamiePistache}, ${EXP_EN.lOeufMystere}. Your allies still standing follow you from one mission to the next, and you keep your gifts to the very end. King Snake waits at the finish. If you lose a mission, you play it again from the same camp.`,
       },
       {
         heading: 'A player for everyone',
