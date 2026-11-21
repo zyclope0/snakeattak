@@ -4,9 +4,15 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import { endlessWave } from '../endless.ts';
 
-/** A voyage stage is neither a mission nor a caprice to the child: it names itself. */
-const missionVictoryTitle = (game: Pick<Game, 'mission' | 'stage'>) =>
-  game.stage ? TEXT.etapeReussie : game.mission?.caprice ? TEXT.capriceReussi : TEXT.bravo;
+/**
+ * A voyage stage is neither a mission nor a caprice to the child: it names itself. A battle of
+ * « La Grande Expédition » (stage rules version 3) is a mission of the expedition.
+ */
+const expedition = (game: Pick<Game, 'stage'>) => game.stage?.version === 3;
+const missionVictoryTitle = (game: Pick<Game, 'mission' | 'stage'>) => {
+  if (game.stage) return expedition(game) ? TEXT.missionGagnee : TEXT.etapeReussie;
+  return game.mission?.caprice ? TEXT.capriceReussi : TEXT.bravo;
+};
 
 type EndlessGame = Pick<Game, 'endless' | 'kings' | 'wave' | 'status'>;
 /**
@@ -43,6 +49,9 @@ export function victoryCopy(
 /** Describe the actions that actually exist; no promise of a saved battle. */
 export function defeatCopy(game: Pick<Game, 'mission' | 'stage'> & Partial<EndlessGame>) {
   if (game.endless) return endlessCopy(game as EndlessGame);
+  // A battle of the expedition is tried again from the camp it started with.
+  if (expedition(game))
+    return { title: TEXT.onReessaie, subtitle: TEXT.tonCampRevientCommeAvantLaMission };
   // A fallen camp ends the voyage: there is no same departure to retry, but the same voyage.
   if (game.stage)
     return {

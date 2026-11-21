@@ -35,6 +35,8 @@ import { createReminderMarkers } from '../src/ui/recruitmentReminder.ts';
 import { startVoyage } from '../src/voyageState.ts';
 import { createRecordBook } from '../src/endlessRecords.ts';
 import { loadVoyageLog, logVoyage, saveVoyageLog } from '../src/voyageStorage.ts';
+import { startExpedition } from '../src/expedition.ts';
+import { loadExpeditionLog, logExpedition, saveExpeditionLog } from '../src/expeditionStorage.ts';
 
 const FAMILY = 'conquete-serpents:family:v1';
 function memory(initial: Record<string, string> = {}) {
@@ -198,6 +200,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     'conquete-serpents:voyage:v1',
     'conquete-serpents:mission-done:v1',
     'conquete-serpents:endless-records:v1',
+    'conquete-serpents:expedition:v1',
   ]);
   for (const key of PLAYER_KEYS) {
     assert.equal(playerKey(key, 'p1'), key);
@@ -215,7 +218,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     for (const id of ['p1', 'p2', 'p3', 'p4'] as const) assert.equal(playerKey(key, id), key);
 });
 
-test('the persistence code only ever touches the seven keys of its player', () => {
+test('the persistence code only ever touches the eight keys of its player', () => {
   for (const id of ['p1', 'p2', 'p4'] as const) {
     const device = memory();
     const storage = playerStorage(device, id);
@@ -231,6 +234,8 @@ test('the persistence code only ever touches the seven keys of its player', () =
     assert.equal(saveVoyageLog(storage, logVoyage(loadVoyageLog(storage), startVoyage(7)!)!), true);
     createMissionDone(storage).mark(encodeCheckpoint(game));
     createRecordBook(storage).add({ wave: 9, kings: 0, rules: 1, run: 7 });
+    const expedition = logExpedition(loadExpeditionLog(storage), startExpedition(7)!)!;
+    assert.equal(saveExpeditionLog(storage, expedition), true);
     const expected = PLAYER_KEYS.map((key) => (id === 'p1' ? key : `${key}:${id}`)).sort();
     assert.deepEqual([...device.touched].sort(), expected);
     assert.deepEqual([...device.values.keys()].sort(), expected);

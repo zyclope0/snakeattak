@@ -42,7 +42,7 @@ import {
 import type { BalanceRevision, LateEggRule } from './balanceRevision.ts';
 import { capriceBudget, capriceRules } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
-import { openStage, readStageRules } from './voyageRules.ts';
+import { EXPEDITION_STAGE_VERSION, openStage, readStageRules } from './voyageRules.ts';
 import type { StageRules } from './voyageRules.ts';
 import type { Entity, Egg, Effect } from './engine/state.ts';
 import { addAlly } from './engine/state.ts';
@@ -309,7 +309,12 @@ export class Game {
    * the game is then left as it was built.
    */
   receiveCamp(camp: { units: unknown; gold: unknown; base: unknown; boons: unknown }): boolean {
-    if (this.#stage?.version !== 3 || this.wave !== 0 || this.status !== 'preparing') return false;
+    if (
+      this.#stage?.version !== EXPEDITION_STAGE_VERSION ||
+      this.wave !== 0 ||
+      this.status !== 'preparing'
+    )
+      return false;
     const boons = readBoons(camp.boons, this.boonRules);
     if (!boons) return false;
     // The first mission of a tableau starts from a new camp: only the gifts come along.

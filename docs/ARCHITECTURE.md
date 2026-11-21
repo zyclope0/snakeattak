@@ -581,6 +581,28 @@ Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFI
   (vague depuis la première), `rewardControls.ts` et `boonCopy.ts` (cadeaux, places),
   `battleCommands.ts` (« Continuer », « Rentrer avec mon record »), `resultCopy.ts`.
 
+## La Grande Expédition — 20 novembre 2026
+
+Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PROPOSITION.md).
+
+- **Moteur.** `expedition.ts` : `planExpedition(seed)` tire trois tableaux de sept pas
+  (`first`, `fork`, `halt`, `fork`, `fork`, `halt`, `guardian`). L'état (`ExpeditionState`)
+  ne garde que ce que l'enfant a fait : tableau, pas, choix, camp porté, cadeaux, sac, bourse,
+  question en attente. Chaque bouton demande une transition (`winBattle`, `chooseGift`,
+  `rerollGifts`, `chooseHalt`, `buyAtRoulotte`…) ; une transition refusée rend `null`.
+  `readExpeditionState` relit un état gardé et refuse tout ce qu'une vraie expédition ne peut
+  pas atteindre. `expeditionPhase` dit ce qui est demandé maintenant.
+- **Bataille.** `createExpeditionGame` construit une étape de version 3 (`voyageRules.ts`) ;
+  `Game.receiveCamp` reçoit le camp porté, `Game.strengthen` renforce les serpents.
+  `resultCopy.ts` nomme une étape de version 3 « Mission gagnée ! » ou « On réessaie ? ».
+- **Stockage.** `expeditionStorage.ts`, clé `EXPEDITION_STORAGE_KEY` dans `PLAYER_KEYS` :
+  l'expédition en cours et le record (missions gagnées dans une expédition).
+- **Écrans.** `ui/voyage/expedition/`, chargés avec ceux du voyage : la porte
+  (`expeditionDoor.ts`), le contrôleur (`expeditionScreens.ts`), les vues
+  (`expeditionViews.ts`), les mots (`expeditionWords.ts`, sans page, testés). La page reprend
+  `voyagePage('expedition')`, la fenêtre des caprices et le panneau de fin de bataille du
+  voyage (`voyageBattle.ts`), qui sait à qui appartient la partie sur le plateau.
+
 ## Choix du moteur — réévalué le 11 novembre 2026
 
 Phaser 3 reste le bon choix, et la question ne se rouvre pas sans mesure sur le téléphone.

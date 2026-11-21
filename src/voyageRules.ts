@@ -32,6 +32,8 @@ export type StageRules = Readonly<{
 
 /** One card after each stage but the last: a voyage of five stages fills four places. */
 export const STAGE_BAG_LIMIT = 4;
+/** The stage rules of « La Grande Expédition » : a camp carried, snakes that grow. */
+export const EXPEDITION_STAGE_VERSION = 3;
 const COINS_LIMIT = 5000;
 const WARD_LIMIT = 500;
 /**
@@ -58,7 +60,8 @@ export function readStageRules(raw: unknown): StageRules | null {
     !isIntegerIn(raw.ward, 0, WARD_LIMIT) ||
     !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||
     !raw.bag.every(isBonusCard) ||
-    (raw.strength !== undefined && (raw.version !== 3 || !isStrength(raw.strength)))
+    (raw.strength !== undefined &&
+      (raw.version !== EXPEDITION_STAGE_VERSION || !isStrength(raw.strength)))
   )
     return null;
   return Object.freeze({

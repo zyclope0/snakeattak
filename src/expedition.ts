@@ -11,8 +11,10 @@ import { BOON_RULES, boonLevel, boonOffer, isLastingBoon, takeBoon } from './boo
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 import type { BoonId, Boons, LastingBoon } from './boons.ts';
-import { saveUnit } from './checkpointUnits.ts';
-import { STAGE_BAG_LIMIT } from './voyageRules.ts';
+import { readUnit, saveUnit, UNIT_LIMIT } from './checkpointUnits.ts';
+import { isArrayOfLength, isIntegerIn, isNumberIn, isOneOf, isRecord } from './plainData.ts';
+import { readBoons } from './boons.ts';
+import { EXPEDITION_STAGE_VERSION, isBonusCard, STAGE_BAG_LIMIT } from './voyageRules.ts';
 import { isVoyageSeed } from './voyage.ts';
 import type { StageRules } from './voyageRules.ts';
 import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConstants.ts';
@@ -242,7 +244,8 @@ export function startExpedition(seed: number): ExpeditionState | null {
   });
 }
 
-const tuningOf = (state: ExpeditionState) => EXPEDITION_TUNINGS[state.version];
+/** The settings an expedition is played with: those of its version, for good. */
+export const tuningOf = (state: ExpeditionState) => EXPEDITION_TUNINGS[state.version];
 const stepOf = (plan: ExpeditionPlan, state: ExpeditionState): Step | undefined =>
   plan.tableaux[state.tableau]?.[state.step];
 
@@ -274,7 +277,7 @@ export function createExpeditionGame(
   const before = battlesBefore(state);
   const { hpStep, biteStep } = tuningOf(state).strength;
   const rules: StageRules = {
-    version: 3,
+    version: EXPEDITION_STAGE_VERSION,
     king: battle.king,
     court: battle.court,
     ...(before ? { strength: { hp: (1 + hpStep) ** before, bite: (1 + biteStep) ** before } } : {}),
@@ -312,7 +315,8 @@ export function battlesBefore(state: ExpeditionState): number {
   const inTableau = SHAPE.slice(0, state.step).filter((shape) => shape !== 'halt').length;
   return state.tableau * BATTLES_PER_TABLEAU + inTableau;
 }
-const BATTLES_PER_TABLEAU = SHAPE.filter((shape) => shape !== 'halt').length;
+/** Five battles a tableau: the guardian is the fifth. */
+export const BATTLES_PER_TABLEAU = SHAPE.filter((shape) => shape !== 'halt').length;
 
 /** The camp a battle won leaves: the allies standing, the coins, the crystal. */
 function campAfter(game: Game): Camp | null {
@@ -376,6 +380,14 @@ export function rerollGifts(state: ExpeditionState): ExpeditionState | null {
   return Object.freeze({ ...state, pending: Object.freeze({ ...state.pending, rerolled: true }) });
 }
 
+/** A rare gift counts twice: a lasting one climbs two levels, the purse holds twice the coins. */
+const RARE_TIMES = 2;
+/** The coins of the purse « pieces », rare or not. */
+export const giftCoins = (rare: boolean) => REWARD_COINS * (rare ? RARE_TIMES : 1);
+/** The level a lasting gift reaches once taken now, rare or not. */
+export const levelAfterGift = (state: ExpeditionState, id: LastingBoon, rare: boolean) =>
+  Math.min(BOON_RULES[1].maxLevel, boonLevel(state.boons, id) + (rare ? RARE_TIMES : 1));
+
 /** Adds a gift (a lasting one climbs, takes a place or the place given); a rare one climbs twice. */
 function gain(
   state: ExpeditionState,
@@ -386,11 +398,12 @@ function gain(
   if (isLastingBoon(id)) {
     let boons = takeBoon(state.boons, id, replace, BOON_RULES[1]);
     if (!boons) return null;
-    if (rare) boons = takeBoon(boons, id, undefined, BOON_RULES[1]) ?? boons;
+    for (let extra = 1; rare && extra < RARE_TIMES; extra++)
+      boons = takeBoon(boons, id, undefined, BOON_RULES[1]) ?? boons;
     return withBoons(state, boons);
   }
   if (id === 'pieces') {
-    const coins = REWARD_COINS * (rare ? 2 : 1);
+    const coins = giftCoins(rare);
     return state.camp
       ? {
           camp: Object.freeze({
@@ -494,7 +507,9 @@ function fullLife(unit: CarriedUnit, boons: Boons): number {
 export function roulotteOffer(state: ExpeditionState) {
   const tuning = tuningOf(state);
   const random = stream(state.seed, 8000 + state.tableau * 10 + state.step);
-  const fresh = boonOffer(Math.floor(random() * SEED_RANGE), 0, 0, state.boons, BOON_RULES[1]);
+  // The stock is drawn from every gift, whatever the child holds: it stays the same while the
+  // child buys, and a gift bought simply leaves it.
+  const fresh = boonOffer(Math.floor(random() * SEED_RANGE), 0, 0, [], BOON_RULES[1]);
   return {
     // A gift already held is only offered to climb, at the price of a level.
     buy: fresh
@@ -506,7 +521,8 @@ export function roulotteOffer(state: ExpeditionState) {
   };
 }
 
-const coinsOf = (state: ExpeditionState) => state.camp?.gold ?? state.purse;
+/** The coins the child can spend now: the camp's, or the purse of a camp still to come. */
+export const coinsOf = (state: ExpeditionState) => state.camp?.gold ?? state.purse;
 const pay = (state: ExpeditionState, price: number): Partial<ExpeditionState> =>
   state.camp
     ? { camp: Object.freeze({ ...state.camp, gold: state.camp.gold - price }) }
@@ -542,3 +558,137 @@ export const isAllyCard = (id: string) =>
   Object.hasOwn(REWARDS, id) && !!REWARDS[id as RewardId].kind;
 /** The missions of the game, in order: the map draws one sign per mission. */
 export const missionNumber = (id: MissionId) => MISSIONS.findIndex((m) => m.id === id) + 1;
+
+/** The battles of a whole expedition: five a tableau. */
+export const EXPEDITION_BATTLES = EXPEDITION_TUNINGS[1].tableaux.length * BATTLES_PER_TABLEAU;
+/** The battles won so far: the record of a player counts them. */
+export const battlesWon = (state: ExpeditionState): number =>
+  state.status === 'arrived' ? EXPEDITION_BATTLES : battlesBefore(state);
+
+/** The plan of a state; a valid state always has one. */
+export const expeditionPlanOf = (state: ExpeditionState): ExpeditionPlan =>
+  planExpedition(state.seed, state.version)!;
+
+/** What the child is asked now: a gift, the roulotte, a halt, a battle, a path, or nothing. */
+export type ExpeditionPhase = 'gift' | 'roulotte' | 'halt' | 'battle' | 'fork' | 'arrived';
+export function expeditionPhase(state: ExpeditionState): ExpeditionPhase {
+  if (state.status === 'arrived') return 'arrived';
+  if (state.pending) return state.pending.kind;
+  return stepOf(expeditionPlanOf(state), state)!.kind;
+}
+
+/** The forks and halts of a tableau before a step: one pick each. */
+const choicesBefore = (step: number) =>
+  SHAPE.slice(0, step).filter((shape) => shape === 'fork' || shape === 'halt').length;
+const CHOICES_PER_TABLEAU = choicesBefore(STEPS_PER_TABLEAU);
+
+/** A carried camp read back: its allies as the next camp will receive them, its coins, its crystal. */
+function readCamp(raw: unknown, boons: Boons): Camp | null {
+  if (
+    !isRecord(raw) ||
+    !isIntegerIn(raw.gold, 0, GOLD_LIMIT) ||
+    !isNumberIn(raw.base, 1, CRYSTAL_MAX) ||
+    !isArrayOfLength(raw.units, 0, UNIT_LIMIT)
+  )
+    return null;
+  const lifeFactor = 1 + boonLevel(boons, 'armure') * BOON_RULES[1].steps.armure;
+  const ids = (raw.units as unknown[]).map((u) =>
+    isRecord(u) && isIntegerIn(u.id, 1, 1e7) ? u.id : 0,
+  );
+  const nextId = Math.max(0, ...ids);
+  const taken = new Set<number>();
+  const units: CarriedUnit[] = [];
+  for (const saved of raw.units) {
+    const unit = readUnit(saved, { homes: true, supplies: true, nextId, lifeFactor }, taken);
+    const copy = unit && saveUnit(unit, true);
+    if (!copy) return null;
+    taken.add(copy.id);
+    units.push(copy);
+  }
+  if (units.filter((u) => u.kind === 'hero').length > 1) return null;
+  return Object.freeze({ units: Object.freeze(units), gold: raw.gold, base: raw.base });
+}
+
+function readPending(raw: unknown): Pending | null | undefined {
+  if (raw === null) return null;
+  if (!isRecord(raw)) return undefined;
+  if (raw.kind === 'roulotte') return Object.freeze({ kind: 'roulotte' });
+  if (raw.kind === 'gift' && typeof raw.rare === 'boolean' && typeof raw.rerolled === 'boolean')
+    return Object.freeze({ kind: 'gift', rare: raw.rare, rerolled: raw.rerolled });
+  return undefined;
+}
+
+/**
+ * Canonical frozen copy of a state that a real expedition can reach; null for anything else.
+ * The plan is never stored: it is drawn again from the seed.
+ */
+export function readExpeditionState(raw: unknown): ExpeditionState | null {
+  try {
+    if (!isRecord(raw) || raw.version !== 1 || !isVoyageSeed(raw.seed)) return null;
+    const plan = planExpedition(raw.seed, raw.version);
+    if (
+      !plan ||
+      !isIntegerIn(raw.tableau, 0, plan.tableaux.length - 1) ||
+      !isIntegerIn(raw.step, 0, STEPS_PER_TABLEAU - 1) ||
+      !isOneOf(raw.status, ['travelling', 'arrived'] as const) ||
+      !isIntegerIn(raw.purse, 0, GOLD_LIMIT) ||
+      !isArrayOfLength(raw.bag, 0, STAGE_BAG_LIMIT) ||
+      !raw.bag.every(isBonusCard)
+    )
+      return null;
+    const { tableau, step, status } = raw;
+    const passed = tableau * CHOICES_PER_TABLEAU + choicesBefore(step);
+    if (!isArrayOfLength(raw.picks, passed, passed) || !raw.picks.every((p) => p === 0 || p === 1))
+      return null;
+    const picks = raw.picks as (0 | 1)[];
+    const boons = readBoons(raw.boons, BOON_RULES[1]);
+    const pending = readPending(raw.pending);
+    if (!boons || pending === undefined) return null;
+    const camp = raw.camp === null ? null : readCamp(raw.camp, boons);
+    if (raw.camp !== null && !camp) return null;
+    const before = SHAPE[step - 1];
+    // One gift between two battles: at most one card « once » in the bag, and coins in the
+    // purse only while a new camp waits, at the first step of the second or third tableau.
+    const opening = tableau === 0 && step === 0;
+    const waiting = status === 'travelling' && step === 0 && tableau > 0;
+    if (
+      raw.bag.length > 1 ||
+      (raw.bag.length && (opening || status === 'arrived')) ||
+      (raw.purse > 0 && !waiting) ||
+      raw.purse > giftCoins(true) ||
+      (opening && boons.length)
+    )
+      return null;
+    if (status === 'arrived') {
+      const last = tableau === plan.tableaux.length - 1 && step === STEPS_PER_TABLEAU - 1;
+      if (!last || pending || camp) return null;
+    } else {
+      // The camp travels within a tableau: none at its first step, always one after.
+      if ((step === 0) !== (camp === null)) return null;
+      if (pending?.kind === 'gift') {
+        const afterBattle = step === 0 ? tableau > 0 : before !== 'halt';
+        const brave = before === 'fork' && picks.at(-1) === 1;
+        if (!afterBattle || (pending.rare && !brave)) return null;
+      }
+      if (pending?.kind === 'roulotte') {
+        const halt = plan.tableaux[tableau][step - 1];
+        if (halt?.kind !== 'halt' || halt.halts[picks.at(-1)!] !== 'roulotte') return null;
+      }
+    }
+    return Object.freeze({
+      version: 1,
+      seed: raw.seed,
+      tableau,
+      step,
+      picks: Object.freeze([...picks]),
+      camp,
+      boons,
+      bag: Object.freeze([...(raw.bag as RewardId[])]),
+      purse: raw.purse,
+      pending,
+      status,
+    });
+  } catch {
+    return null;
+  }
+}

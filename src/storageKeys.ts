@@ -16,6 +16,8 @@ export const REMINDER_STORAGE_KEY = key('recruitment-reminder');
 export const MISSION_DONE_KEY = key('mission-done');
 /** The best endless adventures of a player: its own records, never compared with another's. */
 export const ENDLESS_RECORDS_KEY = key('endless-records');
+/** « La Grande Expédition » of a player: the one under way, and its record. */
+export const EXPEDITION_STORAGE_KEY = key('expedition');
 
 // The device: shared by every player.
 export const PLAYERS_KEY = key('players');

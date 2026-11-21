@@ -150,16 +150,16 @@ des cadeaux se joue surtout au début ; à revoir avec les enfants.
 
 ## Ordre de travail
 
-1. Le moteur du long voyage : un camp qui passe d'une mission à la suivante, les cadeaux sans
-   fin dans les missions du voyage, la carte à trois tableaux et ses chemins (tirée d'une
-   graine, partageable par un code).
-2. La mesure sur le vrai moteur : combien de joueurs simulés finissent chaque tableau.
-3. Les écrans : la carte, les haltes, la roulotte, les cadeaux avec relance.
+1. ~~Le moteur du long voyage~~ : fait (PR 103), sans code à partager pour l'instant.
+2. ~~La mesure sur le vrai moteur~~ : faite (tableau ci-dessus).
+3. ~~Les écrans~~ : la carte, les haltes, la roulotte, les cadeaux avec relance
+   ([compte rendu](BILAN-GRANDE-EXPEDITION.md)).
 4. Les défis, un par un, avec le fils.
 
 ## Questions encore ouvertes
 
-- La forme : trois tableaux de cinq, chemins à choisir, haltes ?
-- Le camp qui suit l'enfant dans un tableau ?
-- Les noms des tableaux, des gardiens et des défis : au fils de les donner.
+- Les noms des tableaux, des gardiens et des défis : au fils de les changer s'il veut
+  (`src/texts/fr/expedition.ts`).
 - Les défis à faire d'abord.
+- La porte : sur la page du voyage aujourd'hui ; sur l'accueil si le parent préfère.
+- Un code pour partager une expédition.
