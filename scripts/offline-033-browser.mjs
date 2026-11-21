@@ -144,8 +144,9 @@ try {
   }
   assert.ok([...served].some((p) => p.includes('ground-grove')));
   assert.ok([...served].some((p) => p.includes('ground-ruins')));
-  // The screens of the voyage are a package of their own, asked for when its door is first
-  // touched: script, style sheet and pictures must all be on disk.
+  // The screens of « La Grande Expédition » (with those of the voyage they replaced) are a
+  // package of their own, asked for when its door is first touched: script, style sheet and
+  // pictures must all be on disk.
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await page.locator('#home-voyage').waitFor({ state: 'visible' });
@@ -154,19 +155,19 @@ try {
     'The voyage package is not loaded before its door is touched',
   );
   await page.locator('#home-voyage').click();
-  await page.locator('#home-screen[data-page="voyage"]').waitFor();
-  assert.equal(await page.locator('.voyage-stop').count(), 5);
-  await page.locator('#voyage-go').click();
+  await page.locator('#home-screen[data-page="expedition"]').waitFor();
+  assert.equal(await page.locator('.exp-stop').count(), 12);
+  await page.locator('.exp-go').first().click();
   await page.waitForFunction(
     () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',
   );
-  assert.equal(await page.locator('#voyage-mark').innerText(), 'Le voyage · Étape 1 sur 5');
+  assert.equal(await page.locator('#voyage-mark').innerText(), 'Expédition · mission 1 sur 5');
   for (const file of [/voyageScreens-[\w-]+\.js$/, /voyageScreens-[\w-]+\.css$/, /voyage-antre-/])
     assert.ok(
       [...served].some((p) => file.test(p)),
       `Voyage file served from disk: ${file}`,
     );
-  checks.push('the voyage opens offline from its own package and starts its first stage');
+  checks.push('the expedition opens offline from its own package and starts its first mission');
   // The privacy policy ships inside the application: after a cold start without network,
   // the parents' page opens it from its own package, in the language of the game.
   await page.evaluate(() => localStorage.clear());

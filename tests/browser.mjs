@@ -278,8 +278,9 @@ if (
 // while the next page loads.
 await mobile.close();
 await page.close();
-// The voyage: its screens come in a package of their own, or inside the single file of the
-// portable build. Either way its door opens the map and a first stage starts.
+// « La Grande Expédition » (it took the voyage's place): its screens come in a package of their
+// own, or inside the single file of the portable build. Either way its door opens the road
+// of the first tableau and a first mission starts.
 const voyage = await browser.newPage({
   locale: 'fr-CH',
   viewport: { width: 812, height: 375 },
@@ -291,19 +292,20 @@ voyage.on('pageerror', (e) => errors.push(e.message));
 // CI, fifteen seconds were not enough beside two running games.
 await voyage.goto(gameUrl, { timeout: 60000 });
 await voyage.locator('#home-voyage').click();
-await voyage.locator('#home-screen[data-page="voyage"]').waitFor();
-if ((await voyage.locator('.voyage-stop').count()) !== 5) throw Error('Carte du voyage incomplète');
-await voyage.locator('#voyage-go').click();
+await voyage.locator('#home-screen[data-page="expedition"]').waitFor();
+if ((await voyage.locator('.exp-stop').count()) !== 12)
+  throw Error('Route de l’expédition incomplète');
+await voyage.locator('.exp-go').first().click();
 await voyage.locator('#start').waitFor({ state: 'visible' });
-if ((await voyage.locator('#voyage-mark').innerText()) !== 'Le voyage · Étape 1 sur 5')
-  throw Error('Repère du voyage absent');
+if ((await voyage.locator('#voyage-mark').innerText()) !== 'Expédition · mission 1 sur 5')
+  throw Error('Repère de l’expédition absent');
 console.log(
   JSON.stringify({
     desktop:
       'dock and full catalog on request, tank guide, sound toggle, recruit, checkpoint reload, unlocks, briefing, both honeys, flavour locking/pause/reset, help OK',
     mobile:
       'portrait guidance, 812×375 board >=85% height, drawer, touch recruit/start/sticky honey OK',
-    voyage: 'door, map of five stops, first stage and its mark OK',
+    expedition: 'door, road of the first tableau, first mission and its mark OK',
     pageErrors: errors,
   }),
 );
