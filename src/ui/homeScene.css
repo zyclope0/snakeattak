@@ -136,6 +136,11 @@
     flex: 1 1 auto;
     min-width: 0;
     max-width: max(180px, calc(var(--hu) * 22));
+    /* « La Grande Expédition » prend plus de place que « Le voyage » : un libellé long du
+       bouton principal (« Jouer un caprice ») passe sur deux lignes plutôt que de déborder. */
+    white-space: normal;
+    line-height: 1.05;
+    text-wrap: balance;
   }
   #home-screen #home-voyage {
     flex: 0 0 auto;
@@ -147,7 +152,8 @@
     display: none;
   }
   #home-screen #home-voyage {
-    padding-left: 12px;
+    padding-inline: 10px;
+    font-size: 14px;
   }
 }
 @media (min-width: 1000px) and (min-height: 680px) {
