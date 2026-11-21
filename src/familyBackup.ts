@@ -19,8 +19,8 @@ const FORMAT = 'conquete-serpents-family';
 const VERSIONS = [1, 2, 3, 4, 5, 6] as const;
 /**
  * What a player keeps under keys of its own, carried by a version 6 file as the very texts
- * the device holds. Here they are only checked to be bounded JSON: their own readers, loaded
- * apart (`familyExtras.ts`), decide whether a file is accepted.
+ * the device holds. Here they are only checked to be bounded JSON: their own readers
+ * (`familyExtras.ts`) decide whether a file is accepted.
  */
 export const FAMILY_EXTRAS = ['expedition', 'voyage', 'endless'] as const;
 export type FamilyExtras = Readonly<Partial<Record<(typeof FAMILY_EXTRAS)[number], string>>>;

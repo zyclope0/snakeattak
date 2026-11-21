@@ -19,8 +19,12 @@ export const lesCarnetsEtLeursAutocollantsSont =
   'Sticker books and their stickers are included and will replace the current books.';
 export const ceFichierNeContientAucunCarnetLes =
   'This file contains no sticker books: current books will be replaced by an empty book.';
-export const lExpeditionEtLesRecordsSontInclus =
-  'The expedition and the records in this file will replace those on this device.';
+export const lExpeditionDeCeFichierRemplacera =
+  'The expedition in this file will replace the one on this device.';
+export const leVoyageDeCeFichierRemplacera =
+  'The voyage to finish in this file will replace the one on this device.';
+export const lesRecordsDeCeFichierRemplaceront =
+  'The endless adventure records in this file will replace those on this device.';
 export const verifieCetApercuTonAventure =
   'Check this preview. Your current adventure stays as it is until you confirm.';
 export const fichierTropVolumineuxRienNAEte = 'File too large: nothing was changed.';

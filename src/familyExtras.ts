@@ -1,6 +1,6 @@
 import { readRecords, writeRecords } from './endlessRecords.ts';
 import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
-import { validateExpeditionLog } from './expeditionStorage.ts';
+import { loadExpeditionLog, validateExpeditionLog } from './expeditionStorage.ts';
 import { FAMILY_EXTRAS } from './familyBackup.ts';
 import type { FamilyExtras } from './familyBackup.ts';
 import { readBoundedJson } from './plainData.ts';
@@ -10,8 +10,7 @@ import { VOYAGE_LOG_LIMIT, validateVoyageLog } from './voyageStorage.ts';
 /**
  * What a player keeps beside the adventure, for the family file (version 6): « La Grande
  * Expédition », the voyage to finish, the records of the endless adventure. Each one has its
- * own key and its own reader; this module is loaded apart, when a family file is made or
- * read, so that the rules of the expedition stay out of the first package.
+ * own key and its own reader: this module is where the family file meets them.
  */
 type Name = (typeof FAMILY_EXTRAS)[number];
 type ReadPort = Pick<Storage, 'getItem'>;
@@ -48,7 +47,9 @@ export function collectExtras(storage?: ReadPort): FamilyExtras {
   for (const name of FAMILY_EXTRAS) {
     try {
       const raw = storage?.getItem(EXTRAS[name].key);
-      const text = typeof raw === 'string' ? EXTRAS[name].read(raw) : null;
+      let text = typeof raw === 'string' ? EXTRAS[name].read(raw) : null;
+      // An expedition that cannot be read is lost, its record is not: as the game reads it.
+      if (!text && name === 'expedition' && storage) text = kept(loadExpeditionLog(storage));
       if (text) extras[name] = text;
     } catch {
       /* A storage that refuses to be read has nothing to carry. */
@@ -76,23 +77,28 @@ export function checkExtras(extras: FamilyExtras): FamilyExtras | null {
 /**
  * Writes the extras of a file under their keys. What the file does not hold is left as it is
  * on the device. Returns the way back, to be used if the adventure itself cannot be written
- * afterwards; null when the device refused a write, everything being as it was.
+ * afterwards; null when the device refused a write (it is then as it was, unless it also
+ * refused the way back: `writeExtras.partial` says so).
  */
 export function writeExtras(
   storage: WritePort | undefined,
   extras: FamilyExtras,
-): { undo: () => void } | null {
+): { undo: () => boolean } | null {
+  writeExtras.partial = false;
   if (!storage) return null;
   const before: [string, string | null][] = [];
+  /** False when the device also refused the way back: it then holds a part of the file. */
   const undo = () => {
+    let whole = true;
     for (const [key, raw] of before.reverse()) {
       try {
         if (raw === null) storage.removeItem(key);
         else storage.setItem(key, raw);
       } catch {
-        /* Nothing more can be done on a device that refuses. */
+        whole = false;
       }
     }
+    return whole;
   };
   try {
     for (const name of FAMILY_EXTRAS) {
@@ -105,7 +111,9 @@ export function writeExtras(
     }
     return { undo };
   } catch {
-    undo();
+    writeExtras.partial = !undo();
     return null;
   }
 }
+/** True when the last refused write could not be taken back whole. */
+writeExtras.partial = false;

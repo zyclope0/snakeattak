@@ -3,6 +3,8 @@ import { CRYSTAL_MAX, ENCOURAGEMENT_SECONDS, STAR_MAX } from '../../gameConstant
 export const reprendre = 'Reprendre';
 export const reprendreMaMission = 'Reprendre ma mission';
 export const reprendreMonAventureClassique = 'Reprendre mon aventure classique';
+export const unePartieSeulementDuFichierAEteGardee =
+  'L’appareil a refusé une écriture en cours de route : une partie seulement du fichier a pu être gardée. Ferme le jeu, rouvre-le, puis recommence.';
 export const fichierInvalideRienNAEteModifie = 'Fichier invalide : rien n’a été modifié.';
 export const impossibleDeConserverCeFichierSur =
   'Impossible de conserver ce fichier sur ce navigateur. Ton aventure actuelle reste intacte.';

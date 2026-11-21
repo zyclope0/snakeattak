@@ -3,6 +3,8 @@ import { CRYSTAL_MAX, ENCOURAGEMENT_SECONDS, STAR_MAX } from '../../gameConstant
 export const reprendre = 'Resume';
 export const reprendreMaMission = 'Resume my mission';
 export const reprendreMonAventureClassique = 'Resume my classic adventure';
+export const unePartieSeulementDuFichierAEteGardee =
+  'The device refused a write along the way: only part of the file could be kept. Close the game, open it again, then start over.';
 export const fichierInvalideRienNAEteModifie = 'Invalid file: nothing has changed.';
 export const impossibleDeConserverCeFichierSur =
   'This browser could not save the file. Your current adventure is still safe.';

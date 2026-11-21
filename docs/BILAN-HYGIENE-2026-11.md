@@ -109,9 +109,14 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
   fichier ne porte pas reste tel quel sur l'appareil. Si l'appareil refuse une écriture, tout
   est remis comme avant. Après une restauration qui les ramène, la page se relit, comme au
   changement de joueur.
-- **Fichiers** : `src/familyBackup.ts`, `src/familyExtras.ts` (chargé à part, pour garder les
-  règles de l'expédition hors du premier paquet), `src/bootstrap.ts`,
-  `src/ui/familyControls.ts`, une phrase dans `src/texts/*/family.ts`.
+- **Fichiers** : `src/familyBackup.ts`, `src/familyExtras.ts`, `src/familyPersistence.ts`,
+  `src/bootstrap.ts`, `src/ui/familyControls.ts`, quatre phrases dans `src/texts/`.
+- **Relecture indépendante** (quatre angles) : aucune perte dans le chemin normal ; 1 980
+  anciens fichiers lus comme avant, 5 556 exports sans extras identiques à l'octet, 35 fichiers
+  hostiles refusés sans écriture. Elle a trouvé cinq défauts, corrigés : l'aperçu nomme
+  maintenant chaque élément que le fichier remplace ; le record d'une expédition illisible
+  part quand même ; la clé vivante refuse un fichier version 6 ; si l'appareil refuse aussi le
+  retour arrière, le message le dit au lieu d'annoncer que rien n'a changé.
 - **Tests** : `tests/family-extras.test.ts` ; `scripts/hygiene/family-backup.mjs` (export
   version 6, treize imports invalides, restauration identique sur un appareil vide).
 - **Limites** : le fichier ne garde toujours que le joueur en cours (c'est annoncé dans la

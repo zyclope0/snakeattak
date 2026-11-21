@@ -300,10 +300,11 @@ le Game courant, sans état ancien rafraîchi entre ces opérations synchrones.
 Depuis le 21 novembre 2026, un fichier familial « version 6 » porte aussi ce que le joueur
 garde sous des clés à lui : l'expédition, le voyage à finir, les records de l'aventure sans
 fin (`extras`, les textes mêmes de l'appareil). `familyBackup.ts` vérifie seulement qu'ils
-sont du JSON borné ; `familyExtras.ts`, chargé à part par `import()`, les relit par leurs
-propres règles, pour que celles de l'expédition restent hors du premier paquet. La clé
-vivante `family` ne porte jamais d'extras : à la restauration, ils repartent sous leurs clés
-(avec retour arrière si l'appareil refuse), puis l'aventure est écrite seule, comme avant.
+sont du JSON borné ; `familyExtras.ts` les relit par leurs propres règles (il est dans le
+paquet `rules`, comme tout `src/*.ts`). La clé vivante `family` ne porte jamais d'extras :
+`familyPersistence.ts` refuse d'y écrire un fichier version 6. À la restauration, les extras
+repartent sous leurs clés (avec retour arrière si l'appareil refuse), puis l'aventure est
+écrite seule, comme avant.
 Un fichier sans extras reste écrit dans sa version d'avant, à l'octet près.
 
 L'enveloppe `conquete-serpents:family:v1` prime sur les deux clés historiques au

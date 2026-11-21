@@ -16,6 +16,7 @@ import { bindExpeditions } from './ui/expeditions.ts';
 import { createCampMemory } from './campMemory.ts';
 import { createFamilyPersistence } from './familyPersistence.ts';
 import { hasAlbums, readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
+import { checkExtras, collectExtras, writeExtras } from './familyExtras.ts';
 import type { FamilyBackup } from './familyBackup.ts';
 import { decodeCheckpoint } from './checkpoints.ts';
 import { bindFamilyControls } from './ui/familyControls.ts';
@@ -431,53 +432,48 @@ function refreshHomePrimary() {
 }
 
 /**
- * The family file of the adventure as it is now, with what the player keeps beside it (the
- * expedition, the voyage to finish, the records): their readers come in a package of their
- * own. Without it, the file still holds the adventure.
+ * The family file of the adventure as it is now, with what the player keeps beside it: the
+ * expedition, the voyage to finish, the records.
  */
-async function exportFamily() {
+function exportFamily() {
   recordGame(false);
-  const extras = await import('./familyExtras.ts').then(
-    (module) => module.collectExtras(storage),
-    () => undefined,
+  return writeFamilyBackup(
+    campMemory.raw(),
+    career.state,
+    missions.state,
+    albums.state,
+    collectExtras(storage),
   );
-  return writeFamilyBackup(campMemory.raw(), career.state, missions.state, albums.state, extras);
 }
 /** True when every part of a family file reads back by its own rules. */
-async function acceptsFamily(backup: FamilyBackup) {
-  if (backup.version !== 6) return true;
-  return import('./familyExtras.ts').then(
-    (module) => module.checkExtras(backup.extras) !== null,
-    () => false,
-  );
+function acceptsFamily(backup: FamilyBackup) {
+  return backup.version !== 6 || checkExtras(backup.extras) !== null;
 }
 /**
  * Replaces the adventure by a family file. The file is written first: when the browser
  * refuses it, nothing of the session has changed.
  */
-async function applyFamily(backup: FamilyBackup) {
+function applyFamily(backup: FamilyBackup) {
   const whole = readFamilyBackup(JSON.stringify(backup));
   const invalid = { ok: false, message: TEXT.fichierInvalideRienNAEteModifie };
   const refused = { ok: false, message: TEXT.impossibleDeConserverCeFichierSur };
+  /** The device refused a write and then the way back: it holds a part of the file. */
+  const partial = { ok: false, message: TEXT.unePartieSeulementDuFichierAEteGardee };
   if (!whole) return invalid;
   // What the player keeps beside the adventure goes back under its own keys, first: the
   // adventure is then stored as the file that holds it alone, as it always was.
-  let extras: { undo: () => void } | null = null;
+  let extras: { undo: () => boolean } | null = null;
   let canonical: FamilyBackup | null = whole;
   if (whole.version === 6) {
-    const module = await import('./familyExtras.ts').catch(() => null);
-    const checked = module?.checkExtras(whole.extras);
+    const checked = checkExtras(whole.extras);
     const alone = writeFamilyBackup(whole.camp, whole.career, whole.missions, whole.albums);
     canonical = alone ? readFamilyBackup(alone) : null;
-    if (!module || !checked || !canonical) return invalid;
-    extras = module.writeExtras(storage, checked);
-    if (!extras) return refused;
+    if (!checked || !canonical) return invalid;
+    extras = writeExtras(storage, checked);
+    if (!extras) return writeExtras.partial ? partial : refused;
   }
   const game = canonical.camp === null ? null : decodeCheckpoint(canonical.camp);
-  if (!family.import(canonical)) {
-    extras?.undo();
-    return refused;
-  }
+  if (!family.import(canonical)) return extras && !extras.undo() ? partial : refused;
   // The door of the expedition and its screens hold what they read at start: the page is
   // read again, as when the player changes.
   reloadAfterImport = extras !== null;

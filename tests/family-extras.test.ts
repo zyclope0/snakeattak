@@ -143,8 +143,8 @@ test('écrire les extras : ce que le fichier ne porte pas reste, un refus remet 
     voyage,
     'not in the file: left as it is',
   );
-  // The adventure could not be written afterwards: the way back.
-  done.undo();
+  // The adventure could not be written afterwards: the way back, whole.
+  assert.equal(done.undo(), true);
   assert.equal(device.values.has(KEYS.EXPEDITION_STORAGE_KEY), false);
   assert.equal(device.values.get(KEYS.ENDLESS_RECORDS_KEY), old);
   // The device refuses the second write: the first one is taken back.
@@ -153,5 +153,33 @@ test('écrire les extras : ce que le fichier ne porte pas reste, un refus remet 
   assert.equal(writeExtras(full, { expedition, endless }), null);
   full.room = Infinity;
   assert.deepEqual([...full.values], [[KEYS.ENDLESS_RECORDS_KEY, old]]);
+  assert.equal(writeExtras.partial, false, 'the device is as it was');
   assert.equal(writeExtras(undefined, { endless }), null);
+  // A device that dies along the way refuses the way back too: it says so.
+  const dying = memory({ [KEYS.ENDLESS_RECORDS_KEY]: old });
+  const kept = writeExtras(dying, { expedition, endless })!;
+  dying.room = 0;
+  assert.equal(kept.undo(), false, 'the old record could not be put back');
+});
+
+test('une expédition illisible ne part pas, son record si, comme le jeu le relit', () => {
+  const damaged = expedition.replace('"seed":4242', '"seed":-1').replace('"best":0', '"best":7');
+  const carried = collectExtras(memory({ [KEYS.EXPEDITION_STORAGE_KEY]: damaged }));
+  assert.equal(carried.expedition, '{"version":1,"best":7,"current":null}');
+  // In a file, the same damaged text is refused: a file is accepted whole or not at all.
+  assert.equal(checkExtras({ expedition: damaged }), null);
+});
+
+test('la clé vivante ne garde jamais un fichier version 6', async () => {
+  const { createFamilyPersistence } = await import('../src/familyPersistence.ts');
+  const [camp, career, missions, albums] = adventure();
+  const six = writeFamilyBackup(camp, career, missions, albums, { endless })!;
+  const device = memory();
+  assert.equal(createFamilyPersistence(device).import(readFamilyBackup(six)!), false);
+  assert.equal(device.values.size, 0, 'nothing is written');
+  // If one came there all the same, its text is put aside before the next save drops it.
+  device.values.set(KEYS.FAMILY_STORAGE_KEY, six);
+  const persistence = createFamilyPersistence(device);
+  assert.ok(persistence.load());
+  assert.equal(device.values.get(KEYS.FAMILY_REFUSED_KEY), six);
 });
