@@ -39,7 +39,8 @@ try {
   assert.equal(await playOut(page), 'won', 'build 63: the refuge is won');
   await page.locator('#mission-back-map').click();
   await showHomePage(page, 'home');
-  const before = { stars: await text(page, '#home-stars') };
+  const before = { stars: await text(page, '#mission-total') };
+  assert.match(before.stars, /^[1-3] /, `build 63: the refuge gave stars: « ${before.stars} »`);
   await showHomePage(page, 'classic');
   await page.locator('#home-new').click();
   if (await page.locator('#journey-replace').isVisible())
@@ -67,13 +68,16 @@ try {
   await shot(page, '63-voyage');
   // --- Build 63: a second player, who wins nothing.
   await page.reload();
-  await page.locator('#home-players').click();
-  await page.locator('#player-new').click();
+  await page.locator('#player-chip').click();
+  await page.locator('#players-dialog').waitFor({ state: 'visible' });
+  if (await page.locator('#player-new').isVisible()) await page.locator('#player-new').click();
   await page.locator('#player-save').click();
   await page.locator('#home-primary').waitFor({ state: 'visible' });
   await page.clock.runFor(500);
   before.storage = await snapshot(page);
   before.players = JSON.parse(before.storage['conquete-serpents:players:v1']);
+  const first = before.players.players[0].id;
+  assert.notEqual(before.players.activeId, first, 'build 63: the second player is the active one');
   await shot(page, '63-joueur-2');
   checks.push('build 63: mission won, adventure and voyage under way, second player');
 
@@ -86,6 +90,13 @@ try {
   const changed = Object.keys(before.storage).filter((key) => after[key] !== before.storage[key]);
   const lost = Object.keys(before.storage).filter((key) => !(key in after));
   assert.deepEqual(lost, [], 'no key of build 63 is removed at start');
+  // A key written again at start holds the same content (the order of its fields may change).
+  for (const key of changed)
+    assert.deepEqual(
+      JSON.parse(after[key]),
+      JSON.parse(before.storage[key]),
+      `${key}: same content`,
+    );
   await shot(page, 'apres-joueur-2');
   // Player 2 is still the active one, with nothing won.
   const players = JSON.parse(after['conquete-serpents:players:v1']);
@@ -93,12 +104,13 @@ try {
   assert.equal(players.activeId, before.players.activeId, 'the same active player');
   checks.push(`update: starts clean, keys rewritten at start: ${JSON.stringify(changed)}`);
   // Back to player 1: stars, adventure, voyage.
-  await page.locator('#home-players').click();
-  await page.locator('#players-dialog [data-player="child-1"] button').first().click();
+  await page.locator('#player-chip').click();
+  await page.locator('#players-dialog').waitFor({ state: 'visible' });
+  await page.locator(`#players-dialog [data-player="${first}"] button`).first().click();
   await page.locator('#home-primary').waitFor({ state: 'visible' });
   await page.clock.runFor(500);
   await showHomePage(page, 'home');
-  assert.equal(await text(page, '#home-stars'), before.stars, 'the stars of player 1');
+  assert.equal(await text(page, '#mission-total'), before.stars, 'the stars of player 1');
   await shot(page, 'apres-joueur-1');
   // The voyage begun in build 63 is to finish: the door leads to it, same stage, same bag.
   await page.locator('#home-voyage').click();

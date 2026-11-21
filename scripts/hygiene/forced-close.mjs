@@ -79,9 +79,9 @@ async function refuge(page) {
   });
   try {
     await showHomePage(page, 'home');
-    const stars = await text(page, '#home-stars');
+    const stars = await text(page, '#mission-total');
     await page.screenshot({ path: 'artifacts/hygiene/kill-mission-gagnee-apres.png' });
-    assert.match(stars, /[1-3]/, `the stars of the mission won are kept: « ${stars} »`);
+    assert.match(stars, /^[1-3] /, `the stars of the mission won are kept: « ${stars} »`);
     await showHomePage(page, 'missions');
     assert.equal(
       await page.locator('#mission-continue').isVisible(),
