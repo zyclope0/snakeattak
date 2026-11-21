@@ -28,10 +28,9 @@ import {
   heldWords,
   PATH_NAMES,
   recordLine,
-  stepStates,
-  stepWords,
+  roadColumns,
 } from './expeditionWords.ts';
-import type { StepState } from './expeditionWords.ts';
+import type { RoadStop } from './expeditionWords.ts';
 import * as TEXT from '../../../texts/fr/expedition.ts';
 import { fill } from '../../../texts/fill.ts';
 
@@ -80,41 +79,124 @@ function tick() {
   );
 }
 
-/** The seven steps of the tableau: five missions (the last is the guardian) and two halts. */
-function trail(state: ExpeditionState) {
-  const tableau = expeditionPlanOf(state).tableaux[state.tableau];
-  const states = stepStates(state);
-  const list = make('ol', { className: 'exp-trail' });
-  let battle = 0;
-  for (const [index, step] of tableau.entries()) {
-    const kind =
-      step.kind === 'halt'
-        ? 'halt'
-        : step.kind === 'battle' && step.battle.king
-          ? 'guardian'
-          : 'battle';
-    if (kind !== 'halt') battle++;
-    const words = stepWords(state, index, states[index]);
-    const mark = decoration('span', 'exp-mark');
-    if (states[index] === 'done') mark.append(tick());
-    else if (kind !== 'halt') mark.textContent = String(battle);
-    const item = make(
-      'li',
-      { className: 'exp-step' },
-      mark,
-      make('span', { className: 'sr-only', text: words.name }),
-      make('span', { className: 'sr-only', text: words.state }),
-    );
-    item.dataset.kind = kind;
-    item.dataset.state = states[index] satisfies StepState;
-    if (states[index] === 'next') item.setAttribute('aria-current', 'step');
-    list.append(item);
+/** Where a stop stands in the road's box, in hundredths: its column, its lane. */
+const COLUMN = (column: number, columns: number) => ((column + 0.5) / columns) * 100;
+const LANE = (row: number, rows: number) => (rows === 1 ? 50 : row === 0 ? 22 : 78);
+/** One smooth stretch of road, level at both ends, as the voyage draws its path. */
+const curve = (x1: number, y1: number, x2: number, y2: number) => {
+  const middle = (x1 + x2) / 2;
+  return `M${x1} ${y1}C${middle} ${y1},${middle} ${y2},${x2} ${y2}`;
+};
+
+/** The mark of one stop: the mission's number, a halt's picture or the king, and a tick once passed. */
+function stopMark(stop: RoadStop) {
+  const mark = decoration('span', 'exp-mark');
+  if (stop.kind === 'halt') {
+    const picture = decoration('span', 'exp-halt-picture');
+    picture.dataset.halt = stop.halt!;
+    if (stop.halt === 'roulotte') picture.append(make('i'), make('i'), make('i'));
+    mark.append(picture);
+  } else if (stop.kind === 'guardian') mark.append(king());
+  else mark.textContent = String(stop.mission);
+  if (stop.state === 'done') {
+    const done = decoration('span', 'exp-tick');
+    done.append(tick());
+    mark.append(done);
   }
+  return mark;
+}
+
+/**
+ * The road of the tableau, as the voyage draws its path: one dashed road from the edge of the
+ * panel to the guardian. At every fork and every halt it splits in two, then joins again
+ * before the next: the child sees where it parts and where it meets. The way travelled is
+ * drawn in green, the brave path in gold; the stops not chosen fade.
+ */
+function road(state: ExpeditionState) {
+  const columns = roadColumns(state);
+  const list = make('ol', { className: 'exp-stops' });
+  setAttribute(list, 'aria-label', TEXT.laRouteDuTableau);
+  const lines: SVGElement[] = [];
+  const stretch = (d: string, kind: string) => {
+    const path = svgNode('path', { d, 'vector-effect': 'non-scaling-stroke' });
+    path.setAttribute('class', kind);
+    lines.push(path);
+  };
+  /** How a stretch to or from a stop looks: travelled, faded, brave, or still open. */
+  const look = (stop: RoadStop, travelled: boolean) =>
+    travelled
+      ? 'exp-taken'
+      : stop.state === 'skipped'
+        ? 'exp-faded'
+        : stop.path === 'brave'
+          ? 'exp-brave'
+          : 'exp-open';
+  const count = columns.length;
+  const firstLane = LANE(0, columns[0].length);
+  stretch(
+    `M-1 ${firstLane}L${COLUMN(0, count)} ${firstLane}`,
+    columns[0][0].state === 'done' ? 'exp-taken' : 'exp-open',
+  );
+  for (const [column, stops] of columns.entries()) {
+    for (const [row, stop] of stops.entries()) {
+      const item = make('li', { className: 'exp-stop' }, stopMark(stop));
+      // Read as the child sees it: the mission, then the path or the halt, then where it stands.
+      if (stop.detail) item.append(make('span', { className: 'sr-only', text: stop.detail }));
+      item.append(
+        make('span', { className: 'sr-only', text: stop.name }),
+        make('span', { className: 'sr-only', text: stop.said }),
+      );
+      item.dataset.kind = stop.kind;
+      item.dataset.state = stop.state;
+      if (stop.path) item.dataset.path = stop.path;
+      if (stops.length === 1) item.dataset.alone = '';
+      if (stop.state === 'next' && stops.length === 1) item.setAttribute('aria-current', 'step');
+      item.style.setProperty('--column', String(column + 1));
+      item.style.setProperty('--row', stops.length === 1 ? '1 / 3' : String(row + 1));
+      list.append(item);
+    }
+    const next = columns[column + 1];
+    const x = COLUMN(column, count);
+    if (!next) {
+      const lane = LANE(0, stops.length);
+      stretch(`M${x} ${lane}L101 ${lane}`, stops[0].state === 'done' ? 'exp-taken' : 'exp-open');
+      continue;
+    }
+    // Between two columns the road gathers at one point, halfway, then parts again.
+    const meet = (x + COLUMN(column + 1, count)) / 2;
+    const passedNext = next.some((stop) => stop.state === 'done');
+    for (const [row, from] of stops.entries())
+      stretch(
+        curve(x, LANE(row, stops.length), meet, 50),
+        look(from, from.state === 'done' && passedNext),
+      );
+    for (const [row, to] of next.entries())
+      stretch(
+        curve(meet, 50, COLUMN(column + 1, count), LANE(row, next.length)),
+        look(to, to.state === 'done'),
+      );
+  }
+  const drawing = svgNode(
+    'svg',
+    {
+      class: 'exp-lines-drawn',
+      viewBox: '0 0 100 100',
+      preserveAspectRatio: 'none',
+      'aria-hidden': 'true',
+    },
+    ...lines,
+  );
+  list.style.setProperty('--columns', String(count));
   const where = make('span', {
     className: 'exp-where',
     text: fill(TEXT.tableauNSurN, state.tableau + 1, expeditionPlanOf(state).tableaux.length),
   });
-  return make('div', { className: 'exp-road' }, where, list);
+  return make(
+    'div',
+    { className: 'exp-road' },
+    where,
+    make('div', { className: 'exp-road-box' }, drawing, list),
+  );
 }
 
 /** The sticker of the caprice that surprises a mission: shown in advance, and a button. */
@@ -166,19 +248,21 @@ function battleCard(
     );
   // King Snake ends the expedition: no gift waits after him.
   const last = battle.king && state.tableau === expeditionPlanOf(state).tableaux.length - 1;
+  // The gift it promises shares the row of the path's name.
+  const top = make('div', { className: 'exp-card-head' }, head);
   if (!last) {
     const reward = make('span', {
       className: 'exp-reward',
-      text: battle.path === 'brave' ? TEXT.unCadeauRareApresLaMission : TEXT.unCadeauApresLaMission,
+      text: battle.path === 'brave' ? TEXT.unCadeauRareAGagner : TEXT.unCadeauAGagner,
     });
     if (battle.path === 'brave') reward.dataset.rare = '';
-    facts.append(reward);
+    top.append(reward);
   }
   const play = button(undefined, ['primary', 'exp-go'], TEXT.cEstParti, go);
   play.dataset.path = battle.path;
   // Two « C'est parti ! » side by side: each one is told by the name of its path.
   if (title) play.setAttribute('aria-describedby', head.id);
-  card.append(head, make('div', { className: 'exp-body' }, map, facts), play);
+  card.append(top, make('div', { className: 'exp-body' }, map, facts), play);
   return card;
 }
 
@@ -237,9 +321,13 @@ function giftsRow(state: ExpeditionState) {
 }
 
 /** Under every view: the gifts, what the camp carries, and the way to another expedition. */
-function foot(state: ExpeditionState, actions: ExpeditionActions, other = true) {
-  const camp = make('p', { className: 'exp-camp' });
-  for (const words of campWords(state)) camp.append(make('span', { text: words }));
+function foot(state: ExpeditionState, actions: ExpeditionActions, other = true, notice = '') {
+  // What a halt has just done to the camp takes, once, the place of what the camp carries.
+  const camp = make('p', { className: notice ? 'exp-notice' : 'exp-camp' });
+  if (notice) {
+    camp.setAttribute('role', 'status');
+    camp.append(make('span', { text: notice }));
+  } else for (const words of campWords(state)) camp.append(make('span', { text: words }));
   const row = withClasses(
     make('div', { className: 'voyage-foot' }, giftsRow(state), camp),
     'exp-foot',
@@ -285,11 +373,6 @@ export function mapView(
   }
   choices.dataset.count = String(choices.childElementCount);
   const lines = make('div', { className: 'exp-lines' });
-  if (notice) {
-    const said = make('p', { className: 'exp-notice', text: notice });
-    said.setAttribute('role', 'status');
-    lines.append(said);
-  }
   if (ask) lines.append(make('h2', { text: ask }));
   const record = recordLine(best);
   if (record) lines.append(make('p', { className: 'exp-record', text: record }));
@@ -298,7 +381,7 @@ export function mapView(
       make('p', { className: 'exp-grow', text: TEXT.lesSerpentsGrandissentAChaqueMission }),
     );
   const said = lines.childElementCount ? [lines] : [];
-  return [trail(state), ...said, choices, foot(state, actions)];
+  return [road(state), ...said, choices, foot(state, actions, true, notice)];
 }
 
 /** One card to choose: the whole card is the button. */

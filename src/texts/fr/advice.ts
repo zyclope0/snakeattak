@@ -8,7 +8,7 @@ import {
 export const prochaineVague = 'Prochaine vague';
 export const vagueEnCours = 'Vague en cours';
 export const leCampEstTombe = 'Le camp est tombé';
-export const expeditionReussie = 'Expédition réussie !';
+export const missionReussie2 = 'Mission réussie !';
 export const tesAlliesOntTenuRetrouveLaCarte =
   'Tes alliés ont tenu ! Retrouve la carte pour choisir la suite.';
 export const laValleeEstSauvee = 'La vallée est sauvée !';

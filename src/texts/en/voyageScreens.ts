@@ -5,28 +5,10 @@ export const tuLeGardesDansTonSacJusquALaFinDu =
 export const capriceSurprise = 'Surprise caprice';
 export const tonSacDeVoyage = 'Your travel bag';
 export const leVoyageEstGardeEntreDeuxEtapes = 'The voyage is saved between stages.';
-export const donneTonVoyage = 'Share your voyage';
-export const copier = 'Copy';
-export const donneCeCodeATonFrereOuATaSoeurIlOu =
-  'Give this code to your brother or sister. They will play the same voyage as you.';
-export const voyage1000000 = 'VOYAGE-1-0000-00';
-export const tapeLeCodeQuOnTADonne = 'Type the code you were given';
-export const faireCeVoyage = 'Play this voyage';
-export const unAutreVoyage = 'Another voyage';
-export const unNouveauVoyage = 'A new voyage';
-export const tuAsUnCode = 'Do you have a code?';
 export const kingSnake = 'King Snake';
 export const capriceSurprise2 = 'Surprise caprice:';
-export const changerDeVoyage = 'Change voyage?';
-export const garderMonVoyage = 'Keep my voyage';
-export const changerDeVoyage2 = 'Change voyage';
-export const codeDuVoyage = 'Voyage code';
 export const chaqueVoyageEstDifferentEntreDeux =
   'Every voyage is different. Between stages, you choose a bonus.';
-export const autreVoyage = 'Another voyage';
-export const donnerMonVoyage = 'Share my voyage';
-export const jAiUnCode = 'I have a code';
-export const refaireCeVoyage = 'Try this voyage again';
 export const fermer = 'Close';
 export const leVoyage = 'The Voyage';
 export const etapeNSurN = 'Stage {0} of {1}';
@@ -57,23 +39,15 @@ export const unVelociraptorOffertAChaqueEtape = 'A free Velociraptor at every st
 export const tonMielDurePlusLongtempsAChaque = 'Your honey lasts longer at every stage.';
 export const uneProtectionPourTonCristalAChaque = 'A shield for your Crystal at every stage.';
 export const nPiecesAChaqueEtape = '+{0} coins at every stage.';
-export const tuAsReussiNEtapeNSurNTuPeux =
-  'You completed {0} stage{1} out of {2}. You can set off again!';
-export const leCampEstTombeALaPremiereEtapeTu =
-  'The camp fell at the first stage. You can set off again!';
-export const tuAsDejaReussiNEtapeNDeTonVoyageSi =
-  'You have already completed {0} stage{1} of your voyage. If you start another one, it stops there.';
-export const ceNEstPasUnCodeDeVoyageUnCodeS =
-  'That is not a voyage code. A code looks like VOYAGE-1-0YK9-AY.';
-export const ilYAUneErreurDansCeCodeVerifieLes =
-  'There is a mistake in this code. Check the letters and numbers.';
-export const ceCodeVientDUneAutreVersionDuJeu =
-  'This code comes from another version of the game. Ask a parent to update the game.';
+export const tuAsReussiNEtapeNSurNNTAttend =
+  'You completed {0} stage{1} out of {2}. {3} is waiting for you!';
+export const leCampEstTombeALaPremiereEtapeNTAttend =
+  'The camp fell at the first stage. {0} is waiting for you!';
 export const leVoyageEtapeNSurN = 'The Voyage · Stage {0} of {1}';
-export const leCampEstTombeALEtapeNTuPourras =
-  'The camp fell at stage {0}. You can try this voyage again.';
+export const leCampEstTombeALEtapeN = 'The camp fell at stage {0}.';
 export const voirMonVoyage = 'See my voyage';
 export const kingSnakeEstBattuTuAsFiniLeVoyage = 'King Snake is beaten. You finished the voyage!';
 export const continuerLeVoyage = 'Continue the voyage';
 export const etapeNSurNReussieChoisisMaintenant =
   'Stage {0} of {1} complete. Now choose a bonus for the rest of the voyage.';
+export const laGrandeExpedition = 'The Great Expedition';

@@ -9,6 +9,7 @@ import {
   expeditionPlanOf,
   giftCoins,
   levelAfterGift,
+  pickAt,
   STEPS_PER_TABLEAU,
   tuningOf,
 } from '../../../expedition.ts';
@@ -90,39 +91,93 @@ export const recordLine = (best: number): string =>
 export const keepingNote = (saved: boolean): string =>
   saved ? TEXT.tonExpeditionEstGardeeSurCetAppareil : TEXT.cetAppareilNeGardePasTonExpedition;
 
-export type StepState = 'done' | 'next' | 'ahead';
-/** The seven steps of the tableau under way: passed, here, or still ahead. */
-export function stepStates(state: ExpeditionState): StepState[] {
+export type StopState = 'done' | 'skipped' | 'next' | 'ahead';
+/** One stop of the road: a mission, a mission of a path, a halt, or the guardian. */
+export type RoadStop = Readonly<{
+  kind: 'battle' | 'guardian' | 'halt';
+  path?: Path;
+  halt?: HaltKind;
+  /** The mission's number in its tableau; none for a halt. */
+  mission?: number;
+  state: StopState;
+  /** Told to someone who cannot see the road: what the stop is, then where it stands. */
+  name: string;
+  detail: string;
+  said: string;
+}>;
+
+/**
+ * The road of the tableau under way, column by column: one stop, or two where the road
+ * splits (a fork's two paths, a halt's two halts). The stops passed are the ones chosen;
+ * those not taken stay on the road, faded.
+ */
+export function roadColumns(state: ExpeditionState): RoadStop[][] {
   const here = state.status === 'arrived' ? STEPS_PER_TABLEAU : state.step;
-  return Array.from({ length: STEPS_PER_TABLEAU }, (_, index) =>
-    index < here ? 'done' : index === here && !state.pending ? 'next' : 'ahead',
-  );
+  let mission = 0;
+  return expeditionPlanOf(state).tableaux[state.tableau].map((step, index) => {
+    const picked = pickAt(state, index) ?? 0;
+    const stateOf = (choice: number): StopState =>
+      index < here
+        ? choice === picked
+          ? 'done'
+          : 'skipped'
+        : index === here && !state.pending
+          ? 'next'
+          : 'ahead';
+    if (step.kind === 'halt')
+      return step.halts.map((halt, choice) => {
+        const stop = stateOf(choice);
+        return {
+          kind: 'halt',
+          halt,
+          state: stop,
+          name: fill(TEXT.halteN, HALT_NAMES[halt]),
+          detail: '',
+          said: HALT_SAID[stop],
+        };
+      });
+    mission++;
+    const number = fill(TEXT.missionN, mission);
+    if (step.kind === 'fork')
+      return (['calm', 'brave'] as const).map((path, choice) => {
+        const stop = stateOf(choice);
+        return {
+          kind: 'battle',
+          path,
+          mission,
+          state: stop,
+          name: PATH_NAMES[path],
+          detail: number,
+          said: MISSION_SAID[stop],
+        };
+      });
+    const stop = stateOf(0);
+    const king = step.battle.king;
+    return [
+      {
+        kind: king ? 'guardian' : 'battle',
+        mission,
+        state: stop,
+        name: king ? fill(TEXT.leGardienN, GUARDIAN_NAMES[state.tableau]) : number,
+        detail: '',
+        said: MISSION_SAID[stop],
+      },
+    ];
+  });
 }
-const STEP_STATES: Record<StepState, string> = {
+const MISSION_SAID: Record<StopState, string> = {
   done: TEXT.gagnee,
+  skipped: TEXT.pasChoisi,
   next: TEXT.aJouer,
   ahead: TEXT.aVenir,
 };
-/** A step told to someone who cannot see the path. */
-export function stepWords(
-  state: ExpeditionState,
-  index: number,
-  stepState: StepState,
-): { name: string; state: string } {
-  const step = expeditionPlanOf(state).tableaux[state.tableau][index];
-  const battles = expeditionPlanOf(state)
-    .tableaux[state.tableau].slice(0, index + 1)
-    .filter((s) => s.kind !== 'halt').length;
-  const name =
-    step.kind === 'halt'
-      ? TEXT.uneHalte
-      : step.kind === 'battle' && step.battle.king
-        ? fill(TEXT.leGardienN, GUARDIAN_NAMES[state.tableau])
-        : fill(TEXT.missionN, battles);
-  // A halt is passed, never won.
-  const said = step.kind === 'halt' && stepState === 'done' ? TEXT.passee : STEP_STATES[stepState];
-  return { name, state: said };
-}
+// A halt is passed, never won; at a halt the child chooses.
+const HALT_SAID: Record<StopState, string> = {
+  done: TEXT.passee,
+  skipped: TEXT.pasChoisie,
+  next: TEXT.aChoisir,
+  ahead: TEXT.aVenir,
+};
 
 /** A gift on a card: its name, what it gives once taken, and the words of its button. */
 export function giftWords(

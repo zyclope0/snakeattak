@@ -15,6 +15,19 @@ import {
   type Story,
 } from './siteFeatures.ts';
 import { unlockWave } from '../src/data.ts';
+import { TOTAL_WAVES } from '../src/gameConstants.ts';
+import { BOON_MAX_LEVEL, BOON_PLACES } from '../src/boons.ts';
+import * as EXP_FR from '../src/texts/fr/expedition.ts';
+import * as EXP_EN from '../src/texts/en/expedition.ts';
+import {
+  BATTLES_PER_TABLEAU,
+  CURRENT_EXPEDITION_VERSION,
+  EXPEDITION_BATTLES,
+  EXPEDITION_TUNINGS,
+} from '../src/expedition.ts';
+
+// « La Grande Expédition » took the voyage's place (decision of the parent, 21 November 2026).
+const TABLEAUX = EXPEDITION_TUNINGS[CURRENT_EXPEDITION_VERSION].tableaux.length;
 
 /** Public editorial copy, independent from the game and its translation catalogue. */
 export type DiscoveryKey =
@@ -50,7 +63,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Une aventure à ton rythme',
-        text: `Six missions t’attendent. Rejoue-les avec un caprice : c’est un défi des serpents. Pars en Voyage : cinq étapes, et des bonus à choisir en chemin. Dans l’« ${FR.aventureClassique} », douze vagues mènent à King Snake, le roi à trois têtes.`,
+        text: `Six missions t’attendent. Rejoue-les avec un caprice : c’est un défi des serpents. Pars pour « ${EXP_FR.laGrandeExpedition} » : ${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} missions, et des cadeaux à choisir en chemin. Dans l’« ${FR.aventureClassique} », douze vagues mènent à King Snake, le roi à trois têtes.`,
       },
       {
         heading: 'Un jeu à partager en famille',
@@ -74,7 +87,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'An adventure at your pace',
-        text: `Six missions are waiting. Replay them with a caprice: a challenge from the snakes. Set off on The Voyage: five stages, with bonuses to choose along the way. In the “${EN.aventureClassique}”, twelve waves lead to King Snake, the three-headed king.`,
+        text: `Six missions are waiting. Replay them with a caprice: a challenge from the snakes. Set off on “${EXP_EN.laGrandeExpedition}”: ${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} missions, with gifts to choose along the way. In the “${EN.aventureClassique}”, twelve waves lead to King Snake, the three-headed king.`,
       },
       {
         heading: 'Made to share with your family',
@@ -106,7 +119,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Reviens jouer autrement',
-        text: 'Une victoire ouvre la mission suivante. Un caprice change les règles d’une mission ; le Voyage enchaîne cinq étapes. Sur téléphone, tourne l’écran pour jouer en largeur.',
+        text: `Une victoire ouvre la mission suivante. Un caprice change les règles d’une mission ; « ${EXP_FR.laGrandeExpedition} » enchaîne ${EXPEDITION_BATTLES} missions. Sur téléphone, tourne l’écran pour jouer en largeur.`,
       },
     ],
   },
@@ -134,7 +147,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Try a different adventure',
-        text: 'A victory opens the next mission. A caprice changes the rules of a mission; The Voyage strings five stages together. Turn your phone sideways to play.',
+        text: `A victory opens the next mission. A caprice changes the rules of a mission; “${EXP_EN.laGrandeExpedition}” strings ${EXPEDITION_BATTLES} missions together. Turn your phone sideways to play.`,
       },
     ],
   },
@@ -199,10 +212,18 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
     path: '/fr/nouveautes/',
     title: 'Nouveautés du jeu — La Conquête des Serpents',
     description:
-      'Les nouveautés de La Conquête des Serpents : le spinosaure, quatre nouveaux serpents, des œufs en plus quand une vague dure, King Snake et ses gardes dans le Voyage, un joueur pour chacun.',
+      'Les nouveautés de La Conquête des Serpents : La Grande Expédition, l’aventure sans fin, le spinosaure, quatre nouveaux serpents, des œufs en plus quand une vague dure, un joueur pour chacun.',
     heading: 'Le camp continue de grandir.',
     lead: 'Voici ce qui vient d’arriver dans le jeu. Beaucoup d’idées viennent de l’enfant qui l’a inventé.',
     blocks: [
+      {
+        heading: EXP_FR.laGrandeExpedition,
+        text: `${TABLEAUX} tableaux de ${BATTLES_PER_TABLEAU} missions sur une route qui se sépare en deux : « ${EXP_FR.leCheminTranquille} » ou « ${EXP_FR.leCheminDesBraves} », avec un cadeau rare au bout. En chemin, des haltes : ${EXP_FR.leFeuDeCamp}, ${EXP_FR.laRoulotteDeMamiePistache}, ${EXP_FR.lOeufMystere}. Tes alliés encore debout te suivent d’une mission à l’autre, et tu gardes tes cadeaux jusqu’au bout. King Snake attend à la fin. Si tu perds une mission, tu la rejoues depuis le même camp.`,
+      },
+      {
+        heading: FR.laventureSansFin,
+        text: `Une fois King Snake battu dans la « ${FR.aventureClassique} », une nouvelle porte s’ouvre : « ${FR.laventureSansFin} ». Toutes les ${TOTAL_WAVES} vagues, King Snake revient, un peu plus fort, et la partie continue. Après chaque roi, tu choisis un cadeau qui dure : ${BOON_PLACES} places, et chaque cadeau monte jusqu’au niveau ${BOON_MAX_LEVEL}. Chaque joueur garde son record, rien que pour lui.`,
+      },
       {
         heading: `Le ${ALLY_FR.spinosaure.toLowerCase()}`,
         text: `Un nouvel allié inventé par l’enfant ! Dans une nouvelle « ${FR.aventureClassique} », le ${ALLY_FR.spinosaure.toLowerCase()} arrive à la vague ${unlockWave.spinosaurus}. Sa morsure est très forte, et sa voile touche aussi les serpents autour de lui. De temps en temps, il plonge dans la rivière pour mordre un serpent sur un pont, puis il revient.`,
@@ -220,10 +241,6 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
         text: `Dans une nouvelle « ${FR.aventureClassique} », quand une vague dure longtemps, un œuf de plus apparaît chez les serpents. Puis un deuxième. Deux serpents sortent de chaque œuf.`,
       },
       {
-        heading: 'Le Voyage',
-        text: 'Cinq étapes sur une carte, et des bonus à choisir en chemin. À la dernière étape, King Snake arrive avec ses deux gardes et son guérisseur. Ton voyage a un code : donne-le à un copain, il fera le même voyage que toi. Si tu quittes une étape, tu la recommences au début.',
-      },
-      {
         heading: 'Un joueur pour chacun',
         text: 'Sur le même appareil, jusqu’à quatre joueurs ont chacun leur aventure. Ton carnet garde les autocollants que tu gagnes en réussissant les caprices.',
       },
@@ -235,10 +252,18 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
     path: '/en/updates/',
     title: 'Game updates — Snake Attack TD',
     description:
-      'What is new in Snake Attack TD: the Spinosaurus, four new snakes, extra eggs when a wave runs long, King Snake and his guards in The Voyage, a player for everyone.',
+      'What is new in Snake Attack TD: The Great Expedition, the endless adventure, the Spinosaurus, four new snakes, extra eggs when a wave runs long, a player for everyone.',
     heading: 'The camp keeps growing.',
     lead: 'Here is what just arrived in the game. Many of the ideas come from the child who invented it.',
     blocks: [
+      {
+        heading: EXP_EN.laGrandeExpedition,
+        text: `${TABLEAUX} lands of ${BATTLES_PER_TABLEAU} missions on a road that splits in two: “${EXP_EN.leCheminTranquille}” or “${EXP_EN.leCheminDesBraves}”, with a rare gift at the end. Along the way, stops: ${EXP_EN.leFeuDeCamp}, ${EXP_EN.laRoulotteDeMamiePistache}, ${EXP_EN.lOeufMystere}. Your allies still standing follow you from one mission to the next, and you keep your gifts to the very end. King Snake waits at the finish. If you lose a mission, you play it again from the same camp.`,
+      },
+      {
+        heading: EN.laventureSansFin,
+        text: `Once King Snake is beaten in the “${EN.aventureClassique}”, a new door opens: “${EN.laventureSansFin}”. Every ${TOTAL_WAVES} waves, King Snake comes back a little stronger, and the game goes on. After each king, you choose a gift that lasts: ${BOON_PLACES} spots, and each gift goes up to level ${BOON_MAX_LEVEL}. Each player keeps their own record, just for them.`,
+      },
       {
         heading: `The ${ALLY_EN.spinosaure}`,
         text: `A new ally invented by the child! In a new “${EN.aventureClassique}”, the ${ALLY_EN.spinosaure} arrives at wave ${unlockWave.spinosaurus}. Its bite is very strong, and its sail also hits the snakes around it. Now and then, it dives into the river to bite a snake on a bridge, then comes back.`,
@@ -254,10 +279,6 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       {
         heading: 'Extra eggs',
         text: `In a new “${EN.aventureClassique}”, when a wave runs long, one more egg appears on the snakes’ side. Then a second one. Two snakes hatch from each egg.`,
-      },
-      {
-        heading: 'The Voyage',
-        text: 'Five stages on a map, with bonuses to choose along the way. At the last stage, King Snake arrives with his two guards and his healer. Your voyage has a code: give it to a friend and they play the same voyage as you. If you leave a stage, you start it again from the beginning.',
       },
       {
         heading: 'A player for everyone',
@@ -285,7 +306,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Conserver une aventure',
-        text: 'Le navigateur et l’application Android auront des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle n’exporte pas tout, notamment pas le Voyage ni les profils.',
+        text: `Le navigateur et l’application Android auront des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle n’exporte pas tout, notamment pas « ${EXP_FR.laGrandeExpedition} » ni les profils.`,
       },
       {
         heading: 'Lire les informations utiles',
@@ -318,7 +339,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Keep an adventure',
-        text: 'The browser and the Android app will use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it does not export everything, including The Voyage and profiles.',
+        text: `The browser and the Android app will use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it does not export everything, including “${EXP_EN.laGrandeExpedition}” and profiles.`,
       },
       {
         heading: 'Read the useful information',

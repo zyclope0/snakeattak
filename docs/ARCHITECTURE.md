@@ -597,9 +597,16 @@ Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PR
   `resultCopy.ts` nomme une étape de version 3 « Mission gagnée ! » ou « On réessaie ? ».
 - **Stockage.** `expeditionStorage.ts`, clé `EXPEDITION_STORAGE_KEY` dans `PLAYER_KEYS` :
   l'expédition en cours et le record (missions gagnées dans une expédition).
-- **Écrans.** `ui/voyage/expedition/`, chargés avec ceux du voyage : la porte
-  (`expeditionDoor.ts`), le contrôleur (`expeditionScreens.ts`), les vues
-  (`expeditionViews.ts`), les mots (`expeditionWords.ts`, sans page, testés). La page reprend
+- **Porte.** Depuis le 21 novembre, l'expédition remplace le voyage court. `voyageDoor.ts`
+  (paquet de départ) garde le bouton `#home-voyage` : il dit « Reprendre le voyage » tant
+  qu'un voyage commencé reste à finir (`voyageToFinish`), sinon « La Grande Expédition », et
+  lit l'expédition par `expeditionLog.ts` sans charger ses règles. `voyageScreens.open` montre
+  le voyage à finir, ou ouvre l'expédition ; la fin d'un voyage n'a plus qu'un bouton vers
+  elle. Plus de code ni de nouveau voyage à l'écran ; `voyageCode.ts` relit encore les codes.
+- **Écrans.** `ui/voyage/expedition/`, chargés avec ceux du voyage : le contrôleur
+  (`expeditionScreens.ts`), les vues (`expeditionViews.ts`, dont la route du tableau tracée
+  en SVG sous une grille d'arrêts), les mots (`expeditionWords.ts`, sans page, testés :
+  `roadColumns` donne la route colonne par colonne). La page reprend
   `voyagePage('expedition')`, la fenêtre des caprices et le panneau de fin de bataille du
   voyage (`voyageBattle.ts`), qui sait à qui appartient la partie sur le plateau.
 
@@ -1115,20 +1122,19 @@ Décidés par le parent sur maquettes le 14 novembre : l'entrée à côté de «
 surprise montré à l'avance sur la carte, des bonus gardés pour tout le reste du voyage. Aucun
 balisage dans la page HTML : tout est construit en TypeScript.
 
-| Module                           | Rôle                                                                              |
-| -------------------------------- | --------------------------------------------------------------------------------- |
-| `ui/voyageDoor.ts`               | Le bouton de l'accueil et le chargement des écrans ; seul module chargé au départ |
-| `ui/voyage/voyageScreens.ts`     | Le carnet du joueur et les branchements : un bouton demande, le modèle décide     |
-| `ui/voyage/voyageWords.ts`       | Toutes les phrases, choisies d'après l'état, sans page (`voyage-screens.test.ts`) |
-| `ui/voyage/voyagePage.ts`        | La page parmi celles de l'accueil : titre, panneau, record, note du bas           |
-| `ui/voyage/voyageViews.ts`       | Les quatre vues : carte, choix d'un bonus, voyage fini, camp tombé                |
-| `ui/voyage/voyagePath.ts`        | Le chemin et ses arrêts ; `stopMap.ts` dessine la petite carte d'un arrêt         |
-| `ui/voyage/voyageBag.ts`         | « Ton sac de voyage » et l'image d'un bonus ; `bonusChoice.ts`, les trois cartes  |
-| `ui/voyage/voyageCodeWindows.ts` | Le code donné (« Copier ») et « Un autre voyage » (nouveau voyage, code reçu)     |
-| `ui/voyage/voyageReplace.ts`     | La question posée avant de remplacer un voyage en cours (`pendingConfirm.ts`)     |
-| `ui/voyage/capriceBubble.ts`     | Ce que veut dire un autocollant de la carte : nom, annonce, règles changées       |
-| `ui/voyage/voyageBattle.ts`      | Sur le plateau : le repère de l'étape, puis la phrase et le bouton de la fin      |
-| `ui/voyage/voyage.css`           | La feuille du voyage, dans l'unité `--hu`, chargée avec les écrans                |
+| Module                       | Rôle                                                                               |
+| ---------------------------- | ---------------------------------------------------------------------------------- |
+| `ui/voyageDoor.ts`           | Le bouton de l'accueil et le chargement des écrans ; seul module chargé au départ  |
+| `ui/voyage/voyageScreens.ts` | Le carnet du joueur et les branchements : un bouton demande, le modèle décide      |
+| `ui/voyage/voyageWords.ts`   | Toutes les phrases, choisies d'après l'état, sans page (`voyage-screens.test.ts`)  |
+| `ui/voyage/voyagePage.ts`    | La page parmi celles de l'accueil : titre, panneau, record, note du bas            |
+| `ui/voyage/voyageViews.ts`   | Les quatre vues : carte, choix d'un bonus, voyage fini, camp tombé                 |
+| `ui/voyage/voyagePath.ts`    | Le chemin et ses arrêts ; `stopMap.ts` dessine la petite carte d'un arrêt          |
+| `ui/voyage/voyageBag.ts`     | « Ton sac de voyage » et l'image d'un bonus ; `bonusChoice.ts`, les trois cartes   |
+| `ui/voyage/voyageReplace.ts` | La question posée avant de remplacer une expédition en cours (`pendingConfirm.ts`) |
+| `ui/voyage/capriceBubble.ts` | Ce que veut dire un autocollant de la carte : nom, annonce, règles changées        |
+| `ui/voyage/voyageBattle.ts`  | Sur le plateau : le repère de l'étape, puis la phrase et le bouton de la fin       |
+| `ui/voyage/voyage.css`       | La feuille du voyage, dans l'unité `--hu`, chargée avec les écrans                 |
 
 - **Accueil.** `#home-voyage` suit « Jouer » : « Le voyage » avec l'étiquette « Nouveau » tant
   que le joueur n'a jamais ouvert de voyage, « Reprendre le voyage » dès qu'une étape est
@@ -1150,12 +1156,12 @@ balisage dans la page HTML : tout est construit en TypeScript.
 - **Bonus.** Les titres sont ceux de `REWARDS` ; le détail est réécrit pour le voyage (« à
   chaque étape »), et les pièces viennent de la table (`tuning.bonusCoins`). Pas de bouton
   pour passer.
-- **Fins.** Voyage fini : « Un nouveau voyage », « Donner mon voyage », « J'ai un code ». Camp
-  tombé : « Refaire ce voyage », « Un nouveau voyage », « J'ai un code ». Le record est dans
-  la rangée du haut pendant le voyage, dans le panneau à la fin.
-- **Remplacer.** Un voyage qui a une étape réussie et des étapes à jouer (`underWay`) n'est
-  remplacé qu'après une question ; un voyage sans étape réussie ou terminé l'est sans rien
-  demander.
+- **Fins.** Depuis le 21 novembre (l'expédition remplace le voyage), le voyage fini et le camp
+  tombé n'ont plus qu'un bouton : « La Grande Expédition ». La carte d'un voyage commencé y
+  mène aussi. Le record est dans la rangée du haut pendant le voyage, dans le panneau à la
+  fin.
+- **Remplacer.** Plus de nouveau voyage ni de code à l'écran : un voyage commencé se finit
+  (`voyageToFinish`, `voyageDoor.ts`).
 
 ### Chargement à la demande
 

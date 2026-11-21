@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { imageMetadata } from '../deploy/imageMetadata.ts';
 import { MISSIONS } from '../src/missions.ts';
 import { TOTAL_WAVES } from '../src/gameConstants.ts';
-import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS } from '../src/voyageTuning.ts';
+import { BATTLES_PER_TABLEAU, EXPEDITION_TUNINGS } from '../src/expedition.ts';
 import { CURRENT_BALANCE_REVISION, lateEggRule, ninjaTeleport } from '../src/balanceRevision.ts';
 import { NINJA_DODGES } from '../src/enemyAbilities.ts';
 import { PLAYER_IDS } from '../src/players.ts';
@@ -304,9 +304,12 @@ test('the public pages tell the game as it is', () => {
   assert.equal(TOTAL_WAVES, 12);
   assert.match(words('home', 'fr'), /douze vagues/);
   assert.match(words('home', 'en'), /twelve waves/);
-  assert.equal(VOYAGE_TUNINGS[CURRENT_VOYAGE_VERSION].stages.length, 5);
-  assert.match(words('updates', 'fr'), /Cinq étapes/);
-  assert.match(words('updates', 'en'), /Five stages/);
+  // « La Grande Expédition » took the voyage's place: its numbers come from its rules.
+  assert.equal(EXPEDITION_TUNINGS[1].tableaux.length * BATTLES_PER_TABLEAU, 15);
+  assert.match(words('updates', 'fr'), /3 tableaux de 5 missions/);
+  assert.match(words('updates', 'en'), /3 lands of 5 missions/);
+  for (const lang of ['fr', 'en'] as const)
+    assert.doesNotMatch(words('updates', lang), /[Vv]oyage/, 'no voyage left to start');
   const late = lateEggRule(CURRENT_BALANCE_REVISION)!;
   assert.deepEqual([late.most, late.count], [2, 2]);
   assert.match(words('updates', 'fr'), /Puis un deuxième\. Deux serpents sortent de chaque œuf/);

@@ -1,10 +1,7 @@
 import { setText } from '../../i18n/dom.ts';
-import type { VoyageState } from '../../voyageState.ts';
 import { make } from '../dom.ts';
 import { bindPendingConfirm } from '../pendingConfirm.ts';
 import { voyageWindow } from './voyageWindow.ts';
-import { replaceSentence } from './voyageWords.ts';
-import * as TEXT from '../../texts/fr/voyageScreens.ts';
 
 /** What a window that asks before a journey under way is replaced is made of. */
 export type ReplaceWords<State> = {
@@ -20,17 +17,11 @@ export type ReplaceWords<State> = {
 /**
  * Asked before a journey under way gives its place to another: what would stop, and two
  * answers. The new one waits in the window; « Garder » and Escape forget it. Returns the
- * function that asks. The voyage's own words unless others are given (the expedition's).
+ * function that asks.
  */
-export function replaceWindow<State = VoyageState>(
+export function replaceWindow<State>(
   accept: (next: State) => void,
-  words: ReplaceWords<State> = {
-    id: 'voyage',
-    title: TEXT.changerDeVoyage,
-    keep: TEXT.garderMonVoyage,
-    change: TEXT.changerDeVoyage2,
-    sentence: replaceSentence as unknown as (current: State) => string,
-  },
+  words: ReplaceWords<State>,
 ): (current: State, next: State) => void {
   const { dialog } = voyageWindow(`${words.id}-replace`, words.title);
   const sentence = make('p', { id: `${words.id}-replace-text` });

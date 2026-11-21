@@ -8,7 +8,7 @@ import {
 export const prochaineVague = 'Next wave';
 export const vagueEnCours = 'Wave in progress';
 export const leCampEstTombe = 'The camp has fallen';
-export const expeditionReussie = 'Expedition complete!';
+export const missionReussie2 = 'Mission complete!';
 export const tesAlliesOntTenuRetrouveLaCarte =
   'Your allies held out! Return to the map to choose what’s next.';
 export const laValleeEstSauvee = 'The valley is saved!';

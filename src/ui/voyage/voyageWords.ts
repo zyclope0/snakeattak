@@ -1,6 +1,5 @@
 import { REWARDS } from '../../rewards.ts';
 import type { RewardId } from '../../rewards.ts';
-import type { VoyageCode } from '../../voyageCode.ts';
 import { voyagePhase, voyagePlanOf } from '../../voyageState.ts';
 import type { VoyageState } from '../../voyageState.ts';
 import * as TEXT from '../../texts/fr/voyageScreens.ts';
@@ -14,10 +13,6 @@ import { fill } from '../../texts/fill.ts';
 
 const plural = (count: number) => (count > 1 ? 's' : '');
 const stagesOf = (state: VoyageState) => voyagePlanOf(state).stages.length;
-
-/** A voyage with something to lose: a stage won, and more to play. */
-export const underWay = (state: VoyageState | null): state is VoyageState =>
-  !!state && state.status === 'travelling' && state.won > 0;
 
 /** The name of the screen, and the stage it is about when there is one to play. */
 export function voyageHeading(state: VoyageState): { title: string; step: string } {
@@ -101,24 +96,17 @@ export const bonusWords = (id: RewardId, coins: number) => ({
   detail: BONUS_DETAILS[id](coins),
 });
 
-/** Where the voyage stopped, said without a reproach, and that it can be set out on again. */
+/** Where the voyage stopped, said without a reproach, and that the expedition waits. */
 export const fallenSentence = (state: VoyageState): string =>
   state.won > 0
-    ? fill(TEXT.tuAsReussiNEtapeNSurNTuPeux, state.won, plural(state.won), stagesOf(state))
-    : TEXT.leCampEstTombeALaPremiereEtapeTu;
-
-/** Before a voyage under way is replaced: what would stop. */
-export const replaceSentence = (state: VoyageState): string =>
-  fill(TEXT.tuAsDejaReussiNEtapeNDeTonVoyageSi, state.won, plural(state.won));
-
-type Refusal = Extract<VoyageCode, { ok: false }>['reason'];
-const REFUSALS: Record<Refusal, string> = {
-  format: TEXT.ceNEstPasUnCodeDeVoyageUnCodeS,
-  checksum: TEXT.ilYAUneErreurDansCeCodeVerifieLes,
-  version: TEXT.ceCodeVientDUneAutreVersionDuJeu,
-};
-/** Why a typed code was not taken, in words a child can act on. */
-export const codeRefusal = (reason: Refusal): string => REFUSALS[reason];
+    ? fill(
+        TEXT.tuAsReussiNEtapeNSurNNTAttend,
+        state.won,
+        plural(state.won),
+        stagesOf(state),
+        TEXT.laGrandeExpedition,
+      )
+    : fill(TEXT.leCampEstTombeALaPremiereEtapeNTAttend, TEXT.laGrandeExpedition);
 
 /** The small mark on the board: the child is on a voyage, at this stage. */
 export const battleMark = (stage: number, stages: number): string =>
@@ -132,7 +120,8 @@ export function stageOutcome(after: VoyageState, stage: number): { note: string;
   switch (voyagePhase(after)) {
     case 'fallen':
       return {
-        note: fill(TEXT.leCampEstTombeALEtapeNTuPourras, stage),
+        // The board's own line says that « La Grande Expédition » waits.
+        note: fill(TEXT.leCampEstTombeALEtapeN, stage),
         button: TEXT.voirMonVoyage,
       };
     case 'arrived':

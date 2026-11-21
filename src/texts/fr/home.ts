@@ -29,9 +29,12 @@ export const lesFavorisSePreparentEntreLes = 'Les favoris se préparent entre le
 export const preparerTroisGroupesDeHuitFavoris = 'Préparer trois groupes de huit favoris.';
 export const favorisN = 'Favoris · {0}';
 export const reprendreLeVoyage = 'Reprendre le voyage';
-export const leVoyage = 'Le voyage';
+export const laGrandeExpedition = 'La Grande Expédition';
+export const reprendreLExpedition = 'Reprendre l’expédition';
 export const nouveau = 'Nouveau';
 export const leVoyageNAPasPuSOuvrirReessaie = 'Le voyage n’a pas pu s’ouvrir. Réessaie.';
+export const laGrandeExpeditionNAPasPuSOuvrir =
+  'La Grande Expédition n’a pas pu s’ouvrir. Réessaie.';
 export const confidentialite = 'Confidentialité';
 export const confidentialiteIndisponible = 'Confidentialité indisponible. Réessaie.';
 /** The best endless adventure of the active player: the wave, the kings beaten. */

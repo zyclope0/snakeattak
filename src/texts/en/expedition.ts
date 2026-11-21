@@ -14,9 +14,6 @@ export const leFeuDeCamp = 'The Campfire';
 export const laRoulotteDeMamiePistache = 'Granny Pistachio’s Caravan';
 export const lOeufMystere = 'The Mystery Egg';
 
-// --- The door, on the voyage page.
-export const nouveau = 'New';
-
 // --- The page title.
 export const missionNSurN = 'Mission {0} of {1}';
 export const tableauNSurN = 'Land {0} of {1}';
@@ -28,17 +25,21 @@ export const bravoTuAsFiniN = 'Well done! You finished {0}';
 
 // --- The seven steps of a land.
 export const missionN = 'Mission {0}';
-export const uneHalte = 'A stop';
+export const halteN = 'Stop: {0}';
+export const laRouteDuTableau = 'The road of this land';
 export const leGardienN = 'The guardian: {0}';
 export const gagnee = 'won';
 export const passee = 'passed';
 export const aJouer = 'to play';
 export const aVenir = 'still ahead';
+export const aChoisir = 'to choose';
+export const pasChoisi = 'not chosen';
+export const pasChoisie = 'not chosen';
 
 // --- The missions to choose.
 export const choisisTonChemin = 'Choose your path';
-export const unCadeauApresLaMission = 'A gift after the mission';
-export const unCadeauRareApresLaMission = 'A rare gift after the mission';
+export const unCadeauAGagner = 'A gift to win';
+export const unCadeauRareAGagner = 'A rare gift to win';
 export const cEstParti = "Let's go!";
 export const capriceSurpriseN = 'Surprise caprice: {0}';
 export const lesSerpentsGrandissentAChaqueMission = 'The snakes get stronger with every mission.';

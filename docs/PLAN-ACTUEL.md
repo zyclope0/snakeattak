@@ -20,8 +20,10 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 Le long voyage demandé par le parent : trois tableaux de cinq missions, des chemins, des
 haltes, le camp qui suit l'enfant, les cadeaux de l'aventure sans fin
 ([proposition et décisions](VOYAGE-LONG-PROPOSITION.md), [compte rendu](BILAN-GRANDE-EXPEDITION.md)).
-Moteur mesuré et publié (PR 103) ; écrans et recette faits dans le lot suivant. Ensuite : les
-défis originaux, un par un, montrés au fils avant.
+Moteur (PR 103) et écrans (PR 104) publiés le 21 novembre. Le même jour, à la demande du
+parent, l'expédition remplace le voyage court (un voyage commencé se finit) et sa carte devient
+une route avec ses embranchements. Ensuite : les défis originaux, un par un, montrés au fils
+avant.
 
 L'aventure sans fin est finie et publiée ([compte rendu](BILAN-MODE-INFINI.md)).
 

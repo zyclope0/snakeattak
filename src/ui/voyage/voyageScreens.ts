@@ -1,41 +1,29 @@
 import './voyage.css';
 import type { Game } from '../../game.ts';
 import type { RewardId } from '../../rewards.ts';
-import { voyageSeedFrom } from '../../voyage.ts';
-import { encodeVoyage } from '../../voyageCode.ts';
 import {
   chooseBonus,
   recordStage,
   stageGame,
-  startVoyage,
   voyagePhase,
   voyagePlanOf,
 } from '../../voyageState.ts';
 import type { VoyagePhase, VoyageState } from '../../voyageState.ts';
 import { loadVoyageLog, logVoyage, saveVoyageLog } from '../../voyageStorage.ts';
 import type { VoyageLog } from '../../voyageStorage.ts';
+import type { ExpeditionDoor } from '../../expeditionLog.ts';
 import { battleOver } from '../battleState.ts';
-import { freshSeed } from '../missionWords.ts';
+import { voyageToFinish } from '../voyageDoor.ts';
 import type { VoyagePorts } from '../voyageDoor.ts';
 import { capriceBubble } from './capriceBubble.ts';
-import { expeditionDoor } from './expedition/expeditionDoor.ts';
 import { bindExpeditionScreens } from './expedition/expeditionScreens.ts';
 import { voyageBattle } from './voyageBattle.ts';
 import type { StageOnBoard } from './voyageBattle.ts';
-import { giftWindow, otherVoyageWindow } from './voyageCodeWindows.ts';
 import { voyagePage } from './voyagePage.ts';
 import type { VoyageView } from './voyagePage.ts';
-import { replaceWindow } from './voyageReplace.ts';
 import { arrivedView, bonusView, fallenView, mapView } from './voyageViews.ts';
 import type { ViewActions } from './voyageViews.ts';
-import {
-  battleMark,
-  keepingNote,
-  recordLine,
-  stageOutcome,
-  underWay,
-  voyageHeading,
-} from './voyageWords.ts';
+import { battleMark, keepingNote, recordLine, stageOutcome, voyageHeading } from './voyageWords.ts';
 
 /** A stage put on the board: which one it is and, once it is recorded, how it ended. */
 type Playing = { game: Game; stage: number; stages: number; outcome: StageOnBoard['outcome'] };
@@ -54,33 +42,27 @@ const VIEWS: Record<VoyagePhase, VoyageView> = {
  * every rule stays in the model (`voyageState.ts`): a button only asks for a transition,
  * and a refused one changes nothing. `logChanged` tells the door what to say next.
  */
-export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log: VoyageLog) => void) {
+export function bindVoyageScreens(
+  ports: VoyagePorts,
+  logChanged: (log?: VoyageLog, expedition?: ExpeditionDoor) => void,
+) {
   const { session, storage } = ports;
   let log = loadVoyageLog(storage);
   let saved = !!storage;
   let playing: Playing | null = null;
 
   const page = voyagePage();
-  const showCode = giftWindow();
-  const askOther = otherVoyageWindow({
-    fresh: () => request(freshVoyage()),
-    take: (seed, version) => request(startVoyage(seed, version)),
-  });
-  const askReplace = replaceWindow(begin);
   const explain = capriceBubble();
-  // « La Grande Expédition » shares the page's windows and the board's result panel.
-  const door = expeditionDoor(() => expedition.open());
-  const expedition = bindExpeditionScreens(ports, explain, door.started);
-  door.started(expedition.started());
+  // « La Grande Expédition » took the voyage's place (decision of the parent, 21 November
+  // 2026): a voyage begun is finished here, then the door leads to the expedition. They share
+  // the window of a caprice and the board's result panel.
+  const expedition = bindExpeditionScreens(ports, explain, (state) => logChanged(log, state));
   const drawBattle = voyageBattle(() => (expedition.owns() ? expedition.onward() : onward()));
   const actions: ViewActions = {
     start: startStage,
     explain,
     choose,
-    give: () => log.current && showCode(encodeVoyage(log.current.seed, log.current.version)!),
-    other: askOther,
-    fresh: () => request(freshVoyage()),
-    again: () => log.current && begin(startVoyage(log.current.seed, log.current.version)),
+    expedition: () => expedition.open(),
   };
 
   /** Every transition ends here: the log follows, is stored, and the door is told. */
@@ -91,23 +73,6 @@ export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log: VoyageLo
     saved = saveVoyageLog(storage, log);
     logChanged(log);
     return true;
-  }
-  /** The page draws the seed of a new voyage; the rules never do. */
-  function freshVoyage() {
-    return startVoyage(voyageSeedFrom(freshSeed()));
-  }
-  /** Another voyage takes the place of the one in the log. */
-  function begin(next: VoyageState | null) {
-    if (!commit(next)) return;
-    playing = null;
-    show();
-    page.focus();
-  }
-  /** A voyage under way is never replaced without asking. */
-  function request(next: VoyageState | null) {
-    if (!next) return;
-    if (underWay(log.current)) askReplace(log.current, next);
-    else begin(next);
   }
   /** A new camp for the stage to play: a stage left halfway starts again from here. */
   function startStage() {
@@ -175,11 +140,11 @@ export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log: VoyageLo
   }
 
   return {
-    /** From the home: a first visit draws a voyage, then the page shows where it stands. */
+    /** From the home: a voyage begun to finish, or else « La Grande Expédition ». */
     open() {
-      if (!log.current && !commit(freshVoyage())) return;
-      ports.navigate('voyage');
+      if (!voyageToFinish(log)) return expedition.open();
       show();
+      ports.navigate('voyage');
     },
     /** With every redraw of the page: the stage on the board, and its end once only. */
     refresh() {

@@ -18,6 +18,7 @@ import {
 import type { ExpeditionState, Path } from '../../../expedition.ts';
 import { loadExpeditionLog, logExpedition, saveExpeditionLog } from '../../../expeditionStorage.ts';
 import type { Game } from '../../../game.ts';
+import type { ExpeditionDoor } from '../../../expeditionLog.ts';
 import { voyageSeedFrom } from '../../../voyage.ts';
 import { battleOver } from '../../battleState.ts';
 import { freshSeed } from '../../missionWords.ts';
@@ -52,12 +53,13 @@ type Playing = {
  * The screens of « La Grande Expédition », loaded with those of the voyage. This function
  * holds the player's log and binds the page to it. Every draw and every rule stays in the
  * model (`expedition.ts`): a button only asks for a transition, and a refused one changes
- * nothing. `explain` is the voyage's window for a caprice; `logChanged` tells the door.
+ * nothing. `explain` is the voyage's window for a caprice; `logChanged` tells the door of
+ * the home what to say.
  */
 export function bindExpeditionScreens(
   ports: VoyagePorts,
   explain: (caprice: CapriceDefinition) => void,
-  logChanged: (started: boolean) => void,
+  logChanged: (door: ExpeditionDoor) => void,
 ) {
   const { session, storage } = ports;
   let log = loadExpeditionLog(storage);
@@ -96,7 +98,7 @@ export function bindExpeditionScreens(
     if (!updated) return false;
     log = updated;
     saved = saveExpeditionLog(storage, log);
-    logChanged(true);
+    logChanged(underWay(log.current) ? 'under-way' : log.current ? 'opened' : 'none');
     return true;
   }
   /** The page draws the seed of a new expedition; the rules never do. */
@@ -225,8 +227,6 @@ export function bindExpeditionScreens(
   }
 
   return {
-    /** A player who has opened an expedition: the door no longer says « Nouveau ». */
-    started: () => !!log.current,
     /** From the voyage page: a first visit draws an expedition, then the page shows it. */
     open() {
       if (!log.current && !commit(fresh())) return;

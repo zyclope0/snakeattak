@@ -92,6 +92,13 @@
   line-height: 1.1;
   text-align: left;
 }
+/* « La Grande Expédition » tient sur deux lignes : l'étiquette « Nouveau », posée sur le bord du
+   haut, ne les couvre pas. Avec de la place, elle passe à droite du bouton (plus bas). */
+@media (max-width: 999px), (max-height: 679px) {
+  #home-screen #home-voyage:has(.voyage-new:not([hidden])) {
+    padding-top: 12px;
+  }
+}
 #home-voyage::before {
   content: '';
   flex: 0 0 auto;
@@ -101,8 +108,10 @@
 }
 #home-voyage .voyage-new {
   position: absolute;
-  top: -7px;
+  /* Posée à cheval sur le bord du haut ; le bouton lui laisse sa place au-dessus des mots. */
+  top: 0;
   right: 8px;
+  translate: 0 -60%;
   padding: 1px 8px;
   border-radius: 999px;
   background: var(--honey);
@@ -127,6 +136,11 @@
     flex: 1 1 auto;
     min-width: 0;
     max-width: max(180px, calc(var(--hu) * 22));
+    /* « La Grande Expédition » prend plus de place que « Le voyage » : un libellé long du
+       bouton principal (« Jouer un caprice ») passe sur deux lignes plutôt que de déborder. */
+    white-space: normal;
+    line-height: 1.05;
+    text-wrap: balance;
   }
   #home-screen #home-voyage {
     flex: 0 0 auto;
@@ -138,7 +152,8 @@
     display: none;
   }
   #home-screen #home-voyage {
-    padding-left: 12px;
+    padding-inline: 10px;
+    font-size: 14px;
   }
 }
 @media (min-width: 1000px) and (min-height: 680px) {

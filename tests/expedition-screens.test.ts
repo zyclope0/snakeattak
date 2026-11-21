@@ -15,6 +15,7 @@ const W = await import('../src/ui/voyage/expedition/expeditionWords.ts');
 const { copy } = await import('../src/i18n/copy.ts');
 const { setLanguage } = await import('../src/i18n/language.ts');
 const { defeatCopy, victoryCopy } = await import('../src/render/resultCopy.ts');
+const { expeditionDoorState } = await import('../src/expeditionLog.ts');
 
 const SEED = 4242;
 const plan = X.planExpedition(SEED)!;
@@ -60,19 +61,31 @@ test('le titre, le chemin des sept pas et ce que dit le plateau suivent l’exp�
     title: 'Capitaine Zigzag est vaincu !',
     step: '',
   });
-  assert.deepEqual(W.stepStates(fork), [
+  // The road: one stop, or two where it splits; the stops passed are the ones chosen.
+  const states = (state: State) => W.roadColumns(state).map((c) => c.map((s) => s.state).join('/'));
+  assert.deepEqual(states(fork), [
     'done',
-    'next',
-    'ahead',
-    'ahead',
-    'ahead',
-    'ahead',
+    'next/next',
+    'ahead/ahead',
+    'ahead/ahead',
+    'ahead/ahead',
+    'ahead/ahead',
     'ahead',
   ]);
-  assert.deepEqual(W.stepStates(gift)[1], 'ahead', 'a gift waits: nothing to play yet');
-  assert.equal(W.stepWords(fork, 6, 'ahead').name, 'Le gardien : Capitaine Zigzag');
-  assert.equal(W.stepWords(fork, 3, 'ahead').name, 'Mission 3');
-  assert.equal(W.stepWords(fork, 2, 'ahead').name, 'Une halte');
+  assert.deepEqual(states(halt).slice(0, 3), ['done', 'skipped/done', 'next/next']);
+  assert.equal(states(gift)[1], 'ahead/ahead', 'a gift waits: nothing to play yet');
+  const road = W.roadColumns(fork);
+  assert.equal(road[6][0].name, 'Le gardien : Capitaine Zigzag');
+  assert.deepEqual(
+    road[1].map((s) => [s.name, s.detail, s.said]),
+    [
+      ['Le Chemin Tranquille', 'Mission 2', 'à jouer'],
+      ['Le Chemin des Braves', 'Mission 2', 'à jouer'],
+    ],
+  );
+  assert.equal(W.roadColumns(halt)[2][0].said, 'à choisir', 'a halt is chosen');
+  assert.equal(road[2][0].said, 'à venir');
+  assert.equal(road[3][0].mission, 3);
   assert.equal(W.battleMark(fork), 'Expédition · mission 2 sur 5');
   assert.equal(W.battleOutcome(gift).note, 'Ton camp te suit à la prochaine mission.');
   assert.equal(
@@ -99,7 +112,6 @@ test('les cadeaux disent ce qu’ils donneront ; un rare arrive au niveau 2', ()
   assert.equal(W.giftWords(gift, 'forge', true).action, 'Choisir · niveau 2');
   assert.equal(W.giftWords(gift, 'pieces', true).detail, '200 pièces pour recruter tes alliés.');
   assert.equal(W.giftWords(gift, 'pieces', false).detail, '100 pièces pour recruter tes alliés.');
-  assert.equal(W.stepWords(halt, 2, 'done').state, 'passée');
   assert.equal(W.campWords(fork)[2], `Ton cristal : ${Math.round(fork.camp!.base)} %`);
   assert.match(W.giftWords(gift, 'renfort-ninja', false).detail, /Pour la prochaine mission\.$/);
   const egg = X.chooseHalt(plan, { ...halt, boons: [] }, 0)!;
@@ -167,4 +179,23 @@ test('every sentence of the expedition reads in English', async () => {
   } finally {
     await setLanguage('fr');
   }
+});
+
+test('la porte lit l’expédition sans ses règles ; pickAt suit les choix du tableau', () => {
+  const port = (value: unknown) => ({
+    getItem: () => (value === undefined ? null : JSON.stringify(value)),
+  });
+  const logOf = (current: State) => S.logExpedition(S.createExpeditionLog(), current)!;
+  assert.equal(expeditionDoorState(undefined), 'none');
+  assert.equal(expeditionDoorState(port(undefined)), 'none');
+  assert.equal(expeditionDoorState(port({ version: 1, best: 0, current: null })), 'none');
+  assert.equal(expeditionDoorState({ getItem: () => '{nope' }), 'none');
+  assert.equal(expeditionDoorState(port(logOf(start))), 'opened');
+  assert.equal(expeditionDoorState(port(logOf(fork))), 'under-way');
+  assert.equal(expeditionDoorState(port(logOf(guardianBeaten))), 'under-way');
+  assert.equal(expeditionDoorState(port(logOf(arrivedState))), 'opened');
+  // The fork of mission 2 taken brave, then the first halt: the choices read back in order.
+  assert.equal(X.pickAt(brave, 1), 1);
+  assert.equal(X.pickAt(brave, 0), undefined, 'the first mission is no choice');
+  assert.equal(X.pickAt(fork, 1), undefined, 'not passed yet');
 });

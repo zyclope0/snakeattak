@@ -19,24 +19,21 @@ import {
 } from '../src/voyageState.ts';
 import { createVoyageLog, logVoyage } from '../src/voyageStorage.ts';
 import { waveThreats } from '../src/ui/threatPreview.ts';
-import { voyageDoor } from '../src/ui/voyageDoor.ts';
+import { voyageDoor, voyageToFinish } from '../src/ui/voyageDoor.ts';
 import {
   bagLabel,
   battleMark,
   bonusWords,
-  codeRefusal,
   exitsLine,
   fallenSentence,
   keepingNote,
   kingPurseLine,
   recordLine,
-  replaceSentence,
   stageOutcome,
   startLabel,
   stopStates,
   stopWords,
   surpriseLabel,
-  underWay,
   voyageHeading,
   voyagePromise,
 } from '../src/ui/voyage/voyageWords.ts';
@@ -57,14 +54,27 @@ const arrived = voyage(5, 4, 'arrived');
 const fallen = voyage(2, 2, 'fallen');
 const fallenAtOnce = voyage(0, 0, 'fallen');
 
-test('the door of the home says « Reprendre » only when a stage is won and more remain', () => {
+test('the door of the home: a voyage begun to finish, then « La Grande Expédition »', () => {
   const log = (state: VoyageState) => logVoyage(createVoyageLog(), state)!;
-  assert.deepEqual(voyageDoor(createVoyageLog()), { label: 'Le voyage', fresh: true });
-  assert.deepEqual(voyageDoor(log(start)), { label: 'Le voyage', fresh: false });
-  assert.deepEqual(voyageDoor(log(midway)), { label: 'Reprendre le voyage', fresh: false });
-  assert.deepEqual(voyageDoor(log(choosing)), { label: 'Reprendre le voyage', fresh: false });
-  assert.deepEqual(voyageDoor(log(arrived)), { label: 'Le voyage', fresh: false });
-  assert.deepEqual(voyageDoor(log(fallen)), { label: 'Le voyage', fresh: false });
+  const none = createVoyageLog();
+  assert.deepEqual(voyageDoor(none, 'none'), { label: 'La Grande Expédition', fresh: true });
+  assert.deepEqual(voyageDoor(none, 'opened'), { label: 'La Grande Expédition', fresh: false });
+  assert.deepEqual(voyageDoor(none, 'under-way'), {
+    label: 'Reprendre l’expédition',
+    fresh: false,
+  });
+  // A voyage begun before the expedition took its place is finished first.
+  assert.deepEqual(voyageDoor(log(midway), 'none'), {
+    label: 'Reprendre le voyage',
+    fresh: false,
+  });
+  assert.deepEqual(voyageDoor(log(choosing), 'under-way'), {
+    label: 'Reprendre le voyage',
+    fresh: false,
+  });
+  // A voyage drawn but never played, over or fallen, leads to the expedition.
+  for (const state of [start, arrived, fallen])
+    assert.equal(voyageDoor(log(state), 'none').label, 'La Grande Expédition');
 });
 
 test('each screen has its name, and the map says which stage is to play', () => {
@@ -129,44 +139,42 @@ test('every bonus card keeps its title and says that it counts at every stage', 
 });
 
 test('a fallen camp says how far the voyage went, and that it can start again', () => {
-  assert.equal(fallenSentence(fallen), 'Tu as réussi 2 étapes sur 5. Tu peux repartir !');
+  assert.equal(
+    fallenSentence(fallen),
+    'Tu as réussi 2 étapes sur 5. La Grande Expédition t’attend !',
+  );
   assert.equal(
     fallenSentence(voyage(1, 1, 'fallen')),
-    'Tu as réussi 1 étape sur 5. Tu peux repartir !',
+    'Tu as réussi 1 étape sur 5. La Grande Expédition t’attend !',
   );
   assert.equal(
     fallenSentence(fallenAtOnce),
-    'Le camp est tombé à la première étape. Tu peux repartir !',
+    'Le camp est tombé à la première étape. La Grande Expédition t’attend !',
   );
 });
 
-test('only a voyage with a stage won and more to play asks before it is replaced', () => {
-  assert.equal(underWay(null), false);
-  assert.equal(underWay(start), false);
-  assert.equal(underWay(midway), true);
-  assert.equal(underWay(choosing), true);
-  assert.equal(underWay(arrived), false);
-  assert.equal(underWay(fallen), false);
-  assert.equal(
-    replaceSentence(midway),
-    'Tu as déjà réussi 2 étapes de ton voyage. Si tu en commences un autre, il s’arrête là.',
-  );
-  assert.match(replaceSentence(voyage(1)), /réussi 1 étape de ton voyage/);
+test('only a voyage with a stage won and more to play is still to finish', () => {
+  const log = (state: VoyageState) => logVoyage(createVoyageLog(), state)!;
+  assert.equal(voyageToFinish(createVoyageLog()), false);
+  assert.equal(voyageToFinish(log(start)), false);
+  assert.equal(voyageToFinish(log(midway)), true);
+  assert.equal(voyageToFinish(log(choosing)), true);
+  assert.equal(voyageToFinish(log(arrived)), false);
+  assert.equal(voyageToFinish(log(fallen)), false);
 });
 
-test('a code that is not one gets a sentence for each reason; a good code is taken', () => {
+test('an old voyage code stays readable, a wrong one is refused with its reason', () => {
   const code = encodeVoyage(SEED)!;
   assert.deepEqual(decodeVoyage(code), { ok: true, seed: SEED, version: CURRENT_VOYAGE_VERSION });
   const reason = (typed: string) => {
     const read = decodeVoyage(typed);
-    assert.equal(read.ok, false, typed);
-    return read.ok ? '' : codeRefusal(read.reason);
+    return read.ok ? null : read.reason;
   };
-  assert.match(reason('bonjour'), /pas un code de voyage/);
-  assert.match(reason('PONTS-1-0000-7X8R-A1'), /pas un code de voyage/);
+  assert.equal(reason('bonjour'), 'format');
+  assert.equal(reason('PONTS-1-0000-7X8R-A1'), 'format');
   const wrongCheck = code.slice(0, -1) + (code.endsWith('A') ? 'B' : 'A');
-  assert.match(reason(wrongCheck), /une erreur dans ce code/);
-  assert.match(reason(code.replace(/^VOYAGE-\d/, 'VOYAGE-9')), /autre version du jeu/);
+  assert.equal(reason(wrongCheck), 'checksum');
+  assert.equal(reason(code.replace(/^VOYAGE-\d/, 'VOYAGE-9')), 'version');
 });
 
 test('the end of a stage offers one way on: the bonus, the end, or the fallen camp', () => {
@@ -180,7 +188,7 @@ test('the end of a stage offers one way on: the bonus, the end, or the fallen ca
     button: 'Continuer le voyage',
   });
   assert.deepEqual(stageOutcome(fallen, 3), {
-    note: 'Le camp est tombé à l’étape 3. Tu pourras refaire ce voyage.',
+    note: 'Le camp est tombé à l’étape 3.',
     button: 'Voir mon voyage',
   });
 });
@@ -194,7 +202,7 @@ test('a stage on the board is neither a mission nor a caprice: no star, its own 
   stage.status = 'lost';
   assert.deepEqual(defeatCopy(stage), {
     title: 'Le voyage s’arrête ici',
-    subtitle: 'Tu peux refaire ce voyage ou en commencer un nouveau.',
+    subtitle: 'La Grande Expédition t’attend.',
   });
   // A mission keeps its stars and its own words.
   const mission = new Game(7, undefined, createMissionRun('refuge', 7, undefined, 2));
@@ -256,7 +264,7 @@ test('every sentence of the voyage reads in English, the caprice names stay Fren
   await setLanguage('en');
   try {
     const english: [string, string][] = [
-      [voyageDoor(createVoyageLog()).label, 'The Voyage'],
+      [voyageDoor(createVoyageLog(), 'none').label, 'The Great Expedition'],
       ['Reprendre le voyage', 'Resume the voyage'],
       [voyageHeading(midway).step, 'Stage 3 of 5'],
       [voyageHeading(choosing).title, 'Stage 2 complete!'],
@@ -272,24 +280,21 @@ test('every sentence of the voyage reads in English, the caprice names stay Fren
       [bagLabel(1, 4), 'Your travel bag: 1 of 4 bonuses'],
       [bonusWords('pieces', 100).detail, '+100 coins at every stage.'],
       [bonusWords('renfort-bouclier', 100).detail, 'A free Shield Guard at every stage.'],
-      [fallenSentence(fallen), 'You completed 2 stages out of 5. You can set off again!'],
       [
-        replaceSentence(midway),
-        'You have already completed 2 stages of your voyage. If you start another one, it stops there.',
+        fallenSentence(fallen),
+        'You completed 2 stages out of 5. The Great Expedition is waiting for you!',
       ],
       [battleMark(3, 5), 'The Voyage · Stage 3 of 5'],
       [
         stageOutcome(choosing, 2).note,
         'Stage 2 of 5 complete. Now choose a bonus for the rest of the voyage.',
       ],
-      [stageOutcome(fallen, 3).note, 'The camp fell at stage 3. You can try this voyage again.'],
+      [stageOutcome(fallen, 3).note, 'The camp fell at stage 3.'],
       [stageOutcome(fallen, 3).button, 'See my voyage'],
       [surpriseLabel('Grosse fringale'), 'Surprise caprice: Grosse fringale'],
       [kingPurseLine(300), 'The king took 300 of your coins.'],
     ];
     for (const [french, expected] of english) assert.equal(copy(french), expected, french);
-    for (const reason of ['format', 'checksum', 'version'] as const)
-      assert.doesNotMatch(copy(codeRefusal(reason)), /[éèêàç]|\bcode de voyage\b/, reason);
     for (const saved of [true, false])
       assert.doesNotMatch(copy(keepingNote(saved)), /[éèêàç]|voyage est/);
   } finally {
