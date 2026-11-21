@@ -19,11 +19,12 @@ import { SEED_RANGE, seededStream } from './seededRandom.ts';
  * stages the child keeps one bonus card out of three for the rest of the voyage.
  *
  * Everything here is computed from the seed alone, before the first fight: the map can
- * show the whole voyage, and a brother or a sister who types the same code plays the same
- * one. No browser object, no clock, no draw from the random source of a fight.
+ * show the whole voyage. No browser object, no clock, no draw from the random source of a
+ * fight. No new voyage starts since 21 November 2026 (La Grande Expédition took its place):
+ * what stays here lets a child finish a voyage begun before.
  */
 
-/** Twenty bits: a million voyages, and a code short enough for a child to copy. */
+/** Twenty bits: a million voyages. The expedition draws its seeds in the same range. */
 export const VOYAGE_SEED_LIMIT = 0xfffff;
 export const isVoyageSeed = (value: unknown): value is number =>
   isIntegerIn(value, 0, VOYAGE_SEED_LIMIT);
@@ -49,7 +50,7 @@ export type VoyagePlan = Readonly<{
 }>;
 
 // What each question asked of the seed is called. A new question takes a new number: the
-// existing ones then keep their answers, and so do the voyages already shared by code.
+// existing ones then keep their answers, and so do the voyages already begun.
 const ROUTE = 1;
 const STAGE = 16;
 const OFFER = 64;
@@ -173,7 +174,7 @@ export function drawVoyage(
   return Object.freeze({ version, seed, stages: Object.freeze(stages), tuning });
 }
 
-/** The voyage a code names: same seed and same version, same voyage, on every device. */
+/** The voyage of a seed: same seed and same version, same voyage, on every device. */
 export function planVoyage(
   seed: number,
   version: VoyageVersion = CURRENT_VOYAGE_VERSION,

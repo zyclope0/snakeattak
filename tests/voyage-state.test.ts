@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { startVoyage } from './voyage-start.ts';
 import assert from 'node:assert/strict';
 import { Game } from '../src/game.ts';
 import { createStageGame, planVoyage } from '../src/voyage.ts';
@@ -8,13 +9,10 @@ import {
   readVoyageState,
   recordStage,
   stageGame,
-  startVoyage,
   voyagePhase,
   voyagePlanOf,
 } from '../src/voyageState.ts';
 import type { VoyageState } from '../src/voyageState.ts';
-import { decodeVoyage, encodeVoyage } from '../src/voyageCode.ts';
-import { decodeDeparture, encodeDeparture } from '../src/departures.ts';
 import { VOYAGE_STORAGE_KEY } from '../src/storageKeys.ts';
 import { CURRENT_VOYAGE_VERSION } from '../src/voyageTuning.ts';
 import {
@@ -205,109 +203,6 @@ test('every state a voyage goes through reads back the same, and nothing else do
   for (const raw of damaged) assert.equal(readVoyageState(raw), null, JSON.stringify(raw));
   // Reading rebuilds the state: a field the game does not know is dropped, not kept.
   assert.deepEqual(readVoyageState({ ...good, coins: 999, bag: [...good.bag] }), good);
-});
-
-test('a voyage code names the seed and reads back, however a child types it', () => {
-  for (const version of [1, 2] as const) {
-    const pattern = new RegExp(`^VOYAGE-${version}-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{2}$`);
-    for (let seed = 0; seed <= 0xfffff; seed += 997) {
-      const code = encodeVoyage(seed, version)!;
-      assert.match(code, pattern);
-      assert.deepEqual(decodeVoyage(code), { ok: true, seed, version });
-    }
-  }
-  // A new voyage carries the version of the game.
-  assert.equal(encodeVoyage(SEED), encodeVoyage(SEED, CURRENT_VOYAGE_VERSION));
-  // The writing is part of the format: these codes must keep their exact text.
-  assert.equal(encodeVoyage(0, 1), 'VOYAGE-1-0000-ND');
-  assert.equal(encodeVoyage(SEED, 1), 'VOYAGE-1-0YK9-AY');
-  assert.equal(encodeVoyage(0xfffff, 1), 'VOYAGE-1-ZZZZ-5X');
-  assert.equal(encodeVoyage(0, 2), 'VOYAGE-2-0000-76');
-  assert.equal(encodeVoyage(SEED, 2), 'VOYAGE-2-0YK9-05');
-  assert.equal(encodeVoyage(0xfffff, 2), 'VOYAGE-2-ZZZZ-MY');
-  const code = encodeVoyage(SEED)!;
-  for (const typed of [
-    code.toLowerCase(),
-    `  ${code}  `,
-    code.replace(/-/g, ' - '),
-    code.replace('VOYAGE', 'Voyagé'),
-    code.replace(/0/g, 'O'),
-    code.replace(/0/g, 'o'),
-    // The dashes help to read the code aloud; a child may leave them out.
-    code.replace(/-/g, ''),
-    code.replace(/-/g, ' ').toLowerCase(),
-    code.replace(/-/g, '_'),
-    code.replace('-', ''),
-  ])
-    assert.deepEqual(
-      decodeVoyage(typed),
-      { ok: true, seed: SEED, version: CURRENT_VOYAGE_VERSION },
-      typed,
-    );
-  // Seed 33 is written 0011: an l or an I typed for a 1 is read as the 1 it looks like.
-  const [word, version, signs, check] = encodeVoyage(33)!.split('-');
-  assert.equal(signs, '0011');
-  const lookalike = `${word}-${version}-${signs.replace(/1/g, 'l')}-${check.replace(/1/g, 'I')}`;
-  assert.deepEqual(decodeVoyage(lookalike), {
-    ok: true,
-    seed: 33,
-    version: CURRENT_VOYAGE_VERSION,
-  });
-  for (const seed of [-1, 1 << 20, 1.5, NaN]) assert.equal(encodeVoyage(seed), null);
-  assert.equal(encodeVoyage(SEED, 3 as 1), null);
-});
-
-test('a damaged code is refused with a reason, never with an exception', () => {
-  const code = encodeVoyage(SEED)!;
-  const [word, version, signs, check] = code.split('-');
-  const refusals: [unknown, string][] = [
-    [`${word}-3-${signs}-${check}`, 'version'],
-    [`${word}-0-${signs}-${check}`, 'version'],
-    [`${word}-9-${signs}-${check}`, 'version'],
-    [`${word}-${version}-${signs}-00`, 'checksum'],
-    [`${word}-${version}-${signs.slice(0, 3)}${signs[3] === '7' ? '8' : '7'}-${check}`, 'checksum'],
-    [`VOYAGES-${version}-${signs}-${check}`, 'format'],
-    [`AVENTURE-${version}-${signs}-${check}`, 'format'],
-    [`${word}-${version}-${signs}`, 'format'],
-    [`${word}-${version}-${signs}-${check}-${check}`, 'format'],
-    [`${word}-${version}-${signs}X-${check}`, 'format'],
-    [`${word}-${version}-${signs.slice(1)}-${check}`, 'format'],
-    [`${word}-${version}-U${signs.slice(1)}-${check}`, 'format'],
-    [`${word}${version}${signs}${check}${check}`, 'format'],
-    [`${word}${signs}${check}`, 'format'],
-    [`${word}-A-${signs}-${check}`, 'format'],
-    [code + ' '.repeat(80), 'format'],
-    ['', 'format'],
-    ['VOYAGE', 'format'],
-    [SEED, 'format'],
-    [null, 'format'],
-    [undefined, 'format'],
-    [{ seed: SEED }, 'format'],
-    [[code], 'format'],
-  ];
-  for (const [typed, reason] of refusals)
-    assert.deepEqual(decodeVoyage(typed), { ok: false, reason }, String(typed));
-  // One wrong sign is caught, bar the rare text that still adds up (two check signs).
-  const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
-  let tried = 0;
-  let accepted = 0;
-  for (const position of [9, 10, 11, 12, 14, 15])
-    for (const sign of alphabet) {
-      if (sign === code[position]) continue;
-      const typed = code.slice(0, position) + sign + code.slice(position + 1);
-      const read = decodeVoyage(typed);
-      tried++;
-      if (read.ok) accepted++;
-      assert.ok(!read.ok || read.seed !== SEED, typed);
-    }
-  assert.ok(accepted <= tried * 0.02, `${accepted} wrong codes accepted out of ${tried}`);
-});
-
-test('voyage codes and departure codes never read each other', () => {
-  assert.equal(decodeDeparture(encodeVoyage(SEED)).ok, false);
-  const departure = encodeDeparture({ kind: 'classic', seed: SEED, balance: 2 });
-  assert.equal(decodeVoyage(departure).ok, false);
-  assert.equal(decodeVoyage(encodeDeparture({ kind: 'classic', seed: 5 })).ok, false);
 });
 
 test('the log keeps the voyage under way and a personal record that never goes down', () => {

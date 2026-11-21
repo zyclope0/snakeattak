@@ -19,7 +19,6 @@
     "balance:lab": "node scripts/balance-lab.mjs",
     "balance:caprices": "node scripts/caprices-lab.mjs",
     "balance:modes": "node --experimental-strip-types scripts/balance-modes.mjs",
-    "balance:voyage": "node --experimental-strip-types scripts/balance-voyage.mjs",
     "balance:paths": "node scripts/path-transit.mjs",
     "verify": "npm run format:check && npm run test && npm run build",
     "test:presentation": "node scripts/presentation-browser.mjs",

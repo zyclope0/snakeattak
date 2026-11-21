@@ -29,9 +29,9 @@ garde **tous** les points, faits ou non.
 | 5   | La CI attend trop ; une PR de documents coûte autant que du code  | À faire, lot 2           |
 | 6   | Barres de vie et petits ronds chers à dessiner                    | À mesurer sur l'appareil |
 | 7   | Des règles écrites plusieurs fois                                 | À faire, lot 2           |
-| 8   | Code mort et restes du voyage                                     | À faire, lot 2           |
+| 8   | Code mort et restes du voyage                                     | Fait, lot 2              |
 | 9   | Trois fichiers ont trop grossi                                    | Plus tard                |
-| 10  | Documentation d'architecture devenue fausse par endroits          | À faire, lot 2           |
+| 10  | Documentation d'architecture devenue fausse par endroits          | Fait, lot 2              |
 
 ### 1. La sauvegarde pendant le combat
 
@@ -194,6 +194,12 @@ expire, toutes les suivantes sont redessinées. Piste : une étiquette fixe par 
 - Commentaires périmés : ceux qui parlent d'un code d'expédition ou d'un code de voyage à
   recopier (`expedition.ts`, `voyage.ts`, `voyageTuning.ts`, `ui/departures.ts`).
 
+**Fait (lot 2).** Tout ce qui précède, sauf les contrôles de sac de l'expédition : ils sont
+ce que le lecteur d'une sauvegarde refuse, ils restent. `startVoyage` est dans
+`tests/voyage-start.ts` ; les joueurs automatiques dans `scripts/lab/players.ts`. Les douze
+voyages de référence gardent leurs empreintes ; seul le code écrit devant chacune est parti.
+Deux textes de moins (1 256). Un ancien code `VOYAGE-…` ne se relit plus.
+
 ### 9. Trois fichiers ont trop grossi (plus tard)
 
 Depuis le nettoyage du 13 novembre : `game.ts` 387 → 688 lignes, `bootstrap.ts` 387 → 494,
@@ -219,6 +225,9 @@ Depuis le nettoyage du 13 novembre : `game.ts` 387 → 688 lignes, `bootstrap.ts
 (c'est `bootstrap.ts`) ; `voyageCode.ts` et `VOYAGE_INPUT_LIMIT` « lus par l'interface » ; « le
 fichier familial n'exporte pas le voyage » ; `startVoyage`, `encodeVoyage`, « une première
 visite tire un voyage » ; « les dix clés » (il y en a 15).
+
+**Fait (lot 2).** Les passages cités sont corrigés ; `docs/VOYAGE.md` dit en tête que son
+laboratoire n'existe plus.
 
 ## À connaître avant tout ajout
 

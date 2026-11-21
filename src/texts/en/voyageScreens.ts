@@ -41,8 +41,6 @@ export const uneProtectionPourTonCristalAChaque = 'A shield for your Crystal at 
 export const nPiecesAChaqueEtape = '+{0} coins at every stage.';
 export const tuAsReussiNEtapeNSurNNTAttend =
   'You completed {0} stage{1} out of {2}. {3} is waiting for you!';
-export const leCampEstTombeALaPremiereEtapeNTAttend =
-  'The camp fell at the first stage. {0} is waiting for you!';
 export const leVoyageEtapeNSurN = 'The Voyage · Stage {0} of {1}';
 export const leCampEstTombeALEtapeN = 'The camp fell at stage {0}.';
 export const voirMonVoyage = 'See my voyage';

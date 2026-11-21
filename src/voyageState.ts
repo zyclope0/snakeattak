@@ -4,7 +4,7 @@ import { isIntegerIn, isOneOf, isRecord } from './plainData.ts';
 import { createStageGame, isVoyageSeed, planVoyage, stageRulesFor } from './voyage.ts';
 import type { VoyagePlan } from './voyage.ts';
 import { isBonusCard } from './voyageRules.ts';
-import { CURRENT_VOYAGE_VERSION, isVoyageVersion } from './voyageTuning.ts';
+import { isVoyageVersion } from './voyageTuning.ts';
 import type { VoyageVersion } from './voyageTuning.ts';
 
 /**
@@ -56,14 +56,6 @@ export function readVoyageState(raw: unknown): VoyageState | null {
     status: raw.status,
   });
   return plan && bagFits(state, plan) ? state : null;
-}
-
-/** The first stage of a new voyage; null when the seed is not one. */
-export function startVoyage(
-  seed: number,
-  version: VoyageVersion = CURRENT_VOYAGE_VERSION,
-): VoyageState | null {
-  return readVoyageState({ version, seed, won: 0, bag: [], status: 'travelling' });
 }
 
 /** The plan of a state; a valid state always has one. */

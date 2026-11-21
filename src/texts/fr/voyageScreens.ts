@@ -41,8 +41,6 @@ export const tonMielDurePlusLongtempsAChaque = 'Ton miel dure plus longtemps à 
 export const uneProtectionPourTonCristalAChaque = 'Une protection pour ton cristal à chaque étape.';
 export const nPiecesAChaqueEtape = '+{0} pièces à chaque étape.';
 export const tuAsReussiNEtapeNSurNNTAttend = 'Tu as réussi {0} étape{1} sur {2}. {3} t’attend !';
-export const leCampEstTombeALaPremiereEtapeNTAttend =
-  'Le camp est tombé à la première étape. {0} t’attend !';
 export const leVoyageEtapeNSurN = 'Le voyage · Étape {0} sur {1}';
 export const leCampEstTombeALEtapeN = 'Le camp est tombé à l’étape {0}.';
 export const voirMonVoyage = 'Voir mon voyage';
