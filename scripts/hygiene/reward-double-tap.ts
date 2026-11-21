@@ -19,6 +19,7 @@ const { Session } = await import(R + 'session.ts');
 const { bindRewardControls } = await import(R + 'ui/rewardControls.ts');
 const { isLastingBoon } = await import(R + 'boons.ts');
 const { giftCopy } = await import(R + 'ui/boonCopy.ts');
+const { TAP_HOLD_MS } = await import(R + 'ui/tapHold.ts');
 
 function endVictorious(g: any) {
   g.remaining = 0;
@@ -108,10 +109,13 @@ console.log(
 );
 const before = JSON.stringify(game2.boons);
 cards2[index2].click();
-console.log(
-  `Bouton du bas : « ${skip.textContent} » · offre en attente : ${game2.rewards.pending}`,
-);
+const asked = skip.textContent;
+console.log(`Bouton du bas : « ${asked} » · offre en attente : ${game2.rewards.pending}`);
+// L'attente d'entrée dans la question passe d'abord : le 1er appui doit vraiment en sortir,
+// sinon ce scénario n'essaierait pas l'attente posée au retour vers l'offre.
+await new Promise((r) => setTimeout(r, TAP_HOLD_MS + 50));
 skip.click();
+const left = skip.textContent !== asked;
 console.log(
   `Après le 1er appui : bouton du bas « ${skip.textContent} » · offre en attente : ${game2.rewards.pending}`,
 );
@@ -119,11 +123,13 @@ skip.click();
 console.log(
   `Après le 2e appui  : offre en attente : ${game2.rewards.pending} · cadeaux ${JSON.stringify(game2.boons) === before ? 'inchangés' : 'changés'} · camp répondu : ${game2.offerAnswered(game2.wave === 0 ? 12 : game2.wave)}`,
 );
-const lostB = game2.rewards.pending === null;
+const lostB = game2.rewards.pending === null || !left;
 console.log(
-  lostB
-    ? '=> DÉFAUT : l’offre entière est passée (« Continuer sans bonus »), aucun cadeau pour ce camp.'
-    : '=> sain',
+  !left
+    ? '=> DÉFAUT du scénario : le 1er appui n’est pas sorti de la question.'
+    : lostB
+      ? '=> DÉFAUT : l’offre entière est passée (« Continuer sans bonus »), aucun cadeau pour ce camp.'
+      : '=> sain',
 );
 // --- Après un délai (appui voulu, 350 ms plus tard) : le choix doit rester possible
 if (game.rewards.pending !== null) {
