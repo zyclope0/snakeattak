@@ -11,7 +11,8 @@ import { VOYAGE_TUNINGS } from './voyageTuning.ts';
  * and nothing compares two children.
  */
 // A log is a few dozen characters; anything much longer was not written by the game.
-const LOG_LIMIT = 2000;
+export const VOYAGE_LOG_LIMIT = 2000;
+const LOG_LIMIT = VOYAGE_LOG_LIMIT;
 /** The longest voyage of any version of the rules: a record cannot be longer. */
 const longestVoyage = () =>
   Math.max(...Object.values(VOYAGE_TUNINGS).map((rules) => rules.stages.length));

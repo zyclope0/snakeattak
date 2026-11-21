@@ -96,15 +96,26 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
 
 ## Défauts confirmés, décidés par le parent le 21 novembre, à faire en lots séparés
 
-### A. La sauvegarde familiale ne contient ni l'expédition, ni les records, ni le voyage
+### A. La sauvegarde familiale ne contenait ni l'expédition, ni les records, ni le voyage — corrigé
 
-- **Impact** : perte de progression au changement de téléphone. Le fichier garde l'aventure,
-  la carrière, les missions et le carnet de caprices du joueur en cours. Il ne garde pas
-  l'expédition en cours et son record, les records de l'aventure sans fin, le voyage à finir.
-  L'aide dit pourtant « toute l'aventure ». L'absence des autres joueurs, elle, est annoncée.
-- **Reproduction** : `scripts/hygiene/family-backup.mjs` liste ce qui ne revient pas.
-- **Décision** : les ajouter. Une version 6 du fichier avec trois champs de plus, lus par les
-  lecteurs qui existent ; les anciens fichiers restent lisibles. Lot séparé, avec tests.
+- **Impact** : perte de progression au changement de téléphone. Le fichier gardait l'aventure,
+  la carrière, les missions et le carnet de caprices du joueur en cours, pas l'expédition en
+  cours et son record, ni les records de l'aventure sans fin, ni le voyage à finir.
+- **Décision** : les ajouter (parent, 21 novembre). Lot séparé, après l'étape d'hygiène.
+- **Ce qui change** : un fichier « version 6 » porte en plus ces trois éléments, tels que
+  l'appareil les garde. Un fichier sans eux reste écrit comme avant, à l'octet près, et les
+  anciens fichiers restent lisibles. À la restauration, chaque élément est relu par ses propres
+  règles : un fichier dont l'un est abîmé est refusé en entier, sans rien changer. Ce que le
+  fichier ne porte pas reste tel quel sur l'appareil. Si l'appareil refuse une écriture, tout
+  est remis comme avant. Après une restauration qui les ramène, la page se relit, comme au
+  changement de joueur.
+- **Fichiers** : `src/familyBackup.ts`, `src/familyExtras.ts` (chargé à part, pour garder les
+  règles de l'expédition hors du premier paquet), `src/bootstrap.ts`,
+  `src/ui/familyControls.ts`, une phrase dans `src/texts/*/family.ts`.
+- **Tests** : `tests/family-extras.test.ts` ; `scripts/hygiene/family-backup.mjs` (export
+  version 6, treize imports invalides, restauration identique sur un appareil vide).
+- **Limites** : le fichier ne garde toujours que le joueur en cours (c'est annoncé dans la
+  fenêtre). Une application plus ancienne refuse un fichier version 6.
 
 ### B. Un allié peut rester collé à un rocher sur deux cartes de mission
 

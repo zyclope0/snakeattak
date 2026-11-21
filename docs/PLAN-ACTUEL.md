@@ -22,8 +22,8 @@ Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape 
 
 **Suite de l'hygiène** (décisions du parent, 21 novembre), avant les fonctionnalités :
 
-- Sauvegarde familiale version 6 : y mettre l'expédition, les records de l'aventure sans fin
-  et le voyage à finir ; les anciens fichiers restent lisibles.
+- ~~Sauvegarde familiale version 6~~ : fait (l'expédition, les records de l'aventure sans fin
+  et le voyage à finir sont dans le fichier ; les anciens fichiers restent lisibles).
 - Allié collé à un rocher sur deux cartes de mission : nouvelle version de règles pour les
   nouvelles parties, mesurée, accord du parent avant de publier.
 - Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).

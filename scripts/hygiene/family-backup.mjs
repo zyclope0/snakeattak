@@ -10,6 +10,16 @@ import { showHomePage } from '../../tests/browser-entry.mjs';
 const [storageFile, dir = 'dist-android'] = process.argv.slice(2);
 assert.ok(storageFile, 'a storage file');
 const device = JSON.parse(await readFile(storageFile, 'utf8'));
+// The first player also has an expedition under way and a record of the endless adventure.
+const X = await import('../../src/expedition.ts');
+const { createExpeditionLog, logExpedition } = await import('../../src/expeditionStorage.ts');
+const { writeRecords } = await import('../../src/endlessRecords.ts');
+const KEYS = await import('../../src/storageKeys.ts');
+device[KEYS.EXPEDITION_STORAGE_KEY] = JSON.stringify(
+  logExpedition(createExpeditionLog(), X.startExpedition(4242)),
+);
+device[KEYS.ENDLESS_RECORDS_KEY] = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+const EXTRA_KEYS = [KEYS.EXPEDITION_STORAGE_KEY, KEYS.VOYAGE_STORAGE_KEY, KEYS.ENDLESS_RECORDS_KEY];
 await mkdir('artifacts/hygiene', { recursive: true });
 const checks = [];
 
@@ -38,7 +48,11 @@ let exported;
     exported = await readFile(await (await download).path(), 'utf8');
     assert.deepEqual(await snapshot(page), atStart, 'exporting changes nothing on the device');
     const file = JSON.parse(exported);
-    checks.push(`export: version ${file.version}, fields ${Object.keys(file).join(' ')}`);
+    assert.equal(file.version, 6, 'the file carries what the player keeps beside the adventure');
+    assert.deepEqual(Object.keys(file.extras).sort(), ['endless', 'expedition', 'voyage']);
+    checks.push(
+      `export: version ${file.version}, fields ${Object.keys(file).join(' ')}, extras ${Object.keys(file.extras).join(' ')}`,
+    );
 
     // 2. Invalid files: each one is refused and the device keeps every byte.
     const valid = JSON.parse(exported);
@@ -56,6 +70,14 @@ let exported;
       array: '[]',
       null: 'null',
       'too large': JSON.stringify({ ...valid, padding: 'x'.repeat(1_200_000) }),
+      'damaged expedition': JSON.stringify({
+        ...valid,
+        extras: {
+          ...valid.extras,
+          expedition: valid.extras.expedition.replace('"seed":4242', '"seed":-1'),
+        },
+      }),
+      'unknown extra': JSON.stringify({ ...valid, extras: { ...valid.extras, autre: '{}' } }),
       binary: Buffer.from([0xff, 0xfe, 0x00, 0x01, 0x02]),
     };
     for (const [name, raw] of Object.entries(invalid)) {
@@ -86,18 +108,33 @@ let exported;
     await give(page, exported);
     await page.waitForFunction(() => !document.getElementById('family-apply').disabled);
     await page.locator('#family-apply').click();
-    await page.waitForFunction(() => localStorage.getItem('conquete-serpents:family:v1') !== null);
+    // The page is read again once the file is applied: the home comes back.
+    await page.waitForFunction(
+      (key) => localStorage.getItem(key) !== null,
+      KEYS.EXPEDITION_STORAGE_KEY,
+    );
+    await page.locator('#home-primary').waitFor({ state: 'visible' });
     const restored = await snapshot(page);
     const family = (s) => s['conquete-serpents:family:v1'];
     const { readFamilyBackup } = await import('../../src/familyBackup.ts');
+    const { extras, ...adventure } = readFamilyBackup(exported);
     assert.deepEqual(
-      readFamilyBackup(family(restored)),
-      readFamilyBackup(exported),
+      { ...readFamilyBackup(family(restored)), version: 6 },
+      adventure,
       'the adventure, the career, the missions and the albums come back exactly',
+    );
+    for (const key of EXTRA_KEYS)
+      assert.equal(restored[key], device[key], `${key} comes back exactly`);
+    assert.equal(Object.keys(extras).length, EXTRA_KEYS.length);
+    // The door of the home knows the expedition that came back.
+    assert.equal(
+      await page.locator('#home-voyage .voyage-new').isVisible(),
+      false,
+      'the door no longer says « Nouveau »',
     );
     const absent = Object.keys(device).filter((key) => !(key in restored));
     checks.push(
-      `restore on an empty device: family save identical; not in the file: ${absent.join(', ') || 'nothing'}`,
+      `restore on an empty device: adventure, expedition, voyage and records identical; not in the file: ${absent.join(', ') || 'nothing'}`,
     );
     assert.deepEqual(report.errors, []);
   } finally {

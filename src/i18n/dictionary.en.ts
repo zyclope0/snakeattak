@@ -608,6 +608,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "L’armure": "The armour",
   "L’aventure sans fin": "The endless adventure",
   "L’expédition est gardée entre deux étapes.": "The expedition is saved between stages.",
+  "L’expédition et les records de ce fichier remplaceront ceux de cet appareil.": "The expedition and the records in this file will replace those on this device.",
   "L’Œuf Mystère": "The Mystery Egg",
   "L’Œuf Mystère fait monter {0} au niveau {1} !": "The Mystery Egg takes {0} up to level {1}!",
   "L’Œuf Mystère t’offre {0} pièces !": "The Mystery Egg gives you {0} coins!",

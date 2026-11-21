@@ -1,5 +1,5 @@
 import type { StoragePort } from './checkpoints.ts';
-import { readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
+import { hasAlbums, readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
 import type { FamilyBackup } from './familyBackup.ts';
 import { validateCareerState } from './progression.ts';
 import type { CareerState } from './progression.ts';
@@ -94,7 +94,7 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
 function validateImport(backup: FamilyBackup): FamilyBackup | null {
   try {
     if (!validateCareerState(backup?.career)) return null;
-    const withAlbums = backup.version === 4 || backup.version === 5;
+    const withAlbums = hasAlbums(backup);
     if (!withAlbums && Object.hasOwn(backup, 'albums')) return null;
     if (backup.version !== 1 && !validateMissionProgress(backup.missions)) return null;
     if (withAlbums && !validateCapriceAlbums(backup.albums)) return null;
