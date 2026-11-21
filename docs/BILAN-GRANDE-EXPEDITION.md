@@ -4,16 +4,34 @@ Demande du parent : un voyage plus long, plus profond, avec une vraie gestion de
 Décisions, noms et mesures : [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PROPOSITION.md).
 Architecture : [ARCHITECTURE.md](ARCHITECTURE.md), « La Grande Expédition ».
 
+## Le 21 novembre : l'expédition remplace le voyage
+
+Remarque du parent : « l'expédition doit remplacer le voyage, ça fait des doublons ; garde
+l'apparence du voyage, qu'on voie bien la route, les embranchements ». Ses choix : la porte
+s'appelle « La Grande Expédition » ; un voyage déjà commencé se finit, on n'en lance plus.
+
+- **La porte de l'accueil**, à côté de « Jouer », dit « La Grande Expédition » (« Nouveau »
+  jusqu'à la première), puis « Reprendre l'expédition ». Tant qu'un voyage commencé n'est pas
+  fini, elle dit « Reprendre le voyage » et mène à lui ; sa fin n'offre plus qu'un bouton,
+  « La Grande Expédition ». Plus de nouveau voyage, plus de code à donner ou à taper ; les
+  sauvegardes et les anciens codes restent lisibles.
+- **La carte en forme de route** : comme le chemin du voyage, une route en pointillés va de la
+  première mission au gardien et se sépare en deux à chaque embranchement (Tranquille en
+  haut, des Braves en bas, avec une étoile) et à chaque halte (leurs images). Le chemin déjà
+  pris est tracé en vert, les arrêts non choisis s'estompent, ceux à choisir ressortent.
+- **Le site** parle de La Grande Expédition au lieu du Voyage (accueil, « Comment jouer »,
+  nouveautés), nombres tirés des règles.
+- La porte lit l'expédition sans charger ses règles (`expeditionLog.ts`) : le paquet de départ
+  reste à 193,2 Ko (limite 200).
+
 ## Ce qui est fait
 
 - **Le moteur** (PR 103, fusionnée et publiée le 20 novembre) : trois tableaux de cinq
   missions tirés d'une graine, le camp qui suit l'enfant dans un tableau, les cadeaux de
   l'aventure sans fin, les haltes, des serpents un peu plus forts à chaque mission (réglage
   « moyen » choisi par le parent).
-- **La porte.** « La Grande Expédition » dans la rangée du haut de la page « Le voyage », avec
-  l'étiquette « Nouveau » jusqu'à la première expédition du joueur. Seul changement du voyage
-  court : son record quitte cette rangée (la porte y prend sa place) et se lit à la fin du
-  voyage, comme avant.
+- **La porte** (20 novembre) : sur la page « Le voyage » ; depuis le 21, sur l'accueil (voir
+  plus haut).
 - **La carte du tableau.** Les sept pas (cinq missions, dont le gardien, et deux haltes), puis
   ce qui attend : une mission, deux chemins (« Le Chemin Tranquille » et « Le Chemin des
   Braves », qui promet un cadeau rare) ou deux haltes. Chaque mission montre sa petite carte,
@@ -70,13 +88,8 @@ Architecture : [ARCHITECTURE.md](ARCHITECTURE.md), « La Grande Expédition ».
 - Les gardiens portent un nom (Capitaine Zigzag, Madame Gloups), mais sur le plateau c'est le
   roi à trois têtes, avec moins de vie : à voir avec le fils (un dessin à eux coûterait des
   crédits d'images).
-- La porte est sur la page du voyage, pas sur l'accueil : l'accueil n'a plus de place sur un
-  téléphone couché. À déplacer si le parent préfère.
-- Le record du voyage court ne s'affiche plus dans la rangée du haut sous 1 000 px de large (la
-  porte prend sa place) ; il reste à la fin du voyage.
 - Une carte « une fois » (un allié offert, la garde du cristal) n'est pas plus forte après le
   Chemin des Braves : la règle du moteur ; à décider avec le parent s'il veut qu'elle le soit.
-- Depuis l'expédition, « Accueil » ramène à l'accueil, pas à la page du voyage.
 - Pas de code à partager pour une expédition : à faire si les enfants veulent s'échanger la
   leur.
 - Les défis originaux (crue, deux rois, serpents vitaminés, réveil difficile, ensorcelés,

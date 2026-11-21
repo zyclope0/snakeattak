@@ -1,7 +1,8 @@
-// Recette de « La Grande Expédition » (20 novembre 2026) : la porte sur la page du voyage, la
-// carte du tableau, une vraie mission gagnée sur le plateau, le cadeau avec sa relance, les
-// deux chemins, la halte et la roulotte, les cinq places pleines, l'arrivée. Les états sont
-// écrits par le vrai moteur, puis relus par le jeu construit, à 780×360, 812×375 et 1280×800.
+// Recette de « La Grande Expédition » (20 et 21 novembre 2026) : la porte de l'accueil, qui a
+// pris la place du voyage (un voyage commencé se finit d'abord), la route du tableau et ses
+// embranchements, une vraie mission gagnée sur le plateau, le cadeau avec sa relance, les deux
+// chemins, la halte et la roulotte, les cinq places pleines, l'arrivée. Les états sont écrits
+// par le vrai moteur, puis relus par le jeu construit, à 780×360, 812×375 et 1280×800.
 import { spawn } from 'node:child_process';
 import { registerHooks } from 'node:module';
 import { setTimeout } from 'node:timers/promises';

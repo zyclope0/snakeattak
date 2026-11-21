@@ -597,9 +597,16 @@ Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PR
   `resultCopy.ts` nomme une étape de version 3 « Mission gagnée ! » ou « On réessaie ? ».
 - **Stockage.** `expeditionStorage.ts`, clé `EXPEDITION_STORAGE_KEY` dans `PLAYER_KEYS` :
   l'expédition en cours et le record (missions gagnées dans une expédition).
-- **Écrans.** `ui/voyage/expedition/`, chargés avec ceux du voyage : la porte
-  (`expeditionDoor.ts`), le contrôleur (`expeditionScreens.ts`), les vues
-  (`expeditionViews.ts`), les mots (`expeditionWords.ts`, sans page, testés). La page reprend
+- **Porte.** Depuis le 21 novembre, l'expédition remplace le voyage court. `voyageDoor.ts`
+  (paquet de départ) garde le bouton `#home-voyage` : il dit « Reprendre le voyage » tant
+  qu'un voyage commencé reste à finir (`voyageToFinish`), sinon « La Grande Expédition », et
+  lit l'expédition par `expeditionLog.ts` sans charger ses règles. `voyageScreens.open` montre
+  le voyage à finir, ou ouvre l'expédition ; la fin d'un voyage n'a plus qu'un bouton vers
+  elle. Plus de code ni de nouveau voyage à l'écran ; `voyageCode.ts` relit encore les codes.
+- **Écrans.** `ui/voyage/expedition/`, chargés avec ceux du voyage : le contrôleur
+  (`expeditionScreens.ts`), les vues (`expeditionViews.ts`, dont la route du tableau tracée
+  en SVG sous une grille d'arrêts), les mots (`expeditionWords.ts`, sans page, testés :
+  `roadColumns` donne la route colonne par colonne). La page reprend
   `voyagePage('expedition')`, la fenêtre des caprices et le panneau de fin de bataille du
   voyage (`voyageBattle.ts`), qui sait à qui appartient la partie sur le plateau.
 

@@ -83,6 +83,13 @@ et garder **la quatrième voie** pour plus tard, quand le reste plaît aux enfan
     Chacun est montré au fils avant d'être fait, mesuré, puis accepté par le parent.
 - **La quatrième voie** : pas maintenant.
 
+## Décisions du parent (21 novembre)
+
+- **L'expédition remplace le voyage court** : la porte de l'accueil s'appelle « La Grande
+  Expédition » ; un voyage déjà commencé peut se finir, on n'en lance plus de nouveau ; les
+  anciens codes restent lisibles mais ne sont plus proposés.
+- **La carte garde l'allure du voyage** : une route qu'on voit, avec ses embranchements.
+
 ## Les noms (choisis par Claude le 20 novembre, provisoires)
 
 Le parent n'a pas encore de noms ; il demande des noms originaux, qui plaisent aux enfants, et
@@ -161,5 +168,4 @@ des cadeaux se joue surtout au début ; à revoir avec les enfants.
 - Les noms des tableaux, des gardiens et des défis : au fils de les changer s'il veut
   (`src/texts/fr/expedition.ts`).
 - Les défis à faire d'abord.
-- La porte : sur la page du voyage aujourd'hui ; sur l'accueil si le parent préfère.
 - Un code pour partager une expédition.
