@@ -49,16 +49,18 @@ const TEXT = {
     kingNote: 'King Snake est battu. Tu as fini le voyage !',
     onward: 'Continuer le voyage',
     lostTitle: 'Le voyage s’arrête ici',
-    lostNote: (n) => `Le camp est tombé à l’étape ${n}. La Grande Expédition t’attend.`,
+    lostNote: (n) => `Le camp est tombé à l’étape ${n}.`,
     see: 'Voir mon voyage',
     choose: 'Choisis un bonus pour la suite du voyage',
     rule: 'Tu le gardes dans ton sac jusqu’à la fin du voyage.',
     arrived: 'Bravo, tu as fini le voyage !',
     fallen: (n) => `Ton voyage s’arrête à l’étape ${n}`,
-    fallenNote: (n) => `Tu as réussi ${n} étapes sur 5. Tu peux repartir !`,
+    fallenNote: (n) => `Tu as réussi ${n} étapes sur 5. La Grande Expédition t’attend !`,
     // The one way on once a voyage is over.
     expedition: 'La Grande Expédition',
     stars: '0 / 18 étoiles',
+    failedVoyage: 'Le voyage n’a pas pu s’ouvrir. Réessaie.',
+    failedExpedition: 'La Grande Expédition n’a pas pu s’ouvrir. Réessaie.',
   },
   en: {
     door: 'The Great Expedition',
@@ -82,15 +84,18 @@ const TEXT = {
     kingNote: 'King Snake is beaten. You finished the voyage!',
     onward: 'Continue the voyage',
     lostTitle: 'The voyage stops here',
-    lostNote: (n) => `The camp fell at stage ${n}. The Great Expedition is waiting for you.`,
+    lostNote: (n) => `The camp fell at stage ${n}.`,
     see: 'See my voyage',
     choose: 'Choose a bonus for the rest of the voyage',
     rule: 'You keep it in your bag until the end of the voyage.',
     arrived: 'Well done, you finished the voyage!',
     fallen: (n) => `Your voyage stops at stage ${n}`,
-    fallenNote: (n) => `You completed ${n} stages out of 5. You can set off again!`,
+    fallenNote: (n) =>
+      `You completed ${n} stages out of 5. The Great Expedition is waiting for you!`,
     expedition: 'The Great Expedition',
     stars: '0 / 18 stars',
+    failedVoyage: 'The voyage could not open. Try again.',
+    failedExpedition: 'The Great Expedition could not open. Try again.',
   },
 };
 
@@ -208,6 +213,7 @@ const voyageState = (page) =>
           [...stop.querySelectorAll('.stop-caprice, .stop-king')].every((node) => inside(node)),
       })),
       go: words('#voyage-go'),
+      expeditionOpen: words('#voyage-expedition-open'),
       // « Le roi t'a pris 300 pièces. » : whole, and clear of every stop and of what hangs on it.
       purse: words('.path-purse'),
       purseClear:
@@ -536,6 +542,35 @@ export async function checkVoyage({ browser, url, check, capture }) {
       await back.close();
     }
 
+  // When the screens cannot arrive (no network, no cache), the door says which could not open,
+  // and « Nouveau » steps aside; the next touch asks again.
+  for (const language of ['fr', 'en'])
+    for (const [name, seed, expected] of [
+      ['begun', { [VOYAGE_STORAGE_KEY]: logOf(MAP_SEED, 2) }, TEXT[language].failedVoyage],
+      ['fresh', {}, TEXT[language].failedExpedition],
+    ]) {
+      const page = await open(780, 360, { language, seed });
+      await page.route(/\/ui\/voyage\//, (route) => route.abort());
+      await page.locator('#home-voyage').click();
+      await page
+        .waitForFunction(
+          (words) => document.querySelector('#home-voyage span').innerText.trim() === words,
+          expected,
+          { timeout: 10_000 },
+        )
+        .catch(() => {});
+      const door = await page.evaluate(() => ({
+        label: document.querySelector('#home-voyage span').innerText.trim(),
+        tag: document.querySelector('#home-voyage .voyage-new').getClientRects().length,
+        page: document.querySelector('#home-screen').dataset.page,
+      }));
+      check(
+        door.label === expected && door.tag === 0 && door.page === 'home',
+        `home ${language} ${name}: a door that could not open says « ${expected} »: ${JSON.stringify(door)}`,
+      );
+      await page.close();
+    }
+
   // 2. The map and the choice of a bonus of a voyage begun, on every screen; a voyage with
   // nothing left to finish leads to « La Grande Expédition ».
   const stops = expectedStops(MAP_SEED);
@@ -613,6 +648,12 @@ export async function checkVoyage({ browser, url, check, capture }) {
         state.gone.length === 0 && !state.actions.length,
         `no other voyage and no code under the map, ${report}`,
       );
+      // A voyage begun can be finished, never must: « La Grande Expédition » is a touch away.
+      check(
+        state.expeditionOpen === t.expedition &&
+          state.panelButtons.includes('voyage-expedition-open'),
+        `the map offers « ${t.expedition} » beside the bag, ${report}`,
+      );
       check(fits(state), `map fits with 48 px targets, ${report}`);
       check(
         state.purse === null,
@@ -652,6 +693,13 @@ export async function checkVoyage({ browser, url, check, capture }) {
         `caprice window ${where} is whole: ${JSON.stringify(bubbleWindow)}`,
       );
       await page.locator('#voyage-caprice > button').click();
+      const begun = await page.evaluate((key) => localStorage.getItem(key), VOYAGE_STORAGE_KEY);
+      await page.locator('#voyage-expedition-open').click();
+      check(await expeditionShown(page), `map ${where}: « ${t.expedition} » opens its page`);
+      check(
+        (await page.evaluate((key) => localStorage.getItem(key), VOYAGE_STORAGE_KEY)) === begun,
+        `map ${where}: the voyage begun waits as it was`,
+      );
       await page.close();
 
       // The last stage to play: the king and the sticker stay inside the largest stop.

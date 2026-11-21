@@ -120,7 +120,8 @@ function road(state: ExpeditionState) {
       item.dataset.kind = stop.kind;
       item.dataset.state = stop.state;
       if (stop.path) item.dataset.path = stop.path;
-      if (stop.state === 'next') item.setAttribute('aria-current', 'step');
+      // A single stop to play is « here »; where the road splits, both are choices.
+      if (stop.state === 'next' && stops.length === 1) item.setAttribute('aria-current', 'step');
       item.style.setProperty('--column', String(column + 1));
       item.style.setProperty('--row', stops.length === 1 ? '1 / 3' : String(row + 1));
       list.append(item);
@@ -129,7 +130,8 @@ function road(state: ExpeditionState) {
     if (!next) continue;
     for (const [row, from] of stops.entries())
       for (const [nextRow, to] of next.entries()) {
-        const taken = from.state === 'done' && (to.state === 'done' || to.state === 'next');
+        // Coloured only where the child has gone; the way to a choice stays dashed.
+        const taken = from.state === 'done' && to.state === 'done';
         const open = from.state === 'done' || from.state === 'next' || from.state === 'ahead';
         const segment = svgNode('path', {
           d: `M${COLUMN(column, columns.length)} ${LANE(row, stops.length)}L${COLUMN(column + 1, columns.length)} ${LANE(nextRow, next.length)}`,

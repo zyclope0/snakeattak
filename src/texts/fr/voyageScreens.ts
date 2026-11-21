@@ -40,12 +40,11 @@ export const unVelociraptorOffertAChaqueEtape = 'Un Vélociraptor offert à chaq
 export const tonMielDurePlusLongtempsAChaque = 'Ton miel dure plus longtemps à chaque étape.';
 export const uneProtectionPourTonCristalAChaque = 'Une protection pour ton cristal à chaque étape.';
 export const nPiecesAChaqueEtape = '+{0} pièces à chaque étape.';
-export const tuAsReussiNEtapeNSurNTuPeux = 'Tu as réussi {0} étape{1} sur {2}. Tu peux repartir !';
-export const leCampEstTombeALaPremiereEtapeTu =
-  'Le camp est tombé à la première étape. Tu peux repartir !';
+export const tuAsReussiNEtapeNSurNNTAttend = 'Tu as réussi {0} étape{1} sur {2}. {3} t’attend !';
+export const leCampEstTombeALaPremiereEtapeNTAttend =
+  'Le camp est tombé à la première étape. {0} t’attend !';
 export const leVoyageEtapeNSurN = 'Le voyage · Étape {0} sur {1}';
-export const leCampEstTombeALEtapeNLaGrandeExpedition =
-  'Le camp est tombé à l’étape {0}. La Grande Expédition t’attend.';
+export const leCampEstTombeALEtapeN = 'Le camp est tombé à l’étape {0}.';
 export const voirMonVoyage = 'Voir mon voyage';
 export const kingSnakeEstBattuTuAsFiniLeVoyage = 'King Snake est battu. Tu as fini le voyage !';
 export const continuerLeVoyage = 'Continuer le voyage';

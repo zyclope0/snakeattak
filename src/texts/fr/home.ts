@@ -32,6 +32,7 @@ export const reprendreLeVoyage = 'Reprendre le voyage';
 export const laGrandeExpedition = 'La Grande Expédition';
 export const reprendreLExpedition = 'Reprendre l’expédition';
 export const nouveau = 'Nouveau';
+export const leVoyageNAPasPuSOuvrirReessaie = 'Le voyage n’a pas pu s’ouvrir. Réessaie.';
 export const laGrandeExpeditionNAPasPuSOuvrir =
   'La Grande Expédition n’a pas pu s’ouvrir. Réessaie.';
 export const confidentialite = 'Confidentialité';

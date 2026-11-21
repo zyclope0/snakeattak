@@ -221,10 +221,11 @@ try {
       // Mission 2 is a fork: the quiet path and the path of the brave.
       await page.locator('.exp-card[data-path="brave"]').waitFor();
       assert.equal(await page.locator('.exp-card').count(), 2);
-      // Both paths stand out on the road; the road travelled is drawn in colour.
-      assert.equal(await page.locator('.exp-stop[aria-current]').count(), 2);
+      // Both paths stand out on the road, as choices; nothing is coloured past the first stop.
+      assert.equal(await page.locator('.exp-stop[data-state="next"]').count(), 2);
+      assert.equal(await page.locator('.exp-stop[aria-current]').count(), 0);
       assert.equal(await page.locator('.exp-stop[data-state="done"]').count(), 1);
-      assert.ok((await page.locator('.exp-lines-drawn .exp-taken').count()) >= 2);
+      assert.equal(await page.locator('.exp-lines-drawn .exp-taken').count(), 0);
       assert.equal(await text(page, '.exp-card[data-path="calm"] h3'), FR.leCheminTranquille);
       assert.equal(await text(page, '.exp-card[data-path="brave"] h3'), FR.leCheminDesBraves);
       await fits(page, `${name} fork`);
@@ -242,6 +243,9 @@ try {
       await enter(page);
       await page.locator('.exp-halt').first().waitFor();
       assert.equal(await page.locator('.exp-halt').count(), 2);
+      // Two missions won: the road travelled is drawn in colour, the path not taken fades.
+      assert.equal(await page.locator('.exp-lines-drawn .exp-taken').count(), 1);
+      assert.equal(await page.locator('.exp-stop[data-state="skipped"]').count(), 1);
       await fits(page, `${name} halt`);
       await page.screenshot({ path: `${folder}/${name}-halte.png` });
       await page.locator('.exp-halt .exp-go').nth(choice).click();

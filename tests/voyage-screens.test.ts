@@ -19,7 +19,7 @@ import {
 } from '../src/voyageState.ts';
 import { createVoyageLog, logVoyage } from '../src/voyageStorage.ts';
 import { waveThreats } from '../src/ui/threatPreview.ts';
-import { voyageDoor } from '../src/ui/voyageDoor.ts';
+import { voyageDoor, voyageToFinish } from '../src/ui/voyageDoor.ts';
 import {
   bagLabel,
   battleMark,
@@ -34,7 +34,6 @@ import {
   stopStates,
   stopWords,
   surpriseLabel,
-  underWay,
   voyageHeading,
   voyagePromise,
 } from '../src/ui/voyage/voyageWords.ts';
@@ -140,24 +139,28 @@ test('every bonus card keeps its title and says that it counts at every stage', 
 });
 
 test('a fallen camp says how far the voyage went, and that it can start again', () => {
-  assert.equal(fallenSentence(fallen), 'Tu as réussi 2 étapes sur 5. Tu peux repartir !');
+  assert.equal(
+    fallenSentence(fallen),
+    'Tu as réussi 2 étapes sur 5. La Grande Expédition t’attend !',
+  );
   assert.equal(
     fallenSentence(voyage(1, 1, 'fallen')),
-    'Tu as réussi 1 étape sur 5. Tu peux repartir !',
+    'Tu as réussi 1 étape sur 5. La Grande Expédition t’attend !',
   );
   assert.equal(
     fallenSentence(fallenAtOnce),
-    'Le camp est tombé à la première étape. Tu peux repartir !',
+    'Le camp est tombé à la première étape. La Grande Expédition t’attend !',
   );
 });
 
-test('only a voyage with a stage won and more to play asks before it is replaced', () => {
-  assert.equal(underWay(null), false);
-  assert.equal(underWay(start), false);
-  assert.equal(underWay(midway), true);
-  assert.equal(underWay(choosing), true);
-  assert.equal(underWay(arrived), false);
-  assert.equal(underWay(fallen), false);
+test('only a voyage with a stage won and more to play is still to finish', () => {
+  const log = (state: VoyageState) => logVoyage(createVoyageLog(), state)!;
+  assert.equal(voyageToFinish(createVoyageLog()), false);
+  assert.equal(voyageToFinish(log(start)), false);
+  assert.equal(voyageToFinish(log(midway)), true);
+  assert.equal(voyageToFinish(log(choosing)), true);
+  assert.equal(voyageToFinish(log(arrived)), false);
+  assert.equal(voyageToFinish(log(fallen)), false);
 });
 
 test('an old voyage code stays readable, a wrong one is refused with its reason', () => {
@@ -185,7 +188,7 @@ test('the end of a stage offers one way on: the bonus, the end, or the fallen ca
     button: 'Continuer le voyage',
   });
   assert.deepEqual(stageOutcome(fallen, 3), {
-    note: 'Le camp est tombé à l’étape 3. La Grande Expédition t’attend.',
+    note: 'Le camp est tombé à l’étape 3.',
     button: 'Voir mon voyage',
   });
 });
@@ -277,16 +280,16 @@ test('every sentence of the voyage reads in English, the caprice names stay Fren
       [bagLabel(1, 4), 'Your travel bag: 1 of 4 bonuses'],
       [bonusWords('pieces', 100).detail, '+100 coins at every stage.'],
       [bonusWords('renfort-bouclier', 100).detail, 'A free Shield Guard at every stage.'],
-      [fallenSentence(fallen), 'You completed 2 stages out of 5. You can set off again!'],
+      [
+        fallenSentence(fallen),
+        'You completed 2 stages out of 5. The Great Expedition is waiting for you!',
+      ],
       [battleMark(3, 5), 'The Voyage · Stage 3 of 5'],
       [
         stageOutcome(choosing, 2).note,
         'Stage 2 of 5 complete. Now choose a bonus for the rest of the voyage.',
       ],
-      [
-        stageOutcome(fallen, 3).note,
-        'The camp fell at stage 3. The Great Expedition is waiting for you.',
-      ],
+      [stageOutcome(fallen, 3).note, 'The camp fell at stage 3.'],
       [stageOutcome(fallen, 3).button, 'See my voyage'],
       [surpriseLabel('Grosse fringale'), 'Surprise caprice: Grosse fringale'],
       [kingPurseLine(300), 'The king took 300 of your coins.'],

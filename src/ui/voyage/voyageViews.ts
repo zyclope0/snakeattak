@@ -53,7 +53,13 @@ export function mapView(state: VoyageState, leftHalfway: boolean, actions: ViewA
       start: { label: startLabel(leftHalfway), go: actions.start },
       explain: actions.explain,
     }),
-    make('div', { className: 'voyage-foot' }, bagOf(state)),
+    make(
+      'div',
+      { className: 'voyage-foot' },
+      bagOf(state),
+      // A voyage begun can be finished, never must: the expedition is a touch away.
+      action('voyage-expedition-open', 'secondary', TEXT.laGrandeExpedition, actions.expedition),
+    ),
   ];
 }
 

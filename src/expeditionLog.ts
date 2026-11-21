@@ -19,7 +19,9 @@ export function expeditionDoorState(storage?: Pick<Storage, 'getItem'>): Expedit
       (v) => (isRecord(v) && v.version === 1 && isRecord(v.current) ? v.current : null),
     );
     if (!current) return 'none';
-    // A battle won: past the first step of the first tableau.
+    // A battle won: past the first step of the first tableau. The same rule as `underWay`
+    // (ui/voyage/expedition/expeditionWords.ts), read from the raw log; once the screens are
+    // loaded, they tell the door from the log they hold.
     const won =
       (isIntegerIn(current.tableau, 1, 99) || isIntegerIn(current.step, 1, 99)) &&
       current.status === 'travelling';

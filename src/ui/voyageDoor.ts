@@ -64,10 +64,14 @@ export function bindVoyageDoor(ports: VoyagePorts) {
   let screens: Screens | undefined;
   let loading: Promise<Screens> | undefined;
   let log = loadVoyageLog(ports.storage);
-  /** With the voyage's log when it changes; the expedition's is read again from storage. */
-  const show = (next: VoyageLog = log) => {
+  // Read from the storage until the screens are loaded; then they tell it from their own log,
+  // which a device that refuses to save keeps all the same.
+  let expedition = expeditionDoorState(ports.storage);
+  /** With the voyage's log, or the state of the expedition, when either changes. */
+  const show = (next: VoyageLog = log, state: ExpeditionDoor = expedition) => {
     log = next;
-    const { label: words, fresh } = voyageDoor(log, expeditionDoorState(ports.storage));
+    expedition = state;
+    const { label: words, fresh } = voyageDoor(log, expedition);
     setText(label, words);
     tag.hidden = !fresh;
   };
@@ -85,7 +89,13 @@ export function bindVoyageDoor(ports: VoyagePorts) {
       () => {
         // The package did not arrive (no network, no cache): the next touch asks again.
         loading = undefined;
-        setText(label, TEXT.laGrandeExpeditionNAPasPuSOuvrir);
+        tag.hidden = true;
+        setText(
+          label,
+          voyageToFinish(log)
+            ? TEXT.leVoyageNAPasPuSOuvrirReessaie
+            : TEXT.laGrandeExpeditionNAPasPuSOuvrir,
+        );
       },
     );
   };

@@ -39,13 +39,12 @@ export const unVelociraptorOffertAChaqueEtape = 'A free Velociraptor at every st
 export const tonMielDurePlusLongtempsAChaque = 'Your honey lasts longer at every stage.';
 export const uneProtectionPourTonCristalAChaque = 'A shield for your Crystal at every stage.';
 export const nPiecesAChaqueEtape = '+{0} coins at every stage.';
-export const tuAsReussiNEtapeNSurNTuPeux =
-  'You completed {0} stage{1} out of {2}. You can set off again!';
-export const leCampEstTombeALaPremiereEtapeTu =
-  'The camp fell at the first stage. You can set off again!';
+export const tuAsReussiNEtapeNSurNNTAttend =
+  'You completed {0} stage{1} out of {2}. {3} is waiting for you!';
+export const leCampEstTombeALaPremiereEtapeNTAttend =
+  'The camp fell at the first stage. {0} is waiting for you!';
 export const leVoyageEtapeNSurN = 'The Voyage · Stage {0} of {1}';
-export const leCampEstTombeALEtapeNLaGrandeExpedition =
-  'The camp fell at stage {0}. The Great Expedition is waiting for you.';
+export const leCampEstTombeALEtapeN = 'The camp fell at stage {0}.';
 export const voirMonVoyage = 'See my voyage';
 export const kingSnakeEstBattuTuAsFiniLeVoyage = 'King Snake is beaten. You finished the voyage!';
 export const continuerLeVoyage = 'Continue the voyage';

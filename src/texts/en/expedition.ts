@@ -14,9 +14,6 @@ export const leFeuDeCamp = 'The Campfire';
 export const laRoulotteDeMamiePistache = 'Granny Pistachio’s Caravan';
 export const lOeufMystere = 'The Mystery Egg';
 
-// --- The door, on the voyage page.
-export const nouveau = 'New';
-
 // --- The page title.
 export const missionNSurN = 'Mission {0} of {1}';
 export const tableauNSurN = 'Land {0} of {1}';
@@ -28,7 +25,6 @@ export const bravoTuAsFiniN = 'Well done! You finished {0}';
 
 // --- The seven steps of a land.
 export const missionN = 'Mission {0}';
-export const uneHalte = 'A stop';
 export const leGardienN = 'The guardian: {0}';
 export const gagnee = 'won';
 export const passee = 'passed';

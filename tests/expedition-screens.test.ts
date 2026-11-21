@@ -15,6 +15,7 @@ const W = await import('../src/ui/voyage/expedition/expeditionWords.ts');
 const { copy } = await import('../src/i18n/copy.ts');
 const { setLanguage } = await import('../src/i18n/language.ts');
 const { defeatCopy, victoryCopy } = await import('../src/render/resultCopy.ts');
+const { expeditionDoorState } = await import('../src/expeditionLog.ts');
 
 const SEED = 4242;
 const plan = X.planExpedition(SEED)!;
@@ -178,4 +179,23 @@ test('every sentence of the expedition reads in English', async () => {
   } finally {
     await setLanguage('fr');
   }
+});
+
+test('la porte lit l’expédition sans ses règles ; pickAt suit les choix du tableau', () => {
+  const port = (value: unknown) => ({
+    getItem: () => (value === undefined ? null : JSON.stringify(value)),
+  });
+  const logOf = (current: State) => S.logExpedition(S.createExpeditionLog(), current)!;
+  assert.equal(expeditionDoorState(undefined), 'none');
+  assert.equal(expeditionDoorState(port(undefined)), 'none');
+  assert.equal(expeditionDoorState(port({ version: 1, best: 0, current: null })), 'none');
+  assert.equal(expeditionDoorState({ getItem: () => '{nope' }), 'none');
+  assert.equal(expeditionDoorState(port(logOf(start))), 'opened');
+  assert.equal(expeditionDoorState(port(logOf(fork))), 'under-way');
+  assert.equal(expeditionDoorState(port(logOf(guardianBeaten))), 'under-way');
+  assert.equal(expeditionDoorState(port(logOf(arrivedState))), 'opened');
+  // The fork of mission 2 taken brave, then the first halt: the choices read back in order.
+  assert.equal(X.pickAt(brave, 1), 1);
+  assert.equal(X.pickAt(brave, 0), undefined, 'the first mission is no choice');
+  assert.equal(X.pickAt(fork, 1), undefined, 'not passed yet');
 });

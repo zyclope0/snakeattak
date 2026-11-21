@@ -11,6 +11,7 @@ import {
 import type { VoyagePhase, VoyageState } from '../../voyageState.ts';
 import { loadVoyageLog, logVoyage, saveVoyageLog } from '../../voyageStorage.ts';
 import type { VoyageLog } from '../../voyageStorage.ts';
+import type { ExpeditionDoor } from '../../expeditionLog.ts';
 import { battleOver } from '../battleState.ts';
 import { voyageToFinish } from '../voyageDoor.ts';
 import type { VoyagePorts } from '../voyageDoor.ts';
@@ -41,7 +42,10 @@ const VIEWS: Record<VoyagePhase, VoyageView> = {
  * every rule stays in the model (`voyageState.ts`): a button only asks for a transition,
  * and a refused one changes nothing. `logChanged` tells the door what to say next.
  */
-export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log?: VoyageLog) => void) {
+export function bindVoyageScreens(
+  ports: VoyagePorts,
+  logChanged: (log?: VoyageLog, expedition?: ExpeditionDoor) => void,
+) {
   const { session, storage } = ports;
   let log = loadVoyageLog(storage);
   let saved = !!storage;
@@ -52,7 +56,7 @@ export function bindVoyageScreens(ports: VoyagePorts, logChanged: (log?: VoyageL
   // « La Grande Expédition » took the voyage's place (decision of the parent, 21 November
   // 2026): a voyage begun is finished here, then the door leads to the expedition. They share
   // the window of a caprice and the board's result panel.
-  const expedition = bindExpeditionScreens(ports, explain, () => logChanged());
+  const expedition = bindExpeditionScreens(ports, explain, (state) => logChanged(log, state));
   const drawBattle = voyageBattle(() => (expedition.owns() ? expedition.onward() : onward()));
   const actions: ViewActions = {
     start: startStage,

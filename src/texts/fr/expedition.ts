@@ -15,9 +15,6 @@ export const leFeuDeCamp = 'Le Feu de Camp';
 export const laRoulotteDeMamiePistache = 'La Roulotte de Mamie Pistache';
 export const lOeufMystere = 'L’Œuf Mystère';
 
-// --- La porte, sur la page du voyage.
-export const nouveau = 'Nouveau';
-
 // --- Le titre de la page.
 export const missionNSurN = 'Mission {0} sur {1}';
 export const tableauNSurN = 'Tableau {0} sur {1}';
@@ -29,7 +26,6 @@ export const bravoTuAsFiniN = 'Bravo ! Tu as fini {0}';
 
 // --- Le chemin des sept pas d'un tableau.
 export const missionN = 'Mission {0}';
-export const uneHalte = 'Une halte';
 export const leGardienN = 'Le gardien : {0}';
 export const gagnee = 'gagnée';
 export const passee = 'passée';

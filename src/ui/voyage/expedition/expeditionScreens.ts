@@ -18,6 +18,7 @@ import {
 import type { ExpeditionState, Path } from '../../../expedition.ts';
 import { loadExpeditionLog, logExpedition, saveExpeditionLog } from '../../../expeditionStorage.ts';
 import type { Game } from '../../../game.ts';
+import type { ExpeditionDoor } from '../../../expeditionLog.ts';
 import { voyageSeedFrom } from '../../../voyage.ts';
 import { battleOver } from '../../battleState.ts';
 import { freshSeed } from '../../missionWords.ts';
@@ -58,7 +59,7 @@ type Playing = {
 export function bindExpeditionScreens(
   ports: VoyagePorts,
   explain: (caprice: CapriceDefinition) => void,
-  logChanged: () => void,
+  logChanged: (door: ExpeditionDoor) => void,
 ) {
   const { session, storage } = ports;
   let log = loadExpeditionLog(storage);
@@ -97,7 +98,7 @@ export function bindExpeditionScreens(
     if (!updated) return false;
     log = updated;
     saved = saveExpeditionLog(storage, log);
-    logChanged();
+    logChanged(underWay(log.current) ? 'under-way' : log.current ? 'opened' : 'none');
     return true;
   }
   /** The page draws the seed of a new expedition; the rules never do. */
