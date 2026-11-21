@@ -249,7 +249,8 @@ test('le code de départ de la révision 4 porte la règle 6, pour la grande ave
   const [word, , a, b] = mission.split('-');
   const forged = `${word}-6-${a}-${b}-${checkDigits(`${word}-6-${a}${b}`)}`;
   assert.deepEqual(decodeDeparture(forged), { ok: false, reason: 'setup' });
-  assert.deepEqual(decodeDeparture(code.replace('-6-', '-0-')), { ok: false, reason: 'version' });
+  // A sign no rule uses: « 0 » became the rule of the second path rules, in an expedition only.
+  assert.deepEqual(decodeDeparture(code.replace('-6-', '-A-')), { ok: false, reason: 'version' });
 });
 
 test('la sauvegarde familiale emporte un camp de la révision 4', () => {

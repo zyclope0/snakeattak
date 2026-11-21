@@ -41,13 +41,13 @@ const refused = (reason: Refusal['reason']): Refusal => ({ ok: false, reason });
  * Setup 0 is the great adventure; 1 to 108 are the eighteen setups of each of the six
  * missions. Versions 3, 4 and 0 keep one more bit for the tutorial rules of the refuge.
  */
-const RULES = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'] as const;
 /**
  * The rule of an expedition begun with the second path rules: written like rule 4. A digit,
  * as every rule so far: the applications already given out only read a digit there, and
  * answer « another version of the rules » to one they do not know, as they should.
  */
 const PATHS_RULE = '0';
+const RULES = ['1', '2', '3', '4', '5', '6', '7', '8', '9', PATHS_RULE] as const;
 /** The rule of each revision that exists in the great adventure only. */
 const CLASSIC_RULE: Readonly<Record<ClassicRevision, Rule>> = {
   3: '5',
@@ -156,9 +156,11 @@ function splitCode(raw: unknown): WrittenCode | Refusal {
   if (typeof raw !== 'string' || raw.length > DEPARTURE_INPUT_LIMIT) return refused('format');
   const match = WRITTEN_CODE.exec(tidyCode(raw));
   if (!match) return refused('format');
-  const [, word, written, a, b, suffix = '', check] = match;
-  // The letters that look like a digit are read as that digit, as in the rest of the code.
+  const [, word, written, a, b, typed = '', check] = match;
+  // The letters that look like a digit are read as that digit, as in the rest of the code:
+  // the rule, and the second sign of the suffix (« NO » typed for « N0 »).
   const rule = readLookalikes(written);
+  const suffix = typed && typed[0] + readLookalikes(typed[1]);
   if (!isOneOf(rule, RULES)) return refused('version');
   // The suffix comes with the versions that name a challenge, and only with them.
   if (hasTutorialBit(rule) ? !suffix : !!suffix) return refused('format');

@@ -122,7 +122,7 @@ Aucun ne change une règle, une valeur d'équilibrage ni une partie de référen
 - **Limites** : le fichier ne garde toujours que le joueur en cours (c'est annoncé dans la
   fenêtre). Une application plus ancienne refuse un fichier version 6.
 
-### B. Un allié pouvait rester collé à un rocher sur deux cartes de mission — corrigé pour les nouvelles parties
+### B. Un allié pouvait rester collé à un rocher sur les cartes de mission — corrigé pour les nouvelles parties
 
 - **Impact** : gêne, peut coûter une bataille. Sur « Le carrefour des fougères » (un tiers
   des missions et des étapes d'expédition), 9 trajets d'allié sur 100 s'arrêtaient contre un

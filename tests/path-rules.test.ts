@@ -125,6 +125,8 @@ test('une mission garde ses règles de chemin : tirage, code de départ, sauvega
   assert.deepEqual(decodeDeparture(code.toLowerCase()), decodeDeparture(code));
   // The letter O typed for the digit is read as the digit, as everywhere in a code.
   assert.deepEqual(decodeDeparture(code.replace('VIFS-0-', 'VIFS-O-')), decodeDeparture(code));
+  assert.deepEqual(decodeDeparture(code.replace('-N0-', '-NO-')), decodeDeparture(code));
+  assert.deepEqual(decodeDeparture(oldCode.replace('-N0-', '-NO-')), decodeDeparture(oldCode));
   // A rule this version does not know is « another version », never a code badly typed.
   for (const rule of ['A', 'B', 'Z'])
     assert.deepEqual(decodeDeparture(code.replace('VIFS-0-', `VIFS-${rule}-`)), {

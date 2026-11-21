@@ -42,8 +42,18 @@ const cache = new Map<string, Point[]>();
  * free. A game keeps the rules it started with: its departure code plays the same game.
  */
 export type PathRules = 1 | 2;
+/** What `clearEdge` found for each edge of a map: the terrain of a level never changes. */
+const edges = new Map<string, Map<number, boolean>>();
 /** The segment between two neighbouring cell centres is free: a walker can follow it. */
 function clearEdge(x: number, y: number, dx: number, dy: number, level: Level): boolean {
+  let known = edges.get(level.id);
+  if (!known) edges.set(level.id, (known = new Map()));
+  const key = ((y * COLS + x) * 3 + dx + 1) * 3 + dy + 1;
+  let clear = known.get(key);
+  if (clear === undefined) known.set(key, (clear = measureEdge(x, y, dx, dy, level)));
+  return clear;
+}
+function measureEdge(x: number, y: number, dx: number, dy: number, level: Level): boolean {
   // Leaving a cell whose own centre is blocked stays allowed, as it always was.
   if (blocked(center(x), center(y), level)) return true;
   for (let i = 2; i < CELL; i += 2)

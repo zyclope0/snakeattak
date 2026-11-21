@@ -84,7 +84,7 @@ const CLASSIC_VERSION: Readonly<Record<ClassicRevision, number>> = {
 };
 /** The endless adventure, whatever revision its rules name. */
 const ENDLESS_VERSION = 15;
-const LATEST_VERSION = 16;
+const LATEST_VERSION = PATHS_VERSION;
 /** The revision a version 10 or later was written for; null for an older version. */
 const classicRevisionOf = (version: number): ClassicRevision | null => {
   const found = Object.entries(CLASSIC_VERSION).find(([, written]) => written === version);

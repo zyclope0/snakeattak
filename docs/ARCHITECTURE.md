@@ -325,7 +325,12 @@ entrer, redemandait le même chemin, et restait collé. Les secondes règles
   applications déjà distribuées répondent « une autre version des règles »)
   (`departures.ts`) ; un code `…-4-…` rejoue l'ancienne partie. La sauvegarde du camp :
   version 16, qui ne tient que ces règles (la version 9 ne les tient pas). Le fichier familial
-  reste dans sa version : c'est le camp qu'une application plus ancienne refuse.
+  reste dans sa version : c'est le camp qu'une application plus ancienne refuse. Sans camp
+  sauvé, un fichier qui ne porte ces règles que dans ses derniers départs (`lastRuns`) est lu
+  par une application plus ancienne, qui oublie le champ : « le même départ » s'y rejoue avec
+  les premières règles. Rien d'autre n'y est perdu.
+- **Le coût.** `clearEdge` garde ce qu'il a trouvé pour chaque trait d'une carte (le terrain
+  d'une carte ne change pas) : sans cela, un chemin neuf coûtait treize fois plus cher.
 - **Mesure.** `scripts/caprices-lab.mjs … 2 1` (premières règles) et `… 2 2` (secondes) :
   `docs/BILAN-HYGIENE-2026-11.md`.
 
