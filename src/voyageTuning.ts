@@ -54,10 +54,10 @@ export function freezeTuning(tuning: VoyageTuning): VoyageTuning {
 }
 
 /**
- * The rules of the voyage, one frozen table per version. A voyage code names its version:
- * changing a value here changes what an old code plays, so a new value is a new version
- * added next to the others, after a measure (npm run balance:voyage) and the parent's
- * agreement. The measures behind version 1 are in docs/VOYAGE.md.
+ * The rules of the voyage, one frozen table per version. A saved voyage names its version:
+ * changing a value here changes what a voyage begun plays, so these tables no longer change.
+ * The measures behind them are in docs/VOYAGE.md; the laboratory that made them left the
+ * repository on 21 November 2026 with the voyage codes.
  */
 // Version 1, proposed on 14 November 2026 and adjusted the same day after the parent asked
 // for a voyage « harder for the average player »; the parent agreed to it that day. The
@@ -113,6 +113,6 @@ export const VOYAGE_TUNINGS: Readonly<Record<VoyageVersion, VoyageTuning>> = Obj
   2: VERSION_2,
 });
 
-/** A version that has a table: the only versions a code or a saved voyage may name. */
+/** A version that has a table: the only versions a saved voyage may name. */
 export const isVoyageVersion = (value: unknown): value is VoyageVersion =>
   typeof value === 'number' && Object.hasOwn(VOYAGE_TUNINGS, value);

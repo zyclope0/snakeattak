@@ -22,7 +22,7 @@ registerHooks({
 });
 const X = await import('../src/expedition.ts');
 const { isLastingBoon } = await import('../src/boons.ts');
-const { playStage } = await import('./voyage-lab/players.ts');
+const { playStage } = await import('./lab/players.ts');
 
 const [outPath = '', shardArg = '0', shardsArg = '1'] = process.argv.slice(2);
 const shard = Number(shardArg),

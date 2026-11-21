@@ -18,8 +18,7 @@ import * as TEXT from '../texts/fr/missionScreens.ts';
 type ClassicDeparture = Extract<Departure, { kind: 'classic' }>;
 
 /**
- * The « Copier » button of a code. Without a clipboard, the code is selected instead. The
- * voyage copies its own code the same way.
+ * The « Copier » button of a code. Without a clipboard, the code is selected instead.
  */
 export function bindCopyButton(fieldId: string, buttonId: string, messageId: string) {
   const field = byId<HTMLInputElement>(fieldId),
@@ -130,7 +129,7 @@ export function bindDepartureControls(
     },
     refresh() {
       currentLegacy.hidden = session.game.balanceRevision !== 1;
-      // A voyage stage has no departure code of its own: the voyage has one for all five.
+      // A stage of a voyage or of the expedition has no departure code of its own.
       const stage = !!session.game.stage;
       const departure = stage ? null : departureForGame(session.game);
       byId('current-departure').hidden = !departure;

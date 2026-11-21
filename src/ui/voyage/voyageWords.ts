@@ -98,15 +98,14 @@ export const bonusWords = (id: RewardId, coins: number) => ({
 
 /** Where the voyage stopped, said without a reproach, and that the expedition waits. */
 export const fallenSentence = (state: VoyageState): string =>
-  state.won > 0
-    ? fill(
-        TEXT.tuAsReussiNEtapeNSurNNTAttend,
-        state.won,
-        plural(state.won),
-        stagesOf(state),
-        TEXT.laGrandeExpedition,
-      )
-    : fill(TEXT.leCampEstTombeALaPremiereEtapeNTAttend, TEXT.laGrandeExpedition);
+  // A voyage is only finished, never begun: the camp falls after a stage won at least.
+  fill(
+    TEXT.tuAsReussiNEtapeNSurNNTAttend,
+    state.won,
+    plural(state.won),
+    stagesOf(state),
+    TEXT.laGrandeExpedition,
+  );
 
 /** The small mark on the board: the child is on a voyage, at this stage. */
 export const battleMark = (stage: number, stages: number): string =>

@@ -1,10 +1,9 @@
 import { Game } from './game.ts';
 import type { Entity } from './engine/state.ts';
-import { MISSIONS, missionSetup, MISSION_SETUPS, readMissionRun } from './missions.ts';
+import { missionSetup, MISSION_SETUPS, readMissionRun } from './missions.ts';
 import type { MissionId, MissionRun } from './missions.ts';
 import { capriceById, capricesForMission } from './caprices.ts';
 import type { CapriceTier } from './caprices.ts';
-import { REWARDS } from './rewards.ts';
 import type { RewardId } from './rewards.ts';
 import { seededStream, SEED_RANGE } from './seededRandom.ts';
 import { BOON_RULES, boonLevel, boonOffer, isLastingBoon, takeBoon } from './boons.ts';
@@ -26,8 +25,8 @@ import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConst
  * along: the allies still standing, the coins, the crystal. The gifts of the endless
  * adventure come along all the way.
  *
- * Everything is drawn from the seed, apart from the fights: the map can be shown whole, and a
- * code shares it. The rules of a version never change once played: new values, new version.
+ * Everything is drawn from the seed, apart from the fights: the map can be shown whole. The
+ * rules of a version never change once played: new values, new version.
  */
 export type ExpeditionVersion = 1 | 2 | 3;
 export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 3;
@@ -250,7 +249,7 @@ export function planExpedition(
   version: ExpeditionVersion = CURRENT_EXPEDITION_VERSION,
   tuning: ExpeditionTuning = EXPEDITION_TUNINGS[version],
 ): ExpeditionPlan | null {
-  // The seeds of the voyage: twenty bits, a code short enough for a child to copy.
+  // The seeds of the voyage: twenty bits.
   if (!isVoyageSeed(seed) || !tuning) return null;
   const tableaux = tuning.tableaux.map((table, t) => {
     let fork = 0;
@@ -636,12 +635,6 @@ export function buyAtRoulotte(
 export function leaveRoulotte(state: ExpeditionState): ExpeditionState | null {
   return state.pending?.kind === 'roulotte' ? Object.freeze({ ...state, pending: null }) : null;
 }
-
-/** The kinds of the plain cards, for the screens that draw them. */
-export const isAllyCard = (id: string) =>
-  Object.hasOwn(REWARDS, id) && !!REWARDS[id as RewardId].kind;
-/** The missions of the game, in order: the map draws one sign per mission. */
-export const missionNumber = (id: MissionId) => MISSIONS.findIndex((m) => m.id === id) + 1;
 
 /** The battles of a whole expedition: five a tableau. */
 export const EXPEDITION_BATTLES =

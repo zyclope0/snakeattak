@@ -93,16 +93,10 @@ try {
     );
     check('document title changes', document.title === 'Snake Attack TD');
     dom.bindCopyTree(root);
-    dom.appendText(strong, '');
     const text = document.createElement('p');
     root.append(text);
-    dom.setText(text, 'Choisis un ');
+    dom.setText(text, 'Choisis un allié.');
     const leaf = text.firstChild;
-    check(
-      'append uses canonical source, never the translated prefix',
-      dom.appendText(text, 'allié.') === 'Choose an ally.' &&
-        text.textContent === 'Choose an ally.',
-    );
     dom.setText(text, 'Choisis un allié.');
     check('same setText preserves its text node', text.firstChild === leaf);
     const created = dom.createTextNode('Massue');

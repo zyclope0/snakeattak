@@ -1,5 +1,12 @@
 # Le voyage — réglages et mesures (14 novembre 2026)
 
+> **21 novembre 2026.** La Grande Expédition a pris la place du voyage : plus aucun voyage ne
+> commence, un voyage commencé peut être fini. Le code de voyage (`VOYAGE-…`) et le
+> laboratoire (`npm run balance:voyage`, `scripts/voyage-lab/`) ont quitté le dépôt ; un
+> ancien code ne se relit plus. Les commandes citées plus bas ne marchent donc plus : ce
+> document reste comme trace des mesures. L'historique Git garde le laboratoire (dernier
+> commit qui l'a : `0fd5d0e`).
+
 Mode décidé par le parent le 14 novembre 2026, sur maquettes : cinq étapes tirées d'une graine,
 un bonus à garder entre deux étapes, le roi à trois têtes à la fin. Ce document donne les
 réglages de la **version 1** du voyage et les mesures qui les justifient. Le modèle et le

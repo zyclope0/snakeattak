@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { startVoyage } from './voyage-start.ts';
 import assert from 'node:assert/strict';
 import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
@@ -7,13 +8,10 @@ import { setLanguage } from '../src/i18n/language.ts';
 import { REWARDS, type RewardId } from '../src/rewards.ts';
 import { defeatCopy, earnedStars, victoryCopy } from '../src/render/resultCopy.ts';
 import { planVoyage, stageCaprice } from '../src/voyage.ts';
-import { decodeVoyage, encodeVoyage } from '../src/voyageCode.ts';
-import { CURRENT_VOYAGE_VERSION } from '../src/voyageTuning.ts';
 import {
   chooseBonus,
   readVoyageState,
   stageGame,
-  startVoyage,
   voyagePlanOf,
   type VoyageState,
 } from '../src/voyageState.ts';
@@ -147,10 +145,6 @@ test('a fallen camp says how far the voyage went, and that it can start again', 
     fallenSentence(voyage(1, 1, 'fallen')),
     'Tu as réussi 1 étape sur 5. La Grande Expédition t’attend !',
   );
-  assert.equal(
-    fallenSentence(fallenAtOnce),
-    'Le camp est tombé à la première étape. La Grande Expédition t’attend !',
-  );
 });
 
 test('only a voyage with a stage won and more to play is still to finish', () => {
@@ -161,20 +155,6 @@ test('only a voyage with a stage won and more to play is still to finish', () =>
   assert.equal(voyageToFinish(log(choosing)), true);
   assert.equal(voyageToFinish(log(arrived)), false);
   assert.equal(voyageToFinish(log(fallen)), false);
-});
-
-test('an old voyage code stays readable, a wrong one is refused with its reason', () => {
-  const code = encodeVoyage(SEED)!;
-  assert.deepEqual(decodeVoyage(code), { ok: true, seed: SEED, version: CURRENT_VOYAGE_VERSION });
-  const reason = (typed: string) => {
-    const read = decodeVoyage(typed);
-    return read.ok ? null : read.reason;
-  };
-  assert.equal(reason('bonjour'), 'format');
-  assert.equal(reason('PONTS-1-0000-7X8R-A1'), 'format');
-  const wrongCheck = code.slice(0, -1) + (code.endsWith('A') ? 'B' : 'A');
-  assert.equal(reason(wrongCheck), 'checksum');
-  assert.equal(reason(code.replace(/^VOYAGE-\d/, 'VOYAGE-9')), 'version');
 });
 
 test('the end of a stage offers one way on: the bonus, the end, or the fallen camp', () => {

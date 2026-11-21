@@ -5,7 +5,6 @@ import { PLAYER_KEYS } from '../src/players.ts';
 import { CAMP_CHARACTER_LIMIT } from '../src/checkpoints.ts';
 import { DEPARTURE_INPUT_LIMIT } from '../src/departures.ts';
 import { ROSTER_SIZE } from '../src/gameConstants.ts';
-import { VOYAGE_INPUT_LIMIT } from '../src/voyageCode.ts';
 import { nextSeed, seedShare, seededStream, SEED_RANGE } from '../src/seededRandom.ts';
 
 // Retyped on purpose: a key is the address of a child's save on the device. An edit of
@@ -56,7 +55,6 @@ test('les limites des sauvegardes et des codes gardent leur valeur', () => {
   assert.equal(ROSTER_SIZE, 8);
   assert.equal(CAMP_CHARACTER_LIMIT, 100000);
   assert.equal(DEPARTURE_INPUT_LIMIT, 96);
-  assert.equal(VOYAGE_INPUT_LIMIT, 64);
 });
 
 // The numbers of the draw are retyped: every seed and every shared code depends on them.

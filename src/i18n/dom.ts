@@ -104,15 +104,6 @@ export function setText(node: Node, source: unknown): string {
   project(node, binding);
   return copy(canonical);
 }
-export function appendText(node: Node, fragment: string): string {
-  return setText(node, canonicalText(node) + fragment);
-}
-function canonicalText(node: Node): string {
-  const source = bindings.get(node)?.text;
-  if (source !== undefined) return source;
-  if (!node.childNodes.length) return node.textContent ?? '';
-  return Array.from(node.childNodes).map(canonicalText).join('');
-}
 export function setMarkup(node: Element, source: string): string {
   if (raw(node)) {
     if (node.innerHTML !== source) node.innerHTML = source;

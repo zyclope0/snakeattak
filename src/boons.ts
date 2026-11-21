@@ -55,8 +55,6 @@ const ONCE_BOONS: readonly OnceBoon[] = [
 ];
 export const isLastingBoon = (id: unknown): id is LastingBoon =>
   typeof id === 'string' && Object.hasOwn(BOON_STEPS, id);
-export const isBoonId = (id: unknown): id is BoonId =>
-  isLastingBoon(id) || (ONCE_BOONS as readonly unknown[]).includes(id);
 
 /** The lasting gifts of a game, in the order they were first taken. */
 export type Boons = { id: LastingBoon; level: number }[];

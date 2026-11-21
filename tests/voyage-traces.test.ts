@@ -1,18 +1,17 @@
 import test from 'node:test';
+import { startVoyage } from './voyage-start.ts';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import type { Hash } from 'node:crypto';
 import type { Game } from '../src/game.ts';
 import type { Kind } from '../src/data.ts';
 import { REWARDS } from '../src/rewards.ts';
-import { encodeVoyage } from '../src/voyageCode.ts';
 import type { VoyageVersion } from '../src/voyageTuning.ts';
 import {
   bonusOffer,
   chooseBonus,
   recordStage,
   stageGame,
-  startVoyage,
   voyagePhase,
   voyagePlanOf,
 } from '../src/voyageState.ts';
@@ -93,7 +92,7 @@ function travel(seed: number, salt: number, version: VoyageVersion): string {
       state = chooseBonus(state, bonusOffer(state)[(salt + state.won) % 3])!;
     hash.update(JSON.stringify(state));
   }
-  return `${encodeVoyage(seed, version)} ${state.status} ${state.won}/5 [${state.bag.join(' ')}] ${stages.join(' | ')} ${hash.digest('hex').slice(0, 24)}`;
+  return `${state.status} ${state.won}/5 [${state.bag.join(' ')}] ${stages.join(' | ')} ${hash.digest('hex').slice(0, 24)}`;
 }
 
 function traces(): Record<string, string> {

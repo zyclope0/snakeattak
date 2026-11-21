@@ -32,7 +32,7 @@ import { createFamilyPersistence } from '../src/familyPersistence.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { createMissionProgress } from '../src/missionProgress.ts';
 import { createReminderMarkers } from '../src/ui/recruitmentReminder.ts';
-import { startVoyage } from '../src/voyageState.ts';
+import { startVoyage } from './voyage-start.ts';
 import { createRecordBook } from '../src/endlessRecords.ts';
 import { loadVoyageLog, logVoyage, saveVoyageLog } from '../src/voyageStorage.ts';
 import { startExpedition } from '../src/expedition.ts';

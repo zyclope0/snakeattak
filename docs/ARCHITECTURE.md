@@ -8,7 +8,8 @@ Le jeu reste une application statique : navigateur + fichiers sur un hébergemen
 
 | Fichier                     | Responsabilité                                                              |
 | --------------------------- | --------------------------------------------------------------------------- |
-| `src/main.ts`               | Démarrage : assemble session, interface et Phaser.                          |
+| `src/main.ts`               | Démarrage : choisit la langue, puis charge `bootstrap.ts`.                  |
+| `src/bootstrap.ts`          | Assemble session, sauvegardes, interface et Phaser.                         |
 | `src/session.ts`            | Session et horloge à 30 calculs/seconde ; pause et redémarrage.             |
 | `src/game.ts`               | État de la partie et commandes du joueur ; orchestre un pas de simulation.  |
 | `src/engine/`               | Règles d’un pas : apparitions, alliés, serpents, roi, dégâts, fin de vague. |
@@ -294,7 +295,7 @@ carrière, avec limites 500 000 caractères et 1 000 000 octets. Les objets viva
 sont validés avant JSON pour ne pas convertir un tableau creux en null légitime.
 `familyPersistence.ts` écrit l'enveloppe entière dans une seule clé autoritative.
 Une écriture d'import échouée précède et interdit toute mutation de session.
-`main.ts` remplace ensuite la carrière sur son contrôleur stable, la mémoire et
+`bootstrap.ts` remplace ensuite la carrière sur son contrôleur stable, la mémoire et
 le Game courant, sans état ancien rafraîchi entre ces opérations synchrones.
 
 Depuis le 21 novembre 2026, un fichier familial « version 6 » porte aussi ce que le joueur
@@ -645,7 +646,8 @@ Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PR
   qu'un voyage commencé reste à finir (`voyageToFinish`), sinon « La Grande Expédition », et
   lit l'expédition par `expeditionLog.ts` sans charger ses règles. `voyageScreens.open` montre
   le voyage à finir, ou ouvre l'expédition ; la fin d'un voyage n'a plus qu'un bouton vers
-  elle. Plus de code ni de nouveau voyage à l'écran ; `voyageCode.ts` relit encore les codes.
+  elle. Plus de code ni de nouveau voyage : `voyageCode.ts` et le laboratoire du voyage ont
+  quitté le dépôt le 21 novembre 2026 ; un ancien code `VOYAGE-…` ne se relit plus.
 - **Écrans.** `ui/voyage/expedition/`, chargés avec ceux du voyage : le contrôleur
   (`expeditionScreens.ts`), les vues (`expeditionViews.ts`, dont la route du tableau tracée
   en SVG sous une grille d'arrêts), les mots (`expeditionWords.ts`, sans page, testés :
@@ -1064,10 +1066,9 @@ Tout est calculé depuis la graine, avant le premier combat, sans navigateur ni 
 | `voyageTuning.ts`  | La table des réglages, une par version du voyage ; tout ce que le voyage peut régler |
 | `voyage.ts`        | Le plan d'une graine (`planVoyage`), les règles et la partie d'une étape             |
 | `voyageState.ts`   | L'état d'un voyage et ses transitions ; validé par reconstruction                    |
-| `voyageCode.ts`    | Le code du voyage, `VOYAGE-1-7X8R-K4` : version, graine, deux signes de contrôle     |
 | `voyageStorage.ts` | Le carnet d'un joueur : voyage en cours, record personnel, lecture et écriture       |
 | `voyageRules.ts`   | Ce qu'une étape ajoute au moteur (`StageRules`)                                      |
-| `codeText.ts`      | L'écriture commune aux codes de départ et de voyage (alphabet, contrôle, saisie)     |
+| `codeText.ts`      | L'écriture des codes de départ (alphabet, contrôle, saisie)                          |
 
 - **Plan.** Une graine tient sur 20 bits (un million de voyages) pour que le code reste court.
   `planVoyage(graine)` tire un itinéraire parmi ceux que la table permet (jamais deux fois la
@@ -1141,20 +1142,20 @@ de progression ou de fichier familial.
 - Pas enregistré : le camp d'une étape en cours. **Une étape quittée en cours repart de son
   début**, avec le même terrain, les mêmes serpents et le même sac (`stageGame` refait le
   camp). Reprendre au milieu demanderait une version 10 des camps, à côté des neuf autres.
-- Pas dans la sauvegarde familiale : le fichier familial n'exporte pas le voyage.
+- Dans la sauvegarde familiale depuis sa version 6 : le voyage à finir voyage avec
+  l'expédition et les records (`familyExtras.ts`).
 
 ### Ce que les écrans appellent
 
 ```ts
 const log = loadVoyageLog(storage); // log.best, log.current (reprise)
-const state = startVoyage(voyageSeedFrom(random32)); // ou startVoyage(code.seed, code.version)
+const state = log.current; // le voyage à finir ; plus aucun voyage ne commence
 const plan = voyagePlanOf(state); // carte : plan.stages[i].run, .king, .offer ; stageCaprice(stage)
 const game = stageGame(state); // nouveau camp de l'étape, sac déballé ; session.useGame(game)
 const after = recordStage(state, game); // partie finie : étape réussie, ou voyage tombé
 bonusOffer(after); // trois cartes si voyagePhase(after) === 'bonus'
 const next = chooseBonus(after, card);
 saveVoyageLog(storage, logVoyage(log, next)); // après chaque transition
-encodeVoyage(state.seed, state.version); // « VOYAGE-1-… » ; decodeVoyage(texte) pour le lire
 ```
 
 `voyagePhase(state)` dit quoi proposer : `stage`, `bonus`, `fallen`, `arrived`.
@@ -1185,8 +1186,8 @@ balisage dans la page HTML : tout est construit en TypeScript.
   rangée et « Jouer » prend la largeur qui reste (`homeScene.css`).
 - **Page.** Le voyage est une page de l'accueil (`data-home-page="voyage"`, `HomePage`), donc
   « ← Accueil » et Échap fonctionnent comme ailleurs. Sa vue (`data-view`) suit
-  `voyagePhase` : `map`, `bonus`, `arrived`, `fallen`. Une première visite tire un voyage et
-  l'enregistre aussitôt, pour que son code ne change pas d'une visite à l'autre.
+  `voyagePhase` : `map`, `bonus`, `arrived`, `fallen`. Elle ne s'ouvre que pour un voyage
+  commencé avant le 21 novembre 2026 ; sinon c'est l'expédition qui s'ouvre.
 - **Carte.** Cinq arrêts ; chacun montre le vrai tracé de son terrain (les fonctions de
   `missionPreview.ts`), une tête de serpent par antre d'où sort la première vague, l'autocollant
   de son caprice à partir du troisième, le roi au cinquième. L'autocollant est un bouton de
@@ -1248,12 +1249,12 @@ nouveaux `voyageScreens` 15 071 (script) et 14 555 (feuille). La page HTML ne ch
 
 ### Laboratoire
 
-`npm run balance:voyage` (`scripts/balance-voyage.mjs`, modules dans `scripts/voyage-lab/`)
-joue des voyages entiers sur le vrai moteur avec les joueurs automatiques des autres
-laboratoires, sur tous les cœurs, et écrit `artifacts/voyage/rapport.json`.
-`tests/voyage-traces.test.ts` fige six voyages joués en entier par les appels de l'interface,
-comme `tests/engine-traces.test.ts` fige les parties : une empreinte qui change est un code
-de voyage qui ne donne plus le même voyage.
+Le laboratoire du voyage (`npm run balance:voyage`) a quitté le dépôt le 21 novembre 2026 :
+ses tables ne changent plus, ses mesures sont dans `docs/VOYAGE.md` et l'historique Git le
+garde. Ses joueurs automatiques servent encore à l'expédition (`scripts/lab/players.ts`,
+`scripts/balance-expedition.mjs`). `tests/voyage-traces.test.ts` fige six voyages joués en
+entier par les appels de l'interface, comme `tests/engine-traces.test.ts` fige les parties :
+une empreinte qui change est un voyage commencé qui ne se finit plus de la même façon.
 
 ## Confidentialité et site — 14 novembre 2026
 
@@ -1355,7 +1356,7 @@ Les règles :
 
 Où sont les valeurs :
 
-- **`src/storageKeys.ts`** : les dix clés du stockage du navigateur. Une clé est l'adresse
+- **`src/storageKeys.ts`** : les quinze clés du stockage du navigateur. Une clé est l'adresse
   de la sauvegarde d'un enfant ; un changement de sens prend une nouvelle clé (`:v2`),
   l'ancienne reste lisible. Le module a son propre petit fichier dans le build (`keys-…js`) :
   le premier script lit la clé de la langue et ne doit pas attendre le paquet des règles.
@@ -1365,7 +1366,7 @@ Où sont les valeurs :
   codes déjà donnés.
 - **Limites** : chacune est exportée par son module de règles et lue par l'interface —
   `ROSTER_SIZE` (`roster.ts`), `DEPARTURE_INPUT_LIMIT` (`departures.ts`),
-  `VOYAGE_INPUT_LIMIT` (`voyageCode.ts`), `CAMP_CHARACTER_LIMIT` (`checkpoints.ts`).
+  `CAMP_CHARACTER_LIMIT` (`checkpoints.ts`).
 - **Taille du plateau** : `BOARD_WIDTH` et `BOARD_HEIGHT` (`render/boardResolution.ts`).
 - **`src/gameConstants.ts`** : les nombres qui donnent sa forme à une partie —
   `LANE_COUNT`, `CHAPTER_COUNT`, `WAVES_PER_CHAPTER`, `TOTAL_WAVES`, `REWARD_WAVES`,
