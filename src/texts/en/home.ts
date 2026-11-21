@@ -29,9 +29,10 @@ export const lesFavorisSePreparentEntreLes = 'Set up your favorites between wave
 export const preparerTroisGroupesDeHuitFavoris = 'Prepare three groups of eight favorites.';
 export const favorisN = 'Favorites · {0}';
 export const reprendreLeVoyage = 'Resume the voyage';
-export const leVoyage = 'The Voyage';
+export const laGrandeExpedition = 'The Great Expedition';
+export const reprendreLExpedition = 'Resume the expedition';
 export const nouveau = 'New';
-export const leVoyageNAPasPuSOuvrirReessaie = 'The voyage could not open. Try again.';
+export const laGrandeExpeditionNAPasPuSOuvrir = 'The Great Expedition could not open. Try again.';
 export const confidentialite = 'Privacy policy';
 export const confidentialiteIndisponible = 'Privacy policy unavailable. Try again.';
 /** The best endless adventure of the active player: the wave, the kings beaten. */

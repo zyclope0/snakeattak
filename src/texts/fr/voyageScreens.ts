@@ -5,28 +5,10 @@ export const tuLeGardesDansTonSacJusquALaFinDu =
 export const capriceSurprise = 'Caprice surprise';
 export const tonSacDeVoyage = 'Ton sac de voyage';
 export const leVoyageEstGardeEntreDeuxEtapes = 'Le voyage est gardé entre deux étapes.';
-export const donneTonVoyage = 'Donne ton voyage';
-export const copier = 'Copier';
-export const donneCeCodeATonFrereOuATaSoeurIlOu =
-  'Donne ce code à ton frère ou à ta sœur. Il ou elle fera le même voyage que toi.';
-export const voyage1000000 = 'VOYAGE-1-0000-00';
-export const tapeLeCodeQuOnTADonne = 'Tape le code qu’on t’a donné';
-export const faireCeVoyage = 'Faire ce voyage';
-export const unAutreVoyage = 'Un autre voyage';
-export const unNouveauVoyage = 'Un nouveau voyage';
-export const tuAsUnCode = 'Tu as un code ?';
 export const kingSnake = 'King Snake';
 export const capriceSurprise2 = 'Caprice surprise :';
-export const changerDeVoyage = 'Changer de voyage ?';
-export const garderMonVoyage = 'Garder mon voyage';
-export const changerDeVoyage2 = 'Changer de voyage';
-export const codeDuVoyage = 'Code du voyage';
 export const chaqueVoyageEstDifferentEntreDeux =
   'Chaque voyage est différent. Entre deux étapes, tu choisis un bonus.';
-export const autreVoyage = 'Autre voyage';
-export const donnerMonVoyage = 'Donner mon voyage';
-export const jAiUnCode = 'J’ai un code';
-export const refaireCeVoyage = 'Refaire ce voyage';
 export const fermer = 'Fermer';
 export const leVoyage = 'Le voyage';
 export const etapeNSurN = 'Étape {0} sur {1}';
@@ -61,19 +43,12 @@ export const nPiecesAChaqueEtape = '+{0} pièces à chaque étape.';
 export const tuAsReussiNEtapeNSurNTuPeux = 'Tu as réussi {0} étape{1} sur {2}. Tu peux repartir !';
 export const leCampEstTombeALaPremiereEtapeTu =
   'Le camp est tombé à la première étape. Tu peux repartir !';
-export const tuAsDejaReussiNEtapeNDeTonVoyageSi =
-  'Tu as déjà réussi {0} étape{1} de ton voyage. Si tu en commences un autre, il s’arrête là.';
-export const ceNEstPasUnCodeDeVoyageUnCodeS =
-  'Ce n’est pas un code de voyage. Un code s’écrit comme VOYAGE-1-0YK9-AY.';
-export const ilYAUneErreurDansCeCodeVerifieLes =
-  'Il y a une erreur dans ce code. Vérifie les lettres et les chiffres.';
-export const ceCodeVientDUneAutreVersionDuJeu =
-  'Ce code vient d’une autre version du jeu. Demande à un parent de mettre le jeu à jour.';
 export const leVoyageEtapeNSurN = 'Le voyage · Étape {0} sur {1}';
-export const leCampEstTombeALEtapeNTuPourras =
-  'Le camp est tombé à l’étape {0}. Tu pourras refaire ce voyage.';
+export const leCampEstTombeALEtapeNLaGrandeExpedition =
+  'Le camp est tombé à l’étape {0}. La Grande Expédition t’attend.';
 export const voirMonVoyage = 'Voir mon voyage';
 export const kingSnakeEstBattuTuAsFiniLeVoyage = 'King Snake est battu. Tu as fini le voyage !';
 export const continuerLeVoyage = 'Continuer le voyage';
 export const etapeNSurNReussieChoisisMaintenant =
   'Étape {0} sur {1} réussie. Choisis maintenant un bonus pour la suite.';
+export const laGrandeExpedition = 'La Grande Expédition';

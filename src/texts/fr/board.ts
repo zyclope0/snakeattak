@@ -71,8 +71,7 @@ export const victoire = 'Victoire !';
 export const tesAlliesOntTenuLesNVaguesEt =
   'Tes alliés ont tenu les {0} vagues et repoussé le roi !';
 export const leVoyageSArreteIci = 'Le voyage s’arrête ici';
-export const tuPeuxRefaireCeVoyageOuEnCommencer =
-  'Tu peux refaire ce voyage ou en commencer un nouveau.';
+export const laGrandeExpeditionTAttend = 'La Grande Expédition t’attend.';
 export const onReessaie = 'On réessaie ?';
 export const reessaieCeMemeDepartOuChoisisUne =
   'Recommence cette partie ou choisis une autre mission.';

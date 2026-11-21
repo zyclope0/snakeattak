@@ -35,11 +35,13 @@ export const gagnee = 'gagnée';
 export const passee = 'passée';
 export const aJouer = 'à jouer';
 export const aVenir = 'à venir';
+export const aChoisir = 'à choisir';
+export const pasChoisi = 'pas choisi';
 
 // --- Les missions à choisir.
 export const choisisTonChemin = 'Choisis ton chemin';
-export const unCadeauApresLaMission = 'Un cadeau après la mission';
-export const unCadeauRareApresLaMission = 'Un cadeau rare après la mission';
+export const unCadeauAGagner = 'Un cadeau à gagner';
+export const unCadeauRareAGagner = 'Un cadeau rare à gagner';
 export const cEstParti = 'C’est parti !';
 export const capriceSurpriseN = 'Caprice surprise : {0}';
 export const lesSerpentsGrandissentAChaqueMission = 'Les serpents grandissent à chaque mission.';

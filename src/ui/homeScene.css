@@ -101,8 +101,10 @@
 }
 #home-voyage .voyage-new {
   position: absolute;
-  top: -7px;
-  right: 8px;
+  /* « La Grande Expédition » tient sur deux lignes : l'étiquette se pose sur le coin du bouton,
+     au-dessus des mots. */
+  top: -12px;
+  right: -6px;
   padding: 1px 8px;
   border-radius: 999px;
   background: var(--honey);

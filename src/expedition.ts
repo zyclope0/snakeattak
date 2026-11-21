@@ -582,6 +582,12 @@ const choicesBefore = (step: number) =>
   SHAPE.slice(0, step).filter((shape) => shape === 'fork' || shape === 'halt').length;
 const CHOICES_PER_TABLEAU = choicesBefore(STEPS_PER_TABLEAU);
 
+/** The choice made at a fork or a halt of the tableau under way, once passed: 0 or 1. */
+export function pickAt(state: ExpeditionState, step: number): number | undefined {
+  if (SHAPE[step] !== 'fork' && SHAPE[step] !== 'halt') return undefined;
+  return state.picks[state.tableau * CHOICES_PER_TABLEAU + choicesBefore(step)];
+}
+
 /** A carried camp read back: its allies as the next camp will receive them, its coins, its crystal. */
 function readCamp(raw: unknown, boons: Boons): Camp | null {
   if (

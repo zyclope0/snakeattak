@@ -34,11 +34,13 @@ export const gagnee = 'won';
 export const passee = 'passed';
 export const aJouer = 'to play';
 export const aVenir = 'still ahead';
+export const aChoisir = 'to choose';
+export const pasChoisi = 'not chosen';
 
 // --- The missions to choose.
 export const choisisTonChemin = 'Choose your path';
-export const unCadeauApresLaMission = 'A gift after the mission';
-export const unCadeauRareApresLaMission = 'A rare gift after the mission';
+export const unCadeauAGagner = 'A gift to win';
+export const unCadeauRareAGagner = 'A rare gift to win';
 export const cEstParti = "Let's go!";
 export const capriceSurpriseN = 'Surprise caprice: {0}';
 export const lesSerpentsGrandissentAChaqueMission = 'The snakes get stronger with every mission.';

@@ -52,11 +52,11 @@ export function defeatCopy(game: Pick<Game, 'mission' | 'stage'> & Partial<Endle
   // A battle of the expedition is tried again from the camp it started with.
   if (expedition(game))
     return { title: TEXT.onReessaie, subtitle: TEXT.tonCampRevientCommeAvantLaMission };
-  // A fallen camp ends the voyage: there is no same departure to retry, but the same voyage.
+  // A fallen camp ends the voyage: « La Grande Expédition » took its place.
   if (game.stage)
     return {
       title: TEXT.leVoyageSArreteIci,
-      subtitle: TEXT.tuPeuxRefaireCeVoyageOuEnCommencer,
+      subtitle: TEXT.laGrandeExpeditionTAttend,
     };
   return {
     title: TEXT.onReessaie,

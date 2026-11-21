@@ -191,13 +191,16 @@ try {
     await delay(100);
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-  await checkCatalogue({ browser, url, check, reachable, capture, portrait });
-  await checkHelpPoints({ pageAt, check, capture, portrait });
-  await checkPlayers({ browser, url, check, capture, portrait });
-  await checkReplay({ browser, url, pageAt, check, capture });
-  await checkVoyage({ browser, url, check, capture });
-  await checkResume({ browser, url, check, capture });
-  await checkPrivacy({ pageAt, check, capture, url });
+  // MOBILE_MENUS_ONLY=voyage (for instance) runs one group while it is being worked on.
+  const only = process.env.MOBILE_MENUS_ONLY;
+  const run = (name) => !only || only === name;
+  if (run('catalogue')) await checkCatalogue({ browser, url, check, reachable, capture, portrait });
+  if (run('help')) await checkHelpPoints({ pageAt, check, capture, portrait });
+  if (run('players')) await checkPlayers({ browser, url, check, capture, portrait });
+  if (run('replay')) await checkReplay({ browser, url, pageAt, check, capture });
+  if (run('voyage')) await checkVoyage({ browser, url, check, capture });
+  if (run('resume')) await checkResume({ browser, url, check, capture });
+  if (run('privacy')) await checkPrivacy({ pageAt, check, capture, url });
   if (process.env.MOBILE_MENUS_BEFORE) {
     for (const [w, h] of [
       [780, 360],

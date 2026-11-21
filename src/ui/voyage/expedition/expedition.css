@@ -1,35 +1,9 @@
-/* « La Grande Expédition » : sa porte sur la page du voyage, sa carte, ses haltes, ses cadeaux.
+/* « La Grande Expédition » : sa carte en forme de route, ses haltes, ses cadeaux.
 
    Même méthode que voyage.css, dont elle reprend la page, les cartes et le pied : tailles
    dans l'unité --hu, pas de px sauf un plancher dans max() ou une cible tactile. */
 
-/* ---- La porte, dans la rangée du haut de la page du voyage ---- */
-#home-screen #expedition-door {
-  position: relative;
-  min-height: 48px;
-  padding: calc(var(--hu) * 0.4) max(12px, calc(var(--hu) * 1.2));
-  font-size: max(14px, calc(var(--hu) * 1.5));
-  border-radius: 10px;
-  white-space: nowrap;
-}
-#expedition-door .voyage-new {
-  position: absolute;
-  top: -8px;
-  right: 6px;
-  padding: 0 7px;
-  border-radius: 999px;
-  background: var(--honey);
-  color: #3f330f;
-  box-shadow: 0 2px 0 #a37524;
-  font:
-    800 12px/1.4 'Nunito Sans',
-    sans-serif;
-}
-#expedition-door .voyage-new[hidden] {
-  display: none;
-}
-
-/* ---- Les sept pas du tableau ---- */
+/* ---- La route du tableau : comme le chemin du voyage, mais qui se sépare en deux ---- */
 .exp-road {
   flex: 0 0 auto;
   display: flex;
@@ -43,37 +17,57 @@
   color: #4f6650;
   white-space: nowrap;
 }
-.exp-trail {
+.exp-road-box {
   flex: 1 1 auto;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  isolation: isolate;
+  min-width: 0;
+}
+/* La route elle-même : des traits en pointillés, comme le chemin du voyage. */
+.exp-lines-drawn {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.exp-lines-drawn path {
+  fill: none;
+  stroke: #bca675;
+  stroke-width: max(3px, calc(var(--hu) * 0.4));
+  stroke-dasharray: calc(var(--hu) * 0.9) calc(var(--hu) * 0.6);
+  stroke-linecap: round;
+}
+.exp-lines-drawn .exp-taken {
+  stroke: #48754a;
+  stroke-dasharray: none;
+}
+.exp-lines-drawn .exp-faded {
+  opacity: 0.35;
+}
+.exp-stops {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  grid-template-rows: repeat(2, auto);
+  row-gap: calc(var(--hu) * 0.5);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.exp-trail::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  left: 0;
-  right: 0;
-  top: 50%;
-  border-top: max(3px, calc(var(--hu) * 0.35)) dashed #bca675;
-}
-.exp-step {
-  position: relative;
-  z-index: 1;
+.exp-stop {
+  grid-column: var(--column);
+  grid-row: var(--row);
   display: grid;
   place-items: center;
 }
 .exp-mark {
+  position: relative;
   box-sizing: border-box;
   display: grid;
   place-items: center;
-  width: max(28px, calc(var(--hu) * 3));
-  height: max(28px, calc(var(--hu) * 3));
+  width: max(28px, calc(var(--hu) * 3.2));
+  height: max(28px, calc(var(--hu) * 3.2));
   border: 2px solid #a8946a;
   border-radius: 50%;
   background: #f7f1dc;
@@ -86,30 +80,50 @@
   width: 62%;
   height: 62%;
 }
-.exp-step[data-kind='halt'] .exp-mark {
-  width: max(18px, calc(var(--hu) * 1.8));
-  height: max(18px, calc(var(--hu) * 1.8));
-  border-style: dashed;
+.exp-mark .exp-halt-picture {
+  width: 78%;
+  height: 78%;
+  min-height: 0;
+  border-width: 1px;
 }
-.exp-step[data-kind='halt'][data-state='done'] .exp-mark svg {
-  width: 80%;
-  height: 80%;
+.exp-mark .exp-king {
+  height: 96%;
+  width: auto;
+  max-width: 130%;
+  object-fit: contain;
 }
-.exp-step[data-kind='guardian'] .exp-mark {
+.exp-stop[data-path='calm'] .exp-mark {
+  border-color: #6f9a6c;
+}
+/* Le chemin des braves : bordure dorée et une petite étoile, comme son cadeau rare. */
+.exp-stop[data-path='brave'] .exp-mark {
+  border-color: #b8862e;
+  background: #fbe9b2;
+}
+.exp-stop[data-path='brave'] .exp-mark::after {
+  content: '★';
+  position: absolute;
+  top: -0.55em;
+  right: -0.45em;
+  color: #c98f1d;
+  font-size: 0.8em;
+}
+.exp-stop[data-kind='guardian'] .exp-mark {
   border-color: #6f5cb8;
   background: #e7e1f6;
-  color: #3d2f7a;
 }
-.exp-step[data-state='done'] .exp-mark {
+.exp-stop[data-state='done'] .exp-mark {
   border-color: #48754a;
   background: #48754a;
   color: #fff;
 }
-.exp-step[data-state='next'] .exp-mark {
-  scale: 1.25;
-  border: 3px solid #a37524;
-  background: var(--honey);
-  color: #3f330f;
+.exp-stop[data-state='skipped'] .exp-mark {
+  opacity: 0.4;
+}
+.exp-stop[data-state='next'] .exp-mark {
+  scale: 1.2;
+  border-width: 3px;
+  box-shadow: 0 0 0 max(3px, calc(var(--hu) * 0.35)) var(--honey);
 }
 
 /* ---- Ce que dit la carte : la halte passée, la question, les serpents qui grandissent ---- */
@@ -172,6 +186,13 @@
 }
 .exp-card h3:empty {
   display: none;
+}
+.exp-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0 calc(var(--hu) * 0.8);
 }
 .exp-body {
   display: grid;
@@ -434,11 +455,22 @@
     padding-top: calc(var(--hu) * 0.3);
   }
   .exp-mark {
-    width: max(24px, calc(var(--hu) * 2.6));
-    height: max(24px, calc(var(--hu) * 2.6));
+    width: max(24px, calc(var(--hu) * 2.5));
+    height: max(24px, calc(var(--hu) * 2.5));
+  }
+  .exp-stops {
+    row-gap: calc(var(--hu) * 0.3);
+  }
+  /* Le pied garde ses trois parties sur une rangée : les mots du camp passent à la ligne. */
+  .exp-foot {
+    flex-wrap: nowrap;
+  }
+  .voyage-view .exp-camp {
+    flex: 1 1 0;
+    min-width: 0;
   }
   .exp-body .stop-map svg {
-    max-height: calc(var(--hu) * 6);
+    max-height: calc(var(--hu) * 5);
   }
   /* Le choix d'un cadeau : chaque carte entière se touche ; un « Choisir » tout simple laisse
      sa place, un niveau à monter reste écrit. */
@@ -593,4 +625,16 @@
 .expedition-page[data-view='roulotte'] .voyage-view {
   flex: 1 1 auto;
   min-height: 0;
+}
+
+@media (min-width: 1000px) and (min-height: 680px) {
+  /* Avec de la place, la route se lit de loin. */
+  .exp-mark {
+    width: calc(var(--hu) * 3.8);
+    height: calc(var(--hu) * 3.8);
+    font-size: calc(var(--hu) * 1.8);
+  }
+  .exp-stops {
+    row-gap: calc(var(--hu) * 0.8);
+  }
 }

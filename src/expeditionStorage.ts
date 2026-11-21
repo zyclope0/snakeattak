@@ -2,14 +2,13 @@ import { battlesWon, EXPEDITION_BATTLES, readExpeditionState } from './expeditio
 import type { ExpeditionState } from './expedition.ts';
 import { isIntegerIn, isRecord, readBoundedJson } from './plainData.ts';
 import { EXPEDITION_STORAGE_KEY } from './storageKeys.ts';
+import { EXPEDITION_LOG_LIMIT as LOG_LIMIT } from './expeditionLog.ts';
 
 /**
  * What a player keeps of « La Grande Expédition » : the one under way, saved between two
  * battles, and a personal record. One key per player (`PLAYER_KEYS` in players.ts): deleting
  * a player removes it. Nothing leaves the device and nothing compares two children.
  */
-// A camp carries a few dozen allies of about 150 characters each.
-const LOG_LIMIT = 100_000;
 
 export type ExpeditionLog = Readonly<{
   version: 1;

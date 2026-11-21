@@ -71,8 +71,7 @@ export const victoire = 'Victory!';
 export const tesAlliesOntTenuLesNVaguesEt =
   'Your allies held out for {0} waves and defeated the King!';
 export const leVoyageSArreteIci = 'The voyage stops here';
-export const tuPeuxRefaireCeVoyageOuEnCommencer =
-  'You can try this voyage again or start a new one.';
+export const laGrandeExpeditionTAttend = 'The Great Expedition is waiting for you.';
 export const onReessaie = 'Try again?';
 export const reessaieCeMemeDepartOuChoisisUne = 'Restart this game or choose another mission.';
 export const rejoueUneAventurePuisEssaieDAutres =

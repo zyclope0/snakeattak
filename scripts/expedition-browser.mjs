@@ -18,8 +18,12 @@ registerHooks({
 });
 const X = await import('../src/expedition.ts');
 const KEYS = await import('../src/storageKeys.ts');
+const { planVoyage } = await import('../src/voyage.ts');
+const { CURRENT_VOYAGE_VERSION } = await import('../src/voyageTuning.ts');
 const FR = await import('../src/texts/fr/expedition.ts');
 const EN = await import('../src/texts/en/expedition.ts');
+const HOME = await import('../src/texts/fr/home.ts');
+const HOME_EN = await import('../src/texts/en/home.ts');
 
 const SEED = 4242;
 const plan = X.planExpedition(SEED);
@@ -97,7 +101,7 @@ try {
     await setTimeout(200);
   }
   browser = await chromium.launch();
-  /** A fresh page whose storage holds `stored`, then the page of the expedition. */
+  /** A fresh page whose storage holds `stored`, on the home; `enter()` opens the expedition. */
   async function open(size, stored = {}, language = 'fr') {
     const page = await browser.newPage({ viewport: size });
     await page.addInitScript(
@@ -112,10 +116,10 @@ try {
     page.on('pageerror', (error) => errors.push(String(error)));
     await page.goto(origin);
     await page.locator('#home-voyage').waitFor();
-    await page.click('#home-voyage');
-    await page.locator('#expedition-door').waitFor();
     return { page, errors };
   }
+  /** The door of the home, beside « Jouer », now « La Grande Expédition ». */
+  const enter = (page) => page.click('#home-voyage');
   const text = async (page, selector) =>
     (await page.locator(selector).first().textContent()).replace(/\s+/g, ' ').trim();
   const stored = (page) =>
@@ -163,16 +167,20 @@ try {
     // A first visit: the door says « Nouveau », opens the first tableau, plays mission 1.
     {
       const { page, errors } = await open(size);
-      assert.equal(await text(page, '#expedition-door span'), FR.laGrandeExpedition);
-      assert.equal(await page.locator('#expedition-door .voyage-new').isVisible(), true);
-      await page.click('#expedition-door');
+      assert.equal(await text(page, '#home-voyage span'), HOME.laGrandeExpedition);
+      assert.equal(await page.locator('#home-voyage .voyage-new').isVisible(), true);
+      await page.screenshot({ path: `${folder}/${name}-porte.png` });
+      await enter(page);
       await page.locator('.expedition-page .exp-card').waitFor();
       assert.equal(
         await text(page, '.expedition-page .voyage-title span'),
         FR.laValleeDesSifflements,
       );
       assert.equal(await text(page, '.expedition-page .voyage-title em'), 'Mission 1 sur 5');
-      assert.equal(await page.locator('.exp-step').count(), X.STEPS_PER_TABLEAU);
+      // The road: the first mission, two stops at each of the five splits, the guardian.
+      assert.equal(await page.locator('.exp-stop').count(), 12);
+      assert.equal(await page.locator('.exp-stop[aria-current]').count(), 1);
+      assert.equal(await page.locator('.exp-stop[data-kind="guardian"]').count(), 1);
       assert.equal(await page.locator('.exp-card').count(), 1);
       assert.equal((await stored(page)).current.seed > 0, true, 'the expedition is saved');
       await fits(page, `${name} first`);
@@ -212,6 +220,10 @@ try {
       // Mission 2 is a fork: the quiet path and the path of the brave.
       await page.locator('.exp-card[data-path="brave"]').waitFor();
       assert.equal(await page.locator('.exp-card').count(), 2);
+      // Both paths stand out on the road; the road travelled is drawn in colour.
+      assert.equal(await page.locator('.exp-stop[aria-current]').count(), 2);
+      assert.equal(await page.locator('.exp-stop[data-state="done"]').count(), 1);
+      assert.ok((await page.locator('.exp-lines-drawn .exp-taken').count()) >= 2);
       assert.equal(await text(page, '.exp-card[data-path="calm"] h3'), FR.leCheminTranquille);
       assert.equal(await text(page, '.exp-card[data-path="brave"] h3'), FR.leCheminDesBraves);
       await fits(page, `${name} fork`);
@@ -224,8 +236,9 @@ try {
     {
       const { state, choice } = atRoulotte();
       const { page, errors } = await open(size, { [KEYS.EXPEDITION_STORAGE_KEY]: log(state) });
-      assert.equal(await page.locator('#expedition-door .voyage-new').isVisible(), false);
-      await page.click('#expedition-door');
+      assert.equal(await page.locator('#home-voyage .voyage-new').isVisible(), false);
+      assert.equal(await text(page, '#home-voyage span'), HOME.reprendreLExpedition);
+      await enter(page);
       await page.locator('.exp-halt').first().waitFor();
       assert.equal(await page.locator('.exp-halt').count(), 2);
       await fits(page, `${name} halt`);
@@ -254,7 +267,7 @@ try {
       const four = ['forge', 'armure', 'marche', 'rente'].map((id) => ({ id, level: 1 }));
       const open_ = X.chooseHalt(plan, { ...state, boons: four }, choice);
       const { page, errors } = await open(size, { [KEYS.EXPEDITION_STORAGE_KEY]: log(open_) });
-      await page.click('#expedition-door');
+      await enter(page);
       await page.locator('.exp-shop').waitFor();
       assert.ok((await page.locator('.exp-shop .bonus-card').count()) >= 4);
       await fits(page, `${name} full roulotte`);
@@ -269,7 +282,7 @@ try {
     {
       const state = placesFull();
       const { page, errors } = await open(size, { [KEYS.EXPEDITION_STORAGE_KEY]: log(state) });
-      await page.click('#expedition-door');
+      await enter(page);
       await page.locator('.exp-gift').first().waitFor();
       const fresh = page.locator('.exp-gift[data-gift="vue"], .exp-gift[data-gift="miel"]').first();
       const id = await fresh.getAttribute('data-gift');
@@ -290,7 +303,7 @@ try {
     // The end: the missions won, the record, a new expedition. Then another one is asked.
     {
       const { page, errors } = await open(size, { [KEYS.EXPEDITION_STORAGE_KEY]: log(arrived()) });
-      await page.click('#expedition-door');
+      await enter(page);
       await page.locator('#expedition-new').waitFor();
       assert.equal(
         await text(page, '.expedition-page .voyage-view h2'),
@@ -308,6 +321,44 @@ try {
     checks.push(name);
   }
 
+  // A voyage begun before the expedition took its place: the door says so, and it is finished
+  // first; once it is over, its last screen leads to the expedition.
+  for (const [won, status] of [
+    [2, 'travelling'],
+    [5, 'arrived'],
+  ]) {
+    const voyagePlan = planVoyage(SEED);
+    const bag = voyagePlan.stages.slice(0, Math.min(won, 4)).map((stage) => stage.offer[0]);
+    const voyageLog = JSON.stringify({
+      version: 1,
+      best: won,
+      current: { version: CURRENT_VOYAGE_VERSION, seed: SEED, won, bag, status },
+    });
+    const { page, errors } = await open(
+      { width: 780, height: 360 },
+      {
+        [KEYS.VOYAGE_STORAGE_KEY]: voyageLog,
+      },
+    );
+    const travelling = status === 'travelling';
+    assert.equal(
+      await text(page, '#home-voyage span'),
+      travelling ? HOME.reprendreLeVoyage : HOME.laGrandeExpedition,
+    );
+    await enter(page);
+    if (travelling) {
+      await page.locator('.voyage-page[data-view="map"] #voyage-go').waitFor();
+      assert.equal(
+        await page.locator('#voyage-other-open, #voyage-code').count(),
+        0,
+        'no new voyage',
+      );
+    } else await page.locator('.expedition-page .exp-card').waitFor();
+    assert.deepEqual(errors, []);
+    await page.close();
+  }
+  checks.push('voyage');
+
   // Under way, « Une autre expédition » asks first; in English, the door has its words.
   {
     const { state } = atRoulotte();
@@ -320,8 +371,8 @@ try {
       },
       'en',
     );
-    assert.equal(await text(page, '#expedition-door span'), EN.laGrandeExpedition);
-    await page.click('#expedition-door');
+    assert.equal(await text(page, '#home-voyage span'), HOME_EN.reprendreLExpedition);
+    await enter(page);
     await page.click('#expedition-other');
     await page.locator('#expedition-replace').waitFor();
     assert.equal(await text(page, '#expedition-replace h2'), EN.changerDExpedition);
