@@ -1,5 +1,5 @@
 import type { RewardId } from './rewards.ts';
-import { seededStream } from './seededRandom.ts';
+import { seededStream, shuffle } from './seededRandom.ts';
 import { isArrayOfLength, isIntegerIn, isRecord } from './plainData.ts';
 import { HONEY_REWARD_SECONDS } from './gameConstants.ts';
 
@@ -60,6 +60,12 @@ export const isLastingBoon = (id: unknown): id is LastingBoon =>
 export type Boons = { id: LastingBoon; level: number }[];
 export const boonLevel = (boons: Boons, id: LastingBoon): number =>
   boons.find((b) => b.id === id)?.level ?? 0;
+/** « L'armure » : how many times its plain life an ally has, at a level of the gift. */
+export const armourAtLevel = (level: number, rules: BoonRules): number =>
+  1 + level * rules.steps.armure;
+/** The same, for the gifts of a game. */
+export const armourFactor = (boons: Boons, rules: BoonRules): number =>
+  armourAtLevel(boonLevel(boons, 'armure'), rules);
 
 /**
  * Three gifts to choose from, drawn apart from the fight. A lasting gift already at the top
@@ -79,11 +85,7 @@ export function boonOffer(
     ...LASTING_BOONS.filter((id) => boonLevel(boons, id) < rules.maxLevel),
     ...ONCE_BOONS,
   ];
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-  return pool.slice(0, 3);
+  return shuffle(random, pool).slice(0, 3);
 }
 
 /**

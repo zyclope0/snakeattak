@@ -1,7 +1,16 @@
 import { activeEnemyLanes } from './tutorial.ts';
 import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
 import { endlessStats, endlessWave, readEndlessRules } from './endless.ts';
-import { BOON_RULES, boonLevel, boonOffer, isLastingBoon, readBoons, takeBoon } from './boons.ts';
+import {
+  armourAtLevel,
+  armourFactor,
+  BOON_RULES,
+  boonLevel,
+  boonOffer,
+  isLastingBoon,
+  readBoons,
+  takeBoon,
+} from './boons.ts';
 import type { BoonId, BoonRules, Boons, LastingBoon } from './boons.ts';
 import type { EndlessRules } from './endless.ts';
 import type { Milestone, RewardState, RewardId } from './rewards.ts';
@@ -23,6 +32,8 @@ import {
   ENCOURAGEMENT_SECONDS,
   GOLD_LIMIT,
   HERO_TRAINING_COST,
+  HERO_TRAINING_FROM,
+  ENTITY_ID_LIMIT,
   REPAIR_AMOUNT,
   REPAIR_COST,
   REWARD_COINS,
@@ -329,7 +340,7 @@ export class Game {
     // The first mission of a tableau starts from a new camp: only the gifts come along.
     if (camp.units === null) {
       this.#boons = boons;
-      const armour = 1 + boonLevel(boons, 'armure') * this.boonRules.steps.armure;
+      const armour = armourFactor(boons, this.boonRules);
       for (const u of this.units) u.maxHp = u.hp = kinds[u.kind as Kind].hp * armour;
       return true;
     }
@@ -339,12 +350,12 @@ export class Game {
       !isArrayOfLength(camp.units, 0, UNIT_LIMIT)
     )
       return false;
-    const armour = 1 + boonLevel(boons, 'armure') * this.boonRules.steps.armure;
+    const armour = armourFactor(boons, this.boonRules);
     const ids = new Set<number>();
     const units: Entity[] = [];
     let nextId = 0;
     for (const saved of camp.units) {
-      const id = isRecord(saved) && isIntegerIn(saved.id, 1, 10_000_000) ? saved.id : 0;
+      const id = isRecord(saved) && isIntegerIn(saved.id, 1, ENTITY_ID_LIMIT) ? saved.id : 0;
       nextId = Math.max(nextId, id);
     }
     for (const saved of camp.units) {
@@ -386,11 +397,16 @@ export class Game {
   get feastDuration() {
     return FEAST_DURATION + extraHoneySeconds(this.rewards) + this.boonGain('miel');
   }
+  /** Whether the hero may train here: by the wave reached, or by the rank of the mission. */
+  get heroTrainingOpen(): boolean {
+    const reached = this.mission ? missionById(this.mission.missionId)!.unlockRank : this.wave;
+    return reached >= HERO_TRAINING_FROM;
+  }
   trainHero(path: 'force' | 'guard'): boolean {
     if (
       this.paused ||
       this.status !== 'preparing' ||
-      (this.mission ? missionById(this.mission.missionId)!.unlockRank < 4 : this.wave < 4) ||
+      !this.heroTrainingOpen ||
       spendableGold(this) < HERO_TRAINING_COST ||
       this.campaign.training !== 'none' ||
       (path !== 'force' && path !== 'guard') ||
@@ -455,7 +471,7 @@ export class Game {
     if (isLastingBoon(id)) {
       const taken = takeBoon(this.#boons, id, isLastingBoon(replace) ? replace : undefined);
       if (!taken) return false;
-      const armour = (level: number) => 1 + this.boonRules.steps.armure * level;
+      const armour = (level: number) => armourAtLevel(level, this.boonRules);
       const before = armour(this.boonLevel('armure'));
       this.#boons = taken;
       const after = armour(this.boonLevel('armure'));

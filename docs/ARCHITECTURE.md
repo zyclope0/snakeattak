@@ -1361,9 +1361,11 @@ Où sont les valeurs :
   l'ancienne reste lisible. Le module a son propre petit fichier dans le build (`keys-…js`) :
   le premier script lit la clé de la langue et ne doit pas attendre le paquet des règles.
 - **`src/seededRandom.ts`** : le pas du tirage au hasard (`nextSeed`, `seedShare`,
-  `seededStream`). Le combat, les récompenses, le voyage et le décor gardent chacun leur
-  état mais avancent tous par ce calcul. Le changer change toutes les parties et tous les
-  codes déjà donnés.
+  `seededStream`), le brassage d'une graine avec le numéro d'une question (`mixSeed`,
+  `questionStream`), le choix dans une liste (`pickOne`) et le mélange (`shuffle`). Le
+  combat, les récompenses, les cadeaux, le voyage, l'expédition et le décor gardent chacun
+  leur état mais avancent tous par ces calculs. Les changer change toutes les parties et
+  tous les codes déjà donnés.
 - **Limites** : chacune est exportée par son module de règles et lue par l'interface —
   `ROSTER_SIZE` (`roster.ts`), `DEPARTURE_INPUT_LIMIT` (`departures.ts`),
   `CAMP_CHARACTER_LIMIT` (`checkpoints.ts`).

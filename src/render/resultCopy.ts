@@ -4,6 +4,7 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import { endlessWave } from '../endless.ts';
 import { EXPEDITION_STAGE_VERSION } from '../voyageRules.ts';
+import { CHAPTER_COUNT, STARS_MAX } from '../gameConstants.ts';
 
 /**
  * A voyage stage is neither a mission nor a caprice to the child: it names itself. A battle of
@@ -77,6 +78,9 @@ export function earnedStars(
   // adventure counts its waves and its kings instead.
   if (game.status !== 'won' || game.stage || game.endless) return null;
   return game.mission
-    ? { count: game.missionStars, maximum: 3 }
-    : { count: game.campaign.chapterStars.reduce((sum, n) => sum + n, 0), maximum: 9 };
+    ? { count: game.missionStars, maximum: STARS_MAX }
+    : {
+        count: game.campaign.chapterStars.reduce((sum, n) => sum + n, 0),
+        maximum: STARS_MAX * CHAPTER_COUNT,
+      };
 }

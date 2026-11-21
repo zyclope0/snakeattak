@@ -6,6 +6,7 @@ import type { MissionProgress } from './missionProgress.ts';
 import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
 import { isOneOf, isRecord, readBoundedJson } from './plainData.ts';
+import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
 
 /**
  * Versions of the family file. Each one is the oldest able to hold its content, so that an
@@ -24,8 +25,10 @@ const VERSIONS = [1, 2, 3, 4, 5, 6] as const;
  */
 export const FAMILY_EXTRAS = ['expedition', 'voyage', 'endless'] as const;
 export type FamilyExtras = Readonly<Partial<Record<(typeof FAMILY_EXTRAS)[number], string>>>;
-/** Longer than the longest of the three texts (the log of an expedition). */
-const EXTRA_CHARACTER_LIMIT = 100_000;
+/** The version of the file that carries them. */
+export const FAMILY_EXTRAS_VERSION = 6;
+/** No text is longer than the longest of the three, the log of an expedition. */
+const EXTRA_CHARACTER_LIMIT = EXPEDITION_LOG_LIMIT;
 function readExtras(data: unknown): FamilyExtras | null {
   if (!isRecord(data)) return null;
   const names = Object.keys(data);
@@ -52,7 +55,12 @@ export type FamilyBackup = FamilyData &
     | { version: 1; missions?: never; albums?: never }
     | { version: 2 | 3; missions: MissionProgress; albums?: never }
     | { version: 4 | 5; missions: MissionProgress; albums: CapriceAlbums; extras?: never }
-    | { version: 6; missions: MissionProgress; albums: CapriceAlbums; extras: FamilyExtras }
+    | {
+        version: typeof FAMILY_EXTRAS_VERSION;
+        missions: MissionProgress;
+        albums: CapriceAlbums;
+        extras: FamilyExtras;
+      }
   );
 /** True for the versions that carry the albums of challenges. */
 export const hasAlbums = (
@@ -97,7 +105,7 @@ function readFamilyData(data: unknown): FamilyBackup | null {
   if (!isRecord(data) || data.format !== FORMAT || !isOneOf(data.version, VERSIONS)) return null;
   // A mistaken version must not silently discard a child's collection.
   if (data.version < 4 && Object.hasOwn(data, 'albums')) return null;
-  if (data.version !== 6 && Object.hasOwn(data, 'extras')) return null;
+  if (data.version !== FAMILY_EXTRAS_VERSION && Object.hasOwn(data, 'extras')) return null;
   const camp = readCamp(data.camp);
   if (!camp) return null;
   const career = readCareerState(JSON.stringify(data.career));
@@ -116,12 +124,12 @@ function readFamilyData(data: unknown): FamilyBackup | null {
     return withinSize({ format: FORMAT, version: data.version, camp: camp.raw, career, missions });
   const albums = validateCapriceAlbums(data.albums);
   if (!albums) return null;
-  if (data.version === 6) {
+  if (data.version === FAMILY_EXTRAS_VERSION) {
     const extras = readExtras(data.extras);
     if (!extras) return null;
     return withinSize({
       format: FORMAT,
-      version: 6,
+      version: FAMILY_EXTRAS_VERSION,
       camp: camp.raw,
       career,
       missions,
@@ -177,7 +185,7 @@ function versionFor(
   extras: boolean,
 ): FamilyBackup['version'] | null {
   // What is kept beside the adventure only travels with the expeditions and the albums.
-  if (extras) return missions && albums ? 6 : null;
+  if (extras) return missions && albums ? FAMILY_EXTRAS_VERSION : null;
   const balanced =
     campUsesBalance2(campRaw) ||
     (missions && missionProgressHasBalance2(missions)) ||

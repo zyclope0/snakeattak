@@ -15,7 +15,12 @@ import type { MissionRun } from './missions.ts';
 import { bindExpeditions } from './ui/expeditions.ts';
 import { createCampMemory } from './campMemory.ts';
 import { createFamilyPersistence } from './familyPersistence.ts';
-import { hasAlbums, readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
+import {
+  FAMILY_EXTRAS_VERSION,
+  hasAlbums,
+  readFamilyBackup,
+  writeFamilyBackup,
+} from './familyBackup.ts';
 import { checkExtras, collectExtras, writeExtras } from './familyExtras.ts';
 import type { FamilyBackup } from './familyBackup.ts';
 import { decodeCheckpoint } from './checkpoints.ts';
@@ -464,7 +469,7 @@ function applyFamily(backup: FamilyBackup) {
   // adventure is then stored as the file that holds it alone, as it always was.
   let extras: { undo: () => boolean } | null = null;
   let canonical: FamilyBackup | null = whole;
-  if (whole.version === 6) {
+  if (whole.version === FAMILY_EXTRAS_VERSION) {
     const checked = checkExtras(whole.extras);
     const alone = writeFamilyBackup(whole.camp, whole.career, whole.missions, whole.albums);
     canonical = alone ? readFamilyBackup(alone) : null;

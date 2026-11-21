@@ -19,3 +19,31 @@ export function seededStream(seed: number): () => number {
   let state = seed;
   return () => seedShare((state = nextSeed(state)));
 }
+
+/**
+ * Thirty-two well-stirred bits out of a seed and the number of a question: each question
+ * asked of the same seed gets answers of its own. The voyage and the expedition ask this way.
+ */
+export function mixSeed(seed: number, salt: number): number {
+  let hash = (seed ^ Math.imul(salt, 0x9e3779b9)) >>> 0;
+  hash = Math.imul(hash ^ (hash >>> 16), 0x85ebca6b) >>> 0;
+  hash = Math.imul(hash ^ (hash >>> 13), 0xc2b2ae35) >>> 0;
+  return (hash ^ (hash >>> 16)) >>> 0;
+}
+
+/** The private stream of one question asked of a seed: no fight shares it. */
+export const questionStream = (seed: number, salt: number): (() => number) =>
+  seededStream(mixSeed(seed, salt));
+
+/** One of the list, by the next draw. */
+export const pickOne = <T>(random: () => number, list: readonly T[]): T =>
+  list[Math.floor(random() * list.length)];
+
+/** Shuffles the list where it stands, from its last place to its second, and returns it. */
+export function shuffle<T>(random: () => number, values: T[]): T[] {
+  for (let i = values.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [values[i], values[j]] = [values[j], values[i]];
+  }
+  return values;
+}

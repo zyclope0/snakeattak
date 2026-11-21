@@ -5,7 +5,16 @@ import { PLAYER_KEYS } from '../src/players.ts';
 import { CAMP_CHARACTER_LIMIT } from '../src/checkpoints.ts';
 import { DEPARTURE_INPUT_LIMIT } from '../src/departures.ts';
 import { ROSTER_SIZE } from '../src/gameConstants.ts';
-import { nextSeed, seedShare, seededStream, SEED_RANGE } from '../src/seededRandom.ts';
+import {
+  mixSeed,
+  nextSeed,
+  pickOne,
+  questionStream,
+  seedShare,
+  seededStream,
+  SEED_RANGE,
+  shuffle,
+} from '../src/seededRandom.ts';
 
 // Retyped on purpose: a key is the address of a child's save on the device. An edit of
 // `src/storageKeys.ts` that changes one character must fail here before it hides a save.
@@ -72,4 +81,49 @@ test('le tirage au hasard fait le même calcul qu’avant', () => {
     assert.equal(nextSeed(edge), before(edge));
   assert.equal(SEED_RANGE, 2 ** 32);
   assert.deepEqual([nextSeed(0), nextSeed(1), nextSeed(2026)], [1013904223, 1015568748, 91264577]);
+});
+
+// The same for the mixing, the choice and the shuffle: every voyage, every expedition, every
+// offer of gifts depends on them. The formulas are retyped as they stood in each module
+// before 21 November 2026.
+test('le brassage, le choix et le mélange gardent leur calcul', () => {
+  const before = (seed: number, salt: number) => {
+    let hash = (seed ^ Math.imul(salt, 0x9e3779b9)) >>> 0;
+    hash = Math.imul(hash ^ (hash >>> 16), 0x85ebca6b) >>> 0;
+    hash = Math.imul(hash ^ (hash >>> 13), 0xc2b2ae35) >>> 0;
+    return (hash ^ (hash >>> 16)) >>> 0;
+  };
+  for (const seed of [0, 1, 2026, 0xfffff, 0xffffffff])
+    for (const salt of [0, 1, 16, 64, 7000, 9000]) {
+      assert.equal(mixSeed(seed, salt), before(seed, salt));
+      const mixed = seededStream(before(seed, salt));
+      const asked = questionStream(seed, salt);
+      for (let draw = 0; draw < 20; draw++) assert.equal(asked(), mixed());
+    }
+  assert.deepEqual(
+    [mixSeed(0, 1), mixSeed(2026, 64), mixSeed(0xfffff, 9000)],
+    [2462723854, 3808891587, 2485619693],
+  );
+  for (const seed of [0, 1, 2026, 31337]) {
+    const random = seededStream(seed);
+    const expected = seededStream(seed);
+    const values = [1, 2, 3, 4, 5, 6, 7];
+    const sorted = [...values];
+    for (let i = sorted.length - 1; i > 0; i--) {
+      const j = Math.floor(expected() * (i + 1));
+      [sorted[i], sorted[j]] = [sorted[j], sorted[i]];
+    }
+    // The list itself is shuffled and given back.
+    assert.equal(shuffle(random, values), values);
+    assert.deepEqual(values, sorted);
+    const list = ['a', 'b', 'c', 'd'];
+    assert.equal(pickOne(random, list), list[Math.floor(expected() * list.length)]);
+  }
+  assert.deepEqual(shuffle(seededStream(2026), [1, 2, 3, 4, 5, 6]), [4, 3, 2, 5, 6, 1]);
+  const asked = questionStream(2026, 16);
+  const letters = ['a', 'b', 'c', 'd'];
+  assert.deepEqual(
+    [pickOne(asked, letters), pickOne(asked, letters), pickOne(asked, letters)],
+    ['c', 'b', 'a'],
+  );
 });

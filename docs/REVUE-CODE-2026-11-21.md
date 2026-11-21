@@ -28,7 +28,7 @@ garde **tous** les points, faits ou non.
 | 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | Fait, lot 1              |
 | 5   | La CI attend trop ; une PR de documents coûte autant que du code  | Fait, lot 3              |
 | 6   | Barres de vie et petits ronds chers à dessiner                    | À mesurer sur l'appareil |
-| 7   | Des règles écrites plusieurs fois                                 | À faire, lot 2           |
+| 7   | Des règles écrites plusieurs fois                                 | En partie, lot 4         |
 | 8   | Code mort et restes du voyage                                     | Fait, lot 2              |
 | 9   | Trois fichiers ont trop grossi                                    | Plus tard                |
 | 10  | Documentation d'architecture devenue fausse par endroits          | Fait, lot 2              |
@@ -187,6 +187,25 @@ expire, toutes les suivantes sont redessinées. Piste : une étiquette fixe par 
   finie » écrite huit fois.
 - Carnet d'un joueur écrit deux fois (`voyageStorage.ts`, `expeditionStorage.ts`) ; dix
   modules redéfinissent leur type de port de stockage.
+
+**Fait (lot 4)**, parties identiques (traces de référence et voyages de référence inchangés) :
+
+- `src/seededRandom.ts` porte le brassage (`mixSeed`, `questionStream`), le choix (`pickOne`)
+  et le mélange (`shuffle`) ; le voyage, l'expédition, les cadeaux et les récompenses les
+  appellent.
+- `armourFactor` et `armourAtLevel` (`src/boons.ts`) : une écriture au lieu de six.
+- Valeurs nommées : `ENTITY_ID_LIMIT` (trois écritures de dix millions), `HERO_TRAINING_FROM`
+  et `game.heroTrainingOpen` (la règle « dès la vague 4 » n'est plus recopiée dans l'écran),
+  `STARS_MAX`, `FAMILY_EXTRAS_VERSION` (la version 6 du fichier familial),
+  `EXTRA_CHARACTER_LIMIT` qui vaut `EXPEDITION_LOG_LIMIT`, `+${REWARD_COINS}` sur la carte.
+
+**Reste du point 7**, à faire dans un lot à part parce qu'il touche des écrans :
+
+- les sept règles de l'expédition recopiées dans ses écrans ;
+- le lecteur de camp porté écrit deux fois (`game.receiveCamp`, `expedition.readCamp`) ;
+- `BOON_RULES[1]` treize fois et la version de l'aventure sans fin (`as 1`) ;
+- la chance de l'Œuf Mystère et les sels du tirage sans nom ; « partie finie » huit fois ;
+- le carnet d'un joueur écrit deux fois et les dix types de port de stockage.
 
 ### 8. Code mort et restes du voyage
 
