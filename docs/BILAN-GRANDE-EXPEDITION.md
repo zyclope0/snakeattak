@@ -29,6 +29,14 @@ tirage ni un choix ; les six missions sont autre chose. Expédition version 2 :
   - La fenêtre d'un défi s'appelle « Le défi de l'étape » (et plus « Caprice surprise »).
   - Une carte de la version 1 sans défi garde le nom de sa mission.
   - Le laboratoire mesure la version voulue (`VERSION=`) et essaie d'autres défis (`DEFIS=`).
+  - Sur téléphone, le titre du plateau est caché : le repère dit aussi le défi
+    (« Expédition · étape 1 sur 5 · Serpents pressés »).
+  - L'autocollant du défi n'a plus le fond gris du navigateur ; le nom du défi se lit comme le
+    nom de la carte, et « C'est parti ! » l'annonce aux lecteurs d'écran.
+  - La recette de l'expédition vérifie le défi de la carte, le titre de sa fenêtre, le repère
+    et le titre du plateau.
+- Pour plus tard (au parent) : « Les carapaces » et « La tirelire » reviennent quatre fois
+  chacune ; une étape ne se distingue pas toujours d'une autre par le nom de son défi.
 
 Vérifié : `npm run verify` ; recettes expédition, navigateur, hors-ligne et menus du voyage
 (780×360, 812×375, 1280×800). Pas essayé : le vrai téléphone et les enfants ; la difficulté

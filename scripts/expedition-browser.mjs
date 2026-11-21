@@ -25,6 +25,12 @@ const FR = await import('../src/texts/fr/expedition.ts');
 const EN = await import('../src/texts/en/expedition.ts');
 const HOME = await import('../src/texts/fr/home.ts');
 const HOME_EN = await import('../src/texts/en/home.ts');
+const { capriceById } = await import('../src/caprices.ts');
+const VOYAGE_FR = await import('../src/texts/fr/voyageScreens.ts');
+/** The challenge of the first step, the same in every expedition of this version. */
+const FIRST_DEFI = capriceById(
+  X.EXPEDITION_TUNINGS[X.CURRENT_EXPEDITION_VERSION].tableaux[0].first.defi,
+).name;
 
 const SEED = 4242;
 const plan = X.planExpedition(SEED);
@@ -130,7 +136,7 @@ try {
     const box = await page.evaluate(() => {
       const panel = document.querySelector('.expedition-page .voyage-panel');
       const small = [...document.querySelectorAll('.expedition-page button')]
-        .filter((b) => b.getClientRects().length && !b.classList.contains('stop-caprice'))
+        .filter((b) => b.getClientRects().length)
         .map((b) => [b.textContent.trim(), Math.round(b.getBoundingClientRect().height)])
         .filter(([, height]) => height < 48);
       return {
@@ -184,11 +190,26 @@ try {
       assert.equal(await page.locator('.exp-stop[data-kind="guardian"]').count(), 1);
       assert.equal(await page.locator('.exp-card').count(), 1);
       assert.equal((await stored(page)).current.seed > 0, true, 'the expedition is saved');
+      // The card is named by its challenge, in French, never by the mission it borrows.
+      const card = page.locator('.exp-card').first();
+      assert.equal(await text(page, '.exp-caprice strong'), FIRST_DEFI);
+      assert.equal(await card.locator('.exp-caprice strong').getAttribute('lang'), 'fr');
+      assert.equal(await card.locator('.exp-facts > strong').count(), 0, 'no mission name');
+      assert.match(await card.locator('.exp-go').getAttribute('aria-describedby'), /exp-defi-/);
+      // Its window is « Le défi de l'étape »; the voyage's keeps « Caprice surprise ».
+      await card.locator('.stop-caprice').click();
+      assert.equal(await text(page, '#voyage-caprice h2'), FR.leDefiDeLEtape);
+      await page.keyboard.press('Escape');
       await fits(page, `${name} first`);
       await page.screenshot({ path: `${folder}/${name}-premiere.png` });
       await page.click('.exp-go');
       await page.locator('#start').waitFor({ state: 'visible' });
-      assert.equal(await text(page, '#voyage-mark'), 'Expédition · étape 1 sur 5');
+      assert.equal(await text(page, '#voyage-mark-step'), 'Expédition · étape 1 sur 5');
+      // Phones hide the board's title: the mark names the challenge too.
+      assert.equal(await text(page, '#voyage-mark-defi'), FIRST_DEFI);
+      assert.equal(await page.locator('#voyage-mark-defi').getAttribute('lang'), 'fr');
+      assert.equal(await text(page, '#level-name'), FIRST_DEFI);
+      assert.equal(await page.locator('#level-name').getAttribute('lang'), 'fr');
       assert.equal(await playOut(page), 'won', `${name}: mission 1 is won on the board`);
       assert.equal(await text(page, '#battle-result-title'), FR.etapeGagnee);
       assert.equal(await text(page, '#voyage-result-note'), FR.tonCampTeSuitALEtapeSuivante);

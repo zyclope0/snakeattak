@@ -161,7 +161,7 @@ try {
   await page.waitForFunction(
     () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',
   );
-  assert.equal(await page.locator('#voyage-mark').innerText(), 'Expédition · étape 1 sur 5');
+  assert.equal(await page.locator('#voyage-mark-step').innerText(), 'Expédition · étape 1 sur 5');
   for (const file of [/voyageScreens-[\w-]+\.js$/, /voyageScreens-[\w-]+\.css$/, /voyage-antre-/])
     assert.ok(
       [...served].some((p) => file.test(p)),

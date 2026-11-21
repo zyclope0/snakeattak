@@ -271,6 +271,14 @@
 .exp-caprice .stop-caprice {
   position: static;
   flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: max(48px, calc(var(--hu) * 4.8));
+  height: max(48px, calc(var(--hu) * 4.8));
+  min-height: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: none;
 }
 .voyage-view .exp-reward {
   font-size: max(12px, calc(var(--hu) * 1.2));

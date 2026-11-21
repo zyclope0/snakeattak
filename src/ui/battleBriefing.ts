@@ -12,22 +12,21 @@ import { byId } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 import { endlessWave } from '../endless.ts';
+import { EXPEDITION_STAGE_VERSION } from '../voyageRules.ts';
 
 /**
- * The name of the place: the mission first when there is one, then its map. A stage of a
- * voyage never names the mission whose waves it borrows: its challenge, or else its map.
+ * The name of the place: the mission first when there is one, then its map. A step of « La
+ * Grande Expédition » with a challenge is named by it, never by the mission it borrows.
  */
 export function showLevel(game: Game) {
   const name = byId('level-name');
-  if (game.stage) {
-    const caprice = capriceById(game.mission?.caprice);
-    frenchName(name, !!caprice);
-    setText(name, caprice?.name ?? game.level.name);
-    setText(byId('level-subtitle'), caprice ? game.level.name : game.level.subtitle);
-    return;
-  }
-  frenchName(name, false);
-  setText(name, game.mission ? missionById(game.mission.missionId)!.name : game.level.name);
+  const defi =
+    game.stage?.version === EXPEDITION_STAGE_VERSION ? capriceById(game.mission?.caprice) : null;
+  frenchName(name, !!defi);
+  setText(
+    name,
+    defi?.name ?? (game.mission ? missionById(game.mission.missionId)!.name : game.level.name),
+  );
   setText(byId('level-subtitle'), game.mission ? game.level.name : game.level.subtitle);
 }
 

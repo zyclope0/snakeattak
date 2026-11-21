@@ -23,7 +23,8 @@ haltes, le camp qui suit l'enfant, les cadeaux de l'aventure sans fin
 Moteur (PR 103) et écrans (PR 104) publiés le 21 novembre. Le même jour, à la demande du
 parent, l'expédition remplace le voyage court (un voyage commencé se finit) et sa carte devient
 une route avec ses embranchements. Puis la version 2 : un défi fixe par étape (caprices du
-fils, tableau accepté par le parent), « étape » partout, serpents un peu plus forts.
+fils, tableau accepté par le parent), « étape » partout, serpents un peu plus forts ; après
+relecture, trois défis qui ne jouaient pas avec le camp remplacés (accord du parent).
 Ensuite : les règles nouvelles (Ponts Mouillés, Double Couronne…), une par une, montrées au
 fils avant.
 
