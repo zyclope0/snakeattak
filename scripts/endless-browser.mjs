@@ -21,6 +21,7 @@ const { ENDLESS_RULES } = await import('../src/endless.ts');
 const { encodeCheckpoint } = await import('../src/checkpoints.ts');
 const { freshRosters } = await import('../src/roster.ts');
 const KEYS = await import('../src/storageKeys.ts');
+const { TAP_HOLD_MS } = await import('../src/ui/tapHold.ts');
 
 const rules = ENDLESS_RULES[1];
 /** Closes the wave `wave` as if every snake had fallen at once. */
@@ -34,6 +35,8 @@ function clear(game, wave) {
   game.eggs = [];
   game.step(1 / 30);
 }
+/** Just past the time a control that changed meaning takes no touch (`src/ui/tapHold.ts`). */
+const HOLD = TAP_HOLD_MS + 50;
 /** The camp right after the first king, its gift still to choose. */
 function afterKing() {
   const game = new Game(4242, undefined, undefined, rules.balance, undefined, rules);
@@ -213,10 +216,16 @@ try {
       await page.click('#reward-cards button[data-reward="vue"]');
       assert.equal(await text(page, 'reward-title'), 'Tes 5 places sont prises');
       assert.equal(await page.locator('#reward-cards button:visible').count(), 5);
+      // The cards and the button have just changed meaning: they take no touch for a short
+      // while (a double tap must neither replace a gift nor skip the offer). The recipe waits
+      // as a child's finger does; `scripts/hygiene/reward-double-tap.ts` checks the hold.
       await page.screenshot({ path: `${folder}/${name}-remplacer.png` });
+      await page.waitForTimeout(HOLD);
       await page.click('#skip-reward');
       assert.equal(await text(page, 'reward-title'), 'King Snake est vaincu ! Choisis ton cadeau');
+      await page.waitForTimeout(HOLD);
       await page.click('#reward-cards button[data-reward="vue"]');
+      await page.waitForTimeout(HOLD);
       await page.click('#reward-cards button[data-reward="rente"]');
       assert.equal(await shown(page, 'reward-panel'), false, `${name}: gift taken`);
       assert.match(await text(page, 'reward-summary'), /La longue-vue ★/);

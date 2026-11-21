@@ -20,6 +20,14 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape d'hygiène
 (stabiliser avant d'ajouter). Compte rendu : [BILAN-HYGIENE-2026-11.md](BILAN-HYGIENE-2026-11.md).
 
+**Suite de l'hygiène** (décisions du parent, 21 novembre), avant les fonctionnalités :
+
+- Sauvegarde familiale version 6 : y mettre l'expédition, les records de l'aventure sans fin
+  et le voyage à finir ; les anciens fichiers restent lisibles.
+- Allié collé à un rocher sur deux cartes de mission : nouvelle version de règles pour les
+  nouvelles parties, mesurée, accord du parent avant de publier.
+- Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).
+
 **À reprendre après l'hygiène**, dans cet ordre :
 
 1. Expédition : les règles nouvelles, une par une, chacune montrée au fils, mesurée, acceptée
