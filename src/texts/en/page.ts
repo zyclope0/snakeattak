@@ -78,7 +78,7 @@ export const aDecouvrir = 'Coming later';
 export const choisisUnAlliePuisToucheTonCamp = 'Choose an ally, then tap your camp.';
 export const recruterNosUnites = 'Recruit our units';
 export const conseils = 'Tips';
-export const monExpedition = 'My expedition';
+export const maMission = 'My mission';
 export const carteDesMissions = 'Mission map';
 export const reessayerLeMemeDepart = 'Restart this game';
 export const missionSuivante = 'Next mission';
@@ -249,7 +249,7 @@ export const pourLesParents = 'For parents';
 export const preparer = 'Prepare';
 export const reprendreMaMission = 'Resume my mission';
 export const laCarteDesMissions = 'The mission map';
-export const nouveauLesExpeditions = 'New · Expeditions';
+export const lesMissions = 'Missions';
 export const sixMissionsDansLesFougeres = 'Six missions among the ferns';
 export const tesAlliesEtLesSerpentsChangent =
   'Your allies and the snakes change with each mission.';

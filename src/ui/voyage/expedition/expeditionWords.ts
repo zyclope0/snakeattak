@@ -131,7 +131,7 @@ export function roadColumns(state: ExpeditionState): RoadStop[][] {
           kind: 'halt',
           halt,
           state: stop,
-          name: HALT_NAMES[halt],
+          name: fill(TEXT.halteN, HALT_NAMES[halt]),
           detail: '',
           said: HALT_SAID[stop],
         };
@@ -174,7 +174,7 @@ const MISSION_SAID: Record<StopState, string> = {
 // A halt is passed, never won; at a halt the child chooses.
 const HALT_SAID: Record<StopState, string> = {
   done: TEXT.passee,
-  skipped: TEXT.pasChoisi,
+  skipped: TEXT.pasChoisie,
   next: TEXT.aChoisir,
   ahead: TEXT.aVenir,
 };

@@ -221,11 +221,11 @@ try {
       // Mission 2 is a fork: the quiet path and the path of the brave.
       await page.locator('.exp-card[data-path="brave"]').waitFor();
       assert.equal(await page.locator('.exp-card').count(), 2);
-      // Both paths stand out on the road, as choices; nothing is coloured past the first stop.
+      // Both paths stand out on the road, as choices; only the way to the first stop is green.
       assert.equal(await page.locator('.exp-stop[data-state="next"]').count(), 2);
       assert.equal(await page.locator('.exp-stop[aria-current]').count(), 0);
       assert.equal(await page.locator('.exp-stop[data-state="done"]').count(), 1);
-      assert.equal(await page.locator('.exp-lines-drawn .exp-taken').count(), 0);
+      assert.equal(await page.locator('.exp-lines-drawn .exp-taken').count(), 1);
       assert.equal(await text(page, '.exp-card[data-path="calm"] h3'), FR.leCheminTranquille);
       assert.equal(await text(page, '.exp-card[data-path="brave"] h3'), FR.leCheminDesBraves);
       await fits(page, `${name} fork`);
@@ -243,8 +243,9 @@ try {
       await enter(page);
       await page.locator('.exp-halt').first().waitFor();
       assert.equal(await page.locator('.exp-halt').count(), 2);
-      // Two missions won: the road travelled is drawn in colour, the path not taken fades.
-      assert.equal(await page.locator('.exp-lines-drawn .exp-taken').count(), 1);
+      // Two missions won: the road travelled is drawn in green (to the first stop, then to the
+      // meeting point and on to the path taken), the path not taken fades.
+      assert.equal(await page.locator('.exp-lines-drawn .exp-taken').count(), 3);
       assert.equal(await page.locator('.exp-stop[data-state="skipped"]').count(), 1);
       await fits(page, `${name} halt`);
       await page.screenshot({ path: `${folder}/${name}-halte.png` });
@@ -264,6 +265,37 @@ try {
       assert.equal((await stored(page)).current.pending, null);
       assert.deepEqual(errors, []);
       await page.close();
+    }
+
+    // The other halt acts at once and says so; the map still shows everything. Then the
+    // first guardian, with its picture on the road and its card.
+    {
+      const { state, choice } = atRoulotte();
+      const { page, errors } = await open(size, { [KEYS.EXPEDITION_STORAGE_KEY]: log(state) });
+      await enter(page);
+      await page
+        .locator('.exp-halt .exp-go')
+        .nth(1 - choice)
+        .click();
+      await page.locator('.exp-notice').waitFor();
+      await fits(page, `${name} halt said`);
+      await page.screenshot({ path: `${folder}/${name}-halte-dite.png` });
+      let guardian = state;
+      while (guardian.step < X.STEPS_PER_TABLEAU - 1) {
+        const phase = X.expeditionPhase(guardian);
+        if (phase === 'gift') guardian = X.skipGift(guardian);
+        else if (phase === 'roulotte') guardian = X.leaveRoulotte(guardian);
+        else if (phase === 'halt') guardian = X.chooseHalt(plan, guardian, 0);
+        else guardian = win(guardian, 'calm');
+      }
+      await page.close();
+      const second = await open(size, { [KEYS.EXPEDITION_STORAGE_KEY]: log(guardian) });
+      await enter(second.page);
+      await second.page.locator('.exp-card[data-path="guardian"]').waitFor();
+      await fits(second.page, `${name} guardian`);
+      await second.page.screenshot({ path: `${folder}/${name}-gardien.png` });
+      assert.deepEqual([...errors, ...second.errors], []);
+      await second.page.close();
     }
 
     // A full roulotte: four gifts to climb and the stock to buy; « Repartir » stays in reach.

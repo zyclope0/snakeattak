@@ -562,6 +562,11 @@
   font-size: max(15px, calc(var(--hu) * 1.8));
   border-radius: calc(var(--hu) * 1.2);
 }
+/* La fin d'un voyage n'a plus qu'un bouton, vers « La Grande Expédition » : au milieu. */
+.voyage-actions:has(> :only-child) {
+  grid-template-columns: auto;
+  justify-content: center;
+}
 .voyage-actions .primary {
   font-size: max(19px, calc(var(--hu) * 2.1));
   box-shadow: 0 4px 0 #a37524;

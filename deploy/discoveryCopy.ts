@@ -17,10 +17,15 @@ import {
 import { unlockWave } from '../src/data.ts';
 import * as EXP_FR from '../src/texts/fr/expedition.ts';
 import * as EXP_EN from '../src/texts/en/expedition.ts';
-import { BATTLES_PER_TABLEAU, EXPEDITION_TUNINGS } from '../src/expedition.ts';
+import {
+  BATTLES_PER_TABLEAU,
+  CURRENT_EXPEDITION_VERSION,
+  EXPEDITION_BATTLES,
+  EXPEDITION_TUNINGS,
+} from '../src/expedition.ts';
 
 // « La Grande Expédition » took the voyage's place (decision of the parent, 21 November 2026).
-const TABLEAUX = EXPEDITION_TUNINGS[1].tableaux.length;
+const TABLEAUX = EXPEDITION_TUNINGS[CURRENT_EXPEDITION_VERSION].tableaux.length;
 
 /** Public editorial copy, independent from the game and its translation catalogue. */
 export type DiscoveryKey =
@@ -112,7 +117,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Reviens jouer autrement',
-        text: `Une victoire ouvre la mission suivante. Un caprice change les règles d’une mission ; « ${EXP_FR.laGrandeExpedition} » enchaîne ${TABLEAUX * BATTLES_PER_TABLEAU} missions. Sur téléphone, tourne l’écran pour jouer en largeur.`,
+        text: `Une victoire ouvre la mission suivante. Un caprice change les règles d’une mission ; « ${EXP_FR.laGrandeExpedition} » enchaîne ${EXPEDITION_BATTLES} missions. Sur téléphone, tourne l’écran pour jouer en largeur.`,
       },
     ],
   },
@@ -140,7 +145,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: '4. Try a different adventure',
-        text: `A victory opens the next mission. A caprice changes the rules of a mission; “${EXP_EN.laGrandeExpedition}” strings ${TABLEAUX * BATTLES_PER_TABLEAU} missions together. Turn your phone sideways to play.`,
+        text: `A victory opens the next mission. A caprice changes the rules of a mission; “${EXP_EN.laGrandeExpedition}” strings ${EXPEDITION_BATTLES} missions together. Turn your phone sideways to play.`,
       },
     ],
   },
@@ -291,7 +296,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Conserver une aventure',
-        text: 'Le navigateur et l’application Android auront des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle n’exporte pas tout, notamment pas le Voyage ni les profils.',
+        text: `Le navigateur et l’application Android auront des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle n’exporte pas tout, notamment pas « ${EXP_FR.laGrandeExpedition} » ni les profils.`,
       },
       {
         heading: 'Lire les informations utiles',
@@ -324,7 +329,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Keep an adventure',
-        text: 'The browser and the Android app will use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it does not export everything, including The Voyage and profiles.',
+        text: `The browser and the Android app will use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it does not export everything, including “${EXP_EN.laGrandeExpedition}” and profiles.`,
       },
       {
         heading: 'Read the useful information',

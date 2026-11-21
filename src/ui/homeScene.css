@@ -92,6 +92,13 @@
   line-height: 1.1;
   text-align: left;
 }
+/* « La Grande Expédition » tient sur deux lignes : l'étiquette « Nouveau », posée sur le bord du
+   haut, ne les couvre pas. Avec de la place, elle passe à droite du bouton (plus bas). */
+@media (max-width: 999px), (max-height: 679px) {
+  #home-screen #home-voyage:has(.voyage-new:not([hidden])) {
+    padding-top: 12px;
+  }
+}
 #home-voyage::before {
   content: '';
   flex: 0 0 auto;
@@ -101,10 +108,10 @@
 }
 #home-voyage .voyage-new {
   position: absolute;
-  /* « La Grande Expédition » tient sur deux lignes : l'étiquette se pose sur le coin du bouton,
-     au-dessus des mots. */
-  top: -12px;
-  right: -6px;
+  /* Posée à cheval sur le bord du haut ; le bouton lui laisse sa place au-dessus des mots. */
+  top: 0;
+  right: 8px;
+  translate: 0 -60%;
   padding: 1px 8px;
   border-radius: 999px;
   background: var(--honey);

@@ -81,68 +81,100 @@ function tick() {
 
 /** Where a stop stands in the road's box, in hundredths: its column, its lane. */
 const COLUMN = (column: number, columns: number) => ((column + 0.5) / columns) * 100;
-const LANE = (row: number, rows: number) => (rows === 1 ? 50 : row === 0 ? 24 : 76);
+const LANE = (row: number, rows: number) => (rows === 1 ? 50 : row === 0 ? 22 : 78);
+/** One smooth stretch of road, level at both ends, as the voyage draws its path. */
+const curve = (x1: number, y1: number, x2: number, y2: number) => {
+  const middle = (x1 + x2) / 2;
+  return `M${x1} ${y1}C${middle} ${y1},${middle} ${y2},${x2} ${y2}`;
+};
 
-/** The mark of one stop: a tick once passed, the mission's number, a halt's picture, the king. */
+/** The mark of one stop: the mission's number, a halt's picture or the king, and a tick once passed. */
 function stopMark(stop: RoadStop) {
   const mark = decoration('span', 'exp-mark');
-  if (stop.state === 'done') mark.append(tick());
-  else if (stop.kind === 'halt') {
+  if (stop.kind === 'halt') {
     const picture = decoration('span', 'exp-halt-picture');
     picture.dataset.halt = stop.halt!;
     if (stop.halt === 'roulotte') picture.append(make('i'), make('i'), make('i'));
     mark.append(picture);
   } else if (stop.kind === 'guardian') mark.append(king());
   else mark.textContent = String(stop.mission);
+  if (stop.state === 'done') {
+    const done = decoration('span', 'exp-tick');
+    done.append(tick());
+    mark.append(done);
+  }
   return mark;
 }
 
 /**
- * The road of the tableau, as the voyage draws its path: a dashed road from the first
- * mission to the guardian, which splits in two at every fork and every halt. The road
- * already travelled is drawn in colour; the stops not chosen stay, faded; the stops to
- * choose now stand out.
+ * The road of the tableau, as the voyage draws its path: one dashed road from the edge of the
+ * panel to the guardian. At every fork and every halt it splits in two, then joins again
+ * before the next: the child sees where it parts and where it meets. The way travelled is
+ * drawn in green, the brave path in gold; the stops not chosen fade.
  */
 function road(state: ExpeditionState) {
   const columns = roadColumns(state);
   const list = make('ol', { className: 'exp-stops' });
+  setAttribute(list, 'aria-label', TEXT.laRouteDuTableau);
   const lines: SVGElement[] = [];
+  const stretch = (d: string, kind: string) => {
+    const path = svgNode('path', { d, 'vector-effect': 'non-scaling-stroke' });
+    path.setAttribute('class', kind);
+    lines.push(path);
+  };
+  /** How a stretch to or from a stop looks: travelled, faded, brave, or still open. */
+  const look = (stop: RoadStop, travelled: boolean) =>
+    travelled
+      ? 'exp-taken'
+      : stop.state === 'skipped'
+        ? 'exp-faded'
+        : stop.path === 'brave'
+          ? 'exp-brave'
+          : 'exp-open';
+  const count = columns.length;
+  const firstLane = LANE(0, columns[0].length);
+  stretch(
+    `M-1 ${firstLane}L${COLUMN(0, count)} ${firstLane}`,
+    columns[0][0].state === 'done' ? 'exp-taken' : 'exp-open',
+  );
   for (const [column, stops] of columns.entries()) {
     for (const [row, stop] of stops.entries()) {
-      const item = make(
-        'li',
-        { className: 'exp-stop' },
-        stopMark(stop),
-        make('span', { className: 'sr-only', text: stop.name }),
-      );
+      const item = make('li', { className: 'exp-stop' }, stopMark(stop));
+      // Read as the child sees it: the mission, then the path or the halt, then where it stands.
       if (stop.detail) item.append(make('span', { className: 'sr-only', text: stop.detail }));
-      item.append(make('span', { className: 'sr-only', text: stop.said }));
+      item.append(
+        make('span', { className: 'sr-only', text: stop.name }),
+        make('span', { className: 'sr-only', text: stop.said }),
+      );
       item.dataset.kind = stop.kind;
       item.dataset.state = stop.state;
       if (stop.path) item.dataset.path = stop.path;
-      // A single stop to play is « here »; where the road splits, both are choices.
+      if (stops.length === 1) item.dataset.alone = '';
       if (stop.state === 'next' && stops.length === 1) item.setAttribute('aria-current', 'step');
       item.style.setProperty('--column', String(column + 1));
       item.style.setProperty('--row', stops.length === 1 ? '1 / 3' : String(row + 1));
       list.append(item);
     }
     const next = columns[column + 1];
-    if (!next) continue;
+    const x = COLUMN(column, count);
+    if (!next) {
+      const lane = LANE(0, stops.length);
+      stretch(`M${x} ${lane}L101 ${lane}`, stops[0].state === 'done' ? 'exp-taken' : 'exp-open');
+      continue;
+    }
+    // Between two columns the road gathers at one point, halfway, then parts again.
+    const meet = (x + COLUMN(column + 1, count)) / 2;
+    const passedNext = next.some((stop) => stop.state === 'done');
     for (const [row, from] of stops.entries())
-      for (const [nextRow, to] of next.entries()) {
-        // Coloured only where the child has gone; the way to a choice stays dashed.
-        const taken = from.state === 'done' && to.state === 'done';
-        const open = from.state === 'done' || from.state === 'next' || from.state === 'ahead';
-        const segment = svgNode('path', {
-          d: `M${COLUMN(column, columns.length)} ${LANE(row, stops.length)}L${COLUMN(column + 1, columns.length)} ${LANE(nextRow, next.length)}`,
-          'vector-effect': 'non-scaling-stroke',
-        });
-        segment.setAttribute(
-          'class',
-          taken ? 'exp-taken' : open && to.state !== 'skipped' ? 'exp-open' : 'exp-faded',
-        );
-        lines.push(segment);
-      }
+      stretch(
+        curve(x, LANE(row, stops.length), meet, 50),
+        look(from, from.state === 'done' && passedNext),
+      );
+    for (const [row, to] of next.entries())
+      stretch(
+        curve(meet, 50, COLUMN(column + 1, count), LANE(row, next.length)),
+        look(to, to.state === 'done'),
+      );
   }
   const drawing = svgNode(
     'svg',
@@ -154,7 +186,7 @@ function road(state: ExpeditionState) {
     },
     ...lines,
   );
-  list.style.setProperty('--columns', String(columns.length));
+  list.style.setProperty('--columns', String(count));
   const where = make('span', {
     className: 'exp-where',
     text: fill(TEXT.tableauNSurN, state.tableau + 1, expeditionPlanOf(state).tableaux.length),
@@ -289,9 +321,13 @@ function giftsRow(state: ExpeditionState) {
 }
 
 /** Under every view: the gifts, what the camp carries, and the way to another expedition. */
-function foot(state: ExpeditionState, actions: ExpeditionActions, other = true) {
-  const camp = make('p', { className: 'exp-camp' });
-  for (const words of campWords(state)) camp.append(make('span', { text: words }));
+function foot(state: ExpeditionState, actions: ExpeditionActions, other = true, notice = '') {
+  // What a halt has just done to the camp takes, once, the place of what the camp carries.
+  const camp = make('p', { className: notice ? 'exp-notice' : 'exp-camp' });
+  if (notice) {
+    camp.setAttribute('role', 'status');
+    camp.append(make('span', { text: notice }));
+  } else for (const words of campWords(state)) camp.append(make('span', { text: words }));
   const row = withClasses(
     make('div', { className: 'voyage-foot' }, giftsRow(state), camp),
     'exp-foot',
@@ -337,11 +373,6 @@ export function mapView(
   }
   choices.dataset.count = String(choices.childElementCount);
   const lines = make('div', { className: 'exp-lines' });
-  if (notice) {
-    const said = make('p', { className: 'exp-notice', text: notice });
-    said.setAttribute('role', 'status');
-    lines.append(said);
-  }
   if (ask) lines.append(make('h2', { text: ask }));
   const record = recordLine(best);
   if (record) lines.append(make('p', { className: 'exp-record', text: record }));
@@ -350,7 +381,7 @@ export function mapView(
       make('p', { className: 'exp-grow', text: TEXT.lesSerpentsGrandissentAChaqueMission }),
     );
   const said = lines.childElementCount ? [lines] : [];
-  return [road(state), ...said, choices, foot(state, actions)];
+  return [road(state), ...said, choices, foot(state, actions, true, notice)];
 }
 
 /** One card to choose: the whole card is the button. */

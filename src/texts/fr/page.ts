@@ -79,7 +79,7 @@ export const aDecouvrir = 'À découvrir';
 export const choisisUnAlliePuisToucheTonCamp = 'Choisis un allié, puis touche ton camp.';
 export const recruterNosUnites = 'Recruter nos unités';
 export const conseils = 'Conseils';
-export const monExpedition = 'Mon expédition';
+export const maMission = 'Ma mission';
 export const carteDesMissions = 'Carte des missions';
 export const reessayerLeMemeDepart = 'Recommencer cette partie';
 export const missionSuivante = 'Mission suivante';
@@ -250,7 +250,7 @@ export const pourLesParents = 'Pour les parents';
 export const preparer = 'Préparer';
 export const reprendreMaMission = 'Reprendre ma mission';
 export const laCarteDesMissions = 'La carte des missions';
-export const nouveauLesExpeditions = 'Nouveau · Les expéditions';
+export const lesMissions = 'Les missions';
 export const sixMissionsDansLesFougeres = 'Six missions dans les fougères';
 export const tesAlliesEtLesSerpentsChangent =
   'Tes alliés et les serpents changent selon la mission.';

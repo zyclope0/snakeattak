@@ -26,6 +26,8 @@ export const bravoTuAsFiniN = 'Bravo ! Tu as fini {0}';
 
 // --- Le chemin des sept pas d'un tableau.
 export const missionN = 'Mission {0}';
+export const halteN = 'Halte : {0}';
+export const laRouteDuTableau = 'La route du tableau';
 export const leGardienN = 'Le gardien : {0}';
 export const gagnee = 'gagnée';
 export const passee = 'passée';
@@ -33,6 +35,7 @@ export const aJouer = 'à jouer';
 export const aVenir = 'à venir';
 export const aChoisir = 'à choisir';
 export const pasChoisi = 'pas choisi';
+export const pasChoisie = 'pas choisie';
 
 // --- Les missions à choisir.
 export const choisisTonChemin = 'Choisis ton chemin';

@@ -25,6 +25,8 @@ export const bravoTuAsFiniN = 'Well done! You finished {0}';
 
 // --- The seven steps of a land.
 export const missionN = 'Mission {0}';
+export const halteN = 'Stop: {0}';
+export const laRouteDuTableau = 'The road of this land';
 export const leGardienN = 'The guardian: {0}';
 export const gagnee = 'won';
 export const passee = 'passed';
@@ -32,6 +34,7 @@ export const aJouer = 'to play';
 export const aVenir = 'still ahead';
 export const aChoisir = 'to choose';
 export const pasChoisi = 'not chosen';
+export const pasChoisie = 'not chosen';
 
 // --- The missions to choose.
 export const choisisTonChemin = 'Choose your path';

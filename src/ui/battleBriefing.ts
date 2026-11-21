@@ -50,7 +50,7 @@ function outcomeBriefing(game: Game) {
   if (game.status !== 'won') return { title: TEXT.leCampEstTombe, tip: defeatCopy(game).subtitle };
   return game.mission
     ? {
-        title: TEXT.expeditionReussie,
+        title: TEXT.missionReussie2,
         tip: TEXT.tesAlliesOntTenuRetrouveLaCarte,
       }
     : {
