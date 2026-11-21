@@ -116,8 +116,8 @@ const VERSION_2: ExpeditionTuning = {
     {
       first: { defi: 'refuge-petit' },
       calm: [
+        { defi: 'refuge-createur-petit' },
         { defi: 'course-petit' },
-        { defi: 'trois-ponts-createur-petit' },
         { defi: 'coquilles-petit' },
       ],
       brave: [
@@ -125,27 +125,35 @@ const VERSION_2: ExpeditionTuning = {
         { defi: 'sonnette-moyen' },
         { defi: 'refuge-createur-moyen' },
       ],
-      guardian: { defi: 'carrefour-petit', kingHp: 6, court: false },
+      guardian: { defi: 'trois-ponts-petit', kingHp: 6, court: false },
     },
     {
-      first: { defi: 'trois-ponts-petit' },
-      calm: [{ defi: 'sonnette-petit' }, { defi: 'coquilles-moyen' }, { defi: 'sonnette-grand' }],
+      first: { defi: 'trois-ponts-createur-petit' },
+      calm: [
+        { defi: 'sonnette-petit' },
+        { defi: 'coquilles-moyen' },
+        { defi: 'coquilles-createur-moyen' },
+      ],
       brave: [
         { defi: 'trois-ponts-moyen' },
         { defi: 'course-moyen' },
-        { defi: 'course-createur-grand' },
+        { defi: 'sonnette-grand' },
       ],
-      guardian: { defi: 'sonnette-moyen', kingHp: 6, court: false },
+      guardian: { defi: 'course-createur-petit', kingHp: 6, court: false },
     },
     {
-      first: { defi: 'carrefour-moyen' },
+      first: { defi: 'refuge-grand' },
       calm: [
-        { defi: 'coquilles-grand' },
-        { defi: 'sonnette-createur-moyen' },
+        { defi: 'carrefour-moyen' },
         { defi: 'coquilles-createur-grand' },
+        { defi: 'coquilles-grand' },
       ],
-      brave: [{ defi: 'trois-ponts-grand' }, { defi: 'course-grand' }, { defi: 'carrefour-grand' }],
-      guardian: { defi: 'refuge-grand', kingHp: 6.5, court: true },
+      brave: [
+        { defi: 'trois-ponts-grand' },
+        { defi: 'course-grand' },
+        { defi: 'carrefour-grand' },
+      ],
+      guardian: { defi: 'carrefour-petit', kingHp: 6.5, court: true },
     },
   ],
 };
