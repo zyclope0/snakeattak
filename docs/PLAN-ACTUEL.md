@@ -29,6 +29,17 @@ Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape 
   novembre ; publié avec les deux autres lots (publication n° 39).
 - Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).
 
+**Revue du code** (21 novembre, [REVUE-CODE-2026-11-21.md](REVUE-CODE-2026-11-21.md)) :
+accord du parent pour la performance (points 1 et 4) et le nettoyage (points 5, 7, 8, 10, avec
+le retrait des restes du voyage). Gardés pour après : les images à ré-encoder (−6,7 Mo) et
+Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
+
+- Lot 1, performance : fait. La sauvegarde n'est plus refaite quand rien n'a changé (pendant
+  un combat : 5,4 → 0,2 ms par appel à 80 alliés) ; les places du camp sont cherchées une
+  fois par carte (aventure sans fin : pas moyen 1,25 → 0,28 ms). Mêmes parties, mêmes
+  sauvegardes. Non mesuré sur le téléphone.
+- Lot 2, nettoyage : à faire.
+
 **À reprendre après l'hygiène**, dans cet ordre :
 
 1. Expédition : les règles nouvelles, une par une, chacune montrée au fils, mesurée, acceptée

@@ -24,7 +24,33 @@ type Session = {
   /** Expeditions and albums of the last file, handed back to callers that omit them. */
   missions: MissionProgress | undefined;
   albums: CapriceAlbums | undefined;
+  /**
+   * What the last sync was given, once it left nothing to do: asked the same again, it would
+   * build the file already stored. Any other read or write forgets it.
+   */
+  settled: string | null;
 };
+
+/**
+ * One text for all a sync is given. What JSON would blur (a NaN, an infinity, a hole, an
+ * `undefined`) is written apart, so that two different askings never share a text.
+ */
+function asking(
+  campRaw: string | null,
+  career: CareerState,
+  missions?: MissionProgress,
+  albums?: CapriceAlbums,
+): string | null {
+  try {
+    return JSON.stringify([campRaw, career, missions, albums], (_key, value) =>
+      value === undefined || (typeof value === 'number' && !Number.isFinite(value))
+        ? `\u0000${value}`
+        : value,
+    );
+  } catch {
+    return null;
+  }
+}
 
 /** Private copies: the caller's objects may change after the write. */
 function retain(session: Session, missions?: MissionProgress, albums?: CapriceAlbums): void {
@@ -40,6 +66,7 @@ function save(
   missions?: MissionProgress,
   albums?: CapriceAlbums,
 ): boolean {
+  session.settled = null;
   if (!storage || (session.disabled && !explicitImport)) return false;
   // Confirmation still performs a write, so a blocked storage cannot accept an import.
   if (!explicitImport && raw === session.last) return true;
@@ -57,6 +84,7 @@ function save(
 }
 
 function load(storage: StoragePort | undefined, session: Session): FamilyBackup | null {
+  session.settled = null;
   if (!storage) return null;
   try {
     const raw = storage.getItem(FAMILY_STORAGE_KEY);
@@ -124,6 +152,7 @@ export function createFamilyPersistence(storage?: StoragePort) {
     status: storage ? TEXT.aucuneSauvegardeFamilialeSurCet : TEXT.sauvegardeFamilialeIndisponible2,
     missions: undefined,
     albums: undefined,
+    settled: null,
   };
   return {
     get status() {
@@ -139,12 +168,19 @@ export function createFamilyPersistence(storage?: StoragePort) {
       // Older callers must not erase loaded expeditions or albums by omitting arguments.
       const nextMissions = missions === undefined ? session.missions : missions;
       const nextAlbums = albums === undefined ? session.albums : albums;
+      // The board asks again several times a second, also during a fight, where nothing can
+      // change: the file is built and read back only when something is asked that was not.
+      const asked = asking(campRaw, career, nextMissions, nextAlbums);
+      if (asked !== null && asked === session.settled) return true;
+      session.settled = null;
       const raw = writeFamilyBackup(campRaw, career, nextMissions, nextAlbums);
       if (!raw) {
         session.status = TEXT.sauvegardeFamilialeInvalideAucune;
         return false;
       }
-      return save(storage, session, raw, false, nextMissions, nextAlbums);
+      const saved = save(storage, session, raw, false, nextMissions, nextAlbums);
+      if (saved) session.settled = asked;
+      return saved;
     },
     import(backup: FamilyBackup): boolean {
       const validated = validateImport(backup);

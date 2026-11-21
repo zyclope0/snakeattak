@@ -140,6 +140,24 @@ export function findPath(
   return [];
 }
 
+const campLegal = (p: Point, level: Level) =>
+  !blocked(p.x, p.y, level) &&
+  !blocked(center(Math.floor(p.x / CELL)), center(Math.floor(p.y / CELL)), level);
+/** The camp points an ally may stand on, for each map: the terrain of a level never changes. */
+const campPoints = new WeakMap<Level, readonly Point[]>();
+function campCandidates(level: Level): readonly Point[] {
+  let points = campPoints.get(level);
+  if (!points) {
+    const found: Point[] = [];
+    for (let x = CAMP_LEFT; x <= CAMP_RIGHT; x += CELL / 2)
+      for (let y = CAMP_TOP; y <= CAMP_BOTTOM; y += CELL / 2) {
+        const p = { x, y };
+        if (campLegal(p, level)) found.push(p);
+      }
+    campPoints.set(level, (points = found));
+  }
+  return points;
+}
 /** A legal camp point, with reservations used when moving a whole surviving army. */
 export function nearestCampPoint(
   goal: Point,
@@ -152,23 +170,24 @@ export function nearestCampPoint(
     x: Math.max(CAMP_LEFT, Math.min(CAMP_RIGHT, goal.x)),
     y: Math.max(CAMP_TOP, Math.min(CAMP_BOTTOM, goal.y)),
   };
-  const legal = (p: Point) =>
-    !blocked(p.x, p.y, level) &&
-    !blocked(center(Math.floor(p.x / CELL)), center(Math.floor(p.y / CELL)), level) &&
-    !reserved.some((r) => Math.hypot(r.x - p.x, r.y - p.y) < 28);
-  if (legal(goal)) return goal;
-  const candidates: Point[] = [];
-  for (let x = CAMP_LEFT; x <= CAMP_RIGHT; x += CELL / 2)
-    for (let y = CAMP_TOP; y <= CAMP_BOTTOM; y += CELL / 2) {
-      const p = { x, y };
-      if (legal(p)) candidates.push(p);
+  const free = (p: Point) => !reserved.some((r) => Math.hypot(r.x - p.x, r.y - p.y) < 28);
+  if (campLegal(goal, level) && free(goal)) return goal;
+  // The nearest legal candidate: by distance, then by y, then by x (the order the sort had).
+  let closest: Point | undefined,
+    best = Infinity;
+  for (const c of campCandidates(level)) {
+    if (!free(c)) continue;
+    const d = Math.hypot(c.x - goal.x, c.y - goal.y);
+    if (
+      !closest ||
+      d < best ||
+      (d === best && (c.y < closest.y || (c.y === closest.y && c.x < closest.x)))
+    ) {
+      closest = c;
+      best = d;
     }
-  const closest = candidates.sort(
-    (a, b) =>
-      Math.hypot(a.x - goal.x, a.y - goal.y) - Math.hypot(b.x - goal.x, b.y - goal.y) ||
-      a.y - b.y ||
-      a.x - b.x,
-  )[0];
+  }
+  if (closest) closest = { x: closest.x, y: closest.y };
   // A full camp must not silently receive an occupied or blocked point.
   if (!closest) throw new Error(TEXT.aucunePlaceLibreDansLeCamp);
   return closest;
