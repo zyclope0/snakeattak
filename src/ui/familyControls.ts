@@ -1,5 +1,11 @@
 import { setText as setDisplayText } from '../i18n/dom.ts';
-import { backupSummary, readFamilyBackup, FAMILY_BYTE_LIMIT } from '../familyBackup.ts';
+import {
+  backupSummary,
+  FAMILY_BYTE_LIMIT,
+  FAMILY_EXTRAS,
+  hasAlbums,
+  readFamilyBackup,
+} from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
@@ -7,6 +13,8 @@ import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
 type Actions = {
   exportRaw: () => string | null;
+  /** False for a file one of whose parts does not read back: it is refused whole. */
+  accepts: (backup: FamilyBackup) => boolean;
   applyBackup: (backup: FamilyBackup) => {
     ok: boolean;
     message: string;
@@ -18,9 +26,13 @@ type Actions = {
 const say = (text: string) => setDisplayText(byId('family-status'), text);
 const sum = (values: readonly number[]) => values.reduce((a, b) => a + b, 0);
 /** The sticker books of a file; older files have none. */
-const albumsOf = (backup: FamilyBackup) =>
-  backup.version === 4 || backup.version === 5 ? backup.albums : null;
+const albumsOf = (backup: FamilyBackup) => (hasAlbums(backup) ? backup.albums : null);
 
+const EXTRA_WORDS = {
+  expedition: TEXT.lExpeditionDeCeFichierRemplacera,
+  voyage: TEXT.leVoyageDeCeFichierRemplacera,
+  endless: TEXT.lesRecordsDeCeFichierRemplaceront,
+};
 /** What a family file would bring back: the camp, the expeditions, the sticker books. */
 function previewText(backup: FamilyBackup): string {
   const summary = backupSummary(backup);
@@ -45,7 +57,13 @@ function previewText(backup: FamilyBackup): string {
     text +
     (albumsOf(backup)
       ? TEXT.lesCarnetsEtLeursAutocollantsSont
-      : TEXT.ceFichierNeContientAucunCarnetLes)
+      : TEXT.ceFichierNeContientAucunCarnetLes) +
+    // What the file holds beside the adventure, named one by one: only that is replaced.
+    (backup.version === 6
+      ? FAMILY_EXTRAS.filter((name) => Object.hasOwn(backup.extras, name))
+          .map((name) => EXTRA_WORDS[name])
+          .join('')
+      : '')
   );
 }
 /** The names of the sticker books, exactly as the family wrote them. */
@@ -81,7 +99,7 @@ function openPicker(file: HTMLInputElement) {
  * Choosing a family file and looking at what it holds. Nothing is applied here: the file
  * that was read waits in `chosen()` until the parent confirms.
  */
-function bindFamilyPreview(dialog: HTMLDialogElement) {
+function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts']) {
   const file = byId<HTMLInputElement>('family-file');
   const apply = byId<HTMLButtonElement>('family-apply');
   const albumNames = make('p', { id: 'family-preview-albums' });
@@ -121,7 +139,7 @@ function bindFamilyPreview(dialog: HTMLDialogElement) {
       const raw = await selected.text();
       if (turn !== generation || !dialog.open) return;
       const backup = readFamilyBackup(raw);
-      if (backup) show(backup);
+      if (backup && accepts(backup)) show(backup);
       else say(TEXT.fichierFamilialInvalideOu);
     } catch {
       if (turn === generation) say(TEXT.impossibleDeLireCeFichierRienNAEte);
@@ -136,7 +154,7 @@ function bindFamilyPreview(dialog: HTMLDialogElement) {
 /** User-selected local data only. Preview and cancellation never mutate the adventure. */
 export function bindFamilyControls(actions: Actions) {
   const dialog = byId<HTMLDialogElement>('family-dialog');
-  const preview = bindFamilyPreview(dialog);
+  const preview = bindFamilyPreview(dialog, actions.accepts);
   // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
   byId('home-family').after(helpPoint('family'));
   const close = () => {

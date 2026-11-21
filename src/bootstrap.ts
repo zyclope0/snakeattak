@@ -15,7 +15,8 @@ import type { MissionRun } from './missions.ts';
 import { bindExpeditions } from './ui/expeditions.ts';
 import { createCampMemory } from './campMemory.ts';
 import { createFamilyPersistence } from './familyPersistence.ts';
-import { readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
+import { hasAlbums, readFamilyBackup, writeFamilyBackup } from './familyBackup.ts';
+import { checkExtras, collectExtras, writeExtras } from './familyExtras.ts';
 import type { FamilyBackup } from './familyBackup.ts';
 import { decodeCheckpoint } from './checkpoints.ts';
 import { bindFamilyControls } from './ui/familyControls.ts';
@@ -65,12 +66,14 @@ const missions = createMissionProgressController(
   familySaved && 'missions' in familySaved ? familySaved.missions : undefined,
 );
 const albums = createCapriceAlbumsController(
-  familySaved?.version === 4 || familySaved?.version === 5 ? familySaved.albums : undefined,
+  familySaved && hasAlbums(familySaved) ? familySaved.albums : undefined,
 );
 const stickerResults = new WeakMap<Game, boolean>();
 const records = createRecordBook(storage);
 /** The wave last written in the records for an endless game: each step is written once. */
 const endlessWritten = new WeakMap<Game, number>();
+/** True once a family file brought back an expedition, a voyage or records. */
+let reloadAfterImport = false;
 /** The classic camp waiting under a mission, and whether it is an endless one. */
 let endlessCamp: { raw: string | null; endless: boolean } = { raw: null, endless: false };
 
@@ -192,10 +195,12 @@ bindPrivacyDoor();
 bindFamilyControls({
   persistenceStatus: () => family.status,
   exportRaw: exportFamily,
+  accepts: acceptsFamily,
   applyBackup: applyFamily,
   finished: () => {
     menu!.showHome();
     refresh();
+    if (reloadAfterImport) window.location.reload();
   },
 });
 showScreen(true);
@@ -426,27 +431,53 @@ function refreshHomePrimary() {
   };
 }
 
-/** The family file of the adventure as it is now. */
+/**
+ * The family file of the adventure as it is now, with what the player keeps beside it: the
+ * expedition, the voyage to finish, the records.
+ */
 function exportFamily() {
   recordGame(false);
-  return writeFamilyBackup(campMemory.raw(), career.state, missions.state, albums.state);
+  return writeFamilyBackup(
+    campMemory.raw(),
+    career.state,
+    missions.state,
+    albums.state,
+    collectExtras(storage),
+  );
+}
+/** True when every part of a family file reads back by its own rules. */
+function acceptsFamily(backup: FamilyBackup) {
+  return backup.version !== 6 || checkExtras(backup.extras) !== null;
 }
 /**
  * Replaces the adventure by a family file. The file is written first: when the browser
  * refuses it, nothing of the session has changed.
  */
 function applyFamily(backup: FamilyBackup) {
-  const canonical = readFamilyBackup(JSON.stringify(backup));
-  if (!canonical) return { ok: false, message: TEXT.fichierInvalideRienNAEteModifie };
+  const whole = readFamilyBackup(JSON.stringify(backup));
+  const invalid = { ok: false, message: TEXT.fichierInvalideRienNAEteModifie };
+  const refused = { ok: false, message: TEXT.impossibleDeConserverCeFichierSur };
+  /** The device refused a write and then the way back: it holds a part of the file. */
+  const partial = { ok: false, message: TEXT.unePartieSeulementDuFichierAEteGardee };
+  if (!whole) return invalid;
+  // What the player keeps beside the adventure goes back under its own keys, first: the
+  // adventure is then stored as the file that holds it alone, as it always was.
+  let extras: { undo: () => boolean } | null = null;
+  let canonical: FamilyBackup | null = whole;
+  if (whole.version === 6) {
+    const checked = checkExtras(whole.extras);
+    const alone = writeFamilyBackup(whole.camp, whole.career, whole.missions, whole.albums);
+    canonical = alone ? readFamilyBackup(alone) : null;
+    if (!checked || !canonical) return invalid;
+    extras = writeExtras(storage, checked);
+    if (!extras) return writeExtras.partial ? partial : refused;
+  }
   const game = canonical.camp === null ? null : decodeCheckpoint(canonical.camp);
-  if (!family.import(canonical))
-    return {
-      ok: false,
-      message: TEXT.impossibleDeConserverCeFichierSur,
-    };
-  albums.replaceState(
-    canonical.version === 4 || canonical.version === 5 ? canonical.albums : createCapriceAlbums(),
-  );
+  if (!family.import(canonical)) return extras && !extras.undo() ? partial : refused;
+  // The door of the expedition and its screens hold what they read at start: the page is
+  // read again, as when the player changes.
+  reloadAfterImport = extras !== null;
+  albums.replaceState(hasAlbums(canonical) ? canonical.albums : createCapriceAlbums());
   openAlbumForCaprice(game, 'missions' in canonical ? canonical.missions?.retryCamp : undefined);
   career.replaceState(canonical.career);
   missions.replaceState('missions' in canonical ? canonical.missions! : createMissionProgress());

@@ -20,6 +20,12 @@ export const lesCarnetsEtLeursAutocollantsSont =
   ' Les carnets et leurs autocollants sont inclus et remplaceront les carnets actuels.';
 export const ceFichierNeContientAucunCarnetLes =
   ' Ce fichier ne contient aucun carnet : les carnets actuels seront remplacés par un carnet vide.';
+export const lExpeditionDeCeFichierRemplacera =
+  ' L’expédition de ce fichier remplacera celle de cet appareil.';
+export const leVoyageDeCeFichierRemplacera =
+  ' Le voyage à finir de ce fichier remplacera celui de cet appareil.';
+export const lesRecordsDeCeFichierRemplaceront =
+  ' Les records de l’aventure sans fin de ce fichier remplaceront ceux de cet appareil.';
 export const verifieCetApercuTonAventure =
   'Vérifie cet aperçu. Ton aventure actuelle reste intacte tant que tu ne confirmes pas.';
 export const fichierTropVolumineuxRienNAEte = 'Fichier trop volumineux : rien n’a été modifié.';
