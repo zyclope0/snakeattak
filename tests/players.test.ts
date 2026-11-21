@@ -194,6 +194,7 @@ test('a nickname is optional, short, and kept as typed', () => {
 test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device keys never move', () => {
   assert.deepEqual(PLAYER_KEYS, [
     'conquete-serpents:family:v1',
+    'conquete-serpents:family-refused:v1',
     'conquete-serpents:camp:v1',
     'conquete-serpents:progress:v1',
     'conquete-serpents:recruitment-reminder:v1',
@@ -218,7 +219,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     for (const id of ['p1', 'p2', 'p3', 'p4'] as const) assert.equal(playerKey(key, id), key);
 });
 
-test('the persistence code only ever touches the eight keys of its player', () => {
+test('the persistence code only ever touches the nine keys of its player', () => {
   for (const id of ['p1', 'p2', 'p4'] as const) {
     const device = memory();
     const storage = playerStorage(device, id);
@@ -227,8 +228,10 @@ test('the persistence code only ever touches the eight keys of its player', () =
     createPersistence(storage).sync(game);
     const career = createCareer(storage);
     career.sync(game);
+    // A family save that cannot be read is put aside under the player's own key.
+    storage.setItem(FAMILY, '{');
     const persistence = createFamilyPersistence(storage);
-    persistence.load();
+    assert.equal(persistence.load(), null);
     assert.equal(persistence.sync(encodeCheckpoint(game), career.state), true);
     createReminderMarkers(storage, []).mark('PONTS-1-0000-7X8R-A1');
     assert.equal(saveVoyageLog(storage, logVoyage(loadVoyageLog(storage), startVoyage(7)!)!), true);

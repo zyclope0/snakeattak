@@ -15,7 +15,31 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 | **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                             |
 | **Les enfants**           | Le fils a joué 2 ou 3 parties sur le site le 19 novembre, content, sans remarque précise. Aucune séance notée depuis.                                                                                                                                                                                                                                                                                      |
 
-## En cours (20 novembre) : La Grande Expédition
+## En pause (21 novembre) : les fonctionnalités
+
+Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape d'hygiène
+(stabiliser avant d'ajouter). Compte rendu : [BILAN-HYGIENE-2026-11.md](BILAN-HYGIENE-2026-11.md).
+
+**Suite de l'hygiène** (décisions du parent, 21 novembre), avant les fonctionnalités :
+
+- Sauvegarde familiale version 6 : y mettre l'expédition, les records de l'aventure sans fin
+  et le voyage à finir ; les anciens fichiers restent lisibles.
+- Allié collé à un rocher sur deux cartes de mission : nouvelle version de règles pour les
+  nouvelles parties, mesurée, accord du parent avant de publier.
+- Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).
+
+**À reprendre après l'hygiène**, dans cet ordre :
+
+1. Expédition : les règles nouvelles, une par une, chacune montrée au fils, mesurée, acceptée
+   (Les Ponts Mouillés, Double Couronne pour un gardien, Le Tunnel Secret, Ensorcelés…).
+2. Expédition : voir avec le fils les défis qui reviennent (« Les carapaces » et « La
+   tirelire », quatre fois chacun) et la difficulté réelle (le joueur simulé moyen arrive
+   15 fois sur 100).
+3. Application Android : build 64 par Codex (spinosaure, aventure sans fin, expédition).
+4. Dossier Play ; mention des records dans la politique de confidentialité (au parent).
+5. Plus tard : sauterelle, boss caché aux pommes, « Invente ton défi ».
+
+## Avant la pause (20 et 21 novembre) : La Grande Expédition
 
 Le long voyage demandé par le parent : trois tableaux de cinq missions, des chemins, des
 haltes, le camp qui suit l'enfant, les cadeaux de l'aventure sans fin

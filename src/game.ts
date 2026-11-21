@@ -570,7 +570,8 @@ export class Game {
       !isOver(this) &&
       kind !== 'hero' &&
       this.isUnlocked(kind) &&
-      spendableGold(this) >= this.recruitCost(kind) &&
+      // An ally offered costs nothing: the coins a caprice keeps in the bank never stop it.
+      (this.recruitCost(kind) === 0 || spendableGold(this) >= this.recruitCost(kind)) &&
       isPlacementFree(this.units, x, y, this.level)
     );
   }

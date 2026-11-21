@@ -234,6 +234,8 @@ export function bindExpeditionScreens(
       notice = '';
       // Drawn first: the heading that takes the focus already says where the child is.
       show();
+      // The second tap of a double tap on the door must not start a battle.
+      page.hold();
       ports.navigate('expedition');
     },
     /**
@@ -258,6 +260,8 @@ export function bindExpeditionScreens(
       playing = null;
       ports.home();
       show();
+      // The gifts are drawn where « Continuer » was: a second tap must not choose one.
+      page.hold();
       ports.navigate('expedition');
     },
     /** True when the game on the board is a battle of the expedition. */

@@ -273,3 +273,37 @@ test('chaque défi fixe joue vraiment là où il est placé', async () => {
     });
   }
 });
+
+test('sous « La tirelire », un allié offert se pose même quand la bourse est sous la banque', async () => {
+  const { capriceById } = await import('../src/caprices.ts');
+  // The guardian of the second tableau keeps coins in the bank; the bag holds an ally.
+  const state = {
+    ...X.startExpedition(SEED)!,
+    tableau: 1,
+    step: 6,
+    bag: ['renfort-ninja' as const],
+    camp: { units: [], gold: 30, base: 100 },
+  };
+  const game = X.createExpeditionGame(plan, state)!;
+  const reserve = capriceById(game.mission!.caprice)!.rules.reserve;
+  assert.ok(
+    reserve > 0 && game.gold < reserve,
+    `the purse (${game.gold}) is under the bank (${reserve})`,
+  );
+  const gold = game.gold;
+  // A paid ally is still refused: the bank keeps its coins.
+  assert.equal(game.recruit('club', 900, 420), false);
+  assert.equal(game.recruitCost('ninja'), 0);
+  const spot = [
+    [900, 420],
+    [930, 520],
+    [930, 110],
+    [1000, 300],
+  ].find(([x, y]) => game.recruit('ninja', x, y));
+  assert.ok(spot, 'the ally offered is placed');
+  assert.equal(game.gold, gold, 'no coin is spent');
+  assert.equal(game.units.filter((u) => u.kind === 'ninja').length, 1);
+  // Its gift is used: a second ninja has its price again, and the bank refuses it.
+  assert.ok(game.recruitCost('ninja') > 0);
+  assert.equal(game.recruit('ninja', 700, 520), false);
+});
