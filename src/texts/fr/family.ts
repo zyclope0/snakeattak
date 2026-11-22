@@ -46,3 +46,5 @@ export const ceFichierNAPasPuEtreLu =
   'Un ancien fichier n’a pas pu être lu par cette version du jeu. Il a été mis de côté, sans être effacé.';
 export const leCampDeLaSauvegardeNAPasPuEtreLu =
   'Le camp de la sauvegarde n’a pas pu être lu. Les étoiles, les missions et les carnets sont gardés ; le fichier d’origine est mis de côté.';
+export const dansLApplicationLAventureNePeutPas =
+  'Dans l’application, l’aventure ne peut pas encore sortir de cet appareil. Elle est gardée ici tant que l’application reste installée et que ses données ne sont pas effacées.';

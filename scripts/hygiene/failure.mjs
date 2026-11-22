@@ -3,7 +3,9 @@
 //     l'enfant doit le savoir, relancer le jeu et retrouver son camp ;
 //  2. une erreur que le plateau traverse : rien ne doit s'afficher ;
 //  3. un démarrage qui échoue : l'accueil ne vient pas ; les fichiers familiaux gardés par
-//     l'appareil doivent pouvoir être enregistrés, tels quels.
+//     l'appareil doivent pouvoir être enregistrés, tels quels. L'application ne sait pas
+//     remettre un fichier : sur son paquet, aucun bouton, une phrase qui dit ce qui est
+//     toujours là ; les fichiers sont alors essayés sur le paquet du site (`dist`).
 //   node --experimental-strip-types scripts/hygiene/failure.mjs [dossier]
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
@@ -25,6 +27,8 @@ const SIZES = [
 const PROVOKED = 'recette : panne provoquée';
 /** The only scripts the start-up rescue may need. */
 const RESCUE_FILES = /\/assets\/(rescue|failure|keys|index|download)-[\w-]+\.js$/;
+/** The package that can hand a file over, when the one asked for is the application's. */
+const SITE = 'dist';
 
 /** Every button of `selector` is a fair target, and the block stays inside the screen. */
 async function fits(page, selector, label) {
@@ -122,30 +126,53 @@ for (const viewport of SIZES) {
     await browser.close();
   }
 
-  // 3. The game cannot start: the family files the device holds are handed over as they are.
-  const failed = await open({ dir, viewport, touch: viewport.width < 1000, storage: device });
-  try {
-    // Neither the game, nor its rules, nor the drawing engine: the rescue must need none.
-    // Every script is cut but the few small ones it is allowed (`scripts/check-dist.mjs`).
+  // 3. The game cannot start. Never the game, its rules nor the drawing engine: the rescue
+  //    must need none of them. Every script is cut but the few small ones it is allowed
+  //    (`scripts/check-dist.mjs`).
+  const stopped = async (from) => {
+    const failed = await open({
+      dir: from,
+      viewport,
+      touch: viewport.width < 1000,
+      storage: device,
+    });
     await failed.context.route(/\/assets\/[\w.-]+\.js$/, (route) =>
       RESCUE_FILES.test(route.request().url()) ? route.fallback() : route.abort(),
     );
     await failed.page.goto(`${ORIGIN}/`);
-    const rescue = failed.page.locator('#rescue');
-    await rescue.waitFor({ state: 'visible' });
+    await failed.page.locator('#rescue').waitFor({ state: 'visible' });
     assert.equal(await failed.page.locator('#home-screen:not([hidden])').count(), 0, 'no home');
     assert.ok(
       (await text(failed.page, '.boot-loading')).startsWith(BOOT.impossibleDeDemarrerLeJeuRecharge),
     );
-    const buttons = rescue.locator('button');
+    await fits(failed.page, '.boot-loading', `${tag} rescue (${from})`);
+    return failed;
+  };
+  const failed = await stopped(dir);
+  let application;
+  try {
+    application = (await failed.page.locator('#rescue button').count()) === 0;
+    if (application) {
+      // The application cannot hand a file over: no button that does nothing; a parent is
+      // told what is still there and what would lose it.
+      assert.equal(await text(failed.page, '#rescue'), FR.lesAventuresSontToujoursDansCet);
+      await failed.page.screenshot({ path: `artifacts/hygiene/rescue-application-${tag}.png` });
+      checks.push(`${tag} : démarrage en échec dans l'application, la phrase, aucun bouton`);
+    }
+  } finally {
+    if (application) await failed.browser.close();
+  }
+  // The family files the device holds are handed over as they are, where a file can be.
+  const files = application ? await stopped(SITE) : failed;
+  try {
+    const buttons = files.page.locator('#rescue button');
     assert.equal(await buttons.count(), 2, 'one button for each of the two players');
-    await fits(failed.page, '.boot-loading', `${tag} rescue`);
     for (const [index, key] of [
       KEYS.FAMILY_STORAGE_KEY,
       `${KEYS.FAMILY_STORAGE_KEY}:p2`,
     ].entries()) {
       const [download] = await Promise.all([
-        failed.page.waitForEvent('download'),
+        files.page.waitForEvent('download'),
         buttons.nth(index).click(),
       ]);
       assert.equal(download.suggestedFilename(), `conquete-serpents-famille-${index + 1}.json`);
@@ -153,12 +180,12 @@ for (const viewport of SIZES) {
       assert.equal(saved, device[key], `player ${index + 1}: the stored text, byte for byte`);
       assert.ok(readFamilyBackup(saved), `player ${index + 1}: a file the family import reads`);
     }
-    await failed.page.screenshot({ path: `artifacts/hygiene/rescue-${tag}.png` });
+    await files.page.screenshot({ path: `artifacts/hygiene/rescue-${tag}.png` });
     checks.push(
       `${tag} : démarrage en échec, deux fichiers familiaux rendus à l'octet et importables`,
     );
   } finally {
-    await failed.browser.close();
+    await files.browser.close();
   }
 }
 

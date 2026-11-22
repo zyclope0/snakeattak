@@ -43,3 +43,5 @@ export const ceFichierNAPasPuEtreLu =
   'This version of the game could not read an older file. It was put aside, not erased.';
 export const leCampDeLaSauvegardeNAPasPuEtreLu =
   'The camp in the save could not be read. Stars, missions, and sticker books are kept; the original file was put aside.';
+export const dansLApplicationLAventureNePeutPas =
+  'In the app, the adventure cannot leave this device yet. It is kept here as long as the app stays installed and its data is not cleared.';
