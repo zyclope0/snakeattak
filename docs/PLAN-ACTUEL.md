@@ -45,8 +45,9 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   `verify` qui la fixe maintenant), le calcul ne baisse pas (environ 48 minutes par passage,
   contre 44). Une PR de documents seuls ne lance que `npm run verify`.
 - Lot 4, règles écrites une seule fois (point 7) : première partie faite (tirages, armure,
-  valeurs nommées), parties identiques. Reste, pour un lot à part : les règles de
-  l'expédition recopiées dans ses écrans, le lecteur de camp porté, les carnets.
+  valeurs nommées), parties identiques. Seconde partie le 22 novembre : les règles de
+  l'expédition que ses écrans recopiaient sont dans le modèle. Reste : le lecteur de camp
+  porté, les carnets des joueurs, quelques valeurs encore tapées.
 - Recettes de sauvegarde dans la CI (22 novembre, suite choisie avec l'accord du parent) : une
   tâche « sauvegardes » rejoue à chaque PR de code la mise à jour depuis l'appareil d'un
   testeur du build 63, le fichier familial, la fermeture forcée et les doubles appuis.

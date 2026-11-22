@@ -28,7 +28,7 @@ garde **tous** les points, faits ou non.
 | 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | Fait, lot 1              |
 | 5   | La CI attend trop ; une PR de documents coûte autant que du code  | Fait, lot 3, gain mince  |
 | 6   | Barres de vie et petits ronds chers à dessiner                    | À mesurer sur l'appareil |
-| 7   | Des règles écrites plusieurs fois                                 | En partie, lot 4         |
+| 7   | Des règles écrites plusieurs fois                                 | En grande partie         |
 | 8   | Code mort et restes du voyage                                     | Fait, lot 2              |
 | 9   | Trois fichiers ont trop grossi                                    | Plus tard                |
 | 10  | Documentation d'architecture devenue fausse par endroits          | Passages cités corrigés  |
@@ -221,9 +221,17 @@ expire, toutes les suivantes sont redessinées. Piste : une étiquette fixe par 
   `STARS_MAX`, `FAMILY_EXTRAS_VERSION` (la version 6 du fichier familial),
   `EXTRA_CHARACTER_LIMIT` qui vaut `EXPEDITION_LOG_LIMIT`, `+${REWARD_COINS}` sur la carte.
 
-**Reste du point 7**, à faire dans un lot à part parce qu'il touche des écrans :
+**Fait ensuite (22 novembre)** : les règles de l'expédition que ses écrans recopiaient sont
+dans le modèle (`src/expedition.ts`), et les écrans les demandent : `needsPlace` (une place à
+libérer), `endsExpedition` (pas de cadeau après King Snake), `countsTwice` (ce qu'un cadeau
+rare double), `levelAfterPurchase` et `canPay` (la roulotte, qui s'en sert aussi pour
+vendre), `snakesHaveGrown`, `underWay`. Le style du bouton « Choisir » ne se décide plus en
+comparant un texte affiché : `giftWords` dit `plain`. Un test tient chaque règle à son
+ancienne écriture. « Expédition en cours » reste écrit une seconde fois, exprès, dans
+`src/expeditionLog.ts` : l'accueil le lit sans charger les règles.
 
-- les sept règles de l'expédition recopiées dans ses écrans ;
+**Reste du point 7** :
+
 - le lecteur de camp porté écrit deux fois (`game.receiveCamp`, `expedition.readCamp`) ;
 - `BOON_RULES[1]` treize fois et la version de l'aventure sans fin (`as 1`) ;
 - la chance de l'Œuf Mystère et les sels du tirage sans nom ; « partie finie » huit fois ;
