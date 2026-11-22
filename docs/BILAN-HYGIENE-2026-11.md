@@ -257,6 +257,9 @@ contrôle du site en ligne vert. L'application Android n'en a rien : build 64 à
 
 ## Recette à faire sur le téléphone avec le build 64
 
+Reprise et complétée dans [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md) (22 novembre), avec ce
+qui est nouveau dans le build 64.
+
 - [ ] Installer par-dessus le build 63 : étoiles, aventure en cours, voyage en cours, joueurs.
 - [ ] Gagner une mission, tuer l'application (bouton carré, balayer), rouvrir : les étoiles
       sont là, l'accueil dit « Jouer ».

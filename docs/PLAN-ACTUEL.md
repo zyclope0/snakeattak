@@ -10,7 +10,7 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 | Quoi                      | État                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Site**                  | https://snakeattacktd.com, publié depuis `main` le 22 novembre (publication n° 42, commit `37b3f06`, contrôle en ligne vert) : la fin du point 7 de la revue du code (camp porté lu en un seul endroit, tirages de l'expédition nommés et figés par un test, « partie finie » écrite une fois), sans rien de nouveau à l'écran. Le même jour, avant (n° 41, commit `f2378f6`) : le bouton « Tirer encore » de l'expédition et le paragraphe de confidentialité sur le fichier familial, approuvés par le parent ; les recettes de sauvegarde dans la CI ; les règles de l'expédition regroupées dans son modèle. Encore avant (n° 40, commit `33a9bb5`) : les quatre lots de la revue du code et leurs corrections, sans rien de nouveau à l'écran. Avant, le 21 novembre (n° 39) : La Grande Expédition version 3, l'étape d'hygiène, la sauvegarde familiale complète. 14 pages FR/EN, dont « L'histoire » et « Tester sur Android ». Révision 7 (spinosaure) jouable. |
-| **Application**           | 0.39.0 / build 63 (révisions 3 à 6, sans le spinosaure). Arrivée sur le téléphone du parent par Google Play (19 novembre). Promue dans le test fermé « Alpha » le 20 novembre, en attente de l'examen de Google ([passation](ANDROID-BUILD-63.md), [bilan](BILAN-0.39.0.md)).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| **Application**           | Chez les testeurs : 0.39.0 / build 63 (révisions 3 à 6, sans le spinosaure). **Prête dans `main` depuis le 22 novembre, pas encore construite : 0.40.0 / build 64** ([contenu](BILAN-0.40.0.md), [passation et recette téléphone](ANDROID-BUILD-64.md)). Build 63 : arrivée sur le téléphone du parent par Google Play (19 novembre), promue dans le test fermé « Alpha » le 20 novembre, en attente de l'examen de Google ([passation](ANDROID-BUILD-63.md), [bilan](BILAN-0.39.0.md)).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | **Test fermé Android**    | Créé par le parent le 20 novembre : groupe public `snakeattack-testeurs`, piste « Alpha ». Trois modifications (pays, liste de testeurs, adresse de retours) restaient à envoyer à l'examen de Google d'après le compte rendu du parent du 20 novembre : à confirmer. Le lien d'inscription marche quand Google les a acceptées. Google demande 12 testeurs pendant 14 jours de suite avant la production.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | **Les enfants**           | Le fils a joué 2 ou 3 parties sur le site le 19 novembre, content, sans remarque précise. Aucune séance notée depuis.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
@@ -27,7 +27,8 @@ Le parent, le 21 novembre : pause dans les fonctionnalités, d'abord une étape 
 - ~~Allié collé à un rocher~~ : fait, pour les nouvelles parties (secondes règles de chemin,
   expédition version 3). Mesuré : la difficulté ne change pas. Accord du parent le 21
   novembre ; publié avec les deux autres lots (publication n° 39).
-- Recette sur le vrai téléphone avec le build 64 (liste à la fin du bilan).
+- Recette sur le vrai téléphone avec le build 64 : la liste est dans
+  [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md) (elle reprend celle de la fin du bilan).
 
 **Revue du code** (21 novembre, [REVUE-CODE-2026-11-21.md](REVUE-CODE-2026-11-21.md)) :
 accord du parent pour la performance (points 1 et 4) et le nettoyage (points 5, 7, 8, 10, avec
@@ -66,8 +67,12 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
 - La politique de confidentialité dit ce que le fichier familial contient sur le site (le
   voyage à finir, l'expédition, les records) et dans l'application Android 0.39.0, build 63
   (pas le voyage, et un code du Voyage encore affiché). Mots approuvés :
-  `tests/fixtures/fichier-familial-approuve-2026-11-22.json`. **Ce paragraphe nomme le build
-  63 : à relire quand un autre build est publié.**
+  `tests/fixtures/fichier-familial-approuve-2026-11-22.json`.
+- Le même jour, à la préparation du build 64 : ce paragraphe range l'application Android
+  0.40.0 (build 64) avec le site (même fichier familial, plus de code du Voyage) et garde ce
+  qu'il dit de l'application 0.39.0 tant que des testeurs l'ont encore. Mots approuvés :
+  `tests/fixtures/fichier-familial-approuve-build-64-2026-11-22.json`. **Il nomme les builds
+  63 et 64 : à relire à chaque nouveau build, et quand plus aucun testeur n'a le 63.**
 
 **À reprendre après l'hygiène**, dans cet ordre :
 
@@ -76,7 +81,8 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
 2. Expédition : voir avec le fils les défis qui reviennent (« Les carapaces » et « La
    tirelire », quatre fois chacun) et la difficulté réelle (le joueur simulé moyen arrive
    15 fois sur 100).
-3. Application Android : build 64 par Codex (spinosaure, aventure sans fin, expédition).
+3. ~~Application Android : build 64~~ : version prête dans `main` (22 novembre) ; reste la
+   construction par Codex et la recette sur le téléphone.
 4. Dossier Play ; mention des records dans la politique de confidentialité (au parent).
 5. Plus tard : sauterelle, boss caché aux pommes, « Invente ton défi ».
 
@@ -104,9 +110,11 @@ L'aventure sans fin est finie et publiée ([compte rendu](BILAN-MODE-INFINI.md))
 - **La politique de confidentialité du 20 novembre**, avec la section « Test de
   l'application Android ». L'application 0.39.0 montre encore celle d'avant.
 
-Ils attendent le **build 64**, construit par Codex depuis `main` comme le 63
-(`npm run android:package`, [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)), puis promu dans
-« Alpha » par le parent.
+Ils attendent le **build 64**, à construire par Codex depuis `main` comme le 63
+(`npm run android:package`, [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)), puis à promouvoir
+dans « Alpha » par le parent. La version 0.40.0 / build 64 est dans `main` depuis le
+22 novembre ; avec le spinosaure et la politique, elle apporte l'aventure sans fin, La
+Grande Expédition et les corrections de l'étape d'hygiène.
 
 ## Ce qui attend le parent
 
@@ -132,10 +140,11 @@ Ils attendent le **build 64**, construit par Codex depuis `main` comme le 63
 
 ## À faire, dans l'ordre
 
-1. **Build 64** (Codex) : spinosaure et politique du 20 novembre dans l'application. Version
-   à changer ensemble à trois endroits : `package.json`, `android/app/build.gradle` et
-   `POLICY_APP` dans `src/i18n/privacyPolicy.ts`. Avant de le promouvoir, faire la recette
-   native : celle du build 63 n'est pas remplie (`ANDROID-BUILD-63.md`, cases vides).
+1. **Build 64** : la version est prête dans `main` (0.40.0 / 64, aux trois endroits :
+   `package.json`, `android/app/build.gradle`, `POLICY_APP`). Reste à Codex de la construire
+   (`npm run android:package`), puis au parent de l'installer par-dessus le build 63 et de
+   cocher la recette de [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md) avant de la promouvoir :
+   celle du build 63 n'a jamais été remplie.
 2. **Dossier Google Play** : `docs/publication/` et `npm run store:check` décrivent encore
    l'ancien modèle (publicité entre missions, achats). Le parent a décidé : ni publicité ni
    achat dans l'application. À refaire avant la sortie en production, avec des captures du jeu
