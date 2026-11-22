@@ -26,7 +26,7 @@ const SIZES = [
 ];
 const PROVOKED = 'recette : panne provoquée';
 /** The only scripts the start-up rescue may need. */
-const RESCUE_FILES = /\/assets\/(rescue|trouble|failure|keys|index|download)-[\w-]+\.js$/;
+const RESCUE_FILES = /\/assets\/(index|keys)-[\w-]+\.js$/;
 /** The package that can hand a file over, when the one asked for is the application's. */
 const SITE = 'dist';
 /**
@@ -274,15 +274,44 @@ try {
 } finally {
   await empty.browser.close();
 }
-// The window's own files do not come either: a few words stay on the page.
-const bare = await open({ dir });
-try {
-  await bare.context.route(/\/assets\/(bootstrap|rescue)-[\w-]+\.js$/, (route) => route.abort());
-  await bare.page.goto(`${ORIGIN}/`);
-  await bare.page.getByText(BOOT.oupsLeJeuNArrivePasADemarrer).waitFor({ state: 'visible' });
-  assert.equal(await bare.page.locator('#start-dialog').count(), 0);
-  checks.push('fichiers de la fenêtre absents : quelques mots restent sur la page');
-} finally {
-  await bare.browser.close();
+// Not in a fight, nothing is to be played again, and the window does not say so. And a
+// failure long after the game was started again is not « the same thing again ».
+{
+  const { browser, page } = await open({ dir });
+  try {
+    const fail = () =>
+      page.evaluate(() => {
+        // The board draws nothing more, and says why once.
+        const game = document.querySelector('#game canvas');
+        Math.hypot = () => {
+          throw new RangeError('recette');
+        };
+        return !!game;
+      });
+    await start(page);
+    await page.locator('#home-primary').click();
+    await boardReady(page);
+    assert.equal(await status(page), 'preparing');
+    await fail();
+    // The camp is drawn with distances too: the board stops before any wave.
+    await page.locator('#failure-dialog[open]').waitFor({ state: 'visible' });
+    assert.equal(await text(page, '#failure-dialog > p'), FR.relanceLeJeuPourContinuerAJouer);
+    checks.push('panne hors d’un combat : « Relance le jeu pour continuer à jouer. »');
+    await page.locator('#failure-button').click();
+    await page.locator('#home-primary').waitFor({ state: 'visible' });
+    // Six minutes later, another failure: the first words again.
+    await page.locator('#home-primary').click();
+    await boardReady(page);
+    await page.evaluate(() => {
+      const now = Date.now;
+      Date.now = () => now() + 6 * 60_000;
+    });
+    await fail();
+    await page.locator('#failure-dialog[open]').waitFor({ state: 'visible' });
+    assert.equal(await text(page, '#failure-dialog > p'), FR.relanceLeJeuPourContinuerAJouer);
+    checks.push('panne six minutes après une relance : ce n’est plus « Ça recommence »');
+  } finally {
+    await browser.close();
+  }
 }
 console.log(JSON.stringify({ ok: true, checks }, null, 2));

@@ -1649,13 +1649,13 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
   Le foyer est sur son titre, pas sur le bouton : Espace ou Entrée ne font rien à la place de
   l'enfant.
 - **Le plateau arrêté** (`src/ui/failure/failureWindow.ts`) : « Oups, le jeu s'est emmêlé ! »,
-  « Relancer le jeu ». La phrase ne promet rien de gardé : la bataille en cours est à refaire
-  depuis son début, ce qui est vrai dans tous les modes. Si la panne revient après une
-  relance, la phrase envoie l'enfant chercher un adulte ; la page s'en souvient dans son
-  propre historique (`history.state`), rien n'est écrit sur l'appareil. Sous « Pour les
-  parents » : la version et les erreurs en une ligne (jamais une pile d'appels), à prendre en
-  photo. Les fichiers de cette fenêtre sont demandés dès que le jeu a démarré : le jour où
-  le plateau s'arrête, ils sont déjà là. S'ils ne sont pas venus, l'erreur suivante réessaie.
+  « Relancer le jeu ». En plein combat, la phrase dit que la bataille est à refaire depuis son
+  début, ce qui est vrai dans tous les modes ; ailleurs (camp, résultat, accueil) rien n'est
+  à refaire, et elle dit seulement de relancer. Si la panne revient moins de cinq minutes
+  après une relance, la phrase envoie l'enfant chercher un adulte ; la page s'en souvient
+  dans son propre historique (`history.state`), rien n'est écrit sur l'appareil. Sous « Pour
+  les parents » : la version et les erreurs en une ligne (jamais une pile d'appels), à
+  prendre en photo.
 - **Le démarrage manqué** (`src/ui/failure/rescue.ts`, appelé par `src/main.ts`) : la même
   fenêtre, « Oups, le jeu n'arrive pas à démarrer ! », « Réessayer ». Sous « Pour les
   parents », sur le site : un bouton par fichier familial que l'appareil garde, rendu tel
@@ -1663,20 +1663,29 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
   ce qu'ils ne portent pas (l'expédition, le voyage, les records). Dans l'application, qui ne
   sait pas remettre un fichier, une phrase à la place des boutons (voir « Remettre un fichier
   à la famille »). Chaque texte gardé est lu à part : un texte illisible n'emporte pas les
-  autres. Ce code ne dépend ni du paquet des règles ni de celui du démarrage, qui peuvent
-  être ceux qui ont échoué : `scripts/check-dist.mjs` tient la liste des quelques petits
-  fichiers qu'il a le droit de charger, et refuse tout autre. Si même ces fichiers ne
-  viennent pas, quelques mots restent sur la page.
+  autres.
+- **Ces fenêtres voyagent avec la page.** Le gabarit et le démarrage manqué sont dans le
+  premier script de la page, la fenêtre du plateau dans le code du jeu : le jour où quelque
+  chose casse, rien n'est à aller chercher. (Un premier essai les demandait au réseau au
+  démarrage : si cette demande échouait une fois, le navigateur ne la refaisait jamais et la
+  fenêtre ne venait plus.) Coût : 2,5 Ko de plus dans le premier script, aucune requête.
+  `scripts/check-dist.mjs` tient la liste des fichiers que ce premier script a le droit de
+  charger avec lui — ni les règles, ni le code du jeu, ni Phaser, qui peuvent être ceux qui
+  ont échoué — et refuse tout autre.
 - **Tenu par** `tests/failure-watch.test.ts` et la recette `npm run test:failure`
   (`scripts/hygiene/failure.mjs`, tâche « sauvegardes » de la CI), aux trois tailles
   d'écran : une erreur provoquée en pleine vague, la fenêtre, le titre, la phrase et le
   bouton visibles sans défiler, six touches Échap et une fermeture forcée sans effet, la
-  relance qui rend le camp d'avant la vague, la panne qui revient ; un démarrage qui
-  échoue, « Réessayer » qui relance le jeu, deux fichiers rendus à l'octet et importables
-  sur le site, aucun bouton de fichier dans l'application.
-- **Ne couvre pas** : la phrase « depuis le début » veut dire l'étape entière dans La Grande
-  Expédition ; rien n'est vu sur un téléphone (le geste « retour » avec la fenêtre ouverte,
-  `location.reload()` dans l'application) ; les mots sont à lire par le parent.
+  relance qui rend le camp d'avant la vague, la panne qui revient aussitôt, la panne six
+  minutes plus tard, la panne hors d'un combat ; un démarrage qui échoue avec tous les
+  autres scripts coupés, « Réessayer » qui relance le jeu, deux fichiers rendus à l'octet et
+  importables sur le site, aucun bouton de fichier dans l'application.
+- **Ne couvre pas** : dans La Grande Expédition, « depuis le début » veut dire l'étape
+  entière ; une exception tardive du démarrage affiche « n'arrive pas à démarrer » par-dessus
+  un accueil déjà dessiné ; « ça recommence » est dit à tout joueur de l'appareil dans les
+  cinq minutes ; rien n'est vu sur un téléphone (le geste « retour » avec la fenêtre
+  ouverte, `location.reload()` et `history.state` dans l'application) ; les mots sont à lire
+  par le parent.
 
 Pas essayé : sur un vrai téléphone, où l'enregistrement d'un fichier depuis le WebView reste à
 confirmer (c'est le même geste que l'export familial).

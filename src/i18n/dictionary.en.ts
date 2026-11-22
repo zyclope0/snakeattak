@@ -815,6 +815,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Rejouer depuis mon camp": "Replay from my camp",
   "Rejouer la mission : {0}": "Replay mission: {0}",
   "Rejouer une aventure": "Replay an adventure",
+  "Relance le jeu pour continuer à jouer.": "Restart the game to keep playing.",
   "Relance le jeu. Tu devras refaire cette bataille depuis le début.": "Restart the game. You will have to play this battle again from the start.",
   "Relancer le jeu": "Restart the game",
   "Relevé": "Report",

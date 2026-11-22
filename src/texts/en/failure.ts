@@ -13,3 +13,4 @@ export const desAventuresSontGardeesDansCetAppareil =
 export const caRecommenceVaChercherUnAdulte = 'It happened again. Go and get a grown-up.';
 export const appuieSurReessayer = 'Press Try again. If it still does not work, get a grown-up.';
 export const reessayer = 'Try again';
+export const relanceLeJeuPourContinuerAJouer = 'Restart the game to keep playing.';

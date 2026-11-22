@@ -1,6 +1,8 @@
 import { initializeLanguageControls } from './i18n/controls.ts';
-import { setText } from './i18n/dom.ts';
 import { loadGameFonts } from './render/fonts.ts';
+// With the page itself, never fetched later: what is shown when the game cannot start must
+// not depend on a file that may not come either.
+import { showStartFailure } from './ui/failure/rescue.ts';
 import './style.css';
 import * as TEXT from './texts/fr/boot.ts';
 
@@ -15,12 +17,6 @@ void Promise.all([initializeLanguageControls(), loadGameFonts()])
   .catch((error: unknown) => {
     // Said where a developer looks; the child and the parent get the window below.
     console.error(error);
-    // These few words stay if even the window's own files do not come.
-    setText(loading, TEXT.oupsLeJeuNArrivePasADemarrer);
-    void import('./ui/failure/rescue.ts')
-      .then(({ showStartFailure }) => {
-        showStartFailure();
-        loading.remove();
-      })
-      .catch(() => {});
+    showStartFailure();
+    loading.remove();
   });

@@ -30,7 +30,7 @@ export function describeFailure(reason: unknown): string {
 
 export function watchBoard(
   board: Board,
-  stopped: (detail: string) => unknown,
+  stopped: (detail: string) => void,
   host: Host = window,
 ): void {
   let told = false;
@@ -47,10 +47,7 @@ export function watchBoard(
     // A board put to sleep on purpose (the page is hidden) is not a board that failed.
     if (told || !board.running() || board.frame() !== before) return;
     told = true;
-    // Telling may fail later (the window's files did not come): then nothing was told, and
-    // the next error is allowed to try again.
-    const done = stopped(words.join(' · '));
-    if (done instanceof Promise) done.catch(() => (told = false));
+    stopped(words.join(' · '));
   };
   const check = (reason: unknown) => {
     if (told) return;

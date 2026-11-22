@@ -7,6 +7,7 @@ import './ui/caprices.css';
 import { setText as setDisplayText } from './i18n/dom.ts';
 import { bindBoardResize } from './render/boardResize.ts';
 import { watchBoard } from './failureWatch.ts';
+import { showFailure } from './ui/failure/failureWindow.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT, bindBoardResolution } from './render/boardResolution.ts';
 import { visualSettings } from './render/visualSettings.ts';
 import { battleOver, Game } from './game.ts';
@@ -144,13 +145,9 @@ phaser = new Phaser.Game({
 const invalidateBoard = bindBoardResize(phaser, byId('game'));
 // A frame that throws stops the board for good: the child is told, and offered to start again.
 const { loop } = phaser;
-const failureWindow = () => import('./ui/failure/failureWindow.ts');
-watchBoard({ frame: () => loop.frame, running: () => loop.running }, (detail) =>
-  failureWindow().then(({ showFailure }) => showFailure(detail)),
-);
-// The window's own files are asked for now, while the game has just been fetched: the day the
-// board stops they are already there, whatever the network does then.
-void failureWindow().catch(() => {});
+// The window comes with the page (`src/main.ts` holds its files): the day the board stops,
+// nothing has to be fetched.
+watchBoard({ frame: () => loop.frame, running: () => loop.running }, showFailure);
 if (import.meta.env.MODE === 'ads-preview') {
   let destroyed = false;
   let release: (() => void) | undefined;

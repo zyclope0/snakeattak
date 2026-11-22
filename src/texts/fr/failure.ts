@@ -14,3 +14,4 @@ export const caRecommenceVaChercherUnAdulte = 'Ça recommence. Va chercher un ad
 export const appuieSurReessayer =
   'Appuie sur Réessayer. Si ça ne marche toujours pas, va chercher un adulte.';
 export const reessayer = 'Réessayer';
+export const relanceLeJeuPourContinuerAJouer = 'Relance le jeu pour continuer à jouer.';
