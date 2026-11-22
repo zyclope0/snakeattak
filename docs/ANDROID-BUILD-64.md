@@ -48,6 +48,12 @@ Mise à jour et sauvegardes :
       pièces vont ensemble.
 - [ ] « Pour les parents » → exporter le fichier familial, puis l'importer : l'expédition en
       cours et le record de l'aventure sans fin reviennent.
+      **Échec, essayé par le parent le 22 novembre : « Exporter mon aventure » ne fait rien**,
+      puis le jeu écrit « Fichier prêt ». Aucun fichier ne sort de l'application, dans ce
+      build comme dans les précédents. Ne rien désinstaller, ne pas effacer les données de
+      l'application : l'aventure partirait avec.
+      **L'import marche** : essayé par le parent le 22 novembre, avec un fichier exporté
+      depuis le site (« la reprise du fichier marche parfaitement »).
 
 Ce qui est nouveau :
 

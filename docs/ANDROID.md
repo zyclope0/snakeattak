@@ -257,9 +257,14 @@ Google Services n'est ajouté. `allowBackup="false"` désactive la participation
 
 Le stockage web de la WebView est distinct du navigateur : installer l'app ne
 retrouve pas automatiquement les profils du site. L'import/export familial
-existant reste le format d'échange prévu, mais son sélecteur de fichiers et son
-téléchargement doivent être essayés dans la WebView. Aucun plugin natif de
-stockage ou partage n'a été ajouté. Une désinstallation ou un effacement des
+existant reste le format d'échange prévu. **Essayé par le parent le 22 novembre
+2026 sur le build 64 : l'export ne fait rien dans la WebView** (c'est un
+téléchargement de navigateur, que rien ne reçoit dans l'application) ; l'import,
+lui, marche (même essai, même jour). Aucun plugin natif de stockage ou partage
+n'est encore ajouté : le parent a donné son accord le 22 novembre pour les deux
+modules officiels de Capacitor, Filesystem et Share
+(`docs/analyse-2026-11-22/E-revue-et-conseil.md`). Tant que ce n'est pas fait
+et essayé sur un téléphone, aucune aventure ne peut sortir d'un appareil. Une désinstallation ou un effacement des
 données peut supprimer les sauvegardes locales.
 
 ## Vérifications effectuées et limites
@@ -327,8 +332,9 @@ au serveur de développement. Aucun envoi de mesure, aucune statistique en ligne
    L’APK debug est destiné aux essais ; ce n’est pas un AAB signé pour Play.
 
 La clé debug est locale à la machine de compilation. Une autre clé peut empêcher
-la mise à jour d’une ancienne installation debug ; exporter les sauvegardes
-avant toute désinstallation. Aucune clé privée n’est incluse dans le projet.
+la mise à jour d’une ancienne installation debug. Ne pas désinstaller pour
+essayer un build : l’export ne marche pas dans l’application (22 novembre 2026),
+la désinstallation perdrait l’aventure. Aucune clé privée n’est incluse dans le projet.
 
 ### Relever la performance
 
