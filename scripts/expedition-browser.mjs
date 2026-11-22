@@ -232,11 +232,17 @@ try {
         .evaluateAll((l) => l.map((b) => b.dataset.gift));
       await fits(page, `${name} gift`);
       await page.screenshot({ path: `${folder}/${name}-cadeau.png` });
+      // What the model offers for this expedition, before and after « Trois autres cadeaux ».
+      // The second draw is a new draw, not « three different ones »: about once in 1 300 it
+      // gives the very same three, and a recipe that asked for a difference failed by chance.
+      const offered = async () => X.giftOffer(X.readExpeditionState((await stored(page)).current));
+      assert.deepEqual(first, await offered(), `${name}: the gifts the model offers`);
       await page.click('#expedition-reroll');
       const second = await page
         .locator('.exp-gift')
         .evaluateAll((l) => l.map((b) => b.dataset.gift));
-      assert.notDeepEqual(second, first, `${name}: three other gifts`);
+      assert.equal((await stored(page)).current.pending.rerolled, true, `${name}: drawn again`);
+      assert.deepEqual(second, await offered(), `${name}: the gifts of the second draw`);
       assert.equal(await page.locator('#expedition-reroll').count(), 0, `${name}: one reroll`);
       await page.locator('.exp-gift').first().click();
       // Mission 2 is a fork: the quiet path and the path of the brave.

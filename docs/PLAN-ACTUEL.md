@@ -56,6 +56,13 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   n° 40. Détail à la fin
   de [REVUE-CODE-2026-11-21.md](REVUE-CODE-2026-11-21.md).
 
+**À décider par le parent et le fils : « Trois autres cadeaux ».** Dans l'expédition, ce bouton
+refait un tirage : il ne promet pas trois cadeaux différents. Mesuré sur 60 000 graines : au
+moins un des trois cadeaux revient six fois sur dix, les trois reviennent quatre fois sur
+mille. Soit le bouton change de mot (« Tirer encore »), soit le tirage écarte les trois
+premiers ; la seconde voie est une règle nouvelle (nouvelle version de l'expédition).
+Trouvé le 22 novembre par une recette qui échouait une fois sur 1 300.
+
 **À décider par le parent : la politique de confidentialité.** Elle dit encore que le fichier
 familial ne contient pas le voyage et décrit le code de voyage
 (`src/i18n/privacyPolicy.ts`, français et anglais). C'est faux depuis le fichier version 6,
