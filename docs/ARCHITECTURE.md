@@ -1640,26 +1640,52 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
   erreurs différentes vues sur ce compte, trois au plus, dans l'ordre : celle qui a arrêté
   le plateau est parmi elles, sauf si trois autres sont arrivées avant elle dans le même
   soixantième de seconde. Des erreurs qui continuent n'allongent pas l'attente.
-- **La fenêtre** (`src/ui/failure/failureWindow.ts`, chargée à ce moment-là) : une phrase pour
-  l'enfant, « Relancer le jeu », et sous « Pour les parents » la version et l'erreur en une
-  ligne (jamais une pile d'appels). Elle ne se ferme pas : le plateau derrière ne bouge plus.
-  Elle refuse toute demande de fermeture (`closedby="none"`) et, si quelque chose la ferme
-  quand même (un navigateur qui ne connaît pas cet attribut la laisse partir à la deuxième
-  touche Échap), elle se rouvre aussitôt : quelques millièmes de seconde sans elle, mesurés
-  dans Chromium. Le foyer est sur son titre, pas sur le bouton.
-  Relancer rend le camp tel qu'il a été gardé, c'est-à-dire avant la vague en cours.
-- **Le secours du démarrage** (`src/ui/failure/rescue.ts`, appelé par `src/main.ts`). Si le
-  jeu ne démarre pas, l'accueil ne vient pas, et l'export de la sauvegarde non plus. Sous le
-  message, un bouton par fichier familial que l'appareil garde : le texte est rendu tel quel,
-  sans être lu, donc même abîmé. Dans l'application, qui ne sait pas remettre un fichier, une
-  phrase à la place des boutons (voir « Remettre un fichier à la famille »). Ce code ne dépend
-  ni du paquet des règles ni de celui du démarrage, qui peuvent être ceux qui ont échoué :
-  `scripts/check-dist.mjs` tient la liste des quelques petits fichiers qu'il a le droit de
-  charger, et refuse tout autre.
+- **Un seul gabarit** (`src/ui/failure/trouble.ts`) pour un jeu qui ne peut pas continuer :
+  un titre, une phrase à l'enfant, un bouton, et ce qu'il faut à un parent replié sous « Pour
+  les parents ». La fenêtre ne se ferme pas : derrière, rien ne marche. Elle refuse toute
+  demande de fermeture (`closedby="none"`) et, si quelque chose la ferme quand même (un
+  navigateur qui ne connaît pas cet attribut la laisse partir à la deuxième touche Échap),
+  elle se rouvre aussitôt : quelques millièmes de seconde sans elle, mesurés dans Chromium.
+  Le foyer est sur son titre, pas sur le bouton : Espace ou Entrée ne font rien à la place de
+  l'enfant.
+- **Le plateau arrêté** (`src/ui/failure/failureWindow.ts`) : « Oups, le jeu s'est emmêlé ! »,
+  « Relancer le jeu ». En plein combat, la phrase dit que la bataille est à refaire depuis son
+  début, ce qui est vrai dans tous les modes ; ailleurs (camp, résultat, accueil) rien n'est
+  à refaire, et elle dit seulement de relancer. Si la panne revient moins de cinq minutes
+  après une relance, la phrase envoie l'enfant chercher un adulte ; la page s'en souvient
+  dans son propre historique (`history.state`), rien n'est écrit sur l'appareil. Sous « Pour
+  les parents » : la version et les erreurs en une ligne (jamais une pile d'appels), à
+  prendre en photo.
+- **Le démarrage manqué** (`src/ui/failure/rescue.ts`, appelé par `src/main.ts`) : la même
+  fenêtre, « Oups, le jeu n'arrive pas à démarrer ! », « Réessayer ». Sous « Pour les
+  parents », sur le site : un bouton par fichier familial que l'appareil garde, rendu tel
+  quel, sans être lu, donc même abîmé, et une phrase qui dit ce que ces fichiers portent et
+  ce qu'ils ne portent pas (l'expédition, le voyage, les records). Dans l'application, qui ne
+  sait pas remettre un fichier, une phrase à la place des boutons (voir « Remettre un fichier
+  à la famille »). Chaque texte gardé est lu à part : un texte illisible n'emporte pas les
+  autres.
+- **Ces fenêtres voyagent avec la page.** Le gabarit et le démarrage manqué sont dans le
+  premier script de la page, la fenêtre du plateau dans le code du jeu : le jour où quelque
+  chose casse, rien n'est à aller chercher. (Un premier essai les demandait au réseau au
+  démarrage : si cette demande échouait une fois, le navigateur ne la refaisait jamais et la
+  fenêtre ne venait plus.) Coût : 2,5 Ko de plus dans le premier script, aucune requête.
+  `scripts/check-dist.mjs` tient la liste des fichiers que ce premier script a le droit de
+  charger avec lui — ni les règles, ni le code du jeu, ni Phaser, qui peuvent être ceux qui
+  ont échoué — et refuse tout autre.
 - **Tenu par** `tests/failure-watch.test.ts` et la recette `npm run test:failure`
-  (`scripts/hygiene/failure.mjs`, tâche « sauvegardes » de la CI) : une erreur provoquée en
-  pleine vague aux trois tailles d'écran, la fenêtre, la relance qui rend le camp, un
-  démarrage qui échoue et deux fichiers rendus à l'octet, importables.
+  (`scripts/hygiene/failure.mjs`, tâche « sauvegardes » de la CI), aux trois tailles
+  d'écran : une erreur provoquée en pleine vague, la fenêtre, le titre, la phrase et le
+  bouton visibles sans défiler, six touches Échap et une fermeture forcée sans effet, la
+  relance qui rend le camp d'avant la vague, la panne qui revient aussitôt, la panne six
+  minutes plus tard, la panne hors d'un combat ; un démarrage qui échoue avec tous les
+  autres scripts coupés, « Réessayer » qui relance le jeu, deux fichiers rendus à l'octet et
+  importables sur le site, aucun bouton de fichier dans l'application.
+- **Ne couvre pas** : dans La Grande Expédition, « depuis le début » veut dire l'étape
+  entière ; une exception tardive du démarrage affiche « n'arrive pas à démarrer » par-dessus
+  un accueil déjà dessiné ; « ça recommence » est dit à tout joueur de l'appareil dans les
+  cinq minutes ; rien n'est vu sur un téléphone (le geste « retour » avec la fenêtre
+  ouverte, `location.reload()` et `history.state` dans l'application) ; les mots sont à lire
+  par le parent.
 
 Pas essayé : sur un vrai téléphone, où l'enregistrement d'un fichier depuis le WebView reste à
 confirmer (c'est le même geste que l'export familial).

@@ -26,7 +26,7 @@ const SIZES = [
 ];
 const PROVOKED = 'recette : panne provoquée';
 /** The only scripts the start-up rescue may need. */
-const RESCUE_FILES = /\/assets\/(rescue|failure|keys|index|download)-[\w-]+\.js$/;
+const RESCUE_FILES = /\/assets\/(index|keys)-[\w-]+\.js$/;
 /** The package that can hand a file over, when the one asked for is the application's. */
 const SITE = 'dist';
 /**
@@ -52,7 +52,20 @@ async function fits(page, selector, label) {
       box.y + box.height <= view.height,
     `${label}: inside ${view.width}×${view.height} (${JSON.stringify(box)})`,
   );
+  // What the child needs is there at once, without scrolling inside the window: the title,
+  // the sentence, the button. Only what is folded for a parent may need a scroll.
+  for (const part of await page
+    .locator(`${selector} > h2, ${selector} > p, ${selector} > button`)
+    .all()) {
+    const at = await part.boundingBox();
+    assert.ok(
+      at && at.y >= box.y - 1 && at.y + at.height <= box.y + box.height + 1,
+      `${label}: ${await part.evaluate((node) => node.tagName)} is in view (${JSON.stringify(at)} in ${JSON.stringify(box)})`,
+    );
+  }
   for (const button of await page.locator(`${selector} button, ${selector} summary`).all()) {
+    // What is folded away is not a target yet: it is measured once unfolded.
+    if (!(await button.isVisible())) continue;
     const size = await button.boundingBox();
     assert.ok(
       size.width >= 48 && size.height >= 48,
@@ -88,7 +101,9 @@ for (const viewport of SIZES) {
     const dialog = page.locator('#failure-dialog[open]');
     await dialog.waitFor({ state: 'visible' });
     assert.equal(await text(page, '#failure-title'), FR.oupsLeJeuSEstEmmele);
-    assert.equal(await text(page, '#failure-reload'), FR.relancerLeJeu);
+    assert.equal(await text(page, '#failure-button'), FR.relancerLeJeu);
+    // One sentence, true in every mode: nothing is promised about what was kept.
+    assert.equal(await text(page, '#failure-dialog > p'), FR.relanceLeJeuTuDevrasRefaire);
     assert.match(
       await page.locator('#failure-detail').textContent(),
       new RegExp(`^v\\d+\\.\\d+\\.\\d+ · RangeError: ${PROVOKED}$`),
@@ -122,7 +137,7 @@ for (const viewport of SIZES) {
     );
     checks.push(`${tag} : plateau arrêté en pleine vague, fenêtre affichée, Échap sans effet`);
     // Starting again brings the camp back as it was before the wave.
-    await page.locator('#failure-reload').click();
+    await page.locator('#failure-button').click();
     await page.locator('#home-primary').waitFor({ state: 'visible' });
     assert.equal(await page.locator('#failure-dialog').count(), 0);
     await page.locator('#home-primary').click();
@@ -132,6 +147,16 @@ for (const viewport of SIZES) {
     await page.locator('#start').click();
     await page.waitForFunction(() => document.querySelector('#app')?.dataset.status === 'fighting');
     checks.push(`${tag} : « Relancer le jeu » rend le camp d'avant la vague, la vague repart`);
+    // The same failure a second time in a row: the child is sent to a grown-up.
+    await page.evaluate((words) => {
+      Math.hypot = () => {
+        throw new RangeError(words);
+      };
+    }, PROVOKED);
+    await dialog.waitFor({ state: 'visible' });
+    assert.equal(await text(page, '#failure-dialog > p'), FR.caRecommenceVaChercherUnAdulte);
+    await fits(page, '#failure-dialog', `${tag} failure window, second time`);
+    checks.push(`${tag} : la panne revient, « Va chercher un adulte »`);
   } finally {
     await browser.close();
   }
@@ -146,27 +171,52 @@ for (const viewport of SIZES) {
       touch: viewport.width < 1000,
       storage: device,
     });
+    // Until `cut` is lifted, to try « Réessayer » with the game's files back.
+    failed.cut = true;
     await failed.context.route(/\/assets\/[\w.-]+\.js$/, (route) =>
-      RESCUE_FILES.test(route.request().url()) ? route.fallback() : route.abort(),
+      !failed.cut || RESCUE_FILES.test(route.request().url()) ? route.fallback() : route.abort(),
     );
     await failed.page.goto(`${ORIGIN}/`);
-    await failed.page.locator('#rescue').waitFor({ state: 'visible' });
+    const window = failed.page.locator('#start-dialog[open]');
+    await window.waitFor({ state: 'visible' });
     assert.equal(await failed.page.locator('#home-screen:not([hidden])').count(), 0, 'no home');
-    assert.ok(
-      (await text(failed.page, '.boot-loading')).startsWith(BOOT.impossibleDeDemarrerLeJeuRecharge),
+    // The same window as for a board that stops: a title, one sentence, one button.
+    assert.equal(await text(failed.page, '#start-title'), BOOT.oupsLeJeuNArrivePasADemarrer);
+    assert.equal(await text(failed.page, '#start-dialog > p'), FR.appuieSurReessayer);
+    assert.equal(await text(failed.page, '#start-button'), FR.reessayer);
+    assert.equal(await failed.page.locator('.boot-loading').count(), 0, 'the bare message is gone');
+    assert.equal(
+      await failed.page.locator('#start-parents').getAttribute('open'),
+      null,
+      'what is for a parent is folded',
     );
-    await fits(failed.page, '.boot-loading', `${tag} rescue (${from})`);
+    await fits(failed.page, '#start-dialog', `${tag} start-up window (${from})`);
+    for (let press = 0; press < 6; press++) await failed.page.keyboard.press('Escape');
+    assert.equal(await window.count(), 1, 'it cannot be closed');
+    // Unfolded, it still fits.
+    await failed.page.locator('#start-parents > summary').click();
+    await fits(failed.page, '#start-dialog', `${tag} start-up window unfolded (${from})`);
     return failed;
   };
   const failed = await stopped(dir);
   try {
+    assert.equal(
+      await failed.page.locator('#rescue').count(),
+      application ? 0 : 1,
+      application ? 'the application offers no file' : 'the site offers the files',
+    );
     if (application) {
-      assert.equal(await failed.page.locator('#rescue button').count(), 0, 'no file button');
       // The application cannot hand a file over: no button that does nothing; a parent is
       // told what is still there and what would lose it.
-      assert.equal(await text(failed.page, '#rescue'), FR.desAventuresSontGardeesDansCetAppareil);
+      assert.equal(await failed.page.locator('#start-dialog button').count(), 1);
+      assert.equal(
+        await text(failed.page, '#start-parents > p'),
+        FR.desAventuresSontGardeesDansCetAppareil,
+      );
       await failed.page.screenshot({ path: `artifacts/hygiene/rescue-application-${tag}.png` });
-      checks.push(`${tag} : démarrage en échec dans l'application, la phrase, aucun bouton`);
+      checks.push(
+        `${tag} : démarrage en échec dans l'application, la phrase, aucun bouton de fichier`,
+      );
     }
   } finally {
     if (application) await failed.browser.close();
@@ -174,8 +224,16 @@ for (const viewport of SIZES) {
   // The family files the device holds are handed over as they are, where a file can be.
   const files = application ? await stopped(SITE) : failed;
   try {
+    assert.equal(
+      await text(files.page, '#start-parents > p'),
+      FR.lesAventuresGardeesSurCetAppareil,
+    );
     const buttons = files.page.locator('#rescue button');
     assert.equal(await buttons.count(), 2, 'one button for each of the two players');
+    assert.equal(
+      await text(files.page, '#rescue button >> nth=1'),
+      `${FR.garderLAventureDuJoueur} 2`,
+    );
     for (const [index, key] of [
       KEYS.FAMILY_STORAGE_KEY,
       `${KEYS.FAMILY_STORAGE_KEY}:p2`,
@@ -191,23 +249,69 @@ for (const viewport of SIZES) {
     }
     await files.page.screenshot({ path: `artifacts/hygiene/rescue-${tag}.png` });
     checks.push(
-      `${tag} : démarrage en échec, deux fichiers familiaux rendus à l'octet et importables`,
+      `${tag} : démarrage en échec, « Réessayer », deux fichiers familiaux rendus à l'octet et importables`,
     );
+    // « Réessayer » asks for the game again: with its files back, the home comes.
+    files.cut = false;
+    await files.page.locator('#start-button').click();
+    await files.page.locator('#home-primary').waitFor({ state: 'visible' });
+    assert.equal(await files.page.locator('#start-dialog').count(), 0);
+    checks.push(`${tag} : « Réessayer » relance le jeu`);
   } finally {
     await files.browser.close();
   }
 }
 
-// A device that holds nothing: the message alone, no button that would give an empty file.
+// A device that holds nothing: the window without anything for a parent, no file button.
 const empty = await open({ dir });
 try {
   await empty.context.route('**/assets/bootstrap-*.js', (route) => route.abort());
   await empty.page.goto(`${ORIGIN}/`);
-  await empty.page.getByText(BOOT.impossibleDeDemarrerLeJeuRecharge).waitFor({ state: 'visible' });
-  await empty.page.waitForTimeout(500);
-  assert.equal(await empty.page.locator('#rescue').count(), 0);
-  checks.push('appareil vide : le message seul, aucun bouton');
+  await empty.page.locator('#start-dialog[open]').waitFor({ state: 'visible' });
+  assert.equal(await empty.page.locator('#start-parents').count(), 0);
+  assert.equal(await empty.page.locator('#start-dialog button').count(), 1);
+  checks.push('appareil vide : la fenêtre, « Réessayer », rien pour les parents');
 } finally {
   await empty.browser.close();
+}
+// Not in a fight, nothing is to be played again, and the window does not say so. And a
+// failure long after the game was started again is not « the same thing again ».
+{
+  const { browser, page } = await open({ dir });
+  try {
+    const fail = () =>
+      page.evaluate(() => {
+        // The board draws nothing more, and says why once.
+        const game = document.querySelector('#game canvas');
+        Math.hypot = () => {
+          throw new RangeError('recette');
+        };
+        return !!game;
+      });
+    await start(page);
+    await page.locator('#home-primary').click();
+    await boardReady(page);
+    assert.equal(await status(page), 'preparing');
+    await fail();
+    // The camp is drawn with distances too: the board stops before any wave.
+    await page.locator('#failure-dialog[open]').waitFor({ state: 'visible' });
+    assert.equal(await text(page, '#failure-dialog > p'), FR.relanceLeJeuPourContinuerAJouer);
+    checks.push('panne hors d’un combat : « Relance le jeu pour continuer à jouer. »');
+    await page.locator('#failure-button').click();
+    await page.locator('#home-primary').waitFor({ state: 'visible' });
+    // Six minutes later, another failure: the first words again.
+    await page.locator('#home-primary').click();
+    await boardReady(page);
+    await page.evaluate(() => {
+      const now = Date.now;
+      Date.now = () => now() + 6 * 60_000;
+    });
+    await fail();
+    await page.locator('#failure-dialog[open]').waitFor({ state: 'visible' });
+    assert.equal(await text(page, '#failure-dialog > p'), FR.relanceLeJeuPourContinuerAJouer);
+    checks.push('panne six minutes après une relance : ce n’est plus « Ça recommence »');
+  } finally {
+    await browser.close();
+  }
 }
 console.log(JSON.stringify({ ok: true, checks }, null, 2));

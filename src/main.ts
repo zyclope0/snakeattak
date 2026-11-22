@@ -1,6 +1,8 @@
 import { initializeLanguageControls } from './i18n/controls.ts';
-import { setText } from './i18n/dom.ts';
 import { loadGameFonts } from './render/fonts.ts';
+// With the page itself, never fetched later: what is shown when the game cannot start must
+// not depend on a file that may not come either.
+import { showStartFailure } from './ui/failure/rescue.ts';
 import './style.css';
 import * as TEXT from './texts/fr/boot.ts';
 
@@ -12,10 +14,9 @@ document.body.append(loading);
 void Promise.all([initializeLanguageControls(), loadGameFonts()])
   .then(() => import('./bootstrap.ts'))
   .then(() => loading.remove())
-  .catch(() => {
-    setText(loading, TEXT.impossibleDeDemarrerLeJeuRecharge);
-    // The home will not show, nor its way to export a save: hand the stored files over here.
-    void import('./ui/failure/rescue.ts')
-      .then(({ offerRescue }) => offerRescue(loading))
-      .catch(() => {});
+  .catch((error: unknown) => {
+    // Said where a developer looks; the child and the parent get the window below.
+    console.error(error);
+    showStartFailure();
+    loading.remove();
   });

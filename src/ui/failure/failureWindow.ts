@@ -1,53 +1,54 @@
-import './failure.css';
 import { make } from '../dom.ts';
+import { showTrouble } from './trouble.ts';
 import * as TEXT from '../../texts/fr/failure.ts';
 
+/** The mark left in the page's own history when the game is started again after a failure. */
+const RELAUNCHED = 'relaunchedAfterFailure';
+/** How long after such a start a new failure counts as « the same thing again ». */
+const AGAIN_WITHIN_MS = 5 * 60_000;
+/** True when this page was started again after a failure a few minutes ago at most. */
+function failedJustBefore(): boolean {
+  try {
+    const at = (history.state as Record<string, unknown> | null)?.[RELAUNCHED];
+    return typeof at === 'number' && Date.now() - at < AGAIN_WITHIN_MS;
+  } catch {
+    return false;
+  }
+}
+
 /**
- * The window shown when the board has stopped on an error. It cannot be closed: the board
- * behind it no longer moves, and the only way on is to start the game again, which brings
- * back the camp as it was last saved. The detail is for a parent to copy, never a stack.
+ * The window shown when the board has stopped on an error. The only way on is to start the
+ * game again. In the middle of a fight the child is told the battle is to be played again from
+ * its beginning, which is true in every mode; anywhere else nothing is to be played again, and
+ * nothing is said about it. When it happens again within a few minutes of such a start, the
+ * child is sent to a grown-up instead of pressing again and again. The detail is for a parent
+ * to show, never a stack.
  */
 export function showFailure(detail: string): void {
-  if (document.getElementById('failure-dialog')) return;
-  const title = make('h2', { id: 'failure-title', text: TEXT.oupsLeJeuSEstEmmele });
-  const again = make('button', {
-    id: 'failure-reload',
-    className: 'primary',
-    text: TEXT.relancerLeJeu,
-  });
-  again.type = 'button';
-  again.onclick = () => location.reload();
   // The version shown on the page and the error's own words: neither is a text of the game.
   const note = make('p', { id: 'failure-detail' });
   note.dataset.copyRaw = '';
   const version = document.querySelector('[data-app-version]')?.textContent ?? '';
   note.textContent = [version, detail].filter(Boolean).join(' · ');
-  const parents = make(
-    'details',
-    { id: 'failure-parents' },
-    make('summary', { text: TEXT.pourLesParents }),
-    make('p', { text: TEXT.leJeuSEstArreteSurUneErreur }),
-    note,
-  );
-  const dialog = make(
-    'dialog',
-    { id: 'failure-dialog' },
-    title,
-    make('p', { text: TEXT.relanceLeJeuTuRetrouverasTonCamp }),
-    again,
-    parents,
-  );
-  dialog.setAttribute('aria-labelledby', title.id);
-  // The board behind no longer moves: the window must stay. A browser lets Escape through at
-  // the third press, whatever « cancel » answers; so the window says it takes no closing
-  // request, and comes back if it is closed all the same.
-  dialog.setAttribute('closedby', 'none');
-  dialog.addEventListener('cancel', (event) => event.preventDefault());
-  dialog.addEventListener('close', () => dialog.showModal());
-  document.body.append(dialog);
-  dialog.showModal();
-  // Nothing is reloaded by a key pressed for something else: Space pauses the game, Enter
-  // confirms elsewhere. The child reads, then touches the button.
-  title.tabIndex = -1;
-  title.focus();
+  const fighting = document.getElementById('app')?.dataset.status === 'fighting';
+  showTrouble({
+    id: 'failure',
+    title: TEXT.oupsLeJeuSEstEmmele,
+    words: failedJustBefore()
+      ? TEXT.caRecommenceVaChercherUnAdulte
+      : fighting
+        ? TEXT.relanceLeJeuTuDevrasRefaire
+        : TEXT.relanceLeJeuPourContinuerAJouer,
+    button: TEXT.relancerLeJeu,
+    act: () => {
+      // Kept by the page itself for as long as it stays open: nothing is stored on the device.
+      try {
+        history.replaceState({ ...(history.state as object | null), [RELAUNCHED]: Date.now() }, '');
+      } catch {
+        /* A page that cannot mark itself says the first sentence again. */
+      }
+      location.reload();
+    },
+    parents: [make('p', { text: TEXT.uneErreurAArreteLeJeu }), note],
+  });
 }

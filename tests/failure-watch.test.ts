@@ -202,6 +202,15 @@ test('the rescue finds the family file of each player, as stored, and nothing el
     { player: 1, raw: 'first, even {damaged' },
     { player: 3, raw: 'third' },
   ]);
+  // One text the device refuses to give does not take the others with it.
+  const stubborn = {
+    ...device,
+    getItem(key: string) {
+      if (key === FAMILY_STORAGE_KEY) throw new Error('unreadable');
+      return stored.get(key) ?? null;
+    },
+  };
+  assert.deepEqual(storedFamilyFiles(stubborn), [{ player: 3, raw: 'third' }]);
   // Every player the game knows has a key the rescue recognises.
   for (const [index, id] of PLAYER_IDS.entries()) {
     const one = new Map([[playerKey(FAMILY_STORAGE_KEY, id), 'x']]);

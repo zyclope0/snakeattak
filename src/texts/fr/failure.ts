@@ -1,11 +1,17 @@
 export const oupsLeJeuSEstEmmele = 'Oups, le jeu s’est emmêlé !';
-export const relanceLeJeuTuRetrouverasTonCamp = 'Relance le jeu : tu retrouveras ton camp.';
+export const relanceLeJeuTuDevrasRefaire =
+  'Relance le jeu. Tu devras refaire cette bataille depuis le début.';
 export const relancerLeJeu = 'Relancer le jeu';
 export const pourLesParents = 'Pour les parents';
-export const leJeuSEstArreteSurUneErreur =
-  'Le jeu s’est arrêté sur une erreur. Si cela revient, note ce message :';
-export const enregistrerLaSauvegarde = 'Enregistrer la sauvegarde';
-export const gardeCesFichiersAvantDEffacer =
-  'Pour les parents : garde ces fichiers avant d’effacer les données du jeu. Tu les reprendras dans « Pour les parents », « Sauvegarde familiale ».';
+export const uneErreurAArreteLeJeu =
+  'Une erreur a arrêté le jeu. Ce qui était déjà gardé sur l’appareil n’est pas touché. Si cela revient, prends cet écran en photo :';
+export const garderLAventureDuJoueur = 'Garder l’aventure du joueur';
+export const lesAventuresGardeesSurCetAppareil =
+  'Les aventures gardées sur cet appareil sont toujours là. N’efface pas les données du jeu avant d’avoir gardé ces fichiers : un par joueur, avec son aventure, ses missions et ses carnets. L’expédition, le voyage et les records n’y sont pas. Tu reprendras chaque fichier dans « Pour les parents », « Sauvegarde familiale ».';
 export const desAventuresSontGardeesDansCetAppareil =
-  'Pour les parents : des aventures sont gardées dans cet appareil. N’efface pas les données du jeu et ne désinstalle pas l’application : elles partiraient avec.';
+  'Des aventures sont gardées dans cet appareil. N’efface pas les données du jeu et ne désinstalle pas l’application : elles partiraient avec.';
+export const caRecommenceVaChercherUnAdulte = 'Ça recommence. Va chercher un adulte.';
+export const appuieSurReessayer =
+  'Appuie sur Réessayer. Si ça ne marche toujours pas, va chercher un adulte.';
+export const reessayer = 'Réessayer';
+export const relanceLeJeuPourContinuerAJouer = 'Relance le jeu pour continuer à jouer.';
