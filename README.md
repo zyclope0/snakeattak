@@ -12,7 +12,8 @@ alliés combattre et se soigner de façon autonome.
 
 Dernière livraison : **Confidentialité** dans « Pour les parents », lisible hors ligne
 FR/EN. Site et politique publics sur [snakeattacktd.com](https://snakeattacktd.com/).
-Le voyage et tous les anciens modes, codes et sauvegardes sont conservés.
+Les anciens modes, codes de départ et sauvegardes sont conservés ; un voyage commencé se
+finit toujours, mais un ancien code `VOYAGE-…` ne se relit plus (21 novembre 2026).
 Version affichée **0.38.0**, Android **build62**, même package et clé d’envoi Play.
 Source du build 62 : `4d9724d98f27e9df69289c3954163609e3c27898` (le build 61 venait de
 `b6919be4164813df84977b670a07f95cbf397173`).

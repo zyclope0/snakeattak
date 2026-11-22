@@ -1070,7 +1070,8 @@ Tout est calculé depuis la graine, avant le premier combat, sans navigateur ni 
 | `voyageRules.ts`   | Ce qu'une étape ajoute au moteur (`StageRules`)                                      |
 | `codeText.ts`      | L'écriture des codes de départ (alphabet, contrôle, saisie)                          |
 
-- **Plan.** Une graine tient sur 20 bits (un million de voyages) pour que le code reste court.
+- **Plan.** Une graine tient sur 20 bits (un million de voyages) : le code de voyage, parti
+  depuis, devait rester court.
   `planVoyage(graine)` tire un itinéraire parmi ceux que la table permet (jamais deux fois la
   même mission, toujours dans l'ordre du jeu), puis pour chaque étape un terrain, une
   attaque, des nids, la graine du combat et, à partir de la troisième, un caprice de la
@@ -1124,11 +1125,10 @@ Sans ce paramètre, rien ne change.
 - `missionProgress.ts`, `capriceAlbums.ts` : une étape gagnée ne donne ni étoile ni
   autocollant à la mission qu'elle emprunte (elle est jouée avec le sac).
 - `departures.ts` : l'alphabet, les signes de contrôle et la lecture de la saisie sont partis
-  dans `codeText.ts`, à l'identique, pour que le code du voyage s'écrive comme un code de
-  départ.
+  dans `codeText.ts`, à l'identique. Le code de voyage qui s'en servait aussi n'existe plus
+  (21 novembre 2026) : `codeText.ts` ne sert qu'aux codes de départ.
 - `players.ts` : la clé du voyage rejoint `PLAYER_KEYS`.
-- `i18n/dictionaries/model.en.ts` : une ligne, `VOYAGE: 'VOYAGE'`. L'inventaire des textes
-  lit tous les littéraux du code ; le mot du code est le même en anglais, comme `AVENTURE`.
+- Le mot `VOYAGE` du code avait son texte (`src/texts/*/voyage.ts`) : parti avec le code.
 
 Aucun format de sauvegarde ni de code de départ ne change : pas de nouvelle version de camp,
 de progression ou de fichier familial.
@@ -1180,9 +1180,10 @@ balisage dans la page HTML : tout est construit en TypeScript.
 | `ui/voyage/voyageBattle.ts`  | Sur le plateau : le repère de l'étape, puis la phrase et le bouton de la fin       |
 | `ui/voyage/voyage.css`       | La feuille du voyage, dans l'unité `--hu`, chargée avec les écrans                 |
 
-- **Accueil.** `#home-voyage` suit « Jouer » : « Le voyage » avec l'étiquette « Nouveau » tant
-  que le joueur n'a jamais ouvert de voyage, « Reprendre le voyage » dès qu'une étape est
-  réussie et qu'il en reste (`voyageDoor`). Sur un écran bas, les deux boutons partagent une
+- **Accueil.** `#home-voyage` suit « Jouer » : « Reprendre le voyage » tant qu'un voyage
+  commencé a une étape réussie et qu'il en reste ; sinon « La Grande Expédition », avec
+  l'étiquette « Nouveau » tant que le joueur n'en a jamais ouvert, ou « Reprendre
+  l'expédition » (`voyageDoor`). Sur un écran bas, les deux boutons partagent une
   rangée et « Jouer » prend la largeur qui reste (`homeScene.css`).
 - **Page.** Le voyage est une page de l'accueil (`data-home-page="voyage"`, `HomePage`), donc
   « ← Accueil » et Échap fonctionnent comme ailleurs. Sa vue (`data-view`) suit
@@ -1217,9 +1218,9 @@ qu'après ce chargement, puisqu'une étape n'est jamais enregistrée comme camp 
 fin d'étape sont donc dans ce paquet. Si le paquet n'arrive pas (réseau coupé, cache vide), le
 bouton le dit et le prochain toucher redemande. Le modèle (`voyage*.ts`) est dans le paquet des
 règles, déjà chargé. Dans l'export en un seul fichier, tout est dans la page.
-`npm run test:browser` ouvre le voyage et lance sa première étape, sur le build normal comme
-sur l'export en un seul fichier ; `npm run test:offline` l'ouvre sans réseau et vérifie que
-ses fichiers sont servis depuis le disque.
+`npm run test:offline` ouvre ces écrans sans réseau et vérifie que leurs fichiers sont servis
+depuis le disque ; `npm run test:expedition` et la partie « voyage » de
+`npm run test:mobile-menus` les jouent. `npm run test:browser` n'y entre pas.
 
 Octets : `bootstrap` 190 910 → 192 769 ; `rules` 90 358 → 95 078 ; `english` 78 032 → 82 880 ;
 nouveaux `voyageScreens` 15 071 (script) et 14 555 (feuille). La page HTML ne change pas
@@ -1252,8 +1253,8 @@ nouveaux `voyageScreens` 15 071 (script) et 14 555 (feuille). La page HTML ne ch
 Le laboratoire du voyage (`npm run balance:voyage`) a quitté le dépôt le 21 novembre 2026 :
 ses tables ne changent plus, ses mesures sont dans `docs/VOYAGE.md` et l'historique Git le
 garde. Ses joueurs automatiques servent encore à l'expédition (`scripts/lab/players.ts`,
-`scripts/balance-expedition.mjs`). `tests/voyage-traces.test.ts` fige six voyages joués en
-entier par les appels de l'interface, comme `tests/engine-traces.test.ts` fige les parties :
+`scripts/balance-expedition.mjs`). `tests/voyage-traces.test.ts` fige douze voyages (six
+graines, dans les deux versions) joués en entier par les appels de l'interface, comme `tests/engine-traces.test.ts` fige les parties :
 une empreinte qui change est un voyage commencé qui ne se finit plus de la même façon.
 
 ## Confidentialité et site — 14 novembre 2026
@@ -1367,7 +1368,7 @@ Où sont les valeurs :
   leur état mais avancent tous par ces calculs. Les changer change toutes les parties et
   tous les codes déjà donnés.
 - **Limites** : chacune est exportée par son module de règles et lue par l'interface —
-  `ROSTER_SIZE` (`roster.ts`), `DEPARTURE_INPUT_LIMIT` (`departures.ts`),
+  `ROSTER_SIZE` (`gameConstants.ts`), `DEPARTURE_INPUT_LIMIT` (`departures.ts`),
   `CAMP_CHARACTER_LIMIT` (`checkpoints.ts`).
 - **Taille du plateau** : `BOARD_WIDTH` et `BOARD_HEIGHT` (`render/boardResolution.ts`).
 - **`src/gameConstants.ts`** : les nombres qui donnent sa forme à une partie —
