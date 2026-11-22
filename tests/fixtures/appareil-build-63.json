@@ -1,0 +1,51 @@
+{
+  "origine": "Ce qu'un appareil garde après une partie jouée avec le paquet du build 63 des testeurs (commit fb347dd) : une mission gagnée, une grande aventure en cours, un voyage avec une étape gagnée et un bonus dans le sac, un deuxième joueur actif. Écrit par scripts/hygiene/upgrade-63.mjs le 22 novembre 2026 ; ne se retouche pas à la main.",
+  "attendu": {
+    "stars": "3 / 18 étoiles",
+    "classic": {
+      "status": "preparing",
+      "gold": "437",
+      "base": "100 %",
+      "wave": "1",
+      "army": "4"
+    },
+    "voyage": {
+      "version": 1,
+      "best": 1,
+      "current": {
+        "version": 2,
+        "seed": 805141,
+        "won": 1,
+        "bag": ["renfort-ninja"],
+        "status": "travelling"
+      }
+    },
+    "players": {
+      "version": 1,
+      "activeId": "p2",
+      "players": [
+        {
+          "id": "p1",
+          "character": "hero",
+          "name": null
+        },
+        {
+          "id": "p2",
+          "character": "club",
+          "name": null
+        }
+      ]
+    }
+  },
+  "storage": {
+    "conquete-serpents:progress:v1:p2": "{\"version\":1,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"activeRoster\":0,\"chapterCamps\":[null,null]}",
+    "conquete-serpents:progress:v1": "{\"version\":1,\"activeRoster\":0,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"chapterCamps\":[null,null]}",
+    "conquete-serpents:family:v1": "{\"format\":\"conquete-serpents-family\",\"version\":5,\"camp\":\"{\\\"version\\\":13,\\\"balance\\\":6,\\\"initialSeed\\\":3697963742,\\\"campaign\\\":{\\\"training\\\":\\\"none\\\",\\\"chapterMin\\\":[100,100,100],\\\"chapterStars\\\":[0,0,0]},\\\"rewards\\\":{\\\"seed\\\":3697963742,\\\"pending\\\":null,\\\"choices\\\":[],\\\"ward\\\":0},\\\"wave\\\":1,\\\"gold\\\":437,\\\"base\\\":100,\\\"rng\\\":1754698524,\\\"nextId\\\":12,\\\"kills\\\":7,\\\"hatched\\\":2,\\\"units\\\":[{\\\"id\\\":1,\\\"kind\\\":\\\"club\\\",\\\"x\\\":738.2666666666669,\\\"y\\\":180,\\\"hp\\\":126,\\\"homeX\\\":756,\\\"homeY\\\":180},{\\\"id\\\":2,\\\"kind\\\":\\\"club\\\",\\\"x\\\":735.1788365583661,\\\"y\\\":420.0014294945215,\\\"hp\\\":105,\\\"homeX\\\":756,\\\"homeY\\\":468},{\\\"id\\\":3,\\\"kind\\\":\\\"hero\\\",\\\"x\\\":775.689234296376,\\\"y\\\":324.0317897450247,\\\"hp\\\":302,\\\"homeX\\\":828,\\\"homeY\\\":324},{\\\"id\\\":4,\\\"kind\\\":\\\"club\\\",\\\"x\\\":873.5322614211217,\\\"y\\\":467.9197886839655,\\\"hp\\\":140,\\\"homeX\\\":930.0000063143219,\\\"homeY\\\":520.1446144524305}]}\",\"career\":{\"version\":1,\"activeRoster\":0,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"chapterCamps\":[null,null]},\"missions\":{\"version\":2,\"bestStars\":{\"refuge\":3,\"trois-ponts\":0,\"course\":0,\"coquilles\":0,\"sonnette\":0,\"carrefour\":0},\"lastRuns\":{\"refuge\":{\"missionId\":\"refuge\",\"rules\":2,\"seed\":2026,\"layout\":2,\"assault\":\"rush\",\"nest\":\"spread\"}},\"retryCamp\":\"{\\\"version\\\":7,\\\"initialSeed\\\":2026,\\\"mission\\\":{\\\"missionId\\\":\\\"refuge\\\",\\\"rules\\\":2,\\\"seed\\\":2026,\\\"layout\\\":2,\\\"assault\\\":\\\"rush\\\",\\\"nest\\\":\\\"spread\\\"},\\\"missionMinBase\\\":100,\\\"campaign\\\":{\\\"training\\\":\\\"none\\\",\\\"chapterMin\\\":[100,100,100],\\\"chapterStars\\\":[0,0,0]},\\\"rewards\\\":{\\\"seed\\\":2026,\\\"pending\\\":null,\\\"choices\\\":[],\\\"ward\\\":0},\\\"wave\\\":2,\\\"gold\\\":869,\\\"base\\\":100,\\\"rng\\\":122211365,\\\"nextId\\\":20,\\\"kills\\\":15,\\\"hatched\\\":4,\\\"units\\\":[{\\\"id\\\":1,\\\"kind\\\":\\\"club\\\",\\\"x\\\":756,\\\"y\\\":180,\\\"hp\\\":140,\\\"homeX\\\":756,\\\"homeY\\\":180},{\\\"id\\\":2,\\\"kind\\\":\\\"club\\\",\\\"x\\\":676.9773664486246,\\\"y\\\":443.9396792470295,\\\"hp\\\":76,\\\"homeX\\\":756,\\\"homeY\\\":468},{\\\"id\\\":3,\\\"kind\\\":\\\"hero\\\",\\\"x\\\":729.5999999999995,\\\"y\\\":324,\\\"hp\\\":133,\\\"homeX\\\":828,\\\"homeY\\\":324}]}\",\"classicCamp\":\"{\\\"version\\\":13,\\\"balance\\\":6,\\\"initialSeed\\\":3697963742,\\\"campaign\\\":{\\\"training\\\":\\\"none\\\",\\\"chapterMin\\\":[100,100,100],\\\"chapterStars\\\":[0,0,0]},\\\"rewards\\\":{\\\"seed\\\":3697963742,\\\"pending\\\":null,\\\"choices\\\":[],\\\"ward\\\":0},\\\"wave\\\":1,\\\"gold\\\":437,\\\"base\\\":100,\\\"rng\\\":1754698524,\\\"nextId\\\":12,\\\"kills\\\":7,\\\"hatched\\\":2,\\\"units\\\":[{\\\"id\\\":1,\\\"kind\\\":\\\"club\\\",\\\"x\\\":738.2666666666669,\\\"y\\\":180,\\\"hp\\\":126,\\\"homeX\\\":756,\\\"homeY\\\":180},{\\\"id\\\":2,\\\"kind\\\":\\\"club\\\",\\\"x\\\":735.1788365583661,\\\"y\\\":420.0014294945215,\\\"hp\\\":105,\\\"homeX\\\":756,\\\"homeY\\\":468},{\\\"id\\\":3,\\\"kind\\\":\\\"hero\\\",\\\"x\\\":775.689234296376,\\\"y\\\":324.0317897450247,\\\"hp\\\":302,\\\"homeX\\\":828,\\\"homeY\\\":324},{\\\"id\\\":4,\\\"kind\\\":\\\"club\\\",\\\"x\\\":873.5322614211217,\\\"y\\\":467.9197886839655,\\\"hp\\\":140,\\\"homeX\\\":930.0000063143219,\\\"homeY\\\":520.1446144524305}]}\",\"activeMode\":\"classic\"},\"albums\":{\"version\":1,\"activeId\":\"child-1\",\"nextId\":2,\"campProfileId\":\"child-1\",\"children\":[{\"id\":\"child-1\",\"name\":\"Mon carnet\",\"completed\":[]}]}}",
+    "conquete-serpents:family:v1:p2": "{\"format\":\"conquete-serpents-family\",\"version\":4,\"camp\":null,\"career\":{\"version\":1,\"activeRoster\":0,\"bestStars\":[0,0,0],\"rosters\":[[\"club\",\"shield\",\"nurse\",\"archer\",\"ninja\",\"medic\",\"dragon\",\"knight\"],[\"club\",\"nurse\",\"raptor\",\"triceratops\",\"stegosaurus\",\"dino\",\"trex\",\"dragon\"],[\"club\",\"nurse\",\"ninja\",\"raptor\",\"archer\",\"cavalry\",\"bat\",\"mutantStretch\"]],\"chapterCamps\":[null,null]},\"missions\":{\"version\":1,\"bestStars\":{\"refuge\":0,\"trois-ponts\":0,\"course\":0,\"coquilles\":0,\"sonnette\":0,\"carrefour\":0},\"lastRuns\":{},\"retryCamp\":null,\"classicCamp\":null,\"activeMode\":\"classic\"},\"albums\":{\"version\":1,\"activeId\":\"child-1\",\"nextId\":2,\"campProfileId\":null,\"children\":[{\"id\":\"child-1\",\"name\":\"Mon carnet\",\"completed\":[]}]}}",
+    "conquete-serpents:camp:v1": "{\"version\":13,\"balance\":6,\"initialSeed\":3697963742,\"campaign\":{\"training\":\"none\",\"chapterMin\":[100,100,100],\"chapterStars\":[0,0,0]},\"rewards\":{\"seed\":3697963742,\"pending\":null,\"choices\":[],\"ward\":0},\"wave\":1,\"gold\":437,\"base\":100,\"rng\":1754698524,\"nextId\":12,\"kills\":7,\"hatched\":2,\"units\":[{\"id\":1,\"kind\":\"club\",\"x\":738.2666666666669,\"y\":180,\"hp\":126,\"homeX\":756,\"homeY\":180},{\"id\":2,\"kind\":\"club\",\"x\":735.1788365583661,\"y\":420.0014294945215,\"hp\":105,\"homeX\":756,\"homeY\":468},{\"id\":3,\"kind\":\"hero\",\"x\":775.689234296376,\"y\":324.0317897450247,\"hp\":302,\"homeX\":828,\"homeY\":324},{\"id\":4,\"kind\":\"club\",\"x\":873.5322614211217,\"y\":467.9197886839655,\"hp\":140,\"homeX\":930.0000063143219,\"homeY\":520.1446144524305}]}",
+    "conquete-serpents:mission-done:v1": "643:130hjwb",
+    "conquete-serpents:voyage:v1": "{\"version\":1,\"best\":1,\"current\":{\"version\":2,\"seed\":805141,\"won\":1,\"bag\":[\"renfort-ninja\"],\"status\":\"travelling\"}}",
+    "conquete-serpents:players:v1": "{\"version\":1,\"activeId\":\"p2\",\"players\":[{\"id\":\"p1\",\"character\":\"hero\",\"name\":null},{\"id\":\"p2\",\"character\":\"club\",\"name\":null}]}",
+    "conquete-serpents:recruitment-reminder:v1": "[\"REFUGE-2-0000-7X86-R0\",\"REFUGE-4-M8BN-Q1WH-N0-M8\"]"
+  }
+}

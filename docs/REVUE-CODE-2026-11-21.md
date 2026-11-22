@@ -142,13 +142,22 @@ setTimeout(10_000)])` laisse le minuteur vivant (`scripts/endless-browser.mjs`,
 - `playwright-core` est importé par 19 fichiers sans être déclaré dans `package.json`.
 - `scripts/balance-expedition.mjs` n'a pas de commande `npm run`.
 
-**Fait (lot 3, corrigé par la PR 115)**, sauf la décision sur les recettes d'hygiène :
+**Recettes d'hygiène dans la CI : fait (22 novembre).** Le parent a laissé le choix de la
+suite. Une tâche « sauvegardes » construit le paquet de l'application et lance quatre
+recettes : la mise à jour par-dessus l'appareil figé d'un testeur du build 63
+(`tests/fixtures/appareil-build-63.json`, lu par `scripts/hygiene/update-frozen.mjs`), le
+fichier familial, la fermeture forcée, les doubles appuis (`npm run test:saves:*`). Environ
+7 minutes en local. `upgrade-63.mjs`, qui joue d'abord avec le vrai paquet du build 63, reste
+à lancer à la main : il lui faut ce paquet.
+
+**Fait (lot 3, corrigé par la PR 115)** :
 
 - Les trois attentes de 10 secondes sont annulées dès que le navigateur est fermé.
 - `test:expedition` est dans « règles et rendu ». `test:mobile-menus` tourne sur deux tâches,
   « menus 1 » (la partie `voyage`) et « menus 2 » (tout sauf `voyage`, par
   `MOBILE_MENUS_EXCEPT` : une partie ajoutée plus tard y tourne d'elle-même). Sept lignes à
-  lire sur une PR de code : « portée », `verify` et cinq « recettes ».
+  lire sur une PR de code : « portée », `verify` et cinq « recettes » (huit avec la tâche
+  « sauvegardes » ajoutée ensuite).
 - `npm run build` ne tourne plus que dans les groupes qui lisent le site construit (`site:
 true` : « écrans » et « règles et rendu »).
 - Tâche « portée » : une PR qui ne touche que des `*.md` (à la racine ou sous `docs/`, hors
