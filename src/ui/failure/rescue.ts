@@ -1,7 +1,7 @@
 import './failure.css';
 import { FAMILY_STORAGE_KEY } from '../../storageKeys.ts';
 import { make } from '../dom.ts';
-import { downloadText, familyFileName } from '../download.ts';
+import { canHandOver, familyFileName, handOver } from '../download.ts';
 import * as TEXT from '../../texts/fr/failure.ts';
 
 /**
@@ -40,6 +40,19 @@ export function offerRescue(host: HTMLElement, device?: Device): void {
     // A storage that cannot be read holds nothing this page can give back.
   }
   if (!files.length) return;
+  host.classList.add('boot-rescue');
+  // The application cannot hand a file over: no button that does nothing. A parent is told
+  // what is still there, and what would lose it.
+  if (!canHandOver()) {
+    host.append(
+      make(
+        'div',
+        { id: 'rescue' },
+        make('p', { text: TEXT.desAventuresSontGardeesDansCetAppareil }),
+      ),
+    );
+    return;
+  }
   const buttons = files.map(({ player, raw }) => {
     // The number is added beside the words, not filled into them: this page must not need
     // the rules' file, which may be the very one that failed to load.
@@ -49,10 +62,9 @@ export function offerRescue(host: HTMLElement, device?: Device): void {
       ` ${player}`,
     );
     button.type = 'button';
-    button.onclick = () => downloadText(raw, familyFileName(player));
+    button.onclick = () => handOver(raw, familyFileName(player));
     return button;
   });
-  host.classList.add('boot-rescue');
   host.append(
     make(
       'div',

@@ -1651,9 +1651,11 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
 - **Le secours du démarrage** (`src/ui/failure/rescue.ts`, appelé par `src/main.ts`). Si le
   jeu ne démarre pas, l'accueil ne vient pas, et l'export de la sauvegarde non plus. Sous le
   message, un bouton par fichier familial que l'appareil garde : le texte est rendu tel quel,
-  sans être lu, donc même abîmé. Ce code ne dépend ni du paquet des règles ni de celui du
-  démarrage, qui peuvent être ceux qui ont échoué : `scripts/check-dist.mjs` tient la liste
-  des quelques petits fichiers qu'il a le droit de charger, et refuse tout autre.
+  sans être lu, donc même abîmé. Dans l'application, qui ne sait pas remettre un fichier, une
+  phrase à la place des boutons (voir « Remettre un fichier à la famille »). Ce code ne dépend
+  ni du paquet des règles ni de celui du démarrage, qui peuvent être ceux qui ont échoué :
+  `scripts/check-dist.mjs` tient la liste des quelques petits fichiers qu'il a le droit de
+  charger, et refuse tout autre.
 - **Tenu par** `tests/failure-watch.test.ts` et la recette `npm run test:failure`
   (`scripts/hygiene/failure.mjs`, tâche « sauvegardes » de la CI) : une erreur provoquée en
   pleine vague aux trois tailles d'écran, la fenêtre, la relance qui rend le camp, un
@@ -1661,6 +1663,29 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
 
 Pas essayé : sur un vrai téléphone, où l'enregistrement d'un fichier depuis le WebView reste à
 confirmer (c'est le même geste que l'export familial).
+
+## Remettre un fichier à la famille — 22 novembre 2026
+
+Tout fichier que le jeu remet (export de l'aventure, copies, secours au démarrage) passe par
+`handOver` (`src/ui/download.ts`), qui répond ce qu'il est devenu : remis au navigateur,
+impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
+
+- **Sur le site**, c'est un téléchargement du navigateur. « Remis » veut dire que le navigateur
+  l'a pris : la page ne sait ni où il est allé, ni si la famille l'a gardé.
+- **Dans l'application Android**, rien ne reçoit un téléchargement : l'export ne faisait rien,
+  et le jeu disait quand même « Fichier prêt » (essai du parent sur le build 64, 22 novembre
+  2026). Le paquet de l'application (`vite build --mode android`) ne montre donc plus de
+  bouton d'export : une phrase à sa place dans « Sauvegarde familiale », les copies gardées
+  ne sont pas proposées en fichiers, et le secours au démarrage dit ce qui est toujours là
+  et ce qui le ferait perdre, sans bouton. **Tant que l'export n'est pas réparé, aucune
+  aventure ne peut sortir d'un appareil** : la réparation (deux modules de Capacitor) attend
+  l'accord du parent, et passera par cette même fonction.
+- **Tenu par** `tests/hand-over.test.ts` et, sur le paquet de l'application, par les recettes
+  `npm run test:saves:family` et `npm run test:failure` : aucun bouton d'export, la phrase,
+  jamais « Fichier prêt ». Ces recettes prennent alors les fichiers sur le paquet du site
+  (`dist`), que la tâche « sauvegardes » de la CI construit aussi.
+- **Ne couvre pas** : l'import (« Choisir un fichier ») n'a jamais été essayé dans
+  l'application ; rien de ceci n'a été vu sur un téléphone.
 
 ## Deuxième génération de la sauvegarde — 22 novembre 2026
 

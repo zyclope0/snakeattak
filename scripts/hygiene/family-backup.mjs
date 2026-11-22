@@ -1,10 +1,13 @@
 // Sauvegarde familiale sur le paquet Android : export, restauration sur un appareil vide,
 // et imports invalides qui ne doivent rien changer, à l'octet près.
+// L'application ne sait pas remettre un fichier (essai du parent sur le build 64) : sur son
+// paquet, la recette vérifie qu'aucun bouton ne le promet, puis prend le fichier sur le paquet
+// du site (`dist`, à construire aussi) et continue avec lui.
 //   node --experimental-strip-types scripts/hygiene/family-backup.mjs [stockage.json] [dossier]
 // `stockage.json` est ce qu'un appareil garde. Sans lui : l'appareil figé d'un testeur du
 // build 63 (`tests/fixtures/appareil-build-63.json`), qui a un voyage à finir.
 import assert from 'node:assert/strict';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { open, start, snapshot } from './harness.mjs';
 import { showHomePage } from '../../tests/browser-entry.mjs';
 
@@ -22,6 +25,20 @@ device[KEYS.EXPEDITION_STORAGE_KEY] = JSON.stringify(
   logExpedition(createExpeditionLog(), X.startExpedition(4242)),
 );
 device[KEYS.ENDLESS_RECORDS_KEY] = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+const FAMILY = await import('../../src/texts/fr/family.ts');
+const HELP = await import('../../src/texts/fr/help.ts');
+/** The package that hands the family file over: the one asked for, or the site's. */
+const SITE = 'dist';
+/**
+ * True on the application's package, by what the build wrote in it: never by what the page
+ * shows, which is the very thing to check.
+ */
+const application =
+  JSON.parse(await readFile(`${dir}/build-info.json`, 'utf8')).target === 'android';
+if (application)
+  await access(`${SITE}/index.html`).catch(() => {
+    throw new Error('Le paquet du site manque : lancer aussi « npm run build ».');
+  });
 const EXTRA_KEYS = [KEYS.EXPEDITION_STORAGE_KEY, KEYS.VOYAGE_STORAGE_KEY, KEYS.ENDLESS_RECORDS_KEY];
 await mkdir('artifacts/hygiene', { recursive: true });
 const checks = [];
@@ -38,6 +55,28 @@ const give = (page, raw, name = 'notre-aventure.json') =>
     buffer: Buffer.isBuffer(raw) ? raw : Buffer.from(raw),
   });
 
+/** The family file of the device, as the package `from` hands it over. */
+async function exportFrom(from) {
+  const { browser, page } = await open({ dir: from, storage: device });
+  try {
+    await start(page);
+    const before = await snapshot(page);
+    await dialog(page);
+    const download = page.waitForEvent('download');
+    await page.locator('#family-export').click();
+    const raw = await readFile(await (await download).path(), 'utf8');
+    assert.equal(
+      (await page.locator('#family-status').textContent()).trim(),
+      FAMILY.fichierPretConserveLePourReprendre,
+      'a file handed over is said to be ready',
+    );
+    assert.deepEqual(await snapshot(page), before, 'exporting changes nothing on the device');
+    return raw;
+  } finally {
+    await browser.close();
+  }
+}
+
 // 1. Export from the device as it is.
 let exported;
 {
@@ -46,10 +85,29 @@ let exported;
     await start(page);
     const atStart = await snapshot(page);
     await dialog(page);
-    const download = page.waitForEvent('download');
-    await page.locator('#family-export').click();
-    exported = await readFile(await (await download).path(), 'utf8');
-    assert.deepEqual(await snapshot(page), atStart, 'exporting changes nothing on the device');
+    assert.equal(
+      await page.locator('#family-export').count(),
+      application ? 0 : 1,
+      application ? 'the application offers no export' : 'the site offers the export',
+    );
+    if (application) {
+      // No button that would do nothing, no word that a file is ready: one true sentence,
+      // and no help beside the window that tells the family to keep a file.
+      assert.equal(
+        await page.locator(`[aria-label="${HELP.aideLaSauvegardeFamiliale}"]`).count(),
+        0,
+      );
+      assert.equal(
+        (await page.locator('#family-export-none').textContent()).trim(),
+        FAMILY.dansLApplicationLAventureNePeutPas,
+      );
+      const words = await page.locator('#family-dialog').innerText();
+      assert.ok(!words.includes('Fichier prêt'), 'nothing says a file is ready');
+      await page.screenshot({ path: 'artifacts/hygiene/family-application.png' });
+      checks.push('application: no export button, the sentence instead, no « Fichier prêt »');
+      exported = await exportFrom(SITE);
+    } else exported = await exportFrom(dir);
+    assert.deepEqual(await snapshot(page), atStart, 'opening the window changes nothing');
     const file = JSON.parse(exported);
     assert.equal(file.version, 6, 'the file carries what the player keeps beside the adventure');
     assert.deepEqual(Object.keys(file.extras).sort(), ['endless', 'expedition', 'voyage']);
@@ -194,6 +252,11 @@ let exported;
       ['#family-export-refused', '{"version":99}', 'conquete-serpents-famille-mis-de-cote.json'],
     ]) {
       const button = next.page.locator(id);
+      if (application) {
+        // The words « export it » would lead nowhere: neither the words nor the button show.
+        assert.equal(await button.isVisible(), false, `${id}: not offered in the application`);
+        continue;
+      }
       await button.scrollIntoViewIfNeeded();
       const box = await button.boundingBox();
       assert.ok(
@@ -210,7 +273,9 @@ let exported;
     await next.page.locator('#family-apply:not([disabled])').waitFor({ state: 'visible' });
     await next.page.screenshot({ path: 'artifacts/hygiene/family-copies.png' });
     checks.push(
-      'kept copies: both exported byte for byte from the family window; the copy from before is accepted by the import',
+      application
+        ? 'kept copies: not offered as files in the application; the copy from before is accepted by the import'
+        : 'kept copies: both exported byte for byte from the family window; the copy from before is accepted by the import',
     );
     assert.deepEqual(next.report.errors, []);
   } finally {

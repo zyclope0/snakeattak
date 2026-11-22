@@ -10,7 +10,7 @@ import {
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
-import { downloadText, familyFileName } from './download.ts';
+import { canHandOver, familyFileName, handOver } from './download.ts';
 import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
 type Actions = {
@@ -30,6 +30,13 @@ type Actions = {
 };
 
 const say = (text: string) => setDisplayText(byId('family-status'), text);
+/** Hands a file over and says the truth about it: « ready » only when one was handed over. */
+const exportFile = (raw: string, name: string) =>
+  say(
+    handOver(raw, name) === 'saved'
+      ? TEXT.fichierPretConserveLePourReprendre
+      : TEXT.impossibleDePreparerLeFichierDe,
+  );
 const sum = (values: readonly number[]) => values.reduce((a, b) => a + b, 0);
 /** The sticker books of a file; older files have none. */
 const albumsOf = (backup: FamilyBackup) => (hasAlbums(backup) ? backup.albums : null);
@@ -99,11 +106,11 @@ function bindKeptCopies(actions: Pick<Actions, 'previousRaw' | 'refusedRaw'>) {
     button.onclick = () => {
       const raw = read();
       if (raw === null) return;
-      downloadText(raw, familyFileName(which));
-      say(TEXT.fichierPretConserveLePourReprendre);
+      exportFile(raw, familyFileName(which));
     };
     const block = make('div', { className: 'family-copy' }, make('p', { text: words }), button);
-    return { block, show: () => (block.hidden = read() === null) };
+    // Where no file can be handed over, the words « export it » would lead nowhere.
+    return { block, show: () => (block.hidden = !canHandOver() || read() === null) };
   };
   const previous = copy(
     'family-export-previous',
@@ -197,7 +204,8 @@ export function bindFamilyControls(actions: Actions) {
   const dialog = byId<HTMLDialogElement>('family-dialog');
   const preview = bindFamilyPreview(dialog, actions.accepts);
   // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
-  byId('home-family').after(helpPoint('family'));
+  // The help beside the window says to keep the file: not where no file can be handed over.
+  if (canHandOver()) byId('home-family').after(helpPoint('family'));
   const close = () => {
     preview.reset();
     dialog.close();
@@ -218,12 +226,19 @@ export function bindFamilyControls(actions: Actions) {
     close();
   });
   dialog.addEventListener('close', preview.reset);
-  byId('family-export').onclick = () => {
-    const raw = actions.exportRaw();
-    if (!raw || !readFamilyBackup(raw)) return say(TEXT.impossibleDePreparerLeFichierDe);
-    downloadText(raw, familyFileName());
-    say(TEXT.fichierPretConserveLePourReprendre);
-  };
+  const exportButton = byId('family-export');
+  if (canHandOver())
+    exportButton.onclick = () => {
+      const raw = actions.exportRaw();
+      if (!raw || !readFamilyBackup(raw)) return say(TEXT.impossibleDePreparerLeFichierDe);
+      exportFile(raw, familyFileName());
+    };
+  // The application cannot hand a file over: a sentence says so where the button was, rather
+  // than a button that does nothing.
+  else
+    exportButton.replaceWith(
+      make('p', { id: 'family-export-none', text: TEXT.dansLApplicationLAventureNePeutPas }),
+    );
   byId('family-apply').onclick = () => {
     const backup = preview.chosen();
     if (!backup) return;

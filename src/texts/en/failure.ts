@@ -7,3 +7,5 @@ export const leJeuSEstArreteSurUneErreur =
 export const enregistrerLaSauvegarde = 'Save file';
 export const gardeCesFichiersAvantDEffacer =
   'For parents: keep these files before clearing the game’s data. You can bring them back in “For parents”, “Family save”.';
+export const desAventuresSontGardeesDansCetAppareil =
+  'For parents: adventures are saved in this device. Do not clear the game’s data and do not uninstall the app: they would go with it.';

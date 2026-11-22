@@ -43,8 +43,10 @@ Le site n'est pas touché.
 
 **Ordre retenu par le conseil**
 
-1. Les documents disent vrai (fait avec cette page).
-2. Garde de publication et filet d'erreur : corrections attaquées avant fusion.
+1. Les documents disent vrai : fait (PR 130).
+2. Garde de publication et filet d'erreur : fait (PR 129, attaquée deux fois avant fusion).
+   Puis l'application dit la vérité sur l'export : plus de bouton muet ni de « Fichier
+   prêt » sans fichier, en attendant les deux modules (PR 131, attaquée avant fusion).
 3. Écrans de panne : phrases justes, « Réessayer », secours en un seul fichier.
 4. Sauvegardes, trois lots à la suite, chacun attaqué avant le suivant : sauvetage de tous
    les camps, copies de secours à deux clés, « ta partie n'est pas gardée ».
