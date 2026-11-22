@@ -17,19 +17,13 @@ import {
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 import type { BoonId, Boons, LastingBoon } from './boons.ts';
-import { readUnit, saveUnit, UNIT_LIMIT } from './checkpointUnits.ts';
-import { isArrayOfLength, isIntegerIn, isNumberIn, isOneOf, isRecord } from './plainData.ts';
+import { readCarriedCamp, saveUnit } from './checkpointUnits.ts';
+import { isArrayOfLength, isIntegerIn, isOneOf, isRecord } from './plainData.ts';
 import { readBoons } from './boons.ts';
 import { EXPEDITION_STAGE_VERSION, isBonusCard, STAGE_BAG_LIMIT } from './voyageRules.ts';
 import { isVoyageSeed } from './voyage.ts';
 import type { StageRules } from './voyageRules.ts';
-import {
-  CRYSTAL_MAX,
-  CRYSTAL_WARD,
-  ENTITY_ID_LIMIT,
-  GOLD_LIMIT,
-  REWARD_COINS,
-} from './gameConstants.ts';
+import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConstants.ts';
 
 /**
  * « La Grande Expédition » (decisions of the parent, 20 November 2026): three tableaux of five
@@ -43,6 +37,17 @@ import {
  */
 export type ExpeditionVersion = 1 | 2 | 3;
 export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 3;
+/** The gifts of the expedition follow the first table of gifts (boons.ts): places, levels, steps. */
+export const EXPEDITION_GIFT_RULES = BOON_RULES[1];
+/**
+ * What each question asked of the seed is called, beside the plan's own (a hundred times the
+ * tableau, plus the step). A new question takes a new number: the others keep their answers.
+ */
+const GIFT_QUESTION = 7000;
+const ROULOTTE_QUESTION = 8000;
+const EGG_QUESTION = 9000;
+/** « L'Œuf Mystère » : one time in two a gift held climbs a level; otherwise it holds coins. */
+const EGG_CLIMB_CHANCE = 0.5;
 
 /**
  * What a battle is drawn from. Version 1 draws a mission and a caprice of these tiers;
@@ -453,9 +458,9 @@ export function winBattle(
 export function giftOffer(state: ExpeditionState): BoonId[] {
   if (state.pending?.kind !== 'gift') return [];
   const salt = (state.tableau + 1) * 1000 + state.step * 10 + (state.pending.rerolled ? 1 : 0);
-  const rules = BOON_RULES[1];
+  const rules = EXPEDITION_GIFT_RULES;
   const offer = boonOffer(
-    mixSeed(state.seed, 7000 + salt),
+    mixSeed(state.seed, GIFT_QUESTION + salt),
     state.tableau,
     salt,
     state.boons,
@@ -478,12 +483,14 @@ const RARE_TIMES = 2;
 export const giftCoins = (rare: boolean) => REWARD_COINS * (rare ? RARE_TIMES : 1);
 /** The level a lasting gift reaches once taken now, rare or not. */
 export const levelAfterGift = (state: ExpeditionState, id: LastingBoon, rare: boolean) =>
-  Math.min(BOON_RULES[1].maxLevel, boonLevel(state.boons, id) + (rare ? RARE_TIMES : 1));
+  Math.min(EXPEDITION_GIFT_RULES.maxLevel, boonLevel(state.boons, id) + (rare ? RARE_TIMES : 1));
 /** A rare offer counts twice for a lasting gift and for the purse; a card of the bag is one card. */
 export const countsTwice = (id: BoonId): boolean => isLastingBoon(id) || id === 'pieces';
 /** A lasting gift not held yet, when every place is taken: one must be given up for it. */
 export const needsPlace = (state: ExpeditionState, id: BoonId): boolean =>
-  isLastingBoon(id) && state.boons.length >= BOON_RULES[1].places && !boonLevel(state.boons, id);
+  isLastingBoon(id) &&
+  state.boons.length >= EXPEDITION_GIFT_RULES.places &&
+  !boonLevel(state.boons, id);
 
 /** Adds a gift (a lasting one climbs, takes a place or the place given); a rare one climbs twice. */
 function gain(
@@ -493,10 +500,10 @@ function gain(
   rare: boolean,
 ): Partial<ExpeditionState> | null {
   if (isLastingBoon(id)) {
-    let boons = takeBoon(state.boons, id, replace, BOON_RULES[1]);
+    let boons = takeBoon(state.boons, id, replace, EXPEDITION_GIFT_RULES);
     if (!boons) return null;
     for (let extra = 1; rare && extra < RARE_TIMES; extra++)
-      boons = takeBoon(boons, id, undefined, BOON_RULES[1]) ?? boons;
+      boons = takeBoon(boons, id, undefined, EXPEDITION_GIFT_RULES) ?? boons;
     return withBoons(state, boons);
   }
   if (id === 'pieces') {
@@ -558,10 +565,15 @@ export function chooseHalt(
     return Object.freeze({ ...state, ...moved, camp: camp && Object.freeze(camp) });
   }
   // « L'Œuf Mystère » : a gentle surprise drawn from the seed — coins, or a gift that climbs.
-  const random = questionStream(state.seed, 9000 + state.tableau * 10 + state.step);
-  const climbable = state.boons.filter((b) => b.level < BOON_RULES[1].maxLevel);
-  if (climbable.length && random() < 0.5) {
-    const boons = takeBoon(state.boons, pickOne(random, climbable).id, undefined, BOON_RULES[1])!;
+  const random = questionStream(state.seed, EGG_QUESTION + state.tableau * 10 + state.step);
+  const climbable = state.boons.filter((b) => b.level < EXPEDITION_GIFT_RULES.maxLevel);
+  if (climbable.length && random() < EGG_CLIMB_CHANCE) {
+    const boons = takeBoon(
+      state.boons,
+      pickOne(random, climbable).id,
+      undefined,
+      EXPEDITION_GIFT_RULES,
+    )!;
     return Object.freeze({ ...state, ...moved, ...withBoons(state, boons) });
   }
   const coins = tuning.eggCoins;
@@ -584,7 +596,7 @@ export function chooseHalt(
  * allies of the carried camp keep the same share of their life, under their new maximum.
  */
 function withBoons(state: ExpeditionState, boons: Boons): Partial<ExpeditionState> {
-  const armour = (list: Boons) => armourFactor(list, BOON_RULES[1]);
+  const armour = (list: Boons) => armourFactor(list, EXPEDITION_GIFT_RULES);
   const ratio = armour(boons) / armour(state.boons);
   if (!state.camp || ratio === 1) return { boons };
   const units = state.camp.units.map((u) => ({
@@ -596,23 +608,23 @@ function withBoons(state: ExpeditionState, boons: Boons): Partial<ExpeditionStat
 
 /** An ally's full life, armour included, as the next camp will rebuild it. */
 function fullLife(unit: CarriedUnit, boons: Boons): number {
-  return kinds[unit.kind as Kind].hp * armourFactor(boons, BOON_RULES[1]);
+  return kinds[unit.kind as Kind].hp * armourFactor(boons, EXPEDITION_GIFT_RULES);
 }
 
 /** What the roulotte offers: gifts to buy and gifts to climb, with their price. */
 export function roulotteOffer(state: ExpeditionState) {
   const tuning = tuningOf(state);
-  const random = questionStream(state.seed, 8000 + state.tableau * 10 + state.step);
+  const random = questionStream(state.seed, ROULOTTE_QUESTION + state.tableau * 10 + state.step);
   // The stock is drawn from every gift, whatever the child holds: it stays the same while the
   // child buys, and a gift bought simply leaves it.
-  const fresh = boonOffer(Math.floor(random() * SEED_RANGE), 0, 0, [], BOON_RULES[1]);
+  const fresh = boonOffer(Math.floor(random() * SEED_RANGE), 0, 0, [], EXPEDITION_GIFT_RULES);
   return {
     // A gift already held is only offered to climb, at the price of a level.
     buy: fresh
       .filter((id): id is LastingBoon => isLastingBoon(id) && !boonLevel(state.boons, id))
       .map((id) => ({ id, price: tuning.roulotte.gift })),
     climb: state.boons
-      .filter((b) => b.level < BOON_RULES[1].maxLevel)
+      .filter((b) => b.level < EXPEDITION_GIFT_RULES.maxLevel)
       .map((b) => ({ id: b.id, price: tuning.roulotte.levelUp })),
   };
 }
@@ -643,7 +655,7 @@ export function buyAtRoulotte(
     state.boons,
     id,
     isLastingBoon(replace) ? replace : undefined,
-    BOON_RULES[1],
+    EXPEDITION_GIFT_RULES,
   );
   if (!boons) return null;
   const paid = { ...state, ...pay(state, item.price) };
@@ -696,29 +708,17 @@ export function pickAt(state: ExpeditionState, step: number): number | undefined
 
 /** A carried camp read back: its allies as the next camp will receive them, its coins, its crystal. */
 function readCamp(raw: unknown, boons: Boons): Camp | null {
-  if (
-    !isRecord(raw) ||
-    !isIntegerIn(raw.gold, 0, GOLD_LIMIT) ||
-    !isNumberIn(raw.base, 1, CRYSTAL_MAX) ||
-    !isArrayOfLength(raw.units, 0, UNIT_LIMIT)
-  )
-    return null;
-  const lifeFactor = armourFactor(boons, BOON_RULES[1]);
-  const ids = (raw.units as unknown[]).map((u) =>
-    isRecord(u) && isIntegerIn(u.id, 1, ENTITY_ID_LIMIT) ? u.id : 0,
-  );
-  const nextId = Math.max(0, ...ids);
-  const taken = new Set<number>();
+  const carried = isRecord(raw)
+    ? readCarriedCamp(raw, armourFactor(boons, EXPEDITION_GIFT_RULES))
+    : null;
+  if (!carried) return null;
   const units: CarriedUnit[] = [];
-  for (const saved of raw.units) {
-    const unit = readUnit(saved, { homes: true, supplies: true, nextId, lifeFactor }, taken);
-    const copy = unit && saveUnit(unit, true);
+  for (const unit of carried.units) {
+    const copy = saveUnit(unit, true);
     if (!copy) return null;
-    taken.add(copy.id);
     units.push(copy);
   }
-  if (units.filter((u) => u.kind === 'hero').length > 1) return null;
-  return Object.freeze({ units: Object.freeze(units), gold: raw.gold, base: raw.base });
+  return Object.freeze({ units: Object.freeze(units), gold: carried.gold, base: carried.base });
 }
 
 function readPending(raw: unknown): Pending | null | undefined {
@@ -760,7 +760,7 @@ export function readExpeditionState(raw: unknown): ExpeditionState | null {
     if (!isArrayOfLength(raw.picks, passed, passed) || !raw.picks.every((p) => p === 0 || p === 1))
       return null;
     const picks = raw.picks as (0 | 1)[];
-    const boons = readBoons(raw.boons, BOON_RULES[1]);
+    const boons = readBoons(raw.boons, EXPEDITION_GIFT_RULES);
     const pending = readPending(raw.pending);
     if (!boons || pending === undefined) return null;
     const camp = raw.camp === null ? null : readCamp(raw.camp, boons);

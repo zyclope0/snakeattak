@@ -1,6 +1,7 @@
 import { capriceDefinitionForRun } from '../caprices.ts';
 import type { Kind } from '../data.ts';
 import type { Game } from '../game.ts';
+import { battleOver } from './battleState.ts';
 import { setText as setDisplayText, setMarkup as setDisplayMarkup } from '../i18n/dom.ts';
 import { defeatCopy } from '../render/resultCopy.ts';
 import type { Session } from '../session.ts';
@@ -117,7 +118,7 @@ export function bindMissionOutcome(session: Session, actions: Actions) {
     const caprice = capriceDefinitionForRun(run);
     setDisplayText(byId('mission-battle-title'), TEXT.tesAllies);
     setDisplayText(byId('mission-battle-config'), `${assaults[run.assault]} · ${nests[run.nest]}`);
-    const end = g.status === 'won' || g.status === 'lost';
+    const end = battleOver(g);
     const result = byId('mission-result');
     result.hidden = !end;
     setDisplayText(result, resultText(g, run, !!caprice));

@@ -1,5 +1,6 @@
 import { capriceById } from '../caprices.ts';
 import type { Game } from '../game.ts';
+import { battleOver } from './battleState.ts';
 import { setText } from '../i18n/dom.ts';
 import type { AlbumsController } from './capriceAlbums.ts';
 import { frenchLeaf } from './capriceCopy.ts';
@@ -39,7 +40,7 @@ export function stickerResultNote(albums: AlbumsController, award: Award) {
     button,
     /** Shown only once a caprice game is won or lost. `bookId` is the book of that game. */
     show(game: Game, bookId: string) {
-      const ended = !!game.mission?.caprice && ['won', 'lost'].includes(game.status);
+      const ended = !!game.mission?.caprice && battleOver(game);
       button.hidden = !ended;
       note.hidden = !ended;
       if (!ended) return;

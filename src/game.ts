@@ -33,7 +33,6 @@ import {
   GOLD_LIMIT,
   HERO_TRAINING_COST,
   HERO_TRAINING_FROM,
-  ENTITY_ID_LIMIT,
   REPAIR_AMOUNT,
   REPAIR_COST,
   REWARD_COINS,
@@ -65,18 +64,16 @@ import { updateAllies, separateAllies } from './engine/allies.ts';
 import { updateConfusion, updateEnemies } from './engine/enemyTurn.ts';
 import { collectFallen, resolveWave } from './engine/outcome.ts';
 import * as TEXT from './texts/fr/battle.ts';
-import { UNIT_LIMIT, readUnit } from './checkpointUnits.ts';
-import { isArrayOfLength, isIntegerIn, isNumberIn, isRecord } from './plainData.ts';
+import { readCarriedCamp } from './checkpointUnits.ts';
 import { fill } from './texts/fill.ts';
 export type { Entity, Egg, Effect } from './engine/state.ts';
 
 /** Longest simulated step: a slow frame is cut short rather than leaping over a fight. */
 const MAX_STEP = 0.05;
 
-/** Won or lost: the game no longer advances and nothing can be bought. */
-function isOver(game: Game): boolean {
-  return game.status === 'won' || game.status === 'lost';
-}
+/** Won or lost: the game no longer advances and nothing more can be played or bought. */
+export const battleOver = (game: Pick<Game, 'status'>): boolean =>
+  game.status === 'won' || game.status === 'lost';
 /** Coins the player may spend: a caprice can lock part of the purse in the bank. */
 function spendableGold(game: Game): number {
   return game.gold - game.caprice.reserve;
@@ -344,35 +341,12 @@ export class Game {
       for (const u of this.units) u.maxHp = u.hp = kinds[u.kind as Kind].hp * armour;
       return true;
     }
-    if (
-      !isIntegerIn(camp.gold, 0, GOLD_LIMIT) ||
-      !isNumberIn(camp.base, 1, CRYSTAL_MAX) ||
-      !isArrayOfLength(camp.units, 0, UNIT_LIMIT)
-    )
-      return false;
-    const armour = armourFactor(boons, this.boonRules);
-    const ids = new Set<number>();
-    const units: Entity[] = [];
-    let nextId = 0;
-    for (const saved of camp.units) {
-      const id = isRecord(saved) && isIntegerIn(saved.id, 1, ENTITY_ID_LIMIT) ? saved.id : 0;
-      nextId = Math.max(nextId, id);
-    }
-    for (const saved of camp.units) {
-      const unit = readUnit(
-        saved,
-        { homes: true, supplies: true, nextId, lifeFactor: armour },
-        ids,
-      );
-      if (!unit || !this.knowsAlly(unit.kind as Kind)) return false;
-      ids.add(unit.id);
-      units.push(unit);
-    }
-    if (units.filter((u) => u.kind === 'hero').length > 1) return false;
-    this.units = units;
-    this.nextId = Math.max(this.nextId, nextId + 1);
-    this.gold = camp.gold;
-    this.base = camp.base;
+    const carried = readCarriedCamp(camp, armourFactor(boons, this.boonRules));
+    if (!carried || !carried.units.every((unit) => this.knowsAlly(unit.kind as Kind))) return false;
+    this.units = carried.units;
+    this.nextId = Math.max(this.nextId, carried.nextId + 1);
+    this.gold = carried.gold;
+    this.base = carried.base;
     this.#boons = boons;
     // The new map may have a rock where an ally lived: every one gets a home of this map.
     this.normalizeCamp();
@@ -469,7 +443,12 @@ export class Game {
     )
       return false;
     if (isLastingBoon(id)) {
-      const taken = takeBoon(this.#boons, id, isLastingBoon(replace) ? replace : undefined);
+      const taken = takeBoon(
+        this.#boons,
+        id,
+        isLastingBoon(replace) ? replace : undefined,
+        this.boonRules,
+      );
       if (!taken) return false;
       const armour = (level: number) => armourAtLevel(level, this.boonRules);
       const before = armour(this.boonLevel('armure'));
@@ -592,7 +571,7 @@ export class Game {
     return (
       !this.paused &&
       this.capriceAllows(kind) &&
-      !isOver(this) &&
+      !battleOver(this) &&
       kind !== 'hero' &&
       this.isUnlocked(kind) &&
       // An ally offered costs nothing: the coins a caprice keeps in the bank never stop it.
@@ -649,7 +628,7 @@ export class Game {
     if (this.mission) this.missionMinBase = Math.min(this.missionMinBase, this.base);
     if (
       this.paused ||
-      isOver(this) ||
+      battleOver(this) ||
       spendableGold(this) < REPAIR_COST ||
       this.base >= CRYSTAL_MAX
     )
@@ -672,7 +651,7 @@ export class Game {
     this.message = TEXT.laVagueDureUnNouvelOeufEstApparu;
   }
   step(dt: number) {
-    if (this.paused || isOver(this) || !Number.isFinite(dt) || dt <= 0) return;
+    if (this.paused || battleOver(this) || !Number.isFinite(dt) || dt <= 0) return;
     dt = Math.min(MAX_STEP, dt);
     if (this.mission) this.missionMinBase = Math.min(this.missionMinBase, this.base);
     this.time += dt;

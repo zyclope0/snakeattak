@@ -6,6 +6,7 @@ import {
 } from '../i18n/dom.ts';
 import type { Session } from '../session.ts';
 import type { Game } from '../game.ts';
+import { battleOver } from './battleState.ts';
 import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
 import { GROUND_ART } from '../art.ts';
@@ -176,7 +177,7 @@ export function bindMenu(session: Session, career: Career, actions: Actions) {
     else action();
   };
   const resumeClassic = () => {
-    if (session.game.mission || session.game.status === 'lost' || session.game.status === 'won') {
+    if (session.game.mission || battleOver(session.game)) {
       const g = actions.restore();
       if (!g) return;
       session.useGame(g);

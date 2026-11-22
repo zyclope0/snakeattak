@@ -8,7 +8,7 @@ import { setText as setDisplayText } from './i18n/dom.ts';
 import { bindBoardResize } from './render/boardResize.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT, bindBoardResolution } from './render/boardResolution.ts';
 import { visualSettings } from './render/visualSettings.ts';
-import { Game } from './game.ts';
+import { battleOver, Game } from './game.ts';
 import { createMissionProgress, createMissionProgressController } from './missionProgress.ts';
 import { createMissionDone } from './missionDone.ts';
 import type { MissionRun } from './missions.ts';
@@ -270,7 +270,7 @@ function recordEndless(game: Game) {
 }
 /** A game still being played goes on as it is; otherwise its stored camp is read again. */
 function liveOrStored(game: Game | undefined, camp: string | null): Game | null {
-  if (game && !['lost', 'won'].includes(game.status)) return game;
+  if (game && !battleOver(game)) return game;
   return camp ? decodeCheckpoint(camp) : null;
 }
 

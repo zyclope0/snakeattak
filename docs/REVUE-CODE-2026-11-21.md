@@ -28,7 +28,7 @@ garde **tous** les points, faits ou non.
 | 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | Fait, lot 1              |
 | 5   | La CI attend trop ; une PR de documents coûte autant que du code  | Fait, lot 3, gain mince  |
 | 6   | Barres de vie et petits ronds chers à dessiner                    | À mesurer sur l'appareil |
-| 7   | Des règles écrites plusieurs fois                                 | En grande partie         |
+| 7   | Des règles écrites plusieurs fois                                 | Fait                     |
 | 8   | Code mort et restes du voyage                                     | Fait, lot 2              |
 | 9   | Trois fichiers ont trop grossi                                    | Plus tard                |
 | 10  | Documentation d'architecture devenue fausse par endroits          | Passages cités corrigés  |
@@ -238,12 +238,23 @@ fait sans relire toute l'expédition) ; « ce qu'un cadeau rare double », encor
 `giftOffer` ; « il faut une place », qui vit aussi dans `Game.boonNeedsPlace` pour l'aventure
 sans fin.
 
-**Reste du point 7** :
+**Fait enfin (22 novembre, après les arbitrages du parent)**, parties et camps identiques
+(15 000 puis 12 000 camps forgés comparés entre l'ancien et le nouveau code, mêmes
+empreintes) :
 
-- le lecteur de camp porté écrit deux fois (`game.receiveCamp`, `expedition.readCamp`) ;
-- `BOON_RULES[1]` treize fois et la version de l'aventure sans fin (`as 1`) ;
-- la chance de l'Œuf Mystère et les sels du tirage sans nom ; « partie finie » huit fois ;
-- le carnet d'un joueur écrit deux fois et les dix types de port de stockage.
+- le camp porté d'une bataille à l'autre se lit en un seul endroit, `readCarriedCamp`
+  (`src/checkpointUnits.ts`), pour la partie qui le reçoit et pour l'expédition gardée ;
+- la table de cadeaux de l'expédition a un nom, `EXPEDITION_GIFT_RULES` (quatorze écritures de
+  `BOON_RULES[1]`) ; les numéros de ses tirages (`GIFT_QUESTION`, `ROULOTTE_QUESTION`,
+  `EGG_QUESTION`) et la chance de l'Œuf Mystère (`EGG_CLIMB_CHANCE`) aussi ;
+- `takeBoon` reçoit sa table dans l'aventure sans fin ;
+- « la partie est finie » s'écrit une fois, `battleOver` (`src/game.ts`), au lieu de huit.
+
+**Laissé, en connaissance de cause** : les deux carnets de joueur (`voyageStorage.ts`,
+`expeditionStorage.ts`) se ressemblent, mais le voyage est en fin de vie : les réunir
+toucherait deux sauvegardes pour retirer une ressemblance qui partira d'elle-même. Les dix
+types de port de stockage sont des alias d'une ligne, sans risque. La version de l'aventure
+sans fin (`as 1`) attend qu'il y ait une seconde version.
 
 ### 8. Code mort et restes du voyage
 
