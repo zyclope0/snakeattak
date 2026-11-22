@@ -172,8 +172,9 @@ const unreadable = (camp: unknown): boolean =>
  * camp of the classic adventure, and the game goes back to it. Never a camp from elsewhere
  * on the device: it could be another adventure's.
  *
- * Null when no camp was set aside, or when something else in the file is refused too. The
- * strict reader is untouched: this is asked only for a file it has already refused.
+ * Null when no camp was set aside, when something else in the file is refused too, or for a
+ * file with extras. The strict reader is untouched: this is asked only for a file it has
+ * already refused.
  */
 export function salvageFamilyBackup(text: string): FamilyBackup | null {
   if (typeof text !== 'string' || !withinLimits(text)) return null;
@@ -200,7 +201,15 @@ export function salvageFamilyBackup(text: string): FamilyBackup | null {
         camp = missions.classicCamp;
       }
     }
-    return readFamilyData({ ...data, camp: camp ?? null, missions, career });
+    // Only what the file has: a file from before the missions has no such part, and one
+    // added here, even empty, would make the reader refuse it.
+    const rest: Record<string, unknown> = { ...data, camp: camp ?? null };
+    if (Object.hasOwn(data, 'missions')) rest.missions = missions;
+    if (Object.hasOwn(data, 'career')) rest.career = career;
+    const backup = readFamilyData(rest);
+    // A file that carries extras is an exported one, never one the game stored: it is not
+    // taken this way, its extras would be lost at the next save.
+    return backup && backup.version !== FAMILY_EXTRAS_VERSION ? backup : null;
   });
 }
 

@@ -303,6 +303,8 @@ let exported;
       const words = await page.locator('#home-screen').innerText();
       seen.missions = (words.match(/\d+ \/ \d+ étoiles/g) ?? []).join(', ');
       seen.filled = (words.match(/★/g) ?? []).length;
+      // The way back to a mission under way, where the missions offer it.
+      seen.mission = await page.locator('#mission-continue').isVisible();
       assert.deepEqual(report.errors, []);
       return seen;
     } finally {
@@ -326,6 +328,7 @@ let exported;
     assert.equal(hurt.missions, healthy.missions, `${name}: the stars of the missions`);
     assert.equal(hurt.filled, healthy.filled, `${name}: star for star`);
     assert.equal(hurt.play, healthy.play, `${name}: the same game behind the button`);
+    assert.equal(hurt.mission, healthy.mission, `${name}: the same way back to a mission`);
     assert.equal(hurt.status, TEXT.tesEtoilesTesMissionsEtTesCarnetsSontBienLa, name);
     assert.equal(
       hurt.kept[KEYS.FAMILY_REFUSED_KEY],
@@ -361,20 +364,32 @@ let exported;
     file.camp = file.missions.retryCamp;
     file.missions.activeMode = 'missions';
   };
-  const mission = await home(withFile(playing));
-  const hurtMission = withFile((file) => {
-    playing(file);
-    file.camp = dead(file.camp);
-  });
+  // The frozen device has won that mission since: without the mark of it, the mission is
+  // still to be played, and the home offers to go back to it.
+  const unwon = (storage) => {
+    const { [KEYS.MISSION_DONE_KEY]: _won, ...rest } = storage;
+    return rest;
+  };
+  const mission = await home(unwon(withFile(playing)));
+  assert.equal(mission.mission, true, 'the missions offer to go back to the one under way');
+  const hurtMission = unwon(
+    withFile((file) => {
+      playing(file);
+      file.camp = dead(file.camp);
+    }),
+  );
   same(await home(hurtMission), mission, hurtMission, 'in a mission, camp on top');
   // The mission's camp dead everywhere: the classic adventure is offered, not lost unseen.
-  const noMission = withFile((file) => {
-    playing(file);
-    file.camp = file.missions.retryCamp = dead(file.camp);
-  });
+  const noMission = unwon(
+    withFile((file) => {
+      playing(file);
+      file.camp = file.missions.retryCamp = dead(file.camp);
+    }),
+  );
   const back = await home(noMission);
   assert.equal(back.missions, whole.missions);
   assert.equal(back.play, whole.play, 'the classic adventure is behind the button');
+  assert.equal(back.mission, false, 'the mission whose camp died is no longer offered');
 
   // Device 4: the camp key holds another adventure, one that reads. It is never taken: the
   // child sees his own stars and no camp, as on device 2.
@@ -398,7 +413,7 @@ let exported;
   assert.equal(kept.missions, whole.missions);
 
   checks.push(
-    `a camp that no longer decodes, five devices: missions ${whole.missions} kept on each; camp on top alone « ${whole.play} »; dead everywhere « ${without.play} », also with another adventure under the camp key; in a mission the mission comes back, or the classic adventure; an older text put aside stays`,
+    `a camp that no longer decodes, five devices: missions ${whole.missions} kept on each; camp on top alone « ${whole.play} »; dead everywhere « ${without.play} », also with another adventure under the camp key; in a mission the way back to it stays, or « ${back.play} » for the classic adventure when the mission's camp is dead everywhere; an older text put aside stays`,
   );
 }
 const out = { recipe: 'family-backup', dir, checks };

@@ -267,8 +267,7 @@ test('a file with extras is never salvaged: the game does not store one', () => 
   assert.equal(family.salvaged, false);
   assert.equal(family.status, TEXT.sauvegardeFamilialeIncompatible);
   assert.equal(storage.values.get(FAMILY_REFUSED_KEY), raw);
-  // The salvage itself would keep it: it is the game's start-up that never takes such a file.
-  assert.equal(salvageFamilyBackup(raw)?.version, 6);
+  assert.equal(salvageFamilyBackup(raw), null);
 });
 
 test('one place for a text put aside: a file kept but for a camp never pushes out a whole refusal', () => {
@@ -290,4 +289,98 @@ test('one place for a text put aside: a file kept but for a camp never pushes ou
   const again = memory({ [FAMILY_STORAGE_KEY]: lost, [FAMILY_REFUSED_KEY]: '{"version":98}' });
   assert.equal(createFamilyPersistence(again).load(), null);
   assert.equal(again.values.get(FAMILY_REFUSED_KEY), lost);
+});
+
+test('an import ends the sentence: it speaks of the adventure that was on the device', () => {
+  const hurt = frozen();
+  hurt.camp = hurt.missions.classicCamp = dead(hurt.camp);
+  const storage = memory({ [FAMILY_STORAGE_KEY]: JSON.stringify(hurt) });
+  const family = createFamilyPersistence(storage);
+  const kept = family.load()!;
+  assert.equal(family.sync(null, kept.career, kept.missions), true);
+  assert.equal(family.status, TEXT.tesEtoilesTesMissionsEtTesCarnetsSontBienLa);
+  // A parent brings a healthy file back: nothing is left to say about a camp.
+  assert.equal(family.import(readFamilyBackup(DEVICE[FAMILY_STORAGE_KEY])!), true);
+  assert.equal(family.salvaged, false);
+  assert.equal(family.status, TEXT.aventureFamilialeEnregistreeSurCet);
+  // And the saves that follow do not bring the sentence back.
+  const now = readFamilyBackup(storage.values.get(FAMILY_STORAGE_KEY)!)!;
+  assert.equal(family.sync(null, now.career, now.missions), true);
+  assert.equal(family.status, TEXT.aventureFamilialeEnregistreeSurCet);
+});
+
+test('a file from before the missions is kept too: its stars, without the camp that died', () => {
+  const career = createCareer().state;
+  career.bestStars = [3, 2, 0];
+  const game = new Game(4);
+  const old = JSON.parse(writeFamilyBackup(encodeCheckpoint(game), career)!);
+  assert.equal(old.version, 1);
+  assert.equal(Object.hasOwn(old, 'missions'), false);
+  // The camp on top.
+  const top = salvageFamilyBackup(JSON.stringify({ ...old, camp: dead(old.camp) }))!;
+  assert.deepEqual(top.career.bestStars, [3, 2, 0]);
+  assert.equal(top.camp, null);
+  assert.equal(top.version, 1);
+  // The camp of a chapter, the first and the second: the stars stay, the camp on top too.
+  for (const slot of [0, 1]) {
+    const camps = [null, null] as (string | null)[];
+    camps[slot] = '{';
+    const chapter = salvageFamilyBackup(
+      JSON.stringify({ ...old, career: { ...old.career, chapterCamps: camps } }),
+    )!;
+    assert.deepEqual(chapter.career.bestStars, [3, 2, 0], `chapter camp ${slot}`);
+    assert.deepEqual(chapter.career.chapterCamps, [null, null]);
+    assert.equal(chapter.camp, readFamilyBackup(JSON.stringify(old))!.camp);
+  }
+  // The second chapter camp of a recent file as well.
+  const recent = frozen();
+  recent.career.chapterCamps = [null, '{'];
+  assert.deepEqual(salvaged(recent)!.career.chapterCamps, [null, null]);
+});
+
+test('what still reads is left where it is: nothing is moved that did not have to be', () => {
+  // In a mission, its camp on top alive and the copy of it in the missions dead: the game
+  // stays in its mission, on that camp.
+  const playing = inMission();
+  const top = readFamilyBackup(JSON.stringify(playing))!.camp;
+  playing.missions.retryCamp = dead(playing.missions.retryCamp);
+  const kept = salvaged(playing)!;
+  assert.equal(kept.camp, top);
+  assert.equal(kept.missions!.activeMode, 'missions');
+  assert.equal(kept.missions!.retryCamp, null);
+  // A file with no camp on top is not given one because another camp was set aside.
+  const none = frozen();
+  none.camp = null;
+  none.missions.retryCamp = dead(none.missions.retryCamp);
+  const bare = salvaged(none)!;
+  assert.equal(bare.camp, null);
+  assert.ok(bare.missions!.classicCamp, 'the classic camp stays where the missions keep it');
+});
+
+test('the list of players shows the stars the game will keep', async () => {
+  const { playerStars } = await import('../src/players.ts');
+  const hurt = frozen();
+  hurt.camp = hurt.missions.classicCamp = dead(hurt.camp);
+  const device = (raw: string) => ({
+    getItem: (key: string) => (key === FAMILY_STORAGE_KEY ? raw : null),
+  });
+  assert.equal(playerStars(device(DEVICE[FAMILY_STORAGE_KEY]), 'p1'), 3);
+  assert.equal(playerStars(device(JSON.stringify(hurt)), 'p1'), 3, 'a camp that died');
+  assert.equal(playerStars(device(JSON.stringify({ ...frozen(), version: 99 })), 'p1'), 0);
+});
+
+test('a file with extras refused whole and put aside is not pushed out by a later salvage', () => {
+  const six = frozen();
+  six.version = 6;
+  six.extras = { voyage: DEVICE['conquete-serpents:voyage:v1'] };
+  six.camp = six.missions.classicCamp = dead(six.camp);
+  const held = JSON.stringify(six);
+  const hurt = frozen();
+  hurt.camp = dead(hurt.camp);
+  const storage = memory({
+    [FAMILY_STORAGE_KEY]: JSON.stringify(hurt),
+    [FAMILY_REFUSED_KEY]: held,
+  });
+  assert.ok(createFamilyPersistence(storage).load());
+  assert.equal(storage.values.get(FAMILY_REFUSED_KEY), held);
 });
