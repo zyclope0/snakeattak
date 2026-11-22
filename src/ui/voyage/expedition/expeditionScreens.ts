@@ -1,4 +1,5 @@
 import './expedition.css';
+import { isLastingBoon } from '../../../boons.ts';
 import type { BoonId, LastingBoon } from '../../../boons.ts';
 import { capriceById } from '../../../caprices.ts';
 import type { CapriceDefinition } from '../../../caprices.ts';
@@ -161,7 +162,7 @@ export function bindExpeditionScreens(
   function take(id: BoonId, from: 'gift' | 'roulotte') {
     const state = log.current;
     if (!state) return;
-    if (needsPlace(state, id)) {
+    if (isLastingBoon(id) && needsPlace(state, id)) {
       replacing = id;
       show();
       page.hold();

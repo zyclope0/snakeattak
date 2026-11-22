@@ -227,8 +227,16 @@ libérer), `endsExpedition` (pas de cadeau après King Snake), `countsTwice` (ce
 rare double), `levelAfterPurchase` et `canPay` (la roulotte, qui s'en sert aussi pour
 vendre), `snakesHaveGrown`, `underWay`. Le style du bouton « Choisir » ne se décide plus en
 comparant un texte affiché : `giftWords` dit `plain`. Un test tient chaque règle à son
-ancienne écriture. « Expédition en cours » reste écrit une seconde fois, exprès, dans
-`src/expeditionLog.ts` : l'accueil le lit sans charger les règles.
+ancienne écriture, et `scripts/hygiene/expedition-views.mjs` (lancé par
+`tests/expedition-views.test.ts`) rend les vues avec un faux DOM pour tenir leur
+branchement : une négation perdue dans une vue s'y voit. Une relecture indépendante a rendu
+17 723 écrans avant et après, en français et en anglais : identiques.
+
+Encore écrit plus d'une fois, en connaissance de cause : « une bataille est gagnée »
+(`underWay`, `snakesHaveGrown`, et la lecture brute de `src/expeditionLog.ts`, que l'accueil
+fait sans relire toute l'expédition) ; « ce qu'un cadeau rare double », encore en ligne dans
+`giftOffer` ; « il faut une place », qui vit aussi dans `Game.boonNeedsPlace` pour l'aventure
+sans fin.
 
 **Reste du point 7** :
 

@@ -482,7 +482,7 @@ export const levelAfterGift = (state: ExpeditionState, id: LastingBoon, rare: bo
 /** A rare offer counts twice for a lasting gift and for the purse; a card of the bag is one card. */
 export const countsTwice = (id: BoonId): boolean => isLastingBoon(id) || id === 'pieces';
 /** A lasting gift not held yet, when every place is taken: one must be given up for it. */
-export const needsPlace = (state: ExpeditionState, id: BoonId): id is LastingBoon =>
+export const needsPlace = (state: ExpeditionState, id: BoonId): boolean =>
   isLastingBoon(id) && state.boons.length >= BOON_RULES[1].places && !boonLevel(state.boons, id);
 
 /** Adds a gift (a lasting one climbs, takes a place or the place given); a rare one climbs twice. */
@@ -657,7 +657,6 @@ export function leaveRoulotte(state: ExpeditionState): ExpeditionState | null {
 /** The battles of a whole expedition: five a tableau. */
 export const EXPEDITION_BATTLES =
   EXPEDITION_TUNINGS[CURRENT_EXPEDITION_VERSION].tableaux.length * BATTLES_PER_TABLEAU;
-/** The battles won so far: the record of a player counts them. */
 /** An expedition with something to lose: a battle won, and more to play. */
 export const underWay = (state: ExpeditionState | null): state is ExpeditionState =>
   !!state && state.status === 'travelling' && battlesWon(state) > 0;
@@ -668,6 +667,7 @@ export const snakesHaveGrown = (state: ExpeditionState): boolean =>
 export const endsExpedition = (state: ExpeditionState, battle: Battle): boolean =>
   battle.king && state.tableau === expeditionPlanOf(state).tableaux.length - 1;
 
+/** The battles won so far: the record of a player counts them. */
 export const battlesWon = (state: ExpeditionState): number =>
   state.status === 'arrived' ? EXPEDITION_BATTLES : battlesBefore(state);
 
