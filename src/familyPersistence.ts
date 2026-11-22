@@ -138,10 +138,15 @@ function keepPrevious(storage: StoragePort, session: Session): void {
     const held = storage.getItem(FAMILY_PREVIOUS_KEY);
     if (held === raw) return;
     if (held !== null) {
-      const before = readFamilyBackup(held);
+      // A copy of which nothing reads may be a whole adventure: it is never thrown away.
+      const before = readFamilyBackup(held) ?? salvageFamilyBackup(held);
       if (!before) return;
-      if (familyStars(before) > familyStars(backup)) return;
-      if (familyStickers(before) > familyStickers(backup)) return;
+      // Stars first, which only grow in play; at equal stars, the stickers, which only grow
+      // too. A copy with fewer stars gives way even with more stickers: the adventure in play
+      // must have a copy of its own.
+      const stars = familyStars(before) - familyStars(backup);
+      if (stars > 0) return;
+      if (stars === 0 && familyStickers(before) > familyStickers(backup)) return;
     }
     storage.setItem(FAMILY_PREVIOUS_KEY, raw);
   } catch {
@@ -267,8 +272,7 @@ export function createFamilyPersistence(storage?: StoragePort) {
      * only handed over: bringing it back goes through the import, like any other file.
      */
     previous(): string | null {
-      const raw = kept(storage, FAMILY_PREVIOUS_KEY);
-      return raw !== null && readFamilyBackup(raw) ? raw : null;
+      return kept(storage, FAMILY_PREVIOUS_KEY);
     },
     /** The text put aside because this version could not read it, exactly as it was found. */
     refused: (): string | null => kept(storage, FAMILY_REFUSED_KEY),
@@ -279,19 +283,31 @@ export function createFamilyPersistence(storage?: StoragePort) {
     },
     /**
      * Before an import: keeps the adventure about to be replaced, as the export gives it
-     * (`replaced`), or else the text the device holds. False when the device refuses the
-     * copy: the import must then be refused too, nothing has changed. An adventure already
-     * kept, or a device that holds none, needs no write.
+     * (`replaced`), or else the text the device holds. Answers how to put the copy back as it
+     * was if the import then fails, or null when the device refuses the copy: the import must
+     * then be refused too, nothing has changed.
      */
-    keepBeforeImport(replaced: string | null): boolean {
-      if (!storage) return false;
+    keepBeforeImport(replaced: string | null): (() => void) | null {
+      if (!storage) return null;
+      const nothing = () => {};
       try {
-        const raw = replaced ?? storage.getItem(FAMILY_STORAGE_KEY);
-        if (raw === null || storage.getItem(FAMILY_BEFORE_IMPORT_KEY) === raw) return true;
+        // A device that holds no adventure yet has nothing an import could destroy.
+        if (storage.getItem(FAMILY_STORAGE_KEY) === null) return nothing;
+        const raw = replaced ?? storage.getItem(FAMILY_STORAGE_KEY)!;
+        const held = storage.getItem(FAMILY_BEFORE_IMPORT_KEY);
+        if (held === raw) return nothing;
         storage.setItem(FAMILY_BEFORE_IMPORT_KEY, raw);
-        return true;
+        // An import that then fails leaves the copy as it was: it still says the truth.
+        return () => {
+          try {
+            if (held !== null) storage.setItem(FAMILY_BEFORE_IMPORT_KEY, held);
+            else (storage as Partial<Storage>).removeItem?.(FAMILY_BEFORE_IMPORT_KEY);
+          } catch {
+            /* The device refuses even that: the copy holds the adventure still in place. */
+          }
+        };
       } catch {
-        return false;
+        return null;
       }
     },
     load: (): FamilyBackup | null => load(storage, session),

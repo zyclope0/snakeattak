@@ -247,7 +247,7 @@ test('the persistence code only ever touches the eleven keys of its player', () 
     game.gold += 1;
     assert.equal(next.sync(encodeCheckpoint(game), career.state), true);
     // An import keeps the adventure it replaces.
-    assert.equal(next.keepBeforeImport(null), true);
+    assert.equal(typeof next.keepBeforeImport(null), 'function');
     const expected = PLAYER_KEYS.map((key) => (id === 'p1' ? key : `${key}:${id}`)).sort();
     assert.deepEqual([...device.touched].sort(), expected);
     assert.deepEqual([...device.values.keys()].sort(), expected);

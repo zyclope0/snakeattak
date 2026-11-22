@@ -151,7 +151,8 @@ test('a copy this version cannot read is never replaced; a device that refuses t
   const other = JSON.stringify({ ...JSON.parse(file([3, 3, 3])), version: 99 });
   const damaged = memory({ [FAMILY_STORAGE_KEY]: found, [FAMILY_PREVIOUS_KEY]: other });
   const family = createFamilyPersistence(damaged);
-  assert.equal(family.previous(), null, 'nothing a parent could look at with this version');
+  // It is handed to the window as it is: the window says it cannot be read.
+  assert.equal(family.previous(), other);
   assert.ok(family.load());
   assert.equal(family.sync(null, career([1, 0, 0])), true);
   assert.equal(damaged.values.get(FAMILY_PREVIOUS_KEY), other);

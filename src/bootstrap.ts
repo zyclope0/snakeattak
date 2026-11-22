@@ -22,6 +22,7 @@ import {
   hasAlbums,
   readFamilyBackup,
   writeFamilyBackup,
+  sameAdventure,
 } from './familyBackup.ts';
 import { checkExtras, collectExtras, writeExtras } from './familyExtras.ts';
 import type { FamilyBackup } from './familyBackup.ts';
@@ -470,32 +471,52 @@ function acceptsFamily(backup: FamilyBackup) {
  * Replaces the adventure by a family file. The file is written first: when the browser
  * refuses it, nothing of the session has changed.
  */
-function applyFamily(backup: FamilyBackup) {
-  const whole = readFamilyBackup(JSON.stringify(backup));
+/**
+ * `whole`: the file is the whole state to come back to — a copy kept before an import — so
+ * what it does not carry beside the adventure is taken away too.
+ */
+function applyFamily(backup: FamilyBackup, whole = false) {
+  const file = readFamilyBackup(JSON.stringify(backup));
   const invalid = { ok: false, message: TEXT.fichierInvalideRienNAEteModifie };
   const refused = { ok: false, message: TEXT.impossibleDeConserverCeFichierSur };
   /** The device refused a write and then the way back: it holds a part of the file. */
   const partial = { ok: false, message: TEXT.unePartieSeulementDuFichierAEteGardee };
-  if (!whole) return invalid;
+  if (!file) return invalid;
   // An import destroys an adventure on purpose: the one about to be replaced is kept first,
-  // as the export would give it. If the device refuses that copy, nothing is imported.
+  // as the export would give it. If the device refuses that copy, nothing is imported; if
+  // the import then fails, the copy is put back as it was. A file that brings back the very
+  // adventure in place, and nothing else, destroys nothing: the copy is left alone.
   const replaced = exportFamily();
-  const same = !!replaced && JSON.stringify(readFamilyBackup(replaced)) === JSON.stringify(whole);
-  if (!same && !family.keepBeforeImport(replaced)) return refused;
+  const now = replaced ? readFamilyBackup(replaced) : null;
+  const carried = file.version === FAMILY_EXTRAS_VERSION ? file.extras : {};
+  const held = now?.version === FAMILY_EXTRAS_VERSION ? now.extras : {};
+  const same =
+    !!now &&
+    sameAdventure(now, file) &&
+    (whole
+      ? JSON.stringify(carried) === JSON.stringify(held)
+      : Object.entries(carried).every(([name, text]) => held[name as keyof typeof held] === text));
+  const putBack = same ? () => {} : family.keepBeforeImport(replaced);
+  if (!putBack) return refused;
+  const failed = (answer: typeof refused) => {
+    putBack();
+    return answer;
+  };
   // What the player keeps beside the adventure goes back under its own keys, first: the
   // adventure is then stored as the file that holds it alone, as it always was.
   let extras: { undo: () => boolean } | null = null;
-  let canonical: FamilyBackup | null = whole;
-  if (whole.version === FAMILY_EXTRAS_VERSION) {
-    const checked = checkExtras(whole.extras);
-    const alone = writeFamilyBackup(whole.camp, whole.career, whole.missions, whole.albums);
+  let canonical: FamilyBackup | null = file;
+  if (file.version === FAMILY_EXTRAS_VERSION || whole) {
+    // A whole state may carry nothing beside the adventure: that is something to restore too.
+    const checked = Object.keys(carried).length ? checkExtras(carried) : whole ? {} : null;
+    const alone = writeFamilyBackup(file.camp, file.career, file.missions, file.albums);
     canonical = alone ? readFamilyBackup(alone) : null;
-    if (!checked || !canonical) return invalid;
-    extras = writeExtras(storage, checked);
-    if (!extras) return writeExtras.partial ? partial : refused;
+    if (!checked || !canonical) return failed(invalid);
+    extras = writeExtras(storage, checked, whole);
+    if (!extras) return failed(writeExtras.partial ? partial : refused);
   }
   const game = canonical.camp === null ? null : decodeCheckpoint(canonical.camp);
-  if (!family.import(canonical)) return extras && !extras.undo() ? partial : refused;
+  if (!family.import(canonical)) return failed(extras && !extras.undo() ? partial : refused);
   // The door of the expedition and its screens hold what they read at start: the page is
   // read again, as when the player changes.
   reloadAfterImport = extras !== null;

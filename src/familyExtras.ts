@@ -83,6 +83,8 @@ export function checkExtras(extras: FamilyExtras): FamilyExtras | null {
 export function writeExtras(
   storage: WritePort | undefined,
   extras: FamilyExtras,
+  /** True to take away, too, what the file does not carry: the file is the whole state. */
+  whole = false,
 ): { undo: () => boolean } | null {
   writeExtras.partial = false;
   if (!storage) return null;
@@ -103,10 +105,13 @@ export function writeExtras(
   try {
     for (const name of FAMILY_EXTRAS) {
       const text = extras[name];
-      if (text === undefined) continue;
+      if (text === undefined && !whole) continue;
       const { key } = EXTRAS[name];
       const previous = storage.getItem(key);
-      storage.setItem(key, text);
+      if (text === undefined) {
+        if (previous === null) continue;
+        storage.removeItem(key);
+      } else storage.setItem(key, text);
       before.push([key, previous]);
     }
     return { undo };

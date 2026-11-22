@@ -330,6 +330,91 @@ let exported;
     await undo.browser.close();
   }
 
+  // The same adventure kept twice (the copy of the import and the copy of the launch, both
+  // the child's) is offered once: the copy of the import, which carries the expedition.
+  {
+    const twice = await open({
+      dir,
+      storage: { ...afterMistake, [KEYS.FAMILY_PREVIOUS_KEY]: found },
+    });
+    try {
+      await start(twice.page);
+      await dialog(twice.page);
+      await twice.page.locator('#family-copies > summary').click();
+      assert.equal(await twice.page.locator('#family-copy-before-import').count(), 1);
+      assert.equal(await twice.page.locator('#family-copy-previous').count(), 0, 'offered once');
+      checks.push(
+        'the same adventure in both copies is offered once, by the copy that carries the most',
+      );
+    } finally {
+      await twice.browser.close();
+    }
+  }
+
+  // The same file imported again changes nothing, and leaves the child's copy alone.
+  {
+    const again = await open({ dir, storage: afterMistake });
+    try {
+      await start(again.page);
+      await dialog(again.page);
+      await give(again.page, sibling);
+      await again.page.locator('#family-apply:not([disabled])').click();
+      await again.page.locator('#home-primary').waitFor({ state: 'visible' });
+      const after = await snapshot(again.page);
+      assert.equal(
+        after[KEYS.FAMILY_BEFORE_IMPORT_KEY],
+        afterMistake[KEYS.FAMILY_BEFORE_IMPORT_KEY],
+        'the copy of the child’s adventure is untouched',
+      );
+      checks.push('the same file imported again: the copy of the child’s adventure is untouched');
+    } finally {
+      await again.browser.close();
+    }
+  }
+
+  // A file that brought an expedition, a voyage and records to a device that had none: the
+  // way back takes them away again.
+  {
+    const bare = { ...device };
+    for (const key of EXTRA_KEYS) delete bare[key];
+    const brought = JSON.stringify({ ...JSON.parse(exported), missions: other.missions });
+    assert.ok(readFamilyBackup(brought) && JSON.parse(brought).version === 6);
+    let mistaken;
+    const first = await open({ dir, storage: bare });
+    try {
+      await start(first.page);
+      await dialog(first.page);
+      await give(first.page, brought);
+      await apply(first.page);
+      await first.page.waitForFunction(
+        (key) => localStorage.getItem(key) !== null,
+        KEYS.EXPEDITION_STORAGE_KEY,
+      );
+      mistaken = await snapshot(first.page);
+      for (const key of EXTRA_KEYS) assert.ok(mistaken[key], `${key} brought by the file`);
+    } finally {
+      await first.browser.close();
+    }
+    const back = await open({ dir, storage: mistaken });
+    try {
+      await start(back.page);
+      await dialog(back.page);
+      await back.page.locator('#family-copies > summary').click();
+      await back.page.locator('#family-copy-before-import').click();
+      await apply(back.page);
+      await back.page.locator('#home-primary').waitFor({ state: 'visible' });
+      const now = await snapshot(back.page);
+      for (const key of EXTRA_KEYS) assert.equal(now[key], undefined, `${key} taken away again`);
+      // And that too can be undone: the copy now holds what the file had brought.
+      assert.equal(JSON.parse(now[KEYS.FAMILY_BEFORE_IMPORT_KEY]).version, 6);
+      checks.push(
+        'the way back takes away the expedition, voyage and records a mistaken file brought',
+      );
+    } finally {
+      await back.browser.close();
+    }
+  }
+
   // A device that refuses the copy refuses the import: nothing has changed.
   const full = await open({ dir, storage: device });
   try {
@@ -367,7 +452,7 @@ let exported;
     await aside.page.locator('#family-copies > summary').click();
     const words = await aside.page.locator('#family-copies').innerText();
     assert.ok(words.includes(FAMILY.unFichierQueCetteVersionNeSaitPasLire));
-    const button = aside.page.locator('#family-export-refused');
+    const button = aside.page.locator('#family-copy-refused-export');
     if (application) assert.equal(await button.count(), 0, 'no file button in the application');
     else {
       await button.scrollIntoViewIfNeeded();

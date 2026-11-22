@@ -1725,30 +1725,42 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
 - **`family-before-import` : l'aventure qu'un import remplace.** Avant chaque import, le jeu
   garde l'aventure en place telle que l'export la donnerait à cet instant, donc avec
   l'expédition, le voyage à finir et les records (`applyFamily` dans `src/bootstrap.ts`). Si
-  l'appareil refuse cette copie, l'import est refusé et rien n'a changé. Elle ne change qu'à
-  un import. Reprendre une copie est un import : ce qu'elle remplace est gardé à son tour.
+  l'appareil refuse cette copie, l'import est refusé et rien n'a changé ; si l'import échoue
+  ensuite, la copie est remise comme elle était. Un fichier qui ramène l'aventure en place,
+  sans rien d'autre, ne touche pas la copie (l'aventure est comparée sans sa version). Un
+  appareil qui ne garde encore aucune aventure n'a rien à copier. Reprendre cette copie
+  revient à l'état d'avant l'import entier : ce que le fichier fautif avait apporté à côté
+  (expédition, voyage, records) est retiré. Reprendre une copie est un import : ce qu'elle
+  remplace est gardé à son tour.
 - **`family-previous` : la sauvegarde d'un lancement d'avant.** Le fichier que le jeu trouve
   en démarrant est gardé une fois que la séance a écrit sa première sauvegarde — la
   sauvegarde d'abord, la copie ensuite : ce que l'enfant vient de faire n'attend jamais une
   copie. Lire n'ajoute rien sur l'appareil. La copie tenue ne cède pas sa place tant qu'elle
-  a plus d'étoiles (`familyStars`) ou plus d'autocollants (`familyStickers`) que le fichier
-  trouvé : les uns et les autres ne font que grandir en jouant. Une copie que cette version
-  ne sait pas lire n'est jamais remplacée.
+  a plus d'étoiles (`familyStars`) que le fichier trouvé, ou autant d'étoiles et plus
+  d'autocollants (`familyStickers`) : les uns et les autres ne font que grandir en jouant. Une
+  copie avec moins d'étoiles cède, même avec plus d'autocollants : l'aventure en jeu doit
+  avoir sa copie. Une copie dont un camp ne se décode plus est pesée comme le jeu la lirait ;
+  une copie dont rien ne se lit n'est jamais remplacée, et la fenêtre le dit.
 - **Le chemin de retour, sans fichier.** En bas de la fenêtre « Sauvegarde familiale », après
   l'import, une section repliée « Copies de secours » : chaque copie lisible dit ce qu'elle
   contient et a un seul bouton, « Regarder cette copie », qui l'envoie dans l'aperçu d'import
-  habituel, avec la même confirmation. Rien ne sort de l'appareil : cela marche aussi dans
+  habituel, avec la même confirmation. La même aventure gardée deux fois n'est offerte
+  qu'une fois, par la copie qui porte le plus. Rien ne sort de l'appareil : cela marche aussi dans
   l'application. Un texte mis de côté que cette version lit est offert de la même façon ; un
   texte qu'elle ne lit pas est seulement signalé, et remis en fichier sur le site, avec sa
   propre phrase (jamais « prêt pour reprendre »). La fenêtre s'ouvre sur son titre.
 - **Tenu par** `tests/family-copies.test.ts`, `tests/family-previous.test.ts` et la recette
   `npm run test:saves:family`, sur les deux paquets : un fichier plus étoilé importé par
   erreur, l'aventure remplacée gardée avec son expédition, ses records et son voyage,
-  reprise d'un appui, puis ce retour défait à son tour ; l'import refusé quand l'appareil
-  refuse la copie.
+  reprise d'un appui, puis ce retour défait à son tour ; la même aventure offerte une fois ;
+  le même fichier réimporté qui laisse la copie ; le retour qui retire ce que le fichier
+  fautif avait apporté ; l'import refusé quand l'appareil refuse la copie. Une relecture
+  indépendante a attaqué le lot avant sa fusion : ses quatre points à corriger sont repris.
 - **Ne protège pas** : un camp perdu ou remis à zéro avec les mêmes étoiles et les mêmes
   autocollants, vu après le lancement suivant ; deux imports par erreur de suite (seule
-  l'aventure d'avant le dernier est gardée) ; l'expédition, le voyage et les records en dehors
+  l'aventure d'avant le dernier est gardée) ; deux fenêtres du site ouvertes à la fois (la
+  copie est ce que tient la fenêtre qui importe) ; un extra écrit par une version plus
+  récente, que celle-ci ne relit pas ; l'expédition, le voyage et les records en dehors
   d'un import ; **rien, si le téléphone est perdu, l'application désinstallée ou ses données
   effacées** : toutes les copies sont dans le même stockage que la sauvegarde. Seul un
   fichier exporté met une aventure à l'abri.

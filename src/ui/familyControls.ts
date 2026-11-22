@@ -6,6 +6,8 @@ import {
   FAMILY_EXTRAS_VERSION,
   hasAlbums,
   readFamilyBackup,
+  salvageFamilyBackup,
+  sameAdventure,
 } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
@@ -23,7 +25,11 @@ type Actions = {
   refusedRaw: () => string | null;
   /** False for a file one of whose parts does not read back: it is refused whole. */
   accepts: (backup: FamilyBackup) => boolean;
-  applyBackup: (backup: FamilyBackup) => {
+  /** `whole`: the file is a copy kept before an import, the whole state to come back to. */
+  applyBackup: (
+    backup: FamilyBackup,
+    whole?: boolean,
+  ) => {
     ok: boolean;
     message: string;
   };
@@ -98,7 +104,7 @@ function albumNameNodes(backup: FamilyBackup) {
  */
 function bindKeptCopies(
   actions: Pick<Actions, 'previousRaw' | 'beforeImportRaw' | 'refusedRaw' | 'accepts'>,
-  look: (backup: FamilyBackup, name: string) => void,
+  look: (backup: FamilyBackup, name: string, whole: boolean) => void,
 ) {
   const rows = make('div');
   const node = make(
@@ -136,7 +142,8 @@ function bindKeptCopies(
       text: TEXT.regarderCetteCopie,
     });
     button.type = 'button';
-    button.onclick = () => look(backup, copy.name);
+    // Only the copy kept before an import is the whole state of that moment, extras included.
+    button.onclick = () => look(backup, copy.name, copy.read === actions.beforeImportRaw);
     return make(
       'div',
       { className: 'family-copy' },
@@ -146,8 +153,8 @@ function bindKeptCopies(
       button,
     );
   };
-  /** A text put aside that this version cannot read: said, and handed over where possible. */
-  const unread = (raw: string) => {
+  /** A text kept that this version cannot read: said, and handed over where possible. */
+  const unread = (raw: string, id: string) => {
     const block = make(
       'div',
       { className: 'family-copy' },
@@ -155,7 +162,7 @@ function bindKeptCopies(
     );
     if (!canHandOver()) return block;
     const button = make('button', {
-      id: 'family-export-refused',
+      id,
       className: 'secondary',
       text: TEXT.exporterCeFichier,
     });
@@ -172,22 +179,21 @@ function bindKeptCopies(
   return {
     node,
     refresh() {
-      const shown = new Set<string>();
+      const shown: FamilyBackup[] = [];
       const blocks: HTMLElement[] = [];
       for (const copy of kept) {
         const raw = copy.read();
         if (raw === null) continue;
-        const backup = readFamilyBackup(raw);
+        // A copy one of whose camps no longer decodes is offered as the game would read it.
+        const backup = readFamilyBackup(raw) ?? salvageFamilyBackup(raw);
         if (!backup || !actions.accepts(backup)) {
-          // Only the text put aside is told about when it does not read: the two copies are
-          // files the game wrote itself.
-          if (copy.read === actions.refusedRaw) blocks.push(unread(raw));
+          // A text of which nothing reads is told about: it stays on the device.
+          if (copy.read !== actions.beforeImportRaw) blocks.push(unread(raw, `${copy.id}-export`));
           continue;
         }
-        // The same adventure kept twice is offered once.
-        const text = JSON.stringify(backup);
-        if (shown.has(text)) continue;
-        shown.add(text);
+        // The same adventure kept twice is offered once: the first, which carries the most.
+        if (shown.some((other) => sameAdventure(other, backup))) continue;
+        shown.push(backup);
         blocks.push(row(copy, backup));
       }
       rows.replaceChildren(...blocks);
@@ -215,11 +221,13 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
   const albumNames = make('p', { id: 'family-preview-albums' });
   byId('family-preview-summary').after(albumNames);
   let pending: FamilyBackup | null = null,
+    pendingWhole = false,
     generation = 0;
 
   /** Nothing waits to be applied, and a file still being read is ignored when it arrives. */
   const forget = () => {
     pending = null;
+    pendingWhole = false;
     apply.disabled = true;
     byId('family-preview').hidden = true;
     return ++generation;
@@ -259,13 +267,14 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
   byId('family-choose-file').onclick = () => openPicker(file);
   file.onchange = readSelection;
   /** A copy kept on the device, shown like a chosen file: its name stands for the file's. */
-  const look = (backup: FamilyBackup, name: string) => {
+  const look = (backup: FamilyBackup, name: string, whole: boolean) => {
     reset();
     setDisplayText(byId('family-file-name'), name);
     show(backup);
+    pendingWhole = whole;
     byId('family-preview').scrollIntoView({ block: 'center' });
   };
-  return { reset, chosen: () => pending, look };
+  return { reset, chosen: () => pending, whole: () => pendingWhole, look };
 }
 
 /** User-selected local data only. Preview and cancellation never mutate the adventure. */
@@ -315,7 +324,7 @@ export function bindFamilyControls(actions: Actions) {
   byId('family-apply').onclick = () => {
     const backup = preview.chosen();
     if (!backup) return;
-    const result = actions.applyBackup(backup);
+    const result = actions.applyBackup(backup, preview.whole());
     say(result.message);
     if (!result.ok) return;
     preview.reset();

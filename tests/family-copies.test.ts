@@ -85,7 +85,7 @@ test('the save is written first, the copy after', () => {
   assert.deepEqual(blocked.written, []);
 });
 
-test('stickers count like stars: a copy that has more of either is not given up', () => {
+test('stars first, then stickers: the copy gives way to an adventure with more stars', () => {
   assert.equal(familyStickers(readFamilyBackup(file([0, 0, 0], 450, 3))!), 3);
   // Same stars, the sticker book emptied: the copy with the stickers stays.
   const rich = file([1, 0, 0], 450, 3);
@@ -105,14 +105,37 @@ test('stickers count like stars: a copy that has more of either is not given up'
   storage.values.set(FAMILY_STORAGE_KEY, whole);
   launch(storage, 471);
   assert.equal(storage.values.get(FAMILY_PREVIOUS_KEY), whole);
-  // More stickers but fewer stars: still not given up.
-  const starred = file([3, 0, 0], 450, 0);
+  // More stars but fewer stickers in play: the adventure in play has its own copy (a family
+  // that took over another device's adventure on purpose must not stay without one).
+  const starred = file([3, 3, 0], 450, 0);
   const mixed = memory({
-    [FAMILY_STORAGE_KEY]: file([1, 0, 0], 450, 5),
-    [FAMILY_PREVIOUS_KEY]: starred,
+    [FAMILY_STORAGE_KEY]: starred,
+    [FAMILY_PREVIOUS_KEY]: file([1, 0, 0], 450, 5),
   });
   launch(mixed, 451);
   assert.equal(mixed.values.get(FAMILY_PREVIOUS_KEY), starred);
+  // And the other way round: more stars in the copy, even with fewer stickers, stay.
+  const held = file([3, 0, 0], 450, 0);
+  const lost = memory({
+    [FAMILY_STORAGE_KEY]: file([1, 0, 0], 450, 5),
+    [FAMILY_PREVIOUS_KEY]: held,
+  });
+  launch(lost, 451);
+  assert.equal(lost.values.get(FAMILY_PREVIOUS_KEY), held);
+});
+
+test('a copy one of whose camps no longer decodes is weighed as the game would read it', () => {
+  const parts = JSON.parse(file([3, 0, 0], 450));
+  parts.camp = JSON.stringify({ ...JSON.parse(parts.camp), gold: -5 });
+  const damaged = JSON.stringify(parts);
+  // It has more stars than the file found: it stays.
+  const storage = memory({ [FAMILY_STORAGE_KEY]: file([1, 0, 0]), [FAMILY_PREVIOUS_KEY]: damaged });
+  launch(storage, 451);
+  assert.equal(storage.values.get(FAMILY_PREVIOUS_KEY), damaged);
+  // Fewer stars than the file found: it gives way, nothing of value is lost.
+  const better = memory({ [FAMILY_STORAGE_KEY]: file([3, 3, 0]), [FAMILY_PREVIOUS_KEY]: damaged });
+  launch(better, 451);
+  assert.notEqual(better.values.get(FAMILY_PREVIOUS_KEY), damaged);
 });
 
 test('before an import, the adventure about to be replaced is kept as it is given', () => {
@@ -123,20 +146,40 @@ test('before an import, the adventure about to be replaced is kept as it is give
   assert.equal(family.beforeImport(), null);
   // The text the export would give is kept, whatever it is.
   const exported = file([1, 0, 0], 999);
-  assert.equal(family.keepBeforeImport(exported), true);
+  assert.equal(typeof family.keepBeforeImport(exported), 'function');
   assert.equal(storage.values.get(FAMILY_BEFORE_IMPORT_KEY), exported);
   assert.equal(family.beforeImport(), exported);
   // The same adventure again needs no write.
   storage.written.length = 0;
-  assert.equal(family.keepBeforeImport(exported), true);
+  assert.equal(typeof family.keepBeforeImport(exported), 'function');
   assert.deepEqual(storage.written, []);
   // Without an export to keep, the text the device holds stands for it.
-  assert.equal(family.keepBeforeImport(null), true);
+  family.keepBeforeImport(null);
   assert.equal(storage.values.get(FAMILY_BEFORE_IMPORT_KEY), mine);
-  // A device that holds no adventure has nothing to keep, and that is no refusal.
+  // A device that holds no adventure has nothing an import could destroy: no copy, no refusal.
   const empty = memory();
-  assert.equal(createFamilyPersistence(empty).keepBeforeImport(null), true);
+  assert.equal(typeof createFamilyPersistence(empty).keepBeforeImport(file([0, 0, 0])), 'function');
   assert.deepEqual(empty.written, []);
+});
+
+test('an import that fails puts the copy back as it was', () => {
+  const kept = file([1, 0, 0], 300);
+  const storage = memory({
+    [FAMILY_STORAGE_KEY]: file([3, 3, 3], 800),
+    [FAMILY_BEFORE_IMPORT_KEY]: kept,
+  });
+  const family = createFamilyPersistence(storage);
+  family.load();
+  const putBack = family.keepBeforeImport(storage.values.get(FAMILY_STORAGE_KEY)!)!;
+  assert.notEqual(storage.values.get(FAMILY_BEFORE_IMPORT_KEY), kept);
+  putBack();
+  assert.equal(storage.values.get(FAMILY_BEFORE_IMPORT_KEY), kept, 'the earlier copy is back');
+  // A first copy, taken back, leaves no copy at all.
+  const first = memory({ [FAMILY_STORAGE_KEY]: file([1, 0, 0]) });
+  const once = createFamilyPersistence(first);
+  once.load();
+  once.keepBeforeImport(null)!();
+  assert.equal(first.values.has(FAMILY_BEFORE_IMPORT_KEY), false);
 });
 
 test('a device that refuses the copy refuses the import; one that keeps nothing imports nothing', () => {
@@ -145,9 +188,9 @@ test('a device that refuses the copy refuses the import; one that keeps nothing 
   storage.refuse.add(FAMILY_BEFORE_IMPORT_KEY);
   const family = createFamilyPersistence(storage);
   family.load();
-  assert.equal(family.keepBeforeImport(file([1, 0, 0], 999)), false);
+  assert.equal(family.keepBeforeImport(file([1, 0, 0], 999)), null);
   assert.equal(storage.values.get(FAMILY_STORAGE_KEY), mine, 'nothing has changed');
-  assert.equal(createFamilyPersistence().keepBeforeImport(mine), false, 'no storage at all');
+  assert.equal(createFamilyPersistence().keepBeforeImport(mine), null, 'no storage at all');
 });
 
 test('a copy the import cannot read is not offered', () => {
@@ -163,7 +206,7 @@ test('the three holes of the single copy are closed', () => {
   const storage = memory({ [FAMILY_STORAGE_KEY]: mine });
   const family = createFamilyPersistence(storage);
   family.load();
-  assert.equal(family.keepBeforeImport(mine), true);
+  assert.ok(family.keepBeforeImport(mine));
   assert.equal(family.import(sibling), true);
   launch(storage, 801);
   launch(storage, 802);
@@ -174,7 +217,7 @@ test('the three holes of the single copy are closed', () => {
   const now = storage.values.get(FAMILY_STORAGE_KEY)!;
   const again = createFamilyPersistence(storage);
   again.load();
-  assert.equal(again.keepBeforeImport(now), true);
+  assert.ok(again.keepBeforeImport(now));
   assert.equal(again.import(small), true);
   assert.equal(storage.values.get(FAMILY_BEFORE_IMPORT_KEY), now, 'the adventure just replaced');
   launch(storage, 101);
@@ -184,7 +227,7 @@ test('the three holes of the single copy are closed', () => {
   const middle = memory({ [FAMILY_STORAGE_KEY]: file([1, 0, 0], 450) });
   const playing = launch(middle, 500);
   const played = middle.values.get(FAMILY_STORAGE_KEY)!;
-  assert.equal(playing.keepBeforeImport(played), true);
+  assert.ok(playing.keepBeforeImport(played));
   assert.equal(playing.import(small), true);
   assert.equal(middle.values.get(FAMILY_BEFORE_IMPORT_KEY), played);
 });

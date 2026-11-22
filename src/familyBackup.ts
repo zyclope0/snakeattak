@@ -294,6 +294,20 @@ export function writeFamilyBackup(
  * never taken back by playing, so a file with fewer stars than another is an older one, or one
  * that lost something.
  */
+/**
+ * True when two files hold the same adventure — camp, career, missions, sticker books —
+ * whatever their version or what they carry beside it.
+ */
+export function sameAdventure(a: FamilyBackup, b: FamilyBackup): boolean {
+  const adventure = (file: FamilyBackup) =>
+    JSON.stringify([
+      file.camp,
+      file.career,
+      'missions' in file ? file.missions : null,
+      hasAlbums(file) ? file.albums : null,
+    ]);
+  return adventure(a) === adventure(b);
+}
 /** The stickers of every sticker book of a file: they only ever grow in play. */
 export function familyStickers(backup: FamilyBackup): number {
   return hasAlbums(backup)
