@@ -144,13 +144,13 @@ phaser = new Phaser.Game({
 const invalidateBoard = bindBoardResize(phaser, byId('game'));
 // A frame that throws stops the board for good: the child is told, and offered to start again.
 const { loop } = phaser;
-watchBoard(
-  { frame: () => loop.frame, running: () => loop.running },
-  (detail) =>
-    void import('./ui/failure/failureWindow.ts')
-      .then(({ showFailure }) => showFailure(detail))
-      .catch(() => {}),
+const failureWindow = () => import('./ui/failure/failureWindow.ts');
+watchBoard({ frame: () => loop.frame, running: () => loop.running }, (detail) =>
+  failureWindow().then(({ showFailure }) => showFailure(detail)),
 );
+// The window's own files are asked for now, while the game has just been fetched: the day the
+// board stops they are already there, whatever the network does then.
+void failureWindow().catch(() => {});
 if (import.meta.env.MODE === 'ads-preview') {
   let destroyed = false;
   let release: (() => void) | undefined;

@@ -137,6 +137,41 @@ test('errors that keep coming on a dead board neither delay the window nor renam
   assert.deepEqual(t.told, ['TypeError: fatal · Error: noise']);
 });
 
+test('when the window could not be shown, the next error tries again', async () => {
+  const listeners = new Map<string, (event: unknown) => void>();
+  const frames: (() => void)[] = [];
+  const shown: string[] = [];
+  let reachable = false;
+  watchBoard(
+    { frame: () => 10, running: () => true },
+    // The window's files: they do not come the first time.
+    (detail) =>
+      reachable ? Promise.resolve(shown.push(detail)) : Promise.reject(new Error('no network')),
+    {
+      addEventListener: (name: string, listener: (event: unknown) => void) =>
+        void listeners.set(name, listener),
+      requestAnimationFrame: (callback: () => void) => frames.push(callback),
+    } as never,
+  );
+  const error = (words: string) => listeners.get('error')!({ error: new Error(words) });
+  const draw = () => frames.splice(0).forEach((frame) => frame());
+  error('the frame that stops everything');
+  for (let i = 0; i < 3; i++) draw();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.deepEqual(shown, []);
+  // Nothing was told: a later error is not ignored.
+  reachable = true;
+  error('a button pressed on the dead board');
+  for (let i = 0; i < 3; i++) draw();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.deepEqual(shown, ['Error: a button pressed on the dead board']);
+  // Once told, it is told once.
+  error('again');
+  for (let i = 0; i < 3; i++) draw();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(shown.length, 1);
+});
+
 test('a board asleep because the page is hidden is not a board that failed', () => {
   const s = stage();
   s.board.awake = false;
@@ -202,6 +237,15 @@ test('the rescue finds the family file of each player, as stored, and nothing el
     { player: 1, raw: 'first, even {damaged' },
     { player: 3, raw: 'third' },
   ]);
+  // One text the device refuses to give does not take the others with it.
+  const stubborn = {
+    ...device,
+    getItem(key: string) {
+      if (key === FAMILY_STORAGE_KEY) throw new Error('unreadable');
+      return stored.get(key) ?? null;
+    },
+  };
+  assert.deepEqual(storedFamilyFiles(stubborn), [{ player: 3, raw: 'third' }]);
   // Every player the game knows has a key the rescue recognises.
   for (const [index, id] of PLAYER_IDS.entries()) {
     const one = new Map([[playerKey(FAMILY_STORAGE_KEY, id), 'x']]);

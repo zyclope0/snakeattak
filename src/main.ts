@@ -12,10 +12,15 @@ document.body.append(loading);
 void Promise.all([initializeLanguageControls(), loadGameFonts()])
   .then(() => import('./bootstrap.ts'))
   .then(() => loading.remove())
-  .catch(() => {
-    setText(loading, TEXT.impossibleDeDemarrerLeJeuRecharge);
-    // The home will not show, nor its way to export a save: hand the stored files over here.
+  .catch((error: unknown) => {
+    // Said where a developer looks; the child and the parent get the window below.
+    console.error(error);
+    // These few words stay if even the window's own files do not come.
+    setText(loading, TEXT.oupsLeJeuNArrivePasADemarrer);
     void import('./ui/failure/rescue.ts')
-      .then(({ offerRescue }) => offerRescue(loading))
+      .then(({ showStartFailure }) => {
+        showStartFailure();
+        loading.remove();
+      })
       .catch(() => {});
   });

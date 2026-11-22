@@ -1,56 +1,49 @@
-/* Quand le jeu s'arrête sur une erreur : la fenêtre de l'enfant, puis, si le jeu n'a pas pu
-   démarrer, les boutons qui rendent les sauvegardes. Chargé seulement à ce moment-là. */
-#failure-dialog {
+/* Quand le jeu ne peut pas continuer : une seule fenêtre, la même pour le plateau qui s'arrête
+   et pour le démarrage manqué. Un titre, une phrase à l'enfant, un bouton ; ce qu'il faut à
+   un parent est replié dessous. Chargé seulement à ce moment-là. */
+.trouble {
   max-width: 460px;
   text-align: center;
 }
-#failure-dialog > p {
+.trouble > p {
   font-size: 18px;
 }
-#failure-reload {
+/* Le titre reçoit le foyer pour qu'aucune touche ne presse le bouton à la place de l'enfant :
+   ce n'est pas une cible, il ne porte pas de cadre. */
+.trouble > h2:focus {
+  outline: none;
+}
+.trouble > button {
   min-height: 56px;
   padding: 0 28px;
   font-size: 20px;
 }
-#failure-parents {
+.trouble > details {
   margin-top: 22px;
   text-align: left;
 }
-#failure-parents > summary {
+.trouble > details > summary {
   min-height: 48px;
   display: flex;
   align-items: center;
   cursor: pointer;
   font-weight: 700;
 }
+.trouble > details > p {
+  font-size: 14px;
+  line-height: 1.5;
+}
 #failure-detail {
   overflow-wrap: anywhere;
   user-select: text;
   font-family: ui-monospace, monospace;
 }
-/* Le message de démarrage, quand il porte les boutons de secours : centré, jamais coupé. */
-.boot-loading.boot-rescue {
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
-  width: max-content;
-  max-width: calc(100% - 32px);
-  max-height: calc(100% - 32px);
-  overflow-y: auto;
-  text-align: center;
-}
 #rescue {
-  margin-top: 18px;
   display: grid;
   gap: 10px;
-  justify-items: center;
+  justify-items: start;
 }
 #rescue > button {
   min-height: 48px;
   padding: 0 20px;
-}
-#rescue > p {
-  max-width: 34em;
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
 }

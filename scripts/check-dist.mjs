@@ -41,7 +41,7 @@ assert.ok(!files.some((f) => f === 'references'), 'Design references do not belo
 // few small files named here — never the rules, the start-up code or Phaser, any of which can
 // be the one that failed to arrive. A list of what is allowed, not of what is refused: a file
 // that changes its name, or a new one, is refused until someone adds it here on purpose.
-const LIGHT = /^(rescue|failureWindow|failure|keys|index|download)-[\w-]+\.js$/;
+const LIGHT = /^(rescue|failureWindow|trouble|failure|keys|index|download)-[\w-]+\.js$/;
 async function reaches(name, seen = new Set()) {
   if (seen.has(name)) return seen;
   seen.add(name);
