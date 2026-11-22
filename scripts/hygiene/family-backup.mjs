@@ -1,15 +1,18 @@
 // Sauvegarde familiale sur le paquet Android : export, restauration sur un appareil vide,
 // et imports invalides qui ne doivent rien changer, à l'octet près.
-//   node --experimental-strip-types scripts/hygiene/family-backup.mjs <stockage.json> [dossier]
-// `stockage.json` est ce qu'un appareil garde (par exemple artifacts/hygiene/storage-63.json).
+//   node --experimental-strip-types scripts/hygiene/family-backup.mjs [stockage.json] [dossier]
+// `stockage.json` est ce qu'un appareil garde. Sans lui : l'appareil figé d'un testeur du
+// build 63 (`tests/fixtures/appareil-build-63.json`), qui a un voyage à finir.
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { open, start, snapshot } from './harness.mjs';
 import { showHomePage } from '../../tests/browser-entry.mjs';
 
-const [storageFile, dir = 'dist-android'] = process.argv.slice(2);
-assert.ok(storageFile, 'a storage file');
-const device = JSON.parse(await readFile(storageFile, 'utf8'));
+const FROZEN = 'tests/fixtures/appareil-build-63.json';
+const [storageFile = FROZEN, dir = 'dist-android'] = process.argv.slice(2);
+const read = JSON.parse(await readFile(storageFile, 'utf8'));
+// The frozen device holds its storage beside what its player saw.
+const device = read.storage ?? read;
 // The first player also has an expedition under way and a record of the endless adventure.
 const X = await import('../../src/expedition.ts');
 const { createExpeditionLog, logExpedition } = await import('../../src/expeditionStorage.ts');

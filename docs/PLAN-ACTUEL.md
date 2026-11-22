@@ -47,6 +47,9 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
 - Lot 4, règles écrites une seule fois (point 7) : première partie faite (tirages, armure,
   valeurs nommées), parties identiques. Reste, pour un lot à part : les règles de
   l'expédition recopiées dans ses écrans, le lecteur de camp porté, les carnets.
+- Recettes de sauvegarde dans la CI (22 novembre, suite choisie avec l'accord du parent) : une
+  tâche « sauvegardes » rejoue à chaque PR de code la mise à jour depuis l'appareil d'un
+  testeur du build 63, le fichier familial, la fermeture forcée et les doubles appuis.
 - Revue sévère et conseil (22 novembre, demande du parent) : quatre relecteurs, trois juges,
   rien de bloquant, « publier » à l'unanimité ; corrections dans la PR 115, puis publication
   n° 40. Détail à la fin
@@ -166,7 +169,7 @@ Ils attendent le **build 64**, construit par Codex depuis `main` comme le 63
   novembre 2026, la fusion des PR de Claude quand toutes les tâches de la CI sont vertes,
   sans conflit ni fil de revue ouvert, puis la publication du site. Depuis le 22 novembre
   2026, « toutes vertes » veut dire : pour une PR qui touche autre chose que des documents,
-  « portée », « verify » et les cinq « recettes » (sept lignes) ; des recettes sautées sur
+  « portée », « verify » et les six « recettes », dont « sauvegardes » (huit lignes) ; des recettes sautées sur
   une telle PR, c'est ne pas fusionner. Pour une PR de documents seuls (`*.md` à la racine
   ou sous `docs/`, hors `docs/publication/`) : « portée » et « verify » vertes, les recettes
   sautées. Avant de publier, regarder le passage complet sur `main` au commit publié : le

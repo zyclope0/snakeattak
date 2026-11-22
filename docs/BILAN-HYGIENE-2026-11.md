@@ -22,6 +22,9 @@ build`, `dist/`) et l'application (`npm run build:android`, `dist-android/`, env
 - Build des testeurs : 0.39.0 / build 63, commit `fb347dd`.
 - Recettes de cette étape : `scripts/hygiene/`. Elles servent le paquet Android hors ligne à
   l'origine de l'application (`https://localhost`) et écrivent dans `artifacts/hygiene/`.
+  Depuis le 22 novembre, quatre d'entre elles tournent dans la CI (tâche « sauvegardes »,
+  `npm run test:saves:*`) : mise à jour depuis l'appareil figé d'un testeur, fichier familial,
+  fermeture forcée, doubles appuis.
 
 | Recette                | Ce qu'elle fait                                                           |
 | ---------------------- | ------------------------------------------------------------------------- |
