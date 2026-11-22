@@ -683,7 +683,7 @@ function readCamp(raw: unknown, boons: Boons): Camp | null {
     !isArrayOfLength(raw.units, 0, UNIT_LIMIT)
   )
     return null;
-  const lifeFactor = 1 + boonLevel(boons, 'armure') * BOON_RULES[1].steps.armure;
+  const lifeFactor = armourFactor(boons, BOON_RULES[1]);
   const ids = (raw.units as unknown[]).map((u) =>
     isRecord(u) && isIntegerIn(u.id, 1, ENTITY_ID_LIMIT) ? u.id : 0,
   );

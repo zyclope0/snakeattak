@@ -127,7 +127,7 @@ try {
     dom.setTitle(button, 'Massue');
     await setLanguage('fr');
     check(
-      'French restores canonical source after append and repeated tree binding',
+      'French restores canonical source after repeated tree binding',
       text.textContent === 'Choisis un allié.' &&
         strong.textContent === 'Massue' &&
         created.data === 'Massue',
@@ -214,5 +214,10 @@ try {
   // every check had passed (19 November 2026): the server goes first, and the browser gets
   // ten seconds.
   server.kill();
-  await Promise.race([browser?.close(), delay(10_000, null, { ref: false })]);
+  const grace = new AbortController();
+  await Promise.race([
+    browser?.close(),
+    delay(10_000, null, { signal: grace.signal }).catch(() => {}),
+  ]);
+  grace.abort();
 }

@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import * as KEYS from '../src/storageKeys.ts';
 import { PLAYER_KEYS } from '../src/players.ts';
 import { CAMP_CHARACTER_LIMIT } from '../src/checkpoints.ts';
-import { DEPARTURE_INPUT_LIMIT } from '../src/departures.ts';
+import { decodeDeparture, DEPARTURE_INPUT_LIMIT } from '../src/departures.ts';
+import { EXPEDITION_LOG_LIMIT } from '../src/expeditionLog.ts';
+import { EXTRA_CHARACTER_LIMIT, FAMILY_EXTRAS_VERSION } from '../src/familyBackup.ts';
 import { ROSTER_SIZE } from '../src/gameConstants.ts';
 import {
   mixSeed,
@@ -64,6 +66,22 @@ test('les limites des sauvegardes et des codes gardent leur valeur', () => {
   assert.equal(ROSTER_SIZE, 8);
   assert.equal(CAMP_CHARACTER_LIMIT, 100000);
   assert.equal(DEPARTURE_INPUT_LIMIT, 96);
+  // The log of an expedition, and what a family file carries beside the adventure.
+  assert.equal(EXPEDITION_LOG_LIMIT, 100000);
+  assert.equal(EXTRA_CHARACTER_LIMIT, 100000);
+  assert.equal(FAMILY_EXTRAS_VERSION, 6);
+});
+
+// The voyage code left the game on 21 November 2026: what a child still has on paper is
+// refused as a departure code, with a plain « format », never read as something else.
+test('un ancien code de voyage n’est pas un code de départ', () => {
+  for (const code of [
+    'VOYAGE-1-0000-ND',
+    'VOYAGE-1-0YK9-AY',
+    'VOYAGE-2-0YK9-05',
+    'VOYAGE-2-ZZZZ-MY',
+  ])
+    assert.deepEqual(decodeDeparture(code), { ok: false, reason: 'format' }, code);
 });
 
 // The numbers of the draw are retyped: every seed and every shared code depends on them.

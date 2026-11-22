@@ -442,7 +442,13 @@ try {
   }
   console.log(JSON.stringify({ expedition: checks, screenshots: folder }));
 } finally {
-  // The timer must not hold the process once the browser is closed.
-  await Promise.race([browser?.close(), setTimeout(10_000, null, { ref: false })]);
+  // A browser that will not close gets ten seconds; once it has closed, the wait is
+  // called off so that it does not hold the process.
+  const grace = new AbortController();
+  await Promise.race([
+    browser?.close(),
+    setTimeout(10_000, null, { signal: grace.signal }).catch(() => {}),
+  ]);
+  grace.abort();
   server.kill();
 }

@@ -452,7 +452,7 @@ function exportFamily() {
 }
 /** True when every part of a family file reads back by its own rules. */
 function acceptsFamily(backup: FamilyBackup) {
-  return backup.version !== 6 || checkExtras(backup.extras) !== null;
+  return backup.version !== FAMILY_EXTRAS_VERSION || checkExtras(backup.extras) !== null;
 }
 /**
  * Replaces the adventure by a family file. The file is written first: when the browser

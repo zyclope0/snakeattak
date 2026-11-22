@@ -27,8 +27,11 @@ export const FAMILY_EXTRAS = ['expedition', 'voyage', 'endless'] as const;
 export type FamilyExtras = Readonly<Partial<Record<(typeof FAMILY_EXTRAS)[number], string>>>;
 /** The version of the file that carries them. */
 export const FAMILY_EXTRAS_VERSION = 6;
-/** No text is longer than the longest of the three, the log of an expedition. */
-const EXTRA_CHARACTER_LIMIT = EXPEDITION_LOG_LIMIT;
+/**
+ * No text is longer than the longest of the three, the log of an expedition. A lower value
+ * would turn away family files already written: both numbers are held by a test.
+ */
+export const EXTRA_CHARACTER_LIMIT = EXPEDITION_LOG_LIMIT;
 function readExtras(data: unknown): FamilyExtras | null {
   if (!isRecord(data)) return null;
   const names = Object.keys(data);

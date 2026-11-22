@@ -2,8 +2,8 @@ import {
   CRYSTAL_MAX,
   ENCOURAGEMENT_SECONDS,
   HERO_TRAINING_COST,
+  HERO_TRAINING_FROM,
   REPAIR_AMOUNT,
-  WAVES_PER_CHAPTER,
 } from '../../gameConstants.ts';
 
 export const pasDeMielDansCeCaprice = 'No honey in this caprice';
@@ -13,12 +13,12 @@ export const frappeRenforcee15DeDegatsDuHeros = 'Power Strike · +15% hero damag
 export const gardien15SurLesCoupsEtTirsRecus = 'Guardian · −15% damage from hits and shots';
 export const dansUneAutreExpeditionDesLesTrois =
   'In another expedition, starting with The Three Bridges';
-export const disponibleApresLaVague4 = `Available after wave ${WAVES_PER_CHAPTER}`;
+export const disponibleApresLaVague4 = `Available after wave ${HERO_TRAINING_FROM}`;
 export const entreDeuxVagues90Pieces = `Between waves · ${HERO_TRAINING_COST} coins`;
 export const ilManqueNPiecesPourLEntrainement = 'You need {0} more coins for training';
 export const n90PiecesUnSeulEntrainementPourCes = `${HERO_TRAINING_COST} coins · one training choice for these allies`;
 export const entrainerLeHeros = 'Train the hero';
-export const entreDeuxVaguesDesLesTroisPontsEn = `Between waves. From The Three Bridges in expeditions; after wave ${WAVES_PER_CHAPTER} in classic mode.`;
+export const entreDeuxVaguesDesLesTroisPontsEn = `Between waves. From The Three Bridges in expeditions; after wave ${HERO_TRAINING_FROM} in classic mode.`;
 export const tousLesAlliesConseilsEtOutils =
   'All allies → Tips and tools → Camp actions → Train the Hero. Choose Power Strike or Guardian.';
 export const frappe15DeDegatsGardien15SurLes =

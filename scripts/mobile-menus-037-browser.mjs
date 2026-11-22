@@ -192,10 +192,16 @@ try {
   }
   browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
   // MOBILE_MENUS_ONLY=voyage (for instance) runs one group while it is being worked on;
-  // several names, with commas between them, are what one task of the CI runs.
+  // several names go with commas between them. MOBILE_MENUS_EXCEPT=voyage runs all the
+  // others: the two tasks of the CI are « voyage » and « all but voyage », so that a group
+  // added here later runs in one of them without the workflow being touched.
   const GROUPS = ['catalogue', 'help', 'players', 'replay', 'voyage', 'resume', 'privacy'];
-  const only = process.env.MOBILE_MENUS_ONLY?.split(',').filter(Boolean) ?? [];
-  for (const name of only) assert.ok(GROUPS.includes(name), `unknown group: ${name}`);
+  const names = (value) => value?.split(',').filter(Boolean) ?? [];
+  const only = names(process.env.MOBILE_MENUS_ONLY);
+  const except = names(process.env.MOBILE_MENUS_EXCEPT);
+  for (const name of [...only, ...except])
+    assert.ok(GROUPS.includes(name), `unknown group: ${name}`);
+  assert.ok(!only.length || !except.length, 'MOBILE_MENUS_ONLY or MOBILE_MENUS_EXCEPT, not both');
   // How long each group took, on the error stream: what the CI tasks are balanced with.
   let since = Date.now();
   let running = 'start';
@@ -205,7 +211,9 @@ try {
     running = next;
   };
   const run = (name) => {
-    const wanted = !only.length || only.includes(name);
+    // A group this list does not know could never be asked for by name.
+    assert.ok(GROUPS.includes(name), `group missing from GROUPS: ${name}`);
+    const wanted = only.length ? only.includes(name) : !except.includes(name);
     if (wanted) lap(name);
     return wanted;
   };

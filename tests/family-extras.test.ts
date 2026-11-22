@@ -89,7 +89,11 @@ test('un fichier version 6 abîmé est refusé en entier', () => {
   refused((f) => (f.extras = { expedition, autre: '{}' }), 'an unknown extra');
   refused((f) => (f.extras = { expedition: 12 }), 'an extra that is not a text');
   refused((f) => (f.extras = { expedition: '{' }), 'an extra that is not JSON');
-  refused((f) => (f.extras = { expedition: 'x'.repeat(100_001) }), 'an extra too long');
+  // A text that IS JSON, one sign over the limit: refused for its length and nothing else.
+  const long = (characters: number) => JSON.stringify('x'.repeat(characters - 2));
+  refused((f) => (f.extras = { expedition: long(100_001) }), 'an extra too long');
+  const atLimit = { ...structuredClone(file), extras: { expedition: long(100_000) } };
+  assert.ok(readFamilyBackup(JSON.stringify(atLimit)), 'an extra at the limit is read');
   refused((f) => (f.extras = [expedition]), 'extras as a list');
   refused((f) => (f.version = 5), 'extras in a version 5 file');
   refused((f) => (f.version = 7), 'a version of the future');
