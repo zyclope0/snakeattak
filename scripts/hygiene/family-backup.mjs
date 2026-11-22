@@ -217,6 +217,49 @@ let exported;
     await next.browser.close();
   }
 }
+// 5. One wrong number in the camp of the stored file. The game starts as it would have: same
+//    stars on the home, same button, the camp taken from its own key; the file as it was
+//    found is put aside.
+{
+  const TEXT = await import('../../src/texts/fr/family.ts');
+  const home = async (storage) => {
+    const { browser, page, report } = await open({ dir, storage });
+    try {
+      await start(page);
+      const seen = {
+        stars: (await page.locator('#home-stars').textContent()).trim(),
+        play: (await page.locator('#home-primary').textContent()).trim(),
+        status: (await page.locator('#career-status').textContent()).trim(),
+        kept: await snapshot(page),
+      };
+      // The stars of the missions live in the family file alone: they are the ones at stake.
+      await showHomePage(page, 'missions');
+      const words = await page.locator('#home-screen').innerText();
+      seen.missions = (words.match(/\d+ \/ \d+ étoiles/g) ?? []).join(', ');
+      seen.filled = (words.match(/★/g) ?? []).length;
+      assert.deepEqual(report.errors, []);
+      return seen;
+    } finally {
+      await browser.close();
+    }
+  };
+  const whole = await home(device);
+  const parts = JSON.parse(device[KEYS.FAMILY_STORAGE_KEY]);
+  assert.equal(typeof parts.camp, 'string', 'the frozen device holds a camp in its family file');
+  parts.camp = JSON.stringify({ ...JSON.parse(parts.camp), gold: -5 });
+  const wrong = JSON.stringify(parts);
+  const hurt = await home({ ...device, [KEYS.FAMILY_STORAGE_KEY]: wrong });
+  assert.equal(hurt.stars, whole.stars, 'the stars of the home are those of the whole file');
+  assert.ok(whole.filled > 0, 'the frozen device has mission stars to lose');
+  assert.equal(hurt.missions, whole.missions, 'the stars of the missions are kept');
+  assert.equal(hurt.filled, whole.filled, 'star for star');
+  assert.equal(hurt.play, whole.play, 'the same game waits behind the button');
+  assert.equal(hurt.status, TEXT.leCampDeLaSauvegardeNAPasPuEtreLu);
+  assert.equal(hurt.kept[KEYS.FAMILY_REFUSED_KEY], wrong, 'the file as found is put aside');
+  checks.push(
+    `camp damaged in the stored file: missions ${hurt.missions} as with the whole file, « ${whole.play} », file put aside`,
+  );
+}
 const out = { recipe: 'family-backup', dir, checks };
 await writeFile('artifacts/hygiene/family-backup.json', JSON.stringify(out, null, 2));
 console.log(JSON.stringify(out, null, 1));

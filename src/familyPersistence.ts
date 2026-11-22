@@ -4,6 +4,7 @@ import {
   familyStars,
   hasAlbums,
   readFamilyBackup,
+  salvageFamilyBackup,
   writeFamilyBackup,
 } from './familyBackup.ts';
 import type { FamilyBackup } from './familyBackup.ts';
@@ -43,6 +44,8 @@ type Session = {
    */
   found: { raw: string; backup: FamilyBackup } | null;
   started: boolean;
+  /** True when the file read at start-up was kept without its camp, which did not read. */
+  salvaged: boolean;
 };
 
 /**
@@ -92,7 +95,11 @@ function save(
     session.last = raw;
     retain(session, missions, albums);
     session.disabled = false;
-    session.status = TEXT.aventureFamilialeEnregistreeSurCet;
+    // After a file kept without its camp, the session goes on saying so: the first save
+    // comes at once, and the sentence would otherwise never be read.
+    session.status = session.salvaged
+      ? TEXT.leCampDeLaSauvegardeNAPasPuEtreLu
+      : TEXT.aventureFamilialeEnregistreeSurCet;
     return true;
   } catch {
     session.status = TEXT.sauvegardeFamilialeIndisponible;
@@ -136,6 +143,7 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
   if (!storage) return null;
   const first = !session.started;
   session.started = true;
+  session.salvaged = false;
   try {
     const raw = storage.getItem(FAMILY_STORAGE_KEY);
     if (raw === null) {
@@ -150,6 +158,16 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
         storage.setItem(FAMILY_REFUSED_KEY, raw);
       } catch {
         /* No room for the copy: the game is played all the same. */
+      }
+      // A camp that does not read no longer takes the rest with it: the stars, the missions
+      // and the sticker books of the same file are kept, and the game looks for the camp
+      // under its own key. A file that carries extras is never one the game stored.
+      const rest = salvageFamilyBackup(raw);
+      if (rest && rest.version !== FAMILY_EXTRAS_VERSION) {
+        session.salvaged = true;
+        retain(session, rest.missions, rest.albums);
+        session.status = TEXT.leCampDeLaSauvegardeNAPasPuEtreLu;
+        return rest;
       }
       session.status = TEXT.sauvegardeFamilialeIncompatible;
       return null;
@@ -206,10 +224,15 @@ export function createFamilyPersistence(storage?: StoragePort) {
     settled: null,
     found: null,
     started: false,
+    salvaged: false,
   };
   return {
     get status() {
       return session.status;
+    },
+    /** True when the last file loaded was kept without its camp: the camp has its own key. */
+    get salvaged() {
+      return session.salvaged;
     },
     /**
      * The save from before, when it is a file the family import reads; null otherwise. It is

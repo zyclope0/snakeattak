@@ -1677,3 +1677,26 @@ toujours ([analyse](ANALYSE-2026-11-22.md), S4).
 
 La politique de confidentialité dit que les parties sauvegardées restent sur l'appareil et
 qu'un profil supprimé l'est avec ses données : c'est toujours vrai. Aucun mot n'en change.
+
+## Fichier familial : garder ce qui se lit — 22 novembre 2026
+
+Le fichier familial était tout ou rien : un seul nombre faux dans son camp le faisait refuser
+en entier ([analyse](ANALYSE-2026-11-22.md), S3). Mesuré sur l'appareil figé d'un testeur du
+build 63 dont le camp est abîmé : les étoiles des missions passaient de 3 sur 18 à 0, et les
+carnets étaient perdus avec elles. Les étoiles de la grande aventure, elles, tenaient déjà :
+la carrière a sa propre clé.
+
+- Le lecteur strict (`readFamilyBackup`) ne change pas : un fichier dont le camp ne se lit pas
+  reste refusé à l'import.
+- Pour le fichier que l'appareil garde, et seulement après ce refus, `salvageFamilyBackup`
+  (`src/familyBackup.ts`) relit le même fichier sans son camp. Si le reste se lit, les étoiles,
+  les missions et les carnets sont gardés, et le camp est cherché sous sa propre clé
+  (`src/bootstrap.ts`). Si autre chose est refusé, rien ne change : le fichier est refusé en
+  entier, comme avant.
+- Le fichier tel qu'il a été trouvé est mis de côté, comme avant, et peut être exporté depuis
+  la fenêtre « Sauvegarde familiale ». La ligne d'état le dit pendant toute la séance.
+- **Tenu par** `tests/family-salvage.test.ts` et la recette `npm run test:saves:family`, qui
+  abîme le camp de l'appareil figé et compare les étoiles des missions.
+
+Limite : seul le camp principal est mis de côté. Un camp de chapitre ou de mission abîmé à
+l'intérieur de la carrière ou des missions fait toujours refuser le fichier.
