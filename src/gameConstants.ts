@@ -12,6 +12,8 @@ export const LANE_COUNT = 3;
 
 /** The classic adventure: three chapters of four waves, the king at the last one. */
 export const CHAPTER_COUNT = 3;
+/** The most stars a chapter or a mission gives; the great adventure gives them three times. */
+export const STARS_MAX = 3;
 export const WAVES_PER_CHAPTER = 4;
 export const TOTAL_WAVES = 12;
 
@@ -27,6 +29,8 @@ export const START_TEAM_SIZE = 3;
 export const REPAIR_COST = 80;
 export const REPAIR_AMOUNT = 25;
 export const HERO_TRAINING_COST = 90;
+/** The hero trains from this wave of the great adventure, or in a mission of this rank. */
+export const HERO_TRAINING_FROM = 4;
 /** How long « Courage ! » makes the allies strike faster. */
 export const ENCOURAGEMENT_SECONDS = 8;
 
@@ -43,6 +47,8 @@ export const ROSTER_SIZE = 8;
 
 /** No purse holds more; a save that claims more was not written by the game. */
 export const GOLD_LIMIT = 10000000;
+/** No ally and no snake carries a higher number; the same holds for the next number to give. */
+export const ENTITY_ID_LIMIT = 10_000_000;
 
 /** The seed of a game started without one. */
 export const DEFAULT_SEED = 2026;

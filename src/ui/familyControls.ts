@@ -3,6 +3,7 @@ import {
   backupSummary,
   FAMILY_BYTE_LIMIT,
   FAMILY_EXTRAS,
+  FAMILY_EXTRAS_VERSION,
   hasAlbums,
   readFamilyBackup,
 } from '../familyBackup.ts';
@@ -59,7 +60,7 @@ function previewText(backup: FamilyBackup): string {
       ? TEXT.lesCarnetsEtLeursAutocollantsSont
       : TEXT.ceFichierNeContientAucunCarnetLes) +
     // What the file holds beside the adventure, named one by one: only that is replaced.
-    (backup.version === 6
+    (backup.version === FAMILY_EXTRAS_VERSION
       ? FAMILY_EXTRAS.filter((name) => Object.hasOwn(backup.extras, name))
           .map((name) => EXTRA_WORDS[name])
           .join('')

@@ -39,9 +39,12 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   fois par carte (aventure sans fin : pas moyen 1,25 → 0,28 ms). Mêmes parties, mêmes
   sauvegardes. Non mesuré sur le téléphone.
 - Lot 2, restes du voyage, code mort, documentation d'architecture : fait.
-- Lot 3, CI plus courte : fait. La fusion attend maintenant six tâches vertes (« verify » et
+- Lot 3, CI plus courte : fait (10 minutes d'attente au lieu de 13 sur sa propre PR). La
+  fusion attend maintenant six tâches vertes (« verify » et
   cinq « recettes ») ; pour une PR de documents seuls, « verify » suffit.
-- Lot 4, règles écrites une seule fois (point 7) : à faire.
+- Lot 4, règles écrites une seule fois (point 7) : première partie faite (tirages, armure,
+  valeurs nommées), parties identiques. Reste, pour un lot à part : les règles de
+  l'expédition recopiées dans ses écrans, le lecteur de camp porté, les carnets.
 
 **À reprendre après l'hygiène**, dans cet ordre :
 

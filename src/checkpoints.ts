@@ -1,12 +1,19 @@
 import { isMilestone, readEndlessRewards, readRewards } from './rewards.ts';
 import { ENDLESS_RULES, KINGS_LIMIT } from './endless.ts';
-import { BOON_RULES, boonLevel, readBoons } from './boons.ts';
+import { armourFactor, BOON_RULES, readBoons } from './boons.ts';
 import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
 import { Game } from './game.ts';
 import { allyExists, isClassicRevision } from './balanceRevision.ts';
 import type { ClassicRevision } from './balanceRevision.ts';
-import { CRYSTAL_MAX, GOLD_LIMIT, TOTAL_WAVES, WAVES_PER_CHAPTER } from './gameConstants.ts';
+import {
+  CRYSTAL_MAX,
+  ENTITY_ID_LIMIT,
+  GOLD_LIMIT,
+  HERO_TRAINING_FROM,
+  TOTAL_WAVES,
+  WAVES_PER_CHAPTER,
+} from './gameConstants.ts';
 import type { Kind } from './data.ts';
 import { missionById, readMissionRun, isPersistableMissionRun } from './missions.ts';
 import type { MissionRun } from './missions.ts';
@@ -198,7 +205,7 @@ function isSaveHeader(data: unknown): data is Save {
     isIntegerIn(data.gold, 0, GOLD_LIMIT) &&
     isNumberIn(data.base, 1, CRYSTAL_MAX) &&
     isUint32(data.rng) &&
-    isIntegerIn(data.nextId, 0, 10000000) &&
+    isIntegerIn(data.nextId, 0, ENTITY_ID_LIMIT) &&
     isIntegerIn(data.kills, 0, 1000000) &&
     isIntegerIn(data.hatched, 0, 1000000) &&
     isArrayOfLength(data.units, 0, UNIT_LIMIT)
@@ -279,7 +286,7 @@ function restoreDepartureSeed(game: Game, save: Save, mission: MissionRun | null
 function armourOf(save: Save): number {
   if (save.version !== ENDLESS_VERSION) return 1;
   const rules = BOON_RULES[save.endless as 1];
-  return 1 + boonLevel(readBoons(save.boons, rules) ?? [], 'armure') * rules.steps.armure;
+  return armourFactor(readBoons(save.boons, rules) ?? [], rules);
 }
 
 /** The living allies, each with its own identifier, and at most one hero. */
@@ -329,7 +336,8 @@ function exceedsMission(campaign: CampaignState, mission: MissionRun): boolean {
   return (
     campaign.chapterStars.some((stars) => stars !== 0) ||
     campaign.chapterMin.some((hp) => hp !== CRYSTAL_MAX) ||
-    (campaign.training !== 'none' && missionById(mission.missionId)!.unlockRank < 4)
+    (campaign.training !== 'none' &&
+      missionById(mission.missionId)!.unlockRank < HERO_TRAINING_FROM)
   );
 }
 

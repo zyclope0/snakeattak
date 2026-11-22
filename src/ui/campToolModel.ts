@@ -1,7 +1,6 @@
 import { availableGold, canSpend } from './capriceBudget.ts';
 import type { Game } from '../game.ts';
 import { kinds, type Kind } from '../data.ts';
-import { missionById } from '../missions.ts';
 import * as TEXT from '../texts/fr/camp.ts';
 import { fill } from '../texts/fill.ts';
 import { CRYSTAL_MAX, HERO_TRAINING_COST, REPAIR_COST } from '../gameConstants.ts';
@@ -23,9 +22,7 @@ export const hasFighters = (game: Game) =>
 
 /** Presentation readiness ignores the temporary pause held by the guide itself. */
 export function heroTrainingState(game: Game) {
-  const eligible = game.mission
-    ? missionById(game.mission.missionId)!.unlockRank >= 4
-    : game.wave >= 4;
+  const eligible = game.heroTrainingOpen;
   const hero = game.units.some((u) => u.kind === 'hero' && u.hp > 0);
   return {
     ready:

@@ -5,6 +5,7 @@ import type { Session } from '../session.ts';
 import { byId, make } from './dom.ts';
 import * as TEXT from '../texts/fr/home.ts';
 import { fill } from '../texts/fill.ts';
+import { STARS_MAX } from '../gameConstants.ts';
 
 /** French plural mark; the sentences below keep their shape for the translator. */
 const plural = (count: number) => (count > 1 ? 's' : '');
@@ -15,7 +16,7 @@ function reportTitle(report: ChapterReport) {
     report.chapter,
     report.terrainName,
     '★'.repeat(report.stars),
-    '☆'.repeat(3 - report.stars),
+    '☆'.repeat(STARS_MAX - report.stars),
   );
 }
 

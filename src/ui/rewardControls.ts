@@ -12,7 +12,7 @@ import * as TEXT from '../texts/fr/camp.ts';
 import * as PAGE from '../texts/fr/page.ts';
 import { BOON_PLACES, isLastingBoon, type LastingBoon } from '../boons.ts';
 import { endlessWave } from '../endless.ts';
-import { TOTAL_WAVES } from '../gameConstants.ts';
+import { REWARD_COINS, TOTAL_WAVES } from '../gameConstants.ts';
 import { BOON_SIGNS, boonBadge, boonNow, giftCopy } from './boonCopy.ts';
 import { fill } from '../texts/fill.ts';
 import { TAP_HOLD_MS } from './tapHold.ts';
@@ -174,7 +174,7 @@ function paintRewardIcon(icon: HTMLElement, id: string) {
     icon.style.backgroundPosition = '0% 100%';
   } else {
     icon.classList.add(id === 'pieces' ? 'reward-coins' : 'reward-crystal');
-    setDisplayText(icon, id === 'pieces' ? '+100' : '◆');
+    setDisplayText(icon, id === 'pieces' ? `+${REWARD_COINS}` : '◆');
   }
 }
 

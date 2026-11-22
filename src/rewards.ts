@@ -1,7 +1,7 @@
 import type { Kind } from './data.ts';
 import { isArrayOfLength, isIntegerIn, isNumberIn, isRecord, isUint32 } from './plainData.ts';
 import * as TEXT from './texts/fr/rewards.ts';
-import { seededStream } from './seededRandom.ts';
+import { seededStream, shuffle } from './seededRandom.ts';
 import { CRYSTAL_WARD, HONEY_REWARD_SECONDS, REWARD_WAVES, TOTAL_WAVES } from './gameConstants.ts';
 /**
  * The camps where a card is offered: after waves 4 and 8, and in the endless adventure after
@@ -69,15 +69,15 @@ export const freshRewards = (seed: number): RewardState => ({
  */
 export function rewardOffer(seed: number, milestone: Milestone): RewardId[] {
   const random = seededStream((seed ^ Math.imul(milestone, 0x9e3779b9)) >>> 0);
-  const shuffle = <T>(values: T[]) => {
-    for (let i = values.length - 1; i > 0; i--) {
-      const j = Math.floor(random() * (i + 1));
-      [values[i], values[j]] = [values[j], values[i]];
-    }
-    return values;
-  };
-  const unit = shuffle<RewardId>(['renfort-bouclier', 'renfort-ninja', 'renfort-raptor'])[0];
-  return shuffle([unit, ...shuffle<RewardId>(['miel', 'cristal', 'pieces']).slice(0, 2)]);
+  const unit = shuffle<RewardId>(random, [
+    'renfort-bouclier',
+    'renfort-ninja',
+    'renfort-raptor',
+  ])[0];
+  return shuffle(random, [
+    unit,
+    ...shuffle<RewardId>(random, ['miel', 'cristal', 'pieces']).slice(0, 2),
+  ]);
 }
 export function freeRecruit(state: RewardState, kind: Kind) {
   return state.choices.find((c) => c.id !== 'skip' && !c.used && REWARDS[c.id].kind === kind);

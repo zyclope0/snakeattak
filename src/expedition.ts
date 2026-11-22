@@ -5,8 +5,15 @@ import type { MissionId, MissionRun } from './missions.ts';
 import { capriceById, capricesForMission } from './caprices.ts';
 import type { CapriceTier } from './caprices.ts';
 import type { RewardId } from './rewards.ts';
-import { seededStream, SEED_RANGE } from './seededRandom.ts';
-import { BOON_RULES, boonLevel, boonOffer, isLastingBoon, takeBoon } from './boons.ts';
+import { mixSeed, pickOne, questionStream, SEED_RANGE } from './seededRandom.ts';
+import {
+  armourFactor,
+  BOON_RULES,
+  boonLevel,
+  boonOffer,
+  isLastingBoon,
+  takeBoon,
+} from './boons.ts';
 import { kinds } from './data.ts';
 import type { Kind } from './data.ts';
 import type { BoonId, Boons, LastingBoon } from './boons.ts';
@@ -16,7 +23,13 @@ import { readBoons } from './boons.ts';
 import { EXPEDITION_STAGE_VERSION, isBonusCard, STAGE_BAG_LIMIT } from './voyageRules.ts';
 import { isVoyageSeed } from './voyage.ts';
 import type { StageRules } from './voyageRules.ts';
-import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConstants.ts';
+import {
+  CRYSTAL_MAX,
+  CRYSTAL_WARD,
+  ENTITY_ID_LIMIT,
+  GOLD_LIMIT,
+  REWARD_COINS,
+} from './gameConstants.ts';
 
 /**
  * « La Grande Expédition » (decisions of the parent, 20 November 2026): three tableaux of five
@@ -195,16 +208,6 @@ const SHAPE = ['first', 'fork', 'halt', 'fork', 'fork', 'halt', 'guardian'] as c
 export const STEPS_PER_TABLEAU = SHAPE.length;
 const HALTS: readonly HaltKind[] = ['feu', 'roulotte', 'oeuf'];
 
-function mix(seed: number, salt: number): number {
-  let hash = (seed ^ Math.imul(salt, 0x9e3779b9)) >>> 0;
-  hash = Math.imul(hash ^ (hash >>> 16), 0x85ebca6b) >>> 0;
-  hash = Math.imul(hash ^ (hash >>> 13), 0xc2b2ae35) >>> 0;
-  return (hash ^ (hash >>> 16)) >>> 0;
-}
-const stream = (seed: number, salt: number) => seededStream(mix(seed, salt));
-const pick = <T>(random: () => number, list: readonly T[]): T =>
-  list[Math.floor(random() * list.length)];
-
 function drawBattle(
   random: () => number,
   draw: Draw,
@@ -216,7 +219,7 @@ function drawBattle(
   const fixed = 'defi' in draw ? capriceById(draw.defi) : null;
   if ('defi' in draw && !fixed) throw new RangeError(draw.defi);
   const drawn = 'defi' in draw ? null : draw;
-  const missionId = fixed ? fixed.missionId : pick(random, drawn!.missions);
+  const missionId = fixed ? fixed.missionId : pickOne(random, drawn!.missions);
   const setup = missionSetup(Math.floor(random() * MISSION_SETUPS));
   const fightSeed = Math.floor(random() * SEED_RANGE);
   const caprices = fixed
@@ -224,7 +227,7 @@ function drawBattle(
     : capricesForMission(missionId).filter(
         (c) => drawn!.tiers.includes(c.tier) && !tuning.excluded.includes(c.id) && !c.rules.king,
       );
-  const caprice = fixed ?? (caprices.length ? pick(random, caprices) : null);
+  const caprice = fixed ?? (caprices.length ? pickOne(random, caprices) : null);
   const run = readMissionRun({
     missionId,
     balance: 2,
@@ -258,10 +261,10 @@ export function planExpedition(
       Array.isArray(draw) ? (draw as ForkDraws)[index] : (draw as Draw);
     return Object.freeze(
       SHAPE.map((shape, s): Step => {
-        const random = stream(seed, 100 * (t + 1) + s);
+        const random = questionStream(seed, 100 * (t + 1) + s);
         if (shape === 'halt') {
-          const first = pick(random, HALTS);
-          const second = pick(
+          const first = pickOne(random, HALTS);
+          const second = pickOne(
             random,
             HALTS.filter((h) => h !== first),
           );
@@ -451,7 +454,13 @@ export function giftOffer(state: ExpeditionState): BoonId[] {
   if (state.pending?.kind !== 'gift') return [];
   const salt = (state.tableau + 1) * 1000 + state.step * 10 + (state.pending.rerolled ? 1 : 0);
   const rules = BOON_RULES[1];
-  const offer = boonOffer(mix(state.seed, 7000 + salt), state.tableau, salt, state.boons, rules);
+  const offer = boonOffer(
+    mixSeed(state.seed, 7000 + salt),
+    state.tableau,
+    salt,
+    state.boons,
+    rules,
+  );
   // A full bag takes no more cards « once » for the battle.
   return state.bag.length >= STAGE_BAG_LIMIT
     ? offer.map((id) => (isLastingBoon(id) || id === 'pieces' ? id : 'pieces'))
@@ -544,10 +553,10 @@ export function chooseHalt(
     return Object.freeze({ ...state, ...moved, camp: camp && Object.freeze(camp) });
   }
   // « L'Œuf Mystère » : a gentle surprise drawn from the seed — coins, or a gift that climbs.
-  const random = stream(state.seed, 9000 + state.tableau * 10 + state.step);
+  const random = questionStream(state.seed, 9000 + state.tableau * 10 + state.step);
   const climbable = state.boons.filter((b) => b.level < BOON_RULES[1].maxLevel);
   if (climbable.length && random() < 0.5) {
-    const boons = takeBoon(state.boons, pick(random, climbable).id, undefined, BOON_RULES[1])!;
+    const boons = takeBoon(state.boons, pickOne(random, climbable).id, undefined, BOON_RULES[1])!;
     return Object.freeze({ ...state, ...moved, ...withBoons(state, boons) });
   }
   const coins = tuning.eggCoins;
@@ -570,7 +579,7 @@ export function chooseHalt(
  * allies of the carried camp keep the same share of their life, under their new maximum.
  */
 function withBoons(state: ExpeditionState, boons: Boons): Partial<ExpeditionState> {
-  const armour = (list: Boons) => 1 + boonLevel(list, 'armure') * BOON_RULES[1].steps.armure;
+  const armour = (list: Boons) => armourFactor(list, BOON_RULES[1]);
   const ratio = armour(boons) / armour(state.boons);
   if (!state.camp || ratio === 1) return { boons };
   const units = state.camp.units.map((u) => ({
@@ -582,14 +591,13 @@ function withBoons(state: ExpeditionState, boons: Boons): Partial<ExpeditionStat
 
 /** An ally's full life, armour included, as the next camp will rebuild it. */
 function fullLife(unit: CarriedUnit, boons: Boons): number {
-  const armour = 1 + boonLevel(boons, 'armure') * BOON_RULES[1].steps.armure;
-  return kinds[unit.kind as Kind].hp * armour;
+  return kinds[unit.kind as Kind].hp * armourFactor(boons, BOON_RULES[1]);
 }
 
 /** What the roulotte offers: gifts to buy and gifts to climb, with their price. */
 export function roulotteOffer(state: ExpeditionState) {
   const tuning = tuningOf(state);
-  const random = stream(state.seed, 8000 + state.tableau * 10 + state.step);
+  const random = questionStream(state.seed, 8000 + state.tableau * 10 + state.step);
   // The stock is drawn from every gift, whatever the child holds: it stays the same while the
   // child buys, and a gift bought simply leaves it.
   const fresh = boonOffer(Math.floor(random() * SEED_RANGE), 0, 0, [], BOON_RULES[1]);
@@ -677,7 +685,7 @@ function readCamp(raw: unknown, boons: Boons): Camp | null {
     return null;
   const lifeFactor = 1 + boonLevel(boons, 'armure') * BOON_RULES[1].steps.armure;
   const ids = (raw.units as unknown[]).map((u) =>
-    isRecord(u) && isIntegerIn(u.id, 1, 1e7) ? u.id : 0,
+    isRecord(u) && isIntegerIn(u.id, 1, ENTITY_ID_LIMIT) ? u.id : 0,
   );
   const nextId = Math.max(0, ...ids);
   const taken = new Set<number>();

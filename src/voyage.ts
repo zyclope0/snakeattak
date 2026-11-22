@@ -10,7 +10,7 @@ import { BAG_MILESTONE, STAGE_BAG_LIMIT } from './voyageRules.ts';
 import type { StageRules } from './voyageRules.ts';
 import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS, isVoyageVersion } from './voyageTuning.ts';
 import type { StageTuning, VoyageTuning, VoyageVersion } from './voyageTuning.ts';
-import { SEED_RANGE, seededStream } from './seededRandom.ts';
+import { mixSeed, pickOne, questionStream, SEED_RANGE, shuffle } from './seededRandom.ts';
 
 /**
  * « Le voyage » : five stages drawn from a seed, like a world of a block game. A stage is
@@ -54,20 +54,6 @@ export type VoyagePlan = Readonly<{
 const ROUTE = 1;
 const STAGE = 16;
 const OFFER = 64;
-
-/** Thirty-two well-stirred bits out of a seed and the number of a question. */
-function mix(seed: number, salt: number): number {
-  let hash = (seed ^ Math.imul(salt, 0x9e3779b9)) >>> 0;
-  hash = Math.imul(hash ^ (hash >>> 16), 0x85ebca6b) >>> 0;
-  hash = Math.imul(hash ^ (hash >>> 13), 0xc2b2ae35) >>> 0;
-  return (hash ^ (hash >>> 16)) >>> 0;
-}
-/** A private random source: the fights never share it, so nothing here shifts a fight. */
-function stream(seed: number, salt: number): () => number {
-  return seededStream(mix(seed, salt));
-}
-const pick = <T>(random: () => number, list: readonly T[]): T =>
-  list[Math.floor(random() * list.length)];
 
 const missionOrder = (id: MissionId) => MISSIONS.findIndex((mission) => mission.id === id);
 
@@ -113,14 +99,9 @@ const PLAIN_CARDS = (Object.keys(REWARDS) as RewardId[]).filter((id) => !REWARDS
  * offered, in an order of their own.
  */
 function drawOffer(seed: number, index: number, withAlly: boolean): RewardId[] {
-  if (withAlly) return rewardOffer(mix(seed, OFFER + index), BAG_MILESTONE);
-  const random = stream(seed, OFFER + index);
-  const cards = [...PLAIN_CARDS];
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [cards[i], cards[j]] = [cards[j], cards[i]];
-  }
-  return cards;
+  if (withAlly) return rewardOffer(mixSeed(seed, OFFER + index), BAG_MILESTONE);
+  const random = questionStream(seed, OFFER + index);
+  return shuffle(random, [...PLAIN_CARDS]);
 }
 
 /** One stage. The order of its draws is part of the rules: setup, seed, caprice. */
@@ -131,12 +112,12 @@ function drawStage(
   tuning: VoyageTuning,
   met: readonly string[],
 ): VoyageStage {
-  const random = stream(seed, STAGE + index);
+  const random = questionStream(seed, STAGE + index);
   const last = index === tuning.stages.length - 1;
   const setup = missionSetup(Math.floor(random() * MISSION_SETUPS));
   const fightSeed = Math.floor(random() * SEED_RANGE);
   const candidates = surprises(missionId, tuning.stages[index], tuning, last, met);
-  const caprice = candidates.length ? pick(random, candidates) : null;
+  const caprice = candidates.length ? pickOne(random, candidates) : null;
   const run = readMissionRun({
     missionId,
     balance: 2,
@@ -162,7 +143,7 @@ export function drawVoyage(
 ): VoyagePlan | null {
   const routes = voyageRoutes(tuning);
   if (!isVoyageSeed(seed) || !routes.length) return null;
-  const route = pick(stream(seed, ROUTE), routes);
+  const route = pickOne(questionStream(seed, ROUTE), routes);
   const stages: VoyageStage[] = [];
   const met: string[] = [];
   for (const [index, missionId] of route.entries()) {
