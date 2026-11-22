@@ -1,10 +1,11 @@
-import { BOON_RULES, boonLevel, isLastingBoon } from '../../../boons.ts';
+import { boonLevel, isLastingBoon } from '../../../boons.ts';
 import type { BoonId, LastingBoon } from '../../../boons.ts';
 import {
   BATTLES_PER_TABLEAU,
   battlesBefore,
   battlesWon,
   EXPEDITION_BATTLES,
+  EXPEDITION_GIFT_RULES,
   expeditionPhase,
   expeditionPlanOf,
   giftCoins,
@@ -27,7 +28,7 @@ import { fill } from '../../../texts/fill.ts';
  */
 
 const plural = (count: number) => (count > 1 ? 's' : '');
-const RULES = BOON_RULES[1];
+const RULES = EXPEDITION_GIFT_RULES;
 
 export const TABLEAU_NAMES = [
   TEXT.laValleeDesSifflements,

@@ -3,9 +3,8 @@ import { availableGold } from './capriceBudget.ts';
 import * as TEXT from '../texts/fr/battleScreens.ts';
 import { fill } from '../texts/fill.ts';
 
-/** Won or lost: nothing more can be played in this battle. */
-export const battleOver = (game: Pick<Game, 'status'>): boolean =>
-  game.status === 'won' || game.status === 'lost';
+/** Won or lost: nothing more can be played in this battle (the rule lives in game.ts). */
+export { battleOver } from '../game.ts';
 
 /** The wave the screen talks about: the next one in camp, the current one in a fight. */
 export const announcedWave = (game: Pick<Game, 'status' | 'wave' | 'totalWaves'>): number =>

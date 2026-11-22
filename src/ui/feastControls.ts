@@ -61,7 +61,7 @@ export function bindFeastControls(
     !isPaused() &&
     !session.game.caprice.noHoney &&
     !session.game.feastUsed &&
-    (session.game.status === 'preparing' || session.game.status === 'fighting');
+    !battleOver(session.game);
   const flavorButtons = FEAST_CHOICES.map((choice) => {
     const button = flavorButton(choice);
     button.onclick = () => {

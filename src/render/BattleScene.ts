@@ -18,6 +18,7 @@ import { Presentation } from './presentation.ts';
 import type { Notice } from './presentation.ts';
 import { BattleFeedback } from './battleFeedback.ts';
 import Phaser from 'phaser';
+import { battleOver } from '../game.ts';
 import type { Game } from '../game.ts';
 import type { Kind } from '../data.ts';
 import type { Session } from '../session.ts';
@@ -318,7 +319,7 @@ export class BattleScene extends Phaser.Scene {
   }
   /** Victory or defeat: the shade, the two lines of the outcome and, after a win, the paper. */
   private drawResult(game: Game, reduced: boolean) {
-    const end = game.status === 'won' || game.status === 'lost';
+    const end = battleOver(game);
     this.overlay.setVisible(end);
     this.resultStats.setVisible(end);
     if (end) this.writeResult(game);

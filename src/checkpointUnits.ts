@@ -3,7 +3,8 @@ import type { Kind } from './data.ts';
 import type { Entity } from './engine/state.ts';
 import { ensureMedical, medicalRules, readMedical } from './healing.ts';
 import type { MedicalState } from './healing.ts';
-import { isIntegerIn, isNumberIn, isRecord } from './plainData.ts';
+import { CRYSTAL_MAX, ENTITY_ID_LIMIT, GOLD_LIMIT } from './gameConstants.ts';
+import { isArrayOfLength, isIntegerIn, isNumberIn, isRecord } from './plainData.ts';
 
 /**
  * The allies of a saved camp: what is written for each of them and how it is read back.
@@ -147,4 +148,42 @@ export function readUnit(
     turnY: null,
     targetId: null,
   };
+}
+
+/** A camp carried from one battle to the next: its allies as fresh idle entities. */
+export type CarriedCamp = { units: Entity[]; gold: number; base: number; nextId: number };
+
+/**
+ * Reads the camp an expedition carries from one battle to the next: its coins, its crystal
+ * and its allies, each with a home and a healer's supplies. `lifeFactor` is what the armour
+ * makes of an ally's life. Null when anything is out of bounds, when two allies share a
+ * number or when two heroes come along. `nextId` is the highest number an ally carries.
+ */
+export function readCarriedCamp(
+  raw: { units?: unknown; gold?: unknown; base?: unknown },
+  lifeFactor: number,
+): CarriedCamp | null {
+  const { gold, base, units: saved } = raw;
+  if (
+    !isIntegerIn(gold, 0, GOLD_LIMIT) ||
+    !isNumberIn(base, 1, CRYSTAL_MAX) ||
+    !isArrayOfLength(saved, 0, UNIT_LIMIT)
+  )
+    return null;
+  let nextId = 0;
+  for (const one of saved)
+    nextId = Math.max(
+      nextId,
+      isRecord(one) && isIntegerIn(one.id, 1, ENTITY_ID_LIMIT) ? one.id : 0,
+    );
+  const taken = new Set<number>();
+  const units: Entity[] = [];
+  for (const one of saved) {
+    const unit = readUnit(one, { homes: true, supplies: true, nextId, lifeFactor }, taken);
+    if (!unit) return null;
+    taken.add(unit.id);
+    units.push(unit);
+  }
+  if (units.filter((u) => u.kind === 'hero').length > 1) return null;
+  return { units, gold, base, nextId };
 }

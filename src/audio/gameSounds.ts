@@ -1,3 +1,4 @@
+import { battleOver } from '../game.ts';
 import type { Effect, Game } from '../game.ts';
 import type { Samples } from './samples.ts';
 import type { SoundEngine } from './signalPlayer.ts';
@@ -100,7 +101,7 @@ function chooseMusic(
   kingArrives: boolean,
 ) {
   if (home) return samples.music('menu');
-  if (game.status === 'won' || game.status === 'lost') return samples.music(null);
+  if (battleOver(game)) return samples.music(null);
   if (!isEpic(game, king)) return samples.music('calm');
   if (kingArrives) return samples.music('king', 'epic');
   // The king's music leads into the epic one by itself: neither is started again.

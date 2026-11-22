@@ -1,5 +1,5 @@
 import kingUrl from '../../../assets/home/menu-classique.webp';
-import { BOON_RULES, isLastingBoon } from '../../../boons.ts';
+import { isLastingBoon } from '../../../boons.ts';
 import type { BoonId, LastingBoon } from '../../../boons.ts';
 import { capriceDefinitionForRun } from '../../../caprices.ts';
 import type { CapriceDefinition } from '../../../caprices.ts';
@@ -8,6 +8,7 @@ import {
   coinsOf,
   countsTwice,
   endsExpedition,
+  EXPEDITION_GIFT_RULES,
   expeditionPlanOf,
   giftOffer,
   levelAfterPurchase,
@@ -313,7 +314,7 @@ function giftsRow(state: ExpeditionState) {
   const title = make('span', { className: 'bag-title', text: TEXT.tesCadeaux });
   title.setAttribute('aria-hidden', 'true');
   const row = make('div', { className: 'exp-gifts' }, title, list);
-  for (let place = 0; place < BOON_RULES[1].places; place++) {
+  for (let place = 0; place < EXPEDITION_GIFT_RULES.places; place++) {
     const held = state.boons[place];
     const slot = make('span', { className: held ? 'exp-held' : 'bag-empty' });
     slot.setAttribute('role', 'listitem');
@@ -448,7 +449,7 @@ function replaceChoice(
     make(
       'div',
       { className: 'exp-ask' },
-      make('h2', { text: fill(TEXT.tesNPlacesSontPrises, BOON_RULES[1].places) }),
+      make('h2', { text: fill(TEXT.tesNPlacesSontPrises, EXPEDITION_GIFT_RULES.places) }),
       make('p', {
         className: 'exp-swap',
         text: fill(TEXT.choisisLeCadeauARemplacerParN, giftWords(state, id, false).title),

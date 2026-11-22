@@ -1,4 +1,4 @@
-import { Game } from './game.ts';
+import { battleOver, Game } from './game.ts';
 import type { Kind } from './data.ts';
 import type { FeastFlavor } from './tactics.ts';
 import { CURRENT_BALANCE_REVISION, type BalanceRevision } from './balanceRevision.ts';
@@ -80,12 +80,7 @@ export class Session {
     return true;
   }
   advance(deltaMs: number) {
-    if (
-      this.screen === 'home' ||
-      this.game.paused ||
-      this.game.status === 'won' ||
-      this.game.status === 'lost'
-    ) {
+    if (this.screen === 'home' || this.game.paused || battleOver(this.game)) {
       this.accumulator = 0;
       return;
     }

@@ -103,9 +103,9 @@ check(
   'an offer that is not rare says nothing',
 );
 // An offer of cards for the next battle only: found among the seeds, with five gifts at the top.
-const top = B.LASTING_BOONS.slice(0, B.BOON_RULES[1].places).map((id) => ({
+const top = B.LASTING_BOONS.slice(0, X.EXPEDITION_GIFT_RULES.places).map((id) => ({
   id,
-  level: B.BOON_RULES[1].maxLevel,
+  level: X.EXPEDITION_GIFT_RULES.maxLevel,
 }));
 let onceOnly = null;
 for (let seed = 1; seed < 4000 && !onceOnly; seed++) {
