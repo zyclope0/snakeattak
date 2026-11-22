@@ -26,6 +26,7 @@ test('les clés de stockage gardent leur valeur, au caractère près', () => {
     {
       FAMILY_STORAGE_KEY: 'conquete-serpents:family:v1',
       FAMILY_REFUSED_KEY: 'conquete-serpents:family-refused:v1',
+      FAMILY_PREVIOUS_KEY: 'conquete-serpents:family-previous:v1',
       CAMP_STORAGE_KEY: 'conquete-serpents:camp:v1',
       CAREER_STORAGE_KEY: 'conquete-serpents:progress:v1',
       VOYAGE_STORAGE_KEY: 'conquete-serpents:voyage:v1',
@@ -41,15 +42,16 @@ test('les clés de stockage gardent leur valeur, au caractère près', () => {
       ADS_OFF_KEY: 'conquete-serpents:ads-off:v1',
     },
   );
-  assert.equal(new Set(Object.values(KEYS)).size, 15, 'deux clés ne se partagent pas une adresse');
+  assert.equal(new Set(Object.values(KEYS)).size, 16, 'deux clés ne se partagent pas une adresse');
 });
 
-test('effacer un joueur efface ses neuf clés, dont son rappel, sa mission gagnée, ses records, son expédition et la sauvegarde mise de côté', () => {
+test('effacer un joueur efface ses dix clés, dont son rappel, sa mission gagnée, ses records, son expédition, la sauvegarde mise de côté et celle d’avant', () => {
   assert.deepEqual(
     [...PLAYER_KEYS],
     [
       'conquete-serpents:family:v1',
       'conquete-serpents:family-refused:v1',
+      'conquete-serpents:family-previous:v1',
       'conquete-serpents:camp:v1',
       'conquete-serpents:progress:v1',
       'conquete-serpents:recruitment-reminder:v1',

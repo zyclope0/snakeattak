@@ -232,6 +232,15 @@ export function writeFamilyBackup(
   }
 }
 
+/**
+ * How far a file has come, in stars: the great adventure's and the missions'. A best star is
+ * never taken back by playing, so a file with fewer stars than another is an older one, or one
+ * that lost something.
+ */
+export function familyStars(backup: FamilyBackup): number {
+  const sum = (stars: readonly number[]) => stars.reduce((total, star) => total + star, 0);
+  return sum(backup.career.bestStars) + sum(Object.values(backup.missions?.bestStars ?? {}));
+}
 export function backupSummary(backup: FamilyBackup): {
   wave: number | null;
   allies: number;

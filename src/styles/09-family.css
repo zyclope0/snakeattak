@@ -23,6 +23,15 @@
   border-radius: 8px;
   background: var(--paper);
 }
+/* Les copies que le jeu garde à côté de la sauvegarde : une phrase, un bouton, en retrait. */
+.family-copy {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #c6ceb7;
+}
+.family-copy > p {
+  margin: 0 0 8px;
+}
 #family-preview {
   border-block: 1px solid #c6ceb7;
   padding-block: 8px 16px;

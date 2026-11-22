@@ -35,3 +35,9 @@ export const impossibleDeLireCeFichierRienNAEte = 'Could not read this file: not
 export const impossibleDePreparerLeFichierDe = 'Could not prepare the file for this adventure.';
 export const fichierPretConserveLePourReprendre =
   'File ready. Keep it to resume this adventure in another browser.';
+export const exporterLaSauvegardeDAvant = 'Export the earlier save';
+export const exporterLeFichierMisDeCote = 'Export the file put aside';
+export const leJeuGardeAussiLaSauvegardeDAvant =
+  'The game also keeps the earlier save: the one from the last start, or from before stars were lost. To bring it back, export it, then choose that file below.';
+export const ceFichierNAPasPuEtreLu =
+  'This version of the game could not read an older file. It was put aside, not erased.';
