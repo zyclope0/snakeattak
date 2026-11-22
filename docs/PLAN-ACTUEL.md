@@ -56,17 +56,17 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   n° 40. Détail à la fin
   de [REVUE-CODE-2026-11-21.md](REVUE-CODE-2026-11-21.md).
 
-**À décider par le parent et le fils : « Trois autres cadeaux ».** Dans l'expédition, ce bouton
-refait un tirage : il ne promet pas trois cadeaux différents. Mesuré sur 60 000 graines : au
-moins un des trois cadeaux revient six fois sur dix, les trois reviennent quatre fois sur
-mille. Soit le bouton change de mot (« Tirer encore »), soit le tirage écarte les trois
-premiers ; la seconde voie est une règle nouvelle (nouvelle version de l'expédition).
-Trouvé le 22 novembre par une recette qui échouait une fois sur 1 300.
+**Décidé par le parent le 22 novembre 2026.**
 
-**À décider par le parent : la politique de confidentialité.** Elle dit encore que le fichier
-familial ne contient pas le voyage et décrit le code de voyage
-(`src/i18n/privacyPolicy.ts`, français et anglais). C'est faux depuis le fichier version 6,
-et le code n'existe plus. Texte approuvé : il ne change qu'avec l'accord du parent.
+- Le bouton « Trois autres cadeaux » de l'expédition dit « Tirer encore » (« Draw again »). Il
+  refait un tirage sans écarter les trois premiers : au moins un cadeau revient six fois sur
+  dix (mesuré sur 60 000 graines). Le tirage ne change pas ; écarter les trois premiers
+  serait une règle nouvelle.
+- La politique de confidentialité dit ce que le fichier familial contient sur le site (le
+  voyage à finir, l'expédition, les records) et dans l'application Android 0.39.0, build 63
+  (pas le voyage, et un code du Voyage encore affiché). Mots approuvés :
+  `tests/fixtures/fichier-familial-approuve-2026-11-22.json`. **Ce paragraphe nomme le build
+  63 : à relire quand un autre build est publié.**
 
 **À reprendre après l'hygiène**, dans cet ordre :
 
