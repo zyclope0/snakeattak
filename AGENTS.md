@@ -52,6 +52,6 @@ Avant de choisir un générateur graphique, demander à l'utilisateur la sortie 
 ## Architecture
 
 - Lire docs/ARCHITECTURE.md. Préserver le moteur indépendant du navigateur et du réseau.
-- src/main.ts assemble les composants ; les règles restent dans game.ts, pas dans le rendu ou le HTML.
+- src/main.ts choisit la langue puis charge src/bootstrap.ts, qui assemble les composants ; les règles restent dans game.ts, pas dans le rendu ou le HTML.
 - Build web normal dans dist/ ; export autonome optionnel dans dist-portable/. Ne pas réintégrer les images et le moteur dans le HTML web normal.
 - npm run verify et npm run test:browser avant livraison. Ne pas ajouter de serveur sans fonction qui en a besoin.

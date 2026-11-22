@@ -26,12 +26,12 @@ garde **tous** les points, faits ou non.
 | 2   | 26 planches d'images en WebP sans perte (9,4 Mo)                  | Gardé pour après         |
 | 3   | Phaser livré plus gros que son fichier officiel, avec la physique | Gardé pour après         |
 | 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | Fait, lot 1              |
-| 5   | La CI attend trop ; une PR de documents coûte autant que du code  | Fait, lot 3              |
+| 5   | La CI attend trop ; une PR de documents coûte autant que du code  | Fait, lot 3, gain mince  |
 | 6   | Barres de vie et petits ronds chers à dessiner                    | À mesurer sur l'appareil |
 | 7   | Des règles écrites plusieurs fois                                 | En partie, lot 4         |
 | 8   | Code mort et restes du voyage                                     | Fait, lot 2              |
 | 9   | Trois fichiers ont trop grossi                                    | Plus tard                |
-| 10  | Documentation d'architecture devenue fausse par endroits          | Fait, lot 2              |
+| 10  | Documentation d'architecture devenue fausse par endroits          | Passages cités corrigés  |
 
 ### 1. La sauvegarde pendant le combat
 
@@ -65,6 +65,10 @@ combat.
   de 51–55 à 12–13 ms par seconde de combat ; la fabrication du fichier de 40–43 à 0.
 - Garde-fou : `tests/family-sync-settled.test.ts`, dont 600 demandes tirées d'une graine
   comparées à un fichier refait à chaque fois (réponse, écritures, texte gardé, message).
+  La revue sévère du 22 novembre a montré qu'il laissait passer une demande qui oublierait
+  les missions ou les albums : renforcé par la PR 115.
+- Toutes ces mesures viennent d'un ordinateur (Node, et un navigateur sans écran ralenti
+  quatre fois). Aucune ne vient d'un téléphone.
 - **Laissé** : il reste environ 8 ms par seconde (0,8 % du processeur ralenti) dans le
   rafraîchissement d'un écran de l'accueil pendant le combat. Trop peu pour toucher à l'ordre
   des rafraîchissements.
@@ -138,19 +142,27 @@ setTimeout(10_000)])` laisse le minuteur vivant (`scripts/endless-browser.mjs`,
 - `playwright-core` est importé par 19 fichiers sans être déclaré dans `package.json`.
 - `scripts/balance-expedition.mjs` n'a pas de commande `npm run`.
 
-**Fait (lot 3)**, sauf la décision sur les recettes d'hygiène :
+**Fait (lot 3, corrigé par la PR 115)**, sauf la décision sur les recettes d'hygiène :
 
-- Les trois minuteurs de 10 secondes ne retiennent plus le processus (`ref: false`).
+- Les trois attentes de 10 secondes sont annulées dès que le navigateur est fermé.
 - `test:expedition` est dans « règles et rendu ». `test:mobile-menus` tourne sur deux tâches,
-  « menus 1 » (`voyage`, qui pèse autant que les six autres parties) et « menus 2 » :
-  `MOBILE_MENUS_ONLY` accepte plusieurs noms. **Six tâches de recettes et de vérification au
-  lieu de cinq**, plus « portée ».
+  « menus 1 » (la partie `voyage`) et « menus 2 » (tout sauf `voyage`, par
+  `MOBILE_MENUS_EXCEPT` : une partie ajoutée plus tard y tourne d'elle-même). Sept lignes à
+  lire sur une PR de code : « portée », `verify` et cinq « recettes ».
 - `npm run build` ne tourne plus que dans les groupes qui lisent le site construit (`site:
 true` : « écrans » et « règles et rendu »).
 - Tâche « portée » : une PR qui ne touche que des `*.md` (à la racine ou sous `docs/`, hors
-  `docs/publication/` que le site lit) ne lance que `npm run verify`. Les recettes et le
-  reste de `verify` sont sautés. Une fusion dans `main` lance toujours tout.
+  `docs/publication/`, écarté par prudence : aucun code du site ne le lit) ne lance que
+  `npm run verify`. Les recettes et le reste de `verify` sont sautés. Une fusion dans `main`
+  lance toujours tout. Les tâches ne sautent que si « portée » répond exactement `false`.
 - `playwright-core` est déclaré ; `npm run balance:expedition` existe.
+
+**Ce que le lot 3 a vraiment donné** (mesuré sur GitHub, pas prévu) : l'attente visée était de
+9 minutes ; elle est de 10 à 12 (10,2 ; 11,4 ; 10,7 ; 11,8 sur quatre passages), contre 11 à
+17 avant. C'est `verify`, que ce lot ne raccourcit pas, qui fixe maintenant l'attente. Le
+calcul n'a pas baissé : environ 48 minutes par passage contre 44, à cause d'une tâche de plus
+et de la fin de la recette des menus qui tourne dans ses deux tâches. Les deux tâches des
+menus ne sont pas de même durée d'un passage à l'autre (577 s contre 464, puis 410 contre 463) : le bruit des machines domine.
 
 ### 6. Le dessin des barres de vie et des ronds
 
@@ -193,7 +205,8 @@ expire, toutes les suivantes sont redessinées. Piste : une étiquette fixe par 
 - `src/seededRandom.ts` porte le brassage (`mixSeed`, `questionStream`), le choix (`pickOne`)
   et le mélange (`shuffle`) ; le voyage, l'expédition, les cadeaux et les récompenses les
   appellent.
-- `armourFactor` et `armourAtLevel` (`src/boons.ts`) : une écriture au lieu de six.
+- `armourFactor` et `armourAtLevel` (`src/boons.ts`) : une écriture au lieu de sept (la
+  septième, oubliée par le lot 4 dans `src/expedition.ts`, est partie avec la PR 115).
 - Valeurs nommées : `ENTITY_ID_LIMIT` (trois écritures de dix millions), `HERO_TRAINING_FROM`
   et `game.heroTrainingOpen` (la règle « dès la vague 4 » n'est plus recopiée dans l'écran),
   `STARS_MAX`, `FAMILY_EXTRAS_VERSION` (la version 6 du fichier familial),
@@ -265,7 +278,7 @@ laboratoire n'existe plus.
 ## À connaître avant tout ajout
 
 - La page HTML est à 328 octets de son plafond (32 440 sur 32 768).
-- Le premier paquet (`bootstrap`) est à 5,7 Ko du sien (194 309 sur 200 000). Le budget
+- Le premier paquet (`bootstrap`) est à 5,7 Ko du sien (194 327 sur 200 000 après la PR 115). Le budget
   mesure un fichier, pas ce que l'enfant télécharge : `bootstrap`, `rules` et `index` font
   335 Ko, chargés ensemble, et Phaser 81 % du JavaScript.
 - Le mot « expédition » veut dire deux choses à l'écran : la mission (dans six phrases) et La
@@ -288,3 +301,50 @@ laboratoire n'existe plus.
 Le coût réel du dessin, les pauses du ramasse-miettes dans le WebView, le coût des écritures
 du stockage au camp, le démarrage (contexte graphique, analyse de Phaser, polices), la chauffe
 de l'appareil. Aucune mesure de cette revue ne vient d'un téléphone.
+
+## Revue sévère et conseil — 22 novembre 2026
+
+Demande du parent, une fois les quatre lots fusionnés et avant de publier : une revue sévère,
+puis un conseil. Quatre relecteurs indépendants ont eu chacun un lot à casser ; trois juges
+ont ensuite tranché, chacun sur un angle (ce que l'enfant garde, les garde-fous, ce qui tombe
+entre les relectures).
+
+**Verdict, trois voix sur trois : rien de bloquant, publier.**
+
+Ce qui a été comparé entre l'ancien code et le nouveau, sans une différence :
+
+- 198 918 demandes de sauvegarde tirées au hasard, avec imports, lectures, écritures
+  refusées, stockage illisible ; puis 13 368 paires de demandes que le texte pourrait
+  confondre ; des parties entières (8 732 demandes, 157 écritures de chaque côté) ;
+- 95 016 recherches de place de camp sur les six cartes, plus 98 670 dans des camps qui se
+  remplissent ;
+- les plans du voyage et de l'expédition sur 6 000 graines par version, 600 000 offres de
+  récompense, 200 000 offres de cadeaux, 40 000 états d'expédition ;
+- 60 parties entières (grande aventure des révisions 1 à 7, missions, aventure sans fin,
+  voyages, expéditions) ;
+- 240 voyages écrits par la version des testeurs, relus et finis ; les 2 097 152 anciens
+  codes `VOYAGE-…`, tous refusés proprement.
+
+Ce qu'ils ont trouvé, corrigé par la PR 115 (CI, tests, deux valeurs encore tapées) et par la
+PR de documents qui la suit :
+
+- la garde « documents seuls » de la CI se laissait tromper par un fichier renommé et, si sa
+  réponse était inattendue, faisait sauter toutes les recettes sans rien de rouge ;
+- des tests qui ne tenaient pas ce qu'ils annonçaient : la demande de sauvegarde, deux
+  limites de sauvegarde, un contrôle de longueur vide ;
+- les joueurs automatiques des mesures, que plus aucun test ni le compilateur ne relisaient ;
+- deux écritures oubliées par le lot 4 ; des phrases de ce document plus optimistes que les
+  mesures (le gain de la CI surtout).
+
+Essais faits en plus avant de publier, sur le paquet corrigé : la nouvelle version ouverte
+par-dessus un profil écrit par la version en ligne (étoiles, aventure en cours, deuxième
+joueur) ; la mise à jour depuis la version des testeurs ; le fichier familial ; la fermeture
+forcée ; les doubles appuis ; l'entraînement du héros avant et après la vague 4.
+
+**Ce que personne n'a vérifié** : rien sur un vrai téléphone, rien avec les enfants ; Chromium
+seulement (ni Firefox ni Safari) ; deux onglets ouverts pendant une publication ; un
+stockage plein sur un vrai appareil.
+
+**Laissé de côté par le conseil** : faire tourner la fin de la recette des menus dans une
+seule tâche, la protection de branche, un second raccourci de sauvegarde quand le stockage
+est absent.

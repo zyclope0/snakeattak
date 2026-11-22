@@ -10,7 +10,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [PASSATION-CLAUDE-CODE.md](PASSATION-CLAUDE-CODE.md)                   | État au 10 novembre 2026, décisions prises, travail à faire                             |
 | [ARCHITECTURE.md](ARCHITECTURE.md)                                     | Comment le code est découpé, et pourquoi Phaser 3                                       |
 | [CAPRICES.md](CAPRICES.md)                                             | Les 36 défis du fils : noms, annonces, valeurs, mesures                                 |
-| [VOYAGE.md](VOYAGE.md)                                                 | Le voyage : réglages proposés, mesures, décisions à prendre                             |
+| [VOYAGE.md](VOYAGE.md)                                                 | Le voyage, remplacé par l'expédition : ses réglages et ses mesures, pour mémoire        |
 | [SITE.md](SITE.md)                                                     | Hébergement Infomaniak, publication manuelle, confidentialité et migration des familles |
 | [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone                                |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63 préparée : ce qui change depuis le build 62                   |

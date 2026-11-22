@@ -1,4 +1,4 @@
-# Plan actuel — 21 novembre 2026
+# Plan actuel — 22 novembre 2026
 
 Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions du parent du
 18 novembre, révisions 3 à 6, soutien, AdSense) est dans
@@ -7,13 +7,13 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 
 ## Où on en est
 
-| Quoi                      | État                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Site**                  | https://snakeattacktd.com, publié depuis `main` le 21 novembre (publication n° 39, contrôle en ligne vert) : La Grande Expédition version 3, l'étape d'hygiène, la sauvegarde familiale complète. 14 pages FR/EN, dont « L'histoire » et « Tester sur Android ». Révision 7 (spinosaure) jouable.                                                                                                          |
-| **Application**           | 0.39.0 / build 63 (révisions 3 à 6, sans le spinosaure). Arrivée sur le téléphone du parent par Google Play (19 novembre). Promue dans le test fermé « Alpha » le 20 novembre, en attente de l'examen de Google ([passation](ANDROID-BUILD-63.md), [bilan](BILAN-0.39.0.md)).                                                                                                                              |
-| **Test fermé Android**    | Créé par le parent le 20 novembre : groupe public `snakeattack-testeurs`, piste « Alpha ». Trois modifications (pays, liste de testeurs, adresse de retours) restaient à envoyer à l'examen de Google d'après le compte rendu du parent du 20 novembre : à confirmer. Le lien d'inscription marche quand Google les a acceptées. Google demande 12 testeurs pendant 14 jours de suite avant la production. |
-| **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                             |
-| **Les enfants**           | Le fils a joué 2 ou 3 parties sur le site le 19 novembre, content, sans remarque précise. Aucune séance notée depuis.                                                                                                                                                                                                                                                                                      |
+| Quoi                      | État                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Site**                  | https://snakeattacktd.com, publié depuis `main` le 22 novembre (publication n° 40, commit `33a9bb5`, contrôle en ligne vert) : les quatre lots de la revue du code et leurs corrections, sans rien de nouveau à l'écran. Avant, le 21 novembre (n° 39) : La Grande Expédition version 3, l'étape d'hygiène, la sauvegarde familiale complète. 14 pages FR/EN, dont « L'histoire » et « Tester sur Android ». Révision 7 (spinosaure) jouable. |
+| **Application**           | 0.39.0 / build 63 (révisions 3 à 6, sans le spinosaure). Arrivée sur le téléphone du parent par Google Play (19 novembre). Promue dans le test fermé « Alpha » le 20 novembre, en attente de l'examen de Google ([passation](ANDROID-BUILD-63.md), [bilan](BILAN-0.39.0.md)).                                                                                                                                                                 |
+| **Test fermé Android**    | Créé par le parent le 20 novembre : groupe public `snakeattack-testeurs`, piste « Alpha ». Trois modifications (pays, liste de testeurs, adresse de retours) restaient à envoyer à l'examen de Google d'après le compte rendu du parent du 20 novembre : à confirmer. Le lien d'inscription marche quand Google les a acceptées. Google demande 12 testeurs pendant 14 jours de suite avant la production.                                    |
+| **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                                                                |
+| **Les enfants**           | Le fils a joué 2 ou 3 parties sur le site le 19 novembre, content, sans remarque précise. Aucune séance notée depuis.                                                                                                                                                                                                                                                                                                                         |
 
 ## En pause (21 novembre) : les fonctionnalités
 
@@ -37,14 +37,25 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
 - Lot 1, performance : fait. La sauvegarde n'est plus refaite quand rien n'a changé (pendant
   un combat : 5,4 → 0,2 ms par appel à 80 alliés) ; les places du camp sont cherchées une
   fois par carte (aventure sans fin : pas moyen 1,25 → 0,28 ms). Mêmes parties, mêmes
-  sauvegardes. Non mesuré sur le téléphone.
-- Lot 2, restes du voyage, code mort, documentation d'architecture : fait.
-- Lot 3, CI plus courte : fait (10 minutes d'attente au lieu de 13 sur sa propre PR). La
-  fusion attend maintenant six tâches vertes (« verify » et
-  cinq « recettes ») ; pour une PR de documents seuls, « verify » suffit.
+  sauvegardes. **Nombres relevés sur un ordinateur, sous Node ; rien n'est mesuré sur le
+  téléphone.**
+- Lot 2, restes du voyage et code mort : fait. Documentation d'architecture : les passages
+  relevés par la revue sont corrigés, pas le document entier.
+- Lot 3, CI : fait, gain mince. L'attente passe d'environ 11–17 minutes à 10–12 (c'est
+  `verify` qui la fixe maintenant), le calcul ne baisse pas (environ 48 minutes par passage,
+  contre 44). Une PR de documents seuls ne lance que `npm run verify`.
 - Lot 4, règles écrites une seule fois (point 7) : première partie faite (tirages, armure,
   valeurs nommées), parties identiques. Reste, pour un lot à part : les règles de
   l'expédition recopiées dans ses écrans, le lecteur de camp porté, les carnets.
+- Revue sévère et conseil (22 novembre, demande du parent) : quatre relecteurs, trois juges,
+  rien de bloquant, « publier » à l'unanimité ; corrections dans la PR 115, puis publication
+  n° 40. Détail à la fin
+  de [REVUE-CODE-2026-11-21.md](REVUE-CODE-2026-11-21.md).
+
+**À décider par le parent : la politique de confidentialité.** Elle dit encore que le fichier
+familial ne contient pas le voyage et décrit le code de voyage
+(`src/i18n/privacyPolicy.ts`, français et anglais). C'est faux depuis le fichier version 6,
+et le code n'existe plus. Texte approuvé : il ne change qu'avec l'accord du parent.
 
 **À reprendre après l'hygiène**, dans cet ordre :
 
@@ -152,9 +163,14 @@ Ils attendent le **build 64**, construit par Codex depuis `main` comme le 63
 ## Règles de travail en vigueur
 
 - Une branche, une PR par lot. Le parent a autorisé, dans les sessions de travail de
-  novembre 2026, la fusion des PR de Claude quand toutes les tâches de la CI sont vertes
-  (cinq jusqu'au 21 novembre 2026, six depuis ; « verify » seule pour une PR de documents),
-  sans conflit ni fil de revue ouvert, puis la publication du site. Tout le reste de `CLAUDE.md`
+  novembre 2026, la fusion des PR de Claude quand toutes les tâches de la CI sont vertes,
+  sans conflit ni fil de revue ouvert, puis la publication du site. Depuis le 22 novembre
+  2026, « toutes vertes » veut dire : pour une PR qui touche autre chose que des documents,
+  « portée », « verify » et les cinq « recettes » (sept lignes) ; des recettes sautées sur
+  une telle PR, c'est ne pas fusionner. Pour une PR de documents seuls (`*.md` à la racine
+  ou sous `docs/`, hors `docs/publication/`) : « portée » et « verify » vertes, les recettes
+  sautées. Avant de publier, regarder le passage complet sur `main` au commit publié : le
+  workflow de publication ne lance que `npm run verify`. Tout le reste de `CLAUDE.md`
   tient : il demande avant une dépense, une publication sur Google Play ou un changement de
   règle.
 - Relectures : huit angles pour un lot qui change une règle ou un écran du jeu, trois pour un
