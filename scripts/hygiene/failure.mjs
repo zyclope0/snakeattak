@@ -87,7 +87,7 @@ for (const viewport of SIZES) {
     // Where a browser closes it all the same (one that does not know `closedby`), or anything
     // else does, it is open again at once, over the whole page.
     await page.evaluate(() => document.getElementById('failure-dialog').close());
-    await dialog.waitFor({ state: 'visible' });
+    await dialog.waitFor({ state: 'visible', timeout: 500 });
     assert.ok(
       await page.evaluate(() => document.getElementById('failure-dialog').matches(':modal')),
       'closed by something else, it comes back as the only thing to act on',

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -12,47 +13,57 @@ import { join } from 'node:path';
 // switching the guard off go by (review of 22 November 2026).
 
 const workflow = readFileSync('.github/workflows/deploy-site.yml', 'utf8');
-/** Every script the CI runs for a push on main (`.github/workflows/check.yml`), by name. */
-const WHOLE_CI = [
-  'build',
-  'build:ads-preview',
-  'build:ads-test',
-  'build:android',
-  'build:portable',
-  'test:ads-delivery',
-  'test:ads-preview',
-  'test:android-signatures',
-  'test:android-web',
-  'test:audit',
-  'test:browser',
-  'test:caprices',
-  'test:child-mobile',
-  'test:discovery',
-  'test:endless',
-  'test:expedition',
-  'test:failure',
-  'test:family',
-  'test:interruptions',
-  'test:journey',
-  'test:locale',
-  'test:medical-persistence',
-  'test:mission-journey',
-  'test:missions:regressions',
-  'test:mobile-menus',
-  'test:offline',
-  'test:presentation',
-  'test:reinforcements-scroll',
-  'test:render-settings',
-  'test:rewards',
-  'test:saves:double-taps',
-  'test:saves:family',
-  'test:saves:forced-close',
-  'test:saves:update',
-  'test:stage',
-  'test:tactical',
-  'test:tactical-clarity',
-  'test:threat-preparation',
-  'verify',
+/**
+ * What the CI runs for a push on main (`.github/workflows/check.yml`): every command, then
+ * the groups of browser recipes, as they are written there.
+ */
+const NPM_LINES = [
+  '- run: npm ci',
+  '- run: npm run verify',
+  'run: npm run test:android-signatures',
+  'run: npm audit --omit=dev --audit-level=high',
+  'run: npm run test:browser',
+  'run: npm run test:discovery',
+  'run: npm run build:ads-preview',
+  'run: npm run test:ads-preview',
+  'run: npm run build:ads-test',
+  'run: npm run test:ads-delivery',
+  'run: npm run build:android',
+  'run: npm run test:android-web',
+  'run: npm run build:portable',
+  'run: npm run test:family',
+  'run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser',
+  '- run: npm ci',
+  'run: npm run build',
+  'run: npm run build:android',
+  'npm run "$recette"',
+];
+const GROUPS = [
+  'include:',
+  '- groupe: écrans',
+  'site: true',
+  'recettes: >-',
+  'test:audit test:threat-preparation test:reinforcements-scroll test:child-mobile',
+  'test:interruptions test:offline test:presentation test:tactical-clarity',
+  'test:mission-journey test:endless',
+  '- groupe: langue et caprices',
+  'recettes: test:locale test:caprices',
+  '- groupe: menus 1',
+  'recettes: test:mobile-menus',
+  'menus: voyage',
+  '- groupe: menus 2',
+  'recettes: test:mobile-menus',
+  'sauf: voyage',
+  '- groupe: règles et rendu',
+  'site: true',
+  'recettes: >-',
+  'test:rewards test:journey test:missions:regressions test:medical-persistence',
+  'test:stage test:render-settings test:tactical test:expedition',
+  '- groupe: sauvegardes',
+  'android: true',
+  'recettes: >-',
+  'test:saves:update test:saves:family test:saves:forced-close',
+  'test:saves:double-taps test:failure',
 ];
 const GUARD = 'Le commit est dans main et sa CI complète est verte';
 const STEP = '\n      - ';
@@ -88,15 +99,22 @@ function repository() {
   git(work, 'config', 'user.name', 'guard');
   git(work, 'config', 'commit.gpgsign', 'false');
   git(work, 'checkout', '--quiet', '-b', 'main');
+  // The commit judged is an older one of main, not its tip: a green tip says nothing of it.
   git(work, 'commit', '--quiet', '--allow-empty', '-m', 'in main');
-  git(work, 'push', '--quiet', 'origin', 'main');
   const inMain = git(work, 'rev-parse', 'HEAD');
+  git(work, 'commit', '--quiet', '--allow-empty', '-m', 'the tip of main');
+  git(work, 'push', '--quiet', 'origin', 'main');
   git(work, 'checkout', '--quiet', '-b', 'work');
   git(work, 'commit', '--quiet', '--allow-empty', '-m', 'outside main');
-  // The work branch is on the server too: being pushed somewhere is not being in main. Nor is
-  // being under a branch that sorts before main, or under a tag that took the name « main ».
-  git(work, 'push', '--quiet', 'origin', 'work', 'work:aaa', 'work:refs/tags/main');
   const outside = git(work, 'rev-parse', 'HEAD');
+  // The work branch is on the server too: being pushed somewhere is not being in main. Nor is
+  // being under a branch that sorts before main, under a tag that took the name « main » or
+  // « origin/main », or under the branch the server shows first.
+  const traps = ['work', 'work:aaa', 'work:refs/tags/main', 'work:refs/tags/origin/main'];
+  git(work, 'push', '--quiet', 'origin', ...traps);
+  git(origin, 'symbolic-ref', 'HEAD', 'refs/heads/aaa');
+  // As on the runner, which fetches the whole history: the tags are here too.
+  git(work, 'fetch', '--quiet', '--tags', 'origin');
   // GitHub's answer: the number given, or a failure; what was asked is written down. Like
   // the real one, it gives the count only to who asks for the count: `--jq .total_count`.
   writeFileSync(
@@ -242,9 +260,10 @@ test('the guard is a step nothing switches off, before anything is installed or 
   // After the guard, nothing touches the tree: git only says which commit is built, and
   // GitHub is asked nothing more.
   const after = steps.slice(guardAt + 1).join(STEP);
-  for (const [command] of after.matchAll(/\bgit\b[^\n"]*/g))
-    assert.match(command, /^git rev-parse HEAD/, command);
-  assert.doesNotMatch(after, /\bgh\b/);
+  const commands = said(after).join('\n');
+  for (const [command] of commands.matchAll(/\bgit\b[^\n"]*/g))
+    assert.match(command, /^git rev-parse HEAD\)?$/, `after the guard: ${command}`);
+  assert.doesNotMatch(commands, /\bgh\b/);
   for (const later of ['run: npm ci', 'run: npm run verify\n', 'Envoyer le site'])
     assert.ok(after.includes(later), `« ${later.trim()} » comes after the guard`);
   // What it is told: the box « urgence », the repository, and a token that may read the runs.
@@ -290,29 +309,31 @@ test('a run of the CI for a push is the whole CI: that is what the guard counts'
       'COMPLET: ${{ needs.portee.outputs.complet }}',
     ],
   );
-  // No job, no step is switched off by what started the run: the only conditions are
-  // « complet » and what a group of recipes needs built.
+  // No job, no step is switched off by what started the run. Every condition, in the order
+  // of the file: the fifteen steps of `verify` that a documents-only pull request skips, the
+  // job of the recipes, and what a group of recipes needs built.
   const conditions = lines.flatMap(
     (line) => line.match(/^(?:- )?["']?if["']?\s*:\s*(.+)$/)?.[1] ?? [],
   );
-  assert.ok(conditions.length > 0);
-  const known = [
+  assert.deepEqual(conditions, [
+    ...Array<string>(15).fill("env.COMPLET != 'false'"),
     "needs.portee.outputs.complet != 'false'",
-    "env.COMPLET != 'false'",
     'matrix.site',
     'matrix.android',
-  ];
-  for (const condition of conditions) assert.ok(known.includes(condition), condition);
-  // A whole job is only ever skipped by « complet ».
-  for (const [, condition] of check.matchAll(/^ {4}["']?if["']?\s*:\s*(.+)$/gm))
-    assert.equal(condition, known[0]);
+  ]);
   assert.equal(check.split('github.event_name').length - 1, 2, 'the scope and the concurrency');
   // A step that fails fails the run: nothing carries on anyway.
-  assert.doesNotMatch(check, /continue-on-error|\|\| *true|set \+e/);
+  assert.doesNotMatch(check, /continue-on-error|set \+e/);
+  // Every command of the CI, as it is written: nothing after it swallows a failure, and none
+  // is dropped without this list being changed on purpose.
+  assert.deepEqual(
+    lines.filter((line) => /\bnpm /.test(line)),
+    NPM_LINES,
+  );
   // The recipes of a group all run, one after the other, and the step that runs them has no
   // condition of its own.
   const recipes = check.slice(check.indexOf('      - name: Recettes\n'));
-  assert.deepEqual(said(recipes).slice(0, 9), [
+  assert.deepEqual(said(recipes), [
     '- name: Recettes',
     'env:',
     'MOBILE_MENUS_ONLY: ${{ matrix.menus }}',
@@ -322,13 +343,14 @@ test('a run of the CI for a push is the whole CI: that is what the guard counts'
     'echo "::group::$recette"',
     'npm run "$recette"',
     'echo "::endgroup::"',
+    'done',
   ]);
-  // What a push runs, by name. A recipe taken out of the CI is taken out here too, on purpose.
-  const commands = [...check.matchAll(/npm run ([\w:-]+)/g)].map(([, name]) => name);
-  const groups = [...check.matchAll(/recettes: (?:>-\n((?: {14}.*\n)+)|(.+)\n)/g)].flatMap(
-    ([, folded, plain]) => (folded ?? plain).split(/\s+/).filter(Boolean),
+  // The groups of recipes, as they are: a group taken out is taken out here too, on purpose.
+  const groups = check.slice(
+    check.indexOf('        include:\n'),
+    check.indexOf('    name: recettes'),
   );
-  assert.deepEqual([...new Set([...commands, ...groups])].sort(), WHOLE_CI);
+  assert.deepEqual(said(groups), GROUPS);
 });
 
 test('for a push, the scope of the CI answers « everything », whatever was changed', runs, () => {
@@ -358,6 +380,30 @@ test('for a push, the scope of the CI answers « everything », whatever was cha
   };
   assert.equal(answer('pull_request'), 'complet=false', 'the case is one a pull request skips');
   assert.equal(answer('push'), 'complet=true');
+});
+
+// The tests above run the guard and hold what matters most in the two files. They cannot see
+// everything a change could do (a failure swallowed further down, a variable set for every
+// step, a line that behaves differently on GitHub's machine): two attempts to break them
+// found new ways each time. So the files themselves are held, byte for byte, like the games
+// of reference: a change to either is a change to what publishes the site or to what judges
+// every commit. It is made here too, on purpose, after reading `docs/SITE.md`, « Publier ».
+const FINGERPRINTS = {
+  'deploy-site.yml': 'f355fe13b1aabfe21f9437fc0d0d347582dd5df1a9cc97e3d984327a3288f181',
+  'check.yml': '7a6ef0056a5fe4f6daae556f4889ea2cc9be5dbfd25c82e24595920ba5013515',
+};
+
+test('the workflow that publishes and the one that judges are the ones that were read', () => {
+  for (const [name, expected] of Object.entries(FINGERPRINTS)) {
+    const now = createHash('sha256')
+      .update(readFileSync(`.github/workflows/${name}`))
+      .digest('hex');
+    assert.equal(
+      now,
+      expected,
+      `${name} changed. If the change is meant, read it again against the guard, then write ${now} in FINGERPRINTS.`,
+    );
+  }
 });
 
 test('the publication runs by hand only, one at a time', () => {

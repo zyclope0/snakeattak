@@ -490,6 +490,14 @@ Onglet **Actions** de GitHub → **Publier le site** → **Run workflow** :
   Jamais pour publier du nouveau : elle ne lève pas la règle « dans `main` », seul le parent
   la coche, et Claude ne la demande pas.
 
+**Changer `deploy-site.yml` ou `check.yml`.** `tests/publication-guard.test.ts` lance la garde
+pour de vrai dans un petit dépôt, tient la structure des deux fichiers, et garde leur
+empreinte à l'octet près : tout changement de l'un des deux fait échouer `npm run verify`
+jusqu'à ce que l'empreinte soit récrite dans le test, exprès. Deux relectures ont essayé 121
+façons d'éteindre la garde ou d'alléger la CI d'une poussée ; aucune ne passe plus. Ce que le
+test ne peut pas tenir : ce qui ne se voit que sur la machine de GitHub (la garde n'y a
+encore jamais tourné), un autre fichier de workflow, les scripts de `package.json`.
+
 **« Use workflow from » reste sur `main`.** La garde est écrite dans le fichier du workflow, et
 GitHub lance le fichier de la branche choisie dans ce menu : lancé depuis une autre branche,
 c'est le fichier de cette branche qui tourne, avec ou sans garde, et il a les secrets
