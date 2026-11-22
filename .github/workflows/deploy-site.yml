@@ -56,12 +56,18 @@ jobs:
             echo "Le commit $commit n'est pas dans main : rien n'est publié."
             exit 1
           fi
-          vertes="$(gh api "repos/$DEPOT/actions/workflows/check.yml/runs?head_sha=$commit&event=push&status=success" --jq '.total_count')"
+          # Si GitHub ne répond pas, on ne sait pas : c'est non, sauf « urgence ».
+          vertes="$(gh api "repos/$DEPOT/actions/workflows/check.yml/runs?head_sha=$commit&event=push&branch=main&status=success" --jq '.total_count' || echo inconnu)"
+          case "$vertes" in '' | *[!0-9]*) vertes=inconnu ;; esac
           echo "CI complète verte sur main pour $commit : $vertes passage(s)."
-          if [ "$vertes" -ge 1 ]; then exit 0; fi
+          if [ "$vertes" != inconnu ] && [ "$vertes" -ge 1 ]; then exit 0; fi
           if [ "$URGENCE" = "true" ]; then
             echo "Publication d'urgence demandée : on continue sans CI complète verte."
             exit 0
+          fi
+          if [ "$vertes" = inconnu ]; then
+            echo "GitHub n'a pas dit si la CI complète est verte : rien n'est publié. Relancer plus tard."
+            exit 1
           fi
           echo "Aucune CI complète verte sur main pour ce commit : rien n'est publié."
           echo "Attendre la fin de « Verify game » sur main, ou cocher « urgence » pour un retour arrière."

@@ -53,16 +53,33 @@ test('the snakes of La Grande Expédition grow with each battle won', () => {
   const start = X.startExpedition(4242)!;
   const plan = X.expeditionPlanOf(start)!;
   const stats = { hp: 100, damage: 10, reward: 5 };
-  const first = X.createExpeditionGame(plan, start)!;
-  assert.deepEqual(first.strengthen(stats), stats, 'the first battle is as written');
-  first.status = 'won';
-  const next = X.skipGift(X.winBattle(plan, start, first)!)!;
-  const second = X.createExpeditionGame(plan, next, 'calm')!;
-  // Version 3: life ×1.07 and bite ×1.035 a battle; the coins never change.
-  const grown = second.strengthen(stats);
-  assert.equal(grown.hp, 107);
-  assert.equal(grown.damage, 10.35);
-  assert.equal(grown.reward, 5);
+  // Version 3: life ×1.07 and bite ×1.035 for each battle won, one on top of the other; the
+  // coins never change. The whole road is walked: a growth that stops after the first battle,
+  // or that adds instead of multiplying, gives other numbers further on.
+  let state = start;
+  let battles = 0;
+  for (let guard = 0; guard < 100 && state.status === 'travelling'; guard++) {
+    const phase = X.expeditionPhase(state);
+    if (phase === 'gift') state = X.skipGift(state)!;
+    else if (phase === 'roulotte') state = X.leaveRoulotte(state)!;
+    else if (phase === 'halt') state = X.chooseHalt(plan, state, 0)!;
+    else {
+      const won = X.battlesWon(state);
+      assert.equal(won, battles);
+      const game = X.createExpeditionGame(plan, state, 'calm')!;
+      const met = game.strengthen(stats);
+      if (won === 0) assert.deepEqual(met, stats, 'the first battle is as written');
+      assert.equal(met.hp, 100 * 1.07 ** won, `life after ${won} battle(s)`);
+      assert.equal(met.damage, 10 * 1.035 ** won, `bite after ${won} battle(s)`);
+      assert.equal(met.reward, 5);
+      game.status = 'won';
+      state = X.winBattle(plan, state, game, 'calm')!;
+      battles += 1;
+    }
+  }
+  assert.equal(state.status, 'arrived');
+  assert.equal(battles, X.EXPEDITION_BATTLES);
+  assert.ok(battles >= 3);
   // A classic game never touches the numbers.
   assert.equal(new Game(7).strengthen(stats), stats);
 });

@@ -485,7 +485,8 @@ Onglet **Actions** de GitHub → **Publier le site** → **Run workflow** :
 - `confirmation` : écrire `PUBLIER` ;
 - `prune` : à cocher seulement pour retirer du serveur les fichiers d'anciens builds ;
 - `urgence` : à cocher seulement pour un retour arrière vers un commit de `main` dont la CI
-  complète n'est plus lisible.
+  complète n'est plus lisible, ou quand GitHub ne répond pas à la question. Sans cette case,
+  une question restée sans réponse vaut un refus : on relance plus tard.
 
 Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
 22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit

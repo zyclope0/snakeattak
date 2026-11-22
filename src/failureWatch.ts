@@ -45,6 +45,11 @@ export function watchBoard(
   };
   const check = (reason: unknown) => {
     if (told) return;
+    // While the board has drawn nothing since the error waited on, a new error teaches nothing:
+    // the first one stays, with its own words, and its wait is not started again. Without this,
+    // errors that keep coming would put the window off for ever, and the last of them would
+    // take the place of the one that stopped the board in the line a parent copies.
+    if (pending && board.frame() === pending.before) return;
     const waiting = pending !== null;
     // The frame that failed is already counted: a board that lives will pass this number. An
     // error that comes while another is waited on takes its place and starts the wait again:

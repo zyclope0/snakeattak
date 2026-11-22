@@ -79,8 +79,13 @@ for (const viewport of SIZES) {
     );
     await fits(page, '#failure-dialog', `${tag} failure window`);
     // It is the only way on: Escape leaves it open, and the page behind is out of reach.
-    await page.keyboard.press('Escape');
-    assert.equal(await dialog.count(), 1, 'Escape does not close it');
+    // A browser lets Escape close a window at the third press, whatever the page answers.
+    for (let press = 0; press < 6; press++) await page.keyboard.press('Escape');
+    assert.equal(await dialog.count(), 1, 'six presses of Escape do not close it');
+    // Enter and Space do nothing either: the focus is on the words, not on the button.
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('Space');
+    assert.equal(await dialog.count(), 1, 'a key pressed for something else does not reload');
     assert.equal(
       await page.locator('#failure-parents').getAttribute('open'),
       null,
@@ -110,7 +115,10 @@ for (const viewport of SIZES) {
   // 3. The game cannot start: the family files the device holds are handed over as they are.
   const failed = await open({ dir, viewport, touch: viewport.width < 1000, storage: device });
   try {
-    await failed.context.route('**/assets/bootstrap-*.js', (route) => route.abort());
+    // Neither the game, nor its rules, nor the drawing engine: the rescue must need none.
+    await failed.context.route(/\/assets\/(bootstrap|rules|phaser)-[\w-]+\.js$/, (route) =>
+      route.abort(),
+    );
     await failed.page.goto(`${ORIGIN}/`);
     const rescue = failed.page.locator('#rescue');
     await rescue.waitFor({ state: 'visible' });

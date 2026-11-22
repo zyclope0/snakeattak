@@ -75,14 +75,37 @@ test('an error that stops the board while another is still waited on is not lost
   assert.deepEqual(s.told, [], 'the wait starts again from the latest error');
   s.draw(1);
   assert.deepEqual(s.told, ['RangeError: the frame that stops everything']);
-  // And the other way round: a fatal error followed by noise is still told, with the noise.
+  // And the other way round: a fatal error followed by noise is told with its own words.
   const t = stage();
   t.board.alive = false;
   t.error(new Error('fatal'));
   t.draw(1);
   t.rejection('noise');
   t.draw(3);
-  assert.equal(t.told.length, 1);
+  assert.deepEqual(t.told, ['Error: fatal']);
+});
+
+test('errors that keep coming on a dead board neither delay the window nor rename the failure', () => {
+  // One more error at every frame, for as long as one likes: the window comes after three.
+  const s = stage();
+  s.board.alive = false;
+  s.error(new RangeError('the frame that stops everything'));
+  for (let frame = 0; frame < 3; frame++) {
+    s.rejection('a timer that keeps failing');
+    s.error(new Error('noise'));
+    s.draw(1);
+  }
+  assert.deepEqual(s.told, ['RangeError: the frame that stops everything']);
+  // An error every other frame does no better.
+  const t = stage();
+  t.board.alive = false;
+  t.error(new TypeError('fatal'));
+  t.draw(1);
+  t.error(new Error('noise'));
+  t.draw(1);
+  t.error(new Error('noise'));
+  t.draw(1);
+  assert.deepEqual(t.told, ['TypeError: fatal']);
 });
 
 test('a board asleep because the page is hidden is not a board that failed', () => {
