@@ -10,7 +10,7 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 | Quoi                      | État                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Site**                  | https://snakeattacktd.com, publié depuis `main` le 22 novembre (publication n° 43, commit `36e207b`, contrôle en ligne vert) : la politique de confidentialité nomme l'application 0.40.0 / build 64, publiée quand le parent a dit que le build 64 était sur le téléphone. Le même jour, avant (n° 42, commit `37b3f06`) : la fin du point 7 de la revue du code (camp porté lu en un seul endroit, tirages de l'expédition nommés et figés par un test, « partie finie » écrite une fois), sans rien de nouveau à l'écran. Avant encore (n° 41, commit `f2378f6`) : le bouton « Tirer encore » de l'expédition et le paragraphe de confidentialité sur le fichier familial, approuvés par le parent ; les recettes de sauvegarde dans la CI ; les règles de l'expédition regroupées dans son modèle. Puis (n° 40, commit `33a9bb5`) : les quatre lots de la revue du code et leurs corrections, sans rien de nouveau à l'écran. Avant, le 21 novembre (n° 39) : La Grande Expédition version 3, l'étape d'hygiène, la sauvegarde familiale complète. 14 pages FR/EN, dont « L'histoire » et « Tester sur Android ». Révision 7 (spinosaure) jouable. |
-| **Application**           | **0.40.0 / build 64 sur le téléphone du parent le 22 novembre, d'après lui ; son fils l'essaie.** La recette à cocher n'est pas revenue ; rien n'est noté sur sa promotion dans « Alpha ». Chez les autres testeurs : 0.39.0 / build 63 (révisions 3 à 6, sans le spinosaure). Version 0.40.0 / build 64 ([contenu](BILAN-0.40.0.md), [passation et recette téléphone](ANDROID-BUILD-64.md)). Build 63 : arrivée sur le téléphone du parent par Google Play (19 novembre), promue dans le test fermé « Alpha » le 20 novembre, en attente de l'examen de Google ([passation](ANDROID-BUILD-63.md), [bilan](BILAN-0.39.0.md)).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **Application**           | **0.40.0 / build 64 sur le téléphone du parent le 22 novembre, d'après lui ; son fils l'essaie.** **L'export du fichier familial n'y fait rien** (essai du parent, 22 novembre) : aucune aventure ne sort du téléphone, dans ce build comme dans les précédents. Le reste de la recette à cocher n'est pas revenu ; rien n'est noté sur sa promotion dans « Alpha ». Chez les autres testeurs : 0.39.0 / build 63 (révisions 3 à 6, sans le spinosaure). Version 0.40.0 / build 64 ([contenu](BILAN-0.40.0.md), [passation et recette téléphone](ANDROID-BUILD-64.md)). Build 63 : arrivée sur le téléphone du parent par Google Play (19 novembre), promue dans le test fermé « Alpha » le 20 novembre, en attente de l'examen de Google ([passation](ANDROID-BUILD-63.md), [bilan](BILAN-0.39.0.md)).                                                                                                                                                                                                                                                                                                                                                |
 | **Test fermé Android**    | Créé par le parent le 20 novembre : groupe public `snakeattack-testeurs`, piste « Alpha ». Trois modifications (pays, liste de testeurs, adresse de retours) restaient à envoyer à l'examen de Google d'après le compte rendu du parent du 20 novembre : à confirmer. Le lien d'inscription marche quand Google les a acceptées. Google demande 12 testeurs pendant 14 jours de suite avant la production.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | **Publicité sur le site** | Éteinte. AdSense n'a pas encore approuvé le site. Rien ne s'allume sans le message du parent ([ordre d'activation](publication/PUBLICITE-WEB-PROPOSITION.md)).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | **Les enfants**           | Le fils essaie le build 64 sur le téléphone le 22 novembre (dit par le parent) ; ses remarques ne sont pas encore notées. Avant : 2 ou 3 parties sur le site le 19 novembre, content, sans remarque précise.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -22,7 +22,65 @@ revoir l'accueil, refaire les images de la fiche Play, et d'abord analyser, comp
 qui se fait ailleurs, chercher les standards. L'analyse est faite :
 [ANALYSE-2026-11-22.md](ANALYSE-2026-11-22.md) (constats mesurés, douze fiches du Play Store
 regardées, accueil passé à une grille de 30 critères, ordre proposé en sept étapes, sept
-décisions pour le parent). **Rien ne change dans le jeu avant ses arbitrages.**
+décisions pour le parent).
+
+Le parent a ensuite dit de suivre l'ordre proposé et d'enchaîner les lots, puis, le soir,
+« revue, conseil et continue ».
+
+**Où en est `main` le 22 novembre au soir.** Six lots de l'analyse sont fusionnés (tests
+manquants, garde de publication, filet d'erreur, copie d'avant, sauvetage d'un camp
+illisible) ; **aucun n'est publié, aucun build Android ne les contient**. Une relecture sévère
+faite après coup a trouvé une faiblesse dans presque chacun, et le conseil a tranché :
+**`main` n'est pas à publier avant les corrections**
+([ce que j'avais annoncé de trop](ANALYSE-2026-11-22.md#revue-sévère-du-22-novembre--ce-que-jai-annoncé-de-trop),
+[constats et décisions](analyse-2026-11-22/E-revue-et-conseil.md)). Aucune règle du jeu n'a
+bougé (301 parties rejouées, identiques).
+
+**Le plus grave : dans l'application, l'export ne fait rien** (essai du parent sur le build
+64, le 22 novembre), et le jeu écrit quand même « Fichier prêt ». Aucune aventure ne peut
+sortir d'un téléphone : ne rien désinstaller, ne pas effacer les données de l'application.
+Le site n'est pas touché.
+
+**Ordre retenu par le conseil**
+
+1. Les documents disent vrai (fait avec cette page).
+2. Garde de publication et filet d'erreur : corrections attaquées avant fusion.
+3. Écrans de panne : phrases justes, « Réessayer », secours en un seul fichier.
+4. Sauvegardes, trois lots à la suite, chacun attaqué avant le suivant : sauvetage de tous
+   les camps, copies de secours à deux clés, « ta partie n'est pas gardée ».
+5. Le parent lit les mots des fenêtres et accepte les copies gardées sur l'appareil ; il
+   republie le commit déjà en ligne (répétition de la garde), puis `main`.
+6. Build 65 : `main` et l'export réparé par les deux modules, essayé sur son téléphone :
+   exporter, trouver le fichier hors de l'application, désinstaller, réinstaller, importer.
+
+**Décidé par le parent le 22 novembre au soir**
+
+- **Oui aux deux modules officiels de Capacitor (Filesystem et Share)** pour que l'export
+  marche dans l'application : le jeu écrit le fichier, puis ouvre la fenêtre de partage
+  d'Android. Risques dits avant sa réponse : ni compilable ni essayable ici (il faudra un
+  build 65 et son essai sur le téléphone) ; la fenêtre de partage propose toutes les
+  applications, et l'espace des parents n'a pas de barrière ; deux dépendances de plus ;
+  les permissions de l'application à contrôler sur le build.
+- **L'import marche dans l'application** : essayé par lui sur le build 64 (« la reprise du
+  fichier marche parfaitement »). Seul l'export est cassé.
+
+**Ce qui attend le parent**
+
+- Prévenir les testeurs du build 64 : ne pas désinstaller, ne pas effacer les données.
+- Lire, avant toute publication, la page des mots nouveaux (fenêtres d'erreur, de sauvegarde,
+  copies de secours).
+- Réglage GitHub, s'il le veut : ranger les secrets `INFOMANIAK_*` dans un « environment »
+  limité à la branche `main`. Sans cela, « Publier le site » lancé depuis une autre branche
+  tourne sans la garde (`docs/SITE.md`).
+- La page publique des parents dit encore que le fichier familial n'exporte pas La Grande
+  Expédition : faux depuis la version 6 du fichier. Phrase à corriger avec son accord.
+
+**Règle de méthode depuis le 22 novembre** (conseil, annexe E) : `main` reste toujours
+publiable. Un lot qui touche à ce que l'appareil garde, à ce qui se passe quand quelque chose
+casse, à une phrase qui promet, à la CI ou à la publication, ou qui repose sur une chose
+jamais vue sur la vraie cible, est attaqué par une relecture indépendante **avant** sa
+fusion ; un seul à la fois, une PR par lot. Chaque affirmation d'un compte rendu dit par quoi
+elle est prouvée, sur quoi, et ce qu'elle ne couvre pas.
 
 ## En pause (21 novembre) : les fonctionnalités
 
