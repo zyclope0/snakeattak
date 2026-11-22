@@ -1,14 +1,16 @@
-# Android — version 0.39.0 / build 63
+# Android — version 0.40.0 / build 64
 
-Le code de la **0.39.0 / build 63** est prêt depuis `main` ; la commande de
+Le code de la **0.40.0 / build 64** est prêt depuis `main` (22 novembre 2026) ; la commande de
 packaging ci-dessous produit le candidat signé, son APK issu du bundle et son rapport.
 Le résultat d'une construction et ses empreintes sont dans `release-report.json`,
 pas déduits du seul numéro de version. Le dernier release nativement qualifié dans
-l'historique reste le build 62 ; le build 63 doit passer sa propre recette.
+l'historique reste le build 62 ; la recette du build 63 n'a pas été remplie, et le build 64
+doit passer la sienne.
 
 Même package **com.conqueteserpents.famille**, même clé d'envoi, paysage, SDK24/36,
-R8 actif, aucune permission INTERNET ou SDK commercial. Le contenu depuis62 et les
-notes FR/EN sont dans [BILAN-0.39.0.md](BILAN-0.39.0.md).
+R8 actif, aucune permission INTERNET ou SDK commercial. Le contenu depuis le build 63 et
+les notes FR/EN sont dans [BILAN-0.40.0.md](BILAN-0.40.0.md) ; le build 63 :
+[BILAN-0.39.0.md](BILAN-0.39.0.md).
 
 ### Livraison reproductible
 
@@ -36,20 +38,20 @@ La configuration Capacitor extraite est comparée elle aussi. Le dossier de livr
 est réservé de façon exclusive et n’est jamais écrasé. Les commandes Java/Node
 sont invoquées sans shell pour préserver les chemins Windows contenant des espaces.
 
-Sortie : `artifacts/android/conquete-serpents-v0.39.0-build63/`, avec AAB, APK,
+Sortie : `artifacts/android/conquete-serpents-v0.40.0-build64/`, avec AAB, APK,
 mapping, `SHA256SUMS.txt`, manifeste Android et `release-report.json`. Le rapport
 signale explicitement la qualification native encore attendue. Dossier alternatif :
 `SERPENTS_RELEASE_DIR` ; compilation Gradle hors réseau si les dépendances sont déjà
 en cache : `SERPENTS_GRADLE_OFFLINE=1`.
 
 **Avant Google Play :** installer et lancer cet APK release sur un émulateur accéléré
-ou un appareil de test, suivre [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md), notamment
-la reprise62→63. Ne pas désinstaller la version familiale pour contourner une
+ou un appareil de test, suivre [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md), notamment
+la reprise 63→64. Ne pas désinstaller la version familiale pour contourner une
 signature incompatible : Google signe la version Play avec sa propre clé.
 Aucun envoi Play ou déploiement du site n'est fait par cette commande.
 
 Les sections suivantes décrivent le release62 et l'historique ; leurs succès natifs
-ne constituent pas un essai du63.
+ne constituent pas un essai du 63 ni du 64.
 
 ## Build release optimisé — à partir du build 62
 

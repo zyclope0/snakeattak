@@ -13,8 +13,10 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [VOYAGE.md](VOYAGE.md)                                                 | Le voyage, remplacé par l'expédition : ses réglages et ses mesures, pour mémoire        |
 | [SITE.md](SITE.md)                                                     | Hébergement Infomaniak, publication manuelle, confidentialité et migration des familles |
 | [ANDROID.md](ANDROID.md)                                               | Construire l'APK et ce qui a été essayé sur le téléphone                                |
-| [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63 préparée : ce qui change depuis le build 62                   |
-| [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex : construire le build 63 sans ce qui est réservé au site                |
+| [BILAN-0.40.0.md](BILAN-0.40.0.md)                                     | Version 0.40.0 / build 64 préparée : ce qui change depuis le build 63                   |
+| [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)                             | Passation Codex : construire le build 64, et la recette à faire sur le téléphone        |
+| [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62        |
+| [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site        |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version construite (build 62)                               |
 | [BILAN-NETTOYAGE-2026-11.md](BILAN-NETTOYAGE-2026-11.md)               | Nettoyage du code de novembre : fait, vérifié, ce qui reste                             |
 | [BILAN-REVISION-3.md](BILAN-REVISION-3.md)                             | Révision d'équilibrage 3 (un œuf de plus quand une vague dure) : mesures et preuves     |
