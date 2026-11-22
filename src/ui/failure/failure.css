@@ -47,3 +47,35 @@
   min-height: 48px;
   padding: 0 20px;
 }
+/* Sur l'accueil, à côté des étoiles, tant que la partie n'est pas gardée : le parent qui
+   arrive après l'enfant retrouve la fenêtre. La même place dit ensuite que c'est réparé. */
+#unkept-mark {
+  min-height: 48px;
+  font-size: 14px;
+  font-weight: 700;
+}
+button#unkept-mark {
+  flex: none;
+  max-width: 116px;
+  padding: 0 10px;
+  line-height: 1.15;
+  white-space: normal;
+}
+/* La phrase « c'est réparé » ne pousse rien dans l'en-tête : elle se pose dessous, au milieu,
+   le temps que le joueur la voie. */
+span#unkept-mark {
+  position: absolute;
+  z-index: 2;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 0 18px;
+  border-radius: 24px;
+  background: #f7f3e6;
+  color: #1c4034;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 30%);
+}

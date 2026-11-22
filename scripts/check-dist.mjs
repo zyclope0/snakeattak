@@ -65,6 +65,15 @@ async function reaches(name, seen = new Set()) {
     !files.some((f) => /^(rescue|trouble|failureWindow)-[\w-]+\.js$/.test(f)),
     'The failure windows are not files fetched later',
   );
+  // The window of a stopped board is in the game's own code, whatever its file is called:
+  // the day the board stops, nothing is to be fetched.
+  const game = files.find((f) => /^bootstrap-[\w-]+\.js$/.test(f));
+  assert.ok(game, 'The game has its start-up file');
+  assert.match(
+    await readFile(`${root}/assets/${game}`, 'utf8'),
+    /relaunchedAfterFailure/,
+    'The window of a stopped board ships with the game',
+  );
 }
 // The public privacy policy is a page of its own, readable without the game or JavaScript.
 const policy = await readFile(`${root}/confidentialite/index.html`, 'utf8');

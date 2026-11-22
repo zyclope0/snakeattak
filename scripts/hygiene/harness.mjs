@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 // Étape d'hygiène (21 novembre 2026) : outils communs des recettes de stabilisation.
 // Le jeu est servi depuis un dossier du disque, réseau coupé, à l'origine de l'application
 // Android (Capacitor : https://localhost) ; changer de dossier sans changer d'origine, c'est
@@ -147,3 +148,37 @@ export const numbers = (page) =>
     wave: document.querySelector('#wave')?.textContent,
     army: document.querySelector('#army-count')?.textContent,
   }));
+
+/** Every button of `selector` is a fair target, and the block stays inside the screen. */
+export async function fits(page, selector, label) {
+  const view = page.viewportSize();
+  const box = await page.locator(selector).boundingBox();
+  assert.ok(box, `${label}: shown`);
+  assert.ok(
+    box.x >= 0 &&
+      box.y >= 0 &&
+      box.x + box.width <= view.width &&
+      box.y + box.height <= view.height,
+    `${label}: inside ${view.width}×${view.height} (${JSON.stringify(box)})`,
+  );
+  // What the child needs is there at once, without scrolling inside the window: the title,
+  // the sentence, the button. Only what is folded for a parent may need a scroll.
+  for (const part of await page
+    .locator(`${selector} > h2, ${selector} > p, ${selector} > button`)
+    .all()) {
+    const at = await part.boundingBox();
+    assert.ok(
+      at && at.y >= box.y - 1 && at.y + at.height <= box.y + box.height + 1,
+      `${label}: ${await part.evaluate((node) => node.tagName)} is in view (${JSON.stringify(at)} in ${JSON.stringify(box)})`,
+    );
+  }
+  for (const button of await page.locator(`${selector} button, ${selector} summary`).all()) {
+    // What is folded away is not a target yet: it is measured once unfolded.
+    if (!(await button.isVisible())) continue;
+    const size = await button.boundingBox();
+    assert.ok(
+      size.width >= 48 && size.height >= 48,
+      `${label}: a target of ${size.width}×${size.height}`,
+    );
+  }
+}

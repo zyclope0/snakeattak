@@ -81,6 +81,8 @@ const records = createRecordBook(storage);
 const endlessWritten = new WeakMap<Game, number>();
 /** True once a family file brought back an expedition, a voyage or records. */
 let reloadAfterImport = false;
+/** The screens that say what is played is not being kept: fetched the first time it happens. */
+let keeping: Promise<typeof import('./ui/failure/unkept.ts')> | undefined;
 /** The classic camp waiting under a mission, and whether it is an endless one. */
 let endlessCamp: { raw: string | null; endless: boolean } = { raw: null, endless: false };
 
@@ -299,6 +301,26 @@ function saveAndRedraw() {
   setDisplayText(byId('save-status'), family.status);
   // Last: on a voyage stage, the voyage has the final word on what the board says.
   voyage?.refresh();
+  watchKeeping();
+}
+/**
+ * Tells the family when what is played is not on the device, and when it is again. What is
+ * shown, and when, is decided where the screens are; on a device that keeps the game nothing
+ * is fetched.
+ */
+function watchKeeping() {
+  const cause = family.unkept ?? (records.unkept ? 'full' : null);
+  if (!cause && !keeping) return;
+  keeping ??= import('./ui/failure/unkept.ts');
+  void keeping
+    .then(({ keepingChanged }) =>
+      keepingChanged(cause, {
+        home: () => session.screen === 'home',
+        fighting: () => session.game.status === 'fighting',
+        played: () => session.game.wave > 0,
+      }),
+    )
+    .catch(() => (keeping = undefined));
 }
 /** « Recommencer » : the same stage or the same mission again, or a new classic adventure. */
 function restartGame() {

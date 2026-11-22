@@ -14,3 +14,15 @@ export const caRecommenceVaChercherUnAdulte = 'It happened again. Go and get a g
 export const appuieSurReessayer = 'Press Try again. If it still does not work, get a grown-up.';
 export const reessayer = 'Try again';
 export const relanceLeJeuPourContinuerAJouer = 'Restart the game to keep playing.';
+export const taPartieNEstPasGardee = 'Your game is not being saved';
+export const tuPeuxContinuerAJouerSiTuFermes =
+  'You can keep playing. If you close the game, it will forget what you just did: get a grown-up first.';
+export const lAppareilNASansDoutePlusAssezDePlace =
+  'The device probably has no room left to save the game. Free some space without closing the game: it tries again by itself and will say so.';
+export const cetAppareilNeLaissePasLeJeuGarder =
+  'This device does not let the game save (private browsing, or storage blocked in the settings). The game lasts as long as it stays open.';
+export const leJeuNArrivePasAGarderCettePartie =
+  'The game cannot save this game. It lasts as long as the game stays open.';
+export const jAiCompris = 'Got it';
+export const partieNonGardee = 'Game not saved';
+export const cEstRepareTaPartieEstDeNouveauGardee = 'Fixed: your game is being saved again.';

@@ -9,7 +9,7 @@
 //   node --experimental-strip-types scripts/hygiene/failure.mjs [dossier]
 import assert from 'node:assert/strict';
 import { access, mkdir, readFile } from 'node:fs/promises';
-import { open, start, status, boardReady, text, numbers, ORIGIN } from './harness.mjs';
+import { open, start, status, boardReady, text, numbers, fits, ORIGIN } from './harness.mjs';
 
 const [dir = 'dist-android'] = process.argv.slice(2);
 await mkdir('artifacts/hygiene', { recursive: true });
@@ -39,40 +39,6 @@ if (application)
   await access(`${SITE}/index.html`).catch(() => {
     throw new Error('Le paquet du site manque : lancer aussi « npm run build ».');
   });
-
-/** Every button of `selector` is a fair target, and the block stays inside the screen. */
-async function fits(page, selector, label) {
-  const view = page.viewportSize();
-  const box = await page.locator(selector).boundingBox();
-  assert.ok(box, `${label}: shown`);
-  assert.ok(
-    box.x >= 0 &&
-      box.y >= 0 &&
-      box.x + box.width <= view.width &&
-      box.y + box.height <= view.height,
-    `${label}: inside ${view.width}×${view.height} (${JSON.stringify(box)})`,
-  );
-  // What the child needs is there at once, without scrolling inside the window: the title,
-  // the sentence, the button. Only what is folded for a parent may need a scroll.
-  for (const part of await page
-    .locator(`${selector} > h2, ${selector} > p, ${selector} > button`)
-    .all()) {
-    const at = await part.boundingBox();
-    assert.ok(
-      at && at.y >= box.y - 1 && at.y + at.height <= box.y + box.height + 1,
-      `${label}: ${await part.evaluate((node) => node.tagName)} is in view (${JSON.stringify(at)} in ${JSON.stringify(box)})`,
-    );
-  }
-  for (const button of await page.locator(`${selector} button, ${selector} summary`).all()) {
-    // What is folded away is not a target yet: it is measured once unfolded.
-    if (!(await button.isVisible())) continue;
-    const size = await button.boundingBox();
-    assert.ok(
-      size.width >= 48 && size.height >= 48,
-      `${label}: a target of ${size.width}×${size.height}`,
-    );
-  }
-}
 
 for (const viewport of SIZES) {
   const tag = `${viewport.width}x${viewport.height}`;
@@ -274,6 +240,41 @@ try {
 } finally {
   await empty.browser.close();
 }
+// The network goes away after the home is shown: the board stops all the same, the window
+// comes, styled, and asks for nothing.
+{
+  const { browser, page, context } = await open({ dir });
+  try {
+    await start(page);
+    await page.locator('#home-primary').click();
+    await boardReady(page);
+    // Everything asked from now on is refused (the wave may still ask for a sound or an image).
+    const asked = [];
+    await context.route('**/*', (route) => {
+      asked.push(route.request().url());
+      return route.abort();
+    });
+    await page.locator('#start').click();
+    await page.waitForFunction(() => document.querySelector('#app')?.dataset.status === 'fighting');
+    await page.evaluate(() => {
+      Math.hypot = () => {
+        throw new RangeError('recette');
+      };
+    });
+    await page.locator('#failure-dialog[open]').waitFor({ state: 'visible' });
+    assert.deepEqual(
+      asked.filter((url) => /failure|trouble|rescue/.test(url)),
+      [],
+      'nothing was asked for the window',
+    );
+    const button = await page.locator('#failure-button').boundingBox();
+    assert.ok(button.height >= 48, 'the window has its style');
+    checks.push('réseau coupé après l’accueil : la fenêtre vient quand même, sans rien demander');
+  } finally {
+    await browser.close();
+  }
+}
+
 // Not in a fight, nothing is to be played again, and the window does not say so. And a
 // failure long after the game was started again is not « the same thing again ».
 {
@@ -310,6 +311,19 @@ try {
     await page.locator('#failure-dialog[open]').waitFor({ state: 'visible' });
     assert.equal(await text(page, '#failure-dialog > p'), FR.relanceLeJeuPourContinuerAJouer);
     checks.push('panne six minutes après une relance : ce n’est plus « Ça recommence »');
+    // The device's clock set back after a relaunch: nothing says « just before ».
+    await page.locator('#failure-button').click();
+    await page.locator('#home-primary').waitFor({ state: 'visible' });
+    await page.locator('#home-primary').click();
+    await boardReady(page);
+    await page.evaluate(() => {
+      const now = Date.now;
+      Date.now = () => now() - 60 * 60_000;
+    });
+    await fail();
+    await page.locator('#failure-dialog[open]').waitFor({ state: 'visible' });
+    assert.equal(await text(page, '#failure-dialog > p'), FR.relanceLeJeuPourContinuerAJouer);
+    checks.push('horloge reculée après une relance : ce n’est pas « Ça recommence »');
   } finally {
     await browser.close();
   }

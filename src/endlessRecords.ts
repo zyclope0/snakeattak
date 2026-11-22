@@ -89,8 +89,13 @@ export function createRecordBook(storage?: StoragePort) {
       return [];
     }
   };
+  /** True while the last record could not be written: the device refused it. */
+  let unkept = false;
   return {
     read,
+    get unkept() {
+      return unkept;
+    },
     /** Writes how far a game went; returns whether it is now the player's record. */
     add(game: EndlessRecord): boolean {
       const before = read();
@@ -98,8 +103,10 @@ export function createRecordBook(storage?: StoragePort) {
       if (records === before) return false;
       try {
         storage?.setItem(ENDLESS_RECORDS_KEY, writeRecords(records));
+        unkept = false;
       } catch {
-        /* The game is played all the same; the record is simply not kept. */
+        // The game is played all the same; the record is not kept, and the family is told.
+        unkept = true;
       }
       return best;
     },

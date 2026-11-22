@@ -64,7 +64,7 @@ const GROUPS = [
   'android: true',
   'recettes: >-',
   'test:saves:update test:saves:family test:saves:forced-close',
-  'test:saves:double-taps test:failure',
+  'test:saves:double-taps test:failure test:saves:unkept',
 ];
 const GUARD = 'Le commit est dans main et sa CI complète est verte';
 const STEP = '\n      - ';
@@ -391,7 +391,7 @@ test('for a push, the scope of the CI answers « everything », whatever was cha
 // every commit. It is made here too, on purpose, after reading `docs/SITE.md`, « Publier ».
 const FINGERPRINTS = {
   'deploy-site.yml': 'f355fe13b1aabfe21f9437fc0d0d347582dd5df1a9cc97e3d984327a3288f181',
-  'check.yml': '1ace06adddf8664f5047fb7d3a090ca64f0409251b58be29b04d7247228b78f6',
+  'check.yml': '3d6599aa3fb8fb79056a74cb163ed7653c0529da6feaf101f201def53db61266',
 };
 
 test('the workflow that publishes and the one that judges are the ones that were read', () => {

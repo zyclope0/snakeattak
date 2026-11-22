@@ -1690,6 +1690,42 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
 Pas essayé : sur un vrai téléphone, où l'enregistrement d'un fichier depuis le WebView reste à
 confirmer (c'est le même geste que l'export familial).
 
+## Quand ce qui est joué n'est pas gardé — 22 novembre 2026
+
+Un appareil plein, ou un navigateur qui bloque le stockage, ne se voyait qu'à une ligne de dix
+pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
+([analyse](ANALYSE-2026-11-22.md), S7).
+
+- **Une seule réponse, vraie** : `family.unkept` (`src/familyPersistence.ts`) vaut `null`
+  exactement quand le fichier que le jeu écrirait maintenant est celui que l'appareil garde.
+  Sinon il dit pourquoi : `blocked` (pas de stockage pour le jeu, ou stockage illisible),
+  `full` (l'appareil a refusé la dernière écriture), `broken` (le jeu n'a pas su construire le
+  fichier). Une écriture qui passe, ou un retour à ce qui est déjà gardé, y met fin. Les
+  records de l'aventure sans fin ont leur propre drapeau (`createRecordBook`).
+- **Ce que la famille voit** (`src/ui/failure/unkept.ts`, demandé la première fois que cela
+  arrive ; sur un appareil qui garde tout, rien n'est chargé) :
+  - une fenêtre « Ta partie n'est pas gardée », une fois par épisode, à un moment calme :
+    jamais par-dessus un combat ni une autre fenêtre, et pas avant qu'il y ait quelque chose à
+    perdre (une vague gagnée dans la partie en main) : un enfant qui arrive sur un appareil
+    qui ne garde rien n'est pas arrêté à la porte. Elle dit à l'enfant d'aller chercher
+    un adulte avant de fermer le jeu ; sous « Pour les parents », une phrase par cause. Elle se
+    ferme : le jeu derrière marche.
+  - sur l'accueil, à côté des étoiles, une marque « Partie non gardée » tant que cela dure :
+    le parent qui arrive après l'enfant y retrouve la fenêtre.
+  - quand l'appareil garde de nouveau : « C'est réparé : ta partie est de nouveau gardée. »,
+    sous l'en-tête de l'accueil, jusqu'à ce que le joueur l'ait vue et soit reparti. Un
+    second refus est redit.
+- **Tenu par** `tests/family-unkept.test.ts` et la recette `npm run test:saves:unkept`
+  (`scripts/hygiene/unkept.mjs`, tâche « sauvegardes » de la CI), aux trois tailles : écriture
+  refusée juste avant une vague, rien pendant le combat, la fenêtre à la fin de la vague, la
+  marque qui la rouvre, la guérison dite puis effacée, un second refus redit ; stockage
+  illisible : pas de fenêtre à l'arrivée.
+- **Ne couvre pas** : un navigateur en navigation privée qui accepte les écritures puis jette
+  tout à la fermeture (aucun code ne peut le savoir) ; l'expédition et le voyage, qui ont
+  leur propre message ; si les fichiers de cette fenêtre ne viennent pas la première fois, le
+  navigateur ne les redemande pas ; rien n'est vu sur un téléphone ; les mots sont à lire par
+  le parent.
+
 ## Remettre un fichier à la famille — 22 novembre 2026
 
 Tout fichier que le jeu remet (export de l'aventure, copies, secours au démarrage) passe par

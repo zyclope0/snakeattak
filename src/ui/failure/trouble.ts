@@ -12,19 +12,35 @@ type Trouble = {
   act: () => void;
   /** What a parent needs, folded under « Pour les parents »; nothing when empty. */
   parents: Node[];
+  /**
+   * False for a window the child may close, because the game behind it still works: its
+   * button, and Escape, close it. By default the window stays: nothing works behind it.
+   */
+  stays?: boolean;
 };
 
 /**
- * The one window for a game that cannot go on: a title, one sentence for the child, one
- * button, and what a parent needs folded underneath. It cannot be closed: behind it nothing
- * works, and the button is the only way on.
+ * The one window for something that went wrong: a title, one sentence for the child, one
+ * button, and what a parent needs folded underneath. When the game cannot go on it cannot be
+ * closed: behind it nothing works, and the button is the only way on.
  */
-export function showTrouble({ id, title, words, button, act, parents }: Trouble): void {
+export function showTrouble({
+  id,
+  title,
+  words,
+  button,
+  act,
+  parents,
+  stays = true,
+}: Trouble): void {
   if (document.getElementById(`${id}-dialog`)) return;
   const heading = make('h2', { id: `${id}-title`, text: title });
   const action = make('button', { id: `${id}-button`, className: 'primary', text: button });
   action.type = 'button';
-  action.onclick = act;
+  action.onclick = () => {
+    act();
+    if (!stays) dialog.close();
+  };
   const dialog = make(
     'dialog',
     { id: `${id}-dialog`, className: 'trouble' },
@@ -42,11 +58,13 @@ export function showTrouble({ id, title, words, button, act, parents }: Trouble)
       ),
     );
   dialog.setAttribute('aria-labelledby', heading.id);
-  // A browser lets Escape through at the third press, whatever « cancel » answers; so the
-  // window says it takes no closing request, and comes back if it is closed all the same.
-  dialog.setAttribute('closedby', 'none');
-  dialog.addEventListener('cancel', (event) => event.preventDefault());
-  dialog.addEventListener('close', () => dialog.showModal());
+  if (stays) {
+    // A browser lets Escape through at the third press, whatever « cancel » answers; so the
+    // window says it takes no closing request, and comes back if it is closed all the same.
+    dialog.setAttribute('closedby', 'none');
+    dialog.addEventListener('cancel', (event) => event.preventDefault());
+    dialog.addEventListener('close', () => dialog.showModal());
+  } else dialog.addEventListener('close', () => dialog.remove());
   document.body.append(dialog);
   dialog.showModal();
   // Nothing is done by a key pressed for something else: Space pauses the game, Enter
