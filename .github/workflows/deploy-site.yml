@@ -80,9 +80,12 @@ jobs:
       # Format, tests unitaires et build : rien n'est envoyé si l'un d'eux échoue.
       - run: npm run verify
       - name: Marquer le build
+        env:
+          # Par une variable, jamais collé dans le script : ce champ est écrit à la main.
+          REF: ${{ inputs.ref }}
         run: |
           printf '{"commit":"%s","ref":"%s","version":"%s"}\n' \
-            "$(git rev-parse HEAD)" "${{ inputs.ref }}" "$(node -p "require('./package.json').version")" \
+            "$(git rev-parse HEAD)" "$REF" "$(node -p "require('./package.json').version")" \
             > dist/version.json
           cat dist/version.json
       - name: Préparer la connexion

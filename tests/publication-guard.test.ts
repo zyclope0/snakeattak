@@ -51,6 +51,8 @@ function repository() {
   const inMain = git(work, 'rev-parse', 'HEAD');
   git(work, 'checkout', '--quiet', '-b', 'work');
   git(work, 'commit', '--quiet', '--allow-empty', '-m', 'outside main');
+  // The work branch is on the server too: being pushed somewhere is not being in main.
+  git(work, 'push', '--quiet', 'origin', 'work');
   const outside = git(work, 'rev-parse', 'HEAD');
   // GitHub's answer: the number given, or a failure; what was asked is written down.
   writeFileSync(
@@ -61,15 +63,22 @@ function repository() {
   return { root, work, bin, inMain, outside };
 }
 
-const repo = repository();
-test.after(() => rmSync(repo.root, { recursive: true, force: true }));
+// The step's script is for the runner's shell (`bash -e`, as GitHub runs a step that names no
+// shell). A Windows machine that builds the Android package has none of it: the tests that
+// run the script are skipped there, by name, and never where the CI runs.
+const noShell = process.platform === 'win32' && !process.env.CI;
+const runs = { skip: noShell && 'bash and git are needed to run the guard: not on Windows' };
+const repo = noShell ? null : repository();
+test.after(() => repo && rmSync(repo.root, { recursive: true, force: true }));
 
 /** Runs the guard on `commit`: its exit code, and what it asked GitHub. */
-function runGuard(commit: string, answer: string, urgence = false) {
+function runGuard(which: 'inMain' | 'outside', answer: string, urgence = false) {
+  assert.ok(repo);
+  const commit = repo[which];
   git(repo.work, 'checkout', '--quiet', '--detach', commit);
   const asked = join(repo.root, 'asked');
   rmSync(asked, { force: true });
-  const done = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', '-c', script], {
+  const done = spawnSync('bash', ['--noprofile', '--norc', '-e', '-c', script], {
     cwd: repo.work,
     encoding: 'utf8',
     env: {
@@ -87,37 +96,45 @@ function runGuard(commit: string, answer: string, urgence = false) {
   } catch {
     // Nothing was asked.
   }
-  return { status: done.status, question };
+  return { status: done.status, question, commit };
 }
 
-test('a commit of main with a green whole CI is published, and the right question is asked', () => {
-  const { status, question } = runGuard(repo.inMain, '1');
-  assert.equal(status, 0);
-  assert.match(question, /repos\/someone\/game\/actions\/workflows\/check\.yml\/runs\?/);
-  for (const part of [`head_sha=${repo.inMain}`, 'event=push', 'branch=main', 'status=success'])
-    assert.ok(question.includes(part), `${part} is in the question`);
-  assert.equal(runGuard(repo.inMain, '3').status, 0);
+test(
+  'a commit of main with a green whole CI is published, and the right question is asked',
+  runs,
+  () => {
+    const { status, question, commit } = runGuard('inMain', '1');
+    assert.equal(status, 0);
+    assert.match(question, /repos\/someone\/game\/actions\/workflows\/check\.yml\/runs\?/);
+    for (const part of [`head_sha=${commit}`, 'event=push', 'branch=main', 'status=success'])
+      assert.ok(question.includes(part), `${part} is in the question`);
+    assert.equal(runGuard('inMain', '3').status, 0);
+  },
+);
+
+test('a commit of main without a green whole CI is not published', runs, () => {
+  assert.equal(runGuard('inMain', '0').status, 1);
 });
 
-test('a commit of main without a green whole CI is not published', () => {
-  assert.equal(runGuard(repo.inMain, '0').status, 1);
+test('when GitHub does not answer, nothing is published', runs, () => {
+  assert.equal(runGuard('inMain', 'fails').status, 1);
+  assert.equal(runGuard('inMain', '').status, 1);
+  assert.equal(runGuard('inMain', 'Not Found').status, 1);
+  assert.equal(runGuard('inMain', '-1').status, 1);
 });
 
-test('when GitHub does not answer, nothing is published', () => {
-  assert.equal(runGuard(repo.inMain, 'fails').status, 1);
-  assert.equal(runGuard(repo.inMain, '').status, 1);
-  assert.equal(runGuard(repo.inMain, 'Not Found').status, 1);
-  assert.equal(runGuard(repo.inMain, '-1').status, 1);
-});
+test(
+  '« urgence » publishes a commit of main whatever the CI says, even with no answer',
+  runs,
+  () => {
+    assert.equal(runGuard('inMain', '0', true).status, 0);
+    assert.equal(runGuard('inMain', 'fails', true).status, 0);
+  },
+);
 
-test('« urgence » publishes a commit of main whatever the CI says, even with no answer', () => {
-  assert.equal(runGuard(repo.inMain, '0', true).status, 0);
-  assert.equal(runGuard(repo.inMain, 'fails', true).status, 0);
-});
-
-test('a commit outside main is never published, and GitHub is not even asked', () => {
+test('a commit outside main is never published, and GitHub is not even asked', runs, () => {
   for (const urgence of [false, true]) {
-    const { status, question } = runGuard(repo.outside, '1', urgence);
+    const { status, question } = runGuard('outside', '1', urgence);
     assert.equal(status, 1);
     assert.equal(question, '');
   }
@@ -150,6 +167,32 @@ test('the guard is a step nothing switches off, before anything is installed or 
   assert.match(workflow, /urgence:[\s\S]*?default: false/);
   // One job only: nothing else could send the site.
   assert.equal([...workflow.matchAll(/^ {2}[\w-]+:\n {4}runs-on:/gm)].length, 1);
+});
+
+test('a run of the CI for a push is the whole CI: that is what the guard counts', () => {
+  const check = readFileSync('.github/workflows/check.yml', 'utf8');
+  // The guard asks for `check.yml`, pushes only; a push is a push on main.
+  assert.match(check, /\non:\n {2}push:\n {4}branches: \[main\]\n {2}pull_request:\n/);
+  // Everything runs unless « complet » is `false`, and it is `false` in one place only,
+  // inside what is done for a pull request.
+  assert.equal(check.split('complet=false').length - 1, 1);
+  const scope = check.slice(check.indexOf('complet=true'), check.indexOf('echo "complet='));
+  const forRequests = scope.slice(scope.indexOf('if [ "$EVENEMENT" = pull_request ]; then'));
+  assert.ok(forRequests.includes('complet=false'));
+  assert.match(forRequests, /\n {10}fi\n {10}$/, 'the pull-request block closes last');
+  assert.match(check, /EVENEMENT: \$\{\{ github\.event_name \}\}/);
+  // No job, no step is switched off by what started the run: the only conditions are
+  // « complet » and what a group of recipes needs built.
+  const conditions = [...check.matchAll(/^ +(?:- )?if: (.+)$/gm)].map(([, condition]) => condition);
+  assert.ok(conditions.length > 0);
+  const known = [
+    "needs.portee.outputs.complet != 'false'",
+    "env.COMPLET != 'false'",
+    'matrix.site',
+    'matrix.android',
+  ];
+  for (const condition of conditions) assert.ok(known.includes(condition), condition);
+  assert.equal(check.split('github.event_name').length - 1, 2, 'the scope and the concurrency');
 });
 
 test('the publication runs by hand only, one at a time', () => {

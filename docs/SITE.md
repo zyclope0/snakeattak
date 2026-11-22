@@ -487,6 +487,8 @@ Onglet **Actions** de GitHub → **Publier le site** → **Run workflow** :
 - `urgence` : à cocher seulement pour un retour arrière vers un commit de `main` dont la CI
   complète n'est plus lisible, ou quand GitHub ne répond pas à la question. Sans cette case,
   une question restée sans réponse vaut un refus : on relance plus tard.
+  Jamais pour publier du nouveau : elle ne lève pas la règle « dans `main` », seul le parent
+  la coche, et Claude ne la demande pas.
 
 Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
 22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit
