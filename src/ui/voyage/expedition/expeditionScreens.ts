@@ -1,5 +1,5 @@
 import './expedition.css';
-import { BOON_RULES, boonLevel, isLastingBoon } from '../../../boons.ts';
+import { isLastingBoon } from '../../../boons.ts';
 import type { BoonId, LastingBoon } from '../../../boons.ts';
 import { capriceById } from '../../../caprices.ts';
 import type { CapriceDefinition } from '../../../caprices.ts';
@@ -11,9 +11,11 @@ import {
   expeditionPhase,
   expeditionPlanOf,
   leaveRoulotte,
+  needsPlace,
   rerollGifts,
   skipGift,
   startExpedition,
+  underWay,
   winBattle,
 } from '../../../expedition.ts';
 import type { ExpeditionState, Path } from '../../../expedition.ts';
@@ -38,7 +40,6 @@ import {
   keepingNote,
   keptLine,
   replaceSentence,
-  underWay,
 } from './expeditionWords.ts';
 import * as TEXT from '../../../texts/fr/expedition.ts';
 
@@ -161,8 +162,7 @@ export function bindExpeditionScreens(
   function take(id: BoonId, from: 'gift' | 'roulotte') {
     const state = log.current;
     if (!state) return;
-    const full = state.boons.length >= BOON_RULES[1].places;
-    if (isLastingBoon(id) && full && !boonLevel(state.boons, id)) {
+    if (isLastingBoon(id) && needsPlace(state, id)) {
       replacing = id;
       show();
       page.hold();

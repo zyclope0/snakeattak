@@ -479,6 +479,11 @@ export const giftCoins = (rare: boolean) => REWARD_COINS * (rare ? RARE_TIMES : 
 /** The level a lasting gift reaches once taken now, rare or not. */
 export const levelAfterGift = (state: ExpeditionState, id: LastingBoon, rare: boolean) =>
   Math.min(BOON_RULES[1].maxLevel, boonLevel(state.boons, id) + (rare ? RARE_TIMES : 1));
+/** A rare offer counts twice for a lasting gift and for the purse; a card of the bag is one card. */
+export const countsTwice = (id: BoonId): boolean => isLastingBoon(id) || id === 'pieces';
+/** A lasting gift not held yet, when every place is taken: one must be given up for it. */
+export const needsPlace = (state: ExpeditionState, id: BoonId): boolean =>
+  isLastingBoon(id) && state.boons.length >= BOON_RULES[1].places && !boonLevel(state.boons, id);
 
 /** Adds a gift (a lasting one climbs, takes a place or the place given); a rare one climbs twice. */
 function gain(
@@ -614,6 +619,11 @@ export function roulotteOffer(state: ExpeditionState) {
 
 /** The coins the child can spend now: the camp's, or the purse of a camp still to come. */
 export const coinsOf = (state: ExpeditionState) => state.camp?.gold ?? state.purse;
+/** Whether these coins pay a price of the roulotte. */
+export const canPay = (state: ExpeditionState, price: number): boolean => coinsOf(state) >= price;
+/** The level a gift held reaches with one level bought at the roulotte. */
+export const levelAfterPurchase = (state: ExpeditionState, id: LastingBoon): number =>
+  boonLevel(state.boons, id) + 1;
 const pay = (state: ExpeditionState, price: number): Partial<ExpeditionState> =>
   state.camp
     ? { camp: Object.freeze({ ...state.camp, gold: state.camp.gold - price }) }
@@ -628,7 +638,7 @@ export function buyAtRoulotte(
   if (state.pending?.kind !== 'roulotte' || !isLastingBoon(id)) return null;
   const offer = roulotteOffer(state);
   const item = [...offer.buy, ...offer.climb].find((o) => o.id === id);
-  if (!item || coinsOf(state) < item.price) return null;
+  if (!item || !canPay(state, item.price)) return null;
   const boons = takeBoon(
     state.boons,
     id,
@@ -647,6 +657,16 @@ export function leaveRoulotte(state: ExpeditionState): ExpeditionState | null {
 /** The battles of a whole expedition: five a tableau. */
 export const EXPEDITION_BATTLES =
   EXPEDITION_TUNINGS[CURRENT_EXPEDITION_VERSION].tableaux.length * BATTLES_PER_TABLEAU;
+/** An expedition with something to lose: a battle won, and more to play. */
+export const underWay = (state: ExpeditionState | null): state is ExpeditionState =>
+  !!state && state.status === 'travelling' && battlesWon(state) > 0;
+/** The snakes have grown since the first battle: said from the second battle on. */
+export const snakesHaveGrown = (state: ExpeditionState): boolean =>
+  state.tableau > 0 || state.step > 0;
+/** King Snake, the guardian of the last tableau, ends the expedition: no gift waits after him. */
+export const endsExpedition = (state: ExpeditionState, battle: Battle): boolean =>
+  battle.king && state.tableau === expeditionPlanOf(state).tableaux.length - 1;
+
 /** The battles won so far: the record of a player counts them. */
 export const battlesWon = (state: ExpeditionState): number =>
   state.status === 'arrived' ? EXPEDITION_BATTLES : battlesBefore(state);

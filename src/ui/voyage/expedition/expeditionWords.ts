@@ -61,10 +61,6 @@ export function haltPromise(state: ExpeditionState, halt: HaltKind): string {
 export const missionInTableau = (state: ExpeditionState) =>
   battlesBefore(state) - state.tableau * BATTLES_PER_TABLEAU + 1;
 
-/** An expedition with something to lose: a battle won, and more to play. */
-export const underWay = (state: ExpeditionState | null): state is ExpeditionState =>
-  !!state && state.status === 'travelling' && battlesWon(state) > 0;
-
 /** The name of the screen, and the mission it is about when there is one to play. */
 export function expeditionHeading(state: ExpeditionState): { title: string; step: string } {
   const phase = expeditionPhase(state);
@@ -184,7 +180,7 @@ export function giftWords(
   state: ExpeditionState,
   id: BoonId,
   rare: boolean,
-): { title: string; detail: string; action: string } {
+): { title: string; detail: string; action: string; plain: boolean } {
   if (isLastingBoon(id)) {
     const owned = boonLevel(state.boons, id);
     const next = levelAfterGift(state, id, rare);
@@ -193,14 +189,16 @@ export function giftWords(
       : next > 1
         ? fill(TEXT.choisirNiveauN, next)
         : TEXT.choisirCeCadeau;
-    return { title: boonTitle(id), detail: boonDetail(id, next, RULES.steps), action };
+    // A plain « Choisir » : neither a level to say nor a level to climb.
+    const plain = !owned && next <= 1;
+    return { title: boonTitle(id), detail: boonDetail(id, next, RULES.steps), action, plain };
   }
   const reward = REWARDS[id as RewardId];
   const detail =
     id === 'pieces'
       ? fill(TEXT.nPiecesPourRecruterTesAllies, giftCoins(rare))
       : `${reward.detail} ${TEXT.pourLaProchaineEtape}`;
-  return { title: reward.title, detail, action: TEXT.choisirCeCadeau };
+  return { title: reward.title, detail, action: TEXT.choisirCeCadeau, plain: true };
 }
 
 /** A gift the child holds: its name and level for a screen reader, its stars for the eye. */

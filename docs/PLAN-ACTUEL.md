@@ -45,8 +45,9 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   `verify` qui la fixe maintenant), le calcul ne baisse pas (environ 48 minutes par passage,
   contre 44). Une PR de documents seuls ne lance que `npm run verify`.
 - Lot 4, règles écrites une seule fois (point 7) : première partie faite (tirages, armure,
-  valeurs nommées), parties identiques. Reste, pour un lot à part : les règles de
-  l'expédition recopiées dans ses écrans, le lecteur de camp porté, les carnets.
+  valeurs nommées), parties identiques. Seconde partie le 22 novembre : les règles de
+  l'expédition que ses écrans recopiaient sont dans le modèle. Reste : le lecteur de camp
+  porté, les carnets des joueurs, quelques valeurs encore tapées.
 - Recettes de sauvegarde dans la CI (22 novembre, suite choisie avec l'accord du parent) : une
   tâche « sauvegardes » rejoue à chaque PR de code la mise à jour depuis l'appareil d'un
   testeur du build 63, le fichier familial, la fermeture forcée et les doubles appuis.
@@ -54,6 +55,13 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   rien de bloquant, « publier » à l'unanimité ; corrections dans la PR 115, puis publication
   n° 40. Détail à la fin
   de [REVUE-CODE-2026-11-21.md](REVUE-CODE-2026-11-21.md).
+
+**À décider par le parent et le fils : « Trois autres cadeaux ».** Dans l'expédition, ce bouton
+refait un tirage : il ne promet pas trois cadeaux différents. Mesuré sur 60 000 graines : au
+moins un des trois cadeaux revient six fois sur dix, les trois reviennent quatre fois sur
+mille. Soit le bouton change de mot (« Tirer encore »), soit le tirage écarte les trois
+premiers ; la seconde voie est une règle nouvelle (nouvelle version de l'expédition).
+Trouvé le 22 novembre par une recette qui échouait une fois sur 1 300.
 
 **À décider par le parent : la politique de confidentialité.** Elle dit encore que le fichier
 familial ne contient pas le voyage et décrit le code de voyage

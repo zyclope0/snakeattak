@@ -95,8 +95,8 @@ test('le titre, le chemin des sept pas et ce que dit le plateau suivent l’exp�
   assert.equal(W.battleOutcome(null).button, 'Revenir à l’expédition');
   assert.equal(W.recordLine(0), '');
   assert.equal(W.recordLine(2), 'Ta plus longue expédition : 2 étapes');
-  assert.equal(W.underWay(start), false);
-  assert.equal(W.underWay(fork), true);
+  assert.equal(X.underWay(start), false);
+  assert.equal(X.underWay(fork), true);
   assert.deepEqual(W.campWords(start), ['Un nouveau camp t’attend : recrute tes alliés.']);
   assert.equal(W.campWords(fork)[0], `Alliés : ${fork.camp!.units.length}`);
 });
@@ -107,6 +107,7 @@ test('les cadeaux disent ce qu’ils donneront ; un rare arrive au niveau 2', ()
     title: 'La forge',
     detail: 'Tes alliés frappent plus fort : +30 %',
     action: 'Monter au niveau 2',
+    plain: false,
   });
   assert.equal(W.giftWords(gift, 'forge', true).detail, 'Tes alliés frappent plus fort : +30 %');
   assert.equal(W.giftWords(gift, 'forge', true).action, 'Choisir · niveau 2');
@@ -198,4 +199,74 @@ test('la porte lit l’expédition sans ses règles ; pickAt suit les choix du t
   assert.equal(X.pickAt(brave, 1), 1);
   assert.equal(X.pickAt(brave, 0), undefined, 'the first mission is no choice');
   assert.equal(X.pickAt(fork, 1), undefined, 'not passed yet');
+});
+
+// Ce que les écrans demandent au modèle au lieu de le recopier (22 novembre 2026). Chaque
+// règle est tenue à son ancienne écriture, retapée ici.
+test('les règles que les écrans demandent au modèle valent ce qu’ils recopiaient', async () => {
+  const B = await import('../src/boons.ts');
+  const TEXT = await import('../src/texts/fr/expedition.ts');
+  const lasting = ['miel', 'forge', 'armure', 'marche', 'rente', 'solide', 'vue'] as const;
+  const others = [
+    'pieces',
+    'renfort-bouclier',
+    'renfort-ninja',
+    'renfort-raptor',
+    'cristal',
+  ] as const;
+  const places = B.BOON_RULES[1].places;
+  for (let held = 0; held <= places; held++) {
+    const boons = lasting.slice(0, held).map((id, i) => ({ id, level: 1 + (i % 3) }));
+    const state = { ...gift, boons };
+    for (const id of [...lasting, ...others]) {
+      // A place to free: a lasting gift not held, every place taken.
+      const full = boons.length >= places;
+      const before = B.isLastingBoon(id) && full && !B.boonLevel(boons, id);
+      assert.equal(X.needsPlace(state, id), before, `${id} with ${held} gifts`);
+      assert.equal(X.countsTwice(id), B.isLastingBoon(id) || id === 'pieces', id);
+      for (const rare of [false, true]) {
+        // « Choisir ce cadeau » and nothing else: what the low screen may hide.
+        const words = W.giftWords(state, id, rare);
+        assert.equal(words.plain, words.action === TEXT.choisirCeCadeau, `${id} ${held} ${rare}`);
+      }
+    }
+    for (const b of boons)
+      assert.equal(
+        X.levelAfterPurchase(state, b.id),
+        (boons.find((x) => x.id === b.id)?.level ?? 0) + 1,
+      );
+  }
+  // Paying: the camp's coins, or the purse of a camp still to come.
+  for (const coins of [0, 59, 60, 61, 500]) {
+    const withCamp = { ...fork, camp: { ...fork.camp!, gold: coins } };
+    const withPurse = { ...start, camp: null, purse: coins };
+    for (const price of [0, 60, 120]) {
+      assert.equal(X.canPay(withCamp, price), coins >= price);
+      assert.equal(X.canPay(withPurse, price), coins >= price);
+    }
+  }
+  // The snakes have grown from the second battle on; an expedition is under way once a battle
+  // is won and more remain.
+  assert.equal(X.snakesHaveGrown(start), false);
+  assert.equal(X.snakesHaveGrown(fork), true);
+  assert.equal(X.snakesHaveGrown({ ...start, tableau: 1 }), true);
+  assert.equal(X.underWay(null), false);
+  assert.equal(X.underWay(arrivedState), false);
+  // No gift after King Snake, the guardian of the last tableau; one after every other battle.
+  const tableaux = plan.tableaux.length;
+  for (let tableau = 0; tableau < tableaux; tableau++)
+    for (const [step, stop] of plan.tableaux[tableau].entries()) {
+      if (stop.kind === 'halt') continue;
+      const battles = stop.kind === 'fork' ? [stop.calm, stop.brave] : [stop.battle];
+      for (const battle of battles)
+        assert.equal(
+          X.endsExpedition({ ...start, tableau, step }, battle),
+          battle.king && tableau === tableaux - 1,
+          `tableau ${tableau} step ${step}`,
+        );
+    }
+  const last = plan.tableaux[tableaux - 1].at(-1)!;
+  assert.ok(last.kind === 'battle' && last.battle.king, 'King Snake closes the last tableau');
+  assert.ok(X.endsExpedition({ ...start, tableau: tableaux - 1 }, last.battle));
+  assert.ok(!X.endsExpedition({ ...start, tableau: 0 }, last.battle));
 });
