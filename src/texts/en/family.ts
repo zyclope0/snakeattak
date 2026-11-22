@@ -41,7 +41,7 @@ export const leJeuGardeAussiLaSauvegardeDAvant =
   'The game also keeps the earlier save: the one from the last start, or from before stars were lost. To bring it back, export it, then choose that file below.';
 export const ceFichierNAPasPuEtreLu =
   'This version of the game could not read an older file. It was put aside, not erased.';
-export const leCampDeLaSauvegardeNAPasPuEtreLu =
-  'The camp in the save could not be read. Stars, missions, and sticker books are kept; the original file was put aside.';
+export const tesEtoilesTesMissionsEtTesCarnetsSontBienLa =
+  'Your stars, missions and sticker books are all here. One camp could not be read back.';
 export const dansLApplicationLAventureNePeutPas =
   'In the app, the adventure cannot leave this device. If the app is uninstalled or its data is cleared, it is lost.';

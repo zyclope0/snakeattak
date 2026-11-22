@@ -98,7 +98,7 @@ function save(
     // After a file kept without its camp, the session goes on saying so: the first save
     // comes at once, and the sentence would otherwise never be read.
     session.status = session.salvaged
-      ? TEXT.leCampDeLaSauvegardeNAPasPuEtreLu
+      ? TEXT.tesEtoilesTesMissionsEtTesCarnetsSontBienLa
       : TEXT.aventureFamilialeEnregistreeSurCet;
     return true;
   } catch {
@@ -138,6 +138,12 @@ function kept(storage: StoragePort | undefined, key: string): string | null {
   }
 }
 
+/** True when the text put aside is another one, of which this version reads nothing at all. */
+function holdsWholeRefusal(storage: StoragePort, raw: string): boolean {
+  const held = storage.getItem(FAMILY_REFUSED_KEY);
+  return held !== null && held !== raw && !readFamilyBackup(held) && !salvageFamilyBackup(held);
+}
+
 function load(storage: StoragePort | undefined, session: Session): FamilyBackup | null {
   session.settled = null;
   if (!storage) return null;
@@ -152,21 +158,26 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
     }
     const backup = readFamilyBackup(raw);
     if (!backup) {
-      // The game starts anew and its first save takes the place of this file: its text is
-      // put aside first, so that an adventure this version cannot read is never destroyed.
-      try {
-        storage.setItem(FAMILY_REFUSED_KEY, raw);
-      } catch {
-        /* No room for the copy: the game is played all the same. */
-      }
       // A camp that does not read no longer takes the rest with it: the stars, the missions
-      // and the sticker books of the same file are kept, and the game looks for the camp
-      // under its own key. A file that carries extras is never one the game stored.
+      // and the sticker books of the same file are kept, and so is any camp of it that still
+      // reads. A file that carries extras is never one the game stored.
       const rest = salvageFamilyBackup(raw);
-      if (rest && rest.version !== FAMILY_EXTRAS_VERSION) {
+      const salvaged = !!rest && rest.version !== FAMILY_EXTRAS_VERSION;
+      // The first save takes the place of this file: its text is put aside first, so that
+      // an adventure this version cannot read is never destroyed. One place only: a file
+      // refused whole takes it; a file kept but for a camp does not push out a text of
+      // which nothing could be read, which may be a whole adventure.
+      if (!salvaged || !holdsWholeRefusal(storage, raw)) {
+        try {
+          storage.setItem(FAMILY_REFUSED_KEY, raw);
+        } catch {
+          /* No room for the copy: the game is played all the same. */
+        }
+      }
+      if (salvaged) {
         session.salvaged = true;
         retain(session, rest.missions, rest.albums);
-        session.status = TEXT.leCampDeLaSauvegardeNAPasPuEtreLu;
+        session.status = TEXT.tesEtoilesTesMissionsEtTesCarnetsSontBienLa;
         return rest;
       }
       session.status = TEXT.sauvegardeFamilialeIncompatible;

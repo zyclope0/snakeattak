@@ -282,9 +282,10 @@ let exported;
     await next.browser.close();
   }
 }
-// 5. One wrong number in the camp of the stored file. The game starts as it would have: same
-//    stars on the home, same button, the camp taken from its own key; the file as it was
-//    found is put aside.
+// 5. A camp of the stored file no longer decodes. The same camp is written in several
+//    places: whatever the places, the stars of the missions and the sticker books stay, the
+//    camp comes from the same file or not at all, never from the camp kept under its own
+//    key, and the file as it was found is put aside.
 {
   const TEXT = await import('../../src/texts/fr/family.ts');
   const home = async (storage) => {
@@ -308,21 +309,96 @@ let exported;
       await browser.close();
     }
   };
+  const CAMP_KEY = KEYS.CAMP_STORAGE_KEY;
+  const dead = (camp) => JSON.stringify({ ...JSON.parse(camp), gold: -5 });
+  const parts = () => JSON.parse(device[KEYS.FAMILY_STORAGE_KEY]);
+  /** The device with its family file changed, and what its camp key then holds. */
+  const withFile = (change, campKey) => {
+    const file = parts();
+    change(file);
+    const storage = { ...device, [KEYS.FAMILY_STORAGE_KEY]: JSON.stringify(file) };
+    if (campKey !== undefined) storage[CAMP_KEY] = campKey;
+    return storage;
+  };
+  /** What the child sees and keeps is the same as on `healthy`, and the file is put aside. */
+  const same = (hurt, healthy, storage, name) => {
+    assert.equal(hurt.stars, healthy.stars, `${name}: the stars of the home`);
+    assert.equal(hurt.missions, healthy.missions, `${name}: the stars of the missions`);
+    assert.equal(hurt.filled, healthy.filled, `${name}: star for star`);
+    assert.equal(hurt.play, healthy.play, `${name}: the same game behind the button`);
+    assert.equal(hurt.status, TEXT.tesEtoilesTesMissionsEtTesCarnetsSontBienLa, name);
+    assert.equal(
+      hurt.kept[KEYS.FAMILY_REFUSED_KEY],
+      storage[KEYS.FAMILY_STORAGE_KEY],
+      `${name}: the file as found is put aside`,
+    );
+  };
   const whole = await home(device);
-  const parts = JSON.parse(device[KEYS.FAMILY_STORAGE_KEY]);
-  assert.equal(typeof parts.camp, 'string', 'the frozen device holds a camp in its family file');
-  parts.camp = JSON.stringify({ ...JSON.parse(parts.camp), gold: -5 });
-  const wrong = JSON.stringify(parts);
-  const hurt = await home({ ...device, [KEYS.FAMILY_STORAGE_KEY]: wrong });
-  assert.equal(hurt.stars, whole.stars, 'the stars of the home are those of the whole file');
+  assert.equal(typeof parts().camp, 'string', 'the frozen device holds a camp in its family file');
+  assert.equal(parts().camp, parts().missions.classicCamp, 'written twice in the file');
+  assert.equal(parts().camp, device[CAMP_KEY], 'and once more under its own key');
   assert.ok(whole.filled > 0, 'the frozen device has mission stars to lose');
-  assert.equal(hurt.missions, whole.missions, 'the stars of the missions are kept');
-  assert.equal(hurt.filled, whole.filled, 'star for star');
-  assert.equal(hurt.play, whole.play, 'the same game waits behind the button');
-  assert.equal(hurt.status, TEXT.leCampDeLaSauvegardeNAPasPuEtreLu);
-  assert.equal(hurt.kept[KEYS.FAMILY_REFUSED_KEY], wrong, 'the file as found is put aside');
+
+  // Device 1: the camp on top alone. Everything is as with the whole file.
+  const top = withFile((file) => (file.camp = dead(file.camp)));
+  same(await home(top), whole, top, 'camp on top');
+
+  // Device 2: the same camp dead everywhere it is written, its own key included (the real
+  // case). The child sees what a device without a classic camp shows, with all the stars.
+  const without = await home(
+    withFile((file) => (file.camp = file.missions.classicCamp = null), ''),
+  );
+  assert.equal(without.missions, whole.missions);
+  assert.notEqual(without.play, whole.play, 'no camp: the button no longer says to resume');
+  const everywhere = withFile(
+    (file) => (file.camp = file.missions.classicCamp = dead(file.camp)),
+    dead(device[CAMP_KEY]),
+  );
+  same(await home(everywhere), without, everywhere, 'camp dead everywhere');
+
+  // Device 3: in the middle of a mission, the camp on top dead: the mission comes back.
+  const playing = (file) => {
+    file.camp = file.missions.retryCamp;
+    file.missions.activeMode = 'missions';
+  };
+  const mission = await home(withFile(playing));
+  const hurtMission = withFile((file) => {
+    playing(file);
+    file.camp = dead(file.camp);
+  });
+  same(await home(hurtMission), mission, hurtMission, 'in a mission, camp on top');
+  // The mission's camp dead everywhere: the classic adventure is offered, not lost unseen.
+  const noMission = withFile((file) => {
+    playing(file);
+    file.camp = file.missions.retryCamp = dead(file.camp);
+  });
+  const back = await home(noMission);
+  assert.equal(back.missions, whole.missions);
+  assert.equal(back.play, whole.play, 'the classic adventure is behind the button');
+
+  // Device 4: the camp key holds another adventure, one that reads. It is never taken: the
+  // child sees his own stars and no camp, as on device 2.
+  const { Game } = await import('../../src/game.ts');
+  const { decodeCheckpoint, encodeCheckpoint } = await import('../../src/checkpoints.ts');
+  const stranger = new Game(99);
+  stranger.gold = 777;
+  const other = encodeCheckpoint(stranger);
+  assert.ok(decodeCheckpoint(other), 'the other adventure is a camp the game reads');
+  const foreign = withFile(
+    (file) => (file.camp = file.missions.classicCamp = dead(file.camp)),
+    other,
+  );
+  same(await home(foreign), without, foreign, 'camp key of another adventure');
+
+  // Device 5: a text already put aside, of which nothing reads, is not pushed out.
+  const older = JSON.stringify({ ...parts(), version: 99 });
+  const held = { ...everywhere, [KEYS.FAMILY_REFUSED_KEY]: older };
+  const kept = await home(held);
+  assert.equal(kept.kept[KEYS.FAMILY_REFUSED_KEY], older, 'the older text stays put aside');
+  assert.equal(kept.missions, whole.missions);
+
   checks.push(
-    `camp damaged in the stored file: missions ${hurt.missions} as with the whole file, « ${whole.play} », file put aside`,
+    `a camp that no longer decodes, five devices: missions ${whole.missions} kept on each; camp on top alone « ${whole.play} »; dead everywhere « ${without.play} », also with another adventure under the camp key; in a mission the mission comes back, or the classic adventure; an older text put aside stays`,
   );
 }
 const out = { recipe: 'family-backup', dir, checks };
