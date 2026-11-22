@@ -4,7 +4,7 @@ import { make } from './dom.ts';
  * The name of a family file. One saved from the start-up failure carries its player's number;
  * a copy the game kept beside the save carries what it is.
  */
-export const familyFileName = (which?: number | 'avant' | 'mis-de-cote') =>
+export const familyFileName = (which?: number | 'mis-de-cote') =>
   `conquete-serpents-famille${which ? `-${which}` : ''}.json`;
 
 /** What became of a file the family asked for. */

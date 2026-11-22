@@ -294,6 +294,12 @@ export function writeFamilyBackup(
  * never taken back by playing, so a file with fewer stars than another is an older one, or one
  * that lost something.
  */
+/** The stickers of every sticker book of a file: they only ever grow in play. */
+export function familyStickers(backup: FamilyBackup): number {
+  return hasAlbums(backup)
+    ? backup.albums.children.reduce((total, child) => total + child.completed.length, 0)
+    : 0;
+}
 export function familyStars(backup: FamilyBackup): number {
   const sum = (stars: readonly number[]) => stars.reduce((total, star) => total + star, 0);
   return sum(backup.career.bestStars) + sum(Object.values(backup.missions?.bestStars ?? {}));

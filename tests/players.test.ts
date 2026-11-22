@@ -196,6 +196,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     'conquete-serpents:family:v1',
     'conquete-serpents:family-refused:v1',
     'conquete-serpents:family-previous:v1',
+    'conquete-serpents:family-before-import:v1',
     'conquete-serpents:camp:v1',
     'conquete-serpents:progress:v1',
     'conquete-serpents:recruitment-reminder:v1',
@@ -220,7 +221,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     for (const id of ['p1', 'p2', 'p3', 'p4'] as const) assert.equal(playerKey(key, id), key);
 });
 
-test('the persistence code only ever touches the ten keys of its player', () => {
+test('the persistence code only ever touches the eleven keys of its player', () => {
   for (const id of ['p1', 'p2', 'p4'] as const) {
     const device = memory();
     const storage = playerStorage(device, id);
@@ -245,6 +246,8 @@ test('the persistence code only ever touches the ten keys of its player', () => 
     assert.ok(next.load());
     game.gold += 1;
     assert.equal(next.sync(encodeCheckpoint(game), career.state), true);
+    // An import keeps the adventure it replaces.
+    assert.equal(next.keepBeforeImport(null), true);
     const expected = PLAYER_KEYS.map((key) => (id === 'p1' ? key : `${key}:${id}`)).sort();
     assert.deepEqual([...device.touched].sort(), expected);
     assert.deepEqual([...device.values.keys()].sort(), expected);

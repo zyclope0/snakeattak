@@ -2,6 +2,7 @@ import type { StoragePort } from './checkpoints.ts';
 import {
   FAMILY_EXTRAS_VERSION,
   familyStars,
+  familyStickers,
   hasAlbums,
   readFamilyBackup,
   salvageFamilyBackup,
@@ -14,7 +15,12 @@ import { validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
 import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
-import { FAMILY_PREVIOUS_KEY, FAMILY_REFUSED_KEY, FAMILY_STORAGE_KEY } from './storageKeys.ts';
+import {
+  FAMILY_BEFORE_IMPORT_KEY,
+  FAMILY_PREVIOUS_KEY,
+  FAMILY_REFUSED_KEY,
+  FAMILY_STORAGE_KEY,
+} from './storageKeys.ts';
 import * as TEXT from './texts/fr/family.ts';
 
 /** What one session remembers about the family file between two calls. */
@@ -88,10 +94,12 @@ function save(
   if (!storage || (session.disabled && !explicitImport)) return false;
   // Confirmation still performs a write, so a blocked storage cannot accept an import.
   if (!explicitImport && raw === session.last) return true;
-  keepPrevious(storage, session);
   session.started = true;
   try {
     storage.setItem(FAMILY_STORAGE_KEY, raw);
+    // The save first, the copy after: what the child just did never waits for a copy, and a
+    // device nearly full keeps the save rather than the copy.
+    keepPrevious(storage, session);
     session.last = raw;
     retain(session, missions, albums);
     session.disabled = false;
@@ -116,6 +124,12 @@ function save(
  * fewer: after stars were lost or an older file imported, it is the copy from before that
  * stays.
  */
+/**
+ * Keeps the file the session found, once the session has replaced it. The copy held gives
+ * way to it unless it has something the file found has lost — stars or stickers, which only
+ * grow in play — or unless this version cannot read it: such a copy may be a whole adventure,
+ * and is never thrown away.
+ */
 function keepPrevious(storage: StoragePort, session: Session): void {
   if (!session.found) return;
   const { raw, backup } = session.found;
@@ -123,15 +137,17 @@ function keepPrevious(storage: StoragePort, session: Session): void {
   try {
     const held = storage.getItem(FAMILY_PREVIOUS_KEY);
     if (held === raw) return;
-    const before = held === null ? null : readFamilyBackup(held);
-    if (before && familyStars(before) > familyStars(backup)) return;
+    if (held !== null) {
+      const before = readFamilyBackup(held);
+      if (!before) return;
+      if (familyStars(before) > familyStars(backup)) return;
+      if (familyStickers(before) > familyStickers(backup)) return;
+    }
     storage.setItem(FAMILY_PREVIOUS_KEY, raw);
   } catch {
     /* No room for the copy, or no way to read it: the game is played all the same. */
   }
 }
-
-/** A text kept beside the family file, or null: nothing kept, or a storage that says no. */
 function kept(storage: StoragePort | undefined, key: string): string | null {
   try {
     return storage?.getItem(key) ?? null;
@@ -256,6 +272,28 @@ export function createFamilyPersistence(storage?: StoragePort) {
     },
     /** The text put aside because this version could not read it, exactly as it was found. */
     refused: (): string | null => kept(storage, FAMILY_REFUSED_KEY),
+    /** The adventure the last import replaced, when the family import reads it. */
+    beforeImport(): string | null {
+      const raw = kept(storage, FAMILY_BEFORE_IMPORT_KEY);
+      return raw !== null && readFamilyBackup(raw) ? raw : null;
+    },
+    /**
+     * Before an import: keeps the adventure about to be replaced, as the export gives it
+     * (`replaced`), or else the text the device holds. False when the device refuses the
+     * copy: the import must then be refused too, nothing has changed. An adventure already
+     * kept, or a device that holds none, needs no write.
+     */
+    keepBeforeImport(replaced: string | null): boolean {
+      if (!storage) return false;
+      try {
+        const raw = replaced ?? storage.getItem(FAMILY_STORAGE_KEY);
+        if (raw === null || storage.getItem(FAMILY_BEFORE_IMPORT_KEY) === raw) return true;
+        storage.setItem(FAMILY_BEFORE_IMPORT_KEY, raw);
+        return true;
+      } catch {
+        return false;
+      }
+    },
     load: (): FamilyBackup | null => load(storage, session),
     sync(
       campRaw: string | null,

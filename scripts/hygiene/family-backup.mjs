@@ -202,23 +202,44 @@ let exported;
     await browser.close();
   }
 }
-// 4. The copies the game keeps beside the save. A game opened and closed adds nothing; once
-//    the session has saved, the file it found is offered to a parent, byte for byte; a file
-//    this version cannot read, put aside, is offered too.
+// 4. The copies the game keeps beside the save, on the device. A game opened and closed adds
+//    nothing. The file a session finds is kept once the session has saved. An import keeps
+//    the adventure it replaces, with what the player keeps beside it, and that copy is
+//    brought back from the family window with one button and the usual confirmation: no file
+//    leaves the device, so this works in the application too.
 {
   const { readFamilyBackup } = await import('../../src/familyBackup.ts');
+  const HOME = await import('../../src/texts/fr/home.ts');
   const found = device[KEYS.FAMILY_STORAGE_KEY];
+  const missionStars = (raw) =>
+    Object.values(JSON.parse(raw).missions.bestStars).reduce((a, b) => a + b, 0);
+  /** Chooses what the preview shows, and waits for the adventure to be replaced. */
+  const apply = async (page) => {
+    const before = await page.evaluate((key) => localStorage.getItem(key), KEYS.FAMILY_STORAGE_KEY);
+    await page.locator('#family-apply:not([disabled])').click();
+    await page.waitForFunction(
+      ([key, was]) => localStorage.getItem(key) !== was,
+      [KEYS.FAMILY_STORAGE_KEY, before],
+    );
+    await page.locator('#home-primary').waitFor({ state: 'visible' });
+  };
   const { browser, page, report } = await open({ dir, storage: device });
   try {
     await start(page);
-    assert.equal(
-      (await snapshot(page))[KEYS.FAMILY_PREVIOUS_KEY],
-      undefined,
-      'reading adds nothing',
-    );
+    const read = await snapshot(page);
+    assert.equal(read[KEYS.FAMILY_PREVIOUS_KEY], undefined, 'reading adds nothing');
+    assert.equal(read[KEYS.FAMILY_BEFORE_IMPORT_KEY], undefined, 'reading adds nothing');
     await dialog(page);
-    assert.equal(await page.locator('#family-export-previous').isVisible(), false);
-    assert.equal(await page.locator('#family-export-refused').isVisible(), false);
+    // The window opens on its title, and its first way out of the device is the export.
+    const frame = await page.locator('#family-dialog').boundingBox();
+    for (const top of ['#family-title', application ? '#family-export-none' : '#family-export']) {
+      const at = await page.locator(top).boundingBox();
+      assert.ok(
+        at && at.y >= frame.y && at.y + at.height <= frame.y + frame.height,
+        `${top} is in view when the window opens`,
+      );
+    }
+    assert.equal(await page.locator('#family-copies').isVisible(), false, 'no copy, no section');
     await page.locator('#family-close').click();
     // The player starts a mission: the save is written, and what it replaces is kept.
     await showHomePage(page, 'home');
@@ -235,51 +256,138 @@ let exported;
   } finally {
     await browser.close();
   }
-  // The next start offers that copy, and a file put aside, in the family window.
-  const next = await open({
+
+  // A file imported by mistake, with more stars than the child's own (a sibling's).
+  const other = JSON.parse(found);
+  for (const mission of Object.keys(other.missions.bestStars))
+    other.missions.bestStars[mission] = 3;
+  const sibling = JSON.stringify(other);
+  assert.ok(readFamilyBackup(sibling), 'the other file is one the import reads');
+  assert.ok(missionStars(sibling) > missionStars(found));
+  let afterMistake;
+  const mistake = await open({ dir, storage: device });
+  try {
+    await start(mistake.page);
+    await dialog(mistake.page);
+    await give(mistake.page, sibling);
+    await apply(mistake.page);
+    afterMistake = await snapshot(mistake.page);
+    assert.equal(missionStars(afterMistake[KEYS.FAMILY_STORAGE_KEY]), missionStars(sibling));
+    // The adventure it replaced is kept as the export would have given it: with the
+    // expedition, the voyage and the records.
+    const replaced = readFamilyBackup(afterMistake[KEYS.FAMILY_BEFORE_IMPORT_KEY]);
+    assert.ok(replaced, 'the adventure replaced is kept, as a file the import reads');
+    assert.equal(replaced.version, 6);
+    assert.equal(missionStars(afterMistake[KEYS.FAMILY_BEFORE_IMPORT_KEY]), missionStars(found));
+    for (const [name, key] of [
+      ['expedition', KEYS.EXPEDITION_STORAGE_KEY],
+      ['voyage', KEYS.VOYAGE_STORAGE_KEY],
+      ['endless', KEYS.ENDLESS_RECORDS_KEY],
+    ])
+      assert.equal(replaced.extras[name], device[key], `${name} is in the copy`);
+    assert.deepEqual(mistake.report.errors, []);
+  } finally {
+    await mistake.browser.close();
+  }
+
+  // At a later launch, the parent brings it back: one button, the usual preview, no file.
+  const undo = await open({ dir, storage: afterMistake });
+  try {
+    await start(undo.page);
+    await dialog(undo.page);
+    const section = undo.page.locator('#family-copies');
+    await section.waitFor({ state: 'visible' });
+    assert.equal(await section.getAttribute('open'), null, 'the copies are folded');
+    await section.locator('summary').click();
+    const look = undo.page.locator('#family-copy-before-import');
+    await look.scrollIntoViewIfNeeded();
+    const size = await look.boundingBox();
+    assert.ok(size.width >= 48 && size.height >= 48, `a target of ${size.width}×${size.height}`);
+    await undo.page.screenshot({ path: 'artifacts/hygiene/family-copies.png' });
+    await look.click();
+    await undo.page.locator('#family-preview').waitFor({ state: 'visible' });
+    await apply(undo.page);
+    // The page is read again after an import that brings the expedition back.
+    await undo.page.waitForFunction(
+      (key) => localStorage.getItem(key) !== null,
+      KEYS.EXPEDITION_STORAGE_KEY,
+    );
+    await undo.page.locator('#home-primary').waitFor({ state: 'visible' });
+    const back = await snapshot(undo.page);
+    assert.equal(missionStars(back[KEYS.FAMILY_STORAGE_KEY]), missionStars(found), 'the stars');
+    for (const key of EXTRA_KEYS) assert.equal(back[key], device[key], `${key} is back`);
+    // And what that replaced is kept in turn: the way back can itself be undone.
+    assert.equal(
+      missionStars(back[KEYS.FAMILY_BEFORE_IMPORT_KEY]),
+      missionStars(sibling),
+      'the adventure just replaced is the new copy',
+    );
+    checks.push(
+      `import by mistake of a file with more stars: the adventure replaced is kept with its expedition, voyage and records; brought back by « Regarder cette copie » (${missionStars(found)} stars again), and that can be undone too`,
+    );
+    assert.deepEqual(undo.report.errors, []);
+  } finally {
+    await undo.browser.close();
+  }
+
+  // A device that refuses the copy refuses the import: nothing has changed.
+  const full = await open({ dir, storage: device });
+  try {
+    await start(full.page);
+    const before = await snapshot(full.page);
+    await full.page.evaluate((key) => {
+      const write = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (name, value) {
+        if (name === key) throw new DOMException('full', 'QuotaExceededError');
+        return write.call(this, name, value);
+      };
+    }, KEYS.FAMILY_BEFORE_IMPORT_KEY);
+    await dialog(full.page);
+    await give(full.page, sibling);
+    await full.page.locator('#family-apply:not([disabled])').click();
+    await full.page.waitForFunction(
+      (words) => document.getElementById('family-status').textContent.trim() === words,
+      HOME.impossibleDeConserverCeFichierSur,
+    );
+    assert.deepEqual(await snapshot(full.page), before, 'the device keeps every byte');
+    checks.push('the copy refused by the device: the import is refused, nothing has changed');
+  } finally {
+    await full.browser.close();
+  }
+
+  // A text this version cannot read, put aside: said in the section; handed over as a file
+  // on the site only, with words of its own.
+  const aside = await open({
     dir,
-    storage: {
-      ...device,
-      [KEYS.FAMILY_PREVIOUS_KEY]: found,
-      [KEYS.FAMILY_REFUSED_KEY]: '{"version":99}',
-    },
+    storage: { ...device, [KEYS.FAMILY_REFUSED_KEY]: '{"version":99}' },
   });
   try {
-    await start(next.page);
-    await dialog(next.page);
-    for (const [id, expected, name] of [
-      ['#family-export-previous', found, 'conquete-serpents-famille-avant.json'],
-      ['#family-export-refused', '{"version":99}', 'conquete-serpents-famille-mis-de-cote.json'],
-    ]) {
-      const button = next.page.locator(id);
-      if (application) {
-        // The words « export it » would lead nowhere: neither the words nor the button show.
-        assert.equal(await button.isVisible(), false, `${id}: not offered in the application`);
-        continue;
-      }
+    await start(aside.page);
+    await dialog(aside.page);
+    await aside.page.locator('#family-copies > summary').click();
+    const words = await aside.page.locator('#family-copies').innerText();
+    assert.ok(words.includes(FAMILY.unFichierQueCetteVersionNeSaitPasLire));
+    const button = aside.page.locator('#family-export-refused');
+    if (application) assert.equal(await button.count(), 0, 'no file button in the application');
+    else {
       await button.scrollIntoViewIfNeeded();
-      const box = await button.boundingBox();
-      assert.ok(
-        box.width >= 48 && box.height >= 48,
-        `${id}: a target of ${box.width}×${box.height}`,
+      const [download] = await Promise.all([aside.page.waitForEvent('download'), button.click()]);
+      assert.equal(download.suggestedFilename(), 'conquete-serpents-famille-mis-de-cote.json');
+      assert.equal(await readFile(await download.path(), 'utf8'), '{"version":99}');
+      assert.equal(
+        (await aside.page.locator('#family-status').textContent()).trim(),
+        FAMILY.fichierRemisCetteVersionNeSaitPasLeRelire,
+        'never « ready to resume »: this version cannot read it back',
       );
-      const [download] = await Promise.all([next.page.waitForEvent('download'), button.click()]);
-      assert.equal(download.suggestedFilename(), name);
-      assert.equal(await readFile(await download.path(), 'utf8'), expected, `${id}: byte for byte`);
     }
-    assert.ok(readFamilyBackup(found), 'the copy from before is a file the import reads');
-    // Brought back the usual way: exported, then chosen like any other file.
-    await give(next.page, found, 'conquete-serpents-famille-avant.json');
-    await next.page.locator('#family-apply:not([disabled])').waitFor({ state: 'visible' });
-    await next.page.screenshot({ path: 'artifacts/hygiene/family-copies.png' });
     checks.push(
       application
-        ? 'kept copies: not offered as files in the application; the copy from before is accepted by the import'
-        : 'kept copies: both exported byte for byte from the family window; the copy from before is accepted by the import',
+        ? 'a text put aside that does not read: said, no file button in the application'
+        : 'a text put aside that does not read: said, handed over byte for byte with words of its own',
     );
-    assert.deepEqual(next.report.errors, []);
+    assert.deepEqual(aside.report.errors, []);
   } finally {
-    await next.browser.close();
+    await aside.browser.close();
   }
 }
 // 5. A camp of the stored file no longer decodes. The same camp is written in several

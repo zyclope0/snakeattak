@@ -210,6 +210,7 @@ bindFamilyControls({
   persistenceStatus: () => family.status,
   exportRaw: exportFamily,
   previousRaw: family.previous,
+  beforeImportRaw: family.beforeImport,
   refusedRaw: family.refused,
   accepts: acceptsFamily,
   applyBackup: applyFamily,
@@ -476,6 +477,11 @@ function applyFamily(backup: FamilyBackup) {
   /** The device refused a write and then the way back: it holds a part of the file. */
   const partial = { ok: false, message: TEXT.unePartieSeulementDuFichierAEteGardee };
   if (!whole) return invalid;
+  // An import destroys an adventure on purpose: the one about to be replaced is kept first,
+  // as the export would give it. If the device refuses that copy, nothing is imported.
+  const replaced = exportFamily();
+  const same = !!replaced && JSON.stringify(readFamilyBackup(replaced)) === JSON.stringify(whole);
+  if (!same && !family.keepBeforeImport(replaced)) return refused;
   // What the player keeps beside the adventure goes back under its own keys, first: the
   // adventure is then stored as the file that holds it alone, as it always was.
   let extras: { undo: () => boolean } | null = null;

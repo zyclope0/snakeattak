@@ -24,6 +24,20 @@
   background: var(--paper);
 }
 /* Les copies que le jeu garde à côté de la sauvegarde : une phrase, un bouton, en retrait. */
+/* Les copies de secours : repliées en bas de la fenêtre, après l'import. */
+#family-copies {
+  margin-block: 14px;
+}
+#family-copies > summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+}
+#family-copies > p {
+  margin: 0;
+}
 .family-copy {
   margin-top: 14px;
   padding-top: 10px;

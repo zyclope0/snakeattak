@@ -88,20 +88,22 @@ test('family persistence atomically stores v2 and rejects invalid imports and qu
 });
 
 test('a legacy caller syncing a loaded v2 keeps its expeditions until an explicit v1 import', () => {
-  let stored = writeFamilyBackup(null, createCareer().state, progress())!;
+  // One place per key, as on a device: the game also keeps a copy of the file it found, and
+  // writes it after the save.
+  const FAMILY = 'conquete-serpents:family:v1';
+  const kept = new Map([[FAMILY, writeFamilyBackup(null, createCareer().state, progress())!]]);
   const storage = {
-    getItem: () => stored,
-    setItem(_key: string, raw: string) {
-      stored = raw;
-    },
+    getItem: (key: string) => kept.get(key) ?? null,
+    setItem: (key: string, raw: string) => void kept.set(key, raw),
   };
+  const stored = () => JSON.parse(kept.get(FAMILY)!);
   const persistence = createFamilyPersistence(storage);
   assert.equal(persistence.load()!.version, 2);
   assert.equal(persistence.sync(null, createCareer().state), true);
-  assert.equal(JSON.parse(stored).version, 2);
-  assert.deepEqual(JSON.parse(stored).missions, progress());
+  assert.equal(stored().version, 2);
+  assert.deepEqual(stored().missions, progress());
   const legacy = readFamilyBackup(writeFamilyBackup(null, createCareer().state)!)!;
   assert.equal(persistence.import(legacy), true);
   assert.equal(persistence.sync(null, createCareer().state), true);
-  assert.equal(JSON.parse(stored).version, 1);
+  assert.equal(stored().version, 1);
 });
