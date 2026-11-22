@@ -51,7 +51,9 @@ jobs:
           DEPOT: ${{ github.repository }}
         run: |
           commit="$(git rev-parse HEAD)"
-          git fetch --quiet origin main
+          # La branche, par son nom entier : « main » tout court désignerait d'abord une
+          # étiquette de ce nom, si quelqu'un en poussait une.
+          git fetch --quiet origin refs/heads/main
           if ! git merge-base --is-ancestor "$commit" FETCH_HEAD; then
             echo "Le commit $commit n'est pas dans main : rien n'est publié."
             exit 1

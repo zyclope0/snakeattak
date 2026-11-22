@@ -490,6 +490,13 @@ Onglet **Actions** de GitHub → **Publier le site** → **Run workflow** :
   Jamais pour publier du nouveau : elle ne lève pas la règle « dans `main` », seul le parent
   la coche, et Claude ne la demande pas.
 
+**« Use workflow from » reste sur `main`.** La garde est écrite dans le fichier du workflow, et
+GitHub lance le fichier de la branche choisie dans ce menu : lancé depuis une autre branche,
+c'est le fichier de cette branche qui tourne, avec ou sans garde, et il a les secrets
+`INFOMANIAK_*`. Rien dans le dépôt ne peut l'empêcher. Pour le fermer, le parent peut ranger
+ces secrets dans un « environment » de GitHub limité à la branche `main` (réglages du dépôt,
+Environments) : à décider par lui.
+
 Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
 22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit
 dont la CI complète (« Verify game », poussée sur `main`, les huit lignes) n'est pas verte :

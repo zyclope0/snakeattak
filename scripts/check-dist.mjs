@@ -37,9 +37,11 @@ assert.ok(
 );
 assert.ok(!files.some((f) => f === 'references'), 'Design references do not belong in production');
 // What is shown when the game breaks must not need what broke. The start-up rescue and the
-// failure window are files of their own: neither may load, even through another file, the
-// rules, the start-up code or Phaser, any of which can be the one that failed to arrive.
-const HEAVY = /^(rules|bootstrap|phaser)-/;
+// failure window are files of their own: each may load, even through another file, only the
+// few small files named here — never the rules, the start-up code or Phaser, any of which can
+// be the one that failed to arrive. A list of what is allowed, not of what is refused: a file
+// that changes its name, or a new one, is refused until someone adds it here on purpose.
+const LIGHT = /^(rescue|failureWindow|failure|keys|index|download)-[\w-]+\.js$/;
 async function reaches(name, seen = new Set()) {
   if (seen.has(name)) return seen;
   seen.add(name);
@@ -53,7 +55,7 @@ async function reaches(name, seen = new Set()) {
 for (const prefix of ['rescue-', 'failureWindow-']) {
   const entry = files.find((f) => f.startsWith(prefix) && f.endsWith('.js'));
   assert.ok(entry, `Missing the ${prefix} file: it must be loaded on its own`);
-  const heavy = [...(await reaches(entry))].filter((f) => HEAVY.test(f));
+  const heavy = [...(await reaches(entry))].filter((f) => !LIGHT.test(f));
   assert.deepEqual(heavy, [], `${entry} must not need ${heavy.join(', ')}`);
 }
 // The public privacy policy is a page of its own, readable without the game or JavaScript.

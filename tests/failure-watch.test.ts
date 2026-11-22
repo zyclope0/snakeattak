@@ -82,7 +82,34 @@ test('an error that stops the board while another is still waited on is not lost
   t.draw(1);
   t.rejection('noise');
   t.draw(3);
-  assert.deepEqual(t.told, ['Error: fatal']);
+  assert.deepEqual(t.told, ['Error: fatal · noise'], 'the fatal one first, the noise after it');
+});
+
+test('the error that stopped the board is in the note, whatever came just before or after', () => {
+  // Phaser counts a frame once it is done: the frame that throws carries the count of an
+  // error survived just before it. Both are kept, in the order they came.
+  const s = stage();
+  s.error(new Error('a sound that would not play'));
+  s.board.alive = false;
+  s.error(new RangeError('the frame that stops everything'));
+  s.draw(3);
+  assert.deepEqual(s.told, [
+    'Error: a sound that would not play · RangeError: the frame that stops everything',
+  ]);
+  // The same error again and again is said once; never more than three different ones.
+  const t = stage();
+  t.board.alive = false;
+  for (const words of ['one', 'one', 'two', 'one', 'three', 'four', 'five']) t.rejection(words);
+  t.draw(3);
+  assert.deepEqual(t.told, ['one · two · three']);
+  // Errors survived are forgotten once the board has drawn: only what came since counts.
+  const u = stage();
+  u.error(new Error('survived'));
+  u.draw(1);
+  u.board.alive = false;
+  u.error(new TypeError('fatal'));
+  u.draw(3);
+  assert.deepEqual(u.told, ['TypeError: fatal']);
 });
 
 test('errors that keep coming on a dead board neither delay the window nor rename the failure', () => {
@@ -95,7 +122,9 @@ test('errors that keep coming on a dead board neither delay the window nor renam
     s.error(new Error('noise'));
     s.draw(1);
   }
-  assert.deepEqual(s.told, ['RangeError: the frame that stops everything']);
+  assert.deepEqual(s.told, [
+    'RangeError: the frame that stops everything · a timer that keeps failing · Error: noise',
+  ]);
   // An error every other frame does no better.
   const t = stage();
   t.board.alive = false;
@@ -105,7 +134,7 @@ test('errors that keep coming on a dead board neither delay the window nor renam
   t.draw(1);
   t.error(new Error('noise'));
   t.draw(1);
-  assert.deepEqual(t.told, ['TypeError: fatal']);
+  assert.deepEqual(t.told, ['TypeError: fatal · Error: noise']);
 });
 
 test('a board asleep because the page is hidden is not a board that failed', () => {
