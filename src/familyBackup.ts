@@ -156,6 +156,20 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
   return readBoundedJson(text, FAMILY_CHARACTER_LIMIT, readFamilyData);
 }
 
+/**
+ * What still reads of a family file whose camp does not: the same file without its camp. Null
+ * when the file has no camp to set aside, or when something else in it is refused too. The
+ * strict reader above is untouched: this is asked only for a file it has already refused.
+ */
+export function salvageFamilyBackup(text: string): FamilyBackup | null {
+  if (typeof text !== 'string' || !withinLimits(text)) return null;
+  return readBoundedJson(text, FAMILY_CHARACTER_LIMIT, (data) =>
+    isRecord(data) && typeof data.camp === 'string'
+      ? readFamilyData({ ...data, camp: null })
+      : null,
+  );
+}
+
 type Content = { career: CareerState; missions?: MissionProgress; albums?: CapriceAlbums };
 
 /** The live memory checked part by part; albums only travel with the expeditions. */

@@ -495,6 +495,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Le Marais Glouglou": "Glug-Glug Marsh",
   "Le bosquet ambré": "Amber Grove",
   "Le bébé dragon souffle sur les groupes de serpents.": "The Baby Dragon breathes fire on groups of snakes.",
+  "Le camp de la sauvegarde n’a pas pu être lu. Les étoiles, les missions et les carnets sont gardés ; le fichier d’origine est mis de côté.": "The camp in the save could not be read. Stars, missions, and sticker books are kept; the original file was put aside.",
   "Le camp est tombé": "The camp has fallen",
   "Le camp est tombé ici": "The camp fell here",
   "Le camp est tombé à l’étape {0}.": "The camp fell at stage {0}.",

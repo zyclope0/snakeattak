@@ -41,3 +41,5 @@ export const leJeuGardeAussiLaSauvegardeDAvant =
   'The game also keeps the earlier save: the one from the last start, or from before stars were lost. To bring it back, export it, then choose that file below.';
 export const ceFichierNAPasPuEtreLu =
   'This version of the game could not read an older file. It was put aside, not erased.';
+export const leCampDeLaSauvegardeNAPasPuEtreLu =
+  'The camp in the save could not be read. Stars, missions, and sticker books are kept; the original file was put aside.';

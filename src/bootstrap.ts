@@ -88,11 +88,13 @@ const session = new Session();
 session.screen = 'home';
 const career = createCareer(storage, familySaved?.career);
 const missionDone = createMissionDone(storage);
-const saved = familySaved
-  ? familySaved.camp === null
-    ? null
-    : decodeCheckpoint(familySaved.camp)
-  : persistence.load();
+// A family file kept without its camp, which did not read, leaves the camp to its own key.
+const saved =
+  familySaved && !family.salvaged
+    ? familySaved.camp === null
+      ? null
+      : decodeCheckpoint(familySaved.camp)
+    : persistence.load();
 if (saved) {
   session.game = saved;
   session.hasPlaced = saved.wave > 0 || saved.kings > 0 || saved.units.length > START_TEAM_SIZE;
