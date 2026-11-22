@@ -483,10 +483,15 @@ Onglet **Actions** de GitHub → **Publier le site** → **Run workflow** :
 
 - `ref` : ce qu'on publie, `main` par défaut ;
 - `confirmation` : écrire `PUBLIER` ;
-- `prune` : à cocher seulement pour retirer du serveur les fichiers d'anciens builds.
+- `prune` : à cocher seulement pour retirer du serveur les fichiers d'anciens builds ;
+- `urgence` : à cocher seulement pour un retour arrière vers un commit de `main` dont la CI
+  complète n'est plus lisible.
 
-Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Il compile depuis
-Git, passe `npm run verify`, écrit `version.json` (commit publié), envoie `dist/` par rsync,
+Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
+22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit
+dont la CI complète (« Verify game », poussée sur `main`, les huit lignes) n'est pas verte :
+avant, cette règle était tenue à la main. Il compile ensuite depuis Git, passe
+`npm run verify`, écrit `version.json` (commit publié), envoie `dist/` par rsync,
 puis relit le site avec `scripts/check-live-site.mjs` : version, en-têtes, redirections,
 absence de cookie, et politique en ligne identique octet pour octet à celle du commit. Sans
 `prune`, rien n'est retiré du serveur : une page restée ouverte pendant l'envoi retrouve ses
@@ -501,7 +506,9 @@ node scripts/check-live-site.mjs https://snakeattacktd.com
 ## Revenir en arrière
 
 Relancer **Publier le site** avec, dans `ref`, le commit précédent : `version.json` en ligne
-donne le commit publié, `git log` donne celui d'avant. Le site est entièrement reconstruit
+donne le commit publié, `git log` donne celui d'avant. Un commit déjà publié est dans `main`
+et sa CI était verte : il passe la garde. Si GitHub ne retrouve plus ce passage, cocher
+`urgence`. Le site est entièrement reconstruit
 depuis ce commit ; aucune donnée n'est à restaurer, le site n'en garde pas.
 
 Si le site ne répond plus du tout après une publication (erreur 500), la cause probable est
