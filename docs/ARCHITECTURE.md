@@ -1634,16 +1634,26 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
   (`error`, `unhandledrejection`), il laisse trois images au plateau. Si le plateau devait
   tourner et n'en a dessiné aucune, il le dit, une seule fois. Une erreur que le plateau
   traverse n'affiche rien ; un plateau endormi parce que la page est cachée n'est pas une
-  panne. Il ne lit ni n'écrit rien, et n'envoie rien nulle part.
+  panne. Il ne lit ni n'écrit rien, et n'envoie rien nulle part. Phaser compte une image une
+  fois finie : l'erreur qui arrête le plateau porte donc le même compte qu'une erreur
+  traversée juste avant, et que toutes celles qui suivent. Le guetteur garde les premières
+  erreurs différentes vues sur ce compte, trois au plus, dans l'ordre : celle qui a arrêté
+  le plateau est parmi elles, sauf si trois autres sont arrivées avant elle dans le même
+  soixantième de seconde. Des erreurs qui continuent n'allongent pas l'attente.
 - **La fenêtre** (`src/ui/failure/failureWindow.ts`, chargée à ce moment-là) : une phrase pour
   l'enfant, « Relancer le jeu », et sous « Pour les parents » la version et l'erreur en une
   ligne (jamais une pile d'appels). Elle ne se ferme pas : le plateau derrière ne bouge plus.
+  Elle refuse toute demande de fermeture (`closedby="none"`) et, si quelque chose la ferme
+  quand même (un navigateur qui ne connaît pas cet attribut la laisse partir à la deuxième
+  touche Échap), elle se rouvre aussitôt : quelques millièmes de seconde sans elle, mesurés
+  dans Chromium. Le foyer est sur son titre, pas sur le bouton.
   Relancer rend le camp tel qu'il a été gardé, c'est-à-dire avant la vague en cours.
 - **Le secours du démarrage** (`src/ui/failure/rescue.ts`, appelé par `src/main.ts`). Si le
   jeu ne démarre pas, l'accueil ne vient pas, et l'export de la sauvegarde non plus. Sous le
   message, un bouton par fichier familial que l'appareil garde : le texte est rendu tel quel,
   sans être lu, donc même abîmé. Ce code ne dépend ni du paquet des règles ni de celui du
-  démarrage, qui peuvent être ceux qui ont échoué.
+  démarrage, qui peuvent être ceux qui ont échoué : `scripts/check-dist.mjs` tient la liste
+  des quelques petits fichiers qu'il a le droit de charger, et refuse tout autre.
 - **Tenu par** `tests/failure-watch.test.ts` et la recette `npm run test:failure`
   (`scripts/hygiene/failure.mjs`, tâche « sauvegardes » de la CI) : une erreur provoquée en
   pleine vague aux trois tailles d'écran, la fenêtre, la relance qui rend le camp, un

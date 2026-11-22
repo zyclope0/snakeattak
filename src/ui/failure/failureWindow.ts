@@ -38,7 +38,16 @@ export function showFailure(detail: string): void {
     parents,
   );
   dialog.setAttribute('aria-labelledby', title.id);
+  // The board behind no longer moves: the window must stay. A browser lets Escape through at
+  // the third press, whatever « cancel » answers; so the window says it takes no closing
+  // request, and comes back if it is closed all the same.
+  dialog.setAttribute('closedby', 'none');
   dialog.addEventListener('cancel', (event) => event.preventDefault());
+  dialog.addEventListener('close', () => dialog.showModal());
   document.body.append(dialog);
   dialog.showModal();
+  // Nothing is reloaded by a key pressed for something else: Space pauses the game, Enter
+  // confirms elsewhere. The child reads, then touches the button.
+  title.tabIndex = -1;
+  title.focus();
 }

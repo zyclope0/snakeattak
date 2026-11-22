@@ -485,7 +485,25 @@ Onglet **Actions** de GitHub → **Publier le site** → **Run workflow** :
 - `confirmation` : écrire `PUBLIER` ;
 - `prune` : à cocher seulement pour retirer du serveur les fichiers d'anciens builds ;
 - `urgence` : à cocher seulement pour un retour arrière vers un commit de `main` dont la CI
-  complète n'est plus lisible.
+  complète n'est plus lisible, ou quand GitHub ne répond pas à la question. Sans cette case,
+  une question restée sans réponse vaut un refus : on relance plus tard.
+  Jamais pour publier du nouveau : elle ne lève pas la règle « dans `main` », seul le parent
+  la coche, et Claude ne la demande pas.
+
+**Changer `deploy-site.yml` ou `check.yml`.** `tests/publication-guard.test.ts` lance la garde
+pour de vrai dans un petit dépôt, tient la structure des deux fichiers, et garde leur
+empreinte à l'octet près : tout changement de l'un des deux fait échouer `npm run verify`
+jusqu'à ce que l'empreinte soit récrite dans le test, exprès. Deux relectures ont essayé 121
+façons d'éteindre la garde ou d'alléger la CI d'une poussée ; aucune ne passe plus. Ce que le
+test ne peut pas tenir : ce qui ne se voit que sur la machine de GitHub (la garde n'y a
+encore jamais tourné), un autre fichier de workflow, les scripts de `package.json`.
+
+**« Use workflow from » reste sur `main`.** La garde est écrite dans le fichier du workflow, et
+GitHub lance le fichier de la branche choisie dans ce menu : lancé depuis une autre branche,
+c'est le fichier de cette branche qui tourne, avec ou sans garde, et il a les secrets
+`INFOMANIAK_*`. Rien dans le dépôt ne peut l'empêcher. Pour le fermer, le parent peut ranger
+ces secrets dans un « environment » de GitHub limité à la branche `main` (réglages du dépôt,
+Environments) : à décider par lui.
 
 Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
 22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit
