@@ -10,6 +10,7 @@ import {
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
+import { downloadText, familyFileName } from './download.ts';
 import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
 type Actions = {
@@ -75,17 +76,6 @@ function albumNameNodes(backup: FamilyBackup) {
     name.textContent = ' · ' + child.name;
     return name;
   });
-}
-/** Hands the file to the browser as a download. */
-function download(raw: string) {
-  const url = URL.createObjectURL(new Blob([raw], { type: 'application/json' }));
-  const link = make('a');
-  link.href = url;
-  link.download = 'conquete-serpents-famille.json';
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function openPicker(file: HTMLInputElement) {
   try {
@@ -178,7 +168,7 @@ export function bindFamilyControls(actions: Actions) {
   byId('family-export').onclick = () => {
     const raw = actions.exportRaw();
     if (!raw || !readFamilyBackup(raw)) return say(TEXT.impossibleDePreparerLeFichierDe);
-    download(raw);
+    downloadText(raw, familyFileName());
     say(TEXT.fichierPretConserveLePourReprendre);
   };
   byId('family-apply').onclick = () => {

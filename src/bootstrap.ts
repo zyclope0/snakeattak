@@ -6,6 +6,7 @@ import type { Kind } from './data.ts';
 import './ui/caprices.css';
 import { setText as setDisplayText } from './i18n/dom.ts';
 import { bindBoardResize } from './render/boardResize.ts';
+import { watchBoard } from './failureWatch.ts';
 import { BOARD_WIDTH, BOARD_HEIGHT, bindBoardResolution } from './render/boardResolution.ts';
 import { visualSettings } from './render/visualSettings.ts';
 import { battleOver, Game } from './game.ts';
@@ -139,6 +140,15 @@ phaser = new Phaser.Game({
   audio: { noAudio: true },
 });
 const invalidateBoard = bindBoardResize(phaser, byId('game'));
+// A frame that throws stops the board for good: the child is told, and offered to start again.
+const { loop } = phaser;
+watchBoard(
+  { frame: () => loop.frame, running: () => loop.running },
+  (detail) =>
+    void import('./ui/failure/failureWindow.ts')
+      .then(({ showFailure }) => showFailure(detail))
+      .catch(() => {}),
+);
 if (import.meta.env.MODE === 'ads-preview') {
   let destroyed = false;
   let release: (() => void) | undefined;
