@@ -63,6 +63,28 @@ test('an error the board survives says nothing, and the next one is still watche
   assert.deepEqual(s.told, ['the board is gone']);
 });
 
+test('an error that stops the board while another is still waited on is not lost', () => {
+  const s = stage();
+  // A first error the board survives: it draws one more frame.
+  s.error(new Error('a sound that would not play'));
+  s.draw(1);
+  // Then the frame that kills it, before the three frames of the first are over.
+  s.board.alive = false;
+  s.error(new RangeError('the frame that stops everything'));
+  s.draw(2);
+  assert.deepEqual(s.told, [], 'the wait starts again from the latest error');
+  s.draw(1);
+  assert.deepEqual(s.told, ['RangeError: the frame that stops everything']);
+  // And the other way round: a fatal error followed by noise is still told, with the noise.
+  const t = stage();
+  t.board.alive = false;
+  t.error(new Error('fatal'));
+  t.draw(1);
+  t.rejection('noise');
+  t.draw(3);
+  assert.equal(t.told.length, 1);
+});
+
 test('a board asleep because the page is hidden is not a board that failed', () => {
   const s = stage();
   s.board.awake = false;

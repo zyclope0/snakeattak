@@ -31,22 +31,26 @@ export function watchBoard(
   host: Host = window,
 ): void {
   let told = false;
-  let checking = false;
+  /** The latest error still waited on: its reason, the frame it was seen at, the frames left. */
+  let pending: { reason: unknown; before: number; left: number } | null = null;
+  const wait = () => {
+    if (!pending) return;
+    if (--pending.left > 0) return void host.requestAnimationFrame(wait);
+    const { reason, before } = pending;
+    pending = null;
+    // A board put to sleep on purpose (the page is hidden) is not a board that failed.
+    if (told || !board.running() || board.frame() !== before) return;
+    told = true;
+    stopped(describeFailure(reason));
+  };
   const check = (reason: unknown) => {
-    if (told || checking) return;
-    checking = true;
-    // The frame that failed is already counted: a board that lives will pass this number.
-    const before = board.frame();
-    let left = FRAMES_OF_GRACE;
-    const wait = () => {
-      if (--left > 0) return void host.requestAnimationFrame(wait);
-      checking = false;
-      // A board put to sleep on purpose (the page is hidden) is not a board that failed.
-      if (told || !board.running() || board.frame() !== before) return;
-      told = true;
-      stopped(describeFailure(reason));
-    };
-    host.requestAnimationFrame(wait);
+    if (told) return;
+    const waiting = pending !== null;
+    // The frame that failed is already counted: a board that lives will pass this number. An
+    // error that comes while another is waited on takes its place and starts the wait again:
+    // the first may have been survived, and this one may be the one that stops the board.
+    pending = { reason, before: board.frame(), left: FRAMES_OF_GRACE };
+    if (!waiting) host.requestAnimationFrame(wait);
   };
   host.addEventListener('error', (event) => {
     const failure = event as ErrorEvent;
