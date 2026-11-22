@@ -7,7 +7,7 @@
 // `stockage.json` est ce qu'un appareil garde. Sans lui : l'appareil figé d'un testeur du
 // build 63 (`tests/fixtures/appareil-build-63.json`), qui a un voyage à finir.
 import assert from 'node:assert/strict';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { open, start, snapshot } from './harness.mjs';
 import { showHomePage } from '../../tests/browser-entry.mjs';
 
@@ -26,8 +26,19 @@ device[KEYS.EXPEDITION_STORAGE_KEY] = JSON.stringify(
 );
 device[KEYS.ENDLESS_RECORDS_KEY] = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
 const FAMILY = await import('../../src/texts/fr/family.ts');
+const HELP = await import('../../src/texts/fr/help.ts');
 /** The package that hands the family file over: the one asked for, or the site's. */
 const SITE = 'dist';
+/**
+ * True on the application's package, by what the build wrote in it: never by what the page
+ * shows, which is the very thing to check.
+ */
+const application =
+  JSON.parse(await readFile(`${dir}/build-info.json`, 'utf8')).target === 'android';
+if (application)
+  await access(`${SITE}/index.html`).catch(() => {
+    throw new Error('Le paquet du site manque : lancer aussi « npm run build ».');
+  });
 const EXTRA_KEYS = [KEYS.EXPEDITION_STORAGE_KEY, KEYS.VOYAGE_STORAGE_KEY, KEYS.ENDLESS_RECORDS_KEY];
 await mkdir('artifacts/hygiene', { recursive: true });
 const checks = [];
@@ -68,17 +79,24 @@ async function exportFrom(from) {
 
 // 1. Export from the device as it is.
 let exported;
-/** True on the application's package: it cannot hand a file over, and says so. */
-let application = false;
 {
   const { browser, page, report } = await open({ dir, storage: device });
   try {
     await start(page);
     const atStart = await snapshot(page);
     await dialog(page);
-    application = (await page.locator('#family-export').count()) === 0;
+    assert.equal(
+      await page.locator('#family-export').count(),
+      application ? 0 : 1,
+      application ? 'the application offers no export' : 'the site offers the export',
+    );
     if (application) {
-      // No button that would do nothing, no word that a file is ready: one true sentence.
+      // No button that would do nothing, no word that a file is ready: one true sentence,
+      // and no help beside the window that tells the family to keep a file.
+      assert.equal(
+        await page.locator(`[aria-label="${HELP.aideLaSauvegardeFamiliale}"]`).count(),
+        0,
+      );
       assert.equal(
         (await page.locator('#family-export-none').textContent()).trim(),
         FAMILY.dansLApplicationLAventureNePeutPas,

@@ -44,4 +44,4 @@ export const ceFichierNAPasPuEtreLu =
 export const leCampDeLaSauvegardeNAPasPuEtreLu =
   'The camp in the save could not be read. Stars, missions, and sticker books are kept; the original file was put aside.';
 export const dansLApplicationLAventureNePeutPas =
-  'In the app, the adventure cannot leave this device yet. It is kept here as long as the app stays installed and its data is not cleared.';
+  'In the app, the adventure cannot leave this device. If the app is uninstalled or its data is cleared, it is lost.';

@@ -45,7 +45,11 @@ export function offerRescue(host: HTMLElement, device?: Device): void {
   // what is still there, and what would lose it.
   if (!canHandOver()) {
     host.append(
-      make('div', { id: 'rescue' }, make('p', { text: TEXT.lesAventuresSontToujoursDansCet })),
+      make(
+        'div',
+        { id: 'rescue' },
+        make('p', { text: TEXT.desAventuresSontGardeesDansCetAppareil }),
+      ),
     );
     return;
   }

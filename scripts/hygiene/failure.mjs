@@ -8,7 +8,7 @@
 //     toujours là ; les fichiers sont alors essayés sur le paquet du site (`dist`).
 //   node --experimental-strip-types scripts/hygiene/failure.mjs [dossier]
 import assert from 'node:assert/strict';
-import { mkdir, readFile } from 'node:fs/promises';
+import { access, mkdir, readFile } from 'node:fs/promises';
 import { open, start, status, boardReady, text, numbers, ORIGIN } from './harness.mjs';
 
 const [dir = 'dist-android'] = process.argv.slice(2);
@@ -29,6 +29,16 @@ const PROVOKED = 'recette : panne provoquée';
 const RESCUE_FILES = /\/assets\/(rescue|failure|keys|index|download)-[\w-]+\.js$/;
 /** The package that can hand a file over, when the one asked for is the application's. */
 const SITE = 'dist';
+/**
+ * True on the application's package, by what the build wrote in it: never by what the page
+ * shows, which is the very thing to check.
+ */
+const application =
+  JSON.parse(await readFile(`${dir}/build-info.json`, 'utf8')).target === 'android';
+if (application)
+  await access(`${SITE}/index.html`).catch(() => {
+    throw new Error('Le paquet du site manque : lancer aussi « npm run build ».');
+  });
 
 /** Every button of `selector` is a fair target, and the block stays inside the screen. */
 async function fits(page, selector, label) {
@@ -149,13 +159,12 @@ for (const viewport of SIZES) {
     return failed;
   };
   const failed = await stopped(dir);
-  let application;
   try {
-    application = (await failed.page.locator('#rescue button').count()) === 0;
     if (application) {
+      assert.equal(await failed.page.locator('#rescue button').count(), 0, 'no file button');
       // The application cannot hand a file over: no button that does nothing; a parent is
       // told what is still there and what would lose it.
-      assert.equal(await text(failed.page, '#rescue'), FR.lesAventuresSontToujoursDansCet);
+      assert.equal(await text(failed.page, '#rescue'), FR.desAventuresSontGardeesDansCetAppareil);
       await failed.page.screenshot({ path: `artifacts/hygiene/rescue-application-${tag}.png` });
       checks.push(`${tag} : démarrage en échec dans l'application, la phrase, aucun bouton`);
     }

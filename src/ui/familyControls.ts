@@ -204,7 +204,8 @@ export function bindFamilyControls(actions: Actions) {
   const dialog = byId<HTMLDialogElement>('family-dialog');
   const preview = bindFamilyPreview(dialog, actions.accepts);
   // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
-  byId('home-family').after(helpPoint('family'));
+  // The help beside the window says to keep the file: not where no file can be handed over.
+  if (canHandOver()) byId('home-family').after(helpPoint('family'));
   const close = () => {
     preview.reset();
     dialog.close();

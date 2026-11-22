@@ -47,4 +47,4 @@ export const ceFichierNAPasPuEtreLu =
 export const leCampDeLaSauvegardeNAPasPuEtreLu =
   'Le camp de la sauvegarde n’a pas pu être lu. Les étoiles, les missions et les carnets sont gardés ; le fichier d’origine est mis de côté.';
 export const dansLApplicationLAventureNePeutPas =
-  'Dans l’application, l’aventure ne peut pas encore sortir de cet appareil. Elle est gardée ici tant que l’application reste installée et que ses données ne sont pas effacées.';
+  'Dans l’application, l’aventure ne peut pas sortir de cet appareil. Si l’application est désinstallée ou si ses données sont effacées, elle est perdue.';
