@@ -1,5 +1,6 @@
 import { availableGold, canSpend } from './capriceBudget.ts';
 import type { Game } from '../game.ts';
+import { battleOver } from './battleState.ts';
 import { kinds, type Kind } from '../data.ts';
 import * as TEXT from '../texts/fr/camp.ts';
 import { fill } from '../texts/fill.ts';
@@ -11,7 +12,7 @@ export type CampTool = (typeof CAMP_TOOLS)[number];
 const NO_HONEY = TEXT.pasDeMielDansCeCaprice;
 
 /** A battle that is still played: in camp or in a wave. */
-const inPlay = (game: Game) => game.status === 'preparing' || game.status === 'fighting';
+const inPlay = (game: Game) => !battleOver(game);
 
 /** A caprice that keeps coins at the bank says so before anything about the price. */
 const bankNotice = (game: Game) => (game.caprice.reserve ? TEXT.reserveBancaireProtegee : '');

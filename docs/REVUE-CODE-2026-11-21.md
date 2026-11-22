@@ -248,7 +248,12 @@ empreintes) :
   `BOON_RULES[1]`) ; les numéros de ses tirages (`GIFT_QUESTION`, `ROULOTTE_QUESTION`,
   `EGG_QUESTION`) et la chance de l'Œuf Mystère (`EGG_CLIMB_CHANCE`) aussi ;
 - `takeBoon` reçoit sa table dans l'aventure sans fin ;
-- « la partie est finie » s'écrit une fois, `battleOver` (`src/game.ts`), au lieu de huit.
+- « la partie est finie » s'écrit une fois, `battleOver` (`src/game.ts`) : dix copies en moins,
+  dans les règles, la séance, les écrans, le son et le rendu ;
+- deux tests gardent le tout : `tests/carried-camp.test.ts` (bornes du camp porté, maison et
+  trousse gardées, allié inconnu refusé) et `tests/expedition-draws.test.ts` (cadeaux, cadeaux
+  tirés encore, roulotte et 115 Œufs Mystère écrits en toutes lettres : un numéro de tirage ou
+  la chance de l'œuf qui bouge fait échouer le test).
 
 **Laissé, en connaissance de cause** : les deux carnets de joueur (`voyageStorage.ts`,
 `expeditionStorage.ts`) se ressemblent, mais le voyage est en fin de vie : les réunir

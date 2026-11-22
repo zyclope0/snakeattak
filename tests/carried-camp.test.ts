@@ -79,14 +79,93 @@ test('a carried camp out of bounds is refused whole', () => {
   assert.equal(readCarriedCamp(atLimit, 1)?.nextId, ENTITY_ID_LIMIT, 'a number at the limit');
 });
 
-test('the saved expedition and the game that receives the camp agree on what a camp is', () => {
+test('the bounds of a carried camp are accepted on both sides', () => {
+  const accepted = (change: (c: ReturnType<typeof plain>) => void, why: string) => {
+    const forged = plain();
+    change(forged);
+    assert.ok(readCarriedCamp(forged, 1), why);
+  };
+  accepted((c) => (c.gold = 0), 'an empty purse');
+  accepted((c) => (c.gold = GOLD_LIMIT), 'a purse at its limit');
+  accepted((c) => (c.base = 1), 'a crystal about to break');
+  accepted((c) => (c.base = 55.5), 'a crystal between two whole numbers');
+  accepted((c) => (c.base = CRYSTAL_MAX), 'a whole crystal');
+  // As many allies as a camp holds, each with its own number; one more is refused for the
+  // count alone.
+  const crowd = (count: number) => {
+    const forged = plain();
+    const model = forged.units.find((u) => u.kind !== 'hero');
+    forged.units = Array.from({ length: count }, (_, index) => ({ ...model, id: index + 1 }));
+    return readCarriedCamp(forged, 1);
+  };
+  assert.equal(crowd(UNIT_LIMIT)?.units.length, UNIT_LIMIT);
+  assert.equal(crowd(UNIT_LIMIT + 1), null);
+});
+
+test('an ally keeps its home and a healer its supplies', () => {
+  const forged = plain();
+  const model = forged.units.find((u) => u.kind !== 'hero');
+  forged.units[forged.units.indexOf(model)] = {
+    ...model,
+    homeX: model.x + 30,
+    homeY: model.y + 24,
+  };
+  forged.units.push({
+    id: 500,
+    kind: 'medic',
+    x: model.x,
+    y: model.y,
+    hp: 1,
+    homeX: model.x,
+    homeY: model.y,
+    medical: { bandages: 2, phase: 'ready', remaining: 0 },
+    medicalCool: 0,
+  });
+  const read = readCarriedCamp(forged, 1)!;
+  const moved = read.units.find((u) => u.id === model.id)!;
+  assert.deepEqual([moved.homeX, moved.homeY], [model.x + 30, model.y + 24]);
+  assert.equal(read.units.find((u) => u.id === 500)!.medical?.bandages, 2);
+  // Supplies that cannot be trusted refuse the whole camp.
+  forged.units.at(-1).medical = { bandages: 99, phase: 'ready', remaining: 0 };
+  assert.equal(readCarriedCamp(forged, 1), null);
+});
+
+test('the saved expedition and the game read a camp with the same reader; the game also knows its allies', () => {
   const state = X.skipGift(X.winBattle(plan, start, won)!)!;
   assert.ok(X.readExpeditionState(JSON.parse(JSON.stringify(state))));
   const twoHeroes = plain();
   twoHeroes.units.push({ ...twoHeroes.units.find((u) => u.kind === 'hero'), id: 400 });
   assert.equal(X.readExpeditionState({ ...state, camp: twoHeroes }), null);
+  const refusing = X.createExpeditionGame(plan, start)!;
+  const before = JSON.stringify(refusing);
+  assert.equal(refusing.receiveCamp({ ...twoHeroes, boons: [] }), false);
+  // An ally of a later revision of the rules is in the catalogue, so the reader takes it; the
+  // game of this expedition does not know it and refuses the camp without touching anything.
+  const stranger = plain();
+  stranger.units.push({
+    ...stranger.units.find((u) => u.kind !== 'hero'),
+    id: 600,
+    kind: 'spinosaurus',
+    hp: 1,
+  });
+  assert.ok(readCarriedCamp(stranger, 1), 'the reader knows the catalogue');
+  assert.equal(refusing.knowsAlly('spinosaurus'), false);
+  assert.equal(refusing.receiveCamp({ ...stranger, boons: [] }), false);
+  assert.equal(JSON.stringify(refusing), before, 'a refused camp changes nothing');
+  // A camp received: its coins, its crystal, and the next ally recruited takes a new number.
+  const carried = plain();
+  carried.base = 55.5;
+  carried.units[0].id = 900;
   const game = X.createExpeditionGame(plan, start)!;
-  assert.equal(game.receiveCamp({ ...twoHeroes, boons: [] }), false);
-  assert.equal(game.receiveCamp({ ...plain(), boons: [] }), true);
+  assert.equal(game.receiveCamp({ ...carried, boons: [] }), true);
   assert.equal(game.gold, camp.gold);
+  assert.equal(game.base, 55.5);
+  assert.equal(game.nextId, 901);
+  // A camp whose allies carry low numbers never brings the game's own counter down.
+  const low = X.createExpeditionGame(plan, start)!;
+  const counter = low.nextId;
+  const few = plain();
+  few.units = [{ ...few.units.find((u) => u.kind !== 'hero'), id: 1 }];
+  assert.equal(low.receiveCamp({ ...few, boons: [] }), true);
+  assert.equal(low.nextId, Math.max(counter, 2));
 });

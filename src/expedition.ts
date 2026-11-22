@@ -40,8 +40,12 @@ export const CURRENT_EXPEDITION_VERSION: ExpeditionVersion = 3;
 /** The gifts of the expedition follow the first table of gifts (boons.ts): places, levels, steps. */
 export const EXPEDITION_GIFT_RULES = BOON_RULES[1];
 /**
- * What each question asked of the seed is called, beside the plan's own (a hundred times the
- * tableau, plus the step). A new question takes a new number: the others keep their answers.
+ * Where the questions asked of the seed start, beside the plan's own (a hundred times the
+ * tableau, plus the step). Each adds its place to its start: a gift adds a thousand times the
+ * tableau counted from one, ten times the step, and one once drawn again (8010 to 10051); the
+ * roulotte and the egg add ten times the tableau and the step (8003 to 8026, 9002 to 9025).
+ * The ranges overlap and no number is shared, by their last digit alone: before adding a
+ * question, list the numbers it would ask and check none is taken.
  */
 const GIFT_QUESTION = 7000;
 const ROULOTTE_QUESTION = 8000;
