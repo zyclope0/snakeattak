@@ -1,0 +1,56 @@
+/* Quand le jeu s'arrête sur une erreur : la fenêtre de l'enfant, puis, si le jeu n'a pas pu
+   démarrer, les boutons qui rendent les sauvegardes. Chargé seulement à ce moment-là. */
+#failure-dialog {
+  max-width: 460px;
+  text-align: center;
+}
+#failure-dialog > p {
+  font-size: 18px;
+}
+#failure-reload {
+  min-height: 56px;
+  padding: 0 28px;
+  font-size: 20px;
+}
+#failure-parents {
+  margin-top: 22px;
+  text-align: left;
+}
+#failure-parents > summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+}
+#failure-detail {
+  overflow-wrap: anywhere;
+  user-select: text;
+  font-family: ui-monospace, monospace;
+}
+/* Le message de démarrage, quand il porte les boutons de secours : centré, jamais coupé. */
+.boot-loading.boot-rescue {
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: calc(100% - 32px);
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  text-align: center;
+}
+#rescue {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+#rescue > button {
+  min-height: 48px;
+  padding: 0 20px;
+}
+#rescue > p {
+  max-width: 34em;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}

@@ -14,4 +14,8 @@ void Promise.all([initializeLanguageControls(), loadGameFonts()])
   .then(() => loading.remove())
   .catch(() => {
     setText(loading, TEXT.impossibleDeDemarrerLeJeuRecharge);
+    // The home will not show, nor its way to export a save: hand the stored files over here.
+    void import('./ui/failure/rescue.ts')
+      .then(({ offerRescue }) => offerRescue(loading))
+      .catch(() => {});
   });

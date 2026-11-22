@@ -1623,3 +1623,31 @@ les deux seuls stubs Cordova vides ajoutés par Capacitor. `android:package` rep
 la vérification après extraction de l'AAB signé et de l'APK universel. Le mapping
 R8 et la signature sont contrôlés séparément. Les identifiants de build restent
 des données de provenance, sans aucun suivi des joueurs.
+
+## Quand quelque chose casse — 22 novembre 2026
+
+Phaser ne redemande une image qu'une fois la précédente terminée : une exception n'importe où
+dans une image arrête le plateau pour de bon. La page reste, ses boutons répondent, plus rien
+ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md) (S1 et S2).
+
+- **Le guetteur** (`src/failureWatch.ts`, branché dans `src/bootstrap.ts`). Après toute erreur
+  (`error`, `unhandledrejection`), il laisse trois images au plateau. Si le plateau devait
+  tourner et n'en a dessiné aucune, il le dit, une seule fois. Une erreur que le plateau
+  traverse n'affiche rien ; un plateau endormi parce que la page est cachée n'est pas une
+  panne. Il ne lit ni n'écrit rien, et n'envoie rien nulle part.
+- **La fenêtre** (`src/ui/failure/failureWindow.ts`, chargée à ce moment-là) : une phrase pour
+  l'enfant, « Relancer le jeu », et sous « Pour les parents » la version et l'erreur en une
+  ligne (jamais une pile d'appels). Elle ne se ferme pas : le plateau derrière ne bouge plus.
+  Relancer rend le camp tel qu'il a été gardé, c'est-à-dire avant la vague en cours.
+- **Le secours du démarrage** (`src/ui/failure/rescue.ts`, appelé par `src/main.ts`). Si le
+  jeu ne démarre pas, l'accueil ne vient pas, et l'export de la sauvegarde non plus. Sous le
+  message, un bouton par fichier familial que l'appareil garde : le texte est rendu tel quel,
+  sans être lu, donc même abîmé. Ce code ne dépend ni du paquet des règles ni de celui du
+  démarrage, qui peuvent être ceux qui ont échoué.
+- **Tenu par** `tests/failure-watch.test.ts` et la recette `npm run test:failure`
+  (`scripts/hygiene/failure.mjs`, tâche « sauvegardes » de la CI) : une erreur provoquée en
+  pleine vague aux trois tailles d'écran, la fenêtre, la relance qui rend le camp, un
+  démarrage qui échoue et deux fichiers rendus à l'octet, importables.
+
+Pas essayé : sur un vrai téléphone, où l'enregistrement d'un fichier depuis le WebView reste à
+confirmer (c'est le même geste que l'export familial).
