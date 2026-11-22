@@ -232,7 +232,7 @@ try {
         .evaluateAll((l) => l.map((b) => b.dataset.gift));
       await fits(page, `${name} gift`);
       await page.screenshot({ path: `${folder}/${name}-cadeau.png` });
-      // What the model offers for this expedition, before and after « Trois autres cadeaux ».
+      // What the model offers for this expedition, before and after « Tirer encore ».
       // The second draw is a new draw, not « three different ones »: about once in 1 300 it
       // gives the very same three, and a recipe that asked for a difference failed by chance.
       const offered = async () => X.giftOffer(X.readExpeditionState((await stored(page)).current));

@@ -24,6 +24,13 @@ const approvedAds: Record<
 const approvedTest: Record<'fr' | 'en', { heading: string; paragraphs: string[][] }> = JSON.parse(
   readFileSync('tests/fixtures/test-android-approuve-2026-11-20.json', 'utf8'),
 );
+/**
+ * Approved on 22 November 2026: the paragraph about what the family save file contains, on
+ * the website and in the Android app of the testers (the two no longer hold the same thing).
+ */
+const approvedFamilyFile: Record<'fr' | 'en', { replaced: [string, string][] }> = JSON.parse(
+  readFileSync('tests/fixtures/fichier-familial-approuve-2026-11-22.json', 'utf8'),
+);
 const published = readFileSync('tests/fixtures/confidentialite-publiee-2026-11-14.html', 'utf8');
 /** What a reader sees of a piece of page: its markup, without the spaces between its tags. */
 const tight = (html: string) => html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
@@ -32,13 +39,13 @@ const between = (html: string, open: string, close: string) =>
 /**
  * The page without what the publisher added to the words first published: the date of the
  * last change, the website section, the separately approved support section, the
- * advertising section and the two sentences it reworded, then the section about the Android
- * test.
+ * advertising section and the two sentences it reworded, the section about the Android
+ * test, then the paragraph about the family save file.
  */
 const asFirstPublished = (html: string) =>
   [...Object.values(WEBSITE_HEADING), ...Object.values(ANDROID_TEST_HEADING)].reduce(
     (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
-    Object.values(approvedAds)
+    [...Object.values(approvedAds), approvedFamilyFile.fr, approvedFamilyFile.en]
       .flatMap((approved) => approved.replaced)
       .reduce((page, [first, now]) => page.replace(now, first), html)
       .replace(/<p class="updated">[^<]*<\/p>/g, '')
@@ -94,6 +101,20 @@ test('the section about the website says what the publisher approved, in both la
   }
 });
 
+test('the paragraph about the family save file is the one approved on 22 November 2026', () => {
+  for (const language of ['fr', 'en'] as const) {
+    const [[first, now]] = approvedFamilyFile[language].replaced;
+    const said = PRIVACY_POLICY[language].sections.flatMap((section) => section.paragraphs.flat());
+    assert.ok(said.includes(now), `${language}: the approved paragraph, word for word`);
+    assert.ok(!said.includes(first), `${language}: the paragraph it replaces is gone`);
+    assert.notEqual(first, now);
+  }
+  // It names the application of the testers: when another build is published, it is read
+  // again (the test below says so too).
+  assert.match(approvedFamilyFile.fr.replaced[0][1], /application Android 0\.39\.0 \(build 63\)/);
+  assert.match(approvedFamilyFile.en.replaced[0][1], /Android app 0\.39\.0 \(build 63\)/);
+});
+
 test('the public page stands alone: no script, no outside resource, its own address', () => {
   const page = privacyPageHtml();
   assert.doesNotMatch(page, /<script|<img|<iframe|<link rel="stylesheet"|@import|url\(/);
@@ -114,8 +135,8 @@ test('the public page stands alone: no script, no outside resource, its own addr
 });
 
 test('each language tells when its words last changed and where the public page is', () => {
-  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 20 novembre 2026');
-  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 20, 2026');
+  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 22 novembre 2026');
+  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 22, 2026');
   assert.equal(PRIVACY_POLICY.fr.publicLink, `Lire cette politique sur ${SITE_HOST}`);
   assert.equal(PRIVACY_POLICY.en.publicLink, `Read this policy on ${SITE_HOST}`);
   const page = privacyPageHtml();

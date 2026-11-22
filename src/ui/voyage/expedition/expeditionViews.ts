@@ -476,7 +476,7 @@ export function giftView(
   if (rare && twice) ask.append(make('p', { className: 'exp-rare', text: TEXT.cadeauRare }));
   const row = make('div', { className: 'exp-ask-actions' });
   if (pending && !pending.rerolled)
-    row.append(button('expedition-reroll', ['secondary'], TEXT.troisAutresCadeaux, actions.reroll));
+    row.append(button('expedition-reroll', ['secondary'], TEXT.tirerEncore, actions.reroll));
   row.append(button('expedition-skip', ['secondary'], TEXT.neRienPrendre, actions.skip));
   ask.append(row);
   const cards = offer.map((id) => giftCard(state, id, rare, () => actions.gift(id)));

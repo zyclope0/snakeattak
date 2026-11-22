@@ -1,0 +1,19 @@
+{
+  "approuve": "Approuvé par le parent le 22 novembre 2026 : le paragraphe sur ce que le voyage, l'expédition et l'aventure sans fin gardent, et sur ce que le fichier familial contient, sur le site et dans l'application Android 0.39.0 (build 63).",
+  "fr": {
+    "replaced": [
+      [
+        "Le voyage enregistre aussi l’itinéraire, les étapes terminées et les bonus sur l’appareil, pour chaque joueur. Le fichier de sauvegarde familiale ne contient pas le voyage. Le code du Voyage contient la graine qui détermine la configuration du Voyage, la version de ses règles et des caractères de contrôle. Une autre personne qui saisit le code obtient le même itinéraire, les mêmes caprices et les mêmes propositions de bonus. Le code ne transmet ni le profil, ni le surnom, ni la progression, ni les bonus choisis du joueur. Vous pouvez communiquer ce code vous-même. Le jeu ne le transmet pas à zyclope.",
+        "Le voyage, La Grande Expédition et l’aventure sans fin enregistrent aussi leur avancement sur l’appareil, pour chaque joueur : l’itinéraire, les étapes terminées, les bonus ou les cadeaux, et les records. Sur le site, le fichier de sauvegarde familiale contient aussi ces données du joueur actif. Dans l’application Android 0.39.0 (build 63), il ne contient pas le voyage. Cette application affiche encore un code du Voyage : il contient la graine qui détermine la configuration du Voyage, la version de ses règles et des caractères de contrôle. Une autre personne qui saisit ce code dans cette application obtient le même itinéraire, les mêmes caprices et les mêmes propositions de bonus. Le code ne transmet ni le profil, ni le surnom, ni la progression, ni les bonus choisis du joueur. Vous pouvez communiquer ce code vous-même. Le jeu ne le transmet pas à zyclope. Le site n’affiche plus ce code et ne le lit plus."
+      ]
+    ]
+  },
+  "en": {
+    "replaced": [
+      [
+        "The Voyage also stores the route, completed stages, and earned bonuses on the device for each player. The family save file does not contain voyage data. A voyage code contains the seed that determines the voyage setup, the version of its rules, and check characters. Anyone who enters the code gets the same route, challenges, and bonus offers. The code does not transmit the player’s profile, nickname, progress, or chosen bonuses. You can share the code yourself. The game does not send it to zyclope.",
+        "The Voyage, the Great Expedition, and the endless adventure also store their progress on the device for each player: the route, completed stages, bonuses or gifts, and records. On the website, the family save file also contains this data for the current player. In the Android app 0.39.0 (build 63), it does not contain voyage data. That app still shows a voyage code: it contains the seed that determines the voyage setup, the version of its rules, and check characters. Anyone who enters this code in that app gets the same route, challenges, and bonus offers. The code does not transmit the player’s profile, nickname, progress, or chosen bonuses. You can share the code yourself. The game does not send it to zyclope. The website no longer shows or reads this code."
+      ]
+    ]
+  }
+}
