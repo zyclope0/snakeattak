@@ -20,9 +20,8 @@ import { expectedVoyageTraces } from './fixtures/voyage-traces.ts';
 // Voyages entiers joués par un joueur automatique fixe, par les mêmes appels que l'interface :
 // commencer, jouer l'étape, enregistrer son résultat, garder une carte. L'empreinte couvre le
 // plan tiré de la graine, tout l'état de chaque partie pas après pas, et l'état du voyage.
-// Une empreinte qui change veut dire qu'un code de voyage ne donne plus le même voyage : ce
-// joueur ne se retouche donc pas, et les réglages de `src/voyageTuning.ts` non plus sans une
-// nouvelle version.
+// Une empreinte qui change veut dire qu'un voyage commencé ne se finit plus de la même façon :
+// ce joueur ne se retouche donc pas, et les réglages de `src/voyageTuning.ts` non plus.
 const order: Kind[] = ['shield', 'archer', 'club', 'ninja', 'raptor', 'club'];
 const spots: [number, number][] = [];
 for (let x = 660; x <= 948; x += 48)

@@ -38,7 +38,8 @@ type Session = {
 
 /**
  * One text for all a sync is given. What JSON would blur (a NaN, an infinity, a hole, an
- * `undefined`) is written apart, so that two different askings never share a text.
+ * `undefined`) is written apart, so that two askings made of plain data never share a text.
+ * The game only hands over such data: copies of states its controllers have validated.
  */
 function asking(
   campRaw: string | null,

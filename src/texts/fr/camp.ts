@@ -2,8 +2,8 @@ import {
   CRYSTAL_MAX,
   ENCOURAGEMENT_SECONDS,
   HERO_TRAINING_COST,
+  HERO_TRAINING_FROM,
   REPAIR_AMOUNT,
-  WAVES_PER_CHAPTER,
 } from '../../gameConstants.ts';
 
 export const pasDeMielDansCeCaprice = 'Pas de miel dans ce caprice';
@@ -12,12 +12,12 @@ export const leHerosEstTombeAucunEntrainement = 'Le héros est tombé. Aucun ent
 export const frappeRenforcee15DeDegatsDuHeros = 'Frappe renforcée · +15 % de dégâts du héros';
 export const gardien15SurLesCoupsEtTirsRecus = 'Gardien · −15 % sur les coups et tirs reçus';
 export const dansUneAutreExpeditionDesLesTrois = 'Dans une autre expédition, dès Les trois ponts';
-export const disponibleApresLaVague4 = `Disponible après la vague ${WAVES_PER_CHAPTER}`;
+export const disponibleApresLaVague4 = `Disponible après la vague ${HERO_TRAINING_FROM}`;
 export const entreDeuxVagues90Pieces = `Entre deux vagues · ${HERO_TRAINING_COST} pièces`;
 export const ilManqueNPiecesPourLEntrainement = 'Il manque {0} pièces pour l’entraînement';
 export const n90PiecesUnSeulEntrainementPourCes = `${HERO_TRAINING_COST} pièces · un seul entraînement pour ces alliés`;
 export const entrainerLeHeros = 'Entraîner le héros';
-export const entreDeuxVaguesDesLesTroisPontsEn = `Entre deux vagues. Dès Les trois ponts en expédition ; après la vague ${WAVES_PER_CHAPTER} en classique.`;
+export const entreDeuxVaguesDesLesTroisPontsEn = `Entre deux vagues. Dès Les trois ponts en expédition ; après la vague ${HERO_TRAINING_FROM} en classique.`;
 export const tousLesAlliesConseilsEtOutils =
   'Tous les alliés → Conseils et outils → Actions du camp → Entraîner le héros. Choisis Frappe ou Gardien.';
 export const frappe15DeDegatsGardien15SurLes =

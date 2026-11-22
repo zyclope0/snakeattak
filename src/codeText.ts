@@ -1,6 +1,6 @@
 /**
- * The writing shared by the codes a child reads aloud or copies: departure codes and voyage
- * codes. Thirty-two signs without O, I, L or U, so that no two of them look alike.
+ * The writing of the codes a child reads aloud or copies: the departure codes. Thirty-two
+ * signs without O, I, L or U, so that no two of them look alike.
  */
 const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 /** The Unicode form that writes an accent apart from its letter, so that it can be dropped. */

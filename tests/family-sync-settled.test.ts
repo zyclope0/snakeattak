@@ -6,8 +6,10 @@ import { encodeCheckpoint } from '../src/checkpoints.ts';
 import { Game } from '../src/game.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { createFamilyPersistence } from '../src/familyPersistence.ts';
-import { createMissionProgressController } from '../src/missionProgress.ts';
-import { createCapriceAlbumsController } from '../src/capriceAlbums.ts';
+import { createMissionProgress, createMissionProgressController } from '../src/missionProgress.ts';
+import type { MissionProgress } from '../src/missionProgress.ts';
+import { createCapriceAlbums, createCapriceAlbumsController } from '../src/capriceAlbums.ts';
+import type { CapriceAlbums } from '../src/capriceAlbums.ts';
 import { FAMILY_STORAGE_KEY } from '../src/storageKeys.ts';
 import { seededStream } from '../src/seededRandom.ts';
 import * as TEXT from '../src/texts/fr/family.ts';
@@ -127,6 +129,92 @@ test('what JSON would blur is never taken for the asking it looks like', () => {
   assert.equal(storage.writes, 1);
 });
 
+function missionsWith(stars: number): MissionProgress {
+  const state = createMissionProgress();
+  state.bestStars.refuge = stars;
+  return state;
+}
+function albumsNamed(name: string): CapriceAlbums {
+  const state = createCapriceAlbums();
+  state.children[0]!.name = name;
+  return state;
+}
+
+// Each of the four things a sync is given counts: a star of a mission or a sticker won with
+// nothing else changed must reach the file.
+test('a change of the camp, the career, the missions or the albums alone is a new asking', () => {
+  const storage = memory();
+  const family = createFamilyPersistence(storage);
+  const steps: [string, string | null, CareerState, MissionProgress, CapriceAlbums][] = [
+    ['first', camp(1), career(), missionsWith(0), albumsNamed('Mon carnet')],
+    ['the camp', camp(1, 123), career(), missionsWith(0), albumsNamed('Mon carnet')],
+    [
+      'the career',
+      camp(1, 123),
+      career((s) => (s.bestStars = [1, 0, 0])),
+      missionsWith(0),
+      albumsNamed('Mon carnet'),
+    ],
+    [
+      'the missions',
+      camp(1, 123),
+      career((s) => (s.bestStars = [1, 0, 0])),
+      missionsWith(2),
+      albumsNamed('Mon carnet'),
+    ],
+    [
+      'the albums',
+      camp(1, 123),
+      career((s) => (s.bestStars = [1, 0, 0])),
+      missionsWith(2),
+      albumsNamed('Carnet bleu'),
+    ],
+  ];
+  for (const [index, [what, raw, state, missions, albums]] of steps.entries()) {
+    assert.equal(family.sync(raw, state, missions, albums), true, what);
+    assert.equal(storage.writes, index + 1, `${what} alone is written`);
+    assert.equal(family.sync(raw, state, missions, albums), true, what);
+    assert.equal(storage.writes, index + 1, `${what} asked again writes nothing`);
+  }
+  const stored = readFamilyBackup(storage.values.get(FAMILY_STORAGE_KEY)!)!;
+  assert.equal(stored.missions!.bestStars.refuge, 2);
+  assert.equal(stored.albums!.children[0]!.name, 'Carnet bleu');
+});
+
+test('an asking that cannot be written as text is refused each time, never remembered', () => {
+  const storage = memory();
+  const family = createFamilyPersistence(storage);
+  assert.equal(family.sync(null, career()), true);
+  const looped = career() as CareerState & { self?: unknown };
+  looped.self = looped;
+  for (let i = 0; i < 3; i++) {
+    assert.equal(family.sync(null, looped), false);
+    assert.equal(family.status, TEXT.sauvegardeFamilialeInvalideAucune);
+  }
+  assert.equal(storage.writes, 1);
+  // The asking that was settled before is asked again after the refusals: nothing to write.
+  assert.equal(family.sync(null, career()), true);
+  assert.equal(storage.writes, 1);
+});
+
+test('without a storage, or with one that cannot be read, nothing is ever taken as settled', () => {
+  const none = createFamilyPersistence(undefined);
+  for (let i = 0; i < 3; i++) assert.equal(none.sync(null, career()), false);
+  const unreadable = {
+    writes: 0,
+    getItem(): string | null {
+      throw Error('blocked');
+    },
+    setItem() {
+      this.writes++;
+    },
+  };
+  const family = createFamilyPersistence(unreadable);
+  assert.equal(family.load(), null);
+  for (let i = 0; i < 3; i++) assert.equal(family.sync(null, career()), false);
+  assert.equal(unreadable.writes, 0);
+});
+
 test('a long run of askings stores what a file built each time would store', () => {
   const next = seededStream(20261121);
   const pick = <T>(list: readonly T[]): T => list[Math.floor(next() * list.length)]!;
@@ -137,8 +225,8 @@ test('a long run of askings stores what a file built each time would store', () 
     () => career((s) => (s.activeRoster = 1)),
     () => career((s) => ((s.chapterCamps as unknown[])[0] = NaN)),
   ];
-  const missions = [undefined, createMissionProgressController().state];
-  const albums = [undefined, createCapriceAlbumsController().state];
+  const missions = [undefined, createMissionProgressController().state, missionsWith(2)];
+  const albums = [undefined, createCapriceAlbumsController().state, albumsNamed('Carnet bleu')];
   const imports = [
     readFamilyBackup(writeFamilyBackup(null, careers[1]!())!)!,
     readFamilyBackup(writeFamilyBackup(camp(2), careers[0]!(), missions[1], albums[1])!)!,

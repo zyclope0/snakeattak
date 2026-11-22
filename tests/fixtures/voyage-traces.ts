@@ -2,7 +2,8 @@
 // d'équilibrage : bourse du roi réduite de 300 pièces ; moteur du commit 5b7306c).
 // La version 1 n'était pas publiée quand ces empreintes ont été refaites. Une fois publiée,
 // ne les régénère pas pour faire passer un test : une empreinte différente est un voyage
-// différent pour un code déjà partagé. De nouveaux réglages sont une version 2 du voyage.
+// différent pour un enfant qui l'a commencé. De nouveaux réglages sont une version 2 du voyage.
+// 21 novembre 2026 : le code de voyage n'existe plus ; il n'est plus écrit devant l'empreinte.
 // 15 novembre 2026 : le roi s'appelle « King Snake ». Un voyage change de hachage parce que
 // son dernier message nomme le roi ; son code, ses bonus et chaque étape sont les mêmes.
 export const expectedVoyageTraces: Readonly<Record<string, string>> = Object.freeze({

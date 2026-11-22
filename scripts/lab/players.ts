@@ -1,4 +1,5 @@
-// Joueurs automatiques du laboratoire du voyage : ceux de `balance-modes.mjs` et de
+// Joueurs automatiques des laboratoires (écrits pour le voyage, gardés pour l'expédition :
+// `npm run balance:expedition`) : ceux de `balance-modes.mjs` et de
 // `caprices-lab.mjs` (expert, moyen, petit, massues, gros), avec trois différences.
 // 1. Ils posent d'abord les alliés offerts par le sac de voyage.
 // 2. Ceux qui achètent « une voie après l'autre » (moyen, apprenti, petit, gros) commencent
