@@ -210,6 +210,8 @@ bindPrivacyDoor();
 bindFamilyControls({
   persistenceStatus: () => family.status,
   exportRaw: exportFamily,
+  previousRaw: family.previous,
+  refusedRaw: family.refused,
   accepts: acceptsFamily,
   applyBackup: applyFamily,
   finished: () => {

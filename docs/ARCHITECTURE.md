@@ -1651,3 +1651,29 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
 
 Pas essayé : sur un vrai téléphone, où l'enregistrement d'un fichier depuis le WebView reste à
 confirmer (c'est le même geste que l'export familial).
+
+## Deuxième génération de la sauvegarde — 22 novembre 2026
+
+Il n'existait qu'une copie du fichier familial : une sauvegarde valide mais fausse (des
+étoiles perdues par un défaut, un ancien fichier importé par erreur) remplaçait la bonne pour
+toujours ([analyse](ANALYSE-2026-11-22.md), S4).
+
+- **Ce qui est gardé.** Le fichier que le jeu trouve en démarrant, sous la clé
+  `family-previous` du joueur (`src/storageKeys.ts`, dans `PLAYER_KEYS` : supprimer un joueur
+  la supprime). Il est copié juste avant la première écriture de la séance, donc aussi avant
+  un import. Lire n'ajoute rien sur l'appareil : un jeu ouvert puis fermé le laisse comme il
+  était.
+- **La règle des étoiles.** Une copie n'est jamais remplacée par un fichier qui a moins
+  d'étoiles (grande aventure et missions, `familyStars` dans `src/familyBackup.ts`). Une
+  meilleure étoile ne se perd pas en jouant : moins d'étoiles veut dire un fichier plus ancien
+  ou une perte. La copie d'avant la perte tient alors de démarrage en démarrage, jusqu'à ce que
+  les étoiles soient revenues.
+- **Le chemin de retour.** La fenêtre « Sauvegarde familiale » montre, quand ils existent,
+  « Exporter la sauvegarde d'avant » et « Exporter le fichier mis de côté » (le fichier qu'une
+  version n'a pas su lire, gardé depuis l'étape d'hygiène et jamais rendu jusqu'ici). Rien
+  n'est repris directement : le parent exporte, puis importe ce fichier comme un autre, et tout
+  passe par la même lecture.
+- **Tenu par** `tests/family-previous.test.ts` et la recette `npm run test:saves:family`.
+
+La politique de confidentialité dit que les parties sauvegardées restent sur l'appareil et
+qu'un profil supprimé l'est avec ses données : c'est toujours vrai. Aucun mot n'en change.

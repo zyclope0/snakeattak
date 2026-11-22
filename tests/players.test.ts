@@ -195,6 +195,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
   assert.deepEqual(PLAYER_KEYS, [
     'conquete-serpents:family:v1',
     'conquete-serpents:family-refused:v1',
+    'conquete-serpents:family-previous:v1',
     'conquete-serpents:camp:v1',
     'conquete-serpents:progress:v1',
     'conquete-serpents:recruitment-reminder:v1',
@@ -219,7 +220,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     for (const id of ['p1', 'p2', 'p3', 'p4'] as const) assert.equal(playerKey(key, id), key);
 });
 
-test('the persistence code only ever touches the nine keys of its player', () => {
+test('the persistence code only ever touches the ten keys of its player', () => {
   for (const id of ['p1', 'p2', 'p4'] as const) {
     const device = memory();
     const storage = playerStorage(device, id);
@@ -239,6 +240,11 @@ test('the persistence code only ever touches the nine keys of its player', () =>
     createRecordBook(storage).add({ wave: 9, kings: 0, rules: 1, run: 7 });
     const expedition = logExpedition(loadExpeditionLog(storage), startExpedition(7)!)!;
     assert.equal(saveExpeditionLog(storage, expedition), true);
+    // The next session finds a save it can read, and keeps it before replacing it.
+    const next = createFamilyPersistence(storage);
+    assert.ok(next.load());
+    game.gold += 1;
+    assert.equal(next.sync(encodeCheckpoint(game), career.state), true);
     const expected = PLAYER_KEYS.map((key) => (id === 'p1' ? key : `${key}:${id}`)).sort();
     assert.deepEqual([...device.touched].sort(), expected);
     assert.deepEqual([...device.values.keys()].sort(), expected);

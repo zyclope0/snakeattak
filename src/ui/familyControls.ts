@@ -15,6 +15,10 @@ import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
 type Actions = {
   exportRaw: () => string | null;
+  /** The save from before, as a file the import reads; null when there is none. */
+  previousRaw: () => string | null;
+  /** The text of a file this version could not read, put aside as it was; null when none. */
+  refusedRaw: () => string | null;
   /** False for a file one of whose parts does not read back: it is refused whole. */
   accepts: (backup: FamilyBackup) => boolean;
   applyBackup: (backup: FamilyBackup) => {
@@ -76,6 +80,52 @@ function albumNameNodes(backup: FamilyBackup) {
     name.textContent = ' · ' + child.name;
     return name;
   });
+}
+/**
+ * The two copies the game keeps beside the save, each with a sentence and a button that hands
+ * the text over as a file. Nothing is brought back from here: a parent exports, then imports
+ * the file like any other, so every text passes the same reading. Shown only when it exists.
+ */
+function bindKeptCopies(actions: Pick<Actions, 'previousRaw' | 'refusedRaw'>) {
+  const copy = (
+    id: string,
+    words: string,
+    label: string,
+    which: 'avant' | 'mis-de-cote',
+    read: () => string | null,
+  ) => {
+    const button = make('button', { id, className: 'secondary', text: label });
+    button.type = 'button';
+    button.onclick = () => {
+      const raw = read();
+      if (raw === null) return;
+      downloadText(raw, familyFileName(which));
+      say(TEXT.fichierPretConserveLePourReprendre);
+    };
+    const block = make('div', { className: 'family-copy' }, make('p', { text: words }), button);
+    return { block, show: () => (block.hidden = read() === null) };
+  };
+  const previous = copy(
+    'family-export-previous',
+    TEXT.leJeuGardeAussiLaSauvegardeDAvant,
+    TEXT.exporterLaSauvegardeDAvant,
+    'avant',
+    actions.previousRaw,
+  );
+  const refused = copy(
+    'family-export-refused',
+    TEXT.ceFichierNAPasPuEtreLu,
+    TEXT.exporterLeFichierMisDeCote,
+    'mis-de-cote',
+    actions.refusedRaw,
+  );
+  return {
+    node: make('div', { id: 'family-copies' }, previous.block, refused.block),
+    refresh() {
+      previous.show();
+      refused.show();
+    },
+  };
 }
 function openPicker(file: HTMLInputElement) {
   try {
@@ -154,8 +204,11 @@ export function bindFamilyControls(actions: Actions) {
     byId('home-family').focus({ preventScroll: true });
   };
 
+  const copies = bindKeptCopies(actions);
+  byId('family-export').after(copies.node);
   byId('home-family').onclick = () => {
     preview.reset();
+    copies.refresh();
     say(actions.persistenceStatus());
     dialog.showModal();
   };

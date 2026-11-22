@@ -38,3 +38,9 @@ export const impossibleDePreparerLeFichierDe =
   'Impossible de préparer le fichier de cette aventure.';
 export const fichierPretConserveLePourReprendre =
   'Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.';
+export const exporterLaSauvegardeDAvant = 'Exporter la sauvegarde d’avant';
+export const exporterLeFichierMisDeCote = 'Exporter le fichier mis de côté';
+export const leJeuGardeAussiLaSauvegardeDAvant =
+  'Le jeu garde aussi la sauvegarde d’avant : celle du dernier démarrage, ou celle d’avant une perte d’étoiles. Pour la reprendre, exporte-la puis choisis ce fichier ci-dessous.';
+export const ceFichierNAPasPuEtreLu =
+  'Un ancien fichier n’a pas pu être lu par cette version du jeu. Il a été mis de côté, sans être effacé.';

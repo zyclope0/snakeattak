@@ -144,6 +144,79 @@ let exported;
     await browser.close();
   }
 }
+// 4. The copies the game keeps beside the save. A game opened and closed adds nothing; once
+//    the session has saved, the file it found is offered to a parent, byte for byte; a file
+//    this version cannot read, put aside, is offered too.
+{
+  const { readFamilyBackup } = await import('../../src/familyBackup.ts');
+  const found = device[KEYS.FAMILY_STORAGE_KEY];
+  const { browser, page, report } = await open({ dir, storage: device });
+  try {
+    await start(page);
+    assert.equal(
+      (await snapshot(page))[KEYS.FAMILY_PREVIOUS_KEY],
+      undefined,
+      'reading adds nothing',
+    );
+    await dialog(page);
+    assert.equal(await page.locator('#family-export-previous').isVisible(), false);
+    assert.equal(await page.locator('#family-export-refused').isVisible(), false);
+    await page.locator('#family-close').click();
+    // The player starts a mission: the save is written, and what it replaces is kept.
+    await showHomePage(page, 'home');
+    await page.locator('#home-primary').click();
+    await page.locator('#app').waitFor({ state: 'visible' });
+    await page.waitForFunction(
+      (key) => localStorage.getItem(key) !== null,
+      KEYS.FAMILY_PREVIOUS_KEY,
+    );
+    const kept = (await snapshot(page))[KEYS.FAMILY_PREVIOUS_KEY];
+    assert.equal(kept, found, 'the copy is the file the session found');
+    checks.push('kept copy: nothing added by reading; the file found is kept at the first save');
+    assert.deepEqual(report.errors, []);
+  } finally {
+    await browser.close();
+  }
+  // The next start offers that copy, and a file put aside, in the family window.
+  const next = await open({
+    dir,
+    storage: {
+      ...device,
+      [KEYS.FAMILY_PREVIOUS_KEY]: found,
+      [KEYS.FAMILY_REFUSED_KEY]: '{"version":99}',
+    },
+  });
+  try {
+    await start(next.page);
+    await dialog(next.page);
+    for (const [id, expected, name] of [
+      ['#family-export-previous', found, 'conquete-serpents-famille-avant.json'],
+      ['#family-export-refused', '{"version":99}', 'conquete-serpents-famille-mis-de-cote.json'],
+    ]) {
+      const button = next.page.locator(id);
+      await button.scrollIntoViewIfNeeded();
+      const box = await button.boundingBox();
+      assert.ok(
+        box.width >= 48 && box.height >= 48,
+        `${id}: a target of ${box.width}×${box.height}`,
+      );
+      const [download] = await Promise.all([next.page.waitForEvent('download'), button.click()]);
+      assert.equal(download.suggestedFilename(), name);
+      assert.equal(await readFile(await download.path(), 'utf8'), expected, `${id}: byte for byte`);
+    }
+    assert.ok(readFamilyBackup(found), 'the copy from before is a file the import reads');
+    // Brought back the usual way: exported, then chosen like any other file.
+    await give(next.page, found, 'conquete-serpents-famille-avant.json');
+    await next.page.locator('#family-apply:not([disabled])').waitFor({ state: 'visible' });
+    await next.page.screenshot({ path: 'artifacts/hygiene/family-copies.png' });
+    checks.push(
+      'kept copies: both exported byte for byte from the family window; the copy from before is accepted by the import',
+    );
+    assert.deepEqual(next.report.errors, []);
+  } finally {
+    await next.browser.close();
+  }
+}
 const out = { recipe: 'family-backup', dir, checks };
 await writeFile('artifacts/hygiene/family-backup.json', JSON.stringify(out, null, 2));
 console.log(JSON.stringify(out, null, 1));

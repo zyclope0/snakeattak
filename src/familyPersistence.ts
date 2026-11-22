@@ -1,6 +1,7 @@
 import type { StoragePort } from './checkpoints.ts';
 import {
   FAMILY_EXTRAS_VERSION,
+  familyStars,
   hasAlbums,
   readFamilyBackup,
   writeFamilyBackup,
@@ -12,7 +13,7 @@ import { validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
 import { validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
-import { FAMILY_REFUSED_KEY, FAMILY_STORAGE_KEY } from './storageKeys.ts';
+import { FAMILY_PREVIOUS_KEY, FAMILY_REFUSED_KEY, FAMILY_STORAGE_KEY } from './storageKeys.ts';
 import * as TEXT from './texts/fr/family.ts';
 
 /** What one session remembers about the family file between two calls. */
@@ -34,6 +35,14 @@ type Session = {
    * build the file already stored. Any other read or write forgets it.
    */
   settled: string | null;
+  /**
+   * The file found when the game started, until the session's first write: it is then kept as
+   * the second generation, just before it is replaced. Reading alone adds nothing to the
+   * device. `started` is true once the session has read or written: a later read is not a
+   * start.
+   */
+  found: { raw: string; backup: FamilyBackup } | null;
+  started: boolean;
 };
 
 /**
@@ -76,6 +85,8 @@ function save(
   if (!storage || (session.disabled && !explicitImport)) return false;
   // Confirmation still performs a write, so a blocked storage cannot accept an import.
   if (!explicitImport && raw === session.last) return true;
+  keepPrevious(storage, session);
+  session.started = true;
   try {
     storage.setItem(FAMILY_STORAGE_KEY, raw);
     session.last = raw;
@@ -89,9 +100,42 @@ function save(
   }
 }
 
+/**
+ * The second generation. The file found when the game started is kept beside the one the
+ * session writes, at the moment it is about to be replaced: a save that is valid but wrong
+ * does not replace the only copy. A copy with more stars is never given up for a file with
+ * fewer: after stars were lost or an older file imported, it is the copy from before that
+ * stays.
+ */
+function keepPrevious(storage: StoragePort, session: Session): void {
+  if (!session.found) return;
+  const { raw, backup } = session.found;
+  session.found = null;
+  try {
+    const held = storage.getItem(FAMILY_PREVIOUS_KEY);
+    if (held === raw) return;
+    const before = held === null ? null : readFamilyBackup(held);
+    if (before && familyStars(before) > familyStars(backup)) return;
+    storage.setItem(FAMILY_PREVIOUS_KEY, raw);
+  } catch {
+    /* No room for the copy, or no way to read it: the game is played all the same. */
+  }
+}
+
+/** A text kept beside the family file, or null: nothing kept, or a storage that says no. */
+function kept(storage: StoragePort | undefined, key: string): string | null {
+  try {
+    return storage?.getItem(key) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function load(storage: StoragePort | undefined, session: Session): FamilyBackup | null {
   session.settled = null;
   if (!storage) return null;
+  const first = !session.started;
+  session.started = true;
   try {
     const raw = storage.getItem(FAMILY_STORAGE_KEY);
     if (raw === null) {
@@ -119,6 +163,7 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
         /* No room for the copy: the adventure is read all the same. */
       }
     }
+    if (first) session.found = { raw, backup };
     session.last = JSON.stringify(backup);
     retain(session, backup.missions, backup.albums);
     session.status = TEXT.aventureFamilialeEnregistreeSurCet;
@@ -159,11 +204,23 @@ export function createFamilyPersistence(storage?: StoragePort) {
     missions: undefined,
     albums: undefined,
     settled: null,
+    found: null,
+    started: false,
   };
   return {
     get status() {
       return session.status;
     },
+    /**
+     * The save from before, when it is a file the family import reads; null otherwise. It is
+     * only handed over: bringing it back goes through the import, like any other file.
+     */
+    previous(): string | null {
+      const raw = kept(storage, FAMILY_PREVIOUS_KEY);
+      return raw !== null && readFamilyBackup(raw) ? raw : null;
+    },
+    /** The text put aside because this version could not read it, exactly as it was found. */
+    refused: (): string | null => kept(storage, FAMILY_REFUSED_KEY),
     load: (): FamilyBackup | null => load(storage, session),
     sync(
       campRaw: string | null,
