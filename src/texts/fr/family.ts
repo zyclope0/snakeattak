@@ -44,7 +44,7 @@ export const leJeuGardeAussiLaSauvegardeDAvant =
   'Le jeu garde aussi la sauvegarde d’avant : celle du dernier démarrage, ou celle d’avant une perte d’étoiles. Pour la reprendre, exporte-la puis choisis ce fichier ci-dessous.';
 export const ceFichierNAPasPuEtreLu =
   'Un ancien fichier n’a pas pu être lu par cette version du jeu. Il a été mis de côté, sans être effacé.';
-export const leCampDeLaSauvegardeNAPasPuEtreLu =
-  'Le camp de la sauvegarde n’a pas pu être lu. Les étoiles, les missions et les carnets sont gardés ; le fichier d’origine est mis de côté.';
+export const tesEtoilesTesMissionsEtTesCarnetsSontBienLa =
+  'Tes étoiles, tes missions et tes carnets sont bien là. Un camp n’a pas pu être relu.';
 export const dansLApplicationLAventureNePeutPas =
   'Dans l’application, l’aventure ne peut pas sortir de cet appareil. Si l’application est désinstallée ou si ses données sont effacées, elle est perdue.';

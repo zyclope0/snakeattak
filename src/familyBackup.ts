@@ -156,18 +156,61 @@ export function readFamilyBackup(text: string): FamilyBackup | null {
   return readBoundedJson(text, FAMILY_CHARACTER_LIMIT, readFamilyData);
 }
 
+/** A camp written as text that the game can no longer decode. */
+const unreadable = (camp: unknown): boolean =>
+  typeof camp === 'string' && decodeCheckpoint(camp) === null;
+
 /**
- * What still reads of a family file whose camp does not: the same file without its camp. Null
- * when the file has no camp to set aside, or when something else in it is refused too. The
- * strict reader above is untouched: this is asked only for a file it has already refused.
+ * What still reads of a family file one of whose camps does not. The same camp is written in
+ * several places of the file (on top, as the camp of the adventure or of the mission, as the
+ * camp of a chapter): each one that does not decode is set aside, then the strict reader reads
+ * the rest, with all its rules. A camp that decodes but breaks one of those rules is still a
+ * refusal of the whole file: such a file does not come out of the game.
+ *
+ * The camp on top is the one of the adventure being played. When it is set aside, the same
+ * file may still hold it: the camp of the mode being played, else — from a mission — the
+ * camp of the classic adventure, and the game goes back to it. Never a camp from elsewhere
+ * on the device: it could be another adventure's.
+ *
+ * Null when no camp was set aside, when something else in the file is refused too, or for a
+ * file with extras. The strict reader is untouched: this is asked only for a file it has
+ * already refused.
  */
 export function salvageFamilyBackup(text: string): FamilyBackup | null {
   if (typeof text !== 'string' || !withinLimits(text)) return null;
-  return readBoundedJson(text, FAMILY_CHARACTER_LIMIT, (data) =>
-    isRecord(data) && typeof data.camp === 'string'
-      ? readFamilyData({ ...data, camp: null })
-      : null,
-  );
+  return readBoundedJson(text, FAMILY_CHARACTER_LIMIT, (data) => {
+    if (!isRecord(data)) return null;
+    let aside = 0;
+    const kept = (camp: unknown) => (unreadable(camp) ? (aside++, null) : camp);
+    let camp = kept(data.camp);
+    const top = aside > 0;
+    const missions = isRecord(data.missions) ? { ...data.missions } : data.missions;
+    if (isRecord(missions)) {
+      missions.classicCamp = kept(missions.classicCamp);
+      missions.retryCamp = kept(missions.retryCamp);
+    }
+    const career = isRecord(data.career) ? { ...data.career } : data.career;
+    if (isRecord(career) && Array.isArray(career.chapterCamps))
+      career.chapterCamps = career.chapterCamps.map(kept);
+    if (!aside) return null;
+    if (top && isRecord(missions)) {
+      const inMission = missions.activeMode === 'missions';
+      camp = inMission ? missions.retryCamp : missions.classicCamp;
+      if (inMission && typeof camp !== 'string' && typeof missions.classicCamp === 'string') {
+        missions.activeMode = 'classic';
+        camp = missions.classicCamp;
+      }
+    }
+    // Only what the file has: a file from before the missions has no such part, and one
+    // added here, even empty, would make the reader refuse it.
+    const rest: Record<string, unknown> = { ...data, camp: camp ?? null };
+    if (Object.hasOwn(data, 'missions')) rest.missions = missions;
+    if (Object.hasOwn(data, 'career')) rest.career = career;
+    const backup = readFamilyData(rest);
+    // A file that carries extras is an exported one, never one the game stored: it is not
+    // taken this way, its extras would be lost at the next save.
+    return backup && backup.version !== FAMILY_EXTRAS_VERSION ? backup : null;
+  });
 }
 
 type Content = { career: CareerState; missions?: MissionProgress; albums?: CapriceAlbums };

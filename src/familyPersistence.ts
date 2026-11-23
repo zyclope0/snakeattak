@@ -44,7 +44,7 @@ type Session = {
    */
   found: { raw: string; backup: FamilyBackup } | null;
   started: boolean;
-  /** True when the file read at start-up was kept without its camp, which did not read. */
+  /** True when the file read at start-up was kept but for a camp that did not decode. */
   salvaged: boolean;
 };
 
@@ -95,10 +95,12 @@ function save(
     session.last = raw;
     retain(session, missions, albums);
     session.disabled = false;
-    // After a file kept without its camp, the session goes on saying so: the first save
-    // comes at once, and the sentence would otherwise never be read.
+    // After a file kept without one of its camps, the session goes on saying so: the first
+    // save comes at once, and the sentence would otherwise never be read. An import replaces
+    // that adventure by another: the sentence no longer speaks of what is on the device.
+    if (explicitImport) session.salvaged = false;
     session.status = session.salvaged
-      ? TEXT.leCampDeLaSauvegardeNAPasPuEtreLu
+      ? TEXT.tesEtoilesTesMissionsEtTesCarnetsSontBienLa
       : TEXT.aventureFamilialeEnregistreeSurCet;
     return true;
   } catch {
@@ -138,6 +140,12 @@ function kept(storage: StoragePort | undefined, key: string): string | null {
   }
 }
 
+/** True when the text put aside is another one, of which start-up would keep nothing at all. */
+function holdsWholeRefusal(storage: StoragePort, raw: string): boolean {
+  const held = storage.getItem(FAMILY_REFUSED_KEY);
+  return held !== null && held !== raw && !readFamilyBackup(held) && !salvageFamilyBackup(held);
+}
+
 function load(storage: StoragePort | undefined, session: Session): FamilyBackup | null {
   session.settled = null;
   if (!storage) return null;
@@ -152,21 +160,25 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
     }
     const backup = readFamilyBackup(raw);
     if (!backup) {
-      // The game starts anew and its first save takes the place of this file: its text is
-      // put aside first, so that an adventure this version cannot read is never destroyed.
-      try {
-        storage.setItem(FAMILY_REFUSED_KEY, raw);
-      } catch {
-        /* No room for the copy: the game is played all the same. */
-      }
       // A camp that does not read no longer takes the rest with it: the stars, the missions
-      // and the sticker books of the same file are kept, and the game looks for the camp
-      // under its own key. A file that carries extras is never one the game stored.
+      // and the sticker books of the same file are kept, and so is any camp of it that still
+      // reads.
       const rest = salvageFamilyBackup(raw);
-      if (rest && rest.version !== FAMILY_EXTRAS_VERSION) {
+      // The first save takes the place of this file: its text is put aside first, so that
+      // an adventure this version cannot read is never destroyed. One place only: a file
+      // refused whole takes it; a file kept but for a camp does not push out a text of
+      // which nothing could be read, which may be a whole adventure.
+      if (!rest || !holdsWholeRefusal(storage, raw)) {
+        try {
+          storage.setItem(FAMILY_REFUSED_KEY, raw);
+        } catch {
+          /* No room for the copy: the game is played all the same. */
+        }
+      }
+      if (rest) {
         session.salvaged = true;
         retain(session, rest.missions, rest.albums);
-        session.status = TEXT.leCampDeLaSauvegardeNAPasPuEtreLu;
+        session.status = TEXT.tesEtoilesTesMissionsEtTesCarnetsSontBienLa;
         return rest;
       }
       session.status = TEXT.sauvegardeFamilialeIncompatible;
@@ -230,7 +242,7 @@ export function createFamilyPersistence(storage?: StoragePort) {
     get status() {
       return session.status;
     },
-    /** True when the last file loaded was kept without its camp: the camp has its own key. */
+    /** True when the last file loaded was kept but for a camp, until an import replaces it. */
     get salvaged() {
       return session.salvaged;
     },

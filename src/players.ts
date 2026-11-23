@@ -1,5 +1,5 @@
 import { kinds } from './data.ts';
-import { readFamilyBackup } from './familyBackup.ts';
+import { readFamilyBackup, salvageFamilyBackup } from './familyBackup.ts';
 import {
   CAMP_STORAGE_KEY,
   CAREER_STORAGE_KEY,
@@ -210,7 +210,11 @@ export function clearPlayerData(device: StoragePort | undefined, id: PlayerId): 
 export function playerStars(device: ReadPort | undefined, id: PlayerId): number {
   try {
     const raw = device?.getItem(playerKey(FAMILY_STORAGE_KEY, id));
-    const missions = raw ? readFamilyBackup(raw)?.missions : undefined;
+    // As the game itself will read it: a file one of whose camps no longer decodes keeps
+    // its stars.
+    const missions = raw
+      ? (readFamilyBackup(raw) ?? salvageFamilyBackup(raw))?.missions
+      : undefined;
     return missions ? Object.values(missions.bestStars).reduce((sum, stars) => sum + stars, 0) : 0;
   } catch {
     return 0;

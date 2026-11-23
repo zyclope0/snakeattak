@@ -47,10 +47,12 @@ Le site n'est pas touché.
 2. Garde de publication et filet d'erreur : fait (PR 129, attaquée deux fois avant fusion).
    Puis l'application dit la vérité sur l'export : plus de bouton muet ni de « Fichier
    prêt » sans fichier, en attendant les deux modules (PR 131, attaquée avant fusion).
-3. Écrans de panne : une seule fenêtre, des phrases justes, « Réessayer » (PR 132, attaquée
-   avant fusion). Le secours en un seul fichier, avec son lecteur, reste à faire.
-4. Sauvegardes, trois lots à la suite, chacun attaqué avant le suivant : sauvetage de tous
-   les camps, copies de secours à deux clés, « ta partie n'est pas gardée ».
+3. Écrans de panne : une seule fenêtre, des phrases justes, « Réessayer » : fait (PR 132,
+   attaquée puis contre-attaquée avant fusion). Le secours en un seul fichier, avec son
+   lecteur, reste à faire.
+4. Sauvegardes, trois lots à la suite, chacun attaqué avant le suivant. Le premier, le
+   sauvetage de tous les camps, est proposé (PR 133) ; puis les copies de secours ; puis
+   « ta partie n'est pas gardée ».
 5. Le parent lit les mots des fenêtres et accepte les copies gardées sur l'appareil ; il
    republie le commit déjà en ligne (répétition de la garde), puis `main`.
 6. Build 65 : `main` et l'export réparé par les deux modules, essayé sur son téléphone :

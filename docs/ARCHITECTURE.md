@@ -1747,17 +1747,43 @@ build 63 dont le camp est abîmé : les étoiles des missions passaient de 3 sur
 carnets étaient perdus avec elles. Les étoiles de la grande aventure, elles, tenaient déjà :
 la carrière a sa propre clé.
 
-- Le lecteur strict (`readFamilyBackup`) ne change pas : un fichier dont le camp ne se lit pas
+- Le lecteur strict (`readFamilyBackup`) ne change pas : un fichier dont un camp ne se lit pas
   reste refusé à l'import.
 - Pour le fichier que l'appareil garde, et seulement après ce refus, `salvageFamilyBackup`
-  (`src/familyBackup.ts`) relit le même fichier sans son camp. Si le reste se lit, les étoiles,
-  les missions et les carnets sont gardés, et le camp est cherché sous sa propre clé
-  (`src/bootstrap.ts`). Si autre chose est refusé, rien ne change : le fichier est refusé en
-  entier, comme avant.
-- Le fichier tel qu'il a été trouvé est mis de côté, comme avant, et peut être exporté depuis
-  la fenêtre « Sauvegarde familiale ». La ligne d'état le dit pendant toute la séance.
-- **Tenu par** `tests/family-salvage.test.ts` et la recette `npm run test:saves:family`, qui
-  abîme le camp de l'appareil figé et compare les étoiles des missions.
-
-Limite : seul le camp principal est mis de côté. Un camp de chapitre ou de mission abîmé à
-l'intérieur de la carrière ou des missions fait toujours refuser le fichier.
+  (`src/familyBackup.ts`) écarte **chaque camp qui ne se décode plus, partout où il est
+  écrit** : en haut du fichier, comme camp de l'aventure classique ou de la mission à
+  retenter, comme camp d'un chapitre. Puis le lecteur strict relit le reste, avec toutes ses
+  règles. Un camp qui se décode mais enfreint une règle du fichier reste un refus du fichier
+  entier : un tel fichier ne sort pas du jeu.
+- **Le camp de départ vient du même fichier, jamais d'ailleurs.** Si le camp du haut est
+  écarté : le camp du mode en cours s'il se lit encore ; sinon, depuis une mission, le camp
+  de l'aventure classique, et le jeu y revient ; sinon aucun. La clé `camp` de l'appareil
+  n'est plus lue quand un fichier familial a été lu : elle peut porter une autre aventure.
+- Un fichier avec des extras (version 6) n'est jamais sauvé ainsi : le jeu n'en garde pas, et
+  ses extras seraient perdus à la sauvegarde suivante. Un fichier d'avant les missions
+  (version 1) l'est comme les autres.
+- Le fichier tel qu'il a été trouvé est mis de côté. Il n'y a qu'une place : un fichier refusé
+  en entier la prend ; un fichier sauvé à un camp près n'en chasse pas un texte dont rien ne
+  serait gardé au démarrage, qui est peut-être une aventure entière.
+- La ligne d'état le dit pendant la séance (« Tes étoiles, tes missions et tes carnets sont
+  bien là. Un camp n'a pas pu être relu. »), jusqu'à ce qu'un import remplace l'aventure. La
+  liste « Qui joue ? » lit les étoiles comme le jeu les lira.
+- **Tenu par** `tests/family-salvage.test.ts` (dix-sept tests) et la recette
+  `npm run test:saves:family`, sur l'appareil figé d'un testeur du build 63, dans cinq états :
+  camp du haut seul, camp abîmé partout y compris sous sa clé, en pleine mission (le retour à
+  la mission reste offert, ou l'aventure classique si le camp de la mission est mort
+  partout), clé `camp` d'une autre aventure, texte déjà mis de côté. Une relecture
+  indépendante a rejoué 798 démarrages sauvés et douze appareils abîmés dans Chromium, dont
+  six avec une vague jouée puis une relance : aucune perte trouvée.
+- **Ne couvre pas** :
+  - un dégât ailleurs que dans un camp (carrière, missions, carnets) : le fichier est refusé
+    en entier, et ce chemin-là lit encore la clé `camp`, qui peut porter une autre aventure ;
+  - un camp qui se décode mais que le fichier refuse ;
+  - le camp écarté lui-même : il n'est gardé que dans le texte mis de côté, si la place est
+    libre, et aucune version ne le ramène ;
+  - un fichier version 6 dont un camp est mort : tout part, comme avant ;
+  - les autres joueurs : leur fichier reste abîmé tant qu'ils ne jouent pas ;
+  - la phrase : dix pixels en bas de l'accueil sur téléphone, une séance seulement ; « un
+    camp » quand plusieurs sont morts ; dite aussi quand rien n'est perdu ;
+  - des dégâts fabriqués sur des données réelles : aucun fichier réellement abîmé n'a été
+    vu ; rien n'est vu sur un téléphone.
