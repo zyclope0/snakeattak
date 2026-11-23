@@ -58,6 +58,18 @@ async function ask(page) {
 }
 const said = (page) =>
   page.waitForFunction(() => document.getElementById('family-status').textContent.trim() !== '');
+/**
+ * The sentence is on the screen, not only in the page: on a phone the window is taller than
+ * the screen, and the parent saw no message (test APK, 23 November 2026).
+ */
+async function seen(page, label) {
+  const box = await page.locator('#family-status').boundingBox();
+  const { height } = page.viewportSize();
+  assert.ok(
+    box && box.y >= 0 && box.y + box.height <= height,
+    `${label}: the sentence is at ${box?.y}–${(box?.y ?? 0) + (box?.height ?? 0)} of ${height}`,
+  );
+}
 
 for (const viewport of SIZES) {
   const tag = `${viewport.width}x${viewport.height}`;
@@ -100,8 +112,21 @@ for (const viewport of SIZES) {
     await page.locator('#adult-gate-cancel').click();
     await said(page);
     assert.equal(await status(page), FAMILY.rienNAEteEnvoyeIlFautLaBonneReponse);
+    await seen(page, `${tag} refused`);
     assert.equal(await page.locator('#adult-gate').count(), 0, 'the question is gone');
     assert.equal(await shares(page), 0, '« Annuler » sends nothing');
+    // The right answer: the share opens once, and the sentence that says so is seen.
+    await ask(page);
+    const [a, b] = (await page.locator('#adult-gate label').textContent())
+      .match(/\d+/g)
+      .map(Number);
+    await page.locator('#adult-gate-answer').fill(String(a * b));
+    await page.locator('#adult-gate-send').click();
+    await said(page);
+    assert.equal(await status(page), FAMILY.leFichierEstPartiVerifieQuIlEstBienArrive);
+    await seen(page, `${tag} shared`);
+    assert.equal(await shares(page), 1);
+    checks.push(`${tag} : la phrase se voit sans défiler, après un refus comme après un partage`);
     checks.push(
       `${tag} : la question avant le partage, dans l'écran${viewport.height < 400 ? ', et avec le clavier' : ''} ; « Annuler » n'envoie rien`,
     );

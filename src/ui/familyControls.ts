@@ -39,10 +39,19 @@ type Actions = {
 };
 
 const say = (text: string) => setDisplayText(byId('family-status'), text);
+/**
+ * Says what became of a file, and brings the sentence into view: on a phone the window is
+ * taller than the screen, and the sentence sat under its edge (the parent's test of the
+ * build 65 test APK, 23 November 2026: « aucun message »).
+ */
+const tell = (text: string) => {
+  say(text);
+  byId('family-status').scrollIntoView({ block: 'nearest' });
+};
 /** In the application the file goes to the app the family chose, not to a browser. */
 /** Hands a file over and says the truth about it. */
 const exportFile = async (raw: string, name: string) =>
-  say(toldAdventure(await handOver(raw, name)));
+  tell(toldAdventure(await handOver(raw, name)));
 const sum = (values: readonly number[]) => values.reduce((a, b) => a + b, 0);
 /** The sticker books of a file; older files have none. */
 const albumsOf = (backup: FamilyBackup) => (hasAlbums(backup) ? backup.albums : null);
@@ -166,7 +175,7 @@ function bindKeptCopies(
     });
     button.type = 'button';
     button.onclick = async () =>
-      say(toldSetAside(await handOver(raw, familyFileName('mis-de-cote'))));
+      tell(toldSetAside(await handOver(raw, familyFileName('mis-de-cote'))));
     block.append(button);
     return block;
   };
@@ -245,16 +254,16 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
     if (!selected) return;
     // The user's filename is local data, never translated.
     byId('family-file-name').textContent = selected.name;
-    if (selected.size > FAMILY_BYTE_LIMIT) return say(TEXT.fichierTropVolumineuxRienNAEte);
+    if (selected.size > FAMILY_BYTE_LIMIT) return tell(TEXT.fichierTropVolumineuxRienNAEte);
     say(TEXT.lectureDuFichier);
     try {
       const raw = await selected.text();
       if (turn !== generation || !dialog.open) return;
       const backup = readFamilyBackup(raw);
       if (backup && accepts(backup)) show(backup);
-      else say(TEXT.fichierFamilialInvalideOu);
+      else tell(TEXT.fichierFamilialInvalideOu);
     } catch {
-      if (turn === generation) say(TEXT.impossibleDeLireCeFichierRienNAEte);
+      if (turn === generation) tell(TEXT.impossibleDeLireCeFichierRienNAEte);
     }
   };
 
@@ -306,7 +315,7 @@ export function bindFamilyControls(actions: Actions) {
   if (canHandOver())
     exportButton.onclick = () => {
       const raw = actions.exportRaw();
-      if (!raw || !readFamilyBackup(raw)) return say(TEXT.impossibleDePreparerLeFichierDe);
+      if (!raw || !readFamilyBackup(raw)) return tell(TEXT.impossibleDePreparerLeFichierDe);
       exportFile(raw, familyFileName());
     };
   // The application cannot hand a file over: a sentence says so where the button was, rather
@@ -319,7 +328,7 @@ export function bindFamilyControls(actions: Actions) {
     const backup = preview.chosen();
     if (!backup) return;
     const result = actions.applyBackup(backup, preview.whole());
-    say(result.message);
+    tell(result.message);
     if (!result.ok) return;
     preview.reset();
     dialog.close();
