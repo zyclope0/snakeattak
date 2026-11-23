@@ -1,12 +1,13 @@
-# Android build 65 — en préparation
+# Passation — Android 0.41.0 / build 65
 
-**Pas encore construit.** Ne pas empaqueter depuis une branche qui porte encore la version
-0.40.0 : ce serait un second « build 64 », différent du premier. Ce qui manque avant : l'accord du parent sur la politique de
-confidentialité, qui nomme « 0.40.0 (build 64) » (voir
-[MOTS-A-LIRE-2026-11-22.md](MOTS-A-LIRE-2026-11-22.md), section 9), puis un lot qui monte la
-version ensemble dans `package.json`, `package-lock.json`, `android/app/build.gradle` et
-`POLICY_APP` (un test refuse tout écart), avec son `BILAN`. La procédure de construction est
-celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)).
+**Prêt à construire depuis `main` une fois ce lot fusionné**, avec une réserve : la barrière
+pour adulte avant le partage d'Android (décision 3 du parent, [décisions](DECISIONS-2026-11-23.md))
+est un lot à part ; je propose d'attendre qu'il soit fusionné pour construire. La version est
+montée ensemble dans `package.json`, `package-lock.json`, `android/app/build.gradle` et
+`POLICY_APP` (un test refuse tout écart) ; contenu : [BILAN-0.41.0.md](BILAN-0.41.0.md). La
+procédure de construction est celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)) :
+`npm ci`, puis `npm run android:package` ; sortie dans
+`artifacts/android/conquete-serpents-v0.41.0-build65/`.
 
 ## Ce que le build 65 apporte
 
@@ -19,7 +20,8 @@ celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)).
   `android/app/capacitor.build.gradle`. Leurs manifestes sont vides : **aucune permission
   nouvelle**. Le partage passe par le `FileProvider` déjà déclaré (`cache-path`).
 - Les lots de solidité des sauvegardes (camps sauvés, copies de secours, « partie non
-  gardée ») et les fenêtres de panne, s'ils sont fusionnés d'ici là.
+  gardée ») et les fenêtres de panne, fusionnés (PR 129 à 136).
+- La barrière pour adulte avant le partage (décision 3), quand son lot sera fusionné.
 
 ## Recette sur le téléphone (à cocher)
 
@@ -46,9 +48,13 @@ Le reste :
 
 - [ ] Partage rapide (Nearby / Quick Share) ou partage vers une application qui ne quitte pas
       le jeu : noter la phrase affichée (le code du module laisse croire qu'il dira « fermé »).
-- [ ] Le partage s'ouvre sans barrière parentale : le parent juge si c'est acceptable sous
-      « Pour les parents ».
+- [ ] Avant le partage, la question pour adulte s'affiche ; une mauvaise réponse n'ouvre
+      rien (une fois le lot de la barrière fusionné).
 - [ ] Les recettes du build 64 (mise à jour, sauvegardes, fenêtres de panne) passent encore.
+- [ ] Installer **par-dessus le build 64** : rien n'est effacé ; étoiles, aventure en cours,
+      expédition, joueurs sont là.
+- [ ] Hors ligne : « Pour les parents » → Confidentialité affiche « Application Android
+      0.41.0, build 65 ».
 
 ## Pas essayé
 

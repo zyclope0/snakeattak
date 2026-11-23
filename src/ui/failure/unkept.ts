@@ -1,5 +1,6 @@
 import { byId, dialogOpen, make } from '../dom.ts';
 import { showTrouble } from './trouble.ts';
+import { buildIsApp } from '../download.ts';
 import * as TEXT from '../../texts/fr/failure.ts';
 
 /**
@@ -21,7 +22,11 @@ type Where = {
 
 const PARENTS: Record<Cause, string> = {
   full: TEXT.lAppareilNASansDoutePlusAssezDePlace,
-  blocked: TEXT.cetAppareilNeLaissePasLeJeuGarder,
+  // The application has no private browsing and no such setting: its own words (the parent,
+  // 23 November 2026).
+  blocked: buildIsApp()
+    ? TEXT.cetAppareilNeLaissePasLeJeuGarderLaPartie
+    : TEXT.cetAppareilNeLaissePasLeJeuGarder,
   broken: TEXT.leJeuNArrivePasAGarderCettePartie,
 };
 

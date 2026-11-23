@@ -23,6 +23,13 @@ const [dir = 'dist-android'] = process.argv.slice(2);
 await mkdir('artifacts/hygiene', { recursive: true });
 const checks = [];
 const FR = await import('../../src/texts/fr/failure.ts');
+/** True on the application's package, by what the build wrote in it. */
+const application =
+  JSON.parse(await readFile(`${dir}/build-info.json`, 'utf8')).target === 'android';
+/** The parents' words for a storage that cannot be read: the application has its own. */
+const BLOCKED = application
+  ? FR.cetAppareilNeLaissePasLeJeuGarderLaPartie
+  : FR.cetAppareilNeLaissePasLeJeuGarder;
 const KEYS = await import('../../src/storageKeys.ts');
 /**
  * Installed before the game starts: every write refused while `window.refused` is true. The
@@ -189,7 +196,7 @@ for (const viewport of SIZES) {
     assert.equal(await page.locator('#unkept-dialog').count(), 0, 'nor before a wave is won');
     await startWave(page);
     await endWave(page);
-    await shown(page, FR.cetAppareilNeLaissePasLeJeuGarder, 'blocked storage');
+    await shown(page, BLOCKED, 'blocked storage');
     checks.push(
       'stockage illisible : pas de fenêtre à l’arrivée, la marque seule ; la fenêtre après la première vague gagnée',
     );

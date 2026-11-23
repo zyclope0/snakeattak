@@ -1,9 +1,23 @@
-# Plan actuel — 22 novembre 2026
+# Plan actuel — 23 novembre 2026
 
 Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions du parent du
 18 novembre, révisions 3 à 6, soutien, AdSense) est dans
 [archive/PLAN-ACTUEL-2026-11-15-au-20.md](archive/PLAN-ACTUEL-2026-11-15-au-20.md) ; avant le
 15 novembre : [archive/PLAN-ACTUEL-avant-2026-11-15.md](archive/PLAN-ACTUEL-avant-2026-11-15.md).
+
+## 23 novembre
+
+- **Nuit du 22 au 23** : quatre lots de sauvegarde fusionnés, chacun attaqué par des relecteurs
+  indépendants avant fusion (3 à 6 attaques par lot) : sauvetage du fichier familial
+  (PR 133), copies de secours (PR 134), « Ta partie n'est pas gardée » (PR 135), export
+  Android par le partage d'Android (PR 136). Rien de publié.
+- **Matin** : le parent a pris dix décisions une par une ([DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md)).
+- **Lot « build 65 »** : version 0.41.0 / build 65, politique de confidentialité (décisions 1,
+  2, 8), phrases des décisions 6 et 10, page publique des parents (7)
+  ([bilan](BILAN-0.41.0.md), [passation](ANDROID-BUILD-65.md)).
+- **Ensuite** : la barrière pour adulte avant le partage d'Android (décision 3), puis la
+  construction du build 65 par le parent et sa recette sur le téléphone. Le site n'est à
+  publier qu'avec le mot du parent, une fois le build 65 sur le téléphone.
 
 ## Où on en est
 
