@@ -330,26 +330,6 @@ function asLaunched(file: FamilyBackup): string {
 export function sameAdventure(a: FamilyBackup, b: FamilyBackup): boolean {
   return asLaunched(a) === asLaunched(b);
 }
-/**
- * True when importing `file` over the adventure in place (`now`, as the export gives it)
- * destroys nothing: the same adventure, and nothing beside it that the device would lose. A
- * normal import writes only the extras the file carries, so those must be the device's
- * already; a whole restore (`whole`) also takes away what the file does not carry, so it
- * must carry exactly the device's.
- */
-export function replacesNothing(
-  now: FamilyBackup | null,
-  file: FamilyBackup,
-  whole: boolean,
-): boolean {
-  if (!now || !sameAdventure(now, file)) return false;
-  const carried: Partial<Record<string, string>> =
-    file.version === FAMILY_EXTRAS_VERSION ? file.extras : {};
-  const held: Partial<Record<string, string>> =
-    now.version === FAMILY_EXTRAS_VERSION ? now.extras : {};
-  const names = new Set([...Object.keys(carried), ...(whole ? Object.keys(held) : [])]);
-  return [...names].every((name) => carried[name] === held[name]);
-}
 /** The stickers of every sticker book of a file: they only ever grow in play. */
 export function familyStickers(backup: FamilyBackup): number {
   return hasAlbums(backup)

@@ -1727,7 +1727,8 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
   l'expédition, le voyage à finir et les records (`applyFamily` dans `src/bootstrap.ts`). Si
   l'appareil refuse cette copie, l'import est refusé et rien n'a changé ; si l'import échoue
   ensuite, la copie est remise comme elle était. Un fichier qui ramène l'aventure en place,
-  sans rien d'autre, ne touche pas la copie (`replacesNothing`). Les deux aventures sont
+  sans rien d'autre, ne touche pas la copie (`replacesNothing`, qui relit les extras du
+  fichier comme le jeu les relit : écrits autrement, ils sont les mêmes s'ils se lisent pareil). Les deux aventures sont
   comparées telles que le jeu les tient une fois lancé (`sameAdventure`) : un fichier plus
   ancien reçoit des missions et des carnets neufs, et le camp réécrit ce qu'il décide (le
   camp de son mode, la dernière partie de sa mission, la carrière d'une partie classique,
@@ -1735,7 +1736,8 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
   lancements est donc la même aventure. Un appareil qui ne garde encore aucune aventure n'a
   rien à copier. Reprendre cette copie revient à l'état d'avant l'import entier : ce que le
   fichier fautif avait apporté à côté (expédition, voyage, records) est retiré ; un texte que
-  cette version ne relit pas, et qu'aucune copie ne pouvait porter, reste en place. Reprendre une copie est un import : ce qu'elle
+  cette version ne relit pas, et qu'aucune copie ne pouvait porter en entier, reste en place,
+  même une expédition dont seul le record se relit. Reprendre une copie est un import : ce qu'elle
   remplace est gardé à son tour.
 - **`family-previous` : la sauvegarde d'un lancement d'avant.** Le fichier que le jeu trouve
   en démarrant est gardé une fois que la séance a écrit sa première sauvegarde — la

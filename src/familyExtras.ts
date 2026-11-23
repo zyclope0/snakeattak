@@ -1,8 +1,8 @@
 import { readRecords, writeRecords } from './endlessRecords.ts';
 import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
 import { loadExpeditionLog, validateExpeditionLog } from './expeditionStorage.ts';
-import { FAMILY_EXTRAS } from './familyBackup.ts';
-import type { FamilyExtras } from './familyBackup.ts';
+import { FAMILY_EXTRAS, FAMILY_EXTRAS_VERSION, sameAdventure } from './familyBackup.ts';
+import type { FamilyBackup, FamilyExtras } from './familyBackup.ts';
 import { readBoundedJson } from './plainData.ts';
 import { ENDLESS_RECORDS_KEY, EXPEDITION_STORAGE_KEY, VOYAGE_STORAGE_KEY } from './storageKeys.ts';
 import { VOYAGE_LOG_LIMIT, validateVoyageLog } from './voyageStorage.ts';
@@ -108,10 +108,12 @@ export function writeExtras(
       if (text === undefined && !whole) continue;
       const { key } = EXTRAS[name];
       const previous = storage.getItem(key);
+      // A whole restore never touches a text this version cannot read (written by a later
+      // one, or damaged): no copy could carry it, at most a part of it (the record of an
+      // expedition), which must not take its place.
+      if (whole && previous !== null && !EXTRAS[name].read(previous)) continue;
       if (text === undefined) {
-        // Only what a copy could have carried is taken away: a text this version cannot read
-        // (written by a later one, or damaged) is in no copy, and stays as it is.
-        if (previous === null || !EXTRAS[name].read(previous)) continue;
+        if (previous === null) continue;
         storage.removeItem(key);
       } else storage.setItem(key, text);
       before.push([key, previous]);
@@ -124,3 +126,26 @@ export function writeExtras(
 }
 /** True when the last refused write could not be taken back whole. */
 writeExtras.partial = false;
+
+/**
+ * True when importing `file` over the adventure in place (`now`, as the export gives it)
+ * destroys nothing: the same adventure, and nothing beside it that the device would lose. A
+ * normal import writes only the extras the file carries, so those must be the device's
+ * already; a whole restore (`whole`) also takes away what the file does not carry, so it
+ * must carry exactly the device's.
+ */
+export function replacesNothing(
+  now: FamilyBackup | null,
+  file: FamilyBackup,
+  whole: boolean,
+): boolean {
+  if (!now || !sameAdventure(now, file)) return false;
+  // Read back as the game reads them: a file whose texts are written another way (by hand,
+  // or by an earlier build) carries the same extras if they read the same.
+  const carried: Partial<Record<string, string>> =
+    file.version === FAMILY_EXTRAS_VERSION ? (checkExtras(file.extras) ?? {}) : {};
+  const held: Partial<Record<string, string>> =
+    now.version === FAMILY_EXTRAS_VERSION ? now.extras : {};
+  const names = new Set([...Object.keys(carried), ...(whole ? Object.keys(held) : [])]);
+  return [...names].every((name) => carried[name] === held[name]);
+}

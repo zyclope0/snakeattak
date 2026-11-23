@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createCareer } from '../src/progression.ts';
 import type { CareerState } from '../src/progression.ts';
-import { encodeCheckpoint } from '../src/checkpoints.ts';
+import { decodeCheckpoint, encodeCheckpoint } from '../src/checkpoints.ts';
 import { Game } from '../src/game.ts';
 import { familyStickers, readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { createFamilyPersistence } from '../src/familyPersistence.ts';
@@ -15,6 +15,7 @@ import {
   FAMILY_PREVIOUS_KEY,
   FAMILY_STORAGE_KEY,
   ENDLESS_RECORDS_KEY,
+  EXPEDITION_STORAGE_KEY,
   VOYAGE_STORAGE_KEY,
 } from '../src/storageKeys.ts';
 
@@ -292,7 +293,7 @@ test('another book or another career is another adventure, never merged', async 
 });
 
 test('an import destroys nothing only when the adventure and what lies beside it are the same', async () => {
-  const { replacesNothing } = await import('../src/familyBackup.ts');
+  const { replacesNothing } = await import('../src/familyExtras.ts');
   const adventure = JSON.parse(file([3, 2, 0]));
   const withExtras = (extras: Record<string, string>) =>
     readFamilyBackup(JSON.stringify({ ...adventure, version: 6, extras }));
@@ -322,4 +323,76 @@ test('a whole restore takes away only what a copy could have carried', async () 
   assert.ok(writeExtras(storage, {}, true));
   assert.equal(storage.values.get(ENDLESS_RECORDS_KEY), undefined, 'a record it reads: taken');
   assert.equal(storage.values.get(VOYAGE_STORAGE_KEY), later, 'a voyage it cannot read: stays');
+});
+
+test('what a launch writes from the camp: the chapter camp of the career, the book of a challenge waiting', async () => {
+  const { sameAdventure } = await import('../src/familyBackup.ts');
+  const { REWARD_WAVES } = await import('../src/gameConstants.ts');
+  const base = JSON.parse(file([2, 0, 0]));
+  // A camp at the end of a chapter: a launch writes it as the chapter camp of the career.
+  const chapter = new Game(12, undefined, undefined, 1);
+  chapter.wave = REWARD_WAVES[0]!;
+  // Its reward still to choose, as the game leaves it at the end of the wave.
+  chapter.rewards.pending = REWARD_WAVES[0]!;
+  const top = encodeCheckpoint(chapter)!;
+  const kept = decodeCheckpoint(top)!;
+  const unsynced = { ...base, camp: top };
+  const synced = createCareer(undefined, unsynced.career);
+  synced.sync(kept);
+  assert.notDeepEqual(synced.state.chapterCamps, unsynced.career.chapterCamps, 'a real write');
+  assert.equal(
+    sameAdventure(
+      readFamilyBackup(JSON.stringify(unsynced))!,
+      readFamilyBackup(JSON.stringify({ ...unsynced, career: synced.state }))!,
+    ),
+    true,
+    'the chapter camp a launch writes',
+  );
+  // A challenge waiting in the retry camp: a launch opens its sticker book.
+  const run = {
+    missionId: 'sonnette',
+    seed: 77,
+    layout: 0,
+    assault: 'balanced',
+    nest: 'spread',
+    caprice: 'sonnette-petit',
+  };
+  const retry = encodeCheckpoint(new Game(77, undefined, run as never))!;
+  const missions = { ...base.missions, retryCamp: retry, lastRuns: { sonnette: run } };
+  for (const mission of Object.keys(missions.bestStars)) missions.bestStars[mission] = 3;
+  const waiting = { ...base, missions };
+  const opened = { ...waiting, albums: { ...base.albums, campProfileId: 'child-1' } };
+  assert.equal(waiting.albums.campProfileId, null);
+  const [a, b] = [
+    readFamilyBackup(JSON.stringify(waiting)),
+    readFamilyBackup(JSON.stringify(opened)),
+  ];
+  assert.ok(a && b, 'both files are read');
+  assert.equal(sameAdventure(a, b), true, 'the book a launch opens');
+});
+
+test('extras written another way are the same extras; a whole restore leaves a text it cannot read', async () => {
+  const { replacesNothing, writeExtras, collectExtras } = await import('../src/familyExtras.ts');
+  const adventure = JSON.parse(file([3, 2, 0]));
+  const records = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+  const device = readFamilyBackup(
+    JSON.stringify({ ...adventure, version: 6, extras: { endless: records } }),
+  )!;
+  // The same records, with a space more: an earlier build, or a hand, wrote them so.
+  const spaced = readFamilyBackup(
+    JSON.stringify({ ...adventure, version: 6, extras: { endless: records.replace(':', ': ') } }),
+  )!;
+  assert.notEqual(spaced.version === 6 && spaced.extras.endless, records);
+  assert.equal(replacesNothing(device, spaced, false), true, 'the same records, read back');
+  // An expedition of a later build: its record reads, the rest does not. A copy carries the
+  // record only; bringing that copy back must not put it in place of the whole text.
+  const later = JSON.stringify({ version: 1, best: 5, current: { version: 99 } });
+  const storage = memory({ [EXPEDITION_STORAGE_KEY]: later });
+  const carried = collectExtras(storage);
+  assert.ok(carried.expedition && carried.expedition !== later, 'the copy holds the record only');
+  assert.ok(writeExtras(storage, carried, true));
+  assert.equal(storage.values.get(EXPEDITION_STORAGE_KEY), later, 'the whole text stays');
+  // A file imported on purpose, though, brings its own expedition in its place.
+  assert.ok(writeExtras(storage, carried, false));
+  assert.equal(storage.values.get(EXPEDITION_STORAGE_KEY), carried.expedition);
 });

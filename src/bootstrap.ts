@@ -22,9 +22,8 @@ import {
   hasAlbums,
   readFamilyBackup,
   writeFamilyBackup,
-  replacesNothing,
 } from './familyBackup.ts';
-import { checkExtras, collectExtras, writeExtras } from './familyExtras.ts';
+import { checkExtras, collectExtras, replacesNothing, writeExtras } from './familyExtras.ts';
 import type { FamilyBackup } from './familyBackup.ts';
 import { decodeCheckpoint } from './checkpoints.ts';
 import { bindFamilyControls } from './ui/familyControls.ts';
