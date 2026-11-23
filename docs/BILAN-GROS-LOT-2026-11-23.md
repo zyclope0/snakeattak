@@ -88,7 +88,8 @@ Fonctions de plus de 60 lignes dans `src/ui` : 18 → 15. Les autres sont listé
 
 ## Mots nouveaux, à lire par le parent
 
-Page « WebView trop ancien » (`src/texts/fr/oldWebView.ts`), rien de publié avant lecture :
+Page « WebView trop ancien » (`src/texts/fr/oldWebView.ts`). **Validés par le parent le 23
+novembre au soir**, tels quels :
 
 - « Le jeu ne peut pas s’ouvrir »
 - « Ce téléphone a besoin d’une mise à jour. Va chercher un adulte. »
