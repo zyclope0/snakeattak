@@ -68,3 +68,5 @@ export const lePartageSEstFermeSiLeFichierNEstArriveNullePart =
   'Le partage s’est fermé. Si le fichier n’est arrivé nulle part, recommence : ton aventure n’est encore que sur cet appareil.';
 export const lePartageSEstFermeSiLeFichierNEstArriveRecommence =
   'Le partage s’est fermé. Si le fichier n’est arrivé nulle part, recommence.';
+export const rienNAEteEnvoyeIlFautLaBonneReponse =
+  'Rien n’a été envoyé : il faut la bonne réponse d’un adulte.';

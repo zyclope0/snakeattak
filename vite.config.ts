@@ -146,6 +146,11 @@ export default defineConfig(({ mode }) => {
                   // The first script reads the language key before the rules are loaded: on
                   // its own, this module does not make that script wait for the rules.
                   if (id.endsWith('/src/storageKeys.ts')) return 'keys';
+                  // `fill` puts numbers into a text. Left alone it follows the rules that use
+                  // it, and the question for an adult before Android's share sheet would then
+                  // need the rules: the start-up rescue could no longer hand a file over when
+                  // the rules are what failed. One line, kept with the keys.
+                  if (id.endsWith('/src/texts/fill.ts')) return 'keys';
                   // Cache the browser-independent rules separately from the expanding UI.
                   if (
                     /\/src\/(?:engine\/)?[^/]+\.ts$/.test(id) &&

@@ -114,6 +114,30 @@ let exported;
     checks.push(
       `export: version ${file.version}, fields ${Object.keys(file).join(' ')}, extras ${Object.keys(file.extras).join(' ')}`,
     );
+    // On a phone, a file chosen shows what it holds and « Remplacer » on the screen: the
+    // window is taller than the screen, and the parent saw no sentence under it.
+    for (const viewport of [
+      { width: 780, height: 360 },
+      { width: 812, height: 375 },
+    ]) {
+      const phone = await open({ dir, storage: device, viewport, touch: true });
+      try {
+        await start(phone.page);
+        await dialog(phone.page);
+        await give(phone.page, exported);
+        await phone.page.locator('#family-apply:not([disabled])').waitFor();
+        for (const target of ['#family-preview-summary', '#family-apply']) {
+          const box = await phone.page.locator(target).boundingBox();
+          assert.ok(
+            box && box.y >= 0 && box.y + box.height <= viewport.height,
+            `${viewport.width}x${viewport.height} ${target} at ${box?.y} of ${viewport.height}`,
+          );
+        }
+      } finally {
+        await phone.browser.close();
+      }
+    }
+    checks.push('phone: what a chosen file holds and « Remplacer » are on the screen');
 
     // 2. Invalid files: each one is refused and the device keeps every byte.
     const valid = JSON.parse(exported);

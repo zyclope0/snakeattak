@@ -65,3 +65,5 @@ export const lePartageSEstFermeSiLeFichierNEstArriveNullePart =
   'Sharing closed. If the file did not arrive anywhere, try again: your adventure is still only on this device.';
 export const lePartageSEstFermeSiLeFichierNEstArriveRecommence =
   'Sharing closed. If the file did not arrive anywhere, try again.';
+export const rienNAEteEnvoyeIlFautLaBonneReponse =
+  'Nothing was sent: an adult’s right answer is needed.';

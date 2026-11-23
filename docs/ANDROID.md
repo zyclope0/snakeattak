@@ -352,7 +352,8 @@ la désinstallation perdrait l’aventure. Aucune clé privée n’est incluse d
   donne pas de FPS. Les 3600 dernières fenêtres bornent le stockage des mesures.
 - Mémoire : JS heap quand WebView l’expose ; sinon null. Ce n’est jamais la RAM
   totale d’Android. Pour le total processus, utiliser Android Studio Profiler ou
-  `adb shell dumpsys meminfo com.conqueteserpents.famille`, en indiquant sa source.
+  `adb shell dumpsys meminfo com.conqueteserpents.famille` (`…famille.test` pour l'APK
+  de test), en indiquant sa source.
 - Le temps de chargement couvre la dernière préparation d’assets du plateau,
   pas le temps complet installation→premier écran. Tester aussi un démarrage
   à froid en mode avion, bouton Retour, rotation, arrière-plan et sauvegardes.

@@ -16,7 +16,9 @@ export const told = (
     ? ready
     : result === 'canceled'
       ? closed
-      : TEXT.impossibleDePreparerLeFichierDe;
+      : result === 'refused'
+        ? TEXT.rienNAEteEnvoyeIlFautLaBonneReponse
+        : TEXT.impossibleDePreparerLeFichierDe;
 /** The family's own adventure: in the application it goes to the app chosen, not a browser. */
 export const toldAdventure = (result: Handover, app = buildIsApp()) =>
   told(

@@ -12,7 +12,7 @@ export const familyFileName = (which?: number | 'mis-de-cote') =>
  * family chose in Android's share sheet), refused by nobody but closed by the family
  * (`canceled`), impossible here, or failed.
  */
-export type Handover = 'saved' | 'canceled' | 'unavailable' | 'failed';
+export type Handover = 'saved' | 'canceled' | 'refused' | 'unavailable' | 'failed';
 
 /** The build this page comes from; nothing outside a build (the unit tests). */
 const buildMode = (): string => (import.meta.env ? import.meta.env.MODE : '');
@@ -118,7 +118,22 @@ export const oneAtATime = (
   let pending: Promise<Handover> | null = null;
   return (raw, name) => (pending ??= run(raw, name).finally(() => (pending = null)));
 };
-const shareOnce = oneAtATime((raw, name) => shareInApp(raw, name));
+/**
+ * In the application, an adult answers first (the parent's decision 3, 23 November 2026):
+ * Android's share sheet shows recent contacts. Only where the share can open; the question is
+ * loaded then, never on the website.
+ */
+async function askThenShare(raw: string, name: string): Promise<Handover> {
+  if (!nativeShare()) return 'unavailable';
+  let right: boolean;
+  try {
+    right = await (await import('./adultGate.ts')).askAdult();
+  } catch {
+    return 'failed';
+  }
+  return right ? shareInApp(raw, name) : 'refused';
+}
+const shareOnce = oneAtATime(askThenShare);
 
 /**
  * Hands a text over as a file to save, and says what became of it. On a website « saved »

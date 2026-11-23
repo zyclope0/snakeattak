@@ -78,6 +78,25 @@ async function reaches(name, seen = new Set()) {
     const game = start ? await reaches(start) : new Set();
     const withGame = holding.filter((name) => game.has(name));
     assert.deepEqual(withGame, [], 'Capacitor is not loaded with the game');
+    // The start-up rescue hands files over with all of it: Capacitor, the two plugins (found by
+    // the names they register) and the question for an adult (by its answer box). None may
+    // need the rules, the game or Phaser, which may be what failed. Each may load only the
+    // first script, the keys, and the others of its kind.
+    const HANDS_OVER = /androidBridge|"Share"|"Filesystem"|adult-gate-answer/;
+    const handing = new Set();
+    let question = false;
+    for (const name of files.filter((f) => f.endsWith('.js') && f !== entry)) {
+      const code = await readFile(`${root}/assets/${name}`, 'utf8');
+      if (HANDS_OVER.test(code)) handing.add(name);
+      if (code.includes('adult-gate-answer')) question = true;
+    }
+    assert.ok(question, 'The application holds the question for an adult');
+    for (const name of handing) {
+      const needs = [...(await reaches(name))].filter(
+        (f) => f !== entry && !LIGHT.test(f) && !handing.has(f),
+      );
+      assert.deepEqual(needs, [], `${name}, which hands a file over, must not need ${needs}`);
+    }
   } else assert.deepEqual(holding, [], 'The website holds none of Capacitor');
   // The windows are in that script, not in files of their own asked for at the bad moment.
   const code = await readFile(`${root}/assets/${entry}`, 'utf8');

@@ -153,3 +153,34 @@ test('only the name of the app chosen says the file went, and each outcome has i
     TEXT.lePartageSEstFermeSiLeFichierNEstArriveNullePart,
   );
 });
+
+test('an adult answers a multiplication before the share sheet; nothing is sent otherwise', async () => {
+  const { gateNumbers, rightAnswer, GATE_FIRST, GATE_SECOND } =
+    await import('../src/ui/adultGateAnswer.ts');
+  // The ranges the parent read (decision 3, 23 November 2026): changing them is a decision.
+  assert.deepEqual(GATE_FIRST, { from: 12, to: 19 });
+  assert.deepEqual(GATE_SECOND, { from: 6, to: 9 });
+  // New numbers each time, in a range a child of 6 to 10 does not find easily.
+  for (const r of [0, 0.25, 0.5, 0.999]) {
+    const [a, b] = gateNumbers(() => r);
+    assert.ok(
+      a >= GATE_FIRST.from && a <= GATE_FIRST.to && b >= GATE_SECOND.from && b <= GATE_SECOND.to,
+      `${a} × ${b}`,
+    );
+  }
+  assert.deepEqual(
+    gateNumbers(() => 0),
+    [GATE_FIRST.from, GATE_SECOND.from],
+  );
+  assert.deepEqual(
+    gateNumbers(() => 0.999),
+    [GATE_FIRST.to, GATE_SECOND.to],
+  );
+  assert.equal(rightAnswer(13, 7, '91'), true);
+  assert.equal(rightAnswer(13, 7, ' 91 '), true, 'spaces around');
+  for (const typed of ['', '90', '91.0', '9 1', '91a', '-91', '0x5b', '1e2'])
+    assert.equal(rightAnswer(13, 7, typed), false, JSON.stringify(typed));
+  const { told } = await import('../src/ui/handOverWords.ts');
+  const TEXT = await import('../src/texts/fr/family.ts');
+  assert.equal(told('refused', 'prêt'), TEXT.rienNAEteEnvoyeIlFautLaBonneReponse);
+});

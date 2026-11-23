@@ -79,3 +79,60 @@ span#unkept-mark {
   color: #1c4034;
   box-shadow: 0 4px 14px rgb(0 0 0 / 30%);
 }
+/* La question pour adulte avant le partage d'Android : la même fenêtre, un champ et deux
+   boutons, tous de 48 px au moins. */
+.adult-gate-form {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+.adult-gate-form > label {
+  font-size: 20px;
+  font-weight: 700;
+}
+.adult-gate-form > input {
+  min-height: 48px;
+  width: 8em;
+  font-size: 22px;
+  text-align: center;
+}
+.adult-gate-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.adult-gate-actions > button {
+  min-height: 56px;
+  min-width: 120px;
+  padding: 0 22px;
+  font-size: 20px;
+}
+/* Le clavier du téléphone prend la moitié de l'écran en paysage : la question, la case et les
+   deux boutons tiennent alors sur une ligne, sous un titre plus petit. */
+@media (max-height: 300px) {
+  #adult-gate {
+    max-width: min(94vw, 760px);
+    padding: 8px 16px;
+  }
+  #adult-gate > h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+  }
+  .adult-gate-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .adult-gate-form > label {
+    font-size: 18px;
+  }
+  .adult-gate-actions > button {
+    min-height: 48px;
+    min-width: 0;
+    padding: 0 16px;
+    font-size: 18px;
+  }
+}

@@ -136,15 +136,16 @@ jobs:
               test:stage test:render-settings test:tactical test:expedition
           # Ce qu'un enfant garde, sur le paquet de l'application : la mise à jour par-dessus
           # l'appareil figé d'un testeur du build 63, le fichier familial, la fermeture
-          # forcée, les doubles appuis (étape d'hygiène du 21 novembre 2026). L'application
-          # ne sait pas remettre un fichier : les recettes qui en ont besoin le prennent sur
-          # le paquet du site, construit ici aussi.
+          # forcée, les doubles appuis (étape d'hygiène du 21 novembre 2026), la question pour
+          # adulte avant le partage (décision 3 du 23 novembre 2026). Chromium n'a pas le
+          # partage d'Android : les recettes qui font sortir un fichier le prennent sur le
+          # paquet du site, construit ici aussi, ou imitent le côté Android.
           - groupe: sauvegardes
             site: true
             android: true
             recettes: >-
               test:saves:update test:saves:family test:saves:forced-close
-              test:saves:double-taps test:failure test:saves:unkept
+              test:saves:double-taps test:failure test:saves:unkept test:saves:gate
     name: recettes (${{ matrix.groupe }})
     steps:
       - uses: actions/checkout@v4

@@ -17,6 +17,13 @@ android {
         }
     }
     buildTypes {
+        debug {
+            // The test APK installs beside the application from Google Play, with its own
+            // data: a debug key cannot update the Play build, and replacing it would erase the
+            // child's adventure (the parent, 23 November 2026). The release keeps its identity.
+            applicationIdSuffix ".test"
+            versionNameSuffix "-test"
+        }
         release {
             // R8 shrinks and optimises the Java code of the release build, and writes the
             // mapping file that the app bundle carries to Google Play: crash reports are
