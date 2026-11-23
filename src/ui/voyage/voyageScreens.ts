@@ -29,6 +29,24 @@ import * as EXPEDITION_TEXT from '../../texts/fr/expedition.ts';
 /** A stage put on the board: which one it is and, once it is recorded, how it ended. */
 type Playing = { game: Game; stage: number; stages: number; outcome: StageOnBoard['outcome'] };
 
+/**
+ * What the screens hold between two taps: the player's log and the stage on the board. Every
+ * function of this module reads and changes this one record.
+ */
+type Screen = {
+  readonly ports: VoyagePorts;
+  readonly session: VoyagePorts['session'];
+  readonly storage: VoyagePorts['storage'];
+  /** Tells the door what to say next. */
+  readonly logChanged: (log?: VoyageLog, expedition?: ExpeditionDoor) => void;
+  log: VoyageLog;
+  saved: boolean;
+  playing: Playing | null;
+  readonly page: ReturnType<typeof voyagePage>;
+  readonly actions: ViewActions;
+};
+type Expedition = ReturnType<typeof bindExpeditionScreens>;
+
 const VIEWS: Record<VoyagePhase, VoyageView> = {
   stage: 'map',
   bonus: 'bonus',
@@ -48,10 +66,7 @@ export function bindVoyageScreens(
   logChanged: (log?: VoyageLog, expedition?: ExpeditionDoor) => void,
 ) {
   const { session, storage } = ports;
-  let log = loadVoyageLog(storage);
-  let saved = !!storage;
-  let playing: Playing | null = null;
-
+  const log = loadVoyageLog(storage);
   const page = voyagePage();
   const explain = capriceBubble();
   // « La Grande Expédition » took the voyage's place (decision of the parent, 21 November
@@ -60,97 +75,41 @@ export function bindVoyageScreens(
   const expedition = bindExpeditionScreens(
     ports,
     (caprice) => explain(caprice, EXPEDITION_TEXT.leDefiDeLEtape),
-    (state) => logChanged(log, state),
+    // Told on a tap, once the screens are bound: the voyage's log as it is then.
+    (state) => logChanged(screen.log, state),
   );
-  const drawBattle = voyageBattle(() => (expedition.owns() ? expedition.onward() : onward()));
-  const actions: ViewActions = {
-    start: startStage,
-    explain,
-    choose,
-    expedition: () => expedition.open(),
+  const drawBattle = voyageBattle(() => (expedition.owns() ? expedition.onward() : onward(screen)));
+  const screen: Screen = {
+    ports,
+    session,
+    storage,
+    logChanged,
+    log,
+    saved: !!storage,
+    playing: null,
+    page,
+    actions: {
+      start: () => startStage(screen),
+      explain,
+      choose: (card) => choose(screen, card),
+      expedition: () => expedition.open(),
+    },
   };
+  return voyageControls(screen, expedition, drawBattle);
+}
 
-  /** Every transition ends here: the log follows, is stored, and the door is told. */
-  function commit(next: VoyageState | null): boolean {
-    const updated = next && logVoyage(log, next);
-    if (!updated) return false;
-    log = updated;
-    saved = saveVoyageLog(storage, log);
-    logChanged(log);
-    return true;
-  }
-  /** A new camp for the stage to play: a stage left halfway starts again from here. */
-  function startStage() {
-    const state = log.current;
-    const game = state && stageGame(state);
-    if (!game) return;
-    playing = {
-      game,
-      stage: state.won + 1,
-      stages: voyagePlanOf(state).stages.length,
-      outcome: null,
-    };
-    ports.play(game);
-  }
-  function choose(card: RewardId) {
-    if (!log.current || !commit(chooseBonus(log.current, card))) return;
-    show();
-    page.focus();
-  }
-  /** The stage that has just ended enters the voyage; what the result panel then says. */
-  function recordOutcome(live: Playing) {
-    const after = log.current && recordStage(log.current, live.game);
-    return after && commit(after) ? stageOutcome(after, live.stage) : null;
-  }
-  /** « Continuer le voyage » : from the board to the choice of a bonus, or to the end. */
-  function onward() {
-    ports.home();
-    ports.navigate('voyage');
-    show();
-    // The bonus cards are drawn where « Continuer » was: a second tap must not choose one.
-    page.hold();
-  }
-  /** The stage on the board was begun and left: the map says that it starts again. */
-  function leftHalfway() {
-    return (
-      playing?.game === session.game &&
-      !battleOver(playing.game) &&
-      (playing.game.wave > 0 || session.hasPlaced)
-    );
-  }
-  function content(state: VoyageState): Node[] {
-    switch (voyagePhase(state)) {
-      case 'stage':
-        return mapView(state, leftHalfway(), actions);
-      case 'bonus':
-        return bonusView(state, actions);
-      case 'arrived':
-        return arrivedView(state, log.best, actions);
-      case 'fallen':
-        return fallenView(state, log.best, actions);
-    }
-  }
-  /** Draws the view the voyage calls for. A voyage that is over shows its record below. */
-  function show() {
-    const state = log.current;
-    if (!state) return;
-    const travelling = state.status === 'travelling';
-    page.show(
-      VIEWS[voyagePhase(state)],
-      {
-        ...voyageHeading(state),
-        record: travelling ? recordLine(log.best) : '',
-        note: travelling ? keepingNote(saved) : '',
-      },
-      content(state),
-    );
-  }
-
+/** What the door of the home asks of the screens. */
+function voyageControls(
+  screen: Screen,
+  expedition: Expedition,
+  drawBattle: (stage: StageOnBoard | null) => void,
+) {
+  const { ports, session } = screen;
   return {
     /** From the home: a voyage begun to finish, or else « La Grande Expédition ». */
     open() {
-      if (!voyageToFinish(log)) return expedition.open();
-      show();
+      if (!voyageToFinish(screen.log)) return expedition.open();
+      show(screen);
       ports.navigate('voyage');
     },
     /** With every redraw of the page: the stage on the board, and its end once only. */
@@ -159,18 +118,102 @@ export function bindVoyageScreens(
         drawBattle(expedition.battle());
         return;
       }
-      const live = playing?.game === session.game ? playing : null;
-      if (live && !live.outcome && battleOver(live.game)) live.outcome = recordOutcome(live);
-      drawBattle(
-        live && session.screen === 'battle'
-          ? { mark: battleMark(live.stage, live.stages), outcome: live.outcome }
-          : null,
-      );
+      drawBattle(stageOnBoard(screen));
     },
     /** « Recommencer » on the board: the stage under way starts again from its beginning. */
     restartStage() {
+      const { playing } = screen;
       if (expedition.owns()) expedition.restartStage();
-      else if (playing?.game === session.game && !playing.outcome) startStage();
+      else if (playing?.game === session.game && !playing.outcome) startStage(screen);
     },
   };
+}
+
+/** The stage on the board and its end, recorded once; null when the board shows none. */
+function stageOnBoard(screen: Screen): StageOnBoard | null {
+  const { session } = screen;
+  const live = screen.playing?.game === session.game ? screen.playing : null;
+  if (live && !live.outcome && battleOver(live.game)) live.outcome = recordOutcome(screen, live);
+  return live && session.screen === 'battle'
+    ? { mark: battleMark(live.stage, live.stages), outcome: live.outcome }
+    : null;
+}
+
+/** Every transition ends here: the log follows, is stored, and the door is told. */
+function commit(screen: Screen, next: VoyageState | null): boolean {
+  const updated = next && logVoyage(screen.log, next);
+  if (!updated) return false;
+  screen.log = updated;
+  screen.saved = saveVoyageLog(screen.storage, screen.log);
+  screen.logChanged(screen.log);
+  return true;
+}
+/** A new camp for the stage to play: a stage left halfway starts again from here. */
+function startStage(screen: Screen) {
+  const state = screen.log.current;
+  const game = state && stageGame(state);
+  if (!game) return;
+  screen.playing = {
+    game,
+    stage: state.won + 1,
+    stages: voyagePlanOf(state).stages.length,
+    outcome: null,
+  };
+  screen.ports.play(game);
+}
+function choose(screen: Screen, card: RewardId) {
+  const state = screen.log.current;
+  if (!state || !commit(screen, chooseBonus(state, card))) return;
+  show(screen);
+  screen.page.focus();
+}
+/** The stage that has just ended enters the voyage; what the result panel then says. */
+function recordOutcome(screen: Screen, live: Playing) {
+  const after = screen.log.current && recordStage(screen.log.current, live.game);
+  return after && commit(screen, after) ? stageOutcome(after, live.stage) : null;
+}
+/** « Continuer le voyage » : from the board to the choice of a bonus, or to the end. */
+function onward(screen: Screen) {
+  screen.ports.home();
+  screen.ports.navigate('voyage');
+  show(screen);
+  // The bonus cards are drawn where « Continuer » was: a second tap must not choose one.
+  screen.page.hold();
+}
+/** The stage on the board was begun and left: the map says that it starts again. */
+function leftHalfway(screen: Screen) {
+  const { playing, session } = screen;
+  return (
+    playing?.game === session.game &&
+    !battleOver(playing.game) &&
+    (playing.game.wave > 0 || session.hasPlaced)
+  );
+}
+function content(screen: Screen, state: VoyageState): Node[] {
+  const { actions } = screen;
+  switch (voyagePhase(state)) {
+    case 'stage':
+      return mapView(state, leftHalfway(screen), actions);
+    case 'bonus':
+      return bonusView(state, actions);
+    case 'arrived':
+      return arrivedView(state, screen.log.best, actions);
+    case 'fallen':
+      return fallenView(state, screen.log.best, actions);
+  }
+}
+/** Draws the view the voyage calls for. A voyage that is over shows its record below. */
+function show(screen: Screen) {
+  const state = screen.log.current;
+  if (!state) return;
+  const travelling = state.status === 'travelling';
+  screen.page.show(
+    VIEWS[voyagePhase(state)],
+    {
+      ...voyageHeading(state),
+      record: travelling ? recordLine(screen.log.best) : '',
+      note: travelling ? keepingNote(screen.saved) : '',
+    },
+    content(screen, state),
+  );
 }
