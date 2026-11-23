@@ -76,13 +76,32 @@ async function endWave(page) {
   if (await gift.isVisible()) await gift.click();
   await page.clock.runFor(400);
 }
-/** Starts the next wave, taking first the gift that may still wait to be chosen. */
-async function startWave(page) {
-  const gift = page.locator('#reward-cards [data-reward]').first();
-  if (await gift.isVisible()) await gift.click();
+/** True once the board has settled: the wave can start, a gift waits, or it is paused. */
+const settled = (page, paused = true) =>
+  page.waitForFunction((paused) => {
+    const seen = (element) => Boolean(element && element.offsetParent !== null);
+    const start = document.querySelector('#start');
+    return (
+      (start && !start.disabled) ||
+      [...document.querySelectorAll('#reward-cards [data-reward]')].some(seen) ||
+      (paused && seen(document.querySelector('#resume-game')))
+    );
+  }, paused);
+/** Takes the gift that may still wait to be chosen, once the board has settled. */
+async function takeGift(page) {
+  await settled(page);
   // A battle left through the pause panel is still paused when the player comes back.
   const resume = page.locator('#resume-game');
-  if (await resume.isVisible()) await resume.click();
+  if (await resume.isVisible()) {
+    await resume.click();
+    await settled(page, false);
+  }
+  const gift = page.locator('#reward-cards [data-reward]').first();
+  if (await gift.isVisible()) await gift.click();
+}
+/** Starts the next wave, taking first the gift that may still wait to be chosen. */
+async function startWave(page) {
+  await takeGift(page);
   await page.locator('#start:not([disabled])').click();
   await page.waitForFunction(() => document.querySelector('#app')?.dataset.status === 'fighting');
 }
@@ -162,14 +181,36 @@ for (const viewport of SIZES) {
     assert.equal(await page.locator('#unkept-mark').count(), 0, 'seen once, the sentence goes');
     checks.push(`${tag} : l'appareil garde de nouveau, l'accueil le dit, puis la phrase s'en va`);
 
-    // A second refusal is a second time: it is told again.
+    // A second refusal is a second time: it is told again, at the next save that is not
+    // over a fight. A wave was won since this game was put in play, so that save may come
+    // between two waves, before the wave is started (a save the board makes on its own, now
+    // or a little later), or at the end of the wave: both keep the rule, never over a fight.
     await page.locator('#home-primary').click();
     await boardReady(page);
+    await takeGift(page);
     await refuse(page, true);
-    await startWave(page);
-    await endWave(page);
-    await page.locator('#unkept-dialog[open]').waitFor({ state: 'visible' });
-    checks.push(`${tag} : un second refus est redit`);
+    const told = page.locator('#unkept-dialog[open]');
+    let early = await told.isVisible();
+    if (!early) {
+      try {
+        await page.locator('#start:not([disabled])').click({ timeout: 5000 });
+      } catch (error) {
+        early = await told.isVisible();
+        if (!early) throw error;
+      }
+    }
+    if (!early) {
+      await page.waitForFunction(
+        () => document.querySelector('#app')?.dataset.status === 'fighting',
+      );
+      await page.clock.runFor(3000);
+      assert.equal(await page.locator('#unkept-dialog').count(), 0, 'never over a fight');
+      await endWave(page);
+    }
+    await told.waitFor({ state: 'visible' });
+    checks.push(
+      `${tag} : un second refus est redit (${early ? 'entre deux vagues' : 'à la fin de la vague'})`,
+    );
     assert.deepEqual(report.errors, []);
   } finally {
     await browser.close();
