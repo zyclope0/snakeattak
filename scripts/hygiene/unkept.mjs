@@ -76,22 +76,32 @@ async function endWave(page) {
   if (await gift.isVisible()) await gift.click();
   await page.clock.runFor(400);
 }
-/** Takes the gift that may still wait to be chosen. */
+/** True once the board has settled: the wave can start, a gift waits, or it is paused. */
+const settled = (page, paused = true) =>
+  page.waitForFunction((paused) => {
+    const seen = (element) => Boolean(element && element.offsetParent !== null);
+    const start = document.querySelector('#start');
+    return (
+      (start && !start.disabled) ||
+      [...document.querySelectorAll('#reward-cards [data-reward]')].some(seen) ||
+      (paused && seen(document.querySelector('#resume-game')))
+    );
+  }, paused);
+/** Takes the gift that may still wait to be chosen, once the board has settled. */
 async function takeGift(page) {
-  // The board settles first: either the wave can start, or a gift waits.
-  await page
-    .locator('#start:not([disabled]), #reward-cards [data-reward]')
-    .first()
-    .waitFor({ state: 'visible' });
+  await settled(page);
+  // A battle left through the pause panel is still paused when the player comes back.
+  const resume = page.locator('#resume-game');
+  if (await resume.isVisible()) {
+    await resume.click();
+    await settled(page, false);
+  }
   const gift = page.locator('#reward-cards [data-reward]').first();
   if (await gift.isVisible()) await gift.click();
 }
 /** Starts the next wave, taking first the gift that may still wait to be chosen. */
 async function startWave(page) {
   await takeGift(page);
-  // A battle left through the pause panel is still paused when the player comes back.
-  const resume = page.locator('#resume-game');
-  if (await resume.isVisible()) await resume.click();
   await page.locator('#start:not([disabled])').click();
   await page.waitForFunction(() => document.querySelector('#app')?.dataset.status === 'fighting');
 }
