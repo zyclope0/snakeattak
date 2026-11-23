@@ -77,6 +77,8 @@ suite, elle y reste jusqu'à l'import suivant. La politique de confidentialité 
 - Sous « Pour les parents », selon la cause :
   - appareil plein : « L'appareil n'a sans doute plus assez de place pour garder la partie.
     Libère de la place sans fermer le jeu : il réessaie tout seul et le dira. »
+    (« tout seul » veut dire au prochain geste qui sauvegarde : une vague, un achat. Si tu
+    préfères, « … sans fermer le jeu, puis continue à jouer : il réessaiera et le dira. »)
   - stockage bloqué : « Cet appareil ne laisse pas le jeu garder la partie (navigation
     privée, ou stockage bloqué dans les réglages). Elle dure tant que le jeu reste ouvert. »
   - le jeu n'arrive pas à écrire : « Le jeu n'arrive pas à garder cette partie. Elle dure

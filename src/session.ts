@@ -2,10 +2,12 @@ import { battleOver, Game } from './game.ts';
 import type { Kind } from './data.ts';
 import type { FeastFlavor } from './tactics.ts';
 import { CURRENT_BALANCE_REVISION, type BalanceRevision } from './balanceRevision.ts';
-import { START_TEAM_SIZE } from './gameConstants.ts';
+import { START_TEAM_SIZE, TOTAL_WAVES } from './gameConstants.ts';
 import { CURRENT_ENDLESS_VERSION, ENDLESS_RULES } from './endless.ts';
 
 const STEP = 1 / 30;
+/** How far a game has gone: its waves, a king of the endless adventure counting for all of his. */
+const reached = (game: Game) => game.kings * TOTAL_WAVES + game.wave;
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
 
 /** Browser-independent owner of a game and its fixed-rate simulation clock. */
@@ -18,9 +20,15 @@ export class Session {
   speed: 1 | 2 = 1;
   hasPlaced = false;
   purchaseCount = 0;
+  /** How far the game in hand had gone when it was put in play. */
+  private startedAt = 0;
   private accumulator = 0;
   constructor(seed = freshSeed()) {
     this.game = new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION);
+  }
+  /** True once a wave, or a king, has been won since the game in hand was put in play. */
+  get wonSinceStart(): boolean {
+    return reached(this.game) > this.startedAt;
   }
   restart(seed = freshSeed(), balanceRevision: BalanceRevision = CURRENT_BALANCE_REVISION) {
     this.useGame(new Game(seed, undefined, undefined, balanceRevision));
@@ -43,6 +51,7 @@ export class Session {
   }
   useGame(game: Game) {
     this.game = game;
+    this.startedAt = reached(game);
     this.#reset();
     this.hasPlaced = game.wave > 0 || game.kings > 0 || game.units.length > START_TEAM_SIZE;
   }

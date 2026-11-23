@@ -55,7 +55,6 @@ import { byId } from './ui/dom.ts';
 import * as TEXT from './texts/fr/home.ts';
 import { createRecordBook, newRecords } from './endlessRecords.ts';
 import { endlessReached } from './endless.ts';
-import { START_TEAM_SIZE } from './gameConstants.ts';
 
 // The page is assembled here, top to bottom: what is stored, the game on screen, then every
 // part of the interface in its binding order. The steps named below are function
@@ -98,10 +97,7 @@ const saved = familySaved
     ? null
     : decodeCheckpoint(familySaved.camp)
   : persistence.load();
-if (saved) {
-  session.game = saved;
-  session.hasPlaced = saved.wave > 0 || saved.kings > 0 || saved.units.length > START_TEAM_SIZE;
-}
+if (saved) session.useGame(saved);
 openAlbumForCaprice(saved, missions.state.retryCamp);
 const campMemory = createCampMemory(saved ?? undefined);
 let hasCamp = !!saved;
@@ -319,8 +315,9 @@ function watchKeeping() {
       keepingChanged(cause, {
         home: () => session.screen === 'home',
         fighting: () => session.game.status === 'fighting',
-        // A wave won, or a king beaten in the endless adventure (its camp is then at wave 0).
-        played: () => session.game.wave > 0 || endlessReached(session.game) > 0,
+        // Something won since this game was put in play: a camp found at the door, however
+        // far, is not yet something this child would lose by closing the game.
+        played: () => session.wonSinceStart,
       }),
     )
     .catch(() => (keeping = undefined));
@@ -336,6 +333,9 @@ function restartGame() {
 /** The home or the board. The scene sleeps at home and wakes with fresh bounds. */
 function showScreen(home: boolean) {
   byId('home-screen').hidden = !home;
+  // Going home saves nothing: what could not be kept is told here too (a child who leaves the
+  // gifts of a wave unchosen is never told on the board).
+  if (home) watchKeeping();
   byId('app').hidden = home;
   // Both screens share a document: never inherit the map/menu scroll in battle.
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });

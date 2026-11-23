@@ -6,10 +6,13 @@
 //  2. un appareil qui n'a jamais rien gardé (stockage illisible) : pas de fenêtre à l'arrivée,
 //     la marque seule ; la fenêtre après la première vague gagnée, avec sa propre phrase ;
 //  3. des écritures refusées dès l'arrivée : rien pendant le combat, même quand le jeu essaie
-//     d'écrire en pleine vague ; rien par-dessus « Qui joue ? », la fenêtre après « Jouer » ;
+//     d'écrire en pleine vague ; rien par-dessus « Qui joue ? » ni sur un camp trouvé à
+//     l'arrivée, la fenêtre après une vague gagnée ;
 //  4. une vague à cadeaux : rien par-dessus les cadeaux, la fenêtre une fois le cadeau choisi ;
-//  5. l'aventure sans fin, juste après un roi, écritures refusées : la fenêtre ; le record
-//     refusé est réécrit quand l'appareil garde de nouveau, et l'accueil le dit.
+//  5. cadeaux laissés sans choix puis l'accueil : la fenêtre à l'accueil ;
+//  6. l'aventure sans fin, un camp d'après un roi trouvé à l'arrivée : la marque, pas de
+//     fenêtre ; le record refusé est réécrit quand l'appareil garde de nouveau, et l'accueil
+//     le dit ; seuls les records refusés : la marque, et sa fenêtre dit pourquoi.
 //   node --experimental-strip-types scripts/hygiene/unkept.mjs [dossier]
 import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
@@ -244,10 +247,16 @@ for (const viewport of SIZES) {
     await page.locator('#players-dialog [data-player="p2"] button').first().click();
     await players.waitFor({ state: 'detached' }).catch(() => players.waitFor({ state: 'hidden' }));
     assert.equal(await page.locator('#unkept-dialog').count(), 0, 'nor on the home');
+    // A camp found at the door is not yet something this child would lose: nothing on the
+    // board either, until a wave is won.
     await page.locator('#home-primary').click();
+    await boardReady(page);
+    assert.equal(await page.locator('#unkept-dialog').count(), 0, 'nor on the board');
+    await startWave(page);
+    await endWave(page);
     await page.locator('#unkept-dialog[open]').waitFor({ state: 'visible' });
     checks.push(
-      'deux joueurs, écritures refusées : rien par-dessus « Qui joue ? », la fenêtre après « Jouer »',
+      'deux joueurs, écritures refusées : rien par-dessus « Qui joue ? », la fenêtre après une vague gagnée',
     );
     assert.deepEqual(report.errors, []);
   } finally {
@@ -324,9 +333,46 @@ async function endlessKingCamp() {
   return storage;
 }
 
+// The gifts of a milestone left unchosen, and the child goes home: the window comes there.
+{
+  const { Game } = await import('../../src/game.ts');
+  const { encodeCheckpoint } = await import('../../src/checkpoints.ts');
+  const { showHomePage } = await import('../../tests/browser-entry.mjs');
+  const game = new Game(33);
+  game.wave = 3;
+  game.gold = 5000;
+  game.normalizeCamp();
+  // On a large screen the menu of the board stays within reach while the gifts show.
+  const { browser, page, report } = await open({
+    dir,
+    viewport: { width: 1280, height: 800 },
+    touch: false,
+    storage: { [KEYS.CAMP_STORAGE_KEY]: encodeCheckpoint(game) },
+  });
+  try {
+    await start(page);
+    await showHomePage(page, 'classic');
+    await page.locator('#home-continue').click();
+    await boardReady(page);
+    await refuse(page, true);
+    await startWave(page);
+    for (let step = 0; step < 400 && (await status(page)) === 'fighting'; step++)
+      await page.clock.runFor(1000);
+    await page.locator('#reward-cards [data-reward]').first().waitFor({ state: 'visible' });
+    assert.equal(await page.locator('#unkept-dialog').count(), 0, 'nothing over the gifts');
+    await page.locator('#menu-home').click();
+    await page.locator('#home-screen').waitFor({ state: 'visible' });
+    await page.locator('#unkept-dialog[open]').waitFor({ state: 'visible' });
+    checks.push('cadeaux laissés sans choix, retour à l’accueil : la fenêtre à l’accueil');
+    assert.deepEqual(report.errors, []);
+  } finally {
+    await browser.close();
+  }
+}
+
 // The endless adventure, just after a king: the camp is at wave 0 with a gift to choose, and
-// the device refuses every write. A king beaten is something to lose: the window comes. The
-// record of the king is refused. The parent frees space, the child goes home and plays on: the
+// the device refuses every write. A camp found at the door is not yet something this child
+// would lose: the mark, no window. The record of the king is refused. The parent frees space, the child goes home and plays on: the
 // record is written at the next save, and the home says the game is kept again.
 {
   const storage = await endlessKingCamp();
@@ -334,10 +380,9 @@ async function endlessKingCamp() {
   try {
     await page.addInitScript(ARMED);
     await page.goto(`${ORIGIN}/`);
-    // A king beaten is something to lose: the child is told at once, at the home.
-    await page.locator('#unkept-dialog[open]').waitFor({ state: 'visible' });
-    await page.locator('#unkept-button').click();
-    await page.locator('#unkept-dialog').waitFor({ state: 'detached' });
+    await page.locator('button#unkept-mark').waitFor({ state: 'visible' });
+    await page.clock.runFor(1500);
+    assert.equal(await page.locator('#unkept-dialog').count(), 0, 'no window at the door');
     if (await page.locator('#home-primary').isVisible())
       await page.evaluate(() => document.querySelector('[data-home-target="classic"]').click());
     if (await page.locator('#home-continue').isVisible()) await page.click('#home-continue');
@@ -346,7 +391,7 @@ async function endlessKingCamp() {
     await page.clock.runFor(500);
     assert.equal((await snapshot(page))[KEYS.ENDLESS_RECORDS_KEY], undefined, 'record refused');
     checks.push(
-      'après un roi de l’aventure sans fin, écritures refusées : la fenêtre ; le record refusé',
+      'camp d’après un roi, écritures refusées : la marque à la porte, pas de fenêtre ; le record refusé',
     );
     // The words of the home are watched as they come: once seen, they go when the home is left.
     await page.evaluate(() => {
@@ -383,7 +428,7 @@ async function endlessKingCamp() {
   }
 }
 
-// Only the records are refused, the family file is kept: the record alone tells the family.
+// Only the records are refused, the family file is kept: the record alone brings the mark.
 {
   const { browser, page, report } = await open({ dir, storage: await endlessKingCamp() });
   try {
@@ -393,12 +438,17 @@ async function endlessKingCamp() {
     );
     await page.addInitScript(ARMED);
     await page.goto(`${ORIGIN}/`);
+    await page.locator('button#unkept-mark').waitFor({ state: 'visible' });
+    await page.locator('button#unkept-mark').click();
     await page.locator('#unkept-dialog[open]').waitFor({ state: 'visible' });
+    await page.locator('#unkept-parents > summary').click();
     assert.equal(await text(page, '#unkept-parents > p'), FR.lAppareilNASansDoutePlusAssezDePlace);
     const stored = await snapshot(page);
     assert.ok(stored[KEYS.FAMILY_STORAGE_KEY], 'the family file is kept');
     assert.equal(stored[KEYS.ENDLESS_RECORDS_KEY], undefined, 'the record is not');
-    checks.push('seuls les records refusés : la fenêtre le dit, le fichier familial étant gardé');
+    checks.push(
+      'seuls les records refusés : la marque, et sa fenêtre dit pourquoi ; le fichier familial gardé',
+    );
     assert.deepEqual(report.errors, []);
   } finally {
     await browser.close();

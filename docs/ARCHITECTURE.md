@@ -1704,13 +1704,16 @@ pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
   records de l'aventure sans fin ont leur propre drapeau (`createRecordBook`) : un record
   refusé est gardé en mémoire et réécrit à chaque sauvegarde suivante, jusqu'à ce que
   l'appareil le prenne. Rien ne réessaie sans un geste du joueur : « il réessaie tout seul »
-  veut dire au prochain geste qui sauvegarde (une vague, un achat, un camp quitté).
+  veut dire au prochain geste qui sauvegarde (une vague, un achat) ; rentrer à l'accueil ne
+  sauvegarde pas, mais y regarde de nouveau ce qui n'est pas gardé.
 - **Ce que la famille voit** (`src/ui/failure/unkept.ts`, demandé la première fois que cela
   arrive ; sur un appareil qui garde tout, rien n'est chargé) :
   - une fenêtre « Ta partie n'est pas gardée », une fois par épisode, à un moment calme :
     jamais par-dessus un combat, une autre fenêtre ou les cadeaux d'une vague (elle vient
-    une fois le cadeau choisi), et pas avant qu'il y ait quelque chose à perdre (une vague
-    gagnée dans la partie en main, ou un roi battu dans l'aventure sans fin) : un enfant qui arrive sur un appareil
+    une fois le cadeau choisi, ou à l'accueil si l'enfant y rentre sans choisir), et pas
+    avant qu'il y ait quelque chose à perdre : une vague, ou un roi de l'aventure sans fin,
+    gagnés depuis que la partie est en main (`session.wonSinceStart`). Un camp trouvé à
+    l'arrivée, si loin soit-il, ne l'est pas encore : un enfant qui arrive sur un appareil
     qui ne garde rien n'est pas arrêté à la porte. Elle dit à l'enfant d'aller chercher
     un adulte avant de fermer le jeu ; sous « Pour les parents », une phrase par cause. Elle se
     ferme : le jeu derrière marche.
@@ -1724,10 +1727,13 @@ pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
   refusée juste avant une vague, rien pendant le combat, la fenêtre à la fin de la vague, la
   marque qui la rouvre, la guérison dite puis effacée, un second refus redit ; stockage
   illisible : pas de fenêtre à l'arrivée ; écritures refusées dès l'arrivée : rien pendant la
-  vague même quand le jeu essaie d'écrire, rien par-dessus « Qui joue ? », la fenêtre après
-  « Jouer » ; une vague à cadeaux : rien par-dessus les cadeaux ; après un roi : la fenêtre,
-  le record refusé puis réécrit, et l'accueil qui le dit. Une attaque indépendante a essayé
-  de casser le lot : ses quatre points à corriger sont repris, chacun tenu par la recette.
+  vague même quand le jeu essaie d'écrire, rien par-dessus « Qui joue ? » ni sur un camp
+  trouvé à l'arrivée, la fenêtre après une vague gagnée ; une vague à cadeaux : rien
+  par-dessus les cadeaux, la fenêtre une fois le cadeau choisi, ou à l'accueil s'il ne l'est
+  pas ; un camp d'après un roi trouvé à l'arrivée : la marque seule, le record refusé puis
+  réécrit, l'accueil qui le dit ; seuls les records refusés : la marque. Deux attaques
+  indépendantes ont essayé de casser le lot : leurs points à corriger sont repris, chacun
+  tenu par la recette.
 - **Ne couvre pas** : un navigateur en navigation privée qui accepte les écritures puis jette
   tout à la fermeture (aucun code ne peut le savoir) ; l'expédition et le voyage, qui ont
   leur propre message ; les refus qui ne touchent que d'autres clés (carrière, camp sous sa
