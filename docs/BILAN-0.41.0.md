@@ -82,6 +82,19 @@ build 64 a été attaqué par des relecteurs indépendants avant fusion.
   d'Android s'ouvre encore sans question, et montre les contacts récents. Je propose de
   construire le build 65 une fois ce lot de la barrière fusionné, pas avant.
 
+## Après le lot : la recette `test:saves:unkept` qui échouait parfois
+
+Environ une fois sur six, la fenêtre « Ta partie n'est pas gardée » s'ouvrait avant le
+second combat de la recette et bloquait le clic sur « Vague suivante ». Reproduit en boucle
+(une fois sur trois passages instrumentés, puis une fois sur quatre avec une seconde
+d'attente avant le clic), avec la trace de chaque écriture refusée : les soldats de la
+première vague rentraient encore à leur poste, figés pendant le passage à l'accueil, et
+repartaient au réveil du plateau. Le camp changeait, sa sauvegarde était refusée, et le jeu
+appliquait la décision 4 (une vague déjà gagnée, un moment calme). Le jeu n'est pas modifié ;
+la recette laisse les soldats rentrer avant de faire refuser l'appareil, et vérifie de plus
+que rien ne s'affiche pendant ce second combat (détail dans
+[ARCHITECTURE.md](ARCHITECTURE.md), « Quand ce qui est joué n'est pas gardé »).
+
 ## Publication du site
 
 La politique publiée sur le site nomme l'application installée. Comme pour le build 64, la

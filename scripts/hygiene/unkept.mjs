@@ -67,6 +67,25 @@ const refuse = (page, on) =>
       return write.call(this, key, value);
     };
   }, on);
+/**
+ * Waits until the soldiers are back at their posts: the camp the game saves no longer changes
+ * from one second of play to the next. After a wave they walk home, and the board saves the
+ * camp a few times a second while they do; going home puts the board to sleep, and they stop
+ * where they are until it wakes. A device that starts refusing while they still walk is told
+ * at once if a wave of this game was already won (the board is a quiet moment): that is the
+ * rule, not the case « refused just before a wave » checks. The page's clock is in hand.
+ */
+async function still(page) {
+  const saved = () => page.evaluate((key) => localStorage.getItem(key), KEYS.FAMILY_STORAGE_KEY);
+  let before = await saved();
+  for (let second = 0; second < 60; second++) {
+    await page.clock.runFor(1000);
+    const now = await saved();
+    if (now === before) return;
+    before = now;
+  }
+  assert.fail('the soldiers never came back to their posts');
+}
 /** Lets the wave under way end, taking the gift it may offer. */
 async function endWave(page) {
   for (let step = 0; step < 400 && (await status(page)) === 'fighting'; step++)
@@ -162,11 +181,17 @@ for (const viewport of SIZES) {
     assert.equal(await page.locator('#unkept-mark').count(), 0, 'seen once, the sentence goes');
     checks.push(`${tag} : l'appareil garde de nouveau, l'accueil le dit, puis la phrase s'en va`);
 
-    // A second refusal is a second time: it is told again.
+    // A second refusal is a second time: it is told again. The soldiers left walking home at
+    // the end of the first wave are let back to their posts first: the device refuses just
+    // before the wave, as in the first case, not while the camp still changes.
     await page.locator('#home-primary').click();
     await boardReady(page);
+    await still(page);
     await refuse(page, true);
     await startWave(page);
+    await page.clock.runFor(3000);
+    assert.equal(await status(page), 'fighting');
+    assert.equal(await page.locator('#unkept-dialog').count(), 0, 'never over a fight');
     await endWave(page);
     await page.locator('#unkept-dialog[open]').waitFor({ state: 'visible' });
     checks.push(`${tag} : un second refus est redit`);

@@ -1738,6 +1738,21 @@ pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
   réécrit, l'accueil qui le dit ; seuls les records refusés : la marque. Deux attaques
   indépendantes ont essayé de casser le lot : leurs points à corriger sont repris, chacun
   tenu par la recette.
+- **Le camp sauvegardé bouge entre deux vagues** (échec intermittent de la recette, 23
+  novembre 2026, environ une fois sur six) : le plateau sauvegarde plusieurs fois par seconde
+  (`refreshHud`, toutes les 180 ms) ; la sauvegarde n'écrit que si le camp a changé, et le
+  camp garde la place de chaque soldat. Après une vague, les soldats rentrent à leur poste :
+  le camp change à chaque rafraîchissement. Rentrer à l'accueil endort le plateau, et les
+  soldats restent figés à mi-chemin jusqu'à son réveil. Si l'appareil se met à refuser à ce
+  moment, sur le plateau, alors qu'une vague de cette partie est déjà gagnée, la fenêtre
+  s'ouvre aussitôt : c'est la règle (décision 4 : un moment calme, après une vague gagnée).
+  La recette, elle, voulait un refus juste avant la vague : la fenêtre ouverte avant le clic
+  sur « Vague suivante » l'arrêtait. Le jeu n'était pas en faute ; la recette laisse
+  maintenant les soldats rentrer à leur poste (`still`, le camp sauvegardé ne change plus
+  d'une seconde de jeu à l'autre) avant de faire refuser l'appareil, et vérifie que rien ne
+  s'affiche pendant ce second combat. Conséquence à connaître : un enfant qui a gagné une
+  vague, resté au camp pendant que ses soldats rentrent, voit la fenêtre au camp si
+  l'appareil se remplit à ce moment-là, pas seulement à la fin d'une vague.
 - **Ne couvre pas** : un navigateur en navigation privée qui accepte les écritures puis jette
   tout à la fermeture (aucun code ne peut le savoir) ; l'expédition et le voyage, qui ont
   leur propre message ; les refus qui ne touchent que d'autres clés (carrière, camp sous sa

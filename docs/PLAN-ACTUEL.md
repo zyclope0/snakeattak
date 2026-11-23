@@ -15,6 +15,10 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **Lot « build 65 »** : version 0.41.0 / build 65, politique de confidentialité (décisions 1,
   2, 8), phrases des décisions 6 et 10, page publique des parents (7)
   ([bilan](BILAN-0.41.0.md), [passation](ANDROID-BUILD-65.md)).
+- **Recette `test:saves:unkept`** : son échec d'environ une fois sur six venait de la recette,
+  pas du jeu (soldats encore en marche vers leur poste quand l'appareil se met à refuser ;
+  [ARCHITECTURE.md](ARCHITECTURE.md), « Quand ce qui est joué n'est pas gardé »). Corrigé dans
+  la recette seule ; aucun changement du jeu.
 - **Ensuite** : la barrière pour adulte avant le partage d'Android (décision 3), puis la
   construction du build 65 par le parent et sa recette sur le téléphone. Le site n'est à
   publier qu'avec le mot du parent, une fois le build 65 sur le téléphone.
