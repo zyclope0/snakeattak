@@ -6,6 +6,8 @@ mot. L'anglais de chacune est dans `src/texts/en/` sous le même nom.
 
 Aucune n'a été essayée avec un enfant.
 
+**Réponses du parent, 23 novembre 2026** : voir [DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md).
+
 ## 1. Le plateau s'arrête sur une erreur
 
 Fenêtre « Oups, le jeu s'est emmêlé ! » (titre déjà dans `main`), bouton « Relancer le jeu ».
