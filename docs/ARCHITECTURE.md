@@ -1705,14 +1705,17 @@ pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
   refusé est gardé en mémoire et réécrit à chaque sauvegarde suivante, jusqu'à ce que
   l'appareil le prenne. Rien ne réessaie sans un geste du joueur : « il réessaie tout seul »
   veut dire au prochain geste qui sauvegarde (une vague, un achat) ; rentrer à l'accueil ne
-  sauvegarde pas, mais y regarde de nouveau ce qui n'est pas gardé.
+  sauvegarde pas la partie, mais y réessaie les records refusés et regarde de nouveau ce qui
+  n'est pas gardé.
 - **Ce que la famille voit** (`src/ui/failure/unkept.ts`, demandé la première fois que cela
   arrive ; sur un appareil qui garde tout, rien n'est chargé) :
   - une fenêtre « Ta partie n'est pas gardée », une fois par épisode, à un moment calme :
     jamais par-dessus un combat, une autre fenêtre ou les cadeaux d'une vague (elle vient
     une fois le cadeau choisi, ou à l'accueil si l'enfant y rentre sans choisir), et pas
     avant qu'il y ait quelque chose à perdre : une vague, ou un roi de l'aventure sans fin,
-    gagnés depuis que la partie est en main (`session.wonSinceStart`). Un camp trouvé à
+    gagnés depuis que la partie est entrée en jeu la première fois (`session.wonSinceStart` :
+    une vague compte une fois finie et pas perdue ; une partie remise en jeu après une mission
+    garde son premier compte). Un camp trouvé à
     l'arrivée, si loin soit-il, ne l'est pas encore : un enfant qui arrive sur un appareil
     qui ne garde rien n'est pas arrêté à la porte. Elle dit à l'enfant d'aller chercher
     un adulte avant de fermer le jeu ; sous « Pour les parents », une phrase par cause. Elle se
