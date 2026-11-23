@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The test APK only: its own name, so the parent tells it from the application from Google Play. -->
+<resources>
+    <string name="app_name">Serpents (test)</string>
+    <string name="title_activity_main">Serpents (test)</string>
+</resources>
