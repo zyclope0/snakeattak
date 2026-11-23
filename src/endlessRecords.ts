@@ -89,8 +89,22 @@ export function createRecordBook(storage?: StoragePort) {
       return [];
     }
   };
-  /** True while the last record could not be written: the device refused it. */
+  /** True while a record could not be written: the device refused it. */
   let unkept = false;
+  /** The games whose record the device refused: written again at the next try. */
+  let waiting: EndlessRecord[] = [];
+  /** Writes these records over the ones kept; false when the device refuses. */
+  const write = (records: EndlessRecords) => {
+    try {
+      storage?.setItem(ENDLESS_RECORDS_KEY, writeRecords(records));
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  /** The records kept, with those still waiting to be written. */
+  const withWaiting = () =>
+    waiting.reduce((records, game) => addRecord(records, game).records, read());
   return {
     read,
     get unkept() {
@@ -98,17 +112,20 @@ export function createRecordBook(storage?: StoragePort) {
     },
     /** Writes how far a game went; returns whether it is now the player's record. */
     add(game: EndlessRecord): boolean {
-      const before = read();
+      const before = withWaiting();
       const { records, best } = addRecord(before, game);
-      if (records === before) return false;
-      try {
-        storage?.setItem(ENDLESS_RECORDS_KEY, writeRecords(records));
-        unkept = false;
-      } catch {
-        // The game is played all the same; the record is not kept, and the family is told.
-        unkept = true;
-      }
+      if (records === before && !waiting.length) return false;
+      // The game is played all the same; a record refused is kept here, tried again, and
+      // the family is told until it is written.
+      if (write(records)) [waiting, unkept] = [[], false];
+      else [waiting, unkept] = [[...waiting, game], true];
       return best;
+    },
+    /** Tries again the records the device refused; true once nothing waits. */
+    retry(): boolean {
+      if (!waiting.length) return true;
+      if (write(withWaiting())) [waiting, unkept] = [[], false];
+      return !unkept;
     },
   };
 }

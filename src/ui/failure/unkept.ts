@@ -96,9 +96,13 @@ export function keepingChanged(now: Cause | null, where: Where): void {
   }
   cause = now;
   if (told || dialogOpen()) return;
-  // Never over a fight; and not before there is something to lose: a child who has just
-  // arrived, on a device that keeps nothing, is not stopped at the door. The mark is there.
+  // Never over a fight, nor over the gifts a wave offers (a panel, not a window): the window
+  // comes at the next save, once the gift is chosen. And not before there is something to
+  // lose: a child who has just arrived, on a device that keeps nothing, is not stopped at the
+  // door. The mark is there.
   if (!where.home() && where.fighting()) return;
+  const gifts = document.getElementById('reward-panel');
+  if (!where.home() && gifts && !gifts.hidden) return;
   if (!where.played()) return;
   told = true;
   show(now);

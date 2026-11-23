@@ -7,7 +7,7 @@ import { Game } from '../src/game.ts';
 import { readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { createFamilyPersistence } from '../src/familyPersistence.ts';
 import { createRecordBook } from '../src/endlessRecords.ts';
-import { FAMILY_STORAGE_KEY } from '../src/storageKeys.ts';
+import { ENDLESS_RECORDS_KEY, FAMILY_STORAGE_KEY } from '../src/storageKeys.ts';
 
 // The family is told when what is played is not on the device (council of 22 November 2026).
 // What it is told rests on one answer of the save code, `unkept`: null exactly when the file
@@ -145,4 +145,40 @@ test('a record of the endless adventure the device refuses is told as well', () 
   full = false;
   book.add({ wave: 12, kings: 1, rules: 1, run: 3 });
   assert.equal(book.unkept, false);
+});
+
+test('a refused record is written again at the next try, and only then is the family told it is kept', async () => {
+  const { readRecords } = await import('../src/endlessRecords.ts');
+  const values = new Map<string, string>();
+  let full = false;
+  const book = createRecordBook({
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem(key: string, value: string) {
+      if (full) throw Error('quota');
+      values.set(key, value);
+    },
+  });
+  const stored = () => readRecords(values.get(ENDLESS_RECORDS_KEY) ?? null).map((r) => r.run);
+  assert.equal(book.retry(), true, 'nothing waits');
+  book.add({ wave: 5, kings: 0, rules: 1, run: 1 });
+  full = true;
+  // The child goes home with a record after a king: the device refuses it (second attack).
+  book.add({ wave: 12, kings: 1, rules: 1, run: 2 });
+  assert.equal(book.unkept, true);
+  // Nothing more is played: tried again, refused again, still told.
+  assert.equal(book.retry(), false);
+  assert.equal(book.unkept, true);
+  assert.deepEqual(stored(), [1]);
+  // The parent frees space: the next save writes it, and the family is told it is kept.
+  full = false;
+  assert.equal(book.retry(), true);
+  assert.equal(book.unkept, false);
+  assert.deepEqual(stored().sort(), [1, 2]);
+  // A record refused, then another game that is no record at all: both tries keep the first.
+  full = true;
+  book.add({ wave: 20, kings: 1, rules: 1, run: 3 });
+  full = false;
+  book.add({ wave: 1, kings: 0, rules: 1, run: 4 });
+  assert.equal(book.unkept, false);
+  assert.ok(stored().includes(3), 'the refused record is written with the next game');
 });

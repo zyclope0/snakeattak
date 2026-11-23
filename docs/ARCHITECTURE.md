@@ -1701,12 +1701,16 @@ pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
   Sinon il dit pourquoi : `blocked` (pas de stockage pour le jeu, ou stockage illisible),
   `full` (l'appareil a refusé la dernière écriture), `broken` (le jeu n'a pas su construire le
   fichier). Une écriture qui passe, ou un retour à ce qui est déjà gardé, y met fin. Les
-  records de l'aventure sans fin ont leur propre drapeau (`createRecordBook`).
+  records de l'aventure sans fin ont leur propre drapeau (`createRecordBook`) : un record
+  refusé est gardé en mémoire et réécrit à chaque sauvegarde suivante, jusqu'à ce que
+  l'appareil le prenne. Rien ne réessaie sans un geste du joueur : « il réessaie tout seul »
+  veut dire au prochain geste qui sauvegarde (une vague, un achat, un camp quitté).
 - **Ce que la famille voit** (`src/ui/failure/unkept.ts`, demandé la première fois que cela
   arrive ; sur un appareil qui garde tout, rien n'est chargé) :
   - une fenêtre « Ta partie n'est pas gardée », une fois par épisode, à un moment calme :
-    jamais par-dessus un combat ni une autre fenêtre, et pas avant qu'il y ait quelque chose à
-    perdre (une vague gagnée dans la partie en main) : un enfant qui arrive sur un appareil
+    jamais par-dessus un combat, une autre fenêtre ou les cadeaux d'une vague (elle vient
+    une fois le cadeau choisi), et pas avant qu'il y ait quelque chose à perdre (une vague
+    gagnée dans la partie en main, ou un roi battu dans l'aventure sans fin) : un enfant qui arrive sur un appareil
     qui ne garde rien n'est pas arrêté à la porte. Elle dit à l'enfant d'aller chercher
     un adulte avant de fermer le jeu ; sous « Pour les parents », une phrase par cause. Elle se
     ferme : le jeu derrière marche.
@@ -1719,11 +1723,18 @@ pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
   (`scripts/hygiene/unkept.mjs`, tâche « sauvegardes » de la CI), aux trois tailles : écriture
   refusée juste avant une vague, rien pendant le combat, la fenêtre à la fin de la vague, la
   marque qui la rouvre, la guérison dite puis effacée, un second refus redit ; stockage
-  illisible : pas de fenêtre à l'arrivée.
+  illisible : pas de fenêtre à l'arrivée ; écritures refusées dès l'arrivée : rien pendant la
+  vague même quand le jeu essaie d'écrire, rien par-dessus « Qui joue ? », la fenêtre après
+  « Jouer » ; une vague à cadeaux : rien par-dessus les cadeaux ; après un roi : la fenêtre,
+  le record refusé puis réécrit, et l'accueil qui le dit. Une attaque indépendante a essayé
+  de casser le lot : ses quatre points à corriger sont repris, chacun tenu par la recette.
 - **Ne couvre pas** : un navigateur en navigation privée qui accepte les écritures puis jette
   tout à la fermeture (aucun code ne peut le savoir) ; l'expédition et le voyage, qui ont
-  leur propre message ; si les fichiers de cette fenêtre ne viennent pas la première fois, le
-  navigateur ne les redemande pas ; rien n'est vu sur un téléphone ; les mots sont à lire par
+  leur propre message ; les refus qui ne touchent que d'autres clés (carrière, camp sous sa
+  clé, liste des joueurs) ; sur le site, si les fichiers de cette fenêtre ne viennent pas la
+  première fois (site ouvert puis réseau perdu), le navigateur ne les redemande pas ; dans
+  l'application, la phrase « stockage bloqué » parle de navigation privée et de réglages
+  qu'elle n'a pas ; rien n'est vu sur un téléphone ; les mots sont à lire par
   le parent.
 
 ## Remettre un fichier à la famille — 22 novembre 2026

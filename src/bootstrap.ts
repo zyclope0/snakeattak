@@ -309,6 +309,8 @@ function saveAndRedraw() {
  * is fetched.
  */
 function watchKeeping() {
+  // A record the device refused is tried again at each save, as the family file is.
+  records.retry();
   const cause = family.unkept ?? (records.unkept ? 'full' : null);
   if (!cause && !keeping) return;
   keeping ??= import('./ui/failure/unkept.ts');
@@ -317,7 +319,8 @@ function watchKeeping() {
       keepingChanged(cause, {
         home: () => session.screen === 'home',
         fighting: () => session.game.status === 'fighting',
-        played: () => session.game.wave > 0,
+        // A wave won, or a king beaten in the endless adventure (its camp is then at wave 0).
+        played: () => session.game.wave > 0 || endlessReached(session.game) > 0,
       }),
     )
     .catch(() => (keeping = undefined));
