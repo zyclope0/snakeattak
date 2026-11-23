@@ -42,18 +42,24 @@ const EXTRAS: Readonly<Record<Name, { key: string; read: (text: string) => strin
 };
 
 /** What the device holds for this player, ready for a family file: only what reads back. */
+/** What a copy taken now would carry of one extra: its text as the game reads it, or none. */
+function collectOne(name: Name, storage?: ReadPort): string | null {
+  try {
+    const raw = storage?.getItem(EXTRAS[name].key);
+    const text = typeof raw === 'string' ? EXTRAS[name].read(raw) : null;
+    // An expedition that cannot be read is lost, its record is not: as the game reads it.
+    if (!text && name === 'expedition' && storage) return kept(loadExpeditionLog(storage));
+    return text;
+  } catch {
+    /* A storage that refuses to be read has nothing to carry. */
+    return null;
+  }
+}
 export function collectExtras(storage?: ReadPort): FamilyExtras {
   const extras: Partial<Record<Name, string>> = {};
   for (const name of FAMILY_EXTRAS) {
-    try {
-      const raw = storage?.getItem(EXTRAS[name].key);
-      let text = typeof raw === 'string' ? EXTRAS[name].read(raw) : null;
-      // An expedition that cannot be read is lost, its record is not: as the game reads it.
-      if (!text && name === 'expedition' && storage) text = kept(loadExpeditionLog(storage));
-      if (text) extras[name] = text;
-    } catch {
-      /* A storage that refuses to be read has nothing to carry. */
-    }
+    const text = collectOne(name, storage);
+    if (text) extras[name] = text;
   }
   return Object.freeze(extras);
 }
@@ -108,10 +114,17 @@ export function writeExtras(
       if (text === undefined && !whole) continue;
       const { key } = EXTRAS[name];
       const previous = storage.getItem(key);
-      // A whole restore never touches a text this version cannot read (written by a later
-      // one, or damaged): no copy could carry it, at most a part of it (the record of an
-      // expedition), which must not take its place.
-      if (whole && previous !== null && !EXTRAS[name].read(previous)) continue;
+      // A whole restore does not take away a text this version cannot read (written by a
+      // later one, or damaged) for what a copy taken now would hold of it — nothing, or the
+      // record of an expedition: that part must not take the whole text's place. A copy that
+      // carries something else (taken before the text went bad) is written.
+      if (
+        whole &&
+        previous !== null &&
+        !EXTRAS[name].read(previous) &&
+        (text === undefined || text === collectOne(name, storage))
+      )
+        continue;
       if (text === undefined) {
         if (previous === null) continue;
         storage.removeItem(key);

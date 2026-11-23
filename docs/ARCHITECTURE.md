@@ -1736,8 +1736,9 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
   lancements est donc la même aventure. Un appareil qui ne garde encore aucune aventure n'a
   rien à copier. Reprendre cette copie revient à l'état d'avant l'import entier : ce que le
   fichier fautif avait apporté à côté (expédition, voyage, records) est retiré ; un texte que
-  cette version ne relit pas, et qu'aucune copie ne pouvait porter en entier, reste en place,
-  même une expédition dont seul le record se relit. Reprendre une copie est un import : ce qu'elle
+  cette version ne relit pas reste en place quand la copie n'en porte que ce qu'une copie
+  prise maintenant en garderait (rien, ou le record d'une expédition) ; une copie prise avant
+  que ce texte s'abîme le remplace. Reprendre une copie est un import : ce qu'elle
   remplace est gardé à son tour.
 - **`family-previous` : la sauvegarde d'un lancement d'avant.** Le fichier que le jeu trouve
   en démarrant est gardé une fois que la séance a écrit sa première sauvegarde — la

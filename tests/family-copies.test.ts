@@ -396,3 +396,22 @@ test('extras written another way are the same extras; a whole restore leaves a t
   assert.ok(writeExtras(storage, carried, false));
   assert.equal(storage.values.get(EXPEDITION_STORAGE_KEY), carried.expedition);
 });
+
+test('a whole restore writes a copy taken before a text went bad, and adds what the device lacks', async () => {
+  const { writeExtras, collectExtras } = await import('../src/familyExtras.ts');
+  const records = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+  // A readable expedition is copied; then its text goes bad on the device (a damaged value,
+  // an older tab, a rollback). Bringing the copy back puts the whole expedition back.
+  const device = memory({
+    [EXPEDITION_STORAGE_KEY]: JSON.stringify({ version: 1, best: 5, current: null }),
+  });
+  const copy = collectExtras(device);
+  assert.ok(copy.expedition, 'the copy holds the expedition');
+  device.values.set(EXPEDITION_STORAGE_KEY, '{damaged');
+  assert.ok(writeExtras(device, copy, true));
+  assert.equal(device.values.get(EXPEDITION_STORAGE_KEY), copy.expedition, 'written back');
+  // The way back of a way back: what the device lacks, the copy brings (K05).
+  const bare = memory();
+  assert.ok(writeExtras(bare, { endless: records }, true));
+  assert.equal(bare.values.get(ENDLESS_RECORDS_KEY), records);
+});
