@@ -23,7 +23,13 @@ import {
   readFamilyBackup,
   writeFamilyBackup,
 } from './familyBackup.ts';
-import { checkExtras, collectExtras, replacesNothing, writeExtras } from './familyExtras.ts';
+import {
+  checkExtras,
+  collectExtras,
+  importWritesRecords,
+  replacesNothing,
+  writeExtras,
+} from './familyExtras.ts';
 import type { FamilyBackup } from './familyBackup.ts';
 import { decodeCheckpoint } from './checkpoints.ts';
 import { bindFamilyControls } from './ui/familyControls.ts';
@@ -536,8 +542,7 @@ function applyFamily(backup: FamilyBackup, whole = false) {
   if (!family.import(canonical)) return failed(extras && !extras.undo() ? partial : refused);
   // The records the file brings (or a whole state without them) take the place of those of
   // the adventure replaced: a record of that one still waiting to be written is forgotten.
-  if (extras && (whole || (file.version === FAMILY_EXTRAS_VERSION && 'endless' in file.extras)))
-    records.forget();
+  if (extras && importWritesRecords(file, whole)) records.forget();
   // The door of the expedition and its screens hold what they read at start: the page is
   // read again, as when the player changes.
   reloadAfterImport = extras !== null;

@@ -203,3 +203,30 @@ test('an import that writes the records forgets those still waiting', () => {
   assert.equal(book.retry(), true);
   assert.equal(values.get(ENDLESS_RECORDS_KEY), 'imported', 'nothing merged into them');
 });
+
+test('the records waiting are forgotten only by an import that writes the records', async () => {
+  const { importWritesRecords } = await import('../src/familyExtras.ts');
+  const { writeRecords } = await import('../src/endlessRecords.ts');
+  const { createMissionProgress } = await import('../src/missionProgress.ts');
+  const { createCapriceAlbums } = await import('../src/capriceAlbums.ts');
+  const raw = writeFamilyBackup(
+    encodeCheckpoint(new Game(1)),
+    createCareer().state,
+    createMissionProgress(),
+    createCapriceAlbums(),
+  )!;
+  const plain = readFamilyBackup(raw)!;
+  const v6 = (extras: Record<string, string>) =>
+    readFamilyBackup(JSON.stringify({ ...JSON.parse(raw), version: 6, extras }))!;
+  const records = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+  const withRecords = v6({ endless: records });
+  const { createExpeditionLog, logExpedition } = await import('../src/expeditionStorage.ts');
+  const { startExpedition } = await import('../src/expedition.ts');
+  const expedition = JSON.stringify(logExpedition(createExpeditionLog(), startExpedition(4242)!));
+  const withoutRecords = v6({ expedition });
+  assert.ok(withRecords && withoutRecords, 'both version 6 files are read');
+  assert.equal(importWritesRecords(plain, false), false, 'a file without records keeps them');
+  assert.equal(importWritesRecords(withoutRecords, false), false, 'even a version 6 one (F1)');
+  assert.equal(importWritesRecords(plain, true), true, 'a whole state takes them away (F2)');
+  assert.equal(importWritesRecords(withRecords, false), true, 'a file that brings records');
+});

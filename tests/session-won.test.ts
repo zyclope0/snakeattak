@@ -34,6 +34,12 @@ test('only a wave over and not lost counts, from where the game was put in play'
   assert.equal(session.wonSinceStart, false, 'nor a wave lost');
   camp.status = 'preparing';
   assert.equal(session.wonSinceStart, true, 'a wave won');
+  // The last wave of an adventure or of a mission: the game is won, its wave counts.
+  const last = at(11, 'preparing');
+  session.useGame(last);
+  last.wave = 12;
+  last.status = 'won';
+  assert.equal(session.wonSinceStart, true, 'the last wave won');
 });
 
 test('a game set aside and brought back keeps its first count', () => {
