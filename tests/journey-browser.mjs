@@ -2,14 +2,14 @@ import { showHomePage } from './browser-entry.mjs';
 import { catalogueView, REMOVED_CATALOGUE_CONTROLS, revealControl } from './reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
-import { chromium } from 'playwright-core';
+import { launchChromium, CAMP_STORAGE_KEY, CAREER_STORAGE_KEY } from '../scripts/lib/recipe.mjs';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
 const url = process.env.GAME_URL;
 assert.ok(url);
 const folder = process.env.JOURNEY_REPORT_DIR ?? 'artifacts';
 await mkdir(folder, { recursive: true });
-const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+const browser = await launchChromium();
 const errors = [],
   external = [];
 async function pageFor(raw, viewport = { width: 1440, height: 1000 }) {
@@ -19,12 +19,15 @@ async function pageFor(raw, viewport = { width: 1440, height: 1000 }) {
     reducedMotion: 'reduce',
   });
   if (raw)
-    await c.addInitScript((raw) => {
-      if (!localStorage.getItem('conquete-serpents:camp:v1')) {
-        localStorage.setItem('conquete-serpents:camp:v1', raw);
-        sessionStorage.setItem('journey-fixture', '1');
-      }
-    }, raw);
+    await c.addInitScript(
+      ([raw, key]) => {
+        if (!localStorage.getItem(key)) {
+          localStorage.setItem(key, raw);
+          sessionStorage.setItem('journey-fixture', '1');
+        }
+      },
+      [raw, CAMP_STORAGE_KEY],
+    );
   const p = await c.newPage();
   p.on('pageerror', (e) => errors.push(e.message));
   p.on('request', (r) => {
@@ -35,7 +38,7 @@ async function pageFor(raw, viewport = { width: 1440, height: 1000 }) {
   await p.locator('#home-screen:not([hidden])').waitFor({ state: 'visible' });
   return { p, c };
 }
-const camp = (p) => p.evaluate(() => JSON.parse(localStorage.getItem('conquete-serpents:camp:v1')));
+const camp = (p) => p.evaluate((key) => JSON.parse(localStorage.getItem(key)), CAMP_STORAGE_KEY);
 try {
   const { p, c } = await pageFor();
   assert.ok(await p.locator('#home-screen').isVisible(), 'Home menu missing');
@@ -63,8 +66,9 @@ try {
     .getAttribute('data-roster-kind');
   await p.locator(`[data-roster-kind="${other}"]`).click();
   await p.locator('#roster-save').click();
-  const career = await p.evaluate(() =>
-    JSON.parse(localStorage.getItem('conquete-serpents:progress:v1')),
+  const career = await p.evaluate(
+    (key) => JSON.parse(localStorage.getItem(key)),
+    CAREER_STORAGE_KEY,
   );
   assert.equal(career.activeRoster, 1);
   assert.equal(new Set(career.rosters[1]).size, 8);
@@ -73,9 +77,7 @@ try {
   await p.reload();
   await p.locator('#home-classic').waitFor();
   assert.deepEqual(
-    await p.evaluate(
-      () => JSON.parse(localStorage.getItem('conquete-serpents:progress:v1')).rosters[1],
-    ),
+    await p.evaluate((key) => JSON.parse(localStorage.getItem(key)).rosters[1], CAREER_STORAGE_KEY),
     career.rosters[1],
   );
   await showHomePage(p, 'classic');

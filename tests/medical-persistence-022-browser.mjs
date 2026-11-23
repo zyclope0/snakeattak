@@ -1,19 +1,18 @@
 import { showHomePage } from './browser-entry.mjs';
 import assert from 'node:assert/strict';
-import { chromium } from 'playwright-core';
+import { launchChromium, FAMILY_STORAGE_KEY } from '../scripts/lib/recipe.mjs';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
 import { createCareer } from '../src/progression.ts';
 import { createMissionProgressController } from '../src/missionProgress.ts';
 import { writeFamilyBackup, readFamilyBackup } from '../src/familyBackup.ts';
-const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-const key = 'conquete-serpents:family:v1';
+const browser = await launchChromium();
 const errors = [];
 async function state(p) {
   return p.evaluate(
     (key) =>
       JSON.parse(JSON.parse(localStorage.getItem(key)).camp).units.find((u) => u.kind === 'medic'),
-    key,
+    FAMILY_STORAGE_KEY,
   );
 }
 try {

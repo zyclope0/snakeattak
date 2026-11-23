@@ -2,12 +2,11 @@
 // du joueur, le cadeau d'après un roi, « Continuer », « Rentrer avec mon record », l'écran de
 // fin, le choix du cadeau remplacé quand les cinq places sont prises. Les camps sont écrits
 // par le vrai moteur, puis relus par le jeu construit, à 780×360, 812×375 et 1280×800.
-import { spawn } from 'node:child_process';
 import { registerHooks } from 'node:module';
 import { setTimeout } from 'node:timers/promises';
 import { mkdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { chromium } from 'playwright-core';
+import { SCREENS, launchChromium, startPreview } from './lib/recipe.mjs';
 
 registerHooks({
   load(url, context, nextLoad) {
@@ -64,36 +63,14 @@ const career = (won) =>
     chapterCamps: [null, null],
   });
 
-const origin = 'http://127.0.0.1:4189';
 const folder = 'artifacts/endless';
 await mkdir(folder, { recursive: true });
-const server = spawn(
-  process.execPath,
-  [
-    'node_modules/vite/bin/vite.js',
-    'preview',
-    '--host',
-    '127.0.0.1',
-    '--port',
-    '4189',
-    '--strictPort',
-  ],
-  { stdio: 'ignore' },
-);
+const server = await startPreview({ port: 4189 });
+const origin = server.url;
 let browser;
 const checks = [];
 try {
-  const deadline = Date.now() + 15000;
-  while (true) {
-    try {
-      if ((await fetch(origin)).ok) break;
-    } catch {
-      /* not yet */
-    }
-    if (Date.now() > deadline) throw Error('preview did not start');
-    await setTimeout(200);
-  }
-  browser = await chromium.launch();
+  browser = await launchChromium();
   /** A fresh page whose storage holds `stored`, written once before the game starts. */
   async function open(size, stored) {
     const page = await browser.newPage({ viewport: size });
@@ -130,12 +107,8 @@ try {
       assert.ok(box >= 48, `${label}: touch target of ${box}px`);
   };
 
-  for (const [width, height] of [
-    [780, 360],
-    [812, 375],
-    [1280, 800],
-  ]) {
-    const size = { width, height };
+  for (const size of SCREENS) {
+    const { width, height } = size;
     const name = `${width}x${height}`;
 
     // Before King Snake is beaten: the door is closed and says how to open it.
@@ -246,5 +219,5 @@ try {
     setTimeout(10_000, null, { signal: grace.signal }).catch(() => {}),
   ]);
   grace.abort();
-  server.kill();
+  server.stop();
 }

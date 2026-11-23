@@ -1,7 +1,7 @@
 import { enterBattle } from './browser-entry.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
-import { chromium } from 'playwright-core';
+import { launchChromium, CAMP_STORAGE_KEY, FAMILY_STORAGE_KEY } from '../scripts/lib/recipe.mjs';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint, decodeCheckpoint } from '../src/checkpoints.ts';
 import { REWARDS } from '../src/rewards.ts';
@@ -17,7 +17,7 @@ function camp(seed = 23, wave = 4) {
   g.step(1 / 30);
   return g;
 }
-const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+const browser = await launchChromium();
 const errors = [],
   external = [];
 await mkdir('artifacts', { recursive: true });
@@ -49,18 +49,21 @@ async function pageFor(g, viewport = { width: 1440, height: 1050 }, earlyDialog 
   await p.locator('#home-screen').waitFor({ state: 'visible' });
   // Seed only this fresh test context. Subsequent reloads run the application alone.
   const boot = p.waitForEvent('load');
-  await p.evaluate((raw) => {
-    localStorage.setItem('conquete-serpents:camp:v1', raw);
-    localStorage.removeItem('conquete-serpents:family:v1');
-    sessionStorage.setItem('chapter-fixture', '1');
-    location.reload();
-  }, encodeCheckpoint(g));
+  await p.evaluate(
+    ([raw, camp, family]) => {
+      localStorage.setItem(camp, raw);
+      localStorage.removeItem(family);
+      sessionStorage.setItem('chapter-fixture', '1');
+      location.reload();
+    },
+    [encodeCheckpoint(g), CAMP_STORAGE_KEY, FAMILY_STORAGE_KEY],
+  );
   await boot;
   await enterBattle(p);
   await p.locator('canvas').waitFor();
   return { p, context };
 }
-const save = (p) => p.evaluate(() => JSON.parse(localStorage.getItem('conquete-serpents:camp:v1')));
+const save = (p) => p.evaluate((key) => JSON.parse(localStorage.getItem(key)), CAMP_STORAGE_KEY);
 try {
   const modal = await pageFor(camp(), undefined, true);
   assert.ok(await modal.p.locator('#help-dialog').isVisible());
@@ -111,8 +114,8 @@ try {
     rect.y + (rect.height * point.y) / 620,
   );
   await p.waitForFunction(
-    (n) => JSON.parse(localStorage.getItem('conquete-serpents:camp:v1')).units.length === n,
-    before.units.length + 1,
+    ([n, key]) => JSON.parse(localStorage.getItem(key)).units.length === n,
+    [before.units.length + 1, CAMP_STORAGE_KEY],
   );
   const after = await save(p);
   assert.equal(after.gold, before.gold);
@@ -141,8 +144,8 @@ try {
     'Une recharge ne doit jamais réinjecter la fixture de départ',
   );
   // The family envelope is authoritative even if a legacy mirror is absent.
-  if (await p.evaluate(() => localStorage.getItem('conquete-serpents:family:v1'))) {
-    await p.evaluate(() => localStorage.removeItem('conquete-serpents:camp:v1'));
+  if (await p.evaluate((key) => localStorage.getItem(key), FAMILY_STORAGE_KEY)) {
+    await p.evaluate((key) => localStorage.removeItem(key), CAMP_STORAGE_KEY);
     await p.reload();
     await enterBattle(p);
     await p.locator('canvas').waitFor();
