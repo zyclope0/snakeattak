@@ -97,14 +97,15 @@ ses records ; elle ne porte pas les autres joueurs. »
 ## 8. Sortir un fichier de l'application (build 65)
 
 Dans l'application, « Exporter mon aventure » ouvre le partage d'Android. Android dit seulement
-si le jeu a été quitté pendant le partage, jamais si le fichier est bien arrivé. Les phrases ne
-disent donc pas plus :
+quelle application a été choisie, s'il y en a une, jamais si le fichier y est bien arrivé. Les
+phrases ne disent donc pas plus :
 
 | Quand                                         | Phrase                                                                                                                                                                    |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Une application a été choisie                 | « Le fichier est parti vers l'application que tu as choisie. Vérifie qu'il y est bien arrivé et garde-le : il permet de retrouver cette aventure sur un autre appareil. » |
 | Pareil, pour un fichier mis de côté illisible | « Le fichier est parti vers l'application que tu as choisie. Cette version du jeu ne sait pas le relire : garde-le pour une prochaine version. »                          |
-| Le partage s'est fermé                        | « Le partage s'est fermé. Si le fichier n'est arrivé nulle part, recommence : ton aventure n'est encore que sur cet appareil. »                                           |
+| Aucune application n'a été nommée             | « Le partage s'est fermé. Si le fichier n'est arrivé nulle part, recommence : ton aventure n'est encore que sur cet appareil. »                                           |
+| Pareil, pour un fichier mis de côté           | « Le partage s'est fermé. Si le fichier n'est arrivé nulle part, recommence. »                                                                                            |
 
 Sur le site, rien ne change (« Fichier prêt… »).
 
@@ -117,6 +118,9 @@ ton accord sur :
 - le nom du build : « 0.41.0 (build 65) » à la place de « 0.40.0 (build 64) » dans la ligne du
   haut et dans le paragraphe du voyage (ce qui y est dit du fichier reste vrai) ;
 - une phrase de plus, si tu la veux, après « vous décidez où il est stocké et qui le reçoit » :
-  « Dans l'application Android, le fichier est d'abord écrit dans un dossier temporaire de
-  l'application, puis remis au partage d'Android, où vous choisissez l'application qui le
-  reçoit. » Elle est vraie, mais pas indispensable : la phrase actuelle couvre déjà le partage.
+  « Dans l'application Android, le fichier est d'abord écrit dans le cache de l'application,
+  où sa dernière copie reste jusqu'au prochain export ou jusqu'à ce qu'Android vide ce cache,
+  puis remis au partage d'Android, où vous choisissez l'application qui le reçoit. » Elle est
+  vraie, mais pas indispensable : la phrase actuelle couvre déjà le partage.
+- le partage d'Android montre les contacts récents (noms et photos), et « Pour les parents »
+  n'a pas de barrière : à toi de dire si cela te va.

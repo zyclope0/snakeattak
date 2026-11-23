@@ -63,3 +63,5 @@ export const leFichierEstPartiCetteVersionNeSaitPasLeRelire =
   'The file went to the app you chose. This version of the game cannot read it back: keep it for a later version.';
 export const lePartageSEstFermeSiLeFichierNEstArriveNullePart =
   'Sharing closed. If the file did not arrive anywhere, try again: your adventure is still only on this device.';
+export const lePartageSEstFermeSiLeFichierNEstArriveRecommence =
+  'Sharing closed. If the file did not arrive anywhere, try again.';

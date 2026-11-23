@@ -42,7 +42,7 @@ test('the native side is asked what it offers: both plugins, or no file', () => 
 
 test('in the application: written in the cache, then shared; each outcome said as it is', async () => {
   const done: string[] = [];
-  const plugins = (share: () => Promise<void>, write = async () => 'file:///cache/f.json') => ({
+  const plugins = (share: () => Promise<boolean>, write = async () => 'file:///cache/f.json') => ({
     write: async (name: string, text: string) => {
       done.push(`write ${name} ${text}`);
       return write();
@@ -52,9 +52,13 @@ test('in the application: written in the cache, then shared; each outcome said a
       return share();
     },
   });
-  const ok = plugins(async () => {});
+  const ok = plugins(async () => true);
   assert.equal(await shareInApp('{"v":6}', 'f.json', withPlugins, async () => ok), 'saved');
   assert.deepEqual(done, ['write f.json {"v":6}', 'share f.json file:///cache/f.json']);
+  // The family left the game, came back and closed the sheet: the plugin succeeds, but names
+  // no app. Nothing says the file went anywhere.
+  const left = plugins(async () => false);
+  assert.equal(await shareInApp('x', 'f.json', withPlugins, async () => left), 'canceled');
   // The sheet went without the game being left: the plugin says « canceled ».
   const closed = plugins(async () => {
     throw new Error('Share canceled');
@@ -66,7 +70,7 @@ test('in the application: written in the cache, then shared; each outcome said a
   });
   assert.equal(await shareInApp('x', 'f.json', withPlugins, async () => broken), 'failed');
   const unwritten = plugins(
-    async () => {},
+    async () => true,
     async () => {
       throw new Error('disk full');
     },

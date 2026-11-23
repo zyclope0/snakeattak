@@ -57,8 +57,23 @@ async function reaches(name, seen = new Set()) {
 {
   const entry = /<script type="module"[^>]* src="\.\/assets\/([\w.-]+\.js)"/.exec(html)?.[1];
   assert.ok(entry, 'The page has a first script');
-  const heavy = [...(await reaches(entry))].filter((f) => f !== entry && !LIGHT.test(f));
+  const loaded = await reaches(entry);
+  const heavy = [...loaded].filter((f) => f !== entry && !LIGHT.test(f));
   assert.deepEqual(heavy, [], `${entry} must not need ${heavy.join(', ')}`);
+  // The code of Capacitor and of its two plugins, which hand a file over in the application,
+  // is in the application only, and is loaded only when a file is asked for. Every plugin
+  // needs Capacitor's core, and the core asks for `androidBridge`: a file that holds that
+  // word holds the core, whatever its name or the file it was folded into.
+  const CAPACITOR = 'androidBridge';
+  const holding = [];
+  for (const name of files.filter((f) => f.endsWith('.js')))
+    if ((await readFile(`${root}/assets/${name}`, 'utf8')).includes(CAPACITOR)) holding.push(name);
+  if (target === 'android') {
+    // The word is still there to be found: a build that renamed it would pass for ever.
+    assert.ok(holding.length, 'The application holds the code that hands a file over');
+    const early = holding.filter((name) => loaded.has(name));
+    assert.deepEqual(early, [], 'Capacitor is not loaded with the first script');
+  } else assert.deepEqual(holding, [], 'The website holds none of Capacitor');
   // The windows are in that script, not in files of their own asked for at the bad moment.
   const code = await readFile(`${root}/assets/${entry}`, 'utf8');
   assert.match(code, /start-dialog|["'`]start["'`]/, 'The start-up window ships with the page');

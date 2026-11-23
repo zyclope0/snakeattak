@@ -46,7 +46,8 @@ export const canHandOver = (mode: string = buildMode(), native = nativeShare): b
 /** The plugins, loaded only in the application and only when a file is asked for. */
 export type SharePlugins = {
   write: (name: string, text: string) => Promise<string>;
-  share: (name: string, uri: string) => Promise<void>;
+  /** True when an app was chosen: Android names it. */
+  share: (name: string, uri: string) => Promise<boolean>;
 };
 async function loadPlugins(): Promise<SharePlugins> {
   const [{ Filesystem, Directory, Encoding }, { Share }] = await Promise.all([
@@ -63,15 +64,17 @@ async function loadPlugins(): Promise<SharePlugins> {
           encoding: Encoding.UTF8,
         })
       ).uri,
-    share: async (name, uri) => void (await Share.share({ title: name, files: [uri] })),
+    share: async (name, uri) => !!(await Share.share({ title: name, files: [uri] })).activityType,
   };
 }
 
 /**
  * In the application: writes the file in its cache, then opens Android's share sheet, where
  * the family chooses Drive, Files, an e-mail… The plugin answers once the sheet is gone:
- * « canceled » when the game was not left meanwhile, a success otherwise. It never knows
- * whether the chosen app kept the file.
+ * « canceled » when the game was not left meanwhile, a success otherwise — even when the
+ * family left the game (home, a call, the screen locked) and then closed the sheet without
+ * choosing. Only the name of the app chosen, which Android gives when there is one, says that
+ * the file went somewhere; it never says whether that app kept it.
  */
 export async function shareInApp(
   raw: string,
@@ -89,8 +92,7 @@ export async function shareInApp(
     return 'failed';
   }
   try {
-    await plugins.share(name, uri);
-    return 'saved';
+    return (await plugins.share(name, uri)) ? 'saved' : 'canceled';
   } catch (error) {
     return /cancel/i.test(error instanceof Error ? error.message : String(error))
       ? 'canceled'

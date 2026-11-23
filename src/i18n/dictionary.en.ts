@@ -540,6 +540,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Le miel colle aux écailles ! Les serpents ralentissent sur cette voie.": "Honey sticks to their scales! Snakes slow down on this lane.",
   "Le miel tactique": "Tactical honey",
   "Le partage s’est fermé. Si le fichier n’est arrivé nulle part, recommence : ton aventure n’est encore que sur cet appareil.": "Sharing closed. If the file did not arrive anywhere, try again: your adventure is still only on this device.",
+  "Le partage s’est fermé. Si le fichier n’est arrivé nulle part, recommence.": "Sharing closed. If the file did not arrive anywhere, try again.",
   "Le petit s’ouvre quand tu gagnes la mission. Le moyen avec 2 étoiles. Le grand avec 3 étoiles.": "The small one opens when you win the mission. The medium one with 2 stars. The big one with 3 stars.",
   "Le piège gourmand": "The tasty trap",
   "Le pot de miel est vide": "The honey pot is empty",

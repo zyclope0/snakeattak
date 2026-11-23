@@ -66,3 +66,5 @@ export const leFichierEstPartiCetteVersionNeSaitPasLeRelire =
   'Le fichier est parti vers l’application que tu as choisie. Cette version du jeu ne sait pas le relire : garde-le pour une prochaine version.';
 export const lePartageSEstFermeSiLeFichierNEstArriveNullePart =
   'Le partage s’est fermé. Si le fichier n’est arrivé nulle part, recommence : ton aventure n’est encore que sur cet appareil.';
+export const lePartageSEstFermeSiLeFichierNEstArriveRecommence =
+  'Le partage s’est fermé. Si le fichier n’est arrivé nulle part, recommence.';

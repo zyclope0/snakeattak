@@ -44,11 +44,15 @@ const say = (text: string) => setDisplayText(byId('family-status'), text);
  * and it may call « closed » a share that went out without leaving the game (tried in the
  * plugin's code, not on a phone): neither sentence says more than that.
  */
-const told = (result: Handover, ready: string) =>
+const told = (
+  result: Handover,
+  ready: string,
+  closed = TEXT.lePartageSEstFermeSiLeFichierNEstArriveNullePart,
+) =>
   result === 'saved'
     ? ready
     : result === 'canceled'
-      ? TEXT.lePartageSEstFermeSiLeFichierNEstArriveNullePart
+      ? closed
       : TEXT.impossibleDePreparerLeFichierDe;
 /** In the application the file goes to the app the family chose, not to a browser. */
 const READY = buildIsApp()

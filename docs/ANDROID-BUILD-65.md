@@ -1,6 +1,7 @@
 # Android build 65 — en préparation
 
-**Pas encore construit.** Ce qui manque avant : l'accord du parent sur la politique de
+**Pas encore construit.** Ne pas empaqueter depuis une branche qui porte encore la version
+0.40.0 : ce serait un second « build 64 », différent du premier. Ce qui manque avant : l'accord du parent sur la politique de
 confidentialité, qui nomme « 0.40.0 (build 64) » (voir
 [MOTS-A-LIRE-2026-11-22.md](MOTS-A-LIRE-2026-11-22.md), section 9), puis un lot qui monte la
 version ensemble dans `package.json`, `package-lock.json`, `android/app/build.gradle` et
@@ -23,7 +24,9 @@ celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)).
 ## Recette sur le téléphone (à cocher)
 
 Après la construction, contrôler dans le rapport que le manifeste fusionné ne demande aucune
-permission de plus que le build 64.
+permission de plus que le build 64, que `android/app/src/main/assets/capacitor.plugins.json`
+nomme bien les deux modules (sinon l'application ne montre aucun bouton d'export), et noter
+la taille de l'APK (premier code Kotlin, apporté par le module des fichiers).
 
 Export, le point principal :
 
@@ -33,6 +36,8 @@ Export, le point principal :
       tu as choisie… ». Le fichier est bien dans Drive.
 - [ ] Ouvrir le partage puis le fermer par « retour » sans rien choisir : « Le partage s'est
       fermé… ». Le jeu continue normalement.
+- [ ] Ouvrir le partage, appuyer sur l'accueil du téléphone, revenir au jeu, fermer le partage
+      sans rien choisir : « Le partage s'est fermé… », jamais « Le fichier est parti… ».
 - [ ] Appuyer deux fois vite sur « Exporter mon aventure » : un seul partage s'ouvre.
 - [ ] Le grand test : exporter vers Drive, désinstaller l'application, la réinstaller,
       « Choisir un fichier » depuis Drive : les étoiles, les missions et les carnets reviennent.

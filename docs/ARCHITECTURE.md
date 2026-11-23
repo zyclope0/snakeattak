@@ -1764,16 +1764,25 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   - Le code des modules n'est que dans le paquet de l'application : `__APP_BUILD__`
     (`vite.config.ts`) le retire du site, et il n'est chargé qu'au moment où un fichier est
     demandé. `scripts/check-dist.mjs` refuse que le premier script charge autre chose que
-    lui-même et les clés.
+    lui-même et les clés, et cherche le cœur de Capacitor par un mot qu'il porte
+    (`androidBridge`), quel que soit le fichier où il est rangé : aucun sur le site, aucun
+    chargé avec le premier script de l'application, et au moins un dans l'application (un
+    mot renommé ne laisserait pas passer la vérification pour toujours). Trois fuites
+    essayées (import direct des modules, garde au moment de l'exécution, Capacitor rangé
+    avec les clés) : chacune refusée là où elle fuit.
   - Avant de montrer un bouton, la page demande au côté natif s'il porte les deux modules
     (`Capacitor.PluginHeaders`). Un build sans eux (64 et avant) garde la phrase « l'aventure
     ne peut pas sortir de cet appareil » et aucun bouton.
   - Ce qu'Android dit, et rien de plus : le module répond « annulé » si le jeu n'a pas été
-    quitté pendant le partage, « réussi » sinon. Il ne sait jamais si l'application choisie
-    a gardé le fichier. D'où les phrases : « Le fichier est parti vers l'application que tu
-    as choisie. Vérifie qu'il y est bien arrivé… » et « Le partage s'est fermé. Si le
-    fichier n'est arrivé nulle part, recommence… ». Un partage qui part sans quitter le jeu
-    (lu dans le code du module) serait dit « fermé » : la phrase le laisse possible.
+    quitté pendant le partage, « réussi » sinon — même quand la famille a quitté le jeu
+    (accueil, appel, écran verrouillé) puis fermé le partage sans rien choisir. Seul le nom
+    de l'application choisie (`activityType`, vide sans choix) dit que le fichier est parti ;
+    rien ne dit si cette application l'a gardé. D'où les phrases : « Le fichier est parti
+    vers l'application que tu as choisie. Vérifie qu'il y est bien arrivé… » quand Android
+    nomme une application, et « Le partage s'est fermé. Si le fichier n'est arrivé nulle
+    part, recommence… » sinon (sans « ton aventure » pour un fichier mis de côté). Un
+    partage qui part sans quitter le jeu (lu dans le code du module) serait dit « fermé » :
+    la phrase le laisse possible.
   - Un second appui pendant que le partage est ouvert attend le premier (`oneAtATime`) : le
     module en refuserait un second.
 - **Tenu par** `tests/hand-over.test.ts` (les deux modules ou aucun bouton, chaque réponse
@@ -1783,10 +1792,17 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   fichiers sur le paquet du site (`dist`), que la tâche « sauvegardes » de la CI construit
   aussi.
 - **Ne couvre pas** : rien de l'export n'a tourné sur Android. Le projet Android n'est pas
-  compilé ici ; le partage, l'écriture dans le cache, le geste « retour » pendant le partage,
+  compilé ici ; rien ne vérifie que l'APK porte vraiment les deux modules
+  (`capacitor.plugins.json` n'est pas suivi) : sans eux, l'application montre la phrase et
+  aucun bouton ; côté natif, les deux modules se chargent à chaque démarrage (le partage y
+  inscrit un récepteur protégé par un nonce), et le module des fichiers apporte le premier
+  code Kotlin de l'APK, dont la taille n'est pas mesurée ; la dernière copie du fichier
+  reste dans le cache de l'application, jusqu'au prochain export ou jusqu'à ce qu'Android
+  vide ce cache ; le titre du partage est « Share » en anglais sur Android 7 à 9 ; le partage, l'écriture dans le cache, le geste « retour » pendant le partage,
   un fichier envoyé dans Drive puis repris après désinstallation : tout reste à essayer sur
   le build 65. L'import, lui, marche dans l'application (essai du parent, build 64). Le
-  partage d'Android s'ouvre sans barrière parentale : il est sous « Pour les parents ».
+  partage d'Android s'ouvre sans barrière parentale, avec les contacts récents (noms et
+  photos) : il est sous « Pour les parents », qui n'a pas de barrière non plus.
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
 
