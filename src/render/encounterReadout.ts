@@ -5,6 +5,8 @@ import { fill } from '../texts/fill.ts';
 import { BOARD_WIDTH } from './boardResolution.ts';
 import { ENCOURAGEMENT_SECONDS } from '../gameConstants.ts';
 
+/** At most this many eggs about to hatch have their plaque. */
+export const EGG_PLAQUES = 6;
 type TimedLabel = { remaining: number; label: string };
 export type EncounterReadout = {
   eggs: (TimedLabel & { id: number; x: number; y: number })[];
@@ -26,7 +28,7 @@ export function encounterReadout(game: Readonly<Game>): EncounterReadout {
       remaining: egg.hatchIn,
       label: fill(TEXT.eclosionNS, Math.ceil(egg.hatchIn)),
     });
-    if (result.eggs.length === 6) break;
+    if (result.eggs.length === EGG_PLAQUES) break;
   }
   const confused = game.units.filter((u) => u.hp > 0 && u.confusedFor > 0).length;
   if (confused)
@@ -67,7 +69,7 @@ export function encounterReadout(game: Readonly<Game>): EncounterReadout {
 export function eggLabelPositions(eggs: readonly { x: number; y: number }[], scale = 1) {
   const half = 77 * scale,
     right = BOARD_WIDTH - half;
-  const labels = eggs.slice(0, 6).map((egg) => ({
+  const labels = eggs.slice(0, EGG_PLAQUES).map((egg) => ({
     x: Math.max(half, Math.min(right, egg.x)),
     y: Math.max(145, Math.min(597, egg.y - 53)),
   }));

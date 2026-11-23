@@ -61,8 +61,9 @@ const NEWCOMER_PRIORITY = 1;
 const FLOAT_SECONDS = 0.9,
   DODGE_WORD_HEIGHT = 100,
   DODGE_WORD_SECONDS = 1.4;
-const MAX_FLOATS = 40,
-  MAX_BURSTS = 24,
+/** At most this many floating words at once: the board makes one label for each. */
+export const MAX_FLOATS = 40;
+const MAX_BURSTS = 24,
   MAX_ARRIVALS = 24,
   MAX_ACTIONS = 64;
 /** A snake first seen left of this line came out of a den; further right, out of an egg. */
