@@ -252,7 +252,7 @@ test('the same adventure whatever the version, and what a launch writes again fr
     const legacy = readFamilyBackup(JSON.stringify(old));
     assert.ok(legacy, `version ${old.version} is read`);
     // What the export gives once that file is imported: fresh missions and sticker books
-    // where the file had none (src/bootstrap.ts, `applyFamily`).
+    // where the file had none (src/boot/familyFile.ts, `applyFamily`).
     const imported = readFamilyBackup(
       writeFamilyBackup(
         legacy.camp,

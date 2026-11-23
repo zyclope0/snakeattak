@@ -18,9 +18,12 @@ l'expédition et du voyage sont identiques, sans qu'aucune n'ait été réécrit
 | ------------------- | ----: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/expedition.ts` |   817 |    63 | `expeditionTuning.ts` (tables), `expeditionPlan.ts` (plan tiré de la graine), `expeditionState.ts` (état et transitions), `expeditionRead.ts` (relecture) |
 | `src/game.ts`       |   683 |   570 | `gameGifts.ts` (cadeaux de l'aventure sans fin), `campArrival.ts` (camp porté)                                                                            |
+| `src/bootstrap.ts`  |   563 |   200 | `src/boot/` : partie sur le plateau, ce qui s'écrit après un pas, carnets, partie non gardée, Phaser, écrans, grand bouton, fichier familial              |
 
 - `src/expedition.ts` ne fait plus que réexporter les mêmes noms : aucun importeur ne change.
   `readExpeditionState` passe de 77 à 38 lignes, en lecteurs et contrôles nommés.
+- `bootstrap.ts` reste la racine de composition ; ses morceaux sont dans un sous-dossier pour
+  rester hors du paquet des règles. Mêmes paquets livrés, même feuille de style à l'octet.
 - Dans `Game`, les méthodes publiques restent et délèguent ; le registre des cadeaux est un
   champ privé, donc l'état écrit d'une partie ne change pas.
 - Comparaison avec l'ancien code de l'expédition : 360 plans, environ 5 700 coups de parcours
@@ -109,7 +112,8 @@ est celui qui s'affichait déjà.
 
 - `npm run verify` (format, 1 040 tests, build) sur la branche rassemblée, et
   `npm run build:android` ; `scripts/check-dist.mjs` vert sur les deux paquets.
-- Paquet du jeu : 197 237 → 198 066 octets (limite 200 000).
+- Paquet du jeu : 197 237 → 199 348 octets (limite 200 000). **Il ne reste que 652 octets** :
+  le prochain ajout au paquet du jeu devra d'abord en libérer (un écran chargé à la demande).
 - Chaque agent a lancé `verify` avant chacun de ses commits, et les recettes de son domaine :
   recettes de sauvegarde et de panne, `test:expedition`, `test:locale`, `test:ads-preview`,
   et les neuf recettes migrées, avant et après.
