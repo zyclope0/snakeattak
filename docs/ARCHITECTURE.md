@@ -1822,7 +1822,12 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
   après chaque import perdrait au contraire l'enfant après deux imports par erreur) ; deux imports par erreur de suite (seule
   l'aventure d'avant le dernier est gardée) ; deux fenêtres du site ouvertes à la fois (la
   copie est ce que tient la fenêtre qui importe) ; un extra écrit par une version plus
-  récente, que celle-ci ne relit pas, n'est dans aucune copie (il n'est pas non plus effacé) ; l'expédition, le voyage et les records en dehors
+  récente, que celle-ci ne relit pas, n'est dans aucune copie (il n'est pas non plus effacé) ;
+  deux versions du jeu sur le même stockage (onglet resté sur l'ancienne version, retour en
+  arrière) : reprendre une copie peut alors laisser un record d'expédition plus bas que celui
+  de la copie, ou perdre l'expédition de l'autre version si elle n'a encore gagné aucune
+  bataille ; écrire la copie à la place perdrait l'expédition de l'autre version (sixième
+  attaque, 23 novembre) ; l'expédition, le voyage et les records en dehors
   d'un import ; **rien, si le téléphone est perdu, l'application désinstallée ou ses données
   effacées** : toutes les copies sont dans le même stockage que la sauvegarde. Seul un
   fichier exporté met une aventure à l'abri.
