@@ -13,7 +13,7 @@ import type { BossState } from '../boss.ts';
 import { defenseRole } from '../defenders.ts';
 import type { Kind } from '../data.ts';
 import type { Entity } from './state.ts';
-import { distance, closerTo, addEffect, forgetPath } from './state.ts';
+import { distance, nearestTo, addEffect, forgetPath } from './state.ts';
 import { BRIDGE_END_X, CAMP_RIGHT, CONTACT_RANGE, routeStages } from './field.ts';
 import { moveUnit } from './movement.ts';
 import { damageAlly } from './damage.ts';
@@ -102,11 +102,11 @@ function releaseFromCourt(game: Game, unit: Entity) {
   unit.courtReleased = true;
 }
 function guardTarget(game: Game, guard: Entity, king: Entity): Entity | undefined {
-  return game.units
-    .filter(
-      (u) => u.hp > 0 && distance(u, guard) <= CONTACT_RANGE && distance(u, king) <= GUARD_LEASH,
-    )
-    .sort((a, b) => closerTo(guard, a, b))[0];
+  return nearestTo(
+    guard,
+    game.units,
+    (u) => u.hp > 0 && distance(u, guard) <= CONTACT_RANGE && distance(u, king) <= GUARD_LEASH,
+  );
 }
 /** The escort's place in the formation: guards on both sides, the healer behind. */
 function courtPlace(unit: Entity, court: CourtState, king: Entity) {
@@ -117,13 +117,8 @@ function courtPlace(unit: Entity, court: CourtState, king: Entity) {
   };
 }
 
-/** Sort order: allies that shoot from afar before the others. */
-export function shootersFirst(a: Entity, b: Entity) {
-  return (
-    (defenseRole(a.kind as Kind) === 'ranged' ? 0 : 1) -
-    (defenseRole(b.kind as Kind) === 'ranged' ? 0 : 1)
-  );
-}
+/** Rank for `nearestTo`: allies that shoot from afar before the others. */
+export const shooterRank = (ally: Entity) => (defenseRole(ally.kind as Kind) === 'ranged' ? 0 : 1);
 /** The king's announced spit: aim at an ally, wait for the windup, then hit that spot. */
 export function updateBossShot(game: Game, e: Entity, dt: number) {
   const state = e.bossState;
@@ -149,9 +144,12 @@ function aimBossShot(game: Game, king: Entity, state: BossState) {
   const contact = game.units.some((u) => u.hp > 0 && distance(u, king) <= CONTACT_RANGE);
   const attack = state.heads ? bossShotAttack(state, contact) : undefined;
   if ((state.heads ? !attack : state.shotCooldown > 0) || game.tuning.bossShotDamage === 0) return;
-  const target = game.units
-    .filter((u) => u.hp > 0 && distance(u, king) <= game.tuning.bossShotRange)
-    .sort((a, b) => shootersFirst(a, b) || closerTo(king, a, b))[0];
+  const target = nearestTo(
+    king,
+    game.units,
+    (u) => u.hp > 0 && distance(u, king) <= game.tuning.bossShotRange,
+    shooterRank,
+  );
   if (!target) return;
   if (state.heads && attack) {
     state.shotHead = attack.head;

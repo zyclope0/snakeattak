@@ -82,6 +82,37 @@ export const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y)
 /** Sort order: the nearest to `origin` first, the oldest fighter on a tie. */
 export const closerTo = (origin: Point, a: Entity, b: Entity) =>
   distance(a, origin) - distance(b, origin) || a.id - b.id;
+/**
+ * The first of the `fighters` that `keep` accepts in `closerTo` order, behind `rank` when
+ * given (the lower rank first): what sorting the accepted ones and taking the first gave,
+ * found in one pass. Rank, distance and id never tie all three, so the order of the list
+ * does not matter.
+ */
+export function nearestTo(
+  origin: Point,
+  fighters: readonly Entity[],
+  keep: (fighter: Entity) => boolean,
+  rank?: (fighter: Entity) => number,
+): Entity | undefined {
+  let best: Entity | undefined;
+  let bestRank = 0;
+  let bestDistance = 0;
+  for (const fighter of fighters) {
+    if (!keep(fighter)) continue;
+    const r = rank ? rank(fighter) : 0;
+    const d = distance(fighter, origin);
+    if (
+      !best ||
+      r < bestRank ||
+      (r === bestRank && (d < bestDistance || (d === bestDistance && fighter.id < best.id)))
+    ) {
+      best = fighter;
+      bestRank = r;
+      bestDistance = d;
+    }
+  }
+  return best;
+}
 /** Turns a fighter towards what it fights. */
 export function faceToward(entity: Entity, target: Point) {
   entity.facing = target.x >= entity.x ? 1 : -1;
