@@ -43,6 +43,13 @@ const nativeShare = (bridge = (globalThis as { Capacitor?: Bridge }).Capacitor):
 export const canHandOver = (mode: string = buildMode(), native = nativeShare): boolean =>
   mode !== 'android' || native();
 
+/**
+ * True when Android named the app the family chose. The plugin answers « done » as soon as the
+ * game was left during the share, even without a choice: only that name says the file went.
+ */
+export const appNamed = (result: { activityType?: string } | undefined): boolean =>
+  !!result?.activityType;
+
 /** The plugins, loaded only in the application and only when a file is asked for. */
 export type SharePlugins = {
   write: (name: string, text: string) => Promise<string>;
@@ -64,7 +71,7 @@ async function loadPlugins(): Promise<SharePlugins> {
           encoding: Encoding.UTF8,
         })
       ).uri,
-    share: async (name, uri) => !!(await Share.share({ title: name, files: [uri] })).activityType,
+    share: async (name, uri) => appNamed(await Share.share({ title: name, files: [uri] })),
   };
 }
 

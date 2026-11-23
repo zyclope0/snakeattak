@@ -1796,9 +1796,9 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   (`capacitor.plugins.json` n'est pas suivi) : sans eux, l'application montre la phrase et
   aucun bouton ; côté natif, les deux modules se chargent à chaque démarrage (le partage y
   inscrit un récepteur protégé par un nonce), et le module des fichiers apporte le premier
-  code Kotlin de l'APK, dont la taille n'est pas mesurée ; la dernière copie du fichier
-  reste dans le cache de l'application, jusqu'au prochain export ou jusqu'à ce qu'Android
-  vide ce cache ; le titre du partage est « Share » en anglais sur Android 7 à 9 ; le partage, l'écriture dans le cache, le geste « retour » pendant le partage,
+  code Kotlin de l'APK, dont la taille n'est pas mesurée ; des copies du fichier (une
+  par sorte : l'aventure, chaque joueur du secours, le fichier mis de côté) restent dans le
+  cache de l'application tant qu'Android ne le vide pas ; le jeu ne les efface jamais ; le titre du partage est « Share » en anglais sur Android 7 à 9 ; le partage, l'écriture dans le cache, le geste « retour » pendant le partage,
   un fichier envoyé dans Drive puis repris après désinstallation : tout reste à essayer sur
   le build 65. L'import, lui, marche dans l'application (essai du parent, build 64). Le
   partage d'Android s'ouvre sans barrière parentale, avec les contacts récents (noms et

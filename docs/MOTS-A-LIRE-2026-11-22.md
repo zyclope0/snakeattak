@@ -119,7 +119,7 @@ ton accord sur :
   haut et dans le paragraphe du voyage (ce qui y est dit du fichier reste vrai) ;
 - une phrase de plus, si tu la veux, après « vous décidez où il est stocké et qui le reçoit » :
   « Dans l'application Android, le fichier est d'abord écrit dans le cache de l'application,
-  où sa dernière copie reste jusqu'au prochain export ou jusqu'à ce qu'Android vide ce cache,
+  où des copies restent (une par sorte de fichier) tant qu'Android ne vide pas ce cache,
   puis remis au partage d'Android, où vous choisissez l'application qui le reçoit. » Elle est
   vraie, mais pas indispensable : la phrase actuelle couvre déjà le partage.
 - le partage d'Android montre les contacts récents (noms et photos), et « Pour les parents »

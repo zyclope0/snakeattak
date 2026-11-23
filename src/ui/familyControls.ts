@@ -12,7 +12,8 @@ import {
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
-import { canHandOver, familyFileName, handOver, buildIsApp, type Handover } from './download.ts';
+import { canHandOver, familyFileName, handOver } from './download.ts';
+import { toldAdventure, toldSetAside } from './handOverWords.ts';
 import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
 type Actions = {
@@ -38,31 +39,10 @@ type Actions = {
 };
 
 const say = (text: string) => setDisplayText(byId('family-status'), text);
-/**
- * What to say once a file was asked for: « ready » only when one was handed over. In the
- * application Android says only that the family chose an app, never that the file arrived;
- * and it may call « closed » a share that went out without leaving the game (tried in the
- * plugin's code, not on a phone): neither sentence says more than that.
- */
-const told = (
-  result: Handover,
-  ready: string,
-  closed = TEXT.lePartageSEstFermeSiLeFichierNEstArriveNullePart,
-) =>
-  result === 'saved'
-    ? ready
-    : result === 'canceled'
-      ? closed
-      : TEXT.impossibleDePreparerLeFichierDe;
 /** In the application the file goes to the app the family chose, not to a browser. */
-const READY = buildIsApp()
-  ? TEXT.leFichierEstPartiVerifieQuIlEstBienArrive
-  : TEXT.fichierPretConserveLePourReprendre;
-const SET_ASIDE_READY = buildIsApp()
-  ? TEXT.leFichierEstPartiCetteVersionNeSaitPasLeRelire
-  : TEXT.fichierRemisCetteVersionNeSaitPasLeRelire;
 /** Hands a file over and says the truth about it. */
-const exportFile = async (raw: string, name: string) => say(told(await handOver(raw, name), READY));
+const exportFile = async (raw: string, name: string) =>
+  say(toldAdventure(await handOver(raw, name)));
 const sum = (values: readonly number[]) => values.reduce((a, b) => a + b, 0);
 /** The sticker books of a file; older files have none. */
 const albumsOf = (backup: FamilyBackup) => (hasAlbums(backup) ? backup.albums : null);
@@ -186,7 +166,7 @@ function bindKeptCopies(
     });
     button.type = 'button';
     button.onclick = async () =>
-      say(told(await handOver(raw, familyFileName('mis-de-cote')), SET_ASIDE_READY));
+      say(toldSetAside(await handOver(raw, familyFileName('mis-de-cote'))));
     block.append(button);
     return block;
   };

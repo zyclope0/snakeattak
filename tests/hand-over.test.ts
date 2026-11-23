@@ -125,3 +125,31 @@ test('a second tap while the share sheet is open waits for the first one', async
   await assert.rejects(failing('d', 'i.json'));
   await assert.rejects(failing('e', 'j.json'));
 });
+
+test('only the name of the app chosen says the file went, and each outcome has its words', async () => {
+  const { appNamed } = await import('../src/ui/download.ts');
+  assert.equal(appNamed({ activityType: 'com.google.android.apps.docs' }), true);
+  assert.equal(appNamed({ activityType: '' }), false, 'the game was left, nothing chosen');
+  assert.equal(appNamed({}), false);
+  assert.equal(appNamed(undefined), false);
+  const { told, toldAdventure, toldSetAside } = await import('../src/ui/handOverWords.ts');
+  const TEXT = await import('../src/texts/fr/family.ts');
+  const ready = 'prêt';
+  assert.equal(told('saved', ready), ready, 'ready only when handed over');
+  assert.equal(told('canceled', ready), TEXT.lePartageSEstFermeSiLeFichierNEstArriveNullePart);
+  assert.equal(told('failed', ready), TEXT.impossibleDePreparerLeFichierDe);
+  assert.equal(told('unavailable', ready), TEXT.impossibleDePreparerLeFichierDe);
+  // A file put aside has its own « closed » words, without « ton aventure ».
+  const aside = TEXT.lePartageSEstFermeSiLeFichierNEstArriveRecommence;
+  assert.equal(told('canceled', ready, aside), aside);
+  assert.ok(!aside.includes('aventure'));
+  assert.equal(toldSetAside('canceled', true), aside, 'the file put aside, closed');
+  assert.equal(toldSetAside('saved', true), TEXT.leFichierEstPartiCetteVersionNeSaitPasLeRelire);
+  assert.equal(toldSetAside('saved', false), TEXT.fichierRemisCetteVersionNeSaitPasLeRelire);
+  assert.equal(toldAdventure('saved', true), TEXT.leFichierEstPartiVerifieQuIlEstBienArrive);
+  assert.equal(toldAdventure('saved', false), TEXT.fichierPretConserveLePourReprendre);
+  assert.equal(
+    toldAdventure('canceled', true),
+    TEXT.lePartageSEstFermeSiLeFichierNEstArriveNullePart,
+  );
+});

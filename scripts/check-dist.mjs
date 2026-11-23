@@ -73,6 +73,11 @@ async function reaches(name, seen = new Set()) {
     assert.ok(holding.length, 'The application holds the code that hands a file over');
     const early = holding.filter((name) => loaded.has(name));
     assert.deepEqual(early, [], 'Capacitor is not loaded with the first script');
+    // Nor with the game's own code: it waits for a file to be asked for.
+    const start = files.find((f) => /^bootstrap-[\w-]+\.js$/.test(f));
+    const game = start ? await reaches(start) : new Set();
+    const withGame = holding.filter((name) => game.has(name));
+    assert.deepEqual(withGame, [], 'Capacitor is not loaded with the game');
   } else assert.deepEqual(holding, [], 'The website holds none of Capacitor');
   // The windows are in that script, not in files of their own asked for at the bad moment.
   const code = await readFile(`${root}/assets/${entry}`, 'utf8');
