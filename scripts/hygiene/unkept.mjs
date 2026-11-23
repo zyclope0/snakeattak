@@ -181,17 +181,36 @@ for (const viewport of SIZES) {
     assert.equal(await page.locator('#unkept-mark').count(), 0, 'seen once, the sentence goes');
     checks.push(`${tag} : l'appareil garde de nouveau, l'accueil le dit, puis la phrase s'en va`);
 
-    // A second refusal is a second time: it is told again. The gift that waits is taken
-    // before: taking it is a save, and refused it would be told at once, between two waves
-    // (a wave was won since this game was put in play), before the wave this check starts.
+    // A second refusal is a second time: it is told again, at the next save that is not
+    // over a fight. A wave was won since this game was put in play, so that save may come
+    // between two waves, before the wave is started (a save the board makes on its own, now
+    // or a little later), or at the end of the wave: both keep the rule, never over a fight.
     await page.locator('#home-primary').click();
     await boardReady(page);
     await takeGift(page);
     await refuse(page, true);
-    await startWave(page);
-    await endWave(page);
-    await page.locator('#unkept-dialog[open]').waitFor({ state: 'visible' });
-    checks.push(`${tag} : un second refus est redit`);
+    const told = page.locator('#unkept-dialog[open]');
+    let early = await told.isVisible();
+    if (!early) {
+      try {
+        await page.locator('#start:not([disabled])').click({ timeout: 5000 });
+      } catch (error) {
+        early = await told.isVisible();
+        if (!early) throw error;
+      }
+    }
+    if (!early) {
+      await page.waitForFunction(
+        () => document.querySelector('#app')?.dataset.status === 'fighting',
+      );
+      await page.clock.runFor(3000);
+      assert.equal(await page.locator('#unkept-dialog').count(), 0, 'never over a fight');
+      await endWave(page);
+    }
+    await told.waitFor({ state: 'visible' });
+    checks.push(
+      `${tag} : un second refus est redit (${early ? 'entre deux vagues' : 'à la fin de la vague'})`,
+    );
     assert.deepEqual(report.errors, []);
   } finally {
     await browser.close();
