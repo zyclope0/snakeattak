@@ -43,8 +43,11 @@ Export, le point principal :
 
 - [ ] « Pour les parents », « Sauvegarde familiale », « Exporter mon aventure » : le partage
       d'Android s'ouvre, avec un fichier `conquete-serpents-famille.json`.
-- [ ] Choisir Drive (ou Fichiers) : le jeu dit « Le fichier est parti vers l'application que
-      tu as choisie… ». Le fichier est bien dans Drive.
+- [ ] Choisir Drive : le jeu dit « Le fichier est parti vers l'application que tu as
+      choisie… », et la phrase se voit sans faire défiler. Le fichier est bien dans Drive.
+      (Premier APK de test, 23 novembre : le fichier arrive dans Drive et se réimporte, mais
+      la phrase était cachée sous le bord ; corrigé dans le second. Sur le téléphone du
+      parent, seul Drive est proposé : c'est Android, et Drive suffit, décision 11.)
 - [ ] Ouvrir le partage puis le fermer par « retour » sans rien choisir : « Le partage s'est
       fermé… ». Le jeu continue normalement.
 - [ ] Ouvrir le partage, appuyer sur l'accueil du téléphone, revenir au jeu, fermer le partage
