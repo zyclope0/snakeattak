@@ -93,7 +93,9 @@ repartaient au réveil du plateau. Le camp changeait, sa sauvegarde était refus
 appliquait la décision 4 (une vague déjà gagnée, un moment calme). Le jeu n'est pas modifié ;
 la recette laisse les soldats rentrer avant de faire refuser l'appareil, et vérifie de plus
 que rien ne s'affiche pendant ce second combat (détail dans
-[ARCHITECTURE.md](ARCHITECTURE.md), « Quand ce qui est joué n'est pas gardé »).
+[ARCHITECTURE.md](ARCHITECTURE.md), « Quand ce qui est joué n'est pas gardé »). Recette
+corrigée : 22 passages complets sur 22, trois à la fois sur la même machine (66 seconds refus
+aux trois tailles d'écran). Rien de cela ne touche le téléphone : pas essayé dessus.
 
 ## Publication du site
 
