@@ -249,7 +249,8 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
     say(TEXT.verifieCetApercuTonAventure);
     // On a phone the preview and « Remplacer » were under the screen's edge. They do not fit
     // with the sentence in a phone's height: the button comes up to the bottom of the screen,
-    // with what the file holds above it.
+    // with what the file holds above it. « Regarder cette copie » then centres the preview
+    // itself (`look`).
     apply.scrollIntoView({ block: 'nearest' });
   };
   const readSelection = async () => {

@@ -164,6 +164,8 @@ for (const viewport of SIZES) {
         throw new Error('recette : la fenêtre ne s’ouvre pas');
       };
       document.getElementById('family-status').textContent = '';
+      // From the top, as a family opening the window: the sentence must be brought up.
+      document.getElementById('family-dialog').scrollTop = 0;
     });
     await page.locator('#family-export').click();
     await said(page);

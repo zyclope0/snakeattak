@@ -57,6 +57,8 @@ Export, le point principal :
 - [ ] Appuyer deux fois vite sur « Exporter mon aventure » : un seul partage s'ouvre.
 - [ ] Le grand test : exporter vers Drive, désinstaller l'application, la réinstaller,
       « Choisir un fichier » depuis Drive : les étoiles, les missions et les carnets reviennent.
+- [ ] Après « Choisir un fichier », l'aperçu et « Remplacer » se voient sans faire défiler
+      (APK v3 et suivants).
 
 Le reste :
 
@@ -75,7 +77,8 @@ Le reste :
 - **L'APK de test** (« Serpents (test) ») sert à tout ce qui précède sauf l'installation
   par-dessus le build 64 : il s'installe à côté, avec ses propres sauvegardes (vides au
   départ). Pour la famille, sans le compteur de performances (qui sinon s'affiche) :
-  `$env:SERPENTS_PERF='0'; npm run android:apk:debug` dans PowerShell,
+  `$env:SERPENTS_PERF='0'; npm run android:apk:debug` dans PowerShell (la valeur reste pour
+  toute la fenêtre : `Remove-Item Env:SERPENTS_PERF` pour retrouver le compteur),
   `SERPENTS_PERF=0 npm run android:apk:debug` dans un terminal Linux ou macOS.
 - **Le build 65 signé** (`npm run android:package`, par le parent) sert à la ligne « par-dessus
   le build 64 » et à la recette de mise à jour.

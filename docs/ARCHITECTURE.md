@@ -1846,7 +1846,8 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   ou un import, la phrase est amenée à l'écran ; après le choix d'un fichier, « Remplacer »
   vient en bas de l'écran avec l'aperçu au-dessus (la phrase « Vérifie cet aperçu » reste
   en dessous ; tout ne tient pas en 360 px). Tenu par `test:saves:gate` et
-  `test:saves:family`.
+  `test:saves:family`. Un aperçu très long (huit carnets aux noms longs et larges) cache
+  encore le haut du résumé sur un téléphone.
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
 
