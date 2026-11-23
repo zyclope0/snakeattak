@@ -128,6 +128,9 @@ est celui qui s'affichait déjà.
   raisonnement, pas sur un essai.
 - La branche « la fenêtre arrive entre deux vagues » de la recette « partie non gardée » n'a
   jamais été prise : elle est vérifiée, pas exercée.
+- La page « WebView trop ancien » s'afficherait aussi si la page du jeu ne se chargeait pas
+  (erreur réseau ou HTTP, règle de Capacitor) : en la blâmant à tort. Impossible en principe
+  avec des fichiers lus dans l'application ; non essayé.
 - Pas essayé avec les enfants.
 
 ## Laissé pour plus tard

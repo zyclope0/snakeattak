@@ -12,7 +12,9 @@ export const MIN_WEBVIEW_VERSION = 108;
 
 /**
  * The page Android shows instead of the game below that version: in the application only,
- * beside the game, with no script. Capacitor also shows it if the game's own page fails to
- * load, which a page read from the application itself should never do.
+ * beside the game, with no script. Capacitor (8.6, BridgeWebViewClient) also shows it when
+ * the game's own page fails to load — a network error or an HTTP 4xx/5xx answer — which a page
+ * read from the application itself should never do; if it ever did, the page would wrongly
+ * blame the WebView.
  */
 export const OLD_WEBVIEW_PAGE = 'webview-trop-ancien.html';

@@ -139,7 +139,10 @@ test('a lock Android takes back is asked for again when the page comes back', as
   const keeper = screenKeeper(() => scene, fake.lock);
   keeper.sync();
   await settle();
-  fake.answers[0].grant().takeBack();
+  const lock = fake.answers[0].grant();
+  // The keeper listens for « release » once the lock is in hand: Android takes it back after.
+  await settle();
+  lock.takeBack();
   keeper.sync();
   await settle();
   assert.equal(fake.answers.length, 1, 'not asked again while nothing changed');
