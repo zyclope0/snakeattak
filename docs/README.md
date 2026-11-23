@@ -19,6 +19,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)                             | Passation Codex : construire le build 64, et la recette à faire sur le téléphone                                      |
 | [ANDROID-BUILD-65.md](ANDROID-BUILD-65.md)                             | Passation du build 65 : export par le partage d’Android, quand construire, recette sur le téléphone                   |
 | [BILAN-0.41.0.md](BILAN-0.41.0.md)                                     | Bilan 0.41.0 / build 65 : l'export sort de l'application, copies de secours, partie non gardée, politique mise à jour |
+| [BILAN-GROS-LOT-2026-11-23.md](BILAN-GROS-LOT-2026-11-23.md)           | Gros lot du 23 novembre : découpage, doublons, moteur plus rapide, anglais, étape 3 téléphone                         |
 | [DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md)                     | Les dix décisions du parent du 23 novembre sur les mots, la politique et le build 65                                  |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |

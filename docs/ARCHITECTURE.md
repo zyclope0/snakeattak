@@ -6,24 +6,26 @@ Le jeu reste une application statique : navigateur + fichiers sur un hébergemen
 
 ## Responsabilités
 
-| Fichier                     | Responsabilité                                                              |
-| --------------------------- | --------------------------------------------------------------------------- |
-| `src/main.ts`               | Démarrage : choisit la langue, puis charge `bootstrap.ts`.                  |
-| `src/bootstrap.ts`          | Assemble session, sauvegardes, interface et Phaser.                         |
-| `src/session.ts`            | Session et horloge à 30 calculs/seconde ; pause et redémarrage.             |
-| `src/game.ts`               | État de la partie et commandes du joueur ; orchestre un pas de simulation.  |
-| `src/engine/`               | Règles d’un pas : apparitions, alliés, serpents, roi, dégâts, fin de vague. |
-| `src/tactics.ts`            | Règles du miel, durée et attraction ; sans navigateur.                      |
-| `src/ui/feastControls.ts`   | Commandes et statut du goûter.                                              |
-| `src/render/honeyZone.ts`   | Pot et parfum dessinés à partir de l’état.                                  |
-| `src/ai.ts`                 | Évaluation des voies et choix tactiques pondérés.                           |
-| `src/navigation.ts`         | A*, obstacles et cache de chemins borné.                                    |
-| `src/data.ts`               | Catalogue historique immuable.                                              |
-| `src/render/BattleScene.ts` | Personnages, effets et affichage de l'état du jeu.                          |
-| `src/render/terrain.ts`     | Décor fixe.                                                                 |
-| `src/ui/controls.ts`        | Commandes HTML et tableau de bord.                                          |
-| `src/assets`                | Images de production importées par Vite, avec nom de sortie lié au contenu. |
-| `deploy/policy.ts`          | Politiques HTTP et cache, exportées pour l'hébergeur.                       |
+| Fichier                     | Responsabilité                                                                         |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| `src/main.ts`               | Démarrage : choisit la langue, puis charge `bootstrap.ts`.                             |
+| `src/bootstrap.ts`          | Assemble session, sauvegardes, interface et Phaser.                                    |
+| `src/session.ts`            | Session et horloge à 30 calculs/seconde ; pause et redémarrage.                        |
+| `src/game.ts`               | État de la partie et commandes du joueur ; orchestre un pas de simulation.             |
+| `src/gameGifts.ts`          | Cadeaux de l'aventure sans fin ; `src/campArrival.ts` : camp porté.                    |
+| `src/expedition*.ts`        | Expédition : tables, plan, état et transitions, relecture (`expedition.ts` réexporte). |
+| `src/engine/`               | Règles d’un pas : apparitions, alliés, serpents, roi, dégâts, fin de vague.            |
+| `src/tactics.ts`            | Règles du miel, durée et attraction ; sans navigateur.                                 |
+| `src/ui/feastControls.ts`   | Commandes et statut du goûter.                                                         |
+| `src/render/honeyZone.ts`   | Pot et parfum dessinés à partir de l’état.                                             |
+| `src/ai.ts`                 | Évaluation des voies et choix tactiques pondérés.                                      |
+| `src/navigation.ts`         | A*, obstacles et cache de chemins borné.                                               |
+| `src/data.ts`               | Catalogue historique immuable.                                                         |
+| `src/render/BattleScene.ts` | Personnages, effets et affichage de l'état du jeu.                                     |
+| `src/render/terrain.ts`     | Décor fixe.                                                                            |
+| `src/ui/controls.ts`        | Commandes HTML et tableau de bord.                                                     |
+| `src/assets`                | Images de production importées par Vite, avec nom de sortie lié au contenu.            |
+| `deploy/policy.ts`          | Politiques HTTP et cache, exportées pour l'hébergeur.                                  |
 
 Les commandes modifient la session. Phaser demande à la session d'avancer puis dessine son état. La logique du jeu peut être testée directement avec Node. Un callback actualise le tableau de bord ; le moteur ne dépend pas de l'interface. La session coupe les durées invalides et borne le rattrapage après une image lente. À graine identique, les décisions de jeu restent reproductibles.
 
@@ -629,7 +631,8 @@ Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFI
 
 Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PROPOSITION.md).
 
-- **Moteur.** `expedition.ts` : `planExpedition(seed)` tire trois tableaux de sept pas
+- **Moteur.** `expedition.ts` (réexporte `expeditionTuning.ts`, `expeditionPlan.ts`,
+  `expeditionState.ts`, `expeditionRead.ts` depuis le 23 novembre 2026) : `planExpedition(seed)` tire trois tableaux de sept pas
   (`first`, `fork`, `halt`, `fork`, `fork`, `halt`, `guardian`). L'état (`ExpeditionState`)
   ne garde que ce que l'enfant a fait : tableau, pas, choix, camp porté, cadeaux, sac, bourse,
   question en attente. Chaque bouton demande une transition (`winBattle`, `chooseGift`,
