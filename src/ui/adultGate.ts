@@ -8,11 +8,13 @@ import { gateNumbers, rightAnswer } from './adultGateAnswer.ts';
  * Before Android's share sheet opens, an adult answers a multiplication (the parent's
  * decision 3, 23 November 2026): the sheet shows recent contacts, and « Pour les parents »
  * has no gate of its own. A child of 6 to 10 does not find the answer easily; a wrong one,
- * « Annuler », Escape or the back gesture send nothing. The application only: on the website
- * the file goes to the browser's downloads. Loaded only when a file is asked for.
+ * « Annuler » or Escape send nothing. The application only: on the website the file goes to
+ * the browser's downloads. Loaded only when a file is asked for, and it must need nothing
+ * that may be what failed (the rules, the game, Phaser): the start-up rescue asks it too
+ * (`scripts/check-dist.mjs`).
  */
 
-/** Asks the adult; true only on the right answer. */
+/** Asks the adult; true only on the right answer. Rejects when the window cannot open. */
 export function askAdult(random: () => number = Math.random): Promise<boolean> {
   const [a, b] = gateNumbers(random);
   return new Promise((resolve) => {
@@ -60,10 +62,16 @@ export function askAdult(random: () => number = Math.random): Promise<boolean> {
       done(rightAnswer(a, b, input.value));
     };
     cancel.onclick = () => done(false);
-    // Escape, or Android's back gesture: nothing is sent.
+    // Escape closes the window: nothing is sent.
     dialog.addEventListener('close', () => done(false));
     document.body.append(dialog);
-    dialog.showModal();
+    try {
+      dialog.showModal();
+    } catch (error) {
+      answered = true;
+      dialog.remove();
+      throw error;
+    }
     input.focus();
   });
 }

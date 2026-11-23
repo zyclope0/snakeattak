@@ -65,9 +65,19 @@ Le reste :
 - [ ] Hors ligne : « Pour les parents » → Confidentialité affiche « Application Android
       0.41.0, build 65 ».
 
+## Quel APK pour quelle ligne
+
+- **L'APK de test** (« Serpents (test) ») sert à tout ce qui précède sauf l'installation
+  par-dessus le build 64 : il s'installe à côté, avec ses propres sauvegardes (vides au
+  départ). Pour la famille : `SERPENTS_PERF=0 npm run android:apk:debug` (sans le compteur
+  de performances, qui sinon s'affiche).
+- **Le build 65 signé** (`npm run android:package`, par le parent) sert à la ligne « par-dessus
+  le build 64 » et à la recette de mise à jour.
+- La mémoire d'un APK de test se lit sous son propre nom :
+  `adb shell dumpsys meminfo com.conqueteserpents.famille.test`.
+
 ## Pas essayé
 
-Rien de ceci n'a tourné sur Android : le projet Android n'est pas compilé dans cet
-environnement, et aucune recette navigateur ne peut ouvrir le partage d'Android (Chromium n'a
-pas de côté natif : il montre la phrase « l'aventure ne peut pas sortir de cet appareil »).
-Pas essayé avec les enfants.
+Rien de ceci n'a tourné sur un téléphone. Un APK de test a été compilé ici (Gradle, type
+`debug`) ; aucune recette navigateur ne peut ouvrir le vrai partage d'Android : elles imitent
+son côté natif. Pas essayé avec les enfants.

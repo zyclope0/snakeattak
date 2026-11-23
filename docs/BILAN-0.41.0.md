@@ -47,8 +47,13 @@ fichier familial ne faisait rien : aucune aventure ne pouvait sortir de l'applic
 
 - Dans l'application, avant d'ouvrir le partage d'Android, une fenêtre demande « Combien font
   17 × 9 ? » (deux nombres tirés à chaque fois). « Annuler », Échap ou une mauvaise réponse
-  n'envoient rien, et le jeu dit « Rien n'a été envoyé : il faut la bonne réponse d'un
-  adulte. ». Sur le site, rien ne change : le fichier va au navigateur, sans question.
+  n'envoient rien, et la fenêtre familiale dit « Rien n'a été envoyé : il faut la bonne
+  réponse d'un adulte. » (l'écran du démarrage manqué ne dit rien à côté de ses boutons). Sur
+  le site, rien ne change : le fichier va au navigateur, sans question.
+- **Attaque indépendante** : le premier essai faisait charger les règles avec la question ;
+  quand les règles manquaient au démarrage, le secours ne rendait plus aucun fichier dans
+  l'application. Corrigé, et tenu par `scripts/check-dist.mjs` et la recette. Le premier APK
+  de test envoyé au parent avait ce défaut ; le second ne l'a plus.
 - Mots à lire par le parent : [DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md), lot
   « barrière de l'export ». Anglais fait par moi : « To send the file, an adult answers: »,
   « What is 17 × 9? », « Cancel », « Send », « Nothing was sent: an adult’s right answer is

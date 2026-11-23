@@ -155,19 +155,23 @@ test('only the name of the app chosen says the file went, and each outcome has i
 });
 
 test('an adult answers a multiplication before the share sheet; nothing is sent otherwise', async () => {
-  const { gateNumbers, rightAnswer } = await import('../src/ui/adultGateAnswer.ts');
+  const { gateNumbers, rightAnswer, GATE_FIRST, GATE_SECOND } =
+    await import('../src/ui/adultGateAnswer.ts');
   // New numbers each time, in a range a child of 6 to 10 does not find easily.
   for (const r of [0, 0.25, 0.5, 0.999]) {
     const [a, b] = gateNumbers(() => r);
-    assert.ok(a >= 12 && a <= 19 && b >= 6 && b <= 9, `${a} × ${b}`);
+    assert.ok(
+      a >= GATE_FIRST.from && a <= GATE_FIRST.to && b >= GATE_SECOND.from && b <= GATE_SECOND.to,
+      `${a} × ${b}`,
+    );
   }
   assert.deepEqual(
     gateNumbers(() => 0),
-    [12, 6],
+    [GATE_FIRST.from, GATE_SECOND.from],
   );
   assert.deepEqual(
     gateNumbers(() => 0.999),
-    [19, 9],
+    [GATE_FIRST.to, GATE_SECOND.to],
   );
   assert.equal(rightAnswer(13, 7, '91'), true);
   assert.equal(rightAnswer(13, 7, ' 91 '), true, 'spaces around');

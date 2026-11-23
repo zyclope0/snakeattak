@@ -5,11 +5,16 @@
 //  2. « Annuler », une mauvaise réponse, Échap : rien n'est envoyé, et la famille le lit ;
 //  3. deux appuis rapides n'ouvrent qu'une question ;
 //  4. la bonne réponse ouvre le partage, et le jeu dit que le fichier est parti ;
-//  5. sur le site, le fichier va au navigateur sans question.
+//  5. sur le site, le fichier va au navigateur sans question ;
+//  6. le clavier du téléphone (l'écran réduit de moitié) laisse la question, la case et
+//     « Envoyer » visibles ;
+//  7. une fenêtre qui ne s'ouvre pas ne laisse rien derrière elle, et l'appui suivant marche ;
+//  8. quand le jeu ne démarre pas parce que les règles manquent, le secours pose la question
+//     et ouvre le partage : la question n'a besoin ni des règles, ni du jeu, ni de Phaser.
 //   node --experimental-strip-types scripts/hygiene/adult-gate.mjs
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { open, start, fits } from './harness.mjs';
+import { open, start, fits, ORIGIN } from './harness.mjs';
 import { showHomePage } from '../../tests/browser-entry.mjs';
 
 const FAMILY = await import('../../src/texts/fr/family.ts');
@@ -72,12 +77,34 @@ for (const viewport of SIZES) {
       assert.ok(box.height >= 48, `${tag} ${target}: ${box.height} px high`);
     }
     await page.screenshot({ path: `artifacts/hygiene/adult-gate-${tag}.png` });
+    if (viewport.height < 400) {
+      // The phone's keyboard takes about half the screen: the page gets that much shorter.
+      const short = { width: viewport.width, height: Math.round(viewport.height / 2) };
+      await page.setViewportSize(short);
+      await page.locator('#adult-gate-answer').scrollIntoViewIfNeeded();
+      for (const target of [
+        '#adult-gate label',
+        '#adult-gate-answer',
+        '#adult-gate-send',
+        '#adult-gate-cancel',
+      ]) {
+        const box = await page.locator(target).boundingBox();
+        assert.ok(
+          box.y >= 0 && box.y + box.height <= short.height,
+          `${tag}, keyboard open: ${target} at ${box.y}–${box.y + box.height} of ${short.height}`,
+        );
+      }
+      await page.screenshot({ path: `artifacts/hygiene/adult-gate-${tag}-clavier.png` });
+      await page.setViewportSize(viewport);
+    }
     await page.locator('#adult-gate-cancel').click();
     await said(page);
     assert.equal(await status(page), FAMILY.rienNAEteEnvoyeIlFautLaBonneReponse);
     assert.equal(await page.locator('#adult-gate').count(), 0, 'the question is gone');
     assert.equal(await shares(page), 0, '« Annuler » sends nothing');
-    checks.push(`${tag} : la question avant le partage, dans l'écran ; « Annuler » n'envoie rien`);
+    checks.push(
+      `${tag} : la question avant le partage, dans l'écran${viewport.height < 400 ? ', et avec le clavier' : ''} ; « Annuler » n'envoie rien`,
+    );
     assert.deepEqual(report.errors, []);
   } finally {
     await browser.close();
@@ -104,6 +131,27 @@ for (const viewport of SIZES) {
     assert.equal(await status(page), FAMILY.rienNAEteEnvoyeIlFautLaBonneReponse);
     assert.equal(await shares(page), 0, 'Escape sends nothing');
     checks.push('une mauvaise réponse, Échap : rien n’est envoyé');
+    // A window that cannot open: nothing left behind, nothing sent, the next tap asks.
+    await page.evaluate(() => {
+      const real = HTMLDialogElement.prototype.showModal;
+      HTMLDialogElement.prototype.showModal = function () {
+        HTMLDialogElement.prototype.showModal = real;
+        throw new Error('recette : la fenêtre ne s’ouvre pas');
+      };
+      document.getElementById('family-status').textContent = '';
+    });
+    await page.locator('#family-export').click();
+    await said(page);
+    assert.notEqual(await status(page), FAMILY.leFichierEstPartiVerifieQuIlEstBienArrive);
+    assert.notEqual(await status(page), FAMILY.rienNAEteEnvoyeIlFautLaBonneReponse);
+    assert.equal(await page.locator('#adult-gate').count(), 0, 'nothing left behind');
+    assert.equal(await shares(page), 0);
+    await ask(page);
+    await page.locator('#adult-gate-cancel').click();
+    await said(page);
+    checks.push(
+      'une fenêtre qui ne s’ouvre pas : rien d’envoyé, rien laissé, l’appui suivant marche',
+    );
     // Two quick taps: one question.
     await page.evaluate(() => (document.getElementById('family-status').textContent = ''));
     await page.locator('#family-export').dblclick();
@@ -120,7 +168,36 @@ for (const viewport of SIZES) {
     assert.equal(await status(page), FAMILY.leFichierEstPartiVerifieQuIlEstBienArrive);
     assert.equal(await shares(page), 1, 'the share opens once');
     checks.push(`la bonne réponse (${a} × ${b}) : le partage s’ouvre, le fichier est parti`);
-    assert.deepEqual(report.errors, []);
+    assert.deepEqual(
+      report.errors.filter((e) => !String(e).includes('recette : la fenêtre')),
+      [],
+    );
+  } finally {
+    await browser.close();
+  }
+}
+
+// The game cannot start because its rules, its start-up code and Phaser never arrive: the
+// rescue still asks the question and opens the share.
+{
+  const { browser, page, context } = await open({ storage });
+  try {
+    await context.addInitScript(ANDROID);
+    await context.route(/\/assets\/(rules|bootstrap|phaser)-[\w-]+\.js$/, (route) => route.abort());
+    await page.goto(`${ORIGIN}/`);
+    await page.locator('#start-dialog[open]').waitFor({ state: 'visible' });
+    await page.locator('#start-parents > summary').click();
+    const buttons = page.locator('#rescue button');
+    assert.ok((await buttons.count()) >= 1, 'the rescue offers the files');
+    await buttons.first().click();
+    await page.locator('#adult-gate[open]').waitFor({ state: 'visible' });
+    const [a, b] = (await page.locator('#adult-gate label').textContent())
+      .match(/\d+/g)
+      .map(Number);
+    await page.locator('#adult-gate-answer').fill(String(a * b));
+    await page.locator('#adult-gate-send').click();
+    await page.waitForFunction(() => window.shares === 1);
+    checks.push('le jeu ne démarre pas, sans ses règles : le secours pose la question et partage');
   } finally {
     await browser.close();
   }

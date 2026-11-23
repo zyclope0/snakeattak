@@ -125,13 +125,13 @@ export const oneAtATime = (
  */
 async function askThenShare(raw: string, name: string): Promise<Handover> {
   if (!nativeShare()) return 'unavailable';
-  let gate: typeof import('./adultGate.ts');
+  let right: boolean;
   try {
-    gate = await import('./adultGate.ts');
+    right = await (await import('./adultGate.ts')).askAdult();
   } catch {
     return 'failed';
   }
-  return (await gate.askAdult()) ? shareInApp(raw, name) : 'refused';
+  return right ? shareInApp(raw, name) : 'refused';
 }
 const shareOnce = oneAtATime(askThenShare);
 

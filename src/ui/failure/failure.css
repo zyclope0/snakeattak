@@ -108,3 +108,31 @@ span#unkept-mark {
   padding: 0 22px;
   font-size: 20px;
 }
+/* Le clavier du téléphone prend la moitié de l'écran en paysage : la question, la case et les
+   deux boutons tiennent alors sur une ligne, sous un titre plus petit. */
+@media (max-height: 300px) {
+  #adult-gate {
+    max-width: min(94vw, 760px);
+    padding: 8px 16px;
+  }
+  #adult-gate > h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+  }
+  .adult-gate-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .adult-gate-form > label {
+    font-size: 18px;
+  }
+  .adult-gate-actions > button {
+    min-height: 48px;
+    min-width: 0;
+    padding: 0 16px;
+    font-size: 18px;
+  }
+}

@@ -1660,9 +1660,10 @@ ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md
   fenêtre, « Oups, le jeu n'arrive pas à démarrer ! », « Réessayer ». Sous « Pour les
   parents », sur le site : un bouton par fichier familial que l'appareil garde, rendu tel
   quel, sans être lu, donc même abîmé, et une phrase qui dit ce que ces fichiers portent et
-  ce qu'ils ne portent pas (l'expédition, le voyage, les records). Dans l'application, qui ne
-  sait pas remettre un fichier, une phrase à la place des boutons (voir « Remettre un fichier
-  à la famille »). Chaque texte gardé est lu à part : un texte illisible n'emporte pas les
+  ce qu'ils ne portent pas (l'expédition, le voyage, les records). Dans l'application, les
+  mêmes boutons passent par la question pour adulte puis le partage d'Android ; un build sans
+  les deux modules du partage montre une phrase à la place des boutons (voir « Remettre un
+  fichier à la famille »). Chaque texte gardé est lu à part : un texte illisible n'emporte pas les
   autres.
 - **Ces fenêtres voyagent avec la page.** Le gabarit et le démarrage manqué sont dans le
   premier script de la page, la fenêtre du plateau dans le code du jeu : le jour où quelque
@@ -1790,19 +1791,33 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   - **Une question pour adulte avant le partage** (décision 3 du parent, 23 novembre 2026,
     [décisions](DECISIONS-2026-11-23.md)) : le partage d'Android montre les contacts récents
     (noms, photos), et « Pour les parents » n'a pas de barrière. Avant d'ouvrir le partage,
-    une fenêtre demande « Combien font 12 à 19 × 6 à 9 ? » (`src/ui/adultGate.ts`, nombres et
-    réponse dans `src/ui/adultGateAnswer.ts`) ; « Annuler », Échap ou une mauvaise réponse
-    n'envoient rien, et le jeu dit « Rien n'a été envoyé : il faut la bonne réponse d'un
-    adulte. » (réponse `refused` de `handOver`). Application seulement, comme décidé : sur le
-    site, le fichier va au navigateur sans question, et rien ne s'ouvre vers d'autres
-    personnes. La fenêtre n'est chargée qu'au moment de l'export (paquet à part).
+    une fenêtre demande « Combien font 17 × 9 ? » (`src/ui/adultGate.ts` ; les deux nombres,
+    `GATE_FIRST` et `GATE_SECOND`, et la réponse dans `src/ui/adultGateAnswer.ts`) ;
+    « Annuler », Échap ou une mauvaise réponse n'envoient rien (réponse `refused` de
+    `handOver`), et la fenêtre familiale dit « Rien n'a été envoyé : il faut la bonne réponse
+    d'un adulte. ». L'écran du démarrage manqué ne dit rien à côté de ses boutons, ni là ni
+    ailleurs : ce sont peut-être ses règles qui manquent. Application seulement, comme
+    décidé : sur le site, le fichier va au navigateur sans question, et rien ne s'ouvre vers
+    d'autres personnes. Quand le clavier du téléphone prend la moitié de l'écran, la question,
+    la case et les deux boutons passent sur une ligne.
+  - **La question n'a besoin de rien qui puisse être en panne.** Elle n'est chargée qu'au
+    moment de l'export, et le secours du démarrage manqué s'en sert aussi : elle ne doit
+    charger avec elle ni les règles, ni le jeu, ni Phaser. Un premier essai importait `fill`,
+    que Vite rangeait avec les règles : le secours ne rendait plus rien quand les règles
+    manquaient (attaque indépendante du 23 novembre). `fill` est maintenant rangé avec les
+    clés (`vite.config.ts`), et `scripts/check-dist.mjs` refuse que Capacitor, les deux
+    modules ou la question chargent autre chose que le premier script, les clés et
+    eux-mêmes.
 - **Tenu par** `tests/hand-over.test.ts` (les deux modules ou aucun bouton, chaque réponse
   du partage, le second appui, les nombres de la question et la réponse acceptée) et la
   recette `npm run test:saves:gate` (`scripts/hygiene/adult-gate.mjs`, tâche « sauvegardes »
   de la CI), sur le paquet de l'application avec un faux côté Android : la question avant le
-  partage, dans l'écran aux trois tailles, cibles de 48 px ; « Annuler », une mauvaise
-  réponse, Échap : aucun partage, la phrase ; deux appuis rapides, une seule question ; la
-  bonne réponse, un seul partage et « le fichier est parti » ; sur le site, aucune question.
+  partage, dans l'écran aux trois tailles, cibles de 48 px, et la moitié de la hauteur en
+  paysage téléphone (le clavier) ; « Annuler », une mauvaise réponse, Échap : aucun partage,
+  la phrase ; une fenêtre qui ne s'ouvre pas : rien d'envoyé, rien laissé, l'appui suivant
+  marche ; deux appuis rapides, une seule question ; la bonne réponse, un seul partage et
+  « le fichier est parti » ; le jeu qui ne démarre pas sans ses règles, son code et Phaser :
+  le secours pose la question et partage ; sur le site, aucune question.
   Et, sur le paquet de l'application, par les recettes
   `npm run test:saves:family` et `npm run test:failure` : Chromium n'a pas de côté natif,
   donc aucun bouton d'export, la phrase, jamais « Fichier prêt ». Ces recettes prennent les
@@ -1819,8 +1834,13 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   un fichier envoyé dans Drive puis repris après désinstallation : tout reste à essayer sur
   le build 65. L'import, lui, marche dans l'application (essai du parent, build 64). La
   question pour adulte arrête un petit enfant, pas un grand qui sait ses tables : elle
-  ralentit, elle ne protège pas. Le clavier du téléphone (chiffres seuls, fenêtre poussée
-  vers le haut) n'est pas vu.
+  ralentit, elle ne protège pas. Le vrai clavier du téléphone (chiffres seuls, touche
+  Entrée) n'est que simulé par une page moins haute. Le geste « retour » d'Android pendant
+  la question n'est pas vu : l'application ne le traite pas (pas de module `@capacitor/app`) ;
+  rien n'est envoyé, mais la phrase n'est pas prouvée. Si le fichier de la question n'arrive
+  pas une fois, le navigateur s'en souvient : « impossible » à chaque export jusqu'au
+  redémarrage de l'application. Une fenêtre retirée de la page sans être fermée laisserait
+  l'export en attente ; aucun code ne le fait.
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
 

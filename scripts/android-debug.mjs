@@ -12,7 +12,12 @@ const run = (command, args, env = process.env, cwd = process.cwd()) => {
 const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
 run(npm, ['run', 'build:android']);
 try {
-  run(npx, ['cap', 'sync', 'android'], { ...process.env, SERPENTS_PERF: '1' });
+  // The performance panel is on unless asked otherwise: SERPENTS_PERF=0 gives the family a
+  // test APK without it.
+  run(npx, ['cap', 'sync', 'android'], {
+    ...process.env,
+    SERPENTS_PERF: process.env.SERPENTS_PERF ?? '1',
+  });
   run(
     win ? 'gradlew.bat' : './gradlew',
     ['assembleDebug', '--no-daemon', '--max-workers=2'],
