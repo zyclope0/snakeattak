@@ -16,6 +16,8 @@ import {
   NOT_FOUND_PAGE,
 } from './deploy/policy.ts';
 import { privacyPageHtml } from './deploy/privacyPage.ts';
+import { oldWebViewPageHtml } from './deploy/oldWebViewPage.ts';
+import { OLD_WEBVIEW_PAGE } from './deploy/androidWebView.ts';
 import { PRIVACY_FOLDER } from './src/site.ts';
 import { assembleHtml } from './deploy/assembleHtml.ts';
 import { DISCOVERY_PAGES } from './deploy/discoveryCopy.ts';
@@ -117,6 +119,10 @@ export default defineConfig(({ mode }) => {
           // source as the window of the application.
           mkdirSync(`${outDir}/${PRIVACY_FOLDER}`, { recursive: true });
           writeFileSync(`${outDir}/${PRIVACY_FOLDER}/index.html`, privacyPageHtml());
+          // What Android shows instead of the game when its WebView is too old
+          // (capacitor.config.ts): the application's only, a page of its own.
+          if (target.name === 'android')
+            writeFileSync(`${outDir}/${OLD_WEBVIEW_PAGE}`, oldWebViewPageHtml());
           if (website) {
             const assets = writeDiscoveryAssets(outDir);
             for (const page of DISCOVERY_PAGES) {

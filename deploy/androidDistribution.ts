@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, existsSync, lstatSync } from 'node:fs';
 import { join } from 'node:path';
 import type { AndroidRelease } from './buildInfo.ts';
+import { MIN_WEBVIEW_VERSION, OLD_WEBVIEW_PAGE } from './androidWebView.ts';
 
 export function fileInventory(root: string): Record<string, string> {
   const result: Record<string, string> = {};
@@ -67,6 +68,50 @@ export function assertAndroidDistribution(root: string) {
     );
   }
   return { info, files };
+}
+
+/**
+ * The page Android shows when its WebView is too old: in the application, standing alone, in
+ * both languages. An engine too old for the game reads it, with nothing to fetch.
+ */
+export function assertOldWebViewPage(root: string): string {
+  const page = readFileSync(join(root, OLD_WEBVIEW_PAGE), 'utf8');
+  assert.doesNotMatch(
+    page,
+    /<script|<link|<img|<iframe|@import|url\(|\ssrc=|https?:/i,
+    `${OLD_WEBVIEW_PAGE} stands alone`,
+  );
+  assert.match(page, /^<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">/);
+  assert.match(page, /<section lang="en">/, `${OLD_WEBVIEW_PAGE} speaks both languages`);
+  return page;
+}
+
+type AppConfig = {
+  appId?: string;
+  webDir?: string;
+  android?: { minWebViewVersion?: number };
+  server?: Record<string, unknown>;
+};
+/**
+ * The configuration Capacitor copied into the application (capacitor.config.json): its
+ * identity, the game's own files, the floor of the WebView and its page, and no other server
+ * option except in a diagnostic build.
+ */
+export function assertAppConfig(
+  config: AppConfig,
+  info: { android: { applicationId: string } },
+  files: Record<string, string>,
+  diagnostic: boolean,
+) {
+  assert.equal(config.appId, info.android.applicationId);
+  assert.equal(config.webDir, 'dist-android');
+  const { url, errorPath, ...options } = config.server ?? {};
+  assert.ok(!url, 'The application must use local bundled files');
+  assert.equal(config.android?.minWebViewVersion, MIN_WEBVIEW_VERSION, 'WebView floor');
+  assert.equal(errorPath, OLD_WEBVIEW_PAGE, 'An old WebView is shown the page that says so');
+  assert.ok(files[OLD_WEBVIEW_PAGE], `${OLD_WEBVIEW_PAGE} is packaged`);
+  if (!diagnostic)
+    assert.deepEqual(options, {}, 'Release starts without diagnostic server options');
 }
 
 /** bundletool writes compiled enums as numbers; 6 is Android's sensorLandscape. */

@@ -3,6 +3,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { WEB_HEAD_BUDGET, webHeadBytes } from '../deploy/discovery.ts';
 import { gamePagePictures } from '../deploy/discoveryAssets.ts';
+import { OLD_WEBVIEW_PAGE } from '../deploy/androidWebView.ts';
 
 const root = process.argv[2] ?? 'dist';
 const html = await readFile(`${root}/index.html`, 'utf8');
@@ -128,6 +129,11 @@ if (target !== 'android') {
     await readFile(`${root}/.htaccess`, 'utf8'),
     /RewriteEngine On/,
     'Apache configuration',
+  );
+  // What Android shows when its WebView is too old is the application's only.
+  assert.ok(
+    !existsSync(`${root}/${OLD_WEBVIEW_PAGE}`),
+    `${OLD_WEBVIEW_PAGE} is not on the website`,
   );
 } else {
   assert.ok(!existsSync(`${root}/.htaccess`), 'Android has no server configuration');

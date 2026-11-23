@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import {
   assertAndroidDistribution,
+  assertAppConfig,
   assertSameFiles,
   fileInventory,
   embeddedInventory,
@@ -19,11 +20,8 @@ assertSameFiles(embeddedInventory(files), fileInventory(embedded));
 const config = JSON.parse(
   readFileSync('android/app/src/main/assets/capacitor.config.json', 'utf8'),
 );
-assert.equal(config.appId, info.android.applicationId);
-assert.equal(config.webDir, 'dist-android');
-assert.ok(!config.server?.url, 'The application must use local bundled files');
-if (process.env.SERPENTS_PERF !== '1')
-  assert.ok(!config.server, 'Release starts without diagnostic server options');
+// Its server holds only the page for an old WebView, unless this build is the diagnostic one.
+assertAppConfig(config, info, files, process.env.SERPENTS_PERF === '1');
 console.log(
   `Capacitor sync verified: ${Object.keys(files).length} exact files, Android ${info.android.versionCode}, source ${info.source.commit}`,
 );
