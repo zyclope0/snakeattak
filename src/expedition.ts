@@ -20,7 +20,12 @@ import type { BoonId, Boons, LastingBoon } from './boons.ts';
 import { readCarriedCamp, saveUnit } from './checkpointUnits.ts';
 import { isArrayOfLength, isIntegerIn, isOneOf, isRecord } from './plainData.ts';
 import { readBoons } from './boons.ts';
-import { EXPEDITION_STAGE_VERSION, isBonusCard, STAGE_BAG_LIMIT } from './voyageRules.ts';
+import {
+  countCards,
+  EXPEDITION_STAGE_VERSION,
+  isBonusCard,
+  STAGE_BAG_LIMIT,
+} from './voyageRules.ts';
 import { isVoyageSeed } from './voyage.ts';
 import type { StageRules } from './voyageRules.ts';
 import { CRYSTAL_MAX, CRYSTAL_WARD, GOLD_LIMIT, REWARD_COINS } from './gameConstants.ts';
@@ -368,7 +373,6 @@ export function createExpeditionGame(
 ): Game | null {
   const battle = nextBattle(plan, state, path);
   if (!battle) return null;
-  const count = (id: RewardId) => state.bag.filter((card) => card === id).length;
   const before = battlesBefore(state);
   const { hpStep, biteStep } = tuningOf(state).strength;
   const rules: StageRules = {
@@ -377,7 +381,7 @@ export function createExpeditionGame(
     court: battle.court,
     ...(before ? { strength: { hp: (1 + hpStep) ** before, bite: (1 + biteStep) ** before } } : {}),
     coins: 0,
-    ward: count('cristal') * CRYSTAL_WARD,
+    ward: countCards(state.bag, 'cristal') * CRYSTAL_WARD,
     bag: state.bag.filter((card) => card !== 'cristal'),
   };
   try {
