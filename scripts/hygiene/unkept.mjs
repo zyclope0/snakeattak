@@ -18,6 +18,7 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile } from 'node:fs/promises';
 import { open, start, status, boardReady, text, fits, ORIGIN, snapshot } from './harness.mjs';
 import { leaveBattle } from '../../tests/browser-entry.mjs';
+import { COMPUTER, SCREENS } from '../lib/recipe.mjs';
 
 const [dir = 'dist-android'] = process.argv.slice(2);
 await mkdir('artifacts/hygiene', { recursive: true });
@@ -48,11 +49,6 @@ const ARMED = () => {
     return write.call(this, key, value);
   };
 };
-const SIZES = [
-  { width: 780, height: 360 },
-  { width: 812, height: 375 },
-  { width: 1280, height: 800 },
-];
 
 /** From now on the device refuses every write, or accepts them again. */
 const refuse = (page, on) =>
@@ -124,7 +120,7 @@ async function shown(page, parents, label) {
   return window;
 }
 
-for (const viewport of SIZES) {
+for (const viewport of SCREENS) {
   const tag = `${viewport.width}x${viewport.height}`;
   const { browser, page, report } = await open({ dir, viewport, touch: viewport.width < 1000 });
   try {
@@ -208,6 +204,8 @@ for (const viewport of SIZES) {
       await endWave(page);
     }
     await told.waitFor({ state: 'visible' });
+    // Seen between two waves, the window is not over a fight either.
+    if (early) assert.notEqual(await status(page), 'fighting', 'never over a fight');
     checks.push(
       `${tag} : un second refus est redit (${early ? 'entre deux vagues' : 'à la fin de la vague'})`,
     );
@@ -393,7 +391,7 @@ async function endlessKingCamp() {
   // On a large screen the menu of the board stays within reach while the gifts show.
   const { browser, page, report } = await open({
     dir,
-    viewport: { width: 1280, height: 800 },
+    viewport: COMPUTER,
     touch: false,
     storage: { [KEYS.CAMP_STORAGE_KEY]: encodeCheckpoint(game) },
   });
