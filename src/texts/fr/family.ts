@@ -38,13 +38,25 @@ export const impossibleDePreparerLeFichierDe =
   'Impossible de préparer le fichier de cette aventure.';
 export const fichierPretConserveLePourReprendre =
   'Fichier prêt. Conserve-le pour reprendre cette aventure dans un autre navigateur.';
-export const exporterLaSauvegardeDAvant = 'Exporter la sauvegarde d’avant';
-export const exporterLeFichierMisDeCote = 'Exporter le fichier mis de côté';
-export const leJeuGardeAussiLaSauvegardeDAvant =
-  'Le jeu garde aussi la sauvegarde d’avant : celle du dernier démarrage, ou celle d’avant une perte d’étoiles. Pour la reprendre, exporte-la puis choisis ce fichier ci-dessous.';
-export const ceFichierNAPasPuEtreLu =
-  'Un ancien fichier n’a pas pu être lu par cette version du jeu. Il a été mis de côté, sans être effacé.';
 export const tesEtoilesTesMissionsEtTesCarnetsSontBienLa =
   'Tes étoiles, tes missions et tes carnets sont bien là. Un camp n’a pas pu être relu.';
 export const dansLApplicationLAventureNePeutPas =
   'Dans l’application, l’aventure ne peut pas sortir de cet appareil. Si l’application est désinstallée ou si ses données sont effacées, elle est perdue.';
+export const copiesDeSecours = 'Copies de secours';
+export const leJeuGardeToutSeulDAnciennesCopies =
+  'Le jeu garde tout seul d’anciennes copies de ton aventure, sur cet appareil, au cas où.';
+export const avantLeDernierRemplacement = 'Avant le dernier remplacement';
+export const lAventureQuiEtaitLaJusteAvant =
+  'L’aventure qui était là juste avant qu’un fichier la remplace.';
+export const dUnLancementDAvant = 'D’un lancement d’avant';
+export const tonAventureCommeElleEtaitAUnLancement =
+  'Ton aventure comme elle était à un lancement d’avant : le dernier, ou celui d’avant une perte d’étoiles ou d’autocollants.';
+export const fichierMisDeCote = 'Fichier mis de côté';
+export const unFichierQueLeJeuNAvaitPasSuLire =
+  'Un fichier que le jeu n’avait pas su lire. Cette version le lit.';
+export const regarderCetteCopie = 'Regarder cette copie';
+export const unFichierQueCetteVersionNeSaitPasLire =
+  'Un fichier que cette version du jeu ne sait pas lire est gardé sur cet appareil. Une prochaine version pourra peut-être le lire : il sera alors proposé ici.';
+export const exporterCeFichier = 'Exporter ce fichier';
+export const fichierRemisCetteVersionNeSaitPasLeRelire =
+  'Fichier remis. Cette version du jeu ne sait pas le relire : garde-le pour une prochaine version.';

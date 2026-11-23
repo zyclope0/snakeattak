@@ -1,8 +1,8 @@
 import { readRecords, writeRecords } from './endlessRecords.ts';
 import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
 import { loadExpeditionLog, validateExpeditionLog } from './expeditionStorage.ts';
-import { FAMILY_EXTRAS } from './familyBackup.ts';
-import type { FamilyExtras } from './familyBackup.ts';
+import { FAMILY_EXTRAS, FAMILY_EXTRAS_VERSION, sameAdventure } from './familyBackup.ts';
+import type { FamilyBackup, FamilyExtras } from './familyBackup.ts';
 import { readBoundedJson } from './plainData.ts';
 import { ENDLESS_RECORDS_KEY, EXPEDITION_STORAGE_KEY, VOYAGE_STORAGE_KEY } from './storageKeys.ts';
 import { VOYAGE_LOG_LIMIT, validateVoyageLog } from './voyageStorage.ts';
@@ -16,6 +16,14 @@ type Name = (typeof FAMILY_EXTRAS)[number];
 type ReadPort = Pick<Storage, 'getItem'>;
 type WritePort = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
+/** True for an expedition log that holds only a record, no expedition under way. */
+const recordOnly = (text: string) => {
+  try {
+    return (JSON.parse(text) as { current?: unknown }).current === null;
+  } catch {
+    return false;
+  }
+};
 /** A log that holds something: an adventure under way, or a record. */
 const kept = (log: { best: number; current: unknown } | null) =>
   log && (log.best > 0 || log.current !== null) ? JSON.stringify(log) : null;
@@ -41,19 +49,25 @@ const EXTRAS: Readonly<Record<Name, { key: string; read: (text: string) => strin
   },
 };
 
+/** What a copy taken now would carry of one extra: its text as the game reads it, or none. */
+function collectOne(name: Name, storage?: ReadPort): string | null {
+  try {
+    const raw = storage?.getItem(EXTRAS[name].key);
+    const text = typeof raw === 'string' ? EXTRAS[name].read(raw) : null;
+    // An expedition that cannot be read is lost, its record is not: as the game reads it.
+    if (!text && name === 'expedition' && storage) return kept(loadExpeditionLog(storage));
+    return text;
+  } catch {
+    /* A storage that refuses to be read has nothing to carry. */
+    return null;
+  }
+}
 /** What the device holds for this player, ready for a family file: only what reads back. */
 export function collectExtras(storage?: ReadPort): FamilyExtras {
   const extras: Partial<Record<Name, string>> = {};
   for (const name of FAMILY_EXTRAS) {
-    try {
-      const raw = storage?.getItem(EXTRAS[name].key);
-      let text = typeof raw === 'string' ? EXTRAS[name].read(raw) : null;
-      // An expedition that cannot be read is lost, its record is not: as the game reads it.
-      if (!text && name === 'expedition' && storage) text = kept(loadExpeditionLog(storage));
-      if (text) extras[name] = text;
-    } catch {
-      /* A storage that refuses to be read has nothing to carry. */
-    }
+    const text = collectOne(name, storage);
+    if (text) extras[name] = text;
   }
   return Object.freeze(extras);
 }
@@ -83,6 +97,8 @@ export function checkExtras(extras: FamilyExtras): FamilyExtras | null {
 export function writeExtras(
   storage: WritePort | undefined,
   extras: FamilyExtras,
+  /** True to take away, too, what the file does not carry: the file is the whole state. */
+  whole = false,
 ): { undo: () => boolean } | null {
   writeExtras.partial = false;
   if (!storage) return null;
@@ -103,10 +119,26 @@ export function writeExtras(
   try {
     for (const name of FAMILY_EXTRAS) {
       const text = extras[name];
-      if (text === undefined) continue;
+      if (text === undefined && !whole) continue;
       const { key } = EXTRAS[name];
       const previous = storage.getItem(key);
-      storage.setItem(key, text);
+      // A whole restore does not take away a text this version cannot read (written by a
+      // later one, or damaged) for less than it holds: when the copy carries nothing for it,
+      // or only the record of an expedition while that text still gives one (the copy was
+      // taken from it, or it went on since). A copy that carries more (an expedition under
+      // way, taken before the text went bad) is written.
+      if (
+        whole &&
+        previous !== null &&
+        !EXTRAS[name].read(previous) &&
+        (text === undefined ||
+          (name === 'expedition' && recordOnly(text) && collectOne(name, storage) !== null))
+      )
+        continue;
+      if (text === undefined) {
+        if (previous === null) continue;
+        storage.removeItem(key);
+      } else storage.setItem(key, text);
       before.push([key, previous]);
     }
     return { undo };
@@ -117,3 +149,26 @@ export function writeExtras(
 }
 /** True when the last refused write could not be taken back whole. */
 writeExtras.partial = false;
+
+/**
+ * True when importing `file` over the adventure in place (`now`, as the export gives it)
+ * destroys nothing: the same adventure, and nothing beside it that the device would lose. A
+ * normal import writes only the extras the file carries, so those must be the device's
+ * already; a whole restore (`whole`) also takes away what the file does not carry, so it
+ * must carry exactly the device's.
+ */
+export function replacesNothing(
+  now: FamilyBackup | null,
+  file: FamilyBackup,
+  whole: boolean,
+): boolean {
+  if (!now || !sameAdventure(now, file)) return false;
+  // Read back as the game reads them: a file whose texts are written another way (by hand,
+  // or by an earlier build) carries the same extras if they read the same.
+  const carried: Partial<Record<string, string>> =
+    file.version === FAMILY_EXTRAS_VERSION ? (checkExtras(file.extras) ?? {}) : {};
+  const held: Partial<Record<string, string>> =
+    now.version === FAMILY_EXTRAS_VERSION ? now.extras : {};
+  const names = new Set([...Object.keys(carried), ...(whole ? Object.keys(held) : [])]);
+  return [...names].every((name) => carried[name] === held[name]);
+}

@@ -12,6 +12,7 @@ import {
   PLAYERS_KEY,
   REMINDER_STORAGE_KEY,
   VOYAGE_STORAGE_KEY,
+  FAMILY_BEFORE_IMPORT_KEY,
 } from './storageKeys.ts';
 import {
   hasControlCharacter,
@@ -54,6 +55,7 @@ export const PLAYER_KEYS: readonly string[] = [
   FAMILY_STORAGE_KEY,
   FAMILY_REFUSED_KEY,
   FAMILY_PREVIOUS_KEY,
+  FAMILY_BEFORE_IMPORT_KEY,
   CAMP_STORAGE_KEY,
   CAREER_STORAGE_KEY,
   REMINDER_STORAGE_KEY,

@@ -145,14 +145,17 @@ test('the stars counted are the great adventure’s and the missions’', () => 
   assert.equal(familyStars({ ...old, missions: undefined } as never), 2);
 });
 
-test('a copy that cannot be read is replaced; a device that refuses it changes nothing else', () => {
+test('a copy this version cannot read is never replaced; a device that refuses the copy changes nothing else', () => {
   const found = file([1, 0, 0]);
-  const damaged = memory({ [FAMILY_STORAGE_KEY]: found, [FAMILY_PREVIOUS_KEY]: '{damaged' });
+  // It may be a whole adventure, written by another build: it stays where it is.
+  const other = JSON.stringify({ ...JSON.parse(file([3, 3, 3])), version: 99 });
+  const damaged = memory({ [FAMILY_STORAGE_KEY]: found, [FAMILY_PREVIOUS_KEY]: other });
   const family = createFamilyPersistence(damaged);
-  assert.equal(family.previous(), null, 'nothing a parent could import');
+  // It is handed to the window as it is: the window says it cannot be read.
+  assert.equal(family.previous(), other);
   assert.ok(family.load());
   assert.equal(family.sync(null, career([1, 0, 0])), true);
-  assert.equal(damaged.values.get(FAMILY_PREVIOUS_KEY), found);
+  assert.equal(damaged.values.get(FAMILY_PREVIOUS_KEY), other);
 
   const full = memory({ [FAMILY_STORAGE_KEY]: found });
   full.refuse.add(FAMILY_PREVIOUS_KEY);

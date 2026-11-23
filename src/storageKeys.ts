@@ -14,11 +14,17 @@ export const FAMILY_STORAGE_KEY = key('family');
  */
 export const FAMILY_REFUSED_KEY = key('family-refused');
 /**
- * The family save as the game found it when it started, kept as a second generation: a save
- * that is valid but wrong (stars gone, a mistaken import) no longer replaces the only copy.
- * Never read by the game; a parent exports it from the family window.
+ * The family save as the game found it when it last started, or, for as long as stars or
+ * stickers are missing, the one that had the most: a save that is valid but wrong no longer
+ * replaces the only copy. Never read by the game; a parent looks at it in the family window.
  */
 export const FAMILY_PREVIOUS_KEY = key('family-previous');
+/**
+ * The adventure a family file replaced at the last import, as the export would have given it
+ * just before: an import made by mistake can be undone. Written only by an import; never read
+ * by the game; a parent looks at it in the family window.
+ */
+export const FAMILY_BEFORE_IMPORT_KEY = key('family-before-import');
 export const CAMP_STORAGE_KEY = key('camp');
 export const CAREER_STORAGE_KEY = key('progress');
 export const VOYAGE_STORAGE_KEY = key('voyage');

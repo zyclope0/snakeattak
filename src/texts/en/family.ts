@@ -35,13 +35,25 @@ export const impossibleDeLireCeFichierRienNAEte = 'Could not read this file: not
 export const impossibleDePreparerLeFichierDe = 'Could not prepare the file for this adventure.';
 export const fichierPretConserveLePourReprendre =
   'File ready. Keep it to resume this adventure in another browser.';
-export const exporterLaSauvegardeDAvant = 'Export the earlier save';
-export const exporterLeFichierMisDeCote = 'Export the file put aside';
-export const leJeuGardeAussiLaSauvegardeDAvant =
-  'The game also keeps the earlier save: the one from the last start, or from before stars were lost. To bring it back, export it, then choose that file below.';
-export const ceFichierNAPasPuEtreLu =
-  'This version of the game could not read an older file. It was put aside, not erased.';
 export const tesEtoilesTesMissionsEtTesCarnetsSontBienLa =
   'Your stars, missions and sticker books are all here. One camp could not be read back.';
 export const dansLApplicationLAventureNePeutPas =
   'In the app, the adventure cannot leave this device. If the app is uninstalled or its data is cleared, it is lost.';
+export const copiesDeSecours = 'Backup copies';
+export const leJeuGardeToutSeulDAnciennesCopies =
+  'The game keeps older copies of your adventure by itself, on this device, just in case.';
+export const avantLeDernierRemplacement = 'Before the last replacement';
+export const lAventureQuiEtaitLaJusteAvant =
+  'The adventure that was here just before a file replaced it.';
+export const dUnLancementDAvant = 'From an earlier launch';
+export const tonAventureCommeElleEtaitAUnLancement =
+  'Your adventure as it was at an earlier launch: the last one, or the one before stars or stickers were lost.';
+export const fichierMisDeCote = 'File put aside';
+export const unFichierQueLeJeuNAvaitPasSuLire =
+  'A file the game could not read before. This version reads it.';
+export const regarderCetteCopie = 'Look at this copy';
+export const unFichierQueCetteVersionNeSaitPasLire =
+  'A file this version of the game cannot read is kept on this device. A later version may be able to read it: it will then be offered here.';
+export const exporterCeFichier = 'Export this file';
+export const fichierRemisCetteVersionNeSaitPasLeRelire =
+  'File handed over. This version of the game cannot read it back: keep it for a later version.';

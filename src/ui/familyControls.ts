@@ -6,6 +6,8 @@ import {
   FAMILY_EXTRAS_VERSION,
   hasAlbums,
   readFamilyBackup,
+  salvageFamilyBackup,
+  sameAdventure,
 } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
@@ -15,13 +17,19 @@ import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
 type Actions = {
   exportRaw: () => string | null;
-  /** The save from before, as a file the import reads; null when there is none. */
+  /** The save from an earlier launch, as a file the import reads; null when there is none. */
   previousRaw: () => string | null;
+  /** The adventure the last import replaced, as a file the import reads; null when none. */
+  beforeImportRaw: () => string | null;
   /** The text of a file this version could not read, put aside as it was; null when none. */
   refusedRaw: () => string | null;
   /** False for a file one of whose parts does not read back: it is refused whole. */
   accepts: (backup: FamilyBackup) => boolean;
-  applyBackup: (backup: FamilyBackup) => {
+  /** `whole`: the file is a copy kept before an import, the whole state to come back to. */
+  applyBackup: (
+    backup: FamilyBackup,
+    whole?: boolean,
+  ) => {
     ok: boolean;
     message: string;
   };
@@ -89,48 +97,108 @@ function albumNameNodes(backup: FamilyBackup) {
   });
 }
 /**
- * The two copies the game keeps beside the save, each with a sentence and a button that hands
- * the text over as a file. Nothing is brought back from here: a parent exports, then imports
- * the file like any other, so every text passes the same reading. Shown only when it exists.
+ * The copies the game keeps beside the save, folded at the bottom of the window. Each one a
+ * parent can read has one button, « Regarder cette copie », which puts it in the same preview
+ * as a chosen file: same summary, same confirmation, and no file to take out of the device.
+ * A text this version cannot read is only told about, and handed over where a file can be.
  */
-function bindKeptCopies(actions: Pick<Actions, 'previousRaw' | 'refusedRaw'>) {
-  const copy = (
-    id: string,
-    words: string,
-    label: string,
-    which: 'avant' | 'mis-de-cote',
-    read: () => string | null,
-  ) => {
-    const button = make('button', { id, className: 'secondary', text: label });
+function bindKeptCopies(
+  actions: Pick<Actions, 'previousRaw' | 'beforeImportRaw' | 'refusedRaw' | 'accepts'>,
+  look: (backup: FamilyBackup, name: string, whole: boolean) => void,
+) {
+  const rows = make('div');
+  const node = make(
+    'details',
+    { id: 'family-copies' },
+    make('summary', { text: TEXT.copiesDeSecours }),
+    make('p', { text: TEXT.leJeuGardeToutSeulDAnciennesCopies }),
+    rows,
+  );
+  const kept = [
+    {
+      id: 'family-copy-before-import',
+      name: TEXT.avantLeDernierRemplacement,
+      words: TEXT.lAventureQuiEtaitLaJusteAvant,
+      read: actions.beforeImportRaw,
+    },
+    {
+      id: 'family-copy-previous',
+      name: TEXT.dUnLancementDAvant,
+      words: TEXT.tonAventureCommeElleEtaitAUnLancement,
+      read: actions.previousRaw,
+    },
+    {
+      id: 'family-copy-refused',
+      name: TEXT.fichierMisDeCote,
+      words: TEXT.unFichierQueLeJeuNAvaitPasSuLire,
+      read: actions.refusedRaw,
+    },
+  ];
+  /** One copy this version reads: what it is, what it holds, and the way to look at it. */
+  const row = (copy: (typeof kept)[number], backup: FamilyBackup) => {
+    const button = make('button', {
+      id: copy.id,
+      className: 'secondary',
+      text: TEXT.regarderCetteCopie,
+    });
     button.type = 'button';
-    button.onclick = () => {
-      const raw = read();
-      if (raw === null) return;
-      exportFile(raw, familyFileName(which));
-    };
-    const block = make('div', { className: 'family-copy' }, make('p', { text: words }), button);
-    // Where no file can be handed over, the words « export it » would lead nowhere.
-    return { block, show: () => (block.hidden = !canHandOver() || read() === null) };
+    // Only the copy kept before an import is the whole state of that moment, extras included.
+    button.onclick = () => look(backup, copy.name, copy.read === actions.beforeImportRaw);
+    return make(
+      'div',
+      { className: 'family-copy' },
+      make('p', {}, make('strong', { text: copy.name })),
+      make('p', { text: copy.words }),
+      make('p', { text: previewText(backup) }),
+      button,
+    );
   };
-  const previous = copy(
-    'family-export-previous',
-    TEXT.leJeuGardeAussiLaSauvegardeDAvant,
-    TEXT.exporterLaSauvegardeDAvant,
-    'avant',
-    actions.previousRaw,
-  );
-  const refused = copy(
-    'family-export-refused',
-    TEXT.ceFichierNAPasPuEtreLu,
-    TEXT.exporterLeFichierMisDeCote,
-    'mis-de-cote',
-    actions.refusedRaw,
-  );
+  /** A text kept that this version cannot read: said, and handed over where possible. */
+  const unread = (raw: string, id: string) => {
+    const block = make(
+      'div',
+      { className: 'family-copy' },
+      make('p', { text: TEXT.unFichierQueCetteVersionNeSaitPasLire }),
+    );
+    if (!canHandOver()) return block;
+    const button = make('button', {
+      id,
+      className: 'secondary',
+      text: TEXT.exporterCeFichier,
+    });
+    button.type = 'button';
+    button.onclick = () =>
+      say(
+        handOver(raw, familyFileName('mis-de-cote')) === 'saved'
+          ? TEXT.fichierRemisCetteVersionNeSaitPasLeRelire
+          : TEXT.impossibleDePreparerLeFichierDe,
+      );
+    block.append(button);
+    return block;
+  };
   return {
-    node: make('div', { id: 'family-copies' }, previous.block, refused.block),
+    node,
     refresh() {
-      previous.show();
-      refused.show();
+      const shown: FamilyBackup[] = [];
+      const blocks: HTMLElement[] = [];
+      for (const copy of kept) {
+        const raw = copy.read();
+        if (raw === null) continue;
+        // A copy one of whose camps no longer decodes is offered as the game would read it.
+        const backup = readFamilyBackup(raw) ?? salvageFamilyBackup(raw);
+        if (!backup || !actions.accepts(backup)) {
+          // A text of which nothing reads is told about: it stays on the device.
+          if (copy.read !== actions.beforeImportRaw) blocks.push(unread(raw, `${copy.id}-export`));
+          continue;
+        }
+        // The same adventure kept twice is offered once: the first, which carries the most.
+        if (shown.some((other) => sameAdventure(other, backup))) continue;
+        shown.push(backup);
+        blocks.push(row(copy, backup));
+      }
+      rows.replaceChildren(...blocks);
+      node.hidden = blocks.length === 0;
+      node.open = false;
     },
   };
 }
@@ -153,11 +221,13 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
   const albumNames = make('p', { id: 'family-preview-albums' });
   byId('family-preview-summary').after(albumNames);
   let pending: FamilyBackup | null = null,
+    pendingWhole = false,
     generation = 0;
 
   /** Nothing waits to be applied, and a file still being read is ignored when it arrives. */
   const forget = () => {
     pending = null;
+    pendingWhole = false;
     apply.disabled = true;
     byId('family-preview').hidden = true;
     return ++generation;
@@ -196,7 +266,15 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
 
   byId('family-choose-file').onclick = () => openPicker(file);
   file.onchange = readSelection;
-  return { reset, chosen: () => pending };
+  /** A copy kept on the device, shown like a chosen file: its name stands for the file's. */
+  const look = (backup: FamilyBackup, name: string, whole: boolean) => {
+    reset();
+    setDisplayText(byId('family-file-name'), name);
+    show(backup);
+    pendingWhole = whole;
+    byId('family-preview').scrollIntoView({ block: 'center' });
+  };
+  return { reset, chosen: () => pending, whole: () => pendingWhole, look };
 }
 
 /** User-selected local data only. Preview and cancellation never mutate the adventure. */
@@ -212,13 +290,17 @@ export function bindFamilyControls(actions: Actions) {
     byId('home-family').focus({ preventScroll: true });
   };
 
-  const copies = bindKeptCopies(actions);
-  byId('family-export').after(copies.node);
+  // After the import and the state of the save, before the way out: never between the export
+  // and the import.
+  const copies = bindKeptCopies(actions, preview.look);
+  byId('family-status').after(copies.node);
   byId('home-family').onclick = () => {
     preview.reset();
     copies.refresh();
     say(actions.persistenceStatus());
     dialog.showModal();
+    // The window opens on its title and its first button, whatever it showed last.
+    dialog.scrollTop = 0;
   };
   byId('family-close').onclick = close;
   dialog.addEventListener('cancel', (event) => {
@@ -242,7 +324,7 @@ export function bindFamilyControls(actions: Actions) {
   byId('family-apply').onclick = () => {
     const backup = preview.chosen();
     if (!backup) return;
-    const result = actions.applyBackup(backup);
+    const result = actions.applyBackup(backup, preview.whole());
     say(result.message);
     if (!result.ok) return;
     preview.reset();
