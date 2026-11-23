@@ -1727,10 +1727,15 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
   l'expédition, le voyage à finir et les records (`applyFamily` dans `src/bootstrap.ts`). Si
   l'appareil refuse cette copie, l'import est refusé et rien n'a changé ; si l'import échoue
   ensuite, la copie est remise comme elle était. Un fichier qui ramène l'aventure en place,
-  sans rien d'autre, ne touche pas la copie (l'aventure est comparée sans sa version). Un
-  appareil qui ne garde encore aucune aventure n'a rien à copier. Reprendre cette copie
-  revient à l'état d'avant l'import entier : ce que le fichier fautif avait apporté à côté
-  (expédition, voyage, records) est retiré. Reprendre une copie est un import : ce qu'elle
+  sans rien d'autre, ne touche pas la copie (`replacesNothing`). Les deux aventures sont
+  comparées telles que le jeu les tient une fois lancé (`sameAdventure`) : un fichier plus
+  ancien reçoit des missions et des carnets neufs, et le camp réécrit ce qu'il décide (le
+  camp de son mode, la dernière partie de sa mission, la carrière d'une partie classique,
+  le carnet d'un caprice en cours) ; un fichier de version 1 à 4 réimporté après quelques
+  lancements est donc la même aventure. Un appareil qui ne garde encore aucune aventure n'a
+  rien à copier. Reprendre cette copie revient à l'état d'avant l'import entier : ce que le
+  fichier fautif avait apporté à côté (expédition, voyage, records) est retiré ; un texte que
+  cette version ne relit pas, et qu'aucune copie ne pouvait porter, reste en place. Reprendre une copie est un import : ce qu'elle
   remplace est gardé à son tour.
 - **`family-previous` : la sauvegarde d'un lancement d'avant.** Le fichier que le jeu trouve
   en démarrant est gardé une fois que la séance a écrit sa première sauvegarde — la
@@ -1754,13 +1759,19 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
   erreur, l'aventure remplacée gardée avec son expédition, ses records et son voyage,
   reprise d'un appui, puis ce retour défait à son tour ; la même aventure offerte une fois ;
   le même fichier réimporté qui laisse la copie ; le retour qui retire ce que le fichier
-  fautif avait apporté ; l'import refusé quand l'appareil refuse la copie. Une relecture
-  indépendante a attaqué le lot avant sa fusion : ses quatre points à corriger sont repris.
+  fautif avait apporté ; l'import refusé quand l'appareil refuse la copie ; un fichier de
+  version 4 réimporté après deux lancements ; la copie d'un lancement reprise sans toucher
+  à l'expédition, au voyage ni aux records ; un voyage illisible gardé par l'import et par
+  le retour. Deux relectures indépendantes ont attaqué le lot avant sa fusion : leurs points
+  à corriger sont repris, sauf le dernier, écrit ci-dessous.
 - **Ne protège pas** : un camp perdu ou remis à zéro avec les mêmes étoiles et les mêmes
-  autocollants, vu après le lancement suivant ; deux imports par erreur de suite (seule
+  autocollants, vu après le lancement suivant ; une aventure remplacée exprès par une autre
+  qui a autant d'étoiles et moins d'autocollants, puis qui perd des étoiles : la copie du
+  lancement reste sur l'ancienne, la nouvelle n'est nulle part (faire suivre la copie
+  après chaque import perdrait au contraire l'enfant après deux imports par erreur) ; deux imports par erreur de suite (seule
   l'aventure d'avant le dernier est gardée) ; deux fenêtres du site ouvertes à la fois (la
   copie est ce que tient la fenêtre qui importe) ; un extra écrit par une version plus
-  récente, que celle-ci ne relit pas ; l'expédition, le voyage et les records en dehors
+  récente, que celle-ci ne relit pas, n'est dans aucune copie (il n'est pas non plus effacé) ; l'expédition, le voyage et les records en dehors
   d'un import ; **rien, si le téléphone est perdu, l'application désinstallée ou ses données
   effacées** : toutes les copies sont dans le même stockage que la sauvegarde. Seul un
   fichier exporté met une aventure à l'abri.

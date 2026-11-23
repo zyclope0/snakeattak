@@ -415,6 +415,119 @@ let exported;
     }
   }
 
+  // A file older than the sticker books (version 4), imported by mistake, played over two
+  // launches, then imported again: the game fills in what that file lacked and writes again
+  // what its camp decides, and the same file is still the same adventure. The child's copy
+  // stays (second attack, C1).
+  {
+    const legacy = JSON.parse(await readFile('tests/fixtures/balance-0362-legacy.json', 'utf8'));
+    const old = JSON.parse(
+      Object.values(legacy.family).map((t) => (typeof t === 'string' ? t : JSON.stringify(t)))[3],
+    );
+    for (const mission of Object.keys(old.missions.bestStars)) old.missions.bestStars[mission] = 3;
+    const v4 = JSON.stringify(old);
+    assert.equal(readFamilyBackup(v4)?.version, 4, 'a version 4 file the import reads');
+    const first = await open({ dir, storage: device });
+    let played;
+    try {
+      await start(first.page);
+      await dialog(first.page);
+      await give(first.page, v4);
+      await apply(first.page);
+      await start(first.page);
+      await start(first.page);
+      played = await snapshot(first.page);
+      assert.equal(
+        missionStars(played[KEYS.FAMILY_BEFORE_IMPORT_KEY]),
+        missionStars(found),
+        'the child’s adventure is the copy',
+      );
+    } finally {
+      await first.browser.close();
+    }
+    const again = await open({ dir, storage: played });
+    try {
+      await start(again.page);
+      await dialog(again.page);
+      await give(again.page, v4);
+      await again.page.locator('#family-apply:not([disabled])').click();
+      await again.page.locator('#home-primary').waitFor({ state: 'visible' });
+      const after = await snapshot(again.page);
+      assert.equal(
+        after[KEYS.FAMILY_BEFORE_IMPORT_KEY],
+        played[KEYS.FAMILY_BEFORE_IMPORT_KEY],
+        'the copy of the child’s adventure is untouched',
+      );
+      checks.push(
+        'a version 4 file imported again after two launches: the copy of the child’s adventure is untouched',
+      );
+      assert.deepEqual(again.report.errors, []);
+    } finally {
+      await again.browser.close();
+    }
+  }
+
+  // The copy of a launch is brought back as an adventure only: the expedition, the voyage and
+  // the records on the device stay as they are.
+  {
+    const launchCopy = await open({
+      dir,
+      storage: { ...device, [KEYS.FAMILY_PREVIOUS_KEY]: sibling },
+    });
+    try {
+      await start(launchCopy.page);
+      await dialog(launchCopy.page);
+      await launchCopy.page.locator('#family-copies > summary').click();
+      await launchCopy.page.locator('#family-copy-previous').click();
+      await launchCopy.page.locator('#family-preview').waitFor({ state: 'visible' });
+      await apply(launchCopy.page);
+      const now = await snapshot(launchCopy.page);
+      assert.equal(missionStars(now[KEYS.FAMILY_STORAGE_KEY]), missionStars(sibling));
+      for (const key of EXTRA_KEYS) assert.equal(now[key], device[key], `${key} untouched`);
+      checks.push(
+        'the copy of a launch brought back: the expedition, the voyage and the records stay',
+      );
+    } finally {
+      await launchCopy.browser.close();
+    }
+  }
+
+  // A voyage this version cannot read (written by a later one) is in no copy: the import
+  // leaves it alone, and so does the way back (second attack, C2).
+  {
+    const { checkExtras } = await import('../../src/familyExtras.ts');
+    const later = JSON.stringify({ ...JSON.parse(device[KEYS.VOYAGE_STORAGE_KEY]), version: 99 });
+    assert.equal(checkExtras({ voyage: later }), null, 'a voyage this version does not read');
+    const holding = { ...device, [KEYS.VOYAGE_STORAGE_KEY]: later };
+    let imported;
+    const first = await open({ dir, storage: holding });
+    try {
+      await start(first.page);
+      await dialog(first.page);
+      await give(first.page, sibling);
+      await apply(first.page);
+      imported = await snapshot(first.page);
+      assert.equal(imported[KEYS.VOYAGE_STORAGE_KEY], later, 'the import leaves it alone');
+    } finally {
+      await first.browser.close();
+    }
+    const back = await open({ dir, storage: imported });
+    try {
+      await start(back.page);
+      await dialog(back.page);
+      await back.page.locator('#family-copies > summary').click();
+      await back.page.locator('#family-copy-before-import').click();
+      await apply(back.page);
+      await back.page.locator('#home-primary').waitFor({ state: 'visible' });
+      const now = await snapshot(back.page);
+      assert.equal(missionStars(now[KEYS.FAMILY_STORAGE_KEY]), missionStars(found));
+      assert.equal(now[KEYS.VOYAGE_STORAGE_KEY], later, 'and so does the way back');
+      checks.push('a voyage this version cannot read: kept by the import and by the way back');
+    } finally {
+      await back.browser.close();
+    }
+  }
+
   // A device that refuses the copy refuses the import: nothing has changed.
   const full = await open({ dir, storage: device });
   try {

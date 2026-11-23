@@ -22,7 +22,7 @@ import {
   hasAlbums,
   readFamilyBackup,
   writeFamilyBackup,
-  sameAdventure,
+  replacesNothing,
 } from './familyBackup.ts';
 import { checkExtras, collectExtras, writeExtras } from './familyExtras.ts';
 import type { FamilyBackup } from './familyBackup.ts';
@@ -489,14 +489,7 @@ function applyFamily(backup: FamilyBackup, whole = false) {
   const replaced = exportFamily();
   const now = replaced ? readFamilyBackup(replaced) : null;
   const carried = file.version === FAMILY_EXTRAS_VERSION ? file.extras : {};
-  const held = now?.version === FAMILY_EXTRAS_VERSION ? now.extras : {};
-  const same =
-    !!now &&
-    sameAdventure(now, file) &&
-    (whole
-      ? JSON.stringify(carried) === JSON.stringify(held)
-      : Object.entries(carried).every(([name, text]) => held[name as keyof typeof held] === text));
-  const putBack = same ? () => {} : family.keepBeforeImport(replaced);
+  const putBack = replacesNothing(now, file, whole) ? () => {} : family.keepBeforeImport(replaced);
   if (!putBack) return refused;
   const failed = (answer: typeof refused) => {
     putBack();

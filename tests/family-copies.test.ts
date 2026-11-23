@@ -7,12 +7,15 @@ import { Game } from '../src/game.ts';
 import { familyStickers, readFamilyBackup, writeFamilyBackup } from '../src/familyBackup.ts';
 import { createFamilyPersistence } from '../src/familyPersistence.ts';
 import { createMissionProgress } from '../src/missionProgress.ts';
+import { writeRecords } from '../src/endlessRecords.ts';
 import { createCapriceAlbums } from '../src/capriceAlbums.ts';
 import { CAPRICES } from '../src/caprices.ts';
 import {
   FAMILY_BEFORE_IMPORT_KEY,
   FAMILY_PREVIOUS_KEY,
   FAMILY_STORAGE_KEY,
+  ENDLESS_RECORDS_KEY,
+  VOYAGE_STORAGE_KEY,
 } from '../src/storageKeys.ts';
 
 // Two copies beside the save, two roles (council of 22 November 2026). One slot guarded by the
@@ -230,4 +233,93 @@ test('the three holes of the single copy are closed', () => {
   assert.ok(playing.keepBeforeImport(played));
   assert.equal(playing.import(small), true);
   assert.equal(middle.values.get(FAMILY_BEFORE_IMPORT_KEY), played);
+});
+
+test('the same adventure whatever the version, and what a launch writes again from the camp', async () => {
+  const { sameAdventure } = await import('../src/familyBackup.ts');
+  const modern = readFamilyBackup(file([3, 2, 0]))!;
+  const { format, camp, career: held } = modern;
+  const { missions, albums } = modern as unknown as {
+    missions: ReturnType<typeof createMissionProgress>;
+    albums: ReturnType<typeof createCapriceAlbums>;
+  };
+  for (const old of [
+    { format, version: 1, camp: null, career: held },
+    { format, version: 2, camp, career: held, missions },
+    { format, version: 3, camp, career: held, missions },
+  ]) {
+    const legacy = readFamilyBackup(JSON.stringify(old));
+    assert.ok(legacy, `version ${old.version} is read`);
+    // What the export gives once that file is imported: fresh missions and sticker books
+    // where the file had none (src/bootstrap.ts, `applyFamily`).
+    const imported = readFamilyBackup(
+      writeFamilyBackup(
+        legacy.camp,
+        legacy.career,
+        'missions' in legacy ? legacy.missions : createMissionProgress(),
+        createCapriceAlbums(),
+      )!,
+    )!;
+    assert.equal(sameAdventure(imported, legacy), true, `version ${old.version}`);
+    assert.equal(sameAdventure(legacy, imported), true, `version ${old.version}, either way`);
+  }
+  // A launch writes the classic camp of a classic game again: a file that left it empty
+  // is the adventure the export gives afterwards (second attack, C1).
+  assert.equal(missions.classicCamp, null);
+  const launched = readFamilyBackup(
+    writeFamilyBackup(camp, held, { ...missions, classicCamp: camp }, albums)!,
+  )!;
+  assert.equal(sameAdventure(modern, launched), true, 'the classic camp, written from the camp');
+  // The file is compared, never changed.
+  const text = JSON.stringify(modern);
+  sameAdventure(modern, launched);
+  assert.equal(JSON.stringify(modern), text);
+});
+
+test('another book or another career is another adventure, never merged', async () => {
+  const { sameAdventure } = await import('../src/familyBackup.ts');
+  const base = readFamilyBackup(file([3, 2, 0]))!;
+  assert.equal(sameAdventure(base, readFamilyBackup(file([3, 2, 0]))!), true);
+  assert.equal(sameAdventure(base, readFamilyBackup(file([3, 2, 0], 450, 1))!), false, 'a sticker');
+  assert.equal(sameAdventure(base, readFamilyBackup(file([3, 3, 0]))!), false, 'a star');
+  assert.equal(sameAdventure(base, readFamilyBackup(file([3, 2, 0], 451))!), false, 'the camp');
+  const renamed = createCapriceAlbums();
+  renamed.children[0]!.name = 'Autre';
+  const named = readFamilyBackup(
+    writeFamilyBackup(base.camp, base.career, base.missions, renamed)!,
+  )!;
+  assert.equal(sameAdventure(base, named), false, 'the name of a book');
+});
+
+test('an import destroys nothing only when the adventure and what lies beside it are the same', async () => {
+  const { replacesNothing } = await import('../src/familyBackup.ts');
+  const adventure = JSON.parse(file([3, 2, 0]));
+  const withExtras = (extras: Record<string, string>) =>
+    readFamilyBackup(JSON.stringify({ ...adventure, version: 6, extras }));
+  const records = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+  const more = writeRecords([{ wave: 18, kings: 1, rules: 1, run: 9 }]);
+  const device = withExtras({ endless: records })!;
+  const plain = readFamilyBackup(file([3, 2, 0]))!;
+  assert.ok(device);
+  assert.equal(replacesNothing(null, plain, false), false, 'nothing in place: nothing to keep');
+  assert.equal(replacesNothing(device, plain, false), true, 'nothing carried, nothing changed');
+  assert.equal(replacesNothing(device, withExtras({ endless: records })!, false), true);
+  // A file with the same adventure and other records would replace them (A02).
+  assert.equal(replacesNothing(device, withExtras({ endless: more })!, false), false);
+  // A whole restore takes away what it does not carry.
+  assert.equal(replacesNothing(device, plain, true), false, 'the records would go');
+  assert.equal(replacesNothing(plain, plain, true), true);
+  assert.equal(replacesNothing(device, readFamilyBackup(file([3, 3, 0]))!, false), false);
+});
+
+test('a whole restore takes away only what a copy could have carried', async () => {
+  const { writeExtras } = await import('../src/familyExtras.ts');
+  const later = '{"version":99}';
+  const storage = memory({
+    [ENDLESS_RECORDS_KEY]: writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]),
+    [VOYAGE_STORAGE_KEY]: later,
+  });
+  assert.ok(writeExtras(storage, {}, true));
+  assert.equal(storage.values.get(ENDLESS_RECORDS_KEY), undefined, 'a record it reads: taken');
+  assert.equal(storage.values.get(VOYAGE_STORAGE_KEY), later, 'a voyage it cannot read: stays');
 });

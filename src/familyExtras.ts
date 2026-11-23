@@ -109,7 +109,9 @@ export function writeExtras(
       const { key } = EXTRAS[name];
       const previous = storage.getItem(key);
       if (text === undefined) {
-        if (previous === null) continue;
+        // Only what a copy could have carried is taken away: a text this version cannot read
+        // (written by a later one, or damaged) is in no copy, and stays as it is.
+        if (previous === null || !EXTRAS[name].read(previous)) continue;
         storage.removeItem(key);
       } else storage.setItem(key, text);
       before.push([key, previous]);

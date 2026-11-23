@@ -1,9 +1,9 @@
 import { decodeCheckpoint, encodeCheckpoint } from './checkpoints.ts';
-import { readCareerState, validateCareerState } from './progression.ts';
+import { createCareer, readCareerState, validateCareerState } from './progression.ts';
 import type { CareerState } from './progression.ts';
-import { validateMissionProgress } from './missionProgress.ts';
+import { createMissionProgressController, validateMissionProgress } from './missionProgress.ts';
 import type { MissionProgress } from './missionProgress.ts';
-import { validateCapriceAlbums } from './capriceAlbums.ts';
+import { createCapriceAlbumsController, validateCapriceAlbums } from './capriceAlbums.ts';
 import type { CapriceAlbums } from './capriceAlbums.ts';
 import { isOneOf, isRecord, readBoundedJson } from './plainData.ts';
 import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
@@ -298,15 +298,57 @@ export function writeFamilyBackup(
  * True when two files hold the same adventure — camp, career, missions, sticker books —
  * whatever their version or what they carry beside it.
  */
+/**
+ * An adventure as the game holds it once the file is read and the game launched on it
+ * (src/bootstrap.ts, `applyFamily` then `recordGame`): a file older than the missions or the
+ * sticker books gets fresh ones, and the camp writes again what it decides — the camp of its
+ * mode and the last run of its mission, the career of a classic game, the book that owns a
+ * challenge under way. What the next export writes, then, without a move of the player's.
+ */
+function asLaunched(file: FamilyBackup): string {
+  const game = file.camp === null ? null : decodeCheckpoint(file.camp);
+  const career = createCareer(undefined, file.career);
+  const missions = createMissionProgressController('missions' in file ? file.missions : undefined);
+  const albums = createCapriceAlbumsController(hasAlbums(file) ? file.albums : undefined);
+  const retry = missions.state.retryCamp;
+  if (
+    !albums.state.campProfileId &&
+    (game?.mission?.caprice || (retry && decodeCheckpoint(retry)?.mission?.caprice))
+  )
+    albums.beginRun();
+  if (game) {
+    if (!game.mission) career.sync(game);
+    missions.sync(game);
+    albums.record(game);
+  }
+  return JSON.stringify([file.camp, career.state, missions.state, albums.state]);
+}
+/**
+ * True when two files hold the same adventure, whatever their versions: compared as the game
+ * would hold each of them, so that a file imported twice is the same adventure both times.
+ */
 export function sameAdventure(a: FamilyBackup, b: FamilyBackup): boolean {
-  const adventure = (file: FamilyBackup) =>
-    JSON.stringify([
-      file.camp,
-      file.career,
-      'missions' in file ? file.missions : null,
-      hasAlbums(file) ? file.albums : null,
-    ]);
-  return adventure(a) === adventure(b);
+  return asLaunched(a) === asLaunched(b);
+}
+/**
+ * True when importing `file` over the adventure in place (`now`, as the export gives it)
+ * destroys nothing: the same adventure, and nothing beside it that the device would lose. A
+ * normal import writes only the extras the file carries, so those must be the device's
+ * already; a whole restore (`whole`) also takes away what the file does not carry, so it
+ * must carry exactly the device's.
+ */
+export function replacesNothing(
+  now: FamilyBackup | null,
+  file: FamilyBackup,
+  whole: boolean,
+): boolean {
+  if (!now || !sameAdventure(now, file)) return false;
+  const carried: Partial<Record<string, string>> =
+    file.version === FAMILY_EXTRAS_VERSION ? file.extras : {};
+  const held: Partial<Record<string, string>> =
+    now.version === FAMILY_EXTRAS_VERSION ? now.extras : {};
+  const names = new Set([...Object.keys(carried), ...(whole ? Object.keys(held) : [])]);
+  return [...names].every((name) => carried[name] === held[name]);
 }
 /** The stickers of every sticker book of a file: they only ever grow in play. */
 export function familyStickers(backup: FamilyBackup): number {
