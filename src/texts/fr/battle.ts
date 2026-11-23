@@ -39,6 +39,8 @@ export const leMielColleAuxEcaillesLesSerpents =
 export const leGouterEstServiLesSerpents =
   'Le goûter est servi ! Les serpents gourmands sont tentés de changer de voie.';
 export const nRejointLeCamp = '{0} rejoint le camp !';
+/** The line under the board once a reward card is taken: its title, then what it gives. */
+export const nExclamationN = '{0} ! {1}';
 export const laDerniereVagueKingSnakeApproche = 'La dernière vague ! King Snake approche…';
 export const vagueNDefendsLeCamp = 'Vague {0} : défends le camp !';
 export const coordonneesDeCampInvalides = 'Coordonnées de camp invalides';

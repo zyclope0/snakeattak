@@ -369,7 +369,7 @@ export class Game {
     const key = id as RewardId;
     takeCard(this, milestone, key);
     this.rewards.pending = null;
-    this.message = REWARDS[key].title + ' ! ' + REWARDS[key].detail;
+    this.message = fill(TEXT.nExclamationN, REWARDS[key].title, REWARDS[key].detail);
     return true;
   }
   skipReward(): boolean {

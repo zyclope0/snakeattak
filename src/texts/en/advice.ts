@@ -64,8 +64,14 @@ export const devantLesTireursIlGardeSonSecteur =
 export const devantLesTireurs = 'in front of your ranged allies';
 export const toucheUnePlaceLibreADroite = 'Tap a free spot on the right.';
 export const toucheADroiteNPorteeN = 'Tap on the right · {0} · {1} range';
+/** The reach in the hint above: « portée courte ». */
+export const courte = 'short';
+export const moyenne = 'medium';
+export const longue = 'long';
 export const toucheADroiteN = 'Tap on the right · {0}';
 export const aRenforcerN = 'Reinforce: {0}';
+/** Between the names of two lanes: « Haut et Bas ». */
+export const et = 'and';
 export const uneIdeeAvec = 'An idea with';
 export const vagueNLesSerpentsAnnonces = 'Wave {0} · Incoming snakes';
 export const voiesOuvertesN = 'Open lanes: {0}';

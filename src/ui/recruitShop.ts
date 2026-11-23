@@ -6,6 +6,7 @@ import type { Game } from '../game.ts';
 import type { Session } from '../session.ts';
 import { portraitStyle } from '../art.ts';
 import { RECRUITABLE_KINDS } from './unitCatalog.ts';
+import { allyPriceLabel } from './allyLabel.ts';
 import { byId, make, setPressed } from './dom.ts';
 import { revealBoard } from './battleDom.ts';
 import { battleOver } from './battleState.ts';
@@ -140,11 +141,7 @@ function showCard(card: HTMLButtonElement, kind: Kind, session: Session, frozen:
   card.dataset.state = locked ? 'locked' : poor ? 'poor' : chosen ? 'selected' : 'ready';
   // The coins are there but the caprice keeps them in the bank: the card must say why.
   card.toggleAttribute('data-reserved', !locked && poor && !!game.caprice.reserve);
-  setAttribute(
-    card,
-    'aria-label',
-    `${kinds[kind].name}, ${cost === 0 ? 'offert' : fill(TEXT.nPieces, cost)}. ${reason}.`,
-  );
+  setAttribute(card, 'aria-label', `${allyPriceLabel(kinds[kind].name, cost)}. ${reason}.`);
   card.classList.toggle('selected', chosen);
   setPressed(card, chosen);
 }

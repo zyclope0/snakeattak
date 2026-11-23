@@ -69,6 +69,8 @@ export const attirerLesSerpentsVersLaVoie = 'Lure snakes toward the lane';
 export const toucheUnCheminPourPoserLeMielOu =
   'Tap a path to place honey, or use the buttons below.';
 export const voieNAttaqueeNNPaisible = 'Lanes under attack: {2}. “—”: peaceful.';
+/** Between the names of two lanes: « Haut et Bas ». */
+export const et = 'and';
 export const nDetourN = 'Detours: {0}';
 export const aRetrouverDansLaProchainePartie = 'Available again next game';
 export const mielCollantNNSRalentitSurLePassage =

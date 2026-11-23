@@ -38,7 +38,7 @@ export function bindHud() {
       'egg-count',
       fill(TEXT.nOeufNNEclosions, game.eggs.length, game.eggs.length > 1 ? 's' : '', game.hatched),
     );
-    showText('ai-mode', `IA : ${snakeCunning(game.difficultyWave)}`);
+    showText('ai-mode', fill(TEXT.iaN, snakeCunning(game.difficultyWave)));
     showMedicalStock(game);
     byId('app').dataset.status = game.status;
     showKing(game);
@@ -118,7 +118,7 @@ function showWaveDots(game: Game, dots: HTMLElement[]) {
 }
 
 const snakeCunning = (difficultyWave: number) =>
-  difficultyWave >= 5 ? 'tacticienne' : difficultyWave >= 3 ? 'attentive' : 'exploratrice';
+  difficultyWave >= 5 ? TEXT.tacticienne : difficultyWave >= 3 ? TEXT.attentive : TEXT.exploratrice;
 
 function showMedicalStock(game: Game) {
   const healers = game.units.filter((u) => medicalRules(u.kind) && u.medical);

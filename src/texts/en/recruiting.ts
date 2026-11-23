@@ -1,8 +1,12 @@
 export const choisirLeMielPuisToucherUnChemin = ': choose Honey, then tap a path';
 export const offert = 'Free';
 export const pieces = 'coins';
-export const reserveBancaireProtegee = ', protected bank reserve';
-export const pasAssezDePieces = ', not enough coins';
+/** An ally card read aloud: its name, then its price. */
+export const nNPieces = '{0}, {1} coins';
+export const nOffert = '{0}, free';
+/** The same card when it cannot be taken: the name and price above, then why. */
+export const nReserveBancaireProtegee = '{0}, protected bank reserve';
+export const nPasAssezDePieces = '{0}, not enough coins';
 export const toucheUnChemin = 'Tap a path';
 export const placeTonAllie = 'Place your ally';
 export const pasDeMielDansCeCaprice = 'No honey in this caprice';

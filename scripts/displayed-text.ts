@@ -113,8 +113,17 @@ export function displayedTexts(raw: string): string[] {
   return texts;
 }
 
-/** Every displayed text written as a literal in a TypeScript source: `{ text, line }`. */
-export function literalTexts(file: string, source: string): { text: string; line: number }[] {
+/**
+ * Every displayed text written as a literal in a TypeScript source: `{ text, line }`. `known`,
+ * when given, holds the French texts of the catalogue, single-spaced: a literal that is one of
+ * them is a displayed text too, even a word in small letters that looks like a name of the code
+ * (« offert », « IA : {0} »). A text with no letter (« {0} {1} ») only joins values.
+ */
+export function literalTexts(
+  file: string,
+  source: string,
+  known?: ReadonlySet<string>,
+): { text: string; line: number }[] {
   const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
   const found: { text: string; line: number }[] = [];
   const visit = (node: ts.Node) => {
@@ -128,7 +137,11 @@ export function literalTexts(file: string, source: string): { text: string; line
     }
     if (raw !== null) {
       const line = ast.getLineAndCharacterOfPosition(node.getStart(ast)).line + 1;
-      for (const text of displayedTexts(raw)) found.push({ text, line });
+      const texts = displayedTexts(raw);
+      const words = raw.trim().replace(/\s+/g, ' ');
+      const lettered = /[A-Za-zÀ-ÿŒœ]/.test(words.replace(/\{\d+\}/g, ''));
+      if (known?.has(words) && lettered && !texts.includes(words)) texts.push(words);
+      for (const text of texts) found.push({ text, line });
     }
     ts.forEachChild(node, visit);
   };

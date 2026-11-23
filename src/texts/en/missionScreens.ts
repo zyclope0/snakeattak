@@ -47,6 +47,8 @@ export const options = 'Options';
 export const carnetDeCetteNouvellePartie = 'Sticker book for this new game';
 export const troisVoiesVisiblesPremiereVagueN =
   'Three visible lanes. First wave: {0}. Dens on the left, Crystal on the right.';
+/** Between the names of two lanes: « Haut et Bas ». */
+export const et = 'and';
 export const nAutresN = '{0} more {1}';
 export const desVolantsArriverontDansCette =
   'Flying snakes will appear in this mission: bring Archers, a Baby Dragon, or a tank.';

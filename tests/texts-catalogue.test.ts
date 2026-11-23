@@ -38,15 +38,18 @@ test('the dictionary the game reads is the one built from the catalogue', async 
   );
 });
 
-test('no displayed text is written in the code: every one lives in src/texts', () => {
+test('no displayed text is written in the code: every one lives in src/texts', async () => {
   // The catalogue itself, the translator and the approved privacy policy hold words; no
   // other TypeScript source may. A new text goes into src/texts/fr and src/texts/en.
   const sources = (readdirSync('src', { recursive: true }) as string[])
     .map((path) => `src/${path}`)
     .filter((file) => file.endsWith('.ts') && !/^src\/(texts|i18n|assets)\//.test(file));
   assert.ok(sources.length > 200);
+  // A literal that is a French text of the catalogue is refused too, even a word in small
+  // letters (« offert ») that would pass for a name of the code.
+  const known = new Set((await buildDictionary()).dictionary.keys());
   const written = sources.flatMap((file) =>
-    literalTexts(file, readFileSync(file, 'utf8')).map(
+    literalTexts(file, readFileSync(file, 'utf8'), known).map(
       ({ text, line }) => `${file}:${line} ${text}`,
     ),
   );
@@ -95,6 +98,19 @@ test('a value written for the browser is not a text, a sentence beside it still 
   ].join('\n');
   assert.deepEqual(literalTexts('src/ui/sample.ts', source), [
     { text: 'Tourne ton téléphone', line: 4 },
+  ]);
+  // A word of the catalogue in small letters looks like a name of the code: only the catalogue
+  // tells it apart. A join of values with no letter is not a text.
+  const words = [
+    "const price = cost === 0 ? 'offert' : 'shield';",
+    'const mode = `IA : ${cunning}`;',
+    'const pair = `${name} ${stars}`;',
+  ].join('\n');
+  const known = new Set(['offert', 'IA : {0}', '{0} {1}', 'Shield']);
+  assert.deepEqual(literalTexts('src/ui/sample.ts', words), []);
+  assert.deepEqual(literalTexts('src/ui/sample.ts', words, known), [
+    { text: 'offert', line: 1 },
+    { text: 'IA : {0}', line: 2 },
   ]);
 });
 

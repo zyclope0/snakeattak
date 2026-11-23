@@ -47,6 +47,8 @@ export const options = 'Options';
 export const carnetDeCetteNouvellePartie = 'Carnet de cette nouvelle partie';
 export const troisVoiesVisiblesPremiereVagueN =
   'Trois voies visibles. Première vague : {0}. Antres à gauche, cristal à droite.';
+/** Between the names of two lanes: « Haut et Bas ». */
+export const et = ' et ';
 export const nAutresN = '{0} autres {1}';
 export const desVolantsArriverontDansCette =
   'Des volants arriveront dans cette mission : prévois des archers, un dragon ou un tank.';
