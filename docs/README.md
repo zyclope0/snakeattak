@@ -17,7 +17,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [MOTS-A-LIRE-2026-11-22.md](MOTS-A-LIRE-2026-11-22.md)                 | Les phrases nouvelles des lots de solidité, à lire par le parent avant toute publication                              |
 | [BILAN-0.40.0.md](BILAN-0.40.0.md)                                     | Version 0.40.0 / build 64 préparée : ce qui change depuis le build 63                                                 |
 | [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)                             | Passation Codex : construire le build 64, et la recette à faire sur le téléphone                                      |
-| [ANDROID-BUILD-65.md](ANDROID-BUILD-65.md)                             | En préparation : export par le partage d’Android, ce qui manque avant de construire, recette sur le téléphone         |
+| [ANDROID-BUILD-65.md](ANDROID-BUILD-65.md)                             | Passation du build 65 : export par le partage d’Android, quand construire, recette sur le téléphone                   |
 | [BILAN-0.41.0.md](BILAN-0.41.0.md)                                     | Bilan 0.41.0 / build 65 : l'export sort de l'application, copies de secours, partie non gardée, politique mise à jour |
 | [DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md)                     | Les dix décisions du parent du 23 novembre sur les mots, la politique et le build 65                                  |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |

@@ -1703,8 +1703,9 @@ pixels au pied de l'accueil : une heure de jeu pouvait partir à la fermeture
   fichier). Une écriture qui passe, ou un retour à ce qui est déjà gardé, y met fin. Les
   records de l'aventure sans fin ont leur propre drapeau (`createRecordBook`) : un record
   refusé est gardé en mémoire et réécrit à chaque sauvegarde suivante, jusqu'à ce que
-  l'appareil le prenne. Rien ne réessaie sans un geste du joueur : « il réessaie tout seul »
-  veut dire au prochain geste qui sauvegarde (une vague, un achat) ; rentrer à l'accueil ne
+  l'appareil le prenne. Rien ne réessaie sans un geste du joueur : la phrase des parents le
+  dit (« puis continue à jouer : il réessaiera », décision du 23 novembre) ; le prochain
+  geste qui sauvegarde est une vague ou un achat ; rentrer à l'accueil ne
   sauvegarde pas la partie, mais y réessaie les records refusés et regarde de nouveau ce qui
   n'est pas gardé.
 - **Ce que la famille voit** (`src/ui/failure/unkept.ts`, demandé la première fois que cela

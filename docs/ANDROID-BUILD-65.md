@@ -20,7 +20,8 @@ procédure de construction est celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-
   `android/app/capacitor.build.gradle`. Leurs manifestes sont vides : **aucune permission
   nouvelle**. Le partage passe par le `FileProvider` déjà déclaré (`cache-path`).
 - Les lots de solidité des sauvegardes (camps sauvés, copies de secours, « partie non
-  gardée ») et les fenêtres de panne, s'ils sont fusionnés d'ici là.
+  gardée ») et les fenêtres de panne, fusionnés (PR 129 à 136).
+- La barrière pour adulte avant le partage (décision 3), quand son lot sera fusionné.
 
 ## Recette sur le téléphone (à cocher)
 
@@ -47,8 +48,8 @@ Le reste :
 
 - [ ] Partage rapide (Nearby / Quick Share) ou partage vers une application qui ne quitte pas
       le jeu : noter la phrase affichée (le code du module laisse croire qu'il dira « fermé »).
-- [ ] Le partage s'ouvre sans barrière parentale : le parent juge si c'est acceptable sous
-      « Pour les parents ».
+- [ ] Avant le partage, la question pour adulte s'affiche ; une mauvaise réponse n'ouvre
+      rien (une fois le lot de la barrière fusionné).
 - [ ] Les recettes du build 64 (mise à jour, sauvegardes, fenêtres de panne) passent encore.
 - [ ] Installer **par-dessus le build 64** : rien n'est effacé ; étoiles, aventure en cours,
       expédition, joueurs sont là.

@@ -80,7 +80,7 @@ build 64 a été attaqué par des relecteurs indépendants avant fusion.
 - Pas essayé avec les enfants.
 - **La barrière pour adulte avant le partage** (décision 3) n'est pas dans ce lot : le partage
   d'Android s'ouvre encore sans question, et montre les contacts récents. Je propose de
-  construire le build 65 une fois ce lot fusionné.
+  construire le build 65 une fois ce lot de la barrière fusionné, pas avant.
 
 ## Publication du site
 

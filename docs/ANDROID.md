@@ -1,4 +1,4 @@
-# Android — version 0.40.0 / build 64
+# Android — version 0.41.0 / build 65 (en préparation ; build 64 sur le téléphone)
 
 Le code de la **0.40.0 / build 64** est prêt depuis `main` (22 novembre 2026) ; la commande de
 packaging ci-dessous produit le candidat signé, son APK issu du bundle et son rapport.
