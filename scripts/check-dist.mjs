@@ -61,6 +61,17 @@ async function reaches(name, seen = new Set()) {
   const loaded = await reaches(entry);
   const heavy = [...loaded].filter((f) => f !== entry && !LIGHT.test(f));
   assert.deepEqual(heavy, [], `${entry} must not need ${heavy.join(', ')}`);
+  // The screen kept on during a battle is the application's (src/ui/screenAwake.ts), in a file
+  // of its own asked for after the first script. The website holds none of it.
+  const WAKE_LOCK = 'wakeLock';
+  const waking = [];
+  for (const name of files.filter((f) => f.endsWith('.js')))
+    if ((await readFile(`${root}/assets/${name}`, 'utf8')).includes(WAKE_LOCK)) waking.push(name);
+  if (target === 'android') {
+    assert.ok(waking.length, 'The application keeps the screen on during a battle');
+    const early = waking.filter((name) => name === entry || loaded.has(name));
+    assert.deepEqual(early, [], 'The screen is kept on by a file of its own');
+  } else assert.deepEqual(waking, [], 'The website lets its screen sleep');
   // The code of Capacitor and of its two plugins, which hand a file over in the application,
   // is in the application only, and is loaded only when a file is asked for. Every plugin
   // needs Capacitor's core, and the core asks for `androidBridge`: a file that holds that
