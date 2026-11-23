@@ -43,6 +43,22 @@ fichier familial ne faisait rien : aucune aventure ne pouvait sortir de l'applic
   familiale ; elle porte l'aventure du joueur en cours, avec son expédition, son voyage et ses
   records ; elle ne porte pas les autres joueurs. »
 
+## Lot suivant : la question pour adulte (décision 3)
+
+- Dans l'application, avant d'ouvrir le partage d'Android, une fenêtre demande « Combien font
+  17 × 9 ? » (deux nombres tirés à chaque fois). « Annuler », Échap ou une mauvaise réponse
+  n'envoient rien, et le jeu dit « Rien n'a été envoyé : il faut la bonne réponse d'un
+  adulte. ». Sur le site, rien ne change : le fichier va au navigateur, sans question.
+- Mots à lire par le parent : [DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md), lot
+  « barrière de l'export ». Anglais fait par moi : « To send the file, an adult answers: »,
+  « What is 17 × 9? », « Cancel », « Send », « Nothing was sent: an adult’s right answer is
+  needed. »
+- Vérifié par `tests/hand-over.test.ts` et la recette `npm run test:saves:gate` (tâche
+  « sauvegardes » de la CI), sur le paquet de l'application avec un faux côté Android.
+- **APK de test** : le type `debug` s'installe à côté de l'application de Play
+  (`com.conqueteserpents.famille.test`, « Serpents (test) », ses propres sauvegardes). Voir
+  [ANDROID-BUILD-65.md](ANDROID-BUILD-65.md).
+
 ## Traductions anglaises, à relire par le parent
 
 Faites par moi à partir des phrases approuvées en français :
@@ -74,13 +90,12 @@ build 64 a été attaqué par des relecteurs indépendants avant fusion.
 
 ## Pas vérifié
 
-- **Rien n'a tourné sur Android** : ni le projet compilé, ni le partage, ni l'écriture dans le
-  cache, ni un fichier envoyé dans Drive puis repris après désinstallation. C'est la recette
-  du téléphone ([ANDROID-BUILD-65.md](ANDROID-BUILD-65.md)).
-- Pas essayé avec les enfants.
-- **La barrière pour adulte avant le partage** (décision 3) n'est pas dans ce lot : le partage
-  d'Android s'ouvre encore sans question, et montre les contacts récents. Je propose de
-  construire le build 65 une fois ce lot de la barrière fusionné, pas avant.
+- **Rien n'a tourné sur un téléphone** : un APK de test a été compilé ici, mais ni le partage,
+  ni l'écriture dans le cache, ni la question pour adulte avec le clavier du téléphone, ni un
+  fichier envoyé dans Drive puis repris après désinstallation n'ont été essayés. C'est la
+  recette du téléphone ([ANDROID-BUILD-65.md](ANDROID-BUILD-65.md)).
+- Pas essayé avec les enfants. La question arrête un petit enfant, pas un grand qui sait ses
+  tables.
 
 ## Publication du site
 

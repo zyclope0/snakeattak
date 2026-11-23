@@ -24,7 +24,14 @@ Réponses données une par une, le matin du 23 novembre, aux questions de
   `BILAN-0.41.0.md`. Puis construction du build 65 par le parent et recette sur le téléphone
   (`ANDROID-BUILD-65.md`).
 - **Lot « barrière de l'export »** (décision 3) : avant d'ouvrir le partage d'Android, une
-  question pour adulte. Ses mots seront proposés au parent avant toute publication.
+  question pour adulte. Choix du parent le 23 novembre : une multiplication, dans
+  l'application seulement. **Mots à lire par le parent** (`src/texts/fr/gate.ts`, et la
+  phrase du refus dans `src/texts/fr/family.ts`) :
+  - « Pour envoyer le fichier, un adulte répond : »
+  - « Combien font 17 × 9 ? » (deux nombres tirés à chaque fois, de 12 à 19 et de 6 à 9)
+  - boutons « Annuler » et « Envoyer »
+  - après « Annuler » ou une mauvaise réponse : « Rien n'a été envoyé : il faut la bonne
+    réponse d'un adulte. »
 - Les traductions anglaises des phrases approuvées en français sont faites par moi ; elles
   sont listées dans le bilan pour que le parent puisse les relire.
 - Aucune publication sans le mot du parent pour chaque envoi.

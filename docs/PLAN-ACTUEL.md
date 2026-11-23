@@ -15,9 +15,13 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **Lot « build 65 »** : version 0.41.0 / build 65, politique de confidentialité (décisions 1,
   2, 8), phrases des décisions 6 et 10, page publique des parents (7)
   ([bilan](BILAN-0.41.0.md), [passation](ANDROID-BUILD-65.md)).
-- **Ensuite** : la barrière pour adulte avant le partage d'Android (décision 3), puis la
-  construction du build 65 par le parent et sa recette sur le téléphone. Le site n'est à
-  publier qu'avec le mot du parent, une fois le build 65 sur le téléphone.
+- **Site publié** (publication n° 44, avec le mot du parent). **APK de test** envoyé au
+  parent : il s'installe à côté de l'application de Play (« Serpents (test) »).
+- **Lot « barrière de l'export »** (décision 3) : une multiplication pour adulte avant le
+  partage d'Android, application seulement. Mots à lire : [décisions](DECISIONS-2026-11-23.md).
+- **Ensuite** : un nouvel APK de test avec la question, la recette sur le téléphone, puis
+  l'étape 3 (téléphone sans mesure : écran allumé, catégorie de l'application, plancher du
+  WebView, étiquettes flottantes).
 
 ## Où on en est
 

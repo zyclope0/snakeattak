@@ -153,3 +153,27 @@ test('only the name of the app chosen says the file went, and each outcome has i
     TEXT.lePartageSEstFermeSiLeFichierNEstArriveNullePart,
   );
 });
+
+test('an adult answers a multiplication before the share sheet; nothing is sent otherwise', async () => {
+  const { gateNumbers, rightAnswer } = await import('../src/ui/adultGateAnswer.ts');
+  // New numbers each time, in a range a child of 6 to 10 does not find easily.
+  for (const r of [0, 0.25, 0.5, 0.999]) {
+    const [a, b] = gateNumbers(() => r);
+    assert.ok(a >= 12 && a <= 19 && b >= 6 && b <= 9, `${a} × ${b}`);
+  }
+  assert.deepEqual(
+    gateNumbers(() => 0),
+    [12, 6],
+  );
+  assert.deepEqual(
+    gateNumbers(() => 0.999),
+    [19, 9],
+  );
+  assert.equal(rightAnswer(13, 7, '91'), true);
+  assert.equal(rightAnswer(13, 7, ' 91 '), true, 'spaces around');
+  for (const typed of ['', '90', '91.0', '9 1', '91a', '-91', '0x5b', '1e2'])
+    assert.equal(rightAnswer(13, 7, typed), false, JSON.stringify(typed));
+  const { told } = await import('../src/ui/handOverWords.ts');
+  const TEXT = await import('../src/texts/fr/family.ts');
+  assert.equal(told('refused', 'prêt'), TEXT.rienNAEteEnvoyeIlFautLaBonneReponse);
+});

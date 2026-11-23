@@ -79,3 +79,32 @@ span#unkept-mark {
   color: #1c4034;
   box-shadow: 0 4px 14px rgb(0 0 0 / 30%);
 }
+/* La question pour adulte avant le partage d'Android : la même fenêtre, un champ et deux
+   boutons, tous de 48 px au moins. */
+.adult-gate-form {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+.adult-gate-form > label {
+  font-size: 20px;
+  font-weight: 700;
+}
+.adult-gate-form > input {
+  min-height: 48px;
+  width: 8em;
+  font-size: 22px;
+  text-align: center;
+}
+.adult-gate-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.adult-gate-actions > button {
+  min-height: 56px;
+  min-width: 120px;
+  padding: 0 22px;
+  font-size: 20px;
+}

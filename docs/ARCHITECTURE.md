@@ -1785,9 +1785,25 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
     partage qui part sans quitter le jeu (lu dans le code du module) serait dit « fermé » :
     la phrase le laisse possible.
   - Un second appui pendant que le partage est ouvert attend le premier (`oneAtATime`) : le
-    module en refuserait un second.
+    module en refuserait un second. La question pour adulte est dans cette même file : deux
+    appuis rapides n'ouvrent qu'une question.
+  - **Une question pour adulte avant le partage** (décision 3 du parent, 23 novembre 2026,
+    [décisions](DECISIONS-2026-11-23.md)) : le partage d'Android montre les contacts récents
+    (noms, photos), et « Pour les parents » n'a pas de barrière. Avant d'ouvrir le partage,
+    une fenêtre demande « Combien font 12 à 19 × 6 à 9 ? » (`src/ui/adultGate.ts`, nombres et
+    réponse dans `src/ui/adultGateAnswer.ts`) ; « Annuler », Échap ou une mauvaise réponse
+    n'envoient rien, et le jeu dit « Rien n'a été envoyé : il faut la bonne réponse d'un
+    adulte. » (réponse `refused` de `handOver`). Application seulement, comme décidé : sur le
+    site, le fichier va au navigateur sans question, et rien ne s'ouvre vers d'autres
+    personnes. La fenêtre n'est chargée qu'au moment de l'export (paquet à part).
 - **Tenu par** `tests/hand-over.test.ts` (les deux modules ou aucun bouton, chaque réponse
-  du partage, le second appui) et, sur le paquet de l'application, par les recettes
+  du partage, le second appui, les nombres de la question et la réponse acceptée) et la
+  recette `npm run test:saves:gate` (`scripts/hygiene/adult-gate.mjs`, tâche « sauvegardes »
+  de la CI), sur le paquet de l'application avec un faux côté Android : la question avant le
+  partage, dans l'écran aux trois tailles, cibles de 48 px ; « Annuler », une mauvaise
+  réponse, Échap : aucun partage, la phrase ; deux appuis rapides, une seule question ; la
+  bonne réponse, un seul partage et « le fichier est parti » ; sur le site, aucune question.
+  Et, sur le paquet de l'application, par les recettes
   `npm run test:saves:family` et `npm run test:failure` : Chromium n'a pas de côté natif,
   donc aucun bouton d'export, la phrase, jamais « Fichier prêt ». Ces recettes prennent les
   fichiers sur le paquet du site (`dist`), que la tâche « sauvegardes » de la CI construit
@@ -1801,9 +1817,10 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   par sorte : l'aventure, chaque joueur du secours, le fichier mis de côté) restent dans le
   cache de l'application tant qu'Android ne le vide pas ; le jeu ne les efface jamais ; le titre du partage est « Share » en anglais sur Android 7 à 9 ; le partage, l'écriture dans le cache, le geste « retour » pendant le partage,
   un fichier envoyé dans Drive puis repris après désinstallation : tout reste à essayer sur
-  le build 65. L'import, lui, marche dans l'application (essai du parent, build 64). Le
-  partage d'Android s'ouvre sans barrière parentale, avec les contacts récents (noms et
-  photos) : il est sous « Pour les parents », qui n'a pas de barrière non plus.
+  le build 65. L'import, lui, marche dans l'application (essai du parent, build 64). La
+  question pour adulte arrête un petit enfant, pas un grand qui sait ses tables : elle
+  ralentit, elle ne protège pas. Le clavier du téléphone (chiffres seuls, fenêtre poussée
+  vers le haut) n'est pas vu.
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
 

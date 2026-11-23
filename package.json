@@ -60,6 +60,7 @@
     "test:saves:forced-close": "node --experimental-strip-types scripts/hygiene/forced-close.mjs",
     "test:failure": "node --experimental-strip-types scripts/hygiene/failure.mjs",
     "test:saves:unkept": "node --experimental-strip-types scripts/hygiene/unkept.mjs",
+    "test:saves:gate": "node --experimental-strip-types scripts/hygiene/adult-gate.mjs",
     "test:saves:double-taps": "node --experimental-strip-types scripts/hygiene/double-taps.mjs",
     "build:ads-preview": "npm run typecheck && vite build --mode ads-preview && node scripts/check-dist.mjs dist-ads-preview && node scripts/check-web-ad-disabled.mjs dist-ads-preview",
     "test:ads-preview": "node scripts/web-ad-preview-browser.mjs",

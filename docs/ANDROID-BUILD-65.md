@@ -1,8 +1,7 @@
 # Passation — Android 0.41.0 / build 65
 
-**Prêt à construire depuis `main` une fois ce lot fusionné**, avec une réserve : la barrière
-pour adulte avant le partage d'Android (décision 3 du parent, [décisions](DECISIONS-2026-11-23.md))
-est un lot à part ; je propose d'attendre qu'il soit fusionné pour construire. La version est
+**Prêt à construire depuis `main`**, barrière pour adulte comprise (décision 3 du parent,
+[décisions](DECISIONS-2026-11-23.md)), une fois son lot fusionné. La version est
 montée ensemble dans `package.json`, `package-lock.json`, `android/app/build.gradle` et
 `POLICY_APP` (un test refuse tout écart) ; contenu : [BILAN-0.41.0.md](BILAN-0.41.0.md). La
 procédure de construction est celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)) :
@@ -21,7 +20,17 @@ procédure de construction est celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-
   nouvelle**. Le partage passe par le `FileProvider` déjà déclaré (`cache-path`).
 - Les lots de solidité des sauvegardes (camps sauvés, copies de secours, « partie non
   gardée ») et les fenêtres de panne, fusionnés (PR 129 à 136).
-- La barrière pour adulte avant le partage (décision 3), quand son lot sera fusionné.
+- La question pour adulte avant le partage (décision 3) : « Combien font 17 × 9 ? »
+  (nombres tirés à chaque fois), application seulement.
+
+## APK de test, à côté de l'application de Play
+
+Le parent a voulu pouvoir essayer sans toucher à l'application installée depuis Play
+(23 novembre 2026). Le type `debug` d'`android/app/build.gradle` porte un identifiant à part
+(`com.conqueteserpents.famille.test`), une version `0.41.0-test` et le nom « Serpents
+(test) » (`android/app/src/debug/res/values/strings.xml`) : les deux s'installent côte à
+côte, et chacune a ses propres sauvegardes. La version de Play (`release`) ne change pas.
+Construction : `npm run android:apk:debug`.
 
 ## Recette sur le téléphone (à cocher)
 
@@ -49,7 +58,7 @@ Le reste :
 - [ ] Partage rapide (Nearby / Quick Share) ou partage vers une application qui ne quitte pas
       le jeu : noter la phrase affichée (le code du module laisse croire qu'il dira « fermé »).
 - [ ] Avant le partage, la question pour adulte s'affiche ; une mauvaise réponse n'ouvre
-      rien (une fois le lot de la barrière fusionné).
+      rien. Le clavier des chiffres s'ouvre, et la question reste visible au-dessus.
 - [ ] Les recettes du build 64 (mise à jour, sauvegardes, fenêtres de panne) passent encore.
 - [ ] Installer **par-dessus le build 64** : rien n'est effacé ; étoiles, aventure en cours,
       expédition, joueurs sont là.
