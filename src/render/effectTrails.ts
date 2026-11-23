@@ -4,6 +4,7 @@ import { BLINK_SECONDS, LEAP_SECONDS, SAIL_SECONDS, SPLASH_SECONDS } from '../en
 import { shakeBoard } from './boardResolution.ts';
 import { SPINOSAURUS } from '../balanceRevision.ts';
 import * as BOARD_COLOR from './palette.ts';
+import { clamp01 } from './clamp.ts';
 
 type Graphics = Phaser.GameObjects.Graphics;
 /** Seconds the rules give an effect to live, and a honey detour (see `engine/state.ts`). */
@@ -69,7 +70,7 @@ function drawImpact(g: Graphics, e: Effect, alpha: number) {
  * is. Dark under light, large and slow enough to be seen on the pale road of a phone.
  */
 function drawBlink(g: Graphics, e: Effect) {
-  const left = Math.max(0, Math.min(1, e.life / BLINK_SECONDS));
+  const left = clamp01(e.life / BLINK_SECONDS);
   const alpha = Math.min(1, left * 1.6);
   for (const [width, color] of [
     [8, 0x2b2140],
@@ -86,7 +87,7 @@ function drawBlink(g: Graphics, e: Effect) {
  * lands, fading as it goes. Dark under light, like the rings of the ninja.
  */
 function drawLeap(g: Graphics, e: Effect) {
-  const left = Math.max(0, Math.min(1, e.life / LEAP_SECONDS));
+  const left = clamp01(e.life / LEAP_SECONDS);
   const alpha = Math.min(1, left * 1.6);
   const height = Math.min(90, 30 + Math.abs(e.tx - e.x) * 0.35);
   for (const [size, color] of [
@@ -109,7 +110,7 @@ function drawLeap(g: Graphics, e: Effect) {
  */
 function drawSplash(g: Graphics, e: Effect, reduced: boolean) {
   // With less motion, the rings keep one size and only fade.
-  const fade = Math.max(0, Math.min(1, e.life / SPLASH_SECONDS));
+  const fade = clamp01(e.life / SPLASH_SECONDS);
   const left = reduced ? 0.5 : fade;
   const alpha = Math.min(1, fade * 1.6);
   for (const [width, color] of [
@@ -127,7 +128,7 @@ function drawSplash(g: Graphics, e: Effect, reduced: boolean) {
  * its sail, as wide as the snakes it reaches.
  */
 function drawSail(g: Graphics, e: Effect, radius: number, reduced: boolean) {
-  const fade = Math.max(0, Math.min(1, e.life / SAIL_SECONDS));
+  const fade = clamp01(e.life / SAIL_SECONDS);
   // With less motion, the fan keeps its full size and only fades.
   const left = reduced ? 0 : fade;
   const alpha = Math.min(1, fade * 1.6);

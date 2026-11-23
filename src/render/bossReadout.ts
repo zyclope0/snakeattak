@@ -3,8 +3,8 @@ import type { BalanceTuning } from '../balanceTuning.ts';
 import { BOSS_HEAD_IDS } from '../boss.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
+import { clamp01 } from './clamp.ts';
 
-const clamp = (n: number) => Math.max(0, Math.min(1, n));
 /** Display data derived from the actual combat clock, never a second timer. */
 export function bossReadout(entity: Entity, tuning: Readonly<BalanceTuning>) {
   const state = entity.bossState;
@@ -18,7 +18,7 @@ export function bossReadout(entity: Entity, tuning: Readonly<BalanceTuning>) {
           label: labels[id],
           hp: h.hp,
           maxHp: h.maxHp,
-          ratio: h.maxHp > 0 ? clamp(h.hp / h.maxHp) : 0,
+          ratio: h.maxHp > 0 ? clamp01(h.hp / h.maxHp) : 0,
           alive: h.hp > 0,
           active: h.hp > 0 && state.shotHead === id && state.windup > 0,
         };
@@ -28,7 +28,7 @@ export function bossReadout(entity: Entity, tuning: Readonly<BalanceTuning>) {
   return {
     heads,
     phase: state.phase,
-    shieldRatio: state.shieldMax > 0 ? clamp(state.shield / state.shieldMax) : 0,
+    shieldRatio: state.shieldMax > 0 ? clamp01(state.shield / state.shieldMax) : 0,
     label: fill(
       TEXT.phaseN3N,
       state.phase,
@@ -40,9 +40,9 @@ export function bossReadout(entity: Entity, tuning: Readonly<BalanceTuning>) {
             x: state.targetX,
             y: state.targetY,
             radius: tuning.bossShotRadius,
-            progress: clamp(1 - state.windup / tuning.bossShotWindup),
+            progress: clamp01(1 - state.windup / tuning.bossShotWindup),
           }
         : null,
-    breakFlash: clamp(state.breakFlash / 0.45),
+    breakFlash: clamp01(state.breakFlash / 0.45),
   };
 }

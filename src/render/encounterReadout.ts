@@ -4,6 +4,7 @@ import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
 import { BOARD_WIDTH } from './boardResolution.ts';
 import { ENCOURAGEMENT_SECONDS } from '../gameConstants.ts';
+import { clamp01 } from './clamp.ts';
 
 /** At most this many eggs about to hatch have their plaque. */
 export const EGG_PLAQUES = 6;
@@ -41,7 +42,7 @@ export function encounterReadout(game: Readonly<Game>): EncounterReadout {
   if (game.encouragementRemaining > 0)
     result.encouragement = {
       remaining: game.encouragementRemaining,
-      ratio: Math.max(0, Math.min(1, game.encouragementRemaining / ENCOURAGEMENT_SECONDS)),
+      ratio: clamp01(game.encouragementRemaining / ENCOURAGEMENT_SECONDS),
       label: fill(TEXT.courageAttaquesAccelereesNS, Math.ceil(game.encouragementRemaining)),
     };
   for (const boss of game.enemies) {
