@@ -66,6 +66,9 @@ export const armourAtLevel = (level: number, rules: BoonRules): number =>
 /** The same, for the gifts of a game. */
 export const armourFactor = (boons: Boons, rules: BoonRules): number =>
   armourAtLevel(boonLevel(boons, 'armure'), rules);
+/** A lasting gift not held yet, when every place is taken: one must be given up for it. */
+export const placeNeeded = (boons: Boons, id: unknown, rules: BoonRules): boolean =>
+  isLastingBoon(id) && !boonLevel(boons, id) && boons.length >= rules.places;
 
 /**
  * Three gifts to choose from, drawn apart from the fight. A lasting gift already at the top
