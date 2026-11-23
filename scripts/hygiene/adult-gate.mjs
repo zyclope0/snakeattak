@@ -48,27 +48,39 @@ async function familyWindow(page) {
   await page.locator('#home-family').click();
   await page.locator('#family-dialog').waitFor({ state: 'visible' });
 }
-const status = async (page) => (await page.locator('#family-status').textContent()).trim();
+const status = async (page) => (await page.locator('#family-export-status').textContent()).trim();
 const shares = (page) => page.evaluate(() => window.shares);
 /** Asks for the file and waits for the question. */
 async function ask(page) {
-  await page.evaluate(() => (document.getElementById('family-status').textContent = ''));
+  await page.evaluate(() => (document.getElementById('family-export-status').textContent = ''));
   await page.locator('#family-export').click();
   await page.locator('#adult-gate[open]').waitFor({ state: 'visible' });
 }
 const said = (page) =>
-  page.waitForFunction(() => document.getElementById('family-status').textContent.trim() !== '');
+  page.waitForFunction(
+    () => document.getElementById('family-export-status').textContent.trim() !== '',
+  );
 /**
  * The sentence is on the screen, not only in the page: on a phone the window is taller than
  * the screen, and the parent saw no message (test APK, 23 November 2026).
  */
 async function seen(page, label) {
-  const box = await page.locator('#family-status').boundingBox();
   const { height } = page.viewportSize();
-  assert.ok(
-    box && box.y >= 0 && box.y + box.height <= height,
-    `${label}: the sentence is at ${box?.y}–${(box?.y ?? 0) + (box?.height ?? 0)} of ${height}`,
-  );
+  const inView = async (when) => {
+    const box = await page.locator('#family-export-status').boundingBox();
+    assert.ok(
+      box && box.height > 0 && box.y >= 0 && box.y + box.height <= height,
+      `${label}, ${when}: the sentence is at ${box?.y}–${(box?.y ?? 0) + (box?.height ?? 0)} of ${height}`,
+    );
+  };
+  await inView('as left');
+  // What the parent's phone did when the keyboard closed or the game came back from Drive:
+  // the window back at its top. The sentence is still there.
+  await page.evaluate(() => (document.getElementById('family-dialog').scrollTop = 0));
+  await inView('the window back at its top');
+  // And what a phone does that brings back the element with the focus.
+  await page.evaluate(() => document.activeElement?.scrollIntoView({ block: 'nearest' }));
+  await inView('the focused element brought back');
 }
 
 for (const viewport of SIZES) {
@@ -163,7 +175,7 @@ for (const viewport of SIZES) {
         HTMLDialogElement.prototype.showModal = real;
         throw new Error('recette : la fenêtre ne s’ouvre pas');
       };
-      document.getElementById('family-status').textContent = '';
+      document.getElementById('family-export-status').textContent = '';
       // From the top, as a family opening the window: the sentence must be brought up.
       document.getElementById('family-dialog').scrollTop = 0;
     });
@@ -180,7 +192,7 @@ for (const viewport of SIZES) {
       'une fenêtre qui ne s’ouvre pas : rien d’envoyé, rien laissé, l’appui suivant marche',
     );
     // Two quick taps: one question.
-    await page.evaluate(() => (document.getElementById('family-status').textContent = ''));
+    await page.evaluate(() => (document.getElementById('family-export-status').textContent = ''));
     await page.locator('#family-export').dblclick();
     await page.locator('#adult-gate[open]').waitFor({ state: 'visible' });
     assert.equal(await page.locator('#adult-gate').count(), 1, 'one question');

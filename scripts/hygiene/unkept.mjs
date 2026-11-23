@@ -76,10 +76,19 @@ async function endWave(page) {
   if (await gift.isVisible()) await gift.click();
   await page.clock.runFor(400);
 }
-/** Starts the next wave, taking first the gift that may still wait to be chosen. */
-async function startWave(page) {
+/** Takes the gift that may still wait to be chosen. */
+async function takeGift(page) {
+  // The board settles first: either the wave can start, or a gift waits.
+  await page
+    .locator('#start:not([disabled]), #reward-cards [data-reward]')
+    .first()
+    .waitFor({ state: 'visible' });
   const gift = page.locator('#reward-cards [data-reward]').first();
   if (await gift.isVisible()) await gift.click();
+}
+/** Starts the next wave, taking first the gift that may still wait to be chosen. */
+async function startWave(page) {
+  await takeGift(page);
   // A battle left through the pause panel is still paused when the player comes back.
   const resume = page.locator('#resume-game');
   if (await resume.isVisible()) await resume.click();
@@ -162,9 +171,12 @@ for (const viewport of SIZES) {
     assert.equal(await page.locator('#unkept-mark').count(), 0, 'seen once, the sentence goes');
     checks.push(`${tag} : l'appareil garde de nouveau, l'accueil le dit, puis la phrase s'en va`);
 
-    // A second refusal is a second time: it is told again.
+    // A second refusal is a second time: it is told again. The gift that waits is taken
+    // before: taking it is a save, and refused it would be told at once, between two waves
+    // (a wave was won since this game was put in play), before the wave this check starts.
     await page.locator('#home-primary').click();
     await boardReady(page);
+    await takeGift(page);
     await refuse(page, true);
     await startWave(page);
     await endWave(page);

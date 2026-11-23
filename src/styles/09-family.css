@@ -60,6 +60,20 @@
   font-size: 12px;
   line-height: 1.5;
 }
+/* Ce que l'export est devenu, juste sous son bouton : en haut de la fenêtre, là où le
+   téléphone la ramène. Il reçoit le foyer ; ce n'est pas une cible, il ne porte pas de cadre. */
+#family-export-status {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+#family-export-status:empty {
+  margin: 0;
+}
+#family-export-status:focus {
+  outline: none;
+}
 #family-dialog button {
   white-space: normal;
 }

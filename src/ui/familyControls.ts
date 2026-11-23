@@ -48,10 +48,23 @@ const tell = (text: string) => {
   say(text);
   byId('family-status').scrollIntoView({ block: 'nearest' });
 };
+/**
+ * Says what became of the exported adventure right under its button. Brought into view at the
+ * bottom, the sentence was still lost on the phone: the window came back to its top when the
+ * keyboard closed or the game came back from Drive (the parent's second test, same evening).
+ * Under the button, it is where the window comes back to. It takes the focus too, so that a
+ * phone that brings back the focused element brings back the sentence.
+ */
+const tellExported = (text: string) => {
+  const status = byId('family-export-status');
+  setDisplayText(status, text);
+  status.focus({ preventScroll: true });
+  status.scrollIntoView({ block: 'nearest' });
+};
 /** In the application the file goes to the app the family chose, not to a browser. */
 /** Hands a file over and says the truth about it. */
 const exportFile = async (raw: string, name: string) =>
-  tell(toldAdventure(await handOver(raw, name)));
+  tellExported(toldAdventure(await handOver(raw, name)));
 const sum = (values: readonly number[]) => values.reduce((a, b) => a + b, 0);
 /** The sticker books of a file; older files have none. */
 const albumsOf = (backup: FamilyBackup) => (hasAlbums(backup) ? backup.albums : null);
@@ -306,6 +319,7 @@ export function bindFamilyControls(actions: Actions) {
     preview.reset();
     copies.refresh();
     say(actions.persistenceStatus());
+    byId('family-export-status').textContent = '';
     dialog.showModal();
     // The window opens on its title and its first button, whatever it showed last.
     dialog.scrollTop = 0;
@@ -320,7 +334,7 @@ export function bindFamilyControls(actions: Actions) {
   if (canHandOver())
     exportButton.onclick = () => {
       const raw = actions.exportRaw();
-      if (!raw || !readFamilyBackup(raw)) return tell(TEXT.impossibleDePreparerLeFichierDe);
+      if (!raw || !readFamilyBackup(raw)) return tellExported(TEXT.impossibleDePreparerLeFichierDe);
       exportFile(raw, familyFileName());
     };
   // The application cannot hand a file over: a sentence says so where the button was, rather

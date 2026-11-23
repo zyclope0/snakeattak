@@ -66,7 +66,7 @@ async function exportFrom(from) {
     await page.locator('#family-export').click();
     const raw = await readFile(await (await download).path(), 'utf8');
     assert.equal(
-      (await page.locator('#family-status').textContent()).trim(),
+      (await page.locator('#family-export-status').textContent()).trim(),
       FAMILY.fichierPretConserveLePourReprendre,
       'a file handed over is said to be ready',
     );
