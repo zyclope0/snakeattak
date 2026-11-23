@@ -182,3 +182,24 @@ test('a refused record is written again at the next try, and only then is the fa
   assert.equal(book.unkept, false);
   assert.ok(stored().includes(3), 'the refused record is written with the next game');
 });
+
+test('an import that writes the records forgets those still waiting', () => {
+  const values = new Map<string, string>();
+  let full = true;
+  const book = createRecordBook({
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem(key: string, value: string) {
+      if (full) throw Error('quota');
+      values.set(key, value);
+    },
+  });
+  book.add({ wave: 12, kings: 1, rules: 1, run: 2 });
+  assert.equal(book.unkept, true);
+  // The import writes its own records, then forgets: the refused one does not come back.
+  full = false;
+  values.set(ENDLESS_RECORDS_KEY, 'imported');
+  book.forget();
+  assert.equal(book.unkept, false);
+  assert.equal(book.retry(), true);
+  assert.equal(values.get(ENDLESS_RECORDS_KEY), 'imported', 'nothing merged into them');
+});

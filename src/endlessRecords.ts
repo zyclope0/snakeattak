@@ -127,5 +127,12 @@ export function createRecordBook(storage?: StoragePort) {
       if (write(withWaiting())) [waiting, unkept] = [[], false];
       return !unkept;
     },
+    /**
+     * Forgets the records still waiting: an import has just written the records it brings
+     * (or taken them away), and those of the adventure it replaced must not come back.
+     */
+    forget(): void {
+      [waiting, unkept] = [[], false];
+    },
   };
 }

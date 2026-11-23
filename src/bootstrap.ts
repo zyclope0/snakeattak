@@ -534,6 +534,10 @@ function applyFamily(backup: FamilyBackup, whole = false) {
   }
   const game = canonical.camp === null ? null : decodeCheckpoint(canonical.camp);
   if (!family.import(canonical)) return failed(extras && !extras.undo() ? partial : refused);
+  // The records the file brings (or a whole state without them) take the place of those of
+  // the adventure replaced: a record of that one still waiting to be written is forgotten.
+  if (extras && (whole || (file.version === FAMILY_EXTRAS_VERSION && 'endless' in file.extras)))
+    records.forget();
   // The door of the expedition and its screens hold what they read at start: the page is
   // read again, as when the player changes.
   reloadAfterImport = extras !== null;

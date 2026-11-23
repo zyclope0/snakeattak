@@ -454,4 +454,55 @@ async function endlessKingCamp() {
     await browser.close();
   }
 }
+
+// A record refused, then the parent imports a family file that brings its own records: they
+// take the place of the device's, and the record still waiting does not come back into them.
+{
+  const { writeRecords } = await import('../../src/endlessRecords.ts');
+  const { showHomePage } = await import('../../tests/browser-entry.mjs');
+  const { readFamilyBackup } = await import('../../src/familyBackup.ts');
+  const storage = await endlessKingCamp();
+  const brought = writeRecords([{ wave: 30, kings: 2, rules: 1, run: 7 }]);
+  const { browser, page, report } = await open({ dir, storage });
+  try {
+    await page.addInitScript(
+      (key) => (window.name = window.name === 'accepted' ? window.name : `only:${key}`),
+      KEYS.ENDLESS_RECORDS_KEY,
+    );
+    await page.addInitScript(ARMED);
+    await page.goto(`${ORIGIN}/`);
+    await page.locator('button#unkept-mark').waitFor({ state: 'visible' });
+    const family = (await snapshot(page))[KEYS.FAMILY_STORAGE_KEY];
+    // Another adventure, without the camp of the king (whose record the game would write
+    // again from the camp): only the records of the file may end up on the device.
+    const held = JSON.parse(family);
+    const missions = { ...held.missions, classicCamp: null, retryCamp: null };
+    const file = { ...held, camp: null, missions, version: 6, extras: { endless: brought } };
+    assert.ok(readFamilyBackup(JSON.stringify(file)), 'a file the import reads');
+    await refuse(page, false);
+    await showHomePage(page, 'parents');
+    await page.locator('#home-family').click();
+    await page.locator('#family-file').setInputFiles({
+      name: 'notre-aventure.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(file)),
+    });
+    await page.locator('#family-apply:not([disabled])').click();
+    await page.waitForFunction(
+      ([key, text]) => localStorage.getItem(key) === text,
+      [KEYS.ENDLESS_RECORDS_KEY, brought],
+    );
+    await page.locator('#home-screen').waitFor({ state: 'visible' });
+    await page.clock.runFor(1500);
+    assert.equal(
+      (await snapshot(page))[KEYS.ENDLESS_RECORDS_KEY],
+      brought,
+      'the records of the file, and nothing else',
+    );
+    checks.push('un record en attente, puis un import qui apporte ses records : rien n’y revient');
+    assert.deepEqual(report.errors, []);
+  } finally {
+    await browser.close();
+  }
+}
 console.log(JSON.stringify({ ok: true, checks }, null, 2));
