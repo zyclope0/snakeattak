@@ -47,7 +47,9 @@ Export, le point principal :
       choisie… », et la phrase se voit sans faire défiler. Le fichier est bien dans Drive.
       (Premier APK de test, 23 novembre : le fichier arrive dans Drive et se réimporte, mais
       la phrase était cachée sous le bord ; corrigé dans le second. Sur le téléphone du
-      parent, seul Drive est proposé : c'est Android, et Drive suffit, décision 11.)
+      parent, seul Drive est proposé. Explication probable, pas vérifiée : le module donne au
+      fichier le type `application/json`, et Android ne montre que les applications qui
+      acceptent ce type. Drive suffit, décision 11.)
 - [ ] Ouvrir le partage puis le fermer par « retour » sans rien choisir : « Le partage s'est
       fermé… ». Le jeu continue normalement.
 - [ ] Ouvrir le partage, appuyer sur l'accueil du téléphone, revenir au jeu, fermer le partage
@@ -72,8 +74,9 @@ Le reste :
 
 - **L'APK de test** (« Serpents (test) ») sert à tout ce qui précède sauf l'installation
   par-dessus le build 64 : il s'installe à côté, avec ses propres sauvegardes (vides au
-  départ). Pour la famille : `SERPENTS_PERF=0 npm run android:apk:debug` (sans le compteur
-  de performances, qui sinon s'affiche).
+  départ). Pour la famille, sans le compteur de performances (qui sinon s'affiche) :
+  `$env:SERPENTS_PERF='0'; npm run android:apk:debug` dans PowerShell,
+  `SERPENTS_PERF=0 npm run android:apk:debug` dans un terminal Linux ou macOS.
 - **Le build 65 signé** (`npm run android:package`, par le parent) sert à la ligne « par-dessus
   le build 64 » et à la recette de mise à jour.
 - La mémoire d'un APK de test se lit sous son propre nom :
@@ -81,6 +84,9 @@ Le reste :
 
 ## Pas essayé
 
-Rien de ceci n'a tourné sur un téléphone. Un APK de test a été compilé ici (Gradle, type
-`debug`) ; aucune recette navigateur ne peut ouvrir le vrai partage d'Android : elles imitent
-son côté natif. Pas essayé avec les enfants.
+Essayé par le parent sur le premier APK de test (23 novembre) : la question s'affiche, la
+bonne réponse ouvre le partage, le fichier arrive dans Drive et se réimporte ; la phrase du
+résultat ne se voyait pas (corrigé dans le second APK de test, pas encore essayé). Le reste des cases n'a pas
+tourné sur un téléphone. Les APK de test sont compilés ici (Gradle, type `debug`) ; aucune
+recette navigateur ne peut ouvrir le vrai partage d'Android : elles imitent son côté natif.
+Pas essayé avec les enfants.

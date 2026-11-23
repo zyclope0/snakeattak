@@ -247,6 +247,10 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
     byId('family-preview').hidden = false;
     apply.disabled = false;
     say(TEXT.verifieCetApercuTonAventure);
+    // On a phone the preview and « Remplacer » were under the screen's edge. They do not fit
+    // with the sentence in a phone's height: the button comes up to the bottom of the screen,
+    // with what the file holds above it.
+    apply.scrollIntoView({ block: 'nearest' });
   };
   const readSelection = async () => {
     const turn = forget();

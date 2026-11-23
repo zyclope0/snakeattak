@@ -38,8 +38,8 @@ Réponses données une par une, le matin du 23 novembre, aux questions de
   partage : elle était écrite sous le bord de l'écran. Corrigé (la phrase est amenée à
   l'écran), et la recette vérifie maintenant qu'elle se voit.
 - **Décision 11 — enregistrer dans le téléphone** : sur le téléphone du parent, le partage
-  d'Android ne propose que Drive (Android ne montre que les applications qui acceptent ce
-  fichier). Le parent choisit : **Drive suffit**, pas de bouton « Enregistrer dans le
+  d'Android ne propose que Drive (explication probable, pas vérifiée : Android ne montre que
+  les applications qui acceptent un fichier `application/json`). Le parent choisit : **Drive suffit**, pas de bouton « Enregistrer dans le
   téléphone » (il demanderait une autorisation sur Android 10 et avant, et une phrase de
   plus dans la politique).
 - Les traductions anglaises des phrases approuvées en français sont faites par moi ; elles

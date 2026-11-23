@@ -167,8 +167,8 @@ for (const viewport of SIZES) {
     });
     await page.locator('#family-export').click();
     await said(page);
-    assert.notEqual(await status(page), FAMILY.leFichierEstPartiVerifieQuIlEstBienArrive);
-    assert.notEqual(await status(page), FAMILY.rienNAEteEnvoyeIlFautLaBonneReponse);
+    assert.equal(await status(page), FAMILY.impossibleDePreparerLeFichierDe);
+    await seen(page, 'the window could not open');
     assert.equal(await page.locator('#adult-gate').count(), 0, 'nothing left behind');
     assert.equal(await shares(page), 0);
     await ask(page);

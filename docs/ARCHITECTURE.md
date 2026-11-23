@@ -1840,7 +1840,13 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   rien n'est envoyé, mais la phrase n'est pas prouvée. Si le fichier de la question n'arrive
   pas une fois, le navigateur s'en souvient : « impossible » à chaque export jusqu'au
   redémarrage de l'application. Une fenêtre retirée de la page sans être fermée laisserait
-  l'export en attente ; aucun code ne le fait.
+  l'export en attente ; aucun code ne le fait. Le site porte les règles de style de la
+  question et ses mots anglais (dans le premier style et le fichier de l'anglais), pas son
+  code. Sur un téléphone, la fenêtre familiale est plus haute que l'écran : après un export
+  ou un import, la phrase est amenée à l'écran ; après le choix d'un fichier, « Remplacer »
+  vient en bas de l'écran avec l'aperçu au-dessus (la phrase « Vérifie cet aperçu » reste
+  en dessous ; tout ne tient pas en 360 px). Tenu par `test:saves:gate` et
+  `test:saves:family`.
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
 

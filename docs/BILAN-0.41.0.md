@@ -95,10 +95,13 @@ build 64 a été attaqué par des relecteurs indépendants avant fusion.
 
 ## Pas vérifié
 
-- **Rien n'a tourné sur un téléphone** : un APK de test a été compilé ici, mais ni le partage,
-  ni l'écriture dans le cache, ni la question pour adulte avec le clavier du téléphone, ni un
-  fichier envoyé dans Drive puis repris après désinstallation n'ont été essayés. C'est la
-  recette du téléphone ([ANDROID-BUILD-65.md](ANDROID-BUILD-65.md)).
+- **Sur le téléphone, seulement une partie.** Essayé par le parent sur le premier APK de test
+  (23 novembre) : la question s'affiche, la bonne réponse ouvre le partage, le fichier arrive
+  dans Drive et se réimporte. La phrase du résultat ne se voyait pas : corrigé dans le second
+  APK de test, pas encore essayé. Pas essayé : le clavier du téléphone avec la question, le
+  geste « retour », un fichier repris après désinstallation, l'installation par-dessus le
+  build 64 (build 65 signé). C'est la recette du téléphone
+  ([ANDROID-BUILD-65.md](ANDROID-BUILD-65.md)).
 - Pas essayé avec les enfants. La question arrête un petit enfant, pas un grand qui sait ses
   tables.
 

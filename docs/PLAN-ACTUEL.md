@@ -19,9 +19,13 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   parent : il s'installe à côté de l'application de Play (« Serpents (test) »).
 - **Lot « barrière de l'export »** (décision 3) : une multiplication pour adulte avant le
   partage d'Android, application seulement. Mots à lire : [décisions](DECISIONS-2026-11-23.md).
-- **Ensuite** : un nouvel APK de test avec la question, la recette sur le téléphone, puis
-  l'étape 3 (téléphone sans mesure : écran allumé, catégorie de l'application, plancher du
-  WebView, étiquettes flottantes).
+- **Essai du parent sur le premier APK de test** : question, partage, Drive et réimport
+  marchent ; la phrase du résultat ne se voyait pas (sous le bord de l'écran). Corrigé, avec
+  l'aperçu d'un fichier choisi et le secours au démarrage (attaques indépendantes). **Second
+  APK de test** envoyé. Décision 11 : Drive suffit.
+- **Ensuite** : l'essai du second APK sur le téléphone, puis l'étape 3 (téléphone sans
+  mesure : écran allumé, catégorie de l'application, plancher du WebView, étiquettes
+  flottantes).
 
 ## Où on en est
 
