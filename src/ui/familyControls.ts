@@ -13,6 +13,7 @@ import type { FamilyBackup } from '../familyBackup.ts';
 import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
 import { canHandOver, familyFileName, handOver } from './download.ts';
+import { toldAdventure, toldSetAside } from './handOverWords.ts';
 import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
 type Actions = {
@@ -38,13 +39,10 @@ type Actions = {
 };
 
 const say = (text: string) => setDisplayText(byId('family-status'), text);
-/** Hands a file over and says the truth about it: « ready » only when one was handed over. */
-const exportFile = (raw: string, name: string) =>
-  say(
-    handOver(raw, name) === 'saved'
-      ? TEXT.fichierPretConserveLePourReprendre
-      : TEXT.impossibleDePreparerLeFichierDe,
-  );
+/** In the application the file goes to the app the family chose, not to a browser. */
+/** Hands a file over and says the truth about it. */
+const exportFile = async (raw: string, name: string) =>
+  say(toldAdventure(await handOver(raw, name)));
 const sum = (values: readonly number[]) => values.reduce((a, b) => a + b, 0);
 /** The sticker books of a file; older files have none. */
 const albumsOf = (backup: FamilyBackup) => (hasAlbums(backup) ? backup.albums : null);
@@ -167,12 +165,8 @@ function bindKeptCopies(
       text: TEXT.exporterCeFichier,
     });
     button.type = 'button';
-    button.onclick = () =>
-      say(
-        handOver(raw, familyFileName('mis-de-cote')) === 'saved'
-          ? TEXT.fichierRemisCetteVersionNeSaitPasLeRelire
-          : TEXT.impossibleDePreparerLeFichierDe,
-      );
+    button.onclick = async () =>
+      say(toldSetAside(await handOver(raw, familyFileName('mis-de-cote'))));
     block.append(button);
     return block;
   };

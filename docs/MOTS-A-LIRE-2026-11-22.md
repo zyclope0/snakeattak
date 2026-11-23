@@ -39,8 +39,8 @@ l'appareil n'est pas touché. Si cela revient, prends cet écran en photo : »
 « Dans l'application, l'aventure ne peut pas sortir de cet appareil. Si l'application est
 désinstallée ou si ses données sont effacées, elle est perdue. »
 
-Avec les deux modules que tu as acceptés, cette phrase ne se verra que si le partage
-d'Android n'est pas disponible.
+Avec les deux modules que tu as acceptés, cette phrase ne se verra que dans un build qui ne les
+porte pas (64 et avant).
 
 ## 4. Un camp de la sauvegarde ne se lit plus
 
@@ -93,3 +93,34 @@ familiale ; elle n'exporte pas tout, notamment pas « La Grande Expédition » n
 C'est faux depuis la version 6 du fichier, qui porte l'expédition, le voyage et les records.
 Proposition : « … elle porte l'aventure du joueur en cours, avec son expédition, son voyage et
 ses records ; elle ne porte pas les autres joueurs. »
+
+## 8. Sortir un fichier de l'application (build 65)
+
+Dans l'application, « Exporter mon aventure » ouvre le partage d'Android. Android dit seulement
+quelle application a été choisie, s'il y en a une, jamais si le fichier y est bien arrivé. Les
+phrases ne disent donc pas plus :
+
+| Quand                                         | Phrase                                                                                                                                                                    |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Une application a été choisie                 | « Le fichier est parti vers l'application que tu as choisie. Vérifie qu'il y est bien arrivé et garde-le : il permet de retrouver cette aventure sur un autre appareil. » |
+| Pareil, pour un fichier mis de côté illisible | « Le fichier est parti vers l'application que tu as choisie. Cette version du jeu ne sait pas le relire : garde-le pour une prochaine version. »                          |
+| Aucune application n'a été nommée             | « Le partage s'est fermé. Si le fichier n'est arrivé nulle part, recommence : ton aventure n'est encore que sur cet appareil. »                                           |
+| Pareil, pour un fichier mis de côté           | « Le partage s'est fermé. Si le fichier n'est arrivé nulle part, recommence. »                                                                                            |
+
+Sur le site, rien ne change (« Fichier prêt… »).
+
+## 9. Politique de confidentialité, avant le build 65
+
+Elle nomme « l'application Android 0.40.0 (build 64) » : c'est un texte que tu as approuvé, je
+ne l'ai pas touché, et c'est pourquoi ce lot ne monte pas la version. Pour le build 65, il faut
+ton accord sur :
+
+- le nom du build : « 0.41.0 (build 65) » à la place de « 0.40.0 (build 64) » dans la ligne du
+  haut et dans le paragraphe du voyage (ce qui y est dit du fichier reste vrai) ;
+- une phrase de plus, si tu la veux, après « vous décidez où il est stocké et qui le reçoit » :
+  « Dans l'application Android, le fichier est d'abord écrit dans le cache de l'application,
+  où des copies restent (une par sorte de fichier) tant qu'Android ne vide pas ce cache,
+  puis remis au partage d'Android, où vous choisissez l'application qui le reçoit. » Elle est
+  vraie, mais pas indispensable : la phrase actuelle couvre déjà le partage.
+- le partage d'Android montre les contacts récents (noms et photos), et « Pour les parents »
+  n'a pas de barrière : à toi de dire si cela te va.

@@ -60,6 +60,8 @@ export default defineConfig(({ mode }) => {
     publicDir: false,
     define: {
       __WEB_ADS__: JSON.stringify(webAds),
+      // The Android application's build: only it holds the plugins that share a file.
+      __APP_BUILD__: JSON.stringify(target.name === 'android'),
       __WEB_AD_SCRIPT__: JSON.stringify(adTest ? AD_TEST_SCRIPT : AD_SCRIPT_URL),
     },
     plugins: [

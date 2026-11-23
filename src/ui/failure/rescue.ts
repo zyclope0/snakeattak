@@ -50,8 +50,8 @@ export function showStartFailure(device?: Device): void {
     // A storage that cannot be read holds nothing this page can give back.
   }
   const parents: Node[] = [];
-  // The application cannot hand a file over: no button that does nothing. A parent is told
-  // what is still there, and what would lose it.
+  // An application without the plugins cannot hand a file over: no button that does nothing.
+  // A parent is told what is still there, and what would lose it.
   if (files.length && !canHandOver())
     parents.push(make('p', { text: TEXT.desAventuresSontGardeesDansCetAppareil }));
   else if (files.length) {
@@ -64,7 +64,8 @@ export function showStartFailure(device?: Device): void {
         ` ${player}`,
       );
       button.type = 'button';
-      button.onclick = () => handOver(raw, familyFileName(player));
+      // Nothing can be said on this page beside the button: it may be the rules that failed.
+      button.onclick = () => void handOver(raw, familyFileName(player));
       return button;
     });
     parents.push(
