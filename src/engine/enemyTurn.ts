@@ -11,6 +11,7 @@ import {
   biteDamage,
 } from '../enemyAbilities.ts';
 import { LANES } from '../ai.ts';
+import { notCloserThan } from '../navigation.ts';
 import { waveStats } from '../data.ts';
 import type { Kind } from '../data.ts';
 import type { Entity } from './state.ts';
@@ -116,7 +117,11 @@ function biteTarget(game: Game, e: Entity): Entity | undefined {
   return nearestTo(
     e,
     game.units,
-    (u) => u.hp > 0 && distance(u, e) < reach && (!onlyAhead || u.x >= e.x),
+    (u) =>
+      u.hp > 0 &&
+      !notCloserThan(u.x - e.x, u.y - e.y, reach) &&
+      distance(u, e) < reach &&
+      (!onlyAhead || u.x >= e.x),
     e.variant === 'spitter' ? shooterRank : undefined,
   );
 }

@@ -6,7 +6,7 @@ import { canEngage, defenseGoal, defenseRole, reliefTeams } from '../defenders.t
 import { healAmount, attackDamage } from '../unitRules.ts';
 import { kinds } from '../data.ts';
 import type { Kind } from '../data.ts';
-import { nearestCampPoint } from '../navigation.ts';
+import { nearestCampPoint, notCloserThan } from '../navigation.ts';
 import type { Point } from '../navigation.ts';
 import type { Entity, Effect } from './state.ts';
 import { distance, nearestTo, addEffect, faceToward, forgetPath } from './state.ts';
@@ -294,8 +294,9 @@ export function separateAllies(game: Game, dt: number) {
   for (let i = 0; i < units.length; i++)
     for (let j = i + 1; j < units.length; j++) {
       const a = units[i],
-        b = units[j],
-        d = distance(a, b);
+        b = units[j];
+      if (notCloserThan(a.x - b.x, a.y - b.y, SEPARATION_DISTANCE)) continue;
+      const d = distance(a, b);
       if (d >= SEPARATION_DISTANCE) continue;
       // Two allies on the same point part along the x axis.
       const dx = d ? (a.x - b.x) / d : 1,

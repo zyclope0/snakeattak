@@ -3,7 +3,7 @@ import { diving } from './engine/swim.ts';
 import { enemies } from './enemies.ts';
 import type { Kind } from './data.ts';
 import type { Entity } from './game.ts';
-import { nearestCampPoint } from './navigation.ts';
+import { fartherThan, nearestCampPoint } from './navigation.ts';
 import type { Point } from './navigation.ts';
 import { levelForWave } from './levels.ts';
 import type { Level } from './levels.ts';
@@ -27,7 +27,12 @@ export function defenseRole(kind: Kind): DefenseRole {
 export function canEngage(unit: Entity, enemy: Entity): boolean {
   if (enemy.hp <= 0) return false;
   // Immediate self-defence remains possible at the lip of a bridge.
-  if (Math.hypot(unit.x - enemy.x, unit.y - enemy.y) <= CONTACT_RANGE || rangedThreat(unit, enemy))
+  const dx = unit.x - enemy.x,
+    dy = unit.y - enemy.y;
+  if (
+    (!fartherThan(dx, dy, CONTACT_RANGE) && Math.hypot(dx, dy) <= CONTACT_RANGE) ||
+    rangedThreat(unit, enemy)
+  )
     return true;
   if (enemy.x < CAMP_LEFT) return false;
   return (
