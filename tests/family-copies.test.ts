@@ -415,3 +415,36 @@ test('a whole restore writes a copy taken before a text went bad, and adds what 
   assert.ok(writeExtras(bare, { endless: records }, true));
   assert.equal(bare.values.get(ENDLESS_RECORDS_KEY), records);
 });
+
+test('a copy holding only the record of an expedition never takes the place of one that went on', async () => {
+  const { writeExtras, collectExtras } = await import('../src/familyExtras.ts');
+  // A later build's expedition: its record reads, the rest does not. The copy keeps the
+  // record (5); then the later build goes on and beats it (6). Bringing the copy back keeps
+  // the later text, with its expedition and its better record.
+  const device = memory({
+    [EXPEDITION_STORAGE_KEY]: JSON.stringify({ version: 1, best: 5, current: { version: 99 } }),
+  });
+  const copy = collectExtras(device);
+  assert.equal(JSON.parse(copy.expedition!).current, null, 'the copy holds the record only');
+  const later = JSON.stringify({ version: 1, best: 6, current: { version: 99 } });
+  device.values.set(EXPEDITION_STORAGE_KEY, later);
+  assert.ok(writeExtras(device, copy, true));
+  assert.equal(device.values.get(EXPEDITION_STORAGE_KEY), later, 'the later text stays');
+  // A copy with an expedition under way, over a damaged text whose record still reads: the
+  // copy holds more, it is written (N10).
+  const under = memory();
+  const { createExpeditionLog, logExpedition } = await import('../src/expeditionStorage.ts');
+  const X = await import('../src/expedition.ts');
+  under.values.set(
+    EXPEDITION_STORAGE_KEY,
+    JSON.stringify(logExpedition(createExpeditionLog(), X.startExpedition(4242)!)),
+  );
+  const going = collectExtras(under);
+  assert.notEqual(JSON.parse(going.expedition!).current, null, 'an expedition under way');
+  under.values.set(
+    EXPEDITION_STORAGE_KEY,
+    JSON.stringify({ version: 1, best: 3, current: { version: 99 } }),
+  );
+  assert.ok(writeExtras(under, going, true));
+  assert.equal(under.values.get(EXPEDITION_STORAGE_KEY), going.expedition, 'the copy is written');
+});
