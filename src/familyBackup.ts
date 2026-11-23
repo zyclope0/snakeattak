@@ -295,12 +295,8 @@ export function writeFamilyBackup(
  * that lost something.
  */
 /**
- * True when two files hold the same adventure — camp, career, missions, sticker books —
- * whatever their version or what they carry beside it.
- */
-/**
  * An adventure as the game holds it once the file is read and the game launched on it
- * (src/bootstrap.ts, `applyFamily` then `recordGame`): a file older than the missions or the
+ * (`applyFamily` in src/boot/familyFile.ts, then `recordGame` in src/boot/saving.ts): a file older than the missions or the
  * sticker books gets fresh ones, and the camp writes again what it decides — the camp of its
  * mode and the last run of its mission, the career of a classic game, the book that owns a
  * challenge under way. What the next export writes, then, without a move of the player's.
@@ -324,8 +320,9 @@ function asLaunched(file: FamilyBackup): string {
   return JSON.stringify([file.camp, career.state, missions.state, albums.state]);
 }
 /**
- * True when two files hold the same adventure, whatever their versions: compared as the game
- * would hold each of them, so that a file imported twice is the same adventure both times.
+ * True when two files hold the same adventure — camp, career, missions, sticker books —
+ * whatever their versions or what they carry beside it: compared as the game would hold each
+ * of them, so that a file imported twice is the same adventure both times.
  */
 export function sameAdventure(a: FamilyBackup, b: FamilyBackup): boolean {
   return asLaunched(a) === asLaunched(b);

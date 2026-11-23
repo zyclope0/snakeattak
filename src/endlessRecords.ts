@@ -3,6 +3,7 @@ import { ENDLESS_RULES, KINGS_LIMIT } from './endless.ts';
 import type { EndlessRules } from './endless.ts';
 import { TOTAL_WAVES } from './gameConstants.ts';
 import { ENDLESS_RECORDS_KEY } from './storageKeys.ts';
+import type { StoragePort } from './checkpoints.ts';
 
 /**
  * The records of the endless adventure (decision of the parent, 20 November 2026): each player
@@ -77,8 +78,6 @@ export function addRecord(records: EndlessRecords, game: EndlessRecord) {
 
 /** The endless adventures, over, that set their player's new record: the result says so. */
 export const newRecords = new WeakSet<object>();
-
-type StoragePort = Pick<Storage, 'getItem' | 'setItem'>;
 
 /** The active player's records; a blocked storage reads nothing and writes nothing. */
 export function createRecordBook(storage?: StoragePort) {

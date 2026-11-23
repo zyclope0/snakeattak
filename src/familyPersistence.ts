@@ -133,14 +133,8 @@ function save(
 }
 
 /**
- * The second generation. The file found when the game started is kept beside the one the
- * session writes, at the moment it is about to be replaced: a save that is valid but wrong
- * does not replace the only copy. A copy with more stars is never given up for a file with
- * fewer: after stars were lost or an older file imported, it is the copy from before that
- * stays.
- */
-/**
- * Keeps the file the session found, once the session has replaced it. The copy held gives
+ * The second generation: keeps the file the session found, once the session has replaced it,
+ * so that a save that is valid but wrong does not replace the only copy. The copy held gives
  * way to it unless it has something the file found has lost — stars or stickers, which only
  * grow in play — or unless this version cannot read it: such a copy may be a whole adventure,
  * and is never thrown away.
@@ -176,6 +170,17 @@ function kept(storage: StoragePort | undefined, key: string): string | null {
   }
 }
 
+/**
+ * Puts the text found aside, exactly as it is: an adventure this version cannot read is never
+ * destroyed by the next save.
+ */
+function putAside(storage: StoragePort, raw: string): void {
+  try {
+    storage.setItem(FAMILY_REFUSED_KEY, raw);
+  } catch {
+    /* No room for the copy: the game is played all the same. */
+  }
+}
 /** True when the text put aside is another one, of which start-up would keep nothing at all. */
 function holdsWholeRefusal(storage: StoragePort, raw: string): boolean {
   const held = storage.getItem(FAMILY_REFUSED_KEY);
@@ -204,13 +209,7 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
       // an adventure this version cannot read is never destroyed. One place only: a file
       // refused whole takes it; a file kept but for a camp does not push out a text of
       // which nothing could be read, which may be a whole adventure.
-      if (!rest || !holdsWholeRefusal(storage, raw)) {
-        try {
-          storage.setItem(FAMILY_REFUSED_KEY, raw);
-        } catch {
-          /* No room for the copy: the game is played all the same. */
-        }
-      }
+      if (!rest || !holdsWholeRefusal(storage, raw)) putAside(storage, raw);
       if (rest) {
         session.salvaged = true;
         retain(session, rest.missions, rest.albums);
@@ -222,13 +221,7 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
     }
     // A version 6 file never comes here by the game; if one did, its extras would be lost at
     // the next save: its text is put aside first.
-    if (backup.version === FAMILY_EXTRAS_VERSION) {
-      try {
-        storage.setItem(FAMILY_REFUSED_KEY, raw);
-      } catch {
-        /* No room for the copy: the adventure is read all the same. */
-      }
-    }
+    if (backup.version === FAMILY_EXTRAS_VERSION) putAside(storage, raw);
     if (first) session.found = { raw, backup };
     session.last = JSON.stringify(backup);
     retain(session, backup.missions, backup.albums);
