@@ -2,6 +2,7 @@ import { REWARDS } from '../../rewards.ts';
 import type { RewardId } from '../../rewards.ts';
 import { voyagePhase, voyagePlanOf } from '../../voyageState.ts';
 import type { VoyageState } from '../../voyageState.ts';
+import { plural } from '../plural.ts';
 import * as TEXT from '../../texts/fr/voyageScreens.ts';
 import { fill } from '../../texts/fill.ts';
 
@@ -11,7 +12,6 @@ import { fill } from '../../texts/fill.ts';
  * single literal or a single template, which the translator needs to find it whole.
  */
 
-const plural = (count: number) => (count > 1 ? 's' : '');
 const stagesOf = (state: VoyageState) => voyagePlanOf(state).stages.length;
 
 /** The name of the screen, and the stage it is about when there is one to play. */

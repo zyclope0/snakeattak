@@ -18,6 +18,7 @@ import type { ExpeditionState, HaltKind, Path } from '../../../expedition.ts';
 import { REWARDS } from '../../../rewards.ts';
 import type { RewardId } from '../../../rewards.ts';
 import { boonDetail, boonTitle } from '../../boonCopy.ts';
+import { plural } from '../../plural.ts';
 import * as TEXT from '../../../texts/fr/expedition.ts';
 import { fill } from '../../../texts/fill.ts';
 
@@ -27,7 +28,6 @@ import { fill } from '../../../texts/fill.ts';
  * single literal or a single template, which the translator needs to find whole.
  */
 
-const plural = (count: number) => (count > 1 ? 's' : '');
 const RULES = EXPEDITION_GIFT_RULES;
 
 export const TABLEAU_NAMES = [

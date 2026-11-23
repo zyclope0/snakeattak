@@ -21,9 +21,9 @@ import { missionById } from '../../../missions.ts';
 import { activeEnemyLanes } from '../../../tutorial.ts';
 import { BOON_SIGNS } from '../../boonCopy.ts';
 import { frenchLeaf } from '../../capriceCopy.ts';
-import { stickerGraphic } from '../../capriceIcons.ts';
 import { decoration, make } from '../../dom.ts';
 import { svgNode } from '../../svg.ts';
+import { capriceSticker } from '../capriceSticker.ts';
 import { stopMap } from '../stopMap.ts';
 import { bonusPicture } from '../voyageBag.ts';
 import {
@@ -210,16 +210,6 @@ function road(state: ExpeditionState) {
   );
 }
 
-/** The sticker of the caprice that surprises a mission: shown in advance, and a button. */
-function sticker(caprice: CapriceDefinition, explain: ExpeditionActions['explain']) {
-  const node = make('button', { className: 'stop-caprice' }, stickerGraphic(caprice));
-  node.type = 'button';
-  node.setAttribute('aria-haspopup', 'dialog');
-  setAttribute(node, 'aria-label', capriceLabel(caprice.name));
-  node.onclick = () => explain(caprice);
-  return node;
-}
-
 function king() {
   const picture = make('img', { className: 'exp-king' });
   picture.src = kingUrl;
@@ -253,7 +243,9 @@ function battleCard(
   const named = caprice && frenchLeaf('strong', caprice.name);
   if (caprice && named) {
     named.id = `exp-defi-${battle.path}`;
-    facts.append(make('span', { className: 'exp-caprice' }, sticker(caprice, explain), named));
+    // The sticker of the caprice that surprises a mission: shown in advance, and a button.
+    const sticker = capriceSticker(caprice, capriceLabel(caprice.name), explain);
+    facts.append(make('span', { className: 'exp-caprice' }, sticker, named));
   }
   // King Snake ends the expedition: no gift waits after him.
   const last = endsExpedition(state, battle);
