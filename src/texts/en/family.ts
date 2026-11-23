@@ -57,3 +57,9 @@ export const unFichierQueCetteVersionNeSaitPasLire =
 export const exporterCeFichier = 'Export this file';
 export const fichierRemisCetteVersionNeSaitPasLeRelire =
   'File handed over. This version of the game cannot read it back: keep it for a later version.';
+export const leFichierEstPartiVerifieQuIlEstBienArrive =
+  'The file went to the app you chose. Check that it arrived and keep it: it lets you get this adventure back on another device.';
+export const leFichierEstPartiCetteVersionNeSaitPasLeRelire =
+  'The file went to the app you chose. This version of the game cannot read it back: keep it for a later version.';
+export const lePartageSEstFermeSiLeFichierNEstArriveNullePart =
+  'Sharing closed. If the file did not arrive anywhere, try again: your adventure is still only on this device.';

@@ -38,6 +38,8 @@ const NOT_SHOWN = new Set([
   'NFD', // the Unicode form given to `String.normalize`
   'Fredoka', // the font family of the titles (src/render/fonts.ts)
   'Nunito Sans', // the font family of the texts (src/render/fonts.ts)
+  'Filesystem', // the name the Android side gives a Capacitor plugin (src/ui/download.ts)
+  'Share', // the name the Android side gives a Capacitor plugin (src/ui/download.ts)
 ]);
 
 const numbers = String.raw`\(\s*-?[\d.]+(?:[\s,]+-?[\d.]+)*\s*\)`;

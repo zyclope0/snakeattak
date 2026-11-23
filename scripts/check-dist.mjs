@@ -42,7 +42,8 @@ assert.ok(!files.some((f) => f === 'references'), 'Design references do not belo
 // any of which can be the one that failed to arrive. A list of what is allowed, not of what
 // is refused: a file that changes its name, or a new one, is refused until someone adds it
 // here on purpose.
-const LIGHT = /^(index|keys)-[\w-]+\.js$/;
+/** Besides the first script itself, the only file it may load with it. */
+const LIGHT = /^keys-[\w-]+\.js$/;
 async function reaches(name, seen = new Set()) {
   if (seen.has(name)) return seen;
   seen.add(name);
@@ -56,7 +57,7 @@ async function reaches(name, seen = new Set()) {
 {
   const entry = /<script type="module"[^>]* src="\.\/assets\/([\w.-]+\.js)"/.exec(html)?.[1];
   assert.ok(entry, 'The page has a first script');
-  const heavy = [...(await reaches(entry))].filter((f) => !LIGHT.test(f));
+  const heavy = [...(await reaches(entry))].filter((f) => f !== entry && !LIGHT.test(f));
   assert.deepEqual(heavy, [], `${entry} must not need ${heavy.join(', ')}`);
   // The windows are in that script, not in files of their own asked for at the bad moment.
   const code = await readFile(`${root}/assets/${entry}`, 'utf8');

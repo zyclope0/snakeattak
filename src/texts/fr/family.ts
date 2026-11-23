@@ -60,3 +60,9 @@ export const unFichierQueCetteVersionNeSaitPasLire =
 export const exporterCeFichier = 'Exporter ce fichier';
 export const fichierRemisCetteVersionNeSaitPasLeRelire =
   'Fichier remis. Cette version du jeu ne sait pas le relire : garde-le pour une prochaine version.';
+export const leFichierEstPartiVerifieQuIlEstBienArrive =
+  'Le fichier est parti vers l’application que tu as choisie. Vérifie qu’il y est bien arrivé et garde-le : il permet de retrouver cette aventure sur un autre appareil.';
+export const leFichierEstPartiCetteVersionNeSaitPasLeRelire =
+  'Le fichier est parti vers l’application que tu as choisie. Cette version du jeu ne sait pas le relire : garde-le pour une prochaine version.';
+export const lePartageSEstFermeSiLeFichierNEstArriveNullePart =
+  'Le partage s’est fermé. Si le fichier n’est arrivé nulle part, recommence : ton aventure n’est encore que sur cet appareil.';

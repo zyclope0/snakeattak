@@ -1756,18 +1756,37 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   l'a pris : la page ne sait ni où il est allé, ni si la famille l'a gardé.
 - **Dans l'application Android**, rien ne reçoit un téléchargement : l'export ne faisait rien,
   et le jeu disait quand même « Fichier prêt » (essai du parent sur le build 64, 22 novembre
-  2026). Le paquet de l'application (`vite build --mode android`) ne montre donc plus de
-  bouton d'export : une phrase à sa place dans « Sauvegarde familiale », les copies gardées
-  ne sont pas proposées en fichiers, et le secours au démarrage dit ce qui est toujours là
-  et ce qui le ferait perdre, sans bouton. **Tant que l'export n'est pas réparé, aucune
-  aventure ne peut sortir d'un appareil** : la réparation (deux modules de Capacitor) attend
-  l'accord du parent, et passera par cette même fonction.
-- **Tenu par** `tests/hand-over.test.ts` et, sur le paquet de l'application, par les recettes
-  `npm run test:saves:family` et `npm run test:failure` : aucun bouton d'export, la phrase,
-  jamais « Fichier prêt ». Ces recettes prennent alors les fichiers sur le paquet du site
-  (`dist`), que la tâche « sauvegardes » de la CI construit aussi.
-- **Ne couvre pas** : l'import (« Choisir un fichier ») n'a jamais été essayé dans
-  l'application ; rien de ceci n'a été vu sur un téléphone.
+  2026). Avec l'accord du parent du 22 novembre, l'application porte deux modules officiels
+  de Capacitor, `@capacitor/filesystem` 8.1.5 et `@capacitor/share` 8.0.3 (versions fixes) :
+  le fichier est écrit dans le cache de l'application, puis le partage d'Android s'ouvre
+  (Drive, Fichiers, un e-mail…). Ni l'un ni l'autre ne demande de permission ; le partage
+  passe par le `FileProvider` que l'application déclarait déjà (`cache-path`).
+  - Le code des modules n'est que dans le paquet de l'application : `__APP_BUILD__`
+    (`vite.config.ts`) le retire du site, et il n'est chargé qu'au moment où un fichier est
+    demandé. `scripts/check-dist.mjs` refuse que le premier script charge autre chose que
+    lui-même et les clés.
+  - Avant de montrer un bouton, la page demande au côté natif s'il porte les deux modules
+    (`Capacitor.PluginHeaders`). Un build sans eux (64 et avant) garde la phrase « l'aventure
+    ne peut pas sortir de cet appareil » et aucun bouton.
+  - Ce qu'Android dit, et rien de plus : le module répond « annulé » si le jeu n'a pas été
+    quitté pendant le partage, « réussi » sinon. Il ne sait jamais si l'application choisie
+    a gardé le fichier. D'où les phrases : « Le fichier est parti vers l'application que tu
+    as choisie. Vérifie qu'il y est bien arrivé… » et « Le partage s'est fermé. Si le
+    fichier n'est arrivé nulle part, recommence… ». Un partage qui part sans quitter le jeu
+    (lu dans le code du module) serait dit « fermé » : la phrase le laisse possible.
+  - Un second appui pendant que le partage est ouvert attend le premier (`oneAtATime`) : le
+    module en refuserait un second.
+- **Tenu par** `tests/hand-over.test.ts` (les deux modules ou aucun bouton, chaque réponse
+  du partage, le second appui) et, sur le paquet de l'application, par les recettes
+  `npm run test:saves:family` et `npm run test:failure` : Chromium n'a pas de côté natif,
+  donc aucun bouton d'export, la phrase, jamais « Fichier prêt ». Ces recettes prennent les
+  fichiers sur le paquet du site (`dist`), que la tâche « sauvegardes » de la CI construit
+  aussi.
+- **Ne couvre pas** : rien de l'export n'a tourné sur Android. Le projet Android n'est pas
+  compilé ici ; le partage, l'écriture dans le cache, le geste « retour » pendant le partage,
+  un fichier envoyé dans Drive puis repris après désinstallation : tout reste à essayer sur
+  le build 65. L'import, lui, marche dans l'application (essai du parent, build 64). Le
+  partage d'Android s'ouvre sans barrière parentale : il est sous « Pour les parents ».
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
 
