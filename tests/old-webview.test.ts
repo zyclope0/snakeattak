@@ -20,7 +20,8 @@ test('below Chrome 108 the application shows its page for an old WebView', () =>
   assert.equal(config.android?.minWebViewVersion, MIN_WEBVIEW_VERSION);
   assert.equal(config.server?.errorPath, OLD_WEBVIEW_PAGE);
   assert.match(OLD_WEBVIEW_PAGE, /^[a-z-]+\.html$/);
-  assertAppConfig(copied(), info, packaged, false);
+  // As check-android-sync reads it: SERPENTS_PERF=1 is the diagnostic build.
+  assertAppConfig(copied(), info, packaged, process.env.SERPENTS_PERF === '1');
 });
 
 test('the copied configuration keeps the page, the floor and nothing else in a release', () => {
