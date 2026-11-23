@@ -19,9 +19,11 @@ export const taPartieNEstPasGardee = 'Ta partie n’est pas gardée';
 export const tuPeuxContinuerAJouerSiTuFermes =
   'Tu peux continuer à jouer. Si tu fermes le jeu, il oubliera ce que tu viens de faire : va d’abord chercher un adulte.';
 export const lAppareilNASansDoutePlusAssezDePlace =
-  'L’appareil n’a sans doute plus assez de place pour garder la partie. Libère de la place sans fermer le jeu : il réessaie tout seul et le dira.';
+  'L’appareil n’a sans doute plus assez de place pour garder la partie. Libère de la place sans fermer le jeu, puis continue à jouer : il réessaiera et le dira.';
 export const cetAppareilNeLaissePasLeJeuGarder =
   'Cet appareil ne laisse pas le jeu garder la partie (navigation privée, ou stockage bloqué dans les réglages). Elle dure tant que le jeu reste ouvert.';
+export const cetAppareilNeLaissePasLeJeuGarderLaPartie =
+  'Cet appareil ne laisse pas le jeu garder la partie. Elle dure tant que le jeu reste ouvert.';
 export const leJeuNArrivePasAGarderCettePartie =
   'Le jeu n’arrive pas à garder cette partie. Elle dure tant que le jeu reste ouvert.';
 export const jAiCompris = 'J’ai compris';

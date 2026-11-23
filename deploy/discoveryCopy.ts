@@ -314,7 +314,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Conserver une aventure',
-        text: `Le navigateur et l’application Android auront des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle n’exporte pas tout, notamment pas « ${EXP_FR.laGrandeExpedition} » ni les profils.`,
+        text: `Le navigateur et l’application Android auront des stockages distincts. Effacer les données du navigateur, changer d’adresse de site ou désinstaller l’application peut faire perdre la progression. L’espace parents propose une sauvegarde familiale ; elle porte l’aventure du joueur en cours, avec son expédition, son voyage et ses records ; elle ne porte pas les autres joueurs.`,
       },
       {
         heading: 'Lire les informations utiles',
@@ -347,7 +347,7 @@ const BASE_PAGES: readonly DiscoveryPage[] = [
       },
       {
         heading: 'Keep an adventure',
-        text: `The browser and the Android app will use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it does not export everything, including “${EXP_EN.laGrandeExpedition}” and profiles.`,
+        text: `The browser and the Android app will use separate storage. Clearing browser data, moving to another website address or uninstalling the app can lose progress. The parents’ area offers a family backup; it carries the current player’s adventure, with their expedition, voyage and records; it does not carry the other players.`,
       },
       {
         heading: 'Read the useful information',

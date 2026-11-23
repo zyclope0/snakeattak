@@ -18,9 +18,11 @@ export const taPartieNEstPasGardee = 'Your game is not being saved';
 export const tuPeuxContinuerAJouerSiTuFermes =
   'You can keep playing. If you close the game, it will forget what you just did: get a grown-up first.';
 export const lAppareilNASansDoutePlusAssezDePlace =
-  'The device probably has no room left to save the game. Free some space without closing the game: it tries again by itself and will say so.';
+  'The device probably has no room left to save the game. Free some space without closing the game, then keep playing: it will try again and say so.';
 export const cetAppareilNeLaissePasLeJeuGarder =
   'This device does not let the game save (private browsing, or storage blocked in the settings). The game lasts as long as it stays open.';
+export const cetAppareilNeLaissePasLeJeuGarderLaPartie =
+  'This device does not let the game save. The game lasts as long as it stays open.';
 export const leJeuNArrivePasAGarderCettePartie =
   'The game cannot save this game. It lasts as long as the game stays open.';
 export const jAiCompris = 'Got it';

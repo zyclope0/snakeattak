@@ -33,7 +33,7 @@ export type PolicyText = {
  * The application the policy describes. A test holds these to package.json and to the
  * Android build: a new build is a moment to read the policy again.
  */
-export const POLICY_APP = { version: '0.40.0', build: 64 };
+export const POLICY_APP = { version: '0.41.0', build: 65 };
 
 /**
  * The section about the website, added by the publisher on 14 November 2026 when the site
@@ -67,7 +67,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Éditeur ',
       { b: 'zyclope' },
     ],
-    updated: 'Mise à jour : 22 novembre 2026',
+    updated: 'Mise à jour : 23 novembre 2026',
     publicLink: `Lire cette politique sur ${SITE_HOST}`,
     sections: [
       {
@@ -85,10 +85,10 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
         heading: 'Export volontaire d’une sauvegarde',
         paragraphs: [
           [
-            'L’espace « Pour les parents » permet d’exporter et de réimporter une sauvegarde de l’aventure du joueur actif. Le fichier peut contenir l’état de la partie, la progression, les autocollants et les noms des anciens carnets conservés. Un fichier exporté peut donc contenir un prénom précédemment saisi pour nommer un carnet. Si vous choisissez de conserver ou de transmettre ce fichier, vous décidez où il est stocké et qui le reçoit. zyclope ne le reçoit pas automatiquement. Vous pouvez supprimer les copies conservées à l’endroit où vous les avez enregistrées.',
+            'L’espace « Pour les parents » permet d’exporter et de réimporter une sauvegarde de l’aventure du joueur actif. Le fichier peut contenir l’état de la partie, la progression, les autocollants et les noms des anciens carnets conservés. Un fichier exporté peut donc contenir un prénom précédemment saisi pour nommer un carnet. Si vous choisissez de conserver ou de transmettre ce fichier, vous décidez où il est stocké et qui le reçoit. Dans l’application Android, le fichier est d’abord écrit dans le cache de l’application, où des copies restent (une par sorte de fichier) tant qu’Android ne vide pas ce cache, puis remis au partage d’Android, où vous choisissez l’application qui le reçoit. zyclope ne le reçoit pas automatiquement. Vous pouvez supprimer les copies conservées à l’endroit où vous les avez enregistrées. Avant chaque import, le jeu garde sur l’appareil une copie de l’aventure remplacée, pour pouvoir revenir en arrière ; supprimer le joueur la supprime aussi.',
           ],
           [
-            'Le voyage, La Grande Expédition et l’aventure sans fin enregistrent aussi leur avancement sur l’appareil, pour chaque joueur : l’itinéraire, les étapes terminées, les bonus ou les cadeaux, et les records. Sur le site et dans l’application Android 0.40.0 (build 64), le fichier de sauvegarde familiale contient aussi ces données du joueur actif. Dans l’application Android 0.39.0 (build 63), il ne contient pas le voyage. L’application 0.39.0 affiche encore un code du Voyage : il contient la graine qui détermine la configuration du Voyage, la version de ses règles et des caractères de contrôle. Une autre personne qui saisit ce code dans cette application obtient le même itinéraire, les mêmes caprices et les mêmes propositions de bonus. Le code ne transmet ni le profil, ni le surnom, ni la progression, ni les bonus choisis du joueur. Vous pouvez communiquer ce code vous-même. Le jeu ne le transmet pas à zyclope. Le site et l’application Android 0.40.0 n’affichent plus ce code et ne le lisent plus.',
+            'Le voyage, La Grande Expédition et l’aventure sans fin enregistrent aussi leur avancement sur l’appareil, pour chaque joueur : l’itinéraire, les étapes terminées, les bonus ou les cadeaux, et les records. Sur le site et dans l’application Android 0.41.0 (build 65), le fichier de sauvegarde familiale contient aussi ces données du joueur actif. Dans l’application Android 0.39.0 (build 63), il ne contient pas le voyage. L’application 0.39.0 affiche encore un code du Voyage : il contient la graine qui détermine la configuration du Voyage, la version de ses règles et des caractères de contrôle. Une autre personne qui saisit ce code dans cette application obtient le même itinéraire, les mêmes caprices et les mêmes propositions de bonus. Le code ne transmet ni le profil, ni le surnom, ni la progression, ni les bonus choisis du joueur. Vous pouvez communiquer ce code vous-même. Le jeu ne le transmet pas à zyclope. Le site et l’application Android 0.41.0 n’affichent plus ce code et ne le lisent plus.',
           ],
         ],
       },
@@ -191,7 +191,7 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
       ' · Publisher ',
       { b: 'zyclope' },
     ],
-    updated: 'Last updated: November 22, 2026',
+    updated: 'Last updated: November 23, 2026',
     publicLink: `Read this policy on ${SITE_HOST}`,
     sections: [
       {
@@ -209,10 +209,10 @@ export const PRIVACY_POLICY: Readonly<Record<Language, PolicyText>> = {
         heading: 'Exporting a save at your request',
         paragraphs: [
           [
-            "From the “For parents” area, you can export and import a save file for the current player's adventure. The file may include saved game state, progress, stickers, and the names of older sticker albums that have been kept. An exported file may therefore contain a first name previously entered as an album name. If you keep or share the file, you choose where it is stored and who receives it. zyclope does not receive it automatically. You can delete copies from the location where you saved them.",
+            "From the “For parents” area, you can export and import a save file for the current player's adventure. The file may include saved game state, progress, stickers, and the names of older sticker albums that have been kept. An exported file may therefore contain a first name previously entered as an album name. If you keep or share the file, you choose where it is stored and who receives it. In the Android app, the file is first written to the app’s cache, where copies remain (one per kind of file) until Android clears that cache, then handed to Android’s share sheet, where you choose the app that receives it. zyclope does not receive it automatically. You can delete copies from the location where you saved them. Before each import, the game keeps a copy of the replaced adventure on the device so it can be restored; deleting the player deletes it too.",
           ],
           [
-            'The Voyage, the Great Expedition, and the endless adventure also store their progress on the device for each player: the route, completed stages, bonuses or gifts, and records. On the website and in the Android app 0.40.0 (build 64), the family save file also contains this data for the current player. In the Android app 0.39.0 (build 63), it does not contain voyage data. The 0.39.0 app still shows a voyage code: it contains the seed that determines the voyage setup, the version of its rules, and check characters. Anyone who enters this code in that app gets the same route, challenges, and bonus offers. The code does not transmit the player’s profile, nickname, progress, or chosen bonuses. You can share the code yourself. The game does not send it to zyclope. The website and the Android app 0.40.0 no longer show or read this code.',
+            'The Voyage, the Great Expedition, and the endless adventure also store their progress on the device for each player: the route, completed stages, bonuses or gifts, and records. On the website and in the Android app 0.41.0 (build 65), the family save file also contains this data for the current player. In the Android app 0.39.0 (build 63), it does not contain voyage data. The 0.39.0 app still shows a voyage code: it contains the seed that determines the voyage setup, the version of its rules, and check characters. Anyone who enters this code in that app gets the same route, challenges, and bonus offers. The code does not transmit the player’s profile, nickname, progress, or chosen bonuses. You can share the code yourself. The game does not send it to zyclope. The website and the Android app 0.41.0 no longer show or read this code.',
           ],
         ],
       },

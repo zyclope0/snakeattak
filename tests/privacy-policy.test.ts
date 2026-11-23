@@ -38,6 +38,14 @@ const approvedFamilyFile: Record<'fr' | 'en', { replaced: [string, string][] }> 
 const approvedBuild64: Record<'fr' | 'en', { replaced: [string, string][] }> = JSON.parse(
   readFileSync('tests/fixtures/fichier-familial-approuve-build-64-2026-11-22.json', 'utf8'),
 );
+/**
+ * Approved on 23 November 2026, when build 65 was prepared (docs/DECISIONS-2026-11-23.md): the
+ * voyage paragraph names app 0.41.0 (build 65); the export paragraph tells of the app's cache
+ * and of the copy kept before an import.
+ */
+const approvedBuild65: Record<'fr' | 'en', { replaced: [string, string][] }> = JSON.parse(
+  readFileSync('tests/fixtures/politique-approuvee-build-65-2026-11-23.json', 'utf8'),
+);
 const published = readFileSync('tests/fixtures/confidentialite-publiee-2026-11-14.html', 'utf8');
 /** What a reader sees of a piece of page: its markup, without the spaces between its tags. */
 const tight = (html: string) => html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
@@ -47,13 +55,15 @@ const between = (html: string, open: string, close: string) =>
  * The page without what the publisher added to the words first published: the date of the
  * last change, the website section, the separately approved support section, the
  * advertising section and the two sentences it reworded, the section about the Android
- * test, then the paragraph about the family save file and its wording for build 64. The
+ * test, then the paragraph about the family save file and its wordings for builds 64 and 65. The
  * latest wording is taken back first: each pair leads to the one approved before it.
  */
 const asFirstPublished = (html: string) =>
   [...Object.values(WEBSITE_HEADING), ...Object.values(ANDROID_TEST_HEADING)].reduce(
     (page, heading) => page.replace(new RegExp(`<h[23]>${heading}</h[23]>\\s*<p>[^<]*</p>`), ''),
     [
+      approvedBuild65.fr,
+      approvedBuild65.en,
       approvedBuild64.fr,
       approvedBuild64.en,
       ...Object.values(approvedAds),
@@ -115,22 +125,24 @@ test('the section about the website says what the publisher approved, in both la
   }
 });
 
-test('the paragraph about the family save file is the one approved for build 64', () => {
+test('the paragraphs about the family save file are the ones approved for build 65', () => {
   for (const language of ['fr', 'en'] as const) {
     const [[first, forTesters]] = approvedFamilyFile[language].replaced;
-    const [[before, now]] = approvedBuild64[language].replaced;
+    const [[before64, now64]] = approvedBuild64[language].replaced;
+    const [[before65, now65], [exportBefore, exportNow]] = approvedBuild65[language].replaced;
     const said = PRIVACY_POLICY[language].sections.flatMap((section) => section.paragraphs.flat());
-    assert.ok(said.includes(now), `${language}: the approved paragraph, word for word`);
-    // The wording for build 64 starts from the one approved for the testers' build.
-    assert.equal(before, forTesters, language);
-    for (const gone of [first, forTesters])
+    for (const now of [now65, exportNow])
+      assert.ok(said.includes(now), `${language}: the approved paragraph, word for word`);
+    // Each wording starts from the one approved before it.
+    assert.equal(before64, forTesters, language);
+    assert.equal(before65, now64, language);
+    for (const gone of [first, forTesters, now64, exportBefore])
       assert.ok(!said.includes(gone), `${language}: the paragraphs it replaces are gone`);
-    assert.notEqual(before, now);
   }
-  // It names the application that is built and the one the testers still have: when another
-  // build is prepared, it is read again (the test below says so too).
+  // It names the application that is built and the one the testers may still have: when
+  // another build is prepared, it is read again (the test below says so too).
   const { version, build } = POLICY_APP;
-  const [fr, en] = [approvedBuild64.fr.replaced[0][1], approvedBuild64.en.replaced[0][1]];
+  const [fr, en] = [approvedBuild65.fr.replaced[0][1], approvedBuild65.en.replaced[0][1]];
   assert.ok(fr.includes(`l’application Android ${version} (build ${build})`));
   assert.ok(en.includes(`the Android app ${version} (build ${build})`));
   assert.match(fr, /application Android 0\.39\.0 \(build 63\)/);
@@ -157,8 +169,8 @@ test('the public page stands alone: no script, no outside resource, its own addr
 });
 
 test('each language tells when its words last changed and where the public page is', () => {
-  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 22 novembre 2026');
-  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 22, 2026');
+  assert.equal(PRIVACY_POLICY.fr.updated, 'Mise à jour : 23 novembre 2026');
+  assert.equal(PRIVACY_POLICY.en.updated, 'Last updated: November 23, 2026');
   assert.equal(PRIVACY_POLICY.fr.publicLink, `Lire cette politique sur ${SITE_HOST}`);
   assert.equal(PRIVACY_POLICY.en.publicLink, `Read this policy on ${SITE_HOST}`);
   const page = privacyPageHtml();
