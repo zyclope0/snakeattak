@@ -10,7 +10,9 @@ const AGAIN_WITHIN_MS = 5 * 60_000;
 function failedJustBefore(): boolean {
   try {
     const at = (history.state as Record<string, unknown> | null)?.[RELAUNCHED];
-    return typeof at === 'number' && Date.now() - at < AGAIN_WITHIN_MS;
+    const since = typeof at === 'number' ? Date.now() - at : -1;
+    // A clock set back, or a mark from the future, says nothing about « just before ».
+    return since >= 0 && since < AGAIN_WITHIN_MS;
   } catch {
     return false;
   }

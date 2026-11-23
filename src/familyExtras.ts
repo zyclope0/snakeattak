@@ -172,3 +172,12 @@ export function replacesNothing(
   const names = new Set([...Object.keys(carried), ...(whole ? Object.keys(held) : [])]);
   return [...names].every((name) => carried[name] === held[name]);
 }
+
+/**
+ * True when an import writes the endless records: a file that carries them, or a whole state
+ * (which takes them away when it does not carry them). Records still waiting to be written
+ * are then forgotten: those of the adventure replaced must not come back.
+ */
+export function importWritesRecords(file: FamilyBackup, whole: boolean): boolean {
+  return whole || (file.version === FAMILY_EXTRAS_VERSION && file.extras.endless !== undefined);
+}

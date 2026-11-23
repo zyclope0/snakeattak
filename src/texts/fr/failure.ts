@@ -15,3 +15,16 @@ export const appuieSurReessayer =
   'Appuie sur Réessayer. Si ça ne marche toujours pas, va chercher un adulte.';
 export const reessayer = 'Réessayer';
 export const relanceLeJeuPourContinuerAJouer = 'Relance le jeu pour continuer à jouer.';
+export const taPartieNEstPasGardee = 'Ta partie n’est pas gardée';
+export const tuPeuxContinuerAJouerSiTuFermes =
+  'Tu peux continuer à jouer. Si tu fermes le jeu, il oubliera ce que tu viens de faire : va d’abord chercher un adulte.';
+export const lAppareilNASansDoutePlusAssezDePlace =
+  'L’appareil n’a sans doute plus assez de place pour garder la partie. Libère de la place sans fermer le jeu : il réessaie tout seul et le dira.';
+export const cetAppareilNeLaissePasLeJeuGarder =
+  'Cet appareil ne laisse pas le jeu garder la partie (navigation privée, ou stockage bloqué dans les réglages). Elle dure tant que le jeu reste ouvert.';
+export const leJeuNArrivePasAGarderCettePartie =
+  'Le jeu n’arrive pas à garder cette partie. Elle dure tant que le jeu reste ouvert.';
+export const jAiCompris = 'J’ai compris';
+export const partieNonGardee = 'Partie non gardée';
+export const cEstRepareTaPartieEstDeNouveauGardee =
+  'C’est réparé : ta partie est de nouveau gardée.';

@@ -17,6 +17,11 @@ void Promise.all([initializeLanguageControls(), loadGameFonts()])
   .catch((error: unknown) => {
     // Said where a developer looks; the child and the parent get the window below.
     console.error(error);
-    showStartFailure();
-    loading.remove();
+    try {
+      showStartFailure();
+      loading.remove();
+    } catch {
+      // Even the window failed: these few words are what is left to say.
+      loading.textContent = TEXT.oupsLeJeuNArrivePasADemarrer;
+    }
   });

@@ -2,10 +2,18 @@ import { battleOver, Game } from './game.ts';
 import type { Kind } from './data.ts';
 import type { FeastFlavor } from './tactics.ts';
 import { CURRENT_BALANCE_REVISION, type BalanceRevision } from './balanceRevision.ts';
-import { START_TEAM_SIZE } from './gameConstants.ts';
+import { START_TEAM_SIZE, TOTAL_WAVES } from './gameConstants.ts';
 import { CURRENT_ENDLESS_VERSION, ENDLESS_RULES } from './endless.ts';
 
 const STEP = 1 / 30;
+/**
+ * The waves a game has won: a wave counts once it is over and not lost (its number goes up
+ * when it starts), a king of the endless adventure for all of his.
+ */
+const won = (game: Game) =>
+  game.kings * TOTAL_WAVES +
+  game.wave -
+  (game.status === 'fighting' || game.status === 'lost' ? 1 : 0);
 const freshSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
 
 /** Browser-independent owner of a game and its fixed-rate simulation clock. */
@@ -18,9 +26,19 @@ export class Session {
   speed: 1 | 2 = 1;
   hasPlaced = false;
   purchaseCount = 0;
+  /**
+   * What each game had won when it was first put in play. A game set aside and brought back
+   * (the classic adventure after a mission) keeps its first count: the wave it was fighting
+   * is not won by coming back to it.
+   */
+  private startedAt = new WeakMap<Game, number>();
   private accumulator = 0;
   constructor(seed = freshSeed()) {
     this.game = new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION);
+  }
+  /** True once a wave, or a king, has been won since the game in hand was put in play. */
+  get wonSinceStart(): boolean {
+    return won(this.game) > (this.startedAt.get(this.game) ?? 0);
   }
   restart(seed = freshSeed(), balanceRevision: BalanceRevision = CURRENT_BALANCE_REVISION) {
     this.useGame(new Game(seed, undefined, undefined, balanceRevision));
@@ -43,6 +61,7 @@ export class Session {
   }
   useGame(game: Game) {
     this.game = game;
+    if (!this.startedAt.has(game)) this.startedAt.set(game, won(game));
     this.#reset();
     this.hasPlaced = game.wave > 0 || game.kings > 0 || game.units.length > START_TEAM_SIZE;
   }

@@ -52,7 +52,16 @@ type Session = {
   started: boolean;
   /** True when the file read at start-up was kept but for a camp that did not decode. */
   salvaged: boolean;
+  /**
+   * Why what is played is not on the device, or null when it is: the device has no storage
+   * for the game or could not read it (`blocked`), refused the last write (`full`), or the
+   * game could not build the file (`broken`). Null exactly when the file the game would
+   * store now is the one the device holds.
+   */
+  unkept: Unkept;
 };
+/** Why what is played is not being kept on the device; null when it is. */
+export type Unkept = null | 'blocked' | 'full' | 'broken';
 
 /**
  * One text for all a sync is given. What JSON would blur (a NaN, an infinity, a hole, an
@@ -93,7 +102,11 @@ function save(
   session.settled = null;
   if (!storage || (session.disabled && !explicitImport)) return false;
   // Confirmation still performs a write, so a blocked storage cannot accept an import.
-  if (!explicitImport && raw === session.last) return true;
+  if (!explicitImport && raw === session.last) {
+    // What would be stored is what is stored: nothing is missing from the device.
+    session.unkept = null;
+    return true;
+  }
   session.started = true;
   try {
     storage.setItem(FAMILY_STORAGE_KEY, raw);
@@ -103,6 +116,7 @@ function save(
     session.last = raw;
     retain(session, missions, albums);
     session.disabled = false;
+    session.unkept = null;
     // After a file kept without one of its camps, the session goes on saying so: the first
     // save comes at once, and the sentence would otherwise never be read. An import replaces
     // that adventure by another: the sentence no longer speaks of what is on the device.
@@ -113,6 +127,7 @@ function save(
     return true;
   } catch {
     session.status = TEXT.sauvegardeFamilialeIndisponible;
+    session.unkept = 'full';
     return false;
   }
 }
@@ -221,6 +236,7 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
     return backup;
   } catch {
     session.disabled = true;
+    session.unkept = 'blocked';
     session.status = TEXT.sauvegardeFamilialeIndisponible2;
     return null;
   }
@@ -258,10 +274,15 @@ export function createFamilyPersistence(storage?: StoragePort) {
     found: null,
     started: false,
     salvaged: false,
+    unkept: storage ? null : 'blocked',
   };
   return {
     get status() {
       return session.status;
+    },
+    /** Why what is played is not on the device now, or null when it is. */
+    get unkept(): Unkept {
+      return session.unkept;
     },
     /** True when the last file loaded was kept but for a camp, until an import replaces it. */
     get salvaged() {
@@ -328,6 +349,8 @@ export function createFamilyPersistence(storage?: StoragePort) {
       const raw = writeFamilyBackup(campRaw, career, nextMissions, nextAlbums);
       if (!raw) {
         session.status = TEXT.sauvegardeFamilialeInvalideAucune;
+        // The game itself could not write the file: nothing of what is played is kept.
+        session.unkept = 'broken';
         return false;
       }
       const saved = save(storage, session, raw, false, nextMissions, nextAlbums);

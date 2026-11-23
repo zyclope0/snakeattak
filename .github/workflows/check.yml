@@ -144,7 +144,7 @@ jobs:
             android: true
             recettes: >-
               test:saves:update test:saves:family test:saves:forced-close
-              test:saves:double-taps test:failure
+              test:saves:double-taps test:failure test:saves:unkept
     name: recettes (${{ matrix.groupe }})
     steps:
       - uses: actions/checkout@v4
