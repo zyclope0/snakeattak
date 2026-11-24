@@ -118,7 +118,8 @@ test('le carnet ne propose plus de créer ni de renommer, et ses nouveaux textes
     ])
       assert.ok(!text.includes(gone), `${file} contient encore « ${gone} »`);
   }
-  const album = readFileSync('src/ui/capriceAlbums.ts', 'utf8');
+  // The window of the book is a file of its own, asked for as the game starts.
+  const album = readFileSync('src/ui/capriceBook.ts', 'utf8');
   for (const kept of ['caprice-album-profile', 'caprice-album-previous', 'caprice-album-next'])
     assert.ok(album.includes(kept), kept);
   assert.equal(
