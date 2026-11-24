@@ -30,7 +30,10 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   (n° 45). **Gros lot** (revue complète, découpage, doublons, optimisation, étape 3) : neuf
   agents en parallèle, [bilan](BILAN-GROS-LOT-2026-11-23.md). Mots nouveaux à lire : la page
   « WebView trop ancien ».
-- **Ensuite** : essai sur le S24 de l'écran allumé pendant une vague ; ce qui reste du
+- **24 novembre** : site publié (n° 46) avec le gros lot ; relevé du parent sur le S24 :
+  120 images par seconde, pas de chauffe, écran resté allumé. Limite à 60 images par seconde
+  (décision du parent), à confirmer par un relevé.
+- **Ensuite** : ce qui reste du
   découpage (fonctions longues de l'interface, recettes sur leur propre serveur).
 
 ## Où on en est
