@@ -9,7 +9,6 @@ import type { Game } from '../game.ts';
 import { battleOver } from './battleState.ts';
 import type { createCareer } from '../progression.ts';
 import { ROSTER_NAMES } from '../roster.ts';
-import { GROUND_ART } from '../art.ts';
 import { chapterIdentityForWave } from '../waves.ts';
 import { START_GOLD, START_TEAM_SIZE, TOTAL_WAVES, WAVES_PER_CHAPTER } from '../gameConstants.ts';
 import { endlessUnlocked, endlessWave } from '../endless.ts';
@@ -38,12 +37,6 @@ type Actions = {
   records?: () => EndlessRecords;
 };
 const CHAPTERS = [0, 1, 2] as const;
-/** What a chapter card shows until its real background is asked for. */
-const CHAPTER_PLACEHOLDERS = [
-  'var(--home-scene)',
-  'linear-gradient(135deg, #486d58, #e6dcad)',
-  'linear-gradient(135deg, #547b79, #dce7df)',
-];
 
 /** An adventure that has begun is never replaced without asking. */
 const begun = (session: Session) => {
@@ -67,15 +60,14 @@ function chapterActionLabel(chapter: number, available: boolean) {
   return available ? TEXT.rejouerDepuisMonCamp : TEXT.aDecouvrirDansLAventure;
 }
 
-/** The three chapter cards of the classic adventure: thumbnail, focus, and where each starts. */
+/**
+ * The three chapter cards of the classic adventure: focus, and where each starts. Their
+ * pictures are small ones of their own, set by the page's style (ui/homeSkin.css): the
+ * battle backgrounds are not fetched to draw a menu.
+ */
 function bindChapters(career: Career, startFrom: (game: Game) => void) {
   for (const i of CHAPTERS) {
     const button = byId<HTMLButtonElement>(`chapter-${i}`);
-    const preview = () => button.style.setProperty('--chapter-art', `url("${GROUND_ART[i].url}")`);
-    // Do not fetch later battle backgrounds merely to draw menu thumbnails.
-    button.style.setProperty('--chapter-art', CHAPTER_PLACEHOLDERS[i]);
-    button.addEventListener('pointerenter', preview);
-    button.addEventListener('focus', preview);
     setDisplayText(
       byId(`chapter-focus-${i}`),
       chapterIdentityForWave(i * WAVES_PER_CHAPTER + 1).focus,
@@ -210,7 +202,6 @@ export function bindMenu(session: Session, career: Career, actions: Actions) {
   );
   byId('home-help').onclick = () => byId('help').click();
   byId('home-guide').onclick = () => byId('unit-guide').click();
-  document.documentElement.style.setProperty('--home-scene', `url("${GROUND_ART[0].url}")`);
   // The « Favoris » page is bound by a file of its own, asked for now.
   lateDoor(byId('home-army'), () =>
     import('./rosterEditor.ts').then((module) =>
