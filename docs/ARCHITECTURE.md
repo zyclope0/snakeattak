@@ -836,7 +836,7 @@ rien : la mise en page reste celle de `homePages.css`.
   refusé par deux recettes (un bouton à deux lignes compté comme coupé, 32 px cachés dans un
   panneau).
 - Les couleurs et les ombres de la pâte (`--clearing-ink`, `--clearing-paper`,
-  `--clearing-wood`, `--clearing-ring`, `--clearing-lift`) sont nommées une fois, sur
+  `--clearing-wood`, `--clearing-honey`, `--clearing-ring`, `--clearing-lift`) sont nommées une fois, sur
   `#home-screen`, dans `homeClearing.css`. Chaque page donne l'unité `--s` : un pixel d'un
   téléphone de 780 × 360 (sur les autres pages, le dixième de `--hu`).
 - Le trait d'encre autour des cartes et des boutons clairs ne prend aucune place (ombre
@@ -849,6 +849,15 @@ rien : la mise en page reste celle de `homePages.css`.
   sont dérivées par `scripts/build-home-scene.py` ; les grands terrains (500 à 600 Ko) ne
   sont chargés qu'en entrant dans un chapitre. Le code qui les chargeait au survol d'une
   vignette est retiré (`ui/menu.ts`).
+- **L'en-tête des pages demande la place qui lui reste** (`@container page-header`) : il
+  partage sa rangée avec « ← Accueil » et les boutons de la page, deux sur Missions. Sous
+  600 px il lâche le nom du jeu, sous 170 px le total des étoiles (qui reste dans la page pour
+  un lecteur d'écran), sous 64 px la roue revient à 48 px. La plaque et l'étoile se comptent
+  en lettres de la page (`em`) : l'habillage ne grossit plus ni le bouton ni le total.
+- **Missions** : les cartes gardent leur papier, leur taille et leur place ; l'habillage ne
+  change que le trait, l'ombre et les couleurs. Trait d'encre, ombre posée ; la mission à
+  jouer porte un liseré miel (`--clearing-honey`) et sa flèche est sur un pain de miel ; une
+  mission pas encore ouverte a un trait pâle, sans relief.
 
 Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
 `14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :

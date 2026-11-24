@@ -39,21 +39,23 @@ body #home-screen:not([data-page='home']) :is(.home-page, .army-editor) {
 body #home-screen:not([data-page='home']) #home-back {
   min-width: 0;
   min-height: 48px;
-  padding: 0 calc(6 * var(--s));
-  /* Le cadre est dessiné sur 15 unités ; le bord réel est plus mince, pour que les mots
-     gardent leur place dans le bouton. */
+  padding: 0 0.35em;
+  /* Le cadre se compte en lettres du bouton (em), pour rester à leur mesure sur un grand
+     écran comme sur un petit. Il est dessiné sur 0,95 em ; le bord réel est plus mince, pour
+     que les mots gardent leur place dans le bouton. */
   border: solid transparent;
-  border-width: calc(5 * var(--s)) calc(13 * var(--s));
-  border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / calc(15 * var(--s)) stretch;
+  border-width: 0.3em 0.85em;
+  border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / 0.95em stretch;
   border-radius: 0;
   background: none;
   box-shadow: var(--clearing-lift);
   color: var(--clearing-paper);
+  /* La taille des lettres reste celle de la page : plus grosses, la plaque et le total des
+     étoiles faisaient passer l'en-tête sur deux rangées sur un ordinateur (Missions, 1280 px). */
   font-family: Fredoka, sans-serif;
   font-weight: 600;
-  font-size: max(14px, calc(16 * var(--s)));
   line-height: 1;
-  text-shadow: 0 calc(1.2 * var(--s)) 0 rgba(8, 20, 16, 0.9);
+  text-shadow: 0 0.08em 0 rgba(8, 20, 16, 0.9);
 }
 /* Les réglages : la roue modelée, à la taille que la page donnait déjà au bouton. */
 body #home-screen:not([data-page='home']) #home-settings {
@@ -69,17 +71,62 @@ body #home-screen:not([data-page='home']) #home-settings::after {
 }
 /* Le total des étoiles : l'étoile modelée, puis le compte, posés sur le décor. */
 body #home-screen:not([data-page='home']) .home-header .home-stars {
-  padding: 0 0 0 calc(27 * var(--s));
+  /* Tout se compte en lettres de la page (em) : le total ne prend pas plus de place qu'avant. */
+  padding: 0 0 0 1.9em;
   border: 0;
   border-radius: 0;
-  background: url('../assets/home/clairiere-etoile.webp') left center / calc(23 * var(--s)) auto
-    no-repeat;
+  background: url('../assets/home/clairiere-etoile.webp') left center / 1.6em auto no-repeat;
   color: var(--clearing-paper);
   font-family: Fredoka, sans-serif;
   font-weight: 600;
-  font-size: max(13px, calc(14.5 * var(--s)));
-  line-height: calc(23 * var(--s));
-  text-shadow: var(--clearing-ring);
+  line-height: 1.7em;
+  text-shadow:
+    0.1em 0 0 var(--clearing-ink),
+    -0.1em 0 0 var(--clearing-ink),
+    0 0.1em 0 var(--clearing-ink),
+    0 -0.1em 0 var(--clearing-ink),
+    0.075em 0.075em 0 var(--clearing-ink),
+    -0.075em 0.075em 0 var(--clearing-ink),
+    0.075em -0.075em 0 var(--clearing-ink),
+    -0.075em -0.075em 0 var(--clearing-ink);
+}
+
+/* L'en-tête partage sa rangée avec « ← Accueil » et les boutons de la page (deux sur la page
+   Missions). On lui demande donc la place qui lui reste vraiment (@container), barres du
+   téléphone et boutons déduits, et il lâche d'abord ce qui compte le moins :
+   - sous 600 px, le nom du jeu (un écran d'ordinateur étroit : il passait sur deux rangées) ;
+   - sous 170 px, le total des étoiles (un petit téléphone : la roue passait dessous, à moitié
+     cachée par le panneau). Il reste dans la page pour un lecteur d'écran, et se lit sur le
+     premier écran ;
+   - sous 64 px, la roue revient à la taille d'un doigt (une fenêtre debout étroite : elle
+     mordait sur le bouton voisin). */
+body #home-screen:not([data-page='home']) .home-header {
+  container: page-header / inline-size;
+}
+@container page-header (max-width: 599.98px) {
+  body #home-screen:not([data-page='home']) .home-header .home-brand {
+    display: none;
+  }
+  body #home-screen:not([data-page='home']) .home-header .home-stars {
+    margin-left: auto;
+  }
+}
+@container page-header (max-width: 170px) {
+  body #home-screen:not([data-page='home']) .home-header .home-stars {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+@container page-header (max-width: 63.98px) {
+  body #home-screen:not([data-page='home']) .home-header #home-settings {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 /* Le bouton qui fait jouer, sur chaque page : le pain de pâte couleur miel de « Jouer ».
@@ -199,7 +246,7 @@ body #home-screen .chapter-card > .chapter-stars {
   padding: calc(2 * var(--s)) calc(5 * var(--s)) calc(3 * var(--s));
   border-radius: calc(9 * var(--s));
   background: rgba(18, 48, 42, 0.84);
-  color: #f6c452;
+  color: var(--clearing-honey);
   line-height: 1;
   text-shadow: none;
 }
@@ -229,7 +276,8 @@ body #home-screen .chapter-card:disabled .chapter-image::after {
    l'habillage, avec le vrai terrain et le cadre ; les étoiles reprennent leur ligne.
    La question est posée aux cartes elles-mêmes, pas à l'écran : c'est la place qui leur
    reste qui compte, barres du téléphone déduites (un écran de 780 px avec deux barres de
-   48 px n'en laisse que 630). Mesuré : l'image au-dessus tient à partir de 649 px. */
+   48 px n'en laisse que 630). Mesuré : l'image au-dessus ne tient plus à 630 px ; elle
+   tient de 646 à 649 px dans les 56 cas d'une relecture indépendante. */
 @media (orientation: landscape) {
   @container chapters (max-width: 645px) {
     body #home-screen .chapter-card {
@@ -285,4 +333,55 @@ body #home-screen .chapter-card:disabled .chapter-image::after {
   body #home-screen .chapter-card > span:last-child {
     font-size: max(11px, calc(var(--hu) * 1.1));
   }
+}
+
+/* ---- Missions ----
+   Les cartes gardent leur papier, leur taille et leur place : seuls le trait, l'ombre et les
+   couleurs changent. Trait d'encre et ombre posée comme sur le premier écran ; la mission à
+   jouer porte un liseré miel et une flèche sur un pain de miel, comme « Jouer ». */
+body #home-screen #mission-cards .mission-card {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 3px 0 #fffbea,
+    0 5px 0 rgba(20, 14, 6, 0.55);
+}
+body #home-screen #mission-cards .mission-card[aria-current='step'] {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 3px var(--clearing-honey),
+    0 5px 0 var(--clearing-wood);
+}
+/* Une mission pas encore ouverte : le même trait, plus pâle, sans relief. */
+body #home-screen #mission-cards .mission-card:disabled {
+  border-color: rgba(18, 48, 42, 0.5);
+  box-shadow:
+    inset 0 3px 0 #eeeede,
+    0 5px 0 rgba(20, 14, 6, 0.28);
+}
+body #home-screen #mission-cards .mission-emblem {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 3px 0 #e4e8be,
+    0 3px 0 rgba(20, 14, 6, 0.55);
+}
+body #home-screen #mission-cards .mission-card:disabled .mission-emblem {
+  border-color: rgba(18, 48, 42, 0.5);
+  box-shadow: inset 0 3px 0 #e4e8be;
+}
+body #home-screen #mission-cards .mission-status-badge {
+  border-color: var(--clearing-ink);
+  color: var(--clearing-ink);
+  background: var(--clearing-paper);
+  box-shadow: 0 3px 0 rgba(20, 14, 6, 0.55);
+}
+body #home-screen #mission-cards [aria-current='step'] .mission-status-badge {
+  color: var(--clearing-wood);
+  background: var(--clearing-honey);
+  box-shadow: 0 3px 0 var(--clearing-wood);
+}
+body #home-screen #mission-cards .mission-card:disabled .mission-status-badge {
+  border-color: rgba(18, 48, 42, 0.5);
+  color: #425347;
+  background: #e9e7d3;
+  box-shadow: none;
 }

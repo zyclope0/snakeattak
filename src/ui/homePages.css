@@ -507,6 +507,11 @@
     grid-template-rows: repeat(3, minmax(min-content, 1fr));
     max-height: max(calc(var(--hu) * 44), 300px);
   }
+  /* Two columns leave a name less width than three in landscape: at the landscape size a
+     long word ("premières", "Crossroads") ran under the badge. */
+  #home-screen #mission-cards .mission-card > strong {
+    font-size: max(13px, calc(var(--hu) * 1.1));
+  }
   #home-screen .roster-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -525,6 +530,9 @@
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: repeat(6, minmax(min-content, 1fr));
     max-height: max(calc(var(--hu) * 52), 420px);
+  }
+  #home-screen #mission-cards .mission-card > strong {
+    font-size: max(13px, calc(var(--hu) * 1.45));
   }
 }
 

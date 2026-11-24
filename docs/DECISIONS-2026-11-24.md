@@ -70,6 +70,11 @@ maquette de synthèse D « la clairière » en est sortie.
   plaque, roue, étoile et bouton modelés), puis page par page, « Aventure classique » en
   premier ; aucun bouton ne change de place, aucune règle ne change ; une nouvelle pièce
   modelée se demande avant de dépenser ([bilan du premier lot](BILAN-MENUS-2026-11-24.md)).
+- **Publier le premier lot** : « publie, on regarde après si on fait une suite ou publication
+  package apk ». Publication n° 51 (commit `3b9f8be`). Le paquet Android pour Google Play
+  reste à décider avec lui : rien n'est envoyé à Google.
+- **La suite choisie par le parent** : « Continuer les menus ». Deuxième lot : la page
+  Missions ([bilan](BILAN-MENUS-LOT-2-2026-11-24.md)).
 
 ## Ce qui reste à décider
 
