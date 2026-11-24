@@ -86,8 +86,9 @@ export function bindCapriceAlbums(
         modal!.open();
         book!.close.focus();
       },
-      // The file did not arrive (a web page that lost its network): nothing opens, the game
-      // stays as it is, and the next tap asks again.
+      // The file did not arrive (a web page that lost its network): nothing opens and the game
+      // stays as it is. The next tap asks again, but the browser keeps the failure: the book
+      // stays closed until the page is reloaded (see `lateDoor`).
       () => (loading = undefined),
     );
   }
