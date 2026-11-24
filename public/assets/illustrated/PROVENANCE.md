@@ -184,3 +184,21 @@ Le clin d'œil demandé reste une petite soucoupe de genre, dans un seul décor 
 ruines classique. Aucun service de génération ni téléchargement payant.
 Le dessin suit les droits du code propriétaire du projet ; aucune licence de
 ressource externe n'est revendiquée pour cet élément.
+
+## Accueil « la clairière » — 24 novembre 2026
+
+Premier écran de l'accueil. Décision du parent du 24 novembre 2026 : jusqu'à 1 500 crédits
+Magnific pour quatre pièces modelées en pâte ; 537 dépensés. Détail des créations, des essais
+écartés et des consignes : `PROVENANCE-ACCUEIL-2026-11-24.md`.
+
+- **Créées avec Magnific** (compte Premium du créateur, modèle Nano Banana Pro), originaux
+  allégés dans `resources/home-clay/` : le logo « La Conquête des Serpents », le logo anglais
+  « Snake Attack TD », le bouton « Jouer » (vide, les mots sont écrits par le jeu), l'engrenage
+  des réglages et l'étoile.
+- **Dérivées d'images déjà dans le dépôt**, sans génération (`scripts/build-home-scene.py`) :
+  le décor (`ground-clearing`, un peu flou et éteint), les trois lieux (antre et King Snake,
+  pont et raptor, château et héros, découpés dans `strongholds`, `serpents-family`,
+  `terrain-props`, `allies-dinosaurs`, `allies-front`), la plaque et le parchemin
+  (`interface-craft`).
+
+Fichiers servis : `src/assets/home/clairiere-*.webp`.
