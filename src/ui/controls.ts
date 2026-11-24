@@ -10,7 +10,10 @@ import { bindSquadControls } from './squadControls.ts';
 import { bindAdventureControls } from './adventureControls.ts';
 import type { createCareer } from '../progression.ts';
 import { bindRewardControls } from './rewardControls.ts';
-import { bindUnitGuide } from './unitGuide.ts';
+// The guide's look stays in the page's first style, at its place in the cascade; its code is
+// a file of its own, asked for as the game starts.
+import './unitGuide.css';
+import { lateDoor } from './lateDoor.ts';
 import { bindFeastControls } from './feastControls.ts';
 import { bindHud } from './hud.ts';
 import { bindDisplay } from './display.ts';
@@ -56,7 +59,9 @@ export function bindControls(
   const refreshDock = bindBattleDock(session, career, refresh, openToolHelp);
   const refreshThreats = bindThreatControls(session, refresh);
   const refreshRewards = bindRewardControls(session, refresh);
-  bindUnitGuide(session, refresh);
+  lateDoor(byId('unit-guide'), () =>
+    import('./unitGuide.ts').then((module) => module.bindUnitGuide(session, refresh)),
+  );
   const refreshCommands = bindBattleCommands(session, refresh, {
     beforeWave: afterChange,
     actionsPaused: catalogue.actionsPaused,

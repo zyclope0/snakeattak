@@ -33,6 +33,9 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **24 novembre** : site publié (n° 46) avec le gros lot ; relevé du parent sur le S24 :
   120 images par seconde, pas de chauffe, écran resté allumé. Limite à 60 images par seconde
   (décision du parent), à confirmer par un relevé.
+- **Place dans le paquet du jeu** : trois fenêtres chargées à part, 195 901 octets sur 200 000
+  (la sauvegarde familiale reste dedans) ; APK v6 avec compteur à faire pour vérifier les
+  60 images par seconde.
 - **Ensuite** : ce qui reste du
   découpage (fonctions longues de l'interface, recettes sur leur propre serveur).
 

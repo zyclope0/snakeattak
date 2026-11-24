@@ -1597,6 +1597,30 @@ dessins de la fenêtre. Quand plusieurs joueurs partagent l'appareil, la fenêtr
 page dès le lancement, comme avant. Paquet principal : 199 066 → 195 910 octets. Aucun
 comportement ne change.
 
+### Trois fenêtres hors du paquet principal — 24 novembre 2026
+
+Le paquet principal était de nouveau à 0,4 Ko de sa limite (199 607 octets sur le site,
+199 932 dans l'aperçu publicitaire). Même méthode que les vues des joueurs : un fichier à
+part, demandé dès le lancement, qui se branche tout seul en arrivant.
+
+- **Le carnet de caprices** (`ui/capriceBook.ts`) : la fenêtre et ses 36 autocollants. Le
+  bouton de l'accueil et la note d'un résultat restent dans le paquet (`ui/capriceAlbums.ts`).
+- **La page « Favoris »** (`ui/rosterEditor.ts`) et **le guide des unités** (`ui/unitGuide.ts`) :
+  leurs boutons passent par `ui/lateDoor.ts`. Le style du guide reste dans le premier style, à
+  sa place dans la cascade (la feuille du paquet est identique, à l'octet).
+
+Un toucher arrivé avant le fichier l'attend, puis ouvre une seule fois, même après plusieurs
+touchers. Si le fichier n'arrive pas (un site qui a perdu le réseau juste après l'ouverture),
+rien ne s'ouvre et le jeu reste tel quel, sans mot nouveau. **Un nouvel essai ne marche pas** :
+un navigateur garde en mémoire un module qui a échoué une fois, et ne le redemande pas ; la
+fenêtre reste fermée jusqu'au rechargement de la page (attaque indépendante du 24 novembre). Il
+en va de même pour les fenêtres chargées à part avant elles (voyage, joueurs, index des
+serpents), contrairement à ce que disent leurs sections. C'est pourquoi **la sauvegarde
+familiale reste dans le paquet principal** : sur un site qui ne garde rien (navigation privée),
+elle est le seul moyen de sortir l'aventure, et recharger la page la perdrait. Un premier essai
+l'avait sortie ; il est retiré. Paquet principal : site et application 199 607 → 195 901
+octets, aperçu publicitaire 199 932 → 196 226, essai publicitaire 199 873 → 196 167.
+
 Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
 (« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », ligne d'annonce, prix des favoris, total de
 vagues, onglets et bourse du catalogue, notes de « Dangers », prochaine mission). Les cartes
