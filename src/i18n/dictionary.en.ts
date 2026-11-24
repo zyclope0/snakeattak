@@ -498,7 +498,7 @@ export const english: Readonly<Record<string, string>> = Object.freeze({
   "Lance la vague. Tes alliés se déplaceront et combattront tout seuls.": "Start the wave. Your allies will move and fight on their own.",
   "Lancer la vague": "Start wave",
   "Langue": "Language",
-  "Langue indisponible. Réessaie.": "Language unavailable. Try again.",
+  "Langue indisponible. Recharge la page.": "Language unavailable. Reload the page.",
   "Le Chemin Tranquille": "The Quiet Path",
   "Le Chemin des Braves": "The Path of the Brave",
   "Le Feu de Camp": "The Campfire",

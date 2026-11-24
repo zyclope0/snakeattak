@@ -1794,8 +1794,9 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   (Drive, Fichiers, un e-mail…). Ni l'un ni l'autre ne demande de permission ; le partage
   passe par le `FileProvider` que l'application déclarait déjà (`cache-path`).
   - Le code des modules n'est que dans le paquet de l'application : `__APP_BUILD__`
-    (`vite.config.ts`) le retire du site, et il n'est chargé qu'au moment où un fichier est
-    demandé. `scripts/check-dist.mjs` refuse que le premier script charge autre chose que
+    (`vite.config.ts`) le retire du site. Les deux modules du partage ne sont chargés qu'au
+    moment où un fichier est demandé ; le cœur de Capacitor l'est depuis le 24 novembre à
+    chaque démarrage de l'application, après le jeu, avec le module du bouton « retour ». `scripts/check-dist.mjs` refuse que le premier script charge autre chose que
     lui-même et les clés, et cherche le cœur de Capacitor par un mot qu'il porte
     (`androidBridge`), quel que soit le fichier où il est rangé : aucun sur le site, aucun
     chargé avec le premier script de l'application, et au moins un dans l'application (un
@@ -1888,7 +1889,10 @@ Capacitor, `@capacitor/app` 8.1.2 (version fixe, manifeste vide : aucune permiss
 
 - **Ce que fait « retour »** (`src/ui/backButton.ts`), la première chose qui s'applique :
   une fenêtre ouverte reçoit la demande que fait la touche Échap (événement `cancel`, puis
-  fermeture si elle n'a pas dit non) ; une partie en cours : le bouton pause, un deuxième
+  fermeture si elle n'a pas dit non). Une fenêtre peut répondre en faisant autre chose (la
+  préparation d'une mission revient à son résumé). Celle qui dit non sans rien faire
+  (« Qui joue ? » à l'ouverture, une panne qui reste) garde sa place et l'application passe en
+  arrière-plan : aucune fenêtre ne retient un enfant dans le jeu ; une partie en cours : le bouton pause, un deuxième
   appui reprend ; une partie finie : le bouton d'accueil ; une page de l'accueil : son
   bouton de retour ; le premier écran : l'application passe en arrière-plan
   (`minimizeApp`), rien n'est fermé. Le jeu lit ce qui est à l'écran (`#app`, son
@@ -1899,6 +1903,11 @@ Capacitor, `@capacitor/app` 8.1.2 (version fixe, manifeste vide : aucune permiss
   « retour » dès le lancement, et un jeu qui n'a pas démarré, ou la page « WebView trop
   ancien », ne se quitteraient plus. `src/main.ts` charge le fichier après le démarrage
   réussi ; il écoute d'abord, puis demande « retour » à Android (`toggleBackButtonHandler`).
+- **Une page qui part rend « retour » à Android** (`pagehide`). Le jeu recharge sa page
+  (changement de joueur, import d'un fichier familial, « Relancer le jeu ») ; Capacitor retire
+  alors les écouteurs de la page mais garderait le bouton pour lui, et « retour » ne ferait
+  plus rien — pour de bon si le jeu ne redémarrait pas (lu dans le code de Capacitor par une
+  attaque indépendante, 24 novembre). La page suivante le reprend quand son jeu écoute.
 - **Seulement si le côté natif porte le module** (`nativeBack`, par
   `Capacitor.PluginHeaders`, comme pour le partage) : une application construite avant lui,
   ou une recette qui ouvre le paquet dans Chromium, ne charge rien et n'écrit aucune erreur.
