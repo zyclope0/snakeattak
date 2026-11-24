@@ -827,11 +827,14 @@ rien : la mise en page reste celle de `homePages.css`.
 
 - Le décor de la clairière, assombri d'un voile, derrière toutes les pages ; il est déjà
   chargé par le premier écran.
-- « ← Accueil » sur la plaque peinte, la roue et l'étoile modelées, et le bouton de pâte pour
-  l'action principale de chaque page (`.primary`). La plaque et la pâte sont découpées en neuf
-  (`border-image`) ; leur dessin fait 15 ou 16 unités, leur bord réel est plus mince, pour que
-  les mots d'un bouton étroit gardent leur place (la recette des menus compte un bouton dont
-  les mots dépassent comme coupé).
+- « ← Accueil » sur la plaque peinte (découpée en neuf, `border-image` : son dessin fait
+  15 unités, son bord réel est plus mince, pour que les mots gardent leur place), la roue et
+  l'étoile modelées.
+- Le bouton de pâte pour l'action principale de chaque page (`.primary`) **n'est qu'un
+  dessin** : une image de fond étirée, comme « Jouer ». Taille, marges, lignes et police
+  restent celles que la page donne à son bouton : un premier jet qui les changeait a été
+  refusé par deux recettes (un bouton à deux lignes compté comme coupé, 32 px cachés dans un
+  panneau).
 - Les couleurs et les ombres de la pâte (`--clearing-ink`, `--clearing-paper`,
   `--clearing-wood`, `--clearing-ring`, `--clearing-lift`) sont nommées une fois, sur
   `#home-screen`, dans `homeClearing.css`. Chaque page donne l'unité `--s` : un pixel d'un
