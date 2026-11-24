@@ -1,4 +1,5 @@
 import { readFile, rm, writeFile } from 'node:fs/promises';
+import { checkClearing, clearingState } from './mobile-home-clearing-checks.mjs';
 import { leaveBattle } from '../tests/browser-entry.mjs';
 import { revealControl } from '../tests/reveal-controls.mjs';
 import { capriceExplanation } from '../src/ui/capriceCopy.ts';
@@ -462,60 +463,54 @@ export async function checkVoyage({ browser, url, check, capture }) {
       const t = TEXT[language];
       const where = `${w}×${h} ${language}`;
       const page = await open(w, h, { language });
+      // The door is a place of the clearing: the bridge, with its name on a wooden plaque.
       const door = () =>
         page.evaluate(() => {
           const button = document.querySelector('#home-voyage');
           const r = button.getBoundingClientRect();
           const play = document.querySelector('#home-primary').getBoundingClientRect();
-          const hero = document.querySelector('.home-hero').getBoundingClientRect();
-          const next = document.querySelector('#home-next-mission').getBoundingClientRect();
           const tag = button.querySelector('.voyage-new');
-          const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
           return {
             label: button.querySelector('span').innerText.trim(),
             tag: tag.getClientRects().length ? tag.innerText.trim() : null,
             size: [r.width, r.height],
-            reachable: !!hit && button.contains(hit),
-            inHero:
-              r.top >= hero.top &&
-              r.bottom <= hero.bottom &&
-              r.left >= hero.left &&
-              r.right <= hero.right,
+            inView: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight,
+            // Wherever a finger lands on the plaque, it is the door that answers.
+            reachable: [
+              [0.5, 0.5],
+              [0.15, 0.15],
+              [0.85, 0.15],
+              [0.15, 0.85],
+              [0.85, 0.85],
+            ].every(([fx, fy]) => {
+              const hit = document.elementFromPoint(r.left + r.width * fx, r.top + r.height * fy);
+              return !!hit && button.contains(hit);
+            }),
             besidePlay:
               r.left >= play.right - 1 || r.top >= play.bottom - 1 || r.right <= play.left + 1,
-            sameRow:
-              Math.abs(r.top + r.height / 2 - (play.top + play.height / 2)) < play.height / 2,
-            nextWhole: next.height > 0 && next.bottom <= hero.bottom + 0.5,
-            links: [...document.querySelectorAll('.home-links button')].filter(
-              (b) => b.getClientRects().length,
-            ).length,
             play: [play.width, play.height],
-            overflow: [
-              document.documentElement.scrollWidth - innerWidth,
-              document.documentElement.scrollHeight - innerHeight,
-            ],
           };
         });
       let state = await door();
+      const clearing = await clearingState(page);
       check(
         state.label === t.door && state.tag === t.fresh,
         `home ${where}: the door says « ${t.door} » and « ${t.fresh} »: ${JSON.stringify(state)}`,
       );
       check(
-        state.size[0] >= 48 && state.size[1] >= 48 && state.reachable && state.inHero,
-        `home ${where}: the door is a whole 48 px target: ${JSON.stringify(state)}`,
+        state.size[0] >= 48 && state.size[1] >= 48 && state.reachable && state.inView,
+        `home ${where}: the door is a whole 48 px target in view: ${JSON.stringify(state)}`,
       );
       check(
-        state.besidePlay && state.play[0] >= 120 && state.play[1] >= 48,
-        `home ${where}: the door sits beside « Jouer » without covering it: ${JSON.stringify(state)}`,
+        state.besidePlay &&
+          state.play[0] >= 120 &&
+          state.play[1] >= 48 &&
+          state.play[0] * state.play[1] > state.size[0] * state.size[1],
+        `home ${where}: the door does not cover « Jouer », which stays the bigger of the two: ${JSON.stringify(state)}`,
       );
-      // A low screen has no room for a second row of buttons.
-      if (h <= 520)
-        check(state.sameRow, `home ${where}: both buttons share one row: ${JSON.stringify(state)}`);
-      check(
-        state.links === 5 && state.nextWhole && state.overflow.every((value) => value <= 0),
-        `home ${where}: five destinations, the next mission in view, nothing overflows: ${JSON.stringify(state)}`,
-      );
+      // The whole first screen with the door on it: five destinations, the bridge drawn above
+      // its plaque, the next mission just above « Jouer », nothing overlaps, nothing overflows.
+      checkClearing(check, clearing, `home ${where}`);
       check(
         !page.requested.some((address) => address.includes('/ui/voyage/')),
         `home ${where}: the screens of the voyage are not loaded with the home`,
@@ -530,17 +525,13 @@ export async function checkVoyage({ browser, url, check, capture }) {
       state = await back.evaluate(() => ({
         label: document.querySelector('#home-voyage span').innerText.trim(),
         tag: document.querySelector('#home-voyage .voyage-new').getClientRects().length,
-        whole:
-          document.querySelector('#home-voyage').scrollWidth <=
-          document.querySelector('#home-voyage').clientWidth + 1,
-        next:
-          document.querySelector('#home-next-mission').getBoundingClientRect().bottom <=
-          document.querySelector('.home-hero').getBoundingClientRect().bottom + 0.5,
       }));
       check(
-        state.label === t.resume && state.tag === 0 && state.whole && state.next,
+        state.label === t.resume && state.tag === 0,
         `home ${where}: a voyage under way reads « ${t.resume} »: ${JSON.stringify(state)}`,
       );
+      // Those longer words are whole on the plaque, and the rest of the screen still holds.
+      checkClearing(check, await clearingState(back), `home ${where}, voyage under way`);
       await back.close();
     }
 

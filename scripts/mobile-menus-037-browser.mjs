@@ -2,6 +2,7 @@ import { chooseLanguage, leaveBattle, showHomePage } from '../tests/browser-entr
 import { REMOVED_CATALOGUE_CONTROLS } from '../tests/reveal-controls.mjs';
 import { checkCatalogue } from './mobile-catalogue-037-checks.mjs';
 import { checkHelpPoints } from './mobile-help-038-checks.mjs';
+import { checkClearing, clearingState } from './mobile-home-clearing-checks.mjs';
 import { checkPlayers } from './mobile-players-038-checks.mjs';
 import { checkPrivacy } from './mobile-privacy-038-checks.mjs';
 import { checkReplay } from './mobile-replay-038-checks.mjs';
@@ -29,7 +30,16 @@ const errors = [],
 let browser,
   server,
   checks = 0;
+// MOBILE_MENUS_KEEP_GOING=1 notes a check that fails and goes on, to list in one run all that
+// fails; the recipe still fails at its end. Without it the first failure stops the run.
+const keepGoing = !!process.env.MOBILE_MENUS_KEEP_GOING;
+const failures = [];
 const check = (value, label) => {
+  if (keepGoing && !value) {
+    failures.push(String(label));
+    console.error(`FAILED: ${label}`);
+    return;
+  }
   assert.ok(value, label);
   checks++;
 };
@@ -265,11 +275,9 @@ try {
       'home-caprice-album',
     ])
       await reachable(p, '#' + id);
-    check(
-      (await p.locator('#home-primary').evaluate((n) => getComputedStyle(n).backgroundColor)) ===
-        'rgb(237, 189, 87)',
-      'primary keeps gold action hierarchy',
-    );
+    // The main action is no longer a flat honey rectangle: it is the clay button of the
+    // clearing, the biggest thing to touch, on a first screen where nothing overlaps.
+    checkClearing(check, await clearingState(p), `home ${w}×${h}`);
     await capture(p, `after-home-${w}x${h}`);
     // The main button plays at once; the preparation is one page away, on Missions.
     await p.locator('#home-primary').click();
@@ -515,11 +523,13 @@ try {
     'reload primary resumes active mission',
   );
   await p.close();
+  const safeAreas = { top: 24, right: 32, bottom: 16, left: 0 };
   const realSafe = await pageAt(780, 360);
-  await realSafe.evaluate(() => {
-    for (const [side, value] of Object.entries({ top: 24, right: 32, bottom: 16, left: 0 }))
+  await realSafe.evaluate((margins) => {
+    for (const [side, value] of Object.entries(margins))
       document.documentElement.style.setProperty(`--safe-area-inset-${side}`, `${value}px`);
-  });
+  }, safeAreas);
+  checkClearing(check, await clearingState(realSafe, safeAreas), 'home 780×360 with safe areas');
   await realSafe.locator('#home-caprice-album').click();
   check(
     await realSafe.locator('[data-sticker]:visible').evaluateAll((ns) =>
@@ -534,11 +544,11 @@ try {
   await capture(realSafe, 'after-album-safe-780x360');
   await realSafe.close();
   const safe = await pageAt(568, 320);
-  await safe.evaluate(() => {
-    for (const [side, value] of Object.entries({ top: 24, right: 32, bottom: 16, left: 0 }))
+  await safe.evaluate((margins) => {
+    for (const [side, value] of Object.entries(margins))
       document.documentElement.style.setProperty(`--safe-area-inset-${side}`, `${value}px`);
-  });
-  // The settings button took the language picker's place in the home header.
+  }, safeAreas);
+  // The settings wheel is the last thing of the top row, in the corner of the safe area.
   const settingsBox = await safe.locator('#home-settings').boundingBox();
   check(
     settingsBox.y >= 24 && settingsBox.x + settingsBox.width <= 536,
@@ -548,6 +558,8 @@ try {
     await safe.evaluate(() => document.documentElement.scrollHeight <= innerHeight + 1),
     'safe-area home has no page scroll',
   );
+  // The smallest phone with its safe areas: the whole first screen, not the wheel alone.
+  checkClearing(check, await clearingState(safe, safeAreas), 'home 568×320 with safe areas');
   await safe.locator('#home-caprice-album').click();
   const closeBox = await safe.locator('#caprice-album-close').boundingBox();
   check(closeBox.y >= 24 && closeBox.x + closeBox.width <= 536, 'album exit respects safe areas');
@@ -616,6 +628,8 @@ try {
   ]) {
     const phone = await openAt(w, h, insets);
     const where = `${w}×${h}${insets ? ' with system margins' : ''}`;
+    // The first screen first, on the same grid: it leads to the four pages measured below.
+    checkClearing(check, await clearingState(phone, insets), `home ${where}`);
     for (const [target, scroller] of scrollers) {
       await showHomePage(phone, target);
       const fit = await measurePage(phone, scroller);
@@ -788,9 +802,10 @@ try {
     await phone.close();
   }
   await writeFile(`${folder}/after-measurements.json`, JSON.stringify(measurements, null, 2));
-  await writeFile(`${folder}/report.json`, JSON.stringify({ checks, errors }, null, 2));
+  await writeFile(`${folder}/report.json`, JSON.stringify({ checks, errors, failures }, null, 2));
   lap('end');
-  console.log(JSON.stringify({ checks, errors }));
+  console.log(JSON.stringify({ checks, errors, failed: failures.length }));
+  assert.ok(!failures.length, `${failures.length} checks failed:\n${failures.join('\n')}`);
 } finally {
   await browser?.close();
   server?.kill();

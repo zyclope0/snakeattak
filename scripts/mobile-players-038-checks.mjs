@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { checkClearing, clearingState } from './mobile-home-clearing-checks.mjs';
 import { chooseLanguage, leaveBattle, showHomePage } from '../tests/browser-entry.mjs';
 import { english } from '../src/i18n/english.ts';
 import { kinds } from '../src/data.ts';
@@ -139,6 +140,7 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
         return !!hit && chip.contains(hit);
       };
       const header = document.querySelector('#home-screen .home-header');
+      const name = chip.querySelector('.player-name');
       return {
         rect: r.toJSON(),
         whole: [
@@ -154,22 +156,20 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
         ].every(mine),
         type: chip.type,
         popup: chip.getAttribute('aria-haspopup'),
-        name: chip.querySelector('.player-name').textContent,
-        raw: chip.querySelector('.player-name').hasAttribute('data-copy-raw'),
+        name: name.textContent,
+        raw: name.hasAttribute('data-copy-raw'),
         action: chip.querySelector('small').textContent,
         character: chip.querySelector('.player-avatar').dataset.character,
         portrait: getComputedStyle(chip.querySelector('.player-avatar')).backgroundImage,
-        badge: getComputedStyle(chip.querySelector('.player-chip-badge')).display !== 'none',
-        text: chip.querySelector('.player-chip-text').getBoundingClientRect().width > 2,
-        cut: [...chip.querySelectorAll('.player-chip-text > *')]
-          .filter((node) => node.scrollWidth > node.clientWidth + 1)
-          .map((node) => node.textContent),
+        // On the clearing the chip is the portrait and the name; what it does is one touch
+        // away, in the window it opens, and stays in the page for a screen reader.
+        portraitSize: box(chip.querySelector('.player-avatar')).width,
+        nameShown: box(name).width > 2 && box(name).height > 2,
+        nameFont: parseFloat(getComputedStyle(name).fontSize),
         siblings: [...header.children].map((node) => node.id || node.className),
-        brand: box(header.querySelector('.home-brand')),
-        stars: box(header.querySelector('#mission-total')),
+        logo: box(document.querySelector('#home-screen .home-intro h1')),
+        parents: box(document.querySelector('#home-parents')),
         settings: box(header.querySelector('#home-settings')),
-        card: box(document.querySelector('#home-main')),
-        sideways: header.scrollWidth - header.clientWidth,
         pageScroll: document.documentElement.scrollHeight - innerHeight,
         dialogs: document.querySelectorAll('dialog[open]').length,
       };
@@ -292,50 +292,61 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
           `${where}: chip is a 48 px target: ${JSON.stringify(chip.rect)}`,
         );
         check(inSafeArea(chip.rect) && chip.whole, `${where}: chip whole inside the safe area`);
+        // The blocks of the page keep their order for a keyboard and a screen reader, even
+        // though the clearing places each button by itself.
         assert.deepEqual(
           chip.siblings,
           ['home-brand', 'player-chip', 'mission-total', 'home-settings'],
           `${where}: header order`,
         );
-        check(true, `${where}: chip sits between the title and the stars`);
+        check(true, `${where}: the page still reads title, player, stars, settings in that order`);
+        // The top of the clearing: the game's name on the left; parents, player and settings on
+        // the right, side by side.
         check(
-          chip.brand.right <= chip.rect.left + 0.5 &&
-            chip.rect.right <= chip.stars.left + 0.5 &&
-            chip.stars.right <= chip.settings.left + 0.5 &&
-            inSafeArea(chip.settings) &&
-            chip.sideways <= 0,
-          `${where}: nothing overlaps in the header: ${JSON.stringify([chip.brand, chip.rect, chip.stars, chip.settings])}`,
+          chip.logo.right <= chip.parents.left + 0.5 &&
+            chip.parents.right <= chip.rect.left + 0.5 &&
+            chip.rect.right <= chip.settings.left + 0.5 &&
+            [chip.logo, chip.parents, chip.settings].every(inSafeArea),
+          `${where}: nothing overlaps at the top of the screen: ${JSON.stringify([chip.logo, chip.parents, chip.rect, chip.settings])}`,
         );
-        check(
-          chip.rect.bottom <= chip.card.top + 0.5 && chip.settings.bottom <= chip.card.top + 0.5,
-          `${where}: header stays above the card: ${chip.rect.bottom} / ${chip.card.top}`,
-        );
+        // The rest of the first screen with this player on it: the top row stays above the
+        // places and « Jouer », every button is a whole target that no other covers, the
+        // game's name is its picture, nothing scrolls.
+        const clearing = await clearingState(page, insets);
+        checkClearing(check, clearing, where);
         check(chip.pageScroll <= 1, `${where}: home has no page scroll`);
         check(
           chip.type === 'button' && chip.popup === 'dialog',
           `${where}: chip is a button that opens a window`,
         );
         check(
-          chip.name === player.name && chip.raw === player.raw && chip.action === say(action),
-          `${where}: chip names the player and what it does: ${chip.name} / ${chip.action}`,
+          chip.name === player.name &&
+            chip.raw === player.raw &&
+            chip.action === say(action) &&
+            clearing.spoken.chip === say(action),
+          `${where}: chip names the player and still says what it does: ${chip.name} / ${chip.action} / ${clearing.spoken.chip}`,
         );
         check(
           chip.character === player.character &&
-            chip.portrait.includes(`joueur-${player.character}`),
+            chip.portrait.includes(`joueur-${player.character}`) &&
+            chip.portraitSize >= 40,
           `${where}: chip shows the player's small portrait: ${chip.portrait}`,
         );
+        // Every screen of the grid, the smallest phone included, writes the name beside the
+        // portrait: no screen folds the chip to a portrait and a badge any more.
         check(
-          chip.text ? !chip.badge && !chip.cut.length : chip.badge,
-          `${where}: chip shows its two lines whole, or its portrait with a badge: ${chip.cut}`,
+          chip.nameShown && chip.nameFont >= 13 && clearing.chip.nameInside && !clearing.chip.badge,
+          `${where}: chip writes the player's name in 13 px or more, inside the button: ${JSON.stringify(clearing.chip)}`,
         );
-        // Only the smallest phone folds the chip; a phone with system margins keeps its words.
+        // A name of ordinary length is whole on every screen. The longest nickname there is
+        // (16 characters) is whole from 780 px wide, system margins included, as it was
+        // before the clearing; a smaller phone, which used to show the portrait alone, may
+        // end it with « … », never cut it in mid-letter nor let it leave the button.
         check(
-          chip.text === w >= 780,
-          `${where}: chip ${w >= 780 ? 'says what it does in words' : 'folds to its portrait'}`,
-        );
-        check(
-          chip.brand.height <= chip.rect.height,
-          `${where}: the game's title stays on one line: ${chip.brand.height}`,
+          player.name === LONG && w < 780
+            ? !clearing.chip.nameShortened || clearing.chip.nameEllipsis
+            : !clearing.chip.nameShortened,
+          `${where}: the player's name is whole${w < 780 ? ', or the longest nickname ends with « … »' : ''}: ${JSON.stringify(clearing.chip)}`,
         );
         return chip;
       };
