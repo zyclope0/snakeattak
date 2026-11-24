@@ -1,4 +1,5 @@
 import { battleOver, type Game } from '../game.ts';
+import { beforeReload } from './reload.ts';
 
 /**
  * Android's « retour » button, in the application only (src/main.ts starts this there, once the
@@ -18,10 +19,10 @@ import { battleOver, type Game } from '../game.ts';
  * Only buttons the child could press are pressed: nothing here is a new way through the game.
  * Until this is bound, « retour » stays Android's own (`disableBackButtonHandler` in
  * capacitor.config.ts): a game that did not start, or the page that says the WebView is too
- * old, can still be left. A page that goes (the game reloads it after a change of player, an
- * import, « Relancer le jeu ») gives « retour » back to Android: Capacitor drops the listeners
- * of a page that leaves but would keep swallowing the button (read in its code, independent
- * attack of 24 November 2026), and the next page takes it again only once its game has started.
+ * old, can still be left. A page the game reloads (a change of player, an import, « Relancer
+ * le jeu ») first gives « retour » back to Android: Capacitor drops the listeners of a page
+ * that leaves but would keep swallowing the button (read in its code, independent attack of
+ * 24 November 2026), and the next page takes it again only once its game has started.
  */
 
 /** What is on screen when « retour » is pressed. */
@@ -122,12 +123,15 @@ export const nativeBack = (bridge = (globalThis as { Capacitor?: Bridge }).Capac
 export async function bindBackButton(page: Document = document): Promise<void> {
   if (!nativeBack()) return;
   const { App } = await import('@capacitor/app');
+  const giveBack = () => App.toggleBackButtonHandler({ enabled: false });
+  // The page that goes gives « retour » back, the page that comes takes it when it listens.
+  // Said before the reload is asked, from a page that still lives (src/ui/reload.ts): a
+  // message sent while the page leaves may be dropped. `pagehide` is the second net, for a
+  // page that goes another way; both are set before « retour » is taken.
+  beforeReload(giveBack);
+  page.defaultView?.addEventListener('pagehide', () => void giveBack());
   await App.addListener('backButton', () => {
     if (pressBack(page) === 'leave') void App.minimizeApp();
   });
   await App.toggleBackButtonHandler({ enabled: true });
-  // The page that goes gives « retour » back; the page that comes takes it when it listens.
-  page.defaultView?.addEventListener('pagehide', () => {
-    void App.toggleBackButtonHandler({ enabled: false });
-  });
 }
