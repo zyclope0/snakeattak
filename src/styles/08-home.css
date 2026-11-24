@@ -120,9 +120,6 @@
   height: 93px;
   width: calc(100% + 36px);
   margin: 0 -18px 7px;
-  background:
-    linear-gradient(0deg, #263e3266, transparent),
-    var(--chapter-art) center/cover;
 }
 .chapter-card strong {
   font:
