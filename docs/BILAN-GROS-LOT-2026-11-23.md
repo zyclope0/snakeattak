@@ -202,5 +202,6 @@ relevé reste aussi haut.
 Les 25 planches d'images encore « sans perte » et utilisées par le jeu sont ré-encodées en
 qualité 88 : 13,7 → 6,7 Mo (−7,0 Mo pour l'application et le site). Le parent a comparé
 avant/après (zooms ×2 sur les zones les plus détaillées) puis joué l'APK de test v7 : « pas de
-différence ». Écart visible mesuré : moins de 1 sur 255 en moyenne. Vérifié par `npm run verify`,
+différence ». Écart visible mesuré : moins de 1 sur 255 en luminosité, un peu plus couleur par couleur (le
+plus marqué : un liseré à peine visible autour de l'œil rouge du serpent bleu). Vérifié par `npm run verify`,
 `test:browser`, `test:render-settings`, `test:saves:update` et la CI. Pas essayé avec les enfants.

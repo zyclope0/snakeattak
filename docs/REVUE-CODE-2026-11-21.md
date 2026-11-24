@@ -84,8 +84,9 @@ téléphone.
 **Fait (24 novembre 2026, accord du parent après comparaison).** Les 25 planches utilisées sont
 ré-encodées en qualité 88, comme le spinosaure (`scripts/assemble-spinosaurus.py`) : 13,7 → 6,7 Mo
 dans `src/assets/illustrated/` (−7,0 Mo), transparence identique. Écart visible, chaque planche
-posée sur le vert du plateau : moins de 1 sur 255 en moyenne, 7 à 14 pour le millième de pixels le
-plus touché. Le parent a comparé les zooms et joué l'APK de test v7 : « pas de différence ».
+posée sur le vert du plateau : en luminosité, moins de 1 sur 255 en moyenne et 7 à 14 pour le millième
+de pixels le plus touché ; couleur par couleur, jusqu'à 1,2 en moyenne et 9 à 25 pour ce millième
+(un liseré à peine visible autour de l'œil rouge du serpent bleu, `serpents-family.webp`). Le parent a comparé les zooms et joué l'APK de test v7 : « pas de différence ».
 `strongholds.original.webp`, référencé nulle part, n'est pas touché.
 
 Six images ne sont jamais livrées ni référencées (3,46 Mo dans le clone) :
