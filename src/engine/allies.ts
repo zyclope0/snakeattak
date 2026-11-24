@@ -6,10 +6,10 @@ import { canEngage, defenseGoal, defenseRole, reliefTeams } from '../defenders.t
 import { healAmount, attackDamage } from '../unitRules.ts';
 import { kinds } from '../data.ts';
 import type { Kind } from '../data.ts';
-import { nearestCampPoint } from '../navigation.ts';
+import { nearestCampPoint, notCloserThan } from '../navigation.ts';
 import type { Point } from '../navigation.ts';
 import type { Entity, Effect } from './state.ts';
-import { distance, closerTo, addEffect, faceToward, forgetPath } from './state.ts';
+import { distance, nearestTo, addEffect, faceToward, forgetPath } from './state.ts';
 import { CAMP_FRONT_X, CAMP_LEFT, CAMP_RIGHT, CRYSTAL_ALERT_X, standable } from './field.ts';
 import { moveUnit, returnHome } from './movement.ts';
 import { hitEnemy } from './damage.ts';
@@ -157,23 +157,36 @@ function chooseTarget(
   relief: Relief,
   assignments: Assignments,
 ): Entity | undefined {
-  const score = (e: Entity) => targetScore(u, e, assignments);
-  let candidates = game.enemies.filter(
+  const candidates = game.enemies.filter(
     (e) =>
       e.hp > 0 &&
       (!isFlying(e) || canHitFlying(u.kind)) &&
       (canEngage(u, e) || relief.get(e.id)?.has(u.id)),
   );
-  if (u.kind === 'ninja') {
-    const urgent = candidates.filter((e) => e.x >= CRYSTAL_ALERT_X);
-    if (urgent.length) candidates = urgent;
+  // A ninja hunts only the snakes at the crystal while there are some.
+  const urgentOnly = u.kind === 'ninja' && candidates.some(atCrystal);
+  let best: Entity | undefined;
+  let bestScore = 0;
+  let retained: Entity | undefined;
+  let retainedScore = 0;
+  for (const e of candidates) {
+    if (urgentOnly && !atCrystal(e)) continue;
+    const score = targetScore(u, e, assignments);
+    // The lowest score, the oldest snake on a tie: the order the candidates were sorted by.
+    if (!best || score < bestScore || (score === bestScore && e.id < best.id)) {
+      best = e;
+      bestScore = score;
+    }
+    if (e.id === u.targetId) {
+      retained = e;
+      retainedScore = score;
+    }
   }
-  const best = candidates.sort((a, b) => score(a) - score(b) || a.id - b.id)[0];
-  const retained = candidates.find((e) => e.id === u.targetId);
   // Keep a viable opponent for small score changes. Crystal danger's 1000-point
   // priority and the mobile assignment penalty still immediately break the lock.
-  return best && retained && score(retained) <= score(best) + TARGET_LOCK_MARGIN ? retained : best;
+  return best && retained && retainedScore <= bestScore + TARGET_LOCK_MARGIN ? retained : best;
 }
+const atCrystal = (e: Entity) => e.x >= CRYSTAL_ALERT_X;
 function targetScore(u: Entity, e: Entity, assignments: Assignments) {
   return (
     threat(u, e) +
@@ -259,9 +272,11 @@ function sweepSail(game: Game, u: Entity, target: Entity, damage: number) {
 /** The two-headed knight also bites the nearest other snake on the ground. */
 function strikeWithSecondHead(game: Game, u: Entity, target: Entity, damage: number) {
   const reach = kinds[u.kind as Kind].range + SECOND_HEAD_EXTRA_REACH;
-  const second = game.enemies
-    .filter((e) => e !== target && e.hp > 0 && !isFlying(e) && distance(e, u) <= reach)
-    .sort((a, b) => closerTo(u, a, b))[0];
+  const second = nearestTo(
+    u,
+    game.enemies,
+    (e) => e !== target && e.hp > 0 && !isFlying(e) && distance(e, u) <= reach,
+  );
   if (!second) return;
   hitEnemy(game, u, second, damage);
   addEffect(game, u, second, 'hit');
@@ -279,8 +294,9 @@ export function separateAllies(game: Game, dt: number) {
   for (let i = 0; i < units.length; i++)
     for (let j = i + 1; j < units.length; j++) {
       const a = units[i],
-        b = units[j],
-        d = distance(a, b);
+        b = units[j];
+      if (notCloserThan(a.x - b.x, a.y - b.y, SEPARATION_DISTANCE)) continue;
+      const d = distance(a, b);
       if (d >= SEPARATION_DISTANCE) continue;
       // Two allies on the same point part along the x axis.
       const dx = d ? (a.x - b.x) / d : 1,

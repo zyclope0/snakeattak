@@ -8,10 +8,10 @@ import type { VoyageStage } from '../../voyage.ts';
 import { voyagePlanOf } from '../../voyageState.ts';
 import type { VoyageState } from '../../voyageState.ts';
 import { frenchLeaf } from '../capriceCopy.ts';
-import { stickerGraphic } from '../capriceIcons.ts';
 import { decoration, make } from '../dom.ts';
 import { lands } from '../missionWords.ts';
 import { svgNode } from '../svg.ts';
+import { capriceSticker } from './capriceSticker.ts';
 import { stopMap } from './stopMap.ts';
 import {
   exitsLine,
@@ -67,16 +67,6 @@ function exits(lairs: number) {
   setAttribute(heads, 'aria-label', exitsLine(lairs));
   heads.append(...Array.from({ length: lairs }, () => make('i')));
   return heads;
-}
-
-/** The sticker of the caprice that surprises a stage: shown in advance, and a button. */
-function sticker(caprice: CapriceDefinition, explain: PathActions['explain']) {
-  const button = make('button', { className: 'stop-caprice' }, stickerGraphic(caprice));
-  button.type = 'button';
-  button.setAttribute('aria-haspopup', 'dialog');
-  setAttribute(button, 'aria-label', surpriseLabel(caprice.name));
-  button.onclick = () => explain(caprice);
-  return button;
 }
 
 function king() {
@@ -168,7 +158,8 @@ function pathStop(stage: VoyageStage, index: number, stop: StopState, actions: P
   const item = make('li', { className: 'voyage-stop' }, badge(index, stop));
   item.dataset.state = stop;
   const caprice = stageCaprice(stage);
-  const surprise = caprice && sticker(caprice, actions.explain);
+  // The sticker of the caprice that surprises a stage: shown in advance, and a button.
+  const surprise = caprice && capriceSticker(caprice, surpriseLabel(caprice.name), actions.explain);
   if (stop === 'next') {
     item.setAttribute('aria-current', 'step');
     item.append(...nextStopContent(stage, index, actions.start, surprise));

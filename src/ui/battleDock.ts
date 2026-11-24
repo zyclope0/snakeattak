@@ -2,6 +2,7 @@ import { canSpend } from './capriceBudget.ts';
 import { setAttribute as setDisplayAttribute, setText as setDisplayText } from '../i18n/dom.ts';
 import './craftSurfaces.css';
 import { weakLaneAdvice } from './placementAdvice.ts';
+import { dockAllyLabel } from './allyLabel.ts';
 import type { Session } from '../session.ts';
 import type { createCareer } from '../progression.ts';
 import type { Kind } from '../data.ts';
@@ -104,7 +105,7 @@ function showAlly(card: AllyShortcut, kind: Kind | undefined, session: Session) 
   setDisplayAttribute(
     card.button,
     'aria-label',
-    `${kinds[kind].name}, ${cost === 0 ? 'offert' : cost + TEXT.pieces}${!canSpend(game, cost) ? (game.caprice.reserve ? TEXT.reserveBancaireProtegee : TEXT.pasAssezDePieces) : ''}`,
+    dockAllyLabel(kinds[kind].name, cost, canSpend(game, cost), !!game.caprice.reserve),
   );
 }
 

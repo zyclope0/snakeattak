@@ -3,10 +3,8 @@ import { revealControl } from '../tests/reveal-controls.mjs';
 // Usage : npm run build && node scripts/audit-2026-11-browser.mjs [--strict]
 // Sans --strict : écrit le rapport et liste les écarts. Avec --strict : code de sortie 1 au premier écart.
 import { visibleWords } from './visible-words.mjs';
-import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { setTimeout as delay } from 'node:timers/promises';
-import { chromium } from 'playwright-core';
+import { COMPUTER, WIDE_PHONE, launchChromium, startPreview } from './lib/recipe.mjs';
 const strict = process.argv.includes('--strict');
 const lot1Only = process.argv.includes('--lot1');
 const PORT = 4310;
@@ -38,35 +36,13 @@ async function toBattle(page) {
 }
 let server, browser;
 try {
-  server = spawn(process.execPath, [
-    'node_modules/vite/bin/vite.js',
-    'preview',
-    '--host',
-    '127.0.0.1',
-    '--port',
-    String(PORT),
-    '--strictPort',
-  ]);
-  for (let i = 0; ; i++) {
-    try {
-      if ((await fetch(URL)).ok) break;
-    } catch {}
-    if (server.exitCode !== null || i > 100)
-      throw Error('Preview indisponible : lancer npm run build avant');
-    await delay(100);
-  }
-  browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  server = await startPreview({ port: PORT });
+  browser = await launchChromium();
   const errors = [];
   // 1-2. Ordinateur : défilement remis en haut et plateau entier visible
-  for (const [w, h] of [
-    [1280, 800],
-    [1366, 768],
-    [1920, 1080],
-  ]) {
-    const ctx = await browser.newContext({
-      locale: 'fr-CH',
-      viewport: { width: w, height: h },
-    });
+  for (const viewport of [COMPUTER, { width: 1366, height: 768 }, { width: 1920, height: 1080 }]) {
+    const { width: w, height: h } = viewport;
+    const ctx = await browser.newContext({ locale: 'fr-CH', viewport });
     const page = await ctx.newPage();
     page.on('pageerror', (e) => errors.push(e.message));
     await toBattle(page);
@@ -108,7 +84,7 @@ try {
   {
     const ctx = await browser.newContext({
       locale: 'fr-CH',
-      viewport: { width: 812, height: 375 },
+      viewport: WIDE_PHONE,
       isMobile: true,
       hasTouch: true,
     });
@@ -179,7 +155,7 @@ try {
   {
     const ctx = await browser.newContext({
       locale: 'fr-CH',
-      viewport: { width: 1280, height: 800 },
+      viewport: COMPUTER,
     });
     const page = await ctx.newPage();
     await page.goto(URL, { waitUntil: 'load' });
@@ -215,5 +191,5 @@ try {
   if (strict && blocking.length) process.exitCode = 1;
 } finally {
   await browser?.close();
-  server?.kill();
+  server?.stop();
 }

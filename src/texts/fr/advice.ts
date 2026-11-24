@@ -66,8 +66,14 @@ export const devantLesTireursIlGardeSonSecteur =
 export const devantLesTireurs = 'devant les tireurs';
 export const toucheUnePlaceLibreADroite = 'Touche une place libre à droite. ';
 export const toucheADroiteNPorteeN = 'Touche à droite · {0} · portée {1}';
+/** The reach in the hint above: « portée courte ». */
+export const courte = 'courte';
+export const moyenne = 'moyenne';
+export const longue = 'longue';
 export const toucheADroiteN = 'Touche à droite · {0}';
 export const aRenforcerN = 'À renforcer : {0}';
+/** Between the names of two lanes: « Haut et Bas ». */
+export const et = ' et ';
 export const uneIdeeAvec = 'Une idée avec ';
 export const vagueNLesSerpentsAnnonces = 'Vague {0} · Les serpents annoncés';
 export const voiesOuvertesN = 'Voies ouvertes : {0}';

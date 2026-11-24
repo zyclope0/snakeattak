@@ -6,24 +6,26 @@ Le jeu reste une application statique : navigateur + fichiers sur un hébergemen
 
 ## Responsabilités
 
-| Fichier                     | Responsabilité                                                              |
-| --------------------------- | --------------------------------------------------------------------------- |
-| `src/main.ts`               | Démarrage : choisit la langue, puis charge `bootstrap.ts`.                  |
-| `src/bootstrap.ts`          | Assemble session, sauvegardes, interface et Phaser.                         |
-| `src/session.ts`            | Session et horloge à 30 calculs/seconde ; pause et redémarrage.             |
-| `src/game.ts`               | État de la partie et commandes du joueur ; orchestre un pas de simulation.  |
-| `src/engine/`               | Règles d’un pas : apparitions, alliés, serpents, roi, dégâts, fin de vague. |
-| `src/tactics.ts`            | Règles du miel, durée et attraction ; sans navigateur.                      |
-| `src/ui/feastControls.ts`   | Commandes et statut du goûter.                                              |
-| `src/render/honeyZone.ts`   | Pot et parfum dessinés à partir de l’état.                                  |
-| `src/ai.ts`                 | Évaluation des voies et choix tactiques pondérés.                           |
-| `src/navigation.ts`         | A*, obstacles et cache de chemins borné.                                    |
-| `src/data.ts`               | Catalogue historique immuable.                                              |
-| `src/render/BattleScene.ts` | Personnages, effets et affichage de l'état du jeu.                          |
-| `src/render/terrain.ts`     | Décor fixe.                                                                 |
-| `src/ui/controls.ts`        | Commandes HTML et tableau de bord.                                          |
-| `src/assets`                | Images de production importées par Vite, avec nom de sortie lié au contenu. |
-| `deploy/policy.ts`          | Politiques HTTP et cache, exportées pour l'hébergeur.                       |
+| Fichier                     | Responsabilité                                                                           |
+| --------------------------- | ---------------------------------------------------------------------------------------- |
+| `src/main.ts`               | Démarrage : choisit la langue, puis charge `bootstrap.ts`.                               |
+| `src/bootstrap.ts`          | Assemble session, sauvegardes, interface et Phaser ; ses morceaux sont dans `src/boot/`. |
+| `src/session.ts`            | Session et horloge à 30 calculs/seconde ; pause et redémarrage.                          |
+| `src/game.ts`               | État de la partie et commandes du joueur ; orchestre un pas de simulation.               |
+| `src/gameGifts.ts`          | Cadeaux de l'aventure sans fin ; `src/campArrival.ts` : camp porté.                      |
+| `src/expedition*.ts`        | Expédition : tables, plan, état et transitions, relecture (`expedition.ts` réexporte).   |
+| `src/engine/`               | Règles d’un pas : apparitions, alliés, serpents, roi, dégâts, fin de vague.              |
+| `src/tactics.ts`            | Règles du miel, durée et attraction ; sans navigateur.                                   |
+| `src/ui/feastControls.ts`   | Commandes et statut du goûter.                                                           |
+| `src/render/honeyZone.ts`   | Pot et parfum dessinés à partir de l’état.                                               |
+| `src/ai.ts`                 | Évaluation des voies et choix tactiques pondérés.                                        |
+| `src/navigation.ts`         | A*, obstacles et cache de chemins borné.                                                 |
+| `src/data.ts`               | Catalogue historique immuable.                                                           |
+| `src/render/BattleScene.ts` | Personnages, effets et affichage de l'état du jeu.                                       |
+| `src/render/terrain.ts`     | Décor fixe.                                                                              |
+| `src/ui/controls.ts`        | Commandes HTML et tableau de bord.                                                       |
+| `src/assets`                | Images de production importées par Vite, avec nom de sortie lié au contenu.              |
+| `deploy/policy.ts`          | Politiques HTTP et cache, exportées pour l'hébergeur.                                    |
 
 Les commandes modifient la session. Phaser demande à la session d'avancer puis dessine son état. La logique du jeu peut être testée directement avec Node. Un callback actualise le tableau de bord ; le moteur ne dépend pas de l'interface. La session coupe les durées invalides et borne le rattrapage après une image lente. À graine identique, les décisions de jeu restent reproductibles.
 
@@ -620,7 +622,7 @@ Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFI
   servis. Les camps 1 à 14 ne changent pas. La carrière et les camps de chapitre ignorent
   l'aventure sans fin.
 - **Records.** `endlessRecords.ts`, clé par joueur dans `PLAYER_KEYS`. Écrits par
-  `recordEndless` (`bootstrap.ts`) à chaque pas qui compte, une ligne par graine de départ.
+  `recordEndless` (`src/boot/saving.ts`) à chaque pas qui compte, une ligne par graine de départ.
 - **Écrans.** `menu.ts` (porte, record), `hud.ts`, `battleBriefing.ts`, `presentation.ts`
   (vague depuis la première), `rewardControls.ts` et `boonCopy.ts` (cadeaux, places),
   `battleCommands.ts` (« Continuer », « Rentrer avec mon record »), `resultCopy.ts`.
@@ -629,7 +631,8 @@ Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFI
 
 Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PROPOSITION.md).
 
-- **Moteur.** `expedition.ts` : `planExpedition(seed)` tire trois tableaux de sept pas
+- **Moteur.** `expedition.ts` (réexporte `expeditionTuning.ts`, `expeditionPlan.ts`,
+  `expeditionState.ts`, `expeditionRead.ts` depuis le 23 novembre 2026) : `planExpedition(seed)` tire trois tableaux de sept pas
   (`first`, `fork`, `halt`, `fork`, `fork`, `halt`, `guardian`). L'état (`ExpeditionState`)
   ne garde que ce que l'enfant a fait : tableau, pas, choix, camp porté, cadeaux, sac, bourse,
   question en attente. Chaque bouton demande une transition (`winBattle`, `chooseGift`,
@@ -1044,7 +1047,7 @@ Pour que l'accueil ne propose plus de la reprendre (décision 14 du parent, 18 n
 jeu garde sur l'appareil, à côté du fichier familial, la marque de ce camp
 (`conquete-serpents:mission-done:v1`, une clé par joueur dans `PLAYER_KEYS`) : sa longueur et
 une somme FNV-1a de 32 bits (`missionDone.ts`), pas une copie. Le fichier familial ne change
-pas ; une ancienne sauvegarde se lit comme avant. `missionWaits` (`bootstrap.ts`) ne dit
+pas ; une ancienne sauvegarde se lit comme avant. `missionWaits` (`src/boot/games.ts`) ne dit
 « Reprendre » que si le camp en attente n'a pas cette marque. « Reprendre ma mission » reste
 sur la page Missions ; y rentrer efface la marque, et le camp redevient une mission en cours.
 Stockage refusé ou marque abîmée : l'accueil se comporte comme avant. Recette :
@@ -1228,7 +1231,7 @@ nouveaux `voyageScreens` 15 071 (script) et 14 555 (feuille). La page HTML ne ch
 
 ### Sur l'écran de bataille
 
-- `bootstrap.ts` : `playStage` met l'étape sur le plateau (la partie qui s'y trouvait est mise
+- `src/boot/games.ts` : `playStage` met l'étape sur le plateau (la partie qui s'y trouvait est mise
   de côté comme pour une mission, `setGameAside`) ; « Recommencer » relance l'étape, jamais
   une mission ; une étape n'est jamais prise pour la mission à reprendre. Le voyage est
   rafraîchi en dernier (`saveAndRedraw`).
@@ -1475,7 +1478,7 @@ Décision du parent ; tout est décrit dans
 [PUBLICITE-WEB-PROPOSITION.md](publication/PUBLICITE-WEB-PROPOSITION.md). Dans le code :
 
 - **Un interrupteur**, `WEB_AD_DELIVERY` (`src/ui/webAds/contract.ts`), sur `disabled`. Le
-  build en tire `__WEB_ADS__` (`vite.config.ts`) : faux, la branche de `bootstrap.ts` qui
+  build en tire `__WEB_ADS__` (`vite.config.ts`) : faux, la branche de `src/boot/phaser.ts` qui
   charge `ui/webAds/delivery.ts` disparaît du paquet avec tout ce qu'elle importe. Le site
   publié ne contient donc aucun code publicitaire, et `scripts/check-web-ad-disabled.mjs`
   échoue s'il en trouve. Android et la copie portable n'en reçoivent jamais.
@@ -1630,7 +1633,7 @@ Phaser ne redemande une image qu'une fois la précédente terminée : une except
 dans une image arrête le plateau pour de bon. La page reste, ses boutons répondent, plus rien
 ne bouge. C'était le point faible relevé par [l'analyse](ANALYSE-2026-11-22.md) (S1 et S2).
 
-- **Le guetteur** (`src/failureWatch.ts`, branché dans `src/bootstrap.ts`). Après toute erreur
+- **Le guetteur** (`src/failureWatch.ts`, branché dans `src/boot/phaser.ts`). Après toute erreur
   (`error`, `unhandledrejection`), il laisse trois images au plateau. Si le plateau devait
   tourner et n'en a dessiné aucune, il le dit, une seule fois. Une erreur que le plateau
   traverse n'affiche rien ; un plateau endormi parce que la page est cachée n'est pas une
@@ -1860,7 +1863,7 @@ supprimer un joueur les supprime). Le jeu ne les lit jamais de lui-même.
 
 - **`family-before-import` : l'aventure qu'un import remplace.** Avant chaque import, le jeu
   garde l'aventure en place telle que l'export la donnerait à cet instant, donc avec
-  l'expédition, le voyage à finir et les records (`applyFamily` dans `src/bootstrap.ts`). Si
+  l'expédition, le voyage à finir et les records (`applyFamily` dans `src/boot/familyFile.ts`). Si
   l'appareil refuse cette copie, l'import est refusé et rien n'a changé ; si l'import échoue
   ensuite, la copie est remise comme elle était. Un fichier qui ramène l'aventure en place,
   sans rien d'autre, ne touche pas la copie (`replacesNothing`, qui relit les extras du

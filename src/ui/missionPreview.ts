@@ -167,7 +167,7 @@ export function drawMissionPreview(svg: SVGElement, run: MissionRun) {
   setDisplayAttribute(
     svg,
     'aria-label',
-    fill(TEXT.troisVoiesVisiblesPremiereVagueN, lanes.map((l) => LANE_NAMES[l]).join(' et ')),
+    fill(TEXT.troisVoiesVisiblesPremiereVagueN, lanes.map((l) => LANE_NAMES[l]).join(TEXT.et)),
   );
   drawGround(svg, level);
   drawRoads(svg, level, lanes);

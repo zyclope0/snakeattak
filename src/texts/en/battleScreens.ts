@@ -25,6 +25,11 @@ export const agrandirLaVueDeJeu = 'Enlarge the game view';
 export const reduire = 'Shrink';
 export const agrandir = 'Enlarge';
 export const nOeufNNEclosions = 'Eggs: {0} · Hatched: {2}';
+/** How cunning the snakes are, in the HUD: « IA : attentive ». */
+export const iaN = 'AI: {0}';
+export const exploratrice = 'exploring';
+export const attentive = 'watchful';
+export const tacticienne = 'tactical';
 export const victoire = 'VICTORY';
 export const campTombe = 'CAMP FALLEN';
 export const enPause = 'PAUSED';

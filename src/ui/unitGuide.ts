@@ -48,7 +48,7 @@ function guideFacts(kind: Kind, session: Session): [label: string, value: string
   return [
     [TEXT.camp, TEXT.nosAllies],
     [TEXT.defense, roleDescription(kind)],
-    [TEXT.vie, `${unit.hp} PV`],
+    [TEXT.vie, fill(TEXT.nPv, unit.hp)],
     [TEXT.prix, priceFact(kind, session)],
     [TEXT.arrivee, fill(TEXT.vagueN, unlockWave[kind] ?? 1)],
     [TEXT.attaque, attackFact(kind, session)],

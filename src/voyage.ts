@@ -6,7 +6,7 @@ import type { CapriceDefinition } from './caprices.ts';
 import { REWARDS, rewardOffer } from './rewards.ts';
 import type { RewardId } from './rewards.ts';
 import { isIntegerIn } from './plainData.ts';
-import { BAG_MILESTONE, STAGE_BAG_LIMIT } from './voyageRules.ts';
+import { BAG_MILESTONE, countCards, STAGE_BAG_LIMIT } from './voyageRules.ts';
 import type { StageRules } from './voyageRules.ts';
 import { CURRENT_VOYAGE_VERSION, VOYAGE_TUNINGS, isVoyageVersion } from './voyageTuning.ts';
 import type { StageTuning, VoyageTuning, VoyageVersion } from './voyageTuning.ts';
@@ -167,8 +167,6 @@ export function planVoyage(
 export const stageCaprice = (stage: VoyageStage): CapriceDefinition | null =>
   capriceDefinitionForRun(stage.run);
 
-const count = (bag: readonly RewardId[], id: RewardId) => bag.filter((card) => card === id).length;
-
 /**
  * What the engine adds to the expedition of a stage. Every card of the bag counts again at
  * every stage: coins and ward are added up here, allies and honey are unpacked by the engine.
@@ -187,8 +185,8 @@ export function stageRulesFor(
     version: court ? 2 : 1,
     king: stage.king,
     ...(court ? { court: stage.king } : {}),
-    coins: stage.coins + count(bag, 'pieces') * plan.tuning.bonusCoins,
-    ward: count(bag, 'cristal') * plan.tuning.bonusWard,
+    coins: stage.coins + countCards(bag, 'pieces') * plan.tuning.bonusCoins,
+    ward: countCards(bag, 'cristal') * plan.tuning.bonusWard,
     bag: [...bag],
   };
 }

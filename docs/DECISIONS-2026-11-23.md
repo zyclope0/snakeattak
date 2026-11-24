@@ -45,3 +45,5 @@ Réponses données une par une, le matin du 23 novembre, aux questions de
 - Les traductions anglaises des phrases approuvées en français sont faites par moi ; elles
   sont listées dans le bilan pour que le parent puisse les relire.
 - Aucune publication sans le mot du parent pour chaque envoi.
+- **Décision 12 — mots de la page « WebView trop ancien »** (gros lot du soir) : validés par
+  le parent tels quels ([bilan](BILAN-GROS-LOT-2026-11-23.md)).

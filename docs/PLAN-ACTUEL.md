@@ -26,9 +26,12 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   démarrage partage même sans les règles. **Il n'a pas** la correction de l'aperçu d'un
   fichier choisi (« Remplacer » sous le bord), venue après : elle sera dans l'APK v3, construit
   après la fusion.
-- **Ensuite** : l'APK v3 et son essai sur le téléphone, puis l'étape 3 (téléphone sans
-  mesure : écran allumé, catégorie de l'application, plancher du WebView, étiquettes
-  flottantes).
+- **Soir** : APK v4 essayé par le parent, phrases visibles ; PR 140 fusionnée, site publié
+  (n° 45). **Gros lot** (revue complète, découpage, doublons, optimisation, étape 3) : neuf
+  agents en parallèle, [bilan](BILAN-GROS-LOT-2026-11-23.md). Mots nouveaux à lire : la page
+  « WebView trop ancien ».
+- **Ensuite** : essai sur le S24 de l'écran allumé pendant une vague ; ce qui reste du
+  découpage (fonctions longues de l'interface, recettes sur leur propre serveur).
 
 ## Où on en est
 

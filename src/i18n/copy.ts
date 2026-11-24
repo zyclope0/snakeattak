@@ -2,7 +2,8 @@ import { getCatalogue, getLanguage, onLanguageChange } from './language.ts';
 
 const normalize = (value: string) => value.trim().replace(/\s+/g, ' ');
 const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-type Pattern = { re: RegExp; prefix?: RegExp; ids: number[]; target: string };
+/** `joins`: a template with no word of its own, two texts and a mark between (« {0} ! {1} »). */
+type Pattern = { re: RegExp; prefix?: RegExp; ids: number[]; target: string; joins: boolean };
 let source: Readonly<Record<string, string>> | undefined;
 let exact = new Map<string, string>(),
   lower = new Map<string, string>();
@@ -24,13 +25,15 @@ function prepare() {
   phrases = [];
   for (const [raw, target] of Object.entries(next)) {
     const key = normalize(raw),
-      tokens = [...key.matchAll(/\{(\d+)\}/g)];
+      tokens = [...key.matchAll(/\{(\d+)\}/g)],
+      // No word of its own: a template kept only for a mark between texts, never a bare space.
+      joins = !/[A-Za-zÀ-ÿ]{2}/.test(key.replace(/\{\d+\}/g, ''));
     if (!tokens.length) {
       exact.set(key, target);
       if (/^[A-ZÀ-ÝŒ]/.test(key))
         lower.set(key.toLocaleLowerCase('fr'), target.toLocaleLowerCase('en'));
       if (key.length > 10) phrases.push([key, target]);
-    } else if (tokens.length <= 12 && /[A-Za-zÀ-ÿ]{2}/.test(key.replace(/\{\d+\}/g, ''))) {
+    } else if (tokens.length <= 12 && (!joins || /[!?]/.test(key))) {
       const ids: number[] = [];
       let re = '^',
         at = 0;
@@ -42,15 +45,21 @@ function prepare() {
       re += escape(key.slice(at)) + '$';
       patterns.push({
         re: new RegExp(re),
-        prefix: /[.!?]$/.test(key) ? new RegExp(re.slice(0, -1) + '(?=\\s)') : undefined,
+        prefix: !joins && /[.!?]$/.test(key) ? new RegExp(re.slice(0, -1) + '(?=\\s)') : undefined,
         ids,
         target,
+        joins,
       });
     }
   }
   // Prefer the most specific canonical shape; no free-standing word replacements.
   patterns.sort((a, b) => b.re.source.length - a.re.source.length);
   phrases.sort((a, b) => b[0].length - a[0].length);
+}
+/** A text the dictionary holds whole, as `render` looks it up first. */
+function known(value: string) {
+  const key = normalize(value);
+  return exact.has(key) || lower.has(key);
 }
 function render(value: string, depth: number): string {
   const key = normalize(value);
@@ -70,6 +79,8 @@ function render(value: string, depth: number): string {
     for (const pattern of patterns) {
       const match = pattern.re.exec(key);
       if (!match) continue;
+      // A join is trusted between known texts only: it never cuts a sentence it does not know.
+      if (pattern.joins && !match.slice(1).every(known)) continue;
       return format(pattern, match);
     }
     const symbol = /^(🔒|✓|➜|○)\s+(.+)$/.exec(key);

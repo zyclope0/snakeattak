@@ -15,23 +15,40 @@ export type Point = { x: number; y: number };
 export const CELL = 24,
   COLS = 46,
   ROWS = 26;
+/**
+ * One side of the gap (dx, dy) alone reaches `limit`: `Math.hypot(dx, dy) < limit` is false,
+ * and is not computed. Math.hypot is never below the larger of its two sides: V8 divides both
+ * by that side, which then adds exactly 1 under the root; an engine whose hypot errs by less
+ * than an ulp cannot fall under a number the true length reaches. Most pairs of the board are
+ * far apart: this skips most calls, and every answer is still the one Math.hypot gives.
+ */
+export const notCloserThan = (dx: number, dy: number, limit: number): boolean =>
+  Math.abs(dx) >= limit || Math.abs(dy) >= limit;
+/** The same for `Math.hypot(dx, dy) <= limit`: one side alone is more than `limit`. */
+export const fartherThan = (dx: number, dy: number, limit: number): boolean =>
+  Math.abs(dx) > limit || Math.abs(dy) > limit;
 /** In the river, beside the bridges: only a swimmer goes there. */
-export const inRiver = (x: number, y: number): boolean =>
-  x > RIVER_LEFT_X &&
-  x < BRIDGE_END_X &&
-  !LANES.some((lane) => Math.abs(y - lane) <= BRIDGE_HALF_WIDTH);
+export function inRiver(x: number, y: number): boolean {
+  if (!(x > RIVER_LEFT_X && x < BRIDGE_END_X)) return false;
+  // Plain loops: this runs for every point a path is checked on.
+  for (const lane of LANES) if (Math.abs(y - lane) <= BRIDGE_HALF_WIDTH) return false;
+  return true;
+}
 /** Compatibility export: the original terrain, never a mutable active map. */
 export function blocked(x: number, y: number, level: Level = levelForWave(1)): boolean {
-  return (
+  if (
     !Number.isFinite(x) ||
     !Number.isFinite(y) ||
     x < 24 ||
     x > 1080 ||
     y < 96 ||
     y > 552 ||
-    inRiver(x, y) ||
-    level.rocks.some((r) => Math.hypot(x - r.x, y - r.y) < r.r)
-  );
+    inRiver(x, y)
+  )
+    return true;
+  for (const r of level.rocks)
+    if (!notCloserThan(x - r.x, y - r.y, r.r) && Math.hypot(x - r.x, y - r.y) < r.r) return true;
+  return false;
 }
 const center = (n: number) => n * CELL + CELL / 2;
 const cache = new Map<string, Point[]>();

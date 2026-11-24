@@ -2,26 +2,25 @@ import { showHomePage } from './browser-entry.mjs';
 import { revealControl } from './reveal-controls.mjs';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
-import { chromium } from 'playwright-core';
+import { launchChromium, FAMILY_STORAGE_KEY } from '../scripts/lib/recipe.mjs';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
 import { createMissionRun } from '../src/missions.ts';
 import { createMissionProgressController } from '../src/missionProgress.ts';
 import { createCareer } from '../src/progression.ts';
 import { writeFamilyBackup } from '../src/familyBackup.ts';
-const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+const browser = await launchChromium();
 const errors = [];
-const familyKey = 'conquete-serpents:family:v1';
 await mkdir('artifacts', { recursive: true });
 const config = (run) => [run.layout, run.assault, run.nest];
-const saved = (p) => p.evaluate((key) => JSON.parse(localStorage.getItem(key)), familyKey);
+const saved = (p) => p.evaluate((key) => JSON.parse(localStorage.getItem(key)), FAMILY_STORAGE_KEY);
 async function inject(p, raw) {
   await p.evaluate(
     ({ key, raw }) => {
       localStorage.setItem(key, raw);
       location.reload();
     },
-    { key: familyKey, raw },
+    { key: FAMILY_STORAGE_KEY, raw },
   );
   await p.waitForLoadState('load');
   await p.locator('#home-screen').waitFor({ state: 'visible' });

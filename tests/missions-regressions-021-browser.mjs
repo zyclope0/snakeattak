@@ -1,13 +1,13 @@
 import { showHomePage } from './browser-entry.mjs';
 import assert from 'node:assert/strict';
-import { chromium } from 'playwright-core';
+import { launchChromium } from '../scripts/lib/recipe.mjs';
 import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
 import { createMissionProgressController } from '../src/missionProgress.ts';
 import { createCareer } from '../src/progression.ts';
 import { writeFamilyBackup } from '../src/familyBackup.ts';
-const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+const browser = await launchChromium();
 try {
   const page = await browser.newPage({
     locale: 'fr-CH',

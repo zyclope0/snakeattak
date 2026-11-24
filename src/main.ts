@@ -25,3 +25,9 @@ void Promise.all([initializeLanguageControls(), loadGameFonts()])
       loading.textContent = TEXT.oupsLeJeuNArrivePasADemarrer;
     }
   });
+// The Android application keeps the screen on while a battle plays by itself. The build decides
+// `__APP_BUILD__`: the website holds none of this, and its screen sleeps as usual.
+if (__APP_BUILD__)
+  void import('./ui/screenAwake.ts')
+    .then(({ keepScreenAwake }) => keepScreenAwake())
+    .catch((error: unknown) => console.error(error));

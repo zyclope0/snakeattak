@@ -45,6 +45,9 @@ export const BAG_MILESTONE = 4;
 /** One of the six bonus cards; « skip » is not a card. */
 export const isBonusCard = (value: unknown): value is RewardId =>
   typeof value === 'string' && Object.hasOwn(REWARDS, value);
+/** How many of this card a bag holds: the voyage and the expedition add up its coins and ward. */
+export const countCards = (bag: readonly RewardId[], id: RewardId) =>
+  bag.filter((card) => card === id).length;
 
 /** Canonical frozen copy, or null: the engine never trusts the object it was handed. */
 export function readStageRules(raw: unknown): StageRules | null {

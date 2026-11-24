@@ -69,6 +69,8 @@ export const attirerLesSerpentsVersLaVoie = 'Attirer les serpents vers la voie';
 export const toucheUnCheminPourPoserLeMielOu =
   'Touche un chemin pour poser le miel, ou utilise les boutons ci-dessous. ';
 export const voieNAttaqueeNNPaisible = ' Voie{0} attaquée{1} : {2}. « — » : paisible.';
+/** Between the names of two lanes: « Haut et Bas ». */
+export const et = ' et ';
 export const nDetourN = '{0} détour{1}';
 export const aRetrouverDansLaProchainePartie = 'À retrouver dans la prochaine partie';
 export const mielCollantNNSRalentitSurLePassage =

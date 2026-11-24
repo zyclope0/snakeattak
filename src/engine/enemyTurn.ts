@@ -11,15 +11,16 @@ import {
   biteDamage,
 } from '../enemyAbilities.ts';
 import { LANES } from '../ai.ts';
+import { notCloserThan } from '../navigation.ts';
 import { waveStats } from '../data.ts';
 import type { Kind } from '../data.ts';
 import type { Entity } from './state.ts';
-import { distance, closerTo, nextRandom, faceToward, forgetPath } from './state.ts';
+import { distance, nearestTo, nextRandom, faceToward, forgetPath } from './state.ts';
 import { BRIDGE_END_X, CAMP_FRONT_X, CONTACT_RANGE, CRYSTAL_X } from './field.ts';
 import { followRoute } from './movement.ts';
 import { leapOverLine } from './leap.ts';
 import { enemyPace, damageAlly } from './damage.ts';
-import { updateCourt, updateBossShot, shootersFirst } from './court.ts';
+import { updateCourt, updateBossShot, shooterRank } from './court.ts';
 import type { Game } from '../game.ts';
 import * as TEXT from '../texts/fr/battle.ts';
 import { fill } from '../texts/fill.ts';
@@ -113,9 +114,16 @@ function biteTarget(game: Game, e: Entity): Entity | undefined {
   // After its leap, a grasshopper snake bites only the allies between it and the crystal:
   // the line it passed stays behind it (the child's rule).
   const onlyAhead = e.leaps === 0;
-  return game.units
-    .filter((u) => u.hp > 0 && distance(u, e) < reach && (!onlyAhead || u.x >= e.x))
-    .sort((a, b) => (e.variant === 'spitter' ? shootersFirst(a, b) : 0) || closerTo(e, a, b))[0];
+  return nearestTo(
+    e,
+    game.units,
+    (u) =>
+      u.hp > 0 &&
+      !notCloserThan(u.x - e.x, u.y - e.y, reach) &&
+      distance(u, e) < reach &&
+      (!onlyAhead || u.x >= e.x),
+    e.variant === 'spitter' ? shooterRank : undefined,
+  );
 }
 function bite(game: Game, e: Entity, target: Entity, dt: number, stats: WaveNumbers) {
   e.state = 'attack';

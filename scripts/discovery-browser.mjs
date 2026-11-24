@@ -1,46 +1,23 @@
-import { spawn } from 'node:child_process';
-import { setTimeout } from 'node:timers/promises';
 import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import { chromium } from 'playwright-core';
+import { COMPUTER, PHONE, launchChromium, startPreview } from './lib/recipe.mjs';
 import { DISCOVERY_PAGES, SITE_FEATURES } from '../deploy/discoveryCopy.ts';
 import { SUPPORT_URL } from '../deploy/discovery.ts';
 
-const origin = 'http://127.0.0.1:4188';
 const folder = 'artifacts/web-discovery';
 await mkdir(folder, { recursive: true });
-const server = spawn(
-  process.execPath,
-  [
-    'node_modules/vite/bin/vite.js',
-    'preview',
-    '--host',
-    '127.0.0.1',
-    '--port',
-    '4188',
-    '--strictPort',
-  ],
-  { stdio: 'pipe' },
-);
+const server = await startPreview({ port: 4188 });
+const origin = server.url;
 let browser;
 try {
-  const deadline = Date.now() + 15000;
-  while (true) {
-    if (server.exitCode !== null) throw Error('Preview exited');
-    try {
-      if ((await fetch(origin)).ok) break;
-    } catch {}
-    if (Date.now() > deadline) throw Error('Preview timeout');
-    await setTimeout(100);
-  }
-  browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
+  browser = await launchChromium();
   const errors = [],
     outside = [],
     failed = [],
     results = [];
   for (const viewport of [
-    { width: 1280, height: 800 },
-    { width: 780, height: 360 },
+    COMPUTER,
+    PHONE,
     { width: 375, height: 812 },
     // The two tightest phones: a small one upright, a small one on its side.
     { width: 360, height: 640 },
@@ -188,10 +165,7 @@ try {
     await context.close();
   }
   // Web discovery must not steal space from the compact game menus.
-  for (const viewport of [
-    { width: 780, height: 360 },
-    { width: 1280, height: 800 },
-  ]) {
+  for (const viewport of [PHONE, COMPUTER]) {
     const context = await browser.newContext({ viewport, locale: 'fr-CH', hasTouch: true });
     const page = await context.newPage();
     await page.goto(origin);
@@ -246,5 +220,5 @@ try {
   console.log(JSON.stringify(report));
 } finally {
   await browser?.close();
-  server.kill();
+  server.stop();
 }

@@ -9,6 +9,7 @@ import { isMilestone } from '../rewards.ts';
 import type { Kind } from '../data.ts';
 import { endlessWave } from '../endless.ts';
 import { newAlliesLine, newSnakeBanner, recruitableKinds } from './newcomers.ts';
+import { clamp01 } from './clamp.ts';
 export type Notice = {
   kind: 'wave' | 'boss' | 'clear' | 'egg' | 'fallen';
   title: string;
@@ -61,8 +62,9 @@ const NEWCOMER_PRIORITY = 1;
 const FLOAT_SECONDS = 0.9,
   DODGE_WORD_HEIGHT = 100,
   DODGE_WORD_SECONDS = 1.4;
-const MAX_FLOATS = 40,
-  MAX_BURSTS = 24,
+/** At most this many floating words at once: the board makes one label for each. */
+export const MAX_FLOATS = 40;
+const MAX_BURSTS = 24,
   MAX_ARRIVALS = 24,
   MAX_ACTIONS = 64;
 /** A snake first seen left of this line came out of a den; further right, out of an egg. */
@@ -526,9 +528,7 @@ export function visualPose(
     heal = reaction?.heal ?? 0;
   const idle = entity.state === 'idle' ? Math.sin(clock * 3 + entity.id) * 0.6 : 0;
   const pulse =
-    entity.state === 'attack'
-      ? Math.max(0, Math.sin(Math.min(1, Math.max(0, entity.cool)) * Math.PI)) * 3
-      : 0;
+    entity.state === 'attack' ? Math.max(0, Math.sin(clamp01(entity.cool) * Math.PI)) * 3 : 0;
   return {
     ...entity,
     x: entity.x + entity.facing * (pulse - hurt * 3),

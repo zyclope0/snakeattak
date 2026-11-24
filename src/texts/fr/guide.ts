@@ -7,6 +7,8 @@ export const camp = 'Camp';
 export const nosAllies = 'Nos alliés';
 export const defense = 'Défense';
 export const vie = 'Vie';
+/** The life of an ally on its card: « 140 PV ». */
+export const nPv = '{0} PV';
 export const prix = 'Prix';
 export const arrivee = 'Arrivée';
 export const attaque = 'Attaque';

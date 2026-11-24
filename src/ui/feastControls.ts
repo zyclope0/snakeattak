@@ -165,7 +165,7 @@ function feastHint(game: Game, flavor: FeastFlavor): string {
           TEXT.voieNAttaqueeNNPaisible,
           lanes.length > 1 ? 's' : '',
           lanes.length > 1 ? 's' : '',
-          lanes.map((l) => LANE_NAMES[l]).join(' et '),
+          lanes.map((l) => LANE_NAMES[l]).join(TEXT.et),
         )
       : '')
   );

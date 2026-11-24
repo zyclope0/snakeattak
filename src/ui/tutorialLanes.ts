@@ -34,7 +34,7 @@ export function bindTutorialLanes() {
     const label = fill(
       TEXT.vagueNNN,
       wave,
-      lanes.map((l) => LANE_NAMES[l]).join(' et '),
+      lanes.map((l) => LANE_NAMES[l]).join(TEXT.et),
       lanes.length < LANE_COUNT
         ? TEXT.lesAutresVoiesRestentPaisibles
         : TEXT.lesTroisVoiesSontAttaquees,

@@ -20,7 +20,7 @@ export function expeditionDoorState(storage?: Pick<Storage, 'getItem'>): Expedit
     );
     if (!current) return 'none';
     // A battle won: past the first step of the first tableau. The same rule as `underWay`
-    // (expedition.ts), read here from the raw log without reading the whole expedition back;
+    // (expeditionState.ts), read here from the raw log without reading the whole expedition back;
     // once the screens are loaded, they tell the door from the log they hold.
     const won =
       (isIntegerIn(current.tableau, 1, 99) || isIntegerIn(current.step, 1, 99)) &&

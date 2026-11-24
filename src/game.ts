@@ -1,17 +1,11 @@
 import { activeEnemyLanes } from './tutorial.ts';
 import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
 import { endlessStats, endlessWave, readEndlessRules } from './endless.ts';
-import {
-  armourAtLevel,
-  armourFactor,
-  BOON_RULES,
-  boonLevel,
-  boonOffer,
-  isLastingBoon,
-  readBoons,
-  takeBoon,
-} from './boons.ts';
+import { BOON_RULES, boonLevel, boonOffer, placeNeeded } from './boons.ts';
 import type { BoonId, BoonRules, Boons, LastingBoon } from './boons.ts';
+import { campKey, chooseBoon, emptyLedger, restoreGifts, skipCard, takeCard } from './gameGifts.ts';
+import { receiveCarriedCamp } from './campArrival.ts';
+import type { ArrivingCamp } from './campArrival.ts';
 import type { EndlessRules } from './endless.ts';
 import type { Milestone, RewardState, RewardId } from './rewards.ts';
 import { freshCampaign, chapterIndex, chapterStars } from './campaignRules.ts';
@@ -27,18 +21,14 @@ import { kinds, TOTAL_WAVES, waveStats, unlockWave } from './data.ts';
 import type { Kind } from './data.ts';
 import {
   CRYSTAL_MAX,
-  CRYSTAL_WARD,
   DEFAULT_SEED,
   ENCOURAGEMENT_SECONDS,
-  GOLD_LIMIT,
   HERO_TRAINING_COST,
   HERO_TRAINING_FROM,
   REPAIR_AMOUNT,
   REPAIR_COST,
-  REWARD_COINS,
   START_GOLD,
   WAVES_PER_CHAPTER,
-  REWARD_WAVES,
 } from './gameConstants.ts';
 import { levelForWave, missionLevel } from './levels.ts';
 import type { PathRules } from './navigation.ts';
@@ -53,7 +43,7 @@ import {
 import type { BalanceRevision, LateEggRule } from './balanceRevision.ts';
 import { capriceBudget, capriceRules } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
-import { EXPEDITION_STAGE_VERSION, openStage, readStageRules } from './voyageRules.ts';
+import { openStage, readStageRules } from './voyageRules.ts';
 import type { StageRules } from './voyageRules.ts';
 import type { Entity, Egg, Effect } from './engine/state.ts';
 import { addAlly } from './engine/state.ts';
@@ -64,7 +54,6 @@ import { updateAllies, separateAllies } from './engine/allies.ts';
 import { updateConfusion, updateEnemies } from './engine/enemyTurn.ts';
 import { collectFallen, resolveWave } from './engine/outcome.ts';
 import * as TEXT from './texts/fr/battle.ts';
-import { readCarriedCamp } from './checkpointUnits.ts';
 import { fill } from './texts/fill.ts';
 export type { Entity, Egg, Effect } from './engine/state.ts';
 
@@ -163,9 +152,8 @@ export class Game {
    * behind accessors, so that it is not part of the state other games are fingerprinted by.
    */
   #kings = 0;
-  /** The lasting gifts of the endless adventure, and the camps whose card is answered. */
-  #boons: Boons = [];
-  readonly #answered = new Set<string>();
+  /** The lasting gifts, and the camps of the endless adventure whose card is answered. */
+  readonly #gifts = emptyLedger();
   get kings(): number {
     return this.#kings;
   }
@@ -266,11 +254,17 @@ export class Game {
   get boonOffer(): BoonId[] {
     return this.rewards.pending === null || !this.#endless
       ? []
-      : boonOffer(this.rewards.seed, this.kings, this.rewards.pending, this.#boons, this.boonRules);
+      : boonOffer(
+          this.rewards.seed,
+          this.kings,
+          this.rewards.pending,
+          this.#gifts.boons,
+          this.boonRules,
+        );
   }
   /** The lasting gifts of the endless adventure, with their level; empty elsewhere. */
   get boons(): Readonly<Boons> {
-    return this.#boons;
+    return this.#gifts.boons;
   }
   /** The gift table of this endless adventure; version 1's for every other game. */
   get boonRules(): BoonRules {
@@ -282,75 +276,22 @@ export class Game {
   }
   /** Level of a lasting gift: zero when it is not taken, and in every other game. */
   boonLevel(id: LastingBoon): number {
-    return boonLevel(this.#boons, id);
+    return boonLevel(this.#gifts.boons, id);
   }
-  /**
-   * Puts back the gifts of a saved endless camp, once its wave, kings and pending offer are
-   * back, and rebuilds which camps were answered: every camp of the earlier rounds, and of
-   * this one up to the wave, but the one still pending. False on any doubt.
-   */
+  /** Puts back the gifts of a saved endless camp (`restoreGifts`); false on any doubt. */
   restoreEndless(raw: unknown): boolean {
-    const boons = readBoons(raw, this.boonRules);
-    if (!this.#endless || !boons) return false;
-    const answered = new Set<string>();
-    for (let round = 0; round <= this.kings; round++)
-      for (const milestone of [...REWARD_WAVES, TOTAL_WAVES]) {
-        const reached =
-          milestone === TOTAL_WAVES ? round > 0 : round < this.kings || milestone <= this.wave;
-        const key = `${round}:${milestone}`;
-        if (reached && key !== `${this.kings}:${this.rewards.pending}`) answered.add(key);
-      }
-    // One level a gift, one gift an answered camp: more levels were never offered.
-    if (boons.reduce((sum, b) => sum + b.level, 0) > answered.size) return false;
-    this.#boons = boons;
-    this.#answered.clear();
-    for (const key of answered) this.#answered.add(key);
-    return true;
+    return !!this.#endless && restoreGifts(this, this.#gifts, raw);
   }
   /**
    * Whether taking this gift first asks which gift gives its place: a new lasting gift of the
    * endless adventure while the five places are taken.
    */
   boonNeedsPlace(id: string): boolean {
-    return (
-      !!this.#endless &&
-      isLastingBoon(id) &&
-      !this.boonLevel(id) &&
-      this.#boons.length >= this.boonRules.places
-    );
+    return !!this.#endless && placeNeeded(this.#gifts.boons, id, this.boonRules);
   }
-  /**
-   * « La Grande Expédition » (stage rules version 3): the camp of the previous mission comes
-   * along — the allies still standing, the coins, the crystal and the lasting gifts. Called
-   * once, before the first wave, on a game built for such a stage; false on any doubt, and
-   * the game is then left as it was built.
-   */
-  receiveCamp(camp: { units: unknown; gold: unknown; base: unknown; boons: unknown }): boolean {
-    if (
-      this.#stage?.version !== EXPEDITION_STAGE_VERSION ||
-      this.wave !== 0 ||
-      this.status !== 'preparing'
-    )
-      return false;
-    const boons = readBoons(camp.boons, this.boonRules);
-    if (!boons) return false;
-    // The first mission of a tableau starts from a new camp: only the gifts come along.
-    if (camp.units === null) {
-      this.#boons = boons;
-      const armour = armourFactor(boons, this.boonRules);
-      for (const u of this.units) u.maxHp = u.hp = kinds[u.kind as Kind].hp * armour;
-      return true;
-    }
-    const carried = readCarriedCamp(camp, armourFactor(boons, this.boonRules));
-    if (!carried || !carried.units.every((unit) => this.knowsAlly(unit.kind as Kind))) return false;
-    this.units = carried.units;
-    this.nextId = Math.max(this.nextId, carried.nextId + 1);
-    this.gold = carried.gold;
-    this.base = carried.base;
-    this.#boons = boons;
-    // The new map may have a rock where an ally lived: every one gets a home of this map.
-    this.normalizeCamp();
-    return true;
+  /** « La Grande Expédition »: the camp of the previous mission comes along (`campArrival.ts`). */
+  receiveCamp(camp: ArrivingCamp): boolean {
+    return receiveCarriedCamp(this, this.#gifts, camp);
   }
   /**
    * The numbers of a wave as this game meets them: stronger for each king beaten in the
@@ -365,7 +306,7 @@ export class Game {
   }
   /** Whether the card of this camp was already answered, in this round. */
   offerAnswered(milestone: Milestone): boolean {
-    if (this.#endless) return this.#answered.has(`${this.kings}:${milestone}`);
+    if (this.#endless) return this.#gifts.answered.has(campKey(this.kings, milestone));
     return this.rewards.choices.some((c) => c.milestone === milestone);
   }
   get feastDuration() {
@@ -416,7 +357,7 @@ export class Game {
    * names the lasting gift a new one takes the place of when the five places are full.
    */
   chooseReward(id: string, replace?: string): boolean {
-    if (this.#endless) return this.#chooseBoon(id, replace);
+    if (this.#endless) return chooseBoon(this, this.#gifts, id, replace);
     const milestone = this.rewards.pending;
     if (
       this.paused ||
@@ -426,69 +367,15 @@ export class Game {
     )
       return false;
     const key = id as RewardId;
-    this.rewards.choices.push({ milestone, id: key, used: !REWARDS[key].kind, ...this.#round() });
+    takeCard(this, milestone, key);
     this.rewards.pending = null;
-    if (key === 'pieces') this.gold = Math.min(GOLD_LIMIT, this.gold + REWARD_COINS);
-    if (key === 'cristal') this.rewards.ward += CRYSTAL_WARD;
-    this.message = REWARDS[key].title + ' ! ' + REWARDS[key].detail;
+    this.message = fill(TEXT.nExclamationN, REWARDS[key].title, REWARDS[key].detail);
     return true;
-  }
-  #chooseBoon(id: string, replace?: string): boolean {
-    const milestone = this.rewards.pending;
-    if (
-      this.paused ||
-      this.status !== 'preparing' ||
-      milestone === null ||
-      !this.boonOffer.includes(id as BoonId)
-    )
-      return false;
-    if (isLastingBoon(id)) {
-      const taken = takeBoon(
-        this.#boons,
-        id,
-        isLastingBoon(replace) ? replace : undefined,
-        this.boonRules,
-      );
-      if (!taken) return false;
-      const armour = (level: number) => armourAtLevel(level, this.boonRules);
-      const before = armour(this.boonLevel('armure'));
-      this.#boons = taken;
-      const after = armour(this.boonLevel('armure'));
-      // The armour takes the allies already in the camp, wounds kept in proportion.
-      if (after !== before)
-        for (const u of this.units) {
-          // Written as a save reads it back: the kind's life times the armour.
-          u.maxHp = kinds[u.kind as Kind].hp * after;
-          u.hp = Math.min(u.maxHp, (u.hp * after) / before);
-        }
-    } else {
-      const card = id as RewardId;
-      this.rewards.choices.push({
-        milestone,
-        id: card,
-        used: !REWARDS[card].kind,
-        ...this.#round(),
-      });
-      if (card === 'pieces') this.gold = Math.min(GOLD_LIMIT, this.gold + REWARD_COINS);
-      if (card === 'cristal') this.rewards.ward += CRYSTAL_WARD;
-    }
-    this.#answered.add(`${this.kings}:${milestone}`);
-    this.rewards.pending = null;
-    return true;
-  }
-  /** The round a choice belongs to: only the endless adventure has more than one. */
-  #round(): { round?: number } {
-    return this.kings > 0 ? { round: this.kings } : {};
   }
   skipReward(): boolean {
     const milestone = this.rewards.pending;
     if (this.paused || this.status !== 'preparing' || milestone === null) return false;
-    if (this.#endless) {
-      this.#answered.add(`${this.kings}:${milestone}`);
-      this.rewards.pending = null;
-      return true;
-    }
-    this.rewards.choices.push({ milestone, id: 'skip', used: true, ...this.#round() });
+    skipCard(this, this.#gifts, milestone);
     this.rewards.pending = null;
     return true;
   }

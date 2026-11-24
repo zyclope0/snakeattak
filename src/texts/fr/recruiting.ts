@@ -1,8 +1,12 @@
 export const choisirLeMielPuisToucherUnChemin = ' : choisir le miel puis toucher un chemin';
 export const offert = 'Offert';
 export const pieces = ' pièces';
-export const reserveBancaireProtegee = ', réserve bancaire protégée';
-export const pasAssezDePieces = ', pas assez de pièces';
+/** An ally card read aloud: its name, then its price. */
+export const nNPieces = '{0}, {1} pièces';
+export const nOffert = '{0}, offert';
+/** The same card when it cannot be taken: the name and price above, then why. */
+export const nReserveBancaireProtegee = '{0}, réserve bancaire protégée';
+export const nPasAssezDePieces = '{0}, pas assez de pièces';
 export const toucheUnChemin = 'Touche un chemin';
 export const placeTonAllie = 'Place ton allié';
 export const pasDeMielDansCeCaprice = 'Pas de miel dans ce caprice';

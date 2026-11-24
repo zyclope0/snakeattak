@@ -38,6 +38,8 @@ export const leMielColleAuxEcaillesLesSerpents =
   'Honey sticks to their scales! Snakes slow down on this lane.';
 export const leGouterEstServiLesSerpents = 'Snack time! Hungry snakes may switch lanes for Honey.';
 export const nRejointLeCamp = '{0} joins the camp!';
+/** The line under the board once a reward card is taken: its title, then what it gives. */
+export const nExclamationN = '{0}! {1}';
 export const laDerniereVagueKingSnakeApproche = 'The final wave! King Snake is coming…';
 export const vagueNDefendsLeCamp = 'Wave {0}: defend the camp!';
 export const coordonneesDeCampInvalides = 'Invalid camp coordinates';
