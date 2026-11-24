@@ -55,10 +55,8 @@ body #home-screen:not([data-page='home']) #home-back {
   line-height: 1;
   text-shadow: 0 calc(1.2 * var(--s)) 0 rgba(8, 20, 16, 0.9);
 }
-/* Les réglages : la roue modelée. */
+/* Les réglages : la roue modelée, à la taille que la page donnait déjà au bouton. */
 body #home-screen:not([data-page='home']) #home-settings {
-  width: max(48px, calc(48 * var(--s)));
-  height: max(48px, calc(48 * var(--s)));
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -100,17 +98,17 @@ body #home-screen:not([data-page='home']) .primary:not(:disabled) {
   color: var(--clearing-paper);
   font-family: Fredoka, sans-serif;
   font-weight: 700;
-  font-size: max(15px, calc(17 * var(--s)));
   line-height: 1;
+  /* Le contour des lettres suit leur taille, que chaque page choisit. */
   text-shadow:
-    calc(1.6 * var(--s)) 0 0 var(--clearing-wood),
-    calc(-1.6 * var(--s)) 0 0 var(--clearing-wood),
-    0 calc(1.6 * var(--s)) 0 var(--clearing-wood),
-    0 calc(-1.6 * var(--s)) 0 var(--clearing-wood),
-    calc(1.2 * var(--s)) calc(1.2 * var(--s)) 0 var(--clearing-wood),
-    calc(-1.2 * var(--s)) calc(1.2 * var(--s)) 0 var(--clearing-wood),
-    calc(1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-wood),
-    calc(-1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-wood);
+    0.1em 0 0 var(--clearing-wood),
+    -0.1em 0 0 var(--clearing-wood),
+    0 0.1em 0 var(--clearing-wood),
+    0 -0.1em 0 var(--clearing-wood),
+    0.075em 0.075em 0 var(--clearing-wood),
+    -0.075em 0.075em 0 var(--clearing-wood),
+    0.075em -0.075em 0 var(--clearing-wood),
+    -0.075em -0.075em 0 var(--clearing-wood);
 }
 /* Les autres boutons et les grandes cartes de papier : un trait d'encre et une ombre, posés
    devant le décor. */
