@@ -440,6 +440,24 @@ body #home-screen[data-page='home'] #unkept-mark {
   align-self: end;
   justify-self: center;
 }
+/* La phrase « C'est réparé » se pose sur l'en-tête des autres pages (failure.css). Ici elle
+   est une chose de la grille, comme la marque : placée par ses rangées, pas par un écart en
+   pixels compté depuis sa case, qui la sortait de l'écran et la posait sur « Jouer ». Ses mots
+   se replient dans sa colonne. */
+body #home-screen[data-page='home'] span#unkept-mark {
+  position: static;
+  transform: none;
+  /* Moins large que sa colonne : « Favoris » déborde un peu de la sienne. */
+  max-width: calc(100% - 24 * var(--s));
+  padding: calc(4 * var(--s)) max(10px, calc(12 * var(--s)));
+  line-height: 1.15;
+  text-align: center;
+}
+/* La marque prend la place de « Favoris · Équilibrée » : les deux ne tiennent pas côte à côte
+   quand le nom du joueur est long, et des mots ne passent pas sur un bouton. */
+body #home-screen[data-page='home']:has(#unkept-mark) #home-active-team {
+  display: none;
+}
 
 /* Un doigt, une touche du clavier : ce qui est visé se voit sur le décor. */
 body #home-screen[data-page='home'] button:focus-visible {
@@ -453,6 +471,14 @@ body #home-screen[data-page='home'] button:focus-visible {
   body #home-screen[data-page='home'] #home-voyage {
     --plaque: 104;
     --lift: calc(6 * var(--s));
+  }
+}
+/* Un téléphone étroit : un long nom de joueur s'abrège plus tôt. Sa place est prise aux deux
+   colonnes des lieux, dont les plaques se chevaucheraient (mesuré à 568 et 600 px de large
+   avec un nom de 16 lettres). Avant la clairière, le nom n'était pas écrit du tout ici. */
+@media (max-width: 639.98px) {
+  body #home-screen[data-page='home'] #player-chip {
+    max-width: calc(104 * var(--s));
   }
 }
 
