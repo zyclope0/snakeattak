@@ -137,17 +137,22 @@ jobs:
           # Ce qu'un enfant garde, sur le paquet de l'application : la mise à jour par-dessus
           # l'appareil figé d'un testeur du build 63, le fichier familial, la fermeture
           # forcée, les doubles appuis (étape d'hygiène du 21 novembre 2026), la question pour
-          # adulte avant le partage (décision 3 du 23 novembre 2026), le bouton « retour »
-          # d'Android (24 novembre 2026). Chromium n'a pas le partage d'Android : les recettes
-          # qui font sortir un fichier le prennent sur le paquet du site, construit ici aussi,
-          # ou imitent le côté Android.
+          # adulte avant le partage (décision 3 du 23 novembre 2026). Chromium n'a pas le
+          # partage d'Android : les recettes qui font sortir un fichier le prennent sur le
+          # paquet du site, construit ici aussi, ou imitent le côté Android.
           - groupe: sauvegardes
             site: true
             android: true
             recettes: >-
               test:saves:update test:saves:family test:saves:forced-close
               test:saves:double-taps test:failure test:saves:unkept test:saves:gate
-              test:back-button
+          # Le bouton « retour » d'Android (24 novembre 2026), sur le paquet de l'application
+          # avec un faux côté Android. La recette joue une aventure entière : avec les
+          # sauvegardes, la tâche touchait sa limite de 30 minutes (28 minutes mesurées).
+          - groupe: retour
+            site: true
+            android: true
+            recettes: test:back-button
     name: recettes (${{ matrix.groupe }})
     steps:
       - uses: actions/checkout@v4

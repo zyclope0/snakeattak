@@ -507,7 +507,7 @@ Environments) : à décider par lui.
 
 Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
 22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit
-dont la CI complète (« Verify game », poussée sur `main`, les huit lignes) n'est pas verte :
+dont la CI complète (« Verify game », poussée sur `main`, les neuf lignes depuis le 24 novembre) n'est pas verte :
 avant, cette règle était tenue à la main. Il compile ensuite depuis Git, passe
 `npm run verify`, écrit `version.json` (commit publié), envoie `dist/` par rsync,
 puis relit le site avec `scripts/check-live-site.mjs` : version, en-têtes, redirections,

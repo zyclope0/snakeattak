@@ -303,7 +303,8 @@ Grande Expédition et les corrections de l'étape d'hygiène.
   novembre 2026, la fusion des PR de Claude quand toutes les tâches de la CI sont vertes,
   sans conflit ni fil de revue ouvert, puis la publication du site. Depuis le 22 novembre
   2026, « toutes vertes » veut dire : pour une PR qui touche autre chose que des documents,
-  « portée », « verify » et les six « recettes », dont « sauvegardes » (huit lignes) ; des recettes sautées sur
+  « portée », « verify » et les sept « recettes », dont « sauvegardes » et, depuis le
+  24 novembre, « retour » (neuf lignes) ; des recettes sautées sur
   une telle PR, c'est ne pas fusionner. Pour une PR de documents seuls (`*.md` à la racine
   ou sous `docs/`, hors `docs/publication/`) : « portée » et « verify » vertes, les recettes
   sautées. Avant de publier, regarder le passage complet sur `main` au commit publié : le
