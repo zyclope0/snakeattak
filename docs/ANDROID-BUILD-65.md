@@ -18,6 +18,12 @@ procédure de construction est celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-
 - `npx cap sync android` a ajouté les deux modules à `android/capacitor.settings.gradle` et
   `android/app/capacitor.build.gradle`. Leurs manifestes sont vides : **aucune permission
   nouvelle**. Le partage passe par le `FileProvider` déjà déclaré (`cache-path`).
+- **Le bouton « retour » d'Android ne quitte plus le jeu depuis n'importe où** (24 novembre) :
+  troisième module officiel, `@capacitor/app` 8.1.2, manifeste vide, **aucune permission
+  nouvelle**. À essayer sur le téléphone : une fenêtre se ferme, une partie se met en pause
+  puis reprend, une page de l'accueil revient au premier écran, et le premier écran met
+  l'application en arrière-plan. Détails : [ARCHITECTURE.md](ARCHITECTURE.md), « Le bouton
+  retour d'Android ».
 - Les lots de solidité des sauvegardes (camps sauvés, copies de secours, « partie non
   gardée ») et les fenêtres de panne, fusionnés (PR 129 à 136).
 - La question pour adulte avant le partage (décision 3) : « Combien font 17 × 9 ? »

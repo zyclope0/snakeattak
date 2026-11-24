@@ -1615,7 +1615,10 @@ rien ne s'ouvre et le jeu reste tel quel, sans mot nouveau. **Un nouvel essai ne
 un navigateur garde en mémoire un module qui a échoué une fois, et ne le redemande pas ; la
 fenêtre reste fermée jusqu'au rechargement de la page (attaque indépendante du 24 novembre). Il
 en va de même pour les fenêtres chargées à part avant elles (voyage, joueurs, index des
-serpents), contrairement à ce que disent leurs sections. C'est pourquoi **la sauvegarde
+serpents), contrairement à ce que disent leurs sections. Les cinq boutons qui disaient
+« Réessaie. » quand leur fichier manque (voyage, Grande Expédition, confidentialité, index des
+serpents, missions) disent donc « Recharge la page. » (mesure du 24 novembre : 0 requête au
+deuxième appui ; mots validés par le parent, [décisions](DECISIONS-2026-11-24.md)). C'est pourquoi **la sauvegarde
 familiale reste dans le paquet principal** : sur un site qui ne garde rien (navigation privée),
 elle est le seul moyen de sortir l'aventure, et recharger la page la perdrait. Un premier essai
 l'avait sortie ; il est retiré. Paquet principal : site et application 199 607 → 195 901
@@ -1875,6 +1878,35 @@ impossible ici, raté. « Fichier prêt » ne s'affiche que dans le premier cas.
   en dessous ; tout ne tient pas en 360 px). Tenu par `test:saves:gate` et
   `test:saves:family`. Un aperçu très long (huit carnets aux noms longs et larges) cache
   encore le haut du résumé sur un téléphone.
+
+## Le bouton « retour » d'Android — 24 novembre 2026
+
+Laissé à Android, « retour » quittait l'application depuis n'importe quel écran : un enfant
+qui voulait fermer une fenêtre sortait du jeu. Avec l'accord du parent
+([décisions](DECISIONS-2026-11-24.md)), l'application porte un troisième module officiel de
+Capacitor, `@capacitor/app` 8.1.2 (version fixe, manifeste vide : aucune permission).
+
+- **Ce que fait « retour »** (`src/ui/backButton.ts`), la première chose qui s'applique :
+  une fenêtre ouverte reçoit la demande que fait la touche Échap (événement `cancel`, puis
+  fermeture si elle n'a pas dit non) ; une partie en cours : le bouton pause, un deuxième
+  appui reprend ; une partie finie : le bouton d'accueil ; une page de l'accueil : son
+  bouton de retour ; le premier écran : l'application passe en arrière-plan
+  (`minimizeApp`), rien n'est fermé. Le jeu lit ce qui est à l'écran (`#app`, son
+  `data-status`, `#home-back`, les fenêtres ouvertes) et n'appuie que sur des boutons qu'un
+  enfant pourrait toucher.
+- **Tant que le jeu n'écoute pas, « retour » reste celui d'Android** :
+  `disableBackButtonHandler` dans `capacitor.config.ts`. Sans cela le module avalerait
+  « retour » dès le lancement, et un jeu qui n'a pas démarré, ou la page « WebView trop
+  ancien », ne se quitteraient plus. `src/main.ts` charge le fichier après le démarrage
+  réussi ; il écoute d'abord, puis demande « retour » à Android (`toggleBackButtonHandler`).
+- **Seulement si le côté natif porte le module** (`nativeBack`, par
+  `Capacitor.PluginHeaders`, comme pour le partage) : une application construite avant lui,
+  ou une recette qui ouvre le paquet dans Chromium, ne charge rien et n'écrit aucune erreur.
+- **Le site n'en porte rien** (`__APP_BUILD__`), et `scripts/check-dist.mjs` tient toujours
+  que Capacitor n'est chargé ni avec le premier script ni avec le jeu.
+- **Tenu par** `tests/back-button.test.ts` et `npm run test:back-button`
+  (`scripts/hygiene/back-button.mjs`, tâche « sauvegardes » de la CI). **Pas essayé sur un
+  vrai téléphone** au moment de la livraison ([bilan](BILAN-PETITS-RESTES-2026-11-24.md)).
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
 

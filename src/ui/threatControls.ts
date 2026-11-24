@@ -35,7 +35,7 @@ export function bindThreatControls(session: Session, refresh: () => void) {
     snakeIndexDoor(
       'threat-all-snakes',
       TEXT.tousLesSerpents,
-      TEXT.lesSerpentsNeSontPasArrivesReessaie,
+      TEXT.lesSerpentsNeSontPasArrivesRecharge,
       () => session.game.balanceRevision,
     ),
   );

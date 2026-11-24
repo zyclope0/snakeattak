@@ -39,6 +39,7 @@ const NOT_SHOWN = new Set([
   'Fredoka', // the font family of the titles (src/render/fonts.ts)
   'Nunito Sans', // the font family of the texts (src/render/fonts.ts)
   'Filesystem', // the name the Android side gives a Capacitor plugin (src/ui/download.ts)
+  'App', // the same, for the plugin that hands « retour » over (src/ui/backButton.ts)
   'Share', // the name the Android side gives a Capacitor plugin (src/ui/download.ts)
 ]);
 

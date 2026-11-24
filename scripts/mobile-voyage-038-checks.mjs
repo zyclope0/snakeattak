@@ -59,8 +59,8 @@ const TEXT = {
     // The one way on once a voyage is over.
     expedition: 'La Grande Expédition',
     stars: '0 / 18 étoiles',
-    failedVoyage: 'Le voyage n’a pas pu s’ouvrir. Réessaie.',
-    failedExpedition: 'La Grande Expédition n’a pas pu s’ouvrir. Réessaie.',
+    failedVoyage: 'Le voyage n’a pas pu s’ouvrir. Recharge la page.',
+    failedExpedition: 'La Grande Expédition n’a pas pu s’ouvrir. Recharge la page.',
   },
   en: {
     door: 'The Great Expedition',
@@ -94,8 +94,8 @@ const TEXT = {
       `You completed ${n} stages out of 5. The Great Expedition is waiting for you!`,
     expedition: 'The Great Expedition',
     stars: '0 / 18 stars',
-    failedVoyage: 'The voyage could not open. Try again.',
-    failedExpedition: 'The Great Expedition could not open. Try again.',
+    failedVoyage: 'The voyage could not open. Reload the page.',
+    failedExpedition: 'The Great Expedition could not open. Reload the page.',
   },
 };
 
@@ -543,7 +543,8 @@ export async function checkVoyage({ browser, url, check, capture }) {
     }
 
   // When the screens cannot arrive (no network, no cache), the door says which could not open,
-  // and « Nouveau » steps aside; the next touch asks again.
+  // and « Nouveau » steps aside. A browser keeps a module that failed once, so the door says
+  // to reload the page (measured in Chromium, 24 November 2026: a second touch asks nothing).
   for (const language of ['fr', 'en'])
     for (const [name, seed, expected] of [
       ['begun', { [VOYAGE_STORAGE_KEY]: logOf(MAP_SEED, 2) }, TEXT[language].failedVoyage],
