@@ -165,4 +165,8 @@ deux (trois, quatre) quand l'écran va au moins deux fois plus vite que 60 Hz : 
 seule (`limit: 60`) aurait laissé tomber les images un peu en avance d'un écran à 60 Hz, donc
 30 images par seconde par moments : elle est réglée sous le temps de deux images. Tenu par
 `tests/frame-limit.test.ts` ; à confirmer par un nouveau relevé sur le S24 (attendu : environ
-60). Paquet du jeu : 199 754 octets sur 200 000.
+60). La mesure de l'écran est chargée à part, juste après le démarrage : dans le paquet du
+jeu, elle faisait déborder la version « aperçu publicitaire » du site (200 080 octets, CI
+rouge). Paquet du jeu : 199 607 octets sur 200 000 (site), 199 932 (aperçu publicitaire),
+199 873 (essai publicitaire). **Il ne reste presque plus de place** : le prochain lot qui
+ajoute au jeu doit d'abord sortir un écran du paquet (chargé à la demande).

@@ -8,7 +8,7 @@
  * screen at least twice as fast as the target draws one frame in two (three, four…): 120 Hz →
  * 60, 144 Hz → 72, 165 Hz → 82, 240 Hz → 60. A 60 or 90 Hz screen draws every frame, as before.
  */
-export const FRAME_RATE_TARGET = 60;
+import { FRAME_RATE_TARGET } from './frameRate.ts';
 
 /** A measured 120 Hz screen may read 119.9 Hz: the stride is not lost for so little. */
 const STRIDE_TOLERANCE = 0.1;
@@ -35,7 +35,8 @@ const SAMPLED_FRAMES = 30;
 /**
  * Measures the screen's pace on the first frames, then sets the loop's limit. Until then every
  * frame is drawn. The loop must have been created with a limit (`fps.limit`), so that Phaser
- * steps through its limited path.
+ * steps through its limited path. Loaded beside the game, out of its first file
+ * (`src/boot/phaser.ts`), which has no room left.
  */
 export function limitFrames(loop: unknown, frame = requestAnimationFrame): void {
   const limited = loop as LimitedLoop;
