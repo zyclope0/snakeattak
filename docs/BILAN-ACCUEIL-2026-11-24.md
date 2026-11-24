@@ -69,7 +69,8 @@ Trois relecteurs ont mesuré le premier jet dans Chromium. Corrigé avant la dem
 - **Rien sur un vrai téléphone** : la taille réelle des lieux sous le pouce, la lisibilité au
   soleil, le poids des images sur un vieux téléphone. Un APK de test suit la fusion.
 - **Rien avec les enfants** : on ne sait pas s'ils comprennent que les trois lieux se touchent.
-- Écrans plus petits que 568×320 : non contrôlés.
+- Écrans plus petits que 568×320 : à 480×270 tout reste à l'écran ; à 400 px de large (un
+  ordinateur zoomé à 300 %) la roue des réglages sort de l'écran, sans défilement.
 - Sous 640 px de large, un nom de joueur de 16 lettres est abrégé à cinq lettres environ, pour
   que les lieux ne se touchent pas.
 - La sonde d'appuis est un script de mesure, pas encore une recette : à ajouter à l'audit
@@ -77,7 +78,16 @@ Trois relecteurs ont mesuré le premier jet dans Chromium. Corrigé avant la dem
 - Au clavier, l'ordre des boutons saute d'un coin de l'écran à l'autre (l'ordre de la page n'a
   pas changé, les places oui).
 - Le nom sur les plaques a un contraste de 4,7:1 : au-dessus du seuil (4,5), sans marge.
-- « Missions ★ n / 18 » déborde d'un ou deux pixels sur le cadre de sa plaque à 568×320.
+- « Missions ★ n / 18 » passe de 7 à 15 px sur le cadre en bois de sa plaque (cadre de 17 à
+  35 px) : lisible, sous le seuil de la recette, à élargir dans un prochain lot.
+- Si le fichier de l'expédition n'arrive pas (site sans réseau), la phrase « Recharge la page
+  quand la connexion revient. » s'écrit sur la plaque du pont, qui grandit : à 568×320 sa boîte
+  touche le bouton des favoris, sans lui prendre d'appui. À écrire ailleurs dans un prochain
+  lot.
+- Sur un écran tactile tenu debout, « tourne ton téléphone » couvre l'accueil, comme avant : la
+  mise en page debout ne sert qu'à une fenêtre d'ordinateur.
+- `text-wrap: balance` (Chrome 114) n'existe pas sur le plus vieux WebView accepté (108) : seul
+  « Mon carnet de caprices » s'y coupe autrement (simulé, pas essayé sur un vrai Chrome 108).
 - L'encart publicitaire du site (éteint, grand écran seulement) n'a pas été remesuré sur le
   nouvel écran : à faire avant de l'allumer.
 - Les anciennes règles de style du premier écran sont recouvertes, pas retirées : nettoyage
