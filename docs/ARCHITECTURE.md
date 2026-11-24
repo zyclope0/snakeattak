@@ -775,6 +775,55 @@ Règle pour la suite : dans ce fichier, pas de taille en px, sauf un plancher da
 une cible tactile. `npm run test:mobile-menus` contrôle ces pages sur une grille de treize
 tailles, du petit téléphone à l'ordinateur, avec et sans marges système.
 
+## Premier écran de l'accueil : « la clairière » — 24 novembre 2026
+
+Le parent trouvait l'accueil « très IA » (bordures, mise en page de page web) et mal
+hiérarchisé. Après un conseil de trois relecteurs indépendants sur deux maquettes, il a retenu
+une maquette de synthèse ([décisions](DECISIONS-2026-11-24.md),
+[bilan](BILAN-ACCUEIL-2026-11-24.md)). Le premier écran est une scène du jeu :
+
+- **Le décor couvre tout l'écran** : la clairière d'une mission, calmée dans l'image elle-même
+  (un peu floue, moins de couleur et de contraste : la « dose légère » choisie par le parent),
+  pour que ce qui se touche passe devant. Aucun filtre ne tourne sur le téléphone.
+- **La géographie du plateau** : l'antre des serpents et King Snake à gauche (« Aventure
+  classique »), le pont au milieu (« La Grande Expédition »), le château au cristal et le
+  héros à droite (« Missions », avec ses étoiles sur la plaque).
+- **Chaque façon de jouer est un lieu** : une image, et son nom sur la plaque peinte du jeu,
+  découpée en neuf (`border-image`) pour que ses rivets restent ronds à toute taille.
+- **« Jouer » est la plus grosse chose à toucher**, en bas à droite, sous le château dont il
+  lance la prochaine mission ; la phrase « Prochaine mission… » est juste au-dessus.
+- **En haut à droite** : « Pour les parents » (un parchemin), le joueur, les réglages. **En bas
+  à gauche** : le carnet de caprices et les favoris, en petits objets.
+- **Quatre choses ont quitté cet écran** (décision du parent) : « Protège le cristal ! », le
+  numéro de version et la ligne de sauvegarde (qui restent dans « Pour les parents »), et
+  « Ajouter un joueur » sous le nom (la fenêtre des joueurs). Le total des étoiles et la
+  deuxième ligne du joueur restent dans la page pour un lecteur d'écran, hors de la vue.
+
+**Comment c'est fait.** La page ne change presque pas : mêmes boutons, mêmes identifiants (le
+jeu et les recettes s'y accrochent). `src/ui/homeClearing.css`, chargée la dernière, ne
+s'applique qu'à `#home-screen[data-page='home']` : les blocs qui rangeaient les boutons
+(en-tête, carte, rangée du bas) y passent en `display: contents`, et chaque bouton prend sa
+place dans une grille. Les autres pages de l'accueil gardent `homePages.css`.
+
+- **Une unité, `--s`** : un pixel d'un téléphone de 780 × 360, bornée entre 0,86 et 2,2 px. Sur
+  un écran plus petit les choses se rapprochent ; les cibles gardent 48 px et les textes 13 px
+  (`max()`). Une fenêtre debout range les mêmes lieux sur trois rangées.
+- **L'image d'un lieu fait partie de son bouton** (`::before`, posée au-dessus de la plaque) :
+  la toucher ouvre le lieu.
+- **Deux données écrites par le jeu pour le style** : `data-stars` sur `#home-expeditions`
+  (`ui/expeditions.ts`, le même compte que `#mission-total`) et `data-words` sur
+  `#home-primary` (`boot/homePrimary.ts` : « Jouer un caprice » s'écrit plus petit).
+- **Le titre de l'écran est le nom du jeu** (`<h1>`), montré par le logo modelé (français ou
+  anglais selon la langue) ; ses mots restent dans la page.
+- **Les images** (`src/assets/home/clairiere-*.webp`) sont construites par
+  `scripts/build-home-scene.py` : le décor et les trois lieux dérivent des planches du jeu ;
+  le logo, le bouton, l'engrenage et l'étoile ont été modelés avec Magnific
+  (`public/assets/illustrated/PROVENANCE-ACCUEIL-2026-11-24.md`).
+
+Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
+`14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :
+à nettoyer dans un lot à part, mesure de couverture à l'appui.
+
 ## Dialogues adaptatifs — 11 novembre 2026
 
 `src/ui/dialogPages.css` applique la même méthode aux dialogues qui servent d'écrans. L'unité

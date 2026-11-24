@@ -60,6 +60,11 @@ export default defineConfig(({ mode }) => {
   return {
     base: './',
     publicDir: false,
+    // The dev server serves the sources, and a recipe plays on it for minutes: a file written
+    // in a copy of the repository kept inside this folder (`.claude/worktrees/`, where a
+    // second checkout works beside this one) must not reload the page under the recipe
+    // (found on 24 November 2026: a recipe failed on a click cut by a reload).
+    server: { watch: { ignored: ['**/.claude/**', '**/artifacts/**'] } },
     define: {
       __WEB_ADS__: JSON.stringify(webAds),
       // The Android application's build: only it holds the plugins that share a file.

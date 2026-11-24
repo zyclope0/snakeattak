@@ -392,7 +392,11 @@ body #home-screen[data-page='home'] :is(#home-caprice-album, #home-army) {
   font-size: max(13px, calc(12.5 * var(--s)));
   text-shadow: var(--clearing-ring);
 }
+body #home-screen[data-page='home'] #home-caprice-album {
+  --object: url('../assets/home/menu-carnet.webp');
+}
 body #home-screen[data-page='home'] #home-army {
+  --object: url('../assets/home/menu-favoris.webp');
   margin-left: max(94px, calc(98 * var(--s)));
   width: max(64px, calc(66 * var(--s)));
 }
