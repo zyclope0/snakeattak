@@ -67,7 +67,19 @@ try {
   // Locale initialization loads bootstrap asynchronously, including offline.
   // Wait for the real menu before inspecting its visible version.
   await page.locator('#home-screen').waitFor({ state: 'visible' });
-  assert.ok((await page.locator('body').innerText()).includes(pkg.version));
+  // The version left the first screen (the parent's decision, 24 November 2026): a parent
+  // reads it in « Pour les parents », whole and inside the screen, offline too.
+  await showHomePage(page, 'parents');
+  const shown = page.locator('#home-screen [data-app-version]:visible');
+  assert.equal(await shown.count(), 1, 'the version is written once for a parent');
+  assert.equal((await shown.innerText()).trim(), `v${pkg.version}`);
+  const at = await shown.boundingBox();
+  const view = page.viewportSize();
+  assert.ok(
+    at.x >= 0 && at.y >= 0 && at.x + at.width <= view.width && at.y + at.height <= view.height,
+    `the version is inside the screen: ${JSON.stringify(at)}`,
+  );
+  await showHomePage(page, 'home');
   await showHomePage(page, 'missions');
   await page.locator('#home-play').click();
   await page.locator('#mission-launch').click();

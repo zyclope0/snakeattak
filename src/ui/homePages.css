@@ -378,6 +378,21 @@
 }
 #home-screen[data-page='parents'] .home-footer {
   grid-row: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: calc(var(--hu) * 1.2);
+}
+/* Le numéro de version, pour un parent : au bout de la ligne de sauvegarde de « Pour les
+   parents » (il a quitté le premier écran le 24 novembre 2026). Il ne se répète pas ailleurs,
+   ni là où le titre du jeu le porte déjà dans l'en-tête (grand écran, plus bas). */
+#home-screen .home-footer .build-version {
+  display: none;
+}
+#home-screen[data-page='parents'] .home-footer .build-version {
+  display: inline;
+  flex: none;
+  font-size: inherit;
 }
 #home-screen [data-home-page='parents'] .parent-actions {
   display: grid;
@@ -517,6 +532,9 @@
 @media (min-width: 1000px) and (min-height: 680px) {
   #home-screen:not([data-page='home']) .home-brand {
     display: inline-flex;
+  }
+  #home-screen[data-page='parents'] .home-footer .build-version {
+    display: none;
   }
   #home-screen:not([data-page='home']) .home-header {
     justify-content: space-between;
