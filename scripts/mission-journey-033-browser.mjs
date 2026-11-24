@@ -14,6 +14,37 @@ import { encodeCheckpoint } from '../src/checkpoints.ts';
 const baseline = process.argv.includes('--baseline');
 const artifact = 'artifacts/mission-journey-0331';
 const base = 'http://127.0.0.1:4375';
+/**
+ * The most a fresh load of the home may download in images, in bytes: every image response
+ * added up, whatever asks for it (style sheet or page). Measured on 24 November 2026 with the
+ * first screen « la clairière »: 497 434 at every size and for every profile of this recipe.
+ * Of these, 340 608 are the ten images of the clearing, 131 486 the twenty stickers of the
+ * caprice book (asked for as the game starts) and 25 340 four small pictures (two objects of
+ * the menu, the player's portrait, the parents' pictogram). A child's phone on a slow network
+ * pays for each of these bytes before seeing the first screen: a new image on the home has to
+ * fit here, or the budget is raised knowingly.
+ */
+const HOME_IMAGE_BUDGET = 512_000;
+/**
+ * What the first screen is made of (src/ui/homeClearing.css): the scenery, the three places,
+ * the name of the game and the clay button. Each is a CSS background: `owner` (with `pseudo`)
+ * is what draws it, `fit` how (the scenery covers the screen and may be cropped; a place and
+ * the name are shown whole; the button is stretched to its box), `file` the image in the
+ * repository that the site must serve unchanged.
+ */
+const CLEARING = [
+  { image: 'clairiere-decor', owner: '#home-screen', pseudo: '::before', fit: 'cover' },
+  { image: 'clairiere-antre', owner: '#home-classic', pseudo: '::before', fit: 'contain' },
+  { image: 'clairiere-pont', owner: '#home-voyage', pseudo: '::before', fit: 'contain' },
+  { image: 'clairiere-chateau', owner: '#home-expeditions', pseudo: '::before', fit: 'contain' },
+  { image: 'clairiere-logo-fr', owner: '.home-intro h1', fit: 'contain' },
+  { image: 'clairiere-bouton', owner: '#home-primary', fit: '100% 100%' },
+].map((part) => ({ ...part, file: `src/assets/home/${part.image}.webp` }));
+/** No image of the first screen is drawn smaller than this, in CSS pixels, on any screen. */
+const SMALLEST_PICTURE = 48;
+/** Nothing of the board, and no original in full size, is fetched before a game starts. */
+const HEAVY_IMAGE = /ground-|icone-source|2048/;
+const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 let server, browser;
 const results = [],
   errors = [];
@@ -74,6 +105,12 @@ try {
         isMobile: touch,
       });
       page.on('pageerror', (e) => errors.push(e.message));
+      // Every image the home asks for, from its first byte: a page of its own has an empty
+      // cache, so each one is a real download.
+      const answers = [];
+      page.on('response', (answer) => {
+        if (answer.request().resourceType() === 'image') answers.push(answer);
+      });
       const raw = name === 'empty' ? null : profile(name);
       await page.addInitScript((raw) => {
         if (raw) localStorage.setItem('conquete-serpents:family:v1', raw);
@@ -81,17 +118,19 @@ try {
       await page.goto(base);
       await page.locator('#home-primary').waitFor();
       await page.evaluate(() => document.fonts.ready);
+      await page.waitForLoadState('networkidle');
       await page.waitForTimeout(300);
-      const images = await page.evaluate(() =>
-        performance
-          .getEntriesByType('resource')
-          .filter((e) => /\.(webp|png|svg)(\?|$)/.test(e.name))
-          .map((e) => ({
-            name: new URL(e.name).pathname,
-            bytes: e.encodedBodySize,
-            transferred: e.transferSize,
-          })),
-      );
+      const images = [];
+      for (const answer of answers.splice(0)) {
+        const body = await answer.body();
+        images.push({
+          name: new URL(answer.url()).pathname,
+          status: answer.status(),
+          bytes: body.length,
+          sha256: sha256(body),
+        });
+      }
+      const weight = images.reduce((sum, image) => sum + image.bytes, 0);
       await snap(page, `${width}x${height}-${name}-home`);
       if (width === 375) {
         assert.equal(await page.locator('#orientation-notice').isVisible(), true);
@@ -110,32 +149,98 @@ try {
         );
       }
       if (!baseline) {
-        const icon = page.locator('.home-icon');
-        assert.equal(await icon.isVisible(), true);
-        const attrs = await icon.evaluate((img) => ({
-          complete: img.complete,
-          width: img.naturalWidth,
-          fit: getComputedStyle(img).objectFit,
-          clip: getComputedStyle(img).clipPath,
-          src: img.src,
-        }));
+        const where = `${width}x${height} ${name}`;
+        // A light first screen: nothing of the board, no original, and a weight under budget.
         assert.deepEqual(
-          { complete: attrs.complete, width: attrs.width, fit: attrs.fit, clip: attrs.clip },
-          { complete: true, width: 512, fit: 'contain', clip: 'none' },
+          images.filter((image) => HEAVY_IMAGE.test(image.name)).map((image) => image.name),
+          [],
+          `No ground or HD original loaded on home (${where})`,
         );
-        assert.equal(
-          createHash('sha256')
-            .update(Buffer.from(await (await page.request.get(attrs.src)).body()))
-            .digest('hex'),
-          createHash('sha256')
-            .update(await readFile('resources/site/hero-512.webp'))
-            .digest('hex'),
+        assert.deepEqual(
+          images.filter((image) => image.status !== 200),
+          [],
+          `Every image of the home arrives (${where})`,
         );
-        assert.equal(
-          images.some((i) => /ground-|icone-source|2048/.test(i.name)),
-          false,
-          'No ground or HD original loaded on home',
+        assert.ok(
+          weight <= HOME_IMAGE_BUDGET,
+          `Images of the home: ${weight} bytes for a budget of ${HOME_IMAGE_BUDGET} (${where}): ` +
+            JSON.stringify(images.map((image) => [image.name, image.bytes])),
         );
+        // The clearing is whole: each of its images arrived, is the one of the repository, can
+        // be decoded, and is the background of something displayed on the first screen.
+        for (const part of CLEARING) {
+          const arrived = images.filter((image) =>
+            new RegExp(`/${part.image}-[\\w-]+\\.webp$`).test(image.name),
+          );
+          assert.equal(arrived.length, 1, `${part.image} is loaded once (${where})`);
+          assert.equal(
+            arrived[0].sha256,
+            sha256(await readFile(part.file)),
+            `${part.image} is served as ${part.file} (${where})`,
+          );
+          const drawn = await page.evaluate(
+            async ([owner, pseudo, path]) => {
+              const element = document.querySelector(owner);
+              const style = getComputedStyle(element, pseudo ?? undefined);
+              const box = element.getBoundingClientRect();
+              let rect = box;
+              if (pseudo) {
+                // A pseudo-element has no rectangle of its own: its used size and place are in
+                // its style. The scenery is fixed to the screen; the picture of a place is
+                // centred above its plaque, whose slight tilt keeps the centre where it is.
+                const [left, top, width, height] = ['left', 'top', 'width', 'height'].map((side) =>
+                  parseFloat(style[side]),
+                );
+                if (style.position === 'fixed') rect = new DOMRect(left, top, width, height);
+                else {
+                  const frame = element.offsetParent;
+                  const from = frame.getBoundingClientRect().top + frame.clientTop;
+                  rect = new DOMRect(
+                    (box.left + box.right - width) / 2,
+                    from + element.offsetTop + element.clientTop + top,
+                    width,
+                    height,
+                  );
+                }
+              }
+              const picture = new Image();
+              picture.src = path;
+              await picture.decode();
+              return {
+                background: style.backgroundImage.includes(path),
+                fit: style.backgroundSize,
+                shown:
+                  style.display !== 'none' &&
+                  style.visibility === 'visible' &&
+                  style.clipPath === 'none' &&
+                  Number(style.opacity) === 1,
+                rect: [rect.left, rect.top, rect.right, rect.bottom].map(Math.round),
+                screen: [innerWidth, innerHeight],
+                complete: picture.complete,
+                natural: [picture.naturalWidth, picture.naturalHeight],
+              };
+            },
+            [part.owner, part.pseudo ?? null, arrived[0].name],
+          );
+          const [left, top, right, bottom] = drawn.rect;
+          assert.ok(
+            drawn.background &&
+              drawn.fit === part.fit &&
+              drawn.shown &&
+              drawn.complete &&
+              Math.min(...drawn.natural) > 0 &&
+              Math.min(right - left, bottom - top) >= SMALLEST_PICTURE &&
+              // On the screen, whole; the scenery fills it from edge to edge.
+              left >= 0 &&
+              top >= 0 &&
+              right <= drawn.screen[0] &&
+              bottom <= drawn.screen[1] &&
+              (part.fit !== 'cover' ||
+                (right - left === drawn.screen[0] && bottom - top === drawn.screen[1])),
+            `${part.image} is displayed by ${part.owner}${part.pseudo ?? ''} (${where}): ` +
+              JSON.stringify(drawn),
+          );
+        }
       }
       await showHomePage(page, 'home');
       await page.locator('#home-expeditions').click();
