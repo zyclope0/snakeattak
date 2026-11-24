@@ -23,6 +23,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md)                     | Les dix décisions du parent du 23 novembre sur les mots, la politique et le build 65                                  |
 | [DECISIONS-2026-11-24.md](DECISIONS-2026-11-24.md)                     | Décisions du 24 novembre : 60 images par seconde, phrase des fichiers manquants, bouton retour, nouvel accueil        |
 | [BILAN-PETITS-RESTES-2026-11-24.md](BILAN-PETITS-RESTES-2026-11-24.md) | Phrase des fichiers manquants et bouton « retour » d'Android : fait, vérifié, pas essayé sur le téléphone             |
+| [BILAN-ACCUEIL-2026-11-24.md](BILAN-ACCUEIL-2026-11-24.md)             | Premier écran « la clairière » : fait, mesuré sur 27 cas, pas essayé sur le téléphone ni avec les enfants             |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version construite (build 62)                                                             |

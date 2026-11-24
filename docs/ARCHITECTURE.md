@@ -1954,11 +1954,18 @@ Capacitor, `@capacitor/app` 8.1.2 (version fixe, manifeste vide : aucune permiss
   « retour » dès le lancement, et un jeu qui n'a pas démarré, ou la page « WebView trop
   ancien », ne se quitteraient plus. `src/main.ts` charge le fichier après le démarrage
   réussi ; il écoute d'abord, puis demande « retour » à Android (`toggleBackButtonHandler`).
-- **Une page qui part rend « retour » à Android** (`pagehide`). Le jeu recharge sa page
+- **Avant de recharger sa page, le jeu rend « retour » à Android.** Le jeu recharge sa page
   (changement de joueur, import d'un fichier familial, « Relancer le jeu ») ; Capacitor retire
   alors les écouteurs de la page mais garderait le bouton pour lui, et « retour » ne ferait
   plus rien — pour de bon si le jeu ne redémarrait pas (lu dans le code de Capacitor par une
-  attaque indépendante, 24 novembre). La page suivante le reprend quand son jeu écoute.
+  attaque indépendante, 24 novembre). Ces rechargements passent tous par `src/ui/reload.ts`
+  (`reloadPage`) : l'application y rend « retour » depuis une page encore vivante, puis
+  recharge, au plus tard 300 ms après ; sur le site rien n'est inscrit et le rechargement est
+  immédiat. Un écouteur de `pagehide` reste comme second filet : un message envoyé par une
+  page qui part peut être jeté par le WebView (lu dans le code de Chromium, deuxième attaque).
+  La page suivante reprend « retour » quand son jeu écoute. Le secours du démarrage et la
+  publicité du site rechargent sans passer par là : le premier n'a pas encore pris « retour »,
+  le second n'est pas dans l'application.
 - **Seulement si le côté natif porte le module** (`nativeBack`, par
   `Capacitor.PluginHeaders`, comme pour le partage) : une application construite avant lui,
   ou une recette qui ouvre le paquet dans Chromium, ne charge rien et n'écrit aucune erreur.
