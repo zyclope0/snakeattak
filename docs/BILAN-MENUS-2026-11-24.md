@@ -65,6 +65,26 @@ en page des tableaux (une règle plus ancienne l'emportait : les mots partaient 
 Corrigé avant de pousser. Aucune recette ne l'aurait dit : c'est un défaut de dessin, pas de
 taille.
 
+**Une seconde relecture a attaqué ces corrections** (590 mesures, tête contre `main`) et en a
+trouvé deux de plus, toujours sur de petits écrans :
+
+- **Avec deux barres latérales de 48 px, la page défilait entre 701 et 780 px de large** là
+  où `main` ne défile pas (en anglais surtout). Ma règle regardait la largeur de l'écran, pas
+  la place qui reste. Corrigé : la question est posée aux cartes elles-mêmes (`@container`),
+  barres déduites ; l'image passe sur le côté sous 645 px de place.
+- **À 560 px de large et moins, une colonne restait vide** dans chaque tableau (les images y
+  sont cachées, comme avant). Corrigé : une seule colonne.
+- Trois remarques corrigées au passage : l'image décalée de 18 px dans une fenêtre debout
+  étroite, un double trait autour des boutons clairs, et des images de hauteurs inégales
+  dans la mise en page de côté. Sur ces petits écrans la ligne d'action garde sa taille
+  d'avant (11 px au plus petit) : plus grosse, elle passait sur deux lignes.
+
+**Le balayage du relecteur, rejoué sur la version finale** (590 cas : 15 largeurs de
+téléphone × 6 hauteurs × trois jeux de barres × deux langues, plus tablettes, ordinateurs et
+fenêtres debout) : la page défile moins que sur `main` dans 227 cas, autant dans 347, et un
+peu plus (3 à 13 px) dans 16 cas, tous sur des écrans de 780 px et plus mais hauts de
+300 à 320 px seulement, qu'aucun téléphone connu n'a.
+
 ## Comment c'est vérifié
 
 - **Mesure avant/après dans Chromium, 40 cas** (cinq pages × 568 × 320, 780 × 360,
@@ -93,8 +113,13 @@ taille.
   lots suivants.
 - Les fenêtres (réglages, joueurs, préparation d'une mission), le camp et le plateau ne sont
   pas touchés.
-- Sur un téléphone étroit (moins de 700 px de large), l'image d'un chapitre reste petite, sur
-  le côté (43 × 105 px à 640 × 360) : on reconnaît le terrain, sans plus.
+- Quand il reste peu de place (téléphone de moins de 700 px de large, ou plus large avec de
+  grosses barres), l'image d'un chapitre reste petite, sur le côté (43 × 117 px à
+  640 × 360) : on reconnaît le terrain, sans plus. À 560 px et moins, pas d'image, comme
+  avant. **Le téléphone du parent tombe peut-être dans ce cas** selon ses barres : à regarder
+  sur l'APK.
+- Seize tailles sans téléphone connu (780 px et plus de large, 300 à 320 px de haut) défilent
+  de 3 à 13 px de plus qu'avant.
 - Le contraste des légendes n'a pas été remesuré après la correction ; celui des mots clairs
   sur le bouton de pâte repose sur leur contour brun (2,2:1 sans lui, mesuré par le relecteur).
 - Un chapitre pas encore ouvert ne se distingue que par un voile léger sur son image et par

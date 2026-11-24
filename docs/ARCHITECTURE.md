@@ -843,8 +843,9 @@ rien : la mise en page reste celle de `homePages.css`.
   intérieure, contour rentré) : une vraie bordure faisait défiler la page sur un petit
   téléphone avec ses barres.
 - **« Aventure classique »** : chaque chapitre est un tableau, son terrain dans le cadre peint,
-  ses étoiles dans un coin de l'image et son nom dessous ; sous 700 px de large, l'image passe
-  sur le côté, comme avant, pour que la page garde sa hauteur. Les trois images (`src/assets/home/chapitre-*.webp`, 448 × 252, 33 Ko)
+  ses étoiles dans un coin de l'image et son nom dessous. Quand il reste moins de 645 px aux
+  trois cartes (question posée par `@container` au bloc des cartes, donc barres du téléphone
+  déduites), l'image passe sur le côté, comme avant, pour que la page garde sa hauteur. Les trois images (`src/assets/home/chapitre-*.webp`, 448 × 252, 33 Ko)
   sont dérivées par `scripts/build-home-scene.py` ; les grands terrains (500 à 600 Ko) ne
   sont chargés qu'en entrant dans un chapitre. Le code qui les chargeait au survol d'une
   vignette est retiré (`ui/menu.ts`).

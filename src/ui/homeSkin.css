@@ -112,8 +112,10 @@ body #home-screen:not([data-page='home']) .primary:not(:disabled):hover {
    intérieure). Une vraie bordure ajoutait 2 px par bouton : avec les barres d'un téléphone,
    « The endless adventure » passait à la ligne et la page défilait. */
 body #home-screen:not([data-page='home']) .page-actions button:not(.primary) {
+  /* Leur bordure d'un pixel, qui existait déjà, prend la couleur de l'encre : un seul trait. */
+  border-color: var(--clearing-ink);
   box-shadow:
-    inset 0 0 0 calc(2.5 * var(--s)) var(--clearing-ink),
+    inset 0 0 0 calc(1.5 * var(--s)) var(--clearing-ink),
     var(--clearing-lift);
 }
 body #home-screen:not([data-page='home']) .home-disclosure {
@@ -127,6 +129,10 @@ body #home-screen:not([data-page='home']) .home-disclosure {
    son numéro, son nom et ce que fait le bouton, dans l'ordre de la page. Les images sont de
    petites copies (scripts/build-home-scene.py) : les grands terrains ne sont chargés qu'en
    entrant dans le chapitre. */
+body #home-screen .chapter-cards {
+  /* Les cartes demandent leur place à ce bloc (plus bas) : sa largeur, barres déduites. */
+  container: chapters / inline-size;
+}
 @media (orientation: landscape) {
   /* Couchées, les trois cartes sont côte à côte ; debout, elles s'empilent et gardent la
      hauteur que homePages.css leur donne. */
@@ -163,6 +169,8 @@ body #home-screen .chapter-card > .chapter-image {
 }
 body #home-screen .chapter-card .chapter-image {
   position: relative;
+  /* Une règle plus ancienne décale l'image de 18 px dans une fenêtre étroite (08-home.css). */
+  inset: auto;
   grid-row: 1;
   width: 100%;
   height: 100%;
@@ -216,34 +224,65 @@ body #home-screen .chapter-card:disabled .chapter-image::after {
   background: rgba(18, 48, 42, 0.42);
 }
 
-/* Un téléphone étroit tenu couché (moins de 700 px de large) : la page y tenait tout juste, et
-   une image au-dessus des mots la faisait défiler davantage dès que les barres du téléphone
-   prennent de la hauteur. L'image passe sur le côté, comme avant l'habillage, avec le vrai
-   terrain et le cadre ; les étoiles reprennent leur ligne. */
-@media (orientation: landscape) and (max-width: 700px) {
+/* Peu de place en largeur, téléphone couché : la page y tenait tout juste, et une image
+   au-dessus des mots la faisait défiler davantage. L'image passe sur le côté, comme avant
+   l'habillage, avec le vrai terrain et le cadre ; les étoiles reprennent leur ligne.
+   La question est posée aux cartes elles-mêmes, pas à l'écran : c'est la place qui leur
+   reste qui compte, barres du téléphone déduites (un écran de 780 px avec deux barres de
+   48 px n'en laisse que 630). Mesuré : l'image au-dessus tient à partir de 649 px. */
+@media (orientation: landscape) {
+  @container chapters (max-width: 645px) {
+    body #home-screen .chapter-card {
+      position: relative;
+      grid-template-columns: calc(var(--hu) * 5.2) minmax(0, 1fr);
+      grid-template-rows: none;
+      align-content: center;
+      gap: calc(1 * var(--s)) calc(8 * var(--s));
+      border-width: calc(8 * var(--s));
+      border-image-width: calc(8 * var(--s));
+    }
+    body #home-screen .chapter-card > :not(.chapter-image) {
+      grid-column: 2;
+    }
+    /* Toute la hauteur de la carte, quel que soit le nombre de lignes de mots à côté : posée
+       par rapport à la carte entière, pas à une case de sa grille. */
+    body #home-screen .chapter-card .chapter-image {
+      position: absolute;
+      grid-area: auto;
+      inset: 0 auto 0 0;
+      width: calc(var(--hu) * 5.2);
+      height: auto;
+      margin: 0;
+    }
+    body #home-screen .chapter-card > .chapter-stars {
+      grid-row: auto;
+      z-index: auto;
+      justify-self: start;
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+      background: none;
+      line-height: 1.15;
+    }
+    /* La ligne d'action garde la taille que la page lui donnait ici : plus grosse, elle
+       passait sur deux lignes et la page défilait. */
+    body #home-screen .chapter-card > span:last-child {
+      font-size: max(11px, calc(var(--hu) * 1.1));
+    }
+  }
+}
+/* Très petit écran couché (560 px et moins) : homePages.css y cache les images pour laisser
+   la place aux noms. Une seule colonne, donc, et un cadre plus fin. */
+@media (orientation: landscape) and (max-width: 560px) {
   body #home-screen .chapter-card {
-    grid-template-columns: calc(var(--hu) * 5.2) minmax(0, 1fr);
-    grid-template-rows: none;
-    align-content: center;
-    gap: calc(1 * var(--s)) calc(8 * var(--s));
-    border-width: calc(8 * var(--s));
-    border-image-width: calc(8 * var(--s));
+    grid-template-columns: minmax(0, 1fr);
+    border-width: calc(6 * var(--s));
+    border-image-width: calc(6 * var(--s));
   }
   body #home-screen .chapter-card > :not(.chapter-image) {
-    grid-column: 2;
-  }
-  body #home-screen .chapter-card .chapter-image {
     grid-column: 1;
-    grid-row: 1 / span 6;
-    margin: 0;
   }
-  body #home-screen .chapter-card > .chapter-stars {
-    grid-row: auto;
-    z-index: auto;
-    justify-self: start;
-    margin: 0;
-    padding: 0;
-    border-radius: 0;
-    background: none;
+  body #home-screen .chapter-card > span:last-child {
+    font-size: max(11px, calc(var(--hu) * 1.1));
   }
 }
