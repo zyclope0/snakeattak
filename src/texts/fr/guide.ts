@@ -28,4 +28,4 @@ export const rapide = 'Rapide';
 export const lente = 'Lente';
 export const tousLesSerpents = 'Tous les serpents';
 export const lesSerpentsNeSontPasArrivesRecharge =
-  'Les serpents ne sont pas arrivés. Recharge la page.';
+  'Les serpents ne sont pas arrivés. Recharge la page quand la connexion revient.';

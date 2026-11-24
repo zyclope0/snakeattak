@@ -116,6 +116,6 @@ export const attaquee = 'attaquée';
 export const paisiblePourCetteVague = 'paisible pour cette vague';
 export const tousLesSerpents = 'Tous les serpents';
 export const lesSerpentsNeSontPasArrivesRecharge =
-  'Les serpents ne sont pas arrivés. Recharge la page.';
+  'Les serpents ne sont pas arrivés. Recharge la page quand la connexion revient.';
 export const siLaVagueDureUnOeufDePlusPeutArriver =
   'Si la vague dure, un œuf de plus peut arriver.';

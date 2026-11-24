@@ -59,4 +59,5 @@ export const desVolantsArriverontDansCette3 =
   'Des volants arriveront dans cette mission : alliés possibles, {0}.';
 export const invalidPreparationFriendChoice = 'Invalid preparation friend choice';
 /** The preparation of a mission could not load (a web page that lost its network). */
-export const missionsIndisponibles = 'Missions indisponibles. Recharge la page.';
+export const missionsIndisponibles =
+  'Missions indisponibles. Recharge la page quand la connexion revient.';

@@ -14,8 +14,12 @@ ou ceux qu'il a validés.
 
 - **« Réessaie » ne marchait pas** sur cinq boutons du site (voyage, Grande Expédition,
   confidentialité, index des serpents, missions) : mesuré dans Chromium le 24 novembre, un
-  deuxième et un troisième appui ne redemandent jamais le fichier. Phrase validée à la
-  place : **« Recharge la page. »** (anglais : « Reload the page. », de moi).
+  deuxième et un troisième appui ne redemandent jamais le fichier. Phrase d'abord validée :
+  « Recharge la page. ». Une attaque indépendante a montré que, réseau toujours coupé,
+  recharger mène à la page d'erreur du navigateur ; le parent a alors choisi
+  **« Recharge la page quand la connexion revient. »** (anglais : « Reload the page when the
+  connection is back. », de moi). La même fin de phrase remplace « Réessaie » pour la langue
+  qui n'arrive pas (lue par un lecteur d'écran).
 - **Bouton « retour » d'Android** : il quittait l'application depuis n'importe quel écran.
   Accord pour le module officiel `@capacitor/app` (sans permission). Comportement livré, à
   essayer par le parent sur l'APK de test : une fenêtre ouverte se ferme ; en partie, pause
@@ -44,8 +48,14 @@ maquette de synthèse D « la clairière » en est sortie.
   quatre détourages à 3). Le logo anglais « Snake Attack TD » est modelé aussi, pour que
   l'écran anglais ne garde pas un titre dessiné.
 
+## En fin de journée
+
+- **Les pièces modelées sont gardées.**
+- **L'accueil peut être poussé sur une branche à part**, pour ne pas le perdre pendant que la
+  branche de travail porte la PR des petits restes.
+- **Publier** : le parent a donné son mot pour ce lot (« Et publie. »).
+
 ## Ce qui reste à décider
 
-- Garder ou non les pièces modelées, une fois vues dans la maquette.
 - « Favoris » : il reste en petit sur l'accueil pour l'instant (un relecteur propose de le
   ranger ailleurs).

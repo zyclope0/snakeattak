@@ -59,8 +59,9 @@ const TEXT = {
     // The one way on once a voyage is over.
     expedition: 'La Grande Expédition',
     stars: '0 / 18 étoiles',
-    failedVoyage: 'Le voyage n’a pas pu s’ouvrir. Recharge la page.',
-    failedExpedition: 'La Grande Expédition n’a pas pu s’ouvrir. Recharge la page.',
+    failedVoyage: 'Le voyage n’a pas pu s’ouvrir. Recharge la page quand la connexion revient.',
+    failedExpedition:
+      'La Grande Expédition n’a pas pu s’ouvrir. Recharge la page quand la connexion revient.',
   },
   en: {
     door: 'The Great Expedition',
@@ -94,8 +95,9 @@ const TEXT = {
       `You completed ${n} stages out of 5. The Great Expedition is waiting for you!`,
     expedition: 'The Great Expedition',
     stars: '0 / 18 stars',
-    failedVoyage: 'The voyage could not open. Reload the page.',
-    failedExpedition: 'The Great Expedition could not open. Reload the page.',
+    failedVoyage: 'The voyage could not open. Reload the page when the connection is back.',
+    failedExpedition:
+      'The Great Expedition could not open. Reload the page when the connection is back.',
   },
 };
 

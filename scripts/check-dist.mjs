@@ -72,8 +72,9 @@ async function reaches(name, seen = new Set()) {
     const early = waking.filter((name) => name === entry || loaded.has(name));
     assert.deepEqual(early, [], 'The screen is kept on by a file of its own');
   } else assert.deepEqual(waking, [], 'The website lets its screen sleep');
-  // The code of Capacitor and of its two plugins, which hand a file over in the application,
-  // is in the application only, and is loaded only when a file is asked for. Every plugin
+  // The code of Capacitor and of its plugins (two hand a file over, one hands Android's
+  // « retour » button over) is in the application only, in files of their own asked for
+  // after the game has started: never with the first script, never with the game. Every plugin
   // needs Capacitor's core, and the core asks for `androidBridge`: a file that holds that
   // word holds the core, whatever its name or the file it was folded into.
   const CAPACITOR = 'androidBridge';
@@ -85,7 +86,8 @@ async function reaches(name, seen = new Set()) {
     assert.ok(holding.length, 'The application holds the code that hands a file over');
     const early = holding.filter((name) => loaded.has(name));
     assert.deepEqual(early, [], 'Capacitor is not loaded with the first script');
-    // Nor with the game's own code: it waits for a file to be asked for.
+    // Nor with the game's own code: it is asked for apart, once the game has started (the
+    // « retour » button) or when a file is asked for (the share).
     const start = files.find((f) => /^bootstrap-[\w-]+\.js$/.test(f));
     const game = start ? await reaches(start) : new Set();
     const withGame = holding.filter((name) => game.has(name));

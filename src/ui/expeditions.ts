@@ -98,7 +98,8 @@ export function bindExpeditions(
 /**
  * The preparation window comes in a package of its own, asked for as soon as the home is
  * drawn: the first screen does not wait for it, and it is there by the first tap. If it
- * did not arrive, the next tap asks again.
+ * did not arrive, the next tap asks again; a browser keeps a module that failed once, so the
+ * words say to reload the page (`missionsIndisponibles`).
  */
 function missionDraftLoader(
   progress: Progress,
