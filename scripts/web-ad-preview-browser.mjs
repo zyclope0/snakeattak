@@ -261,8 +261,16 @@ try {
   await phone.waitForFunction(
     () => getComputedStyle(document.getElementById('orientation-notice')).display === 'none',
   );
+  // Turning the phone pauses the game. The pause may also end by itself just after the phone
+  // is turned back: on the CI the overlay was seen, then gone before the tap could land, and
+  // the tap waited thirty seconds for a button that would never come back (24 November 2026).
+  // The tap is tried; what is required is a game that plays again.
   if (await phone.locator('#pause-overlay').isVisible())
-    await phone.locator('#resume-game').click();
+    await phone
+      .locator('#resume-game')
+      .click({ timeout: 3000 })
+      .catch(() => {});
+  await phone.locator('#pause-overlay').waitFor({ state: 'hidden' });
   await phone.locator('[data-dock-kind="ninja"]').tap();
   const b = await phone.locator('#game canvas').boundingBox();
   const point = points[0];

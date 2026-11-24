@@ -5,6 +5,7 @@ import { mkdir } from 'node:fs/promises';
 import { launchChromium, CAMP_STORAGE_KEY, CAREER_STORAGE_KEY } from '../scripts/lib/recipe.mjs';
 import { Game } from '../src/game.ts';
 import { encodeCheckpoint } from '../src/checkpoints.ts';
+import { laConqueteDesSerpents } from '../src/texts/fr/page.ts';
 const url = process.env.GAME_URL;
 assert.ok(url);
 const folder = process.env.JOURNEY_REPORT_DIR ?? 'artifacts';
@@ -159,23 +160,41 @@ try {
     const { p, c } = await pageFor(undefined, { width, height: width === 844 ? 390 : 844 });
     assert.ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     await p.evaluate(() => document.fonts.ready);
-    const titleClipped = await p.locator('.home-intro h1').evaluate((title) => {
-      const bounds = title.closest('.home-hero').getBoundingClientRect();
-      const walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
-      let node;
-      while ((node = walker.nextNode())) {
-        for (let i = 0; i < node.textContent.length; i++) {
-          if (!node.textContent[i].trim()) continue;
-          const range = document.createRange();
-          range.setStart(node, i);
-          range.setEnd(node, i + 1);
-          const r = range.getBoundingClientRect();
-          if (r.left < bounds.left - 1 || r.right > bounds.right + 1) return true;
-        }
-      }
-      return false;
+    // The title of the first screen is the name of the game modelled in clay (homeClearing.css):
+    // a picture, with the words kept in the page for whoever cannot see it. The card that
+    // used to bound the title has no box any more; the screen bounds it. The picture is shown
+    // whole (`contain`), entirely on the screen, wide enough to be read, and it has arrived.
+    const title = await p.locator('.home-intro h1').evaluate(async (title) => {
+      const box = title.getBoundingClientRect();
+      const style = getComputedStyle(title);
+      const picture = new Image();
+      picture.src = /^url\("(.+)"\)$/.exec(style.backgroundImage)?.[1] ?? '';
+      await picture.decode().catch(() => {});
+      return {
+        words: title.textContent.trim(),
+        clipped: box.left < 0 || box.top < 0 || box.right > innerWidth || box.bottom > innerHeight,
+        fit: style.backgroundSize,
+        loaded: picture.naturalWidth > 0,
+        // The picture keeps its proportions: `contain` then leaves no letter out of the box.
+        stretched:
+          Math.abs(box.width / box.height - picture.naturalWidth / picture.naturalHeight) > 0.02,
+        readable: box.width >= 120 && box.height >= 48,
+        hidden: style.visibility !== 'visible' || Number(style.opacity) < 1,
+      };
     });
-    assert.equal(titleClipped, false, `Titre de l’accueil tronqué à ${width}px`);
+    assert.deepEqual(
+      title,
+      {
+        words: laConqueteDesSerpents,
+        clipped: false,
+        fit: 'contain',
+        loaded: true,
+        stretched: false,
+        readable: true,
+        hidden: false,
+      },
+      `Titre de l’accueil tronqué à ${width}px`,
+    );
     await showHomePage(p, 'classic');
     const rect = await p.locator('#home-new').boundingBox();
     assert.ok(rect.height >= 44);

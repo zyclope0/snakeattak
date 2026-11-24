@@ -170,12 +170,19 @@ try {
     const page = await context.newPage();
     await page.goto(origin);
     await page.locator('#home-screen:not([hidden])').waitFor({ timeout: 30000 });
-    const footer = await page.locator('.home-footer').boundingBox();
-    assert.ok(footer && footer.height <= 20, 'discovery keeps the game footer on one line');
+    // The line of the save left the first screen for « Pour les parents » (decision of the
+    // parent, 24 November 2026): nothing of it is drawn here, and it never held a link.
+    assert.equal(
+      await page.locator('.home-footer').boundingBox(),
+      null,
+      'the first screen draws no footer',
+    );
     assert.equal(await page.locator('.home-footer a').count(), 0, 'no link in the footer');
     // The title stays the name of the game in the player's language.
     assert.equal(await page.title(), 'La Conquête des Serpents');
     await page.locator('#home-parents').click();
+    const footer = await page.locator('.home-footer').boundingBox();
+    assert.ok(footer && footer.height <= 20, 'discovery keeps the game footer on one line');
     // One link to the public pages, in the language of the game, as tall as a button and
     // on the row of the family save: the screen gains no row.
     const about = page.locator('.parent-actions .about[href="/fr/"]:visible');

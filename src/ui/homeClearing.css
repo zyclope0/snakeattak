@@ -1,0 +1,563 @@
+/*
+ * Le premier écran de l'accueil : « la clairière » (maquette retenue par le parent le
+ * 24 novembre 2026, docs/DECISIONS-2026-11-24.md). L'écran entier est le décor du jeu : l'antre
+ * des serpents à gauche et le château à droite, comme sur le plateau ; chaque façon de jouer
+ * est un lieu, avec son nom sur une plaque ; « Jouer » est la plus grosse chose à toucher.
+ *
+ * Rien ne change dans la page : mêmes boutons, mêmes identifiants. Les blocs qui les
+ * rangeaient (en-tête, carte, rangée du bas) s'effacent (`display: contents`) et chaque
+ * bouton prend sa place dans une grille. Tout est limité au premier écran
+ * (`data-page='home'`) : les autres pages gardent leur mise en page (homePages.css).
+ *
+ * Une unité, --s : un pixel d'un téléphone de 780 × 360. Elle ne descend pas sous 0,86 px :
+ * sur un téléphone plus petit les choses se rapprochent, elles ne deviennent pas trop petites
+ * pour un doigt. Pas de taille en px ici, sauf un plancher dans max() ou une cible tactile.
+ * Les images viennent de scripts/build-home-scene.py.
+ */
+body #home-screen[data-page='home'] {
+  --s: clamp(0.86px, min(calc(var(--app-height) / 360), calc(var(--app-width) / 780)), 2px);
+  --clearing-ink: #12302a;
+  --clearing-paper: #f7f1dc;
+  --clearing-wood: #4a2c08;
+  /* Un contour plein autour des lettres posées sur le décor : huit ombres nettes, sans flou. */
+  --clearing-ring:
+    calc(1.6 * var(--s)) 0 0 var(--clearing-ink), calc(-1.6 * var(--s)) 0 0 var(--clearing-ink),
+    0 calc(1.6 * var(--s)) 0 var(--clearing-ink), 0 calc(-1.6 * var(--s)) 0 var(--clearing-ink),
+    calc(1.2 * var(--s)) calc(1.2 * var(--s)) 0 var(--clearing-ink),
+    calc(-1.2 * var(--s)) calc(1.2 * var(--s)) 0 var(--clearing-ink),
+    calc(1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-ink),
+    calc(-1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-ink);
+  /* Ce qui se touche est posé devant le décor : une ombre nette, puis une ombre au sol. */
+  --clearing-lift:
+    0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.55),
+    0 calc(8 * var(--s)) calc(8 * var(--s)) rgba(6, 14, 10, 0.5);
+  --camp: calc(262 * var(--s));
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  /* Les deux colonnes des lieux ne passent jamais sous la largeur d'une plaque : c'est le nom
+     du joueur qui cède (il se raccourcit), pas les lieux qui se touchent. */
+  grid-template-columns: minmax(112px, 1fr) minmax(112px, 1fr) auto minmax(48px, auto) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  column-gap: calc(10 * var(--s));
+  row-gap: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: max(8px, calc(8 * var(--s))) max(10px, calc(14 * var(--s))) max(8px, calc(10 * var(--s)));
+  overflow: hidden;
+  font-family: Fredoka, sans-serif;
+  font-weight: 600;
+  color: var(--clearing-paper);
+}
+@media (max-aspect-ratio: 19/10) and (min-height: 480px) {
+  /* Tablette, ordinateur : les mêmes choses aux mêmes places, un peu plus grandes. */
+  body #home-screen[data-page='home'] {
+    --s: clamp(
+      0.86px,
+      calc(1.08 * min(calc(var(--app-height) / 360), calc(var(--app-width) / 780))),
+      2.2px
+    );
+  }
+}
+/* Sur le site Web, une fois l'encart publicitaire posé (grand écran avec souris seulement,
+   jamais dans l'application) : l'encart ne bouge plus, et l'accueil ne passe pas dessous. Ce
+   qui se touche se regroupe au milieu, sur la largeur que l'accueil a toujours eue ; le décor
+   couvre encore tout l'écran. La recette de l'encart mesure l'écart avec chaque bouton
+   (scripts/web-ads-delivery-browser.mjs). */
+body:has(#web-ad:not([hidden])) #home-screen[data-page='home'] {
+  --app-width: 1180px;
+  max-width: var(--app-width);
+  margin-inline: auto;
+}
+/* Le décor : la clairière des missions, déjà calmée dans l'image. Il couvre tout l'écran,
+   barres du système comprises ; un voile sombre sur ses bords laisse lire les coins. */
+body #home-screen[data-page='home']::before,
+body #home-screen[data-page='home']::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+body #home-screen[data-page='home']::before {
+  z-index: -3;
+  background: #2c4a3a url('../assets/home/clairiere-decor.webp') center / cover;
+}
+body #home-screen[data-page='home']::after {
+  z-index: -2;
+  background:
+    radial-gradient(120% 105% at 50% 52%, transparent 46%, rgba(9, 26, 22, 0.5) 100%),
+    linear-gradient(rgba(9, 26, 22, 0.3), transparent 22%);
+}
+/* Les blocs d'avant laissent leurs boutons à la grille. */
+body
+  #home-screen[data-page='home']
+  :is(.home-header, #home-main, .home-hero, .home-intro, .home-actions, .home-links) {
+  display: contents;
+}
+/* Rangés ailleurs par décision du parent : le nom en toutes lettres et le numéro de version
+   (l'en-tête des autres pages), la ligne de sauvegarde (« Pour les parents »), « Ajouter un
+   joueur » (la fenêtre des joueurs). Le total des étoiles se lit sur la plaque des missions. */
+body #home-screen[data-page='home'] :is(.home-brand, .home-footer, .player-chip-badge) {
+  display: none;
+}
+/* Hors de la vue, pas hors de la page : un lecteur d'écran les dit encore. */
+body #home-screen[data-page='home'] :is(#mission-total, .player-chip-text small) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Tout bouton du premier écran repart de rien : ni carte, ni bordure, ni fond de page web. */
+body
+  #home-screen[data-page='home']
+  :is(
+    #home-primary,
+    #home-voyage,
+    #home-expeditions,
+    #home-classic,
+    #home-caprice-album,
+    #home-army,
+    #home-parents,
+    #player-chip,
+    #home-settings
+  ) {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--clearing-paper);
+  font: inherit;
+  font-family: Fredoka, sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-wrap: balance;
+  white-space: normal;
+  flex: none;
+  translate: none;
+}
+
+/* Le nom du jeu, modelé en pâte : le titre de l'écran. Ses mots restent dans la page. */
+body #home-screen[data-page='home'] .home-intro h1 {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  justify-self: start;
+  align-self: start;
+  width: calc(222 * var(--s));
+  aspect-ratio: 760 / 282;
+  /* Plus haut que la rangée du haut : il descend sur la clairière sans la pousser. */
+  margin: calc(-4 * var(--s)) 0 calc(-44 * var(--s)) calc(-4 * var(--s));
+  overflow: hidden;
+  color: transparent;
+  font-size: 1px;
+  background: url('../assets/home/clairiere-logo-fr.webp') center / contain no-repeat;
+  filter: drop-shadow(0 calc(4 * var(--s)) calc(4 * var(--s)) rgba(4, 12, 8, 0.55));
+}
+:root:lang(en) body #home-screen[data-page='home'] .home-intro h1 {
+  width: calc(150 * var(--s));
+  aspect-ratio: 760 / 397;
+  margin-bottom: calc(-40 * var(--s));
+  background-image: url('../assets/home/clairiere-logo-en.webp');
+}
+
+/* En haut à droite : les parents, le joueur, les réglages. */
+body #home-screen[data-page='home'] :is(#home-parents, #player-chip, #home-settings) {
+  grid-row: 1;
+  align-self: center;
+  filter: drop-shadow(0 calc(4 * var(--s)) calc(4 * var(--s)) rgba(4, 12, 8, 0.55));
+}
+body #home-screen[data-page='home'] #home-parents {
+  grid-column: 3;
+  display: grid;
+  place-items: center;
+  width: max(84px, calc(92 * var(--s)));
+  height: max(48px, calc(50 * var(--s)));
+  /* Étroit : deux lignes dans le cadre du parchemin, en français comme en anglais. */
+  padding: 0 calc(19 * var(--s));
+  color: #4b3a1c;
+  font-size: max(13px, calc(12.5 * var(--s)));
+  background: url('../assets/home/clairiere-parchemin.webp') center / 100% 100% no-repeat;
+  rotate: -3deg;
+}
+body #home-screen[data-page='home'] #home-parents::before {
+  content: none;
+}
+body #home-screen[data-page='home'] #player-chip {
+  grid-column: 4;
+  display: flex;
+  align-items: center;
+  gap: calc(5 * var(--s));
+  min-height: 48px;
+  /* Le nom cède la place avant les lieux ; le portrait, lui, reste une cible entière. */
+  min-width: 48px;
+  max-width: max(176px, calc(174 * var(--s)));
+  font-size: max(13px, calc(15 * var(--s)));
+  text-shadow: var(--clearing-ring);
+}
+body #home-screen[data-page='home'] #player-chip :is(img, .player-avatar) {
+  flex: none;
+  width: max(44px, calc(46 * var(--s)));
+  height: max(44px, calc(46 * var(--s)));
+  border: calc(3 * var(--s)) solid var(--clearing-ink);
+  border-radius: 50%;
+  background-color: var(--clearing-paper);
+}
+body #home-screen[data-page='home'] #player-chip .player-chip-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body #home-screen[data-page='home'] #home-settings {
+  grid-column: 5;
+  width: max(48px, calc(48 * var(--s)));
+  height: max(48px, calc(48 * var(--s)));
+  background: url('../assets/home/clairiere-roue.webp') center / contain no-repeat;
+}
+body #home-screen[data-page='home'] #home-settings::before,
+body #home-screen[data-page='home'] #home-settings::after {
+  content: none;
+}
+
+/* Un lieu : son nom sur la plaque peinte du jeu, découpée en neuf (ses rivets restent ronds à
+   toute taille), et son image posée au-dessus. L'image fait partie du bouton : la toucher
+   ouvre le lieu. Elle est peinte sous tout le reste de l'écran (ni filtre ni rotation sur ces
+   boutons : chacun aurait alors son propre plan) : là où deux choses se croisent, c'est
+   toujours l'autre bouton qui est touché, jamais une image.
+   La hauteur de l'image, --ph, est la sienne, ou la place qui reste quand l'écran est bas
+   (barres du système comprises) : l'image rapetisse, et ni les plaques ni les objets du bas
+   ne se touchent. --wide et --ground sont ses proportions (largeur, et ombre sous ses pieds). */
+body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-expeditions) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(8 * var(--s));
+  width: max(104px, calc(var(--plaque) * var(--s)));
+  min-height: max(52px, calc(58 * var(--s)));
+  margin-top: calc(var(--ph) - 5 * var(--s) + var(--lift, 0px));
+  border: calc(20 * var(--s)) solid transparent;
+  border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / calc(20 * var(--s)) stretch;
+  box-shadow: var(--clearing-lift);
+  font-size: max(13px, calc(14.5 * var(--s)));
+  text-shadow: 0 calc(1.2 * var(--s)) 0 rgba(8, 20, 16, 0.9);
+}
+body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-expeditions)::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 15 * var(--s) - var(--ph) * var(--ground));
+  width: calc(var(--ph) * var(--wide));
+  height: calc(var(--ph) * (1 + var(--ground)));
+  translate: -50% 0;
+  background: var(--picture) center bottom / contain no-repeat;
+  z-index: -1;
+}
+/* L'antre des serpents et King Snake, à gauche comme sur le plateau. Sous lui, le carnet et
+   les favoris : la place qui reste compte leur rangée. */
+body #home-screen[data-page='home'] #home-classic {
+  --plaque: 118;
+  --picture: url('../assets/home/clairiere-antre.webp');
+  --wide: 1.576;
+  --ground: 0.167;
+  --ph: min(calc(132 * var(--s)), calc(var(--app-height) - 96px - 143 * var(--s)));
+  --lift: calc(var(--app-height) * 0.04);
+  grid-column: 1;
+  grid-row: 2 / -1;
+  align-self: start;
+  justify-self: end;
+}
+/* Le pont et le raptor, au milieu, plus loin : un peu plus haut que l'antre. */
+body #home-screen[data-page='home'] #home-voyage {
+  --plaque: 112;
+  --picture: url('../assets/home/clairiere-pont.webp');
+  --wide: 1.69;
+  --ground: 0.22;
+  --ph: min(calc(100 * var(--s)), calc(var(--app-height) - 150px));
+  --lift: calc(-14 * var(--s));
+  grid-column: 2;
+  grid-row: 2 / -1;
+  align-self: start;
+  justify-self: center;
+}
+body #home-screen[data-page='home'] #home-voyage > span {
+  display: block;
+}
+body #home-screen[data-page='home'] #home-voyage .voyage-new {
+  position: absolute;
+  top: auto;
+  right: calc(-44 * var(--s));
+  bottom: calc(100% + var(--ph) * 0.84);
+  translate: none;
+  padding: calc(2 * var(--s)) calc(8 * var(--s));
+  border: calc(2.5 * var(--s)) solid var(--clearing-ink);
+  border-radius: calc(9 * var(--s));
+  background: #f6c452;
+  box-shadow: none;
+  color: var(--clearing-wood);
+  font: inherit;
+  font-size: max(13px, calc(12 * var(--s)));
+  text-shadow: none;
+  rotate: 7deg;
+}
+/* Le château au cristal et le héros, à droite : les missions, et juste dessous le gros bouton
+   qui lance la prochaine. Sous lui, la phrase et « Jouer » : la place qui reste les compte. */
+body #home-screen[data-page='home'] #home-expeditions {
+  --plaque: 150;
+  --picture: url('../assets/home/clairiere-chateau.webp');
+  --wide: 1.723;
+  --ground: 0.169;
+  --ph: min(calc(130 * var(--s)), calc(var(--app-height) - 142px - max(76px, calc(86 * var(--s)))));
+  grid-column: 3 / -1;
+  grid-row: 2;
+  align-self: end;
+  justify-self: center;
+}
+/* Les étoiles des missions, sur leur plaque (le jeu les écrit dans `data-stars`) : l'étoile
+   est dorée, le compte a la couleur des mots de la plaque. */
+body #home-screen[data-page='home'] #home-expeditions::after {
+  content: attr(data-stars);
+  flex: none;
+  padding-left: calc(23 * var(--s));
+  color: var(--clearing-paper);
+  white-space: nowrap;
+  background: url('../assets/home/clairiere-etoile.webp') left center / calc(21 * var(--s)) auto
+    no-repeat;
+  line-height: calc(21 * var(--s));
+}
+body #home-screen[data-page='home'] #home-next-mission {
+  grid-column: 3 / -1;
+  grid-row: 3;
+  justify-self: center;
+  max-width: var(--camp);
+  margin: calc(5 * var(--s)) 0 0;
+  color: var(--clearing-paper);
+  font: inherit;
+  font-family: Fredoka, sans-serif;
+  font-weight: 600;
+  font-size: max(13px, calc(14 * var(--s)));
+  line-height: 1.05;
+  text-align: center;
+  text-shadow: var(--clearing-ring);
+}
+/* La plus grosse chose à toucher : un pain de pâte couleur miel. */
+body #home-screen[data-page='home'] #home-primary {
+  grid-column: 3 / -1;
+  grid-row: 4;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: var(--camp);
+  min-height: max(76px, calc(86 * var(--s)));
+  margin-top: calc(3 * var(--s));
+  padding: 0 calc(22 * var(--s)) calc(5 * var(--s));
+  color: var(--clearing-paper);
+  font-size: calc(42 * var(--s));
+  font-weight: 700;
+  line-height: 0.9;
+  background: url('../assets/home/clairiere-bouton.webp') center / 100% 100% no-repeat;
+  text-shadow:
+    calc(2.6 * var(--s)) 0 0 var(--clearing-wood),
+    calc(-2.6 * var(--s)) 0 0 var(--clearing-wood),
+    0 calc(2.6 * var(--s)) 0 var(--clearing-wood),
+    0 calc(-2.6 * var(--s)) 0 var(--clearing-wood),
+    calc(1.9 * var(--s)) calc(1.9 * var(--s)) 0 var(--clearing-wood),
+    calc(-1.9 * var(--s)) calc(1.9 * var(--s)) 0 var(--clearing-wood),
+    calc(1.9 * var(--s)) calc(-1.9 * var(--s)) 0 var(--clearing-wood),
+    calc(-1.9 * var(--s)) calc(-1.9 * var(--s)) 0 var(--clearing-wood),
+    calc(2.4 * var(--s)) calc(1 * var(--s)) 0 var(--clearing-wood),
+    calc(-2.4 * var(--s)) calc(1 * var(--s)) 0 var(--clearing-wood),
+    calc(2.4 * var(--s)) calc(-1 * var(--s)) 0 var(--clearing-wood),
+    calc(-2.4 * var(--s)) calc(-1 * var(--s)) 0 var(--clearing-wood),
+    calc(1 * var(--s)) calc(2.4 * var(--s)) 0 var(--clearing-wood),
+    calc(-1 * var(--s)) calc(2.4 * var(--s)) 0 var(--clearing-wood),
+    calc(1 * var(--s)) calc(-2.4 * var(--s)) 0 var(--clearing-wood),
+    calc(-1 * var(--s)) calc(-2.4 * var(--s)) 0 var(--clearing-wood);
+  rotate: -1.5deg;
+  /* Un fin liseré clair, son épaisseur, puis son ombre au sol. */
+  filter: saturate(1.08) drop-shadow(0 0 calc(1.4 * var(--s)) #fff2bd)
+    drop-shadow(0 calc(4 * var(--s)) 0 rgba(72, 40, 6, 0.8))
+    drop-shadow(0 calc(12 * var(--s)) calc(10 * var(--s)) rgba(4, 12, 8, 0.6));
+}
+/* Des mots plus longs (« Jouer un caprice ») : des lettres plus petites, sur une ligne. */
+body #home-screen[data-page='home'] #home-primary[data-words='long'] {
+  font-size: calc(27 * var(--s));
+}
+body #home-screen[data-page='home'] #home-primary:active {
+  translate: 0 calc(3 * var(--s));
+}
+
+/* En bas à gauche : le carnet de caprices et les favoris, en petits objets. */
+body #home-screen[data-page='home'] :is(#home-caprice-album, #home-army) {
+  grid-column: 1;
+  grid-row: 4;
+  align-self: end;
+  justify-self: start;
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  width: max(84px, calc(88 * var(--s)));
+  min-height: 48px;
+  font-size: max(13px, calc(12.5 * var(--s)));
+  text-shadow: var(--clearing-ring);
+}
+body #home-screen[data-page='home'] #home-caprice-album {
+  --object: url('../assets/home/menu-carnet.webp');
+}
+body #home-screen[data-page='home'] #home-army {
+  --object: url('../assets/home/menu-favoris.webp');
+  margin-left: max(94px, calc(98 * var(--s)));
+  width: max(64px, calc(66 * var(--s)));
+}
+body #home-screen[data-page='home'] :is(#home-caprice-album, #home-army)::before {
+  content: '';
+  width: max(48px, calc(50 * var(--s)));
+  height: max(48px, calc(50 * var(--s)));
+  background: var(--object) center / contain no-repeat;
+  filter: drop-shadow(0 calc(4 * var(--s)) calc(4 * var(--s)) rgba(4, 12, 8, 0.6));
+}
+body #home-screen[data-page='home'] #home-army:disabled {
+  opacity: 0.55;
+}
+/* « Favoris · Équilibrée », seulement là où il y a de la place, comme avant. */
+body #home-screen[data-page='home'] #home-active-team {
+  grid-column: 1 / span 2;
+  grid-row: 4;
+  align-self: end;
+  justify-self: start;
+  margin: 0 0 calc(4 * var(--s)) max(168px, calc(176 * var(--s)));
+  color: var(--clearing-paper);
+  font: inherit;
+  font-family: Fredoka, sans-serif;
+  font-weight: 600;
+  font-size: max(13px, calc(12.5 * var(--s)));
+  text-shadow: var(--clearing-ring);
+}
+/* « Partie non gardée », ou « C'est réparé » : juste après le bouton des favoris, à la place
+   de « Favoris · Équilibrée ». Au milieu de sa colonne, la marque passait sur ce bouton quand
+   l'écran est étroit (mesuré à 568 × 320 : 15 px). */
+body #home-screen[data-page='home'] #unkept-mark {
+  --after-favourites: max(168px, calc(176 * var(--s)));
+  grid-column: 1 / span 2;
+  grid-row: 4;
+  align-self: end;
+  justify-self: start;
+  margin-left: var(--after-favourites);
+}
+/* La phrase « C'est réparé » se pose sur l'en-tête des autres pages (failure.css). Ici elle
+   est une chose de la grille, comme la marque : placée par ses rangées, pas par un écart en
+   pixels compté depuis sa case, qui la sortait de l'écran et la posait sur « Jouer ». Ses mots
+   se replient dans sa colonne. */
+body #home-screen[data-page='home'] span#unkept-mark {
+  position: static;
+  transform: none;
+  /* Ce qui reste des deux colonnes après les favoris. */
+  max-width: calc(100% - var(--after-favourites) - 8 * var(--s));
+  padding: calc(4 * var(--s)) max(10px, calc(12 * var(--s)));
+  line-height: 1.15;
+  text-align: center;
+}
+/* La marque prend la place de « Favoris · Équilibrée » : les deux ne tiennent pas côte à côte
+   quand le nom du joueur est long, et des mots ne passent pas sur un bouton. */
+body #home-screen[data-page='home']:has(#unkept-mark) #home-active-team {
+  display: none;
+}
+
+/* Un doigt, une touche du clavier : ce qui est visé se voit sur le décor. */
+body #home-screen[data-page='home'] button:focus-visible {
+  outline: calc(3 * var(--s)) solid #fff2bd;
+  outline-offset: calc(3 * var(--s));
+}
+
+/* Un téléphone court ou étroit : le pont un peu plus bas, à côté du parchemin des parents
+   plutôt que dessous, et sa plaque à la largeur de ses mots. */
+@media (max-height: 340px), (max-width: 700px) {
+  body #home-screen[data-page='home'] #home-voyage {
+    --plaque: 104;
+    --lift: calc(6 * var(--s));
+  }
+}
+/* Un téléphone étroit : un long nom de joueur s'abrège plus tôt. Sa place est prise aux deux
+   colonnes des lieux, dont les plaques se chevaucheraient (mesuré à 568 et 600 px de large
+   avec un nom de 16 lettres). Avant la clairière, le nom n'était pas écrit du tout ici. */
+@media (max-width: 639.98px) {
+  body #home-screen[data-page='home'] #player-chip {
+    max-width: calc(104 * var(--s));
+  }
+}
+
+/* Debout (tablette, fenêtre haute) : les mêmes lieux, sur trois rangées. */
+@media (orientation: portrait) {
+  body #home-screen[data-page='home'] {
+    --s: clamp(0.86px, min(calc(var(--app-height) / 640), calc(var(--app-width) / 400)), 2.2px);
+    --camp: min(calc(262 * var(--s)), 100%);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto auto auto auto;
+  }
+  body #home-screen[data-page='home'] #player-chip {
+    grid-column: 1;
+    justify-self: start;
+  }
+  body #home-screen[data-page='home'] #home-parents {
+    grid-column: 2;
+    justify-self: start;
+  }
+  body #home-screen[data-page='home'] #home-settings {
+    grid-column: 2;
+    justify-self: end;
+  }
+  body #home-screen[data-page='home'] .home-intro h1,
+  :root:lang(en) body #home-screen[data-page='home'] .home-intro h1 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: center;
+    margin: calc(8 * var(--s)) 0 0;
+  }
+  /* Deux rangées d'images se partagent la hauteur qui reste. */
+  body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-expeditions) {
+    --lift: 0px;
+  }
+  body #home-screen[data-page='home'] #home-classic {
+    --ph: min(calc(132 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));
+    justify-self: center;
+  }
+  body #home-screen[data-page='home'] #home-voyage {
+    --ph: min(calc(100 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));
+  }
+  body #home-screen[data-page='home'] #home-expeditions {
+    --ph: min(calc(130 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));
+  }
+  body #home-screen[data-page='home'] :is(#home-classic, #home-voyage) {
+    grid-row: 3;
+    align-self: end;
+  }
+  body #home-screen[data-page='home'] #home-expeditions {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+  body #home-screen[data-page='home'] #home-next-mission {
+    grid-column: 1 / -1;
+    grid-row: 5;
+  }
+  body #home-screen[data-page='home'] #home-primary {
+    grid-column: 1 / -1;
+    grid-row: 6;
+  }
+  body #home-screen[data-page='home'] :is(#home-caprice-album, #home-army, #home-active-team) {
+    grid-row: 7;
+    margin-top: calc(10 * var(--s));
+  }
+  body #home-screen[data-page='home'] #unkept-mark {
+    grid-row: 7;
+  }
+}

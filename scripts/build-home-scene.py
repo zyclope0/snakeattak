@@ -4,15 +4,13 @@
   python3 scripts/build-home-scene.py
 
 Écrit dans src/assets/home/ :
-- fond.webp : la forêt floue de l'illustration d'origine, sans les personnages ;
-- masque.webp : la silhouette des personnages, par le même chemin que icon-512.png ;
-- second-plan-gauche.webp, second-plan-droite.webp : plantes et rochers du jeu, derrière eux ;
-- refuge.webp : le refuge au cristal, pour le panneau du titre ;
-- menu-*.webp : un petit objet du jeu pour chaque bouton du bas de l'accueil ;
+- menu-*.webp : un petit objet du jeu pour les boutons de l'accueil et du plateau ;
 - mission-*.webp : l'objet de chaque mission, pour la carte des missions ;
 - onglet-*.webp, repere-*.webp : les images de la préparation d'une mission ;
 - joueur-*.webp : le portrait de chaque personnage qu'un joueur peut choisir ;
-- voyage-*.webp : le panneau du voyage, l'antre de ses petites cartes et les images de ses bonus.
+- voyage-*.webp : le panneau du voyage, l'antre de ses petites cartes et les images de ses bonus ;
+- clairiere-*.webp : le premier écran « la clairière » (24 novembre 2026) : le décor, les
+  trois lieux, la plaque et le parchemin, et les pièces modelées (resources/home-clay/).
 Seul Pillow est nécessaire. Ce n'est pas une étape du build : les fichiers sont suivis dans Git.
 """
 from pathlib import Path
@@ -35,69 +33,6 @@ def cell(sheet, index):
 def fit(image, height, flip=False):
     image = image.resize((round(image.width * height / image.height), height), Image.LANCZOS)
     return ImageOps.mirror(image) if flip else image
-
-
-def far(image):
-    """Second plan : un peu flou et un peu éteint, comme le fond."""
-    return ImageEnhance.Brightness(image.filter(ImageFilter.GaussianBlur(1.6))).enhance(0.93)
-
-
-def compose(width, height, items, name, quality):
-    """items : (image, bord gauche, ligne des pieds), du fond vers l'avant."""
-    canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    for image, x, foot in items:
-        canvas.alpha_composite(image, (x, foot - image.height))
-    box = canvas.getchannel("A").getbbox()
-    canvas.crop((box[0], box[1], box[2], height)).save(out / f"{name}.webp", quality=quality, method=6)
-
-
-fern = cell("props-three-bridges", 1)
-bush = cell("props-three-bridges", 2)
-rocks = cell("props-three-bridges", 3)
-palm = cell("terrain-props", 1)
-mossy = cell("terrain-props", 3)
-fort = cell("strongholds", 0)
-
-compose(520, 520, [(far(fit(palm, 430)), 0, 520), (far(fit(fern, 240, True)), 250, 520)], "second-plan-gauche", 78)
-compose(520, 520, [(far(fit(fern, 330)), 60, 520), (far(fit(mossy, 150)), 0, 520)], "second-plan-droite", 78)
-compose(
-    640,
-    420,
-    [(fit(fern, 170, True), 0, 380), (fit(fort, 340), 110, 410), (fit(bush, 100), 420, 418), (fit(rocks, 80), 20, 418)],
-    "refuge",
-    86,
-)
-
-foreground = Image.open(root / "resources/android-icon/foreground-source.png").convert("RGBA")
-source = Image.open(root / "docs/resources-2026-11/assets/icone-source.png").convert("RGB")
-
-# La silhouette suit le chemin de icon-512.png (2048 -> 720 -> 512), rognée d'un demi-pixel
-# pour ne pas garder le liseré vert foncé de l'icône sur un fond clair.
-alpha = foreground.getchannel("A").resize((720, 720), Image.LANCZOS).resize((512, 512), Image.LANCZOS)
-tight = alpha.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.5))
-mask = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
-mask.putalpha(tight)
-mask.save(out / "masque.webp", lossless=True, method=6)
-
-# Le fond sans les personnages : leur place est comblée par la forêt floue qui les entoure.
-size = 256
-plate = source.resize((size, size), Image.LANCZOS).convert("RGBA")
-hole = (
-    foreground.getchannel("A")
-    .resize((size, size), Image.LANCZOS)
-    .point(lambda v: 255 if v > 4 else 0)
-    .filter(ImageFilter.MaxFilter(13))
-)
-plate.putalpha(hole.point(lambda v: 255 - v))
-for radius in (48, 24, 12, 6, 3):
-    fill = plate.convert("RGBa").filter(ImageFilter.GaussianBlur(radius)).convert("RGBA")
-    fill.putalpha(fill.getchannel("A").point(lambda v: 255 if v > 0 else 0))
-    fill.alpha_composite(plate)
-    plate = fill
-backdrop = plate.convert("RGB").filter(ImageFilter.GaussianBlur(3))
-backdrop.resize((768, 768), Image.BICUBIC).filter(ImageFilter.GaussianBlur(4)).save(
-    out / "fond.webp", quality=72, method=6
-)
 
 
 # Un petit objet du jeu par bouton de l'accueil, dans un carré de 128 px.
@@ -202,3 +137,89 @@ for ally, sheet, index in (
     ("raptor", "allies-dinosaurs", 0),
 ):
     picture(figure(cell(sheet, index)), f"voyage-{ally}", 192)
+
+
+# Le premier écran « la clairière » (maquette D retenue par le parent le 24 novembre 2026).
+# Le décor est la clairière des missions, calmée pour que ce qui se touche passe devant :
+# un peu floue, un peu moins de couleur et de contraste (la « dose légère » choisie par le
+# parent). C'est cuit dans l'image : aucun filtre ne tourne sur le téléphone.
+clearing = Image.open(sheets / "ground-clearing.webp").convert("RGB").filter(ImageFilter.GaussianBlur(1.25))
+clearing = ImageEnhance.Color(clearing).enhance(0.84)
+clearing = ImageEnhance.Contrast(clearing).enhance(0.87)
+clearing = ImageEnhance.Brightness(clearing).enhance(0.93)
+clearing.resize((1440, 810), Image.LANCZOS).save(out / "clairiere-decor.webp", quality=74, method=6)
+
+# Les lieux : un décor du jeu et son personnage, posés sur leur ombre. Les mesures sont celles
+# de la maquette, en unités (un pixel d'un téléphone de 780×360), à trois pixels l'unité.
+UNIT = 3
+
+
+def shadowed(image):
+    """Le personnage avec une ombre courte derrière lui."""
+    pad = 4 * UNIT
+    canvas = Image.new("RGBA", (image.width + 2 * pad, image.height + 2 * pad), (0, 0, 0, 0))
+    shade = Image.new("RGBA", image.size, (8, 18, 10, 115))
+    shade.putalpha(ImageChops.multiply(image.getchannel("A"), shade.getchannel("A")))
+    canvas.alpha_composite(shade, (pad, pad + UNIT))
+    canvas = canvas.filter(ImageFilter.GaussianBlur(UNIT))
+    canvas.alpha_composite(image, (pad, pad))
+    return canvas, pad
+
+
+def place(name, back, front, overlap, drop, front_left):
+    """Deux pièces côte à côte qui se chevauchent, pieds alignés, sur une ombre au sol.
+
+    back, front : (image, hauteur en unités) ; overlap : chevauchement en unités ;
+    drop : de combien la pièce de devant descend sous l'autre ; front_left : devant à gauche.
+    """
+    (a, pad), (b, _) = shadowed(fit(back[0], back[1] * UNIT)), shadowed(fit(front[0], front[1] * UNIT))
+    span = a.width + b.width - 2 * pad - overlap * UNIT
+    margin, ground = 8 * UNIT, 22 * UNIT
+    width, height = span + 2 * margin, max(a.height, b.height + drop * UNIT) + ground
+    canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    # L'ombre au sol : large, douce, plus sombre au centre.
+    foot = height - ground - pad + drop * UNIT // 2
+    for grow, alpha in ((1.0, 70), (0.78, 60), (0.52, 55)):
+        blot = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        half_w, half_h = round(span * 0.52 * grow), round(15 * UNIT * grow)
+        ImageDraw.Draw(blot).ellipse(
+            (width // 2 - half_w, foot - half_h, width // 2 + half_w, foot + half_h), fill=(10, 20, 10, alpha)
+        )
+        canvas.alpha_composite(blot.filter(ImageFilter.GaussianBlur(5 * UNIT)))
+    left, right = (b, a) if front_left else (a, b)
+    x_right = margin - pad + left.width - 2 * pad - overlap * UNIT
+    base = height - ground
+    for image, x in ((a, margin - pad if not front_left else x_right), (b, x_right if not front_left else margin - pad)):
+        sink = drop * UNIT if image is b else 0
+        canvas.alpha_composite(image, (x, base - image.height + pad + sink))
+    canvas.save(out / f"clairiere-{name}.webp", quality=86, method=6)
+
+
+# L'antre des serpents et King Snake, à gauche comme sur le plateau ; le pont et le raptor au
+# milieu ; le château au cristal et le héros à droite.
+place("antre", (cell("strongholds", 1), 124), (figure(cell("serpents-family", 3)), 90), 40, 4, False)
+place("pont", (cell("terrain-props", 0), 92), (figure(cell("allies-dinosaurs", 0)), 62), 30, 2, True)
+place("chateau", (cell("strongholds", 0), 122), (figure(cell("allies-front", 0)), 92), 26, 6, False)
+
+# La plaque peinte des noms de lieux (découpée en neuf par le style : ses rivets restent ronds
+# à toute taille) et le parchemin de « Pour les parents ».
+piece("interface-craft", 2, (84, 155, 430, 345)).save(out / "clairiere-plaque.webp", quality=90, method=6)
+scroll = cell("interface-craft", 3)
+scroll.resize((round(scroll.width * 180 / scroll.height), 180), Image.LANCZOS).save(
+    out / "clairiere-parchemin.webp", quality=86, method=6
+)
+
+# Les pièces modelées (Magnific, 24 novembre 2026, public/assets/illustrated/
+# PROVENANCE-ACCUEIL-2026-11-24.md) : leurs originaux allégés sont dans resources/home-clay/.
+clay = root / "resources/home-clay"
+for source, name, width, quality in (
+    ("logo-fr", "logo-fr", 760, 84),
+    ("logo-en", "logo-en", 760, 84),
+    ("bouton", "bouton", 720, 84),
+    ("roue", "roue", 144, 88),
+    ("etoile", "etoile", 96, 88),
+):
+    image = Image.open(clay / f"{source}.webp").convert("RGBA")
+    image.resize((width, round(image.height * width / image.width)), Image.LANCZOS).save(
+        out / f"clairiere-{name}.webp", quality=quality, method=6
+    )

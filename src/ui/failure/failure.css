@@ -47,8 +47,9 @@
   min-height: 48px;
   padding: 0 20px;
 }
-/* Sur l'accueil, à côté des étoiles, tant que la partie n'est pas gardée : le parent qui
-   arrive après l'enfant retrouve la fenêtre. La même place dit ensuite que c'est réparé. */
+/* Sur l'accueil, tant que la partie n'est pas gardée : le parent qui arrive après l'enfant
+   retrouve la fenêtre. La même place dit ensuite que c'est réparé. Le premier écran la pose au
+   milieu du bas, sur sa grille (homeClearing.css) ; les autres pages, à côté des étoiles. */
 #unkept-mark {
   min-height: 48px;
   font-size: 14px;

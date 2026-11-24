@@ -133,6 +133,35 @@ try {
     await delay(1500);
     check('still one request after a pause and the way home', scripts.length === 1);
     check('the box has not moved', JSON.stringify(await box(page, '#web-ad')) === placed);
+    // The box stays on the home, whose first screen fills the window: nothing a child can
+    // touch there may come under it or near it, by the distance kept from the game.
+    await page.locator('#home-screen[data-page="home"]:not([hidden])').waitFor();
+    const touched = await page.locator('#home-screen').evaluate((home) =>
+      [...home.querySelectorAll('button, a[href], select, input, summary')]
+        .filter((node) => node.checkVisibility({ checkVisibilityCSS: true }))
+        .map((node) => {
+          const r = node.getBoundingClientRect();
+          return { id: node.id, x: r.x, y: r.y, width: r.width, height: r.height };
+        })
+        .filter((rect) => rect.width > 0 && rect.height > 0),
+    );
+    check('the home shows its buttons beside the box', touched.length >= 8, `${touched.length}`);
+    const nearest = touched
+      .map((rect) => ({ id: rect.id, gap: rectGap(creative, rect) }))
+      .sort((a, b) => a.gap - b.gap)[0];
+    check(
+      'at least 150 px between the ad and every button of the home',
+      nearest.gap >= 149.5,
+      `#${nearest.id} at ${Math.round(nearest.gap)} px`,
+    );
+    check(
+      'the home does not scroll beside the box',
+      await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth <= innerWidth &&
+          document.documentElement.scrollHeight <= innerHeight,
+      ),
+    );
 
     // 2. A parent switches advertising off: a fresh page, and nothing is asked any more.
     await showHomePage(page, 'parents');

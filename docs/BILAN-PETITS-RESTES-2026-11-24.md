@@ -31,6 +31,11 @@ Deux restes acceptés par le parent ([décisions](DECISIONS-2026-11-24.md)).
   l'application (changement de joueur, import, « Relancer le jeu »), « retour » serait resté
   muet, pour de bon si le jeu ne redémarrait pas. Corrigé : la page qui part rend « retour » à
   Android (`pagehide`).
+- **Deuxième attaque** : ce message de départ peut être jeté par le WebView. Le jeu rend donc
+  « retour » avant de demander le rechargement (`src/ui/reload.ts`) ; `pagehide` reste comme
+  second filet. Le cas de la recette qui devait tenir le rechargement choisissait le joueur
+  déjà actif et ne rechargeait rien : il choisit maintenant l'autre joueur, et un cas de plus
+  joue le jeu qui ne redémarre pas après.
 - **« Qui joue ? » à l'ouverture** : « retour » n'y faisait plus rien. Corrigé : une fenêtre
   qui refuse sans rien faire laisse l'application passer en arrière-plan.
 - **Trois codes cassés passaient la recette** (fenêtre du dessous fermée à la place de celle du

@@ -221,10 +221,35 @@ try {
           await ready(page, language);
           const expected = language === 'en' ? 'Snake Attack TD' : 'La Conquête des Serpents';
           check(`${name}: document brand`, (await page.title()) === expected, await page.title());
+          // The first screen writes the name of the game as a logo modelled in clay, one for
+          // each language (homeClearing.css): the title of the screen carries the words, and
+          // its picture the letters a child sees. The line of the old header is not shown.
+          const brand = await page
+            .locator('#home-screen .home-intro h1')
+            .evaluate(async (title) => {
+              const box = title.getBoundingClientRect();
+              const picture = getComputedStyle(title).backgroundImage;
+              const file = /url\("([^"]+)"\)/.exec(picture)?.[1];
+              return {
+                words: title.textContent.replace(/\s+/g, ' ').trim(),
+                picture,
+                served: file ? (await fetch(file)).ok : false,
+                shown: title.checkVisibility({ checkVisibilityCSS: true }),
+                box: [box.x, box.y, box.right, box.bottom].map(Math.round),
+              };
+            });
+          check(`${name}: brand in words`, brand.words === expected, brand.words);
           check(
             `${name}: visible brand`,
-            (await page.locator('.home-brand').innerText()).replace(/\s+/g, ' ').includes(expected),
-            await page.locator('.home-brand').innerText(),
+            brand.shown &&
+              brand.served &&
+              brand.picture.includes(`clairiere-logo-${language}`) &&
+              brand.box[2] - brand.box[0] >= 120 &&
+              brand.box[0] >= -1 &&
+              brand.box[1] >= (safe ? 24 : 0) - 1 &&
+              brand.box[2] <= viewport.width - (safe ? 32 : 0) + 1 &&
+              brand.box[3] <= viewport.height - (safe ? 16 : 0) + 1,
+            brand,
           );
           check(
             `${name}: native settings selector`,

@@ -235,13 +235,8 @@ export const aventureFamilialeSauvegardeLocale =
 export const accueilDeLAventure = 'Adventure home';
 export const n018Etoiles = `0 / ${MISSION_COUNT * STAR_MAX} stars`;
 export const accueil2 = '← Home';
-export const protege = 'Protect';
-export const leCristal = 'the Crystal!';
-export const sixMissionsPourProtegerTonCristal = 'Six missions to protect your Crystal.';
 export const jouer = 'Play';
 export const equipeEquilibree = 'Balanced Team';
-export const unHerosAuBouclierBleuProtegeLe =
-  'A clay Hero with a blue shield protects the Crystal from a snake.';
 export const preparerMonAventure = 'Prepare my adventure';
 export const missions = 'Missions';
 export const aventureClassique = 'Classic adventure';

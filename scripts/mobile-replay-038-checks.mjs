@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { checkClearing, clearingState } from './mobile-home-clearing-checks.mjs';
 import { readFile, rm, writeFile } from 'node:fs/promises';
 import { chooseLanguage, showHomePage } from '../tests/browser-entry.mjs';
 import { capricesForMission } from '../src/caprices.ts';
@@ -339,8 +340,15 @@ export async function checkReplay({ browser, url, pageAt, check, capture }) {
           whole:
             primary.scrollWidth <= primary.clientWidth + 1 &&
             primary.scrollHeight <= primary.clientHeight + 1,
-          captionUnder: line.top >= box.bottom - 1,
-          captionInView: line.bottom <= innerHeight && line.right <= innerWidth,
+          // On one line: the button writes its longer words smaller rather than folding them.
+          lines: (() => {
+            const words = document.createRange();
+            words.selectNodeContents(primary);
+            return words.getClientRects().length;
+          })(),
+          // The clearing writes the sentence above the button it explains, not under it.
+          captionAbove: line.bottom <= box.top + 2 && box.top - line.bottom <= 16,
+          captionInView: line.top >= 0 && line.bottom <= innerHeight && line.right <= innerWidth,
           primaries: [...document.querySelectorAll('#home-screen .primary')].filter(
             (node) => node.getClientRects().length,
           ).length,
@@ -352,10 +360,12 @@ export async function checkReplay({ browser, url, pageAt, check, capture }) {
         `finished home leads to a caprice at ${where}: ${JSON.stringify(home)}`,
       );
       check(
-        home.target && home.whole && home.captionUnder && home.captionInView,
+        home.target && home.whole && home.lines === 1 && home.captionAbove && home.captionInView,
         `caprice button and its sentence whole at ${where}: ${JSON.stringify(home)}`,
       );
       check(home.primaries === 1 && home.scroll <= 1, `still one main action, no scroll: ${where}`);
+      // The rest of the first screen holds with these longer words, system margins included.
+      checkClearing(check, await clearingState(page, insets), `finished home at ${where}`);
       if (language === 'fr' && !insets) await capture(page, `replay-home-${w}x${h}`);
       await page.locator('#home-primary').click();
       const dialog = page.locator('#mission-dialog');

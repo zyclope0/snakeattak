@@ -775,6 +775,55 @@ Règle pour la suite : dans ce fichier, pas de taille en px, sauf un plancher da
 une cible tactile. `npm run test:mobile-menus` contrôle ces pages sur une grille de treize
 tailles, du petit téléphone à l'ordinateur, avec et sans marges système.
 
+## Premier écran de l'accueil : « la clairière » — 24 novembre 2026
+
+Le parent trouvait l'accueil « très IA » (bordures, mise en page de page web) et mal
+hiérarchisé. Après un conseil de trois relecteurs indépendants sur deux maquettes, il a retenu
+une maquette de synthèse ([décisions](DECISIONS-2026-11-24.md),
+[bilan](BILAN-ACCUEIL-2026-11-24.md)). Le premier écran est une scène du jeu :
+
+- **Le décor couvre tout l'écran** : la clairière d'une mission, calmée dans l'image elle-même
+  (un peu floue, moins de couleur et de contraste : la « dose légère » choisie par le parent),
+  pour que ce qui se touche passe devant. Aucun filtre ne tourne sur le téléphone.
+- **La géographie du plateau** : l'antre des serpents et King Snake à gauche (« Aventure
+  classique »), le pont au milieu (« La Grande Expédition »), le château au cristal et le
+  héros à droite (« Missions », avec ses étoiles sur la plaque).
+- **Chaque façon de jouer est un lieu** : une image, et son nom sur la plaque peinte du jeu,
+  découpée en neuf (`border-image`) pour que ses rivets restent ronds à toute taille.
+- **« Jouer » est la plus grosse chose à toucher**, en bas à droite, sous le château dont il
+  lance la prochaine mission ; la phrase « Prochaine mission… » est juste au-dessus.
+- **En haut à droite** : « Pour les parents » (un parchemin), le joueur, les réglages. **En bas
+  à gauche** : le carnet de caprices et les favoris, en petits objets.
+- **Quatre choses ont quitté cet écran** (décision du parent) : « Protège le cristal ! », le
+  numéro de version et la ligne de sauvegarde (qui restent dans « Pour les parents »), et
+  « Ajouter un joueur » sous le nom (la fenêtre des joueurs). Le total des étoiles et la
+  deuxième ligne du joueur restent dans la page pour un lecteur d'écran, hors de la vue.
+
+**Comment c'est fait.** La page ne change presque pas : mêmes boutons, mêmes identifiants (le
+jeu et les recettes s'y accrochent). `src/ui/homeClearing.css`, chargée la dernière, ne
+s'applique qu'à `#home-screen[data-page='home']` : les blocs qui rangeaient les boutons
+(en-tête, carte, rangée du bas) y passent en `display: contents`, et chaque bouton prend sa
+place dans une grille. Les autres pages de l'accueil gardent `homePages.css`.
+
+- **Une unité, `--s`** : un pixel d'un téléphone de 780 × 360, bornée entre 0,86 et 2,2 px. Sur
+  un écran plus petit les choses se rapprochent ; les cibles gardent 48 px et les textes 13 px
+  (`max()`). Une fenêtre debout range les mêmes lieux sur trois rangées.
+- **L'image d'un lieu fait partie de son bouton** (`::before`, posée au-dessus de la plaque) :
+  la toucher ouvre le lieu.
+- **Deux données écrites par le jeu pour le style** : `data-stars` sur `#home-expeditions`
+  (`ui/expeditions.ts`, le même compte que `#mission-total`) et `data-words` sur
+  `#home-primary` (`boot/homePrimary.ts` : « Jouer un caprice » s'écrit plus petit).
+- **Le titre de l'écran est le nom du jeu** (`<h1>`), montré par le logo modelé (français ou
+  anglais selon la langue) ; ses mots restent dans la page.
+- **Les images** (`src/assets/home/clairiere-*.webp`) sont construites par
+  `scripts/build-home-scene.py` : le décor et les trois lieux dérivent des planches du jeu ;
+  le logo, le bouton, l'engrenage et l'étoile ont été modelés avec Magnific
+  (`public/assets/illustrated/PROVENANCE-ACCUEIL-2026-11-24.md`).
+
+Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
+`14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :
+à nettoyer dans un lot à part, mesure de couverture à l'appui.
+
 ## Dialogues adaptatifs — 11 novembre 2026
 
 `src/ui/dialogPages.css` applique la même méthode aux dialogues qui servent d'écrans. L'unité
@@ -1905,11 +1954,18 @@ Capacitor, `@capacitor/app` 8.1.2 (version fixe, manifeste vide : aucune permiss
   « retour » dès le lancement, et un jeu qui n'a pas démarré, ou la page « WebView trop
   ancien », ne se quitteraient plus. `src/main.ts` charge le fichier après le démarrage
   réussi ; il écoute d'abord, puis demande « retour » à Android (`toggleBackButtonHandler`).
-- **Une page qui part rend « retour » à Android** (`pagehide`). Le jeu recharge sa page
+- **Avant de recharger sa page, le jeu rend « retour » à Android.** Le jeu recharge sa page
   (changement de joueur, import d'un fichier familial, « Relancer le jeu ») ; Capacitor retire
   alors les écouteurs de la page mais garderait le bouton pour lui, et « retour » ne ferait
   plus rien — pour de bon si le jeu ne redémarrait pas (lu dans le code de Capacitor par une
-  attaque indépendante, 24 novembre). La page suivante le reprend quand son jeu écoute.
+  attaque indépendante, 24 novembre). Ces rechargements passent tous par `src/ui/reload.ts`
+  (`reloadPage`) : l'application y rend « retour » depuis une page encore vivante, puis
+  recharge, au plus tard 300 ms après ; sur le site rien n'est inscrit et le rechargement est
+  immédiat. Un écouteur de `pagehide` reste comme second filet : un message envoyé par une
+  page qui part peut être jeté par le WebView (lu dans le code de Chromium, deuxième attaque).
+  La page suivante reprend « retour » quand son jeu écoute. Le secours du démarrage et la
+  publicité du site rechargent sans passer par là : le premier n'a pas encore pris « retour »,
+  le second n'est pas dans l'application.
 - **Seulement si le côté natif porte le module** (`nativeBack`, par
   `Capacitor.PluginHeaders`, comme pour le partage) : une application construite avant lui,
   ou une recette qui ouvre le paquet dans Chromium, ne charge rien et n'écrit aucune erreur.
