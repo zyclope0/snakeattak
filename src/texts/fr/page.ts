@@ -236,13 +236,8 @@ export const aventureFamilialeSauvegardeLocale =
 export const accueilDeLAventure = 'Accueil de l’aventure';
 export const n018Etoiles = `0 / ${MISSION_COUNT * STAR_MAX} étoiles`;
 export const accueil2 = '← Accueil';
-export const protege = 'Protège';
-export const leCristal = 'le cristal !';
-export const sixMissionsPourProtegerTonCristal = 'Six missions pour protéger ton cristal.';
 export const jouer = 'Jouer';
 export const equipeEquilibree = 'Équipe Équilibrée';
-export const unHerosAuBouclierBleuProtegeLe =
-  'Un héros au bouclier bleu protège le cristal face à un serpent, en pâte à modeler.';
 export const preparerMonAventure = 'Préparer mon aventure';
 export const missions = 'Missions';
 export const aventureClassique = 'Aventure classique';

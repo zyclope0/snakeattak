@@ -18,6 +18,8 @@ export const rejouerLaMissionN = 'Rejouer la mission : {0}';
 export const preparer = 'Préparer';
 export const preparerEncore = 'Préparer encore';
 export const n18Etoiles = `{0} / ${MISSION_COUNT * STAR_MAX} étoiles`;
+/** The same count without its word, on the plaque of the missions (the star is drawn). */
+export const nSur18 = `{0} / ${MISSION_COUNT * STAR_MAX}`;
 export const detours = 'Détours';
 export const meandres = 'Méandres';
 export const carrefour = 'Carrefour';

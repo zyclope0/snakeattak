@@ -174,8 +174,8 @@ function writeJourney(
   );
   // The Missions page prepares a departure; only the home's main button starts at once.
   setDisplayText(byId('home-play'), next ? TEXT.preparer : TEXT.preparerEncore);
-  setDisplayText(
-    byId('mission-total'),
-    fill(TEXT.n18Etoiles, showJourney(cards, journey, inNextBook)),
-  );
+  const stars = showJourney(cards, journey, inNextBook);
+  setDisplayText(byId('mission-total'), fill(TEXT.n18Etoiles, stars));
+  // The first screen shows the same count on the plaque of the missions (homeClearing.css).
+  byId('home-expeditions').dataset.stars = fill(TEXT.nSur18, stars);
 }
