@@ -14,7 +14,7 @@ import { bindExpeditions } from './ui/expeditions.ts';
 import { createCampMemory } from './campMemory.ts';
 import { createFamilyPersistence } from './familyPersistence.ts';
 import { hasAlbums } from './familyBackup.ts';
-import { bindFamilyDoor } from './boot/familyDoor.ts';
+import { bindFamilyFile } from './boot/familyFile.ts';
 import { createPersistence, decodeCheckpoint } from './checkpoints.ts';
 import { bindChapterReport } from './ui/chapterReport.ts';
 import { createCareer } from './progression.ts';
@@ -162,7 +162,7 @@ voyage = bindVoyageDoor({
   navigate: (page) => navigation.show(page),
 });
 bindPrivacyDoor();
-bindFamilyDoor(adventure, games, saving.recordGame, { home: () => menu!.showHome(), refresh });
+bindFamilyFile(adventure, games, saving.recordGame, { home: () => menu!.showHome(), refresh });
 screens.show(true);
 menu.refresh();
 expeditions();
