@@ -1597,6 +1597,28 @@ dessins de la fenêtre. Quand plusieurs joueurs partagent l'appareil, la fenêtr
 page dès le lancement, comme avant. Paquet principal : 199 066 → 195 910 octets. Aucun
 comportement ne change.
 
+### Quatre fenêtres hors du paquet principal — 24 novembre 2026
+
+Le paquet principal était de nouveau à 0,4 Ko de sa limite (199 607 octets sur le site,
+199 932 dans l'aperçu publicitaire). Même méthode que les vues des joueurs : un fichier à
+part, demandé dès le lancement, qui se branche tout seul en arrivant.
+
+- **La sauvegarde familiale** (`boot/familyFile.ts` et `ui/familyControls.ts`, fichier
+  `familyFile-*.js`). Restent dans le paquet le bouton, son « ? » (`boot/familyDoor.ts`, posé
+  au même moment qu'avant) et tout ce dont le secours du démarrage a besoin (`download.ts`, la
+  question pour adulte, qui n'en dépendent pas).
+- **Le carnet de caprices** (`ui/capriceBook.ts`) : la fenêtre et ses 36 autocollants. Le
+  bouton de l'accueil et la note d'un résultat restent dans le paquet (`ui/capriceAlbums.ts`).
+- **La page « Favoris »** (`ui/rosterEditor.ts`) et **le guide des unités** (`ui/unitGuide.ts`) :
+  leurs boutons passent par `ui/lateDoor.ts`. Le style du guide reste dans le premier style, à
+  sa place dans la cascade (la feuille du paquet est identique, à l'octet).
+
+Un toucher arrivé avant le fichier l'attend, puis ouvre une seule fois, même après plusieurs
+touchers. Si le fichier n'arrive pas (un site qui a perdu le réseau), rien ne s'ouvre, le jeu
+reste tel quel et le toucher suivant redemande ; aucun mot nouveau n'est affiché (à décider par
+le parent s'il en faut un). Paquet principal : site et application 199 607 → 190 454 octets,
+aperçu publicitaire 199 932 → 190 779, essai publicitaire 199 873 → 190 720.
+
 Dans l'interface, les textes que l'enfant lit pendant la partie passent à 13 px sur téléphone
 (« Attirer », « Ralentir », « Haut / Centre / Bas », « Dangers », ligne d'annonce, prix des favoris, total de
 vagues, onglets et bourse du catalogue, notes de « Dangers », prochaine mission). Les cartes
