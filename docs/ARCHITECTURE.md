@@ -849,11 +849,20 @@ rien : la mise en page reste celle de `homePages.css`.
   sont dérivées par `scripts/build-home-scene.py` ; les grands terrains (500 à 600 Ko) ne
   sont chargés qu'en entrant dans un chapitre. Le code qui les chargeait au survol d'une
   vignette est retiré (`ui/menu.ts`).
-- **L'en-tête des pages demande la place qui lui reste** (`@container page-header`) : il
-  partage sa rangée avec « ← Accueil » et les boutons de la page, deux sur Missions. Sous
-  600 px il lâche le nom du jeu, sous 170 px le total des étoiles (qui reste dans la page pour
-  un lecteur d'écran), sous 64 px la roue revient à 48 px. La plaque et l'étoile se comptent
-  en lettres de la page (`em`) : l'habillage ne grossit plus ni le bouton ni le total.
+- **L'en-tête des pages tient toujours sur une rangée, sans seuil à régler.** Il partage sa
+  rangée avec « ← Accueil » et les boutons de la page, deux sur Missions. Ses pièces se
+  rangent depuis la droite (`flex-flow: row-reverse wrap`, `order`), la roue la première ;
+  celle qui ne tient plus passe à la ligne, et l'en-tête n'a que la hauteur d'une ligne
+  (`--settings-size`, la taille de la roue, nommée dans `settingsDialog.css`) : le reste est
+  coupé (`overflow-y: clip`). Le nom du jeu s'en va donc le premier, puis le total des
+  étoiles ; la roue reste. Une pièce coupée reste dans la page pour un lecteur d'écran.
+  Avant, c'est la roue, dernière de la rangée, qui passait à la ligne (`flex-wrap` posé dans
+  `i18n/language.css`). Un premier jet à seuils (`@container`, 600 et 170 px) cachait le total
+  là où il tenait encore : un relecteur l'a mesuré, il est retiré.
+- **« ← Accueil » et le total des étoiles ont leur unité, `--k`** : celle de la page (`--s`)
+  sur un écran couché, donc les tailles du premier lot. Dans une fenêtre debout (un
+  ordinateur : un téléphone debout demande à être tourné), la rangée est étroite et `--s`
+  monte vite : `--k` y est plafonnée à 1 px, la taille du téléphone de 780 × 360.
 - **Missions** : les cartes gardent leur papier, leur taille et leur place ; l'habillage ne
   change que le trait, l'ombre et les couleurs. Trait d'encre, ombre posée ; la mission à
   jouer porte un liseré miel (`--clearing-honey`) et sa flèche est sur un pain de miel ; une

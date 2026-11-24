@@ -57,7 +57,10 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **Deuxième lot des menus : la page Missions** ([bilan](BILAN-MENUS-LOT-2-2026-11-24.md)),
   choisie par le parent (« Continuer les menus ») : cartes à l'allure du premier écran, et
   l'en-tête des pages réparé (le premier lot l'avait fait passer sur deux rangées sur
-  ordinateur). **Pas encore publié : il faut le mot du parent.** Ensuite, page par page :
+  ordinateur). Un relecteur indépendant a trouvé des régressions dans le premier jet (le
+  total des étoiles qui disparaissait ou rapetissait sur téléphone) : corrigées avant fusion.
+  APK de test : le v12 a le premier jet, le v13 la version corrigée.
+  **Pas encore publié : il faut le mot du parent.** Ensuite, page par page :
   La Grande Expédition, Favoris, « Pour les parents », les fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.

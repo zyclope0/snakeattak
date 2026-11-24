@@ -35,27 +35,37 @@ body #home-screen:not([data-page='home']) :is(.home-page, .army-editor) {
   box-shadow: none;
 }
 
+/* « ← Accueil » et le total des étoiles ont leur unité, --k : celle de la page (--s) sur un
+   écran couché, donc les tailles du premier lot. Dans une fenêtre debout (un ordinateur : un
+   téléphone debout demande à être tourné), la rangée du haut est étroite et --s monte vite :
+   ils y gardent au plus la taille du téléphone de 780 × 360, sinon la roue n'a plus de place. */
+body #home-screen:not([data-page='home']) {
+  --k: var(--s);
+}
+@media (orientation: portrait) {
+  body #home-screen:not([data-page='home']) {
+    --k: min(var(--s), 1px);
+  }
+}
 /* « ← Accueil » : sur la plaque peinte du jeu, comme le nom d'un lieu. */
 body #home-screen:not([data-page='home']) #home-back {
   min-width: 0;
   min-height: 48px;
-  padding: 0 0.35em;
-  /* Le cadre se compte en lettres du bouton (em), pour rester à leur mesure sur un grand
-     écran comme sur un petit. Il est dessiné sur 0,95 em ; le bord réel est plus mince, pour
-     que les mots gardent leur place dans le bouton. */
+  padding: 0 calc(6 * var(--k));
+  /* Le cadre est dessiné sur 15 unités ; le bord réel est plus mince, pour que les mots
+     gardent leur place dans le bouton. */
   border: solid transparent;
-  border-width: 0.3em 0.85em;
-  border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / 0.95em stretch;
+  border-width: calc(5 * var(--k)) calc(13 * var(--k));
+  border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / calc(15 * var(--k)) stretch;
   border-radius: 0;
   background: none;
   box-shadow: var(--clearing-lift);
   color: var(--clearing-paper);
-  /* La taille des lettres reste celle de la page : plus grosses, la plaque et le total des
-     étoiles faisaient passer l'en-tête sur deux rangées sur un ordinateur (Missions, 1280 px). */
   font-family: Fredoka, sans-serif;
   font-weight: 600;
+  font-size: max(14px, calc(16 * var(--k)));
   line-height: 1;
-  text-shadow: 0 0.08em 0 rgba(8, 20, 16, 0.9);
+  text-shadow: 0 calc(1.2 * var(--k)) 0 rgba(8, 20, 16, 0.9);
 }
 /* Les réglages : la roue modelée, à la taille que la page donnait déjà au bouton. */
 body #home-screen:not([data-page='home']) #home-settings {
@@ -71,61 +81,65 @@ body #home-screen:not([data-page='home']) #home-settings::after {
 }
 /* Le total des étoiles : l'étoile modelée, puis le compte, posés sur le décor. */
 body #home-screen:not([data-page='home']) .home-header .home-stars {
-  /* Tout se compte en lettres de la page (em) : le total ne prend pas plus de place qu'avant. */
-  padding: 0 0 0 1.9em;
+  padding: 0 0 0 calc(27 * var(--k));
   border: 0;
   border-radius: 0;
-  background: url('../assets/home/clairiere-etoile.webp') left center / 1.6em auto no-repeat;
+  background: url('../assets/home/clairiere-etoile.webp') left center / calc(23 * var(--k)) auto
+    no-repeat;
   color: var(--clearing-paper);
   font-family: Fredoka, sans-serif;
   font-weight: 600;
-  line-height: 1.7em;
+  font-size: max(13px, calc(14.5 * var(--k)));
+  line-height: calc(23 * var(--k));
+  /* Le contour plein de --clearing-ring, à l'unité de la rangée. */
   text-shadow:
-    0.1em 0 0 var(--clearing-ink),
-    -0.1em 0 0 var(--clearing-ink),
-    0 0.1em 0 var(--clearing-ink),
-    0 -0.1em 0 var(--clearing-ink),
-    0.075em 0.075em 0 var(--clearing-ink),
-    -0.075em 0.075em 0 var(--clearing-ink),
-    0.075em -0.075em 0 var(--clearing-ink),
-    -0.075em -0.075em 0 var(--clearing-ink);
+    calc(1.6 * var(--k)) 0 0 var(--clearing-ink),
+    calc(-1.6 * var(--k)) 0 0 var(--clearing-ink),
+    0 calc(1.6 * var(--k)) 0 var(--clearing-ink),
+    0 calc(-1.6 * var(--k)) 0 var(--clearing-ink),
+    calc(1.2 * var(--k)) calc(1.2 * var(--k)) 0 var(--clearing-ink),
+    calc(-1.2 * var(--k)) calc(1.2 * var(--k)) 0 var(--clearing-ink),
+    calc(1.2 * var(--k)) calc(-1.2 * var(--k)) 0 var(--clearing-ink),
+    calc(-1.2 * var(--k)) calc(-1.2 * var(--k)) 0 var(--clearing-ink);
 }
-
-/* L'en-tête partage sa rangée avec « ← Accueil » et les boutons de la page (deux sur la page
-   Missions). On lui demande donc la place qui lui reste vraiment (@container), barres du
-   téléphone et boutons déduits, et il lâche d'abord ce qui compte le moins :
-   - sous 600 px, le nom du jeu (un écran d'ordinateur étroit : il passait sur deux rangées) ;
-   - sous 170 px, le total des étoiles (un petit téléphone : la roue passait dessous, à moitié
-     cachée par le panneau). Il reste dans la page pour un lecteur d'écran, et se lit sur le
-     premier écran ;
-   - sous 64 px, la roue revient à la taille d'un doigt (une fenêtre debout étroite : elle
-     mordait sur le bouton voisin). */
+/* L'en-tête tient toujours sur une rangée. Il la partage avec « ← Accueil » et les boutons
+   de la page (deux sur la page Missions) ; quand la place manque, ce qui compte le moins s'en
+   va d'abord : le nom du jeu, puis le total des étoiles. La roue reste.
+   Aucun seuil à régler, quels que soient la langue et le texte : les pièces se rangent depuis
+   la droite (row-reverse), la roue la première ; celle qui ne tient plus passe à la ligne, et
+   l'en-tête n'a que la hauteur d'une ligne (celle de la roue), le reste est coupé. Une pièce
+   coupée reste dans la page pour un lecteur d'écran.
+   Avant, c'est la roue, dernière de la rangée, qui passait à la ligne : à moitié cachée par
+   le panneau sur un petit téléphone, sur deux rangées sur un ordinateur. */
 body #home-screen:not([data-page='home']) .home-header {
+  flex-flow: row-reverse wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  height: var(--settings-size);
+  /* Une marge intérieure décalait la roue de 4 px sous ses voisins sur un téléphone. */
+  padding-block: 0;
+  overflow-y: clip;
+  /* Pour la règle de la roue, plus bas. */
   container: page-header / inline-size;
 }
-@container page-header (max-width: 599.98px) {
-  body #home-screen:not([data-page='home']) .home-header .home-brand {
-    display: none;
-  }
-  body #home-screen:not([data-page='home']) .home-header .home-stars {
-    margin-left: auto;
-  }
+body #home-screen:not([data-page='home']) .home-header #home-settings {
+  order: -2;
 }
-@container page-header (max-width: 170px) {
-  body #home-screen:not([data-page='home']) .home-header .home-stars {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
+body #home-screen:not([data-page='home']) .home-header .home-stars {
+  order: -1;
 }
+/* Le nom du jeu reste au bord gauche, le total contre la roue. */
+body #home-screen:not([data-page='home']) .home-header .home-brand {
+  margin-right: auto;
+}
+/* Fenêtre debout étroite : il reste à l'en-tête moins que la roue. Elle revient à la taille
+   d'un doigt, pour mordre le moins possible sur le bouton voisin. */
 @container page-header (max-width: 63.98px) {
   body #home-screen:not([data-page='home']) .home-header #home-settings {
     width: 48px;
     height: 48px;
+    /* Au milieu de la rangée, qui garde sa hauteur. */
+    translate: 0 calc((var(--settings-size) - 48px) / 2);
   }
 }
 

@@ -6,8 +6,7 @@
  */
 @media (max-height: 520px) {
   /* Écran bas : le bouton des réglages tient dans l'en-tête des pages de l'accueil. */
-  #home-screen .home-header .settings-button {
-    width: 48px;
-    height: 48px;
+  #home-screen .home-header {
+    --settings-size: 48px;
   }
 }

@@ -1,8 +1,13 @@
 /* Réglages : deux gros interrupteurs, lisibles et faciles à toucher sur tout écran. */
+/* La taille du bouton a un nom : l'en-tête des pages de l'accueil a la hauteur de sa roue
+   (ui/homeSkin.css). */
+:root {
+  --settings-size: clamp(48px, calc(var(--hu) * 5.4), 64px);
+}
 .settings-button {
   flex: none;
-  width: clamp(48px, calc(var(--hu) * 5.4), 64px);
-  height: clamp(48px, calc(var(--hu) * 5.4), 64px);
+  width: var(--settings-size);
+  height: var(--settings-size);
   padding: 0;
   display: grid;
   place-items: center;
