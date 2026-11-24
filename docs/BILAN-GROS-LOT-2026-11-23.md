@@ -159,7 +159,8 @@ du code. Pas de chauffe, écran resté allumé pendant les vagues sans toucher.
 Conclusion : le dessin n'est pas un problème sur ce téléphone (rien n'est mesuré sur un
 téléphone d'entrée de gamme). Mais le plateau était dessiné 120 fois par seconde pour une
 bataille calculée 30 fois : **décision du parent, limite à 60**. `src/render/frameLimit.ts`
-mesure le rythme de l'écran sur les trente premières images, puis ne dessine qu'une image sur
+mesure le rythme de l'écran toutes les trente images (l'écran d'un téléphone change de vitesse,
+et les premières images du chargement sont lentes : attaque indépendante), puis ne dessine qu'une image sur
 deux (trois, quatre) quand l'écran va au moins deux fois plus vite que 60 Hz : 120 Hz → 60,
 144 Hz → 72, 240 Hz → 60. Un écran de 60 ou 90 Hz dessine comme avant. La limite de Phaser
 seule (`limit: 60`) aurait laissé tomber les images un peu en avance d'un écran à 60 Hz, donc

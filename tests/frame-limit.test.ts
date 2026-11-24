@@ -29,7 +29,7 @@ test('the wait between two drawn frames tolerates a frame a little early', () =>
   assert.ok(at120 > hz(120) + 1 && at120 < 2 * hz(120) - 1, String(at120));
 });
 
-test('the loop draws every frame until the screen is measured, then is limited', () => {
+test('the loop draws every frame until the screen is measured, then follows its pace', () => {
   const loop = { _limitRate: 99 };
   const waiting: ((time: number) => void)[] = [];
   limitFrames(loop, ((callback: (time: number) => void) => {
@@ -38,9 +38,20 @@ test('the loop draws every frame until the screen is measured, then is limited',
   }) as typeof requestAnimationFrame);
   assert.equal(loop._limitRate, 0);
   let time = 0;
-  while (waiting.length) {
-    waiting.shift()!(time);
-    time += hz(120);
-  }
+  const run = (frames: number, rate: number) => {
+    for (let i = 0; i < frames; i++) {
+      waiting.shift()!(time);
+      time += hz(rate);
+    }
+  };
+  // A slow start (loading) is not the screen's pace: the next measure corrects it.
+  run(31, 30);
+  assert.equal(loop._limitRate, 0);
+  run(30, 120);
   assert.ok(Math.abs(loop._limitRate - limitRate(hz(120))) < 1e-6, String(loop._limitRate));
+  // The screen slows down to 90 Hz: every frame is drawn again.
+  run(30, 90);
+  assert.equal(loop._limitRate, 0);
+  run(30, 144);
+  assert.ok(Math.abs(loop._limitRate - limitRate(hz(144))) < 1e-6, String(loop._limitRate));
 });

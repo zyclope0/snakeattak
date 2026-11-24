@@ -4,7 +4,7 @@
  * 120 times (measured on the S24: 120 images a second, for nothing but battery).
  *
  * Phaser's own limit drops a frame that comes a little early, so a plain `limit: 60` would fall
- * to 30 on an ordinary 60 Hz screen. Instead the screen's pace is measured once, and only a
+ * to 30 on an ordinary 60 Hz screen. Instead the screen's pace is measured, every few frames, and only a
  * screen at least twice as fast as the target draws one frame in two (three, four…): 120 Hz →
  * 60, 144 Hz → 72, 165 Hz → 82, 240 Hz → 60. A 60 or 90 Hz screen draws every frame, as before.
  */
@@ -33,21 +33,26 @@ type LimitedLoop = { _limitRate: number };
 const SAMPLED_FRAMES = 30;
 
 /**
- * Measures the screen's pace on the first frames, then sets the loop's limit. Until then every
- * frame is drawn. The loop must have been created with a limit (`fps.limit`), so that Phaser
- * steps through its limited path. Loaded beside the game, out of its first file
- * (`src/boot/phaser.ts`), which has no room left.
+ * Measures the screen's pace and sets the loop's limit, again every few frames: a phone's
+ * screen changes its pace (120, 96, 60 Hz…), and the first frames, while the game loads, may
+ * be slow. Until the first measure every frame is drawn. The loop must have been created with
+ * a limit (`fps.limit`), so that Phaser steps through its limited path. Loaded beside the
+ * game, out of its first file (`src/boot/phaser.ts`), which has no room left.
  */
 export function limitFrames(loop: unknown, frame = requestAnimationFrame): void {
   const limited = loop as LimitedLoop;
   limited._limitRate = 0;
-  const times: number[] = [];
+  const gaps: number[] = [];
+  let last: number | undefined;
   const sample = (time: number) => {
-    times.push(time);
-    if (times.length <= SAMPLED_FRAMES) return void frame(sample);
-    const gaps = times.slice(1).map((at, i) => at - times[i]);
-    gaps.sort((a, b) => a - b);
-    limited._limitRate = limitRate(gaps[Math.floor(gaps.length / 2)]);
+    if (last !== undefined) gaps.push(time - last);
+    last = time;
+    if (gaps.length === SAMPLED_FRAMES) {
+      gaps.sort((a, b) => a - b);
+      limited._limitRate = limitRate(gaps[Math.floor(gaps.length / 2)]);
+      gaps.length = 0;
+    }
+    frame(sample);
   };
   frame(sample);
 }
