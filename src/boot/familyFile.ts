@@ -22,7 +22,8 @@ import * as TEXT from '../texts/fr/home.ts';
 
 /**
  * The window of the family file, wired to the adventure: the export of the adventure as it is
- * now, the import that replaces it, the copies kept on the device.
+ * now, the import that replaces it, the copies kept on the device. A file of its own, asked for
+ * by `familyDoor.ts`; gives back what opens the window.
  */
 export function bindFamilyFile(
   adventure: Adventure,
@@ -118,7 +119,7 @@ export function bindFamilyFile(
     return { ok: true, message: TEXT.aventureFamilialeRetrouvee };
   }
 
-  bindFamilyControls({
+  return bindFamilyControls({
     persistenceStatus: () => family.status,
     exportRaw: exportFamily,
     previousRaw: family.previous,

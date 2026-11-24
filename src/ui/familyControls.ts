@@ -10,7 +10,6 @@ import {
   sameAdventure,
 } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
-import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
 import { canHandOver, familyFileName, handOver } from './download.ts';
 import { toldAdventure, toldSetAside } from './handOverWords.ts';
@@ -298,13 +297,13 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
   return { reset, chosen: () => pending, whole: () => pendingWhole, look };
 }
 
-/** User-selected local data only. Preview and cancellation never mutate the adventure. */
+/**
+ * User-selected local data only. Preview and cancellation never mutate the adventure. Gives
+ * back what opens the window: the button that does is bound by `boot/familyDoor.ts`.
+ */
 export function bindFamilyControls(actions: Actions) {
   const dialog = byId<HTMLDialogElement>('family-dialog');
   const preview = bindFamilyPreview(dialog, actions.accepts);
-  // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
-  // The help beside the window says to keep the file: not where no file can be handed over.
-  if (canHandOver()) byId('home-family').after(helpPoint('family'));
   const close = () => {
     preview.reset();
     dialog.close();
@@ -315,7 +314,9 @@ export function bindFamilyControls(actions: Actions) {
   // and the import.
   const copies = bindKeptCopies(actions, preview.look);
   byId('family-status').after(copies.node);
-  byId('home-family').onclick = () => {
+  const open = () => {
+    // Two taps while the window's file was arriving open it once.
+    if (dialog.open) return;
     preview.reset();
     copies.refresh();
     say(actions.persistenceStatus());
@@ -353,4 +354,5 @@ export function bindFamilyControls(actions: Actions) {
     dialog.close();
     actions.finished();
   };
+  return open;
 }
