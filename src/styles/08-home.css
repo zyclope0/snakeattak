@@ -76,14 +76,6 @@
 .home-intro > small {
   color: #617451;
 }
-.home-diorama {
-  position: relative;
-  background:
-    linear-gradient(0deg, #1b3c2ed9, transparent 70%),
-    var(--home-scene) center/cover;
-  min-height: 320px;
-  overflow: hidden;
-}
 .journey-map {
   margin: 30px 0 22px;
 }

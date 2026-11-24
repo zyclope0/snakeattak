@@ -11,6 +11,8 @@
 - voyage-*.webp : le panneau du voyage, l'antre de ses petites cartes et les images de ses bonus ;
 - clairiere-*.webp : le premier écran « la clairière » (24 novembre 2026) : le décor, les
   trois lieux, la plaque et le parchemin, et les pièces modelées (resources/home-clay/).
+- chapitre-*.webp : le décor de chaque chapitre de l'aventure classique, en petit, pour sa
+  page (24 novembre 2026) : on y voit le terrain sans charger l'image du plateau.
 Seul Pillow est nécessaire. Ce n'est pas une étape du build : les fichiers sont suivis dans Git.
 """
 from pathlib import Path
@@ -148,6 +150,13 @@ clearing = ImageEnhance.Color(clearing).enhance(0.84)
 clearing = ImageEnhance.Contrast(clearing).enhance(0.87)
 clearing = ImageEnhance.Brightness(clearing).enhance(0.93)
 clearing.resize((1440, 810), Image.LANCZOS).save(out / "clairiere-decor.webp", quality=74, method=6)
+
+# La page « Aventure classique » : le terrain de chaque chapitre, tel qu'il est sur le plateau,
+# en petit. Les grandes images (500 à 600 Ko) ne sont chargées qu'en entrant dans le chapitre.
+for number, ground in enumerate(("ground-clearing", "ground-grove", "ground-ruins"), 1):
+    Image.open(sheets / f"{ground}.webp").convert("RGB").resize((448, 252), Image.LANCZOS).save(
+        out / f"chapitre-{number}.webp", quality=72, method=6
+    )
 
 # Les lieux : un décor du jeu et son personnage, posés sur leur ombre. Les mesures sont celles
 # de la maquette, en unités (un pixel d'un téléphone de 780×360), à trois pixels l'unité.

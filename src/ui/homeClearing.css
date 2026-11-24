@@ -14,8 +14,9 @@
  * pour un doigt. Pas de taille en px ici, sauf un plancher dans max() ou une cible tactile.
  * Les images viennent de scripts/build-home-scene.py.
  */
-body #home-screen[data-page='home'] {
-  --s: clamp(0.86px, min(calc(var(--app-height) / 360), calc(var(--app-width) / 780)), 2px);
+/* Les couleurs et les ombres de la pâte, pour tout l'accueil : le premier écran ici, les
+   autres pages dans homeSkin.css. Chaque page donne son unité, --s. */
+body #home-screen {
   --clearing-ink: #12302a;
   --clearing-paper: #f7f1dc;
   --clearing-wood: #4a2c08;
@@ -31,6 +32,9 @@ body #home-screen[data-page='home'] {
   --clearing-lift:
     0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.55),
     0 calc(8 * var(--s)) calc(8 * var(--s)) rgba(6, 14, 10, 0.5);
+}
+body #home-screen[data-page='home'] {
+  --s: clamp(0.86px, min(calc(var(--app-height) / 360), calc(var(--app-width) / 780)), 2px);
   --camp: calc(262 * var(--s));
   position: relative;
   isolation: isolate;

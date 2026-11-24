@@ -1,0 +1,196 @@
+/*
+ * L'habillage des autres pages de l'accueil (Aventure classique, Missions, La Grande
+ * Expédition, Favoris, « Pour les parents ») : le décor et les pièces modelées du premier
+ * écran (homeClearing.css), sans changer leur mise en page (homePages.css). Demande du parent
+ * du 24 novembre 2026 : que les menus collent au premier écran, sans refonte.
+ *
+ * Mêmes boutons, mêmes identifiants, mêmes places. L'unité de ces pages est --hu
+ * (homePages.css) ; --s en est le dixième : un pixel d'un téléphone de 780 × 360, comme sur
+ * le premier écran. Pas de taille en px ici, sauf un plancher dans max() ou une cible tactile.
+ */
+body #home-screen:not([data-page='home']) {
+  --s: calc(var(--hu) / 10);
+  isolation: isolate;
+}
+/* Le décor de la clairière, assombri : le papier des cartes et les mots clairs se lisent
+   dessus. Déjà chargé par le premier écran : rien de plus à télécharger. */
+body #home-screen:not([data-page='home'])::before,
+body #home-screen:not([data-page='home'])::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+body #home-screen:not([data-page='home'])::before {
+  z-index: -2;
+  background: #2c4a3a url('../assets/home/clairiere-decor.webp') center / cover;
+}
+body #home-screen:not([data-page='home'])::after {
+  z-index: -1;
+  background: rgba(10, 32, 25, 0.7);
+}
+
+/* La page n'est plus une feuille posée sur un fond uni : ses deux traits de bord s'effacent. */
+body #home-screen:not([data-page='home']) :is(.home-page, .army-editor) {
+  box-shadow: none;
+}
+
+/* « ← Accueil » : sur la plaque peinte du jeu, comme le nom d'un lieu. */
+body #home-screen:not([data-page='home']) #home-back {
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 calc(4 * var(--s));
+  border: calc(15 * var(--s)) solid transparent;
+  border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / calc(15 * var(--s)) stretch;
+  border-radius: 0;
+  background: none;
+  box-shadow: var(--clearing-lift);
+  color: var(--clearing-paper);
+  font-family: Fredoka, sans-serif;
+  font-weight: 600;
+  font-size: max(14px, calc(16 * var(--s)));
+  line-height: 1;
+  text-shadow: 0 calc(1.2 * var(--s)) 0 rgba(8, 20, 16, 0.9);
+}
+/* Les réglages : la roue modelée. */
+body #home-screen:not([data-page='home']) #home-settings {
+  width: max(48px, calc(48 * var(--s)));
+  height: max(48px, calc(48 * var(--s)));
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: url('../assets/home/clairiere-roue.webp') center / contain no-repeat;
+  box-shadow: none;
+}
+body #home-screen:not([data-page='home']) #home-settings::before,
+body #home-screen:not([data-page='home']) #home-settings::after {
+  content: none;
+}
+/* Le total des étoiles : l'étoile modelée, puis le compte, posés sur le décor. */
+body #home-screen:not([data-page='home']) .home-header .home-stars {
+  padding: 0 0 0 calc(27 * var(--s));
+  border: 0;
+  border-radius: 0;
+  background: url('../assets/home/clairiere-etoile.webp') left center / calc(23 * var(--s)) auto
+    no-repeat;
+  color: var(--clearing-paper);
+  font-family: Fredoka, sans-serif;
+  font-weight: 600;
+  font-size: max(13px, calc(14.5 * var(--s)));
+  line-height: calc(23 * var(--s));
+  text-shadow: var(--clearing-ring);
+}
+
+/* Le bouton qui fait jouer, sur chaque page : le pain de pâte couleur miel de « Jouer »,
+   découpé en neuf pour garder ses bouts ronds à toute largeur. */
+body #home-screen:not([data-page='home']) .primary:not(:disabled) {
+  min-height: 48px;
+  padding: 0 calc(4 * var(--s)) calc(2 * var(--s));
+  border: calc(16 * var(--s)) solid transparent;
+  border-image: url('../assets/home/clairiere-bouton.webp') 110 fill / calc(16 * var(--s)) stretch;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--clearing-paper);
+  font-family: Fredoka, sans-serif;
+  font-weight: 700;
+  font-size: max(15px, calc(17 * var(--s)));
+  line-height: 1;
+  text-shadow:
+    calc(1.6 * var(--s)) 0 0 var(--clearing-wood),
+    calc(-1.6 * var(--s)) 0 0 var(--clearing-wood),
+    0 calc(1.6 * var(--s)) 0 var(--clearing-wood),
+    0 calc(-1.6 * var(--s)) 0 var(--clearing-wood),
+    calc(1.2 * var(--s)) calc(1.2 * var(--s)) 0 var(--clearing-wood),
+    calc(-1.2 * var(--s)) calc(1.2 * var(--s)) 0 var(--clearing-wood),
+    calc(1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-wood),
+    calc(-1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-wood);
+}
+/* Les autres boutons et les grandes cartes de papier : un trait d'encre et une ombre, posés
+   devant le décor. */
+body #home-screen:not([data-page='home']) .page-actions button:not(.primary),
+body #home-screen:not([data-page='home']) .home-disclosure {
+  border: calc(2.5 * var(--s)) solid var(--clearing-ink);
+  box-shadow: var(--clearing-lift);
+}
+
+/* « Aventure classique » : chaque chapitre est un tableau. Son terrain en grand dans le cadre
+   peint du jeu, tel qu'il est sur le plateau ; dessous, son numéro, ses étoiles, son nom et ce
+   que fait le bouton. Les images sont de petites copies (scripts/build-home-scene.py) : les
+   grands terrains ne sont chargés qu'en entrant dans le chapitre. */
+body #home-screen .chapter-cards {
+  max-height: max(calc(var(--hu) * 30), 150px);
+}
+body #home-screen .chapter-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) auto auto auto;
+  align-content: stretch;
+  gap: calc(2 * var(--s)) calc(6 * var(--s));
+  min-height: 0;
+  padding: 0;
+  border: calc(13 * var(--s)) solid transparent;
+  border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / calc(13 * var(--s)) stretch;
+  border-radius: 0;
+  background: none;
+  box-shadow: var(--clearing-lift);
+  color: var(--clearing-paper);
+  text-align: left;
+}
+body #home-screen .chapter-card .chapter-image {
+  position: relative;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  min-height: calc(var(--hu) * 5);
+  margin: 0 0 calc(2 * var(--s));
+  border-radius: calc(4 * var(--s));
+  background: var(--clearing-ink) center / cover no-repeat;
+}
+body #home-screen #chapter-0 .chapter-image {
+  background-image: url('../assets/home/chapitre-1.webp');
+}
+body #home-screen #chapter-1 .chapter-image {
+  background-image: url('../assets/home/chapitre-2.webp');
+}
+body #home-screen #chapter-2 .chapter-image {
+  background-image: url('../assets/home/chapitre-3.webp');
+}
+body #home-screen .chapter-card > :not(.chapter-image) {
+  grid-column: 1 / -1;
+}
+body #home-screen .chapter-card > small {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: center;
+  color: #d7e3d0;
+}
+body #home-screen .chapter-card > .chapter-stars {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: center;
+  color: #f6c452;
+  line-height: 1;
+}
+body #home-screen .chapter-card > strong {
+  grid-row: 3;
+  color: var(--clearing-paper);
+  font-weight: 600;
+}
+body #home-screen .chapter-card > span:last-child {
+  grid-row: 4;
+  color: #d7e3d0;
+  font-size: max(13px, calc(var(--hu) * 1.1));
+}
+/* Un chapitre pas encore ouvert : son image se voit quand même, sous un léger voile. */
+body #home-screen .chapter-card:disabled {
+  opacity: 1;
+}
+body #home-screen .chapter-card:disabled .chapter-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(18, 48, 42, 0.42);
+}
