@@ -443,12 +443,16 @@ body #home-screen[data-page='home'] #home-active-team {
   font-size: max(13px, calc(12.5 * var(--s)));
   text-shadow: var(--clearing-ring);
 }
-/* « Partie non gardée », ou « C'est réparé » : au milieu du bas, sur l'herbe libre. */
+/* « Partie non gardée », ou « C'est réparé » : juste après le bouton des favoris, à la place
+   de « Favoris · Équilibrée ». Au milieu de sa colonne, la marque passait sur ce bouton quand
+   l'écran est étroit (mesuré à 568 × 320 : 15 px). */
 body #home-screen[data-page='home'] #unkept-mark {
-  grid-column: 2;
+  --after-favourites: max(168px, calc(176 * var(--s)));
+  grid-column: 1 / span 2;
   grid-row: 4;
   align-self: end;
-  justify-self: center;
+  justify-self: start;
+  margin-left: var(--after-favourites);
 }
 /* La phrase « C'est réparé » se pose sur l'en-tête des autres pages (failure.css). Ici elle
    est une chose de la grille, comme la marque : placée par ses rangées, pas par un écart en
@@ -457,8 +461,8 @@ body #home-screen[data-page='home'] #unkept-mark {
 body #home-screen[data-page='home'] span#unkept-mark {
   position: static;
   transform: none;
-  /* Moins large que sa colonne : « Favoris » déborde un peu de la sienne. */
-  max-width: calc(100% - 24 * var(--s));
+  /* Ce qui reste des deux colonnes après les favoris. */
+  max-width: calc(100% - var(--after-favourites) - 8 * var(--s));
   padding: calc(4 * var(--s)) max(10px, calc(12 * var(--s)));
   line-height: 1.15;
   text-align: center;
