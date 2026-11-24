@@ -171,3 +171,19 @@ jeu, elle faisait déborder la version « aperçu publicitaire » du site (200 0
 rouge). Paquet du jeu : 199 607 octets sur 200 000 (site), 199 932 (aperçu publicitaire),
 199 873 (essai publicitaire). **Il ne reste presque plus de place** : le prochain lot qui
 ajoute au jeu doit d'abord sortir un écran du paquet (chargé à la demande).
+
+## Place dans le paquet du jeu (24 novembre)
+
+Demande du parent : « traite le vrai sujet ». Trois fenêtres sont chargées à part, demandées dès
+le lancement : le carnet de caprices, la page « Favoris », le guide des unités. Paquet du jeu :
+199 607 → 195 901 octets (site et application), 199 932 → 196 226 (aperçu publicitaire). Un
+premier essai sortait aussi la sauvegarde familiale (−9 150 octets en tout) ; l'attaque
+indépendante a montré qu'un navigateur ne redemande jamais un module qui a échoué une fois :
+sur un site qui ne garde rien, la sauvegarde familiale est le seul moyen de sortir l'aventure,
+elle reste donc dans le paquet. Détails : `docs/ARCHITECTURE.md`, « Trois fenêtres hors du
+paquet principal ».
+
+**Défaut ancien, relevé en passant, pas corrigé** : la porte de l'index des serpents et celle
+du voyage disent « Réessaie » quand leur fichier n'arrive pas ; dans Chromium un nouvel essai ne
+redemande pas le fichier. Il faudrait dire de recharger la page : de nouveaux mots, à décider
+par le parent.
