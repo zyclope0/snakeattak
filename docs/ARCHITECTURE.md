@@ -820,6 +820,28 @@ place dans une grille. Les autres pages de l'accueil gardent `homePages.css`.
   le logo, le bouton, l'engrenage et l'étoile ont été modelés avec Magnific
   (`public/assets/illustrated/PROVENANCE-ACCUEIL-2026-11-24.md`).
 
+**Les autres pages de l'accueil portent le même habillage** (demande du parent du
+24 novembre au soir : coller au premier écran, sans refonte). `src/ui/homeSkin.css`, chargée
+après la clairière, ne s'applique qu'à `#home-screen:not([data-page='home'])` et ne déplace
+rien : la mise en page reste celle de `homePages.css`.
+
+- Le décor de la clairière, assombri d'un voile, derrière toutes les pages ; il est déjà
+  chargé par le premier écran.
+- « ← Accueil » sur la plaque peinte, la roue et l'étoile modelées, et le bouton de pâte pour
+  l'action principale de chaque page (`.primary`). La plaque et la pâte sont découpées en neuf
+  (`border-image`) ; leur dessin fait 15 ou 16 unités, leur bord réel est plus mince, pour que
+  les mots d'un bouton étroit gardent leur place (la recette des menus compte un bouton dont
+  les mots dépassent comme coupé).
+- Les couleurs et les ombres de la pâte (`--clearing-ink`, `--clearing-paper`,
+  `--clearing-wood`, `--clearing-ring`, `--clearing-lift`) sont nommées une fois, sur
+  `#home-screen`, dans `homeClearing.css`. Chaque page donne l'unité `--s` : un pixel d'un
+  téléphone de 780 × 360 (sur les autres pages, le dixième de `--hu`).
+- **« Aventure classique »** : chaque chapitre est un tableau, son terrain dans le cadre peint
+  et son nom dessous. Les trois images (`src/assets/home/chapitre-*.webp`, 448 × 252, 33 Ko)
+  sont dérivées par `scripts/build-home-scene.py` ; les grands terrains (500 à 600 Ko) ne
+  sont chargés qu'en entrant dans un chapitre. Le code qui les chargeait au survol d'une
+  vignette est retiré (`ui/menu.ts`).
+
 Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
 `14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :
 à nettoyer dans un lot à part, mesure de couverture à l'appui.

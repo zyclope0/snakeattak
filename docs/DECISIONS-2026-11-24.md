@@ -55,6 +55,22 @@ maquette de synthèse D « la clairière » en est sortie.
   branche de travail porte la PR des petits restes.
 - **Publier** : le parent a donné son mot pour ce lot (« Et publie. »).
 
+## Le soir, après la fusion du nouvel accueil
+
+- **Jouer les recettes avant de pousser** : « on pourrait détecter ces problèmes avant la PR,
+  ça ralentit d'environ 40 % la vitesse de développement pour zéro plus-value ». Écrit dans
+  `CLAUDE.md` (Méthode) : la CI confirme, elle ne découvre pas.
+- **Prochaine étape, avant toute nouvelle fonctionnalité : les autres menus.** « Revoir un peu
+  tous les menus du jeu et l'interface pour coller un peu plus au premier menu sans tout
+  revoir. […] dans l'aventure normale, l'affichage est moyen, on ne voit rien ce qu'il y a
+  dans les images. […] pas forcément une refonte comme la page principale, mais coller un
+  petit peu à la page principale. »
+- **Proposition acceptée** (« ok pour la proposition, commence par l'habillage et Aventure
+  classique ») : un habillage commun à toutes les pages (décor de la clairière assombri,
+  plaque, roue, étoile et bouton modelés), puis page par page, « Aventure classique » en
+  premier ; aucun bouton ne change de place, aucune règle ne change ; une nouvelle pièce
+  modelée se demande avant de dépenser ([bilan du premier lot](BILAN-MENUS-2026-11-24.md)).
+
 ## Ce qui reste à décider
 
 - « Favoris » : il reste en petit sur l'accueil pour l'instant (un relecteur propose de le

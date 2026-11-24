@@ -47,6 +47,13 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   pièces modelées avec Magnific (537 crédits sur 1 500), gardées par le parent. Le vrai écran
   est écrit, mesuré sur 36 cas dans Chromium, ses recettes mises à jour. **À essayer par le
   parent sur l'APK de test, puis avec les enfants.**
+- **24 novembre, soir** : petits restes et nouvel accueil fusionnés (PR 145 et 146), **site
+  publié (n° 50, commit `1ca427a`)**, APK de test v9 envoyé au parent (nouvel accueil et
+  bouton « retour »). La recette du bouton « retour » a sa propre tâche de CI (neuf lignes).
+- **Prochaine étape, demandée par le parent avant toute fonctionnalité : les autres menus à
+  l'allure du premier écran**, sans refonte. Premier lot : l'habillage commun et « Aventure
+  classique » ([bilan](BILAN-MENUS-2026-11-24.md)). Ensuite, page par page : Missions,
+  La Grande Expédition, Favoris, « Pour les parents », les fenêtres, puis le camp.
 - **Ensuite** : ce qui reste du
   découpage (fonctions longues de l'interface, recettes sur leur propre serveur).
 
