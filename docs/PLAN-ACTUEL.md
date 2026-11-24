@@ -39,7 +39,7 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **24 novembre, suite** : relevé à 60 images par seconde confirmé, images ré-encodées
   (7 Mo de moins), site publié (n° 49). Décisions du jour :
   [DECISIONS-2026-11-24.md](DECISIONS-2026-11-24.md).
-- **Petits restes** ([bilan](BILAN-PETITS-RESTES-2026-11-24.md)) : « Recharge la page. » sur
+- **Petits restes** ([bilan](BILAN-PETITS-RESTES-2026-11-24.md)) : « Recharge la page quand la connexion revient. » sur
   les cinq boutons dont le fichier peut manquer ; bouton « retour » d'Android
   (`@capacitor/app`). **À essayer par le parent sur l'APK de test.**
 - **Nouvel accueil** : maquette D « la clairière » retenue par le parent après un conseil de

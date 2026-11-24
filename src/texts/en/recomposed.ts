@@ -35,7 +35,8 @@ export const recomposedEnglish: Readonly<Record<string, string>> = {
   Georgia: 'Georgia',
   'Il y a plus d’œufs dans les vagues': 'There are more eggs in the waves',
   Langue: 'Language',
-  'Langue indisponible. Recharge la page.': 'Language unavailable. Reload the page.',
+  'Langue indisponible. Recharge la page quand la connexion revient.':
+    'Language unavailable. Reload the page when the connection is back.',
   'Le camp est tombé. Réessaie ce même départ ou prépare une autre expédition.':
     'The camp has fallen. Try the same starting setup again or prepare another expedition.',
   'Le pot de miel est vide': 'The honey pot is empty',

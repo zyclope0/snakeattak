@@ -1617,8 +1617,10 @@ fenêtre reste fermée jusqu'au rechargement de la page (attaque indépendante d
 en va de même pour les fenêtres chargées à part avant elles (voyage, joueurs, index des
 serpents), contrairement à ce que disent leurs sections. Les cinq boutons qui disaient
 « Réessaie. » quand leur fichier manque (voyage, Grande Expédition, confidentialité, index des
-serpents, missions) disent donc « Recharge la page. » (mesure du 24 novembre : 0 requête au
-deuxième appui ; mots validés par le parent, [décisions](DECISIONS-2026-11-24.md)). C'est pourquoi **la sauvegarde
+serpents, missions) disent donc « Recharge la page quand la connexion revient. » (mesure du
+24 novembre : 0 requête au deuxième appui ; mots choisis par le parent, qui a préféré la phrase
+longue parce que recharger sans réseau mène à la page d'erreur du navigateur,
+[décisions](DECISIONS-2026-11-24.md)). C'est pourquoi **la sauvegarde
 familiale reste dans le paquet principal** : sur un site qui ne garde rien (navigation privée),
 elle est le seul moyen de sortir l'aventure, et recharger la page la perdrait. Un premier essai
 l'avait sortie ; il est retiré. Paquet principal : site et application 199 607 → 195 901

@@ -5,7 +5,7 @@ import { make } from '../ui/dom.ts';
 import { settingsList } from '../ui/settingsDialog.ts';
 import './language.css';
 
-const UNAVAILABLE = 'Langue indisponible. Recharge la page.';
+const UNAVAILABLE = 'Langue indisponible. Recharge la page quand la connexion revient.';
 
 /** The stored preference, when the browser lets the page read it. */
 function readPreference() {

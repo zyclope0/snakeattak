@@ -34,11 +34,13 @@ export const reprendreLeVoyage = 'Resume the voyage';
 export const laGrandeExpedition = 'The Great Expedition';
 export const reprendreLExpedition = 'Resume the expedition';
 export const nouveau = 'New';
-export const leVoyageNAPasPuSOuvrirRecharge = 'The voyage could not open. Reload the page.';
+export const leVoyageNAPasPuSOuvrirRecharge =
+  'The voyage could not open. Reload the page when the connection is back.';
 export const laGrandeExpeditionNAPasPuSOuvrir =
-  'The Great Expedition could not open. Reload the page.';
+  'The Great Expedition could not open. Reload the page when the connection is back.';
 export const confidentialite = 'Privacy policy';
-export const confidentialiteIndisponible = 'Privacy policy unavailable. Reload the page.';
+export const confidentialiteIndisponible =
+  'Privacy policy unavailable. Reload the page when the connection is back.';
 /** The best endless adventure of the active player: the wave, the kings beaten. */
 export const tonRecordVagueNNRois = 'Your record: wave {0}';
 /** Under a mission, when the camp waiting is an endless adventure. */

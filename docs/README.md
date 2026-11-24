@@ -21,8 +21,8 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-0.41.0.md](BILAN-0.41.0.md)                                     | Bilan 0.41.0 / build 65 : l'export sort de l'application, copies de secours, partie non gardée, politique mise à jour |
 | [BILAN-GROS-LOT-2026-11-23.md](BILAN-GROS-LOT-2026-11-23.md)           | Gros lot du 23 novembre : découpage, doublons, moteur plus rapide, anglais, étape 3 téléphone                         |
 | [DECISIONS-2026-11-23.md](DECISIONS-2026-11-23.md)                     | Les dix décisions du parent du 23 novembre sur les mots, la politique et le build 65                                  |
-| [DECISIONS-2026-11-24.md](DECISIONS-2026-11-24.md)                     | Décisions du 24 novembre : 60 images par seconde, « Recharge la page. », bouton retour, nouvel accueil                |
-| [BILAN-PETITS-RESTES-2026-11-24.md](BILAN-PETITS-RESTES-2026-11-24.md) | « Recharge la page. » et le bouton « retour » d'Android : fait, vérifié, pas essayé sur le téléphone                  |
+| [DECISIONS-2026-11-24.md](DECISIONS-2026-11-24.md)                     | Décisions du 24 novembre : 60 images par seconde, phrase des fichiers manquants, bouton retour, nouvel accueil        |
+| [BILAN-PETITS-RESTES-2026-11-24.md](BILAN-PETITS-RESTES-2026-11-24.md) | Phrase des fichiers manquants et bouton « retour » d'Android : fait, vérifié, pas essayé sur le téléphone             |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version construite (build 62)                                                             |
