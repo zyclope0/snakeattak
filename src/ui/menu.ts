@@ -18,7 +18,7 @@ import type { BalanceRevision } from '../balanceRevision.ts';
 import { byId } from './dom.ts';
 import { starRow } from './gameParts.ts';
 import { bindPendingConfirm } from './pendingConfirm.ts';
-import { bindRosterEditor } from './rosterEditor.ts';
+import { lateDoor } from './lateDoor.ts';
 import * as TEXT from '../texts/fr/home.ts';
 import * as PAGE from '../texts/fr/page.ts';
 import { fill } from '../texts/fill.ts';
@@ -211,14 +211,19 @@ export function bindMenu(session: Session, career: Career, actions: Actions) {
   byId('home-help').onclick = () => byId('help').click();
   byId('home-guide').onclick = () => byId('unit-guide').click();
   document.documentElement.style.setProperty('--home-scene', `url("${GROUND_ART[0].url}")`);
-  bindRosterEditor(session, career, {
-    open: () => navigate('favorites'),
-    saved: () => {
-      actions.refresh();
-      showHome();
-    },
-    back: showHome,
-  });
+  // The « Favoris » page is bound by a file of its own, asked for now.
+  lateDoor(byId('home-army'), () =>
+    import('./rosterEditor.ts').then((module) =>
+      module.bindRosterEditor(session, career, {
+        open: () => navigate('favorites'),
+        saved: () => {
+          actions.refresh();
+          showHome();
+        },
+        back: showHome,
+      }),
+    ),
+  );
   refresh();
   return {
     refresh,
