@@ -5,6 +5,7 @@ import { BOARD_WIDTH, BOARD_HEIGHT, bindBoardResolution } from '../render/boardR
 import { visualSettings } from '../render/visualSettings.ts';
 import Phaser from 'phaser';
 import { byId } from '../ui/dom.ts';
+import { FRAME_RATE_TARGET } from '../render/frameRate.ts';
 
 /**
  * The board: Phaser and its battle scene, the canvas fitted to the screen, the window shown
@@ -22,7 +23,12 @@ export function createPhaser(scene: Phaser.Scene): Phaser.Game {
     render: { antialias: true },
     scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
     audio: { noAudio: true },
+    // A limit, so that Phaser steps through its limited path; `limitFrames` sets it to the screen.
+    fps: { limit: FRAME_RATE_TARGET },
   });
+  // Every frame is drawn until the screen is measured (Phaser 3.90 reads `_limitRate`).
+  (phaser.loop as unknown as { _limitRate: number })._limitRate = 0;
+  void import('../render/frameLimit.ts').then(({ limitFrames }) => limitFrames(phaser.loop));
   const invalidateBoard = bindBoardResize(phaser, byId('game'));
   // A frame that throws stops the board for good: the child is told, and offered to start again.
   const { loop } = phaser;
