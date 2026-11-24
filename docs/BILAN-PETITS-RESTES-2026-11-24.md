@@ -53,7 +53,7 @@ Deux restes acceptés par le parent ([décisions](DECISIONS-2026-11-24.md)).
   0 requête au deuxième et au troisième appui (script jetable, 24 novembre).
 - `tests/back-button.test.ts` : le choix de ce que fait « retour », les seize combinaisons,
   et le côté natif sans le module.
-- `npm run test:back-button` (`scripts/hygiene/back-button.mjs`, tâche « sauvegardes » de la
+- `npm run test:back-button` (`scripts/hygiene/back-button.mjs`, tâche « retour » de la
   CI) sur le vrai paquet de l'application avec un faux côté Android : aux trois tailles,
   accueil, quatre pages, fenêtres, pause au camp et en bataille ; une aventure entière jouée
   jusqu'à sa fin à 780×360 ; un jeu qui ne démarre pas ne demande rien à Android ; un côté

@@ -1972,7 +1972,7 @@ Capacitor, `@capacitor/app` 8.1.2 (version fixe, manifeste vide : aucune permiss
 - **Le site n'en porte rien** (`__APP_BUILD__`), et `scripts/check-dist.mjs` tient toujours
   que Capacitor n'est chargé ni avec le premier script ni avec le jeu.
 - **Tenu par** `tests/back-button.test.ts` et `npm run test:back-button`
-  (`scripts/hygiene/back-button.mjs`, tâche « sauvegardes » de la CI). **Pas essayé sur un
+  (`scripts/hygiene/back-button.mjs`, tâche « retour » de la CI). **Pas essayé sur un
   vrai téléphone** au moment de la livraison ([bilan](BILAN-PETITS-RESTES-2026-11-24.md)).
 
 ## Copies de secours de la sauvegarde — 22 novembre 2026
