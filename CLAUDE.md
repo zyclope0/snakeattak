@@ -61,6 +61,9 @@ audit, équilibrage, publication, travail à faire. Puis `docs/PLAN-ACTUEL.md` e
 - Réponds toujours au parent en français, à chaque message (demande du parent, 20 novembre 2026).
 
 - Une branche par lot (`claude/<sujet>`), une PR vers `main`, jamais de fusion sans accord.
+- Avant de pousser une PR, joue sur ta machine les recettes que la CI jouera pour ce que tu as
+  touché (les groupes de `.github/workflows/check.yml`) : la CI confirme, elle ne découvre pas
+  (demande du parent, 24 novembre 2026).
 - Une valeur qui a un sens dans le jeu (clé de stockage, limite, nombre de voies, de vagues, de
   pièces) a un nom et un seul lieu ; on importe ce nom, on ne retape pas la valeur. Lui donner
   un nom ne la change jamais (`docs/ARCHITECTURE.md`, « Valeurs hors du code »).

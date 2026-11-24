@@ -45,7 +45,7 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **Nouvel accueil** ([bilan](BILAN-ACCUEIL-2026-11-24.md)) : maquette D « la clairière »
   retenue par le parent après un conseil de trois relecteurs ; décor calmé en dose légère ;
   pièces modelées avec Magnific (537 crédits sur 1 500), gardées par le parent. Le vrai écran
-  est écrit, mesuré sur 27 cas dans Chromium, ses recettes mises à jour. **À essayer par le
+  est écrit, mesuré sur 36 cas dans Chromium, ses recettes mises à jour. **À essayer par le
   parent sur l'APK de test, puis avec les enfants.**
 - **Ensuite** : ce qui reste du
   découpage (fonctions longues de l'interface, recettes sur leur propre serveur).
