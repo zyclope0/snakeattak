@@ -60,6 +60,16 @@ body #home-screen[data-page='home'] {
     );
   }
 }
+/* Sur le site Web, une fois l'encart publicitaire posé (grand écran avec souris seulement,
+   jamais dans l'application) : l'encart ne bouge plus, et l'accueil ne passe pas dessous. Ce
+   qui se touche se regroupe au milieu, sur la largeur que l'accueil a toujours eue ; le décor
+   couvre encore tout l'écran. La recette de l'encart mesure l'écart avec chaque bouton
+   (scripts/web-ads-delivery-browser.mjs). */
+body:has(#web-ad:not([hidden])) #home-screen[data-page='home'] {
+  --app-width: 1180px;
+  max-width: var(--app-width);
+  margin-inline: auto;
+}
 /* Le décor : la clairière des missions, déjà calmée dans l'image. Il couvre tout l'écran,
    barres du système comprises ; un voile sombre sur ses bords laisse lire les coins. */
 body #home-screen[data-page='home']::before,
