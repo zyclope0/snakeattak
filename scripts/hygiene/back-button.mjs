@@ -14,7 +14,8 @@
 //     reste ouverte, et se ferme à l'appui suivant ;
 // 11. deux fenêtres l'une sur l'autre : celle du dessus se ferme d'abord ;
 // 12. « Qui joue ? », qui ne se ferme pas : l'application passe en arrière-plan ;
-// 13. une page qui part (le choix d'un joueur recharge le jeu) rend « retour » à Android.
+// 13. une page que le jeu recharge (le choix d'un autre joueur) rend d'abord « retour » ;
+// 14. si le jeu ne redémarre pas après ce rechargement, « retour » reste à Android.
 //   node --experimental-strip-types scripts/hygiene/back-button.mjs
 import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
@@ -334,16 +335,39 @@ for (const viewport of SIZES) {
     await back(page);
     assert.equal(await left(page), 1, '« retour » on « Qui joue ? » leaves the application');
     assert.equal(await page.locator('#players-dialog[open]').count(), 1, 'the question stays');
-    await page.locator('#players-dialog [data-player] button').first().click();
-    await page.locator('#home-primary').waitFor({ state: 'visible' });
+    // The other player, not the one this page already plays: choosing her reloads the page.
+    const reloaded = page.waitForFunction(
+      () => JSON.parse(sessionStorage.getItem('android-asked') ?? '[]').length >= 5,
+    );
+    await page.locator('#players-dialog [data-player="p2"] .player-face').click();
+    await reloaded;
     await bound(page);
     const asked = await page.evaluate(() => JSON.parse(sessionStorage.getItem('android-asked')));
-    assert.deepEqual(
-      asked,
-      ['listen:backButton', 'takes:true', 'takes:false', 'listen:backButton', 'takes:true'],
-      'the page that goes gives « retour » back, the page that comes takes it again',
+    // « retour » is given back at least once (before the reload is asked, and again as the
+    // page goes), and only then listened to and taken again by the page that comes.
+    const given = asked.slice(2, -2);
+    assert.deepEqual(asked.slice(0, 2), ['listen:backButton', 'takes:true'], String(asked));
+    assert.ok(
+      given.length >= 1 && given.every((entry) => entry === 'takes:false'),
+      `the page that goes gives « retour » back: ${asked}`,
     );
+    assert.deepEqual(asked.slice(-2), ['listen:backButton', 'takes:true'], String(asked));
     assert.deepEqual(report.errors, []);
+
+    // 14. The page is reloaded and the game does not start again: « retour » was given back,
+    // and nobody took it. Android keeps it, and the window of the failed start can be left.
+    await page.evaluate(() => sessionStorage.removeItem('android-asked'));
+    await page.route(/\/assets\/bootstrap-[\w-]+\.js$/, (route) => route.abort());
+    await page.locator('#player-chip').click();
+    await page.locator('#players-dialog[open]').waitFor({ state: 'visible' });
+    await page.locator('#players-dialog [data-player="p1"] .player-face').click();
+    await page.locator('dialog[open]:not(#players-dialog)').waitFor({ state: 'visible' });
+    await page.waitForTimeout(500);
+    const after = await page.evaluate(() => JSON.parse(sessionStorage.getItem('android-asked')));
+    assert.ok(
+      after.length >= 1 && after.every((entry) => entry === 'takes:false'),
+      `a game that does not start again leaves « retour » to Android: ${after}`,
+    );
     checks.push('« Qui joue ? »: the application is left; a reload gives « retour » back');
   } finally {
     await browser.close();

@@ -10,6 +10,7 @@ import {
   storedPlayersFor,
 } from '../players.ts';
 import type { PlayerCharacter, PlayerId, Players } from '../players.ts';
+import { reloadPage } from './reload.ts';
 
 export type PlayerListOptions = {
   /** The device's storage, undefined when the browser refuses it. */
@@ -51,7 +52,7 @@ export function createPlayerList({ device, players, save, silence }: PlayerListO
   function leave() {
     rememberChoice(true);
     save();
-    window.location.reload();
+    reloadPage();
   }
   /**
    * Another tab may have changed the players: start again from what is stored. False when
@@ -62,7 +63,7 @@ export function createPlayerList({ device, players, save, silence }: PlayerListO
     const stored = storedPlayersFor(device, state.activeId);
     if (!stored) {
       silence();
-      window.location.reload();
+      reloadPage();
       return false;
     }
     state = stored;
@@ -79,7 +80,7 @@ export function createPlayerList({ device, players, save, silence }: PlayerListO
       // This page still holds the deleted adventure: it must not write it back while leaving.
       silence();
       if (clearPlayerData(device, id) && savePlayers(device, next)) rememberChoice(false);
-      window.location.reload();
+      reloadPage();
       return 'leaving';
     }
     if (!clearPlayerData(device, id) || !savePlayers(device, next)) return 'failed';
