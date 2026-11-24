@@ -51,7 +51,15 @@ Tout a été joué sur la machine avant d'ouvrir la demande de fusion (méthode 
 - **Captures regardées une à une** : Missions à douze tailles en français et en anglais, avec
   les barres d'un téléphone (30/48/24/48) à 780 × 360 ; les quatre autres pages à 780 × 360
   et 1024 × 768.
-- **Recettes** : voir la liste à la fin, mise à jour quand elles ont fini.
+- **Toutes les recettes que la CI joue, vertes sur la machine, sur la version finale** :
+  `test:mobile-menus` en entier (8 599 contrôles), les dix recettes des écrans (dont
+  `test:audit`, `test:child-mobile`, `test:mission-journey`, `test:offline`), les huit des
+  règles et du rendu (dont `test:journey`, `test:expedition`), les sept des sauvegardes,
+  `test:back-button`, `test:locale`, `test:caprices`, `test:browser` (site et export
+  autonome), `test:discovery`, `test:ads-preview`, `test:ads-delivery`, `test:android-web`,
+  `test:family`, `test:android-signatures`.
+- 1 051 tests unitaires, format, builds (site, application, aperçu et essai de publicité,
+  export autonome). Puis la CI de la demande de fusion, et une relecture indépendante.
 
 ## Ce qui n'est pas vérifié
 
