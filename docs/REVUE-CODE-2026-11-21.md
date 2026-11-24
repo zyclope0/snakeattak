@@ -23,7 +23,7 @@ garde **tous** les points, faits ou non.
 | #   | Constat                                                           | État                     |
 | --- | ----------------------------------------------------------------- | ------------------------ |
 | 1   | Sauvegarde recalculée 5,5 fois par seconde pendant un combat      | Fait, lot 1              |
-| 2   | 26 planches d'images en WebP sans perte (9,4 Mo)                  | Gardé pour après         |
+| 2   | 26 planches d'images en WebP sans perte (9,4 Mo)                  | Fait le 24 novembre      |
 | 3   | Phaser livré plus gros que son fichier officiel, avec la physique | Gardé pour après         |
 | 4   | `nearestCampPoint` très lent quand le but tombe dans un rocher    | Fait, lot 1              |
 | 5   | La CI attend trop ; une PR de documents coûte autant que du code  | Fait, lot 3, gain mince  |
@@ -80,6 +80,14 @@ Android. Ré-encodées en qualité 88 à 90 avec la transparence exacte : 2,69 M
 spinosaure et les décors récents sont déjà encodés ainsi (`scripts/assemble-spinosaurus.py`).
 Gain calculé, pas regardé à l'écran : l'image change un peu, il faut l'œil du parent sur le
 téléphone.
+
+**Fait (24 novembre 2026, accord du parent après comparaison).** Les 25 planches utilisées sont
+ré-encodées en qualité 88, comme le spinosaure (`scripts/assemble-spinosaurus.py`) : 13,7 → 6,7 Mo
+dans `src/assets/illustrated/` (−7,0 Mo), transparence identique. Écart visible, chaque planche
+posée sur le vert du plateau : en luminosité, moins de 1 sur 255 en moyenne et 7 à 14 pour le millième
+de pixels le plus touché ; couleur par couleur, jusqu'à 1,2 en moyenne et 9 à 25 pour ce millième
+(un liseré à peine visible autour de l'œil rouge du serpent bleu, `serpents-family.webp`). Le parent a comparé les zooms et joué l'APK de test v7 : « pas de différence ».
+`strongholds.original.webp`, référencé nulle part, n'est pas touché.
 
 Six images ne sont jamais livrées ni référencées (3,46 Mo dans le clone) :
 `src/assets/serpent-vert-idle.png` et sa copie `public/assets/enemies/serpent-vert-idle.png`,

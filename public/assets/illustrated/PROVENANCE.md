@@ -1,5 +1,14 @@
 # Assets illustrés — version 0.11
 
+> **Mise à jour du 24 novembre 2026.** Les 25 planches utilisées de `src/assets/illustrated/` qui
+> étaient en WebP sans perte sont ré-encodées en qualité 88, alpha sans perte (accord du parent
+> après comparaison ; `docs/REVUE-CODE-2026-11-21.md`, point 2). Les mentions « sans perte » et
+> les tailles en octets ci-dessous et dans les autres fiches décrivent les exports d'origine.
+> Les scripts de fabrication (`scripts/clean-strongholds.py`, `scripts/assemble-new-snakes.py`…)
+> refont des images sans perte : après les avoir relancés, ré-encoder en qualité 88 ;
+> `clean-strongholds.py --check` compare aux octets sans perte et échoue désormais.
+> `strongholds.original.webp`, source de `clean-strongholds.py`, n'est pas ré-encodé.
+
 > Onze planches ont été refaites en pâte à modeler le 12 novembre 2026 : voir
 > [PROVENANCE-RESTYLE-2026-11.md](PROVENANCE-RESTYLE-2026-11.md). Ce qui suit décrit leur
 > création d'origine.

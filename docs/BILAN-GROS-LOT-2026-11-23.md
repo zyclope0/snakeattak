@@ -187,3 +187,21 @@ paquet principal ».
 du voyage disent « Réessaie » quand leur fichier n'arrive pas ; dans Chromium un nouvel essai ne
 redemande pas le fichier. Il faudrait dire de recharger la page : de nouveaux mots, à décider
 par le parent.
+
+## Relevé sur le S24 avec la limite à 60 (APK de test v6, 24 novembre)
+
+Même partie que le relevé v5 (vague 1 à 12, 3 min 30) : **60 images par seconde** en médiane,
+56,6 au plus bas (v5 : 120 et 107) ; 12 569 images dessinées contre 25 777. Le calcul par image
+dessinée passe de 0,9 à 1,6 ms en moyenne : chaque image porte deux images de temps de jeu, le
+calcul total ne change pas. Une image de 109 ms (v5 : 79). Mémoire du code au moment du relevé :
+50 Mo (v5 : 26) ; une seule photo, qui dépend du ménage du navigateur : à revoir si un prochain
+relevé reste aussi haut.
+
+## Images ré-encodées (24 novembre)
+
+Les 25 planches d'images encore « sans perte » et utilisées par le jeu sont ré-encodées en
+qualité 88 : 13,7 → 6,7 Mo (−7,0 Mo pour l'application et le site). Le parent a comparé
+avant/après (zooms ×2 sur les zones les plus détaillées) puis joué l'APK de test v7 : « pas de
+différence ». Écart visible mesuré : moins de 1 sur 255 en luminosité, un peu plus couleur par couleur (le
+plus marqué : un liseré à peine visible autour de l'œil rouge du serpent bleu). Vérifié par `npm run verify`,
+`test:browser`, `test:render-settings`, `test:saves:update` et la CI. Pas essayé avec les enfants.
