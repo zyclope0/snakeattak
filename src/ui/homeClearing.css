@@ -28,13 +28,16 @@ body #home-screen[data-page='home'] {
     calc(1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-ink),
     calc(-1.2 * var(--s)) calc(-1.2 * var(--s)) 0 var(--clearing-ink);
   /* Ce qui se touche est posé devant le décor : une ombre nette, puis une ombre au sol. */
-  --clearing-lift: drop-shadow(0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.6))
-    drop-shadow(0 calc(7 * var(--s)) calc(7 * var(--s)) rgba(6, 14, 10, 0.55));
+  --clearing-lift:
+    0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.55),
+    0 calc(8 * var(--s)) calc(8 * var(--s)) rgba(6, 14, 10, 0.5);
   --camp: calc(262 * var(--s));
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto auto;
+  /* Les deux colonnes des lieux ne passent jamais sous la largeur d'une plaque : c'est le nom
+     du joueur qui cède (il se raccourcit), pas les lieux qui se touchent. */
+  grid-template-columns: minmax(112px, 1fr) minmax(112px, 1fr) auto minmax(48px, auto) auto;
   grid-template-rows: auto minmax(0, 1fr) auto auto;
   column-gap: calc(10 * var(--s));
   row-gap: 0;
@@ -67,11 +70,11 @@ body #home-screen[data-page='home']::after {
   pointer-events: none;
 }
 body #home-screen[data-page='home']::before {
-  z-index: -2;
+  z-index: -3;
   background: #2c4a3a url('../assets/home/clairiere-decor.webp') center / cover;
 }
 body #home-screen[data-page='home']::after {
-  z-index: -1;
+  z-index: -2;
   background:
     radial-gradient(120% 105% at 50% 52%, transparent 46%, rgba(9, 26, 22, 0.5) 100%),
     linear-gradient(rgba(9, 26, 22, 0.3), transparent 22%);
@@ -185,7 +188,9 @@ body #home-screen[data-page='home'] #player-chip {
   align-items: center;
   gap: calc(5 * var(--s));
   min-height: 48px;
-  max-width: calc(170 * var(--s));
+  /* Le nom cède la place avant les lieux ; le portrait, lui, reste une cible entière. */
+  min-width: 48px;
+  max-width: max(176px, calc(174 * var(--s)));
   font-size: max(13px, calc(15 * var(--s)));
   text-shadow: var(--clearing-ring);
 }
@@ -215,7 +220,13 @@ body #home-screen[data-page='home'] #home-settings::after {
 }
 
 /* Un lieu : son nom sur la plaque peinte du jeu, découpée en neuf (ses rivets restent ronds à
-   toute taille), et son image posée au-dessus. L'image fait partie du bouton. */
+   toute taille), et son image posée au-dessus. L'image fait partie du bouton : la toucher
+   ouvre le lieu. Elle est peinte sous tout le reste de l'écran (ni filtre ni rotation sur ces
+   boutons : chacun aurait alors son propre plan) : là où deux choses se croisent, c'est
+   toujours l'autre bouton qui est touché, jamais une image.
+   La hauteur de l'image, --ph, est la sienne, ou la place qui reste quand l'écran est bas
+   (barres du système comprises) : l'image rapetisse, et ni les plaques ni les objets du bas
+   ne se touchent. --wide et --ground sont ses proportions (largeur, et ombre sous ses pieds). */
 body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-expeditions) {
   display: flex;
   align-items: center;
@@ -223,54 +234,51 @@ body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-exped
   gap: calc(8 * var(--s));
   width: max(104px, calc(var(--plaque) * var(--s)));
   min-height: max(52px, calc(58 * var(--s)));
-  margin-top: calc((var(--picture-height) - 5) * var(--s));
+  margin-top: calc(var(--ph) - 5 * var(--s) + var(--lift, 0px));
   border: calc(20 * var(--s)) solid transparent;
   border-image: url('../assets/home/clairiere-plaque.webp') 58 fill / calc(20 * var(--s)) stretch;
+  box-shadow: var(--clearing-lift);
   font-size: max(13px, calc(14.5 * var(--s)));
-  filter: var(--clearing-lift);
+  text-shadow: 0 calc(1.2 * var(--s)) 0 rgba(8, 20, 16, 0.9);
 }
 body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-expeditions)::before {
   content: '';
   display: block;
   position: absolute;
   left: 50%;
-  bottom: calc(100% + (20 - 5 - var(--picture-ground)) * var(--s));
-  width: calc(var(--picture-width) * var(--s));
-  height: calc((var(--picture-height) + var(--picture-ground)) * var(--s));
+  bottom: calc(100% + 15 * var(--s) - var(--ph) * var(--ground));
+  width: calc(var(--ph) * var(--wide));
+  height: calc(var(--ph) * (1 + var(--ground)));
   translate: -50% 0;
   background: var(--picture) center bottom / contain no-repeat;
-  /* L'image ne passe jamais devant une plaque voisine. */
   z-index: -1;
 }
-/* L'antre des serpents et King Snake, à gauche comme sur le plateau. */
+/* L'antre des serpents et King Snake, à gauche comme sur le plateau. Sous lui, le carnet et
+   les favoris : la place qui reste compte leur rangée. */
 body #home-screen[data-page='home'] #home-classic {
   --plaque: 118;
   --picture: url('../assets/home/clairiere-antre.webp');
-  --picture-width: 208;
-  --picture-height: 132;
-  --picture-ground: 22;
+  --wide: 1.576;
+  --ground: 0.167;
+  --ph: min(calc(132 * var(--s)), calc(var(--app-height) - 96px - 143 * var(--s)));
+  --lift: calc(var(--app-height) * 0.04);
   grid-column: 1;
   grid-row: 2 / -1;
   align-self: start;
-  justify-self: center;
-  /* À droite du carnet posé sous lui, et de l'image du titre. */
-  margin-left: calc(100 * var(--s));
-  margin-top: calc((var(--picture-height) - 5 + 16) * var(--s));
-  rotate: -2deg;
+  justify-self: end;
 }
-/* Le pont et le raptor, au milieu, plus loin. */
+/* Le pont et le raptor, au milieu, plus loin : un peu plus haut que l'antre. */
 body #home-screen[data-page='home'] #home-voyage {
   --plaque: 112;
   --picture: url('../assets/home/clairiere-pont.webp');
-  --picture-width: 169;
-  --picture-height: 100;
-  --picture-ground: 22;
+  --wide: 1.69;
+  --ground: 0.22;
+  --ph: min(calc(100 * var(--s)), calc(var(--app-height) - 150px));
+  --lift: calc(-14 * var(--s));
   grid-column: 2;
   grid-row: 2 / -1;
   align-self: start;
   justify-self: center;
-  margin-top: calc((var(--picture-height) - 5 - 14) * var(--s));
-  rotate: 1.5deg;
 }
 body #home-screen[data-page='home'] #home-voyage > span {
   display: block;
@@ -279,7 +287,7 @@ body #home-screen[data-page='home'] #home-voyage .voyage-new {
   position: absolute;
   top: auto;
   right: calc(-44 * var(--s));
-  bottom: calc(100% + 84 * var(--s));
+  bottom: calc(100% + var(--ph) * 0.84);
   translate: none;
   padding: calc(2 * var(--s)) calc(8 * var(--s));
   border: calc(2.5 * var(--s)) solid var(--clearing-ink);
@@ -289,28 +297,29 @@ body #home-screen[data-page='home'] #home-voyage .voyage-new {
   color: var(--clearing-wood);
   font: inherit;
   font-size: max(13px, calc(12 * var(--s)));
+  text-shadow: none;
   rotate: 7deg;
 }
 /* Le château au cristal et le héros, à droite : les missions, et juste dessous le gros bouton
-   qui lance la prochaine. */
+   qui lance la prochaine. Sous lui, la phrase et « Jouer » : la place qui reste les compte. */
 body #home-screen[data-page='home'] #home-expeditions {
   --plaque: 150;
   --picture: url('../assets/home/clairiere-chateau.webp');
-  --picture-width: 224;
-  --picture-height: 130;
-  --picture-ground: 22;
+  --wide: 1.723;
+  --ground: 0.169;
+  --ph: min(calc(130 * var(--s)), calc(var(--app-height) - 142px - max(76px, calc(86 * var(--s)))));
   grid-column: 3 / -1;
   grid-row: 2;
   align-self: end;
   justify-self: center;
-  rotate: 1.5deg;
 }
-/* Les étoiles des missions, sur leur plaque (le jeu les écrit dans `data-stars`). */
+/* Les étoiles des missions, sur leur plaque (le jeu les écrit dans `data-stars`) : l'étoile
+   est dorée, le compte a la couleur des mots de la plaque. */
 body #home-screen[data-page='home'] #home-expeditions::after {
   content: attr(data-stars);
   flex: none;
   padding-left: calc(23 * var(--s));
-  color: #f6c452;
+  color: var(--clearing-paper);
   white-space: nowrap;
   background: url('../assets/home/clairiere-etoile.webp') left center / calc(21 * var(--s)) auto
     no-repeat;
@@ -438,19 +447,12 @@ body #home-screen[data-page='home'] button:focus-visible {
   outline-offset: calc(3 * var(--s));
 }
 
-/* Un téléphone court : l'antre un peu plus petit, pour laisser sa place au carnet sous lui, et
-   le pont un peu plus bas, à côté du parchemin des parents. */
-@media (max-height: 340px) {
-  body #home-screen[data-page='home'] #home-classic {
-    --picture-width: 175;
-    --picture-height: 111;
-    --picture-ground: 18;
-    margin-left: calc(84 * var(--s));
-    margin-top: calc((var(--picture-height) - 5 + 14) * var(--s));
-  }
+/* Un téléphone court ou étroit : le pont un peu plus bas, à côté du parchemin des parents
+   plutôt que dessous, et sa plaque à la largeur de ses mots. */
+@media (max-height: 340px), (max-width: 700px) {
   body #home-screen[data-page='home'] #home-voyage {
     --plaque: 104;
-    margin-top: calc((var(--picture-height) - 5 + 6) * var(--s));
+    --lift: calc(6 * var(--s));
   }
 }
 
@@ -481,11 +483,23 @@ body #home-screen[data-page='home'] button:focus-visible {
     justify-self: center;
     margin: calc(8 * var(--s)) 0 0;
   }
+  /* Deux rangées d'images se partagent la hauteur qui reste. */
+  body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-expeditions) {
+    --lift: 0px;
+  }
+  body #home-screen[data-page='home'] #home-classic {
+    --ph: min(calc(132 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));
+    justify-self: center;
+  }
+  body #home-screen[data-page='home'] #home-voyage {
+    --ph: min(calc(100 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));
+  }
+  body #home-screen[data-page='home'] #home-expeditions {
+    --ph: min(calc(130 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));
+  }
   body #home-screen[data-page='home'] :is(#home-classic, #home-voyage) {
     grid-row: 3;
-    align-self: center;
-    margin-left: 0;
-    margin-top: calc((var(--picture-height) - 5) * var(--s));
+    align-self: end;
   }
   body #home-screen[data-page='home'] #home-expeditions {
     grid-column: 1 / -1;
