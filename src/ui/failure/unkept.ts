@@ -47,7 +47,11 @@ function show(now: Cause): void {
   });
 }
 
-/** Puts on the home, beside the stars, the mark or the sentence that takes its place. */
+/**
+ * Puts on the home the mark or the sentence that takes its place: after the stars in the
+ * page, which is beside them on the secondary pages; the first screen places it on its own
+ * grid, at the bottom middle (homeClearing.css).
+ */
 function place(next: HTMLElement | null): void {
   mark?.remove();
   mark = next;

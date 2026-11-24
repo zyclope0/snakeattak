@@ -119,6 +119,76 @@ async function shown(page, parents, label) {
   await fits(page, '#unkept-dialog', `${label}, unfolded`);
   return window;
 }
+/** The smallest phone the home is laid out for, beside the three screens of every recipe. */
+const SMALL_PHONE = Object.freeze({ width: 568, height: 320 });
+/**
+ * Where the first screen of the home shows `#unkept-mark` (the mark, then the sentence that
+ * takes its place), on the four screens: wholly inside the screen, a fair target when it is a
+ * button, with nothing drawn over it, and over nothing else a child can touch. The first
+ * screen places it on its grid (homeClearing.css), no longer beside the stars of a header.
+ */
+async function placedOnHome(page, label) {
+  const own = page.viewportSize();
+  for (const size of [SMALL_PHONE, ...SCREENS]) {
+    await page.setViewportSize(size);
+    const tag = `${label} at ${size.width}×${size.height}`;
+    const found = await page.evaluate(() => {
+      const mark = document.querySelector('#unkept-mark');
+      const rect = (node) => {
+        const r = node.getBoundingClientRect();
+        return { x: r.x, y: r.y, right: r.right, bottom: r.bottom };
+      };
+      const at = rect(mark);
+      const shared = (a, b) =>
+        Math.min(a.right, b.right) - Math.max(a.x, b.x) > 0.5 &&
+        Math.min(a.bottom, b.bottom) - Math.max(a.y, b.y) > 0.5;
+      const others = [
+        ...document.querySelectorAll('#home-screen :is(button, a[href], select, input, summary)'),
+      ].filter((node) => node !== mark && node.checkVisibility({ checkVisibilityCSS: true }));
+      // The middle and four points near the corners: what is on top there is the mark.
+      const points = [
+        [0.5, 0.5],
+        [0.15, 0.25],
+        [0.85, 0.25],
+        [0.15, 0.75],
+        [0.85, 0.75],
+      ];
+      const covered = points
+        .map(([x, y]) =>
+          document.elementFromPoint(at.x + (at.right - at.x) * x, at.y + (at.bottom - at.y) * y),
+        )
+        .filter((top) => top !== mark && !mark.contains(top))
+        .map((top) => top?.id || top?.tagName || 'outside the screen');
+      return {
+        at,
+        button: mark instanceof HTMLButtonElement,
+        seen: mark.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }),
+        page: document.querySelector('#home-screen').dataset.page,
+        over: others.filter((node) => shared(at, rect(node))).map((node) => node.id),
+        covered,
+      };
+    });
+    const { at } = found;
+    const where = JSON.stringify(at);
+    assert.equal(found.page, 'home', `${tag}: on the first screen`);
+    assert.ok(found.seen, `${tag}: shown`);
+    assert.ok(
+      at.x >= 0 && at.y >= 0 && at.right <= size.width && at.bottom <= size.height,
+      `${tag}: inside the screen (${where})`,
+    );
+    if (found.button)
+      assert.ok(
+        at.right - at.x >= 48 && at.bottom - at.y >= 48,
+        `${tag}: a target of ${at.right - at.x}×${at.bottom - at.y}`,
+      );
+    assert.deepEqual(found.over, [], `${tag}: over nothing else a child can touch (${where})`);
+    assert.deepEqual(found.covered, [], `${tag}: nothing drawn over it (${where})`);
+    await page.screenshot({
+      path: `artifacts/hygiene/unkept-${found.button ? 'mark' : 'healed'}-home-${size.width}x${size.height}.png`,
+    });
+  }
+  await page.setViewportSize(own);
+}
 
 for (const viewport of SCREENS) {
   const tag = `${viewport.width}x${viewport.height}`;
@@ -149,10 +219,7 @@ for (const viewport of SCREENS) {
     const mark = page.locator('button#unkept-mark');
     await mark.waitFor({ state: 'visible' });
     assert.equal(await text(page, '#unkept-mark'), FR.partieNonGardee);
-    const size = await mark.boundingBox();
-    assert.ok(size.height >= 48 && size.width >= 48, `a mark of ${size.width}×${size.height}`);
-    const view = page.viewportSize();
-    assert.ok(size.x >= 0 && size.x + size.width <= view.width, 'the mark is inside the screen');
+    await placedOnHome(page, `${tag}, the mark`);
     await page.screenshot({ path: `artifacts/hygiene/unkept-mark-${tag}.png` });
     await mark.click();
     await window.waitFor({ state: 'visible' });
@@ -170,6 +237,8 @@ for (const viewport of SCREENS) {
     await healed.waitFor({ state: 'visible' });
     assert.equal(await text(page, '#unkept-mark'), FR.cEstRepareTaPartieEstDeNouveauGardee);
     assert.equal(await page.locator('#unkept-dialog').count(), 0);
+    // The sentence is not a button, and must not sit on one: « Jouer » stays within reach.
+    await placedOnHome(page, `${tag}, « C'est réparé »`);
     await page.screenshot({ path: `artifacts/hygiene/unkept-healed-${tag}.png` });
     await page.locator('#home-primary').click();
     await boardReady(page);
