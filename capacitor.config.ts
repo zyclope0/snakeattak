@@ -10,6 +10,9 @@ const config: CapacitorConfig = {
   android: { minWebViewVersion: MIN_WEBVIEW_VERSION },
   plugins: {
     SystemBars: { insetsHandling: 'css', initialViewportFitValueHint: 'cover' },
+    // « Retour » stays Android's own until the game says it listens (src/ui/backButton.ts):
+    // a game that did not start, or the page of a WebView too old, can still be left.
+    App: { disableBackButtonHandler: true },
   },
   server: {
     errorPath: OLD_WEBVIEW_PAGE,

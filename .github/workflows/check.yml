@@ -146,6 +146,13 @@ jobs:
             recettes: >-
               test:saves:update test:saves:family test:saves:forced-close
               test:saves:double-taps test:failure test:saves:unkept test:saves:gate
+          # Le bouton « retour » d'Android (24 novembre 2026), sur le paquet de l'application
+          # avec un faux côté Android. La recette joue une aventure entière : avec les
+          # sauvegardes, la tâche touchait sa limite de 30 minutes (28 minutes mesurées).
+          - groupe: retour
+            site: true
+            android: true
+            recettes: test:back-button
     name: recettes (${{ matrix.groupe }})
     steps:
       - uses: actions/checkout@v4

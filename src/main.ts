@@ -13,7 +13,15 @@ loading.textContent = TEXT.chargementLoading;
 document.body.append(loading);
 void Promise.all([initializeLanguageControls(), loadGameFonts()])
   .then(() => import('./bootstrap.ts'))
-  .then(() => loading.remove())
+  .then(() => {
+    loading.remove();
+    // Android's « retour » button is the game's from here, in the application: before, and
+    // when the game did not start, it stays Android's own and leaves the application.
+    if (__APP_BUILD__)
+      void import('./ui/backButton.ts')
+        .then(({ bindBackButton }) => bindBackButton())
+        .catch((error: unknown) => console.error(error));
+  })
   .catch((error: unknown) => {
     // Said where a developer looks; the child and the parent get the window below.
     console.error(error);

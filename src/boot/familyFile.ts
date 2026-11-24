@@ -19,6 +19,7 @@ import { createMissionProgress } from '../missionProgress.ts';
 import type { Adventure } from './adventure.ts';
 import type { createGames } from './games.ts';
 import * as TEXT from '../texts/fr/home.ts';
+import { reloadPage } from '../ui/reload.ts';
 
 /**
  * The window of the family file, wired to the adventure: the export of the adventure as it is
@@ -129,7 +130,7 @@ export function bindFamilyFile(
     finished: () => {
       home();
       refresh();
-      if (reloadAfterImport) window.location.reload();
+      if (reloadAfterImport) reloadPage();
     },
   });
 }

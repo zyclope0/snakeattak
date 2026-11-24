@@ -25,7 +25,8 @@ export function bindPrivacyDoor() {
         open();
       },
       () => {
-        // The package did not arrive (a web page without network nor cache): ask again.
+        // The package did not arrive (a web page without network nor cache). A browser keeps
+        // a module that failed once: the words say to reload the page.
         opening = undefined;
         setText(door, TEXT.confidentialiteIndisponible);
       },

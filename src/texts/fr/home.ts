@@ -34,11 +34,13 @@ export const reprendreLeVoyage = 'Reprendre le voyage';
 export const laGrandeExpedition = 'La Grande Expédition';
 export const reprendreLExpedition = 'Reprendre l’expédition';
 export const nouveau = 'Nouveau';
-export const leVoyageNAPasPuSOuvrirReessaie = 'Le voyage n’a pas pu s’ouvrir. Réessaie.';
+export const leVoyageNAPasPuSOuvrirRecharge =
+  'Le voyage n’a pas pu s’ouvrir. Recharge la page quand la connexion revient.';
 export const laGrandeExpeditionNAPasPuSOuvrir =
-  'La Grande Expédition n’a pas pu s’ouvrir. Réessaie.';
+  'La Grande Expédition n’a pas pu s’ouvrir. Recharge la page quand la connexion revient.';
 export const confidentialite = 'Confidentialité';
-export const confidentialiteIndisponible = 'Confidentialité indisponible. Réessaie.';
+export const confidentialiteIndisponible =
+  'Confidentialité indisponible. Recharge la page quand la connexion revient.';
 /** The best endless adventure of the active player: the wave, the kings beaten. */
 export const tonRecordVagueNNRois = 'Ton record : vague {0}';
 /** Under a mission, when the camp waiting is an endless adventure. */

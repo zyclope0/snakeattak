@@ -105,7 +105,7 @@ export function bindRosterEditor(
     snakeIndexDoor(
       'roster-all-snakes',
       TEXT.tousLesSerpents,
-      TEXT.lesSerpentsNeSontPasArrivesReessaie,
+      TEXT.lesSerpentsNeSontPasArrivesRecharge,
     ),
   );
   byId('roster-back').onclick = actions.back;

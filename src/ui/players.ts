@@ -23,7 +23,8 @@ export function bindPlayers(options: PlayerListOptions) {
   /**
    * Draws a view once the views are there. When their file cannot be read, the window
    * closes and the game stays as it is, a question left unanswered included: an empty
-   * window that cannot be left would hold the child. The next tap tries again.
+   * window that cannot be left would hold the child. The next tap tries again, though a
+   * browser keeps a module that failed once: only a reloaded page brings the views back.
    */
   const withViews = (draw: (shown: PlayerWindow) => void) =>
     fetchViews().then(draw, () => {

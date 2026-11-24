@@ -114,5 +114,6 @@ export const lesTroisVoiesSontAttaquees = 'All three lanes are under attack.';
 export const attaquee = 'under attack';
 export const paisiblePourCetteVague = 'peaceful this wave';
 export const tousLesSerpents = 'All the snakes';
-export const lesSerpentsNeSontPasArrivesReessaie = 'The snakes did not arrive. Try again.';
+export const lesSerpentsNeSontPasArrivesRecharge =
+  'The snakes did not arrive. Reload the page when the connection is back.';
 export const siLaVagueDureUnOeufDePlusPeutArriver = 'If the wave lasts, one more egg may arrive.';

@@ -1,4 +1,4 @@
-# Plan actuel — 23 novembre 2026
+# Plan actuel — 24 novembre 2026
 
 Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions du parent du
 18 novembre, révisions 3 à 6, soutien, AdSense) est dans
@@ -36,6 +36,16 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **Place dans le paquet du jeu** : trois fenêtres chargées à part, 195 901 octets sur 200 000
   (la sauvegarde familiale reste dedans) ; APK v6 avec compteur à faire pour vérifier les
   60 images par seconde.
+- **24 novembre, suite** : relevé à 60 images par seconde confirmé, images ré-encodées
+  (7 Mo de moins), site publié (n° 49). Décisions du jour :
+  [DECISIONS-2026-11-24.md](DECISIONS-2026-11-24.md).
+- **Petits restes** ([bilan](BILAN-PETITS-RESTES-2026-11-24.md)) : « Recharge la page quand la connexion revient. » sur
+  les cinq boutons dont le fichier peut manquer ; bouton « retour » d'Android
+  (`@capacitor/app`). **À essayer par le parent sur l'APK de test.**
+- **Nouvel accueil** : maquette D « la clairière » retenue par le parent après un conseil de
+  trois relecteurs ; décor calmé en dose légère ; pièces modelées avec Magnific (537 crédits
+  sur 1 500) à valider. **Reste à écrire le vrai écran** : la page n'a que 276 octets de
+  marge, le paquet du jeu 4 057, et cinq recettes tiennent l'accueil actuel.
 - **Ensuite** : ce qui reste du
   découpage (fonctions longues de l'interface, recettes sur leur propre serveur).
 
@@ -293,7 +303,8 @@ Grande Expédition et les corrections de l'étape d'hygiène.
   novembre 2026, la fusion des PR de Claude quand toutes les tâches de la CI sont vertes,
   sans conflit ni fil de revue ouvert, puis la publication du site. Depuis le 22 novembre
   2026, « toutes vertes » veut dire : pour une PR qui touche autre chose que des documents,
-  « portée », « verify » et les six « recettes », dont « sauvegardes » (huit lignes) ; des recettes sautées sur
+  « portée », « verify » et les sept « recettes », dont « sauvegardes » et, depuis le
+  24 novembre, « retour » (neuf lignes) ; des recettes sautées sur
   une telle PR, c'est ne pas fusionner. Pour une PR de documents seuls (`*.md` à la racine
   ou sous `docs/`, hors `docs/publication/`) : « portée » et « verify » vertes, les recettes
   sautées. Avant de publier, regarder le passage complet sur `main` au commit publié : le

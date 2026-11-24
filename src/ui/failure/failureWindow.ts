@@ -1,6 +1,7 @@
 import { make } from '../dom.ts';
 import { showTrouble } from './trouble.ts';
 import * as TEXT from '../../texts/fr/failure.ts';
+import { reloadPage } from '../reload.ts';
 
 /** The mark left in the page's own history when the game is started again after a failure. */
 const RELAUNCHED = 'relaunchedAfterFailure';
@@ -49,7 +50,7 @@ export function showFailure(detail: string): void {
       } catch {
         /* A page that cannot mark itself says the first sentence again. */
       }
-      location.reload();
+      reloadPage();
     },
     parents: [make('p', { text: TEXT.uneErreurAArreteLeJeu }), note],
   });

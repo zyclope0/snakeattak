@@ -87,13 +87,15 @@ export function bindVoyageDoor(ports: VoyagePorts) {
         loaded.open();
       },
       () => {
-        // The package did not arrive (no network, no cache): the next touch asks again.
+        // The package did not arrive (no network, no cache). The next touch asks again, but a
+        // browser keeps a module that failed once (measured in Chromium, 24 November 2026: no
+        // request at the second touch): the words say to reload the page.
         loading = undefined;
         tag.hidden = true;
         setText(
           label,
           voyageToFinish(log)
-            ? TEXT.leVoyageNAPasPuSOuvrirReessaie
+            ? TEXT.leVoyageNAPasPuSOuvrirRecharge
             : TEXT.laGrandeExpeditionNAPasPuSOuvrir,
         );
       },
