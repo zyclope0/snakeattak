@@ -73,3 +73,31 @@ body :is(#mission-dialog, #threat-dialog) .threat-card {
   color: #53604d;
   box-shadow: inset 0 0 0 1px rgba(18, 48, 42, 0.5);
 }
+
+/* ---- Décisions du parent (25 novembre 2026 : « OK pour la coche et le retour ») ---- */
+/* L'allié choisi dans la colonne porte la coche du catalogue des alliés (04-camp-panel.css),
+   en encre : posée dans le coin du portrait, elle ne prend aucune place. */
+.app .battle-dock .dock-card[aria-pressed='true']::after {
+  content: '✓';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: var(--clearing-paper);
+  background: var(--clearing-ink);
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+/* « Retour » de la préparation : écrit lisiblement, et il laisse la place à « C'est parti ! »,
+   l'action à jouer, au lieu de prendre la même largeur. */
+body #mission-dialog .mission-dialog-actions #mission-close {
+  flex: 0 1 auto;
+  min-width: max(120px, 20%);
+  padding-inline: 20px;
+  font-size: max(15px, calc(var(--hu) * 1.6));
+}
