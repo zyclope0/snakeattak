@@ -84,6 +84,12 @@ maquette de synthèse D « la clairière » en est sortie.
 - **Publier le lot 7 des menus** (25 novembre) : « publie et fusionne-le, fais le prochain
   lot », après mon message disant que le lot était fusionné mais pas en ligne. Publication
   n° 54 (commit `c968143` : le camp), contrôle en ligne vert.
+- **Minutes de GitHub** (25 novembre, le parent montre la facture : snakeattak en fait
+  environ 72 %, presque tout « Verify game », environ 53 minutes par passage, deux passages
+  par lot). Choix du parent : (1) une fusion dans `main` ne refait pas la CI complète quand
+  la PR l'a déjà passée verte sur exactement le même arbre (`docs/SITE.md`, « Publier ») ;
+  (2) regrouper 2 ou 3 lots par PR. Écarté pour l'instant : fusionner les petites tâches de
+  la CI. Rendre le dépôt public (minutes gratuites) n'a pas été demandé.
 
 ## Ce qui reste à décider
 

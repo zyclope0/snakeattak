@@ -293,7 +293,7 @@ test('the guard is a step nothing switches off, before anything is installed or 
   );
 });
 
-test('a run of the CI for a push is the whole CI: that is what the guard counts', () => {
+test('a run of the CI for a push is the whole CI, or the same tree already judged whole', () => {
   const check = readFileSync('.github/workflows/check.yml', 'utf8');
   // The guard asks for `check.yml`, pushes only; a push is a push on main.
   assert.match(check, /\non:\n {2}push:\n {4}branches: \[main\]\n {2}pull_request:\npermissions:/);
@@ -320,13 +320,27 @@ test('a run of the CI for a push is the whole CI: that is what the guard counts'
   const conditions = lines.flatMap(
     (line) => line.match(/^(?:- )?["']?if["']?\s*:\s*(.+)$/)?.[1] ?? [],
   );
+  // A merge into main skips the whole CI only when the same tree was judged whole and green
+  // on its pull request (parent's decision, 25 November 2026): « deja », asked on a push only,
+  // written by a pull request only, read by the two jobs that do the work.
   assert.deepEqual(conditions, [
+    "github.event_name == 'push'",
+    "needs.portee.outputs.deja != 'true'",
     ...Array<string>(15).fill("env.COMPLET != 'false'"),
-    "needs.portee.outputs.complet != 'false'",
+    ...Array<string>(2).fill("env.COMPLET != 'false' && github.event_name == 'pull_request'"),
+    "needs.portee.outputs.complet != 'false' && needs.portee.outputs.deja != 'true'",
     'matrix.site',
     'matrix.android',
   ]);
-  assert.equal(check.split('github.event_name').length - 1, 2, 'the scope and the concurrency');
+  assert.equal(
+    check.split('github.event_name').length - 1,
+    5,
+    'the scope, the concurrency, the question of a push and what a pull request writes',
+  );
+  assert.deepEqual(
+    lines.filter((line) => /^deja:/.test(line)),
+    ['deja: ${{ steps.deja.outputs.deja }}'],
+  );
   // A step that fails fails the run: nothing carries on anyway.
   assert.doesNotMatch(check, /continue-on-error|set \+e/);
   // Every command of the CI, as it is written: nothing after it swallows a failure, and none
@@ -387,6 +401,103 @@ test('for a push, the scope of the CI answers « everything », whatever was cha
   assert.equal(answer('push'), 'complet=true');
 });
 
+/**
+ * Runs the step « deja » of `check.yml` on the tip of `work`: its answer, and what it asked.
+ * GitHub's stand-in gives the runs it is told, and for a download writes the tree it is told.
+ */
+function runAlready(runs: string, tree: string, apiFails = false) {
+  assert.ok(repo);
+  const check = readFileSync('.github/workflows/check.yml', 'utf8');
+  const step = check.slice(
+    check.indexOf('      - id: deja\n'),
+    check.indexOf('      - id: fichiers\n'),
+  );
+  const body = step
+    .slice(step.indexOf('run: |\n') + 'run: |\n'.length)
+    .split('\n')
+    .map((line) => line.replace(/^ {10}/, ''))
+    .join('\n');
+  const bin = join(repo.root, 'bin-deja');
+  mkdirSync(bin, { recursive: true });
+  writeFileSync(
+    join(bin, 'gh'),
+    [
+      '#!/bin/sh',
+      'echo "$@" >> "$GH_ASKED"',
+      'if [ "$1" = api ]; then [ "$API_FAILS" = 1 ] && exit 1; printf "%s\\n" $RUNS; exit 0; fi',
+      'if [ "$1 $2" = "run download" ]; then',
+      '  while [ $# -gt 0 ]; do [ "$1" = -D ] && dir=$2; shift; done',
+      '  mkdir -p "$dir" && echo "$TREE" > "$dir/arbre.txt"; exit 0',
+      'fi',
+      'exit 1',
+      '',
+    ].join('\n'),
+  );
+  chmodSync(join(bin, 'gh'), 0o755);
+  const out = join(repo.root, 'output-deja');
+  const asked = join(repo.root, 'asked-deja');
+  rmSync(out, { force: true });
+  rmSync(asked, { force: true });
+  const done = spawnSync('bash', ['--noprofile', '--norc', '-e', '-c', body], {
+    cwd: repo.work,
+    encoding: 'utf8',
+    env: {
+      PATH: `${bin}:${process.env.PATH}`,
+      HOME: repo.root,
+      DEPOT: 'someone/game',
+      GITHUB_OUTPUT: out,
+      GH_ASKED: asked,
+      RUNS: runs,
+      TREE: tree,
+      API_FAILS: apiFails ? '1' : '0',
+    },
+  });
+  assert.equal(done.status, 0, done.stderr);
+  let question = '';
+  try {
+    question = readFileSync(asked, 'utf8');
+  } catch {
+    // Nothing was asked.
+  }
+  return { answer: readFileSync(out, 'utf8').trim(), question };
+}
+
+test(
+  'a merge skips the whole CI only for a tree its pull request judged whole and green',
+  runs,
+  () => {
+    assert.ok(repo);
+    // A merge commit: its second parent is the head of the pull request.
+    git(repo.work, 'checkout', '--quiet', '--detach', repo.inMain);
+    git(repo.work, 'checkout', '--quiet', '-b', 'pr-head');
+    writeFileSync(join(repo.work, 'jeu.txt'), 'un changement\n');
+    git(repo.work, 'add', 'jeu.txt');
+    git(repo.work, 'commit', '--quiet', '-m', 'the pull request');
+    const head = git(repo.work, 'rev-parse', 'HEAD');
+    git(repo.work, 'checkout', '--quiet', '--detach', repo.inMain);
+    git(repo.work, 'merge', '--quiet', '--no-ff', '--no-edit', head);
+    const tree = git(repo.work, 'rev-parse', 'HEAD^{tree}');
+    // The same tree, green: nothing to run again. The question names the head, the pull
+    // requests, the successes, and keeps the runs of this repository only.
+    const same = runAlready('41 42', tree);
+    assert.equal(same.answer, 'deja=true');
+    assert.match(
+      same.question,
+      new RegExp(`runs\\?event=pull_request&head_sha=${head}&status=success`),
+    );
+    assert.match(same.question, /select\(\.head_repository\.full_name == "someone\/game"\)/);
+    // Another tree (the base moved), no green run, GitHub silent: everything runs.
+    assert.equal(runAlready('41', 'f'.repeat(40)).answer, 'deja=false');
+    assert.equal(runAlready('', tree).answer, 'deja=false');
+    assert.equal(runAlready('41', tree, true).answer, 'deja=false');
+    // A commit that is no merge (a push straight to main, a squash): GitHub is not even asked.
+    git(repo.work, 'checkout', '--quiet', '--detach', head);
+    const straight = runAlready('41', git(repo.work, 'rev-parse', 'HEAD^{tree}'));
+    assert.equal(straight.answer, 'deja=false');
+    assert.equal(straight.question, '');
+  },
+);
+
 // The tests above run the guard and hold what matters most in the two files. They cannot see
 // everything a change could do (a failure swallowed further down, a variable set for every
 // step, a line that behaves differently on GitHub's machine): two attempts to break them
@@ -395,7 +506,7 @@ test('for a push, the scope of the CI answers « everything », whatever was cha
 // every commit. It is made here too, on purpose, after reading `docs/SITE.md`, « Publier ».
 const FINGERPRINTS = {
   'deploy-site.yml': 'f355fe13b1aabfe21f9437fc0d0d347582dd5df1a9cc97e3d984327a3288f181',
-  'check.yml': '85f6c74df20bfcf07a07e0422cd4992dd7a5d8606bcc058e2492486bdb937ddb',
+  'check.yml': '7e3eb51da3afbbd2f52e5a5152898bdef8dc90e7d81b195b76b5d3d4a728ab89',
 };
 
 test('the workflow that publishes and the one that judges are the ones that were read', () => {
