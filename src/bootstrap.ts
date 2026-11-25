@@ -41,6 +41,7 @@ import './ui/mainActions.css';
 import './ui/homeClearing.css';
 import './ui/homeSkin.css';
 import './ui/windowSkin.css';
+import './ui/campSkin.css';
 import { byId } from './ui/dom.ts';
 import { createRecordBook } from './endlessRecords.ts';
 import { createSaving } from './boot/saving.ts';

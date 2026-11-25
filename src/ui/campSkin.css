@@ -1,0 +1,75 @@
+/*
+ * Le camp à l'allure du premier écran (« Continuer les menus », lot 7, 25 novembre 2026) : la
+ * préparation d'une mission, les serpents annoncés, l'aide des outils, la colonne des alliés du
+ * combat. Leur cadre et leurs boutons clairs viennent de windowSkin.css. Comme pour les pages :
+ * seuls le trait, l'ombre et les couleurs changent, jamais une taille ni une place. Le plateau,
+ * la barre du haut et le catalogue des alliés gardent leur dessin : rien ne doit gêner la
+ * lecture du combat. Choix tirés de trois regards (critique de design, accessibilité,
+ * système de design comparé aux meilleures ventes du genre) : docs/BILAN-MENUS-LOT-7-2026-11-25.md.
+ */
+
+/* Au clavier, dans une fenêtre de papier : l'anneau doré ne se voyait pas sur le papier (1,8:1)
+   ni sur un bouton miel (1,1:1). Il prend l'encre (13:1), même largeur, même écart. « Qui
+   joue ? », vert foncé, et le catalogue des alliés gardent l'anneau doré, lisible sur eux. */
+body :where(dialog:not(#reinforcements, #players-dialog)) :focus-visible {
+  outline-color: var(--clearing-ink);
+}
+
+/* ---- La préparation d'une mission ---- */
+/* Les onglets : au repos, le bouton clair posé ; ouvert, enfoncé (sans ombre portée, reflet en
+   bas, trait d'encre plein) et vert, comme une carte choisie. Pas de miel : le miel dit « à
+   jouer ». Tous partent du même papier : l'onglet des caprices avait son propre fond, qui le
+   faisait paraître toujours ouvert (caprices.css). */
+body #mission-dialog .preparation-nav button:not(:disabled) {
+  border-color: var(--clearing-ink);
+  background-color: var(--paper);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+body #mission-dialog .preparation-nav button[aria-pressed='true']:not(:disabled) {
+  background-color: #d9f1e2;
+  box-shadow:
+    inset 0 0 0 2.5px var(--clearing-ink),
+    inset 0 3px 0 rgba(20, 14, 6, 0.18);
+}
+/* Un caprice choisi, « Mission normale » choisie, un copain choisi : le signe passe du contour
+   (que l'anneau du clavier remplaçait) à un trait intérieur, et « Mission normale » choisie en
+   reçoit un : elle n'en avait aucun. */
+body #mission-dialog .caprice-row button[aria-pressed='true'],
+body #mission-dialog #mission-normal[aria-pressed='true'] {
+  background-color: #ffebbc;
+  box-shadow: inset 0 0 0 3px #bc742c;
+}
+body #mission-dialog .caprice-friends button[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 2px #426e4d;
+}
+body #mission-dialog .caprice-row button[aria-pressed='true']:not(:focus-visible),
+body #mission-dialog .caprice-friends button[aria-pressed='true']:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---- Les serpents annoncés (préparation et fenêtre des dangers) ---- */
+/* Des informations, pas des boutons : le trait d'encre, sans relief. */
+body :is(#mission-dialog, #threat-dialog) .threat-card {
+  border-color: var(--clearing-ink);
+}
+
+/* ---- La colonne des alliés, pendant le combat ---- */
+/* Le trait d'encre sur chaque pièce ; le relief rentré de la pâte reste (craftSurfaces.css) :
+   une ombre portée toucherait la rangée voisine, à 4 px. */
+.app .battle-dock button:not(:disabled) {
+  border-color: var(--clearing-ink);
+}
+/* Choisi : le trait d'encre, pour ne plus avoir la couleur de l'anneau du clavier (vert jade). */
+.app .battle-dock button[aria-pressed='true']:not(:disabled) {
+  border-color: var(--clearing-ink);
+}
+/* Trop cher (hors pause) : la pastille du prix perd son miel, comme au catalogue. En pause,
+   toutes les cartes sont éteintes et gardent leur pastille : « trop cher » et « en pause » ne
+   se confondent plus. */
+.app:not(:has(#pause-overlay:not([hidden]))) .battle-dock .dock-card:disabled .dock-price {
+  background-color: #e4e1d3;
+  color: #53604d;
+  box-shadow: inset 0 0 0 1px rgba(18, 48, 42, 0.5);
+}
