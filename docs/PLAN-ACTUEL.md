@@ -118,7 +118,7 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   (publication n° 55, mot du parent du 25 novembre)**.
 - **Nuit du 25 au 26 novembre — neuvième lot des menus : la fin d'une partie et la pause**
   ([bilan](BILAN-MENUS-LOT-9-2026-11-25.md)), fait seul à la demande du parent, dans la règle :
-  panneau du résultat à l'encre, action principale en pâte miel, boutons clairs. Rien ne bouge.
+  panneau du résultat à l'encre, boutons clairs, anneau du clavier à l'encre. Rien ne bouge.
   **Pas encore publié : il faut le mot du parent.**
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.

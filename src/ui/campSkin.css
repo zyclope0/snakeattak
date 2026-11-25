@@ -371,9 +371,11 @@ body #app #reinforcements #catalog-tools[open] > summary::before {
 /* La pause, voile sombre : ses boutons clairs prennent ceux des menus ; l'anneau du clavier y
    garde l'or, qui se voit sur le voile. */
 /* Le panneau du résultat : le trait d'encre et l'ombre posée des fenêtres, son reflet gardé.
-   L'action principale prend le bouton en pâte miel (homeSkin.css) ; les autres, le bouton
-   clair des menus ; l'anneau du clavier, l'encre (l'or ne se voyait ni sur le papier ni sur
-   le miel). Ni taille ni place ne changent. */
+   Les boutons clairs (et « Voir mon carnet », qui n'en est pas un) prennent le bouton clair des
+   menus ; l'anneau du clavier, dessiné sur le papier du panneau, l'encre (l'or y faisait
+   2,1:1). L'action principale garde son miel plat : en pâte, sur un bouton étroit, ses
+   lettres débordaient sur le rebord du dessin (question pour le parent). Ni taille ni place
+   ne changent. */
 body #battle-result {
   border-color: var(--clearing-ink);
   box-shadow:
@@ -383,7 +385,7 @@ body #battle-result {
 body #battle-result :focus-visible {
   outline-color: var(--clearing-ink);
 }
-body #battle-result .secondary:not(:disabled),
+body #battle-result :is(.secondary, #result-caprice-album):not(:disabled),
 body #pause-overlay .secondary:not(:disabled) {
   color: var(--clearing-ink);
   background-color: var(--paper);
@@ -392,7 +394,7 @@ body #pause-overlay .secondary:not(:disabled) {
     inset 0 0 0 1.5px var(--clearing-ink),
     var(--clearing-drop);
 }
-body #battle-result .secondary:not(:disabled):hover,
+body #battle-result :is(.secondary, #result-caprice-album):not(:disabled):hover,
 body #pause-overlay .secondary:not(:disabled):hover {
   background-color: #fffbee;
 }
