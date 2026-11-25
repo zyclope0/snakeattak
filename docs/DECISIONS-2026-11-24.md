@@ -75,6 +75,9 @@ maquette de synthèse D « la clairière » en est sortie.
   reste à décider avec lui : rien n'est envoyé à Google.
 - **La suite choisie par le parent** : « Continuer les menus ». Deuxième lot : la page
   Missions ([bilan](BILAN-MENUS-LOT-2-2026-11-24.md)).
+- **Publier les lots 2, 3 et 4 des menus** (25 novembre) : « publie », après mon message
+  disant que les trois lots étaient fusionnés mais pas en ligne. Publication n° 52 (commit
+  `bffd3d2` : Missions et en-tête, le voyage et La Grande Expédition, Favoris).
 
 ## Ce qui reste à décider
 

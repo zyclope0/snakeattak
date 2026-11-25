@@ -62,7 +62,7 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   corrections dans des états de plus en plus rares (la marque « Partie non gardée » coupée de
   l'en-tête, la version absente de « Pour les parents », la roue sous son voisin), tous
   corrigés avant fusion (PR 148, `main` = `19e245a`). APK de test : seul le v14 a la version
-  finale. **Pas encore publié : il faut le mot du parent.**
+  finale. Publié le 25 novembre avec les lots 3 et 4 (publication n° 52).
 - **25 novembre — troisième lot des menus : La Grande Expédition et le voyage**
   ([bilan](BILAN-MENUS-LOT-3-2026-11-25.md)) : le trait d'encre, l'ombre et le liseré miel de
   la page Missions, sans rien déplacer (9 941 boîtes mesurées, toutes identiques). Deux
@@ -71,15 +71,16 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   achetable, puis l'arrêt à jouer du voyage qui avait perdu son liseré miel ;
   `test:mobile-menus` garde maintenant le second. Troisième relecture : rien de bloquant.
   Fusionné (PR 149, `main` = `4cd545b`). APK de test : le v15 a les lots 2 et 3 dans leur
-  état final. **Pas encore publié : il faut le mot du parent**, comme pour le lot 2.
+  état final. Publié avec les lots 2 et 4 (publication n° 52).
 - **25 novembre — quatrième lot des menus : la page Favoris**
   ([bilan](BILAN-MENUS-LOT-4-2026-11-25.md)) : trait d'encre, ombre nette et coins ronds sur
   les cartes des alliés, boutons clairs du voyage, et un bouton « Précédents » ou
   « Suivants » qui pâlit quand il n'y a rien à tourner. Rien ne bouge (7 542 boîtes
   mesurées, toutes identiques). La relecture indépendante ne trouve aucune règle d'état
   écrasée ; elle a vu l'anneau du clavier d'une carte en partie caché par une ombre neuve,
-  corrigé avant la demande de fusion. Ensuite, page par page : « Pour les parents », les
-  fenêtres, puis le camp.
+  corrigé avant la demande de fusion. Fusionné (PR 150, `main` = `bffd3d2`) et **publié
+  avec les lots 2 et 3 (publication n° 52, mot du parent du 25 novembre)**. APK de test : le
+  v16. Ensuite, page par page : « Pour les parents », les fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
