@@ -205,6 +205,7 @@ const voyageState = (page) =>
       stops: stops.map((stop) => ({
         state: stop.dataset.state,
         relief: getComputedStyle(stop).boxShadow,
+        disc: getComputedStyle(stop.querySelector('.stop-badge') ?? stop).backgroundColor,
         spoken: [...stop.querySelectorAll('.sr-only')].map((node) => node.textContent),
         caprice: stop.querySelector('.stop-caprice')?.getAttribute('aria-label') ?? null,
         sticker: stop.querySelector('.stop-caprice svg')?.dataset.capriceSticker ?? null,
@@ -601,10 +602,14 @@ export async function checkVoyage({ browser, url, check, capture }) {
           state.stops.map((stop) => stop.state).join() === 'done,done,next,ahead,ahead',
         `five stops, two done, the third to play, ${report}`,
       );
-      // The child finds the stop to play at a glance: a dressing rule must not flatten the three.
+      // The child finds the stop to play at a glance: a dressing rule must not flatten the three,
+      // neither their relief nor the disc of their number, nor leave the stop to play flat.
+      const trio = state.stops.slice(1, 4);
       check(
-        new Set(state.stops.slice(1, 4).map((stop) => stop.relief)).size === 3,
-        `a stop done, the stop to play and a stop not there yet each have their own relief, ${report}`,
+        trio[1]?.relief !== 'none' &&
+          new Set(trio.map((stop) => stop.relief)).size === 3 &&
+          new Set(trio.map((stop) => stop.disc)).size === 3,
+        `a stop done, the stop to play and a stop not there yet each have their own relief and their own number disc, ${report}`,
       );
       check(
         state.stops.every((stop, index) => stop.spoken[0] === copyName(t, index, stops, language)),

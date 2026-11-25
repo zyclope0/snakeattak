@@ -58,8 +58,34 @@ montraient un défaut bloquant, apporté par la correction elle-même :
   trois arrêts ont le même relief**. Jouée sur la version cassée, elle échoue sur ce
   contrôle ; sur la version réparée, elle passe.
 
-Une troisième relecture indépendante a ensuite attaqué ce dernier état, avec pour consigne
-de chercher ce défaut-là partout : voir plus bas.
+## La troisième relecture : rien de bloquant
+
+Une troisième relecture indépendante a attaqué ce dernier état, avec pour consigne de
+chercher ce défaut-là partout : chaque règle de l'habillage, son poids, et chaque règle
+d'état qu'elle pourrait écraser.
+
+- **160 états joués dans Chromium** (16 vues semées par le vrai moteur, deux tailles, au
+  repos, sous la souris, enfoncé, au clavier, éteint), 10 585 éléments comparés, tête contre
+  la version fusionnée : aucune distinction d'état que le jeu peut produire n'a disparu.
+  Les cartes de la roulotte sont exactement celles d'avant dans les cinq états. L'or des
+  braves et le violet du gardien sont gardés. L'anneau du clavier est intact partout.
+- **Les vues que personne n'avait regardées** : le camp tombé (joué pour de vrai, en
+  français, quatre tailles), le voyage fini et l'arrivée d'une expédition (français et
+  anglais, trois tailles). Rien de cassé.
+- **Le nouveau contrôle de la recette laissait passer deux fautes** de la même famille :
+  les trois numéros devenus pareils, et un arrêt à jouer sans relief du tout. Il lit
+  maintenant aussi le disque du numéro et refuse un arrêt à jouer plat. Rejoué sur les trois
+  fautes (celle du lot et ces deux-là, injectées dans la page construite) : il échoue sur
+  les trois, et passe sur la version fusionnée comme sur la tête.
+- **Deux pièges qui dorment**, notés pour plus tard : un bouton clair ou un cadeau _éteint_
+  garderait tout son relief (le jeu n'en éteint aucun aujourd'hui, hors de la roulotte) ; le
+  trait pâle de l'arrêt pas encore là ne tient qu'à l'ordre de deux règles voisines de même
+  poids.
+- **Deux allures changées exprès** : l'arrêt fait et l'arrêt à jouer ont le même trait
+  d'encre (ils se distinguent par le liseré miel, la taille et le numéro) ; leurs numéros
+  ont le même trait (le vert et le miel du disque restent).
+- **Cosmétique** : l'ombre des cartes de l'expédition, plus sombre, arrive au ras du
+  pointillé du pied (même place qu'avant, où elle était sable sur sable). Regardé : ça passe.
 
 ## Comment c'est vérifié
 
@@ -89,9 +115,12 @@ de chercher ce défaut-là partout : voir plus bas.
 ## Ce qui n'est pas vérifié
 
 - **Rien sur un vrai téléphone, rien avec les enfants.**
-- L'arrivée d'une expédition, la fin d'un voyage et le camp tombé n'ont pas été regardés : les
-  mêmes règles s'y appliquent, et les recettes les jouent pour la mise en page, pas pour
-  l'allure.
+- Le voyage fini n'a été vu que sur la page de recette, pas dans la vraie application (il
+  faudrait y battre le roi) ; le camp tombé joué pour de vrai n'a été vu qu'en français.
+- La page de recette du voyage (`tests/voyage-038-harness.ts`) ne charge pas l'habillage :
+  les captures de fin de voyage des recettes montrent la mise en page, pas l'allure. Plus
+  ancien (lots 1 et 2 compris).
+- La souris et le doigt sont simulés ; seule la marche au clavier est réelle.
 - Les fenêtres du voyage (la question, le caprice) ne sont pas touchées : ce sont des
   fenêtres, pour le lot des fenêtres.
 - Les restes du lot 2 sur ces deux pages ne sont pas traités ici : dans une fenêtre
@@ -106,13 +135,15 @@ de chercher ce défaut-là partout : voir plus bas.
   fusionnée. Mise en page, pour un lot à part.
 - L'anneau du clavier d'un bouton collé au bord du panneau (« Une autre expédition ») perd
   1 px sous le trait d'encre du panneau ; il était déjà rogné de 1 px.
-- Personne n'a regardé un voyage fini (cinq arrêts faits). L'anglais est mesuré boîte par
-  boîte, pas regardé.
+- L'anglais est mesuré boîte par boîte, et regardé sur trois vues seulement.
+- **Défaut plus ancien** : à 780 × 360, le panneau de l'expédition défile de 2 px au choix
+  entre deux chemins et devant le gardien.
 
 ## Recettes jouées avant de pousser
 
 - **Sur la version réparée (le dernier état)** : `test:mobile-menus` en entier (8 607
-  contrôles, dont les huit nouveaux sur le relief des arrêts), `test:expedition`,
+  contrôles, dont les huit nouveaux sur le relief des arrêts ; la moitié « voyage » rejouée
+  après le renfort du contrôle), `test:expedition`,
   `test:journey`, `test:audit`, `test:child-mobile`, `test:offline`, `test:mission-journey`,
   `test:browser`, `test:android-web`, `test:locale`, les 1 051 tests unitaires, le format,
   les builds du site et de l'application.

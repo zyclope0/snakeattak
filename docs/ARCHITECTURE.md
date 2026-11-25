@@ -888,7 +888,9 @@ rien : la mise en page reste celle de `homePages.css`.
   qu'aucune boîte ne bouge. Deux garde-fous : ne pas réunir dans un `:is()` deux éléments de
   poids différents (il prend le plus lourd pour tous), et regarder chaque état après chaque
   changement de sélecteur. `test:mobile-menus` refuse une carte du voyage où l'arrêt fait,
-  l'arrêt à jouer et l'arrêt pas encore là ont le même relief.
+  l'arrêt à jouer et l'arrêt pas encore là ont le même relief ou le même disque de numéro,
+  ou dont l'arrêt à jouer est plat. Un bouton clair ou un cadeau éteint du voyage garderait
+  son relief : le jour où le jeu en éteint un, lui écrire sa règle.
 
 Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
 `14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :
