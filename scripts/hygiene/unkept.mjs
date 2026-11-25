@@ -229,6 +229,31 @@ async function placedOnPages(page, label) {
     );
     assert.ok(at.right - at.x >= 48 && at.bottom - at.y >= 48, `${tag}: a fair target`);
     assert.equal(found.on, null, `${tag}: nothing drawn over its middle`);
+    // Missions is the page whose top row is the shortest (two buttons beside the header):
+    // on the smallest phones the header has less room than the mark. It leaves the last, so
+    // it is still in the row, on top of its neighbour.
+    if (name === 'missions') {
+      const own = page.viewportSize();
+      for (const size of [SMALL_PHONE, { width: 640, height: 360 }]) {
+        await page.setViewportSize(size);
+        const short = await page.evaluate(() => {
+          const mark = document.querySelector('#unkept-mark');
+          const header = document
+            .querySelector('#home-screen .home-header')
+            .getBoundingClientRect();
+          const r = mark.getBoundingClientRect();
+          const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+          return {
+            row: r.top < header.bottom - 0.5 && r.bottom > header.top + 0.5,
+            on: top === mark || mark.contains(top) ? null : top?.id || top?.tagName || 'nothing',
+          };
+        });
+        const at = `${label}, page missions at ${size.width}×${size.height}`;
+        assert.ok(short.row, `${at}: the mark is the last piece to leave the header`);
+        assert.equal(short.on, null, `${at}: nothing drawn over its middle`);
+      }
+      await page.setViewportSize(own);
+    }
     await page.locator('#home-back').click();
     await page.locator('#home-screen[data-page="home"]').waitFor();
   }

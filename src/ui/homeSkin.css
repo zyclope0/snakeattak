@@ -134,6 +134,14 @@ body #home-screen:not([data-page='home']) .home-header button#unkept-mark {
 body #home-screen:not([data-page='home']) .home-header #home-settings {
   order: -2;
 }
+/* Quand la colonne de l'en-tête est plus étroite que la marque ou que la roue (petit
+   téléphone à grosses barres, fenêtre debout étroite), elles débordent sur leur voisin de
+   rangée : elles se posent dessus, pour rester à portée du doigt. Dessous, la roue n'ouvrait
+   plus les réglages et la marque ne disait plus rien. */
+body #home-screen:not([data-page='home']) .home-header :is(button#unkept-mark, #home-settings) {
+  position: relative;
+  z-index: 1;
+}
 body #home-screen:not([data-page='home']) .home-header .home-stars {
   order: -1;
 }
@@ -142,11 +150,22 @@ body #home-screen:not([data-page='home']) .home-header .home-brand {
   margin-right: auto;
 }
 /* Missions dans une fenêtre debout étroite : deux boutons dans la rangée, il reste à
-   l'en-tête moins que la roue. Elle y a la taille d'un doigt, pour mordre le moins possible
-   sur le bouton voisin. */
-@media (orientation: portrait) and (max-width: 640px) {
+   l'en-tête moins que la roue (sous 622 px de large en français). Elle y a la taille d'un
+   doigt, pour mordre le moins possible sur le bouton voisin. */
+@media (orientation: portrait) and (max-width: 620px) {
   body #home-screen[data-page='missions'] .home-header {
     --settings-size: 48px;
+  }
+}
+/* Fenêtre debout étroite, partie non gardée : la rangée est trop courte pour la marque et la
+   roue, mais la place ne manque pas en hauteur. La roue passe sous la marque, à portée,
+   comme avant ce lot, au lieu d'être coupée. (Sous 1000 px de large, un écran debout ne
+   montre ni le nom du jeu ni le total : rien d'autre ne passe à la ligne.) */
+@media (orientation: portrait) and (max-width: 999.98px) {
+  body #home-screen:not([data-page='home']) .home-header:has(button#unkept-mark) {
+    height: auto;
+    row-gap: calc(var(--hu) * 0.6);
+    overflow: visible;
   }
 }
 

@@ -384,9 +384,12 @@
   gap: calc(var(--hu) * 1.2);
 }
 /* Le numéro de version, pour un parent : au bout de la ligne de sauvegarde de « Pour les
-   parents » (il a quitté le premier écran le 24 novembre 2026). Il ne se répète pas ailleurs,
-   ni là où le titre du jeu le porte déjà dans l'en-tête (grand écran, plus bas). */
-#home-screen .home-footer .build-version {
+   parents » (il a quitté le premier écran le 24 novembre 2026), sur tout écran. Il ne se
+   répète pas ailleurs : sur cette page, le titre du jeu ne le porte pas dans l'en-tête. Le
+   titre est la première pièce que l'en-tête lâche quand la place manque (homeSkin.css) : la
+   version partait avec lui, quand la marque « Partie non gardée » prenait sa place. */
+#home-screen .home-footer .build-version,
+#home-screen[data-page='parents'] .home-brand .build-version {
   display: none;
 }
 #home-screen[data-page='parents'] .home-footer .build-version {
@@ -540,9 +543,6 @@
 @media (min-width: 1000px) and (min-height: 680px) {
   #home-screen:not([data-page='home']) .home-brand {
     display: inline-flex;
-  }
-  #home-screen[data-page='parents'] .home-footer .build-version {
-    display: none;
   }
   #home-screen:not([data-page='home']) .home-header {
     justify-content: space-between;
