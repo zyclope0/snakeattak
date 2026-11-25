@@ -878,6 +878,19 @@ rien : la mise en page reste celle de `homePages.css`.
   change que le trait, l'ombre et les couleurs. Trait d'encre, ombre posée ; la mission à
   jouer porte un liseré miel (`--clearing-honey`) et sa flèche est sur un pain de miel ; une
   mission pas encore ouverte a un trait pâle, sans relief.
+- **Le voyage et La Grande Expédition** : le même habillage, écrit à la fin de
+  `ui/voyage/voyage.css` (une feuille chargée à part, avec ses écrans), avec les couleurs
+  nommées de la clairière. Mêmes règles : le trait, l'ombre et les couleurs, jamais une
+  taille ; les couleurs qui ont un sens (l'or des braves, le violet du gardien, la terre
+  cuite du camp tombé) restent. La roulotte n'est pas habillée.
+- **Une règle d'habillage pèse lourd** (`body #home-screen …`) : elle peut écraser une règle
+  d'état d'une feuille chargée à part (éteint, sous la souris, à jouer, pas encore là), sans
+  qu'aucune boîte ne bouge. Deux garde-fous : ne pas réunir dans un `:is()` deux éléments de
+  poids différents (il prend le plus lourd pour tous), et regarder chaque état après chaque
+  changement de sélecteur. `test:mobile-menus` refuse une carte du voyage où l'arrêt fait,
+  l'arrêt à jouer et l'arrêt pas encore là ont le même relief ou le même disque de numéro,
+  ou dont l'arrêt à jouer est plat. Un bouton clair ou un cadeau éteint du voyage garderait
+  son relief : le jour où le jeu en éteint un, lui écrire sa règle.
 
 Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
 `14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :

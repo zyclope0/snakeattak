@@ -775,3 +775,99 @@
     padding-block: calc(var(--hu) * 1.4);
   }
 }
+
+/* ---- L'habillage du premier écran (« la clairière ») sur le voyage et La Grande Expédition.
+   Comme pour les cartes des missions (ui/homeSkin.css) : seuls le trait, l'ombre et les
+   couleurs changent ; aucune taille, aucune place. Les couleurs de la pâte sont nommées dans
+   ui/homeClearing.css. Les couleurs qui disent quelque chose restent : l'or du chemin des
+   braves, le violet du gardien, la terre cuite du camp tombé, le vert de ce qui est fait.
+   La roulotte garde son dessin d'avant : une carte trop chère s'y reconnaît à son trait pâle
+   et sans relief, et ses rangées serrées laissent déborder un long texte sur un téléphone
+   (défaut plus ancien), qu'un trait d'encre barrerait. ---- */
+/* Le grand panneau de papier : le trait d'encre rentré et l'ombre posée des autres pages. */
+body #home-screen .voyage-panel {
+  outline: max(2px, calc(2.5 * var(--s))) solid var(--clearing-ink);
+  outline-offset: calc(-1 * max(2px, calc(2.5 * var(--s))));
+  box-shadow: var(--clearing-lift);
+}
+/* Les cartes : un arrêt du voyage, une carte de l'expédition, un cadeau à choisir. Chacune
+   garde la hauteur de son relief. Deux sélecteurs et non un `:is()` : il donnerait à l'arrêt
+   le poids du cadeau, et cette règle écraserait celles de l'arrêt à jouer, pas encore là ou
+   tombé, plus bas. */
+body #home-screen .voyage-stop,
+body #home-screen .bonus-card:not(.exp-shop .bonus-card) {
+  box-shadow:
+    inset 0 3px 0 #fffbea,
+    0 5px 0 rgba(20, 14, 6, 0.55);
+}
+body #home-screen .exp-card {
+  box-shadow:
+    inset 0 3px 0 #fffbea,
+    0 4px 0 rgba(20, 14, 6, 0.55);
+}
+body #home-screen .voyage-stop:not([data-state='fallen']),
+body #home-screen .exp-card:not([data-path='brave'], [data-path='guardian']),
+body #home-screen .bonus-card:not(.exp-shop .bonus-card) {
+  border-color: var(--clearing-ink);
+}
+/* L'arrêt à jouer : le liseré miel de la mission à jouer. */
+body #home-screen .voyage-stop[data-state='next'] {
+  box-shadow:
+    inset 0 0 0 3px var(--clearing-honey),
+    0 5px 0 var(--clearing-wood);
+}
+/* Pas encore là : le même trait, plus pâle, presque sans relief. */
+body #home-screen .voyage-stop[data-state='ahead'] {
+  border-color: rgba(18, 48, 42, 0.5);
+  box-shadow:
+    inset 0 3px 0 #eeeede,
+    0 4px 0 rgba(20, 14, 6, 0.28);
+}
+body #home-screen .voyage-stop[data-state='fallen'] {
+  box-shadow:
+    inset 0 3px 0 #eeeede,
+    0 4px 0 rgba(20, 14, 6, 0.28);
+}
+/* Le terrain d'une carte : un liseré d'encre à la place du liseré de sable. */
+body #home-screen .stop-map {
+  box-shadow: 0 0 0 2px rgba(18, 48, 42, 0.6);
+}
+/* Le numéro d'un arrêt du voyage. */
+body #home-screen .voyage-stop .stop-badge {
+  border-color: var(--clearing-ink);
+  box-shadow: 0 3px 0 rgba(20, 14, 6, 0.55);
+}
+body #home-screen .voyage-stop[data-state='next'] .stop-badge {
+  background: var(--clearing-honey);
+  color: var(--clearing-wood);
+  box-shadow: 0 3px 0 var(--clearing-wood);
+}
+body #home-screen .voyage-stop[data-state='ahead'] .stop-badge {
+  border-color: rgba(18, 48, 42, 0.5);
+  box-shadow: none;
+}
+body #home-screen .voyage-stop[data-state='fallen'] .stop-badge {
+  border-color: #b9785a;
+  box-shadow: 0 3px 0 #b9785a;
+}
+/* Le pied du panneau : ce qu'on porte (le disque garde son jaune pâle, sur lequel les pièces
+   et le pot de miel se lisent), et les boutons clairs du panneau. */
+body #home-screen .voyage-foot {
+  border-top-color: rgba(18, 48, 42, 0.35);
+}
+body #home-screen .bag-card {
+  border-color: var(--clearing-ink);
+}
+body #home-screen .bag-empty {
+  border-color: rgba(18, 48, 42, 0.45);
+}
+body #home-screen :is(.voyage-foot, .exp-ask-actions) button:not(.primary) {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 calc(1.5 * var(--s)) var(--clearing-ink),
+    0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.55);
+}
+/* Sous la souris, un cadeau à choisir garde son liseré vert. */
+body #home-screen .bonus-card:not(.exp-shop .bonus-card):hover {
+  border-color: #48754a;
+}
