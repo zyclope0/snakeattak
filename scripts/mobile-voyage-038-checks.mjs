@@ -204,6 +204,7 @@ const voyageState = (page) =>
       ),
       stops: stops.map((stop) => ({
         state: stop.dataset.state,
+        relief: getComputedStyle(stop).boxShadow,
         spoken: [...stop.querySelectorAll('.sr-only')].map((node) => node.textContent),
         caprice: stop.querySelector('.stop-caprice')?.getAttribute('aria-label') ?? null,
         sticker: stop.querySelector('.stop-caprice svg')?.dataset.capriceSticker ?? null,
@@ -599,6 +600,11 @@ export async function checkVoyage({ browser, url, check, capture }) {
         state.stops.length === 5 &&
           state.stops.map((stop) => stop.state).join() === 'done,done,next,ahead,ahead',
         `five stops, two done, the third to play, ${report}`,
+      );
+      // The child finds the stop to play at a glance: a dressing rule must not flatten the three.
+      check(
+        new Set(state.stops.slice(1, 4).map((stop) => stop.relief)).size === 3,
+        `a stop done, the stop to play and a stop not there yet each have their own relief, ${report}`,
       );
       check(
         state.stops.every((stop, index) => stop.spoken[0] === copyName(t, index, stops, language)),

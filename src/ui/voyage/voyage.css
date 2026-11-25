@@ -791,8 +791,11 @@ body #home-screen .voyage-panel {
   box-shadow: var(--clearing-lift);
 }
 /* Les cartes : un arrêt du voyage, une carte de l'expédition, un cadeau à choisir. Chacune
-   garde la hauteur de son relief. */
-body #home-screen :is(.voyage-stop, .bonus-card:not(.exp-shop .bonus-card)) {
+   garde la hauteur de son relief. Deux sélecteurs et non un `:is()` : il donnerait à l'arrêt
+   le poids du cadeau, et cette règle écraserait celles de l'arrêt à jouer, pas encore là ou
+   tombé, plus bas. */
+body #home-screen .voyage-stop,
+body #home-screen .bonus-card:not(.exp-shop .bonus-card) {
   box-shadow:
     inset 0 3px 0 #fffbea,
     0 5px 0 rgba(20, 14, 6, 0.55);
