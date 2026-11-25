@@ -25,6 +25,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-PETITS-RESTES-2026-11-24.md](BILAN-PETITS-RESTES-2026-11-24.md) | Phrase des fichiers manquants et bouton « retour » d'Android : fait, vérifié, pas essayé sur le téléphone             |
 | [BILAN-ACCUEIL-2026-11-24.md](BILAN-ACCUEIL-2026-11-24.md)             | Premier écran « la clairière » : fait, mesuré sur 36 cas, pas essayé sur le téléphone ni avec les enfants             |
 | [BILAN-MENUS-2026-11-24.md](BILAN-MENUS-2026-11-24.md)                 | Menus à l'allure du premier écran, lot 1 : habillage commun et « Aventure classique »                                 |
+| [BILAN-MENUS-LOT-2-2026-11-24.md](BILAN-MENUS-LOT-2-2026-11-24.md)     | Menus, lot 2 : la page Missions et l'en-tête des pages                                                                |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version construite (build 62)                                                             |

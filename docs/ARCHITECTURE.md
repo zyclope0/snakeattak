@@ -836,7 +836,7 @@ rien : la mise en page reste celle de `homePages.css`.
   refusé par deux recettes (un bouton à deux lignes compté comme coupé, 32 px cachés dans un
   panneau).
 - Les couleurs et les ombres de la pâte (`--clearing-ink`, `--clearing-paper`,
-  `--clearing-wood`, `--clearing-ring`, `--clearing-lift`) sont nommées une fois, sur
+  `--clearing-wood`, `--clearing-honey`, `--clearing-ring`, `--clearing-lift`) sont nommées une fois, sur
   `#home-screen`, dans `homeClearing.css`. Chaque page donne l'unité `--s` : un pixel d'un
   téléphone de 780 × 360 (sur les autres pages, le dixième de `--hu`).
 - Le trait d'encre autour des cartes et des boutons clairs ne prend aucune place (ombre
@@ -849,6 +849,35 @@ rien : la mise en page reste celle de `homePages.css`.
   sont dérivées par `scripts/build-home-scene.py` ; les grands terrains (500 à 600 Ko) ne
   sont chargés qu'en entrant dans un chapitre. Le code qui les chargeait au survol d'une
   vignette est retiré (`ui/menu.ts`).
+- **L'en-tête des pages tient toujours sur une rangée, sans seuil à régler.** Il partage sa
+  rangée avec « ← Accueil » et les boutons de la page, deux sur Missions. Ses pièces se
+  rangent depuis la droite (`flex-flow: row-reverse wrap`), dans l'ordre de leur importance
+  (`order`) : la marque « Partie non gardée » quand elle est là, la roue, le total des
+  étoiles, le nom du jeu. Celle qui ne tient plus passe à la ligne, loin dessous
+  (`row-gap: 100vh`), et l'en-tête n'a que la hauteur d'une ligne (`--settings-size`, la
+  taille de la roue, nommée dans `settingsDialog.css`) : le reste est coupé
+  (`overflow: visible clip`, au bord d'une marge intérieure de 8 px qui laisse entier
+  l'anneau du clavier). Une pièce coupée reste dans la page pour un lecteur d'écran. **Une
+  pièce ajoutée à l'en-tête doit recevoir son rang** : sans `order`, elle part la première
+  (c'est arrivé à la marque, vu par un relecteur ; `test:saves:unkept` le contrôle, jusque
+  sur la rangée la plus courte). La marque et la roue se posent sur leur voisin de rangée
+  quand la colonne de l'en-tête est plus étroite qu'elles (`z-index`) : dessous, elles ne
+  répondaient plus. Dans une fenêtre debout étroite, quand la marque est là, l'en-tête
+  reprend deux lignes (`:has(button#unkept-mark)`) : la place n'y manque pas en hauteur.
+  **Sur « Pour les parents », la version est au pied de page sur tout écran**, pas dans le nom
+  du jeu, qui est la première pièce à partir.
+  Avant, c'est la roue, dernière de la rangée, qui passait à la ligne (`flex-wrap` posé dans
+  `i18n/language.css`). Un premier jet à seuils (`@container`, 600 et 170 px) cachait le total
+  là où il tenait encore, et un conteneur de mesure sur l'en-tête change le repère de ses
+  enfants posés en absolu sur les WebView d'avant 129 : l'en-tête n'en est pas un.
+- **« ← Accueil » et le total des étoiles ont leur unité, `--k`** : celle de la page (`--s`)
+  sur un écran couché, donc les tailles du premier lot. Dans une fenêtre debout (un
+  ordinateur : un téléphone debout demande à être tourné), la rangée est étroite et `--s`
+  monte vite : `--k` y est plafonnée à 1 px, la taille du téléphone de 780 × 360.
+- **Missions** : les cartes gardent leur papier, leur taille et leur place ; l'habillage ne
+  change que le trait, l'ombre et les couleurs. Trait d'encre, ombre posée ; la mission à
+  jouer porte un liseré miel (`--clearing-honey`) et sa flèche est sur un pain de miel ; une
+  mission pas encore ouverte a un trait pâle, sans relief.
 
 Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
 `14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :

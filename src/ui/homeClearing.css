@@ -20,6 +20,7 @@ body #home-screen {
   --clearing-ink: #12302a;
   --clearing-paper: #f7f1dc;
   --clearing-wood: #4a2c08;
+  --clearing-honey: #f6c452;
   /* Un contour plein autour des lettres posées sur le décor : huit ombres nettes, sans flou. */
   --clearing-ring:
     calc(1.6 * var(--s)) 0 0 var(--clearing-ink), calc(-1.6 * var(--s)) 0 0 var(--clearing-ink),
@@ -306,7 +307,7 @@ body #home-screen[data-page='home'] #home-voyage .voyage-new {
   padding: calc(2 * var(--s)) calc(8 * var(--s));
   border: calc(2.5 * var(--s)) solid var(--clearing-ink);
   border-radius: calc(9 * var(--s));
-  background: #f6c452;
+  background: var(--clearing-honey);
   box-shadow: none;
   color: var(--clearing-wood);
   font: inherit;
