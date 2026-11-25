@@ -892,6 +892,11 @@ rien : la mise en page reste celle de `homePages.css`.
   `ui/homeSkin.css`. Un « ? » d'aide est un `button` : chaque règle de bouton l'exclut
   (`:not(.help-point)`), comme un bouton éteint (`:not(:disabled)`). La pièce au clavier passe
   devant ses voisines, sauf le titre, qui passerait devant la marque « Partie non gardée ».
+- **Les fenêtres** : `ui/windowSkin.css`, chargée avec le jeu. Les fenêtres sont posées hors
+  de l'accueil : les couleurs de la pâte (`--clearing-ink`, `-paper`, `-wood`, `-honey`) sont
+  nommées sur `:root` (`homeClearing.css`) ; les ombres, qui comptent en `--s`, restent sur
+  l'accueil. Les panneaux du combat et « Qui joue ? » sont laissés de côté, dans un `:where()`
+  sans poids : un `:not(#…)` compte comme un id et écrasait le bord de « Qui joue ? ».
 - **Une règle d'habillage pèse lourd** (`body #home-screen …`) : elle peut écraser une règle
   d'état d'une feuille chargée à part (éteint, sous la souris, à jouer, pas encore là), sans
   qu'aucune boîte ne bouge. Deux garde-fous : ne pas réunir dans un `:is()` deux éléments de

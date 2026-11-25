@@ -73,3 +73,19 @@ clavier entier (vraie touche Tab dans les réglages, les fiches et les joueurs),
 - **Défauts plus anciens, pas touchés** : dans « Comment jouer » sur téléphone, le bouton
   « C'est parti ! » collant couvre une ligne de texte ; dans « Ton aventure, à garder » à
   780 × 360, « Choisir un fichier » n'apparaît qu'en faisant défiler.
+
+## Recettes jouées avant de pousser
+
+- **Sur la version d'avant les deux corrections**, toutes les recettes de la CI : les dix des
+  écrans, les huit des règles et du rendu, les sept des sauvegardes, `test:back-button`,
+  `test:locale`, `test:caprices`, `test:mobile-menus` en entier, et la chaîne de
+  vérification (format, 1 051 tests unitaires, `test:android-signatures`, `test:browser`,
+  `test:discovery`, `test:ads-preview`, `test:ads-delivery`, `test:android-web`,
+  `test:family`, le jeu portable). Toutes vertes.
+- **Sur la version finale** (les deux corrections ne touchent que deux sélecteurs et les
+  boutons de l'album) : `test:mobile-menus` hors voyage (dont les joueurs),
+  `test:saves:family`, `test:saves:gate` (la question pour adulte), les dix recettes des
+  écrans, `test:browser`, `test:android-web`, `test:locale`, les tests unitaires, le format,
+  les builds du site et de l'application.
+
+Puis la CI de la demande de fusion.
