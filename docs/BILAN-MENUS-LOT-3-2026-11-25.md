@@ -13,23 +13,51 @@ Suite de « Continuer les menus » (parent, 24 novembre). Lots précédents :
   3. l'arrêt à jouer du voyage porte le liseré miel de la mission à jouer, et son numéro est
      sur un pain de miel ; un arrêt pas encore là a un trait pâle ;
   4. le terrain d'une carte a un liseré d'encre ;
-  5. au pied du panneau, les places du sac et le bouton clair (« La Grande Expédition », « Une
-     autre expédition ») ont le trait d'encre.
+  5. les places du sac et les boutons clairs du panneau (« La Grande Expédition », « Une autre
+     expédition », « Tirer encore », « Ne rien prendre », « Garder mes cadeaux ») ont le trait
+     d'encre.
 - **Les couleurs qui disent quelque chose restent** : l'or du chemin des braves, le violet du
   gardien, la terre cuite du camp tombé, le vert de ce qui est fait. Les pastilles de la route
   de l'expédition ne changent pas.
+- **La roulotte garde son dessin d'avant.** Une carte trop chère s'y reconnaît à son trait
+  pâle et sans relief, et ses rangées serrées laissent déborder un long texte sur un
+  téléphone (défaut plus ancien, voir plus bas) : un trait d'encre l'aurait barré.
 - **Rien ne bouge, rien ne change de taille** : seuls le trait, l'ombre et les couleurs
   changent. Aucune règle, aucun mot, aucune image nouvelle, aucun crédit dépensé. Le paquet
-  du jeu ne bouge pas (195 824 octets sur 200 000) : la feuille du voyage est chargée à part.
+  du jeu ne bouge pas (195 824 octets pour le site, 195 859 pour l'application, sur
+  200 000) : la feuille du voyage est chargée à part.
+
+## Ce que la relecture indépendante a trouvé, avant la demande de fusion
+
+Un relecteur indépendant a attaqué le lot avant qu'il soit poussé (135 états semés par le
+vrai moteur, tête contre la version fusionnée, en français). Un défaut bloquant, corrigé :
+
+- **À la roulotte, une carte trop chère avait le même trait et le même relief qu'une carte
+  qu'on peut acheter**, et prenait le liseré vert sous la souris. Ma règle l'emportait sur
+  celle de la carte éteinte. Corrigé : la roulotte n'est pas habillée.
+- Les pièces et le pot de miel se lisaient moins bien dans le sac, sur un disque devenu
+  miel : le disque garde son jaune pâle.
+- L'ombre des cartes de l'expédition avait pris 1 px et touchait le pointillé du pied : elle
+  garde sa hauteur.
+- Sur un petit téléphone, le trait d'encre du panneau tombait à 1 px, invisible : 2 px au
+  moins.
+- Un sélecteur ne touchait rien : retiré.
 
 ## Comment c'est vérifié
 
 - **Mesure boîte par boîte, tête contre la version fusionnée, 102 états** (le voyage en
   cours, l'expédition d'un joueur qui a un voyage, l'expédition d'un nouveau joueur ; onze
-  tailles de 568 × 320 à 1920 × 1080, deux fenêtres debout, les barres d'un téléphone ;
-  français et anglais) : 9 992 boîtes, toutes à la même place, à la même taille, avec la même
-  taille de lettres ; le même défilement. L'intérieur des dessins tirés au hasard à chaque
-  visite (terrain, haltes) est laissé hors de la mesure.
+  tailles de 568 × 320 à 1920 × 1080, dont deux fenêtres debout ; les barres d'un téléphone ;
+  français et anglais), rejouée sur la version corrigée : 9 941 boîtes, toutes à la même
+  place, à la même taille, avec la même taille de lettres ; le même défilement. L'intérieur
+  des dessins tirés au hasard à chaque visite (terrain, haltes) est laissé hors de la mesure.
+- **Les états du relecteur, rejoués sur la version corrigée** : la roulotte riche, pauvre et
+  pleine, à neuf tailles (27 états, 1 056 boîtes identiques). Les cartes de la roulotte ont
+  exactement l'allure de la version fusionnée, éteintes ou non ; seuls le panneau, le
+  pointillé du pied et les places du sac changent.
+- **Le relecteur, de son côté** : 135 états semés par le vrai moteur, 8 825 boîtes
+  identiques ; aucune règle du lot ne touche une autre page (184 boîtes mesurées sur
+  l'accueil, Missions, Aventure classique, Favoris, « Pour les parents »).
 - **Captures regardées** : l'expédition et le voyage à 780 × 360 et 1280 × 800 ; et, sur les
   captures de la recette `test:expedition`, les vues qu'on n'atteint qu'en jouant : le choix
   entre deux chemins (780 × 360 et 1280 × 800), le choix d'un cadeau, le choix d'une halte et
@@ -47,7 +75,27 @@ Suite de « Continuer les menus » (parent, 24 novembre). Lots précédents :
 - Les restes du lot 2 sur ces deux pages ne sont pas traités ici : dans une fenêtre
   d'ordinateur debout, la roue cache un morceau du titre ; de 1000 à 1034 px de large, partie
   non gardée, elle est coupée.
+- **Défaut plus ancien, vu par le relecteur, pas touché** : à la roulotte pleine (six cartes)
+  sur un téléphone de 780 × 360, le texte de « La grande réserve de miel » déborde de sa
+  carte, en haut et en bas. À corriger dans un lot à part : c'est de la mise en page.
+- L'anneau du clavier d'un bouton collé au bord du panneau (« Une autre expédition ») perd
+  1 px sous le trait d'encre du panneau ; il était déjà rogné de 1 px.
+- Personne n'a regardé un voyage fini (cinq arrêts faits). L'anglais est mesuré boîte par
+  boîte, pas regardé.
 
-## Recettes jouées sur la version finale
+## Recettes jouées avant de pousser
 
-À compléter quand elles ont fini.
+- **Sur la version corrigée** : `test:mobile-menus` en entier, `test:expedition`,
+  `test:journey`, `test:audit`, `test:child-mobile`, `test:offline`, `test:mission-journey`,
+  `test:browser`, `test:android-web`, les tests unitaires, le format, les builds du site et
+  de l'application.
+- **Sur la version d'avant la correction** (qui n'a fait que retirer la roulotte de
+  l'habillage et régler trois détails) : toutes les autres recettes de la CI, dont les huit
+  des règles et du rendu, les dix des écrans, les sept des sauvegardes, `test:back-button`,
+  `test:locale`, `test:caprices`, `test:discovery`, `test:ads-preview`, `test:ads-delivery`,
+  `test:family`, `test:android-signatures`.
+- `test:journey` a échoué une fois, au chargement de la page (30 secondes dépassées), pendant
+  que la machine jouait quatre recettes et la relecture à la fois ; rejouée seule, elle
+  passe.
+
+Puis la CI de la demande de fusion, et une seconde relecture indépendante de la correction.
