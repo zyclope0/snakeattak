@@ -888,6 +888,10 @@ rien : la mise en page reste celle de `homePages.css`.
   la bande pâlit. Une ombre neuve peut cacher l'anneau du clavier d'une voisine (la bande des
   boutons se peint au-dessus des cartes) : dans cette feuille, la pièce qui porte l'anneau
   passe devant (`position: relative; z-index: 2`), sans changer de place.
+- **« Pour les parents »** : le même habillage, dans le bloc « Pour les parents » de
+  `ui/homeSkin.css`. Un « ? » d'aide est un `button` : chaque règle de bouton l'exclut
+  (`:not(.help-point)`), comme un bouton éteint (`:not(:disabled)`). La pièce au clavier passe
+  devant ses voisines, sauf le titre, qui passerait devant la marque « Partie non gardée ».
 - **Une règle d'habillage pèse lourd** (`body #home-screen …`) : elle peut écraser une règle
   d'état d'une feuille chargée à part (éteint, sous la souris, à jouer, pas encore là), sans
   qu'aucune boîte ne bouge. Deux garde-fous : ne pas réunir dans un `:is()` deux éléments de

@@ -66,3 +66,18 @@ s'affiche toujours.
 - La souris et le doigt sont simulés ; la marche au clavier est réelle.
 - La marque « Partie non gardée » a été simulée, pas obtenue par une vraie panne.
 - Le bouton de la publicité du site n'est pas essayé : la publicité est coupée dans le code.
+
+## Recettes jouées avant de pousser
+
+- **Sur la version d'avant les deux dernières corrections**, toutes les recettes de la CI :
+  les dix des écrans, les huit des règles et du rendu, les sept des sauvegardes,
+  `test:back-button`, `test:locale`, `test:caprices`, `test:mobile-menus` en entier, et la
+  chaîne de vérification (format, 1 051 tests unitaires, `test:android-signatures`,
+  `test:browser`, `test:discovery`, `test:ads-preview`, `test:ads-delivery`,
+  `test:android-web`, `test:family`, le jeu portable). Toutes vertes.
+- **Sur la version finale** (les deux corrections ne changent qu'un sélecteur chacune) :
+  `test:mobile-menus` hors voyage, les dix recettes des écrans, `test:browser`,
+  `test:android-web`, `test:locale`, les tests unitaires, le format, les builds du site et de
+  l'application.
+
+Puis la CI de la demande de fusion.

@@ -80,7 +80,14 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   écrasée ; elle a vu l'anneau du clavier d'une carte en partie caché par une ombre neuve,
   corrigé avant la demande de fusion. Fusionné (PR 150, `main` = `bffd3d2`) et **publié
   avec les lots 2 et 3 (publication n° 52, mot du parent du 25 novembre)**. APK de test : le
-  v16. Ensuite, page par page : « Pour les parents », les fenêtres, puis le camp.
+  v16.
+- **25 novembre — cinquième lot des menus : « Pour les parents »**
+  ([bilan](BILAN-MENUS-LOT-5-2026-11-25.md), mot du parent : « continue les menus ») : trait
+  d'encre et ombre posée sur les boutons de la page, champ du code d'aventure et
+  « Retrouver » à l'allure du voyage ; les « ? » et un code faux gardent leur allure. Rien ne
+  bouge (4 092 boîtes, application et site). Deux défauts rattrapés avant la demande de
+  fusion (un « ? » encadré, l'anneau du clavier mangé par l'ombre d'un voisin) ; la
+  relecture indépendante ne trouve rien de bloquant. Ensuite : les fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
