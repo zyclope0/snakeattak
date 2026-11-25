@@ -14,6 +14,10 @@
 body :where(dialog:not(#reinforcements, #players-dialog)) :focus-visible {
   outline-color: var(--clearing-ink);
 }
+/* La préparation a sa propre règle d'anneau, plus lourde (mobileMenus.css) : il lui en faut une. */
+body #mission-dialog :focus-visible {
+  outline-color: var(--clearing-ink);
+}
 
 /* ---- La préparation d'une mission ---- */
 /* Les onglets : au repos, le bouton clair posé ; ouvert, enfoncé (sans ombre portée, reflet en
@@ -26,6 +30,11 @@ body #mission-dialog .preparation-nav button:not(:disabled) {
   box-shadow:
     inset 0 0 0 1.5px var(--clearing-ink),
     var(--clearing-drop);
+}
+/* « Autre départ » partage la règle des onglets (mobileMenus.css) : le même trait d'encre que ses
+   voisins « Rejouer » et « Retour ». */
+body #mission-dialog #mission-reroll:not(:disabled) {
+  border-color: var(--clearing-ink);
 }
 body #mission-dialog .preparation-nav button[aria-pressed='true']:not(:disabled) {
   background-color: #d9f1e2;
@@ -65,10 +74,15 @@ body :is(#mission-dialog, #threat-dialog) .threat-card {
 .app .battle-dock button[aria-pressed='true']:not(:disabled) {
   border-color: var(--clearing-ink);
 }
-/* Trop cher (hors pause) : la pastille du prix perd son miel, comme au catalogue. En pause,
-   toutes les cartes sont éteintes et gardent leur pastille : « trop cher » et « en pause » ne
-   se confondent plus. */
-.app:not(:has(#pause-overlay:not([hidden]))) .battle-dock .dock-card:disabled .dock-price {
+/* Trop cher : la pastille du prix perd son miel, comme au catalogue. En pause, toutes les cartes
+   sont éteintes et gardent leur pastille : « trop cher » et « en pause » ne se confondent plus.
+   Une fenêtre ouverte (les dangers, l'aide des outils, le catalogue) met aussi le jeu en pause,
+   sans montrer le voile de la pause (hud.ts) : les pastilles gardent leur miel. */
+body:not(:has(dialog[open]))
+  .app:not(:has(#pause-overlay:not([hidden])))
+  .battle-dock
+  .dock-card:disabled
+  .dock-price {
   background-color: #e4e1d3;
   color: #53604d;
   box-shadow: inset 0 0 0 1px rgba(18, 48, 42, 0.5);

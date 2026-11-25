@@ -79,6 +79,21 @@ parent les a acceptées.
 - **Une attaque indépendante** du lot (agent séparé, sans mes conclusions).
 - **Recettes de la CI** jouées sur la machine avant la PR.
 
+## Ce que l'attaque indépendante a trouvé, et corrigé
+
+- **L'anneau du clavier restait doré dans la préparation** : sa propre règle, plus lourde
+  (`mobileMenus.css`), l'emportait ; le bilan disait le contraire. Une règle de plus, mesurée
+  au clavier : l'encre sur chaque pièce.
+- **Une fenêtre ouverte pendant le combat** (les dangers, l'aide des outils) met le jeu en
+  pause sans montrer le voile : toutes les pastilles devenaient grises, comme « trop cher ».
+  Elles gardent maintenant leur miel, comme en pause.
+- **« Autre départ »** gardait son trait vert pâle à côté de « Rejouer » et « Retour » à
+  l'encre : il prend l'encre.
+- Laissé tel quel : un caprice choisi garde sa couleur sous la souris (avant, le survol la
+  changeait à peine : #f5e4b5 contre #ffebbc). Sur tablette et téléphone, pas de survol.
+- Plus ancien que ce lot, noté pour plus tard : le bas de l'anneau du clavier de « Autre
+  départ » et du « ? » est coupé par le bord de sa rangée.
+
 ## Ce qui n'est pas vérifié
 
 - Rien n'a été essayé sur le vrai téléphone ni avec les enfants.
