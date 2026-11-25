@@ -29,6 +29,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-MENUS-LOT-3-2026-11-25.md](BILAN-MENUS-LOT-3-2026-11-25.md)     | Menus, lot 3 : La Grande Expédition et le voyage                                                                      |
 | [BILAN-MENUS-LOT-4-2026-11-25.md](BILAN-MENUS-LOT-4-2026-11-25.md)     | Menus, lot 4 : la page Favoris                                                                                        |
 | [BILAN-MENUS-LOT-5-2026-11-25.md](BILAN-MENUS-LOT-5-2026-11-25.md)     | Menus, lot 5 : « Pour les parents »                                                                                   |
+| [BILAN-MENUS-LOT-6-2026-11-25.md](BILAN-MENUS-LOT-6-2026-11-25.md)     | Menus, lot 6 : les fenêtres                                                                                           |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version construite (build 62)                                                             |
