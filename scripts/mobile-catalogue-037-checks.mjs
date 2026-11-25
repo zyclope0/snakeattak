@@ -418,6 +418,8 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       window.capricesFixture.session.selectUnit(null);
       window.capricesFixture.session.game.gold = 10;
     });
+    // In pause the catalogue is drawn again on a touch only: its tab is one.
+    await p.locator('#shop-ready').click();
     await p.waitForSelector('#shop [data-kind="club"][aria-disabled="true"]');
     await p.locator('#shop [data-kind="club"]').click({ force: true });
     check(
@@ -427,6 +429,7 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       'a card too dear says what it lacks and chooses nothing',
     );
     await p.evaluate((gold) => (window.capricesFixture.session.game.gold = gold), keptGold);
+    await p.locator('#shop-ready').click();
     await p.waitForSelector('#shop [data-kind="club"]:not([aria-disabled])');
     await portrait(p, '#reinforcements', 'catalogue');
     check(await paused(), 'rotation retains manual and catalogue pauses');
