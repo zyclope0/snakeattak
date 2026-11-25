@@ -96,6 +96,13 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   relecture indépendante (23 fenêtres) ne trouve rien de bloquant ; deux défauts corrigés
   avant la demande de fusion. Fusionné (PR 152, `main` = `87510b3`) et **publié avec le
   lot 5 (publication n° 53, mot du parent du 25 novembre)**. Ensuite : le camp.
+- **25 novembre — septième lot des menus : le camp** ([bilan](BILAN-MENUS-LOT-7-2026-11-25.md)) :
+  préparation d'une mission, serpents annoncés, aide des outils, colonne des alliés du combat.
+  Trois regards croisés (critique de design, accessibilité, système de design comparé aux
+  meilleures ventes du genre). Trait d'encre, onglet ouvert enfoncé et vert, anneau du clavier
+  à l'encre dans les fenêtres de papier, « trop cher » distinct de « en pause ». Décisions du
+  parent : coche sur l'allié choisi, « Retour » lisible et plus étroit. Le plateau et la barre
+  du haut ne changent pas. **Pas encore publié : il faut le mot du parent.**
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

@@ -52,3 +52,37 @@ Une feuille nouvelle, `src/ui/campSkin.css`, et les fenêtres du camp qui entren
 - **Un jeton de plus**, `--clearing-drop` (l'ombre nette posée, en px, pour les fenêtres et le
   camp), à la place de la même ombre écrite à la main.
 - **Pas touché** : le plateau, la barre du haut, le catalogue des alliés, les annonces.
+
+## Décisions du parent (25 novembre 2026 : « OK pour la coche et le retour »)
+
+Deux propositions sortaient de la règle du lot (elles changent un signe ou une taille) : le
+parent les a acceptées.
+
+- **La coche sur l'allié choisi**, dans la colonne du combat : la coche du catalogue des
+  alliés, en encre, dans le coin du portrait. Le prix reste dans l'autre coin.
+- **« Retour » dans la préparation** : écrit plus grand (12 px → 16 px sur téléphone,
+  25,6 px sur ordinateur) et plus étroit ; « C'est parti ! » prend la place libérée. La
+  hauteur des deux boutons ne change pas.
+
+## Comment c'est vérifié
+
+- **Boîtes mesurées**, avant et après, sur les écrans du camp (préparation et ses quatre
+  onglets, combat, dangers), en français et en anglais, à 780 × 360 et 1280 × 800, le tirage
+  de la mission fixé (sans cela, deux ouvertures de la même version ne donnent pas la même
+  mission) : avant les décisions du parent, **96 états et 3 970 boîtes identiques** ; après,
+  seuls « C'est parti ! » et « Retour » changent de largeur, rien d'autre ne bouge.
+- **Fenêtres du lot 6** remesurées : seules la couleur de l'anneau du clavier change (or →
+  encre).
+- **États forcés et clavier** : onglet ouvert, caprice choisi, carte choisie, trop chère, en
+  pause ; anneau du clavier compté au pixel sur chaque pièce.
+- **Captures** à 568 × 320, 780 × 360 et 1280 × 800 (dans `artifacts/`, hors Git).
+- **Une attaque indépendante** du lot (agent séparé, sans mes conclusions).
+- **Recettes de la CI** jouées sur la machine avant la PR.
+
+## Ce qui n'est pas vérifié
+
+- Rien n'a été essayé sur le vrai téléphone ni avec les enfants.
+- Restent des questions pour le parent, une à la fois : la barre du haut et les grands
+  boutons du combat à l'allure de l'accueil validé ; les cibles de moins de 48 px (croix
+  de l'aide des outils, 44 px ; « Accueil » et « Comment jouer » sur tablette, 36 px de
+  haut) ; le catalogue « Tous les alliés », lot à part.
