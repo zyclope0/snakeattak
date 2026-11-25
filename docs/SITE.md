@@ -508,14 +508,7 @@ Environments) : à décider par lui.
 Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
 22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit
 dont la CI complète (« Verify game », poussée sur `main`, les neuf lignes depuis le 24 novembre) n'est pas verte :
-avant, cette règle était tenue à la main. Depuis le 25 novembre 2026 (décision du parent,
-pour les minutes facturées), une fusion dans `main` ne refait pas les neuf lignes quand la
-CI complète de sa PR, lancée depuis ce dépôt, les a passées vertes sur exactement le même
-arbre : la PR écrit l'arbre vérifié dans l'artefact `arbre-verifie`, la fusion le relit et
-le compare au sien (`HEAD^{tree}`). La moindre différence (base qui a bougé, fusion par
-écrasement, poussée directe, GitHub muet, artefact effacé après 7 jours) et tout tourne. La
-garde de publication n'a pas changé : elle compte toujours les passages verts de
-« Verify game » sur `main` pour ce commit. Il compile ensuite depuis Git, passe
+avant, cette règle était tenue à la main. Il compile ensuite depuis Git, passe
 `npm run verify`, écrit `version.json` (commit publié), envoie `dist/` par rsync,
 puis relit le site avec `scripts/check-live-site.mjs` : version, en-têtes, redirections,
 absence de cookie, et politique en ligne identique octet pour octet à celle du commit. Sans

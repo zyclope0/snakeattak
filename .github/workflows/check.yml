@@ -2,17 +2,12 @@ name: Verify game
 # Une fois par commit : à chaque PR, et sur main après une fusion. « portée » d'abord
 # (quelques secondes), puis sept tâches en parallèle au lieu d'une file de 17 étapes : la
 # plus longue fixe la durée de l'ensemble. Huit vérifications à lire sur une PR de code.
-# Une fusion dans main ne refait pas la CI complète quand la PR l'a déjà passée, verte, sur
-# exactement le même code (même arbre) : décision du parent du 25 novembre 2026, pour les
-# minutes facturées. Le moindre doute, et tout tourne.
 on:
   push:
     branches: [main]
   pull_request:
 permissions:
   contents: read
-  # Lire l'arbre vérifié par la CI d'une PR, pour la fusion qui suit.
-  actions: read
 concurrency:
   group: verify-${{ github.event.pull_request.number || github.ref }}
   # Un nouveau commit sur une PR remplace la vérification du précédent.
@@ -28,38 +23,11 @@ jobs:
     timeout-minutes: 5
     outputs:
       complet: ${{ steps.fichiers.outputs.complet }}
-      deja: ${{ steps.deja.outputs.deja }}
     steps:
       - uses: actions/checkout@v4
         with:
           # Le commit de fusion d'une PR et ses deux parents : le premier est la base.
           fetch-depth: 2
-      # Une fusion dans main : la CI complète d'une PR de ce dépôt, verte, a-t-elle vérifié
-      # exactement cet arbre ? Elle l'a écrit dans son artefact « arbre-verifie ». Une
-      # poussée directe, une fusion par écrasement, une base qui a bougé, une réponse
-      # absente de GitHub : « deja » reste `false` et tout tourne.
-      - id: deja
-        if: github.event_name == 'push'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          DEPOT: ${{ github.repository }}
-        run: |
-          deja=false
-          arbre=$(git rev-parse 'HEAD^{tree}')
-          if tete=$(git rev-parse -q --verify 'HEAD^2'); then
-            executions=$(gh api "repos/$DEPOT/actions/workflows/check.yml/runs?event=pull_request&head_sha=$tete&status=success&per_page=20" \
-              --jq ".workflow_runs[] | select(.head_repository.full_name == \"$DEPOT\") | .id" || true)
-            for execution in $executions; do
-              rm -rf verifie
-              if gh run download "$execution" -R "$DEPOT" -n arbre-verifie -D verifie \
-                && [ "$(cat verifie/arbre.txt)" = "$arbre" ]; then
-                deja=true
-                echo "Arbre $arbre déjà vérifié, vert, par la CI complète de la PR (exécution $execution)."
-                break
-              fi
-            done
-          fi
-          echo "deja=$deja" | tee -a "$GITHUB_OUTPUT"
       - id: fichiers
         env:
           EVENEMENT: ${{ github.event_name }}
@@ -79,7 +47,6 @@ jobs:
   verify:
     # Format, tests unitaires, build, puis le jeu dans le navigateur sous ses deux formes.
     needs: portee
-    if: needs.portee.outputs.deja != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -128,21 +95,11 @@ jobs:
         run: npm run test:family
       - if: env.COMPLET != 'false'
         run: GAME_URL="file://$PWD/dist-portable/index.html" npm run test:browser
-      # La CI complète d'une PR écrit l'arbre qu'elle vérifie : une exécution n'est verte que si
-      # toutes ses tâches le sont, et la fusion qui suit ne lit que les exécutions vertes.
-      - if: env.COMPLET != 'false' && github.event_name == 'pull_request'
-        run: git rev-parse 'HEAD^{tree}' > arbre.txt
-      - if: env.COMPLET != 'false' && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
-        with:
-          name: arbre-verifie
-          path: arbre.txt
-          retention-days: 7
   recettes:
     # Les recettes navigateur, réparties en groupes. `test:render` reste un outil à lancer à
     # la main : il mesure une vitesse, qui dépend de la machine.
     needs: portee
-    if: needs.portee.outputs.complet != 'false' && needs.portee.outputs.deja != 'true'
+    if: needs.portee.outputs.complet != 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
