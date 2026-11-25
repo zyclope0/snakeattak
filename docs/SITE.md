@@ -508,7 +508,11 @@ Environments) : à décider par lui.
 Le workflow (`.github/workflows/deploy-site.yml`) ne se lance jamais seul. Depuis le
 22 novembre 2026, il refuse d'abord tout commit qui n'est pas dans `main`, et tout commit
 dont la CI complète (« Verify game », poussée sur `main`, les neuf lignes depuis le 24 novembre) n'est pas verte :
-avant, cette règle était tenue à la main. Il compile ensuite depuis Git, passe
+avant, cette règle était tenue à la main. Depuis le 25 novembre 2026 (décision du parent,
+pour les minutes facturées), la CI complète ne tourne plus sur une PR (elle n'y fait que
+`npm run verify`) : elle tourne une fois, sur `main`, et c'est toujours elle que la garde
+compte. Une première version, qui aurait sauté la CI de `main` en se fiant à celle de la PR,
+a été écartée : quelqu'un qui peut pousser une branche pouvait la tromper. Il compile ensuite depuis Git, passe
 `npm run verify`, écrit `version.json` (commit publié), envoie `dist/` par rsync,
 puis relit le site avec `scripts/check-live-site.mjs` : version, en-têtes, redirections,
 absence de cookie, et politique en ligne identique octet pour octet à celle du commit. Sans

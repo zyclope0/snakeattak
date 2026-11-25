@@ -367,7 +367,8 @@ test('for a push, the scope of the CI answers « everything », whatever was cha
     .split('\n')
     .map((line) => line.replace(/^ {10}/, ''))
     .join('\n');
-  // A commit that changes one document only: a pull request may skip the recipes for it.
+  // A pull request skips the recipes, whatever it changes (parent's decision, 25 November
+  // 2026: they are played before, on the working machine, and the whole CI runs on main).
   git(repo.work, 'checkout', '--quiet', '--detach', repo.inMain);
   writeFileSync(join(repo.work, 'LISEZ.md'), 'un document\n');
   git(repo.work, 'add', 'LISEZ.md');
@@ -395,7 +396,7 @@ test('for a push, the scope of the CI answers « everything », whatever was cha
 // every commit. It is made here too, on purpose, after reading `docs/SITE.md`, « Publier ».
 const FINGERPRINTS = {
   'deploy-site.yml': 'f355fe13b1aabfe21f9437fc0d0d347582dd5df1a9cc97e3d984327a3288f181',
-  'check.yml': '85f6c74df20bfcf07a07e0422cd4992dd7a5d8606bcc058e2492486bdb937ddb',
+  'check.yml': '5729cda58f93e3095a30f9a5a9e0c5d813bc786bb0fef0474ddbb77188ea17b4',
 };
 
 test('the workflow that publishes and the one that judges are the ones that were read', () => {

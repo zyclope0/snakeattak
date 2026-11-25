@@ -231,7 +231,7 @@ Phaser sans physique (−396 Ko), qui demandent un regard sur le téléphone.
   relevés par la revue sont corrigés, pas le document entier.
 - Lot 3, CI : fait, gain mince. L'attente passe d'environ 11–17 minutes à 10–12 (c'est
   `verify` qui la fixe maintenant), le calcul ne baisse pas (environ 48 minutes par passage,
-  contre 44). Une PR de documents seuls ne lance que `npm run verify`.
+  contre 44). Depuis le 25 novembre 2026, toute PR ne lance que `npm run verify`.
 - Lot 4, règles écrites une seule fois (point 7) : première partie faite (tirages, armure,
   valeurs nommées), parties identiques. Seconde partie le 22 novembre : les règles de
   l'expédition que ses écrans recopiaient sont dans le modèle. Fin le même jour : le camp
@@ -370,18 +370,17 @@ Grande Expédition et les corrections de l'étape d'hygiène.
 
 ## Règles de travail en vigueur
 
-- Une branche, une PR par lot. Le parent a autorisé, dans les sessions de travail de
-  novembre 2026, la fusion des PR de Claude quand toutes les tâches de la CI sont vertes,
-  sans conflit ni fil de revue ouvert, puis la publication du site. Depuis le 22 novembre
-  2026, « toutes vertes » veut dire : pour une PR qui touche autre chose que des documents,
-  « portée », « verify » et les sept « recettes », dont « sauvegardes » et, depuis le
-  24 novembre, « retour » (neuf lignes) ; des recettes sautées sur
-  une telle PR, c'est ne pas fusionner. Pour une PR de documents seuls (`*.md` à la racine
-  ou sous `docs/`, hors `docs/publication/`) : « portée » et « verify » vertes, les recettes
-  sautées. Avant de publier, regarder le passage complet sur `main` au commit publié : le
-  workflow de publication ne lance que `npm run verify`. Tout le reste de `CLAUDE.md`
-  tient : il demande avant une dépense, une publication sur Google Play ou un changement de
-  règle.
+- Une branche, une PR pour 2 ou 3 lots (décision du parent du 25 novembre 2026, pour les
+  minutes facturées). Le parent a autorisé, dans les sessions de travail de novembre 2026,
+  la fusion des PR de Claude quand elles sont vertes, sans conflit ni fil de revue ouvert,
+  puis la publication du site avec son mot. Depuis le 25 novembre 2026, une PR ne lance que
+  la vérification rapide (« portée » et « verify » : format, tests unitaires, build) ; les
+  recettes sont jouées avant, toutes, sur la machine de travail (les groupes de
+  `check.yml`), et une recette rouge, c'est ne pas fusionner. La CI complète (les neuf
+  lignes) tourne une fois, sur `main` après la fusion : c'est elle que compte la garde de
+  publication ; rouge, rien n'est publié et le lot suivant la répare. Tout le reste de
+  `CLAUDE.md` tient : il demande avant une dépense, une publication sur Google Play ou un
+  changement de règle.
 - Relectures : huit angles pour un lot qui change une règle ou un écran du jeu, trois pour un
   petit lot de textes ou de corrections.
 
