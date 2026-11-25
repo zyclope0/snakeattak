@@ -3,43 +3,37 @@
  * Comme pour les pages : seuls le trait, l'ombre et les couleurs changent, jamais une taille ni
  * une place. Les fenêtres sont posées hors de l'accueil : les couleurs de la pâte sont nommées
  * pour toute la page (homeClearing.css), mais pas l'unité --s, d'où des tailles en px.
- * Les panneaux du combat (les alliés, les serpents annoncés, la préparation d'une mission,
- * les outils du camp) ne sont pas des fenêtres des menus : ils gardent leur dessin, pour le
- * lot du camp. Un bouton éteint, un « ? » et le miel d'un bouton principal gardent le leur.
+ * Les fenêtres du camp (la préparation d'une mission, les serpents annoncés, l'aide des outils)
+ * y entrent au lot 7 (campSkin.css) ; le catalogue des alliés, panneau collé au bord de
+ * l'écran, garde son dessin. Un bouton éteint, un « ? » et le miel d'un bouton principal gardent le leur.
  */
 /* La fenêtre : le trait d'encre rentré des pages, sur son bord. Si elle prend le clavier, elle
    garde son anneau. La fenêtre « Qui joue ? » est vert foncé : son bord clair la détache du
    fond, elle le garde. La liste des fenêtres laissées de côté est dans un :where(), qui ne
    pèse rien : un :not(#…) compterait comme un id et écraserait leurs propres règles. */
-dialog:where(
-    :not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog, #players-dialog)
-  ):not(:focus-visible) {
+dialog:where(:not(#reinforcements, #players-dialog)):not(:focus-visible) {
   border-color: var(--clearing-ink);
   outline: 2px solid var(--clearing-ink);
   outline-offset: -2px;
 }
 /* La croix qui ferme : un rond cerné d'encre, posé. */
-body
-  :where(dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog))
-  .close:not(:disabled) {
+body :where(dialog:not(#reinforcements)) .close:not(:disabled) {
   color: var(--clearing-ink);
   box-shadow:
     inset 0 0 0 1.5px var(--clearing-ink),
-    0 3px 0 rgba(20, 14, 6, 0.55);
+    var(--clearing-drop);
 }
 /* Les boutons clairs (« Comment jouer », « Fermer », « Choisir un fichier ») : ceux du voyage. */
-body
-  :where(dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog))
-  .secondary:not(:disabled) {
+body :where(dialog:not(#reinforcements)) .secondary:not(:disabled) {
   border-color: var(--clearing-ink);
   box-shadow:
     inset 0 0 0 1.5px var(--clearing-ink),
-    0 3px 0 rgba(20, 14, 6, 0.55);
+    var(--clearing-drop);
 }
 /* Les quatre cases des réglages et les listes : le trait d'encre. Une règle par sorte de
    pièce : la liste des fiches a sa propre règle, plus lourde (05-dialogs.css). */
 body
-  :where(dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog))
+  :where(dialog:not(#reinforcements))
   :is(.setting-switch, .language-picker, .visual-setting, select):not(:disabled) {
   border-color: var(--clearing-ink);
 }
@@ -54,5 +48,5 @@ body #caprice-album-dialog button:not(:disabled) {
   box-shadow:
     inset 0 2px #fff8e3,
     inset 0 0 0 1.5px var(--clearing-ink),
-    0 3px 0 rgba(20, 14, 6, 0.55);
+    var(--clearing-drop);
 }

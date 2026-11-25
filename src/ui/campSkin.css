@@ -1,0 +1,185 @@
+/*
+ * Le camp à l'allure du premier écran (« Continuer les menus », lot 7, 25 novembre 2026) : la
+ * préparation d'une mission, les serpents annoncés, l'aide des outils, la colonne des alliés du
+ * combat. Leur cadre et leurs boutons clairs viennent de windowSkin.css. Comme pour les pages :
+ * seuls le trait, l'ombre et les couleurs changent, jamais une taille ni une place. Le plateau,
+ * la barre du haut et le catalogue des alliés gardent leur dessin : rien ne doit gêner la
+ * lecture du combat. Choix tirés de trois regards (critique de design, accessibilité,
+ * système de design comparé aux meilleures ventes du genre) : docs/BILAN-MENUS-LOT-7-2026-11-25.md.
+ */
+
+/* Au clavier, dans une fenêtre de papier : l'anneau doré ne se voyait pas sur le papier (1,8:1)
+   ni sur un bouton miel (1,1:1). Il prend l'encre (13:1), même largeur, même écart. « Qui
+   joue ? », vert foncé, et le catalogue des alliés gardent l'anneau doré, lisible sur eux. */
+body :where(dialog:not(#reinforcements, #players-dialog)) :focus-visible {
+  outline-color: var(--clearing-ink);
+}
+/* La préparation a sa propre règle d'anneau, plus lourde (mobileMenus.css) : il lui en faut une. */
+body #mission-dialog :focus-visible {
+  outline-color: var(--clearing-ink);
+}
+
+/* ---- La préparation d'une mission ---- */
+/* Les onglets : au repos, le bouton clair posé ; ouvert, enfoncé (sans ombre portée, reflet en
+   bas, trait d'encre plein) et vert, comme une carte choisie. Pas de miel : le miel dit « à
+   jouer ». Tous partent du même papier : l'onglet des caprices avait son propre fond, qui le
+   faisait paraître toujours ouvert (caprices.css). */
+body #mission-dialog .preparation-nav button:not(:disabled) {
+  border-color: var(--clearing-ink);
+  background-color: var(--paper);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+/* « Autre départ » partage la règle des onglets (mobileMenus.css) : le même trait d'encre que ses
+   voisins « Rejouer » et « Retour ». */
+body #mission-dialog #mission-reroll:not(:disabled) {
+  border-color: var(--clearing-ink);
+}
+body #mission-dialog .preparation-nav button[aria-pressed='true']:not(:disabled) {
+  background-color: #d9f1e2;
+  box-shadow:
+    inset 0 0 0 2.5px var(--clearing-ink),
+    inset 0 3px 0 rgba(20, 14, 6, 0.18);
+}
+/* Un caprice choisi, « Mission normale » choisie, un copain choisi : le signe passe du contour
+   (que l'anneau du clavier remplaçait) à un trait intérieur, et « Mission normale » choisie en
+   reçoit un : elle n'en avait aucun. */
+body #mission-dialog .caprice-row button[aria-pressed='true'],
+body #mission-dialog #mission-normal[aria-pressed='true'] {
+  background-color: #ffebbc;
+  box-shadow: inset 0 0 0 3px #bc742c;
+}
+body #mission-dialog .caprice-friends button[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 2px #426e4d;
+}
+body #mission-dialog .caprice-row button[aria-pressed='true']:not(:focus-visible),
+body #mission-dialog .caprice-friends button[aria-pressed='true']:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---- L'aide des outils ---- */
+/* Son bord propre, vert pâle, pèse plus que celui des fenêtres (campToolHelp.css) : il restait
+   sous le trait d'encre. Il prend l'encre, même largeur. */
+body #camp-tool-dialog:not(:focus-visible) {
+  border-color: var(--clearing-ink);
+}
+
+/* ---- Les serpents annoncés (préparation et fenêtre des dangers) ---- */
+/* Des informations, pas des boutons : le trait d'encre, sans relief. */
+body :is(#mission-dialog, #threat-dialog) .threat-card {
+  border-color: var(--clearing-ink);
+}
+
+/* ---- La colonne des alliés, pendant le combat ---- */
+/* Le trait d'encre sur chaque pièce ; le relief rentré de la pâte reste (craftSurfaces.css) :
+   une ombre portée toucherait la rangée voisine, à 4 px. */
+.app .battle-dock button:not(:disabled) {
+  border-color: var(--clearing-ink);
+}
+/* Choisi : le trait d'encre, pour ne plus avoir la couleur de l'anneau du clavier (vert jade). */
+.app .battle-dock button[aria-pressed='true']:not(:disabled) {
+  border-color: var(--clearing-ink);
+}
+/* Trop cher : la pastille du prix perd son miel, comme au catalogue. En pause, toutes les cartes
+   sont éteintes et gardent leur pastille : « trop cher » et « en pause » ne se confondent plus.
+   Une fenêtre ouverte (les dangers, l'aide des outils, le catalogue) met aussi le jeu en pause,
+   sans montrer le voile de la pause (hud.ts) : les pastilles gardent leur miel. */
+body:not(:has(dialog[open]))
+  .app:not(:has(#pause-overlay:not([hidden])))
+  .battle-dock
+  .dock-card:disabled
+  .dock-price {
+  background-color: #e4e1d3;
+  color: #53604d;
+  box-shadow: inset 0 0 0 1px rgba(18, 48, 42, 0.5);
+}
+
+/* ---- Décisions du parent (25 novembre 2026 : « OK pour la coche et le retour ») ---- */
+/* L'allié choisi dans la colonne porte la coche du catalogue des alliés (04-camp-panel.css),
+   en encre : posée dans le coin du portrait, elle ne prend aucune place. */
+.app .battle-dock .dock-card[aria-pressed='true']::after {
+  content: '✓';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: var(--clearing-paper);
+  background: var(--clearing-ink);
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+/* « Retour » de la préparation : écrit lisiblement, et il laisse la place à « C'est parti ! »,
+   l'action à jouer, au lieu de prendre la même largeur. */
+body #mission-dialog .mission-dialog-actions #mission-close {
+  flex: 0 1 auto;
+  min-width: max(120px, 20%);
+  padding-inline: 20px;
+  font-size: max(15px, calc(var(--hu) * 1.6));
+}
+
+/* ---- Décision du parent (25 novembre 2026 : « Oui, le bouton clair ») ---- */
+/* La barre du haut du combat : ses petits boutons (pause, vitesse, dangers, et sur un grand écran
+   sons, agrandir) prennent le bouton clair des menus, papier et trait d'encre, posés sur la
+   barre vert foncé, à côté du bouton en pâte miel. Ni leur taille ni leur place ne changent.
+   Éteints, ils gardent leur vert sombre. */
+body .controls .square:not(:disabled) {
+  color: var(--clearing-ink);
+  background-color: var(--paper);
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+body .controls .square:not(:disabled):hover {
+  background-color: #fffbee;
+}
+
+/* ---- Décisions du parent (25 novembre 2026, questions 1, 2, 3 et 6 sur 7) ---- */
+/* 1. « Accueil » et « Comment jouer », en haut de la page sur un grand écran : le même bouton
+   clair que la barre juste en dessous. */
+body #app .app-header .quiet:not(:disabled) {
+  color: var(--clearing-ink);
+  background-color: var(--paper);
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+body #app .app-header .quiet:not(:disabled):hover {
+  background-color: #fffbee;
+}
+/* Sur un grand écran, leur anneau du clavier est dessiné dedans (12-camp-details.css) : sur le
+   papier, l'or ne se voyait pas ; il prend l'encre. */
+@media (min-width: 921px) and (min-height: 521px) {
+  body #app .app-header .quiet:focus-visible {
+    outline-color: var(--clearing-ink);
+  }
+}
+/* 2. Sur un grand écran, « C'est parti ! » ne s'étire plus en baguette : trois fois et demie sa
+   hauteur au plus, au milieu de la place libre. Sur un téléphone, rien ne change. */
+@media (min-width: 921px) and (min-height: 521px) {
+  body #mission-dialog .mission-dialog-actions #mission-launch {
+    flex: 0 1 auto;
+    width: min(100%, calc(var(--hu) * 5.6 * 3.5));
+    margin-inline: auto;
+  }
+}
+/* 3. La croix de l'aide des outils : 48 px, la taille d'un doigt d'enfant. */
+body #camp-tool-dialog #close-camp-tool-help {
+  min-width: 48px;
+}
+/* 6. Sur un téléphone couché, la barre du haut touche le bord de l'écran : l'anneau du
+   clavier, dessiné autour du bouton, y était coupé. Il est dessiné dedans, à l'encre ; sur
+   « Encourager » retenu, vert sombre, il garde son or. */
+@media (max-height: 520px) {
+  body .controls button:not([aria-disabled='true']):focus-visible {
+    outline-color: var(--clearing-ink);
+    outline-offset: -6px;
+  }
+}
