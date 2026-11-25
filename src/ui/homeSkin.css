@@ -30,8 +30,9 @@ body #home-screen:not([data-page='home'])::after {
   background: rgba(10, 32, 25, 0.7);
 }
 
-/* La page n'est plus une feuille posée sur un fond uni : ses deux traits de bord s'effacent. */
-body #home-screen:not([data-page='home']) :is(.home-page, .army-editor) {
+/* La page n'est plus une feuille posée sur un fond uni : ses deux traits de bord s'effacent.
+   (La feuille des Favoris, `.army-editor`, n'en avait pas : son trait est écrit plus bas.) */
+body #home-screen:not([data-page='home']) .home-page {
   box-shadow: none;
 }
 
@@ -424,4 +425,46 @@ body #home-screen #mission-cards .mission-card:disabled .mission-status-badge {
   color: #425347;
   background: #e9e7d3;
   box-shadow: none;
+}
+
+/* ---- Favoris ----
+   Comme les missions : seuls le trait, l'ombre, les coins et les couleurs changent, jamais
+   une taille ni une place. Une règle par pièce, sans `:is()` qui mêlerait des poids ; et
+   aucune ne touche un bouton éteint, qui garde l'allure que lui donnent les feuilles du jeu
+   (docs/ARCHITECTURE.md, « Une règle d'habillage pèse lourd »). */
+/* La feuille : le trait d'encre rentré et l'ombre posée du voyage et des tableaux. */
+body #home-screen .army-editor {
+  outline: max(2px, calc(2.5 * var(--s))) solid var(--clearing-ink);
+  outline-offset: calc(-1 * max(2px, calc(2.5 * var(--s))));
+  box-shadow: var(--clearing-lift);
+}
+/* Un allié : une carte aux coins ronds, posée sur la feuille. */
+body #home-screen .roster-card {
+  border-radius: calc(var(--hu) * 1.2);
+}
+/* Pas choisi : le trait d'encre. Sa bordure n'a qu'un pixel ; une ombre intérieure l'épaissit
+   sans prendre de place. */
+body #home-screen .roster-card:not([aria-pressed='true']):not(:disabled) {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 1px var(--clearing-ink),
+    0 4px 0 rgba(20, 14, 6, 0.55);
+}
+/* Choisi : il garde son vert et sa coche, qui disent « celui-ci vient avec moi ». */
+body #home-screen .roster-card[aria-pressed='true']:not(:disabled) {
+  box-shadow: 0 4px 0 rgba(20, 14, 6, 0.55);
+}
+/* « Précédents », « Suivants », « Tous les serpents » et le choix de la composition : les
+   boutons clairs du voyage. */
+body #home-screen .roster-pagination button:not(:disabled),
+body #home-screen #roster-slot {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 calc(1.5 * var(--s)) var(--clearing-ink),
+    0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.55);
+}
+/* Rien avant la première page, rien après la dernière : le bouton pâlit, il ne répond plus. */
+body #home-screen .roster-pagination button:disabled {
+  border-color: rgba(18, 48, 42, 0.4);
+  color: rgba(25, 63, 56, 0.5);
 }
