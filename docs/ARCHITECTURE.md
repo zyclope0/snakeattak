@@ -882,7 +882,13 @@ rien : la mise en page reste celle de `homePages.css`.
   `ui/voyage/voyage.css` (une feuille chargée à part, avec ses écrans), avec les couleurs
   nommées de la clairière. Mêmes règles : le trait, l'ombre et les couleurs, jamais une
   taille ; les couleurs qui ont un sens (l'or des braves, le violet du gardien, la terre
-  cuite du camp tombé) restent.
+  cuite du camp tombé) restent. La roulotte n'est pas habillée.
+- **Une règle d'habillage pèse lourd** (`body #home-screen …`) : elle peut écraser une règle
+  d'état d'une feuille chargée à part (éteint, sous la souris, à jouer, pas encore là), sans
+  qu'aucune boîte ne bouge. Deux garde-fous : ne pas réunir dans un `:is()` deux éléments de
+  poids différents (il prend le plus lourd pour tous), et regarder chaque état après chaque
+  changement de sélecteur. `test:mobile-menus` refuse une carte du voyage où l'arrêt fait,
+  l'arrêt à jouer et l'arrêt pas encore là ont le même relief.
 
 Ce qui reste des anciennes règles du premier écran (carte, rangée de tuiles) dans `08-home`,
 `14-child-navigation`, `mobileMenus`, `homeScene` et `players` est recouvert, pas encore retiré :

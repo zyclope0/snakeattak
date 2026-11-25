@@ -43,6 +43,24 @@ vrai moteur, tête contre la version fusionnée, en français). Un défaut bloqu
   moins.
 - Un sélecteur ne touchait rien : retiré.
 
+## Ce que la correction a cassé, et qui a été rattrapé avant la demande de fusion
+
+Une seconde relecture indépendante a attaqué la correction. Une panne du service l'a coupée
+deux fois avant son compte rendu ; ses mesures étaient restées sur le disque, et elles
+montraient un défaut bloquant, apporté par la correction elle-même :
+
+- **L'arrêt à jouer du voyage avait perdu son liseré miel** ; l'arrêt fait, l'arrêt à jouer
+  et l'arrêt pas encore là avaient le même relief. En sortant la roulotte de l'habillage,
+  j'avais réuni l'arrêt et le cadeau dans un `:is()` : il donne à tous le poids du plus
+  lourd, et la règle commune écrasait les trois règles d'état écrites plus bas. Aucune boîte
+  ne bougeait : ni ma mesure ni les recettes ne pouvaient le voir. Corrigé (deux sélecteurs
+  séparés), et **la recette `test:mobile-menus` refuse désormais une carte du voyage où ces
+  trois arrêts ont le même relief**. Jouée sur la version cassée, elle échoue sur ce
+  contrôle ; sur la version réparée, elle passe.
+
+Une troisième relecture indépendante a ensuite attaqué ce dernier état, avec pour consigne
+de chercher ce défaut-là partout : voir plus bas.
+
 ## Comment c'est vérifié
 
 - **Mesure boîte par boîte, tête contre la version fusionnée, 102 états** (le voyage en
@@ -58,6 +76,10 @@ vrai moteur, tête contre la version fusionnée, en français). Un défaut bloqu
 - **Le relecteur, de son côté** : 135 états semés par le vrai moteur, 8 825 boîtes
   identiques ; aucune règle du lot ne touche une autre page (184 boîtes mesurées sur
   l'accueil, Missions, Aventure classique, Favoris, « Pour les parents »).
+- **L'allure de chaque arrêt du voyage, mesurée sur la version réparée** (style calculé,
+  tête contre la version fusionnée) : l'arrêt fait a le trait d'encre et l'ombre nette,
+  l'arrêt à jouer le liseré miel et l'ombre bois, l'arrêt pas encore là le trait pâle et
+  l'ombre légère ; l'arrêt tombé (état forcé dans la page) garde son relief pâle.
 - **Captures regardées** : l'expédition et le voyage à 780 × 360 et 1280 × 800 ; et, sur les
   captures de la recette `test:expedition`, les vues qu'on n'atteint qu'en jouant : le choix
   entre deux chemins (780 × 360 et 1280 × 800), le choix d'un cadeau, le choix d'une halte et
@@ -78,6 +100,10 @@ vrai moteur, tête contre la version fusionnée, en français). Un défaut bloqu
 - **Défaut plus ancien, vu par le relecteur, pas touché** : à la roulotte pleine (six cartes)
   sur un téléphone de 780 × 360, le texte de « La grande réserve de miel » déborde de sa
   carte, en haut et en bas. À corriger dans un lot à part : c'est de la mise en page.
+- **Défaut plus ancien, vu sur les captures de la seconde relecture, pas touché** : dans une
+  fenêtre d'ordinateur debout (600 × 960), au choix entre deux chemins, le nom du défi est
+  coupé par le bord de sa carte (« La tirelire », « Méga serpent »). Pareil sur la version
+  fusionnée. Mise en page, pour un lot à part.
 - L'anneau du clavier d'un bouton collé au bord du panneau (« Une autre expédition ») perd
   1 px sous le trait d'encre du panneau ; il était déjà rogné de 1 px.
 - Personne n'a regardé un voyage fini (cinq arrêts faits). L'anglais est mesuré boîte par
@@ -85,17 +111,20 @@ vrai moteur, tête contre la version fusionnée, en français). Un défaut bloqu
 
 ## Recettes jouées avant de pousser
 
-- **Sur la version corrigée** : `test:mobile-menus` en entier, `test:expedition`,
+- **Sur la version réparée (le dernier état)** : `test:mobile-menus` en entier (8 607
+  contrôles, dont les huit nouveaux sur le relief des arrêts), `test:expedition`,
   `test:journey`, `test:audit`, `test:child-mobile`, `test:offline`, `test:mission-journey`,
-  `test:browser`, `test:android-web`, les tests unitaires, le format, les builds du site et
-  de l'application.
-- **Sur la version d'avant la correction** (qui n'a fait que retirer la roulotte de
-  l'habillage et régler trois détails) : toutes les autres recettes de la CI, dont les huit
-  des règles et du rendu, les dix des écrans, les sept des sauvegardes, `test:back-button`,
-  `test:locale`, `test:caprices`, `test:discovery`, `test:ads-preview`, `test:ads-delivery`,
-  `test:family`, `test:android-signatures`.
-- `test:journey` a échoué une fois, au chargement de la page (30 secondes dépassées), pendant
-  que la machine jouait quatre recettes et la relecture à la fois ; rejouée seule, elle
-  passe.
+  `test:browser`, `test:android-web`, `test:locale`, les 1 051 tests unitaires, le format,
+  les builds du site et de l'application.
+- **Sur la version cassée** (celle d'avant la réparation) : la moitié « voyage » de
+  `test:mobile-menus`, avec le nouveau contrôle. Elle échoue, sur ce contrôle.
+- **Sur le premier jet** (avant les deux corrections, qui ne changent que des sélecteurs et
+  des couleurs de cette feuille) : toutes les autres recettes de la CI, dont les huit des
+  règles et du rendu, les dix des écrans, les sept des sauvegardes, `test:back-button`,
+  `test:caprices`, `test:discovery`, `test:ads-preview`, `test:ads-delivery`, `test:family`,
+  `test:android-signatures`.
+- `test:journey` a échoué une fois sur le premier jet, au chargement de la page (30 secondes
+  dépassées), pendant que la machine jouait quatre recettes et la relecture à la fois ;
+  rejouée seule, puis sur chaque version suivante, elle passe.
 
-Puis la CI de la demande de fusion, et une seconde relecture indépendante de la correction.
+Puis la CI de la demande de fusion.

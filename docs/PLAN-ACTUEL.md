@@ -65,8 +65,12 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   finale. **Pas encore publié : il faut le mot du parent.**
 - **25 novembre — troisième lot des menus : La Grande Expédition et le voyage**
   ([bilan](BILAN-MENUS-LOT-3-2026-11-25.md)) : le trait d'encre, l'ombre et le liseré miel de
-  la page Missions, sans rien déplacer (9 992 boîtes mesurées, toutes identiques). Ensuite,
-  page par page : Favoris, « Pour les parents », les fenêtres, puis le camp.
+  la page Missions, sans rien déplacer (9 941 boîtes mesurées, toutes identiques). Deux
+  défauts d'allure rattrapés par les relectures indépendantes avant la demande de fusion,
+  invisibles pour une mesure de boîtes : une carte trop chère de la roulotte qui avait l'air
+  achetable, puis l'arrêt à jouer du voyage qui avait perdu son liseré miel ;
+  `test:mobile-menus` garde maintenant le second. Ensuite, page par page : Favoris, « Pour
+  les parents », les fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
