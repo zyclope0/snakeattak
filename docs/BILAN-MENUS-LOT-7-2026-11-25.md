@@ -71,8 +71,12 @@ préparation) et **« Vague suivante »** (la barre du haut du combat) prennent 
 miel de « Jouer » : la même image, les lettres claires cerclées de bois. Aucune image
 nouvelle, aucun crédit dépensé ; la règle des menus est reprise, pas recopiée. Éteints, ils
 gardent leur vert sombre. Mesure : 96 états (8 tailles, français et anglais), 3 970 boîtes
-identiques ; seul leur dessin change. « Encourager », qui prend la place de « Vague
-suivante » pendant une vague, n'a pas changé : à demander.
+identiques ; seul leur dessin change.
+
+Deuxième question, réponse « Oui, lui aussi » : **« Encourager »**, qui prend la place de
+« Vague suivante » pendant une vague, a le même bouton ; retenu (déjà utilisé), il garde son
+vert sombre. Vérifié en jouant une vague : pâte avant l'usage, vert sombre après, même boîte
+(140 × 48 à 780 × 360).
 
 ## Comment c'est vérifié
 
@@ -107,7 +111,7 @@ suivante » pendant une vague, n'a pas changé : à demander.
 ## Ce qui n'est pas vérifié
 
 - Rien n'a été essayé sur le vrai téléphone ni avec les enfants.
-- Restent des questions pour le parent, une à la fois : « Encourager » et les boutons
-  foncés de la barre du haut ; les cibles de moins de 48 px (croix
+- Restent des questions pour le parent, une à la fois : les boutons foncés de la barre du
+  haut ; les cibles de moins de 48 px (croix
   de l'aide des outils, 44 px ; « Accueil » et « Comment jouer » sur tablette, 36 px de
   haut) ; le catalogue « Tous les alliés », lot à part.

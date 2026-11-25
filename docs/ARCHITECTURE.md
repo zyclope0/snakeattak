@@ -899,7 +899,7 @@ rien : la mise en page reste celle de `homePages.css`.
   sans poids : un `:not(#…)` compte comme un id et écrasait le bord de « Qui joue ? ».
 - **Le camp** : `ui/campSkin.css`, chargée après `windowSkin.css` (préparation d'une mission,
   serpents annoncés, aide des outils, colonne des alliés du combat). Le bouton en pâte miel de
-  « Jouer » n'a qu'une règle, dans `homeSkin.css` : « C'est parti ! » et « Vague suivante »
+  « Jouer » n'a qu'une règle, dans `homeSkin.css` : « C'est parti ! », « Vague suivante » et « Encourager »
   y sont ajoutés, pas recopiés. La préparation a sa propre règle d'anneau du clavier, plus
   lourde (`mobileMenus.css`) : elle a la sienne. Une fenêtre ouverte met le combat en pause
   sans montrer le voile de la pause : le gris « trop cher » de la pastille du prix ne vaut que

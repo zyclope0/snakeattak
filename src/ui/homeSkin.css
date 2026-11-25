@@ -174,10 +174,12 @@ body #home-screen:not([data-page='home']) .home-header .home-brand {
    Seul son dessin change : sa taille, ses marges et ses lignes restent celles que sa page lui
    donne (« Recommencer l'étape » tient sur deux lignes dans la carte d'une étape). L'image
    s'étire à la taille du bouton, comme sur le premier écran. Le camp le reprend pour « C'est
-   parti ! » et « Vague suivante » (décision du parent du 25 novembre, lot 7 : campSkin.css). */
+   parti ! », « Vague suivante » et « Encourager », qui prend sa place pendant une vague (décisions
+   du parent du 25 novembre, lot 7 : campSkin.css) ; retenu, « Encourager » garde son vert sombre. */
 body #home-screen:not([data-page='home']) .primary:not(:disabled),
 body #mission-dialog #mission-launch:not(:disabled),
-body .controls #start:not(:disabled) {
+body .controls #start:not(:disabled),
+body .controls #encourage-quick:not(:disabled, [aria-disabled='true']) {
   border-radius: 0;
   background: url('../assets/home/clairiere-bouton.webp') center / 100% 100% no-repeat;
   box-shadow: none;
@@ -196,7 +198,8 @@ body .controls #start:not(:disabled) {
 /* Sous la souris, la pâte s'éclaire un peu : le bouton répond encore. */
 body #home-screen:not([data-page='home']) .primary:not(:disabled):hover,
 body #mission-dialog #mission-launch:not(:disabled):hover,
-body .controls #start:not(:disabled):hover {
+body .controls #start:not(:disabled):hover,
+body .controls #encourage-quick:not(:disabled, [aria-disabled='true']):hover {
   filter: brightness(1.07);
 }
 /* Les autres boutons et les grandes cartes de papier : un trait d'encre et une ombre, posés
