@@ -72,7 +72,14 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   `test:mobile-menus` garde maintenant le second. Troisième relecture : rien de bloquant.
   Fusionné (PR 149, `main` = `4cd545b`). APK de test : le v15 a les lots 2 et 3 dans leur
   état final. **Pas encore publié : il faut le mot du parent**, comme pour le lot 2.
-  Ensuite, page par page : Favoris, « Pour les parents », les fenêtres, puis le camp.
+- **25 novembre — quatrième lot des menus : la page Favoris**
+  ([bilan](BILAN-MENUS-LOT-4-2026-11-25.md)) : trait d'encre, ombre nette et coins ronds sur
+  les cartes des alliés, boutons clairs du voyage, et un bouton « Précédents » ou
+  « Suivants » qui pâlit quand il n'y a rien à tourner. Rien ne bouge (7 542 boîtes
+  mesurées, toutes identiques). La relecture indépendante ne trouve aucune règle d'état
+  écrasée ; elle a vu l'anneau du clavier d'une carte en partie caché par une ombre neuve,
+  corrigé avant la demande de fusion. Ensuite, page par page : « Pour les parents », les
+  fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

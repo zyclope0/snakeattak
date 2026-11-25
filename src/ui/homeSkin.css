@@ -429,11 +429,13 @@ body #home-screen #mission-cards .mission-card:disabled .mission-status-badge {
 
 /* ---- Favoris ----
    Comme les missions : seuls le trait, l'ombre, les coins et les couleurs changent, jamais
-   une taille ni une place. Une règle par pièce, sans `:is()` qui mêlerait des poids ; et
-   aucune ne touche un bouton éteint, qui garde l'allure que lui donnent les feuilles du jeu
+   une taille ni une place. Une règle par pièce, sans `:is()` qui mêlerait des poids. Un
+   bouton éteint garde le trait et l'ombre que lui donnent les feuilles du jeu : les règles
+   d'un bouton allumé portent `:not(:disabled)`, et la dernière est écrite pour l'éteint
    (docs/ARCHITECTURE.md, « Une règle d'habillage pèse lourd »). */
-/* La feuille : le trait d'encre rentré et l'ombre posée du voyage et des tableaux. */
-body #home-screen .army-editor {
+/* La feuille : le trait d'encre rentré et l'ombre posée du voyage et des tableaux. Si elle
+   prenait un jour le clavier, elle garderait son anneau. */
+body #home-screen .army-editor:not(:focus-visible) {
   outline: max(2px, calc(2.5 * var(--s))) solid var(--clearing-ink);
   outline-offset: calc(-1 * max(2px, calc(2.5 * var(--s))));
   box-shadow: var(--clearing-lift);
@@ -467,4 +469,11 @@ body #home-screen #roster-slot {
 body #home-screen .roster-pagination button:disabled {
   border-color: rgba(18, 48, 42, 0.4);
   color: rgba(25, 63, 56, 0.5);
+}
+/* Au clavier, la pièce qui porte l'anneau passe devant ses voisines. Sinon l'ombre des
+   boutons de la bande, qui se peint au-dessus des cartes (`z-index: 1`, mobileMenus.css), et
+   le trait de la feuille en cachent un côté. Aucune place ne change. */
+body #home-screen .army-editor :focus-visible {
+  position: relative;
+  z-index: 2;
 }
