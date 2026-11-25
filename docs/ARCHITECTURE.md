@@ -859,7 +859,13 @@ rien : la mise en page reste celle de `homePages.css`.
   (`overflow: visible clip`, au bord d'une marge intérieure de 8 px qui laisse entier
   l'anneau du clavier). Une pièce coupée reste dans la page pour un lecteur d'écran. **Une
   pièce ajoutée à l'en-tête doit recevoir son rang** : sans `order`, elle part la première
-  (c'est arrivé à la marque, vu par un relecteur ; `test:saves:unkept` le contrôle).
+  (c'est arrivé à la marque, vu par un relecteur ; `test:saves:unkept` le contrôle, jusque
+  sur la rangée la plus courte). La marque et la roue se posent sur leur voisin de rangée
+  quand la colonne de l'en-tête est plus étroite qu'elles (`z-index`) : dessous, elles ne
+  répondaient plus. Dans une fenêtre debout étroite, quand la marque est là, l'en-tête
+  reprend deux lignes (`:has(button#unkept-mark)`) : la place n'y manque pas en hauteur.
+  **Sur « Pour les parents », la version est au pied de page sur tout écran**, pas dans le nom
+  du jeu, qui est la première pièce à partir.
   Avant, c'est la roue, dernière de la rangée, qui passait à la ligne (`flex-wrap` posé dans
   `i18n/language.css`). Un premier jet à seuils (`@container`, 600 et 170 px) cachait le total
   là où il tenait encore, et un conteneur de mesure sur l'en-tête change le repère de ses

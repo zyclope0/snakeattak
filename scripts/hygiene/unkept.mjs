@@ -242,15 +242,40 @@ async function placedOnPages(page, label) {
             .querySelector('#home-screen .home-header')
             .getBoundingClientRect();
           const r = mark.getBoundingClientRect();
-          const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+          // The middle and four points near the corners: on a short row the mark overlaps
+          // its neighbour, and must be the one on top everywhere.
+          const under = [
+            [0.5, 0.5],
+            [0.15, 0.25],
+            [0.85, 0.25],
+            [0.15, 0.75],
+            [0.85, 0.75],
+          ]
+            .map(([x, y]) => document.elementFromPoint(r.x + r.width * x, r.y + r.height * y))
+            .filter((top) => top !== mark && !mark.contains(top))
+            .map((top) => top?.id || top?.tagName || 'nothing');
           return {
+            at: { x: r.x, y: r.y, right: r.right, bottom: r.bottom },
             row: r.top < header.bottom - 0.5 && r.bottom > header.top + 0.5,
-            on: top === mark || mark.contains(top) ? null : top?.id || top?.tagName || 'nothing',
+            under,
+            width: innerWidth,
+            height: innerHeight,
           };
         });
-        const at = `${label}, page missions at ${size.width}×${size.height}`;
+        const at = `${label}, page missions at ${size.width}×${size.height} (${JSON.stringify(short.at)})`;
         assert.ok(short.row, `${at}: the mark is the last piece to leave the header`);
-        assert.equal(short.on, null, `${at}: nothing drawn over its middle`);
+        assert.ok(
+          short.at.x >= 0 &&
+            short.at.y >= 0 &&
+            short.at.right <= short.width &&
+            short.at.bottom <= short.height,
+          `${at}: inside the screen`,
+        );
+        assert.ok(
+          short.at.right - short.at.x >= 48 && short.at.bottom - short.at.y >= 48,
+          `${at}: a fair target`,
+        );
+        assert.deepEqual(short.under, [], `${at}: nothing drawn over it`);
       }
       await page.setViewportSize(own);
     }
