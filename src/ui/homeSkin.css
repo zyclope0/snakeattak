@@ -492,7 +492,7 @@ body #home-screen .parent-actions button:not(.help-point):not(:disabled) {
     var(--clearing-lift);
 }
 /* Le chemin vers les pages publiques (site seulement) : un trait de papier sur le décor. */
-body #home-screen .parent-actions .about {
+body #home-screen [data-home-page='parents'] .parent-actions .about {
   border-color: rgba(247, 241, 220, 0.6);
 }
 /* Le code d'aventure : un trait d'encre pour le champ, le bouton clair du voyage pour
@@ -510,8 +510,13 @@ body #home-screen .departure-entry button:not(.help-point):not(:disabled) {
     0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.55);
 }
 /* Au clavier, la pièce qui porte l'anneau passe devant ses voisines : l'ombre floue d'un
-   bouton voisin en mangeait un côté sur un téléphone. Aucune place ne change. */
-body #home-screen [data-home-page='parents'] :focus-visible {
+   bouton voisin en mangeait un côté sur un téléphone. Aucune place ne change. Le titre n'en
+   est pas : il passerait devant la marque « Partie non gardée » de l'en-tête. */
+body
+  #home-screen
+  [data-home-page='parents']
+  :is(.parent-actions, #home-parent-options)
+  :focus-visible {
   position: relative;
   z-index: 2;
 }

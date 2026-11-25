@@ -39,4 +39,30 @@ précédents : [1](BILAN-MENUS-2026-11-24.md), [2](BILAN-MENUS-LOT-2-2026-11-24.
   leur ordre et leur place.
 - **Captures regardées** : 780 × 360 (application) et 1280 × 800 (site, avec les deux
   liens).
-- Relecture indépendante et recettes : en cours, la suite de ce bilan les dira.
+
+## Ce que la relecture indépendante a trouvé, avant la demande de fusion
+
+Un relecteur indépendant a attaqué le premier jet, puis la correction de l'anneau. **Rien de
+bloquant.** Aucune règle d'état écrasée (survol, appui, clavier, éteint, code faux), aucune
+boîte qui bouge, aucune autre page touchée (les codes de la fenêtre de mission et du camp
+sont identiques) ; les huit fenêtres que la page ouvre passent devant la pièce au focus.
+Il a confirmé le défaut de l'anneau déjà corrigé, et trouvé deux petites choses, corrigées :
+
+- **Ma règle des deux liens du site ne s'appliquait pas** : elle pesait moins que la règle
+  de base. Alourdie ; leur trait est maintenant le trait de papier prévu.
+- **Le titre de la page passait devant la marque « Partie non gardée »** dans une fenêtre
+  debout de 360 × 640, quand on entrait dans la page au clavier (il reçoit alors l'anneau) :
+  un coin de 19 × 7 px de la marque allait au titre. La règle de l'anneau ne vise plus que
+  les boutons et le code ; le titre reste à sa place dans l'empilement.
+
+Noté sans le changer : sur le champ du code, le trait normal (encre) est maintenant plus
+foncé que le trait d'erreur (rouge). Les deux restent distincts, et la phrase d'erreur
+s'affiche toujours.
+
+## Ce qui n'est pas vérifié
+
+- **Rien sur un vrai téléphone, rien avec les enfants ni avec un parent.** Chromium seul : ni
+  WebView Android 108, ni Safari, ni Firefox.
+- La souris et le doigt sont simulés ; la marche au clavier est réelle.
+- La marque « Partie non gardée » a été simulée, pas obtenue par une vraie panne.
+- Le bouton de la publicité du site n'est pas essayé : la publicité est coupée dans le code.
