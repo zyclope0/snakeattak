@@ -883,6 +883,11 @@ rien : la mise en page reste celle de `homePages.css`.
   nommées de la clairière. Mêmes règles : le trait, l'ombre et les couleurs, jamais une
   taille ; les couleurs qui ont un sens (l'or des braves, le violet du gardien, la terre
   cuite du camp tombé) restent. La roulotte n'est pas habillée.
+- **Favoris** : le même habillage, dans le bloc « Favoris » de `ui/homeSkin.css`. Une règle
+  par pièce ; les règles d'un bouton allumé portent `:not(:disabled)`, et un bouton éteint de
+  la bande pâlit. Une ombre neuve peut cacher l'anneau du clavier d'une voisine (la bande des
+  boutons se peint au-dessus des cartes) : dans cette feuille, la pièce qui porte l'anneau
+  passe devant (`position: relative; z-index: 2`), sans changer de place.
 - **Une règle d'habillage pèse lourd** (`body #home-screen …`) : elle peut écraser une règle
   d'état d'une feuille chargée à part (éteint, sous la souris, à jouer, pas encore là), sans
   qu'aucune boîte ne bouge. Deux garde-fous : ne pas réunir dans un `:is()` deux éléments de
