@@ -851,14 +851,19 @@ rien : la mise en page reste celle de `homePages.css`.
   vignette est retiré (`ui/menu.ts`).
 - **L'en-tête des pages tient toujours sur une rangée, sans seuil à régler.** Il partage sa
   rangée avec « ← Accueil » et les boutons de la page, deux sur Missions. Ses pièces se
-  rangent depuis la droite (`flex-flow: row-reverse wrap`, `order`), la roue la première ;
-  celle qui ne tient plus passe à la ligne, et l'en-tête n'a que la hauteur d'une ligne
-  (`--settings-size`, la taille de la roue, nommée dans `settingsDialog.css`) : le reste est
-  coupé (`overflow-y: clip`). Le nom du jeu s'en va donc le premier, puis le total des
-  étoiles ; la roue reste. Une pièce coupée reste dans la page pour un lecteur d'écran.
+  rangent depuis la droite (`flex-flow: row-reverse wrap`), dans l'ordre de leur importance
+  (`order`) : la marque « Partie non gardée » quand elle est là, la roue, le total des
+  étoiles, le nom du jeu. Celle qui ne tient plus passe à la ligne, loin dessous
+  (`row-gap: 100vh`), et l'en-tête n'a que la hauteur d'une ligne (`--settings-size`, la
+  taille de la roue, nommée dans `settingsDialog.css`) : le reste est coupé
+  (`overflow: visible clip`, au bord d'une marge intérieure de 8 px qui laisse entier
+  l'anneau du clavier). Une pièce coupée reste dans la page pour un lecteur d'écran. **Une
+  pièce ajoutée à l'en-tête doit recevoir son rang** : sans `order`, elle part la première
+  (c'est arrivé à la marque, vu par un relecteur ; `test:saves:unkept` le contrôle).
   Avant, c'est la roue, dernière de la rangée, qui passait à la ligne (`flex-wrap` posé dans
   `i18n/language.css`). Un premier jet à seuils (`@container`, 600 et 170 px) cachait le total
-  là où il tenait encore : un relecteur l'a mesuré, il est retiré.
+  là où il tenait encore, et un conteneur de mesure sur l'en-tête change le repère de ses
+  enfants posés en absolu sur les WebView d'avant 129 : l'en-tête n'en est pas un.
 - **« ← Accueil » et le total des étoiles ont leur unité, `--k`** : celle de la page (`--s`)
   sur un écran couché, donc les tailles du premier lot. Dans une fenêtre debout (un
   ordinateur : un téléphone debout demande à être tourné), la rangée est étroite et `--s`

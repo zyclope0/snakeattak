@@ -15,11 +15,14 @@ des pages, que le premier lot avait abîmé. Le premier lot : [bilan](BILAN-MENU
   ligne : sur ordinateur, l'en-tête de la page Missions passait sur deux rangées. Défaut plus
   ancien : sur un petit téléphone, la roue des réglages passait sous la rangée, à moitié
   cachée par le panneau. La cause est la même : quand la place manquait, c'est la roue,
-  dernière de la rangée, qui passait à la ligne. Maintenant la roue reste, et ce qui compte
-  le moins s'en va d'abord : le nom du jeu, puis le total des étoiles. Aucun seuil à régler :
-  la règle vaut pour toute langue et tout texte.
-- **La roue est alignée avec ses voisins** : sur téléphone elle était 4 px plus bas que
-  « ← Accueil », presque contre le panneau. C'est le seul bouton qui bouge, de 4 px.
+  dernière de la rangée, qui passait à la ligne. Maintenant ce qui compte le moins s'en va
+  d'abord : le nom du jeu, puis le total des étoiles, puis la roue. La marque « Partie non
+  gardée », les rares fois où elle est là, part la dernière. Aucun seuil à régler : la règle
+  vaut pour toute langue et tout texte.
+- **La roue et le total sont alignés avec leurs voisins** : sur téléphone ils étaient 4 px
+  plus bas que « ← Accueil », la roue presque contre le panneau. Ils remontent de 4 px.
+- **Sur un grand écran, le total se range contre la roue** au lieu de flotter au milieu de
+  l'en-tête (41 à 215 px plus à droite selon la page et la langue).
 - **Sur un écran couché, rien ne change de taille** par rapport à la version en ligne :
   la plaque « ← Accueil » et le total des étoiles gardent les tailles du premier lot.
 - **Fenêtre d'ordinateur plus haute que large** : la plaque et le total y gardent au plus la
@@ -52,8 +55,30 @@ version en ligne.
 - Une phrase de ce bilan était fausse dans ces cas (« il n'y avait pas la place »).
 
 Correction : plus de seuil, l'ordre de départ décrit plus haut ; et les tailles du premier
-lot sur tout écran couché. **Le premier APK de test de ce lot (v12) a le premier jet** : il
-est remplacé par le v13.
+lot sur tout écran couché. **Le premier APK de test de ce lot (v12) a le premier jet.**
+
+**Un second relecteur a attaqué cette correction**, recettes et CI de nouveau vertes. Un
+défaut bloquant, dans un état que ni mes mesures ni les recettes ne jouaient :
+
+- **La marque « Partie non gardée » était coupée de l'en-tête des pages** quand l'appareil
+  refuse d'écrire la sauvegarde : dans 405 états sur 1 314 en français, 279 en anglais (page
+  Missions de 568 à 780 px de large, voyage de 720 à 844 px, grands écrans). Elle n'avait pas
+  de rang dans l'ordre de départ : elle partait la première. Sur `main` elle se voyait.
+  Corrigé : elle part la dernière. Remesuré avec le script du relecteur, 2 628 états : jamais
+  coupée, et jamais moins à portée du doigt que sur `main` (201 fois plus). **L'APK v13 a ce
+  défaut** : il est remplacé par le v14.
+- **L'anneau du clavier autour de la roue était coupé en haut et en bas.** Corrigé : la
+  coupe se fait 8 px plus loin ; l'anneau est entier (mêmes pixels que sur `main`).
+- **Sur un vieux WebView (108 à 128), la phrase « C'est réparé : ta partie est de nouveau
+  gardée » aurait disparu des pages** (simulé par le relecteur, pas vu sur un vrai appareil) :
+  l'en-tête était devenu un conteneur de mesure, ce qui change le repère de cette phrase sur
+  ces versions. Corrigé : l'en-tête n'est plus un conteneur.
+- Un navigateur qui ne sait pas couper d'un seul côté (Safari avant 16) montrait le nom du
+  jeu par-dessus le panneau : il coupe maintenant des deux côtés.
+
+**La recette `test:saves:unkept` contrôle maintenant la marque sur les quatre autres pages**
+(dans la rangée de l'en-tête, dans l'écran, à portée du doigt). Rejouée sur la version
+d'avant, elle échoue ; sur la correction, elle passe.
 
 ## Comment c'est vérifié
 
@@ -63,7 +88,8 @@ confirme.
 - **Le balayage du relecteur, rejoué en entier sur la version finale, tête contre `main`,
   14 466 cas** : six pages (Missions, Favoris, Aventure classique, « Pour les parents », le
   voyage en cours, La Grande Expédition), français et anglais, barres de téléphone
-  comprises. **Aucun défaut nouveau dans aucun cas.**
+  comprises. **Aucun défaut nouveau dans ce balayage** (il ne joue pas l'état « partie non
+  gardée », voir plus haut).
   - **Téléphones, 6 228 cas** (112 tailles de 568 × 320 à 932 × 430 avec trois jeux de
     barres ; puis de 560 à 800 px de large par pas de 4 avec six jeux de barres) : aucune
     taille changée, aucun panneau déplacé. Le total ne disparaît que là où `main` avait un
@@ -85,7 +111,9 @@ confirme.
 
 ## Ce qui n'est pas vérifié
 
-- **Rien sur un vrai téléphone, rien avec les enfants.** L'APK de test v13 est à essayer.
+- **Rien sur un vrai téléphone, rien avec les enfants.** L'APK de test v14 est à essayer.
+- Aucun vrai WebView 108 : le défaut de la phrase « C'est réparé » y était une simulation,
+  sa correction aussi.
 - La taille de police du système Android n'a pas été essayée.
 - La mission à jouer se reconnaît à son liseré miel, à sa flèche et à son relief plus foncé.
   Le liseré seul est discret sur le papier clair (1,2 à 1,5:1, mesuré par le relecteur), et
@@ -107,6 +135,13 @@ confirme.
     `main`) ; sur La Grande Expédition la roue touche encore le titre jusqu'à 860 px.
   - Noms sous la pastille en paysage à 568 px avec de grosses barres (« Les premières
     coquilles », « Le carrefour des fougères »), comme sur `main`.
+- **Quand la partie n'est pas gardée et que la rangée est courte, la roue s'en va** (124 états
+  sur 1 314 en français, 64 en anglais : page Missions sur petit téléphone, expédition) : les
+  réglages restent sur le premier écran. Sur `main`, dans le même balayage, elle passait sous
+  la rangée dans 177 états (118 en anglais). Au clavier, la roue coupée garde son arrêt de
+  tabulation, sans rien de visible.
+- Une tablette tenue debout sur le site a les tailles d'une fenêtre debout (plaque et noms
+  des missions plus petits). L'application est verrouillée en paysage.
 - Sur « Pour les parents », la version ne s'affiche nulle part si le nom du jeu ne tient pas
   dans l'en-tête d'un grand écran (il la porte) : aucun appareil connu n'a ces marges.
 - La fenêtre de préparation d'une mission, l'expédition, Favoris et « Pour les parents » ne
@@ -129,5 +164,5 @@ Toutes celles que la CI joue, vertes sur la machine avant de pousser :
 - 1 051 tests unitaires, format, builds (site, application, aperçu et essai de publicité,
   export autonome).
 
-Puis la CI de la demande de fusion, et une seconde relecture indépendante, qui attaque la
-correction.
+Puis la CI de la demande de fusion, et une troisième relecture indépendante, qui attaque la
+dernière correction.

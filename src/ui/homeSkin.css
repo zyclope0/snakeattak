@@ -104,23 +104,32 @@ body #home-screen:not([data-page='home']) .home-header .home-stars {
 }
 /* L'en-tête tient toujours sur une rangée. Il la partage avec « ← Accueil » et les boutons
    de la page (deux sur la page Missions) ; quand la place manque, ce qui compte le moins s'en
-   va d'abord : le nom du jeu, puis le total des étoiles. La roue reste.
+   va d'abord : le nom du jeu, puis le total des étoiles, puis la roue. La marque « Partie non
+   gardée », les rares fois où elle est là, part la dernière.
    Aucun seuil à régler, quels que soient la langue et le texte : les pièces se rangent depuis
-   la droite (row-reverse), la roue la première ; celle qui ne tient plus passe à la ligne, et
-   l'en-tête n'a que la hauteur d'une ligne (celle de la roue), le reste est coupé. Une pièce
-   coupée reste dans la page pour un lecteur d'écran.
+   la droite (row-reverse), dans l'ordre de leur importance ; celle qui ne tient plus passe à
+   la ligne, loin dessous (row-gap), et l'en-tête n'a que la hauteur d'une ligne (celle de la
+   roue) : le reste est coupé. Une pièce coupée reste dans la page pour un lecteur d'écran.
    Avant, c'est la roue, dernière de la rangée, qui passait à la ligne : à moitié cachée par
    le panneau sur un petit téléphone, sur deux rangées sur un ordinateur. */
 body #home-screen:not([data-page='home']) .home-header {
   flex-flow: row-reverse wrap;
   justify-content: flex-start;
   align-content: flex-start;
+  row-gap: 100vh;
+  box-sizing: content-box;
   height: var(--settings-size);
-  /* Une marge intérieure décalait la roue de 4 px sous ses voisins sur un téléphone. */
-  padding-block: 0;
-  overflow-y: clip;
-  /* Pour la règle de la roue, plus bas. */
-  container: page-header / inline-size;
+  /* La coupe se fait au bord de la marge intérieure : 8 px de chaque côté laissent entier
+     l'anneau du clavier autour de la roue, et la marge négative rend ces 8 px à la page.
+     (Une marge intérieure de 4 px décalait la roue sous ses voisins sur un téléphone.) */
+  padding-block: 8px;
+  margin-block: -8px;
+  /* Un navigateur sans « clip » (Safari avant 16) coupe des deux côtés. */
+  overflow: hidden;
+  overflow: visible clip;
+}
+body #home-screen:not([data-page='home']) .home-header button#unkept-mark {
+  order: -3;
 }
 body #home-screen:not([data-page='home']) .home-header #home-settings {
   order: -2;
@@ -132,14 +141,12 @@ body #home-screen:not([data-page='home']) .home-header .home-stars {
 body #home-screen:not([data-page='home']) .home-header .home-brand {
   margin-right: auto;
 }
-/* Fenêtre debout étroite : il reste à l'en-tête moins que la roue. Elle revient à la taille
-   d'un doigt, pour mordre le moins possible sur le bouton voisin. */
-@container page-header (max-width: 63.98px) {
-  body #home-screen:not([data-page='home']) .home-header #home-settings {
-    width: 48px;
-    height: 48px;
-    /* Au milieu de la rangée, qui garde sa hauteur. */
-    translate: 0 calc((var(--settings-size) - 48px) / 2);
+/* Missions dans une fenêtre debout étroite : deux boutons dans la rangée, il reste à
+   l'en-tête moins que la roue. Elle y a la taille d'un doigt, pour mordre le moins possible
+   sur le bouton voisin. */
+@media (orientation: portrait) and (max-width: 640px) {
+  body #home-screen[data-page='missions'] .home-header {
+    --settings-size: 48px;
   }
 }
 

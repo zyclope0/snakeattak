@@ -58,8 +58,9 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   choisie par le parent (« Continuer les menus ») : cartes à l'allure du premier écran, et
   l'en-tête des pages réparé (le premier lot l'avait fait passer sur deux rangées sur
   ordinateur). Un relecteur indépendant a trouvé des régressions dans le premier jet (le
-  total des étoiles qui disparaissait ou rapetissait sur téléphone) : corrigées avant fusion.
-  APK de test : le v12 a le premier jet, le v13 la version corrigée.
+  total des étoiles qui disparaissait ou rapetissait sur téléphone), un second un défaut
+  bloquant dans la correction (la marque « Partie non gardée » coupée de l'en-tête) :
+  corrigés avant fusion. APK de test : seul le v14 a la version finale.
   **Pas encore publié : il faut le mot du parent.** Ensuite, page par page :
   La Grande Expédition, Favoris, « Pour les parents », les fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication

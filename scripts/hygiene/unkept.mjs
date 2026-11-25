@@ -190,6 +190,50 @@ async function placedOnHome(page, label) {
   await page.setViewportSize(own);
 }
 
+/** The doors of the secondary pages of the home, by the page they open. */
+const PAGES = Object.freeze({
+  missions: '#home-expeditions',
+  favorites: '#home-army',
+  classic: '#home-classic',
+  parents: '#home-parents',
+});
+/**
+ * On the secondary pages the mark sits in the header, whose pieces leave by order of
+ * importance when the top row is short of room (homeSkin.css): the mark is the last to go.
+ * On each page, at the size the recipe plays: in the header's row, wholly inside the screen,
+ * a fair target, and what is under its middle is the mark itself.
+ */
+async function placedOnPages(page, label) {
+  for (const [name, door] of Object.entries(PAGES)) {
+    await page.locator(door).click();
+    await page.locator(`#home-screen[data-page="${name}"]`).waitFor();
+    const found = await page.evaluate(() => {
+      const mark = document.querySelector('#unkept-mark');
+      const header = document.querySelector('#home-screen .home-header').getBoundingClientRect();
+      const r = mark.getBoundingClientRect();
+      const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+      return {
+        at: { x: r.x, y: r.y, right: r.right, bottom: r.bottom },
+        row: r.top < header.bottom - 0.5 && r.bottom > header.top + 0.5,
+        on: top === mark || mark.contains(top) ? null : top?.id || top?.tagName || 'nothing',
+        width: innerWidth,
+        height: innerHeight,
+      };
+    });
+    const { at } = found;
+    const tag = `${label}, page ${name} (${JSON.stringify(at)})`;
+    assert.ok(found.row, `${tag}: in the row of the header, not cut away under it`);
+    assert.ok(
+      at.x >= 0 && at.y >= 0 && at.right <= found.width && at.bottom <= found.height,
+      `${tag}: inside the screen`,
+    );
+    assert.ok(at.right - at.x >= 48 && at.bottom - at.y >= 48, `${tag}: a fair target`);
+    assert.equal(found.on, null, `${tag}: nothing drawn over its middle`);
+    await page.locator('#home-back').click();
+    await page.locator('#home-screen[data-page="home"]').waitFor();
+  }
+}
+
 for (const viewport of SCREENS) {
   const tag = `${viewport.width}x${viewport.height}`;
   const { browser, page, report } = await open({ dir, viewport, touch: viewport.width < 1000 });
@@ -221,12 +265,14 @@ for (const viewport of SCREENS) {
     assert.equal(await text(page, '#unkept-mark'), FR.partieNonGardee);
     await placedOnHome(page, `${tag}, the mark`);
     await page.screenshot({ path: `artifacts/hygiene/unkept-mark-${tag}.png` });
+    await placedOnPages(page, `${tag}, the mark`);
     await mark.click();
     await window.waitFor({ state: 'visible' });
     // Escape closes it too: the game behind it works.
     await page.keyboard.press('Escape');
     await page.locator('#unkept-dialog').waitFor({ state: 'detached' });
     checks.push(`${tag} : sur l'accueil, la marque « Partie non gardée » rouvre la fenêtre`);
+    checks.push(`${tag} : la marque se voit et se touche sur les quatre autres pages`);
 
     // The device keeps the game again: the home says so, until the player has seen it.
     await refuse(page, false);
