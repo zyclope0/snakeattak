@@ -64,6 +64,16 @@ parent les a acceptées.
   25,6 px sur ordinateur) et plus étroit ; « C'est parti ! » prend la place libérée. La
   hauteur des deux boutons ne change pas.
 
+## Décision du parent : la zone de jeu suit l'accueil validé
+
+Question posée seule, réponse du parent : « Oui, les deux ». **« C'est parti ! »** (la
+préparation) et **« Vague suivante »** (la barre du haut du combat) prennent le pain de pâte
+miel de « Jouer » : la même image, les lettres claires cerclées de bois. Aucune image
+nouvelle, aucun crédit dépensé ; la règle des menus est reprise, pas recopiée. Éteints, ils
+gardent leur vert sombre. Mesure : 96 états (8 tailles, français et anglais), 3 970 boîtes
+identiques ; seul leur dessin change. « Encourager », qui prend la place de « Vague
+suivante » pendant une vague, n'a pas changé : à demander.
+
 ## Comment c'est vérifié
 
 - **Boîtes mesurées**, avant et après, sur les écrans du camp (préparation et ses quatre
@@ -97,7 +107,7 @@ parent les a acceptées.
 ## Ce qui n'est pas vérifié
 
 - Rien n'a été essayé sur le vrai téléphone ni avec les enfants.
-- Restent des questions pour le parent, une à la fois : la barre du haut et les grands
-  boutons du combat à l'allure de l'accueil validé ; les cibles de moins de 48 px (croix
+- Restent des questions pour le parent, une à la fois : « Encourager » et les boutons
+  foncés de la barre du haut ; les cibles de moins de 48 px (croix
   de l'aide des outils, 44 px ; « Accueil » et « Comment jouer » sur tablette, 36 px de
   haut) ; le catalogue « Tous les alliés », lot à part.

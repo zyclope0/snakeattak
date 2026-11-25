@@ -897,6 +897,13 @@ rien : la mise en page reste celle de `homePages.css`.
   nommées sur `:root` (`homeClearing.css`) ; les ombres, qui comptent en `--s`, restent sur
   l'accueil. Les panneaux du combat et « Qui joue ? » sont laissés de côté, dans un `:where()`
   sans poids : un `:not(#…)` compte comme un id et écrasait le bord de « Qui joue ? ».
+- **Le camp** : `ui/campSkin.css`, chargée après `windowSkin.css` (préparation d'une mission,
+  serpents annoncés, aide des outils, colonne des alliés du combat). Le bouton en pâte miel de
+  « Jouer » n'a qu'une règle, dans `homeSkin.css` : « C'est parti ! » et « Vague suivante »
+  y sont ajoutés, pas recopiés. La préparation a sa propre règle d'anneau du clavier, plus
+  lourde (`mobileMenus.css`) : elle a la sienne. Une fenêtre ouverte met le combat en pause
+  sans montrer le voile de la pause : le gris « trop cher » de la pastille du prix ne vaut que
+  sans fenêtre ouverte ni voile.
 - **Une règle d'habillage pèse lourd** (`body #home-screen …`) : elle peut écraser une règle
   d'état d'une feuille chargée à part (éteint, sous la souris, à jouer, pas encore là), sans
   qu'aucune boîte ne bouge. Deux garde-fous : ne pas réunir dans un `:is()` deux éléments de
