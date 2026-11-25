@@ -101,8 +101,9 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   Trois regards croisés (critique de design, accessibilité, système de design comparé aux
   meilleures ventes du genre). Trait d'encre, onglet ouvert enfoncé et vert, anneau du clavier
   à l'encre dans les fenêtres de papier, « trop cher » distinct de « en pause ». Décisions du
-  parent : coche sur l'allié choisi, « Retour » lisible et plus étroit. Le plateau et la barre
-  du haut ne changent pas. **Pas encore publié : il faut le mot du parent.**
+  parent, posées une à une : coche sur l'allié choisi, « Retour » lisible et plus étroit,
+  « C'est parti ! », « Vague suivante » et « Encourager » en pâte miel comme « Jouer », les
+  petits boutons de la barre du haut en bouton clair. Le plateau ne change pas. **Pas encore publié : il faut le mot du parent.**
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

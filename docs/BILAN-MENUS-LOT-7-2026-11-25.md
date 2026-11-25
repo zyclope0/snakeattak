@@ -60,7 +60,7 @@ parent les a acceptées.
 
 - **La coche sur l'allié choisi**, dans la colonne du combat : la coche du catalogue des
   alliés, en encre, dans le coin du portrait. Le prix reste dans l'autre coin.
-- **« Retour » dans la préparation** : écrit plus grand (12 px → 16 px sur téléphone,
+- **« Retour » dans la préparation** : écrit plus grand (12 px → 15 à 17 px sur téléphone,
   25,6 px sur ordinateur) et plus étroit ; « C'est parti ! » prend la place libérée. La
   hauteur des deux boutons ne change pas.
 
@@ -77,6 +77,13 @@ Deuxième question, réponse « Oui, lui aussi » : **« Encourager »**, qui pr
 « Vague suivante » pendant une vague, a le même bouton ; retenu (déjà utilisé), il garde son
 vert sombre. Vérifié en jouant une vague : pâte avant l'usage, vert sombre après, même boîte
 (140 × 48 à 780 × 360).
+
+Troisième question, réponse « Oui, le bouton clair » : **les petits boutons de la barre du
+haut** (pause, vitesse, dangers ; sur un grand écran aussi sons et agrandir) prennent le bouton
+clair des menus, papier et trait d'encre, posés sur la barre vert foncé. Éteints, ils gardent
+leur vert sombre ; l'anneau du clavier reste doré, bien visible sur la barre. Mesure : 96 états,
+aucune boîte ne bouge. « Accueil » et « Comment jouer », en tête de page sur un grand écran,
+n'ont pas changé.
 
 ## Comment c'est vérifié
 
@@ -105,13 +112,21 @@ vert sombre. Vérifié en jouant une vague : pâte avant l'usage, vert sombre ap
   l'encre : il prend l'encre.
 - Laissé tel quel : un caprice choisi garde sa couleur sous la souris (avant, le survol la
   changeait à peine : #f5e4b5 contre #ffebbc). Sur tablette et téléphone, pas de survol.
+- **Deuxième attaque** : les trois corrections tiennent ; elle trouve encore **le bord vert
+  pâle de l'aide des outils** sous le trait d'encre (sa règle propre pesait plus) : il prend
+  l'encre, même largeur. La coche ne touche jamais le prix (4,1 px au plus près) ni le nom ;
+  « Retour » fait 48 px de haut au moins et ne déborde jamais (568 × 320 à 1920 × 1080).
+- Plus ancien que ce lot, noté pour plus tard : « Autre départ » a un fond blanc à côté de
+  deux boutons vert pâle ; « C'est parti ! » éteint resterait miel plat (rien ne l'éteint
+  aujourd'hui).
 - Plus ancien que ce lot, noté pour plus tard : le bas de l'anneau du clavier de « Autre
   départ » et du « ? » est coupé par le bord de sa rangée.
 
 ## Ce qui n'est pas vérifié
 
 - Rien n'a été essayé sur le vrai téléphone ni avec les enfants.
-- Restent des questions pour le parent, une à la fois : les boutons foncés de la barre du
-  haut ; les cibles de moins de 48 px (croix
+- Restent des questions pour le parent, une à la fois : « Accueil » et « Comment jouer » en
+  tête de page ; « C'est parti ! » très allongé sur un grand écran (l'image s'étire) ; les
+  cibles de moins de 48 px (croix
   de l'aide des outils, 44 px ; « Accueil » et « Comment jouer » sur tablette, 36 px de
   haut) ; le catalogue « Tous les alliés », lot à part.

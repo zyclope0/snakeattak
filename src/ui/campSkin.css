@@ -58,6 +58,13 @@ body #mission-dialog .caprice-friends button[aria-pressed='true']:not(:focus-vis
   outline: none;
 }
 
+/* ---- L'aide des outils ---- */
+/* Son bord propre, vert pâle, pèse plus que celui des fenêtres (campToolHelp.css) : il restait
+   sous le trait d'encre. Il prend l'encre, même largeur. */
+body #camp-tool-dialog:not(:focus-visible) {
+  border-color: var(--clearing-ink);
+}
+
 /* ---- Les serpents annoncés (préparation et fenêtre des dangers) ---- */
 /* Des informations, pas des boutons : le trait d'encre, sans relief. */
 body :is(#mission-dialog, #threat-dialog) .threat-card {
@@ -114,4 +121,21 @@ body #mission-dialog .mission-dialog-actions #mission-close {
   min-width: max(120px, 20%);
   padding-inline: 20px;
   font-size: max(15px, calc(var(--hu) * 1.6));
+}
+
+/* ---- Décision du parent (25 novembre 2026 : « Oui, le bouton clair ») ---- */
+/* La barre du haut du combat : ses petits boutons (pause, vitesse, dangers, et sur un grand écran
+   sons, agrandir) prennent le bouton clair des menus, papier et trait d'encre, posés sur la
+   barre vert foncé, à côté du bouton en pâte miel. Ni leur taille ni leur place ne changent.
+   Éteints, ils gardent leur vert sombre. */
+body .controls .square:not(:disabled) {
+  color: var(--clearing-ink);
+  background-color: var(--paper);
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+body .controls .square:not(:disabled):hover {
+  background-color: #fffbee;
 }
