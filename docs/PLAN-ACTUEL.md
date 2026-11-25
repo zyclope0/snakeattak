@@ -61,9 +61,12 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   total des étoiles qui disparaissait ou rapetissait sur téléphone), puis défauts des
   corrections dans des états de plus en plus rares (la marque « Partie non gardée » coupée de
   l'en-tête, la version absente de « Pour les parents », la roue sous son voisin), tous
-  corrigés avant fusion. APK de test : seul le v14 a la version finale.
-  **Pas encore publié : il faut le mot du parent.** Ensuite, page par page :
-  La Grande Expédition, Favoris, « Pour les parents », les fenêtres, puis le camp.
+  corrigés avant fusion (PR 148, `main` = `19e245a`). APK de test : seul le v14 a la version
+  finale. **Pas encore publié : il faut le mot du parent.**
+- **25 novembre — troisième lot des menus : La Grande Expédition et le voyage**
+  ([bilan](BILAN-MENUS-LOT-3-2026-11-25.md)) : le trait d'encre, l'ombre et le liseré miel de
+  la page Missions, sans rien déplacer (9 992 boîtes mesurées, toutes identiques). Ensuite,
+  page par page : Favoris, « Pour les parents », les fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
