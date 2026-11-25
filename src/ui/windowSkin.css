@@ -8,10 +8,12 @@
  * lot du camp. Un bouton éteint, un « ? » et le miel d'un bouton principal gardent le leur.
  */
 /* La fenêtre : le trait d'encre rentré des pages, sur son bord. Si elle prend le clavier, elle
-   garde son anneau. */
-dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog):not(
-    :focus-visible
-  ) {
+   garde son anneau. La fenêtre « Qui joue ? » est vert foncé : son bord clair la détache du
+   fond, elle le garde. La liste des fenêtres laissées de côté est dans un :where(), qui ne
+   pèse rien : un :not(#…) compterait comme un id et écraserait leurs propres règles. */
+dialog:where(
+    :not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog, #players-dialog)
+  ):not(:focus-visible) {
   border-color: var(--clearing-ink);
   outline: 2px solid var(--clearing-ink);
   outline-offset: -2px;
@@ -43,4 +45,14 @@ body
 }
 body #unit-dialog #guide-select:not(:disabled) {
   border-color: var(--clearing-ink);
+}
+/* Le carnet des caprices : ses boutons (« Fermer », les pages) ne sont pas des boutons clairs
+   ordinaires ; ils prennent le même trait, gardent leur reflet et leur miel sous la souris
+   (caprices.css). */
+body #caprice-album-dialog button:not(:disabled) {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 2px #fff8e3,
+    inset 0 0 0 1.5px var(--clearing-ink),
+    0 3px 0 rgba(20, 14, 6, 0.55);
 }

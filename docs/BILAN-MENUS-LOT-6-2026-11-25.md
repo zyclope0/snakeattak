@@ -40,3 +40,36 @@ Suite de « Continuer les menus » (parent, 25 novembre). Lots précédents :
 - **Les pages de l'accueil, après le déplacement des couleurs** : « Pour les parents » et
   Favoris mesurées, boîtes et allure identiques.
 - **Captures regardées** : les six fenêtres à 780 × 360.
+
+## Ce que la relecture indépendante a trouvé, avant la demande de fusion
+
+Un relecteur indépendant a ouvert 23 fenêtres par leur vrai chemin (dont les joueurs,
+l'album des caprices, la question pour adulte, la fenêtre de panne, celles du voyage et du
+combat), à 780 × 360 et 1280 × 800. **Rien de bloquant** : aucune distinction d'état perdue
+(268 et 270 tenues), aucune boîte qui bouge, les panneaux du combat identiques, l'anneau du
+clavier entier (vraie touche Tab dans les réglages, les fiches et les joueurs), la croix de
+« Comment jouer » reste collée en haut quand la fenêtre défile. Deux défauts, corrigés :
+
+- **La fenêtre « Qui joue ? » perdait son bord** : elle est vert foncé, et son bord clair la
+  détachait du fond ; ma règle, qui pesait comme un id (un `:not(#…)` compte comme un id), le
+  remplaçait par de l'encre (contraste avec le fond : 4,1 avant, 1,1 après). Elle est sortie
+  de l'habillage, et la liste des fenêtres laissées de côté est maintenant dans un
+  `:where()`, qui ne pèse rien. Rejoué : la fenêtre est identique à la version fusionnée,
+  et les sept fenêtres mesurées sont identiques à avant la correction.
+- **L'album des caprices avait une allure mélangée** : cadre d'encre, boutons au trait vert
+  (ce ne sont pas des boutons clairs ordinaires). Ses boutons prennent le trait d'encre et
+  gardent leur reflet et leur miel sous la souris. Rejoué : 30 distinctions d'état tenues,
+  aucune perdue.
+
+## Ce qui n'est pas vérifié
+
+- **Rien sur un vrai téléphone, rien avec les enfants.** Chromium seul : ni WebView
+  Android 108, ni Safari, ni Firefox.
+- La souris et le doigt sont simulés ; la marche au clavier est réelle (trois fenêtres, à
+  780 × 360).
+- Pas ouvertes pour de vrai : la fenêtre « remplacer l'expédition » (il faut une bataille
+  d'expédition gagnée), le secours au démarrage et la fenêtre « partie non gardée » (mêmes
+  règles que la fenêtre de panne, ouverte).
+- **Défauts plus anciens, pas touchés** : dans « Comment jouer » sur téléphone, le bouton
+  « C'est parti ! » collant couvre une ligne de texte ; dans « Ton aventure, à garder » à
+  780 × 360, « Choisir un fichier » n'apparaît qu'en faisant défiler.
