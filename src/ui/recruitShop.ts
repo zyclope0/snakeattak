@@ -86,6 +86,9 @@ export function bindRecruitShop(session: Session, refresh: () => void) {
   };
 }
 
+/** The event a card too dear sends up, with what it lacks: the catalogue shows it at its top. */
+export const ALLY_TOO_DEAR = 'ally-too-dear';
+
 function recruitCard(session: Session, kind: Kind, refresh: () => void): HTMLButtonElement {
   const unit = kinds[kind];
   const card = make('button', { className: 'unit-card' });
@@ -98,6 +101,19 @@ function recruitCard(session: Session, kind: Kind, refresh: () => void): HTMLBut
   );
   card.querySelector<HTMLElement>('.portrait')!.style.cssText = portraitStyle(kind);
   card.onclick = () => {
+    // Too dear: the card answers instead of doing nothing (parent's decision, 25 November 2026).
+    // It says what is missing; nothing is chosen.
+    if (card.getAttribute('aria-disabled') === 'true') {
+      const game = session.game;
+      const cost = game.recruitCost(kind);
+      const reason = cardNote(game, kind, cost, (missing) => fill(TEXT.ilManqueNPieces, missing));
+      if (reason) {
+        game.message = reason;
+        card.dispatchEvent(new CustomEvent(ALLY_TOO_DEAR, { bubbles: true, detail: reason }));
+      }
+      refresh();
+      return;
+    }
     session.selectUnit(session.selected === kind ? null : kind);
     session.game.message = session.selected
       ? fill(TEXT.nToucheUnEspaceLibreDansTonCampA, unit.name)
@@ -131,7 +147,10 @@ function showCard(card: HTMLButtonElement, kind: Kind, session: Session, frozen:
   const locked = !game.isUnlocked(kind);
   const poor = !canSpend(game, cost);
   const chosen = session.selected === kind;
-  card.disabled = frozen || locked || poor;
+  card.disabled = frozen || locked;
+  // A card too dear stays reachable, by touch and by keyboard, to say what it lacks.
+  if (poor && !card.disabled) card.setAttribute('aria-disabled', 'true');
+  else card.removeAttribute('aria-disabled');
   showPrice(card, cost);
   setText(
     card.querySelector('small')!,

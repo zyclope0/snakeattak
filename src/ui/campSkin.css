@@ -197,6 +197,23 @@ body #app #reinforcements :focus-visible {
   outline-color: var(--clearing-ink);
 }
 body #app #reinforcements #shop .unit-card:focus-visible {
+  outline-offset: -3px;
+}
+/* Sur les dalles vert foncé du pli « Conseils et outils », l'encre ne se voyait pas (1,2:1) :
+   l'anneau y est clair. « Conseils », coupé par son pli, est dessiné dedans. */
+body
+  #app
+  #reinforcements
+  :is(
+    #camp-observation > summary,
+    .camp-details > details > summary,
+    .camp-details footer :is(button, a),
+    #reset,
+    #end-restart
+  ):focus-visible {
+  outline-color: var(--clearing-paper);
+}
+body #app #reinforcements #camp-observation > summary:focus-visible {
   outline-offset: -5px;
 }
 /* Les pièces qu'on a : une information, le trait d'encre sans relief. */
@@ -221,6 +238,10 @@ body #app #reinforcements .shop-tabs button[aria-pressed='true']:not(:disabled) 
     inset 0 0 0 2.5px var(--clearing-ink),
     inset 0 3px 0 rgba(20, 14, 6, 0.18);
 }
+/* Un onglet éteint (plus rien à découvrir) garde la forme d'une case, à plat. */
+body #app #reinforcements .shop-tabs button:disabled {
+  background-color: #e2e8d8;
+}
 /* « Fiches » et « Fermer » : les boutons clairs des menus. */
 body #app #reinforcements :is(.guide-button, .reinforcements-close):not(:disabled) {
   color: var(--clearing-ink);
@@ -230,6 +251,10 @@ body #app #reinforcements :is(.guide-button, .reinforcements-close):not(:disable
     inset 0 0 0 1.5px var(--clearing-ink),
     var(--clearing-drop);
 }
+/* « Fermer » a un bord d'un pixel en plus : transparent, son trait est celui de « Fiches ». */
+body #app #reinforcements .reinforcements-close:not(:disabled) {
+  border-color: transparent;
+}
 body #app #reinforcements :is(.guide-button, .reinforcements-close):not(:disabled):hover {
   background-color: #fffbee;
 }
@@ -237,18 +262,18 @@ body #app #reinforcements :is(.guide-button, .reinforcements-close):not(:disable
    dedans). L'ombre posée seulement là où les rangées ont la place (6 px) ; sur un téléphone
    couché, elles ne sont qu'à 4 px. Sous la souris, le papier s'éclaire : avant, le survol
    prenait presque le vert d'une carte choisie. */
-body #app #reinforcements #shop .unit-card:not(:disabled) {
+body #app #reinforcements #shop .unit-card:not(:disabled, [aria-disabled='true']) {
   border-color: var(--clearing-ink);
   box-shadow: inset 0 0 0 0.5px var(--clearing-ink);
 }
 @media (min-width: 921px) and (min-height: 521px) {
-  body #app #reinforcements #shop .unit-card:not(:disabled) {
+  body #app #reinforcements #shop .unit-card:not(:disabled, [aria-disabled='true']) {
     box-shadow:
       inset 0 0 0 0.5px var(--clearing-ink),
       var(--clearing-drop);
   }
 }
-body #app #reinforcements #shop .unit-card:not(:disabled):hover {
+body #app #reinforcements #shop .unit-card:not(:disabled, [aria-disabled='true']):hover {
   border-color: var(--clearing-ink);
   background-color: #fffbee;
 }
@@ -260,17 +285,26 @@ body #app #reinforcements #shop .unit-card.selected:not(:disabled) {
     inset 0 0 0 0.5px var(--clearing-ink),
     inset 0 3px 0 rgba(20, 14, 6, 0.18);
 }
-body #app #reinforcements #shop .unit-card.selected::after {
+body #app #reinforcements #shop .unit-card.selected:not(:disabled)::after {
   color: var(--clearing-paper);
   background-color: var(--clearing-ink);
 }
 /* Trop chère ou à découvrir : à plat, le portrait passé, la pastille du prix sans son miel,
-   comme dans la colonne du combat. Trois signes, sans un mot de plus. */
+   comme dans la colonne du combat. Trois signes, sans un mot de plus. Une carte trop chère
+   n'est plus éteinte (décision du parent : elle dit ce qui lui manque) : elle garde l'allure
+   d'une carte éteinte, même sous la souris. */
+body #app #reinforcements #shop .unit-card[aria-disabled='true'],
+body #app #reinforcements #shop .unit-card[aria-disabled='true']:hover {
+  border-color: #c4d2b8;
+  background-color: #ecefdf;
+  box-shadow: inset 0 1px #e1dfce;
+  cursor: not-allowed;
+}
 body #app #reinforcements #shop .unit-card[data-state='poor'] .portrait {
   opacity: 0.6;
   filter: grayscale(0.6);
 }
-body #app #reinforcements #shop .unit-card:disabled .price {
+body #app #reinforcements #shop .unit-card:is(:disabled, [aria-disabled='true']) .price {
   background-color: #e4e1d3;
   color: #53604d;
   box-shadow: inset 0 0 0 1px rgba(18, 48, 42, 0.5);
@@ -282,6 +316,14 @@ body #app #reinforcements #lane-status b,
 body #app #reinforcements #training-status {
   color: var(--clearing-paper);
 }
-body #app #reinforcements #message {
+body #app #reinforcements :is(#message, #selection-name, #selection-hint, #cancel) {
   color: var(--clearing-ink);
+}
+
+/* Décision du parent (25 novembre 2026, « Oui, en haut à droite ») : sur un grand écran,
+   « Fermer » passe en haut à droite, comme sur un téléphone et dans les autres fenêtres. */
+@media (min-width: 921px) and (min-height: 521px) {
+  body #app #reinforcements .reinforcements-close {
+    order: 2;
+  }
 }

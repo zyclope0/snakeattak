@@ -111,8 +111,9 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **25 novembre — huitième lot des menus : le catalogue des alliés** ([bilan](BILAN-MENUS-LOT-8-2026-11-25.md)) :
   cadre et anneau du clavier à l'encre, onglets de la préparation, cartes à l'encre, carte
   choisie enfoncée avec la coche à l'encre, trop chère ou à découvrir à plat et sans miel,
-  textes presque invisibles du pli « Conseils et outils » rendus lisibles. Rien ne bouge
-  (8 996 boîtes). **Pas encore publié : il faut le mot du parent.**
+  textes presque invisibles du pli « Conseils et outils » rendus lisibles. Décisions du
+  parent : une carte trop chère répond « Il manque N pièces » ; « Fermer » en haut à droite
+  sur ordinateur. **Pas encore publié : il faut le mot du parent.**
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
