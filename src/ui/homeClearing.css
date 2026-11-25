@@ -14,13 +14,17 @@
  * pour un doigt. Pas de taille en px ici, sauf un plancher dans max() ou une cible tactile.
  * Les images viennent de scripts/build-home-scene.py.
  */
-/* Les couleurs et les ombres de la pâte, pour tout l'accueil : le premier écran ici, les
-   autres pages dans homeSkin.css. Chaque page donne son unité, --s. */
-body #home-screen {
+/* Les couleurs de la pâte, pour toute la page : l'accueil et ses pages, et les fenêtres, qui
+   sont posées hors de l'accueil (windowSkin.css). */
+:root {
   --clearing-ink: #12302a;
   --clearing-paper: #f7f1dc;
   --clearing-wood: #4a2c08;
   --clearing-honey: #f6c452;
+}
+/* Les ombres de la pâte, pour tout l'accueil : le premier écran ici, les autres pages dans
+   homeSkin.css. Elles comptent en --s, l'unité que chaque page donne. */
+body #home-screen {
   /* Un contour plein autour des lettres posées sur le décor : huit ombres nettes, sans flou. */
   --clearing-ring:
     calc(1.6 * var(--s)) 0 0 var(--clearing-ink), calc(-1.6 * var(--s)) 0 0 var(--clearing-ink),

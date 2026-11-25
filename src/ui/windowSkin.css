@@ -1,0 +1,46 @@
+/*
+ * Les fenêtres à l'allure du premier écran (« Continuer les menus », lot 6, 25 novembre 2026).
+ * Comme pour les pages : seuls le trait, l'ombre et les couleurs changent, jamais une taille ni
+ * une place. Les fenêtres sont posées hors de l'accueil : les couleurs de la pâte sont nommées
+ * pour toute la page (homeClearing.css), mais pas l'unité --s, d'où des tailles en px.
+ * Les panneaux du combat (les alliés, les serpents annoncés, la préparation d'une mission,
+ * les outils du camp) ne sont pas des fenêtres des menus : ils gardent leur dessin, pour le
+ * lot du camp. Un bouton éteint, un « ? » et le miel d'un bouton principal gardent le leur.
+ */
+/* La fenêtre : le trait d'encre rentré des pages, sur son bord. Si elle prend le clavier, elle
+   garde son anneau. */
+dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog):not(
+    :focus-visible
+  ) {
+  border-color: var(--clearing-ink);
+  outline: 2px solid var(--clearing-ink);
+  outline-offset: -2px;
+}
+/* La croix qui ferme : un rond cerné d'encre, posé. */
+body
+  :where(dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog))
+  .close:not(:disabled) {
+  color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    0 3px 0 rgba(20, 14, 6, 0.55);
+}
+/* Les boutons clairs (« Comment jouer », « Fermer », « Choisir un fichier ») : ceux du voyage. */
+body
+  :where(dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog))
+  .secondary:not(:disabled) {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    0 3px 0 rgba(20, 14, 6, 0.55);
+}
+/* Les quatre cases des réglages et les listes : le trait d'encre. Une règle par sorte de
+   pièce : la liste des fiches a sa propre règle, plus lourde (05-dialogs.css). */
+body
+  :where(dialog:not(#reinforcements, #threat-dialog, #mission-dialog, #camp-tool-dialog))
+  :is(.setting-switch, .language-picker, .visual-setting, select):not(:disabled) {
+  border-color: var(--clearing-ink);
+}
+body #unit-dialog #guide-select:not(:disabled) {
+  border-color: var(--clearing-ink);
+}
