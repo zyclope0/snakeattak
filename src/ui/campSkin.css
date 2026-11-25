@@ -327,3 +327,17 @@ body #app #reinforcements :is(#message, #selection-name, #selection-hint, #cance
     order: 2;
   }
 }
+/* Décision du parent (25 novembre 2026, « Sur ordinateur seulement ») : sur un grand écran, il y
+   a la place ; le nom et le prix des cartes s'écrivent plus grand pour un enfant de 6 à 10 ans.
+   Sur un téléphone couché, la grille de cinq rangées ne tiendrait plus : rien n'y change. */
+@media (min-width: 921px) and (min-height: 521px) {
+  body #app #reinforcements #shop .unit-info strong {
+    font-size: 16px;
+  }
+  body #app #reinforcements #shop .unit-card .price {
+    font-size: 14px;
+  }
+  body #app #reinforcements #shop .unit-card .price i {
+    font-size: 10px;
+  }
+}

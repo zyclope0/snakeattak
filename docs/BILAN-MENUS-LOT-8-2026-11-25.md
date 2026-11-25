@@ -46,6 +46,9 @@ ceux qui changent une taille, une place ou un texte vont au parent, une question
    Ajouté à la recette des menus du téléphone.
 2. **« Fermer » en haut à droite sur ordinateur aussi** (« Oui, en haut à droite ») ; « au
    camp » et « Fiches » glissent juste avant lui.
+3. **Les écritures des cartes plus grandes sur ordinateur seulement** (« Sur ordinateur
+   seulement ») : nom 13 → 16 px, prix 12 → 14 px, sur un grand écran où il reste de la
+   place ; sur un téléphone couché, la grille de cinq rangées ne tiendrait plus.
 
 ## Ce que l'attaque indépendante a trouvé, et corrigé
 
@@ -63,8 +66,9 @@ ceux qui changent une taille, une place ou un texte vont au parent, une question
 ## Comment c'est vérifié
 
 - **Boîtes mesurées** contre une base construite depuis `main` : 48 états (8 tailles,
-  français et anglais, les deux onglets, les plis ouverts), 8 996 boîtes ; seuls « Fermer »
-  et ce qui glisse avant lui bougent, sur un grand écran (décision du parent).
+  français et anglais, les deux onglets, les plis ouverts), 8 996 boîtes ; sur un téléphone
+  rien ne bouge ; sur un grand écran, seuls « Fermer » (et ce qui glisse avant lui) et les
+  écritures des cartes changent (décisions du parent).
 - **Contrastes** de chaque texte du catalogue, plis ouverts, à 780 × 360 et 1280 × 800 : plus
   aucun texte actif sous 4,5:1 (restent des boutons éteints, exemptés : « Réparer le
   cristal », les voies quand le miel est épuisé).
