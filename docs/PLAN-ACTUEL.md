@@ -113,7 +113,8 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   choisie enfoncée avec la coche à l'encre, trop chère ou à découvrir à plat et sans miel,
   textes presque invisibles du pli « Conseils et outils » rendus lisibles. Décisions du
   parent : une carte trop chère répond « Il manque N pièces » ; « Fermer » en haut à droite
-  sur ordinateur. **Pas encore publié : il faut le mot du parent.**
+  sur ordinateur ; nom et prix plus grands sur ordinateur ; « Conseils et outils » en bouton
+  avec une flèche. **Pas encore publié : il faut le mot du parent.**
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

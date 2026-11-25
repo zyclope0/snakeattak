@@ -49,6 +49,9 @@ ceux qui changent une taille, une place ou un texte vont au parent, une question
 3. **Les écritures des cartes plus grandes sur ordinateur seulement** (« Sur ordinateur
    seulement ») : nom 13 → 16 px, prix 12 → 14 px, sur un grand écran où il reste de la
    place ; sur un téléphone couché, la grille de cinq rangées ne tiendrait plus.
+4. **« Conseils et outils » en bouton** (« Oui, bouton et flèche ») : il avait l'air d'un
+   texte (le petit triangle avait été retiré) ; il prend le bouton clair des menus, à sa
+   largeur, avec une flèche ▸ qui tourne ▾ quand il s'ouvre. Hauteur inchangée (48 px).
 
 ## Ce que l'attaque indépendante a trouvé, et corrigé
 
@@ -67,8 +70,8 @@ ceux qui changent une taille, une place ou un texte vont au parent, une question
 
 - **Boîtes mesurées** contre une base construite depuis `main` : 48 états (8 tailles,
   français et anglais, les deux onglets, les plis ouverts), 8 996 boîtes ; sur un téléphone
-  rien ne bouge ; sur un grand écran, seuls « Fermer » (et ce qui glisse avant lui) et les
-  écritures des cartes changent (décisions du parent).
+  seul « Conseils et outils » prend sa largeur de bouton ; sur un grand écran s'y ajoutent
+  « Fermer » (et ce qui glisse avant lui) et les écritures des cartes (décisions du parent).
 - **Contrastes** de chaque texte du catalogue, plis ouverts, à 780 × 360 et 1280 × 800 : plus
   aucun texte actif sous 4,5:1 (restent des boutons éteints, exemptés : « Réparer le
   cristal », les voies quand le miel est épuisé).

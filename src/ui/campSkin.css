@@ -341,3 +341,28 @@ body #app #reinforcements :is(#message, #selection-name, #selection-hint, #cance
     font-size: 10px;
   }
 }
+/* Décision du parent (25 novembre 2026, « Oui, bouton et flèche ») : « Conseils et outils »
+   avait l'air d'un texte. Il prend le bouton clair des menus, à sa largeur, et une flèche qui
+   tourne quand il s'ouvre. Sa hauteur reste 48 px. */
+body #app #reinforcements #catalog-tools > summary {
+  width: fit-content;
+  gap: 8px;
+  padding-inline: 14px;
+  color: var(--clearing-ink);
+  font-weight: 700;
+  background-color: var(--paper);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+body #app #reinforcements #catalog-tools > summary:hover {
+  background-color: #fffbee;
+}
+body #app #reinforcements #catalog-tools > summary::before {
+  content: '▸';
+  font-size: 0.9em;
+}
+body #app #reinforcements #catalog-tools[open] > summary::before {
+  content: '▾';
+}
