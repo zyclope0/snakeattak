@@ -396,3 +396,18 @@ body #battle-result .secondary:not(:disabled):hover,
 body #pause-overlay .secondary:not(:disabled):hover {
   background-color: #fffbee;
 }
+
+/* ---- Petits restes, relevés par les relectures (lot 10, 25 novembre 2026) ---- */
+/* Au clavier, les plis du catalogue (« Conseils et outils », « Actions du camp ») et « Comprendre
+   les outils » touchent le bord de leur pli : l'anneau y était coupé de 2 à 3 px. Il est
+   dessiné juste dedans. */
+body
+  #app
+  #reinforcements
+  :is(#catalog-tools > summary, #camp-tools > summary, #camp-tool-help):focus-visible {
+  outline-offset: -3px;
+}
+/* « Autre départ » avait un fond blanc entre deux boutons clairs vert pâle : le même fond. */
+body #mission-dialog #mission-reroll:not(:disabled) {
+  background-color: #dfebd7;
+}

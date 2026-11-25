@@ -16,6 +16,16 @@ taille, aucune place, aucun texte. Lots précédents : [8](BILAN-MENUS-LOT-8-202
   clairs ; l'anneau du clavier garde l'or, qui se voit sur le voile sombre.
 - **Les fiches des alliés** : rien à faire, elles avaient déjà l'allure des fenêtres (lot 6).
 
+## Petits restes relevés par les relectures (lot 10, même nuit)
+
+- **Anneau du clavier entier** sur « Conseils et outils » et « Actions du camp » dans le
+  catalogue : il était coupé de 2 à 3 px par le bord du pli ; il est dessiné juste dedans
+  (vérifié au clavier, capture zoomée).
+- **Les deux groupes du catalogue** (les onglets, les cartes) sont annoncés comme groupes aux
+  lecteurs d'écran (`role="group"`) : leur nom n'était pas lu.
+- **« Autre départ »** prend le fond de ses deux voisins (il était blanc entre deux boutons
+  vert pâle).
+
 ## Comment c'est vérifié
 
 - **Boîtes** du panneau de résultat mesurées avant et après : 40 états (5 tailles, français
