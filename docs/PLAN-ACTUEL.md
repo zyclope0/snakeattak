@@ -87,7 +87,8 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   « Retrouver » à l'allure du voyage ; les « ? » et un code faux gardent leur allure. Rien ne
   bouge (4 092 boîtes, application et site). Deux défauts rattrapés avant la demande de
   fusion (un « ? » encadré, l'anneau du clavier mangé par l'ombre d'un voisin) ; la
-  relecture indépendante ne trouve rien de bloquant. Ensuite : les fenêtres, puis le camp.
+  relecture indépendante ne trouve rien de bloquant. Fusionné (PR 151, `main` = `a1ba90b`).
+  **Pas encore publié : il faut le mot du parent.** Ensuite : les fenêtres, puis le camp.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
