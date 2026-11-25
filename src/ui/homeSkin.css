@@ -479,3 +479,33 @@ body #home-screen .army-editor :focus-visible {
   position: relative;
   z-index: 2;
 }
+
+/* ---- « Pour les parents » ----
+   Mêmes règles que les autres pages : le trait, l'ombre et les couleurs, jamais une taille ni
+   une place ; une règle par pièce ; un bouton éteint, un « ? » et un code faux gardent ce que
+   leur donnent les feuilles du jeu. */
+/* Les quatre ou cinq boutons, posés sur le décor : ceux d'« Aventure classique ». */
+body #home-screen .parent-actions button:not(.help-point):not(:disabled) {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 calc(1.5 * var(--s)) var(--clearing-ink),
+    var(--clearing-lift);
+}
+/* Le chemin vers les pages publiques (site seulement) : un trait de papier sur le décor. */
+body #home-screen .parent-actions .about {
+  border-color: rgba(247, 241, 220, 0.6);
+}
+/* Le code d'aventure : un trait d'encre pour le champ, le bouton clair du voyage pour
+   « Retrouver », et un liseré discret autour du bloc. */
+body #home-screen .departure-panel {
+  border-color: rgba(18, 48, 42, 0.35);
+}
+body #home-screen #departure-input:not([aria-invalid='true']) {
+  border-color: var(--clearing-ink);
+}
+body #home-screen .departure-entry button:not(.help-point):not(:disabled) {
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 calc(1.5 * var(--s)) var(--clearing-ink),
+    0 calc(3 * var(--s)) 0 rgba(20, 14, 6, 0.55);
+}
