@@ -2,15 +2,15 @@
  * Le camp à l'allure du premier écran (« Continuer les menus », lot 7, 25 novembre 2026) : la
  * préparation d'une mission, les serpents annoncés, l'aide des outils, la colonne des alliés du
  * combat. Leur cadre et leurs boutons clairs viennent de windowSkin.css. Comme pour les pages :
- * seuls le trait, l'ombre et les couleurs changent, jamais une taille ni une place. Le plateau,
- * la barre du haut et le catalogue des alliés gardent leur dessin : rien ne doit gêner la
- * lecture du combat. Choix tirés de trois regards (critique de design, accessibilité,
+ * seuls le trait, l'ombre et les couleurs changent, jamais une taille ni une place, sauf décision
+ * du parent (blocs signés). Le plateau garde son dessin : rien ne doit gêner la lecture du combat.
+ * Le catalogue des alliés suit au lot 8 (fin de la feuille). Choix tirés de trois regards (critique de design, accessibilité,
  * système de design comparé aux meilleures ventes du genre) : docs/BILAN-MENUS-LOT-7-2026-11-25.md.
  */
 
 /* Au clavier, dans une fenêtre de papier : l'anneau doré ne se voyait pas sur le papier (1,8:1)
    ni sur un bouton miel (1,1:1). Il prend l'encre (13:1), même largeur, même écart. « Qui
-   joue ? », vert foncé, et le catalogue des alliés gardent l'anneau doré, lisible sur eux. */
+   joue ? », vert foncé, garde l'anneau doré ; le catalogue a sa règle (fin de la feuille). */
 body :where(dialog:not(#reinforcements, #players-dialog)) :focus-visible {
   outline-color: var(--clearing-ink);
 }
@@ -182,4 +182,187 @@ body #camp-tool-dialog #close-camp-tool-help {
     outline-color: var(--clearing-ink);
     outline-offset: -6px;
   }
+}
+
+/* ---- Le catalogue des alliés (« Continuer les menus », lot 8, 25 novembre 2026) ---- */
+/* Une fenêtre centrée, comme les autres : le trait d'encre sur son bord. Les règles du catalogue
+   comptent trois id (#app #reinforcements #shop) : celles-ci aussi, plus « body ». */
+body #app #reinforcements[open]:not(:focus-visible) {
+  border-color: var(--clearing-ink);
+}
+/* Au clavier : l'anneau doré ne se voyait pas sur le papier (1,8:1), il prend l'encre. Sur une
+   carte, il est dessiné dedans : la grille défile, et le haut de l'anneau de la première rangée
+   était coupé. */
+body #app #reinforcements :focus-visible {
+  outline-color: var(--clearing-ink);
+}
+body #app #reinforcements #shop .unit-card:focus-visible {
+  outline-offset: -3px;
+}
+/* Sur les dalles vert foncé du pli « Conseils et outils », l'encre ne se voyait pas (1,2:1) :
+   l'anneau y est clair. « Conseils », coupé par son pli, est dessiné dedans. */
+body
+  #app
+  #reinforcements
+  :is(
+    #camp-observation > summary,
+    .camp-details > details > summary,
+    .camp-details footer :is(button, a),
+    #reset,
+    #end-restart
+  ):focus-visible {
+  outline-color: var(--clearing-paper);
+}
+body #app #reinforcements #camp-observation > summary:focus-visible {
+  outline-offset: -5px;
+}
+/* Les pièces qu'on a : une information, le trait d'encre sans relief. */
+body #app #reinforcements #catalog-budget {
+  box-shadow: inset 0 0 0 1px var(--clearing-ink);
+}
+/* « Disponibles » et « À découvrir » : les onglets de la préparation. Au repos, le bouton clair
+   posé ; ouvert, enfoncé et vert. Le rail gris disparaît. */
+body #app #reinforcements .shop-tabs {
+  background-color: transparent;
+}
+body #app #reinforcements .shop-tabs button:not(:disabled) {
+  color: var(--clearing-ink);
+  background-color: var(--paper);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+body #app #reinforcements .shop-tabs button[aria-pressed='true']:not(:disabled) {
+  background-color: #d9f1e2;
+  box-shadow:
+    inset 0 0 0 2.5px var(--clearing-ink),
+    inset 0 3px 0 rgba(20, 14, 6, 0.18);
+}
+/* Un onglet éteint (plus rien à découvrir) garde la forme d'une case, à plat. */
+body #app #reinforcements .shop-tabs button:disabled {
+  background-color: #e2e8d8;
+}
+/* « Fiches » et « Fermer » : les boutons clairs des menus. */
+body #app #reinforcements :is(.guide-button, .reinforcements-close):not(:disabled) {
+  color: var(--clearing-ink);
+  background-color: var(--paper);
+  border-color: var(--clearing-ink);
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+/* « Fermer » a un bord d'un pixel en plus : transparent, son trait est celui de « Fiches ». */
+body #app #reinforcements .reinforcements-close:not(:disabled) {
+  border-color: transparent;
+}
+body #app #reinforcements :is(.guide-button, .reinforcements-close):not(:disabled):hover {
+  background-color: #fffbee;
+}
+/* Une carte qu'on peut prendre : un bouton, trait d'encre de 1,5 px (le bord, plus un demi-pixel
+   dedans). L'ombre posée seulement là où les rangées ont la place (6 px) ; sur un téléphone
+   couché, elles ne sont qu'à 4 px. Sous la souris, le papier s'éclaire : avant, le survol
+   prenait presque le vert d'une carte choisie. */
+body #app #reinforcements #shop .unit-card:not(:disabled, [aria-disabled='true']) {
+  border-color: var(--clearing-ink);
+  box-shadow: inset 0 0 0 0.5px var(--clearing-ink);
+}
+@media (min-width: 921px) and (min-height: 521px) {
+  body #app #reinforcements #shop .unit-card:not(:disabled, [aria-disabled='true']) {
+    box-shadow:
+      inset 0 0 0 0.5px var(--clearing-ink),
+      var(--clearing-drop);
+  }
+}
+body #app #reinforcements #shop .unit-card:not(:disabled, [aria-disabled='true']):hover {
+  border-color: var(--clearing-ink);
+  background-color: #fffbee;
+}
+/* Choisie : enfoncée, verte, cernée d'encre, avec la coche à l'encre de la colonne du combat. */
+body #app #reinforcements #shop .unit-card.selected:not(:disabled) {
+  border-color: var(--clearing-ink);
+  background-color: #d9f1e2;
+  box-shadow:
+    inset 0 0 0 0.5px var(--clearing-ink),
+    inset 0 3px 0 rgba(20, 14, 6, 0.18);
+}
+body #app #reinforcements #shop .unit-card.selected:not(:disabled)::after {
+  color: var(--clearing-paper);
+  background-color: var(--clearing-ink);
+}
+/* Trop chère ou à découvrir : à plat, le portrait passé, la pastille du prix sans son miel,
+   comme dans la colonne du combat. Trois signes, sans un mot de plus. Une carte trop chère
+   n'est plus éteinte (décision du parent : elle dit ce qui lui manque) : elle garde l'allure
+   d'une carte éteinte, même sous la souris. */
+body #app #reinforcements #shop .unit-card[aria-disabled='true'],
+body #app #reinforcements #shop .unit-card[aria-disabled='true']:hover {
+  border-color: #c4d2b8;
+  background-color: #ecefdf;
+  box-shadow: inset 0 1px #e1dfce;
+  cursor: not-allowed;
+}
+body #app #reinforcements #shop .unit-card[data-state='poor'] .portrait {
+  opacity: 0.6;
+  filter: grayscale(0.6);
+}
+body #app #reinforcements #shop .unit-card:is(:disabled, [aria-disabled='true']) .price {
+  background-color: #e4e1d3;
+  color: #53604d;
+  box-shadow: inset 0 0 0 1px rgba(18, 48, 42, 0.5);
+}
+/* Le pli « Conseils et outils » reprend les dalles vert foncé de l'ancienne colonne : trois
+   textes y étaient presque invisibles (1,2 à 1,6:1). Le texte prend le clair sur le vert
+   foncé, l'encre sur le papier. */
+body #app #reinforcements #lane-status b,
+body #app #reinforcements #training-status {
+  color: var(--clearing-paper);
+}
+body #app #reinforcements :is(#message, #selection-name, #selection-hint, #cancel) {
+  color: var(--clearing-ink);
+}
+
+/* Décision du parent (25 novembre 2026, « Oui, en haut à droite ») : sur un grand écran,
+   « Fermer » passe en haut à droite, comme sur un téléphone et dans les autres fenêtres. */
+@media (min-width: 921px) and (min-height: 521px) {
+  body #app #reinforcements .reinforcements-close {
+    order: 2;
+  }
+}
+/* Décision du parent (25 novembre 2026, « Sur ordinateur seulement ») : sur un grand écran, il y
+   a la place ; le nom et le prix des cartes s'écrivent plus grand pour un enfant de 6 à 10 ans.
+   Sur un téléphone couché, la grille de cinq rangées ne tiendrait plus : rien n'y change. */
+@media (min-width: 921px) and (min-height: 521px) {
+  body #app #reinforcements #shop .unit-info strong {
+    font-size: 16px;
+  }
+  body #app #reinforcements #shop .unit-card .price {
+    font-size: 14px;
+  }
+  body #app #reinforcements #shop .unit-card .price i {
+    font-size: 10px;
+  }
+}
+/* Décision du parent (25 novembre 2026, « Oui, bouton et flèche ») : « Conseils et outils »
+   avait l'air d'un texte. Il prend le bouton clair des menus, à sa largeur, et une flèche qui
+   tourne quand il s'ouvre. Sa hauteur reste 48 px. */
+body #app #reinforcements #catalog-tools > summary {
+  width: fit-content;
+  gap: 8px;
+  padding-inline: 14px;
+  color: var(--clearing-ink);
+  font-weight: 700;
+  background-color: var(--paper);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 1.5px var(--clearing-ink),
+    var(--clearing-drop);
+}
+body #app #reinforcements #catalog-tools > summary:hover {
+  background-color: #fffbee;
+}
+body #app #reinforcements #catalog-tools > summary::before {
+  content: '▸';
+  font-size: 0.9em;
+}
+body #app #reinforcements #catalog-tools[open] > summary::before {
+  content: '▾';
 }

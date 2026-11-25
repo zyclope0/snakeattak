@@ -8,6 +8,10 @@ import { focusBoard } from './battleDom.ts';
 import { bankSummary } from './battleState.ts';
 import * as TEXT from '../texts/fr/recruiting.ts';
 import { fill } from '../texts/fill.ts';
+import { ALLY_TOO_DEAR } from './recruitShop.ts';
+
+/** How long the top of the catalogue says what a card too dear lacks, before the coins again. */
+const TOO_DEAR_SHOWN_MS = 2500;
 
 /** What the catalogue lets the player do at once: its own pause must not block these. */
 const GUARDED_ACTIONS = [
@@ -65,19 +69,33 @@ export function bindReinforcementsDrawer(session: Session, refresh: () => void) 
   ])
     control?.addEventListener('click', () => hide());
   closeBeforeActions(panel, () => hide(true));
+  // A card too dear says what it lacks where the coins are written, for a moment.
+  let lacking = { text: '', until: 0 };
+  panel.addEventListener(ALLY_TOO_DEAR, (event) => {
+    lacking = {
+      text: (event as CustomEvent<string>).detail,
+      until: performance.now() + TOO_DEAR_SHOWN_MS,
+    };
+  });
   return {
     refresh: () => {
       sync();
       const game = session.game;
       setText(
         budget,
-        game.caprice.reserve ? bankSummary(game) : fill(TEXT.nPieces, availableGold(game)),
+        performance.now() < lacking.until
+          ? lacking.text
+          : game.caprice.reserve
+            ? bankSummary(game)
+            : fill(TEXT.nPieces, availableGold(game)),
       );
     },
     actionsPaused: () =>
       document.hidden || (panel.open ? pauses.pausedAfterRelease() : session.game.paused),
   };
 }
+
+const tooDear = (control: Element) => control.getAttribute('aria-disabled') === 'true';
 
 /** An action chosen in the catalogue closes it first, and an ally goes to the board. */
 function closeBeforeActions(panel: HTMLDialogElement, hideToBoard: () => void) {
@@ -86,12 +104,13 @@ function closeBeforeActions(panel: HTMLDialogElement, hideToBoard: () => void) {
     'click',
     (event) => {
       const button = (event.target as Element).closest<HTMLButtonElement>(GUARDED_ACTIONS);
-      if (button && !button.disabled && panel.open) hideToBoard();
+      if (button && !button.disabled && !tooDear(button) && panel.open) hideToBoard();
     },
     true,
   );
   panel.addEventListener('click', (event) => {
-    if ((event.target as Element).closest('[data-kind]')) focusBoard();
+    const card = (event.target as Element).closest<HTMLElement>('[data-kind]');
+    if (card && !tooDear(card)) focusBoard();
   });
 }
 

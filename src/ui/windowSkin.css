@@ -4,8 +4,8 @@
  * une place. Les fenêtres sont posées hors de l'accueil : les couleurs de la pâte sont nommées
  * pour toute la page (homeClearing.css), mais pas l'unité --s, d'où des tailles en px.
  * Les fenêtres du camp (la préparation d'une mission, les serpents annoncés, l'aide des outils)
- * y entrent au lot 7 (campSkin.css) ; le catalogue des alliés, panneau collé au bord de
- * l'écran, garde son dessin. Un bouton éteint, un « ? » et le miel d'un bouton principal gardent le leur.
+ * y entrent au lot 7, le catalogue des alliés au lot 8, avec leurs propres règles
+ * (campSkin.css). Un bouton éteint, un « ? » et le miel d'un bouton principal gardent le leur.
  */
 /* La fenêtre : le trait d'encre rentré des pages, sur son bord. Si elle prend le clavier, elle
    garde son anneau. La fenêtre « Qui joue ? » est vert foncé : son bord clair la détache du

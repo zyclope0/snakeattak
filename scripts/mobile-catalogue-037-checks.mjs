@@ -411,6 +411,26 @@ export async function checkCatalogue({ browser, url, check, reachable, capture, 
       (await p.locator('#catalog-budget').textContent()) === '9945 pièces',
       'placement updates catalogue budget using existing club price',
     );
+    // A card too dear answers a tap with what it lacks, at the top of the catalogue, and
+    // chooses nothing (parent's decision, 25 November 2026).
+    const keptGold = await p.evaluate(() => window.capricesFixture.session.game.gold);
+    await p.evaluate(() => {
+      window.capricesFixture.session.selectUnit(null);
+      window.capricesFixture.session.game.gold = 10;
+    });
+    // In pause the catalogue is drawn again on a touch only: its tab is one.
+    await p.locator('#shop-ready').click();
+    await p.waitForSelector('#shop [data-kind="club"][aria-disabled="true"]');
+    await p.locator('#shop [data-kind="club"]').click({ force: true });
+    check(
+      /^Il manque \d+ pièces$/.test(await p.locator('#catalog-budget').textContent()) &&
+        (await p.locator('#reinforcements[open]').count()) === 1 &&
+        (await p.evaluate(() => window.capricesFixture.session.selected === null)),
+      'a card too dear says what it lacks and chooses nothing',
+    );
+    await p.evaluate((gold) => (window.capricesFixture.session.game.gold = gold), keptGold);
+    await p.locator('#shop-ready').click();
+    await p.waitForSelector('#shop [data-kind="club"]:not([aria-disabled])');
     await portrait(p, '#reinforcements', 'catalogue');
     check(await paused(), 'rotation retains manual and catalogue pauses');
     const manualGold = await p.evaluate(() => window.capricesFixture.session.game.gold);
