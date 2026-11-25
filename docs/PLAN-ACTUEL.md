@@ -103,7 +103,10 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   à l'encre dans les fenêtres de papier, « trop cher » distinct de « en pause ». Décisions du
   parent, posées une à une : coche sur l'allié choisi, « Retour » lisible et plus étroit,
   « C'est parti ! », « Vague suivante » et « Encourager » en pâte miel comme « Jouer », les
-  petits boutons de la barre du haut en bouton clair. Le plateau ne change pas. **Pas encore publié : il faut le mot du parent.**
+  petits boutons de la barre du haut, « Accueil » et « Comment jouer » en bouton clair,
+  « C'est parti ! » moins large sur un grand écran, croix de l'aide à 48 px, anneau du clavier
+  entier sur un téléphone. Le plateau ne change pas. Suivant : le catalogue « Tous les
+  alliés ». **Pas encore publié : il faut le mot du parent.**
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

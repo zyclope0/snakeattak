@@ -85,6 +85,28 @@ leur vert sombre ; l'anneau du clavier reste doré, bien visible sur la barre. M
 aucune boîte ne bouge. « Accueil » et « Comment jouer », en tête de page sur un grand écran,
 n'ont pas changé.
 
+Puis sept questions, posées une à une :
+
+1. **« Accueil » et « Comment jouer »**, en haut de la page sur un grand écran : le bouton
+   clair, comme la barre en dessous. Réponse : oui.
+2. **« C'est parti ! » en baguette** sur un grand écran (692 × 90 px, l'image étirée) :
+   moins large, trois fois et demie sa hauteur (314 × 90 à 1280 × 800), au milieu de la
+   place libre. Sur un téléphone, rien ne change. Réponse : oui.
+3. **Les cibles de moins de 48 px** : la croix de l'aide des outils passe de 44 à 48 px.
+   Ma question disait à tort « 36 px sur tablette » pour « Accueil » et « Comment jouer » :
+   ils font 48 px partout où l'on touche l'écran, et 36 px seulement à la souris, par un
+   choix plus ancien qui laisse 12 px au plateau. Corrigé auprès du parent, qui garde ce
+   choix.
+4. **Le mot « trop cher »** : non, le gris de la pastille suffit.
+5. **Le rond des pièces** : le parent a dit oui pour le foncer, mais la mesure montre que
+   dans la colonne du combat il est déjà foncé (6,5:1, le même brun que le nombre) ; le
+   chiffre de 2,85 que j'avais donné n'a pas été retrouvé. Rien n'est changé ici. Le seul
+   rond pâle et minuscule (8 px) est celui du catalogue « Tous les alliés », pour le lot du
+   catalogue.
+6. **L'anneau du clavier coupé** en haut de la barre sur un téléphone couché : dessiné
+   dedans, à l'encre ; il se voit en entier (mesuré à 780 × 360 et 568 × 320). Réponse : oui.
+7. **Le catalogue « Tous les alliés »** : un lot à part, après celui-ci. Réponse : oui.
+
 ## Comment c'est vérifié
 
 - **Boîtes mesurées**, avant et après, sur les écrans du camp (préparation et ses quatre
@@ -125,8 +147,4 @@ n'ont pas changé.
 ## Ce qui n'est pas vérifié
 
 - Rien n'a été essayé sur le vrai téléphone ni avec les enfants.
-- Restent des questions pour le parent, une à la fois : « Accueil » et « Comment jouer » en
-  tête de page ; « C'est parti ! » très allongé sur un grand écran (l'image s'étire) ; les
-  cibles de moins de 48 px (croix
-  de l'aide des outils, 44 px ; « Accueil » et « Comment jouer » sur tablette, 36 px de
-  haut) ; le catalogue « Tous les alliés », lot à part.
+- Plus de question en attente pour ce lot. Suivant : le catalogue « Tous les alliés ».
