@@ -94,14 +94,14 @@ confirme.
     barres ; puis de 560 à 800 px de large par pas de 4 avec six jeux de barres) : aucune
     taille changée, aucun panneau déplacé. Le total ne disparaît que là où `main` avait un
     défaut (572 cas : la roue sous le panneau). Corrigés : 572 en-têtes sur deux rangées,
-    556 appuis pris par un voisin.
+    515 appuis pris par un voisin.
   - **Petites tablettes et téléphones longs, 2 268 cas** : 27 en-têtes sur deux rangées
     corrigés.
   - **Ordinateurs et tablettes, 2 124 cas** : 139 en-têtes sur deux rangées corrigés ; le
     nom du jeu s'en va dans ces 139 cas, et seulement là. Sur La Grande Expédition, la roue
     est maintenant au bord droit (elle flottait à 200 px et plus du bord).
-  - **Fenêtres debout, 936 cas** : les recouvrements qui restent sont moins nombreux et plus
-    petits que sur `main`.
+  - **Fenêtres debout, 936 cas** : 68 recouvrements corrigés ; ceux qui restent sont les
+    mêmes que sur `main`, ou plus petits.
   - **Un nouveau joueur, sans sauvegarde, 2 910 cas** (téléphones, ordinateurs, fenêtres
     debout).
 - **Captures regardées une à une** : Missions à sept tailles en français et en anglais, avec
@@ -127,10 +127,11 @@ confirme.
   tient pas (648 px de large et moins en français, 600 et moins en anglais, sans barres). Il
   se lit sur le premier écran.
 - **Défauts plus anciens, encore là** :
-  - Missions, petit téléphone à grosses barres (moins de 500 px de place environ) : la roue
-    et « Reprendre ma mission » se recouvrent (jusqu'à 43 px), dans les mêmes cas que sur
-    `main`. Sur `main` c'est le bouton qui recouvre la roue, et on ne peut plus ouvrir les
-    réglages ; maintenant la roue est dessus, et le bouton garde le reste de sa largeur.
+  - Missions, petit téléphone à grosses barres (moins de 500 px de place environ) : « Reprendre
+    ma mission » recouvre la roue (jusqu'à 43 px sur 48), dans les mêmes cas que sur `main` :
+    on n'y ouvre pas les réglages depuis cette page. La roue n'est plus cachée en plus par le
+    panneau. (Le jet d'avant posait la roue dessus ; ce n'était qu'un effet du conteneur de
+    mesure, retiré depuis.)
   - Fenêtre debout étroite : pareil, sur Missions à 560 px et moins (640 et moins sur
     `main`) ; sur La Grande Expédition la roue touche encore le titre jusqu'à 860 px.
   - Noms sous la pastille en paysage à 568 px avec de grosses barres (« Les premières
