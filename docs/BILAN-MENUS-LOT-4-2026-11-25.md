@@ -67,6 +67,25 @@ pixel près. Il a trouvé un vrai défaut, petit, que le lot apportait :
 - Vérifié en jouant : la page Favoris ne s'ouvre pas pendant un combat (son bouton est
   éteint), donc ses cartes ne sont jamais éteintes à l'écran.
 
+## La seconde relecture, sur la correction : rien de bloquant
+
+- **Aucune boîte ne bouge quand une pièce prend l'anneau** : toutes les boîtes de la page,
+  au repos et à chaque vrai arrêt de la touche Tab, à cinq tailles, sur la version
+  fusionnée, le premier jet et la correction. Rien n'est couvert à tort : l'en-tête, la
+  fenêtre de l'index des serpents, les réglages et l'écran « tourne ton téléphone » restent
+  dessus.
+- **La baisse de l'anneau de 18 à 22 % vient seulement des coins ronds** : les coins remis
+  carrés dans la page, le compte de pixels redevient celui de la version fusionnée.
+- **Aucune règle d'état écrasée** : 978 distinctions gardées sur 978 à 780 × 360, 843 sur 843
+  à 568 × 320.
+- **Un effet cosmétique apporté par la correction** : sur le plus petit téléphone, où la
+  feuille défile (568 × 320 avec les barres du système), la pièce qui porte l'anneau passe
+  devant le trait d'encre de la feuille et le coupe sur sa largeur. Au doigt, c'est la liste
+  des compositions, qui reçoit l'anneau à l'ouverture (plus ancien). Laissé : l'anneau
+  entier compte plus que ce bout de trait.
+- Deux phrases de mes commentaires étaient inexactes : corrigées (le paquet construit ne
+  change pas d'un octet).
+
 ## Ce qui n'est pas vérifié
 
 - **Rien sur un vrai téléphone, rien avec les enfants.** Chromium seul : ni WebView
@@ -82,3 +101,18 @@ pixel près. Il a trouvé un vrai défaut, petit, que le lot apportait :
   fond de l'époque où elle était collante.
 - Le trait d'encre de la feuille suit ses coins ronds à partir de Chromium 94 ; l'application
   demande une WebView 108 au moins.
+
+## Recettes jouées avant de pousser
+
+- **Sur le premier jet, toutes les recettes de la CI** : les dix des écrans, les huit des
+  règles et du rendu, les sept des sauvegardes, `test:back-button`, `test:locale`,
+  `test:caprices`, `test:mobile-menus` en entier, et la chaîne de vérification (format,
+  1 051 tests unitaires, `test:android-signatures`, `test:browser`, `test:discovery`,
+  `test:ads-preview`, `test:ads-delivery`, `test:android-web`, `test:family`, le jeu
+  portable). Toutes vertes.
+- **Sur la version corrigée** (qui n'ajoute qu'une règle de focus dans cette feuille) :
+  `test:mobile-menus` hors voyage, les dix recettes des écrans, `test:browser`,
+  `test:android-web`, `test:locale`, les tests unitaires, le format, les builds du site et de
+  l'application.
+
+Puis la CI de la demande de fusion.
