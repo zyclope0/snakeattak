@@ -78,6 +78,9 @@ maquette de synthèse D « la clairière » en est sortie.
 - **Publier les lots 2, 3 et 4 des menus** (25 novembre) : « publie », après mon message
   disant que les trois lots étaient fusionnés mais pas en ligne. Publication n° 52 (commit
   `bffd3d2` : Missions et en-tête, le voyage et La Grande Expédition, Favoris).
+- **Publier les lots 5 et 6 des menus** (25 novembre) : « publie », après mon message disant
+  que les deux lots attendaient son mot. Publication n° 53 (commit `87510b3` : « Pour les
+  parents », les fenêtres).
 
 ## Ce qui reste à décider
 
