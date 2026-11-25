@@ -81,6 +81,9 @@ maquette de synthèse D « la clairière » en est sortie.
 - **Publier les lots 5 et 6 des menus** (25 novembre) : « publie », après mon message disant
   que les deux lots attendaient son mot. Publication n° 53 (commit `87510b3` : « Pour les
   parents », les fenêtres).
+- **Publier le lot 7 des menus** (25 novembre) : « publie et fusionne-le, fais le prochain
+  lot », après mon message disant que le lot était fusionné mais pas en ligne. Publication
+  n° 54 (commit `c968143` : le camp), contrôle en ligne vert.
 
 ## Ce qui reste à décider
 

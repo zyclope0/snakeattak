@@ -106,7 +106,13 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   petits boutons de la barre du haut, « Accueil » et « Comment jouer » en bouton clair,
   « C'est parti ! » moins large sur un grand écran, croix de l'aide à 48 px, anneau du clavier
   entier sur un téléphone. Le plateau ne change pas. Suivant : le catalogue « Tous les
-  alliés ». **Pas encore publié : il faut le mot du parent.**
+  alliés ». Fusionné (PR 153, `main` = `c968143`) et **publié (publication n° 54, mot du
+  parent du 25 novembre)**.
+- **25 novembre — huitième lot des menus : le catalogue des alliés** ([bilan](BILAN-MENUS-LOT-8-2026-11-25.md)) :
+  cadre et anneau du clavier à l'encre, onglets de la préparation, cartes à l'encre, carte
+  choisie enfoncée avec la coche à l'encre, trop chère ou à découvrir à plat et sans miel,
+  textes presque invisibles du pli « Conseils et outils » rendus lisibles. Rien ne bouge
+  (8 996 boîtes). **Pas encore publié : il faut le mot du parent.**
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
