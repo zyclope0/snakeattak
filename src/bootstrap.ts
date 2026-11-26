@@ -145,7 +145,11 @@ menu = bindMenu(session, career, {
   hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : games.hasCamp),
   restore: games.restoreClassic,
   started: games.gameStarted,
-  view: screens.show,
+  // Every way home goes through here: the den counts the apples found during the battle.
+  view: (home) => {
+    screens.show(home);
+    if (home) appleDoor?.();
+  },
   navigate: (page) => navigation.show(page),
   refresh,
   progressStatus: () => family.status,

@@ -272,6 +272,16 @@ async function onTheSite(url) {
   assert.equal(await page.locator('#gold').textContent(), gold, 'site: nothing bought');
   assert.equal(await page.locator('#dock-cancel').isVisible(), true, 'site: the ally still chosen');
   checks.push('site: the apple of wave 3 is kept under the player key, no ally placed');
+  // Back home straight after the battle: the den already counts the apple (relecture de
+  // Codex, PR 157 : the door was refreshed only by the battle's own redraw).
+  await page.evaluate(() => document.getElementById('menu-home').click());
+  await page.locator('#home-screen').waitFor({ state: 'visible' });
+  await page.locator('#home-apples-count').waitFor({ state: 'visible', timeout: 3000 });
+  assert.match(
+    (await page.locator('#home-apples-count').textContent()).replace(/\s/g, ' '),
+    /1 \/ 12/,
+  );
+  checks.push('site: back home, the den shows the apple just found');
   await context.close();
 }
 
