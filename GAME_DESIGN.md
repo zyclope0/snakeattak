@@ -219,6 +219,9 @@ Serpents :
    d'avant gardent leurs règles. Missions, défis et voyage ne changent pas.
 8. **Un boss final caché**, inspiré du tout premier jeu du serpent qui grandit en mangeant
    (le genre « Snake »), avec une façon de le débloquer à trouver.
+   **26 novembre 2026, décisions du parent** : un combat à part, débloqué par 12 pommes
+   trouvées partout (une toutes les trois vagues, sans minuteur) ; le boss grandit en mangeant
+   et perd un anneau à chaque coup. Plan : `docs/BOSS-CACHE.md`. Pas encore développé.
 
 Alliés :
 

@@ -111,6 +111,8 @@ maquette de synthèse D « la clairière » en est sortie.
   crédits d'images au plus ; King Snake « doit avoir trois têtes […] de Cobra » ; dessins B et
   B retenus, une question à la fois. Dépense : 612 crédits
   (`public/assets/illustrated/PROVENANCE-ROI-VOLANT-2026-11-26.md`).
+- **Boss caché aux pommes** (26 novembre, une question à la fois) : un combat à part ; des
+  pommes partout ; il grandit en mangeant ; 12 pommes. Plan : [BOSS-CACHE.md](BOSS-CACHE.md).
 
 ## Ce qui reste à décider
 
