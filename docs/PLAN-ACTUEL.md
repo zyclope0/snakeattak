@@ -119,7 +119,8 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **Nuit du 25 au 26 novembre — neuvième lot des menus : la fin d'une partie et la pause**
   ([bilan](BILAN-MENUS-LOT-9-2026-11-25.md)), fait seul à la demande du parent, dans la règle :
   panneau du résultat à l'encre, boutons clairs, anneau du clavier à l'encre. Rien ne bouge.
-  **Pas encore publié : il faut le mot du parent.**
+  Avec le lot 10 (petits restes d'accessibilité) : PR 155, `main` = `e2e62b0`, **publié
+  (publication n° 56, mot du parent du 26 novembre)**.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
