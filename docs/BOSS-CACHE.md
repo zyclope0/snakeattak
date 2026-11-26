@@ -39,6 +39,9 @@ après mesure.
 1. **Les pommes** : où et quand elles apparaissent (module de règles, sans toucher au
    tirage du jeu), le toucher sur le plateau, le compte du joueur, le fichier familial, un
    petit compteur discret (« 3 / 12 » quelque part que l'enfant trouve). Recettes.
+   **Fait le 26 novembre** ([bilan](BILAN-POMMES-LOT-1-2026-11-26.md)), sauf le compteur
+   de l'accueil, qui viendra avec le bouton du boss : pour l'instant « Pomme 3 / 12 » se lit
+   sur le plateau au moment où une pomme est trouvée.
 2. **Le combat du boss** : le serpent en anneaux, manger et grandir, perdre un anneau par
    coup assez fort, la tête seule = victoire ; un terrain et une armée de départ ; la
    mesure.

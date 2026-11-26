@@ -35,6 +35,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-MENUS-LOT-9-2026-11-25.md](BILAN-MENUS-LOT-9-2026-11-25.md)     | Menus, lot 9 : fin et pause                                                                                           |
 | [BILAN-MENUS-LOT-11-2026-11-26.md](BILAN-MENUS-LOT-11-2026-11-26.md)   | Lot 11 : pâte, bouton en tête                                                                                         |
 | [BOSS-CACHE.md](BOSS-CACHE.md)                                         | Boss caché aux pommes : plan                                                                                          |
+| [BILAN-POMMES-LOT-1-2026-11-26.md](BILAN-POMMES-LOT-1-2026-11-26.md)   | Boss caché, lot 1 : les pommes                                                                                        |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                     | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                             | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                     | Compte rendu de la dernière version construite (build 62)                                                             |

@@ -16,15 +16,18 @@ const [storageFile = FROZEN, dir = 'dist-android'] = process.argv.slice(2);
 const read = JSON.parse(await readFile(storageFile, 'utf8'));
 // The frozen device holds its storage beside what its player saw.
 const device = read.storage ?? read;
-// The first player also has an expedition under way and a record of the endless adventure.
+// The first player also has an expedition under way, a record of the endless adventure and
+// two apples of the hidden boss (a version 7 file, 26 November 2026).
 const X = await import('../../src/expedition.ts');
 const { createExpeditionLog, logExpedition } = await import('../../src/expeditionStorage.ts');
 const { writeRecords } = await import('../../src/endlessRecords.ts');
+const { writeApples } = await import('../../src/appleBook.ts');
 const KEYS = await import('../../src/storageKeys.ts');
 device[KEYS.EXPEDITION_STORAGE_KEY] = JSON.stringify(
   logExpedition(createExpeditionLog(), X.startExpedition(4242)),
 );
 device[KEYS.ENDLESS_RECORDS_KEY] = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+device[KEYS.APPLES_STORAGE_KEY] = writeApples(['33:3', '2026:6']);
 const FAMILY = await import('../../src/texts/fr/family.ts');
 const HELP = await import('../../src/texts/fr/help.ts');
 /** The package that hands the family file over: the one asked for, or the site's. */
@@ -39,7 +42,12 @@ if (application)
   await access(`${SITE}/index.html`).catch(() => {
     throw new Error('Le paquet du site manque : lancer aussi « npm run build ».');
   });
-const EXTRA_KEYS = [KEYS.EXPEDITION_STORAGE_KEY, KEYS.VOYAGE_STORAGE_KEY, KEYS.ENDLESS_RECORDS_KEY];
+const EXTRA_KEYS = [
+  KEYS.EXPEDITION_STORAGE_KEY,
+  KEYS.VOYAGE_STORAGE_KEY,
+  KEYS.ENDLESS_RECORDS_KEY,
+  KEYS.APPLES_STORAGE_KEY,
+];
 await mkdir('artifacts/hygiene', { recursive: true });
 const checks = [];
 
@@ -109,8 +117,13 @@ let exported;
     } else exported = await exportFrom(dir);
     assert.deepEqual(await snapshot(page), atStart, 'opening the window changes nothing');
     const file = JSON.parse(exported);
-    assert.equal(file.version, 6, 'the file carries what the player keeps beside the adventure');
-    assert.deepEqual(Object.keys(file.extras).sort(), ['endless', 'expedition', 'voyage']);
+    assert.equal(file.version, 7, 'the file carries what the player keeps beside the adventure');
+    assert.deepEqual(Object.keys(file.extras).sort(), [
+      'apples',
+      'endless',
+      'expedition',
+      'voyage',
+    ]);
     checks.push(
       `export: version ${file.version}, fields ${Object.keys(file).join(' ')}, extras ${Object.keys(file.extras).join(' ')}`,
     );
@@ -204,7 +217,7 @@ let exported;
     const { readFamilyBackup } = await import('../../src/familyBackup.ts');
     const { extras, ...adventure } = readFamilyBackup(exported);
     assert.deepEqual(
-      { ...readFamilyBackup(family(restored)), version: 6 },
+      { ...readFamilyBackup(family(restored)), version: 7 },
       adventure,
       'the adventure, the career, the missions and the albums come back exactly',
     );
@@ -219,7 +232,7 @@ let exported;
     );
     const absent = Object.keys(device).filter((key) => !(key in restored));
     checks.push(
-      `restore on an empty device: adventure, expedition, voyage and records identical; not in the file: ${absent.join(', ') || 'nothing'}`,
+      `restore on an empty device: adventure, expedition, voyage, records and apples identical; not in the file: ${absent.join(', ') || 'nothing'}`,
     );
     assert.deepEqual(report.errors, []);
   } finally {
@@ -298,15 +311,16 @@ let exported;
     afterMistake = await snapshot(mistake.page);
     assert.equal(missionStars(afterMistake[KEYS.FAMILY_STORAGE_KEY]), missionStars(sibling));
     // The adventure it replaced is kept as the export would have given it: with the
-    // expedition, the voyage and the records.
+    // expedition, the voyage, the records and the apples.
     const replaced = readFamilyBackup(afterMistake[KEYS.FAMILY_BEFORE_IMPORT_KEY]);
     assert.ok(replaced, 'the adventure replaced is kept, as a file the import reads');
-    assert.equal(replaced.version, 6);
+    assert.equal(replaced.version, 7);
     assert.equal(missionStars(afterMistake[KEYS.FAMILY_BEFORE_IMPORT_KEY]), missionStars(found));
     for (const [name, key] of [
       ['expedition', KEYS.EXPEDITION_STORAGE_KEY],
       ['voyage', KEYS.VOYAGE_STORAGE_KEY],
       ['endless', KEYS.ENDLESS_RECORDS_KEY],
+      ['apples', KEYS.APPLES_STORAGE_KEY],
     ])
       assert.equal(replaced.extras[name], device[key], `${name} is in the copy`);
     assert.deepEqual(mistake.report.errors, []);
@@ -347,7 +361,7 @@ let exported;
       'the adventure just replaced is the new copy',
     );
     checks.push(
-      `import by mistake of a file with more stars: the adventure replaced is kept with its expedition, voyage and records; brought back by « Regarder cette copie » (${missionStars(found)} stars again), and that can be undone too`,
+      `import by mistake of a file with more stars: the adventure replaced is kept with its expedition, voyage, records and apples; brought back by « Regarder cette copie » (${missionStars(found)} stars again), and that can be undone too`,
     );
     assert.deepEqual(undo.report.errors, []);
   } finally {
@@ -402,7 +416,7 @@ let exported;
     const bare = { ...device };
     for (const key of EXTRA_KEYS) delete bare[key];
     const brought = JSON.stringify({ ...JSON.parse(exported), missions: other.missions });
-    assert.ok(readFamilyBackup(brought) && JSON.parse(brought).version === 6);
+    assert.ok(readFamilyBackup(brought) && JSON.parse(brought).version === 7);
     let mistaken;
     const first = await open({ dir, storage: bare });
     try {
@@ -430,9 +444,9 @@ let exported;
       const now = await snapshot(back.page);
       for (const key of EXTRA_KEYS) assert.equal(now[key], undefined, `${key} taken away again`);
       // And that too can be undone: the copy now holds what the file had brought.
-      assert.equal(JSON.parse(now[KEYS.FAMILY_BEFORE_IMPORT_KEY]).version, 6);
+      assert.equal(JSON.parse(now[KEYS.FAMILY_BEFORE_IMPORT_KEY]).version, 7);
       checks.push(
-        'the way back takes away the expedition, voyage and records a mistaken file brought',
+        'the way back takes away the expedition, voyage, records and apples a mistaken file brought',
       );
     } finally {
       await back.browser.close();
@@ -509,7 +523,7 @@ let exported;
       assert.equal(missionStars(now[KEYS.FAMILY_STORAGE_KEY]), missionStars(sibling));
       for (const key of EXTRA_KEYS) assert.equal(now[key], device[key], `${key} untouched`);
       checks.push(
-        'the copy of a launch brought back: the expedition, the voyage and the records stay',
+        'the copy of a launch brought back: the expedition, the voyage, the records and the apples stay',
       );
     } finally {
       await launchCopy.browser.close();
