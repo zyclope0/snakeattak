@@ -9,6 +9,7 @@ import type { Kind } from '../src/data.ts';
 import { MISSIONS, createMissionRun } from '../src/missions.ts';
 import { capricesForMission } from '../src/caprices.ts';
 import { decodeCheckpoint, encodeCheckpoint } from '../src/checkpoints.ts';
+import { ENDLESS_RULES } from '../src/endless.ts';
 import { expectedTraces } from './fixtures/engine-traces.ts';
 
 // Parties entières jouées par un joueur automatique fixe. L'empreinte couvre tout l'état du
@@ -23,7 +24,18 @@ const allies = (revision: BalanceRevision) =>
 const spots: [number, number][] = [];
 for (let x = 624; x <= 972; x += 36) for (let y = 120; y <= 528; y += 36) spots.push([x, y]);
 
-function play(start: Game, salt: number, first?: Kind, seen?: Set<string>): string {
+/** Twenty-five minutes of play: a game of twelve waves ends well before. */
+const GAME_STEPS = 30 * 60 * 25;
+/** An endless game goes on round after round: an hour of play, past two kings at least. */
+const ENDLESS_STEPS = 30 * 60 * 60;
+
+function play(
+  start: Game,
+  salt: number,
+  first?: Kind,
+  seen?: Set<string>,
+  limit = GAME_STEPS,
+): string {
   let game = start;
   // `first`: the ally this player tries before the others, every time it buys.
   const order = allies(start.balanceRevision).sort(
@@ -33,13 +45,20 @@ function play(start: Game, salt: number, first?: Kind, seen?: Set<string>): stri
   let steps = 0,
     buy = salt,
     spot = salt * 7;
-  const snap = () =>
+  // The kings and the gifts of an endless game are kept out of its JSON: hashed beside it.
+  const snap = () => {
     hash.update(JSON.stringify(game)).update(JSON.stringify(game.capriceKindsChosen));
-  while (game.status !== 'won' && game.status !== 'lost' && steps < 30 * 60 * 25) {
+    if (game.endless) hash.update(JSON.stringify({ kings: game.kings, boons: game.boons }));
+  };
+  while (game.status !== 'won' && game.status !== 'lost' && steps < limit) {
     if (game.status === 'preparing') {
       if (game.rewards.pending !== null) {
-        if (salt % 3) game.chooseReward(game.rewardOffer[salt % 3]);
-        else game.skipReward();
+        // The endless adventure offers its own gifts; with the five places taken, a new
+        // lasting gift is refused and this player leaves the offer.
+        const offer = game.endless ? game.boonOffer : game.rewardOffer;
+        if (salt % 3) {
+          if (!game.chooseReward(offer[salt % 3]) && game.endless) game.skipReward();
+        } else game.skipReward();
       }
       if (steps && salt % 2) game.trainHero(salt % 4 === 1 ? 'force' : 'guard');
       if (game.base < 70) game.repair();
@@ -83,7 +102,8 @@ function play(start: Game, salt: number, first?: Kind, seen?: Set<string>): stri
     if (steps % 45 === 0) snap();
   }
   snap();
-  return `${game.status} w${game.wave} b${game.base} g${game.gold} k${game.kills} s${steps} ${hash.digest('hex').slice(0, 24)}`;
+  const kings = game.endless ? ` rois${game.kings}` : '';
+  return `${game.status} w${game.wave}${kings} b${game.base} g${game.gold} k${game.kills} s${steps} ${hash.digest('hex').slice(0, 24)}`;
 }
 
 function traces(): Record<string, string> {
@@ -103,6 +123,15 @@ function traces(): Record<string, string> {
   // A player who recruits the spinosaurus first: its bite, its sail and its swims.
   out['classique r7 spinosaure'] = play(new Game(16838, undefined, undefined, 7), 5, 'spinosaurus');
   out['classique sans règles tactiques'] = play(new Game(57, { tacticalRulesEnabled: false }), 2);
+  // The endless adventure, rules version 1 (26 November 2026): one game played on from its
+  // seed until it falls, after three kings, with its gifts and four trips through the save.
+  out['sans fin v1'] = play(
+    new Game(777, undefined, undefined, ENDLESS_RULES[1].balance, undefined, ENDLESS_RULES[1]),
+    5,
+    undefined,
+    undefined,
+    ENDLESS_STEPS,
+  );
   let n = 0;
   for (const mission of MISSIONS) {
     n++;

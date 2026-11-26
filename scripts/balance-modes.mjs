@@ -8,7 +8,15 @@
 //                  missions et les défis se jouent alors en révision 2.
 //   SETS=12        lots de 18 départs par mission (12 = 216 parties par mode et par joueur)
 //   CLASSIC=200    parties de grande aventure par joueur
-//   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros, dino
+//   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros, dino,
+//                  hasard, epargnant
+//                  hasard (26 novembre 2026, rapport du conseil sur l'aventure sans fin) :
+//                  alliés, places permises du camp et cadeaux tirés au hasard ; dépense tout
+//                  avant chaque vague et toutes les trois secondes pendant la vague.
+//                  epargnant : le même hasard, mais n'achète, en masse, que quand le cristal
+//                  vient d'être touché. Leur hasard a sa propre graine : il ne touche jamais
+//                  celui du jeu. Les autres joueurs n'achètent jamais pendant une vague et ne
+//                  connaissent que leurs 63 places : leurs résultats ne changent pas.
 //   DINO=spinosaurus  le grand dinosaure du joueur « dino » (un expert qui en recrute deux dès
 //                  qu'il arrive) : spinosaurus (révision 7) ou trex, pour comparer les deux
 //   ENDLESS=1      l'aventure sans fin seule (à la place des modes), jusqu'à la défaite ou
@@ -23,6 +31,7 @@ const { Game } = await import(R + 'game.ts');
 const { CURRENT_MISSION_PATHS, MISSIONS, createMissionRun } = await import(R + 'missions.ts');
 const { LANES, laneDefense } = await import(R + 'ai.ts');
 const { kinds } = await import(R + 'data.ts');
+const { CAMP_LEFT, CAMP_RIGHT, CAMP_TOP, CAMP_BOTTOM } = await import(R + 'boardLandmarks.ts');
 const BIG = Object.keys(kinds)
   .filter((k) => !['hero', 'wall', 'medic', 'nurse'].includes(k))
   .sort((a, b) => kinds[b].cost - kinds[a].cost);
@@ -57,8 +66,30 @@ const endlessRules = {
   ...(process.env.ENDLESS_COIN ? { coinStep: Number(process.env.ENDLESS_COIN) } : {}),
 };
 
-function play(g, profile) {
+/** Every legal-looking point of the camp, 12 units apart: `recruit` says which are free. */
+const CAMP_SPOTS = [];
+for (let x = CAMP_LEFT; x <= CAMP_RIGHT; x += 12)
+  for (let y = CAMP_TOP; y <= CAMP_BOTTOM; y += 12) CAMP_SPOTS.push([x, y]);
+/** The players who play at random, with their own seeded draw. */
+const RANDOM_PROFILES = new Set(['hasard', 'epargnant']);
+/** A small seeded draw (mulberry32), apart from the game's: the game never sees it. */
+function randomStream(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function play(g, profile, seed = 0) {
   const r = { status: null, deaths: 0, seconds: 0, spent: 0 };
+  const random = RANDOM_PROFILES.has(profile)
+    ? randomStream((seed ^ (profile === 'hasard' ? 0x9e3779b9 : 0x85ebca6b)) >>> 0)
+    : null;
+  const pick = (list) => list[Math.floor(random() * list.length)];
   let rotation = 0;
   const allows = (k) => (g.capriceAllows ? g.capriceAllows(k) : true);
   const afford = (k) => g.gold - (g.caprice?.reserve ?? 0) >= g.recruitCost(k);
@@ -94,6 +125,27 @@ function play(g, profile) {
     }
     return false;
   }
+  /** A random ally the camp can pay, on a random free point of the camp. */
+  function buyRandom() {
+    const open = Object.keys(kinds).filter(
+      (k) => k !== 'hero' && g.isUnlocked(k) && allows(k) && afford(k),
+    );
+    if (!open.length) return false;
+    const kind = pick(open);
+    for (let i = 0; i < 40; i++) {
+      const [x, y] = pick(CAMP_SPOTS);
+      const cost = g.recruitCost(kind);
+      if (g.recruit(kind, x, y)) {
+        r.spent += cost;
+        return true;
+      }
+    }
+    return false;
+  }
+  /** Spends the purse at random, as long as something can be paid and placed. */
+  function spendAll() {
+    for (let i = 0; i < 60; i++) if (!buyRandom()) break;
+  }
   const order = ['club', 'shield', 'archer'];
   // The « dino » player plays as the expert does, with its two big dinosaurs on top.
   const skilled = profile === 'expert' || profile === 'dino';
@@ -103,10 +155,18 @@ function play(g, profile) {
     r.deaths += Math.max(0, count - g.units.length);
   };
   let minBase = 100;
+  // Endless columns: the waves the crystal took no damage in, and the largest purse held.
+  let cleanWaves = 0,
+    cleanAfterKing = 0,
+    wavesAfterKing = 0,
+    maxGold = g.gold;
   // In the endless adventure, `wave` counts from the very first wave, rounds included.
   const lastWave = g.endless ? ENDLESS_ROUNDS * g.totalWaves : g.totalWaves;
   for (let wave = 1; wave <= lastWave; wave++) {
-    if (profile === 'massues') {
+    if (profile === 'hasard') spendAll();
+    else if (profile === 'epargnant') {
+      // Buys nothing between waves: the crystal says when.
+    } else if (profile === 'massues') {
       for (let i = 0; i < 60; i++) if (!buyExpert('club')) break;
     } else if (profile === 'gros') {
       for (let i = 0; i < 40; i++) if (!BIG.some(buyRotating)) break;
@@ -140,6 +200,13 @@ function play(g, profile) {
       }
     }
     for (let i = 0; i < 90; i++) step();
+    if (random && g.endless && g.rewards.pending != null) {
+      // A gift at random; with the five places taken, a new lasting one takes the place of
+      // a gift drawn at random.
+      const id = pick(g.boonOffer);
+      const replace = g.boonNeedsPlace(id) ? pick(g.boons).id : undefined;
+      if (!g.chooseReward(id, replace)) g.skipReward();
+    }
     if (g.endless && g.rewards.pending != null) {
       // The endless gifts: climb a gift already taken, else the first one of BOON_TASTE that
       // is offered; with the five places full, the lowest gift gives its place.
@@ -154,6 +221,10 @@ function play(g, profile) {
         offer.find((id) => !g.boonNeedsPlace(id));
       if (!pick || !g.chooseReward(pick)) g.skipReward();
     }
+    if (random && g.rewards?.pending != null) {
+      const offer = g.rewardOffer ?? [];
+      if (!offer.length || !g.chooseReward(pick(offer))) g.skipReward?.();
+    }
     if (g.rewards?.pending != null) {
       const offer = g.rewardOffer ?? [];
       // Expert : pièces ; autres : première carte proposée.
@@ -165,9 +236,25 @@ function play(g, profile) {
       break;
     }
     const t = g.time;
+    const startBase = g.base;
+    let waveMin = g.base,
+      seen = g.base,
+      ticks = 0;
     while (g.status === 'fighting' && g.time - t < 300) {
       step();
       minBase = Math.min(minBase, g.base);
+      if (random) {
+        // The random players buy during the wave too (the engine allows it): « hasard »
+        // every three seconds, « epargnant » in a rush when the crystal was just hit.
+        ticks++;
+        if (profile === 'hasard' && ticks % 90 === 0) spendAll();
+        if (profile === 'epargnant' && g.base < seen) spendAll();
+        seen = g.base;
+      }
+      if (ENDLESS) {
+        waveMin = Math.min(waveMin, g.base);
+        maxGold = Math.max(maxGold, g.gold);
+      }
       if (skilled) {
         if (!g.feastUsed && g.enemies.some((e) => e.x > 570))
           g.offerFeast(g.enemies.find((e) => e.x > 570).lane, 'sticky');
@@ -180,6 +267,14 @@ function play(g, profile) {
     }
     r.seconds += g.time - t;
     r.wave = wave;
+    if (ENDLESS && g.status !== 'fighting') {
+      const clean = waveMin >= startBase && g.status !== 'lost';
+      if (clean) cleanWaves++;
+      if (wave > g.totalWaves) {
+        wavesAfterKing++;
+        if (clean) cleanAfterKing++;
+      }
+    }
     if (g.status === 'fighting') {
       r.status = 'timeout';
       break;
@@ -198,6 +293,7 @@ function play(g, profile) {
   r.gold = Math.round(g.gold);
   r.stars = g.missionStars ?? 0;
   r.units = g.units.length;
+  if (ENDLESS) Object.assign(r, { cleanWaves, cleanAfterKing, wavesAfterKing, maxGold });
   return r;
 }
 
@@ -274,7 +370,7 @@ for (const j of mine) {
       : new Game(j.run.seed, undefined, j.run, MISSION_REVISION);
   let out;
   try {
-    out = play(g, j.profile);
+    out = play(g, j.profile, j.classic ? j.seed : j.run.seed);
   } catch (e) {
     out = { status: 'error:' + String(e).slice(0, 80) };
   }
@@ -307,6 +403,17 @@ if (shards === 1) {
       );
       console.log(
         `${key.padEnd(38)} vague atteinte médiane ${at(0.5)} (q1 ${at(0.25)}, q3 ${at(0.75)}, max ${reached.at(-1)}), rois battus ${kings.join(' ')} (${list.length} parties)`,
+      );
+      // The two columns of the council report: waves without crystal damage (all, and after
+      // the first king), and the largest purse held (median of the games, and the largest).
+      const sum = (f) => list.reduce((n, r) => n + (r[f] ?? 0), 0);
+      const share = (a, b) => (b ? Math.round((100 * a) / b) : 0);
+      const purses = list.map((r) => r.maxGold ?? 0).sort((a, b) => a - b);
+      console.log(
+        `${''.padEnd(38)} vagues sans dégât au cristal ${share(
+          sum('cleanWaves'),
+          list.reduce((n, r) => n + (r.wave ?? 0), 0),
+        )} % (après le 1er roi ${share(sum('cleanAfterKing'), sum('wavesAfterKing'))} %), stock maximum médian ${Math.round(purses[Math.floor(purses.length / 2)])} (max ${Math.round(purses.at(-1))})`,
       );
       continue;
     }
