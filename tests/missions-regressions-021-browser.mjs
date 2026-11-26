@@ -22,6 +22,7 @@ try {
   assert.ok(raw);
   await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
   await page.locator('#family-file').setInputFiles({
     name: 'victoire.json',
     mimeType: 'application/json',
@@ -50,6 +51,7 @@ try {
   assert.ok(fragile);
   await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
   await page.locator('#family-file').setInputFiles({
     name: 'fragile.json',
     mimeType: 'application/json',

@@ -46,6 +46,7 @@ try {
     await p.locator('#home-screen').waitFor({ state: 'visible' });
     await showHomePage(p, 'parents');
     await p.locator('#home-family').click();
+    await p.locator('#family-dialog[open]').waitFor();
     await p.locator('#family-file').setInputFiles({
       name: 'bandages.json',
       mimeType: 'application/json',
@@ -60,6 +61,7 @@ try {
     assert.equal((await state(p)).medicalCool, 1.23);
     await showHomePage(p, 'parents');
     await p.locator('#home-family').click();
+    await p.locator('#family-dialog[open]').waitFor();
     const download = p.waitForEvent('download');
     await p.locator('#family-export').click();
     const file = await download;

@@ -670,6 +670,7 @@ try {
   await familyPage.locator('#caprice-album-close').click();
   await showHomePage(familyPage, 'parents');
   await familyPage.locator('#home-family').click();
+  await familyPage.locator('#family-dialog[open]').waitFor();
   const downloadPromise = familyPage.waitForEvent('download');
   await familyPage.locator('#family-export').click();
   const download = await downloadPromise;
@@ -721,6 +722,7 @@ try {
   // A file with several books still imports, and the choice comes back with them.
   await showHomePage(familyPage, 'parents');
   await familyPage.locator('#home-family').click();
+  await familyPage.locator('#family-dialog[open]').waitFor();
   await familyPage.locator('#family-file').setInputFiles({
     name: 'family.json',
     mimeType: 'application/json',
@@ -767,6 +769,7 @@ try {
   });
   await showHomePage(blocked, 'parents');
   await blocked.locator('#home-family').click();
+  await blocked.locator('#family-dialog[open]').waitFor();
   await blocked.locator('#family-file').setInputFiles({
     name: 'family.json',
     mimeType: 'application/json',
