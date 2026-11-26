@@ -7,7 +7,7 @@ après mesure.
 
 ## Décisions du parent (26 novembre 2026, posées une à une)
 
-1. **Où se bat-il ?** « Un combat à part » : un bouton « Boss caché » s'allume sur l'accueil
+1. **Où se bat-il ?** « Un combat à part » : un bouton (« Classic Snake ») s'allume sur l'accueil
    quand les pommes sont trouvées ; un combat spécial, qu'on peut rejouer. Les autres modes et
    leurs réglages ne changent pas.
 2. **Où sont les pommes ?** « Partout » : grande aventure, missions et Grande Expédition.
@@ -51,7 +51,10 @@ après mesure.
    par le parent) et un banc d'essai sur le vrai plateau avec un dessin provisoire
    (`npm run test:hidden-boss`). Aucun écran du jeu n'y mène encore.
 3. **Le dessin** (tête, anneau, queue, en pâte), le bouton de l'accueil, les textes FR/EN, le
-   nom donné par le fils.
+   nom donné par le fils. **Fait le 26 novembre** ([bilan](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md)) :
+   « Classic Snake » (nom du fils, le même en anglais), le dessin A, la pomme et son compte
+   dans l'antre du premier écran dès la première pomme, le bouton à 12, le combat chargé au
+   premier toucher et jamais gardé, son écran de fin à lui.
 
 **Réglage choisi par le parent le 26 novembre : « Moyen » (version 1), miel inchangé.**
 

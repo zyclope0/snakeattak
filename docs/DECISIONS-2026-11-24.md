@@ -116,6 +116,14 @@ maquette de synthèse D « la clairière » en est sortie.
 - **Boss caché, réglage** (26 novembre, après mesure du lot 2) : « Moyen » (version 1 :
   18 anneaux de 450, 1 200 pièces ; expert 92 %, moyen 59 %, apprenti 36 % sur 200 combats
   simulés). Le miel reste comme le fils l'a dit : il le ralentit, puis il le mange et grandit.
+- **Boss caché, nom** (26 novembre, donné par le fils) : « Classic Snake », tel quel en
+  français et en anglais, comme King Snake.
+- **Boss caché, dessin** (26 novembre) : le dessin A (anneau rond comme un beignet), 153
+  crédits (`public/assets/illustrated/PROVENANCE-CLASSIC-SNAKE-2026-11-26.md`).
+- **Boss caché, bouton** (26 novembre) : dans l'antre des serpents du premier écran. Une petite
+  pomme et son compte (« 3 / 12 ») dès la première pomme du joueur, rien avant ; à 12, le
+  bouton « Classic Snake ». Un combat court, jamais gardé : quitter ou recharger ramène à
+  l'accueil. Fait au lot 3 ([bilan](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md)).
 
 ## Ce qui reste à décider
 

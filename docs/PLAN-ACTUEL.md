@@ -137,6 +137,11 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   (« moyen » en place : expert 92 %, moyen 59 %, apprenti 36 %, deux minutes), un banc d'essai
   au dessin provisoire. Aucun écran n'y mène ; empreintes et mesures des autres modes
   inchangées. Même branche, ni poussé ni fusionné ; ni téléphone ni enfants.
+- **26 novembre — boss caché, lot 3 : Classic Snake jouable**
+  ([bilan](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md)) : le nom du fils, le dessin A, la pomme et
+  son compte dans l'antre de l'accueil, le bouton « Classic Snake » à 12 pommes, le combat
+  chargé au premier toucher, jamais gardé, son écran de fin. Paquet principal 197 479 octets.
+  Même branche, ni poussé ni fusionné ; ni téléphone ni enfants.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

@@ -665,10 +665,11 @@ Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PR
   `voyagePage('expedition')`, la fenêtre des caprices et le panneau de fin de bataille du
   voyage (`voyageBattle.ts`), qui sait à qui appartient la partie sur le plateau.
 
-## Le combat du boss caché — 26 novembre 2026 (lot 2, pas encore ouvert)
+## Le combat du boss caché, Classic Snake — 26 novembre 2026 (lots 2 et 3)
 
 Décisions du parent dans [BOSS-CACHE.md](BOSS-CACHE.md), mesures dans
-[BILAN-BOSS-CACHE-LOT-2-2026-11-26.md](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md).
+[BILAN-BOSS-CACHE-LOT-2-2026-11-26.md](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md), le bouton, le
+dessin et l'écran de fin dans [BILAN-BOSS-CACHE-LOT-3-2026-11-26.md](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md).
 
 - **Une partie d'une autre sorte.** `HiddenBossGame` (`src/hiddenBoss.ts`) hérite de `Game` et
   remplace ce qui change : une vague (`totalWaves`), la clairière, les trois voies, toute la
@@ -687,10 +688,38 @@ Décisions du parent dans [BOSS-CACHE.md](BOSS-CACHE.md), mesures dans
   la version de ses nombres (`hiddenBoss.version`), qui nomme aussi sa révision d'équilibrage.
   Une version jouée par un enfant ne change plus : une valeur nouvelle est une version
   nouvelle.
-- **Le dessin provisoire** (`src/render/hiddenBossLayer.ts`) : lu par le banc d'essai seul
-  (`tests/hidden-boss-harness.ts`), par le rappel `onFrame` de `BattleScene`. Le paquet
-  principal n'en contient rien. `tests/hidden-boss.test.ts` refuse qu'un autre fichier de
-  `src/` importe le boss.
+- **Ses mots à lui** (lot 3) : deux accesseurs de `Game`, sans rien changer aux parties
+  (ni champ, ni pas, ni empreinte) : `ending` (null partout ailleurs) donne le titre, les deux
+  lignes du plateau, la phrase et le bouton de la fin, lus par `render/resultCopy.ts`,
+  `ui/battleResult.ts`, `ui/battleBriefing.ts` et `BattleScene` ; `foretold` (vrai partout
+  ailleurs) cache « Dangers » et les serpents annoncés sur les antres, qui décrivaient une
+  vague ordinaire. `HiddenBossGame` remplace aussi `briefing` (« Vague 1 · Classic Snake »).
+- **La porte** (`ui/classicSnakeDoor.ts`, paquet principal) : un repère sans hauteur posé dans
+  la grille de la clairière exactement comme la plaque de l'antre, qui porte le compte des
+  pommes (une image, `pointer-events: none`) ou le bouton ; il ne pousse rien. Le compte est
+  relu dans le carnet du joueur à chaque retour à l'accueil (`saveAndRedraw`) ; un autre
+  joueur ou un import rechargent la page.
+- **Chargement à la demande** : au premier toucher, `import('./classicSnake/classicSnakeBattle.ts')`
+  apporte les règles du combat, son dessin, ses trois images et ses mots dans un paquet à part
+  (`classicSnakeBattle-*.js`, 11 Ko). `vite.config.ts` laisse `hiddenBoss.ts`,
+  `hiddenBossTuning.ts` et `engine/bossChain.ts` hors du paquet des règles. Une image ou le
+  paquet qui manque : le bouton le dit (« Recharge la page quand la connexion revient. ») ; le
+  toucher suivant redemande les images, mais un paquet qui a échoué une fois n'est redemandé
+  qu'après un rechargement (le navigateur le garde, voir plus haut).
+- **Un combat mis de côté** (`boot/games.ts`, `playAside`) : la partie à l'écran est mise de
+  côté comme pour une étape, et revient telle quelle à l'accueil (`leaveAside`, appelé par
+  `showHome` avant tout). Tant que le combat est à l'écran, `boot/saving.ts` n'écrit rien :
+  ni camp, ni carrière, ni missions, ni fichier familial. Recharger ou tuer l'application
+  ramène donc à l'accueil avec le camp d'avant ; « Reprendre » ne peut jamais proposer le
+  boss. « Recommencer » et « Rejouer contre Classic Snake » (le bouton de la grande aventure,
+  avec ses mots) relancent un combat neuf.
+- **Le dessin** (`src/render/hiddenBossLayer.ts`, dans le paquet du combat) : tête, anneaux et
+  queue en pâte, liseré et éclair des serpents (`Figurines`), dessiné après chaque image de
+  `BattleScene` (événement `postupdate` de la scène) ; le nombre d'anneaux est écrit sur une
+  plaque et dans `#game[data-boss-rings]` pour les recettes. `tests/hidden-boss.test.ts` refuse
+  qu'un autre fichier de `src/` importe le boss autrement que par le paquet chargé à la
+  demande. `npm run test:hidden-boss` joue le vrai jeu (serveur de Vite, pommes posées dans le
+  carnet) ; `npm run test:offline` ouvre le paquet sans réseau.
 
 ## Choix du moteur — réévalué le 11 novembre 2026
 

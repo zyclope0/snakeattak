@@ -221,7 +221,11 @@ Serpents :
    (le genre « Snake »), avec une façon de le débloquer à trouver.
    **26 novembre 2026, décisions du parent** : un combat à part, débloqué par 12 pommes
    trouvées partout (une toutes les trois vagues, sans minuteur) ; le boss grandit en mangeant
-   et perd un anneau à chaque coup. Plan : `docs/BOSS-CACHE.md`. Pas encore développé.
+   et perd un anneau à chaque coup. Plan : `docs/BOSS-CACHE.md`.
+   **Fait le 26 novembre 2026** (lots 1 à 3, pas encore publié) : il s'appelle
+   **« Classic Snake »** (nom donné par le fils) ; ses pommes se comptent dans l'antre de
+   l'accueil, et à 12 le bouton « Classic Snake » lance son combat
+   (`docs/BILAN-BOSS-CACHE-LOT-3-2026-11-26.md`).
 
 Alliés :
 

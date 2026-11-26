@@ -37,6 +37,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BOSS-CACHE.md](BOSS-CACHE.md)                                               | Boss caché aux pommes : plan                                                                                          |
 | [BILAN-POMMES-LOT-1-2026-11-26.md](BILAN-POMMES-LOT-1-2026-11-26.md)         | Boss caché, lot 1 : les pommes                                                                                        |
 | [BILAN-BOSS-CACHE-LOT-2-2026-11-26.md](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md) | Boss caché, lot 2 : le combat et sa mesure                                                                            |
+| [BILAN-BOSS-CACHE-LOT-3-2026-11-26.md](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md) | Boss caché, lot 3 : Classic Snake jouable depuis l'antre de l'accueil                                                 |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                           | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                                   | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |
 | [BILAN-0.38.0.md](BILAN-0.38.0.md)                                           | Compte rendu de la dernière version construite (build 62)                                                             |
