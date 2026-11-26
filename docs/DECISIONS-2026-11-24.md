@@ -104,6 +104,9 @@ maquette de synthèse D « la clairière » en est sortie.
   pour ses lettres ; le bouton en tête de la fin d'une partie toujours en miel ; la sauvegarde
   familiale et le carnet de caprices chargés à la demande pour alléger le paquet principal
   (196 Ko sur 200).
+- **Publier le lot 11** (26 novembre) : « Publie ». Publication n° 57 (commit `f0ddd06` :
+  bouton en tête en miel, pâte miel quand le mot tient, sauvegarde familiale à la demande),
+  contrôle en ligne vert.
 
 ## Ce qui reste à décider
 

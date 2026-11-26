@@ -124,7 +124,8 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **26 novembre — lot 11** ([bilan](BILAN-MENUS-LOT-11-2026-11-26.md)), trois décisions du
   parent : le bouton en tête de la fin d'une mission toujours en miel ; la pâte miel à la fin
   d'une partie et à la pause quand le mot tient dedans ; la sauvegarde familiale chargée au
-  premier toucher (paquet principal 193 358 octets sur 200 000).
+  premier toucher (paquet principal 193 358 octets sur 200 000). PR 156, `main` = `f0ddd06`,
+  **publié (publication n° 57, mot du parent du 26 novembre)**.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
