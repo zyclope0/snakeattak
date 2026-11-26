@@ -3,69 +3,61 @@
   "blockers": [
     {
       "code": "publisher",
-      "message": "Compte Play, identité publique et contact à préparer puis vérifier."
-    },
-    {
-      "code": "package-id",
-      "message": "Identifiant définitif à confirmer avant toute première publication."
-    },
-    {
-      "code": "sdk",
-      "message": "SDK/version Familles et configuration enfant, permissions et trafic à vérifier."
-    },
-    {
-      "code": "billing",
-      "message": "Vrais achats de test, vérification, restauration et remboursements à exercer."
-    },
-    {
-      "code": "purchase-design",
-      "message": "Tarifs et accès parental à valider."
+      "message": "Nom de développeur, adresse de contact publique et type de compte Play à confirmer par le parent."
     },
     {
       "code": "privacy",
-      "message": "Politique exacte du SDK choisi, identité et URL publique à finaliser."
+      "message": "Vérifier en ligne que la page de confidentialité nomme la version envoyée et dit la même chose que l’application."
     },
     {
       "code": "data-safety",
-      "message": "Déclaration Sécurité des données à vérifier avec tous les SDK."
+      "message": "Sécurité des données : à remplir par le parent dans la Console, après relevé du manifeste fusionné et du trafic du build exact."
     },
     {
       "code": "audience",
-      "message": "Tranches d’âge à confirmer."
+      "message": "Public cible (tranches d’âge) à choisir par le parent."
     },
     {
       "code": "iarc",
-      "message": "Questionnaire IARC à compléter, sans classement inventé."
+      "message": "Questionnaire IARC à remplir dans la Console ; aucun classement présumé."
     },
     {
       "code": "copies",
-      "message": "Textes des fiches à relire humainement."
+      "message": "Fiches FR, EN, DE et IT à relire par un humain."
     },
     {
       "code": "asset-review",
-      "message": "Images et fidélité à l’APK à relire."
+      "message": "Captures, bannière et icône à relire face au build envoyé."
+    },
+    {
+      "code": "merged-manifest",
+      "message": "Manifeste fusionné (permissions) et trafic réseau du build exact à relever."
     },
     {
       "code": "android-device",
-      "message": "Retest Android physique et relevés à terminer."
+      "message": "Essai du build exact sur un téléphone physique."
     },
     {
       "code": "aab",
-      "message": "AAB de test signé et contenu à vérifier."
+      "message": "AAB signé du build exact à vérifier."
     },
     {
       "code": "closed-test",
-      "message": "Test fermé requis par le compte puis accès à la production."
+      "message": "Test fermé à mener jusqu’au bout (testeurs et durée exigés par Google) avant la production."
+    },
+    {
+      "code": "assets.stale",
+      "message": "Captures de la version 0.30.1, jeu en 0.41.0 : à refaire (npm run build puis npm run store:captures)."
     },
     {
       "code": "icon",
-      "message": "Icône fournie à corriger et exporter en512×512."
+      "message": "Icône 512×512 à ajouter au manifeste des captures (export prêt : resources/android-icon/icon-512.png)."
     }
   ],
   "state": "blocked",
   "automaticPublicationAuthorized": false,
-  "appVersion": "0.30.1",
-  "checkedAt": "2026-11-08T12:02:52.835Z",
+  "appVersion": "0.41.0",
+  "checkedAt": "2026-11-26T12:04:25.883Z",
   "assetFilesChecked": 7,
   "scope": "Local source/artifact preparation only; no Play Console, SDK approval, policy certification or automatic publication",
   "draft": true

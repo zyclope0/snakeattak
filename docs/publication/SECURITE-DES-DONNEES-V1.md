@@ -1,5 +1,9 @@
 # Sécurité des données — brouillon v1, non soumis
 
+> **Historique : remplacé par [SECURITE-DES-DONNEES-V2.md](SECURITE-DES-DONNEES-V2.md).** Ce
+> brouillon préparait une version avec publicité et achats, abandonnée le 18 novembre 2026
+> (ni publicité ni achat dans l'application). Ne pas s'en servir pour remplir la Console.
+
 8 novembre 2026, étape 4 documentaire. **Pas une déclaration finalisée.**
 L'app0.32.4 reste sans achat, publicité ou INTERNET. Le tableau prépare une
 variante avec publicité enfant et achats non consommables validés côté client,

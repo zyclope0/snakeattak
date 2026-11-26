@@ -8,6 +8,31 @@ import type { CaptureFile, Issue } from './playReadiness.ts';
 const object = (v: unknown): v is Record<string, unknown> =>
   typeof v === 'object' && v !== null && !Array.isArray(v);
 const record = (v: unknown) => (object(v) ? v : {});
+
+/** Names that betray an advertising, billing or tracking library in what the APK ships. */
+export const ADS_SDK =
+  /admob|play-services-ads|google-mobile-ads|gms\.ads|applovin|unity-?ads|ironsource|appodeal|vungle|chartboost|inmobi|adcolony|mintegral|pangle/i;
+export const BILLING_SDK =
+  /billing|in-?app-?purchase|revenuecat|plugin-purchase|purchases|com\.android\.vending/i;
+export const ANALYTICS_SDK =
+  /firebase|analytics|crashlytics|sentry|amplitude|mixpanel|appsflyer|onesignal|segment\.io/i;
+/** Capacitor's own runtime, not a module that adds a native capability. */
+const CAPACITOR_RUNTIME = new Set([
+  '@capacitor/core',
+  '@capacitor/android',
+  '@capacitor/ios',
+  '@capacitor/cli',
+]);
+/** Native Capacitor modules, from package.json and from the Gradle file `cap sync` writes. */
+export function nativePlugins(dependencies: string[], capacitorGradle: string): string[] {
+  const found = new Set(
+    dependencies.filter((name) => name.startsWith('@capacitor/') && !CAPACITOR_RUNTIME.has(name)),
+  );
+  for (const [, name] of capacitorGradle.matchAll(/project\(':capacitor-([a-z0-9-]+)'\)/g))
+    if (name !== 'android' && name !== 'cordova-android-plugins') found.add(`@capacitor/${name}`);
+  return [...found].sort();
+}
+
 export async function inspectPublication(
   folder = resolve('docs/publication'),
   project = process.cwd(),
@@ -80,24 +105,34 @@ export async function inspectPublication(
           inputErrors.push({ code: 'asset.read', message: `Capture illisible : ${a.file}` });
       }
     }
-  const html = await content(resolve(project, 'dist/index.html'), 'build.html');
-  const gradle =
-    (await content(resolve(project, 'android/app/build.gradle'), 'runtime.gradle')) ?? '';
-  const manifest =
-    (await content(
-      resolve(project, 'android/app/src/main/AndroidManifest.xml'),
-      'runtime.manifest',
-    )) ?? '';
-  const dependencyNames = Object.keys(record(pkg.dependencies)).join(' ');
+  // The production build is optional in a draft: without it, captures are not compared to it,
+  // and the check says so as a blocker.
+  const html = await content(resolve(project, 'dist/index.html'), 'build.html', true);
+  const read = async (path: string, code: string) =>
+    (await content(resolve(project, path), code)) ?? '';
+  const gradle = await read('android/app/build.gradle', 'runtime.gradle');
+  const capacitorGradle = await read('android/app/capacitor.build.gradle', 'runtime.capacitor');
+  const settingsGradle = await read('android/capacitor.settings.gradle', 'runtime.settings');
+  const manifest = await read('android/app/src/main/AndroidManifest.xml', 'runtime.manifest');
+  const dependencyNames = Object.keys(record(pkg.dependencies));
+  const shipped = [
+    dependencyNames.join(' '),
+    gradle,
+    capacitorGradle,
+    settingsGradle,
+    manifest,
+  ].join('\n');
   const evidence = {
     appVersion,
     manifest: captures,
     files,
     buildHtmlSha256: html === null ? undefined : createHash('sha256').update(html).digest('hex'),
     runtime: {
-      adsSdkInstalled: /admob|play-services-ads/i.test(dependencyNames + gradle),
-      billingSdkInstalled: /billing|purchases|revenuecat/i.test(dependencyNames + gradle),
-      internetPermission: /android.permission.INTERNET/.test(manifest),
+      adsSdkInstalled: ADS_SDK.test(shipped),
+      billingSdkInstalled: BILLING_SDK.test(shipped),
+      analyticsSdkInstalled: ANALYTICS_SDK.test(shipped),
+      internetPermission: /android\.permission\.INTERNET/.test(manifest),
+      nativePlugins: nativePlugins(dependencyNames, capacitorGradle),
     },
   };
   const result = validatePlayPreparation(config, copies, evidence);

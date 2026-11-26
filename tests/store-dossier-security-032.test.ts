@@ -105,3 +105,97 @@ test('Malformed configuration and manifest replace a stale report with an explic
     rmSync(folder, { recursive: true, force: true });
   }
 });
+
+const realFile = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+
+/** A copy of what the check reads, in a folder of its own, with a fresh empty capture set. */
+function project(change: (folder: string) => void = () => {}) {
+  const folder = mkdtempSync(join(tmpdir(), 'serpents-play-runtime-'));
+  try {
+    const pkg = JSON.parse(realFile('package.json'));
+    for (const path of ['docs/publication', 'android/app/src/main'])
+      mkdirSync(join(folder, path), { recursive: true });
+    writeFileSync(
+      join(folder, 'package.json'),
+      JSON.stringify({ version: pkg.version, dependencies: pkg.dependencies }),
+    );
+    for (const path of [
+      'android/app/build.gradle',
+      'android/app/capacitor.build.gradle',
+      'android/capacitor.settings.gradle',
+      'android/app/src/main/AndroidManifest.xml',
+      'docs/publication/configuration.json',
+      'docs/publication/fiches.json',
+    ])
+      writeFileSync(join(folder, path), realFile(path));
+    writeFileSync(
+      join(folder, 'docs/publication/captures.json'),
+      JSON.stringify({ appVersion: pkg.version, assets: [] }),
+    );
+    change(folder);
+    const run = spawnSync(
+      process.execPath,
+      [fileURLToPath(new URL('../scripts/play-preflight.mjs', import.meta.url)), '--draft'],
+      { cwd: folder, encoding: 'utf8' },
+    );
+    const written = JSON.parse(
+      readFileSync(join(folder, 'reports/store-preparation.json'), 'utf8'),
+    );
+    return { run, report: written };
+  } finally {
+    rmSync(folder, { recursive: true, force: true });
+  }
+}
+const has = (issues: { code: string }[], code: string) => issues.some((i) => i.code === code);
+
+test('The draft check of the real Android files passes without dist/, with honest blockers', () => {
+  const { run, report: written } = project();
+  assert.equal(run.status, 0, run.stdout + run.stderr);
+  assert.deepEqual(written.errors, []);
+  assert.equal(written.automaticPublicationAuthorized, false);
+  assert.equal(written.state, 'blocked');
+  assert.ok(has(written.blockers, 'assets.build-missing'));
+  assert.match(run.stdout, /"automaticPublicationAuthorized":false/);
+});
+
+test('An ads or billing library or a new native module fails the draft check', () => {
+  const ads = project((folder) =>
+    writeFileSync(
+      join(folder, 'android/app/build.gradle'),
+      realFile('android/app/build.gradle') +
+        '\ndependencies { implementation "com.google.android.gms:play-services-ads:23.0.0" }\n',
+    ),
+  );
+  assert.equal(ads.run.status, 2);
+  assert.ok(has(ads.report.errors, 'runtime.ads'));
+  const billing = project((folder) => {
+    const pkg = JSON.parse(readFileSync(join(folder, 'package.json'), 'utf8'));
+    pkg.dependencies['cordova-plugin-purchase'] = '13.0.0';
+    writeFileSync(join(folder, 'package.json'), JSON.stringify(pkg));
+  });
+  assert.equal(billing.run.status, 2);
+  assert.ok(has(billing.report.errors, 'runtime.billing'));
+  const plugin = project((folder) =>
+    writeFileSync(
+      join(folder, 'android/app/capacitor.build.gradle'),
+      realFile('android/app/capacitor.build.gradle').replace(
+        "implementation project(':capacitor-share')",
+        "implementation project(':capacitor-share')\n    implementation project(':capacitor-geolocation')",
+      ),
+    ),
+  );
+  assert.equal(plugin.run.status, 2);
+  assert.ok(has(plugin.report.errors, 'runtime.plugins'));
+});
+
+test('The dossier describes the free model without ads or purchases and flags stale captures', () => {
+  const html = renderStoreDossier(
+    config(),
+    copies(),
+    { appVersion: '0.30.1', assets: [] },
+    { ...report(), blockers: [{ code: 'x', message: 'y' }] },
+  );
+  assert.match(html, /sans publicité ni achat dans l'application/);
+  assert.match(html, /viennent de la version 0\.30\.1/);
+  assert.doesNotMatch(html, /pub entre missions|retirer les pubs|apparences sans avantage/);
+});

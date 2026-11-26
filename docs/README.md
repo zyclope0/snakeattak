@@ -74,15 +74,15 @@ des bruitages et musiques publiés.
 
 ## Dossiers
 
-| Dossier                                  | Contenu                                                      |
-| ---------------------------------------- | ------------------------------------------------------------ |
-| [passation/](passation/)                 | Copie de l'audit complet et résultats des parties simulées   |
-| [publication/](publication/)             | Dossier Google Play : fiches, confidentialité, monétisation  |
-| [resources-2026-11/](resources-2026-11/) | Icône de référence, fonds et maquettes, avec leur provenance |
-| `art-sources-0.23/`, `art-sources-0.25/` | Images sources des terrains                                  |
-| `audit-source-2026-11/`                  | Documents d'origine de l'audit de novembre                   |
-| `captures-0.32.4/`                       | Aperçu de l'icône cité par `GAME_DESIGN.md`                  |
-| [archive/](archive/)                     | Anciens bilans, conseils simulés, plans et notes de version  |
+| Dossier                                  | Contenu                                                             |
+| ---------------------------------------- | ------------------------------------------------------------------- |
+| [passation/](passation/)                 | Copie de l'audit complet et résultats des parties simulées          |
+| [publication/](publication/)             | Dossier Google Play : fiches, Sécurité des données, confidentialité |
+| [resources-2026-11/](resources-2026-11/) | Icône de référence, fonds et maquettes, avec leur provenance        |
+| `art-sources-0.23/`, `art-sources-0.25/` | Images sources des terrains                                         |
+| `audit-source-2026-11/`                  | Documents d'origine de l'audit de novembre                          |
+| `captures-0.32.4/`                       | Aperçu de l'icône cité par `GAME_DESIGN.md`                         |
+| [archive/](archive/)                     | Anciens bilans, conseils simulés, plans et notes de version         |
 
 ## Règles
 

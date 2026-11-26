@@ -1,61 +1,52 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "status": "draft",
+  "decision": "Décision du parent des 17 et 18 novembre 2026 : ni publicité ni achat dans l'application Android. La seule publicité est celle du site Web, sur grand écran, et elle se coupe.",
   "app": {
     "title": "La Conquête des Serpents",
+    "titleEnglish": "Snake Attack TD",
     "packageId": "com.conqueteserpents.famille",
-    "packageIdApproved": false,
-    "version": "0.30.1",
-    "gameLanguages": ["fr"]
+    "packageIdApproved": true,
+    "packageIdSource": "docs/IDENTIFIANTS-APPLICATION.md : paquet accepté par Google Play depuis le build 52 ; il ne peut plus changer sans créer une autre application.",
+    "version": "0.41.0",
+    "versionCode": 65,
+    "gameLanguages": ["fr", "en"]
   },
   "publisher": {
     "name": null,
     "email": null,
     "accountType": null,
-    "accountVerified": false
+    "accountVerified": false,
+    "note": "La politique publiée nomme un éditeur et une adresse de contact (src/i18n/privacyPolicy.ts, src/site.ts). Le nom de développeur, l'adresse publique et le type de compte affichés par Google Play restent à confirmer par le parent dans la Console."
   },
   "model": {
-    "kind": "free_ads_remove_ads_cosmetics",
-    "campaignFree": true,
+    "kind": "free_no_ads_no_purchases",
+    "price": "free",
+    "inAppAds": false,
+    "purchases": [],
+    "subscriptions": false,
     "paidCombatAdvantages": false,
     "paidRandomItems": false,
-    "purchases": ["remove_ads", "cosmetics"],
-    "adsPlacement": "intermission",
-    "maxAdsPerWindow": 1,
-    "windowSeconds": 600,
-    "missionsBetweenAds": 2,
-    "firstAdGraceSeconds": 600,
-    "closeableAfterSeconds": 5,
-    "adsOnDefeat": false,
-    "adsInCombat": false,
-    "personalizedAds": false,
-    "pricesApproved": false,
-    "parentAreaApproved": false
+    "accounts": false
   },
   "implementation": {
-    "adsEnabled": false,
-    "adsProvider": null,
-    "adsSdkVersion": null,
-    "familiesSdkVerified": false,
-    "childTreatmentVerified": false,
-    "permissionsAndTrafficReviewed": false,
-    "billingEnabled": false,
-    "billingProvider": null,
-    "purchaseBackendVerified": false,
-    "licenseTestsPassed": false,
-    "restoreAndRefundTestsPassed": false
+    "nativePlugins": ["@capacitor/app", "@capacitor/filesystem", "@capacitor/share"],
+    "internetPermissionInSourceManifest": false,
+    "note": "Lu dans le dépôt : package.json, android/app/capacitor.build.gradle et le manifeste source. Le manifeste fusionné et le trafic du build exact ne sont pas lus ici (voir review.mergedManifestAndTrafficReviewed)."
   },
   "legal": {
-    "privacyScope": "current-no-ads",
-    "privacyPublishedUrl": null,
-    "privacyForAdsReviewed": false,
-    "dataSafetyReviewed": false,
+    "privacyPublishedUrl": "https://snakeattacktd.com/confidentialite",
+    "privacyOnlineMatchesBuild": false,
+    "dataSafetyCompleted": false,
     "audienceApproved": false,
+    "targetAgeGroups": null,
     "iarcCompleted": false,
+    "contentRating": null,
     "localizedCopiesReviewed": false
   },
   "review": {
     "assetsApproved": false,
+    "mergedManifestAndTrafficReviewed": false,
     "physicalAndroidPassed": false,
     "signedAabVerified": false,
     "closedTestCompleted": false
