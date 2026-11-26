@@ -233,6 +233,20 @@ try {
     );
   await page.locator('#privacy-close').click();
   checks.push('the privacy policy is read offline, from a package of its own, after a cold start');
+  // The family backup window is a package of its own too (26 November 2026), asked for on the
+  // first touch of its button.
+  assert.ok(
+    ![...served].some((p) => p.includes('familyControls')),
+    'The family backup package is not loaded before its button is touched',
+  );
+  await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
+  assert.ok(
+    [...served].some((p) => /familyControls-[\w-]+\.js$/.test(p)),
+    'Family backup file served from disk',
+  );
+  await page.locator('#family-close').click();
+  checks.push('the family backup window opens offline, from a package of its own');
   assert.deepEqual(external, []);
   assert.deepEqual(missing, []);
   assert.deepEqual(errors, []);

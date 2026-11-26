@@ -10,13 +10,12 @@ import {
   sameAdventure,
 } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
-import { helpPoint } from './helpBubble.ts';
 import { byId, make } from './dom.ts';
 import { canHandOver, familyFileName, handOver } from './download.ts';
 import { toldAdventure, toldSetAside } from './handOverWords.ts';
 import * as TEXT from '../texts/fr/family.ts';
 import { fill } from '../texts/fill.ts';
-type Actions = {
+export type FamilyActions = {
   exportRaw: () => string | null;
   /** The save from an earlier launch, as a file the import reads; null when there is none. */
   previousRaw: () => string | null;
@@ -123,7 +122,7 @@ function albumNameNodes(backup: FamilyBackup) {
  * A text this version cannot read is only told about, and handed over where a file can be.
  */
 function bindKeptCopies(
-  actions: Pick<Actions, 'previousRaw' | 'beforeImportRaw' | 'refusedRaw' | 'accepts'>,
+  actions: Pick<FamilyActions, 'previousRaw' | 'beforeImportRaw' | 'refusedRaw' | 'accepts'>,
   look: (backup: FamilyBackup, name: string, whole: boolean) => void,
 ) {
   const rows = make('div');
@@ -231,7 +230,7 @@ function openPicker(file: HTMLInputElement) {
  * Choosing a family file and looking at what it holds. Nothing is applied here: the file
  * that was read waits in `chosen()` until the parent confirms.
  */
-function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts']) {
+function bindFamilyPreview(dialog: HTMLDialogElement, accepts: FamilyActions['accepts']) {
   const file = byId<HTMLInputElement>('family-file');
   const apply = byId<HTMLButtonElement>('family-apply');
   const albumNames = make('p', { id: 'family-preview-albums' });
@@ -299,12 +298,9 @@ function bindFamilyPreview(dialog: HTMLDialogElement, accepts: Actions['accepts'
 }
 
 /** User-selected local data only. Preview and cancellation never mutate the adventure. */
-export function bindFamilyControls(actions: Actions) {
+export function bindFamilyControls(actions: FamilyActions): () => void {
   const dialog = byId<HTMLDialogElement>('family-dialog');
   const preview = bindFamilyPreview(dialog, actions.accepts);
-  // Page des parents : un « ? » à côté du bouton dit à quoi sert ce fichier.
-  // The help beside the window says to keep the file: not where no file can be handed over.
-  if (canHandOver()) byId('home-family').after(helpPoint('family'));
   const close = () => {
     preview.reset();
     dialog.close();
@@ -315,7 +311,7 @@ export function bindFamilyControls(actions: Actions) {
   // and the import.
   const copies = bindKeptCopies(actions, preview.look);
   byId('family-status').after(copies.node);
-  byId('home-family').onclick = () => {
+  const open = () => {
     preview.reset();
     copies.refresh();
     say(actions.persistenceStatus());
@@ -353,4 +349,5 @@ export function bindFamilyControls(actions: Actions) {
     dialog.close();
     actions.finished();
   };
+  return open;
 }

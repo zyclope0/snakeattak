@@ -121,6 +121,10 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   panneau du résultat à l'encre, boutons clairs, anneau du clavier à l'encre. Rien ne bouge.
   Avec le lot 10 (petits restes d'accessibilité) : PR 155, `main` = `e2e62b0`, **publié
   (publication n° 56, mot du parent du 26 novembre)**.
+- **26 novembre — lot 11** ([bilan](BILAN-MENUS-LOT-11-2026-11-26.md)), trois décisions du
+  parent : le bouton en tête de la fin d'une mission toujours en miel ; la pâte miel à la fin
+  d'une partie et à la pause quand le mot tient dedans ; la sauvegarde familiale chargée au
+  premier toucher (paquet principal 193 358 octets sur 200 000).
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
@@ -367,9 +371,9 @@ Grande Expédition et les corrections de l'étape d'hygiène.
 ## Dettes connues
 
 - `reports/` : 844 fichiers de rapports encore suivis dans Git.
-- **Paquet principal : 199,3 Ko sur 200** (build du 20 novembre) : il reste 0,7 Ko avant que
-  la construction refuse. Avant le prochain lot qui touche l'interface, charger à la demande
-  la sauvegarde familiale et le carnet de caprices.
+- **Paquet principal : 193,4 Ko sur 200** (lot 11, 26 novembre) : la sauvegarde familiale est
+  chargée à la demande, le carnet de caprices l'était déjà. Ce qui reste de gros dans le paquet
+  sert au combat ou aux premiers écrans (rendu du plateau, autocollants des missions).
 - `test:mobile-menus` est la plus longue tâche de la CI (10 à 17 minutes).
 - Les pages de test (`tests/*-harness.ts`) ne chargent pas les feuilles de style comme le jeu.
 - Détail : [bilan du nettoyage](BILAN-NETTOYAGE-2026-11.md).

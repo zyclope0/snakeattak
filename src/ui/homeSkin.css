@@ -175,11 +175,15 @@ body #home-screen:not([data-page='home']) .home-header .home-brand {
    donne (« Recommencer l'étape » tient sur deux lignes dans la carte d'une étape). L'image
    s'étire à la taille du bouton, comme sur le premier écran. Le camp le reprend pour « C'est
    parti ! », « Vague suivante » et « Encourager », qui prend sa place pendant une vague (décisions
-   du parent du 25 novembre, lot 7 : campSkin.css) ; retenu, « Encourager » garde son vert sombre. */
+   du parent du 25 novembre, lot 7 : campSkin.css) ; retenu, « Encourager » garde son vert sombre.
+   La fin d'une partie et la pause le prennent quand le mot tient sur une ligne dans la pâte
+   (`data-clay`, posé par ui/clayFit.ts ; « Pâte si assez large », 26 novembre) ; sinon, le miel
+   à plat. */
 body #home-screen:not([data-page='home']) .primary:not(:disabled),
 body #mission-dialog #mission-launch:not(:disabled),
 body .controls #start:not(:disabled),
-body .controls #encourage-quick:not(:disabled, [aria-disabled='true']) {
+body .controls #encourage-quick:not(:disabled, [aria-disabled='true']),
+body :is(#battle-result, #pause-overlay) .primary[data-clay]:not(:disabled) {
   border-radius: 0;
   background: url('../assets/home/clairiere-bouton.webp') center / 100% 100% no-repeat;
   box-shadow: none;
@@ -199,7 +203,8 @@ body .controls #encourage-quick:not(:disabled, [aria-disabled='true']) {
 body #home-screen:not([data-page='home']) .primary:not(:disabled):hover,
 body #mission-dialog #mission-launch:not(:disabled):hover,
 body .controls #start:not(:disabled):hover,
-body .controls #encourage-quick:not(:disabled, [aria-disabled='true']):hover {
+body .controls #encourage-quick:not(:disabled, [aria-disabled='true']):hover,
+body :is(#battle-result, #pause-overlay) .primary[data-clay]:not(:disabled):hover {
   filter: brightness(1.07);
 }
 /* Les autres boutons et les grandes cartes de papier : un trait d'encre et une ombre, posés

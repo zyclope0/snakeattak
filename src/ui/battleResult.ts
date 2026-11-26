@@ -11,6 +11,7 @@ import * as TEXT from '../texts/fr/battleScreens.ts';
 import { newRecords } from '../endlessRecords.ts';
 import * as PAGE from '../texts/fr/page.ts';
 import { fill } from '../texts/fill.ts';
+import { clayWhenRoom } from './clayFit.ts';
 
 /** Reuse the existing actions: only their presentation moves after a match. */
 export function bindBattleResult(session: Session) {
@@ -56,6 +57,7 @@ export function bindBattleResult(session: Session) {
   const present = (game: Game) => {
     panel.scrollTop = 0;
     const target = followUp(game, classic);
+    clayWhenRoom(target);
     requestAnimationFrame(() => {
       if (session.game === game && resultOnScreen(panel, app)) focusOutcome(panel, target);
     });
@@ -188,14 +190,29 @@ function followUp(game: Game, classic: HTMLElement): HTMLElement {
   return game.mission ? missionFollowUp() : classic;
 }
 
-/** After a mission, the button that continues comes first; elsewhere the page's order. */
+/**
+ * After a mission, the button that continues comes first, in honey, and it is the only honey
+ * one of the row, whichever it is (decision of the parent, 26 November 2026: after a defeat,
+ * « Réessayer » was a light button like the others); elsewhere the page's order and colours.
+ */
 function bindPrimaryButton() {
   const buttons = byId('mission-next').parentElement!;
   // Read at the first move, not at binding, and again if the row has grown since: the
   // missions add their own buttons to this row, and none may be left out of it.
   let pageOrder: ChildNode[] | null = null;
+  /** The colour each button has in the page, given back when the result goes. */
+  const pageColours = new Map<HTMLButtonElement, boolean>();
+  const lead = (primary: HTMLElement) => {
+    clayWhenRoom(primary);
+    for (const button of Array.from(buttons.querySelectorAll('button'))) {
+      if (!pageColours.has(button)) pageColours.set(button, button.classList.contains('primary'));
+      button.classList.toggle('primary', button === primary);
+      button.classList.toggle('secondary', button !== primary);
+    }
+  };
   return {
     promote(primary: HTMLElement) {
+      lead(primary);
       // A button that comes with its sentence moves with it, as one block of the row.
       const block = Array.from(buttons.children).find((child) => child.contains(primary))!;
       if (buttons.firstElementChild === block) return;
@@ -204,6 +221,11 @@ function bindPrimaryButton() {
       buttons.replaceChildren(block, ...pageOrder.filter((node) => node !== block));
     },
     restore() {
+      for (const [button, primary] of pageColours) {
+        button.classList.toggle('primary', primary);
+        button.classList.toggle('secondary', !primary);
+      }
+      pageColours.clear();
       if (!pageOrder) return;
       buttons.replaceChildren(...pageOrder);
       pageOrder = null;
