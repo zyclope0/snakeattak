@@ -181,6 +181,9 @@ Serpents :
 1. **Le boss est un cobra royal à trois têtes.** Aujourd'hui : le roi à trois têtes existe,
    et « Cobra royal » est le nom d'un serpent ordinaire. À voir avec lui : l'allure du roi
    (capuchon de cobra) et lequel des deux garde le nom.
+   **Dessin fait le 26 novembre 2026** (crédits accordés par le parent, qui demande les trois
+   têtes de cobra) : King Snake est un cobra royal à trois têtes, capuchons ouverts, couronne
+   sur la tête du milieu ; le nom reste « King Snake ».
 2. **Des serpents à grands crocs**, qui font beaucoup de dégâts.
 3. **Un serpent très rare, avec très peu de vie**, mais capable par exemple de tuer un
    Massue d'un seul coup.
@@ -206,6 +209,8 @@ Serpents :
 5. **Des serpents « sauterelles »**, volants, qui sautent derrière nos lignes, dans le dos
    de certaines troupes.
 6. **Un plus beau dessin pour les serpents volants.**
+   **Fait le 26 novembre 2026** : un serpent bleu turquoise avec deux ailes de pâte, à la place
+   du serpent vert et de ses ailes tracées par le code. Aucune règle ne change.
 7. **Plus d'œufs à mesure que la partie dure.**
    **Fait le 15 novembre 2026** (sens et valeurs choisis par le parent, après mesure) : dans
    la grande aventure, quand une vague dure plus de 45 secondes, un œuf de plus apparaît ; un
@@ -214,6 +219,13 @@ Serpents :
    d'avant gardent leurs règles. Missions, défis et voyage ne changent pas.
 8. **Un boss final caché**, inspiré du tout premier jeu du serpent qui grandit en mangeant
    (le genre « Snake »), avec une façon de le débloquer à trouver.
+   **26 novembre 2026, décisions du parent** : un combat à part, débloqué par 12 pommes
+   trouvées partout (une toutes les trois vagues, sans minuteur) ; le boss grandit en mangeant
+   et perd un anneau à chaque coup. Plan : `docs/BOSS-CACHE.md`.
+   **Fait le 26 novembre 2026** (lots 1 à 3, pas encore publié) : il s'appelle
+   **« Classic Snake »** (nom donné par le fils) ; ses pommes se comptent dans l'antre de
+   l'accueil, et à 12 le bouton « Classic Snake » lance son combat
+   (`docs/BILAN-BOSS-CACHE-LOT-3-2026-11-26.md`).
 
 Alliés :
 

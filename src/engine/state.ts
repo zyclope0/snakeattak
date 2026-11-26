@@ -37,6 +37,8 @@ export type Entity = Point & {
   swim?: SwimState;
   /** Carapace d'un caprice : plus lente, plus solide, blindée. Absente sinon. */
   shell?: true;
+  /** A ring of the hidden boss's body (`bossChain.ts`). Absent on every other fighter. */
+  chainRing?: true;
   medical?: MedicalState;
   court?: CourtState;
   courtReleased?: boolean;

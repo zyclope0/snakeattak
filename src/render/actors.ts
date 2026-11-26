@@ -88,6 +88,8 @@ type Stance = {
 /** The resting image of a fighter; an umbrella snake closes its umbrella when it stops. */
 function idleArt(unit: Entity) {
   if (unit.kind !== 'snake') return ALLY_ART[unit.kind as Kind];
+  // A ring of the hidden boss is no snake figure: its own layer draws the body.
+  if (unit.chainRing) return undefined;
   if (unit.boss) return KING_ART;
   if (unit.variant === 'umbrella' && unit.state !== 'move') return UMBRELLA_CLOSED_ART;
   return ENEMY_ART[unit.variant];

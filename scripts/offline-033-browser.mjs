@@ -247,6 +247,41 @@ try {
   );
   await page.locator('#family-close').click();
   checks.push('the family backup window opens offline, from a package of its own');
+  // The battle of Classic Snake (hidden boss, lot 3): its rules, its words and its three
+  // pictures are a package of their own, asked for at the first touch of its button in the den.
+  // The apples are seeded: no player has twelve in a recipe.
+  await page.evaluate(
+    ({ key, found }) => localStorage.setItem(key, JSON.stringify({ version: 1, found })),
+    {
+      key: 'conquete-serpents:apples:v1',
+      found: Array.from({ length: 12 }, (_, i) => `${i + 1}:3`),
+    },
+  );
+  await page.reload();
+  await page.locator('#home-classic-snake').waitFor({ state: 'visible' });
+  const CLASSIC_SNAKE = [
+    /classicSnakeBattle-[\w-]+\.js$/,
+    /classic-snake-tete-[\w-]+\.webp$/,
+    /classic-snake-anneau-[\w-]+\.webp$/,
+    /classic-snake-queue-[\w-]+\.webp$/,
+  ];
+  for (const file of CLASSIC_SNAKE)
+    assert.ok(
+      ![...served].some((p) => file.test(p)),
+      `Classic Snake is not loaded before its button is touched: ${file}`,
+    );
+  await page.locator('#home-classic-snake').click();
+  await page.waitForFunction(
+    () => document.querySelector('#game')?.getAttribute('aria-busy') === 'false',
+  );
+  await page.locator('#start').click();
+  await page.waitForFunction(() => document.getElementById('game').dataset.bossRings === '18');
+  for (const file of CLASSIC_SNAKE)
+    assert.ok(
+      [...served].some((p) => file.test(p)),
+      `Classic Snake file served from disk: ${file}`,
+    );
+  checks.push('Classic Snake opens offline from its own package, with its three pictures');
   assert.deepEqual(external, []);
   assert.deepEqual(missing, []);
   assert.deepEqual(errors, []);

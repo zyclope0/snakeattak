@@ -29,6 +29,7 @@ import { loadPlayers, playerStorage } from './players.ts';
 import { bindPlayers } from './ui/players.ts';
 import { bindVoyageDoor } from './ui/voyageDoor.ts';
 import { bindPrivacyDoor } from './ui/privacyDoor.ts';
+import { bindClassicSnakeDoor } from './ui/classicSnakeDoor.ts';
 import { Session } from './session.ts';
 import { BattleScene } from './render/BattleScene.ts';
 import { bindControls } from './ui/controls.ts';
@@ -44,6 +45,7 @@ import './ui/windowSkin.css';
 import './ui/campSkin.css';
 import { byId } from './ui/dom.ts';
 import { createRecordBook } from './endlessRecords.ts';
+import { createAppleBook } from './appleBook.ts';
 import { createSaving } from './boot/saving.ts';
 import { createWatchKeeping } from './boot/watchKeeping.ts';
 import { createScreens } from './boot/screens.ts';
@@ -68,6 +70,7 @@ const albums = createCapriceAlbumsController(
   familySaved && hasAlbums(familySaved) ? familySaved.albums : undefined,
 );
 const records = createRecordBook(storage);
+const apples = createAppleBook(storage);
 
 // --- The game on screen, and where the classic adventure and the mission wait meanwhile.
 const session = new Session();
@@ -94,9 +97,10 @@ let refreshPrimary: (() => void) | undefined;
 let menu: ReturnType<typeof bindMenu> | undefined;
 let report: (() => void) | undefined;
 let voyage: ReturnType<typeof bindVoyageDoor> | undefined;
+let appleDoor: (() => void) | undefined;
 
 // --- What is told and written after a step, which screen is shown, which game is on the board.
-const watchKeeping = createWatchKeeping(session, family, records);
+const watchKeeping = createWatchKeeping(session, family, records, apples);
 const screens = createScreens(watchKeeping);
 const adventure = {
   session,
@@ -104,6 +108,7 @@ const adventure = {
   persistence,
   family,
   records,
+  apples,
   career,
   missions,
   albums,
@@ -130,17 +135,27 @@ const battleNotices = bindBattleNotices(
   () => !!session.selected || !!session.selectedFeast,
   createRecruitmentReminder(session, createReminderMarkers(storage)),
 );
-screens.attach(createPhaser(new BattleScene(session, refresh, soundFrame, battleNotices)));
+const battle = new BattleScene(session, refresh, soundFrame, battleNotices, {
+  has: apples.has,
+  collect: apples.add,
+  sound: soundFrame.apple,
+});
+screens.attach(createPhaser(battle));
 menu = bindMenu(session, career, {
   hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : games.hasCamp),
   restore: games.restoreClassic,
   started: games.gameStarted,
-  view: screens.show,
+  // Every way home goes through here: the den counts the apples found during the battle.
+  view: (home) => {
+    screens.show(home);
+    if (home) appleDoor?.();
+  },
   navigate: (page) => navigation.show(page),
   refresh,
   progressStatus: () => family.status,
   campIsEndless: games.campIsEndless,
   records: records.read,
+  leave: games.leaveAside,
 });
 albumUI = bindCapriceAlbums(session, albums, refresh, () => family.status, stickers.result);
 expeditions = bindExpeditions(
@@ -166,6 +181,12 @@ voyage = bindVoyageDoor({
   navigate: (page) => navigation.show(page),
 });
 bindPrivacyDoor();
+appleDoor = bindClassicSnakeDoor(() => apples.read().length, {
+  session,
+  scene: battle,
+  play: games.playAside,
+});
+appleDoor();
 bindFamilyFile(adventure, games, saving.recordGame, { home: () => menu!.showHome(), refresh });
 screens.show(true);
 menu.refresh();
@@ -190,6 +211,8 @@ function saveAndRedraw() {
   report?.();
   expeditions?.();
   refreshPrimary?.();
+  // The apples of the den are counted for the home only: one is found during a battle.
+  if (session.screen === 'home') appleDoor?.();
   setDisplayText(byId('save-status'), family.status);
   // Last: on a voyage stage, the voyage has the final word on what the board says.
   voyage?.refresh();

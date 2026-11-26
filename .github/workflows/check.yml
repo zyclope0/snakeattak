@@ -104,7 +104,7 @@ jobs:
             recettes: >-
               test:audit test:threat-preparation test:reinforcements-scroll test:child-mobile
               test:interruptions test:offline test:presentation test:tactical-clarity
-              test:mission-journey test:endless
+              test:mission-journey test:endless test:apples test:hidden-boss
           - groupe: langue et caprices
             recettes: test:locale test:caprices
           # La recette des menus est la plus longue : la partie « voyage » pèse à peu près

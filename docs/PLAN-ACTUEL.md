@@ -124,7 +124,24 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
 - **26 novembre — lot 11** ([bilan](BILAN-MENUS-LOT-11-2026-11-26.md)), trois décisions du
   parent : le bouton en tête de la fin d'une mission toujours en miel ; la pâte miel à la fin
   d'une partie et à la pause quand le mot tient dedans ; la sauvegarde familiale chargée au
-  premier toucher (paquet principal 193 358 octets sur 200 000).
+  premier toucher (paquet principal 193 358 octets sur 200 000). PR 156, `main` = `f0ddd06`,
+  **publié (publication n° 57, mot du parent du 26 novembre)**.
+- **26 novembre — boss caché, lot 1 : les pommes** ([bilan](BILAN-POMMES-LOT-1-2026-11-26.md),
+  décisions dans [BOSS-CACHE.md](BOSS-CACHE.md)) : une pomme toutes les trois vagues, dans
+  chaque mode, gardée d'un toucher dans le carnet du joueur, et le fichier familial version 7
+  qui la porte. Empreintes des parties inchangées. Branche `claude/trusting-brahmagupta-t7fmuy`,
+  ni poussé ni fusionné. Pas encore essayé sur le téléphone ni par le fils.
+- **26 novembre — boss caché, lot 2 : le combat et sa mesure**
+  ([bilan](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md)) : le serpent en anneaux (avale, grandit,
+  raccourcit, s'enroule quand il n'a plus que sa tête), trois réglages mesurés pour le parent
+  (« moyen » en place : expert 92 %, moyen 59 %, apprenti 36 %, deux minutes), un banc d'essai
+  au dessin provisoire. Aucun écran n'y mène ; empreintes et mesures des autres modes
+  inchangées. Même branche, ni poussé ni fusionné ; ni téléphone ni enfants.
+- **26 novembre — boss caché, lot 3 : Classic Snake jouable**
+  ([bilan](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md)) : le nom du fils, le dessin A, la pomme et
+  son compte dans l'antre de l'accueil, le bouton « Classic Snake » à 12 pommes, le combat
+  chargé au premier toucher, jamais gardé, son écran de fin. Paquet principal 197 479 octets.
+  Même branche, ni poussé ni fusionné ; ni téléphone ni enfants.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
@@ -371,7 +388,7 @@ Grande Expédition et les corrections de l'étape d'hygiène.
 ## Dettes connues
 
 - `reports/` : 844 fichiers de rapports encore suivis dans Git.
-- **Paquet principal : 193,4 Ko sur 200** (lot 11, 26 novembre) : la sauvegarde familiale est
+- **Paquet principal : 195,8 Ko sur 200** (pommes, 26 novembre ; 193,4 au lot 11) : la sauvegarde familiale est
   chargée à la demande, le carnet de caprices l'était déjà. Ce qui reste de gros dans le paquet
   sert au combat ou aux premiers écrans (rendu du plateau, autocollants des missions).
 - `test:mobile-menus` est la plus longue tâche de la CI (10 à 17 minutes).

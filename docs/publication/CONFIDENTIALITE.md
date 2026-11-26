@@ -1,125 +1,47 @@
-# Confidentialité — brouillons à compléter
+# Confidentialité — la politique publiée et la fiche Play
 
-> **Historique.** Ces brouillons datent de la préparation de novembre (jeu 0.32.4). La
-> politique approuvée et publiée est dans `src/i18n/privacyPolicy.ts` : c'est la seule
-> source de la page publique et de la fenêtre de l'application. Voir [SITE.md](../SITE.md).
+État au 26 novembre 2026. **Ce document ne rédige pas de politique.** La politique approuvée
+par l'éditeur est publiée à **https://snakeattacktd.com/confidentialite** ; sa seule source est
+`src/i18n/privacyPolicy.ts`, en français et en anglais, qui sert aussi la fenêtre
+« Confidentialité » de l'application. Son texte ne se change pas ici : toute modification est
+une décision de l'éditeur, dans les deux langues, avec une nouvelle date
+([SITE.md](../SITE.md)).
 
-**Ne pas publier ce document comme politique finale d'une application avec pubs.**
-L'application actuelle0.32.4 ne contient pas de SDK publicitaire ni de facturation.
-L'identité du responsable, son contact et la configuration de la future version
-commerciale ne sont pas encore disponibles. La page publique nécessaire à Google
-Play sera préparée après ces données et avant le test d'une version monétisée.
+## Ce que la politique publiée dit de l'application
 
-## Faits de l'APK actuel, à relire avec l'éditeur
+Résumé pour s'y retrouver ; le texte qui fait foi est celui de la page.
 
-- Jeu local sans compte de joueur, sans analytique ou publicité ajoutée au jeu.
-- Sauvegardes, réglages et équipes enregistrés sur l'appareil.
-- Transfert volontaire par fichier familial ; le jeu n'organise pas de transfert
-  automatique vers son développeur.
-- APK 0.32.4 compilé sans permission INTERNET. Cela ne décrit pas les opérations
-  propres à Android ou Google Play, qui ont leurs propres règles.
-- Le site web est servi par un hébergeur : ses requêtes et données techniques
-  d'hébergement ne sont pas assimilées à celles de l'APK hors ligne.
+- Elle décrit l'application Android **0.41.0, build 65** (`POLICY_APP`, qu'un test tient égal
+  à `package.json`), et nomme son éditeur.
+- On joue sans compte et sans connexion Internet pour les parties. Jusqu'à quatre profils
+  locaux, avec un surnom facultatif. Progression, sauvegardes, autocollants, favoris et
+  réglages restent sur l'appareil ; l'éditeur ne les reçoit pas par l'application.
+- L'application ne contient ni publicité, ni achat intégré, ni outil de mesure d'audience
+  ajouté par l'éditeur.
+- Export volontaire de la sauvegarde depuis « Pour les parents » : le fichier passe par le
+  cache de l'application, puis par le partage d'Android, où l'adulte choisit le destinataire.
+- Google Play gère le téléchargement, les mises à jour et un contrôle de provenance de
+  l'installation.
+- Le test Android passe par un groupe Google : l'éditeur voit l'adresse e-mail des membres.
+- Le site Web (hébergeur, encart publicitaire sur grand écran, soutien facultatif) a ses
+  propres paragraphes.
 
-## Formulations de travail pour la version sans publicité
+## À garder cohérent avant d'envoyer la fiche
 
-**FR.** La Conquête des Serpents conserve votre progression et vos réglages sur
-votre appareil. Cette version de l'application ne transmet pas vos données de
-jeu au développeur. Vous pouvez exporter un fichier familial et le partager de
-votre propre initiative. Le destinataire reçoit alors les données de progression
-contenues dans ce fichier. Contact de l'éditeur : à renseigner avant publication.
+- **La page en ligne nomme la version envoyée.** Si un autre build que le 65 part sur Play, la
+  politique doit d'abord le nommer (nouvelle approbation de l'éditeur). Le contrôle local
+  compare `POLICY_APP` à `package.json`, pas la page en ligne : le parent l'ouvre et vérifie
+  (`legal.privacyOnlineMatchesBuild`).
+- **La fiche ne promet rien de plus que la politique** : pas de pub et pas d'achat dans
+  l'application, pas de compte, progression sur l'appareil, export volontaire.
+- **Le formulaire Sécurité des données dit la même chose** que la politique et que le
+  comportement mesuré du build : [SECURITE-DES-DONNEES-V2.md](SECURITE-DES-DONNEES-V2.md).
+- **L'URL** saisie dans la Console est celle de `configuration.json`, que le contrôle compare
+  à `PUBLIC_PRIVACY_URL` (`src/site.ts`).
 
-**EN.** La Conquête des Serpents stores your progress and settings on your device.
-This app version does not send your game data to its developer. You can export a
-family file and choose to share it. Its recipient then receives the progress
-data in that file. Publisher contact: must be completed before publication.
+## Historique
 
-**DE.** La Conquête des Serpents speichert deinen Fortschritt und deine Einstellungen
-auf deinem Gerät. Diese App-Version sendet keine Spieldaten an den Entwickler.
-Du kannst eine Familiendatei exportieren und selbst weitergeben. Der Empfänger
-erhält dann die darin enthaltenen Fortschrittsdaten. Kontakt des Herausgebers:
-muss vor der Veröffentlichung ergänzt werden.
-
-**IT.** La Conquête des Serpents salva i progressi e le impostazioni sul dispositivo.
-Questa versione dell'app non invia dati di gioco allo sviluppatore. Puoi esportare
-un file familiare e scegliere di condividerlo. Il destinatario riceve i dati sui
-progressi contenuti nel file. Contatto dell'editore: da completare prima della
-pubblicazione.
-
-Ces quatre textes sont des brouillons, pas une certification juridique ou une
-relecture native. Ils ne promettent pas que l'interface du jeu est traduite.
-
-## Pour la future version avec publicité et achats
-
-Une pub non personnalisée peut encore utiliser l'adresse IP, des signaux du
-terminal, interactions et diagnostics. Le détail dépend du SDK et des options.
-Les états d'achat traités par Play et gardés dans le cache natif s'ajoutent à
-cet inventaire. La v1 prévoit une validation client, sans service de reçus de
-l'éditeur ; un futur serveur exigerait une nouvelle politique. Ne pas cocher
-« aucune donnée collectée ou partagée » par défaut.
-
-Avant rédaction finale : relever SDK et version, réglages enfant, initialisation,
-permissions fusionnées, destinataires, finalités, données obligatoires/facultatives,
-transit et conservation, suppression/contact et conditions géographiques.
-Identifier ce que le développeur reçoit et ce que chaque fournisseur reçoit.
-Le portail parental ne remplace pas une base légale ou un mécanisme requis.
-
-La politique finale devra nommer l'éditeur et l'application, être accessible par
-URL publique et depuis l'app, et rester cohérente avec Sécurité des données et
-le comportement mesuré. Les brouillons « sans publicité » restent historiques
-et ne sont pas réutilisés silencieusement pour cette version.
-
-Source : [formulaire Sécurité des données Google](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en),
-qui inclut les bibliothèques/SDK et la localisation approximative déduite de l'IP.
-
-## Brouillon v1 avec publicité et achats — étape 4
-
-**Proposition française pour l'espace parents, à compléter et relire. Ne pas
-publier telle quelle.** Ce texte décrit une version future, pas l'APK 0.32.4 sans
-SDK commercial. Aucune traduction ajoutée dans cette mission.
-
-> La Conquête des Serpents est éditée par [nom légal/public à confirmer],
-> joignable à [contact public à renseigner]. Cette politique concerne la version
-> [version et date à renseigner] sur Google Play, dans [pays retenus].
->
-> La progression et les réglages restent sur ton appareil. Le jeu ne crée pas
-> de compte joueur et n'envoie pas les camps à l'éditeur. Tu peux exporter un
-> fichier familial et décider de le transmettre ; son destinataire reçoit les
-> données de progression du fichier. Les droits payants n'y figurent pas.
->
-> Cette version pourra afficher de rares publicités entre les missions avec
-> Google AdMob [SDK et version intégrés à confirmer]. Elles seront configurées
-> pour les enfants, sans personnalisation ni remarketing. Même ainsi, Google
-> peut recevoir des informations techniques : IP, interactions publicitaires,
-> diagnostics et identifiants utilisés [inventaire final à compléter après
-> recette]. L'IP peut servir à estimer une zone géographique approximative.
-> L'absence d'ID publicitaire Android ne signifie pas absence de toute collecte.
->
-> Google Play gère les paiements et contrôles familiaux. L'app vérifie et confirme
-> les achats, puis conserve sur l'appareil les produits et droits connus pour
-> leur utilisation hors ligne. L'éditeur n'a pas de serveur de reçus dans cette
-> version. Le jeu ne demande ni ne stocke de numéro de carte bancaire. Restaurer
-> un achat dépend du compte Play acheteur ; effacer les données locales peut
-> nécessiter une nouvelle restauration.
->
-> Finalités, destinataires, durées de conservation et modalités de suppression :
-> [inventaire final et liens fournisseurs à compléter]. Effacer les données de
-> l'app supprime les copies locales ; cela ne supprime pas l'historique chez
-> Google et ne rembourse pas un achat. Pour les données, contacte [contact] ;
-> pour les achats, utilise aussi les fonctions et l'assistance Google Play.
-
-À finaliser : responsables et rôles selon pays, bases applicables et mécanismes
-parents, destinataires exacts dont UMP si retenu, traitements optionnels,
-chiffrement constaté, durées réelles par fournisseur, suppression et URL publique
-accessible sans compte. Aucun délai de conservation inventé ici.
-
-Le corps de la fiche AdMob décrit25.5.0 ; confronter cet inventaire générique
-à la configuration enfant, au manifeste fusionné et aux observations réseau. Voir
-[Sécurité des données v1](SECURITE-DES-DONNEES-V1.md) et
-[monétisation](MONETISATION.md). Sources et limites :
-[divulgation AdMob](https://developers.google.com/admob/android/privacy/play-data-disclosure),
-[données Play](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en).
-
-Aucune pub pendant le test fermé avant visualisation du format sur le S24 et
-GO explicite du parent. Une variante sans pub mais avec achats devra avoir une
-portée fidèle au build, sans recopier l'inventaire d'un SDK publicitaire absent.
+Les brouillons de politique écrits pour l'ancien modèle (publicité entre missions et achats,
+novembre 2026) ont quitté ce fichier : ils décrivaient une version qui n'existera pas. Ils
+restent dans l'historique Git (ce fichier avant le 26 novembre 2026), avec
+[MONETISATION.md](MONETISATION.md) et [SECURITE-DES-DONNEES-V1.md](SECURITE-DES-DONNEES-V1.md).

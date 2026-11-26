@@ -1,3 +1,4 @@
+import type { createAppleBook } from '../appleBook.ts';
 import type { createCampMemory } from '../campMemory.ts';
 import type { createCapriceAlbumsController } from '../capriceAlbums.ts';
 import type { createPersistence } from '../checkpoints.ts';
@@ -23,6 +24,8 @@ export type Adventure = {
   persistence: ReturnType<typeof createPersistence>;
   family: ReturnType<typeof createFamilyPersistence>;
   records: ReturnType<typeof createRecordBook>;
+  /** The apples found towards the hidden boss. */
+  apples: ReturnType<typeof createAppleBook>;
   career: ReturnType<typeof createCareer>;
   missions: ReturnType<typeof createMissionProgressController>;
   albums: ReturnType<typeof createCapriceAlbumsController>;

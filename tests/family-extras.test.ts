@@ -19,6 +19,8 @@ const { Game } = await import('../src/game.ts');
 const X = await import('../src/expedition.ts');
 const { createExpeditionLog, logExpedition } = await import('../src/expeditionStorage.ts');
 const { writeRecords } = await import('../src/endlessRecords.ts');
+const { writeApples } = await import('../src/appleBook.ts');
+const { importWritesApples, replacesNothing } = await import('../src/familyExtras.ts');
 const KEYS = await import('../src/storageKeys.ts');
 
 function memory(entries: Record<string, string> = {}) {
@@ -45,6 +47,7 @@ const voyage = JSON.stringify({
   current: { version: 2, seed: 751673, won: 1, bag: ['cristal'], status: 'travelling' },
 });
 const endless = writeRecords([{ wave: 17, kings: 1, rules: 1, run: 9 }]);
+const apples = writeApples(['33:3', '2026:6']);
 const adventure = () =>
   [
     encodeCheckpoint(new Game(1)),
@@ -96,7 +99,78 @@ test('un fichier version 6 abîmé est refusé en entier', () => {
   assert.ok(readFamilyBackup(JSON.stringify(atLimit)), 'an extra at the limit is read');
   refused((f) => (f.extras = [expedition]), 'extras as a list');
   refused((f) => (f.version = 5), 'extras in a version 5 file');
-  refused((f) => (f.version = 7), 'a version of the future');
+  refused((f) => (f.version = 7), 'a version 7 file without apples');
+  refused((f) => (f.version = 8), 'a version of the future');
+  refused((f) => (f.extras = { expedition, apples }), 'apples in a version 6 file');
+});
+
+test('le fichier familial version 7 porte aussi les pommes trouvées', () => {
+  const [camp, career, missions, albums] = adventure();
+  const raw = writeFamilyBackup(camp, career, missions, albums, { endless, apples })!;
+  const read = readFamilyBackup(raw)!;
+  assert.equal(read.version, 7);
+  assert.deepEqual(read.version === 7 && read.extras, { endless, apples });
+  assert.equal(JSON.stringify(read), raw, 'read then written again: the same file');
+  // The apples alone are enough; without them, the file stays the one it was before.
+  assert.equal(
+    readFamilyBackup(writeFamilyBackup(camp, career, missions, albums, { apples })!)!.version,
+    7,
+  );
+  const six = writeFamilyBackup(camp, career, missions, albums, { endless })!;
+  assert.equal(readFamilyBackup(six)!.version, 6);
+  assert.deepEqual(
+    { ...JSON.parse(raw), version: 6, extras: { endless } },
+    JSON.parse(six),
+    'the adventure of a version 7 file is that of the version 6 file',
+  );
+  assert.ok(readFamilyBackup(writeFamilyBackup(camp, career, missions, albums)!)!.version < 6);
+  // They travel with the expeditions and the albums, as the other extras.
+  assert.equal(writeFamilyBackup(camp, career, undefined, undefined, { apples }), null);
+  // A version 7 file is accepted whole or not at all.
+  const file = JSON.parse(raw);
+  const refused = (change: (f: Record<string, unknown>) => void, why: string) => {
+    const copy = structuredClone(file);
+    change(copy);
+    assert.equal(readFamilyBackup(JSON.stringify(copy)), null, why);
+  };
+  refused((f) => (f.extras = { endless }), 'version 7 without apples');
+  refused((f) => (f.version = 6), 'apples in a version 6 file');
+  refused((f) => (f.extras = { apples: 3 }), 'apples that are not a text');
+  refused((f) => delete f.extras, 'version 7 without extras');
+  // Their own reader decides: a damaged book is refused by the import.
+  assert.equal(checkExtras({ apples: '{"version":1,"found":["33:4"]}' }), null);
+  assert.equal(checkExtras({ apples: writeApples([]) }), null, 'an empty book carries nothing');
+  assert.deepEqual(checkExtras({ apples }), { apples });
+  // A file of a version 7 build without apples is a version 6 file: an older build reads it.
+  const sixOnly = readFamilyBackup(six)!;
+  assert.equal(importWritesApples(sixOnly, false), false, 'the apples of the device stay');
+  assert.equal(importWritesApples(read, false), true);
+  assert.equal(importWritesApples(sixOnly, true), true, 'a whole state takes them away');
+  // The same adventure with the same apples replaces nothing; other apples do.
+  assert.equal(replacesNothing(read, read, false), true);
+  const others = readFamilyBackup(
+    writeFamilyBackup(camp, career, missions, albums, {
+      endless,
+      apples: writeApples(['33:3']),
+    })!,
+  )!;
+  assert.equal(replacesNothing(read, others, false), false);
+});
+
+test('les pommes de l’appareil partent dans le fichier et en reviennent', () => {
+  const device = memory({ [KEYS.APPLES_STORAGE_KEY]: apples, [KEYS.ENDLESS_RECORDS_KEY]: endless });
+  assert.deepEqual(collectExtras(device), { endless, apples });
+  // An empty or damaged book carries nothing.
+  assert.deepEqual(collectExtras(memory({ [KEYS.APPLES_STORAGE_KEY]: writeApples([]) })), {});
+  assert.deepEqual(collectExtras(memory({ [KEYS.APPLES_STORAGE_KEY]: '{"version":9}' })), {});
+  // An import writes them under their key; a whole restore without them takes them away.
+  const other = memory();
+  assert.ok(writeExtras(other, { apples }));
+  assert.equal(other.values.get(KEYS.APPLES_STORAGE_KEY), apples);
+  assert.ok(writeExtras(other, { endless }));
+  assert.equal(other.values.get(KEYS.APPLES_STORAGE_KEY), apples, 'not in the file: kept');
+  assert.ok(writeExtras(other, { endless }, true));
+  assert.equal(other.values.has(KEYS.APPLES_STORAGE_KEY), false, 'a whole state without them');
 });
 
 test('les extras de l’appareil : seul ce qui se relit part dans le fichier', () => {

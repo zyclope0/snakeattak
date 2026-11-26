@@ -47,3 +47,12 @@ export const tonRecordVagueNNRois = 'Ton record : vague {0}';
 export const reprendreMonAventureSansFin = 'Reprendre mon aventure sans fin';
 /** The endless adventure open, no game of this player yet. */
 export const pasEncoreDeRecord = 'Pas encore de record';
+/**
+ * The apples of the den (boss caché, lot 3): how many the player has found, then, at twelve,
+ * the button of Classic Snake, named by the son (the same name in English).
+ */
+export const nSurN = '{0} / {1}';
+export const pommesTrouveesNSurN = 'Pommes trouvées : {0} sur {1}';
+export const classicSnake = 'Classic Snake';
+export const classicSnakeNAPasPuVenir =
+  'Classic Snake n’a pas pu venir. Recharge la page quand la connexion revient.';

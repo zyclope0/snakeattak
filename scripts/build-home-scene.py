@@ -74,7 +74,7 @@ def picture(image, name, side=128):
 picture(soft_base(piece("strongholds", 0, (356, 36, 500, 232)), 34), "menu-missions")
 picture(cell("interface-craft", 1), "menu-carnet")
 picture(round_cut(piece("allies-front", 1, (166, 22, 440, 296))), "menu-favoris")
-picture(piece("serpents-family", 3, (0, 40, 512, 512)), "menu-classique")
+picture(cell("serpents-roi-volant", 1), "menu-classique")
 picture(cell("interface-craft", 3), "menu-parents")
 
 # La carte des missions : un objet du jeu par mission.
@@ -206,7 +206,7 @@ def place(name, back, front, overlap, drop, front_left):
 
 # L'antre des serpents et King Snake, à gauche comme sur le plateau ; le pont et le raptor au
 # milieu ; le château au cristal et le héros à droite.
-place("antre", (cell("strongholds", 1), 124), (figure(cell("serpents-family", 3)), 90), 40, 4, False)
+place("antre", (cell("strongholds", 1), 124), (figure(cell("serpents-roi-volant", 1)), 90), 40, 4, False)
 place("pont", (cell("terrain-props", 0), 92), (figure(cell("allies-dinosaurs", 0)), 62), 30, 2, True)
 place("chateau", (cell("strongholds", 0), 122), (figure(cell("allies-front", 0)), 92), 26, 6, False)
 

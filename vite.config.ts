@@ -162,10 +162,12 @@ export default defineConfig(({ mode }) => {
                   // need the rules: the start-up rescue could no longer hand a file over when
                   // the rules are what failed. One line, kept with the keys.
                   if (id.endsWith('/src/texts/fill.ts')) return 'keys';
-                  // Cache the browser-independent rules separately from the expanding UI.
+                  // Cache the browser-independent rules separately from the expanding UI. The
+                  // battle of Classic Snake comes with its own package, at the first touch of
+                  // its button (`ui/classicSnake/`): its rules are not in the rules' package.
                   if (
                     /\/src\/(?:engine\/)?[^/]+\.ts$/.test(id) &&
-                    !/\/(?:main|bootstrap|art)\.ts$/.test(id)
+                    !/\/(?:main|bootstrap|art|hiddenBoss|hiddenBossTuning|bossChain)\.ts$/.test(id)
                   )
                     return 'rules';
                 },

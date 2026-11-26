@@ -41,7 +41,7 @@ export function bindThreatControls(session: Session, refresh: () => void) {
   );
   return () => {
     const game = session.game;
-    button.hidden = game.status !== 'preparing' || game.wave >= game.totalWaves;
+    button.hidden = !game.foretold || game.status !== 'preparing' || game.wave >= game.totalWaves;
     // The window describes one wave of one battle: it closes when either moves on.
     if (
       dialog.open &&

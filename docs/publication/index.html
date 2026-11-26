@@ -8,51 +8,62 @@
   </head>
   <body>
     <header>
-      <small>DOSSIER DE PRÉPARATION · 0.30.1</small>
+      <small>DOSSIER DE PRÉPARATION · 0.41.0</small>
       <h1>La Conquête des Serpents</h1>
-      <p>Google Play : modèle familial et éléments de la fiche.</p>
+      <p>Google Play : jeu gratuit, sans publicité ni achat dans l'application.</p>
     </header>
     <main>
       <section>
         <span class="status">Préparation bloquée</span>
-        <p>0 erreurs techniques · 15 points à compléter. État : blocked.</p>
-        <p>
-          Le jeu actuel reste sans publicité ni achat intégré. Les décisions ci-dessous cadrent la
-          prochaine version. Ce dossier n'est pas une version commerciale publiée.
-        </p>
+        <p>0 erreurs techniques · 13 points à compléter. État : blocked.</p>
+        <p>Ce dossier prépare la fiche Play. Il ne publie rien et n'envoie rien à Google.</p>
         <nav class="links">
-          <a href="MONETISATION.md">Monétisation</a><a href="CONFIDENTIALITE.md">Confidentialité</a
-          ><a href="PLAY-CONSOLE.md">Étapes Play Console</a
+          <a href="README.md">Lire d'abord</a><a href="PLAY-CONSOLE.md">Étapes Play Console</a
+          ><a href="SECURITE-DES-DONNEES-V2.md">Sécurité des données</a
+          ><a href="CONFIDENTIALITE.md">Confidentialité</a
           ><a href="configuration.json">Checklist</a>
         </nav>
       </section>
       <section>
         <h2>Contrôles techniques recalculés</h2>
         <p>0 erreur technique détectée dans les données et images actuelles.</p>
-        <p>Ces contrôles locaux ne certifient pas le compte, les SDK ou les achats réels.</p>
-      </section>
-      <section>
-        <h2>Le modèle validé</h2>
-        <ul>
-          <li>Jeu gratuit, missions accessibles par la progression normale.</li>
-          <li>
-            Au plus une pub entre missions par dix minutes, après au moins deux missions terminées.
-          </li>
-          <li>Achats : retirer les pubs et apparences sans avantage au combat.</li>
-          <li>Tarifs, produits précis et accès parents à valider avant intégration.</li>
-        </ul>
-        <p class="muted">
-          Implémentation proposée : première période de grâce de dix minutes actives ; pas de pub en
-          échec, en réessai ou dans le classique. La publicité non personnalisée peut encore traiter
-          des données.
+        <p>
+          Ces contrôles locaux lisent le dépôt. Ils ne certifient ni le compte, ni le manifeste
+          fusionné, ni le trafic réseau du build envoyé.
         </p>
       </section>
       <section>
-        <h2>Captures du jeu actuel</h2>
+        <h2>Le modèle décidé</h2>
+        <ul>
+          <li>
+            Jeu gratuit, sans publicité ni achat dans l'application (décision du parent, 17 et 18
+            novembre 2026).
+          </li>
+          <li>Pas de compte de joueur, pas de serveur, pas d'outil de mesure.</li>
+          <li>
+            Le jeu se joue en français et en anglais ; les noms des défis restent en français.
+          </li>
+          <li>
+            La seule publicité est celle du site Web, sur grand écran, et elle se coupe : elle ne
+            concerne pas l'application.
+          </li>
+        </ul>
+        <p class="muted">
+          L'ancien modèle (publicité entre missions, achats) est abandonné :
+          <a href="MONETISATION.md">document historique</a>.
+        </p>
+      </section>
+      <section>
+        <h2>Captures</h2>
         <p>
-          Captures de navigateur sur le build de production, avec un camp initial légal et des
-          commandes normales. À comparer à l'APK avant usage public. Les fiches locales ne
-          traduisent pas encore le jeu.
+          Captures de navigateur sur un build de production, avec un camp initial légal et des
+          commandes normales. À comparer à l'APK avant usage public.
+        </p>
+        <p>
+          <strong
+            >Ces captures viennent de la version 0.30.1, pas de la version 0.41.0 : elles sont à
+            refaire.</strong
+          >
         </p>
         <div class="gallery">
           <figure>
@@ -105,148 +116,187 @@
         </p>
       </section>
       <section>
-        <h2>Ton icône fournie est conservée</h2>
+        <h2>L'icône</h2>
         <img
           class="icon"
           src="../resources-2026-11/assets/icone-source.png"
           alt="Icône HD fournie avec héros, serpent et cristal"
         />
         <p>
-          Source 2048×2048. Les coins blancs arrondis restent à corriger avant l'export carré
-          512×512. Ce fichier est une référence, pas l'icône finale du store.
+          Source 2048×2048. Un export carré 512×512 sans coins blancs existe
+          (<code>resources/android-icon/icon-512.png</code>) ; il n'est pas encore dans le manifeste
+          des captures.
         </p>
       </section>
       <section>
         <h2>Textes des fiches</h2>
         <p>
-          Quatre brouillons pour relecture humaine. La langue actuelle de l'application est annoncée
-          dans chaque fiche.
+          Quatre brouillons pour relecture humaine. Chaque fiche dit que le jeu est en français et
+          en anglais.
         </p>
         <details open>
           <summary>Français — brouillon à relire</summary>
           <h3>La Conquête des Serpents</h3>
           <p>
             <strong
-              >Défends le cristal sur trois voies avec dinos, dragons et alliés autonomes.</strong
+              >Défends le cristal sur trois voies avec des alliés qui se battent tout seuls.</strong
             >
           </p>
           <pre>
-Protège le cristal face aux serpents !
+Les serpents sortent de leur antre. Protège le cristal !
 
-La Conquête des Serpents est un jeu de défense imaginé à partir du jeu d&#39;un enfant. Prépare ton armée puis observe tes alliés agir seuls sur trois voies reliées entre elles.
+La Conquête des Serpents est un jeu de défense né d&#39;un jeu sur papier inventé par un enfant. Tu choisis tes alliés et tu les places dans ton camp. Ensuite, ils se battent tout seuls sur trois voies reliées entre elles.
 
-• Recrute des massues, archers, ninjas, soigneurs, petits dinos et bébés dragons.
-• Anticipe les œufs qui éclosent et les serpents aux pouvoirs différents.
-• Commence par le refuge : une voie attaquée, puis deux, puis trois.
-• Découvre six missions et leurs configurations de terrain, d&#39;assaut et de couvée.
-• Dans la grande aventure, résiste à douze vagues jusqu&#39;au roi à trois têtes et sa garde.
-• Choisis un nouveau détachement pour chaque mission et conserve ton camp entre ses vagues.
-• Utilise le miel pour attirer ou ralentir les serpents.
-• Garde ton aventure sur l&#39;appareil et transfère-la volontairement avec un fichier familial.
+Dans le jeu :
+• Six missions, avec un nouveau détachement à préparer à chaque fois.
+• L&#39;aventure classique : douze vagues, jusqu&#39;à King Snake, le cobra royal à trois têtes, et sa garde.
+• La Grande Expédition : un long voyage d&#39;étape en étape, avec un défi à chaque étape.
+• L&#39;aventure sans fin, une fois King Snake vaincu : jusqu&#39;où iras-tu ?
+• 36 défis nommés par l&#39;enfant qui a inventé le jeu, et des autocollants à gagner dans ton carnet.
+• Un héros à l&#39;épée et au bouclier, des massues, des archers, des ninjas, des médecins, des bébés dragons et des dinosaures, jusqu&#39;au spinosaure.
+• Des œufs qui éclosent pendant la bataille, et des serpents qui cherchent la voie la moins défendue.
+• Du miel pour attirer ou ralentir les serpents.
+• « Tous les serpents » : une page pour connaître chaque serpent avant de l&#39;affronter.
 
-Les combattants sont autonomes : tu prépares ta défense sans leur donner d&#39;ordres de déplacement. Les cosmétiques prévus ne modifieront aucune statistique de combat.
+Pas d&#39;ordres à donner : tes alliés trouvent leur chemin et choisissent leurs cibles. Tu gagnes des pièces en repoussant les serpents, et tu les dépenses pour recruter. Un allié tombé ne revient pas : prépare bien ton camp.
 
-Le jeu est actuellement disponible en français.</pre>
+Pour les parents :
+• Pas de publicité et pas d&#39;achat dans l&#39;application.
+• Pas de compte à créer. La progression reste sur l&#39;appareil, jusqu&#39;à quatre joueurs.
+• La sauvegarde familiale exporte l&#39;aventure dans un fichier, après une question pour adulte.
+
+Le jeu est disponible en français et en anglais. Les noms des défis restent en français, comme leur créateur les a écrits.</pre>
         </details>
         <details>
           <summary>English — brouillon à relire</summary>
-          <h3>La Conquête des Serpents</h3>
+          <h3>Snake Attack TD</h3>
           <p>
-            <strong
-              >Defend the crystal across three lanes with dinosaurs, dragons and brave
-              allies.</strong
-            >
+            <strong>Defend the crystal on three lanes with allies who fight on their own.</strong>
           </p>
           <pre>
-Protect the crystal from the snakes!
+The snakes are leaving their den. Protect the crystal!
 
-La Conquête des Serpents is a defense game inspired by a child&#39;s own game. Prepare your army, then watch your allies act on their own across three interconnected lanes.
+Snake Attack TD (La Conquête des Serpents in French) is a defense game that began as a paper game invented by a child. You choose your allies and place them in your camp. Then they fight on their own across three connected lanes.
 
-• Recruit club fighters, archers, ninjas, healers, little dinosaurs and baby dragons.
-• Watch for hatching eggs and snakes with different abilities.
-• Start at the refuge: enemies attack one lane, then two, then all three.
-• Explore six missions with different terrain, assault and nest configurations.
-• In the long adventure, face twelve waves ending with the three-headed king and his guards.
-• Prepare a new detachment for each mission and keep your camp between its waves.
-• Use honey to lure or slow the snakes.
-• Keep your adventure on the device and transfer it yourself with a family file.
+In the game:
+• Six missions, each with a new squad to prepare.
+• The classic adventure: twelve waves, up to King Snake, the three-headed king cobra, and his guards.
+• The Great Expedition: a long journey from stage to stage, with a challenge at each stage.
+• The endless adventure, once King Snake is beaten: how far can you go?
+• 36 challenges named by the child who invented the game, and stickers to win for your sticker book.
+• A hero with sword and shield, clubbers, archers, ninjas, medics, baby dragons and dinosaurs, up to the spinosaurus.
+• Eggs that hatch during the battle, and snakes that look for the least defended lane.
+• Honey to lure or slow down the snakes.
+• “All the snakes”: a page to get to know each snake before you face it.
 
-Fighters act autonomously: you prepare the defense without issuing movement orders. Planned cosmetics will not change combat statistics.
+No orders to give: your allies find their way and pick their targets. You earn coins by pushing back the snakes, and you spend them on new allies. A fallen ally does not come back, so prepare your camp well.
 
-The game is currently available in French.</pre>
+For parents:
+• No ads and no in-app purchases.
+• No account to create. Progress stays on the device, for up to four players.
+• The family save exports the adventure to a file, after a question for adults.
+
+The game is available in French and English. The names of the challenges stay in French, as their creator wrote them.</pre>
         </details>
         <details>
           <summary>Deutsch — brouillon à relire</summary>
-          <h3>La Conquête des Serpents</h3>
+          <h3>Snake Attack TD</h3>
           <p>
             <strong
-              >Verteidige den Kristall auf drei Wegen mit Dinos, Drachen und mutigen
-              Helfern.</strong
+              >Verteidige den Kristall auf drei Wegen mit Verbündeten, die allein kämpfen.</strong
             >
           </p>
           <pre>
-Beschütze den Kristall vor den Schlangen!
+Die Schlangen kommen aus ihrem Bau. Beschütze den Kristall!
 
-La Conquête des Serpents ist ein Verteidigungsspiel, das aus der Spielidee eines Kindes entstanden ist. Stelle deine Truppe auf und beobachte, wie deine Verbündeten selbstständig auf drei miteinander verbundenen Wegen kämpfen.
+Snake Attack TD (auf Französisch: La Conquête des Serpents) ist ein Verteidigungsspiel. Es begann als Papierspiel, das sich ein Kind ausgedacht hat. Du wählst deine Verbündeten und stellst sie in dein Lager. Dann kämpfen sie selbstständig auf drei verbundenen Wegen.
 
-• Rekrutiere Kämpfer mit Keulen, Bogenschützen, Ninjas, Heiler, kleine Dinosaurier und Babydrachen.
-• Achte auf schlüpfende Eier und Schlangen mit unterschiedlichen Fähigkeiten.
-• Beginne am Zufluchtsort: erst ein angegriffener Weg, dann zwei, dann alle drei.
-• Entdecke sechs Missionen mit verschiedenen Gelände-, Angriffs- und Nestkonfigurationen.
-• Bestehe im großen Abenteuer zwölf Wellen bis zum dreiköpfigen König und seiner Leibwache.
-• Stelle für jede Mission eine neue Truppe zusammen und behalte dein Lager zwischen ihren Wellen.
-• Locke oder verlangsame Schlangen mit Honig.
-• Speichere dein Abenteuer auf dem Gerät und übertrage es selbst mit einer Familiendatei.
+Im Spiel:
+• Sechs Missionen, jedes Mal mit einer neuen Truppe.
+• Das klassische Abenteuer: zwölf Wellen bis zu King Snake, der dreiköpfigen Königskobra, und seiner Garde.
+• The Great Expedition: eine lange Reise von Etappe zu Etappe, mit einer Herausforderung auf jeder Etappe.
+• Das endlose Abenteuer, sobald King Snake besiegt ist: Wie weit kommst du?
+• 36 Herausforderungen, benannt von dem Kind, das das Spiel erfunden hat, und Sticker für dein Stickerheft.
+• Ein Held mit Schwert und Schild, Keulenkämpfer, Bogenschützen, Ninjas, Sanitäter, Babydrachen und Dinosaurier bis hin zum Spinosaurus.
+• Eier, die während der Schlacht schlüpfen, und Schlangen, die den am schwächsten verteidigten Weg suchen.
+• Honig, um die Schlangen anzulocken oder zu bremsen.
+• Eine Übersicht aller Schlangen, damit du jede kennst, bevor du gegen sie antrittst.
 
-Die Kämpfer handeln selbstständig. Du gibst keine Bewegungsbefehle. Geplante kosmetische Inhalte verändern keine Kampfwerte.
+Du gibst keine Befehle: Deine Verbündeten finden ihren Weg und wählen ihre Ziele. Für zurückgeschlagene Schlangen bekommst du Münzen, mit denen du neue Verbündete anwirbst. Ein gefallener Verbündeter kommt nicht zurück. Bereite dein Lager also gut vor.
 
-Das Spiel ist derzeit auf Französisch verfügbar.</pre>
+Für Eltern:
+• Keine Werbung und keine In-App-Käufe.
+• Kein Konto nötig. Der Fortschritt bleibt auf dem Gerät, für bis zu vier Spieler.
+• Die Familiensicherung exportiert das Abenteuer in eine Datei, nach einer Frage für Erwachsene.
+
+Das Spiel ist auf Französisch und Englisch verfügbar. Es ist nicht ins Deutsche übersetzt. Die Namen der Herausforderungen bleiben auf Französisch, so wie ihr Erfinder sie geschrieben hat.</pre>
         </details>
         <details>
           <summary>Italiano — brouillon à relire</summary>
-          <h3>La Conquête des Serpents</h3>
+          <h3>Snake Attack TD</h3>
           <p>
-            <strong
-              >Difendi il cristallo su tre corsie con dinosauri, draghi e alleati autonomi.</strong
-            >
+            <strong>Difendi il cristallo su tre corsie con alleati che combattono da soli.</strong>
           </p>
           <pre>
-Proteggi il cristallo dai serpenti!
+I serpenti escono dalla loro tana. Proteggi il cristallo!
 
-La Conquête des Serpents è un gioco di difesa nato dall&#39;idea di un bambino. Prepara la tua squadra e osserva gli alleati agire da soli su tre corsie collegate.
+Snake Attack TD (in francese: La Conquête des Serpents) è un gioco di difesa nato da un gioco su carta inventato da un bambino. Scegli i tuoi alleati e mettili nel tuo accampamento. Poi combattono da soli su tre corsie collegate tra loro.
 
-• Recluta combattenti con la clava, arcieri, ninja, guaritori, piccoli dinosauri e cuccioli di drago.
-• Controlla le uova che si schiudono e i serpenti con poteri diversi.
-• Inizia dal rifugio: prima una corsia attaccata, poi due, poi tutte e tre.
-• Scopri sei missioni con diverse configurazioni del terreno, degli assalti e dei nidi.
-• Nella grande avventura affronta dodici ondate fino al re a tre teste e alla sua guardia.
-• Prepara un nuovo gruppo per ogni missione e conserva il campo tra le sue ondate.
-• Usa il miele per attirare o rallentare i serpenti.
-• Conserva l&#39;avventura sul dispositivo e trasferiscila volontariamente con un file familiare.
+Nel gioco:
+• Sei missioni, ogni volta con una nuova squadra da preparare.
+• L&#39;avventura classica: dodici ondate, fino a King Snake, il cobra reale a tre teste, e alla sua guardia.
+• The Great Expedition: un lungo viaggio di tappa in tappa, con una sfida a ogni tappa.
+• L&#39;avventura senza fine, dopo aver battuto King Snake: fin dove arriverai?
+• 36 sfide con i nomi scelti dal bambino che ha inventato il gioco, e adesivi da vincere per il tuo album.
+• Un eroe con spada e scudo, combattenti con la clava, arcieri, ninja, medici, cuccioli di drago e dinosauri, fino allo spinosauro.
+• Uova che si schiudono durante la battaglia, e serpenti che cercano la corsia meno difesa.
+• Il miele per attirare o rallentare i serpenti.
+• Una pagina con tutti i serpenti, per conoscerli prima di affrontarli.
 
-I combattenti agiscono in autonomia: prepari la difesa senza dare ordini di movimento. I cosmetici previsti non modificheranno le statistiche di combattimento.
+Nessun ordine da dare: i tuoi alleati trovano la strada e scelgono i bersagli. Respingendo i serpenti guadagni monete, che spendi per reclutare nuovi alleati. Un alleato caduto non torna: prepara bene il tuo accampamento.
 
-Il gioco è attualmente disponibile in francese.</pre>
+Per i genitori:
+• Nessuna pubblicità e nessun acquisto in-app.
+• Nessun account da creare. I progressi restano sul dispositivo, fino a quattro giocatori.
+• Il salvataggio di famiglia esporta l&#39;avventura in un file, dopo una domanda per adulti.
+
+Il gioco è disponibile in francese e in inglese. Non è tradotto in italiano. I nomi delle sfide restano in francese, come li ha scritti il loro creatore.</pre>
         </details>
       </section>
       <section>
         <h2>Prochaines décisions et vérifications</h2>
         <ul>
-          <li>Compte Play, identité publique et contact à préparer puis vérifier.</li>
-          <li>Identifiant définitif à confirmer avant toute première publication.</li>
-          <li>SDK/version Familles et configuration enfant, permissions et trafic à vérifier.</li>
-          <li>Vrais achats de test, vérification, restauration et remboursements à exercer.</li>
-          <li>Tarifs et accès parental à valider.</li>
-          <li>Politique exacte du SDK choisi, identité et URL publique à finaliser.</li>
-          <li>Déclaration Sécurité des données à vérifier avec tous les SDK.</li>
-          <li>Tranches d’âge à confirmer.</li>
-          <li>Questionnaire IARC à compléter, sans classement inventé.</li>
-          <li>Textes des fiches à relire humainement.</li>
-          <li>Images et fidélité à l’APK à relire.</li>
-          <li>Retest Android physique et relevés à terminer.</li>
-          <li>AAB de test signé et contenu à vérifier.</li>
-          <li>Test fermé requis par le compte puis accès à la production.</li>
-          <li>Icône fournie à corriger et exporter en512×512.</li>
+          <li>
+            Nom de développeur, adresse de contact publique et type de compte Play à confirmer par
+            le parent.
+          </li>
+          <li>
+            Vérifier en ligne que la page de confidentialité nomme la version envoyée et dit la même
+            chose que l’application.
+          </li>
+          <li>
+            Sécurité des données : à remplir par le parent dans la Console, après relevé du
+            manifeste fusionné et du trafic du build exact.
+          </li>
+          <li>Public cible (tranches d’âge) à choisir par le parent.</li>
+          <li>Questionnaire IARC à remplir dans la Console ; aucun classement présumé.</li>
+          <li>Fiches FR, EN, DE et IT à relire par un humain.</li>
+          <li>Captures, bannière et icône à relire face au build envoyé.</li>
+          <li>Manifeste fusionné (permissions) et trafic réseau du build exact à relever.</li>
+          <li>Essai du build exact sur un téléphone physique.</li>
+          <li>AAB signé du build exact à vérifier.</li>
+          <li>
+            Test fermé à mener jusqu’au bout (testeurs et durée exigés par Google) avant la
+            production.
+          </li>
+          <li>
+            Captures de la version 0.30.1, jeu en 0.41.0 : à refaire (npm run build puis npm run
+            store:captures).
+          </li>
+          <li>
+            Icône 512×512 à ajouter au manifeste des captures (export prêt :
+            resources/android-icon/icon-512.png).
+          </li>
         </ul>
         <p>
           La décision finale appartient au parent et à la Play Console. Le contrôle local n'autorise

@@ -271,6 +271,7 @@ try {
           confused: g.units.filter((u) => u.confusedFor > 0).length,
           kinds: g.units.map((u) => u.kind),
           art: g.enemies.map((e) => scene.actors.pieces.get(`entity:${e.id}`)?.texture.key),
+          boss: g.enemies.map((e) => !!e.boss),
           outlines: [...g.units, ...g.enemies].every((u) => {
             const actor = scene.actors.pieces.get(`entity:${u.id}`),
               edge = scene.actors.pieces.get(`edge:${u.id}`);
@@ -289,8 +290,13 @@ try {
         state.kinds.length !== 6 ||
         state.confused < 1 ||
         !state.outlines ||
-        // Un serpent qui mord montre la même case sur la planche d'attaque de sa famille.
-        state.art.some((k) => k?.replace(/-attack$/, '') !== 'serpents-family')
+        // Un serpent qui mord montre la même case sur la planche d'attaque de sa famille ;
+        // King Snake a sa planche depuis le 26 novembre 2026, avec le serpent volant.
+        state.art.some(
+          (k, i) =>
+            k?.replace(/-attack$/, '') !==
+            (state.boss[i] ? 'serpents-roi-volant' : 'serpents-family'),
+        )
       )
         throw Error('Bestiary sprites/status/outline missing: ' + JSON.stringify(state));
       // Let the entrance banner clear so the review frame exposes all silhouettes.

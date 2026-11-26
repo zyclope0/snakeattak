@@ -34,6 +34,7 @@ import { createMissionProgress } from '../src/missionProgress.ts';
 import { createReminderMarkers } from '../src/ui/recruitmentReminder.ts';
 import { startVoyage } from './voyage-start.ts';
 import { createRecordBook } from '../src/endlessRecords.ts';
+import { createAppleBook } from '../src/appleBook.ts';
 import { loadVoyageLog, logVoyage, saveVoyageLog } from '../src/voyageStorage.ts';
 import { startExpedition } from '../src/expedition.ts';
 import { loadExpeditionLog, logExpedition, saveExpeditionLog } from '../src/expeditionStorage.ts';
@@ -204,6 +205,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     'conquete-serpents:mission-done:v1',
     'conquete-serpents:endless-records:v1',
     'conquete-serpents:expedition:v1',
+    'conquete-serpents:apples:v1',
   ]);
   for (const key of PLAYER_KEYS) {
     assert.equal(playerKey(key, 'p1'), key);
@@ -221,7 +223,7 @@ test('player 1 keeps the historical keys; players 2 to 4 get a suffix; device ke
     for (const id of ['p1', 'p2', 'p3', 'p4'] as const) assert.equal(playerKey(key, id), key);
 });
 
-test('the persistence code only ever touches the eleven keys of its player', () => {
+test('the persistence code only ever touches the twelve keys of its player', () => {
   for (const id of ['p1', 'p2', 'p4'] as const) {
     const device = memory();
     const storage = playerStorage(device, id);
@@ -239,6 +241,7 @@ test('the persistence code only ever touches the eleven keys of its player', () 
     assert.equal(saveVoyageLog(storage, logVoyage(loadVoyageLog(storage), startVoyage(7)!)!), true);
     createMissionDone(storage).mark(encodeCheckpoint(game));
     createRecordBook(storage).add({ wave: 9, kings: 0, rules: 1, run: 7 });
+    assert.deepEqual(createAppleBook(storage).add('7:3'), { count: 1, added: true });
     const expedition = logExpedition(loadExpeditionLog(storage), startExpedition(7)!)!;
     assert.equal(saveExpeditionLog(storage, expedition), true);
     // The next session finds a save it can read, and keeps it before replacing it.

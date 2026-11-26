@@ -13,6 +13,8 @@ export const eggs = 8;
 /** Glows around the dens and the refuge, and the honey pot put down on the road. */
 export const strongholdEffects = 9;
 export const honeyPot = 9;
+/** The apple of every third wave, among the scenery at the top of the board. */
+export const apple = 9.2;
 export const dens = 9.4;
 export const feastLabel = 9.5;
 /** Just under the fighters: every legal defender stays visible beside the gate. */
@@ -20,8 +22,6 @@ export const refuge = 9.6;
 export const flightShadows = 9.65;
 /** Shadows of the fighters and the marks the king draws on the ground. */
 export const groundMarks = 9.7;
-/** Wings beat right under the body they carry. */
-export const wings = 9.99;
 /** Fighters and foreground scenery, sorted by `standingDepth`. */
 export const standing = 10;
 /** Lines drawn over the fighters: ranges, placement, trails. */

@@ -45,7 +45,7 @@ export function createGameSounds({ engine, settings, play, atHome }: SoundDesk) 
   // Kept from one game to the next: only what is compared with the game starts afresh.
   const last: LastSounds = { effectAt: -1, healAt: -10 };
 
-  return (game: Game) => {
+  const listen = (game: Game) => {
     if (memory?.game !== game) memory = firstLook(game);
     const king = game.enemies.some((enemy) => enemy.boss && enemy.hp > 0);
     const kingArrives = king && !memory.kingSeen;
@@ -64,6 +64,11 @@ export function createGameSounds({ engine, settings, play, atHome }: SoundDesk) 
     }
     remember(memory, game, king);
   };
+  /** The little sound of an apple found: the one of a coin, when effects are on. */
+  const apple = () => {
+    if (settings.effects) play(EFFECT_SIGNALS.gold);
+  };
+  return Object.assign(listen, { apple });
 }
 
 function firstLook(game: Game): Memory {

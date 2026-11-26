@@ -1,5 +1,12 @@
 # Monétisation — version 1 sans serveur
 
+> **Document historique : modèle abandonné le 18 novembre 2026.** Le parent a décidé les 17 et
+> 18 novembre 2026 qu'il n'y aurait **ni publicité ni achat dans l'application Android**. La
+> seule publicité est l'encart du site Web, sur grand écran, que l'on peut couper
+> ([PUBLICITE-WEB-PROPOSITION.md](PUBLICITE-WEB-PROPOSITION.md)). Rien de ce qui suit
+> (publicité entre missions, suppression payante des pubs, apparences payantes, facturation)
+> ne s'applique. Le dossier actuel : [README.md](README.md).
+
 **Étape 4 documentaire, 8 novembre 2026. Rien n'est intégré ni activé.**
 État actualisé au15novembre2026 : application0.38.0/code61 préparée, sans publicité,
 achat ou permission INTERNET. Le compte Play est activé ; le parent confirme le build60

@@ -5,7 +5,12 @@ import { PLAYER_KEYS } from '../src/players.ts';
 import { CAMP_CHARACTER_LIMIT } from '../src/checkpoints.ts';
 import { decodeDeparture, DEPARTURE_INPUT_LIMIT } from '../src/departures.ts';
 import { EXPEDITION_LOG_LIMIT } from '../src/expeditionLog.ts';
-import { EXTRA_CHARACTER_LIMIT, FAMILY_EXTRAS_VERSION } from '../src/familyBackup.ts';
+import {
+  EXTRA_CHARACTER_LIMIT,
+  FAMILY_APPLES_VERSION,
+  FAMILY_EXTRAS_VERSION,
+} from '../src/familyBackup.ts';
+import { APPLES_TO_UNLOCK } from '../src/apples.ts';
 import { ROSTER_SIZE } from '../src/gameConstants.ts';
 import {
   mixSeed,
@@ -35,6 +40,7 @@ test('les clés de stockage gardent leur valeur, au caractère près', () => {
       MISSION_DONE_KEY: 'conquete-serpents:mission-done:v1',
       ENDLESS_RECORDS_KEY: 'conquete-serpents:endless-records:v1',
       EXPEDITION_STORAGE_KEY: 'conquete-serpents:expedition:v1',
+      APPLES_STORAGE_KEY: 'conquete-serpents:apples:v1',
       PLAYERS_KEY: 'conquete-serpents:players:v1',
       PLAYER_CHOSEN_KEY: 'conquete-serpents:player-chosen:v1',
       LANGUAGE_KEY: 'conquete-serpents:language:v1',
@@ -43,10 +49,10 @@ test('les clés de stockage gardent leur valeur, au caractère près', () => {
       ADS_OFF_KEY: 'conquete-serpents:ads-off:v1',
     },
   );
-  assert.equal(new Set(Object.values(KEYS)).size, 17, 'deux clés ne se partagent pas une adresse');
+  assert.equal(new Set(Object.values(KEYS)).size, 18, 'deux clés ne se partagent pas une adresse');
 });
 
-test('effacer un joueur efface ses onze clés, dont son rappel, sa mission gagnée, ses records, son expédition, la sauvegarde mise de côté et les deux copies', () => {
+test('effacer un joueur efface ses douze clés, dont son rappel, sa mission gagnée, ses records, son expédition, ses pommes, la sauvegarde mise de côté et les deux copies', () => {
   assert.deepEqual(
     [...PLAYER_KEYS],
     [
@@ -61,6 +67,7 @@ test('effacer un joueur efface ses onze clés, dont son rappel, sa mission gagn�
       'conquete-serpents:mission-done:v1',
       'conquete-serpents:endless-records:v1',
       'conquete-serpents:expedition:v1',
+      'conquete-serpents:apples:v1',
     ],
   );
 });
@@ -74,6 +81,9 @@ test('les limites des sauvegardes et des codes gardent leur valeur', () => {
   assert.equal(EXPEDITION_LOG_LIMIT, 100000);
   assert.equal(EXTRA_CHARACTER_LIMIT, 100000);
   assert.equal(FAMILY_EXTRAS_VERSION, 6);
+  assert.equal(FAMILY_APPLES_VERSION, 7);
+  // The apples a player keeps, and that open the hidden boss (decision of 26 November 2026).
+  assert.equal(APPLES_TO_UNLOCK, 12);
 });
 
 // The voyage code left the game on 21 November 2026: what a child still has on paper is

@@ -15,28 +15,34 @@ import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
  *   4  albums of challenges       5  the second balance revision
  *   6  what the player keeps beside the adventure: « La Grande Expédition », the voyage to
  *      finish, the records of the endless adventure (decision of the parent, 21 November 2026)
+ *   7  the apples found towards the hidden boss, beside them (decision of 26 November 2026)
  */
 const FORMAT = 'conquete-serpents-family';
-const VERSIONS = [1, 2, 3, 4, 5, 6] as const;
+const VERSIONS = [1, 2, 3, 4, 5, 6, 7] as const;
 /**
- * What a player keeps under keys of its own, carried by a version 6 file as the very texts
- * the device holds. Here they are only checked to be bounded JSON: their own readers
+ * What a player keeps under keys of its own, carried by a version 6 or 7 file as the very
+ * texts the device holds. Here they are only checked to be bounded JSON: their own readers
  * (`familyExtras.ts`) decide whether a file is accepted.
  */
-export const FAMILY_EXTRAS = ['expedition', 'voyage', 'endless'] as const;
+export const FAMILY_EXTRAS = ['expedition', 'voyage', 'endless', 'apples'] as const;
 export type FamilyExtras = Readonly<Partial<Record<(typeof FAMILY_EXTRAS)[number], string>>>;
-/** The version of the file that carries them. */
+/** The first version of the file that carries them. */
 export const FAMILY_EXTRAS_VERSION = 6;
+/** The version that carries the apples too: a version 6 file never holds them. */
+export const FAMILY_APPLES_VERSION = 7;
+type ExtrasVersion = typeof FAMILY_EXTRAS_VERSION | typeof FAMILY_APPLES_VERSION;
 /**
- * No text is longer than the longest of the three, the log of an expedition. A lower value
+ * No text is longer than the longest of them, the log of an expedition. A lower value
  * would turn away family files already written: both numbers are held by a test.
  */
 export const EXTRA_CHARACTER_LIMIT = EXPEDITION_LOG_LIMIT;
-function readExtras(data: unknown): FamilyExtras | null {
+function readExtras(data: unknown, version: ExtrasVersion): FamilyExtras | null {
   if (!isRecord(data)) return null;
   const names = Object.keys(data);
-  // A version 6 file holds at least one of them, and nothing it does not know.
+  // A version 6 file holds at least one of them, and nothing it does not know; the apples
+  // are exactly what makes a file version 7.
   if (!names.length || names.some((name) => !isOneOf(name, FAMILY_EXTRAS))) return null;
+  if (Object.hasOwn(data, 'apples') !== (version === FAMILY_APPLES_VERSION)) return null;
   const extras: Partial<Record<(typeof FAMILY_EXTRAS)[number], string>> = {};
   for (const name of FAMILY_EXTRAS) {
     if (!Object.hasOwn(data, name)) continue;
@@ -59,7 +65,7 @@ export type FamilyBackup = FamilyData &
     | { version: 2 | 3; missions: MissionProgress; albums?: never }
     | { version: 4 | 5; missions: MissionProgress; albums: CapriceAlbums; extras?: never }
     | {
-        version: typeof FAMILY_EXTRAS_VERSION;
+        version: ExtrasVersion;
         missions: MissionProgress;
         albums: CapriceAlbums;
         extras: FamilyExtras;
@@ -69,6 +75,11 @@ export type FamilyBackup = FamilyData &
 export const hasAlbums = (
   backup: FamilyBackup,
 ): backup is Extract<FamilyBackup, { albums: CapriceAlbums }> => backup.version >= 4;
+/** True for the versions that carry what the player keeps beside the adventure. */
+export const hasExtras = (
+  backup: FamilyBackup,
+): backup is Extract<FamilyBackup, { extras: FamilyExtras }> =>
+  backup.version >= FAMILY_EXTRAS_VERSION;
 export const FAMILY_CHARACTER_LIMIT = 500000;
 export const FAMILY_BYTE_LIMIT = 1000000;
 const withinLimits = (raw: string) =>
@@ -108,7 +119,7 @@ function readFamilyData(data: unknown): FamilyBackup | null {
   if (!isRecord(data) || data.format !== FORMAT || !isOneOf(data.version, VERSIONS)) return null;
   // A mistaken version must not silently discard a child's collection.
   if (data.version < 4 && Object.hasOwn(data, 'albums')) return null;
-  if (data.version !== FAMILY_EXTRAS_VERSION && Object.hasOwn(data, 'extras')) return null;
+  if (data.version < FAMILY_EXTRAS_VERSION && Object.hasOwn(data, 'extras')) return null;
   const camp = readCamp(data.camp);
   if (!camp) return null;
   const career = readCareerState(JSON.stringify(data.career));
@@ -127,12 +138,12 @@ function readFamilyData(data: unknown): FamilyBackup | null {
     return withinSize({ format: FORMAT, version: data.version, camp: camp.raw, career, missions });
   const albums = validateCapriceAlbums(data.albums);
   if (!albums) return null;
-  if (data.version === FAMILY_EXTRAS_VERSION) {
-    const extras = readExtras(data.extras);
+  if (data.version === FAMILY_EXTRAS_VERSION || data.version === FAMILY_APPLES_VERSION) {
+    const extras = readExtras(data.extras, data.version);
     if (!extras) return null;
     return withinSize({
       format: FORMAT,
-      version: FAMILY_EXTRAS_VERSION,
+      version: data.version,
       camp: camp.raw,
       career,
       missions,
@@ -209,7 +220,7 @@ export function salvageFamilyBackup(text: string): FamilyBackup | null {
     const backup = readFamilyData(rest);
     // A file that carries extras is an exported one, never one the game stored: it is not
     // taken this way, its extras would be lost at the next save.
-    return backup && backup.version !== FAMILY_EXTRAS_VERSION ? backup : null;
+    return backup && !hasExtras(backup) ? backup : null;
   });
 }
 
@@ -242,10 +253,13 @@ const campIsTutorial = (raw: string | null): boolean =>
 function versionFor(
   campRaw: string | null,
   { career, missions, albums }: Content,
-  extras: boolean,
+  extras: FamilyExtras | null,
 ): FamilyBackup['version'] | null {
   // What is kept beside the adventure only travels with the expeditions and the albums.
-  if (extras) return missions && albums ? FAMILY_EXTRAS_VERSION : null;
+  if (extras) {
+    if (!missions || !albums) return null;
+    return extras.apples === undefined ? FAMILY_EXTRAS_VERSION : FAMILY_APPLES_VERSION;
+  }
   const balanced =
     campUsesBalance2(campRaw) ||
     (missions && missionProgressHasBalance2(missions)) ||
@@ -269,7 +283,7 @@ export function writeFamilyBackup(
   try {
     const content = validateContent(career, missions, albums);
     const carried = !!extras && Object.keys(extras).length > 0;
-    const version = content && versionFor(campRaw, content, carried);
+    const version = content && versionFor(campRaw, content, carried ? extras : null);
     if (!content || !version) return null;
     // Read back what is about to be written: the file given out is one the reader accepts.
     const backup = readFamilyBackup(

@@ -9,6 +9,7 @@ import {
   MISSION_DONE_KEY,
   ENDLESS_RECORDS_KEY,
   EXPEDITION_STORAGE_KEY,
+  APPLES_STORAGE_KEY,
   PLAYERS_KEY,
   REMINDER_STORAGE_KEY,
   VOYAGE_STORAGE_KEY,
@@ -63,6 +64,7 @@ export const PLAYER_KEYS: readonly string[] = [
   MISSION_DONE_KEY,
   ENDLESS_RECORDS_KEY,
   EXPEDITION_STORAGE_KEY,
+  APPLES_STORAGE_KEY,
 ];
 type ReadPort = Pick<Storage, 'getItem'>;
 type StoragePort = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;

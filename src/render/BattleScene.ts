@@ -13,6 +13,8 @@ import { drawPlacementGuide } from './placementGuide.ts';
 import { drawHoneyZone } from './honeyZone.ts';
 import { drawDefenseMarkers } from './defenseMarkers.ts';
 import { MissionAssets } from './missionAssets.ts';
+import { AppleLayer, NO_APPLE_HOOKS } from './appleLayer.ts';
+import type { AppleHooks } from './appleLayer.ts';
 import { Actors } from './actors.ts';
 import { Presentation } from './presentation.ts';
 import type { Notice } from './presentation.ts';
@@ -79,22 +81,27 @@ export class BattleScene extends Phaser.Scene {
   private flightSignals!: FlightSignals;
   private medicalSignals!: MedicalSignals;
   private effectTrails!: EffectTrails;
+  private apples!: AppleLayer;
   private feastLabel!: Phaser.GameObjects.Text;
   private overlay!: Phaser.GameObjects.Container;
   private session: Session;
   private onChange: () => void;
   private onFrame: (game: Game) => void;
+  private appleHooks: AppleHooks;
   constructor(
     session: Session,
     onChange: () => void,
     onFrame: (game: Game) => void = () => {},
     onPresentation: (notice: Notice | null, deltaMs: number, plaques: boolean) => void = () => {},
+    /** The player's book of apples; without one, an apple shows and is kept nowhere. */
+    appleHooks: AppleHooks = NO_APPLE_HOOKS,
   ) {
     super('Battle');
     this.session = session;
     this.onChange = onChange;
     this.onFrame = onFrame;
     this.onPresentation = onPresentation;
+    this.appleHooks = appleHooks;
   }
   preload() {
     this.assets = new MissionAssets(this);
@@ -119,6 +126,7 @@ export class BattleScene extends Phaser.Scene {
     this.fitCanvas();
     this.drawTerrain();
     this.strongholds = new Strongholds(this);
+    this.apples = new AppleLayer(this, this.appleHooks);
     this.threatMarkers = new ThreatMarkers(this);
     this.actors = new Actors(this);
     this.bossSignals = new BossSignals(this);
@@ -199,10 +207,15 @@ export class BattleScene extends Phaser.Scene {
       .setDepth(DEPTH.resultOverlay)
       .setVisible(false);
   }
-  /** A press on the board places what is selected, or says why it cannot. */
+  /**
+   * A press on the board takes the apple when it is on it, and does nothing else; otherwise
+   * it places what is selected, or says why it cannot.
+   */
   private pressBoard(pointer: Phaser.Input.Pointer) {
+    const point = boardPoint(this, pointer);
+    if (this.apples.press(this.session.game, point, this.presentation, this.juice)) return;
     if (!this.session.selected && !this.session.selectedFeast) return;
-    if (!activateBoard(this.session, boardPoint(this, pointer)) && !this.session.selectedFeast) {
+    if (!activateBoard(this.session, point) && !this.session.selectedFeast) {
       this.session.game.message = this.session.game.paused
         ? TEXT.reprendsLaPartiePourPlacerTon
         : TEXT.choisisUnEspaceLibreDansLeCampLoin;
@@ -271,12 +284,13 @@ export class BattleScene extends Phaser.Scene {
     this.fitCanvas();
     this.drawTerrain();
     this.strongholds.draw(game, this.presentation, reduced);
+    this.apples.draw(game);
     this.threatMarkers.draw(game);
     drawDefenseMarkers(this.ink, game);
     this.drawFeast(game, reduced);
     this.actors.draw(game, this.presentation, this.ink, reduced);
     this.bossSignals.draw(game, reduced);
-    this.flightSignals.draw(game, reduced);
+    this.flightSignals.draw(game);
     this.medicalSignals.draw(game);
     this.effectTrails.draw(this.ink, game.effects, this.presentation.clock, reduced);
     this.feedback.draw(this.presentation, game, reduced);
@@ -346,7 +360,8 @@ export class BattleScene extends Phaser.Scene {
     );
     setCanvasCopy(
       this.resultStats,
-      fill(TEXT.nSerpentsRepoussesNAllies, game.kills, game.units.length, Math.ceil(game.base)),
+      game.ending?.stats ??
+        fill(TEXT.nSerpentsRepoussesNAllies, game.kills, game.units.length, Math.ceil(game.base)),
     ).setY(300 + this.resultSubtitle.height / 2 + 16 + this.resultStats.height / 2);
   }
   /** The HTML dashboard is refreshed a few times a second, not at every frame. */

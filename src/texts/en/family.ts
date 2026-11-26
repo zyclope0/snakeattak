@@ -25,6 +25,8 @@ export const leVoyageDeCeFichierRemplacera =
   'The voyage to finish in this file will replace the one on this device.';
 export const lesRecordsDeCeFichierRemplaceront =
   'The endless adventure records in this file will replace those on this device.';
+export const lesPommesDeCeFichierRemplaceront =
+  'The apples found in this file will replace those on this device.';
 export const verifieCetApercuTonAventure =
   'Check this preview. Your current adventure stays as it is until you confirm.';
 export const fichierTropVolumineuxRienNAEte = 'File too large: nothing was changed.';

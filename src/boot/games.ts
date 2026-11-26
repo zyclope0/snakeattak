@@ -31,6 +31,11 @@ export function createGames(
   let missionGame: Game | undefined = saved?.mission ? saved : undefined;
   /** The classic camp waiting under a mission, and whether it is an endless one. */
   let endlessCamp: { raw: string | null; endless: boolean } = { raw: null, endless: false };
+  /**
+   * A battle played aside (Classic Snake): the game it covers, given back untouched at home,
+   * and how to play it again. Nothing of it is ever recorded.
+   */
+  let aside: { covered: Game; again: () => Game } | null = null;
 
   /** Whether the classic camp waiting under a mission is an endless one (read once per camp). */
   function campIsEndless(): boolean {
@@ -42,7 +47,8 @@ export function createGames(
   /** « Recommencer » : the same stage or the same mission again, or a new classic adventure. */
   function restartGame() {
     const run = session.game.mission;
-    if (session.game.stage) voyage()?.restartStage();
+    if (aside) session.useGame(aside.again());
+    else if (session.game.stage) voyage()?.restartStage();
     else if (run) launchMission(run, session.game.capriceKindsChosen, true);
     else session.restartSame();
   }
@@ -97,6 +103,18 @@ export function createGames(
     showBattle();
     byId('start').focus({ preventScroll: true });
   }
+  /**
+   * Puts a battle aside on the board (Classic Snake). The game on screen is set aside as for a
+   * stage and comes back as it was when the child goes home: a reload or a closed application
+   * finds it there too, since nothing of the battle aside is written.
+   */
+  function playAside(game: Game, again: () => Game) {
+    if (!aside) setGameAside();
+    aside = { covered: aside?.covered ?? session.game, again };
+    session.useGame(game);
+    showBattle();
+    byId('start').focus({ preventScroll: true });
+  }
   function missionCanResume() {
     return !!missionGame || !!missions.state.retryCamp;
   }
@@ -134,6 +152,16 @@ export function createGames(
     get hasCamp() {
       return hasCamp;
     },
+    /** True while a battle aside is on the board: nothing is recorded. */
+    get aside() {
+      return !!aside;
+    },
+    playAside,
+    /** Going home: the game the battle aside covered is on the board again. */
+    leaveAside() {
+      if (aside) session.useGame(aside.covered);
+      aside = null;
+    },
     campIsEndless,
     restartGame,
     restoreClassic,
@@ -145,6 +173,7 @@ export function createGames(
     resumeMission,
     /** After an import: the camp of the file is on the board, in its mode, or a new adventure. */
     useImported(game: Game | null, camp: string | null) {
+      aside = null;
       classicGame = game && !game.mission ? game : undefined;
       missionGame = game?.mission ? game : undefined;
       campMemory.replace(camp);

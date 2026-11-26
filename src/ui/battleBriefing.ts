@@ -63,8 +63,8 @@ function waveNumber(game: Game): string {
 }
 
 function outcomeBriefing(game: Game) {
-  if (game.endless) {
-    const copy = endlessCopy(game);
+  if (game.endless || game.ending) {
+    const copy = game.ending ?? endlessCopy(game);
     return { title: copy.title, tip: copy.subtitle };
   }
   if (game.status !== 'won') return { title: TEXT.leCampEstTombe, tip: defeatCopy(game).subtitle };

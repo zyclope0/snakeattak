@@ -1,16 +1,23 @@
+import { readApples, writeApples } from './appleBook.ts';
 import { readRecords, writeRecords } from './endlessRecords.ts';
 import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
 import { loadExpeditionLog, validateExpeditionLog } from './expeditionStorage.ts';
-import { FAMILY_EXTRAS, FAMILY_EXTRAS_VERSION, sameAdventure } from './familyBackup.ts';
+import { FAMILY_EXTRAS, hasExtras, sameAdventure } from './familyBackup.ts';
 import type { FamilyBackup, FamilyExtras } from './familyBackup.ts';
 import { readBoundedJson } from './plainData.ts';
-import { ENDLESS_RECORDS_KEY, EXPEDITION_STORAGE_KEY, VOYAGE_STORAGE_KEY } from './storageKeys.ts';
+import {
+  APPLES_STORAGE_KEY,
+  ENDLESS_RECORDS_KEY,
+  EXPEDITION_STORAGE_KEY,
+  VOYAGE_STORAGE_KEY,
+} from './storageKeys.ts';
 import { VOYAGE_LOG_LIMIT, validateVoyageLog } from './voyageStorage.ts';
 
 /**
- * What a player keeps beside the adventure, for the family file (version 6): « La Grande
- * Expédition », the voyage to finish, the records of the endless adventure. Each one has its
- * own key and its own reader: this module is where the family file meets them.
+ * What a player keeps beside the adventure, for the family file (versions 6 and 7): « La
+ * Grande Expédition », the voyage to finish, the records of the endless adventure, the apples
+ * found. Each one has its own key and its own reader: this module is where the family file
+ * meets them.
  */
 type Name = (typeof FAMILY_EXTRAS)[number];
 type ReadPort = Pick<Storage, 'getItem'>;
@@ -45,6 +52,13 @@ const EXTRAS: Readonly<Record<Name, { key: string; read: (text: string) => strin
     read: (text) => {
       const records = readRecords(text);
       return records.length ? writeRecords(records) : null;
+    },
+  },
+  apples: {
+    key: APPLES_STORAGE_KEY,
+    read: (text) => {
+      const found = readApples(text);
+      return found.length ? writeApples(found) : null;
     },
   },
 };
@@ -165,10 +179,10 @@ export function replacesNothing(
   if (!now || !sameAdventure(now, file)) return false;
   // Read back as the game reads them: a file whose texts are written another way (by hand,
   // or by an earlier build) carries the same extras if they read the same.
-  const carried: Partial<Record<string, string>> =
-    file.version === FAMILY_EXTRAS_VERSION ? (checkExtras(file.extras) ?? {}) : {};
-  const held: Partial<Record<string, string>> =
-    now.version === FAMILY_EXTRAS_VERSION ? now.extras : {};
+  const carried: Partial<Record<string, string>> = hasExtras(file)
+    ? (checkExtras(file.extras) ?? {})
+    : {};
+  const held: Partial<Record<string, string>> = hasExtras(now) ? now.extras : {};
   const names = new Set([...Object.keys(carried), ...(whole ? Object.keys(held) : [])]);
   return [...names].every((name) => carried[name] === held[name]);
 }
@@ -179,5 +193,10 @@ export function replacesNothing(
  * are then forgotten: those of the adventure replaced must not come back.
  */
 export function importWritesRecords(file: FamilyBackup, whole: boolean): boolean {
-  return whole || (file.version === FAMILY_EXTRAS_VERSION && file.extras.endless !== undefined);
+  return whole || (hasExtras(file) && file.extras.endless !== undefined);
+}
+
+/** The same for the apples: those still waiting to be written are then forgotten. */
+export function importWritesApples(file: FamilyBackup, whole: boolean): boolean {
+  return whole || (hasExtras(file) && file.extras.apples !== undefined);
 }
