@@ -35,6 +35,8 @@ export const MISSION_DONE_KEY = key('mission-done');
 export const ENDLESS_RECORDS_KEY = key('endless-records');
 /** « La Grande Expédition » of a player: the one under way, and its record. */
 export const EXPEDITION_STORAGE_KEY = key('expedition');
+/** The apples a player has found, towards the hidden boss (decision of 26 November 2026). */
+export const APPLES_STORAGE_KEY = key('apples');
 
 // The device: shared by every player.
 export const PLAYERS_KEY = key('players');

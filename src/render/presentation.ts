@@ -62,6 +62,10 @@ const NEWCOMER_PRIORITY = 1;
 const FLOAT_SECONDS = 0.9,
   DODGE_WORD_HEIGHT = 100,
   DODGE_WORD_SECONDS = 1.4;
+/** The word of a found apple is read a little longer, under the apple: it rises towards it. */
+const APPLE_WORD_SECONDS = 1.6,
+  APPLE_WORD_BELOW = 36,
+  APPLE_BURST = 0xe9603f;
 /** At most this many floating words at once: the board makes one label for each. */
 export const MAX_FLOATS = 40;
 const MAX_BURSTS = 24,
@@ -144,6 +148,12 @@ export class Presentation {
   private text(x: number, y: number, text: string, color: string, duration = FLOAT_SECONDS) {
     this.floats.push({ x, y, text, color, age: 0, duration });
     if (this.floats.length > MAX_FLOATS) this.floats.shift();
+  }
+  /** An apple just found where it stood: a little burst, and its number. */
+  appleFound(x: number, y: number, text: string) {
+    this.bursts.push({ x, y, age: 0, color: APPLE_BURST });
+    if (this.bursts.length > MAX_BURSTS) this.bursts.shift();
+    this.text(x, y + APPLE_WORD_BELOW, text, '#ffe2a0', APPLE_WORD_SECONDS);
   }
   /** Observes one frame of the game. The order of the steps is the order of the cues. */
   update(game: Game, deltaMs: number) {

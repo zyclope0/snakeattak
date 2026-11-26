@@ -14,6 +14,7 @@ test('les couches du plateau gardent leur profondeur', () => {
       eggs: 8,
       strongholdEffects: 9,
       honeyPot: 9,
+      apple: 9.2,
       dens: 9.4,
       feastLabel: 9.5,
       refuge: 9.6,

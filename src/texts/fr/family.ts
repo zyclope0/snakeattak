@@ -26,6 +26,8 @@ export const leVoyageDeCeFichierRemplacera =
   ' Le voyage à finir de ce fichier remplacera celui de cet appareil.';
 export const lesRecordsDeCeFichierRemplaceront =
   ' Les records de l’aventure sans fin de ce fichier remplaceront ceux de cet appareil.';
+export const lesPommesDeCeFichierRemplaceront =
+  ' Les pommes trouvées dans ce fichier remplaceront celles de cet appareil.';
 export const verifieCetApercuTonAventure =
   'Vérifie cet aperçu. Ton aventure actuelle reste intacte tant que tu ne confirmes pas.';
 export const fichierTropVolumineuxRienNAEte = 'Fichier trop volumineux : rien n’a été modifié.';

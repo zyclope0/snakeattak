@@ -13,6 +13,8 @@ export const eggs = 8;
 /** Glows around the dens and the refuge, and the honey pot put down on the road. */
 export const strongholdEffects = 9;
 export const honeyPot = 9;
+/** The apple of every third wave, among the scenery at the top of the board. */
+export const apple = 9.2;
 export const dens = 9.4;
 export const feastLabel = 9.5;
 /** Just under the fighters: every legal defender stays visible beside the gate. */

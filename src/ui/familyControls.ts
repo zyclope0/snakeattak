@@ -3,8 +3,8 @@ import {
   backupSummary,
   FAMILY_BYTE_LIMIT,
   FAMILY_EXTRAS,
-  FAMILY_EXTRAS_VERSION,
   hasAlbums,
+  hasExtras,
   readFamilyBackup,
   salvageFamilyBackup,
   sameAdventure,
@@ -72,6 +72,7 @@ const EXTRA_WORDS = {
   expedition: TEXT.lExpeditionDeCeFichierRemplacera,
   voyage: TEXT.leVoyageDeCeFichierRemplacera,
   endless: TEXT.lesRecordsDeCeFichierRemplaceront,
+  apples: TEXT.lesPommesDeCeFichierRemplaceront,
 };
 /** What a family file would bring back: the camp, the expeditions, the sticker books. */
 function previewText(backup: FamilyBackup): string {
@@ -99,7 +100,7 @@ function previewText(backup: FamilyBackup): string {
       ? TEXT.lesCarnetsEtLeursAutocollantsSont
       : TEXT.ceFichierNeContientAucunCarnetLes) +
     // What the file holds beside the adventure, named one by one: only that is replaced.
-    (backup.version === FAMILY_EXTRAS_VERSION
+    (hasExtras(backup)
       ? FAMILY_EXTRAS.filter((name) => Object.hasOwn(backup.extras, name))
           .map((name) => EXTRA_WORDS[name])
           .join('')

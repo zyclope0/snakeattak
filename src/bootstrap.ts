@@ -44,6 +44,7 @@ import './ui/windowSkin.css';
 import './ui/campSkin.css';
 import { byId } from './ui/dom.ts';
 import { createRecordBook } from './endlessRecords.ts';
+import { createAppleBook } from './appleBook.ts';
 import { createSaving } from './boot/saving.ts';
 import { createWatchKeeping } from './boot/watchKeeping.ts';
 import { createScreens } from './boot/screens.ts';
@@ -68,6 +69,7 @@ const albums = createCapriceAlbumsController(
   familySaved && hasAlbums(familySaved) ? familySaved.albums : undefined,
 );
 const records = createRecordBook(storage);
+const apples = createAppleBook(storage);
 
 // --- The game on screen, and where the classic adventure and the mission wait meanwhile.
 const session = new Session();
@@ -96,7 +98,7 @@ let report: (() => void) | undefined;
 let voyage: ReturnType<typeof bindVoyageDoor> | undefined;
 
 // --- What is told and written after a step, which screen is shown, which game is on the board.
-const watchKeeping = createWatchKeeping(session, family, records);
+const watchKeeping = createWatchKeeping(session, family, records, apples);
 const screens = createScreens(watchKeeping);
 const adventure = {
   session,
@@ -104,6 +106,7 @@ const adventure = {
   persistence,
   family,
   records,
+  apples,
   career,
   missions,
   albums,
@@ -130,7 +133,15 @@ const battleNotices = bindBattleNotices(
   () => !!session.selected || !!session.selectedFeast,
   createRecruitmentReminder(session, createReminderMarkers(storage)),
 );
-screens.attach(createPhaser(new BattleScene(session, refresh, soundFrame, battleNotices)));
+screens.attach(
+  createPhaser(
+    new BattleScene(session, refresh, soundFrame, battleNotices, {
+      has: apples.has,
+      collect: apples.add,
+      sound: soundFrame.apple,
+    }),
+  ),
+);
 menu = bindMenu(session, career, {
   hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : games.hasCamp),
   restore: games.restoreClassic,

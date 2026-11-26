@@ -91,3 +91,5 @@ export const quelleAventure = 'Quelle aventure !';
 /** End of an endless adventure: how far it went. */
 export const tuAsTenuJusquALaVagueNAvecNRois =
   'Tu as tenu jusqu’à la vague {0}. Rois battus : {1}.';
+/** An apple of the hidden boss, just found: how many the player has, out of how many. */
+export const pommeNSurN = 'Pomme {0} / {1}';

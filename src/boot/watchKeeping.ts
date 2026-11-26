@@ -1,3 +1,4 @@
+import type { createAppleBook } from '../appleBook.ts';
 import type { createRecordBook } from '../endlessRecords.ts';
 import type { createFamilyPersistence } from '../familyPersistence.ts';
 import type { Session } from '../session.ts';
@@ -11,13 +12,16 @@ export function createWatchKeeping(
   session: Session,
   family: ReturnType<typeof createFamilyPersistence>,
   records: ReturnType<typeof createRecordBook>,
+  apples: ReturnType<typeof createAppleBook>,
 ) {
   /** The screens that say what is played is not being kept: fetched the first time it happens. */
   let keeping: Promise<typeof import('../ui/failure/unkept.ts')> | undefined;
   return function watchKeeping() {
-    // A record the device refused is tried again at each save, as the family file is.
+    // A record or an apple the device refused is tried again at each save, as the family
+    // file is.
     records.retry();
-    const cause = family.unkept ?? (records.unkept ? 'full' : null);
+    apples.retry();
+    const cause = family.unkept ?? (records.unkept || apples.unkept ? 'full' : null);
     if (!cause && !keeping) return;
     keeping ??= import('../ui/failure/unkept.ts');
     void keeping

@@ -1,6 +1,7 @@
 import {
   checkExtras,
   collectExtras,
+  importWritesApples,
   importWritesRecords,
   replacesNothing,
   writeExtras,
@@ -8,12 +9,7 @@ import {
 import { bindFamilyDoor } from '../ui/familyDoor.ts';
 import { createCapriceAlbums } from '../capriceAlbums.ts';
 import { decodeCheckpoint } from '../checkpoints.ts';
-import {
-  FAMILY_EXTRAS_VERSION,
-  hasAlbums,
-  readFamilyBackup,
-  writeFamilyBackup,
-} from '../familyBackup.ts';
+import { hasAlbums, hasExtras, readFamilyBackup, writeFamilyBackup } from '../familyBackup.ts';
 import type { FamilyBackup } from '../familyBackup.ts';
 import { createMissionProgress } from '../missionProgress.ts';
 import type { Adventure } from './adventure.ts';
@@ -33,14 +29,14 @@ export function bindFamilyFile(
   /** `home`: back to the home, once the window is done with. */
   { home, refresh }: { home: () => void; refresh: () => void },
 ) {
-  const { session, storage, family, records, career, missions, albums } = adventure;
+  const { session, storage, family, records, apples, career, missions, albums } = adventure;
   const { missionDone, campMemory, stickers } = adventure;
-  /** True once a family file brought back an expedition, a voyage or records. */
+  /** True once a family file brought back an expedition, a voyage, records or apples. */
   let reloadAfterImport = false;
 
   /**
    * The family file of the adventure as it is now, with what the player keeps beside it: the
-   * expedition, the voyage to finish, the records.
+   * expedition, the voyage to finish, the records, the apples.
    */
   function exportFamily() {
     recordGame(false);
@@ -54,7 +50,7 @@ export function bindFamilyFile(
   }
   /** True when every part of a family file reads back by its own rules. */
   function acceptsFamily(backup: FamilyBackup) {
-    return backup.version !== FAMILY_EXTRAS_VERSION || checkExtras(backup.extras) !== null;
+    return !hasExtras(backup) || checkExtras(backup.extras) !== null;
   }
   /**
    * Replaces the adventure by a family file. The file is written first: when the browser
@@ -75,7 +71,7 @@ export function bindFamilyFile(
     // adventure in place, and nothing else, destroys nothing: the copy is left alone.
     const replaced = exportFamily();
     const now = replaced ? readFamilyBackup(replaced) : null;
-    const carried = file.version === FAMILY_EXTRAS_VERSION ? file.extras : {};
+    const carried = hasExtras(file) ? file.extras : {};
     const putBack = replacesNothing(now, file, whole)
       ? () => {}
       : family.keepBeforeImport(replaced);
@@ -88,7 +84,7 @@ export function bindFamilyFile(
     // adventure is then stored as the file that holds it alone, as it always was.
     let extras: { undo: () => boolean } | null = null;
     let canonical: FamilyBackup | null = file;
-    if (file.version === FAMILY_EXTRAS_VERSION || whole) {
+    if (hasExtras(file) || whole) {
       // A whole state may carry nothing beside the adventure: that is something to restore too.
       const checked = Object.keys(carried).length ? checkExtras(carried) : whole ? {} : null;
       const alone = writeFamilyBackup(file.camp, file.career, file.missions, file.albums);
@@ -102,6 +98,7 @@ export function bindFamilyFile(
     // The records the file brings (or a whole state without them) take the place of those of
     // the adventure replaced: a record of that one still waiting to be written is forgotten.
     if (extras && importWritesRecords(file, whole)) records.forget();
+    if (extras && importWritesApples(file, whole)) apples.forget();
     // The door of the expedition and its screens hold what they read at start: the page is
     // read again, as when the player changes.
     reloadAfterImport = extras !== null;

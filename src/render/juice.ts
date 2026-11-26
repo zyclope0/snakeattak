@@ -140,6 +140,10 @@ export class BattleJuice {
     );
     return this.target;
   }
+  /** A little puff where an apple was found; nothing when motion is reduced. */
+  pop(x: number, y: number) {
+    this.puff(x, y, 7);
+  }
   /** Turns one cue of the presentation into particles, or into a shake for the king. */
   private ignite(s: Spark) {
     if (s.kind === 'ally') this.puff(s.x, s.y + 14, 7);

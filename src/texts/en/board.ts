@@ -89,3 +89,5 @@ export const nouveauxAlliesNNEtN = 'New allies: {0}, {1} and {2}!';
 export const quelleAventure = 'What an adventure!';
 /** End of an endless adventure: how far it went. */
 export const tuAsTenuJusquALaVagueNAvecNRois = 'You held on until wave {0}. Kings beaten: {1}.';
+/** An apple of the hidden boss, just found: how many the player has, out of how many. */
+export const pommeNSurN = 'Apple {0} / {1}';

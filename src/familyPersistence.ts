@@ -1,9 +1,9 @@
 import type { StoragePort } from './checkpoints.ts';
 import {
-  FAMILY_EXTRAS_VERSION,
   familyStars,
   familyStickers,
   hasAlbums,
+  hasExtras,
   readFamilyBackup,
   salvageFamilyBackup,
   writeFamilyBackup,
@@ -219,9 +219,9 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
       session.status = TEXT.sauvegardeFamilialeIncompatible;
       return null;
     }
-    // A version 6 file never comes here by the game; if one did, its extras would be lost at
-    // the next save: its text is put aside first.
-    if (backup.version === FAMILY_EXTRAS_VERSION) putAside(storage, raw);
+    // A version 6 or 7 file never comes here by the game; if one did, its extras would be
+    // lost at the next save: its text is put aside first.
+    if (hasExtras(backup)) putAside(storage, raw);
     if (first) session.found = { raw, backup };
     session.last = JSON.stringify(backup);
     retain(session, backup.missions, backup.albums);
@@ -241,9 +241,9 @@ function load(storage: StoragePort | undefined, session: Session): FamilyBackup 
  */
 function validateImport(backup: FamilyBackup): FamilyBackup | null {
   try {
-    // What a version 6 file holds beside the adventure goes under its own keys: the file
-    // stored here is the adventure alone.
-    if (backup?.version === FAMILY_EXTRAS_VERSION) return null;
+    // What a version 6 or 7 file holds beside the adventure goes under its own keys: the
+    // file stored here is the adventure alone.
+    if (backup && hasExtras(backup)) return null;
     if (!validateCareerState(backup?.career)) return null;
     const withAlbums = hasAlbums(backup);
     if (!withAlbums && Object.hasOwn(backup, 'albums')) return null;
