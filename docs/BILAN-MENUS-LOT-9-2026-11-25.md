@@ -40,7 +40,13 @@ taille, aucune place, aucun texte. Lots précédents : [8](BILAN-MENUS-LOT-8-202
   boutons et le panneau identiques. Les captures passent par le banc d'essai du résultat, à
   qui on donne toutes les feuilles du vrai jeu dans leur ordre (le banc n'en charge que deux).
 - **Captures** à 780 × 360 et 1280 × 800 (dans `artifacts/`).
-- Attaque indépendante et recettes de la CI sur la machine : voir la PR.
+- **Attaque indépendante** : rien de bloquant ; deux oublis (« Voir mon carnet », l'étape
+  d'expédition dans le bilan) corrigés ; la pâte miel des actions principales retirée (voir
+  plus haut).
+- **Recettes de la CI** jouées sur la machine, toutes vertes. `test:mobile-menus` a échoué
+  deux fois quand deux files de recettes et l'attaque tournaient ensemble (une page d'accueil
+  ou une attente de 30 s trop lente, dans « rejouer » puis « Qui joue ? ») ; rejoué seul, il
+  passe en entier (6 585 contrôles). Sur GitHub, chaque groupe a sa machine.
 
 ## Questions pour le parent
 
