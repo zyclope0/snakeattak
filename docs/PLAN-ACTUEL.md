@@ -131,6 +131,12 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   chaque mode, gardée d'un toucher dans le carnet du joueur, et le fichier familial version 7
   qui la porte. Empreintes des parties inchangées. Branche `claude/trusting-brahmagupta-t7fmuy`,
   ni poussé ni fusionné. Pas encore essayé sur le téléphone ni par le fils.
+- **26 novembre — boss caché, lot 2 : le combat et sa mesure**
+  ([bilan](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md)) : le serpent en anneaux (avale, grandit,
+  raccourcit, s'enroule quand il n'a plus que sa tête), trois réglages mesurés pour le parent
+  (« moyen » en place : expert 92 %, moyen 59 %, apprenti 36 %, deux minutes), un banc d'essai
+  au dessin provisoire. Aucun écran n'y mène ; empreintes et mesures des autres modes
+  inchangées. Même branche, ni poussé ni fusionné ; ni téléphone ni enfants.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

@@ -44,7 +44,12 @@ après mesure.
    sur le plateau au moment où une pomme est trouvée.
 2. **Le combat du boss** : le serpent en anneaux, manger et grandir, perdre un anneau par
    coup assez fort, la tête seule = victoire ; un terrain et une armée de départ ; la
-   mesure.
+   mesure. **Fait le 26 novembre** ([bilan](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md)) : le
+   combat (`src/hiddenBoss.ts`, `src/engine/bossChain.ts`), ses nombres versionnés
+   (`src/hiddenBossTuning.ts`, version 1 = réglage « moyen »), la mesure
+   (`npm run balance:hidden-boss`, trois réglages « doux », « moyen », « costaud » à choisir
+   par le parent) et un banc d'essai sur le vrai plateau avec un dessin provisoire
+   (`npm run test:hidden-boss`). Aucun écran du jeu n'y mène encore.
 3. **Le dessin** (tête, anneau, queue, en pâte), le bouton de l'accueil, les textes FR/EN, le
    nom donné par le fils.
 

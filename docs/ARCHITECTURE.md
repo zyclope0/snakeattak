@@ -665,6 +665,33 @@ Décisions du parent et mesures dans [VOYAGE-LONG-PROPOSITION.md](VOYAGE-LONG-PR
   `voyagePage('expedition')`, la fenêtre des caprices et le panneau de fin de bataille du
   voyage (`voyageBattle.ts`), qui sait à qui appartient la partie sur le plateau.
 
+## Le combat du boss caché — 26 novembre 2026 (lot 2, pas encore ouvert)
+
+Décisions du parent dans [BOSS-CACHE.md](BOSS-CACHE.md), mesures dans
+[BILAN-BOSS-CACHE-LOT-2-2026-11-26.md](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md).
+
+- **Une partie d'une autre sorte.** `HiddenBossGame` (`src/hiddenBoss.ts`) hérite de `Game` et
+  remplace ce qui change : une vague (`totalWaves`), la clairière, les trois voies, toute la
+  boutique de sa révision (`isUnlocked`), des serpents aussi malins qu'en fin d'aventure
+  (`caprice.smart`), `startWave` (le boss sort) et `step` (miel, alliés, boss, chute,
+  séparation, fin, appelés dans `src/engine/` sans y rien changer). Les autres parties ne
+  passent jamais par ce module : aucun champ de plus dans leur JSON, aucune empreinte de
+  `tests/engine-traces.test.ts` ne bouge. Ce qui a changé ailleurs : `MAX_STEP` exporté par
+  `game.ts`, le champ facultatif `Entity.chainRing` (absent partout ailleurs) et une ligne de
+  `render/actors.ts` qui ne dessine pas un anneau en serpent.
+- **Le boss** (`src/engine/bossChain.ts`) : une tête hors de `game.enemies` (aucun coup ne la
+  touche) qui marche avec `followRoute` et choisit sa voie avec `pickLane`, et des anneaux qui
+  sont des serpents de `game.enemies` marqués `chainRing`, posés le long de la trace de la
+  tête : les alliés les choisissent et les frappent avec leurs règles de toujours.
+- **Les nombres** (`src/hiddenBossTuning.ts`) : un seul objet par réglage ; une partie garde
+  la version de ses nombres (`hiddenBoss.version`), qui nomme aussi sa révision d'équilibrage.
+  Une version jouée par un enfant ne change plus : une valeur nouvelle est une version
+  nouvelle.
+- **Le dessin provisoire** (`src/render/hiddenBossLayer.ts`) : lu par le banc d'essai seul
+  (`tests/hidden-boss-harness.ts`), par le rappel `onFrame` de `BattleScene`. Le paquet
+  principal n'en contient rien. `tests/hidden-boss.test.ts` refuse qu'un autre fichier de
+  `src/` importe le boss.
+
 ## Choix du moteur — réévalué le 11 novembre 2026
 
 Phaser 3 reste le bon choix, et la question ne se rouvre pas sans mesure sur le téléphone.
