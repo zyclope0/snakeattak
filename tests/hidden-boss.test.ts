@@ -115,7 +115,7 @@ test('la préparation : la bourse du réglage, le camp de départ, toute la bout
 test('la vague : la tête sort de l’antre, ses anneaux derrière elle, hors de portée des coups', () => {
   const { game, chain } = fighting();
   assert.equal(game.status, 'fighting');
-  assert.equal(game.message, fill(TEXT.nSortDeSonAntre, TEXT.leBossCache));
+  assert.equal(game.message, fill(TEXT.nSortDeSonAntre, TEXT.classicSnake));
   assert.equal(ringsOf(game).length, MOYEN.startRings);
   assert.equal(game.enemies.length, MOYEN.startRings);
   assert.ok(!game.enemies.includes(chain.head), 'the head is never a target');
@@ -168,7 +168,7 @@ test('la tête avale un allié tombé près d’elle : un anneau de plus, et il 
   assert.equal(chain.allies, 1);
   assert.equal(chain.grown, 1);
   assert.equal(chain.gulp, MOYEN.allyGulp);
-  assert.equal(game.message, fill(TEXT.nAAvaleUnAllieUnAnneauDePlus, TEXT.leBossCache));
+  assert.equal(game.message, fill(TEXT.nAAvaleUnAllieUnAnneauDePlus, TEXT.classicSnake));
   // The new ring is the tail: the last of the body, with a full life.
   const tail = ringsOf(game).at(-1)!;
   assert.equal(tail.hp, MOYEN.ringHp);
@@ -208,7 +208,7 @@ test('le miel posé sur sa voie : la tête le mange quand elle l’atteint, un a
     assert.equal(chain.honey, 1, flavor);
     assert.equal(ringsOf(game).length, rings + 1, flavor);
     assert.equal(chain.gulp, MOYEN.honeyGulp, flavor);
-    assert.equal(game.message, fill(TEXT.nAMangeLeMielUnAnneauDePlus, TEXT.leBossCache));
+    assert.equal(game.message, fill(TEXT.nAMangeLeMielUnAnneauDePlus, TEXT.classicSnake));
   }
 });
 
@@ -249,7 +249,7 @@ test('il ne reste que la tête : le boss s’enroule, la bataille est gagnée', 
   assert.equal(game.status, 'won');
   assert.equal(chain.asleep, true);
   assert.equal(game.enemies.length, 0);
-  assert.equal(game.message, fill(TEXT.victoireNNAPlusQueSaTete, TEXT.leBossCache));
+  assert.equal(game.message, fill(TEXT.victoireNNAPlusQueSaTete, TEXT.classicSnake));
   const frozen = JSON.stringify(game);
   game.step(STEP);
   assert.equal(JSON.stringify(game), frozen, 'nothing moves after the end');
@@ -305,12 +305,14 @@ function sources(dir: string): string[] {
     return statSync(path).isDirectory() ? sources(path) : path.endsWith('.ts') ? [path] : [];
   });
 }
-test('aucun écran du jeu n’ouvre le combat du boss caché (lot 3)', () => {
+test('seul le paquet de Classic Snake, chargé au premier toucher, ouvre le combat (lot 3)', () => {
+  const PACKAGE = join('src', 'ui', 'classicSnake', 'classicSnakeBattle.ts');
   const allowed = new Set([
     join('src', 'hiddenBoss.ts'),
     join('src', 'hiddenBossTuning.ts'),
     join('src', 'engine', 'bossChain.ts'),
     join('src', 'render', 'hiddenBossLayer.ts'),
+    PACKAGE,
   ]);
   for (const file of sources('src')) {
     if (allowed.has(file)) continue;
@@ -320,5 +322,44 @@ test('aucun écran du jeu n’ouvre le combat du boss caché (lot 3)', () => {
       /['"][^'"]*\/(?:hiddenBoss(?:Tuning|Layer)?|bossChain)\.ts['"]/,
       file,
     );
+    // The package itself: asked for by `import(…)`, or named for its types only.
+    const lines = code.split('\n').filter((l) => !/^\s*(?:\*|\/\/|\/\*)/.test(l));
+    for (const line of lines.filter((l) => l.includes('classicSnakeBattle.ts')))
+      assert.match(line, /import\(|^import type /, `${file}: ${line}`);
   }
+  const door = readFileSync(join('src', 'ui', 'classicSnakeDoor.ts'), 'utf8');
+  assert.match(door, /import\('\.\/classicSnake\/classicSnakeBattle\.ts'\)/);
+});
+
+test('Classic Snake : son nom, ses mots de fin, et rien qui annonce une vague', () => {
+  assert.equal(TEXT.classicSnake, 'Classic Snake');
+  const game = new HiddenBossGame(1);
+  /** Read afresh each time: `assert.equal(…, null)` would narrow it for good. */
+  const ending = () => game.ending;
+  assert.equal(game.foretold, false);
+  assert.equal(game.briefing.title, 'Classic Snake');
+  assert.equal(ending(), null, 'no words before the end');
+  game.startWave();
+  assert.equal(ending(), null, 'nor during the battle');
+  game.status = 'won';
+  game.hiddenBoss.chain!.broken = 25;
+  game.hiddenBoss.chain!.grown = 1;
+  assert.deepEqual(ending(), {
+    title: 'Classic Snake s’endort\u00a0!',
+    subtitle: 'Classic Snake n’a plus que sa tête : il s’enroule et s’endort.',
+    summary: 'Tes alliés ont cassé 25 anneaux. Il a grandi de 1 anneau.',
+    stats: `Anneaux cassés : 25 · Alliés debout : ${game.units.length} · Cristal : 100 %`,
+    again: 'Rejouer contre Classic Snake',
+  });
+  game.hiddenBoss.chain!.grown = 0;
+  assert.match(ending()!.summary, /Il n’a rien avalé\u00a0!$/);
+  game.status = 'lost';
+  game.base = 0;
+  game.hiddenBoss.chain!.broken = 1;
+  assert.equal(ending()!.title, 'Classic Snake a atteint le cristal');
+  assert.equal(ending()!.summary, 'Tes alliés ont cassé 1 anneau. On réessaie\u00a0?');
+  // Every other game keeps the words of its mode and its « Dangers ».
+  const other = new Game(1);
+  assert.equal(other.ending, null);
+  assert.equal(other.foretold, true);
 });

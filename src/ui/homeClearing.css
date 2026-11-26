@@ -275,8 +275,9 @@ body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-exped
   z-index: -1;
 }
 /* L'antre des serpents et King Snake, à gauche comme sur le plateau. Sous lui, le carnet et
-   les favoris : la place qui reste compte leur rangée. */
-body #home-screen[data-page='home'] #home-classic {
+   les favoris : la place qui reste compte leur rangée. Les pommes de Classic Snake (plus bas)
+   se posent dans l'antre : elles en reprennent les mesures. */
+body #home-screen[data-page='home'] :is(#home-classic, #home-apples) {
   --plaque: 118;
   --picture: url('../assets/home/clairiere-antre.webp');
   --wide: 1.576;
@@ -287,6 +288,81 @@ body #home-screen[data-page='home'] #home-classic {
   grid-row: 2 / -1;
   align-self: start;
   justify-self: end;
+}
+/* Les pommes trouvées et Classic Snake, dans l'antre (boss caché, décision du parent du
+   26 novembre 2026 ; ui/classicSnakeDoor.ts). Rien avant la première pomme. Un repère sans
+   hauteur, posé dans la grille exactement comme la plaque de l'antre (mêmes colonne, rangées,
+   marge et largeur) : il ne pousse rien, et ce qu'il porte se place sur l'image de l'antre,
+   par les mesures de celle-ci (--ph, --wide), contre le bord gauche de sa racine. */
+body #home-screen[data-page='home'] #home-apples {
+  position: relative;
+  width: max(104px, calc(var(--plaque) * var(--s)));
+  height: 0;
+  margin-top: calc(var(--ph) - 5 * var(--s) + var(--lift, 0px));
+}
+body #home-screen[data-page='home'] :is(#home-apples-count, #home-classic-snake) {
+  position: absolute;
+  /* Contre le bord gauche de l'antre, sur sa racine : l'entrée et King Snake restent à voir. Il
+     s'étend vers la gauche, sur le décor. */
+  right: calc(50% + var(--ph) * var(--wide) * 0.32);
+  bottom: calc(8 * var(--s));
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: calc(1 * var(--s));
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--clearing-paper);
+  font: inherit;
+  font-family: Fredoka, sans-serif;
+  font-weight: 600;
+  font-size: max(13px, calc(12.5 * var(--s)));
+  line-height: 1.05;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: var(--clearing-ring);
+}
+/* La pomme de pâte, au-dessus de son compte ou du nom. */
+body #home-screen[data-page='home'] :is(#home-apples-count, #home-classic-snake)::before {
+  content: '';
+  width: max(26px, calc(28 * var(--s)));
+  height: max(26px, calc(28 * var(--s)));
+  background: url('../assets/illustrated/pomme.webp') center / contain no-repeat;
+  filter: drop-shadow(0 calc(3 * var(--s)) calc(3 * var(--s)) rgba(4, 12, 8, 0.6));
+}
+/* Le compte n'est qu'une image : un doigt qui le touche ouvre l'antre, comme avant. */
+body #home-screen[data-page='home'] #home-apples-count {
+  pointer-events: none;
+}
+/* À douze pommes : un bouton, la pomme et le nom de Classic Snake sur un pain de miel. */
+body #home-screen[data-page='home'] #home-classic-snake {
+  min-width: 48px;
+  min-height: 48px;
+  cursor: pointer;
+}
+/* Le nom sur deux lignes, « Classic » sur « Snake » : étroit, il ne sort pas de l'écran. */
+body #home-screen[data-page='home'] #home-classic-snake > span {
+  width: min-content;
+  max-width: max(150px, calc(150 * var(--s)));
+  padding: calc(3 * var(--s)) calc(8 * var(--s));
+  border: calc(2.5 * var(--s)) solid var(--clearing-ink);
+  border-radius: calc(9 * var(--s));
+  background: var(--clearing-honey);
+  box-shadow: var(--clearing-lift);
+  color: var(--clearing-wood);
+  white-space: normal;
+  text-shadow: none;
+}
+/* Le combat n'a pas pu venir (pas de réseau) : la phrase, plus longue, sur une plaque large. */
+body #home-screen[data-page='home'] #home-classic-snake[data-failed] > span {
+  width: max(150px, calc(150 * var(--s)));
+}
+body #home-screen[data-page='home'] #home-classic-snake:active {
+  translate: 0 calc(2 * var(--s));
 }
 /* Le pont et le raptor, au milieu, plus loin : un peu plus haut que l'antre. */
 body #home-screen[data-page='home'] #home-voyage {
@@ -538,9 +614,17 @@ body #home-screen[data-page='home'] button:focus-visible {
   body #home-screen[data-page='home'] :is(#home-classic, #home-voyage, #home-expeditions) {
     --lift: 0px;
   }
-  body #home-screen[data-page='home'] #home-classic {
+  body #home-screen[data-page='home'] :is(#home-classic, #home-apples) {
     --ph: min(calc(132 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));
     justify-self: center;
+  }
+  /* La plaque de l'antre est posée sur le bas de sa rangée : le repère des pommes se pose à la
+     hauteur de son bord du haut, deux lignes de mots et le cadre au-dessus du bas. */
+  body #home-screen[data-page='home'] #home-apples {
+    --lift: 0px;
+    grid-row: 3;
+    align-self: end;
+    margin: 0 0 calc(2 * max(13px, 14.5 * var(--s)) + 40 * var(--s));
   }
   body #home-screen[data-page='home'] #home-voyage {
     --ph: min(calc(100 * var(--s)), calc((var(--app-height) - 500 * var(--s)) / 2));

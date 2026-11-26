@@ -131,7 +131,7 @@ function curlUp(game: Game, chain: BossChain) {
   game.status = 'won';
   game.feast = null;
   game.encouragementRemaining = 0;
-  game.message = fill(TEXT.victoireNNAPlusQueSaTete, TEXT.leBossCache);
+  game.message = fill(TEXT.victoireNNAPlusQueSaTete, TEXT.classicSnake);
 }
 function walk(game: Game, head: Entity, tuning: HiddenBossTuning, dt: number) {
   followRoute(game, head, tuning.headSpeed, dt);
@@ -174,7 +174,7 @@ function eatHoney(game: Game, chain: BossChain, tuning: HiddenBossTuning) {
   addEffect(game, head, pot, 'honey');
   if (!addRing(game, chain, tuning)) return;
   chain.grown++;
-  game.message = fill(TEXT.nAMangeLeMielUnAnneauDePlus, TEXT.leBossCache);
+  game.message = fill(TEXT.nAMangeLeMielUnAnneauDePlus, TEXT.classicSnake);
 }
 /**
  * An ally that fell beside the head is swallowed: gone for good, as every fallen ally. The
@@ -188,7 +188,7 @@ function swallowFallen(game: Game, chain: BossChain, tuning: HiddenBossTuning) {
     chain.gulp = tuning.allyGulp;
     if (!addRing(game, chain, tuning)) continue;
     chain.grown++;
-    game.message = fill(TEXT.nAAvaleUnAllieUnAnneauDePlus, TEXT.leBossCache);
+    game.message = fill(TEXT.nAAvaleUnAllieUnAnneauDePlus, TEXT.classicSnake);
   }
 }
 /** The trail grows at the head, and every ring takes its place along it. */

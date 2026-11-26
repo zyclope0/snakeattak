@@ -1,4 +1,5 @@
 import { Game, MAX_STEP, battleOver } from './game.ts';
+import type { Ending } from './game.ts';
 import { NO_CAPRICE } from './caprices.ts';
 import type { CapriceRules } from './caprices.ts';
 import { LANE_IDS } from './ai.ts';
@@ -19,9 +20,11 @@ import * as TEXT from './texts/fr/hiddenBoss.ts';
 import { fill } from './texts/fill.ts';
 
 /**
- * Le combat du boss caché (lot 2, 26 novembre 2026) : un combat à part, qu'aucun écran du jeu
- * n'ouvre encore. Une préparation comme celle d'une mission, avec sa bourse et la boutique de
- * toujours, puis une seule vague : le boss sort de son antre (`engine/bossChain.ts`).
+ * Le combat de Classic Snake, le boss caché (lots 2 et 3, 26 novembre 2026) : un combat à part,
+ * ouvert depuis l'antre de l'accueil quand le joueur a ses douze pommes
+ * (`ui/classicSnake/`, chargé au premier toucher). Une préparation comme celle d'une mission,
+ * avec sa bourse et la boutique de toujours, puis une seule vague : le boss sort de son antre
+ * (`engine/bossChain.ts`). Il n'est jamais gardé : ni camp, ni reprise.
  *
  * C'est une partie (`Game`) d'une autre sorte : ses règles à elle sont ici, et les parties de
  * la grande aventure, des missions, des expéditions et de l'aventure sans fin n'en savent rien.
@@ -89,6 +92,40 @@ export class HiddenBossGame extends Game {
     return CLEVER;
   }
   /** Every ally its balance revision knows is in the shop: the boss comes after the adventure. */
+  /** Its own words at the end: no adventure, no stars, the rings broken and gained. */
+  override get ending(): Ending | null {
+    const chain = this.hiddenBoss.chain;
+    if (!chain || !battleOver(this)) return null;
+    const name = TEXT.classicSnake;
+    const many = (count: number) => count > 1;
+    const broken = fill(
+      many(chain.broken) ? TEXT.tesAlliesOntCasseNAnneaux : TEXT.tesAlliesOntCasseNAnneau,
+      chain.broken,
+    );
+    const won = this.status === 'won';
+    const grown = chain.grown
+      ? fill(many(chain.grown) ? TEXT.ilAGrandiDeNAnneaux : TEXT.ilAGrandiDeNAnneau, chain.grown)
+      : TEXT.ilNARienAvale;
+    return {
+      title: fill(won ? TEXT.nSEndort : TEXT.nAAtteintLeCristal, name),
+      subtitle: fill(won ? TEXT.nNAPlusQueSaTete : TEXT.nAAtteintLeCristalOnReessaie, name),
+      summary: `${broken} ${won ? grown : TEXT.onReessaie}`,
+      stats: fill(
+        TEXT.anneauxCassesNAlliesDeboutNCristalN,
+        chain.broken,
+        this.units.length,
+        Math.ceil(this.base),
+      ),
+      again: fill(TEXT.rejouerContreN, name),
+    };
+  }
+  /** Its snake is no wave's: nothing foretells it, and the camp is told who comes. */
+  override get foretold() {
+    return false;
+  }
+  override get briefing() {
+    return { title: TEXT.classicSnake, tip: TEXT.ilGrandEnAvalantCasseSesAnneaux };
+  }
   override isUnlocked(kind: Kind) {
     return typeof kind === 'string' && this.knowsAlly(kind);
   }
@@ -106,7 +143,7 @@ export class HiddenBossGame extends Game {
     this.honeyTurns = 0;
     this.eggs = [];
     this.hiddenBoss.chain = layChain(this, this.hiddenBoss.tuning);
-    this.message = fill(TEXT.nSortDeSonAntre, TEXT.leBossCache);
+    this.message = fill(TEXT.nSortDeSonAntre, TEXT.classicSnake);
     return true;
   }
   /**

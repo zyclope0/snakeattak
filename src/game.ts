@@ -60,6 +60,17 @@ export type { Entity, Egg, Effect } from './engine/state.ts';
 /** Longest simulated step: a slow frame is cut short rather than leaping over a fight. */
 export const MAX_STEP = 0.05;
 
+/**
+ * How a battle of its own kind ends, for the result screen: its title, the line on the board,
+ * the sentence under the title, the numbers on the board, and the button that plays it again.
+ */
+export type Ending = {
+  title: string;
+  subtitle: string;
+  summary: string;
+  stats: string;
+  again: string;
+};
 /** Won or lost: the game no longer advances and nothing more can be played or bought. */
 export const battleOver = (game: Pick<Game, 'status'>): boolean =>
   game.status === 'won' || game.status === 'lost';
@@ -117,6 +128,17 @@ export class Game {
   readonly #capriceKinds = new Set<Kind>();
   get caprice(): CapriceRules {
     return capriceRules(this.mission);
+  }
+  /**
+   * The words a battle of its own kind ends with (Classic Snake, `hiddenBoss.ts`), or null: the
+   * words of its mode. Nothing of the battle; never written in a camp.
+   */
+  get ending(): Ending | null {
+    return null;
+  }
+  /** False for a battle whose snake is no wave's (Classic Snake): no « Dangers » foretells it. */
+  get foretold(): boolean {
+    return true;
   }
   readonly #balanceRevision: BalanceRevision;
   get balanceRevision(): BalanceRevision {

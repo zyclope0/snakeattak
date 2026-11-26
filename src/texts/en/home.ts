@@ -47,3 +47,9 @@ export const tonRecordVagueNNRois = 'Your record: wave {0}';
 export const reprendreMonAventureSansFin = 'Resume my endless adventure';
 /** The endless adventure open, no game of this player yet. */
 export const pasEncoreDeRecord = 'No record yet';
+/** The apples of the den, then the button of Classic Snake (the son's name, untranslated). */
+export const nSurN = '{0} / {1}';
+export const pommesTrouveesNSurN = 'Apples found: {0} of {1}';
+export const classicSnake = 'Classic Snake';
+export const classicSnakeNAPasPuVenir =
+  'Classic Snake could not come. Reload the page when the connection is back.';

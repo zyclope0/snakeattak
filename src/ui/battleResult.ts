@@ -44,13 +44,19 @@ export function bindBattleResult(session: Session) {
     restore(mission);
     buttons.restore();
     if (classic.parentNode !== content) content.append(classic);
-    // The same button plays the same kind of adventure again: it says which.
-    setDisplayText(classic, game.endless ? PAGE.laventureSansFin : PAGE.rejouerUneAventure);
+    // The same button plays the same kind of adventure again: it says which. A battle of its
+    // own kind (Classic Snake) has its own words.
+    const ending = game.ending;
+    setDisplayText(
+      classic,
+      ending?.again ?? (game.endless ? PAGE.laventureSansFin : PAGE.rejouerUneAventure),
+    );
     const summary = fill(TEXT.nSerpentsRepoussesCristalN, game.kills, Math.ceil(game.base));
     // An endless adventure that beat the player's own best says so; nobody else's counts.
     setDisplayText(
       byId('battle-result-summary'),
-      game.endless && newRecords.has(game) ? `${TEXT.nouveauRecord} ${summary}` : summary,
+      ending?.summary ??
+        (game.endless && newRecords.has(game) ? `${TEXT.nouveauRecord} ${summary}` : summary),
     );
   };
   /** Once per finished battle: back to the top, focus on what comes next. */
@@ -88,7 +94,7 @@ export function bindBattleResult(session: Session) {
 
 /** A stage won says so even under a caprice; a mission keeps « Bravo ! » or its caprice. */
 function victoryTitle(game: Game) {
-  if (game.stage) return victoryCopy(game).title;
+  if (game.stage || game.ending) return victoryCopy(game).title;
   return game.mission?.caprice ? TEXT.capriceReussi : TEXT.bravo;
 }
 

@@ -195,7 +195,7 @@ export function waveThreats(game: PreviewSource, local: number): WaveThreats {
   };
 }
 export function currentWaveThreats(game: Game): WaveThreats | null {
-  return game.status === 'preparing' && game.wave < game.totalWaves
+  return game.foretold && game.status === 'preparing' && game.wave < game.totalWaves
     ? waveThreats(game, game.wave + 1)
     : null;
 }

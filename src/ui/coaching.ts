@@ -158,7 +158,9 @@ function campGuide(game: Game): BattleGuide | null {
       title: TEXT.tuPeuxEntrainerTonHeros,
       subtitle: TEXT.dansActionsDuCampChoisisFrappeOu,
     };
-  if (game.mission) return { title: game.briefing.title, subtitle: game.briefing.tip };
+  // A mission, or a battle of its own kind (Classic Snake), tells its own wave.
+  if (game.mission || !game.foretold)
+    return { title: game.briefing.title, subtitle: game.briefing.tip };
   const identity = chapterIdentityForWave(game.wave + 1);
   return { title: identity.focus, subtitle: identity.tip };
 }

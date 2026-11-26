@@ -360,7 +360,8 @@ export class BattleScene extends Phaser.Scene {
     );
     setCanvasCopy(
       this.resultStats,
-      fill(TEXT.nSerpentsRepoussesNAllies, game.kills, game.units.length, Math.ceil(game.base)),
+      game.ending?.stats ??
+        fill(TEXT.nSerpentsRepoussesNAllies, game.kills, game.units.length, Math.ceil(game.base)),
     ).setY(300 + this.resultSubtitle.height / 2 + 16 + this.resultStats.height / 2);
   }
   /** The HTML dashboard is refreshed a few times a second, not at every frame. */

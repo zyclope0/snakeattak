@@ -34,8 +34,11 @@ export function endlessCopy(game: EndlessGame) {
 
 /** Presentation only: describe the completed mode, never infer another mission's boss. */
 export function victoryCopy(
-  game: Pick<Game, 'mission' | 'stage' | 'totalWaves'> & Partial<EndlessGame>,
+  game: Pick<Game, 'mission' | 'stage' | 'totalWaves'> &
+    Partial<EndlessGame & Pick<Game, 'ending'>>,
 ) {
+  // A battle of its own kind (Classic Snake) has its own words.
+  if (game.ending) return game.ending;
   if (game.endless) return endlessCopy(game as EndlessGame);
   return game.mission
     ? {
@@ -49,7 +52,10 @@ export function victoryCopy(
 }
 
 /** Describe the actions that actually exist; no promise of a saved battle. */
-export function defeatCopy(game: Pick<Game, 'mission' | 'stage'> & Partial<EndlessGame>) {
+export function defeatCopy(
+  game: Pick<Game, 'mission' | 'stage'> & Partial<EndlessGame & Pick<Game, 'ending'>>,
+) {
+  if (game.ending) return game.ending;
   if (game.endless) return endlessCopy(game as EndlessGame);
   // A battle of the expedition is tried again from the camp it started with.
   if (expedition(game))
@@ -72,11 +78,11 @@ export function defeatCopy(game: Pick<Game, 'mission' | 'stage'> & Partial<Endle
 
 export function earnedStars(
   game: Pick<Game, 'status' | 'mission' | 'stage' | 'missionStars' | 'campaign'> &
-    Partial<Pick<Game, 'endless'>>,
+    Partial<Pick<Game, 'endless' | 'ending'>>,
 ) {
   // A voyage stage earns no star for the mission it borrows: none is shown; the endless
-  // adventure counts its waves and its kings instead.
-  if (game.status !== 'won' || game.stage || game.endless) return null;
+  // adventure counts its waves and its kings instead; Classic Snake gives none.
+  if (game.status !== 'won' || game.stage || game.endless || game.ending) return null;
   return game.mission
     ? { count: game.missionStars, maximum: STARS_MAX }
     : {

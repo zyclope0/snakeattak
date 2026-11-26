@@ -6,8 +6,11 @@ import type { Adventure } from './adventure.ts';
 /** What is written after every command and every step that matters. */
 export function createSaving(
   adventure: Adventure,
-  /** Whether the game on the board is a camp of the adventure, to be recorded. */
-  games: { readonly hasCamp: boolean },
+  /**
+   * Whether the game on the board is a camp of the adventure, to be recorded, and whether it is
+   * a battle aside (Classic Snake), of which nothing is recorded.
+   */
+  games: { readonly hasCamp: boolean; readonly aside?: boolean },
 ) {
   const { session, campMemory, persistence, career, missions, albums } = adventure;
   const { stickers, records, missionDone, family } = adventure;
@@ -20,6 +23,7 @@ export function createSaving(
    * place between the memory and the career.
    */
   function recordGame(writeCamp: boolean) {
+    if (games.aside) return;
     if (games.hasCamp) {
       campMemory.remember(session.game);
       if (writeCamp && !session.game.mission) persistence.sync(session.game);
@@ -53,6 +57,7 @@ export function createSaving(
     recordGame,
     /** The game recorded, the family file written, the mark of a mission won left. */
     save() {
+      if (games.aside) return;
       recordGame(true);
       family.sync(campMemory.raw(), career.state, missions.state, albums.state);
       markMissionDone();

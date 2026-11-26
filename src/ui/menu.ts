@@ -35,6 +35,8 @@ type Actions = {
   campIsEndless?: () => boolean;
   /** The best endless adventures of the active player, best first. */
   records?: () => EndlessRecords;
+  /** Before going home: a battle aside gives the board back to the game it covered. */
+  leave?: () => void;
 };
 const CHAPTERS = [0, 1, 2] as const;
 
@@ -149,6 +151,7 @@ export function bindMenu(session: Session, career: Career, actions: Actions) {
     requestAnimationFrame(() => byId('start').focus({ preventScroll: true }));
   };
   const showHome = () => {
+    actions.leave?.();
     session.selectUnit(null);
     session.screen = 'home';
     if (!session.game.mission) career.sync(session.game);
