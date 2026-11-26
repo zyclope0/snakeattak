@@ -53,4 +53,6 @@ après mesure.
 3. **Le dessin** (tête, anneau, queue, en pâte), le bouton de l'accueil, les textes FR/EN, le
    nom donné par le fils.
 
+**Réglage choisi par le parent le 26 novembre : « Moyen » (version 1), miel inchangé.**
+
 Rien n'est publié avant que les trois lots soient finis et que le parent ait dit oui.

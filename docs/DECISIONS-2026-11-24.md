@@ -113,6 +113,9 @@ maquette de synthèse D « la clairière » en est sortie.
   (`public/assets/illustrated/PROVENANCE-ROI-VOLANT-2026-11-26.md`).
 - **Boss caché aux pommes** (26 novembre, une question à la fois) : un combat à part ; des
   pommes partout ; il grandit en mangeant ; 12 pommes. Plan : [BOSS-CACHE.md](BOSS-CACHE.md).
+- **Boss caché, réglage** (26 novembre, après mesure du lot 2) : « Moyen » (version 1 :
+  18 anneaux de 450, 1 200 pièces ; expert 92 %, moyen 59 %, apprenti 36 % sur 200 combats
+  simulés). Le miel reste comme le fils l'a dit : il le ralentit, puis il le mange et grandit.
 
 ## Ce qui reste à décider
 
