@@ -276,7 +276,7 @@ export class BattleScene extends Phaser.Scene {
     this.drawFeast(game, reduced);
     this.actors.draw(game, this.presentation, this.ink, reduced);
     this.bossSignals.draw(game, reduced);
-    this.flightSignals.draw(game, reduced);
+    this.flightSignals.draw(game);
     this.medicalSignals.draw(game);
     this.effectTrails.draw(this.ink, game.effects, this.presentation.clock, reduced);
     this.feedback.draw(this.presentation, game, reduced);

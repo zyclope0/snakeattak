@@ -29,6 +29,8 @@ import mutantsUrl from './assets/illustrated/allies-mutants.webp';
 import mutantsAttackUrl from './assets/illustrated/allies-mutants-attack.webp';
 import newSnakesUrl from './assets/illustrated/serpents-nouveaux.webp';
 import newSnakesAttackUrl from './assets/illustrated/serpents-nouveaux-attack.webp';
+import kingFlyerUrl from './assets/illustrated/serpents-roi-volant.webp';
+import kingFlyerAttackUrl from './assets/illustrated/serpents-roi-volant-attack.webp';
 import threeBridgesPropsUrl from './assets/illustrated/props-three-bridges.webp';
 import type { Kind } from './data.ts';
 import type { EnemyKind } from './enemies.ts';
@@ -123,6 +125,15 @@ export const ART_SHEETS = [
     frameHeight: 512,
     attackUrl: newSnakesAttackUrl,
   },
+  // The flying snake and King Snake with three cobra heads, drawn on 26 November 2026 (the
+  // child's wish; PROVENANCE-ROI-VOLANT); the two lower cells are empty.
+  {
+    key: 'serpents-roi-volant',
+    url: kingFlyerUrl,
+    frameWidth: 512,
+    frameHeight: 512,
+    attackUrl: kingFlyerAttackUrl,
+  },
 ] as const;
 export type SheetKey = (typeof ART_SHEETS)[number]['key'];
 /**
@@ -201,7 +212,7 @@ export const ALLY_ART: Record<Kind, ArtFrame> = {
 };
 export const ENEMY_ART: Record<EnemyKind, ArtFrame> = {
   normal: frame('enemies-organic', 0),
-  flying: frame('enemies-organic', 0),
+  flying: frame('serpents-roi-volant', 0),
   courtHealer: frame('enemies-organic', 0),
   runner: frame('enemies-organic', 1),
   armored: frame('enemies-organic', 2),
@@ -218,7 +229,7 @@ export const ENEMY_ART: Record<EnemyKind, ArtFrame> = {
   shadow: frame('serpents-nouveaux', 2),
   grasshopper: frame('serpents-nouveaux', 3),
 };
-export const KING_ART = frame('serpents-family', 3);
+export const KING_ART = frame('serpents-roi-volant', 1);
 export const EGG_ART = frame('enemies-mechanical', 3);
 export const HONEY_ART = frame('miels-parapluie', 2);
 export const HONEY_STICKY_ART = frame('miels-parapluie', 3);

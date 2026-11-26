@@ -19,7 +19,6 @@ test('les couches du plateau gardent leur profondeur', () => {
       refuge: 9.6,
       flightShadows: 9.65,
       groundMarks: 9.7,
-      wings: 9.99,
       standing: 10,
       ink: 15,
       refugeDetails: 15.1,

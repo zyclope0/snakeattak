@@ -20,8 +20,6 @@ export const refuge = 9.6;
 export const flightShadows = 9.65;
 /** Shadows of the fighters and the marks the king draws on the ground. */
 export const groundMarks = 9.7;
-/** Wings beat right under the body they carry. */
-export const wings = 9.99;
 /** Fighters and foreground scenery, sorted by `standingDepth`. */
 export const standing = 10;
 /** Lines drawn over the fighters: ranges, placement, trails. */

@@ -570,6 +570,13 @@ de la révision 3 et ajoute ces trois espèces aux vagues de la grande aventure.
   `public/assets/illustrated/PROVENANCE-SERPENTS-NOUVEAUX-2026-11-18.md`). Ils regardent vers
   la droite. Les images provisoires du 16 novembre restent décrites dans
   `PROVENANCE-SERPENTS-PROVISOIRES-2026-11.md`.
+- **Serpent volant et King Snake** (26 novembre 2026). Planche `serpents-roi-volant` et sa
+  planche d'attaque : le serpent volant (case 0) avec ses ailes dessinées, et King Snake en
+  cobra royal à trois têtes (case 1), assemblés par `scripts/assemble-king-flyer.py`
+  (`public/assets/illustrated/PROVENANCE-ROI-VOLANT-2026-11-26.md`). `ENEMY_ART.flying` et
+  `KING_ART` y pointent ; le soigneur de la cour garde le serpent vert. `FlightSignals` ne
+  trace plus que l'ombre au sol du serpent volant (ses ailes étaient dessinées par le code).
+  Aucune règle ne change : seuls les dessins.
 
 `ui/recruitmentReminder.ts` observe les achats réussis de Session, l’or dépensable
 et les frames actives réelles, indépendamment de ×1/×2. Le rappel reste sur la

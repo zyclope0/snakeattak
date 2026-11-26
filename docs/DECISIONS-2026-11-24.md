@@ -107,6 +107,10 @@ maquette de synthèse D « la clairière » en est sortie.
 - **Publier le lot 11** (26 novembre) : « Publie ». Publication n° 57 (commit `f0ddd06` :
   bouton en tête en miel, pâte miel quand le mot tient, sauvegarde familiale à la demande),
   contrôle en ligne vert.
+- **Dessins du fils** (26 novembre, « Laisse caprice de côté, commence le reste ») : 1 500
+  crédits d'images au plus ; King Snake « doit avoir trois têtes […] de Cobra » ; dessins B et
+  B retenus, une question à la fois. Dépense : 612 crédits
+  (`public/assets/illustrated/PROVENANCE-ROI-VOLANT-2026-11-26.md`).
 
 ## Ce qui reste à décider
 
