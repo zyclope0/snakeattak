@@ -693,6 +693,7 @@ async function endlessKingCamp() {
     await refuse(page, false);
     await showHomePage(page, 'parents');
     await page.locator('#home-family').click();
+    await page.locator('#family-dialog[open]').waitFor();
     await page.locator('#family-file').setInputFiles({
       name: 'notre-aventure.json',
       mimeType: 'application/json',

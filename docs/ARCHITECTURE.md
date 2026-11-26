@@ -1371,6 +1371,13 @@ Octets : `bootstrap` 190 910 → 192 769 ; `rules` 90 358 → 95 078 ; `english`
 nouveaux `voyageScreens` 15 071 (script) et 14 555 (feuille). La page HTML ne change pas
 (32 287).
 
+La fenêtre « Sauvegarde familiale » suit le même chemin (26 novembre 2026) : la porte
+(`ui/familyDoor.ts`) reste dans le paquet principal avec la bulle d'aide du bouton ;
+`ui/familyControls.ts` arrive au premier toucher, se branche une fois et rend la fonction qui
+ouvre la fenêtre. Le sauvetage au démarrage (`boot/familyFile.ts`) et l'écran de panne n'en
+ont pas besoin. Octets : `bootstrap` 196 341 → 192 343 ; nouveau `familyControls` 4 384.
+`npm run test:offline` l'ouvre sans réseau.
+
 ### Sur l'écran de bataille
 
 - `src/boot/games.ts` : `playStage` met l'étape sur le plateau (la partie qui s'y trouvait est mise

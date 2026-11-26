@@ -745,6 +745,7 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
   // The family save speaks of the player in progress.
   await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
   check(
     (await page.locator('#family-player-note').isVisible()) &&
       (await page.locator('#family-player-note').textContent()) ===
@@ -794,6 +795,7 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
   check(true, 'a round trip between two players loses nothing on either side');
   await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
   check(
     (await page.locator('#family-player-note').textContent()) ===
       'Ce fichier ne garde que l’aventure du joueur en cours : Héros',
@@ -895,6 +897,7 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
   );
   await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
   check(
     (await page.locator('#family-player-note').textContent()) ===
       'This file only keeps the adventure of the current player: Massue',
@@ -1063,6 +1066,7 @@ export async function checkPlayers({ browser, url, check, capture, portrait }) {
     'the last player cannot be deleted: the parents page no longer lists players',
   );
   await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
   check(
     await page.locator('#family-player-note').isHidden(),
     'with one player the family save needs no extra sentence',

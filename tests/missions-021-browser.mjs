@@ -121,6 +121,7 @@ try {
   await page.locator('#menu-home').click();
   await showHomePage(page, 'parents');
   await page.locator('#home-family').click();
+  await page.locator('#family-dialog[open]').waitFor();
   const downloadEvent = page.waitForEvent('download');
   await page.locator('#family-export').click();
   const download = await downloadEvent;

@@ -5,7 +5,7 @@ import {
   replacesNothing,
   writeExtras,
 } from '../familyExtras.ts';
-import { bindFamilyControls } from '../ui/familyControls.ts';
+import { bindFamilyDoor } from '../ui/familyDoor.ts';
 import { createCapriceAlbums } from '../capriceAlbums.ts';
 import { decodeCheckpoint } from '../checkpoints.ts';
 import {
@@ -119,7 +119,7 @@ export function bindFamilyFile(
     return { ok: true, message: TEXT.aventureFamilialeRetrouvee };
   }
 
-  bindFamilyControls({
+  bindFamilyDoor({
     persistenceStatus: () => family.status,
     exportRaw: exportFamily,
     previousRaw: family.previous,

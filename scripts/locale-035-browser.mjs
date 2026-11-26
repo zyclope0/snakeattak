@@ -426,6 +426,13 @@ try {
         frenchExportedRaw === exportedRaw &&
           frenchDownload.suggestedFilename() === download.suggestedFilename(),
       );
+      // The window is loaded at the first touch of its button: the button's name stays the
+      // French text of the page, translated, whatever the language it was touched in.
+      check(
+        'family button follows the language after its window was opened',
+        (await page.locator('#home-family').textContent()) === 'Sauvegarde familiale',
+        await page.locator('#home-family').textContent(),
+      );
       await page.evaluate(async () => (await import('/src/i18n/language.ts')).setLanguage('en'));
       await page.locator('#family-file').setInputFiles({
         name: 'roundtrip.json',

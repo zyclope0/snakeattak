@@ -8,6 +8,7 @@ import { battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/battleScreens.ts';
 import * as CAMP from '../texts/fr/camp.ts';
 import { atKingCamp } from '../endless.ts';
+import { clayWhenRoom } from './clayFit.ts';
 
 type Ports = {
   /** Runs just before a wave starts: the camp is saved as the player prepared it. */
@@ -29,6 +30,7 @@ export function bindBattleCommands(session: Session, refresh: () => void, ports:
   byId('pause').onclick = () => {
     if (!battleOver(session.game)) togglePause(session, refresh);
   };
+  clayWhenRoom(byId('resume-game'));
   byId('resume-game').onclick = () => {
     if (battleOver(session.game)) return;
     pauseStateFor(session).resume();

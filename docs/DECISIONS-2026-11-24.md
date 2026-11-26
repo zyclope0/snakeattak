@@ -96,6 +96,15 @@ maquette de synthèse D « la clairière » en est sortie.
   « Publier » ; `docs/PLAN-ACTUEL.md`, règle de fusion). Écarté : fusionner les petites
   tâches de la CI. Rendre le dépôt public n'a pas été demandé.
 
+- **Publier les lots 9 et 10 des menus** (26 novembre, au réveil) : « publie ». Publication
+  n° 56 (commit `e2e62b0` : la fin d'une partie, la pause, petits restes), contrôle en ligne
+  vert.
+- **Trois questions de la nuit** (26 novembre, posées une à une) : la pâte miel pour l'action
+  principale de la fin d'une partie et de la pause seulement quand le bouton est assez large
+  pour ses lettres ; le bouton en tête de la fin d'une partie toujours en miel ; la sauvegarde
+  familiale et le carnet de caprices chargés à la demande pour alléger le paquet principal
+  (196 Ko sur 200).
+
 ## Ce qui reste à décider
 
 - « Favoris » : il reste en petit sur l'accueil pour l'instant (un relecteur propose de le
