@@ -28,12 +28,18 @@ export class FramePool<K, V> {
   get(key: K) {
     return this.active.get(key);
   }
-  acquire(key: K): V {
+  /**
+   * The value of `key`, taken from the idle ones when there are some: the last one that
+   * `fits`, else the last one (a label already showing the right word is not drawn again).
+   */
+  acquire(key: K, fits?: (value: V) => boolean): V {
     this.used.add(key);
     if (this.active.has(key)) return this.active.get(key)!;
     let value: V;
     if (this.idle.length) {
-      value = this.idle.pop()!;
+      let i = this.idle.length - 1;
+      if (fits) while (i > 0 && !fits(this.idle[i])) i--;
+      value = fits && !fits(this.idle[i]) ? this.idle.pop()! : this.idle.splice(i, 1)[0];
       this.reused++;
     } else {
       value = this.options.create();

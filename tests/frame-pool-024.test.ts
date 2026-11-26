@@ -115,3 +115,29 @@ test('les capacités invalides sont rejetées et une réserve nulle ne retient r
   assert.equal(p.stats.idle, 0);
   assert.equal(p.stats.destroyed, 1);
 });
+
+test('une vue libre qui convient déjà est reprise avant les autres, sinon la dernière', () => {
+  const p = fixture(3);
+  p.beginFrame();
+  const [a, b, c] = ['a', 'b', 'c'].map((key) => p.acquire(key));
+  a.tint = '−9';
+  b.tint = '−12';
+  c.tint = '−4';
+  p.endFrame();
+  p.beginFrame();
+  p.endFrame();
+  // Libres, dans l'ordre où elles ont été rendues : a, b, c.
+  p.beginFrame();
+  assert.equal(
+    p.acquire('d', (item) => item.tint === '−12'),
+    b,
+  );
+  // Aucune ne convient : la dernière rendue, comme sans préférence.
+  assert.equal(
+    p.acquire('e', (item) => item.tint === '+5'),
+    c,
+  );
+  assert.equal(p.acquire('f'), a);
+  p.endFrame();
+  assert.deepEqual(p.stats, { active: 3, idle: 0, created: 3, reused: 3, destroyed: 0 });
+});

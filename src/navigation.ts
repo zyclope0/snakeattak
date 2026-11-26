@@ -51,7 +51,83 @@ export function blocked(x: number, y: number, level: Level = levelForWave(1)): b
   return false;
 }
 const center = (n: number) => n * CELL + CELL / 2;
+/**
+ * Paths already found, by rules, map, start cell and end cell: a path depends on nothing else.
+ * When it is full, the path asked for the longest time ago gives its place (it was emptied
+ * all at once before 26 November 2026); which paths it keeps never changes a path returned.
+ */
 const cache = new Map<string, Point[]>();
+/** Paths kept at most. */
+export const PATH_CACHE_SIZE = 1024;
+/**
+ * Whether the centre of each cell of a map is blocked, measured once: the terrain of a level
+ * never changes, and A* asks it of every neighbour it looks at.
+ */
+const blockedCells = new WeakMap<Level, Uint8Array>();
+function cellBlocked(x: number, y: number, level: Level): boolean {
+  if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return blocked(center(x), center(y), level);
+  let cells = blockedCells.get(level);
+  if (!cells) {
+    cells = new Uint8Array(COLS * ROWS);
+    for (let cy = 0; cy < ROWS; cy++)
+      for (let cx = 0; cx < COLS; cx++)
+        cells[cy * COLS + cx] = blocked(center(cx), center(cy), level) ? 1 : 0;
+    blockedCells.set(level, cells);
+  }
+  return cells[y * COLS + x] === 1;
+}
+/** The four neighbours of a cell, in the order A* has always looked at them. */
+const NEIGHBOURS: readonly (readonly [number, number])[] = [
+  [1, 0],
+  [-1, 0],
+  [0, 1],
+  [0, -1],
+];
+type OpenNode = { id: number; g: number; f: number };
+/** The node A* looks at first: the lowest estimate, then the lowest cell (as the sort had). */
+const before = (a: OpenNode, b: OpenNode) => a.f < b.f || (a.f === b.f && a.id < b.id);
+/**
+ * A* keeps its open list as a binary heap (26 November 2026): it sorted the whole list before
+ * taking each node. Two entries never share both estimate and cell (a cell enters again only
+ * with a shorter walk, so a lower estimate), so the heap gives the nodes in the very order
+ * the sort gave them, and every path stays the same.
+ */
+function pushOpen(heap: OpenNode[], node: OpenNode) {
+  let i = heap.push(node) - 1;
+  while (i > 0) {
+    const up = (i - 1) >> 1;
+    if (!before(node, heap[up])) break;
+    heap[i] = heap[up];
+    i = up;
+  }
+  heap[i] = node;
+}
+function popOpen(heap: OpenNode[]): OpenNode {
+  const top = heap[0],
+    last = heap.pop()!;
+  if (heap.length) {
+    let i = 0;
+    for (;;) {
+      const left = 2 * i + 1,
+        right = left + 1;
+      let next = i,
+        nextNode = last;
+      if (left < heap.length && before(heap[left], nextNode)) {
+        next = left;
+        nextNode = heap[left];
+      }
+      if (right < heap.length && before(heap[right], nextNode)) {
+        next = right;
+        nextNode = heap[right];
+      }
+      if (next === i) break;
+      heap[i] = nextNode;
+      i = next;
+    }
+    heap[i] = last;
+  }
+  return top;
+}
 /**
  * The rules of a path. The first ones join two neighbouring cells as soon as both centres are
  * free; a rock between them stopped the walker, who asked for the same path again and stood
@@ -112,54 +188,52 @@ export function findPath(
   // The first rules keep the key they always had.
   const key = `${rules === 1 ? '' : `r${rules}:`}${level.id}:${sx},${sy}:${tx},${ty}`;
   const cached = cache.get(key);
-  if (cached) return fromStart(from, cached, level);
-  if (blocked(center(tx), center(ty), level)) return [];
+  if (cached) {
+    // Asked again: it becomes the most recent path of the cache.
+    cache.delete(key);
+    cache.set(key, cached);
+    return fromStart(from, cached, level);
+  }
+  if (cellBlocked(tx, ty, level)) return [];
   const start = sy * COLS + sx,
     end = ty * COLS + tx;
-  const open = [{ id: start, g: 0, f: 0 }],
+  const open: OpenNode[] = [{ id: start, g: 0, f: 0 }],
     cost = new Map([[start, 0]]),
     parent = new Map<number, number>();
   while (open.length) {
-    open.sort((a, b) => a.f - b.f || a.id - b.id);
-    const n = open.shift()!;
+    const n = popOpen(open);
     if (n.id === end) {
       const path: Point[] = [];
       let id = end;
       while (id !== start) {
-        path.unshift({ x: center(id % COLS), y: center(Math.floor(id / COLS)) });
+        path.push({ x: center(id % COLS), y: center(Math.floor(id / COLS)) });
         id = parent.get(id)!;
       }
-      if (cache.size > 1024) cache.clear();
+      path.reverse();
+      while (cache.size >= PATH_CACHE_SIZE) cache.delete(cache.keys().next().value!);
       cache.set(key, path);
       return fromStart(from, path, level);
     }
     const x = n.id % COLS,
       y = Math.floor(n.id / COLS);
-    for (const [dx, dy] of [
-      [1, 0],
-      [-1, 0],
-      [0, 1],
-      [0, -1],
-    ]) {
+    for (const [dx, dy] of NEIGHBOURS) {
       const nx = x + dx,
         ny = y + dy;
-      if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || blocked(center(nx), center(ny), level))
-        continue;
+      if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || cellBlocked(nx, ny, level)) continue;
       if (rules === 2 && !clearEdge(x, y, dx, dy, level)) continue;
       const id = ny * COLS + nx,
         g = n.g + 1;
       if (g >= (cost.get(id) ?? Infinity)) continue;
       cost.set(id, g);
       parent.set(id, n.id);
-      open.push({ id, g, f: g + Math.abs(nx - tx) + Math.abs(ny - ty) });
+      pushOpen(open, { id, g, f: g + Math.abs(nx - tx) + Math.abs(ny - ty) });
     }
   }
   return [];
 }
 
 const campLegal = (p: Point, level: Level) =>
-  !blocked(p.x, p.y, level) &&
-  !blocked(center(Math.floor(p.x / CELL)), center(Math.floor(p.y / CELL)), level);
+  !blocked(p.x, p.y, level) && !cellBlocked(Math.floor(p.x / CELL), Math.floor(p.y / CELL), level);
 /** The camp points an ally may stand on, for each map: the terrain of a level never changes. */
 const campPoints = new WeakMap<Level, readonly Point[]>();
 function campCandidates(level: Level): readonly Point[] {
