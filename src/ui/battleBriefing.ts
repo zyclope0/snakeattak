@@ -12,6 +12,8 @@ import { byId } from './dom.ts';
 import { announcedWave, battleOver } from './battleState.ts';
 import * as TEXT from '../texts/fr/advice.ts';
 import { endlessWave } from '../endless.ts';
+import { chapterOfWave, WAVES_PER_CHAPTER } from '../gameConstants.ts';
+import { fill } from '../texts/fill.ts';
 import { EXPEDITION_STAGE_VERSION } from '../voyageRules.ts';
 
 /**
@@ -27,7 +29,27 @@ export function showLevel(game: Game) {
     name,
     defi?.name ?? (game.mission ? missionById(game.mission.missionId)!.name : game.level.name),
   );
-  setText(byId('level-subtitle'), game.mission ? game.level.name : game.level.subtitle);
+  const round = game.mission ? null : endlessRound(game);
+  const subtitle = byId('level-subtitle');
+  setText(subtitle, game.mission ? game.level.name : (round ?? game.level.subtitle));
+  // The round is shown wherever the name of the place is, even where the map's own words are
+  // left out for room (`styles/19-endless.css`).
+  subtitle.toggleAttribute('data-round', !!round);
+}
+
+/**
+ * After a king of the endless adventure, the map's « Vagues 1 à 4 » would hide that the round
+ * is a new one: the round is named, and its waves counted from the very first one.
+ */
+function endlessRound(game: Game): string | null {
+  if (!game.endless || game.kings <= 0) return null;
+  const first = chapterOfWave(Math.max(1, announcedWave(game))) * WAVES_PER_CHAPTER + 1;
+  return fill(
+    TEXT.nETourVaguesNAN,
+    game.kings + 1,
+    endlessWave(game.kings, first),
+    endlessWave(game.kings, first + WAVES_PER_CHAPTER - 1),
+  );
 }
 
 /** The son's names stay in French in every language: the node is never translated. */

@@ -119,3 +119,8 @@ export const lesSerpentsNeSontPasArrivesRecharge =
   'Les serpents ne sont pas arrivés. Recharge la page quand la connexion revient.';
 export const siLaVagueDureUnOeufDePlusPeutArriver =
   'Si la vague dure, un œuf de plus peut arriver.';
+/**
+ * Under the name of the place, in the endless adventure after a king: the round, and the
+ * waves of its map counted from the very first one (« 3e tour · vagues 25 à 28 »).
+ */
+export const nETourVaguesNAN = '{0}e tour · vagues {1} à {2}';

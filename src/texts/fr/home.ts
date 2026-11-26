@@ -42,7 +42,7 @@ export const confidentialite = 'Confidentialité';
 export const confidentialiteIndisponible =
   'Confidentialité indisponible. Recharge la page quand la connexion revient.';
 /** The best endless adventure of the active player: the wave, the kings beaten. */
-export const tonRecordVagueNNRois = 'Ton record : vague {0}';
+export const tonRecordVagueNNRois = 'Ton record : vague {0} · rois battus : {1}';
 /** Under a mission, when the camp waiting is an endless adventure. */
 export const reprendreMonAventureSansFin = 'Reprendre mon aventure sans fin';
 /** The endless adventure open, no game of this player yet. */

@@ -39,6 +39,8 @@ export const kingSnakeEntreDansLaVallee = 'KING SNAKE ENTRE DANS LA VALLÉE';
 export const sIlAtteintLeCristalLaPartieEst =
   'S’il atteint le cristal, la partie est perdue. Attention à ses œufs !';
 export const vagueNRepoussee = 'Vague {0} repoussée !';
+/** At the end of a wave, the coins a lasting gift of the endless adventure adds: its name, the coins. */
+export const nPlusNPieces = '{0} : +{1} pièces';
 export const nouvelleClairiereN = 'Nouvelle clairière : {0}.';
 export const prepareLesProchainsAllies = 'Prépare les prochains alliés.';
 export const cracLesOeufsOntEclos = 'CRAC ! Les œufs ont éclos';

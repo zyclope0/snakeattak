@@ -2,6 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Game } from '../src/game.ts';
 import { Presentation } from '../src/render/presentation.ts';
+import { ENDLESS_RULES } from '../src/endless.ts';
+import { boonTitle } from '../src/ui/boonCopy.ts';
+import { waveStats } from '../src/data.ts';
+import { fill } from '../src/texts/fill.ts';
+import * as TEXT from '../src/texts/fr/board.ts';
 
 test('la présentation observe les combats sans modifier la simulation', () => {
   const g = new Game(),
@@ -143,4 +148,40 @@ test('le passage vers une nouvelle clairière est annoncé après la vague', () 
   p.update(g, 16);
   assert.equal(p.notice?.kind, 'clear');
   assert.match(p.notice!.subtitle, /bosquet/i);
+});
+
+test('les pièces de « la rente » sont écrites au-dessus du cristal à la fin d’une vague', () => {
+  const rules = ENDLESS_RULES[1];
+  const clearWave = (game: Game, p: Presentation) => {
+    game.startWave();
+    p.update(game, 16);
+    game.remaining = 0;
+    game.eggs = [];
+    game.enemies = [];
+    const gold = game.gold;
+    game.step(1 / 30);
+    p.update(game, 16);
+    return game.gold - gold;
+  };
+  // Without the gift: the coins of the wave only, and no word of income.
+  const plain = new Game(5, undefined, undefined, rules.balance, undefined, rules);
+  const p1 = new Presentation();
+  plain.wave = 1;
+  clearWave(plain, p1);
+  assert.ok(!p1.floats.some((f) => f.text.includes(boonTitle('rente'))));
+  // With « la rente » at level 2: its coins, as the rules add them, with a coin to the purse.
+  const g = new Game(5, undefined, undefined, rules.balance, undefined, rules);
+  g.kings = 1;
+  g.rewards.pending = 12;
+  assert.ok(g.restoreEndless([{ id: 'rente', level: 2 }]));
+  g.rewards.pending = null;
+  g.wave = 1;
+  const p = new Presentation();
+  const earned = clearWave(g, p);
+  const income = g.boonGain('rente');
+  assert.equal(income, 2 * g.boonRules.steps.rente);
+  assert.equal(earned, g.strengthen(waveStats(2)).reward + income);
+  const word = p.floats.find((f) => f.text === fill(TEXT.nPlusNPieces, boonTitle('rente'), income));
+  assert.ok(word, 'the income is written');
+  assert.ok(p.sparks.some((s) => s.kind === 'coin'));
 });
