@@ -58,7 +58,7 @@ import { fill } from './texts/fill.ts';
 export type { Entity, Egg, Effect } from './engine/state.ts';
 
 /** Longest simulated step: a slow frame is cut short rather than leaping over a fight. */
-const MAX_STEP = 0.05;
+export const MAX_STEP = 0.05;
 
 /** Won or lost: the game no longer advances and nothing more can be played or bought. */
 export const battleOver = (game: Pick<Game, 'status'>): boolean =>
