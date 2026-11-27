@@ -52,7 +52,7 @@ Les maquettes et dessins de référence ne sont plus copiés dans le site de pro
 
 Node 24, TypeScript strict sur l'application, les tests et la configuration ; dépendances verrouillées par `package-lock.json` ; installation reproductible avec `npm ci`. Prettier pour un code lisible. `npm run verify` vérifie format, tests, types, compilation et budgets de taille. Le scénario navigateur démarre lui-même un serveur de prévisualisation local, puis vérifie ordinateur et tactile sur le build de production. Un workflow GitHub est fourni ; il n'a pas été exécuté sur GitHub dans cette tâche.
 
-Mesure indicative avec `npm run benchmark` : 67 alliés, 120 serpents prévus, 3 600 calculs. Lors de la mesure initiale sur le cloud : moyenne 0,48 ms, 95e percentile 0,79 ms. Ce test ne mesure ni le rendu GPU, ni une tablette physique, et ne constitue pas une garantie de performance. Les gros postes de coût sont mesurables sans déplacer le jeu sur un serveur. Éviter d'introduire des optimisations qui changeraient les règles sans mesure ni tests.
+Mesure indicative avec `npm run benchmark` : depuis le 26 novembre 2026 (lot A du rapport du conseil sur l'aventure sans fin), un vrai camp mélangé de 63 alliés, troisième roi passé, contre 20, 30 et 40 serpents vivants tenus à ce nombre, 1 800 pas mesurés par scène, avec l'empreinte finale de chaque scène (une optimisation ne doit pas la changer). L'ancien banc (120 ninjas) ne voyait ni les chemins ni le camp. Ce test ne mesure ni le rendu GPU, ni une tablette physique, et ne constitue pas une garantie de performance. Les gros postes de coût sont mesurables sans déplacer le jeu sur un serveur. Éviter d'introduire des optimisations qui changeraient les règles sans mesure ni tests.
 
 Budgets : HTML 32 Ko maximum, code du jeu 200 Ko, moteur Phaser 2 Mo. Un dépassement fait échouer le build. Les tests fonctionnels couvrent les règles, les jonctions, les éclosions, les fins de partie et l'horloge.
 
@@ -633,6 +633,18 @@ Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFI
 - **Écrans.** `menu.ts` (porte, record), `hud.ts`, `battleBriefing.ts`, `presentation.ts`
   (vague depuis la première), `rewardControls.ts` et `boonCopy.ts` (cadeaux, places),
   `battleCommands.ts` (« Continuer », « Rentrer avec mon record »), `resultCopy.ts`.
+- **Lot A du rapport du conseil (26 novembre 2026), sans changer de règle.** Mesure : la
+  partie de référence « sans fin v1 » (`tests/engine-traces.test.ts`, rois et cadeaux dans
+  l'empreinte) ; joueurs simulés `hasard` et `epargnant` dans `balance-modes.mjs` (leur propre
+  tirage, achats pendant la vague, toutes les places du camp), colonnes « vagues sans dégât
+  au cristal » et « stock maximum ». Vitesse : A* en tas binaire, grille des cases bloquées
+  par carte, cache de chemins qui oublie le plus ancien (`navigation.ts`), secours en une
+  passe (`defenders.ts`), étiquette de mot flottant reprise quand elle montre déjà le mot
+  (`FramePool.acquire`) ; l'ancien A* et l'ancien calcul des secours sont recopiés dans
+  `tests/engine-speed.test.ts` et comparés aux nouveaux. Écrans : le cercle de placement lit
+  `turnReach` (moteur), « La rente » écrite au-dessus du cristal en fin de vague
+  (`presentation.ts`, rendu seulement), le record de l'accueil avec ses rois, le tour sous le
+  nom du lieu (`battleBriefing.ts`), `styles/19-endless.css` importé en dernier.
 
 ## La Grande Expédition — 20 novembre 2026
 
