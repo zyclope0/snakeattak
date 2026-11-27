@@ -228,7 +228,14 @@ const endlessRules = {
   ...(process.env.ENDLESS_HP ? { hpStep: Number(process.env.ENDLESS_HP) } : {}),
   ...(process.env.ENDLESS_BITE ? { biteStep: Number(process.env.ENDLESS_BITE) } : {}),
   ...(process.env.ENDLESS_COIN ? { coinStep: Number(process.env.ENDLESS_COIN) } : {}),
+  // Measure only (27 November 2026, the parent: a gentler start after each king): the wave
+  // the first wave of a later round plays, minus one (version 2 only).
+  ...(process.env.ENDLESS_ROUND_START
+    ? { roundStart: Number(process.env.ENDLESS_ROUND_START) }
+    : {}),
 };
+if (process.env.ENDLESS_ROUND_START && FORMULA !== 'v2')
+  throw new Error('ENDLESS_ROUND_START : seulement avec ENDLESS_FORMULA=v2');
 
 /** What the leads do, read by the lines ENDLESS_LEVERS rewrote. */
 const { endlessStats } = await import(R + 'endless.ts');
