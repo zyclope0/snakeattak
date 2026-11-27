@@ -30,6 +30,7 @@ import { bindPlayers } from './ui/players.ts';
 import { bindVoyageDoor } from './ui/voyageDoor.ts';
 import { bindPrivacyDoor } from './ui/privacyDoor.ts';
 import { bindClassicSnakeDoor } from './ui/classicSnakeDoor.ts';
+import { bindBoonDoor } from './ui/boonDoor.ts';
 import { Session } from './session.ts';
 import { BattleScene } from './render/BattleScene.ts';
 import { bindControls } from './ui/controls.ts';
@@ -98,6 +99,7 @@ let menu: ReturnType<typeof bindMenu> | undefined;
 let report: (() => void) | undefined;
 let voyage: ReturnType<typeof bindVoyageDoor> | undefined;
 let appleDoor: (() => void) | undefined;
+let boons: (() => void) | undefined;
 
 // --- What is told and written after a step, which screen is shown, which game is on the board.
 const watchKeeping = createWatchKeeping(session, family, records, apples);
@@ -141,6 +143,7 @@ const battle = new BattleScene(session, refresh, soundFrame, battleNotices, {
   sound: soundFrame.apple,
 });
 screens.attach(createPhaser(battle));
+boons = bindBoonDoor(session, battle, refresh);
 menu = bindMenu(session, career, {
   hasCamp: () => (session.game.mission ? !!missions.state.classicCamp : games.hasCamp),
   restore: games.restoreClassic,
@@ -209,6 +212,7 @@ function saveAndRedraw() {
   albumUI?.refresh();
   menu?.refresh();
   report?.();
+  boons?.();
   expeditions?.();
   refreshPrimary?.();
   // The apples of the den are counted for the home only: one is found during a battle.

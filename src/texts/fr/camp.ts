@@ -115,3 +115,13 @@ export const kingSnakeEstVaincuChoisisTonCadeau = 'King Snake est vaincu ! Chois
 export const nNiveauEtoiles = '{0} {1}';
 /** The start button after a king. */
 export const continuer = 'Continuer';
+// --- Lot B (27 novembre 2026), mots à relire par le parent : ce que fait un cadeau, sans
+// « % » (son niveau se lit à ses étoiles), et un seul mot, « cadeau », dans l'aventure sans fin.
+export const tesAlliesFrappentPlusFort = 'Tes alliés frappent plus fort.';
+export const tesAlliesOntPlusDeVie = 'Tes alliés ont plus de vie.';
+export const lesAlliesCoutentMoinsCher = 'Les alliés coûtent moins cher.';
+export const tesTireursVoientPlusLoin = 'Tes tireurs voient plus loin.';
+export const vagueNRepousseeChoisisTonCadeau = 'Vague {0} repoussée ! Choisis ton cadeau';
+export const choisirCeCadeau = 'Choisir ce cadeau';
+export const continuerSansCadeau = 'Continuer sans cadeau';
+export const choisirUnCadeau = 'Choisir un cadeau';
