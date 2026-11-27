@@ -9,7 +9,7 @@ Décisions du parent du 27 novembre, après le [bilan du simulateur](BILAN-INFIN
 3. trois objectifs, avec des joueurs simulés calés sur les vraies parties ;
 4. un seul tableau.
 
-Branche `claude/infini-lot-c`, partie de `707d0d8`, ni poussée ni fusionnée. **Aucune valeur
+Branche `claude/infini-lot-c`, partie de `707d0d8`, réunie le soir même à la branche de travail (ni fusionnée dans `main` ni publiée). **Aucune valeur
 n'est décidée ici : c'est au parent.**
 
 ## En bref
@@ -29,14 +29,86 @@ n'est décidée ici : c'est au parent.**
   et 24 ; toutes les autres inchangées.
 - **Les quatre pistes** sont dans le script seulement (§ 4). Le premier tour ne change pour
   personne.
-- **Résultat** (§ 5 à 7) : F1 codée est bien plus dure pour les joueurs moyens que le F1 du
-  script (le parent simulé : 1,3 roi au lieu de 3,3 en v1 ; il tombe souvent au début du 2e
-  tour). Pour le parent, les vagues 7 à 12 touchent le cristal 43 % du temps (v1 : 20 %),
-  jamais une sur deux, quelle que soit la piste. Pour le fils, le cristal qui sent les rois
-  (b) déplace la chute du roi vers le tour (93 % → 38 % de chutes au roi), mais son cristal
-  reste presque toujours intact pendant le tour. **Meilleure combinaison essayée : F1 + (a)
-  pièces + (b) cristal. Aucune combinaison n'atteint les trois objectifs.**
+- **Résultat corrigé** (voir « Correction » ci-dessous ; les § 5 à 7 sont dépassés) : F1 seule
+  coûte un roi au parent simulé (2,3 au lieu de 3,3) sans menacer davantage ses vagues 7 à 12
+  (24 % touchées, v1 : 20 %). Aucune piste n'atteint une vague sur deux. Pour le fils, le
+  cristal qui sent les rois (b) fait passer les chutes au roi de 88 % à 60 %, mais son cristal
+  reste intact pendant le tour dans 98 % des vagues. **Meilleure piste : F1 + (b) seule** ; (a)
+  enlève des pièces surtout aux joueurs faibles, (c) ne change presque rien, (d) touche le
+  parent et l'enfant plus que le fils. **Aucune ligne n'atteint les trois objectifs.**
 - Aucune règle n'entre dans les parties des joueurs, aucune valeur n'est choisie.
+
+## Correction du 27 novembre au soir : le tableau refait
+
+La première mesure de F1 codée était fausse. Avec `ENDLESS_FORMULA=v2`, le script appliquait
+encore son propre décalage F1 par-dessus celui que le jeu joue déjà : la vague 1 du 2e tour
+se jouait comme la vague 10 au lieu de la 7. D'où l'« écart inexpliqué » avec le F1 du script.
+Le décalage du script ne vaut plus que pour `F1` et `F1b` (commit « Simulateur sans fin : la
+version 2 n'est plus décalée deux fois »). Contrôle : expert, 40 parties, v2 et F1 du script
+donnent 1,9 et 2,2 rois (1,4 avant la correction).
+
+Toutes les lignes F1 ont été rejouées avec le script corrigé (40 parties par ligne, mêmes
+graines ; les lignes v1 sont celles de la première mesure, que le décalage ne touchait pas).
+Les combinaisons a + b + c, a + b + d, les quatre ensemble et la note sur les dragons n'ont
+pas été rejouées : la mesure s'est arrêtée à sa limite de temps, et les pistes seules ne
+laissaient rien attendre de c et de d.
+
+| Règles | Joueur | parties | ≥ 1 roi | rois méd. (moy.) | 8 à 12 rois | vague méd. de chute | sans dégât après le 1er roi | vagues 7–12 touchées (tours ≥ 2) | chutes au roi | ≥ 1 roi vs v1 |
+| ------ | ------ | ------: | ------: | ---------------: | ----------: | ------------------: | --------------------------: | -------------------------------: | ------------: | ------------: |
+| v1     | parent |      40 |    78 % |          4 (3,3) |         0 % |                  57 |                        89 % |                             20 % |          58 % |             — |
+| F1     | parent |      40 |    78 % |          2 (2,3) |         0 % |                  31 |                        75 % |                             24 % |          33 % |        ±0 pts |
+| F1+a   | parent |      40 |    78 % |          2 (2,1) |         0 % |                  32 |                        71 % |                             29 % |          43 % |        ±0 pts |
+| F1+b   | parent |      40 |    78 % |          1 (2,1) |         0 % |                  24 |                        76 % |                             23 % |          35 % |        ±0 pts |
+| F1+c1  | parent |      40 |    78 % |          2 (2,3) |         0 % |                  35 |                        73 % |                             25 % |          33 % |        ±0 pts |
+| F1+c2  | parent |      40 |    78 % |          1 (1,9) |         0 % |                  24 |                        75 % |                             26 % |          43 % |        ±0 pts |
+| F1+d   | parent |      40 |    78 % |          1 (1,9) |         0 % |                  24 |                        70 % |                             33 % |          40 % |        ±0 pts |
+| F1+ab  | parent |      40 |    78 % |          2 (2,0) |         0 % |                  27 |                        72 % |                             27 % |          45 % |        ±0 pts |
+| v1     | fils   |      40 |   100 % |          9 (8,6) |        95 % |                 119 |                        98 % |                              4 % |          82 % |             — |
+| F1     | fils   |      40 |   100 % |          8 (8,0) |        83 % |                 108 |                        98 % |                              4 % |          88 % |        ±0 pts |
+| F1+a   | fils   |      40 |   100 % |          8 (7,9) |        83 % |                 108 |                        98 % |                              4 % |          87 % |        ±0 pts |
+| F1+b   | fils   |      40 |   100 % |          8 (8,0) |        83 % |                 108 |                        99 % |                              2 % |          60 % |        ±0 pts |
+| F1+c1  | fils   |      40 |   100 % |          8 (8,0) |        75 % |                 108 |                        97 % |                              4 % |          79 % |        ±0 pts |
+| F1+c2  | fils   |      40 |   100 % |          8 (7,8) |        80 % |                 108 |                        97 % |                              4 % |          90 % |        ±0 pts |
+| F1+d   | fils   |      40 |   100 % |          8 (7,8) |        83 % |                 108 |                        96 % |                              6 % |          85 % |        ±0 pts |
+| F1+ab  | fils   |      40 |   100 % |          8 (7,9) |        83 % |                 108 |                        98 % |                              3 % |          58 % |        ±0 pts |
+| v1     | enfant |      40 |    95 % |         10 (9,1) |        93 % |                 130 |                        99 % |                              3 % |          63 % |             — |
+| F1     | enfant |      40 |    95 % |         10 (9,0) |        93 % |                 127 |                        98 % |                              3 % |          28 % |        ±0 pts |
+| F1+a   | enfant |      40 |    95 % |          9 (8,5) |        90 % |                 120 |                        98 % |                              2 % |          44 % |        ±0 pts |
+| F1+b   | enfant |      40 |    95 % |         10 (9,0) |        93 % |                 124 |                        98 % |                              1 % |          23 % |        ±0 pts |
+| F1+c1  | enfant |      40 |    95 % |         10 (9,0) |        93 % |                 126 |                        98 % |                              3 % |          25 % |        ±0 pts |
+| F1+c2  | enfant |      40 |    95 % |         10 (8,9) |        93 % |                 127 |                        98 % |                              3 % |          30 % |        ±0 pts |
+| F1+d   | enfant |      40 |    95 % |          9 (8,3) |        93 % |                 119 |                        98 % |                              4 % |          58 % |        ±0 pts |
+| F1+ab  | enfant |      40 |    95 % |          9 (8,4) |        90 % |                 120 |                        99 % |                              2 % |          44 % |        ±0 pts |
+| v1     | expert |      40 |    90 % |          3 (2,9) |         0 % |                  48 |                        93 % |                             14 % |          65 % |             — |
+| F1     | expert |      40 |    90 % |          2 (1,9) |         0 % |                  34 |                        86 % |                             19 % |          48 % |        ±0 pts |
+| F1+a   | expert |      40 |    90 % |          2 (1,8) |         0 % |                  31 |                        84 % |                             22 % |          28 % |        ±0 pts |
+| F1+b   | expert |      40 |    90 % |          2 (1,9) |         0 % |                  33 |                        88 % |                             17 % |          38 % |        ±0 pts |
+| F1+c1  | expert |      40 |    90 % |          2 (1,8) |         0 % |                  32 |                        86 % |                             22 % |          45 % |        ±0 pts |
+| F1+c2  | expert |      40 |    90 % |          2 (1,8) |         0 % |                  36 |                        87 % |                             18 % |          63 % |        ±0 pts |
+| F1+d   | expert |      40 |    90 % |          2 (1,9) |         0 % |                  34 |                        86 % |                             19 % |          48 % |        ±0 pts |
+| F1+ab  | expert |      40 |    90 % |          2 (1,8) |         0 % |                  31 |                        87 % |                             18 % |          25 % |        ±0 pts |
+| v1     | hasard |      40 |    68 % |          1 (1,6) |         0 % |                  23 |                        81 % |                             38 % |          28 % |             — |
+| F1     | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  16 |                        68 % |                             28 % |          20 % |        ±0 pts |
+| F1+a   | hasard |      40 |    68 % |          1 (0,8) |         0 % |                  15 |                        52 % |                             47 % |          20 % |        ±0 pts |
+| F1+b   | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  15 |                        69 % |                             26 % |          23 % |        ±0 pts |
+| F1+c1  | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  16 |                        68 % |                             29 % |          18 % |        ±0 pts |
+| F1+c2  | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  16 |                        62 % |                             29 % |          23 % |        ±0 pts |
+| F1+d   | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  16 |                        69 % |                             26 % |          20 % |        ±0 pts |
+| F1+ab  | hasard |      40 |    68 % |          1 (0,8) |         0 % |                  15 |                        53 % |                             47 % |          23 % |        ±0 pts |
+
+Lecture :
+
+1. **Parent : pas atteint.** Ses vagues 7 à 12 (tours ≥ 2) touchent le cristal 23 à 33 % du
+   temps selon la ligne, jamais une sur deux. F1 le fait surtout tomber plus tôt : 2,3 rois
+   en moyenne au lieu de 3,3, vague médiane de chute 31 au lieu de 57. Il tombe d'un coup,
+   pendant le tour plus qu'au roi.
+2. **Camp du fils : en partie.** Il tombe déjà entre le 8e et le 12e roi en v1 (95 %) et en F1
+   (83 %). La piste (b) fait passer les chutes au roi de 88 % à 60 % ; le cristal reste
+   intact pendant le tour dans 98 % des vagues.
+3. **Atteint.** Personne ne passe le 1er roi plus difficilement (± 0 point partout).
+
+Meilleure ligne : **F1 + (b)**. (a) ajoutée à (b) n'aide pas le fils et enlève encore des
+pièces au parent et au « hasard ». 40 parties par ligne : ± 10 à 15 points sur un pourcentage.
 
 ## 1. La sauvegarde du fils
 
@@ -214,7 +286,7 @@ qui ne s'applique pas).
 Les pistes (a), (b) et (c) ne jouent qu'après le premier roi : le premier tour ne change pas.
 La piste (d) change aussi le premier tour.
 
-## 5. Le tableau
+## 5. Le tableau (première mesure, fausse pour les lignes F1 : voir « Correction »)
 
 40 parties par joueur et par ligne, mêmes graines d'une ligne à l'autre, jusqu'au 15e roi.
 « v1 » : les règles d'aujourd'hui, pour comparer. « F1 » : les règles version 2 telles que le
@@ -271,7 +343,7 @@ perdues à la vague du roi. « ≥ 1 roi vs v1 » : écart avec la ligne v1 du m
 | F1 + d (tanks)             | hasard |      40 |    68 % |          1 (0,7) |         0 % |                  14 |                        34 % |                             41 % |          18 % |        ±0 pts |
 | **F1 + a + b (meilleure)** | hasard |      40 |    68 % |          1 (0,7) |         0 % |                  13 |                        39 % |                             42 % |          20 % |        ±0 pts |
 
-## 6. Les combinaisons, et la meilleure
+## 6. Les combinaisons, et la meilleure (première mesure, fausse)
 
 Quelques combinaisons, pas une recherche complète (40 parties chacune, mêmes colonnes) :
 
@@ -303,7 +375,7 @@ le « fils » plus souvent pendant le tour, mais aussi plus tôt (63 % entre 8 e
 lieu de 80 %) et touche une idée du fils ; les quatre ensemble le font tomber trop tôt (43 %
 entre 8 et 12 rois, 7,2 rois en moyenne).
 
-## 7. Lecture pour le parent
+## 7. Lecture pour le parent (sur la première mesure, dépassée)
 
 Des faits ; le choix est celui du parent.
 
