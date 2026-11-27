@@ -154,6 +154,14 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   parties identiques), cercle de la longue-vue, rente écrite, record avec ses rois, tour
   nommé, boutons à 48 px. Mots à lire par le parent. Ni poussé ni fusionné ; ni téléphone ni
   enfants.
+- **27 novembre — aventure sans fin, un simulateur qui joue comme les vrais joueurs**
+  ([bilan](BILAN-INFINI-SIMULATEUR-2026-11-27.md)), sans changer de règle : joueurs simulés
+  « parent » (3,25 rois, vague 50 en moyenne ; le parent : 3 rois, vague 46) et « enfant »
+  (9 à 10 rois, vague 119 à 130 ; le fils : 10 rois, vague 128) ; ce qui tient au 10e roi
+  (tanks, cadeaux qui durent, soigneurs) et douze défauts relevés, rien corrigé ; F1 et F1b
+  mesurées : plus de retour à zéro, mais aucune ne rend la partie moins plate pour un camp
+  fort, F1b fait aller l'enfant plus loin. **Au parent de choisir.** Ni poussé ni fusionné ;
+  ni téléphone ni enfants.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

@@ -164,6 +164,19 @@ jamais). Rien n'est changé : c'est une mesure, la décision reste au parent (lo
 Ces joueurs sont des modèles, pas le parent : le « hasard » du conseil, autrement réglé,
 passait 4 rois dans 75 % des parties ; le nôtre dans 11 %.
 
+### Deux joueurs qui jouent comme les vrais : « parent » et « enfant » (27 novembre)
+
+Règles version 1, inchangées. Critique du parent : le « hasard » vide sa bourse toutes les
+trois secondes et ne répare jamais le cristal. Deux joueurs de plus, qui ne font que ce que
+l'écran permet (réparer, entraîner le héros, miel, encouragement, poser partout dans le
+camp, rester dix secondes au camp) : « parent » (tout au hasard, deux alliés par camp, vide
+sa bourse quand le cristal est touché) et « enfant » (le plus grand allié qu'il peut payer,
+un soigneur pour huit). Ils retrouvent les deux vraies parties en moyenne : « parent »
+3,25 rois et vague 50 (le parent : 3 rois, vague 46) ; « enfant » 9 à 10 rois et vague 119 à
+130 (le fils : 10 rois, vague 128), cristal presque jamais touché après le premier roi.
+Aucun ne passe le 11e roi. Détails, défauts trouvés et mesure de F1 et F1b :
+[BILAN-INFINI-SIMULATEUR-2026-11-27.md](BILAN-INFINI-SIMULATEUR-2026-11-27.md).
+
 ## Pas vérifié
 
 - Les joueurs simulés choisissent leurs cadeaux toujours dans le même ordre ; un enfant
