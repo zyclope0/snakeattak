@@ -202,8 +202,10 @@ const ENDLESS_ROUNDS = Number(process.env.ENDLESS_ROUNDS ?? 15);
 const FORMULA = process.env.ENDLESS_FORMULA ?? 'v1';
 if (!['v1', 'v2', 'F1', 'F1b'].includes(FORMULA))
   throw new Error('ENDLESS_FORMULA : v1, v2, F1 ou F1b');
-/** The formulas of the council report (lot C): the wave a wave of a later round plays. */
-const MAPPED = FORMULA !== 'v1';
+/** The formulas of the council report (lot C): the wave a wave of a later round plays. Only
+ * F1 and F1b: the game plays v2 itself, and mapping it again would play the waves twice
+ * as far (found on 27 November 2026, after the first measure of v2). */
+const MAPPED = FORMULA === 'F1' || FORMULA === 'F1b';
 const PURSE_CAP = process.env.PURSE_CAP ? Number(process.env.PURSE_CAP) : null;
 /** The columns of the second part of lot C (27 November 2026): never added to the older
  * measures, whose lines of results stay the same, field by field. */
