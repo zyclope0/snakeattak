@@ -117,3 +117,4 @@ export const tousLesSerpents = 'All the snakes';
 export const lesSerpentsNeSontPasArrivesRecharge =
   'The snakes did not arrive. Reload the page when the connection is back.';
 export const siLaVagueDureUnOeufDePlusPeutArriver = 'If the wave lasts, one more egg may arrive.';
+export const nETourVaguesNAN = 'Round {0} · waves {1} to {2}';

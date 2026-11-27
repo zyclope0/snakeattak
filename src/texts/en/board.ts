@@ -39,6 +39,7 @@ export const kingSnakeEntreDansLaVallee = 'KING SNAKE ENTERS THE VALLEY';
 export const sIlAtteintLeCristalLaPartieEst =
   'If he reaches the Crystal, the game is lost. Watch out for his eggs!';
 export const vagueNRepoussee = 'Wave {0} cleared!';
+export const nPlusNPieces = '{0}: +{1} coins';
 export const nouvelleClairiereN = 'New clearing: {0}.';
 export const prepareLesProchainsAllies = 'Prepare your next allies.';
 export const cracLesOeufsOntEclos = 'CRACK! The eggs have hatched';

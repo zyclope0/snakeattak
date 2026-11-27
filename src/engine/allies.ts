@@ -138,18 +138,25 @@ function fight(game: Game, u: Entity, dt: number, relief: Relief, assignments: A
   }
   assignments.set(target.id, (assignments.get(target.id) ?? 0) + 1);
   faceToward(u, target);
-  if (distance(u, target) > allyReach(game, u))
+  if (distance(u, target) > allyReach(game, u.kind as Kind))
     moveUnit(game, u, approachGoal(game, u, target, relief), d.speed, dt);
   else if (u.cool <= 0) strike(game, u, target);
 }
 /**
- * How far an ally strikes from. « La longue-vue » of the endless adventure lets the allies
- * that shoot from afar (a reach of 100 or more) see further.
+ * How far an ally of this kind strikes from. « La longue-vue » of the endless adventure lets
+ * the allies that shoot from afar (a reach of 100 or more) see further.
  */
-function allyReach(game: Game, u: Entity): number {
-  const range = kinds[u.kind as Kind].range;
+export function allyReach(game: Pick<Game, 'boonLevel' | 'boonGain'>, kind: Kind): number {
+  const range = kinds[kind].range;
   const sight = game.boonLevel('vue');
   return sight && range >= FAR_SHOT ? range * (1 + game.boonGain('vue')) : range;
+}
+/**
+ * The reach an ally of this kind uses on its turn: a healer bandages within its own range, a
+ * fighter strikes within `allyReach`. What the circle shown when placing it draws.
+ */
+export function turnReach(game: Pick<Game, 'boonLevel' | 'boonGain'>, kind: Kind): number {
+  return healAmount(kind) > 0 ? kinds[kind].range : allyReach(game, kind);
 }
 function chooseTarget(
   game: Game,

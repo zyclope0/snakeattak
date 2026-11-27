@@ -135,7 +135,7 @@ function refreshEndless(bestStars: readonly number[], records: EndlessRecords) {
     !open
       ? PAGE.batsKingSnakePourOuvrirLAventureSansFin
       : best
-        ? fill(TEXT.tonRecordVagueNNRois, best.wave)
+        ? fill(TEXT.tonRecordVagueNNRois, best.wave, best.kings)
         : TEXT.pasEncoreDeRecord,
   );
 }

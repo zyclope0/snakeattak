@@ -88,9 +88,32 @@ export function roleDescription(kind: Kind): string {
 }
 /** Two nearby fighters relieve a real blockade; the rest keep their sectors. */
 /** Closest to `target` first; the lower id breaks a tie, so the order never depends on the list. */
-const nearestFirst = (target: Point) => (a: Entity, b: Entity) =>
-  Math.hypot(a.x - target.x, a.y - target.y) - Math.hypot(b.x - target.x, b.y - target.y) ||
-  a.id - b.id;
+const closer = (a: Entity, da: number, b: Entity, db: number) =>
+  da < db || (da === db && a.id < b.id);
+/**
+ * The two fighters closest to `target`, closest first, leaving out `skip`: what sorting them
+ * all by that order and keeping the first two gave, found in one pass (26 November 2026).
+ */
+function nearestTwo(fighters: readonly Entity[], target: Point, skip: (u: Entity) => boolean) {
+  let first: Entity | undefined,
+    second: Entity | undefined,
+    d1 = Infinity,
+    d2 = Infinity;
+  for (const u of fighters) {
+    if (skip(u)) continue;
+    const d = Math.hypot(u.x - target.x, u.y - target.y);
+    if (!first || closer(u, d, first, d1)) {
+      second = first;
+      d2 = d1;
+      first = u;
+      d1 = d;
+    } else if (!second || closer(u, d, second, d2)) {
+      second = u;
+      d2 = d;
+    }
+  }
+  return second ? [first!, second] : first ? [first] : [];
+}
 export function reliefTeams(units: Entity[], enemies: Entity[]): Map<number, Set<number>> {
   const teams = new Map<number, Set<number>>();
   const bridgeTeams = new Map<number, Set<number>>();
@@ -98,25 +121,29 @@ export function reliefTeams(units: Entity[], enemies: Entity[]): Map<number, Set
   const fighters = units.filter((u) => u.hp > 0 && kinds[u.kind as Kind]?.damage > 0 && !diving(u));
   for (const e of enemies)
     if (e.hp > 0 && e.state === 'attack') {
-      const engaged = fighters.filter(
-        (u) =>
-          canEngage(u, e) && Math.hypot(u.x - e.x, u.y - e.y) <= kinds[u.kind as Kind].range + 20,
+      const engaged = new Set(
+        fighters.filter(
+          (u) =>
+            canEngage(u, e) && Math.hypot(u.x - e.x, u.y - e.y) <= kinds[u.kind as Kind].range + 20,
+        ),
       );
-      const crowded =
-        e.x < CAMP_FRONT_X &&
-        enemies.filter((v) => v.hp > 0 && Math.hypot(v.x - e.x, v.y - e.y) < 84).length >= 3;
-      if (engaged.length && !crowded) continue;
+      const crowded = e.x < CAMP_FRONT_X && crowd(enemies, e) >= 3;
+      if (engaged.size && !crowded) continue;
       if (crowded && bridgeTeams.has(e.lane)) {
         teams.set(e.id, bridgeTeams.get(e.lane)!);
         continue;
       }
-      const primary = crowded ? [...engaged].sort(nearestFirst(e))[0] : undefined;
-      const nearest = fighters
-        .filter((u) => (crowded ? u !== primary : !engaged.includes(u)))
-        .sort(nearestFirst(e))
-        .slice(0, 2);
+      const primary = crowded ? nearestTwo([...engaged], e, () => false)[0] : undefined;
+      const nearest = nearestTwo(fighters, e, (u) => (crowded ? u === primary : engaged.has(u)));
       teams.set(e.id, new Set(nearest.map((u) => u.id)));
       if (crowded) bridgeTeams.set(e.lane, teams.get(e.id)!);
     }
   return teams;
+}
+/** Living snakes closer than 84 to `e`, itself included; counting stops at three. */
+function crowd(enemies: readonly Entity[], e: Entity): number {
+  let count = 0;
+  for (const v of enemies)
+    if (v.hp > 0 && Math.hypot(v.x - e.x, v.y - e.y) < 84 && ++count >= 3) break;
+  return count;
 }

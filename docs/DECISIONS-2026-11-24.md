@@ -124,6 +124,9 @@ maquette de synthèse D « la clairière » en est sortie.
   pomme et son compte (« 3 / 12 ») dès la première pomme du joueur, rien avant ; à 12, le
   bouton « Classic Snake ». Un combat court, jamais gardé : quitter ou recharger ramène à
   l'accueil. Fait au lot 3 ([bilan](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md)).
+- **Publier Classic Snake** (26 novembre, soir) : « Fusionne et publie quand c'est vert ».
+  PR 157 fusionnée, CI complète verte, publication n° 58 (commit `219341e` : dessins du fils,
+  dossier Play, pommes, Classic Snake), contrôle en ligne vert.
 
 ## Ce qui reste à décider
 

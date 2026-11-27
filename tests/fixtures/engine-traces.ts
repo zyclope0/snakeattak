@@ -18,6 +18,11 @@ export const expectedTraces: Readonly<Record<string, string>> = Object.freeze({
   'classique r7': 'won w12 b100 g374 k186 s13301 168d4dbb07a00f7c5c821c25',
   'classique r7 spinosaure': 'lost w12 b0 g78 k165 s15996 f6cf23e0cc93e24fb9827f39',
   'classique sans règles tactiques': 'won w12 b100 g567 k200 s13873 3eeda8696186b90a12ead3ce',
+  // The endless adventure, rules version 1 (26 November 2026, lot A of the council report):
+  // the strength of the waves is a product, not `**`, whose last digit differed between
+  // Node 22 and Node 24 (and so between phones). Three kings beaten, the game falls at the
+  // fourth; the same fingerprint on both versions of Node.
+  'sans fin v1': 'lost w12 rois3 b0 g120 k810 s60458 77182d93b01f41fd9d10af34',
   'mission refuge': 'won w3 b100 g323 k25 s1838 ba997879695c6fcf0aa1a91d',
   'défi refuge-moyen r2': 'won w3 b100 g401 k44 s2568 bc0c8fb2412a1402f1b8aae1',
   'défi refuge-createur-moyen r1': 'won w3 b100 g313 k25 s3276 27780a3d968e5a7921f42b10',

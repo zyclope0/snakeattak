@@ -9,6 +9,7 @@ import { isMilestone } from '../rewards.ts';
 import type { Kind } from '../data.ts';
 import { endlessWave } from '../endless.ts';
 import { newAlliesLine, newSnakeBanner, recruitableKinds } from './newcomers.ts';
+import { boonTitle } from '../ui/boonCopy.ts';
 import { clamp01 } from './clamp.ts';
 export type Notice = {
   kind: 'wave' | 'boss' | 'clear' | 'egg' | 'fallen';
@@ -66,6 +67,13 @@ const FLOAT_SECONDS = 0.9,
 const APPLE_WORD_SECONDS = 1.6,
   APPLE_WORD_BELOW = 36,
   APPLE_BURST = 0xe9603f;
+/**
+ * The coins « la rente » adds at the end of a wave are written above the crystal, above its
+ * own number, and read longer: nothing else told them (council report, 20 November 2026).
+ */
+const INCOME_X = 1002,
+  INCOME_Y = 196,
+  INCOME_SECONDS = 2;
 /** At most this many floating words at once: the board makes one label for each. */
 export const MAX_FLOATS = 40;
 const MAX_BURSTS = 24,
@@ -289,6 +297,7 @@ export class Presentation {
       const allies = recruitableKinds(game);
       const newAllies = newAlliesLine(allies.filter((kind) => !this.recruitable.has(kind)));
       this.recruitable = new Set(allies);
+      this.announceIncome(game);
       this.announce({
         kind: 'clear',
         title: fill(TEXT.vagueNRepoussee, shown),
@@ -331,6 +340,19 @@ export class Presentation {
         duration: 2.6,
         priority: 2,
       });
+  }
+  /** The coins of « la rente », added by the rules when the wave ends, with a coin to the purse. */
+  private announceIncome(game: Game) {
+    const income = game.boonGain('rente');
+    if (!(income > 0)) return;
+    this.text(
+      INCOME_X,
+      INCOME_Y,
+      fill(TEXT.nPlusNPieces, boonTitle('rente'), income),
+      '#ffdf8b',
+      INCOME_SECONDS,
+    );
+    this.sparks.push({ kind: 'coin', x: INCOME_X, y: INCOME_Y });
   }
   /** Compares a fighter with what was seen of it at the previous update. */
   private watchFighter(e: Entity, fresh: boolean, dt: number) {

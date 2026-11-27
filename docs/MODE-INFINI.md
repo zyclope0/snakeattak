@@ -126,6 +126,44 @@ remplace plus un cadeau monté au niveau 3. 60 parties par joueur, jusqu'au 10e 
 Le joueur qui achète les plus grands alliés va maintenant jusqu'au 8e ou 9e roi, en une heure
 environ ; le parent garde ces valeurs : une longue partie se coupe après un roi et se reprend.
 
+### Avec deux joueurs de plus : « hasard » et « épargnant » (26 novembre, lot A)
+
+Règles sans fin version 1, inchangées. Rapport du conseil du 20 novembre
+([COUNCIL-INFINI-2026-11-20.md](passation/COUNCIL-INFINI-2026-11-20.md), § 3) : le parent
+joue « au hasard » ; le simulateur ne savait ni acheter pendant une vague, ni poser ailleurs
+que sur 63 places. Deux joueurs de plus dans `scripts/balance-modes.mjs` :
+
+- **hasard** : alliés, places permises du camp et cadeaux tirés au hasard ; dépense tout
+  avant chaque vague et toutes les trois secondes pendant la vague ;
+- **épargnant** : le même hasard, mais n'achète, en masse, que quand le cristal vient d'être
+  touché.
+
+Les autres joueurs jouent exactement comme avant (mêmes résultats partie par partie).
+Jusqu'au 10e roi au plus.
+
+| Joueur    | parties | 1 roi | 2 rois | 3 rois | 4 rois | 5 rois | 6 rois | 7 rois | vague médiane (max) | vagues sans dégât au cristal (après le 1er roi) | stock maximum médian (max) |
+| --------- | ------: | ----: | -----: | -----: | -----: | -----: | -----: | -----: | ------------------: | ----------------------------------------------: | -------------------------: |
+| expert    |     100 |  78 % |   74 % |   60 % |   32 % |    2 % |    0 % |    0 % |             48 (70) |                                     94 % (93 %) |              1 289 (7 260) |
+| hasard    |     100 |  69 % |   48 % |   27 % |   11 % |    2 % |    1 % |    1 % |             24 (93) |                                     71 % (77 %) |                404 (2 423) |
+| épargnant |     100 |  40 % |   26 % |   22 % |   16 % |    9 % |    2 % |    0 % |             12 (82) |                                     65 % (82 %) |             1 299 (10 473) |
+| dino      |      40 |  85 % |   78 % |   63 % |   35 % |    0 % |    0 % |    0 % |             47 (60) |                                     93 % (92 %) |                928 (6 320) |
+| gros      |      40 |  85 % |   85 % |   85 % |   85 % |   85 % |   85 % |   85 % |           118 (120) |                                     96 % (99 %) |             4 584 (13 603) |
+| massues   |      40 |  88 % |   13 % |    3 % |    0 % |    0 % |    0 % |    0 % |             23 (45) |                                     47 % (48 %) |              1 015 (1 943) |
+| moyen     |      40 |   0 % |    0 % |    0 % |    0 % |    0 % |    0 % |    0 % |             11 (12) |                                            67 % |                  609 (694) |
+| petit     |      40 |   0 % |    0 % |    0 % |    0 % |    0 % |    0 % |    0 % |               8 (9) |                                            58 % |              1 090 (1 490) |
+
+« gros » : 80 % au 8e roi, 53 % au 9e, aucun au 10e. Avec 40 parties, l'expert passait le
+premier roi dans 90 % des parties : un écart de 12 points d'un échantillon à l'autre.
+
+**Critère proposé par le conseil, « l'épargnant et le hasard ne battent pas l'expert » :
+faux aujourd'hui, dans la queue seulement.** En moyenne l'expert va bien plus loin (vague
+médiane 48, contre 24 et 12). Mais l'épargnant passe 5 rois dans 9 % des parties (expert
+2 %) et 6 rois dans 2 % (expert 0 %) ; le hasard passe 6 et 7 rois une fois sur 100 (expert
+jamais). Rien n'est changé : c'est une mesure, la décision reste au parent (lot C).
+
+Ces joueurs sont des modèles, pas le parent : le « hasard » du conseil, autrement réglé,
+passait 4 rois dans 75 % des parties ; le nôtre dans 11 %.
+
 ## Pas vérifié
 
 - Les joueurs simulés choisissent leurs cadeaux toujours dans le même ordre ; un enfant

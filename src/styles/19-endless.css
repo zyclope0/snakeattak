@@ -1,0 +1,48 @@
+/* L'aventure sans fin, lot A du rapport du conseil (26 novembre 2026) : des boutons à la
+   hauteur d'un doigt, dans leur bandeau, et des nombres qui ne se coupent pas. Importé en
+   dernier : ces règles corrigent les précédentes. */
+
+/* Phone in landscape: « 100 % » and « Vague 12 · rois : 1 » were cut on two lines in the camp
+   after a king. The wave gives up its small gap; the numbers stay on one line. */
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  #base,
+  .wave-stat strong {
+    white-space: nowrap;
+  }
+  .wave-stat {
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 921px) and (min-height: 521px) {
+  /* « Rentrer avec mon record » on one line: on two it stood out of the band. « Continuer »,
+     a short word, leaves it the room. */
+  .controls #endless-home {
+    white-space: nowrap;
+  }
+  .controls:has(#endless-home:not([hidden])) #start {
+    min-width: max(110px, calc(var(--hu) * 9));
+  }
+  /* Five gifts to choose from to make room: on one row, « Garder mes cadeaux » shows under
+     them instead of below the panel. */
+  #reward-cards:has(> :nth-child(4):not([hidden])) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* After a king, the round is named under the name of the place (« 3e tour · vagues 25 à 28 »),
+   even where the map's own words are left out for room; beside it on a computer, where the
+   heading is one line high. */
+#level-subtitle[data-round] {
+  display: block;
+}
+@media (min-width: 921px) and (min-height: 521px) {
+  .clearing-title:has(#level-subtitle[data-round]) {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  #level-subtitle[data-round] {
+    margin-top: 0;
+  }
+}

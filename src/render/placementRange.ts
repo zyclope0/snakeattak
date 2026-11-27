@@ -1,9 +1,9 @@
 import { defenseRole } from '../defenders.ts';
 import type { Game } from '../game.ts';
 import type { Kind } from '../data.ts';
-import { kinds } from '../data.ts';
 import { healAmount } from '../unitRules.ts';
 import { placementSuggestions } from '../placement.ts';
+import { turnReach } from '../engine/allies.ts';
 import * as TEXT from '../texts/fr/board.ts';
 export function placementReadout(game: Game, kind: Kind, pointer?: { x: number; y: number }) {
   const p =
@@ -14,7 +14,8 @@ export function placementReadout(game: Game, kind: Kind, pointer?: { x: number; 
   return {
     x: p.x,
     y: p.y,
-    radius: kinds[kind].range,
+    // The reach the ally really has in this game: « la longue-vue » lengthens a shooter's.
+    radius: turnReach(game, kind),
     valid: game.canRecruit(kind, p.x, p.y),
     healing: healAmount(kind) > 0,
     category:

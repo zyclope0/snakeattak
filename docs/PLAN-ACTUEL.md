@@ -141,7 +141,19 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   ([bilan](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md)) : le nom du fils, le dessin A, la pomme et
   son compte dans l'antre de l'accueil, le bouton « Classic Snake » à 12 pommes, le combat
   chargé au premier toucher, jamais gardé, son écran de fin. Paquet principal 197 479 octets.
-  Même branche, ni poussé ni fusionné ; ni téléphone ni enfants.
+  Ni téléphone ni enfants.
+- **26 novembre, soir** : les dessins du fils (serpent volant, King Snake à trois têtes de
+  cobra), le dossier Google Play réel, les pommes et Classic Snake fusionnés ensemble (PR 157,
+  `main` = `219341e`, relecture de Codex corrigée : l'antre se met à jour au retour à
+  l'accueil) et **publiés (publication n° 58, mot du parent : « Fusionne et publie quand
+  c'est vert »)**, contrôle en ligne vert.
+- **26 novembre, nuit — aventure sans fin, lot A** ([bilan](BILAN-INFINI-LOT-A-2026-11-26.md)),
+  accordé par le parent, sans changer de règle : partie de référence sans fin, joueurs
+  simulés « hasard » et « épargnant » (l'épargnant bat l'expert dans la queue : 9 % au 5e roi
+  contre 2 %), A* en tas et secours en une passe (mêmes parties : empreintes, 27 816 + 6 804
+  parties identiques), cercle de la longue-vue, rente écrite, record avec ses rois, tour
+  nommé, boutons à 48 px. Mots à lire par le parent. Ni poussé ni fusionné ; ni téléphone ni
+  enfants.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du

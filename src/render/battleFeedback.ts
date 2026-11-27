@@ -13,6 +13,7 @@ import * as BOARD_COLOR from './palette.ts';
 import { cssColor } from './cssColor.ts';
 import { BOARD_HEIGHT, BOARD_WIDTH, readableBoardSize } from './boardResolution.ts';
 import { FramePool } from './framePool.ts';
+import { copy } from '../i18n/copy.ts';
 
 /** The sizes these texts were drawn for, on a board shown at its own size. */
 const BOSS_TEXT = 12,
@@ -137,8 +138,13 @@ export class BattleFeedback {
     for (const word of floats) if (words.get(word)) words.acquire(word);
     words.endFrame();
     for (const word of floats) {
+      // A free label that already shows this word in this colour is taken first: a crowded
+      // board repeats the same few numbers, and such a label needs no drawing again.
       const fresh = !words.get(word),
-        label = words.acquire(word);
+        label = words.acquire(
+          word,
+          (free) => free.text === copy(word.text) && free.style.color === word.color,
+        );
       if (fresh) {
         // The engine draws a text again each time its colour is set, even to the same one.
         if (label.style.color !== word.color) label.setColor(word.color);

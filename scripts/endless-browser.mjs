@@ -2,6 +2,10 @@
 // du joueur, le cadeau d'après un roi, « Continuer », « Rentrer avec mon record », l'écran de
 // fin, le choix du cadeau remplacé quand les cinq places sont prises. Les camps sont écrits
 // par le vrai moteur, puis relus par le jeu construit, à 780×360, 812×375 et 1280×800.
+// Lot A du rapport du conseil (26 novembre 2026) : les boutons « Continuer sans bonus »,
+// « Garder mes cadeaux », « Continuer » et « Rentrer avec mon record » font 48 px au moins et
+// restent dans leur bandeau ; « 100 % » et « Vague 12 · rois : 1 » tiennent sur une ligne ;
+// le tour est nommé sous le nom du lieu ; le record de l'accueil dit ses rois.
 import { registerHooks } from 'node:module';
 import { setTimeout } from 'node:timers/promises';
 import { mkdir } from 'node:fs/promises';
@@ -106,6 +110,40 @@ try {
       ))
       assert.ok(box >= 48, `${label}: touch target of ${box}px`);
   };
+  /** The element `selector` lies whole inside `band`, and inside the window. */
+  const inside = async (page, selector, band, label) => {
+    const [box, frame] = await Promise.all(
+      [selector, band].map((s) => page.locator(s).evaluate((e) => e.getBoundingClientRect())),
+    );
+    const view = page.viewportSize();
+    for (const [outer, name] of [
+      [frame, band],
+      [{ left: 0, top: 0, right: view.width, bottom: view.height }, 'the window'],
+    ])
+      assert.ok(
+        box.left >= outer.left - 0.5 &&
+          box.right <= outer.right + 0.5 &&
+          box.top >= outer.top - 0.5 &&
+          box.bottom <= outer.bottom + 0.5,
+        `${label}: ${selector} out of ${name}`,
+      );
+  };
+  /** Every piece of text of `selector` stands on one line (pieces of a line overlap in height). */
+  const oneLine = async (page, selector, label) => {
+    const rects = await page.locator(selector).evaluate((e) => {
+      const range = document.createRange();
+      range.selectNodeContents(e);
+      return [...range.getClientRects()]
+        .filter((r) => r.width > 0)
+        .map((r) => ({ top: r.top, bottom: r.bottom }));
+    });
+    assert.ok(rects.length, `${label}: ${selector} shows some text`);
+    for (const r of rects)
+      assert.ok(
+        r.top < rects[0].bottom && r.bottom > rects[0].top,
+        `${label}: ${selector} wraps on two lines`,
+      );
+  };
 
   for (const size of SCREENS) {
     const { width, height } = size;
@@ -130,7 +168,7 @@ try {
         }),
       });
       assert.equal(await page.locator('#home-endless').isEnabled(), true, `${name}: open`);
-      assert.equal(await text(page, 'endless-note'), 'Ton record : vague 31');
+      assert.equal(await text(page, 'endless-note'), 'Ton record : vague 31 · rois battus : 2');
       await page.screenshot({ path: `${folder}/${name}-porte.png` });
       await page.click('#home-endless');
       await page.locator('#start').waitFor();
@@ -153,20 +191,30 @@ try {
       await page.locator('#reward-panel').waitFor();
       assert.equal(await text(page, 'reward-title'), 'King Snake est vaincu ! Choisis ton cadeau');
       assert.equal(await page.locator('#reward-cards button:visible').count(), 3);
-      await tall(page, '#reward-cards button', name);
+      await tall(page, '#reward-cards button, #skip-reward', name);
+      await inside(page, '#skip-reward', '#reward-panel', `${name} gift`);
       await fits(page, `${name} gift`);
       await page.screenshot({ path: `${folder}/${name}-cadeau.png` });
       await page.locator('#reward-cards button:visible').first().click();
       assert.equal(await text(page, 'start'), 'Continuer');
       assert.equal(await shown(page, 'endless-home'), true);
-      await tall(page, '#endless-home', name);
+      await tall(page, '#start, #endless-home', name);
+      for (const button of ['#start', '#endless-home'])
+        await inside(page, button, '.dashboard', `${name} camp`);
+      for (const number of ['#base', '.wave-stat strong'])
+        await oneLine(page, number, `${name} camp`);
+      // On a computer the button keeps its words on one line: on two it stood out of the band.
+      if (width >= 921) await oneLine(page, '#endless-home', `${name} camp`);
+      // The second round is named, with its waves counted from the very first one.
+      assert.equal(await text(page, 'level-subtitle'), '2e tour · vagues 13 à 16');
+      if (width >= 921) assert.equal(await shown(page, 'level-subtitle'), true);
       await fits(page, `${name} camp`);
       await page.screenshot({ path: `${folder}/${name}-continuer.png` });
       // Home with the record: the record is written since the king fell; the game waits.
       await page.click('#endless-home');
       await page.locator('#home-screen').waitFor();
       await page.evaluate(() => document.querySelector('[data-home-target="classic"]').click());
-      assert.equal(await text(page, 'endless-note'), 'Ton record : vague 12');
+      assert.equal(await text(page, 'endless-note'), 'Ton record : vague 12 · rois battus : 1');
       assert.equal(await text(page, 'home-continue'), 'Continuer · vague 13');
       const records = await page.evaluate(
         (key) => JSON.parse(localStorage.getItem(key)),
@@ -189,6 +237,10 @@ try {
       await page.click('#reward-cards button[data-reward="vue"]');
       assert.equal(await text(page, 'reward-title'), 'Tes 5 places sont prises');
       assert.equal(await page.locator('#reward-cards button:visible').count(), 5);
+      // « Garder mes cadeaux » is in the panel and in the window, not below them.
+      await tall(page, '#skip-reward', `${name} replace`);
+      await inside(page, '#skip-reward', '#reward-panel', `${name} replace`);
+      assert.equal(await text(page, 'skip-reward'), 'Garder mes cadeaux');
       // The cards and the button have just changed meaning: they take no touch for a short
       // while (a double tap must neither replace a gift nor skip the offer). The recipe waits
       // as a child's finger does; `scripts/hygiene/reward-double-tap.ts` checks the hold.
