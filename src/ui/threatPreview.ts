@@ -9,6 +9,7 @@ import { BOSS_COURT, COURT_SLOTS } from '../bossCourt.ts';
 import { variantFor, waveEggCount, TOTAL_WAVES } from '../waves.ts';
 import { flyingVariant } from '../flying.ts';
 import { activeEnemyLanes } from '../tutorial.ts';
+import { playedWave } from '../endless.ts';
 import { missionById, missionWave } from '../missions.ts';
 import type { MissionRun } from '../missions.ts';
 import * as TEXT from '../texts/fr/advice.ts';
@@ -19,7 +20,7 @@ import type { BalanceRevision } from '../balanceRevision.ts';
 export type ThreatKind = EnemyKind | 'king';
 /** What a preview reads of a game. A mission looked at before its departure has no stage. */
 export type PreviewSource = Pick<Game, 'mission' | 'tuning' | 'totalWaves'> &
-  Partial<Pick<Game, 'stage' | 'balanceRevision'>>;
+  Partial<Pick<Game, 'stage' | 'balanceRevision' | 'endless' | 'kings'>>;
 export type WaveThreats = {
   local: number;
   lanes: readonly number[];
@@ -182,16 +183,18 @@ export function waveThreats(game: PreviewSource, local: number): WaveThreats {
   const plan = game.mission
     ? missionWave(game.mission, local, game.tuning.tacticalRulesEnabled)
     : null;
+  // In the endless adventure of version 2, a later round sends the snakes of another wave.
+  const played = plan ? local : playedWave(game.endless ?? null, game.kings ?? 0, local);
   const kinds = plan
     ? missionWaveKinds(game, local, plan.composition)
-    : classicWaveKinds(game, local);
+    : classicWaveKinds(game, played);
   const counts = new Map<ThreatKind, number>();
   for (const kind of kinds) counts.set(kind, (counts.get(kind) ?? 0) + 1);
   return {
     local,
     lanes: activeEnemyLanes(game.mission, local),
     entries: orderedThreats(counts.keys()).map((kind) => ({ kind, count: counts.get(kind)! })),
-    eggs: plan?.eggs.length ?? waveEggCount(local),
+    eggs: plan?.eggs.length ?? waveEggCount(played),
   };
 }
 export function currentWaveThreats(game: Game): WaveThreats | null {

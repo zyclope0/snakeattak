@@ -35,8 +35,14 @@ const VERSION_1 = Object.freeze({
   }),
 });
 export type BoonRules = typeof VERSION_1;
-/** The gift tables, by version of the endless adventure (`EndlessRules['version']`). */
-export const BOON_RULES: Readonly<Record<1, BoonRules>> = Object.freeze({ 1: VERSION_1 });
+/**
+ * The gift tables, by version of the endless adventure (`EndlessRules['version']`). Version 2
+ * changes the waves of the later rounds, not the gifts: it keeps the table of version 1.
+ */
+export const BOON_RULES: Readonly<Record<1 | 2, BoonRules>> = Object.freeze({
+  1: VERSION_1,
+  2: VERSION_1,
+});
 /** The places and the top level of version 1: what the tests and the measures name. */
 export const BOON_PLACES = VERSION_1.places;
 export const BOON_MAX_LEVEL = VERSION_1.maxLevel;

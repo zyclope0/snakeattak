@@ -1,5 +1,5 @@
 import { isArrayOfLength, isIntegerIn, isRecord, isUint32, readBoundedJson } from './plainData.ts';
-import { ENDLESS_RULES, KINGS_LIMIT } from './endless.ts';
+import { KINGS_LIMIT, isEndlessVersion } from './endless.ts';
 import type { EndlessRules } from './endless.ts';
 import { TOTAL_WAVES } from './gameConstants.ts';
 import { ENDLESS_RECORDS_KEY } from './storageKeys.ts';
@@ -34,15 +34,14 @@ const beats = (a: EndlessRecord, b: EndlessRecord | undefined) => !b || better(a
 function readRecord(raw: unknown): EndlessRecord | null {
   if (
     !isRecord(raw) ||
-    !isIntegerIn(raw.rules, 1, 1) ||
-    !Object.hasOwn(ENDLESS_RULES, raw.rules) ||
+    !isEndlessVersion(raw.rules) ||
     !isUint32(raw.run) ||
     !isIntegerIn(raw.kings, 0, KINGS_LIMIT) ||
     // A game stopped after a king keeps the wave of that king; one that falls, the wave lost.
     !isIntegerIn(raw.wave, Math.max(1, raw.kings * TOTAL_WAVES), (raw.kings + 1) * TOTAL_WAVES)
   )
     return null;
-  return Object.freeze({ wave: raw.wave, kings: raw.kings, rules: raw.rules as 1, run: raw.run });
+  return Object.freeze({ wave: raw.wave, kings: raw.kings, rules: raw.rules, run: raw.run });
 }
 
 /** The stored records, best first; an empty list for nothing stored or anything doubtful. */

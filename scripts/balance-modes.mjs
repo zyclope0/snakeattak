@@ -9,7 +9,7 @@
 //   SETS=12        lots de 18 départs par mission (12 = 216 parties par mode et par joueur)
 //   CLASSIC=200    parties de grande aventure par joueur
 //   PROFILES=expert,moyen,petit   joueurs : expert, moyen, petit, massues, gros, dino,
-//                  hasard, epargnant
+//                  hasard, epargnant, parent, enfant, fils
 //                  hasard (26 novembre 2026, rapport du conseil sur l'aventure sans fin) :
 //                  alliés, places permises du camp et cadeaux tirés au hasard ; dépense tout
 //                  avant chaque vague et toutes les trois secondes pendant la vague.
@@ -41,6 +41,15 @@
 //                  REAL_SKIP_KINDS=tank,… (jamais achetés), REAL_SKIP_BOONS=vue,… (jamais
 //                  pris), REAL_OFF=repair,tactics (ni réparation, ni miel et encouragement).
 //                  TRACE=1 écrit sur la sortie d'erreur le camp à la fin de chaque vague.
+//                  fils (27 novembre 2026, la vraie sauvegarde du fils : 7 rois, vague 85) :
+//                  achète comme sa sauvegarde (15 bébés dragons, 6 tanks, 7 dinosaures,
+//                  quelques autres ; un soigneur pour FILS_HEAL (2,7) combattants, infirmiers
+//                  et médecins comme 9 pour 4), FILS_BUYS (2) alliés par camp en moyenne
+//                  (FILS_BUYS_FIRST (2) au premier tour), et après le premier roi garde
+//                  FILS_KEEP (2 500) pièces ; cadeaux solide, marché, longue-vue, forge,
+//                  armure, jamais la rente ; n'entraîne jamais le héros ; répare, miel et
+//                  encouragement comme l'enfant, mais à la vague du roi il les garde pour
+//                  King Snake (FILS_KING=0 pour ne pas le faire).
 //   DINO=spinosaurus  le grand dinosaure du joueur « dino » (un expert qui en recrute deux dès
 //                  qu'il arrive) : spinosaurus (révision 7) ou trex, pour comparer les deux
 //   ENDLESS=1      l'aventure sans fin seule (à la place des modes), jusqu'à la défaite ou
@@ -48,6 +57,8 @@
 //                  ENDLESS_HP, ENDLESS_BITE, ENDLESS_COIN :
 //                  les pas d'un roi à l'autre à essayer (défaut : src/endless.ts, version 1) ;
 //                  BOONS : les cadeaux préférés des joueurs, dans l'ordre
+//   ENDLESS_FORMULA=v2  les règles sans fin version 2 telles que le jeu les joue (F1 codée
+//                  le 27 novembre 2026 ; la carte suit la vague du tour)
 //   ENDLESS_FORMULA=v1|F1|F1b  mesure seulement (lot C, rien ne change pour les joueurs) :
 //                  F1 = dès le tour 2, la vague w se joue comme la vague min(11, 6 + ⌈w/2⌉)
 //                  (nombre, vie, morsure, vitesse, prime, spécialistes, nouveaux serpents,
@@ -58,16 +69,109 @@
 //   CRYSTAL_BITE=1 mesure seulement : un serpent qui entre fait au cristal 9 fois la hausse
 //                  de la morsure (×1,2 par roi en version 1) au lieu de 9
 //   LOT_C=1        ajoute aux anciens joueurs les colonnes du lot C (rien d'autre ne change)
+//   LOT_C=2        ajoute aussi les vagues 7 à 12 des tours après le premier, et celles où le
+//                  cristal a perdu des points (toujours là avec v2 ou ENDLESS_LEVERS)
+//   ENDLESS_LEVERS=coins,crystal,king,tank  mesure seulement (les pistes du parent, 27
+//                  novembre 2026 ; le jeu ne change pas) : coins = les 12 pièces d'un serpent
+//                  et la rente suivent les rois comme la prime ; crystal = les 9 dégâts au
+//                  cristal suivent les rois comme la morsure ; king = le pas du roi
+//                  ×(1 + KING_STEP) par roi battu (0,05), KING_CAP au plus (1,5) ; tank =
+//                  chaque serpent pris dans l'obus, sauf celui visé, reçoit TANK_SPLASH du
+//                  coup (0,5) ; dragon = la même chose pour le souffle des dragons
+//                  (DRAGON_SPLASH, une note à part). Le script réécrit en mémoire, au
+//                  chargement, une ou deux lignes du moteur ; une ligne introuvable arrête
+//                  la mesure.
 // Sans modes.json : tous les modes. Avec : liste { id, missionId, rules?, classic?, profiles?, sets? }.
 // Avec un seul shard, affiche un résumé par mode et par joueur.
 import { readFile, writeFile } from 'node:fs/promises';
+import { registerHooks } from 'node:module';
 const R = new URL('../src/', import.meta.url).href;
+// ——— Lot C, the four leads of the parent (27 November 2026), measure only. ———
+// ENDLESS_LEVERS=coins,crystal,king,tank (and dragon, a note apart): the script rewrites, as
+// it loads them, one line or two of the engine in memory; the files of the game never change
+// and a game without ENDLESS_LEVERS plays the engine as it is. Each rewritten line must be
+// found exactly once, or the measure stops.
+const LEVERS = process.env.ENDLESS_LEVERS ? process.env.ENDLESS_LEVERS.split(',') : [];
+for (const lever of LEVERS)
+  if (!['coins', 'crystal', 'king', 'tank', 'dragon'].includes(lever))
+    throw new Error('ENDLESS_LEVERS : coins, crystal, king, tank, dragon');
+/** King: his pace ×(1 + KING_STEP) per king beaten, KING_CAP at most. */
+const KING_STEP = Number(process.env.KING_STEP ?? 0.05);
+const KING_CAP = Number(process.env.KING_CAP ?? 1.5);
+/** Tank (dragon): each snake caught by the blast, but the one aimed at, takes this share. */
+const TANK_SPLASH = Number(process.env.TANK_SPLASH ?? 0.5);
+const DRAGON_SPLASH = Number(process.env.DRAGON_SPLASH ?? 0.5);
+const LEVER_LINES = {
+  // The 12 coins of a snake and the rente follow the kings as the wave's coins do (×0.9).
+  coins: [
+    [
+      'engine/outcome.ts',
+      'game.gold += e.boss ? KING_BOUNTY : SNAKE_BOUNTY;',
+      'game.gold += e.boss ? KING_BOUNTY : globalThis.lotC.coins(game, SNAKE_BOUNTY);',
+    ],
+    [
+      'engine/outcome.ts',
+      "game.gold += reward + game.boonGain('rente');",
+      "game.gold += reward + globalThis.lotC.coins(game, game.boonGain('rente'));",
+    ],
+  ],
+  // The 9 the crystal loses grow with the kings as the bite does (×1.2).
+  crystal: [
+    [
+      'engine/enemyTurn.ts',
+      'const absorbed = e.boss ? 0 : Math.min(CRYSTAL_DAMAGE, game.rewards.ward);',
+      'const bite = globalThis.lotC.crystal(game, CRYSTAL_DAMAGE); const absorbed = e.boss ? 0 : Math.min(bite, game.rewards.ward);',
+    ],
+    [
+      'engine/enemyTurn.ts',
+      '(e.boss ? KING_CRYSTAL_DAMAGE : CRYSTAL_DAMAGE - absorbed)',
+      '(e.boss ? KING_CRYSTAL_DAMAGE : bite - absorbed)',
+    ],
+  ],
+  king: [
+    [
+      'engine/damage.ts',
+      '(e.boss ? KING_PACE : enemySpeed(e.variant, game.time))',
+      '(e.boss ? KING_PACE * globalThis.lotC.kingPace(game) : enemySpeed(e.variant, game.time))',
+    ],
+  ],
+  tank: [
+    [
+      'engine/allies.ts',
+      'damage * (enemy === target ? 1 : game.tuning.splashSecondaryFactor)',
+      'damage * (enemy === target ? 1 : globalThis.lotC.splash(game, u))',
+    ],
+  ],
+};
+LEVER_LINES.dragon = LEVER_LINES.tank;
+const patches = [...new Set(LEVERS.flatMap((lever) => LEVER_LINES[lever]))];
+const patched = new Set();
+if (LEVERS.length) {
+  registerHooks({
+    load(url, context, nextLoad) {
+      const result = nextLoad(url, context);
+      const mine = patches.filter(([file]) => url.endsWith('/src/' + file));
+      if (!mine.length) return result;
+      let source =
+        typeof result.source === 'string' ? result.source : new TextDecoder().decode(result.source);
+      for (const [file, from, to] of mine) {
+        if (source.split(from).length !== 2) throw new Error(`ENDLESS_LEVERS : ${file} a changé`);
+        source = source.replace(from, to);
+        patched.add(from);
+      }
+      return { ...result, source };
+    },
+  });
+}
 const { Game } = await import(R + 'game.ts');
+if (patches.some(([, from]) => !patched.has(from)))
+  throw new Error("ENDLESS_LEVERS : une ligne du moteur n'a pas été réécrite");
 const { CURRENT_MISSION_PATHS, MISSIONS, createMissionRun } = await import(R + 'missions.ts');
 const { LANES, laneDefense } = await import(R + 'ai.ts');
 const { kinds } = await import(R + 'data.ts');
 const { CAMP_LEFT, CAMP_RIGHT, CAMP_TOP, CAMP_BOTTOM } = await import(R + 'boardLandmarks.ts');
 const { isMilestone } = await import(R + 'rewards.ts');
+const { LASTING_BOONS: LASTING } = await import(R + 'boons.ts');
 const BIG = Object.keys(kinds)
   .filter((k) => !['hero', 'wall', 'medic', 'nurse'].includes(k))
   .sort((a, b) => kinds[b].cost - kinds[a].cost);
@@ -96,10 +200,16 @@ const BOON_TASTE = (process.env.BOONS ?? 'forge,armure,rente,marche,solide,vue,m
 );
 const ENDLESS_ROUNDS = Number(process.env.ENDLESS_ROUNDS ?? 15);
 const FORMULA = process.env.ENDLESS_FORMULA ?? 'v1';
-if (!['v1', 'F1', 'F1b'].includes(FORMULA)) throw new Error('ENDLESS_FORMULA : v1, F1 ou F1b');
+if (!['v1', 'v2', 'F1', 'F1b'].includes(FORMULA))
+  throw new Error('ENDLESS_FORMULA : v1, v2, F1 ou F1b');
 /** The formulas of the council report (lot C): the wave a wave of a later round plays. */
 const MAPPED = FORMULA !== 'v1';
 const PURSE_CAP = process.env.PURSE_CAP ? Number(process.env.PURSE_CAP) : null;
+/** The columns of the second part of lot C (27 November 2026): never added to the older
+ * measures, whose lines of results stay the same, field by field. */
+const LOT_C2 = FORMULA === 'v2' || LEVERS.length > 0 || process.env.LOT_C === '2';
+/** The waves of a round from which the parent wants the crystal threatened. */
+const LATE_FROM = 7;
 const CAMP_SECONDS = Number(process.env.CAMP_SECONDS ?? 10);
 /** Measures of what holds a camp (parent and enfant only): what they never buy, never take,
  * never do (repair, tactics = honey and encouragement). */
@@ -109,14 +219,35 @@ const REAL_SKIP_BOONS = list('REAL_SKIP_BOONS');
 const REAL_OFF = list('REAL_OFF');
 /** Measure only: the crystal loses as much more per snake as the bite grew with the kings. */
 const CRYSTAL_BITE = process.env.CRYSTAL_BITE === '1';
+// v2: the rules of version 2 as the game plays them (formula F1, coded on 27 November 2026).
 const endlessRules = {
-  ...ENDLESS_RULES[1],
+  ...ENDLESS_RULES[FORMULA === 'v2' ? 2 : 1],
   ...(FORMULA === 'F1b' ? { hpStep: 0.35, biteStep: 0.15 } : {}),
   ...(process.env.ENDLESS_HP ? { hpStep: Number(process.env.ENDLESS_HP) } : {}),
   ...(process.env.ENDLESS_BITE ? { biteStep: Number(process.env.ENDLESS_BITE) } : {}),
   ...(process.env.ENDLESS_COIN ? { coinStep: Number(process.env.ENDLESS_COIN) } : {}),
 };
 
+/** What the leads do, read by the lines ENDLESS_LEVERS rewrote. */
+const { endlessStats } = await import(R + 'endless.ts');
+const grown = (step, kings) => {
+  let factor = 1;
+  for (let king = 0; king < kings; king++) factor *= 1 + step;
+  return factor;
+};
+globalThis.lotC = {
+  coins: (game, coins) =>
+    endlessStats({ hp: 0, damage: 0, reward: coins }, game.endless, game.kings).reward,
+  crystal: (game, damage) =>
+    endlessStats({ hp: 0, damage, reward: 0 }, game.endless, game.kings).damage,
+  kingPace: (game) => Math.min(KING_CAP, grown(KING_STEP, game.endless ? game.kings : 0)),
+  splash: (game, u) =>
+    u.kind === 'tank' && LEVERS.includes('tank')
+      ? TANK_SPLASH
+      : u.kind === 'dragon' && LEVERS.includes('dragon')
+        ? DRAGON_SPLASH
+        : game.tuning.splashSecondaryFactor,
+};
 /** Every legal-looking point of the camp, 12 units apart: `recruit` says which are free. */
 const CAMP_SPOTS = [];
 for (let x = CAMP_LEFT; x <= CAMP_RIGHT; x += 12)
@@ -124,9 +255,9 @@ for (let x = CAMP_LEFT; x <= CAMP_RIGHT; x += 12)
 /** The players who play at random, with their own seeded draw. */
 const RANDOM_PROFILES = new Set(['hasard', 'epargnant']);
 /** The players who play as the screen lets a real player play (27 November 2026). */
-const REAL_PROFILES = new Set(['parent', 'enfant']);
+const REAL_PROFILES = new Set(['parent', 'enfant', 'fils']);
 /** Their own seeds: the draws of the older players stay what they were. */
-const REAL_SEEDS = { parent: 0xc2b2ae35, enfant: 0x27d4eb2f };
+const REAL_SEEDS = { parent: 0xc2b2ae35, enfant: 0x27d4eb2f, fils: 0x165667b1 };
 /** A small seeded draw (mulberry32), apart from the game's: the game never sees it. */
 function randomStream(seed) {
   let a = seed >>> 0;
@@ -298,6 +429,87 @@ function play(g, profile, seed = 0) {
     const kind = childKind();
     return kind ? childPlace(kind) : false;
   }
+  // « fils » (27 novembre 2026) : buys like the real save of the son (7 kings, wave 85):
+  // 15 baby dragons, 13 healers, 6 tanks, 7 dinosaurs and a few others among 48 allies.
+  /** The fighters of his save, in the same shares; a healer for SON_HEAL fighters. */
+  const SON_MIX = {
+    dragon: 15,
+    tank: 6,
+    triceratops: 3,
+    trex: 2,
+    twohead: 2,
+    archer: 2,
+    stegosaurus: 1,
+    spinosaurus: 1,
+    knight: 1,
+    shield: 1,
+    ninja: 1,
+  };
+  /** His healers: 9 nurses and 4 medics. */
+  const SON_HEALERS = { nurse: 9, medic: 4 };
+  const SON_HEAL = Number(process.env.FILS_HEAL ?? 2.7);
+  /** This many allies a camp on average; after the first king, he keeps SON_KEEP coins. */
+  const SON_BUYS = Number(process.env.FILS_BUYS ?? 2);
+  const SON_KEEP = Number(process.env.FILS_KEEP ?? 2500);
+  /** The first round is the great adventure he has already won: he buys more there. */
+  const SON_BUYS_FIRST = Number(process.env.FILS_BUYS_FIRST ?? 2);
+  const SON_CREDIT_MOST = 3;
+  /** He keeps the honey and the encouragement of the king's wave for the king. */
+  const SON_KING = process.env.FILS_KING !== '0';
+  let sonCredit = 0;
+  /** Where he puts them (his save): fighters ahead, dragons a little behind them, tanks,
+   * archers and healers further back, a wide spread around each. */
+  const SON_X = { melee: 690, dragon: 740, healer: 820, shooter: 880 };
+  const SON_SPREAD = 140;
+  /** A draw among the kinds open now, weighted by their share. */
+  function weighted(mix) {
+    const open = Object.entries(mix).filter(([k]) => buyable(k));
+    const total = open.reduce((n, [, w]) => n + w, 0);
+    let roll = random() * total;
+    for (const [k, w] of open) if ((roll -= w) < 0) return k;
+    return open.at(-1)?.[0] ?? null;
+  }
+  /** The ally he wants next: kept until he can pay it (he saves for it). */
+  let sonWish = null;
+  function sonKind() {
+    if (sonWish && buyable(sonWish)) return sonWish;
+    const healers = g.units.filter((u) => isHealer(u.kind)).length;
+    const fighters = g.units.filter((u) => u.kind !== 'hero' && !isHealer(u.kind)).length;
+    sonWish = healers < fighters / SON_HEAL ? weighted(SON_HEALERS) : weighted(SON_MIX);
+    return sonWish;
+  }
+  function sonPlace(kind) {
+    const counts = laneCounts();
+    const lanes = [0, 1, 2].sort((a, b) => counts[a] - counts[b] || a - b);
+    const x0 = isHealer(kind)
+      ? SON_X.healer
+      : kind === 'dragon'
+        ? SON_X.dragon
+        : kinds[kind].range >= 100
+          ? SON_X.shooter
+          : SON_X.melee;
+    for (const lane of lanes) {
+      const spots = CAMP_SPOTS.filter(([, y]) => Math.abs(y - LANES[lane]) <= 60)
+        .map(([x, y]) => [x, y, Math.abs(x - x0) + random() * SON_SPREAD])
+        .sort((a, b) => a[2] - b[2]);
+      for (const [x, y] of spots) {
+        const cost = g.recruitCost(kind);
+        if (g.recruit(kind, x, y)) {
+          r.spent += cost;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  /** One ally if the purse pays it beyond what he keeps. */
+  function sonBuy() {
+    const kind = sonKind();
+    if (!kind || g.gold - g.recruitCost(kind) < (g.kings > 0 ? SON_KEEP : 0)) return false;
+    if (!sonPlace(kind)) return false;
+    sonWish = null;
+    return true;
+  }
   /** The gift of a camp, before anything else: the screen shows it first. */
   function realGift() {
     if (!g.endless || g.rewards.pending == null) return;
@@ -310,15 +522,20 @@ function play(g, profile, seed = 0) {
       return;
     }
     // « enfant » : a gift it has climbs; else the first it likes, never one pushing out a
-    // gift it built up; else a card « once ».
+    // gift it built up; else a card « once ». « fils » : the same with the five gifts of his
+    // save, in this order, and never the rente.
     const owned = g.boons.map((b) => b.id);
     const full = g.boons.length >= g.boonRules.places;
+    const taste = profile === 'fils' ? SON_GIFTS : BOON_TASTE;
     const choice =
       offer.find((id) => owned.includes(id)) ??
-      BOON_TASTE.find((id) => offer.includes(id) && !(full && g.boonNeedsPlace(id))) ??
-      offer.find((id) => !g.boonNeedsPlace(id));
+      taste.find((id) => offer.includes(id) && !(full && g.boonNeedsPlace(id))) ??
+      offer.find((id) => !g.boonNeedsPlace(id) && (profile !== 'fils' || !isLasting(id)));
     if (!choice || !g.chooseReward(choice)) g.skipReward();
   }
+  /** The five gifts of the son's save, all at level 3. */
+  const SON_GIFTS = ['solide', 'marche', 'vue', 'forge', 'armure'];
+  const isLasting = (id) => LASTING.includes(id);
   /** Mends the crystal while it is below `until` and the purse allows. */
   function mend(until) {
     if (REAL_OFF.includes('repair')) return;
@@ -328,11 +545,18 @@ function play(g, profile, seed = 0) {
   function realCamp() {
     realGift();
     placeOffered();
-    if (g.heroTrainingOpen && g.campaign.training === 'none')
+    // The son never trained his hero (his save says so).
+    if (g.heroTrainingOpen && g.campaign.training === 'none' && profile !== 'fils')
       g.trainHero(profile === 'enfant' || random() < 0.5 ? 'force' : 'guard');
     if (profile === 'parent') {
       if (g.base <= 75) mend(100);
       for (let i = 0; i < PARENT_BUYS; i++) if (!parentBuy()) break;
+    } else if (profile === 'fils') {
+      mend(100);
+      // SON_BUYS allies a camp on average (0.5: one every other camp), up to three at once
+      // after camps where he was saving.
+      sonCredit = Math.min(SON_CREDIT_MOST, sonCredit + (g.kings > 0 ? SON_BUYS : SON_BUYS_FIRST));
+      while (sonCredit >= 1 && sonBuy()) sonCredit--;
     } else {
       mend(100);
       for (let i = 0; i < 60; i++) if (!childBuy()) break;
@@ -344,7 +568,16 @@ function play(g, profile, seed = 0) {
   function realWave(hit) {
     const coming = g.enemies.filter((e) => e.hp > 0 && e.x > 480);
     const tactics = !REAL_OFF.includes('tactics');
-    if (tactics && !g.feastUsed && coming.length) {
+    // « fils » with SON_KING : at the king's wave he keeps his honey and his encouragement
+    // for King Snake (sticky honey on the king's lane, encouragement when he enters the camp).
+    const king = g.enemies.find((e) => e.boss && e.hp > 0);
+    const waitsForKing =
+      profile === 'fils' && SON_KING && g.wave === g.totalWaves && !(king && king.x > 480);
+    if (tactics && !g.feastUsed && waitsForKing) {
+      // Not yet: the king is not on the bridges.
+    } else if (tactics && !g.feastUsed && profile === 'fils' && SON_KING && king) {
+      g.offerFeast(king.lane, 'sticky');
+    } else if (tactics && !g.feastUsed && coming.length) {
       if (profile === 'parent')
         g.offerFeast(pick(g.enemyLanes), random() < 0.5 ? 'lure' : 'sticky');
       else {
@@ -354,7 +587,12 @@ function play(g, profile, seed = 0) {
         g.offerFeast(crowd[0][0], 'sticky');
       }
     }
-    if (tactics && !g.encouragementUsed && g.enemies.some((e) => e.hp > 0 && e.x >= CAMP_LEFT))
+    const kingWave = profile === 'fils' && SON_KING && g.wave === g.totalWaves;
+    if (
+      tactics &&
+      !g.encouragementUsed &&
+      (kingWave ? king && king.x >= CAMP_LEFT : g.enemies.some((e) => e.hp > 0 && e.x >= CAMP_LEFT))
+    )
       g.encourage();
     // One repair at a time: the menu closes after each one, and opening it again takes a
     // moment (three taps).
@@ -367,7 +605,7 @@ function play(g, profile, seed = 0) {
       nextRepair = g.time + 3;
     if (hit && profile === 'parent' && PARENT_RUSH)
       for (let i = 0; i < 60; i++) if (!parentBuy()) break;
-    if (hit) profile === 'parent' ? parentBuy() : childBuy();
+    if (hit) profile === 'parent' ? parentBuy() : profile === 'fils' ? sonBuy() : childBuy();
   }
   const order = ['club', 'shield', 'archer'];
   // The « dino » player plays as the expert does, with its two big dinosaurs on top.
@@ -402,6 +640,12 @@ function play(g, profile, seed = 0) {
     maxAlive = 0,
     minBaseBeforeKing = 100;
   const waveLife = [];
+  // « fils » : his camp and purse in the camp after each king (allies, coins).
+  const atKing = [];
+  // Lot C, second part: the waves 7 to 12 of the rounds after the first, and those of them
+  // where the crystal lost points (the parent's goal: one in two at least).
+  let lateWaves = 0,
+    lateHurt = 0;
   // In the endless adventure, `wave` counts from the very first wave, rounds included.
   const lastWave = g.endless ? ENDLESS_ROUNDS * g.totalWaves : g.totalWaves;
   for (let wave = 1; wave <= lastWave; wave++) {
@@ -558,11 +802,17 @@ function play(g, profile, seed = 0) {
         wavesAfterKing++;
         if (clean) cleanAfterKing++;
         if (!clean && g.status !== 'lost') tenseAfterKing++;
+        if (local >= LATE_FROM) {
+          lateWaves++;
+          if (!clean) lateHurt++;
+        }
         if (local < g.totalWaves && g.status !== 'lost')
           minBaseBeforeKing = Math.min(minBaseBeforeKing, waveMin);
       }
       waveLife.push(Math.round(life));
     }
+    if (profile === 'fils' && g.kings > atKing.length)
+      atKing.push([g.units.filter((u) => u.kind !== 'hero').length, Math.round(g.gold)]);
     if (g.status === 'fighting') {
       r.status = 'timeout';
       break;
@@ -584,7 +834,7 @@ function play(g, profile, seed = 0) {
   if (ENDLESS) Object.assign(r, { cleanWaves, cleanAfterKing, wavesAfterKing, maxGold });
   // The newer columns, only for the newer players and the lot C measures: the older lines
   // of results stay the same, field by field.
-  if (ENDLESS && (real || MAPPED || PURSE_CAP !== null || process.env.LOT_C === '1'))
+  if (ENDLESS && (real || MAPPED || PURSE_CAP !== null || LOT_C2 || process.env.LOT_C === '1'))
     Object.assign(r, {
       tenseAfterKing,
       maxAlive,
@@ -599,6 +849,8 @@ function play(g, profile, seed = 0) {
         .map(([k, n]) => `${k}:${n}`)
         .join(' '),
     });
+  if (profile === 'fils') r.atKing = atKing;
+  if (ENDLESS && (LOT_C2 || profile === 'fils')) Object.assign(r, { lateWaves, lateHurt });
   return r;
 }
 

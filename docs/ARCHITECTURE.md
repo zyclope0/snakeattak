@@ -662,6 +662,21 @@ Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFI
   écrit dans la partie. Sans le paquet (site sans réseau), le jeu joue comme avant, sans
   étagère. Style : `styles/20-boons.css`, importé en dernier. Les cartes disent ce que fait un
   cadeau sans « % » (`boonWords`, `boonCopy.ts`) et « ★★ → ★★★ » quand on le reprend.
+- **Règles sans fin version 2 (27 novembre 2026, formule F1 du lot C), ni fusionnées ni
+  publiées.** `ENDLESS_RULES[2]` (`endless.ts`) : la croissance de la version 1 à chaque roi,
+  et `roundStart` (6). `playedWave(règles, rois, vague)` dit la vague dont viennent les
+  serpents : dès le deuxième tour, la vague w du tour se joue comme min(11, 6 + ⌈w/2⌉) ; la
+  vague du roi reste la sienne. `Game.snakeWave` (pendant la vague) et `Game.difficultyWave`
+  (aussi au camp) la lisent ; le moteur s'en sert pour le nombre, la vie, la morsure, la
+  vitesse, la prime, les sortes, les œufs, la cadence et l'intelligence des voies
+  (`spawning.ts`, `movement.ts`, `game.ts`), la prévision du camp (`threatPreview.ts`) et
+  l'annonce d'un nouveau serpent (`newcomers.ts`). La carte (`level`), les cadeaux et le
+  numéro affiché suivent la vague du tour (`game.wave`). Pour la version 1 et tout autre
+  jeu, `playedWave` rend la vague elle-même : aucune autre partie ne change (empreintes).
+  Sauvegarde (camp version 15), records et table de cadeaux (`BOON_RULES[2]` = celle de la
+  version 1) acceptent la version 2. Une nouvelle partie reste en version 1
+  (`CURRENT_ENDLESS_VERSION`) tant que le parent n'a pas choisi les valeurs de la version 2.
+  Partie de référence « sans fin v2 » dans `tests/engine-traces.test.ts`.
 
 ## La Grande Expédition — 20 novembre 2026
 

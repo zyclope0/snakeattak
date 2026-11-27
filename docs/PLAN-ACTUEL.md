@@ -170,6 +170,12 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   « +40 »). Paquet à part ; paquet principal 199 174 octets (il reste ~500 octets dans
   l'aperçu publicitaire). Mots à relire par le parent. Ni poussé ni fusionné ; ni téléphone ni
   enfants.
+- **27 novembre — aventure sans fin, lot C (en cours)** ([bilan](BILAN-INFINI-LOT-C-2026-11-27.md)) :
+  la sauvegarde du fils lue (dragons, soigneurs, cinq cadeaux au niveau 3), un joueur simulé
+  « fils », F1 codée en règles version 2 (une nouvelle partie reste en v1), quatre pistes
+  mesurées dans le script : aucune combinaison n'atteint les trois objectifs, la meilleure
+  essayée est F1 + pièces et cristal qui suivent les rois. **Au parent de choisir.** Branche
+  `claude/infini-lot-c`, ni poussée ni fusionnée ; ni téléphone ni enfants.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
