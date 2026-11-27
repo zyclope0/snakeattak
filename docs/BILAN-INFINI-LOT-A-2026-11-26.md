@@ -17,6 +17,19 @@ commencés. Branche `claude/trusting-brahmagupta-t7fmuy`, ni poussée ni fusionn
   champ (les deux colonnes nouvelles s'ajoutent).
 - Aucune valeur d'équilibrage touchée, aucune révision nouvelle.
 
+### Correction du 27 novembre : la même partie sur chaque appareil
+
+La vérification rapide de la PR (Node 24) a trouvé une autre empreinte pour « sans fin v1 »
+que celle écrite ici (Node 22) : même fin de partie, mais des points de vie qui différaient
+au dernier chiffre (173,771624999… contre 173,771625). La cause existait avant ce lot : la
+force des vagues se calculait avec `**` (`(1 + 0,45) ** rois`), dont le dernier chiffre
+change d'un moteur JavaScript à l'autre, donc d'un téléphone à l'autre, dès le troisième roi.
+`src/endless.ts` la calcule maintenant par une multiplication répétée, qui donne le même
+nombre partout. La règle ne change pas (×1,45 par roi) ; l'empreinte « sans fin v1 » a été
+réécrite et elle est la même sous Node 22 et Node 24. Les autres empreintes ne bougent pas.
+La Grande Expédition calcule sa force de la même façon (`src/expeditionState.ts`) : pas
+touchée ici, à corriger dans un lot à part avec sa propre mesure.
+
 ## A-1 Mesure
 
 - **Partie de référence sans fin** (`tests/engine-traces.test.ts`) : graine 777, règles sans

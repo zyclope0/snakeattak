@@ -63,6 +63,18 @@ export function readEndlessRules(raw: unknown): EndlessRules | null {
   });
 }
 
+/**
+ * `1 + step` multiplied by itself once per king. Not `**`: its last digit differs from one
+ * JavaScript engine to the next (Node 22 and Node 24 already disagree from the third king),
+ * so the same seed played a different game on two phones. A product of doubles is the same
+ * number on every device.
+ */
+function grown(step: number, kings: number): number {
+  let factor = 1;
+  for (let king = 0; king < kings; king++) factor *= 1 + step;
+  return factor;
+}
+
 /** The numbers of a wave, made stronger for each king already beaten. */
 export function endlessStats<T extends { hp: number; damage: number; reward: number }>(
   stats: T,
@@ -72,9 +84,9 @@ export function endlessStats<T extends { hp: number; damage: number; reward: num
   if (!rules || kings <= 0) return stats;
   return {
     ...stats,
-    hp: stats.hp * (1 + rules.hpStep) ** kings,
-    damage: stats.damage * (1 + rules.biteStep) ** kings,
-    reward: Math.round(stats.reward * Math.max(COIN_FLOOR, (1 + rules.coinStep) ** kings)),
+    hp: stats.hp * grown(rules.hpStep, kings),
+    damage: stats.damage * grown(rules.biteStep, kings),
+    reward: Math.round(stats.reward * Math.max(COIN_FLOOR, grown(rules.coinStep, kings))),
   };
 }
 
