@@ -69,6 +69,14 @@ prennent pas de place.
   « Continuer » ou « Rentrer avec mon record » : on rentre à l'accueil, le record est écrit,
   la partie reste enregistrée et se reprend. À la chute : « Quelle aventure ! », la vague, les
   rois, « Nouveau record ! » s'il y a lieu. Recette : `npm run test:endless`.
+- **Les cadeaux se voient (lot B, 27 novembre)** : l'étagère des cinq places dans le dock, au
+  camp et pendant la vague ; un toucher ouvre « Tes cadeaux » (ce que fait chacun, sans « % »,
+  et ce que donnerait de le reprendre) ; les cadeaux tenus au-dessus des cartes ; « ★★ → ★★★ »
+  sur la carte d'un cadeau repris ; les cinq cartes de « remplacer » sur une rangée en
+  780×360 ; le récap (vague, rois, cadeaux) quand on rentre avec son record et quand le camp
+  tombe ; chaque cadeau à l'endroit où il agit (étincelles, anneau, lueur du refuge, prix
+  barré, « +4 s » sur les pots, « +40 » près des pièces). Rendu seulement, aucune règle
+  touchée ([bilan](BILAN-INFINI-LOT-B-2026-11-27.md)).
 
 ## Mesures
 

@@ -154,6 +154,14 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   parties identiques), cercle de la longue-vue, rente écrite, record avec ses rois, tour
   nommé, boutons à 48 px. Mots à lire par le parent. Ni poussé ni fusionné ; ni téléphone ni
   enfants.
+- **27 novembre — aventure sans fin, lot B** ([bilan](BILAN-INFINI-LOT-B-2026-11-27.md)),
+  demandé par le parent, sans changer de règle : l'étagère des cinq cadeaux dans le dock, au
+  camp et pendant la vague, sa feuille « Tes cadeaux », les cadeaux au-dessus des cartes,
+  « ★★ → ★★★ », les cinq cartes de « remplacer » en 780×360, le récap à la sortie et à la
+  chute, chaque cadeau là où il agit (étincelles, anneau, lueur du refuge, prix barré, « +4 s »,
+  « +40 »). Paquet à part ; paquet principal 199 174 octets (il reste ~500 octets dans
+  l'aperçu publicitaire). Mots à relire par le parent. Ni poussé ni fusionné ; ni téléphone ni
+  enfants.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
