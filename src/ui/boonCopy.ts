@@ -40,6 +40,23 @@ const LASTING: Record<
   },
 };
 const percent = (share: number) => Math.round(share * 100);
+/**
+ * What a lasting gift does, in a child's words (lot B, 27 November 2026): a gift counted in
+ * « % » says it plainly, its stars tell how much; coins, seconds and crystal keep their number.
+ */
+const PLAIN: Partial<Record<LastingBoon, string>> = {
+  forge: TEXT.tesAlliesFrappentPlusFort,
+  armure: TEXT.tesAlliesOntPlusDeVie,
+  marche: TEXT.lesAlliesCoutentMoinsCher,
+  vue: TEXT.tesTireursVoientPlusLoin,
+};
+export const boonWords = (id: LastingBoon, level: number, steps: Steps): string =>
+  PLAIN[id] ?? LASTING[id].detail(level, steps);
+/** One star a level. */
+export const stars = (level: number) => '★'.repeat(level);
+/** A gift's stars, then what it does: « ★★ Tes alliés frappent plus fort. ». */
+const starred = (id: LastingBoon, level: number, steps: Steps) =>
+  fill(TEXT.nNiveauEtoiles, stars(level), boonWords(id, level, steps));
 
 /** The name of a lasting gift, and what it gives at a level: for screens without a game. */
 export const boonTitle = (id: LastingBoon): string => LASTING[id].title;
@@ -57,29 +74,28 @@ export function giftCopy(game: Game, id: string): GiftCopy {
   if (game.endless && isLastingBoon(id)) {
     const owned = game.boonLevel(id);
     const next = Math.min(game.boonRules.maxLevel, owned + 1);
+    // One already taken shows its stars climbing: « ★★ → ★★★ ».
     return {
       title: LASTING[id].title,
-      detail: LASTING[id].detail(next, game.boonRules.steps),
-      action: owned ? fill(TEXT.monterAuNiveauN, next) : TEXT.choisirCeBonus,
+      detail: starred(id, next, game.boonRules.steps),
+      action: owned ? `${stars(owned)} → ${stars(next)}` : TEXT.choisirCeCadeau,
     };
   }
   const reward = REWARDS[id as RewardId];
-  return { title: reward.title, detail: reward.detail, action: TEXT.choisirCeBonus };
+  return {
+    title: reward.title,
+    detail: reward.detail,
+    action: game.endless ? TEXT.choisirCeCadeau : TEXT.choisirCeBonus,
+  };
 }
 
 /** A lasting gift the child holds, on the card that may give its place: stars, then what it gives. */
-export const boonNow = (game: Game, id: LastingBoon) => {
-  const level = game.boonLevel(id);
-  return fill(
-    TEXT.nNiveauEtoiles,
-    '★'.repeat(level),
-    LASTING[id].detail(level, game.boonRules.steps),
-  );
-};
+export const boonNow = (game: Game, id: LastingBoon) =>
+  starred(id, game.boonLevel(id), game.boonRules.steps);
 
 /** A lasting gift under the camp: its name and one star a level. */
 export const boonBadge = (id: LastingBoon, level: number) =>
-  fill(TEXT.nNiveauEtoiles, LASTING[id].title, '★'.repeat(level));
+  fill(TEXT.nNiveauEtoiles, LASTING[id].title, stars(level));
 
 /** The sign drawn on a lasting gift's card, in the colours of the coins and the crystal. */
 export const BOON_SIGNS: Record<LastingBoon, string> = {

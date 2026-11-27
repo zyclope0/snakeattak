@@ -5,7 +5,7 @@ import { LANES } from '../ai.ts';
 import type { Game } from '../game.ts';
 import { ARRIVAL_SECONDS } from './presentation.ts';
 import type { Arrival, Presentation } from './presentation.ts';
-import { stageTheme, STAGE_SIZES } from './stageLayout.ts';
+import { REFUGE_GROUND, stageTheme, STAGE_SIZES } from './stageLayout.ts';
 import { Figurines } from './figurines.ts';
 import * as TEXT from '../texts/fr/board.ts';
 import { fill } from '../texts/fill.ts';
@@ -215,7 +215,7 @@ export class Strongholds {
       strength = Math.max(p.fortDamage, p.fortRepair);
     this.effects.lineStyle(3, repair ? 0xc1e89e : 0xf2b578, strength * 0.85);
     const grow = reduced ? 0 : (1 - strength) * 30;
-    this.effects.strokeEllipse(1010, 345, 110 + grow, 44 + grow * 0.4);
+    this.effects.strokeEllipse(REFUGE_GROUND.x, REFUGE_GROUND.y, 110 + grow, 44 + grow * 0.4);
     if (!repair) return;
     this.details.lineStyle(3, 0xd4efad, strength);
     this.details.lineBetween(1020, 254, 1032, 254);

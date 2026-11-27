@@ -55,7 +55,12 @@ const HUD_PERIOD_MS = 180;
 /** Size the label of the honey is drawn at, in board units. */
 const FEAST_TEXT = 13;
 const FEAST_PLATE = '#324832';
+/** Signs drawn on the board by a package of its own: the gifts of the endless adventure. */
+export type BoardLayer = { draw(game: Game, p: Presentation, reduced: boolean): void };
+export type MakeLayer = (scene: Phaser.Scene) => BoardLayer;
 export class BattleScene extends Phaser.Scene {
+  private makeLayer?: MakeLayer;
+  private layer?: BoardLayer;
   private assets!: MissionAssets;
   private initialized = false;
   private presentation = new Presentation();
@@ -137,6 +142,7 @@ export class BattleScene extends Phaser.Scene {
     this.honeyInk = this.add.graphics().setDepth(DEPTH.honeyZone);
     this.feedback = new BattleFeedback(this);
     this.juice = new BattleJuice(this);
+    this.layer = this.makeLayer?.(this);
     this.feastLabel = addCanvasCopy(this.add, 420, 0, '', {
       fontFamily: BODY_FONT,
       fontSize: `${FEAST_TEXT}px`,
@@ -151,6 +157,11 @@ export class BattleScene extends Phaser.Scene {
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => this.pressBoard(pointer));
     this.onChange();
     if (this.session.screen === 'home') this.scene.sleep();
+  }
+  /** A layer that arrived after the game: drawn now, and again on every board made later. */
+  addLayer(make: MakeLayer) {
+    this.makeLayer = make;
+    if (this.initialized) this.layer = make(this);
   }
   /**
    * The developer's frame meter: suspended while the scene sleeps, removed with it. Players
@@ -289,6 +300,7 @@ export class BattleScene extends Phaser.Scene {
     drawDefenseMarkers(this.ink, game);
     this.drawFeast(game, reduced);
     this.actors.draw(game, this.presentation, this.ink, reduced);
+    this.layer?.draw(game, this.presentation, reduced);
     this.bossSignals.draw(game, reduced);
     this.flightSignals.draw(game);
     this.medicalSignals.draw(game);

@@ -614,6 +614,8 @@ async function endlessKingCamp() {
     });
     await refuse(page, false);
     await page.click('#endless-home');
+    // The recap of the adventure first (lot B, 27 November 2026); its button goes home.
+    await page.click('#boon-sheet .boon-sheet-actions .primary');
     await page.locator('#home-screen').waitFor();
     // Going home saves nothing; the next save tries the record again, as it tries the file.
     await page.locator('#home-primary').click();

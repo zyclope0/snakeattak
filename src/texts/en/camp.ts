@@ -114,3 +114,13 @@ export const kingSnakeEstVaincuChoisisTonCadeau = 'King Snake is beaten! Choose 
 export const nNiveauEtoiles = '{0} {1}';
 /** The start button after a king. */
 export const continuer = 'Keep going';
+// --- Lot B (27 November 2026), words for the parent to read: what a gift does, without « % »
+// (its stars tell its level), and one word, « gift », in the endless adventure.
+export const tesAlliesFrappentPlusFort = 'Your allies hit harder.';
+export const tesAlliesOntPlusDeVie = 'Your allies have more life.';
+export const lesAlliesCoutentMoinsCher = 'Allies cost less.';
+export const tesTireursVoientPlusLoin = 'Your shooters see further.';
+export const vagueNRepousseeChoisisTonCadeau = 'Wave {0} defeated! Choose your gift';
+export const choisirCeCadeau = 'Choose this gift';
+export const continuerSansCadeau = 'Go on without a gift';
+export const choisirUnCadeau = 'Choose a gift';

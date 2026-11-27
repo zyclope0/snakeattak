@@ -39,6 +39,7 @@ Quatorze documents vivants, puis les comptes rendus de lots. Tout le reste est d
 | [BILAN-BOSS-CACHE-LOT-2-2026-11-26.md](BILAN-BOSS-CACHE-LOT-2-2026-11-26.md)   | Boss caché, lot 2 : le combat et sa mesure                                                                            |
 | [BILAN-BOSS-CACHE-LOT-3-2026-11-26.md](BILAN-BOSS-CACHE-LOT-3-2026-11-26.md)   | Boss caché, lot 3 : Classic Snake jouable depuis l'antre de l'accueil                                                 |
 | [BILAN-INFINI-LOT-A-2026-11-26.md](BILAN-INFINI-LOT-A-2026-11-26.md)           | Aventure sans fin, lot A : mesure, vitesse, petits défauts, sans changer de règle                                     |
+| [BILAN-INFINI-LOT-B-2026-11-27.md](BILAN-INFINI-LOT-B-2026-11-27.md)           | Aventure sans fin, lot B : l'étagère des cadeaux, leurs signes sur le plateau, le récap, sans changer de règle        |
 | [BILAN-INFINI-SIMULATEUR-2026-11-27.md](BILAN-INFINI-SIMULATEUR-2026-11-27.md) | Aventure sans fin : joueurs simulés « parent » et « enfant », défauts trouvés, F1 et F1b mesurées                     |
 | [BILAN-0.39.0.md](BILAN-0.39.0.md)                                             | Version 0.39.0 / build 63, celle des testeurs : ce qui change depuis le build 62                                      |
 | [ANDROID-BUILD-63.md](ANDROID-BUILD-63.md)                                     | Passation Codex du build 63 : les gardes qui écartent ce qui est réservé au site                                      |
