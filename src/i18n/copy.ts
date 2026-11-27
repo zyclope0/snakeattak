@@ -83,7 +83,8 @@ function render(value: string, depth: number): string {
       if (pattern.joins && !match.slice(1).every(known)) continue;
       return format(pattern, match);
     }
-    const symbol = /^(🔒|✓|➜|○)\s+(.+)$/.exec(key);
+    // A mark before a text, or the stars of a gift's level (« ★★ Tes alliés… »): kept as is.
+    const symbol = /^(🔒|✓|➜|○|★+)\s+(.+)$/.exec(key);
     if (symbol) return symbol[1] + ' ' + inner(symbol[2], depth + 1);
     if (key.endsWith(' KO')) return inner(key.slice(0, -3), depth + 1) + ' KO';
     for (const pattern of patterns) {

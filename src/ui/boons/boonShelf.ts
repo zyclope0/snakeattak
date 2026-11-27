@@ -73,7 +73,7 @@ export function bindBoonShelf(session: Session, scene: BattleScene, refresh: () 
   let incomeTimer = 0;
   const motion = matchMedia('(prefers-reduced-motion:reduce)');
   const showIncome = (coins: number) => {
-    income.textContent = `+${coins}`;
+    setText(income, fill(TEXT.plusN, coins));
     income.classList.toggle('still', visualSettings.reduced(motion.matches));
     income.hidden = false;
     // Restarted, the rise plays again.
@@ -152,6 +152,6 @@ function showHoney(game: Game) {
       pot.append(more);
     }
     more.hidden = !seconds;
-    more.textContent = seconds ? `+${seconds} s` : '';
+    setText(more, seconds ? fill(TEXT.plusNS, seconds) : '');
   }
 }

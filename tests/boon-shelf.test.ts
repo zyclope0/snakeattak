@@ -11,6 +11,8 @@ import { boonNow, boonWords, giftCopy } from '../src/ui/boonCopy.ts';
 import { boonLayer } from '../src/render/boonLayer.ts';
 import * as DEPTH from '../src/render/boardLayers.ts';
 import * as CAMP from '../src/texts/fr/camp.ts';
+import { setLanguage } from '../src/i18n/language.ts';
+import { copy } from '../src/i18n/copy.ts';
 
 const RULES = BOON_RULES[1];
 /** A game seen from the screens: its gifts at these levels, and what stands on the board. */
@@ -120,4 +122,17 @@ test('« Effets légers » : l’étincelle reste où elle naît', () => {
   };
   assert.equal(reach(true, 0.05), reach(true, 0.3));
   assert.ok(reach(false, 0.3) > reach(false, 0.05));
+});
+
+test('en anglais, les étoiles restent et les mots du cadeau se traduisent', async () => {
+  await setLanguage('en');
+  try {
+    assert.equal(copy(boonNow(seen({ armure: 2 }), 'armure')), '★★ Your allies have more life.');
+    assert.equal(
+      copy(giftCopy(seen({ miel: 1 }), 'miel').detail),
+      '★★ +8 seconds for every honey pot',
+    );
+  } finally {
+    await setLanguage('fr');
+  }
 });

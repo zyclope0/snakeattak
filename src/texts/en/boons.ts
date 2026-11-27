@@ -14,6 +14,10 @@ export const toutEnHaut = 'All the way up!';
 /** « Le marché » with a real price: « Archer: 135 coins instead of 150 ». */
 export const nNPiecesAuLieuDeN = '{0}: {1} coins instead of {2}';
 export const fermer = 'Close';
+/** « La rente », by the coins when a wave is pushed back: « +40 ». */
+export const plusN = '+{0}';
+/** « La grande réserve de miel », on each pot of the dock: « +4 s ». */
+export const plusNS = '+{0} s';
 
 // --- The recap, when the child goes home with the record.
 export const tonAventure = 'Your adventure';

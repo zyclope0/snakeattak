@@ -15,6 +15,10 @@ export const toutEnHaut = 'Tout en haut !';
 /** « Le marché » with a real price: « Archer : 135 pièces au lieu de 150 ». */
 export const nNPiecesAuLieuDeN = '{0} : {1} pièces au lieu de {2}';
 export const fermer = 'Fermer';
+/** « La rente », by the coins when a wave is pushed back: « +40 ». */
+export const plusN = '+{0}';
+/** « La grande réserve de miel », on each pot of the dock: « +4 s ». */
+export const plusNS = '+{0} s';
 
 // --- Le récap, quand on rentre avec son record.
 export const tonAventure = 'Ton aventure';
