@@ -128,6 +128,26 @@ maquette de synthèse D « la clairière » en est sortie.
   PR 157 fusionnée, CI complète verte, publication n° 58 (commit `219341e` : dessins du fils,
   dossier Play, pommes, Classic Snake), contrôle en ligne vert.
 
+## Le 27 novembre : aventure sans fin
+
+- **Simulateur** : aucune mesure ne sert à décider une valeur tant que les joueurs simulés ne
+  retrouvent pas les vraies parties du parent (3 rois, vague 46) et du fils (10 rois, vague
+  128).
+- **« La rente »** garde son nom pour l'instant ; le parent demande à son fils.
+- **La Grande Expédition** : la force calculée pareil sur chaque appareil fera un lot à part.
+- **Publication** : le lot A part avec le lot C, quand la partie sera moins plate.
+- **Lot B** : « Rentrer avec mon record » ouvre d'abord le récap « Ton aventure » ; un toucher
+  de plus, gardé.
+- **Lot C** : F1 est codée sur la branche, sans fusion ni publication ; F1b est écartée (elle
+  fait aller un camp fort plus loin). Par-dessus F1, on mesure quatre pistes, seules puis
+  ensemble : pièces qui baissent avec les rois (12 par serpent et la rente), cristal qui sent
+  les rois, roi plus rapide, souffle des tanks. **On ne touche pas aux tanks sans l'accord du
+  parent : c'est une idée du fils.** Objectifs : pour un joueur comme le parent, au moins une
+  vague sur deux de 7 à 12 menace vraiment le cristal dès le 2e tour ; un camp fort comme celui
+  du fils tombe entre le 8e et le 12e roi, et le roi n'est plus le seul moment difficile ;
+  personne ne passe le premier roi plus difficilement qu'aujourd'hui. Un seul tableau, puis
+  une seule version 2 (F1 et la combinaison choisie), publiée avec le lot A.
+
 ## Ce qui reste à décider
 
 - « Favoris » : il reste en petit sur l'accueil pour l'instant (un relecteur propose de le
