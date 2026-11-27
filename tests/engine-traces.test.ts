@@ -132,6 +132,15 @@ function traces(): Record<string, string> {
     undefined,
     ENDLESS_STEPS,
   );
+  // Version 2 (formula F1, 27 November 2026): the same departure and the same player; from
+  // the second round the waves start from the seventh, the map keeps the wave of the round.
+  out['sans fin v2'] = play(
+    new Game(777, undefined, undefined, ENDLESS_RULES[2].balance, undefined, ENDLESS_RULES[2]),
+    5,
+    undefined,
+    undefined,
+    ENDLESS_STEPS,
+  );
   let n = 0;
   for (const mission of MISSIONS) {
     n++;

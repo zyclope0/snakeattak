@@ -10,8 +10,7 @@ import { TOTAL_WAVES } from './gameConstants.ts';
  * Versioned like a balance revision: once children have played a version, it never changes;
  * new values make a new version next to it.
  */
-export type EndlessRules = Readonly<{
-  version: 1;
+type EndlessSteps = {
   /** The balance revision of the great adventure that is played on. */
   balance: 7;
   /**
@@ -23,19 +22,56 @@ export type EndlessRules = Readonly<{
   biteStep: number;
   /** Each king beaten multiplies the coins of a wave by 1 + this share (may be negative). */
   coinStep: number;
-}>;
+};
+export type EndlessRules = Readonly<
+  EndlessSteps &
+    (
+      | { version: 1 }
+      | {
+          version: 2;
+          /**
+           * From the second round on, wave w of a round is played as wave
+           * min(TOTAL_WAVES - 1, roundStart + ⌈w / 2⌉): with 6, the waves 7, 7, 8, 8, 9, 9,
+           * 10, 10, 11, 11, 11, then King Snake. A round no longer starts again from the
+           * first wave (`playedWave`).
+           */
+          roundStart: number;
+        }
+    )
+>;
 
 /**
  * Version 1, chosen by the parent on 20 November 2026 (« la version ferme ») after 60 games
  * per automatic player (docs/MODE-INFINI.md): life ×1.45, bite ×1.2 and coins ×0.9 at each
  * king. The expert beats one or two kings; the player who buys big allies, four or five.
  */
+const VERSION_1 = Object.freeze({
+  version: 1,
+  balance: 7,
+  hpStep: 0.45,
+  biteStep: 0.2,
+  coinStep: -0.1,
+} as const);
+/**
+ * Version 2, formula F1 of the council report (lot C), coded on 27 November 2026 at the
+ * parent's request, neither merged nor published: the growth of version 1 at each king, and
+ * from the second round the waves of a round start from the seventh
+ * (docs/BILAN-INFINI-LOT-C-2026-11-27.md). No value of it is decided yet.
+ */
+const VERSION_2 = Object.freeze({ ...VERSION_1, version: 2, roundStart: 6 } as const);
 export const ENDLESS_RULES: Readonly<Record<EndlessRules['version'], EndlessRules>> = {
-  1: Object.freeze({ version: 1, balance: 7, hpStep: 0.45, biteStep: 0.2, coinStep: -0.1 }),
+  1: VERSION_1,
+  2: VERSION_2,
 };
 
-/** The rules a new endless adventure is played by. */
+/**
+ * The rules a new endless adventure is played by. Version 2 stays apart until the parent
+ * chooses its values: a game begun with it would keep them.
+ */
 export const CURRENT_ENDLESS_VERSION: EndlessRules['version'] = 1;
+/** True for a version of the endless adventure this game knows. */
+export const isEndlessVersion = (value: unknown): value is EndlessRules['version'] =>
+  typeof value === 'number' && Object.hasOwn(ENDLESS_RULES, value);
 
 /** Steps beyond these are typos, never values to measure. */
 const STEP_LIMIT = 10;
@@ -47,20 +83,34 @@ const COIN_FLOOR = 0.1;
 export function readEndlessRules(raw: unknown): EndlessRules | null {
   if (
     !isRecord(raw) ||
-    !isIntegerIn(raw.version, 1, 1) ||
-    raw.balance !== ENDLESS_RULES[1].balance ||
+    !isEndlessVersion(raw.version) ||
+    raw.balance !== ENDLESS_RULES[raw.version].balance ||
     !isNumberIn(raw.hpStep, 0, STEP_LIMIT) ||
     !isNumberIn(raw.biteStep, 0, STEP_LIMIT) ||
     !isNumberIn(raw.coinStep, COIN_STEP_MIN, STEP_LIMIT)
   )
     return null;
-  return Object.freeze({
-    version: 1,
-    balance: ENDLESS_RULES[1].balance,
+  const steps = {
+    balance: ENDLESS_RULES[raw.version].balance,
     hpStep: raw.hpStep,
     biteStep: raw.biteStep,
     coinStep: raw.coinStep,
-  });
+  };
+  if (raw.version === 1) return Object.freeze({ version: 1, ...steps });
+  // The seventh wave at most for the first wave of a round: never the king's.
+  if (!isIntegerIn(raw.roundStart, 0, TOTAL_WAVES - 2)) return null;
+  return Object.freeze({ version: 2, ...steps, roundStart: raw.roundStart });
+}
+
+/**
+ * The wave whose snakes come at wave `wave` of a round: the same, except in version 2 after
+ * the first king, where the waves of a round start from `roundStart` + 1 and climb by one
+ * every two waves, never to the king's. The king's wave stays the king's. Only the snakes
+ * follow it: the map, the gifts and the count of the waves keep the wave of the round.
+ */
+export function playedWave(rules: EndlessRules | null, kings: number, wave: number): number {
+  if (rules?.version !== 2 || kings <= 0 || wave < 1 || wave >= TOTAL_WAVES) return wave;
+  return Math.min(TOTAL_WAVES - 1, rules.roundStart + Math.ceil(wave / 2));
 }
 
 /**

@@ -39,7 +39,11 @@ test('les records gardent les cinq meilleures parties, la meilleure d’abord', 
 test('un record douteux n’est pas lu', () => {
   const bad = (best: unknown) => readRecords(JSON.stringify({ version: 1, best }));
   assert.deepEqual(bad([{ wave: 40, kings: 1, rules: 1, run: 1 }]), [], 'wave beyond its kings');
-  assert.deepEqual(bad([{ wave: 5, kings: 0, rules: 2, run: 1 }]), [], 'unknown rules');
+  assert.deepEqual(bad([{ wave: 5, kings: 0, rules: 3, run: 1 }]), [], 'unknown rules');
+  // The rules of version 2 are known: a game played by them keeps its line.
+  assert.deepEqual(bad([{ wave: 5, kings: 0, rules: 2, run: 1 }]), [
+    { wave: 5, kings: 0, rules: 2, run: 1 },
+  ]);
   assert.deepEqual(bad([game(5, 0, 7), game(9, 0, 7)]), [], 'one line a game');
   assert.deepEqual(bad(Array(6).fill(game(5))), [], 'more than five');
   assert.deepEqual(readRecords('{'), []);

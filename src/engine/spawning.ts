@@ -61,7 +61,7 @@ export function spawnNext(game: Game, dt: number) {
   const plan = game.mission
     ? missionWave(game.mission, game.wave, game.tuning.tacticalRulesEnabled)
     : null;
-  const stats = game.strengthen(plan?.stats ?? waveStats(game.wave));
+  const stats = game.strengthen(plan?.stats ?? waveStats(game.snakeWave));
   const withCourt = kingBringsCourt(game);
   const boss = isKingSlot(game, withCourt);
   const index = Math.max(0, stats.count - game.remaining);
@@ -84,7 +84,7 @@ export function spawnNext(game: Game, dt: number) {
   } else game.remaining--;
   game.spawnTimer = plan
     ? plan.cadence[index % plan.cadence.length] * game.caprice.cadence
-    : spawnDelay(game.wave, index);
+    : spawnDelay(game.snakeWave, index);
 }
 function kingBringsCourt(game: Game): boolean {
   // The king of a voyage of version 2 comes with his court too, at the end of its last stage.
@@ -115,7 +115,7 @@ function slotVariant(
 ): EnemyKind {
   if (boss) return 'normal';
   if (plan) return plan.composition[index];
-  const base = variantFor(game.wave, game.remaining, game.balanceRevision);
+  const base = variantFor(game.snakeWave, game.remaining, game.balanceRevision);
   return game.tuning.tacticalRulesEnabled
     ? flyingVariant(base, game.difficultyWave, game.remaining)
     : base;
@@ -173,10 +173,11 @@ export function layWaveEggs(game: Game, plan: MissionWave | null): Egg[] {
       y: LANES[egg.lane],
       duration: egg.hatchIn,
     }));
-  return Array.from({ length: waveEggCount(game.wave) }, (_, i) => {
+  const wave = game.snakeWave;
+  return Array.from({ length: waveEggCount(wave) }, (_, i) => {
     const pickedLane = Math.floor(nextRandom(game) * LANE_COUNT),
-      lane = wavePattern(game.wave) === 'brood' ? i % LANE_COUNT : pickedLane,
-      duration = eggIncubation(game.wave, i, nextRandom(game));
+      lane = wavePattern(wave) === 'brood' ? i % LANE_COUNT : pickedLane,
+      duration = eggIncubation(wave, i, nextRandom(game));
     return {
       id: ++game.nextId,
       x: 252 + i * 48,
