@@ -110,6 +110,84 @@ Lecture :
 Meilleure ligne : **F1 + (b)**. (a) ajoutée à (b) n'aide pas le fils et enlève encore des
 pièces au parent et au « hasard ». 40 parties par ligne : ± 10 à 15 points sur un pourcentage.
 
+## Départ plus doux après chaque roi (27 et 28 novembre)
+
+Question du parent : « est-ce qu'après chaque roi on repart avec que quelques serpents ? »
+Aujourd'hui oui (5 serpents, plus forts) ; F1 repart comme une vague 7 (13 serpents). Mesure
+d'un départ entre les deux, avec le réglage `roundStart` que le jeu lit déjà (script :
+`ENDLESS_ROUND_START`, version 2 seulement). La vague w d'un tour après le premier roi se joue
+comme min(11, r + ⌈w/2⌉) :
+
+- r3 : de la vague 4 (9 serpents) à la vague 9 (16) avant le roi ;
+- r4 : de la vague 5 (10 serpents) à la vague 10 (17) ;
+- r5 : de la vague 6 (12 serpents) à la vague 11 (18) ;
+- F1 (r6) : de la vague 7 (13 serpents) à la vague 11 (18).
+
+40 parties par ligne, mêmes graines ; « +b » = avec le cristal qui sent les rois.
+
+| Règles | Joueur | parties | ≥ 1 roi | rois méd. (moy.) | 8 à 12 rois | vague méd. de chute | sans dégât après le 1er roi | vagues 7–12 touchées (tours ≥ 2) | chutes au roi | ≥ 1 roi vs v1 |
+| ------ | ------ | ------: | ------: | ---------------: | ----------: | ------------------: | --------------------------: | -------------------------------: | ------------: | ------------: |
+| v1     | parent |      40 |    78 % |          4 (3,3) |         0 % |                  57 |                        89 % |                             20 % |          58 % |             — |
+| F1     | parent |      40 |    78 % |          2 (2,3) |         0 % |                  31 |                        75 % |                             24 % |          33 % |        ±0 pts |
+| F1+b   | parent |      40 |    78 % |          1 (2,1) |         0 % |                  24 |                        76 % |                             23 % |          35 % |        ±0 pts |
+| r3     | parent |      40 |    78 % |          5 (3,9) |         0 % |                  72 |                        90 % |                             15 % |          70 % |        ±0 pts |
+| r4     | parent |      40 |    78 % |          5 (3,5) |         0 % |                  64 |                        89 % |                             13 % |          43 % |        ±0 pts |
+| r5     | parent |      40 |    78 % |          3 (2,4) |         0 % |                  45 |                        73 % |                             30 % |          48 % |        ±0 pts |
+| r3+b   | parent |      40 |    78 % |          5 (3,8) |         0 % |                  68 |                        92 % |                             12 % |          55 % |        ±0 pts |
+| r4+b   | parent |      40 |    78 % |          5 (3,5) |         0 % |                  63 |                        90 % |                             13 % |          45 % |        ±0 pts |
+| r5+b   | parent |      40 |    78 % |          2 (2,4) |         0 % |                  36 |                        78 % |                             24 % |          45 % |        ±0 pts |
+| v1     | fils   |      40 |   100 % |          9 (8,6) |        95 % |                 119 |                        98 % |                              4 % |          82 % |             — |
+| F1     | fils   |      40 |   100 % |          8 (8,0) |        83 % |                 108 |                        98 % |                              4 % |          88 % |        ±0 pts |
+| F1+b   | fils   |      40 |   100 % |          8 (8,0) |        83 % |                 108 |                        99 % |                              2 % |          60 % |        ±0 pts |
+| r3     | fils   |      40 |   100 % |          9 (8,4) |        85 % |                 120 |                        98 % |                              4 % |          92 % |        ±0 pts |
+| r4     | fils   |      40 |   100 % |          9 (8,5) |        93 % |                 119 |                        97 % |                              5 % |          92 % |        ±0 pts |
+| r5     | fils   |      40 |   100 % |          8 (8,3) |        88 % |                 108 |                        96 % |                              5 % |          68 % |        ±0 pts |
+| r3+b   | fils   |      40 |   100 % |          9 (8,5) |        88 % |                 116 |                        99 % |                              2 % |          66 % |        ±0 pts |
+| r4+b   | fils   |      40 |   100 % |          9 (8,5) |        93 % |                 111 |                        99 % |                              2 % |          46 % |        ±0 pts |
+| r5+b   | fils   |      40 |   100 % |          8 (8,2) |        88 % |                 108 |                        99 % |                              2 % |          58 % |        ±0 pts |
+| v1     | enfant |      40 |    95 % |         10 (9,1) |        93 % |                 130 |                        99 % |                              3 % |          63 % |             — |
+| F1     | enfant |      40 |    95 % |         10 (9,0) |        93 % |                 127 |                        98 % |                              3 % |          28 % |        ±0 pts |
+| F1+b   | enfant |      40 |    95 % |         10 (9,0) |        93 % |                 124 |                        98 % |                              1 % |          23 % |        ±0 pts |
+| r3     | enfant |      40 |    95 % |         10 (9,4) |        95 % |                 132 |                        98 % |                              3 % |          68 % |        ±0 pts |
+| r4     | enfant |      40 |    95 % |         10 (9,0) |        93 % |                 131 |                        98 % |                              3 % |          74 % |        ±0 pts |
+| r5     | enfant |      40 |    95 % |         10 (8,9) |        93 % |                 128 |                        98 % |                              3 % |          53 % |        ±0 pts |
+| r3+b   | enfant |      40 |    95 % |         10 (9,4) |        95 % |                 132 |                        98 % |                              2 % |          65 % |        ±0 pts |
+| r4+b   | enfant |      40 |    95 % |         10 (9,0) |        93 % |                 129 |                        99 % |                              2 % |          51 % |        ±0 pts |
+| r5+b   | enfant |      40 |    95 % |         10 (8,9) |        93 % |                 126 |                        99 % |                              2 % |          35 % |        ±0 pts |
+| v1     | expert |      40 |    90 % |          3 (2,9) |         0 % |                  48 |                        93 % |                             14 % |          65 % |             — |
+| F1     | expert |      40 |    90 % |          2 (1,9) |         0 % |                  34 |                        86 % |                             19 % |          48 % |        ±0 pts |
+| F1+b   | expert |      40 |    90 % |          2 (1,9) |         0 % |                  33 |                        88 % |                             17 % |          38 % |        ±0 pts |
+| r3     | expert |      40 |    90 % |          4 (3,4) |         0 % |                  57 |                        93 % |                             12 % |          58 % |        ±0 pts |
+| r4     | expert |      40 |    90 % |          4 (3,0) |         0 % |                  53 |                        91 % |                             12 % |          43 % |        ±0 pts |
+| r5     | expert |      40 |    90 % |          3 (2,4) |         0 % |                  39 |                        90 % |                             15 % |          43 % |        ±0 pts |
+| r3+b   | expert |      40 |    90 % |          4 (3,3) |         0 % |                  55 |                        95 % |                              9 % |          53 % |        ±0 pts |
+| r4+b   | expert |      40 |    90 % |          4 (3,0) |         0 % |                  52 |                        93 % |                             10 % |          38 % |        ±0 pts |
+| r5+b   | expert |      40 |    90 % |          3 (2,4) |         0 % |                  38 |                        92 % |                             12 % |          40 % |        ±0 pts |
+| v1     | hasard |      40 |    68 % |          1 (1,6) |         0 % |                  23 |                        81 % |                             38 % |          28 % |             — |
+| F1     | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  16 |                        68 % |                             28 % |          20 % |        ±0 pts |
+| F1+b   | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  15 |                        69 % |                             26 % |          23 % |        ±0 pts |
+| r3     | hasard |      40 |    68 % |          1 (1,9) |         0 % |                  23 |                        82 % |                             28 % |          45 % |        ±0 pts |
+| r4     | hasard |      40 |    68 % |          1 (1,4) |         0 % |                  20 |                        74 % |                             32 % |          33 % |        ±0 pts |
+| r5     | hasard |      40 |    68 % |          1 (1,2) |         0 % |                  16 |                        69 % |                             28 % |          23 % |        ±0 pts |
+| r3+b   | hasard |      40 |    68 % |          1 (1,8) |         0 % |                  22 |                        82 % |                             30 % |          30 % |        ±0 pts |
+| r4+b   | hasard |      40 |    68 % |          1 (1,3) |         0 % |                  19 |                        75 % |                             31 % |          30 % |        ±0 pts |
+| r5+b   | hasard |      40 |    68 % |          1 (1,1) |         0 % |                  16 |                        70 % |                             27 % |          23 % |        ±0 pts |
+
+Lecture :
+
+- **r3** rend le jeu plus facile qu'aujourd'hui pour les joueurs moyens (parent 3,9 rois au
+  lieu de 3,3). **r5** est presque aussi dur que F1 (parent 2,4).
+- **r4 garde la force d'aujourd'hui** (parent 3,5, expert 3,0, enfant 9,0, fils 8,5) **sans
+  repartir à 5 serpents**.
+- **r4 + b** est la meilleure ligne mesurée : même force qu'aujourd'hui pour tous ; les chutes
+  du fils au roi passent de 82 % à 46 % ; il tombe toujours entre le 8e et le 12e roi (93 %).
+- **Objectif 1 toujours pas atteint** : avec r4, les vagues 7 à 12 du parent ne sont touchées
+  que 13 % du temps, moins qu'aujourd'hui (20 %), puisqu'elles se jouent comme des vagues 8 à
+  10 au lieu de 7 à 11 de plus en plus fortes.
+
+Aucune valeur n'est choisie : une nouvelle partie reste en version 1 tant que le parent n'a
+pas choisi.
+
 ## 1. La sauvegarde du fils
 
 Lue avec le lecteur du jeu (`readFamilyBackup`, `decodeCheckpoint`), sans rien exécuter qui
