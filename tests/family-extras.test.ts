@@ -261,3 +261,32 @@ test('la clé vivante ne garde jamais un fichier version 6', async () => {
   assert.ok(persistence.load());
   assert.equal(device.values.get(KEYS.FAMILY_REFUSED_KEY), six);
 });
+
+test('le fichier familial transporte aussi les pommes et records visibles en cas de refus', async () => {
+  const { createAppleBook } = await import('../src/appleBook.ts');
+  const { createRecordBook } = await import('../src/endlessRecords.ts');
+  const storage = memory({ [KEYS.APPLES_STORAGE_KEY]: writeApples(['1:3']) });
+  storage.room = 0;
+  const apples = createAppleBook(storage);
+  const records = createRecordBook(storage);
+  const record = { wave: 12, kings: 1, rules: 2 as const, run: 7 };
+  apples.add('1:6');
+  records.add(record);
+  const extras = collectExtras(storage, { apples: apples.read(), records: records.read() });
+  assert.deepEqual(extras, {
+    apples: writeApples(['1:3', '1:6']),
+    endless: writeRecords([record]),
+  });
+  const raw = writeFamilyBackup(
+    null,
+    createCareer().state,
+    createMissionProgress(),
+    createCapriceAlbums(),
+    extras,
+  );
+  assert.ok(raw);
+  const file = readFamilyBackup(raw);
+  assert.ok(file && 'extras' in file);
+  assert.deepEqual(file.extras, extras);
+  assert.deepEqual(collectExtras(storage), { apples: writeApples(['1:3']) });
+});

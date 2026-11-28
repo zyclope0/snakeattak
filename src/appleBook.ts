@@ -73,8 +73,9 @@ export function createAppleBook(storage?: StoragePort) {
   /** The apples the device refused: written again at the next try. */
   let waiting: string[] = [];
   const write = (found: ApplesFound) => {
+    if (!storage) return false;
     try {
-      storage?.setItem(APPLES_STORAGE_KEY, writeApples(found));
+      storage.setItem(APPLES_STORAGE_KEY, writeApples(found));
       return true;
     } catch {
       return false;

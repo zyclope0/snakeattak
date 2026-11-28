@@ -1,4 +1,4 @@
-import { bindHomeNavigation, type HomePage } from './homeNavigation.ts';
+import type { HomePage } from './homeNavigation.ts';
 import {
   setText as setDisplayText,
   setTitle as setDisplayTitle,
@@ -29,14 +29,14 @@ type Actions = {
   started: () => void;
   view: (home: boolean) => void;
   refresh: () => void;
-  progressStatus?: () => string;
-  navigate?: (page: HomePage) => void;
+  progressStatus: () => string;
+  navigate: (page: HomePage) => void;
   /** Whether the stored classic camp, waiting under a mission, is an endless adventure. */
-  campIsEndless?: () => boolean;
+  campIsEndless: () => boolean;
   /** The best endless adventures of the active player, best first. */
-  records?: () => EndlessRecords;
+  records: () => EndlessRecords;
   /** Before going home: a battle aside gives the board back to the game it covered. */
-  leave?: () => void;
+  leave: () => void;
 };
 const CHAPTERS = [0, 1, 2] as const;
 
@@ -104,10 +104,10 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
       state.bestStars.reduce((a, b) => a + b, 0),
     ),
   );
-  setDisplayText(byId('career-status'), actions.progressStatus?.() ?? career.status);
+  setDisplayText(byId('career-status'), actions.progressStatus());
   byId<HTMLButtonElement>('home-continue').hidden =
     !actions.hasCamp() || (!g.mission && g.status === 'won');
-  setDisplayText(byId('home-continue'), continueLabel(g, !!actions.campIsEndless?.()));
+  setDisplayText(byId('home-continue'), continueLabel(g, actions.campIsEndless()));
   byId<HTMLButtonElement>('home-army').disabled = g.status === 'fighting';
   setDisplayTitle(
     byId('home-army'),
@@ -117,7 +117,7 @@ function refreshMenu(session: Session, career: Career, actions: Actions) {
   );
   setDisplayText(byId('home-active-team'), fill(TEXT.favorisN, ROSTER_NAMES[state.activeRoster]));
   refreshChapters(state);
-  refreshEndless(state.bestStars, actions.records?.() ?? []);
+  refreshEndless(state.bestStars, actions.records());
 }
 
 /**
@@ -142,7 +142,7 @@ function refreshEndless(bestStars: readonly number[], records: EndlessRecords) {
 
 /** The home screen and the classic adventure: where a game starts, resumes or is replaced. */
 export function bindMenu(session: Session, career: Career, actions: Actions) {
-  const navigate = actions.navigate ?? bindHomeNavigation().show;
+  const navigate = actions.navigate;
   const enter = () => {
     session.screen = 'battle';
     actions.started();
@@ -151,7 +151,7 @@ export function bindMenu(session: Session, career: Career, actions: Actions) {
     requestAnimationFrame(() => byId('start').focus({ preventScroll: true }));
   };
   const showHome = () => {
-    actions.leave?.();
+    actions.leave();
     session.selectUnit(null);
     session.screen = 'home';
     if (!session.game.mission) career.sync(session.game);

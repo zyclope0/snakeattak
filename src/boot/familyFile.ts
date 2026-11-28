@@ -45,7 +45,7 @@ export function bindFamilyFile(
       career.state,
       missions.state,
       albums.state,
-      collectExtras(storage),
+      collectExtras(storage, { records: records.read(), apples: apples.read() }),
     );
   }
   /** True when every part of a family file reads back by its own rules. */
