@@ -628,6 +628,9 @@ function play(g, profile, seed = 0) {
       let grown = 1;
       for (let k = 0; k < g.kings; k++) grown *= 1 + g.endless.biteStep;
       g.base = Math.max(0, g.base - (crystal - g.base) * (grown - 1));
+      // The engine checked for defeat before this extra damage: a crystal it empties falls
+      // now, before the player can repair it.
+      if (g.base <= 0) g.status = 'lost';
     }
     r.deaths += Math.max(0, count - g.units.length);
     earned += Math.max(0, g.gold - purse);
