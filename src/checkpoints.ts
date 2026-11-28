@@ -204,7 +204,9 @@ function isSaveHeader(data: unknown): data is Save {
     isIntegerIn(data.version, 1, LATEST_VERSION) &&
     isIntegerIn(data.wave, 0, TOTAL_WAVES - 1) &&
     isIntegerIn(data.gold, 0, GOLD_LIMIT) &&
-    isNumberIn(data.base, 1, CRYSTAL_MAX) &&
+    // A crystal still standing: the endless adventure of version 2 can leave it below 1.
+    isNumberIn(data.base, 0, CRYSTAL_MAX) &&
+    data.base > 0 &&
     isUint32(data.rng) &&
     isIntegerIn(data.nextId, 0, ENTITY_ID_LIMIT) &&
     isIntegerIn(data.kills, 0, 1000000) &&

@@ -23,7 +23,9 @@ export const expectedTraces: Readonly<Record<string, string>> = Object.freeze({
   // Node 22 and Node 24 (and so between phones). Three kings beaten, the game falls at the
   // fourth; the same fingerprint on both versions of Node.
   'sans fin v1': 'lost w12 rois3 b0 g120 k810 s60458 77182d93b01f41fd9d10af34',
-  'sans fin v2': 'lost w12 rois1 b0 g47 k454 s36893 71943683b6e7e6132c8de22f',
+  // Version 2 (28 November 2026, « OK r4 b »): rounds start from the fifth wave, the crystal
+  // feels the kings. The same fingerprint on Node 22 and Node 24.
+  'sans fin v2': 'lost w11 rois3 b0 g23 k871 s68491 369aa34ffdd4dcd1ea8a3d3e',
   'mission refuge': 'won w3 b100 g323 k25 s1838 ba997879695c6fcf0aa1a91d',
   'défi refuge-moyen r2': 'won w3 b100 g401 k44 s2568 bc0c8fb2412a1402f1b8aae1',
   'défi refuge-createur-moyen r1': 'won w3 b100 g313 k25 s3276 27780a3d968e5a7921f42b10',

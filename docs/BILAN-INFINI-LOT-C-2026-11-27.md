@@ -185,8 +185,12 @@ Lecture :
   que 13 % du temps, moins qu'aujourd'hui (20 %), puisqu'elles se jouent comme des vagues 8 à
   10 au lieu de 7 à 11 de plus en plus fortes.
 
-Aucune valeur n'est choisie : une nouvelle partie reste en version 1 tant que le parent n'a
-pas choisi.
+**Décision du parent, 28 novembre : « OK r4 b ».** La version 2 du jeu est r4 + le cristal qui
+sent les rois (`src/endless.ts` : `roundStart: 4`, `crystalBite: true` ; `crystalDamage` dans
+`src/engine/enemyTurn.ts`), et toute nouvelle partie la joue. Contrôle : le simulateur sans
+piste (`ENDLESS_FORMULA=v2`) rejoue à l'identique, champ par champ, les 120 parties mesurées
+pour « r4 + b » (expert 40, hasard 40, parent 40). La piste `crystal` du script disparaît :
+elle est dans le jeu.
 
 ## 1. La sauvegarde du fils
 

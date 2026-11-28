@@ -6,7 +6,8 @@ import { TOTAL_WAVES } from './gameConstants.ts';
  * The endless adventure (idea of the parent, 20 November 2026): the twelve waves of the great
  * adventure, King Snake at the twelfth, then the same twelve waves again, round after round,
  * with the same camp. Nothing comes back to life. After each king, a bonus to choose; the
- * snakes of the next round are stronger, never more numerous (choice of the parent).
+ * snakes of the next round are stronger (choice of the parent). Version 2 also starts each
+ * later round from a later wave of the great adventure, never beyond its waves.
  *
  * Versioned like a balance revision: once children have played a version, it never changes;
  * new values make a new version next to it.
@@ -37,6 +38,11 @@ export type EndlessRules = Readonly<
            * first wave (`playedWave`).
            */
           roundStart: number;
+          /**
+           * True: a snake that enters the crystal hurts it as much more as the bite grew
+           * with the kings (`crystalDamage`), as the snakes' bite grows against the allies.
+           */
+          crystalBite: boolean;
         }
     )
 >;
@@ -54,22 +60,29 @@ const VERSION_1 = Object.freeze({
   coinStep: -0.1,
 } as const);
 /**
- * Version 2, formula F1 of the council report (lot C), coded on 27 November 2026 at the
- * parent's request, neither merged nor published: the growth of version 1 at each king, and
- * from the second round the waves of a round start from the seventh
- * (docs/BILAN-INFINI-LOT-C-2026-11-27.md). No value of it is decided yet.
+ * Version 2, chosen by the parent on 28 November 2026 (« OK r4 b ») after the measures of
+ * lot C (docs/BILAN-INFINI-LOT-C-2026-11-27.md, « Départ plus doux après chaque roi »): the
+ * growth of version 1 at each king; from the second round, a round starts from the fifth
+ * wave (10 snakes instead of 5) and climbs to the tenth before the king; the crystal feels
+ * the kings as the allies do. As strong as version 1 for every measured player; the strong
+ * camp falls at the king half as often.
  */
-const VERSION_2 = Object.freeze({ ...VERSION_1, version: 2, roundStart: 6 } as const);
+const VERSION_2 = Object.freeze({
+  ...VERSION_1,
+  version: 2,
+  roundStart: 4,
+  crystalBite: true,
+} as const);
 export const ENDLESS_RULES: Readonly<Record<EndlessRules['version'], EndlessRules>> = {
   1: VERSION_1,
   2: VERSION_2,
 };
 
 /**
- * The rules a new endless adventure is played by. Version 2 stays apart until the parent
- * chooses its values: a game begun with it would keep them.
+ * The rules a new endless adventure is played by (version 2 from 28 November 2026). A game
+ * begun with version 1 keeps version 1.
  */
-export const CURRENT_ENDLESS_VERSION: EndlessRules['version'] = 1;
+export const CURRENT_ENDLESS_VERSION: EndlessRules['version'] = 2;
 /** True for a version of the endless adventure this game knows. */
 export const isEndlessVersion = (value: unknown): value is EndlessRules['version'] =>
   typeof value === 'number' && Object.hasOwn(ENDLESS_RULES, value);
@@ -99,8 +112,14 @@ export function readEndlessRules(raw: unknown): EndlessRules | null {
   };
   if (raw.version === 1) return Object.freeze({ version: 1, ...steps });
   // The seventh wave at most for the first wave of a round: never the king's.
-  if (!isIntegerIn(raw.roundStart, 0, TOTAL_WAVES - 2)) return null;
-  return Object.freeze({ version: 2, ...steps, roundStart: raw.roundStart });
+  if (!isIntegerIn(raw.roundStart, 0, TOTAL_WAVES - 2) || typeof raw.crystalBite !== 'boolean')
+    return null;
+  return Object.freeze({
+    version: 2,
+    ...steps,
+    roundStart: raw.roundStart,
+    crystalBite: raw.crystalBite,
+  });
 }
 
 /**
@@ -112,6 +131,15 @@ export function readEndlessRules(raw: unknown): EndlessRules | null {
 export function playedWave(rules: EndlessRules | null, kings: number, wave: number): number {
   if (rules?.version !== 2 || kings <= 0 || wave < 1 || wave >= TOTAL_WAVES) return wave;
   return Math.min(TOTAL_WAVES - 1, rules.roundStart + Math.ceil(wave / 2));
+}
+
+/**
+ * What a snake that enters the crystal takes from it: `damage`, made stronger for each king
+ * beaten as the bite is, in a version whose crystal feels the kings.
+ */
+export function crystalDamage(rules: EndlessRules | null, kings: number, damage: number): number {
+  if (rules?.version !== 2 || !rules.crystalBite || kings <= 0) return damage;
+  return damage * grown(rules.biteStep, kings);
 }
 
 /** The numbers of a wave, made stronger for each king already beaten. */

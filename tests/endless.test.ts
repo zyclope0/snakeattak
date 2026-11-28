@@ -6,14 +6,17 @@ import { decodeCheckpoint, encodeCheckpoint } from '../src/checkpoints.ts';
 import { waveStats } from '../src/data.ts';
 import { enemies } from '../src/enemies.ts';
 import {
+  CURRENT_ENDLESS_VERSION,
   ENDLESS_RULES,
   atKingCamp,
+  crystalDamage,
   endlessReached,
   endlessStats,
   endlessWave,
   playedWave,
   readEndlessRules,
 } from '../src/endless.ts';
+import type { EndlessRules } from '../src/endless.ts';
 import { TOTAL_WAVES } from '../src/gameConstants.ts';
 import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
@@ -307,16 +310,17 @@ test('la forge frappe plus fort, la longue-vue porte plus loin', () => {
   assert.ok(strong > weak, `forge ${strong} > ${weak}`);
 });
 
-// ——— Version 2 (formula F1 of the council report, lot C, 27 November 2026) ———
-const RULES_2 = ENDLESS_RULES[2];
+// ——— Version 2 (r4 + the crystal that feels the kings, chosen on 28 November 2026) ———
+type Rules2 = Extract<EndlessRules, { version: 2 }>;
+const RULES_2 = ENDLESS_RULES[2] as Rules2;
 const endless2 = (seed = 7) =>
   new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION, undefined, RULES_2);
 
-test('version 2 : dès le 2e tour, la vague w se joue comme la vague min(11, 6 + ⌈w/2⌉)', () => {
+test('version 2 : dès le 2e tour, la vague w se joue comme la vague min(11, 4 + ⌈w/2⌉)', () => {
   const round = (kings: number) =>
     Array.from({ length: TOTAL_WAVES }, (_, i) => playedWave(RULES_2, kings, i + 1));
   assert.deepEqual(round(0), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'the first round');
-  assert.deepEqual(round(1), [7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 11, 12]);
+  assert.deepEqual(round(1), [5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 12]);
   assert.deepEqual(round(5), round(1), 'every later round');
   // Version 1 and every other game: the wave itself, round after round.
   assert.deepEqual(
@@ -325,14 +329,17 @@ test('version 2 : dès le 2e tour, la vague w se joue comme la vague min(11, 6 +
   );
   assert.equal(playedWave(null, 3, 2), 2);
   assert.equal(playedWave(RULES_2, 1, 0), 0, 'no wave yet in the camp');
-  // Never more than the eleventh wave's snakes before the king: 18.
+  // Ten snakes at the start of a round instead of five, never more than the tenth wave's
+  // before the king: 17.
+  assert.equal(waveStats(round(1)[0]).count, 10);
+  assert.equal(waveStats(round(0)[0]).count, 5);
   assert.equal(
     Math.max(
       ...round(1)
         .slice(0, -1)
         .map((w) => waveStats(w).count),
     ),
-    18,
+    17,
   );
   // The same growth at each king as version 1.
   assert.equal(RULES_2.hpStep, RULES.hpStep);
@@ -345,6 +352,12 @@ test('version 2 : des règles relues telles quelles, ou refusées', () => {
   assert.deepEqual(readEndlessRules(RULES), RULES);
   assert.equal(Object.hasOwn(readEndlessRules(RULES)!, 'roundStart'), false);
   assert.equal(readEndlessRules({ ...RULES, version: 2 }), null, 'version 2 names its start');
+  assert.equal(readEndlessRules({ ...RULES_2, crystalBite: undefined }), null);
+  assert.equal(readEndlessRules({ ...RULES_2, crystalBite: 1 }), null);
+  assert.equal(
+    (readEndlessRules({ ...RULES_2, crystalBite: false }) as Rules2 | null)?.crystalBite,
+    false,
+  );
   assert.equal(readEndlessRules({ ...RULES_2, roundStart: TOTAL_WAVES - 1 }), null);
   assert.equal(readEndlessRules({ ...RULES_2, roundStart: 1.5 }), null);
   assert.equal(readEndlessRules({ ...RULES_2, version: 3 }), null);
@@ -362,22 +375,22 @@ test('version 2 : les serpents suivent la vague jouée, la carte et les cadeaux 
   clearWave(game, TOTAL_WAVES);
   assert.equal(game.kings, 1);
   assert.ok(game.chooseReward(game.boonOffer[0]));
-  // Round two, wave 1: the snakes of the seventh wave, one king stronger; the map of wave 1.
-  assert.equal(game.difficultyWave, 7, 'the camp foretells the seventh wave');
+  // Round two, wave 1: the snakes of the fifth wave, one king stronger; the map of wave 1.
+  assert.equal(game.difficultyWave, 5, 'the camp foretells the fifth wave');
   const map = game.level;
   assert.ok(game.startWave());
   assert.equal(game.wave, 1);
-  assert.equal(game.snakeWave, 7);
-  assert.equal(game.remaining, waveStats(7).count);
+  assert.equal(game.snakeWave, 5);
+  assert.equal(game.remaining, waveStats(5).count);
   assert.equal(game.level, map, 'the map of the first wave of a round');
   for (let i = 0; i < 90 && !game.enemies.length; i++) game.step(1 / 30);
   const snake = game.enemies[0];
   assert.ok(snake, 'a snake entered');
   assert.ok(
     Math.abs(
-      snake.maxHp / enemies[snake.variant].hp / (waveStats(7).hp * (1 + RULES_2.hpStep)) - 1,
+      snake.maxHp / enemies[snake.variant].hp / (waveStats(5).hp * (1 + RULES_2.hpStep)) - 1,
     ) < 1e-9,
-    'the life of the seventh wave, one king stronger',
+    'the life of the fifth wave, one king stronger',
   );
   // The gifts still come after the fourth and the eighth wave of the round.
   clearWave(game, 4);
@@ -412,13 +425,53 @@ test('version 2 : la prévision du camp montre les serpents de la vague jouée',
   clearWave(game, TOTAL_WAVES);
   game.skipReward();
   const plainGame = new Game(7, undefined, undefined, CURRENT_BALANCE_REVISION);
-  const seventh = waveThreats(plainGame, 7);
+  const fifth = waveThreats(plainGame, 5);
   const shown = waveThreats(game, 1);
   assert.equal(shown.local, 1, 'the wave of the round');
-  assert.deepEqual(shown.entries, seventh.entries);
-  assert.equal(shown.eggs, seventh.eggs);
+  assert.deepEqual(shown.entries, fifth.entries);
+  assert.equal(shown.eggs, fifth.eggs);
   // Version 1 shows the first wave again.
   const first = endless();
   clearWave(first, TOTAL_WAVES);
   assert.deepEqual(waveThreats(first, 1).entries, waveThreats(plainGame, 1).entries);
+});
+
+test('version 2 : le cristal sent les rois comme les alliés, la version 1 non', () => {
+  assert.equal(CURRENT_ENDLESS_VERSION, 2, 'a new endless adventure plays version 2');
+  assert.equal(RULES_2.crystalBite, true);
+  assert.equal(crystalDamage(RULES_2, 0, 9), 9, 'the first round is the great adventure');
+  assert.equal(crystalDamage(RULES_2, 1, 9), 9 * (1 + RULES_2.biteStep));
+  // Multiplied once per king (`grown`), never `**`.
+  assert.equal(crystalDamage(RULES_2, 3, 9), 9 * (1.2 * 1.2 * 1.2));
+  assert.equal(crystalDamage(RULES, 3, 9), 9, 'version 1 keeps its 9');
+  assert.equal(crystalDamage(null, 3, 9), 9);
+  assert.equal(crystalDamage({ ...RULES_2, crystalBite: false }, 3, 9), 9);
+  // In a game: one snake in the crystal after two kings takes 9 × 1.2 × 1.2.
+  for (const [rules, lost] of [
+    [RULES_2, 9 * 1.2 * 1.2],
+    [RULES, 9],
+  ] as const) {
+    const game = new Game(7, undefined, undefined, CURRENT_BALANCE_REVISION, undefined, rules);
+    game.kings = 2;
+    game.rewards.ward = 0;
+    assert.ok(game.startWave());
+    for (let i = 0; i < 30 * 120 && game.base === 100 && game.status === 'fighting'; i++) {
+      game.units = [];
+      game.step(1 / 30);
+    }
+    assert.ok(
+      Math.abs(100 - game.base - lost) < 1e-9,
+      `version ${rules.version}: ${100 - game.base}`,
+    );
+  }
+});
+
+test('version 2 : un cristal sous 1, encore debout, se relit', () => {
+  const game = endless2();
+  clearWave(game, TOTAL_WAVES);
+  game.skipReward();
+  game.base = 0.4;
+  const back = decodeCheckpoint(encodeCheckpoint(game)!);
+  assert.ok(back, 'a standing crystal is kept');
+  assert.equal(back.base, 0.4);
 });

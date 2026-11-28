@@ -148,6 +148,17 @@ maquette de synthèse D « la clairière » en est sortie.
   personne ne passe le premier roi plus difficilement qu'aujourd'hui. Un seul tableau, puis
   une seule version 2 (F1 et la combinaison choisie), publiée avec le lot A.
 
+## Le 28 novembre : version 2 de l'aventure sans fin
+
+- **« OK r4 b »** : la version 2 est r4 + le cristal qui sent les rois
+  ([bilan](BILAN-INFINI-LOT-C-2026-11-27.md), « Départ plus doux après chaque roi »). Dès le
+  2e tour, un tour repart de la 5e vague (10 serpents au lieu de 5) et monte jusqu'à la 10e
+  avant le roi ; un serpent qui entre dans le cristal le blesse d'autant plus que sa morsure a
+  grandi avec les rois (×1,2 par roi). Une nouvelle partie se joue en version 2 ; une partie
+  commencée en version 1 garde la version 1.
+- Son objectif « vagues 7 à 12 menacées une fois sur deux » n'est pas atteint par cette
+  version : il faudra une autre idée, mesurée avant d'être codée.
+
 ## Ce qui reste à décider
 
 - « Favoris » : il reste en petit sur l'accueil pour l'instant (un relecteur propose de le

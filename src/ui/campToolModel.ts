@@ -87,7 +87,7 @@ function repairStatus(game: Game): string {
   if (game.base >= CRYSTAL_MAX) return TEXT.tonCristalEstIntact;
   if (!canSpend(game, REPAIR_COST))
     return fill(TEXT.ilManqueNPiecesPourReparer, REPAIR_COST - availableGold(game));
-  return fill(TEXT.cristalN100ReparationPossible, game.base);
+  return fill(TEXT.cristalN100ReparationPossible, Math.ceil(game.base));
 }
 
 function encourageHelp(game: Game) {

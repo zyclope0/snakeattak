@@ -177,8 +177,12 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   refaite le soir : aucune ligne n'atteint les trois objectifs. Mesure d'un départ plus doux
   après chaque roi (r3, r4, r5) : la meilleure ligne est **r4 + cristal qui sent les rois**
   (même force qu'aujourd'hui, repart à 10 serpents au lieu de 5, chutes du fils au roi 82 % →
-  46 %). **Au parent de dire « OK r4 + b »** pour l'allumer. Fusionné (PR 159) et **site
-  publié** (n° 59) avec l'aventure sans fin inchangée (v1) ; ni téléphone ni enfants.
+  46 %). Fusionné (PR 159) et site publié (n° 59) avec l'aventure sans fin inchangée (v1).
+- **28 novembre — aventure sans fin version 2 allumée** (« OK r4 b » du parent) : r4 + cristal
+  qui sent les rois, pour toute nouvelle partie ; une partie de version 1 reste en version 1.
+  La version codée rejoue à l'identique les 120 parties mesurées (expert, hasard, parent).
+  Affichage du cristal arrondi (les dégâts ne sont plus entiers), et une sauvegarde accepte
+  un cristal debout sous 1. Ni téléphone ni enfants.
 - **28 novembre — Grande Expédition, même force sur chaque appareil** : la force des
   serpents d'une bataille à l'autre se calculait avec `**`, dont le dernier chiffre change d'un
   moteur JavaScript à l'autre (comme l'aventure sans fin avant le 26 novembre). Elle se

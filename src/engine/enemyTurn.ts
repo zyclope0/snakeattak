@@ -11,6 +11,7 @@ import {
   biteDamage,
 } from '../enemyAbilities.ts';
 import { LANES } from '../ai.ts';
+import { crystalDamage } from '../endless.ts';
 import { notCloserThan } from '../navigation.ts';
 import { waveStats } from '../data.ts';
 import type { Kind } from '../data.ts';
@@ -153,9 +154,10 @@ function bite(game: Game, e: Entity, target: Entity, dt: number, stats: WaveNumb
 }
 /** A snake inside the crystal hurts it and leaves the fight without a reward. */
 function enterCrystal(game: Game, e: Entity) {
-  const absorbed = e.boss ? 0 : Math.min(CRYSTAL_DAMAGE, game.rewards.ward);
+  const bite = crystalDamage(game.endless, game.kings, CRYSTAL_DAMAGE);
+  const absorbed = e.boss ? 0 : Math.min(bite, game.rewards.ward);
   game.rewards.ward -= absorbed;
-  game.base = Math.max(0, game.base - (e.boss ? KING_CRYSTAL_DAMAGE : CRYSTAL_DAMAGE - absorbed));
+  game.base = Math.max(0, game.base - (e.boss ? KING_CRYSTAL_DAMAGE : bite - absorbed));
   if (game.mission) game.missionMinBase = Math.min(game.missionMinBase, game.base);
   else {
     const chapter = chapterIndex(game.wave);
@@ -167,6 +169,6 @@ function enterCrystal(game: Game, e: Entity) {
   cancelBossShot(e.bossState);
   game.message =
     absorbed > 0
-      ? fill(TEXT.laProtectionDuCristalAAbsorbeN, absorbed)
+      ? fill(TEXT.laProtectionDuCristalAAbsorbeN, Math.ceil(absorbed))
       : TEXT.unSerpentAAtteintLeCamp;
 }
