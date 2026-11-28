@@ -63,7 +63,7 @@ try {
   }
   const checks = {};
   if (!before) {
-    const reference = JSON.parse(await readFile('reports/stage-023-before.json', 'utf8'));
+    const reference = JSON.parse(await readFile('tests/fixtures/stage-023-before.json', 'utf8'));
     assert.deepEqual(results, reference.results, 'Le rendu ne change aucun état de combat');
     checks.combatStateMatchesBefore = true;
     const titles = await page.locator('#level-name').textContent();
@@ -238,7 +238,7 @@ try {
   assert.deepEqual(errors, []);
   // The reference measure is kept in Git; an ordinary run leaves its result outside it.
   await writeFile(
-    before ? 'reports/stage-023-before.json' : 'artifacts/stage-023/after.json',
+    before ? 'tests/fixtures/stage-023-before.json' : 'artifacts/stage-023/after.json',
     JSON.stringify({ results, checks, errors, physicalDevice: false }, null, 2) + '\n',
   );
   console.log(JSON.stringify({ phase: before ? 'before' : 'after', results, checks, errors }));

@@ -1,6 +1,0 @@
-
-> conquete-serpents@0.35.0 test:missions:regressions
-> node scripts/missions-browser.mjs --regressions
-
-  ➜  Local:   http://127.0.0.1:4192/
-Régressions: import rafraîchi et camp retrouvé après défaite OK.

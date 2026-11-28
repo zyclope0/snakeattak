@@ -25,3 +25,7 @@ child-mobile-035-fixture.html
 .caprices-036-fixture.html
 .apples-fixture.html
 .hidden-boss-fixture.html
+
+# Anciens rapports : plus suivis depuis le 28 novembre 2026 (docs/ARCHIVES.md). Les sept
+# encore suivis le restent ; un nouveau rapport va dans artifacts/.
+/reports/

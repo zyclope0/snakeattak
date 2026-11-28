@@ -119,11 +119,13 @@ jobs:
             sauf: voyage
           # Les recettes des premières versions qui passent encore : hors de la CI, quatorze
           # autres avaient pourri sans que personne le voie. L'expédition les rejoint : ce
-          # groupe était le plus court.
+          # groupe était le plus court. Le parcours des missions (test:missions) aussi : il
+          # avait pourri à son tour, hors de la CI, au changement de l'accueil (réparé le
+          # 28 novembre 2026).
           - groupe: règles et rendu
             site: true
             recettes: >-
-              test:rewards test:journey test:missions:regressions test:medical-persistence
+              test:rewards test:journey test:missions test:missions:regressions test:medical-persistence
               test:stage test:render-settings test:tactical test:expedition
           # Ce qu'un enfant garde, sur le paquet de l'application : la mise à jour par-dessus
           # l'appareil figé d'un testeur du build 63, le fichier familial, la fermeture

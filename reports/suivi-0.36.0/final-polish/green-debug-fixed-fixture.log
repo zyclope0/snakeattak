@@ -1,5 +1,0 @@
-
-> conquete-serpents@0.36.0 test:caprices
-> node scripts/caprices-036-browser.mjs
-
-{"checks":256,"captures":38,"errors":[]}
