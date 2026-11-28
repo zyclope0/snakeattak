@@ -57,7 +57,7 @@ const GROUPS = [
   '- groupe: règles et rendu',
   'site: true',
   'recettes: >-',
-  'test:rewards test:journey test:missions:regressions test:medical-persistence',
+  'test:rewards test:journey test:missions test:missions:regressions test:medical-persistence',
   'test:stage test:render-settings test:tactical test:expedition',
   '- groupe: sauvegardes',
   'site: true',
@@ -396,7 +396,7 @@ test('for a push, the scope of the CI answers « everything », whatever was cha
 // every commit. It is made here too, on purpose, after reading `docs/SITE.md`, « Publier ».
 const FINGERPRINTS = {
   'deploy-site.yml': 'f355fe13b1aabfe21f9437fc0d0d347582dd5df1a9cc97e3d984327a3288f181',
-  'check.yml': '0b506ee37f75ee6dda081fe7ba9c459f64c872d07cba6310a85f2a0be5feca62',
+  'check.yml': '6c38bd65e04d97314a3680085b3359988140464fc672d3b5c110dd7f803309ad',
 };
 
 test('the workflow that publishes and the one that judges are the ones that were read', () => {

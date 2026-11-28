@@ -42,16 +42,20 @@ try {
     'Six vraies missions doivent être proposées',
   );
   assert.equal(await page.locator('[data-mission-card]:disabled').count(), 5);
+  await showHomePage(page, 'missions');
   await page.screenshot({ path: 'artifacts/missions-021-desktop.png', fullPage: true });
   await revealControl(page, '[data-mission-card="refuge"]');
   await page.locator('[data-mission-card="refuge"]').click();
   const first = JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run'));
   const map = await page.locator('#mission-map').innerHTML();
+  await revealControl(page, '#mission-reroll');
   await page.locator('#mission-reroll').click();
   const second = JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run'));
   assert.notDeepEqual(config(first), config(second), 'Reroll doit changer la configuration');
+  await revealControl(page, '#mission-budget');
   assert.ok(await page.locator('#mission-budget').innerText());
   await page.screenshot({ path: 'artifacts/mission-preview-021-desktop.png' });
+  await revealControl(page, '#mission-launch');
   await page.locator('#mission-launch').click();
   assert.equal(await page.locator('#gold').innerText(), '450');
   assert.equal(await page.locator('#army-count').innerText(), '3');
@@ -76,11 +80,13 @@ try {
   await revealControl(page, '[data-mission-card="refuge"]');
   await page.locator('[data-mission-card="refuge"]').click();
   await revealControl(page, '#mission-retry');
+  await revealControl(page, '#mission-retry');
   await page.locator('#mission-retry').click();
   assert.deepEqual(
     JSON.parse(await page.locator('#mission-dialog').getAttribute('data-run')),
     second,
   );
+  await revealControl(page, '#mission-launch');
   await page.locator('#mission-launch').click();
   assert.equal(await page.locator('#gold').innerText(), '450', 'Retry revient au budget initial');
   assert.equal(
@@ -159,11 +165,13 @@ try {
   );
   await page.locator('#mission-next').click();
   assert.equal(await page.locator('#mission-title').innerText(), 'Les trois ponts');
+  await revealControl(page, '#mission-launch');
   await page.locator('#mission-launch').click();
   assert.equal(await page.locator('#gold').innerText(), '550');
   assert.equal(await page.locator('#army-count').innerText(), '3');
   await page.screenshot({ path: 'artifacts/mission-battle-021-desktop.png' });
   await page.locator('#menu-home').click();
+  await showHomePage(page, 'missions');
   for (const viewport of [
     { width: 390, height: 844 },
     { width: 320, height: 740 },
@@ -183,6 +191,7 @@ try {
     );
     await page.screenshot({ path: `artifacts/mission-preview-021-${viewport.width}.png` });
     for (const id of ['mission-launch', 'mission-reroll', 'mission-close']) {
+      await revealControl(page, '#' + id);
       const b = await page.locator('#' + id).boundingBox();
       assert.ok(b.height >= 44);
     }
