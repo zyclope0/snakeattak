@@ -1,29 +1,22 @@
-# La Conquête des Serpents
+# La Conquête des Serpents · Snake Attack TD
 
 Jeu de défense familial imaginé à partir du jeu d'un enfant. Prépare un détachement
 pour protéger le cristal sur **trois voies interconnectées**, puis observe les
 alliés combattre et se soigner de façon autonome.
 
-**Version préparée : 0.38.0 / Android62 · Français/anglais · Code propriétaire.**
+**Version du projet 0.41.0 · Candidat Android build 65 · Français et anglais.**
 
 [Jouer sur le site](https://snakeattacktd.com/)
 · [Plan actuel](docs/PLAN-ACTUEL.md)
 · [Guide Android](docs/ANDROID.md)
-
-Dernière livraison : **Confidentialité** dans « Pour les parents », lisible hors ligne
-FR/EN. Site et politique publics sur [snakeattacktd.com](https://snakeattacktd.com/).
-Les anciens modes, codes de départ et sauvegardes sont conservés ; un voyage commencé se
-finit toujours, mais un ancien code `VOYAGE-…` ne se relit plus (21 novembre 2026).
-Version affichée **0.38.0**, Android **build62**, même package et clé d’envoi Play.
-Source du build 62 : `4d9724d98f27e9df69289c3954163609e3c27898` (le build 61 venait de
-`b6919be4164813df84977b670a07f95cbf397173`).
-[Bilan et vérifications](docs/BILAN-0.38.0.md) · [Licences audio](docs/AUDIO-LICENCES.md).
-Le son est activé au départ et se règle dans « Réglages ». Reçus et captures dans `artifacts/`, hors Git.
+· [Bilan 0.41.0](docs/BILAN-0.41.0.md)
 
 ## Le jeu
 
 - Six missions avec nouveau détachement, budget propre et 18 configurations possibles.
+- Les caprices imaginés par le fils, avec leurs carnets, et la Grande Expédition à embranchements.
 - Une aventure classique de douze vagues jusqu'au roi à trois têtes et sa garde.
+- Une aventure sans fin, où les cadeaux et les rois se succèdent.
 - Massues, archers, ninjas, soigneurs, dinosaures et bébés dragons parmi les alliés.
 - Serpents spécialisés, œufs qui éclosent et choix de chemins selon les défenses.
 - Soins limités par les bandages, ravitaillement à la base et miel tactique.
@@ -72,23 +65,24 @@ navigateur démarre sa prévisualisation locale. Des vérifications supplémenta
 existent pour le rendu, le tutoriel, l'interface mobile, les sauvegardes et l'équilibrage :
 voir les scripts de [package.json](package.json).
 
-Le workflow [.github/workflows/check.yml](.github/workflows/check.yml) reprend les
-principaux contrôles. La présence du workflow ne prouve pas qu'un run distant est vert.
+Les recettes navigateur de la [CI](.github/workflows/check.yml) sont à jouer localement
+avant fusion selon la portée du changement. Le [plan actuel](docs/PLAN-ACTUEL.md)
+donne le dernier commit vérifié.
 
 ## Android
 
-L'enveloppe Capacitor embarque le build web. Prérequis de compilation : JDK 21 et
-SDK Android 36 configurés. Le jeu est prévu en paysage.
+Capacitor embarque le jeu local compilé dans `dist-android/`. Prérequis de compilation
+natifs : JDK 21 et SDK Android 36. Le jeu se joue en paysage.
 
 ```sh
 npm run android:sync
 npm run android:open
 ```
 
-Le script `npm run android:apk:debug` produit un APK **de diagnostic**, avec compteur
-local de performances. Le protocole et les différences avec l'APK familial sont
-détaillés dans [docs/ANDROID.md](docs/ANDROID.md). Les essais sur appareil restent
-à distinguer des tests de navigateur et des mesures du cloud.
+`npm run android:apk:debug` construit « Serpents (test) », installable à côté de
+l'application Play avec ses propres sauvegardes. `npm run android:package` produit
+l'AAB signé avec la clé d'envoi d'origine et son APK dérivé pour la recette native.
+Voir le [guide de construction](docs/ANDROID.md) et la [recette du build 65](docs/ANDROID-BUILD-65.md).
 
 ## Sauvegardes
 
@@ -97,15 +91,15 @@ reprend depuis ce camp. Les données restent liées à l'appareil et, sur le web
 à l'origine du site et au profil du navigateur.
 
 Le menu **Sauvegarde familiale** permet d'exporter/importer volontairement un
-fichier entre appareils. Ce transfert n'est pas une synchronisation cloud.
-Les anciens formats restent pris en charge.
+fichier du joueur actif entre appareils. Les anciens fichiers et codes de départ
+de mission restent lisibles. Un voyage commencé reste jouable depuis sa sauvegarde.
+Les anciens codes de Voyage `VOYAGE-…` ont été retirés le 21 novembre.
 
 ## Préparation Google Play
 
-Modèle décidé par le parent (17 et 18 novembre 2026) : jeu gratuit. **Aucune
-publicité ni achat dans l'application.** Sur le site seulement : un encart
-publicitaire non personnalisé, que l'on peut couper (prêt, pas encore allumé), et un lien de soutien PayPal
-pour les parents.
+L'application est **gratuite, sans publicité ni achats intégrés**. Les pages
+publiques, le lien de soutien et l'encart publicitaire préparé appartiennent au
+site. L'encart est éteint.
 
 Le [dossier de publication](docs/publication/README.md) contient les captures,
 les textes en brouillon et les vérifications restantes :
@@ -115,10 +109,9 @@ npm run store:check -- --draft
 npm run store:dossier
 ```
 
-Le contrôle strict `npm run store:check` reste bloquant tant que comptes,
-SDK, transactions de test, prix et validations de publication ne sont pas prêts.
-Les fiches du store ont des brouillons en quatre langues ; le jeu lui-même se joue en
-français et en anglais. [Bilan de préparation](docs/archive/BILAN-PREPARATION-STORE-2026-11.md).
+Le contrôle strict vérifie aussi les pièces et déclarations de publication
+encore en attente. Les fiches sont en brouillon en FR, EN, DE et IT. Le jeu se
+joue en français et en anglais.
 
 ## Architecture et règles de contribution
 

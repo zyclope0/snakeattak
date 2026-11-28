@@ -80,7 +80,7 @@ export const newRecords = new WeakSet<object>();
 
 /** The active player's records; a blocked storage reads nothing and writes nothing. */
 export function createRecordBook(storage?: StoragePort) {
-  const read = (): EndlessRecords => {
+  const stored = (): EndlessRecords => {
     try {
       return readRecords(storage?.getItem(ENDLESS_RECORDS_KEY) ?? null);
     } catch {
@@ -90,19 +90,19 @@ export function createRecordBook(storage?: StoragePort) {
   /** True while a record could not be written: the device refused it. */
   let unkept = false;
   /** The games whose record the device refused: written again at the next try. */
-  let waiting: EndlessRecord[] = [];
+  let waiting: EndlessRecords = [];
   /** Writes these records over the ones kept; false when the device refuses. */
   const write = (records: EndlessRecords) => {
+    if (!storage) return false;
     try {
-      storage?.setItem(ENDLESS_RECORDS_KEY, writeRecords(records));
+      storage.setItem(ENDLESS_RECORDS_KEY, writeRecords(records));
       return true;
     } catch {
       return false;
     }
   };
   /** The records kept, with those still waiting to be written. */
-  const withWaiting = () =>
-    waiting.reduce((records, game) => addRecord(records, game).records, read());
+  const read = () => waiting.reduce((records, game) => addRecord(records, game).records, stored());
   return {
     read,
     get unkept() {
@@ -110,19 +110,19 @@ export function createRecordBook(storage?: StoragePort) {
     },
     /** Writes how far a game went; returns whether it is now the player's record. */
     add(game: EndlessRecord): boolean {
-      const before = withWaiting();
+      const before = read();
       const { records, best } = addRecord(before, game);
       if (records === before && !waiting.length) return false;
       // The game is played all the same; a record refused is kept here, tried again, and
       // the family is told until it is written.
       if (write(records)) [waiting, unkept] = [[], false];
-      else [waiting, unkept] = [[...waiting, game], true];
+      else if (records !== before) [waiting, unkept] = [addRecord(waiting, game).records, true];
       return best;
     },
     /** Tries again the records the device refused; true once nothing waits. */
     retry(): boolean {
       if (!waiting.length) return true;
-      if (write(withWaiting())) [waiting, unkept] = [[], false];
+      if (write(read())) [waiting, unkept] = [[], false];
       return !unkept;
     },
     /**

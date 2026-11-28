@@ -1,5 +1,5 @@
-import { readApples, writeApples } from './appleBook.ts';
-import { readRecords, writeRecords } from './endlessRecords.ts';
+import { readApples, writeApples, type ApplesFound } from './appleBook.ts';
+import { readRecords, writeRecords, type EndlessRecords } from './endlessRecords.ts';
 import { EXPEDITION_LOG_LIMIT } from './expeditionLog.ts';
 import { loadExpeditionLog, validateExpeditionLog } from './expeditionStorage.ts';
 import { FAMILY_EXTRAS, hasExtras, sameAdventure } from './familyBackup.ts';
@@ -76,11 +76,19 @@ function collectOne(name: Name, storage?: ReadPort): string | null {
     return null;
   }
 }
-/** What the device holds for this player, ready for a family file: only what reads back. */
-export function collectExtras(storage?: ReadPort): FamilyExtras {
+/** What the active player holds, including recent book entries still waiting to be stored. */
+export function collectExtras(
+  storage?: ReadPort,
+  books?: { apples: ApplesFound; records: EndlessRecords },
+): FamilyExtras {
   const extras: Partial<Record<Name, string>> = {};
   for (const name of FAMILY_EXTRAS) {
-    const text = collectOne(name, storage);
+    const text =
+      books && name === 'endless'
+        ? books.records.length && writeRecords(books.records)
+        : books && name === 'apples'
+          ? books.apples.length && writeApples(books.apples)
+          : collectOne(name, storage);
     if (text) extras[name] = text;
   }
   return Object.freeze(extras);

@@ -1,20 +1,19 @@
-# Android — version 0.41.0 / build 65 (en préparation ; build 64 sur le téléphone)
+# Android — candidat 0.41.0 / build 65
 
-Le code de la **0.40.0 / build 64** est prêt depuis `main` (22 novembre 2026) ; la commande de
-packaging ci-dessous produit le candidat signé, son APK issu du bundle et son rapport.
-Le résultat d'une construction et ses empreintes sont dans `release-report.json`,
-pas déduits du seul numéro de version. Le dernier release nativement qualifié dans
-l'historique reste le build 62 ; la recette du build 63 n'a pas été remplie, et le build 64
-doit passer la sienne.
+Le dépôt prépare **0.41.0 / build 65**. L'état des vérifications et de la piste Alpha
+figure dans le [plan actuel](PLAN-ACTUEL.md). Le build 64 était sur le S24 le
+22 novembre, d'après le parent. Le build 65 de publication reste à qualifier avec la
+[recette native](ANDROID-BUILD-65.md). Les notes FR/EN et le contenu sont dans
+le [bilan 0.41.0](BILAN-0.41.0.md).
 
-Même package **com.conqueteserpents.famille**, même clé d'envoi, paysage, SDK24/36,
-R8 actif, aucune permission INTERNET ou SDK commercial. Le contenu depuis le build 63 et
-les notes FR/EN sont dans [BILAN-0.40.0.md](BILAN-0.40.0.md) ; le build 63 :
-[BILAN-0.39.0.md](BILAN-0.39.0.md).
+Package Play **com.conqueteserpents.famille**, clé d'envoi d'origine, paysage,
+SDK minimum 24, cible 36 et R8 actif. La distribution Android est locale et exclut
+les pages publiques, le soutien et la publicité du site. Le manifeste assemblé
+doit rester sans permission `INTERNET`.
 
-### Livraison reproductible
+## Livraison reproductible
 
-Depuis un commit propre, avec Node24, JDK21 et le SDK Android36 :
+Depuis un commit propre avec Node 24, JDK 21 et le SDK Android 36 :
 
 ```sh
 npm ci
@@ -23,10 +22,10 @@ npm run android:package
 
 Renseigner en privé `JAVA_HOME`, `ANDROID_HOME`, `SERPENTS_UPLOAD_KEYSTORE`,
 `SERPENTS_UPLOAD_KEY_ALIAS`, `SERPENTS_UPLOAD_STORE_PASSWORD` et, si différent,
-`SERPENTS_UPLOAD_KEY_PASSWORD`. Ne jamais les mettre dans Git, un ZIP, une discussion
-ou un fichier suivi. Le certificat doit correspondre à la clé d'envoi d'origine ;
-la commande refuse une autre clé. Les mots de passe ne passent pas en arguments. JDK les lit via l’environnement ;
-bundletool les lit dans des fichiers temporaires privés supprimés en fin de commande.
+`SERPENTS_UPLOAD_KEY_PASSWORD`. Garder le keystore et ses mots de passe hors de Git
+et des fichiers de livraison. La commande vérifie le certificat d'origine. Le JDK
+lit les mots de passe via l'environnement. Bundletool utilise des fichiers
+temporaires privés supprimés en fin de commande.
 
 La commande vérifie le jeu et son navigateur, reconstruit Android, synchronise et
 compare les fichiers, lance la recette hors ligne sur **dist-android**, construit
@@ -38,20 +37,24 @@ La configuration Capacitor extraite est comparée elle aussi. Le dossier de livr
 est réservé de façon exclusive et n’est jamais écrasé. Les commandes Java/Node
 sont invoquées sans shell pour préserver les chemins Windows contenant des espaces.
 
-Sortie : `artifacts/android/conquete-serpents-v0.40.0-build64/`, avec AAB, APK,
-mapping, `SHA256SUMS.txt`, manifeste Android et `release-report.json`. Le rapport
-signale explicitement la qualification native encore attendue. Dossier alternatif :
-`SERPENTS_RELEASE_DIR` ; compilation Gradle hors réseau si les dépendances sont déjà
-en cache : `SERPENTS_GRADLE_OFFLINE=1`.
+La sortie attendue est `artifacts/android/conquete-serpents-v0.41.0-build65/`
+avec l'AAB `*-play.aab`, l'APK `*-release.apk`, le mapping R8, `SHA256SUMS.txt`,
+le manifeste et `release-report.json`. Le rapport distingue les contrôles de
+construction de la qualification native à effectuer. `SERPENTS_RELEASE_DIR` permet
+de choisir un dossier dédié. Si les dépendances sont en cache,
+`SERPENTS_GRADLE_OFFLINE=1` permet de compiler Gradle hors réseau.
 
-**Avant Google Play :** installer et lancer cet APK release sur un émulateur accéléré
-ou un appareil de test, suivre [ANDROID-BUILD-64.md](ANDROID-BUILD-64.md), notamment
-la reprise 63→64. Ne pas désinstaller la version familiale pour contourner une
-signature incompatible : Google signe la version Play avec sa propre clé.
-Aucun envoi Play ou déploiement du site n'est fait par cette commande.
+Avant envoi, exécuter la [recette du build 65](ANDROID-BUILD-65.md) sur un appareil
+de test ou un émulateur accéléré. L'AAB signé est le fichier à importer dans Play
+Console. L'APK de publication dérivé sert à la recette locale. « Serpents (test) »,
+produit par `npm run android:apk:debug`, cohabite avec l'installation Play et
+dispose de ses propres sauvegardes.
 
-Les sections suivantes décrivent le release62 et l'historique ; leurs succès natifs
-ne constituent pas un essai du 63 ni du 64.
+Comparer les signatures avant un test de mise à jour. Google utilise la clé de
+signature Play App Signing pour les installations issues du Store. Si l'APK local
+est incompatible, conserver l'installation familiale et tester la mise à jour
+via Play ou sur un appareil de test avec deux versions signées de façon identique.
+La commande de construction s'arrête à la génération des fichiers locaux.
 
 ## Build release optimisé — à partir du build 62
 
@@ -62,13 +65,10 @@ est réduit et optimisé, et l'AAB emporte son fichier de correspondance, que Pl
 Capacitor 8 fournit ses propres règles de conservation ; l'application n'a pas d'autre code
 natif que `MainActivity`. Les numéros de ligne sont gardés pour les rapports de plantage.
 
-**À vérifier avant tout envoi** (recette native du build62 transmise par le parent
-le15novembre, voir ci-dessous) : l'APK debug n'est pas réduit, il ne prouve donc plus
-rien sur le build release. Construire le release, l'installer (émulateur ou canal interne),
-puis contrôler au moins : démarrage à froid hors ligne, une vague jouée, une sauvegarde
-reprise après fermeture, le voyage ouvert, « Confidentialité » ouverte, les marges système
-en paysage. Si le release ne démarre pas, remettre `minifyEnabled false` : rien d'autre ne
-dépend de ce réglage.
+La recette se fait sur l'APK de publication optimisé. En cas d'échec de démarrage,
+relever les journaux sur une cible fiable et vérifier le rôle de la WebView avant
+de modifier R8. L'ancien échec du build 62 sur émulateur logiciel s'est aussi
+produit avec R8 désactivé.
 
 ### Build62 — recette native transmise le15novembre
 
@@ -220,7 +220,7 @@ L'export `dist-portable/` reste une livraison web séparée.
 | SDK de compilation / cible     | 36 / 36                                                           |
 | Android Gradle Plugin          | 8.13.0                                                            |
 | Wrapper Gradle                 | 8.14.3, fourni dans `android/`                                    |
-| Version native                 | `versionName "0.30.1"`, `versionCode 32`                          |
+| Version native                 | `versionName "0.41.0"`, `versionCode 65`                          |
 
 Installer Android Studio et le SDK via son SDK Manager, dont Platform API 36,
 les Build Tools requis par AGP et les Platform Tools pour un téléphone. Android
@@ -255,19 +255,15 @@ Aucun plugin caméra, micro, localisation, publicité, statistiques, compte ou
 Google Services n'est ajouté. `allowBackup="false"` désactive la participation
 à la sauvegarde automatique Android via ce réglage du manifeste.
 
-Le stockage web de la WebView est distinct du navigateur : installer l'app ne
-retrouve pas automatiquement les profils du site. L'import/export familial
-existant reste le format d'échange prévu. **Essayé par le parent le 22 novembre
-2026 sur le build 64 : l'export ne fait rien dans la WebView** (c'est un
-téléchargement de navigateur, que rien ne reçoit dans l'application) ; l'import,
-lui, marche (même essai, même jour). Aucun plugin natif de stockage ou partage
-n'est encore ajouté : le parent a donné son accord le 22 novembre pour les deux
-modules officiels de Capacitor, Filesystem et Share
-(`docs/analyse-2026-11-22/E-revue-et-conseil.md`). Tant que ce n'est pas fait
-et essayé sur un téléphone, aucune aventure ne peut sortir d'un appareil. Une désinstallation ou un effacement des
-données peut supprimer les sauvegardes locales.
+Le navigateur et la WebView ont chacun leurs profils. Le fichier familial permet
+de les transférer volontairement. Le parent a constaté le 22 novembre que sur le
+build 64, l'import fonctionnait et l'export ne faisait rien. Le candidat 65 met en
+œuvre Filesystem et Share pour l'export après la question adulte, et App pour le
+bouton Retour. Le partage vers Drive et la réimportation ont été essayés sur un
+APK debug. Le manifeste fusionné et l'export du build de publication figurent
+dans la [recette du build 65](ANDROID-BUILD-65.md).
 
-## Vérifications effectuées et limites
+## Historique — vérifications de la 0.21
 
 Le 5 novembre 2026 : installation npm exacte 8.6.0 sous Node 24.19.0/npm 11.9.0,
 génération Android réussie depuis le `dist/` 0.20 existant, puis `cap sync android`

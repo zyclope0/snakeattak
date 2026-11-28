@@ -305,9 +305,14 @@ export function createFamilyPersistence(storage?: StoragePort) {
       if (!storage) return null;
       const nothing = () => {};
       try {
-        // A device that holds no adventure yet has nothing an import could destroy.
-        if (storage.getItem(FAMILY_STORAGE_KEY) === null) return nothing;
-        const raw = replaced ?? storage.getItem(FAMILY_STORAGE_KEY)!;
+        const stored = storage.getItem(FAMILY_STORAGE_KEY);
+        const raw = replaced ?? stored;
+        if (raw === null) return nothing;
+        if (stored === null) {
+          // The books or expedition can survive the loss of the main family save.
+          const exported = readFamilyBackup(raw);
+          if (!exported || !hasExtras(exported)) return nothing;
+        }
         const held = storage.getItem(FAMILY_BEFORE_IMPORT_KEY);
         if (held === raw) return nothing;
         storage.setItem(FAMILY_BEFORE_IMPORT_KEY, raw);

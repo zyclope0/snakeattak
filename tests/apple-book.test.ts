@@ -108,3 +108,12 @@ test('le carnet du joueur : il garde, il réessaie ce que l’appareil refuse', 
   assert.deepEqual(createAppleBook(blocked).read(), []);
   assert.deepEqual(createAppleBook().add('33:3'), { count: 1, added: true });
 });
+
+test('sans stockage, les pommes comptent une seule fois dans la séance', () => {
+  const book = createAppleBook();
+  assert.deepEqual(book.add('33:3'), { count: 1, added: true });
+  assert.deepEqual(book.read(), ['33:3']);
+  assert.deepEqual(book.add('33:3'), { count: 1, added: false });
+  assert.equal(book.unkept, true);
+  assert.equal(book.retry(), false);
+});

@@ -448,3 +448,25 @@ test('a copy holding only the record of an expedition never takes the place of o
   assert.ok(writeExtras(under, going, true));
   assert.equal(under.values.get(EXPEDITION_STORAGE_KEY), going.expedition, 'the copy is written');
 });
+
+test('une première importation protège les carnets présents sans sauvegarde familiale', async () => {
+  const { collectExtras } = await import('../src/familyExtras.ts');
+  const record = writeRecords([{ wave: 12, kings: 1, rules: 2, run: 7 }]);
+  const storage = memory({ [ENDLESS_RECORDS_KEY]: record });
+  const family = createFamilyPersistence(storage);
+  const exported = writeFamilyBackup(
+    null,
+    career(),
+    createMissionProgress(),
+    createCapriceAlbums(),
+    collectExtras(storage),
+  )!;
+  assert.equal(storage.getItem(FAMILY_STORAGE_KEY), null);
+  const undo = family.keepBeforeImport(exported);
+  assert.ok(undo);
+  assert.equal(family.beforeImport(), exported);
+  undo();
+  assert.equal(family.beforeImport(), null);
+  storage.refuse.add(FAMILY_BEFORE_IMPORT_KEY);
+  assert.equal(family.keepBeforeImport(exported), null);
+});

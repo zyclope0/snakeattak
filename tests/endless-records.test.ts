@@ -104,3 +104,32 @@ test('une même partie n’a qu’une ligne : elle monte, un essai de plus ne l�
   assert.deepEqual(addRecord([fell], beat).records[0], beat);
   assert.equal(addRecord([fell], beat).best, true);
 });
+
+test('les records restent visibles pendant un refus et se conservent à la prochaine écriture', () => {
+  const values = new Map<string, string>();
+  let full = true;
+  const book = createRecordBook({
+    getItem: (key) => values.get(key) ?? null,
+    setItem(key, value) {
+      if (full) throw Error('quota');
+      values.set(key, value);
+    },
+  });
+  const first = game(15);
+  assert.equal(book.add(first), true);
+  assert.deepEqual(book.read(), [first]);
+  assert.equal(book.unkept, true);
+  full = false;
+  assert.equal(book.retry(), true);
+  assert.deepEqual(readRecords(values.get(ENDLESS_RECORDS_KEY) ?? null), [first]);
+});
+
+test('sans stockage, un record reste visible dans la séance et signalé comme non gardé', () => {
+  const book = createRecordBook();
+  const first = game(15);
+  assert.equal(book.add(first), true);
+  assert.deepEqual(book.read(), [first]);
+  assert.equal(book.add(game(5)), false);
+  assert.equal(book.unkept, true);
+  assert.equal(book.retry(), false);
+});

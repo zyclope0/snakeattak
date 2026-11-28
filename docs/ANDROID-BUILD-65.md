@@ -1,101 +1,73 @@
-# Passation — Android 0.41.0 / build 65
+# Recette Android — candidat 0.41.0 / build 65
 
-**Prêt à construire depuis `main`**, barrière pour adulte comprise (décision 3 du parent,
-[décisions](DECISIONS-2026-11-23.md)), une fois son lot fusionné. La version est
-montée ensemble dans `package.json`, `package-lock.json`, `android/app/build.gradle` et
-`POLICY_APP` (un test refuse tout écart) ; contenu : [BILAN-0.41.0.md](BILAN-0.41.0.md). La
-procédure de construction est celle du build 64 ([ANDROID-BUILD-64.md](ANDROID-BUILD-64.md)) :
-`npm ci`, puis `npm run android:package` ; sortie dans
-`artifacts/android/conquete-serpents-v0.41.0-build65/`.
+La version est alignée dans `package.json`, `package-lock.json`,
+`android/app/build.gradle` et `POLICY_APP`. Le paquet Play reste
+`com.conqueteserpents.famille` avec la clé d'envoi d'origine. La construction,
+les prérequis et les empreintes attendues sont dans le [guide Android](ANDROID.md).
+Le [bilan 0.41.0](BILAN-0.41.0.md) réunit le contenu et les notes FR/EN.
 
-## Ce que le build 65 apporte
+## Fichiers et cibles d'essai
 
-- **L'export de l'aventure sort enfin de l'application** : deux modules officiels de
-  Capacitor, `@capacitor/filesystem` 8.1.5 et `@capacitor/share` 8.0.3, acceptés par le
-  parent le 22 novembre 2026. Le fichier est écrit dans le cache de l'application, puis le
-  partage d'Android s'ouvre. Détails : [ARCHITECTURE.md](ARCHITECTURE.md), « Remettre un
-  fichier à la famille ».
-- `npx cap sync android` a ajouté les deux modules à `android/capacitor.settings.gradle` et
-  `android/app/capacitor.build.gradle`. Leurs manifestes sont vides : **aucune permission
-  nouvelle**. Le partage passe par le `FileProvider` déjà déclaré (`cache-path`).
-- **Le bouton « retour » d'Android ne quitte plus le jeu depuis n'importe où** (24 novembre) :
-  troisième module officiel, `@capacitor/app` 8.1.2, manifeste vide, **aucune permission
-  nouvelle**. À essayer sur le téléphone : une fenêtre se ferme, une partie se met en pause
-  puis reprend, une page de l'accueil revient au premier écran, et le premier écran met
-  l'application en arrière-plan. Détails : [ARCHITECTURE.md](ARCHITECTURE.md), « Le bouton
-  retour d'Android ».
-- Les lots de solidité des sauvegardes (camps sauvés, copies de secours, « partie non
-  gardée ») et les fenêtres de panne, fusionnés (PR 129 à 136).
-- La question pour adulte avant le partage (décision 3) : « Combien font 17 × 9 ? »
-  (nombres tirés à chaque fois), application seulement.
+| Fichier                       | Usage                                                                                                                                          |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `*-play.aab`                  | Import dans la piste de test **Alpha** après vérification du code disponible dans Play Console.                                                |
+| `*-release.apk`               | APK de publication dérivé du même AAB, avec R8 actif, à lancer sur un appareil de test ou un émulateur accéléré.                               |
+| APK debug « Serpents (test) » | Essais d'interface et de partage. Identifiant `com.conqueteserpents.famille.test` et stockage séparé. Il s'installe à côté de la version Play. |
 
-## APK de test, à côté de l'application de Play
+Pour construire l'APK debug sans compteur, lancer
+`SERPENTS_PERF=0 npm run android:apk:debug` sous Linux ou macOS. Sous PowerShell,
+définir `$env:SERPENTS_PERF='0'` puis lancer la commande npm.
 
-Le parent a voulu pouvoir essayer sans toucher à l'application installée depuis Play
-(23 novembre 2026). Le type `debug` d'`android/app/build.gradle` porte un identifiant à part
-(`com.conqueteserpents.famille.test`), une version `0.41.0-test` et le nom « Serpents
-(test) » (`android/app/src/debug/res/values/strings.xml`) : les deux s'installent côte à
-côte, et chacune a ses propres sauvegardes. La version de Play (`release`) ne change pas.
-Construction : `npm run android:apk:debug`.
+L'app obtenue via Google Play peut être signée avec un certificat différent de
+celui de l'APK de publication local. Pour tester une mise à jour, utiliser deux
+versions de même signature sur une cible dédiée, ou une mise à jour via Play.
+Conserver l'installation et les données de l'app familiale en cas de désaccord
+de signature. Toute désinstallation de test doit se faire avec un profil jetable
+et après contrôle du fichier exporté.
 
-## Recette sur le téléphone (à cocher)
+## Contrôles du fichier signé
 
-Après la construction, contrôler dans le rapport que le manifeste fusionné ne demande aucune
-permission de plus que le build 64, que `android/app/src/main/assets/capacitor.plugins.json`
-nomme bien les deux modules (sinon l'application ne montre aucun bouton d'export), et noter
-la taille de l'APK (premier code Kotlin, apporté par le module des fichiers).
+- [ ] Identifier le commit, la version et le code de version dans `release-report.json`.
+      Vérifier les empreintes de l'AAB, de l'APK et du mapping avec `SHA256SUMS.txt`.
+- [ ] Vérifier le package, la clé d'envoi, le mapping R8 embarqué et le manifeste fusionné.
+      Vérifier l'absence de permission réseau et de contenu réservé au site, notamment
+      la publicité, PayPal et les pages publiques.
+- [ ] Contrôler les trois modules dans `capacitor.plugins.json` extrait du paquet :
+      **App**, **Filesystem** et **Share**.
 
-Export, le point principal :
+## Contrôles natifs
 
-- [ ] « Pour les parents », « Sauvegarde familiale », « Exporter mon aventure » : le partage
-      d'Android s'ouvre, avec un fichier `conquete-serpents-famille.json`.
-- [ ] Choisir Drive : le jeu dit « Le fichier est parti vers l'application que tu as
-      choisie… », et la phrase se voit sans faire défiler. Le fichier est bien dans Drive.
-      (Premier APK de test, 23 novembre : le fichier arrive dans Drive et se réimporte, mais
-      la phrase était cachée sous le bord ; corrigé dans le second. Sur le téléphone du
-      parent, seul Drive est proposé. Explication probable, pas vérifiée : le module donne au
-      fichier le type `application/json`, et Android ne montre que les applications qui
-      acceptent ce type. Drive suffit, décision 11.)
-- [ ] Ouvrir le partage puis le fermer par « retour » sans rien choisir : « Le partage s'est
-      fermé… ». Le jeu continue normalement.
-- [ ] Ouvrir le partage, appuyer sur l'accueil du téléphone, revenir au jeu, fermer le partage
-      sans rien choisir : « Le partage s'est fermé… », jamais « Le fichier est parti… ».
-- [ ] Appuyer deux fois vite sur « Exporter mon aventure » : un seul partage s'ouvre.
-- [ ] Le grand test : exporter vers Drive, désinstaller l'application, la réinstaller,
-      « Choisir un fichier » depuis Drive : les étoiles, les missions et les carnets reviennent.
-- [ ] Après « Choisir un fichier », l'aperçu et « Remplacer » se voient sans faire défiler
-      (APK v3 et suivants).
+- [ ] Démarrer à froid en mode avion. Ouvrir l'accueil et la confidentialité hors ligne en
+      français et en anglais. Lire le numéro de version.
+- [ ] Jouer une vague en paysage avec les commandes hors des barres système. Essayer le
+      Retour Android depuis une fenêtre et depuis le combat, puis revenir après mise en
+      arrière-plan.
+- [ ] Reprendre un camp après fermeture forcée. Pour la mise à jour, repartir d'un build
+      64 de même signature avec un camp, des étoiles et une expédition en cours, puis
+      vérifier l'intégrité des joueurs et de leurs données après installation.
+- [ ] Dans « Pour les parents », ouvrir « Sauvegarde familiale ». Le clavier laisse la
+      question adulte visible. Une erreur ou une annulation garde l'utilisateur dans le jeu.
+- [ ] Répondre correctement. Vérifier qu'un double appui ouvre un seul partage. Annuler
+      une fois, puis choisir Drive. Relever les messages réellement affichés, y compris
+      après mise en arrière-plan puis retour. Vérifier que le fichier existe et que le
+      message et le bouton « Remplacer » sont visibles.
+- [ ] Sur un profil de test, importer un ancien fichier familial v6 puis un fichier
+      exporté v7. Contrôler étoiles, carnets, camp, expédition, records et pommes, ainsi
+      que l'isolation du profil actif. Faire l'aller-retour depuis un autre profil ou
+      une installation de test.
+- [ ] Vérifier qu'une partie sans fin v1 reprend avec ses règles, et qu'une nouvelle
+      utilise la v2. Dans un profil de recette, ouvrir le combat spécial et vérifier
+      le retour à l'accueil sans perte du camp.
 
-Le reste :
+Relever la cible, la version de la WebView, la date et l'empreinte de l'APK installé.
+Sur une version distribuée via Play, relever le code installé. Consigner les résultats
+et les éventuels journaux de démarrage dans `artifacts/`, à côté du rapport du paquet.
 
-- [ ] Partage rapide (Nearby / Quick Share) ou partage vers une application qui ne quitte pas
-      le jeu : noter la phrase affichée (le code du module laisse croire qu'il dira « fermé »).
-- [ ] Avant le partage, la question pour adulte s'affiche ; une mauvaise réponse n'ouvre
-      rien. Le clavier des chiffres s'ouvre, et la question reste visible au-dessus.
-- [ ] Les recettes du build 64 (mise à jour, sauvegardes, fenêtres de panne) passent encore.
-- [ ] Installer **par-dessus le build 64** : rien n'est effacé ; étoiles, aventure en cours,
-      expédition, joueurs sont là.
-- [ ] Hors ligne : « Pour les parents » → Confidentialité affiche « Application Android
-      0.41.0, build 65 ».
+## Preuves antérieures
 
-## Quel APK pour quelle ligne
-
-- **L'APK de test** (« Serpents (test) ») sert à tout ce qui précède sauf l'installation
-  par-dessus le build 64 : il s'installe à côté, avec ses propres sauvegardes (vides au
-  départ). Pour la famille, sans le compteur de performances (qui sinon s'affiche) :
-  `$env:SERPENTS_PERF='0'; npm run android:apk:debug` dans PowerShell (la valeur reste pour
-  toute la fenêtre : `Remove-Item Env:SERPENTS_PERF` pour retrouver le compteur),
-  `SERPENTS_PERF=0 npm run android:apk:debug` dans un terminal Linux ou macOS.
-- **Le build 65 signé** (`npm run android:package`, par le parent) sert à la ligne « par-dessus
-  le build 64 » et à la recette de mise à jour.
-- La mémoire d'un APK de test se lit sous son propre nom :
-  `adb shell dumpsys meminfo com.conqueteserpents.famille.test`.
-
-## Pas essayé
-
-Essayé par le parent sur le premier APK de test (23 novembre) : la question s'affiche, la
-bonne réponse ouvre le partage, le fichier arrive dans Drive et se réimporte ; la phrase du
-résultat ne se voyait pas (corrigé dans le second APK de test, pas encore essayé). Le reste des cases n'a pas
-tourné sur un téléphone. Les APK de test sont compilés ici (Gradle, type `debug`) ; aucune
-recette navigateur ne peut ouvrir le vrai partage d'Android : elles imitent son côté natif.
-Pas essayé avec les enfants.
+Le parent a confirmé sur des APK debug (23 novembre) que la question adulte, le partage
+vers Drive et la réimportation fonctionnaient. Le premier APK masquait le message sous
+le bord de l'écran. Les essais suivants ont confirmé l'affichage des messages corrigés.
+Drive suffit selon le parent ([décisions du 23 novembre](DECISIONS-2026-11-23.md)).
+La recette du **build de publication 65** reste à renseigner. Les recettes navigateur
+simulent les appels Android et ne peuvent pas ouvrir son partage natif.

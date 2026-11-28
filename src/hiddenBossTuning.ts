@@ -101,7 +101,6 @@ export const HIDDEN_BOSS_CANDIDATES = Object.freeze({
     honeyReach: 12,
   }),
 } satisfies Record<string, HiddenBossTuning>);
-export type HiddenBossCandidate = keyof typeof HIDDEN_BOSS_CANDIDATES;
 
 /** The versions of the battle; a saved fight names one and is played by it. */
 export const HIDDEN_BOSS_VERSIONS = Object.freeze({
