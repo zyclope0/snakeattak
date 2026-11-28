@@ -174,9 +174,19 @@ Une page. Ce qui s'est passé du 15 au 20 novembre (revues du site, décisions d
   la sauvegarde du fils lue (dragons, soigneurs, cinq cadeaux au niveau 3), un joueur simulé
   « fils », F1 codée en règles version 2 (une nouvelle partie reste en v1), quatre pistes
   mesurées dans le script. Première mesure fausse (v2 décalée deux fois par le script),
-  refaite le soir : aucune ligne n'atteint les trois objectifs, la meilleure est F1 + cristal
-  qui sent les rois. **Au parent de choisir.** Réuni à la branche de travail, ni fusionné
-  dans `main` ni publié ; ni téléphone ni enfants.
+  refaite le soir : aucune ligne n'atteint les trois objectifs. Mesure d'un départ plus doux
+  après chaque roi (r3, r4, r5) : la meilleure ligne est **r4 + cristal qui sent les rois**
+  (même force qu'aujourd'hui, repart à 10 serpents au lieu de 5, chutes du fils au roi 82 % →
+  46 %). **Au parent de dire « OK r4 + b »** pour l'allumer. Fusionné (PR 159) et **site
+  publié** (n° 59) avec l'aventure sans fin inchangée (v1) ; ni téléphone ni enfants.
+- **28 novembre — Grande Expédition, même force sur chaque appareil** : la force des
+  serpents d'une bataille à l'autre se calculait avec `**`, dont le dernier chiffre change d'un
+  moteur JavaScript à l'autre (comme l'aventure sans fin avant le 26 novembre). Elle se
+  calcule maintenant par multiplications répétées (`src/repeatedGrowth.ts`, commun avec
+  l'aventure sans fin). Écart : au 16e chiffre seulement (122,50430000000003 →
+  122,50430000000001 après trois batailles). Toutes les empreintes inchangées ; tests verts
+  sous Node 22 et 24. Reste : la lecture des voies (`src/ai.ts`) utilise `Math.exp`, que
+  Safari (iPhone) peut arrondir autrement que Chrome et Android ; pas mesuré.
 - **À décider avec le parent** : un nouveau paquet Android pour Google Play (« publication
   package apk »), après son essai de l'APK de test.
 - **Ensuite** : ce qui reste du
