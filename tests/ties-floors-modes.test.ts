@@ -49,6 +49,13 @@ test('however many kings, a wave of the endless adventure keeps a tenth of its c
   assert.ok(share(kings - 1) > 10);
 });
 
+/** `factor` multiplied by itself `times` times, as the game counts it. */
+const timesOver = (factor: number, times: number) => {
+  let product = 1;
+  for (let time = 0; time < times; time++) product *= factor;
+  return product;
+};
+
 test('the snakes of La Grande Expédition grow with each battle won', () => {
   const start = X.startExpedition(4242)!;
   const plan = X.expeditionPlanOf(start)!;
@@ -69,8 +76,10 @@ test('the snakes of La Grande Expédition grow with each battle won', () => {
       const game = X.createExpeditionGame(plan, state, 'calm')!;
       const met = game.strengthen(stats);
       if (won === 0) assert.deepEqual(met, stats, 'the first battle is as written');
-      assert.equal(met.hp, 100 * 1.07 ** won, `life after ${won} battle(s)`);
-      assert.equal(met.damage, 10 * 1.035 ** won, `bite after ${won} battle(s)`);
+      // Multiplied once per battle, never `**`, whose last digit differs from one JavaScript
+      // engine to the next: the same road must be the same on every phone.
+      assert.equal(met.hp, 100 * timesOver(1.07, won), `life after ${won} battle(s)`);
+      assert.equal(met.damage, 10 * timesOver(1.035, won), `bite after ${won} battle(s)`);
       assert.equal(met.reward, 5);
       game.status = 'won';
       state = X.winBattle(plan, state, game, 'calm')!;

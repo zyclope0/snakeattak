@@ -1,4 +1,5 @@
 import { Game } from './game.ts';
+import { grown } from './repeatedGrowth.ts';
 import type { Entity } from './engine/state.ts';
 import type { RewardId } from './rewards.ts';
 import { mixSeed, pickOne, questionStream, SEED_RANGE } from './seededRandom.ts';
@@ -126,7 +127,7 @@ export function createExpeditionGame(
     version: EXPEDITION_STAGE_VERSION,
     king: battle.king,
     court: battle.court,
-    ...(before ? { strength: { hp: (1 + hpStep) ** before, bite: (1 + biteStep) ** before } } : {}),
+    ...(before ? { strength: { hp: grown(hpStep, before), bite: grown(biteStep, before) } } : {}),
     coins: 0,
     ward: countCards(state.bag, 'cristal') * CRYSTAL_WARD,
     bag: state.bag.filter((card) => card !== 'cristal'),

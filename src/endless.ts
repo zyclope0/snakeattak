@@ -1,3 +1,4 @@
+import { grown } from './repeatedGrowth.ts';
 import { isIntegerIn, isNumberIn, isRecord } from './plainData.ts';
 import { TOTAL_WAVES } from './gameConstants.ts';
 
@@ -111,18 +112,6 @@ export function readEndlessRules(raw: unknown): EndlessRules | null {
 export function playedWave(rules: EndlessRules | null, kings: number, wave: number): number {
   if (rules?.version !== 2 || kings <= 0 || wave < 1 || wave >= TOTAL_WAVES) return wave;
   return Math.min(TOTAL_WAVES - 1, rules.roundStart + Math.ceil(wave / 2));
-}
-
-/**
- * `1 + step` multiplied by itself once per king. Not `**`: its last digit differs from one
- * JavaScript engine to the next (Node 22 and Node 24 already disagree from the third king),
- * so the same seed played a different game on two phones. A product of doubles is the same
- * number on every device.
- */
-function grown(step: number, kings: number): number {
-  let factor = 1;
-  for (let king = 0; king < kings; king++) factor *= 1 + step;
-  return factor;
 }
 
 /** The numbers of a wave, made stronger for each king already beaten. */
