@@ -435,6 +435,13 @@ Grande Expédition et les corrections de l'étape d'hygiène.
 - **Paquet principal : 195,8 Ko sur 200** (pommes, 26 novembre ; 193,4 au lot 11) : la sauvegarde familiale est
   chargée à la demande, le carnet de caprices l'était déjà. Ce qui reste de gros dans le paquet
   sert au combat ou aux premiers écrans (rendu du plateau, autocollants des missions).
+- **Phaser sans ce que le jeu n'utilise pas** (physique, cartes à tuiles, particules) : essayé
+  le 28 novembre 2026 avec le cœur de Phaser plus conteneurs, rectangles, textures de rendu,
+  maths et géométrie. Paquet Phaser 1 481 792 → 955 241 octets (−35 %), soit environ 90 Ko
+  de moins à télécharger une fois compressé (317 → 227 Ko). Pas gardé : le plateau ne
+  démarrait plus dans les recettes, qui jouent aussi sur le serveur de développement (il faut
+  y redonner les constantes de Phaser) ; à reprendre comme un lot à part, recettes complètes
+  et essai sur le téléphone.
 - `test:mobile-menus` est la plus longue tâche de la CI (10 à 17 minutes).
 - Les pages de test (`tests/*-harness.ts`) ne chargent pas les feuilles de style comme le jeu.
 - Détail : [bilan du nettoyage](BILAN-NETTOYAGE-2026-11.md).
