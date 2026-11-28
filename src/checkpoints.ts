@@ -1,5 +1,6 @@
 import { isMilestone, readEndlessRewards, readRewards } from './rewards.ts';
-import { ENDLESS_RULES, KINGS_LIMIT } from './endless.ts';
+import { ENDLESS_RULES, KINGS_LIMIT, isEndlessVersion } from './endless.ts';
+import type { EndlessRules } from './endless.ts';
 import { armourFactor, BOON_RULES, readBoons } from './boons.ts';
 import { freshCampaign, readCampaign, chapterIndex } from './campaignRules.ts';
 import type { CampaignState } from './campaignRules.ts';
@@ -226,8 +227,8 @@ function revisionMatchesVersion(
     return (
       !hasMission &&
       isUint32(save.initialSeed) &&
-      isIntegerIn(save.endless, 1, 1) &&
-      save.balance === ENDLESS_RULES[save.endless as 1].balance &&
+      isEndlessVersion(save.endless) &&
+      save.balance === ENDLESS_RULES[save.endless].balance &&
       isIntegerIn(save.kings, 0, KINGS_LIMIT)
     );
   const classic = classicRevisionOf(save.version);
@@ -285,7 +286,7 @@ function restoreDepartureSeed(game: Game, save: Save, mission: MissionRun | null
 /** The life of the allies of an endless camp: its armour, by its own gift table. */
 function armourOf(save: Save): number {
   if (save.version !== ENDLESS_VERSION) return 1;
-  const rules = BOON_RULES[save.endless as 1];
+  const rules = BOON_RULES[save.endless as EndlessRules['version']];
   return armourFactor(readBoons(save.boons, rules) ?? [], rules);
 }
 
@@ -387,7 +388,10 @@ function readCheckpoint(data: unknown): Game | null {
   if (!revisionMatchesVersion(data, hasMission, mission)) return null;
   if (!missionMatchesVersion(data.version, mission)) return null;
   if (hasMission && !isMissionCamp(data, mission)) return null;
-  const endless = data.version === ENDLESS_VERSION ? ENDLESS_RULES[data.endless as 1] : undefined;
+  const endless =
+    data.version === ENDLESS_VERSION
+      ? ENDLESS_RULES[data.endless as EndlessRules['version']]
+      : undefined;
   const revision =
     endless?.balance ?? classicRevisionOf(data.version) ?? (isSecondRevision(data.version) ? 2 : 1);
   const game = new Game(data.rng, undefined, mission ?? undefined, revision, undefined, endless);

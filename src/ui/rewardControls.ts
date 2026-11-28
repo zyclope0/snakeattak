@@ -106,7 +106,16 @@ export function bindRewardControls(session: Session, refresh: () => void) {
         ? fill(TEXT.choisisLeCadeauARemplacerParN, giftCopy(game, replacing).title)
         : PAGE.unSeulCadeauAToiDeChoisirCeQui,
     );
-    setDisplayText(skip, replacing ? TEXT.garderMesCadeaux : PAGE.continuerSansBonus);
+    setDisplayText(
+      skip,
+      replacing
+        ? TEXT.garderMesCadeaux
+        : game.endless
+          ? TEXT.continuerSansCadeau
+          : PAGE.continuerSansBonus,
+    );
+    // The five gifts held, to give one's place: the styles lay them on one row.
+    panel.dataset.replacing = String(!!replacing);
     skip.disabled = game.paused;
     for (const [i, card] of cards.entries()) {
       card.button.hidden = !shown[i];
@@ -123,7 +132,10 @@ function panelTitle(game: Game, replacing: LastingBoon | null): string {
   if (game.endless && game.rewards.pending === TOTAL_WAVES)
     return TEXT.kingSnakeEstVaincuChoisisTonCadeau;
   const wave = game.endless ? endlessWave(game.kings, game.wave) : game.wave;
-  return fill(TEXT.vagueNRepousseeChoisisTonBonus, wave);
+  return fill(
+    game.endless ? TEXT.vagueNRepousseeChoisisTonCadeau : TEXT.vagueNRepousseeChoisisTonBonus,
+    wave,
+  );
 }
 
 function rewardCard(choose: (id: string) => void) {

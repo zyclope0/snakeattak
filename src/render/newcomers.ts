@@ -24,7 +24,7 @@ const debutWave = (variant: EnemyKind) =>
  * snake already met in an earlier wave, and in a mission, whose waves follow another order.
  */
 export function newSnakeBanner(game: Game, variant: EnemyKind) {
-  if (game.mission || variant === 'normal' || debutWave(variant) !== game.wave) return null;
+  if (game.mission || variant === 'normal' || debutWave(variant) !== game.snakeWave) return null;
   return {
     title: fill(TEXT.nouveauSerpentN, enemies[variant].name),
     subtitle: abilityOf(variant, game.balanceRevision),

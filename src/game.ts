@@ -1,6 +1,6 @@
 import { activeEnemyLanes } from './tutorial.ts';
 import { freshRewards, rewardOffer, REWARDS, freeRecruit, extraHoneySeconds } from './rewards.ts';
-import { endlessStats, endlessWave, readEndlessRules } from './endless.ts';
+import { endlessStats, endlessWave, playedWave, readEndlessRules } from './endless.ts';
 import { BOON_RULES, boonLevel, boonOffer, placeNeeded } from './boons.ts';
 import type { BoonId, BoonRules, Boons, LastingBoon } from './boons.ts';
 import { campKey, chooseBoon, emptyLedger, restoreGifts, skipCard, takeCard } from './gameGifts.ts';
@@ -238,7 +238,16 @@ export class Game {
   }
   get difficultyWave() {
     const local = this.localWave;
-    return this.mission ? missionById(this.mission.missionId)!.waves[local - 1] : local;
+    return this.mission
+      ? missionById(this.mission.missionId)!.waves[local - 1]
+      : playedWave(this.#endless, this.kings, local);
+  }
+  /**
+   * The wave whose snakes come: the wave itself, except in the endless adventure of version
+   * 2 after the first king (`playedWave`). The map and the gifts keep the wave itself.
+   */
+  get snakeWave(): number {
+    return this.mission ? this.wave : playedWave(this.#endless, this.kings, this.wave);
   }
   get briefing() {
     return this.mission
@@ -511,7 +520,7 @@ export class Game {
     if (!this.mission && (this.wave - 1) % WAVES_PER_CHAPTER === 0)
       this.campaign.chapterMin[chapterIndex(this.wave)] = this.base;
     const plan = this.mission ? missionWave(this.mission, this.wave) : null;
-    this.remaining = (plan?.stats ?? waveStats(this.wave)).count;
+    this.remaining = (plan?.stats ?? waveStats(this.snakeWave)).count;
     this.spawnTimer = 0;
     this.#waveSeconds = 0;
     this.#lateEggsLaid = 0;
@@ -577,7 +586,7 @@ export class Game {
     updateConfusion(this, dt);
     updateAllies(this, dt);
     const rankStats = this.strengthen(
-      waveStats(this.mission ? this.difficultyWave : this.wave || 1),
+      waveStats(this.mission ? this.difficultyWave : this.snakeWave || 1),
     );
     const stats = {
       ...rankStats,

@@ -106,7 +106,8 @@ function showStart(game: Game) {
 
 function startLabel(game: Game): string {
   if (battleOver(game)) return TEXT.partieTerminee;
-  if (game.rewards.pending !== null) return TEXT.choisirUnBonus;
+  if (game.rewards.pending !== null)
+    return game.endless ? CAMP.choisirUnCadeau : TEXT.choisirUnBonus;
   if (game.status === 'fighting') return TEXT.vagueEnCours;
   if (atKingCamp(game)) return CAMP.continuer;
   return game.wave ? TEXT.vagueSuivante : TEXT.lancerLaVague;

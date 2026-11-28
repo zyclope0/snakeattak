@@ -33,7 +33,7 @@ export function pickLane(
 ) {
   const decision = decideTemptation(
     laneDefense(airborne ? game.units.filter((u) => canHitFlying(u.kind)) : game.units),
-    game.caprice.smart ? SMART_WAVE : game.mission ? game.difficultyWave : game.wave,
+    game.caprice.smart ? SMART_WAVE : game.mission ? game.difficultyWave : game.snakeWave,
     nextRandom(game),
     game.feast?.flavor === 'lure' ? game.feast.lane : null,
     boss,

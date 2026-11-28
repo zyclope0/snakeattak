@@ -38,6 +38,9 @@ export function stageTheme(level: Level) {
   };
 }
 
+/** The middle of the ground the refuge stands on: its echo spreads from here, and its glow. */
+export const REFUGE_GROUND = Object.freeze({ x: 1010, y: 345 });
+
 export const STAGE_SIZES = {
   bridge: 142,
   fort: { x: 988, y: 360, width: 186, height: 210 },

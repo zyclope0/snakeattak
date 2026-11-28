@@ -4,18 +4,21 @@ import { registerHooks } from 'node:module';
 import { CURRENT_BALANCE_REVISION } from '../src/balanceRevision.ts';
 import { decodeCheckpoint, encodeCheckpoint } from '../src/checkpoints.ts';
 import { waveStats } from '../src/data.ts';
+import { enemies } from '../src/enemies.ts';
 import {
   ENDLESS_RULES,
   atKingCamp,
   endlessReached,
   endlessStats,
   endlessWave,
+  playedWave,
   readEndlessRules,
 } from '../src/endless.ts';
 import { TOTAL_WAVES } from '../src/gameConstants.ts';
 import { Game } from '../src/game.ts';
 import { createMissionRun } from '../src/missions.ts';
 import { BOON_MAX_LEVEL, BOON_PLACES, BOON_RULES, boonOffer, takeBoon } from '../src/boons.ts';
+import { waveThreats } from '../src/ui/threatPreview.ts';
 import type { Boons, LastingBoon } from '../src/boons.ts';
 
 registerHooks({
@@ -229,7 +232,7 @@ test('un camp de l’aventure sans fin se sauvegarde et se relit tel quel', () =
     null,
   );
   assert.equal(
-    tamper((s) => (s.endless = 2)),
+    tamper((s) => (s.endless = 3)),
     null,
   );
   // A camp of a classic game is never read as an endless one.
@@ -302,4 +305,120 @@ test('la forge frappe plus fort, la longue-vue porte plus loin', () => {
   const strong = blow(game),
     weak = blow(plain);
   assert.ok(strong > weak, `forge ${strong} > ${weak}`);
+});
+
+// ——— Version 2 (formula F1 of the council report, lot C, 27 November 2026) ———
+const RULES_2 = ENDLESS_RULES[2];
+const endless2 = (seed = 7) =>
+  new Game(seed, undefined, undefined, CURRENT_BALANCE_REVISION, undefined, RULES_2);
+
+test('version 2 : dès le 2e tour, la vague w se joue comme la vague min(11, 6 + ⌈w/2⌉)', () => {
+  const round = (kings: number) =>
+    Array.from({ length: TOTAL_WAVES }, (_, i) => playedWave(RULES_2, kings, i + 1));
+  assert.deepEqual(round(0), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'the first round');
+  assert.deepEqual(round(1), [7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 11, 12]);
+  assert.deepEqual(round(5), round(1), 'every later round');
+  // Version 1 and every other game: the wave itself, round after round.
+  assert.deepEqual(
+    Array.from({ length: TOTAL_WAVES }, (_, i) => playedWave(RULES, 3, i + 1)),
+    round(0),
+  );
+  assert.equal(playedWave(null, 3, 2), 2);
+  assert.equal(playedWave(RULES_2, 1, 0), 0, 'no wave yet in the camp');
+  // Never more than the eleventh wave's snakes before the king: 18.
+  assert.equal(
+    Math.max(
+      ...round(1)
+        .slice(0, -1)
+        .map((w) => waveStats(w).count),
+    ),
+    18,
+  );
+  // The same growth at each king as version 1.
+  assert.equal(RULES_2.hpStep, RULES.hpStep);
+  assert.equal(RULES_2.biteStep, RULES.biteStep);
+  assert.equal(RULES_2.coinStep, RULES.coinStep);
+});
+
+test('version 2 : des règles relues telles quelles, ou refusées', () => {
+  assert.deepEqual(readEndlessRules(RULES_2), RULES_2);
+  assert.deepEqual(readEndlessRules(RULES), RULES);
+  assert.equal(Object.hasOwn(readEndlessRules(RULES)!, 'roundStart'), false);
+  assert.equal(readEndlessRules({ ...RULES, version: 2 }), null, 'version 2 names its start');
+  assert.equal(readEndlessRules({ ...RULES_2, roundStart: TOTAL_WAVES - 1 }), null);
+  assert.equal(readEndlessRules({ ...RULES_2, roundStart: 1.5 }), null);
+  assert.equal(readEndlessRules({ ...RULES_2, version: 3 }), null);
+});
+
+test('version 2 : les serpents suivent la vague jouée, la carte et les cadeaux la vague du tour', () => {
+  const game = endless2();
+  const before = new Game(7, undefined, undefined, CURRENT_BALANCE_REVISION, undefined, RULES);
+  // The first round is the great adventure, as in version 1.
+  game.wave = 0;
+  assert.ok(game.startWave());
+  assert.equal(game.remaining, waveStats(1).count);
+  assert.ok(before.startWave());
+  assert.equal(game.remaining, before.remaining);
+  clearWave(game, TOTAL_WAVES);
+  assert.equal(game.kings, 1);
+  assert.ok(game.chooseReward(game.boonOffer[0]));
+  // Round two, wave 1: the snakes of the seventh wave, one king stronger; the map of wave 1.
+  assert.equal(game.difficultyWave, 7, 'the camp foretells the seventh wave');
+  const map = game.level;
+  assert.ok(game.startWave());
+  assert.equal(game.wave, 1);
+  assert.equal(game.snakeWave, 7);
+  assert.equal(game.remaining, waveStats(7).count);
+  assert.equal(game.level, map, 'the map of the first wave of a round');
+  for (let i = 0; i < 90 && !game.enemies.length; i++) game.step(1 / 30);
+  const snake = game.enemies[0];
+  assert.ok(snake, 'a snake entered');
+  assert.ok(
+    Math.abs(
+      snake.maxHp / enemies[snake.variant].hp / (waveStats(7).hp * (1 + RULES_2.hpStep)) - 1,
+    ) < 1e-9,
+    'the life of the seventh wave, one king stronger',
+  );
+  // The gifts still come after the fourth and the eighth wave of the round.
+  clearWave(game, 4);
+  assert.equal(game.rewards.pending, 4);
+  // The king's wave stays the king's: twenty snakes, the king among them.
+  game.skipReward();
+  game.wave = TOTAL_WAVES - 1;
+  game.status = 'preparing';
+  game.rewards.pending = null;
+  assert.ok(game.startWave());
+  assert.equal(game.snakeWave, TOTAL_WAVES);
+  assert.equal(game.remaining, waveStats(TOTAL_WAVES).count);
+});
+
+test('version 2 : un camp se relit en version 2, un camp de version 1 reste en version 1', () => {
+  for (const rules of [RULES, RULES_2]) {
+    const game = new Game(7, undefined, undefined, CURRENT_BALANCE_REVISION, undefined, rules);
+    clearWave(game, TOTAL_WAVES);
+    assert.ok(game.chooseReward(game.boonOffer[0]));
+    clearWave(game, 2);
+    const raw = encodeCheckpoint(game)!;
+    assert.equal(JSON.parse(raw).endless, rules.version);
+    const back = decodeCheckpoint(raw)!;
+    assert.deepEqual(back.endless, rules);
+    assert.equal(back.kings, 1);
+    assert.equal(encodeCheckpoint(back), raw);
+  }
+});
+
+test('version 2 : la prévision du camp montre les serpents de la vague jouée', () => {
+  const game = endless2();
+  clearWave(game, TOTAL_WAVES);
+  game.skipReward();
+  const plainGame = new Game(7, undefined, undefined, CURRENT_BALANCE_REVISION);
+  const seventh = waveThreats(plainGame, 7);
+  const shown = waveThreats(game, 1);
+  assert.equal(shown.local, 1, 'the wave of the round');
+  assert.deepEqual(shown.entries, seventh.entries);
+  assert.equal(shown.eggs, seventh.eggs);
+  // Version 1 shows the first wave again.
+  const first = endless();
+  clearWave(first, TOTAL_WAVES);
+  assert.deepEqual(waveThreats(first, 1).entries, waveThreats(plainGame, 1).entries);
 });

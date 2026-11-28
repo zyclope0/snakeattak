@@ -1,0 +1,393 @@
+/* L'aventure sans fin, lot B (27 novembre 2026) : l'étagère des cadeaux, sa feuille, les cadeaux
+   au-dessus des cartes, le récap, et les petits signes des cadeaux là où ils agissent. Le code
+   arrive à part (src/ui/boons/) ; son allure est ici, importée en dernier : ces règles
+   s'ajoutent au dock, au panneau des cadeaux et au résultat. Disques de pâte : or pour la
+   forge, le marché, la rente et la longue-vue ; ciel pour l'armure et le cristal ; le pot de
+   miel garde son image. */
+
+/* --- A place: the sign of a gift in its clay disc, its stars under it; empty, dotted. */
+.boon-places {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 3px;
+  min-width: 0;
+}
+.boon-case {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  min-width: 0;
+  min-height: 38px;
+  border: 2px solid transparent;
+  border-radius: 11px 9px 12px 8px;
+}
+.boon-case[hidden] {
+  display: none;
+}
+.boon-case[data-boon=''] {
+  border: 2px dashed #9fb291;
+  background: #f3f1e1;
+}
+.boon-sign {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 2px solid #b89a4b;
+  border-radius: 50%;
+  background: #f8d87f;
+  box-shadow:
+    inset 0 2px #fff1bd,
+    0 1px #a8884066;
+  color: #6c512a;
+  font-family: Fredoka, sans-serif;
+  font-size: 15px;
+  line-height: 1;
+}
+.boon-case:is([data-boon='armure'], [data-boon='solide']) .boon-sign {
+  border-color: #71a9ad;
+  background: #bfe0e2;
+  box-shadow:
+    inset 0 2px #f1fbfb,
+    0 1px #4f8d9166;
+  color: #23585c;
+}
+.boon-case[data-boon='miel'] .boon-sign {
+  border-color: #c39a49;
+  background-color: #fbe8b6;
+  background-repeat: no-repeat;
+  background-size: 200% 200%;
+  background-position: 0% 100%;
+}
+.boon-case[data-boon=''] :is(.boon-sign, .boon-stars) {
+  display: none;
+}
+.boon-stars {
+  color: #a2700c;
+  font-size: 10px;
+  line-height: 10px;
+  letter-spacing: -1.5px;
+  white-space: nowrap;
+}
+
+/* --- The shelf, in the dock, between the favourites and their line: one touch, each of its
+   five places 48 px high. */
+.app .battle-dock #boon-shelf {
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  padding: 0 2px;
+}
+.app .battle-dock #boon-shelf[hidden] {
+  display: none;
+}
+#boon-shelf .boon-case {
+  min-height: 48px;
+}
+.battle-dock:has(> #boon-shelf:not([hidden])) {
+  grid-template-rows: minmax(96px, 1fr) 50px 18px 48px 48px;
+}
+/* On a computer the dock grows by the shelf: the favourites keep their size. */
+@media (min-height: 521px) {
+  .battle-dock:has(> #boon-shelf:not([hidden])) {
+    height: min(100%, 516px);
+  }
+}
+/* A short landscape (568 × 320) has no row of actions in its dock. */
+@media (max-width: 1100px) and (max-height: 350px) and (orientation: landscape) {
+  .battle-dock:has(> #boon-shelf:not([hidden])) {
+    grid-template-rows: minmax(100px, 1fr) 50px 18px 48px;
+  }
+}
+
+/* --- « Le marché » : the price before the gift, struck out, in the other top corner. */
+.battle-dock .boon-was {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  padding: 0 2px;
+  border-radius: 5px;
+  background: #fffdf4d9;
+  color: #6f5d45;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 14px;
+  text-decoration: line-through 2px #b0412f;
+}
+/* « La grande réserve de miel » : the seconds it adds, on the pot. */
+#dock-honey button {
+  position: relative;
+}
+.boon-more {
+  position: absolute;
+  top: -6px;
+  right: -2px;
+  padding: 0 4px;
+  border: 1px solid #b89a4b;
+  border-radius: 7px;
+  background: #f8d87f;
+  color: #5b3d07;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 15px;
+  pointer-events: none;
+}
+/* « La rente » : the coins of a wave rise into the purse. */
+.treasure-stat {
+  position: relative;
+}
+.boon-income {
+  position: absolute;
+  left: 2px;
+  top: 100%;
+  z-index: 30;
+  padding: 1px 8px;
+  border: 1px solid #b89a4b;
+  border-radius: 10px 8px 11px 9px;
+  background: #f8d87f;
+  color: #5b3d07;
+  font-family: Fredoka, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: boon-income-rise 2s ease-out forwards;
+}
+.boon-income[hidden] {
+  display: none;
+}
+.boon-income.still {
+  animation: none;
+}
+@keyframes boon-income-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  15%,
+  75% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .boon-income {
+    animation: none;
+  }
+}
+
+/* --- The gifts held, above the cards of a new gift, and in the recap when the camp falls. */
+.boon-held {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 4px 0 6px;
+}
+.boon-held[hidden],
+#reward-panel[data-replacing='true'] #reward-held {
+  display: none;
+}
+.boon-held-title {
+  color: #2d5a45;
+  font-size: 13px;
+  font-weight: 800;
+}
+.boon-held .boon-places {
+  grid-template-columns: repeat(5, 40px);
+  gap: 5px;
+}
+.boon-held .boon-case {
+  min-height: 44px;
+}
+/* The result on a computer is a narrow column: the five places share its width. */
+#boon-recap .boon-places {
+  flex: 1 1 100%;
+  grid-template-columns: repeat(5, minmax(0, 40px));
+}
+.boon-held-line {
+  flex-basis: 100%;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* --- Five gifts to choose one to replace: on one row, wherever the screen is low. */
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  /* The gifts held say more than the line under the title, which gives them its place. */
+  #reward-panel:not([data-replacing='true']):has(> #reward-held:not([hidden])) > p {
+    display: none;
+  }
+  #reward-panel #reward-held {
+    margin-block: 2px;
+  }
+  #reward-panel[data-replacing='true'] #reward-cards {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+  #reward-panel[data-replacing='true'] .reward-card {
+    gap: 4px;
+    padding: 6px 4px;
+    min-height: 0;
+  }
+  #reward-panel[data-replacing='true'] .reward-portrait {
+    width: 32px;
+    height: 32px;
+  }
+  #reward-panel[data-replacing='true'] .reward-crystal {
+    font-size: 19px;
+  }
+  #reward-panel[data-replacing='true'] .reward-card strong {
+    font-size: 15px;
+    line-height: 1.15;
+  }
+  #reward-panel[data-replacing='true'] .reward-detail {
+    line-height: 1.3;
+  }
+  #reward-panel[data-replacing='true'] .reward-card small {
+    padding: 5px 8px;
+  }
+}
+
+/* --- « Tes cadeaux » : the sheet, and the recap before going home. */
+#boon-sheet {
+  max-width: 640px;
+  padding: 12px 16px 16px;
+  background: radial-gradient(ellipse at top left, #fff9db, transparent), var(--paper);
+  border: 3px solid #a9b99b;
+  border-radius: 24px 20px 26px 19px;
+}
+#boon-sheet .close {
+  top: 6px;
+  right: 6px;
+  min-width: 48px;
+  min-height: 48px;
+}
+#boon-sheet h2 {
+  margin: 6px 56px 10px 0;
+  font-size: 24px;
+}
+.boon-sheet-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.boon-sheet-list[hidden],
+#boon-sheet [hidden] {
+  display: none;
+}
+#boon-sheet .boon-sheet-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px solid #c9d3b8;
+  border-radius: 14px 12px 15px 11px;
+  background: #fffdf3;
+  color: #2f4f3f;
+  font-size: 13px;
+  line-height: 1.3;
+}
+.boon-case.boon-big {
+  flex: 0 0 50px;
+  height: 54px;
+}
+.boon-big .boon-sign,
+.boon-recap-places .boon-sign {
+  width: 38px;
+  height: 38px;
+  font-size: 22px;
+}
+.boon-big .boon-stars,
+.boon-recap-places .boon-stars {
+  font-size: 13px;
+  line-height: 13px;
+}
+.boon-sheet-words {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.boon-sheet-words strong {
+  font-family: Fredoka, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #193e35;
+}
+.boon-sheet-words small {
+  color: #56704f;
+  font-size: 13px;
+  font-weight: 700;
+}
+.boon-sheet-words .boon-example {
+  color: #65400b;
+  font-weight: 800;
+}
+#boon-sheet .boon-sheet-line {
+  margin: 0;
+  color: #193e35;
+  font-size: 17px;
+  font-weight: 800;
+}
+.boon-recap-places {
+  grid-template-columns: repeat(5, 56px);
+  justify-content: start;
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+.boon-recap-places .boon-case {
+  height: 60px;
+}
+#boon-sheet .boon-sheet-note {
+  margin: 0;
+}
+.boon-sheet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+.boon-sheet-actions button {
+  min-height: 48px;
+  padding: 8px 16px;
+}
+/* A phone in landscape: the five places of the sheet on three rows of two, smaller words. */
+@media (max-width: 1100px) and (max-height: 520px) and (orientation: landscape) {
+  #boon-sheet {
+    max-width: 720px;
+    padding: 8px 12px 12px;
+  }
+  #boon-sheet h2 {
+    margin: 4px 56px 6px 0;
+    font-size: 21px;
+  }
+  .boon-sheet-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  #boon-sheet .boon-sheet-list li {
+    padding: 3px 8px;
+    line-height: 1.25;
+  }
+  .boon-case.boon-big {
+    height: 48px;
+  }
+  .boon-sheet-words strong {
+    font-size: 15px;
+  }
+  .boon-recap-places {
+    margin-block: 6px 4px;
+  }
+}

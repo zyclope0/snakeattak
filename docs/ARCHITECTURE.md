@@ -645,6 +645,38 @@ Idée et choix du parent ; décisions et mesures dans [MODE-INFINI.md](MODE-INFI
   `turnReach` (moteur), « La rente » écrite au-dessus du cristal en fin de vague
   (`presentation.ts`, rendu seulement), le record de l'accueil avec ses rois, le tour sous le
   nom du lieu (`battleBriefing.ts`), `styles/19-endless.css` importé en dernier.
+- **Lot B (27 novembre 2026), l'étagère des cadeaux, sans changer de règle.** Le paquet
+  principal ne porte que la porte (`ui/boonDoor.ts`, appelée par `saveAndRedraw`) : au premier
+  dessin d'une partie sans fin, elle demande `ui/boons/boonShelf.ts`, un paquet à part
+  (`boonShelf-*.js`, 6,8 Ko) avec son catalogue (`texts/fr/boons.ts`). Il pose l'étagère
+  `#boon-shelf` dans le dock (cinq places, `boonPlaces.ts`), la feuille `#boon-sheet`
+  (`boonSheet.ts`, `pauseForDialog` : Échap et « retour » la ferment, la vague attend), les
+  cadeaux tenus au-dessus des cartes (`#reward-held`), le récap de la chute (`#boon-recap`,
+  dans le résultat) et celui de la sortie (la feuille, avant `menu-home`, au toucher de
+  « Rentrer avec mon record »), le prix d'avant barré sur les favoris (marché), « +4 s » sur
+  les pots (miel), « +40 » près des pièces en fin de vague (rente). Sur le plateau,
+  `BattleScene.addLayer` reçoit `render/boonLayer.ts` (refait à chaque plateau) : étincelles
+  des coups des alliés (forge), anneau aux pieds des alliés (armure), lueur au pied du refuge
+  (cristal solide) ; le « +5 » du cristal est celui de toute réparation. Tout est lu
+  (`game.boons`, `boonLevel`, `boonGain`, `recruitCost`, `balanceRecruitPrice`) : rien n'est
+  écrit dans la partie. Sans le paquet (site sans réseau), le jeu joue comme avant, sans
+  étagère. Style : `styles/20-boons.css`, importé en dernier. Les cartes disent ce que fait un
+  cadeau sans « % » (`boonWords`, `boonCopy.ts`) et « ★★ → ★★★ » quand on le reprend.
+- **Règles sans fin version 2 (27 novembre 2026, formule F1 du lot C), ni fusionnées ni
+  publiées.** `ENDLESS_RULES[2]` (`endless.ts`) : la croissance de la version 1 à chaque roi,
+  et `roundStart` (6). `playedWave(règles, rois, vague)` dit la vague dont viennent les
+  serpents : dès le deuxième tour, la vague w du tour se joue comme min(11, 6 + ⌈w/2⌉) ; la
+  vague du roi reste la sienne. `Game.snakeWave` (pendant la vague) et `Game.difficultyWave`
+  (aussi au camp) la lisent ; le moteur s'en sert pour le nombre, la vie, la morsure, la
+  vitesse, la prime, les sortes, les œufs, la cadence et l'intelligence des voies
+  (`spawning.ts`, `movement.ts`, `game.ts`), la prévision du camp (`threatPreview.ts`) et
+  l'annonce d'un nouveau serpent (`newcomers.ts`). La carte (`level`), les cadeaux et le
+  numéro affiché suivent la vague du tour (`game.wave`). Pour la version 1 et tout autre
+  jeu, `playedWave` rend la vague elle-même : aucune autre partie ne change (empreintes).
+  Sauvegarde (camp version 15), records et table de cadeaux (`BOON_RULES[2]` = celle de la
+  version 1) acceptent la version 2. Une nouvelle partie reste en version 1
+  (`CURRENT_ENDLESS_VERSION`) tant que le parent n'a pas choisi les valeurs de la version 2.
+  Partie de référence « sans fin v2 » dans `tests/engine-traces.test.ts`.
 
 ## La Grande Expédition — 20 novembre 2026
 
