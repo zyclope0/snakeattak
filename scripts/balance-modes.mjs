@@ -71,10 +71,11 @@
 //   LOT_C=1        ajoute aux anciens joueurs les colonnes du lot C (rien d'autre ne change)
 //   LOT_C=2        ajoute aussi les vagues 7 à 12 des tours après le premier, et celles où le
 //                  cristal a perdu des points (toujours là avec v2 ou ENDLESS_LEVERS)
-//   ENDLESS_LEVERS=coins,crystal,king,tank  mesure seulement (les pistes du parent, 27
-//                  novembre 2026 ; le jeu ne change pas) : coins = les 12 pièces d'un serpent
-//                  et la rente suivent les rois comme la prime ; crystal = les 9 dégâts au
-//                  cristal suivent les rois comme la morsure ; king = le pas du roi
+//   ENDLESS_LEVERS=coins,king,tank  mesure seulement (les pistes du parent, 27 novembre
+//                  2026 ; le jeu ne change pas) : coins = les 12 pièces d'un serpent et la
+//                  rente suivent les rois comme la prime ; (crystal, les 9 dégâts au cristal
+//                  qui suivent la morsure, est dans le jeu depuis le 28 novembre : version 2,
+//                  ENDLESS_FORMULA=v2) ; king = le pas du roi
 //                  ×(1 + KING_STEP) par roi battu (0,05), KING_CAP au plus (1,5) ; tank =
 //                  chaque serpent pris dans l'obus, sauf celui visé, reçoit TANK_SPLASH du
 //                  coup (0,5) ; dragon = la même chose pour le souffle des dragons
@@ -87,14 +88,17 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { registerHooks } from 'node:module';
 const R = new URL('../src/', import.meta.url).href;
 // ——— Lot C, the four leads of the parent (27 November 2026), measure only. ———
-// ENDLESS_LEVERS=coins,crystal,king,tank (and dragon, a note apart): the script rewrites, as
+// ENDLESS_LEVERS=coins,king,tank (and dragon, a note apart): the script rewrites, as
 // it loads them, one line or two of the engine in memory; the files of the game never change
 // and a game without ENDLESS_LEVERS plays the engine as it is. Each rewritten line must be
 // found exactly once, or the measure stops.
 const LEVERS = process.env.ENDLESS_LEVERS ? process.env.ENDLESS_LEVERS.split(',') : [];
-for (const lever of LEVERS)
-  if (!['coins', 'crystal', 'king', 'tank', 'dragon'].includes(lever))
-    throw new Error('ENDLESS_LEVERS : coins, crystal, king, tank, dragon');
+for (const lever of LEVERS) {
+  if (lever === 'crystal')
+    throw new Error('ENDLESS_LEVERS : crystal est dans la version 2 du jeu (ENDLESS_FORMULA=v2)');
+  if (!['coins', 'king', 'tank', 'dragon'].includes(lever))
+    throw new Error('ENDLESS_LEVERS : coins, king, tank, dragon');
+}
 /** King: his pace ×(1 + KING_STEP) per king beaten, KING_CAP at most. */
 const KING_STEP = Number(process.env.KING_STEP ?? 0.05);
 const KING_CAP = Number(process.env.KING_CAP ?? 1.5);
@@ -113,19 +117,6 @@ const LEVER_LINES = {
       'engine/outcome.ts',
       "game.gold += reward + game.boonGain('rente');",
       "game.gold += reward + globalThis.lotC.coins(game, game.boonGain('rente'));",
-    ],
-  ],
-  // The 9 the crystal loses grow with the kings as the bite does (×1.2).
-  crystal: [
-    [
-      'engine/enemyTurn.ts',
-      'const absorbed = e.boss ? 0 : Math.min(CRYSTAL_DAMAGE, game.rewards.ward);',
-      'const bite = globalThis.lotC.crystal(game, CRYSTAL_DAMAGE); const absorbed = e.boss ? 0 : Math.min(bite, game.rewards.ward);',
-    ],
-    [
-      'engine/enemyTurn.ts',
-      '(e.boss ? KING_CRYSTAL_DAMAGE : CRYSTAL_DAMAGE - absorbed)',
-      '(e.boss ? KING_CRYSTAL_DAMAGE : bite - absorbed)',
     ],
   ],
   king: [
@@ -247,8 +238,6 @@ const grown = (step, kings) => {
 globalThis.lotC = {
   coins: (game, coins) =>
     endlessStats({ hp: 0, damage: 0, reward: coins }, game.endless, game.kings).reward,
-  crystal: (game, damage) =>
-    endlessStats({ hp: 0, damage, reward: 0 }, game.endless, game.kings).damage,
   kingPace: (game) => Math.min(KING_CAP, grown(KING_STEP, game.endless ? game.kings : 0)),
   splash: (game, u) =>
     u.kind === 'tank' && LEVERS.includes('tank')

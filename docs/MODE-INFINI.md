@@ -7,15 +7,15 @@ douzième vague, aucune résurrection.
 
 ## Décisions du parent (20 novembre)
 
-| Question                | Choix                                                                                     |
-| ----------------------- | ----------------------------------------------------------------------------------------- |
-| Qui peut y jouer        | Ouverte quand on a battu King Snake une fois dans la grande aventure                      |
-| Après chaque King Snake | Un cadeau à choisir, puis « Continuer » ou « Rentrer avec mon record » ; reprise possible |
-| La difficulté           | Les serpents sont plus forts à chaque roi, jamais plus nombreux                           |
-| Le record               | La vague atteinte, avec les rois battus à côté                                            |
-| Les records             | Chaque joueur voit le sien ; aucun classement entre les joueurs de l'appareil             |
-| Le réglage              | « Ferme » : vie ×1,45, morsure ×1,2, pièces ×0,9 à chaque roi                             |
-| Les cadeaux             | Douze cadeaux ; un cadeau repris monte de niveau, trois au plus ; cinq places             |
+| Question                | Choix                                                                                         |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| Qui peut y jouer        | Ouverte quand on a battu King Snake une fois dans la grande aventure                          |
+| Après chaque King Snake | Un cadeau à choisir, puis « Continuer » ou « Rentrer avec mon record » ; reprise possible     |
+| La difficulté           | Plus forts à chaque roi ; version 2 : un tour repart de la 5e vague, le cristal sent les rois |
+| Le record               | La vague atteinte, avec les rois battus à côté                                                |
+| Les records             | Chaque joueur voit le sien ; aucun classement entre les joueurs de l'appareil                 |
+| Le réglage              | « Ferme » : vie ×1,45, morsure ×1,2, pièces ×0,9 à chaque roi                                 |
+| Les cadeaux             | Douze cadeaux ; un cadeau repris monte de niveau, trois au plus ; cinq places                 |
 
 Le parent a ajouté le 20 novembre, en choisissant le réglage : il faut de « petits avantages »
 qui montent pour le joueur ; avec seulement trois cadeaux, l'enfant serait vite bloqué. Les
@@ -50,8 +50,13 @@ prennent pas de place.
   chaque tour, et un renfort offert ne pouvait pas se poser).
 - Après les vagues 4 et 8 de chaque tour, et après chaque roi, un cadeau parmi trois, tiré à
   part (`src/boons.ts`) : ce ne sont pas les cartes de la grande aventure.
-- Les serpents ne sont pas plus nombreux. Leur vie, leur morsure et la prime de fin de vague
-  sont multipliées à chaque roi (`src/endless.ts`, version 1). Les pièces gagnées pour chaque
+- Version 1 : les serpents ne sont pas plus nombreux. Leur vie, leur morsure et la prime de
+  fin de vague sont multipliées à chaque roi (`src/endless.ts`, version 1). Version 2 (choix
+  du parent du 28 novembre, « OK r4 b ») : même croissance, mais dès le 2e tour un tour
+  repart de la 5e vague (10 serpents au lieu de 5) et monte jusqu'à la 10e avant le roi,
+  jamais plus que les vagues de la grande aventure ; un serpent qui entre dans le cristal le
+  blesse d'autant plus que sa morsure a grandi avec les rois. Une partie de version 1 reste
+  en version 1. Les pièces gagnées pour chaque
   serpent battu (12, et 90 pour le roi) ne baissent pas : sur un tour, la prime de fin de
   vague fait environ 2 800 pièces et les serpents battus au moins 1 800.
 - Une hausse fixe à chaque roi (essais A, B, C) ne suffisait pas : un camp rempli de grands
