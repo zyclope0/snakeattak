@@ -40,11 +40,15 @@ bloqué dans la WebView.
 - Sur un APK debug, le parent a essayé la question adulte, le partage vers Drive
   et la réimportation. Un essai ultérieur a confirmé l'affichage des messages
   corrigés. Ces essais datent du 23 novembre.
-- Il reste à construire le paquet de publication et à terminer la
-  [recette native du build 65](ANDROID-BUILD-65.md), notamment la mise à jour,
-  le démarrage à froid et la sauvegarde sur le paquet exact. La disponibilité
-  sur Alpha n'est pas confirmée. Le suivi des prochains jalons est dans le
-  [plan actuel](PLAN-ACTUEL.md).
+- Le 28 novembre, le candidat signé du commit
+  `077eb7aac89f80c285b1b9237c6a377e021fd402` a passé **1 109 tests**,
+  la recette navigateur et **15 contrôles hors ligne**. L'AAB de 15 176 721 octets
+  porte l'empreinte SHA-256
+  `26f067e65fe4b33735fa780450b76990ff0e4fbdcd49cb18d9c70baa7d056a15`.
+  Empreintes de l'APK et du mapping dans le rapport de livraison.
+- La [recette native du build 65](ANDROID-BUILD-65.md) reste à faire,
+  notamment la mise à jour, le démarrage à froid, le partage et la sauvegarde.
+  La disponibilité sur Alpha n'est pas confirmée. Voir le [plan actuel](PLAN-ACTUEL.md).
 
 ## Notes de version Google Play
 
