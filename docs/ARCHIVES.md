@@ -44,6 +44,27 @@ Un fichier restauré réapparaît comme « non suivi » : ne le recommite pas.
 - Les clones existants gardent leur taille : seul un clone neuf ou superficiel est plus léger.
   Réduire l'historique lui-même demanderait une réécriture, qui attend l'accord du parent.
 
+## Deuxième passage — 28 novembre 2026
+
+Les 836 rapports encore suivis dans `reports/` (8,4 Mo : suivis de versions, journaux, copies
+de sources pour l'équilibrage, petits JSON) sortent à leur tour du suivi. Ils restent dans
+l'historique, au commit `63e89bb` :
+
+```sh
+git ls-tree -r --name-only 63e89bb -- reports       # liste complète
+git restore --source=63e89bb -- reports/suivi-0.36.0 # un dossier ou un fichier
+```
+
+- Gardés, parce qu'un document vivant les cite : `android-device.json`,
+  `deployment-0.36.2.json`, `store-preparation.json`, `store-preparation-verification.json`,
+  `verification-0.21.json`, `verification-0.27.1.json`, `verification-0.30.1.json`.
+- `stage-023-before.json`, que la recette `test:stage` compare au rendu, devient
+  `tests/fixtures/stage-023-before.json`.
+- `reports/` est maintenant ignoré par Git : un script qui y écrit encore n'ajoute rien au
+  dépôt. Aucun test ni aucune recette de la CI ne lit un fichier retiré.
+- Des liens vers ces rapports cassent dans les documents historiques (`docs/archive/`,
+  `docs/audit-source-2026-11/`) ; le texte reste lisible.
+
 ## Règle pour la suite
 
 Les recettes navigateur écrivent leurs rapports et leurs captures dans `artifacts/`, ignoré par

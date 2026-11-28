@@ -432,7 +432,6 @@ Grande Expédition et les corrections de l'étape d'hygiène.
 
 ## Dettes connues
 
-- `reports/` : 844 fichiers de rapports encore suivis dans Git.
 - **Paquet principal : 195,8 Ko sur 200** (pommes, 26 novembre ; 193,4 au lot 11) : la sauvegarde familiale est
   chargée à la demande, le carnet de caprices l'était déjà. Ce qui reste de gros dans le paquet
   sert au combat ou aux premiers écrans (rendu du plateau, autocollants des missions).

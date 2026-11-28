@@ -1,6 +1,0 @@
-{
-  "method": "Run the formatted export tool again with the same retained image and pinned tool versions",
-  "resources": 20,
-  "identicalSha256": true,
-  "paidCalls": 0
-}
